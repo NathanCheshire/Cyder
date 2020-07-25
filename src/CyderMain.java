@@ -296,8 +296,8 @@ public class CyderMain{
             outputArea.setBackground(new Color(0,0,0,0));
 
             outputScroll = new CyderScrollPane(outputArea,
-                    JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
             outputScroll.setThumbColor(mainUtil.intellijPink);
 
@@ -5303,9 +5303,7 @@ public class CyderMain{
                                 break;
 
                             Start = "https://www.youtube.com/watch?v=";
-
                             UUID = "";
-
                             StringBuilder UUIDBuilder = new StringBuilder(UUID);
 
                             for (int i = 1; i < 12; i++) {
@@ -5315,42 +5313,96 @@ public class CyderMain{
                             UUID = UUIDBuilder.toString();
 
                             println("Checked UUID: " + UUID);
-
                             Start = Start + UUID;
-
                             String YouTubeURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
 
                             BufferedImage Thumbnail = ImageIO.read(new URL(YouTubeURL.replace("REPLACE", UUID)));
 
-                            JLabel PictureLabel = new JLabel(new ImageIcon(Thumbnail));
+                            killAllYoutube();
 
-                            JFrame ThumbnailFrame = new JFrame();
+                            println("YouTube script found valid video with UUID: " + UUID);
 
-                            final String Video = "https://www.youtube.com/watch?v=" + UUID;
+                            JFrame thumbnailFrame = new JFrame();
 
-                            PictureLabel.addMouseListener(new MouseAdapter() {
-                                public void mouseClicked(MouseEvent e) {
-                                    mainUtil.internetConnect(Video);
+                            thumbnailFrame.setUndecorated(true);
+
+                            thumbnailFrame.setTitle(UUID);
+
+                            thumbnailFrame.addMouseMotionListener(new MouseMotionListener() {
+                                @Override
+                                public void mouseDragged(MouseEvent e) {
+                                    int x = e.getXOnScreen();
+                                    int y = e.getYOnScreen();
+
+                                    if (thumbnailFrame != null && thumbnailFrame.isFocused()) {
+                                        thumbnailFrame.setLocation(x - xMouse, y - yMouse);
+                                    }
+                                }
+
+                                @Override
+                                public void mouseMoved(MouseEvent e) {
+                                    xMouse = e.getX();
+                                    yMouse = e.getY();
                                 }
                             });
 
-                            PictureLabel.setToolTipText("Click To Open Video");
+                            thumbnailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                            killAllYoutube();
+                            JPanel parentPanel = new JPanel();
 
-                            ThumbnailFrame.setIconImage(mainUtil.getCyderIcon().getImage());
+                            parentPanel.setBorder(new LineBorder(mainUtil.navy, 10, false));
 
-                            ThumbnailFrame.setResizable(false);
+                            parentPanel.setLayout(new BorderLayout());
 
-                            ThumbnailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            thumbnailFrame.setContentPane(parentPanel);
 
-                            ThumbnailFrame.getContentPane().add(PictureLabel);
+                            JLabel PictureLabel = new JLabel(new ImageIcon(Thumbnail));
 
-                            ThumbnailFrame.pack();
+                            PictureLabel.setToolTipText("Open video " + UUID);
 
-                            ThumbnailFrame.setLocationRelativeTo(null);
+                            String video = "https://www.youtube.com/watch?v=" + UUID;
 
-                            ThumbnailFrame.setVisible(true);
+                            PictureLabel.addMouseListener(new MouseAdapter() {
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+                                    mainUtil.internetConnect(video);
+                                }
+                            });
+
+                            parentPanel.add(PictureLabel, BorderLayout.PAGE_START);
+
+                            CyderButton closeYT = new CyderButton("Close");
+
+                            closeYT.setColors(mainUtil.regularRed);
+
+                            closeYT.setBorder(new LineBorder(mainUtil.navy, 5, false));
+
+                            closeYT.setFocusPainted(false);
+
+                            closeYT.setBackground(mainUtil.regularRed);
+
+                            closeYT.setFont(mainUtil.weatherFontSmall);
+
+                            closeYT.addActionListener(ev -> {
+                                mainUtil.closeAnimation(thumbnailFrame);
+                                thumbnailFrame.dispose();
+                            });
+
+                            closeYT.setSize(thumbnailFrame.getX(), 20);
+
+                            parentPanel.add(closeYT, BorderLayout.PAGE_END);
+
+                            parentPanel.repaint();
+
+                            thumbnailFrame.pack();
+
+                            thumbnailFrame.setVisible(true);
+
+                            thumbnailFrame.setLocationRelativeTo(null);
+
+                            thumbnailFrame.setResizable(false);
+
+                            thumbnailFrame.setIconImage(mainUtil.getCyderIcon().getImage());
 
                             break;
                         }
@@ -5359,6 +5411,7 @@ public class CyderMain{
                     }
                 }
             });
+
             tread.start();
         }
 
