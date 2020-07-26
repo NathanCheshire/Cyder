@@ -2878,18 +2878,19 @@ public class Util {
         File[] SelectedFileDir = File.getParentFile().listFiles();
         ArrayList<File> ValidFiles = new ArrayList<>();
 
-        for (int i = 0; i < SelectedFileDir.length; i++) {
-            if (SelectedFileDir[i].toString().endsWith(".mp3")) {
-                ValidFiles.add(SelectedFileDir[i]);
+        for (java.io.File file : SelectedFileDir) {
+            if (file.toString().endsWith(".mp3")) {
+                ValidFiles.add(file);
+            }
+        }
 
-                if (ValidFiles.get(i).equals(File)) {
-                    currentMusicIndex = i;
-                }
+        for (int i = 0 ; i < ValidFiles.size() ; i++) {
+            if (ValidFiles.get(i).equals(File)) {
+                currentMusicIndex = i;
             }
         }
 
         musicFiles = ValidFiles.toArray(new File[ValidFiles.size()]);
-
         play(musicFiles[currentMusicIndex]);
     }
 
@@ -4075,7 +4076,7 @@ public class Util {
 
         CyderScrollPane noteScroll = new CyderScrollPane(noteEditArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         noteScroll.setThumbColor(regularRed);
 
@@ -4267,7 +4268,8 @@ public class Util {
 
     public void test() {
         try {
-            //test statements
+            PhotoViewer pv = new PhotoViewer(new File("C:\\users\\nathan\\downloads\\2.png"));
+            pv.draw();
         }
 
         catch (Exception e){
@@ -5309,21 +5311,39 @@ public class Util {
     }
 
     public void openFile(String FilePath) {
-        Desktop OpenFile = Desktop.getDesktop();
-
-        try {
-            File FileToOpen = new File(FilePath);
-            URI FileURI = FileToOpen.toURI();
-            OpenFile.browse(FileURI);
+        //use our custom text editor
+        if (FilePath.endsWith(".txt")) {
+            TextEditor te = new TextEditor(FilePath);
         }
 
-        catch (Exception e) {
+        else if (FilePath.endsWith(".png")) {
+            PhotoViewer pv = new PhotoViewer(new File(FilePath));
+            pv.draw();
+        }
+
+        //use our own mp3 player
+        else if (FilePath.endsWith(".mp3")) {
+            mp3(new File(FilePath));
+        }
+
+        //welp just open it outside of the program :(
+        else {
+            Desktop OpenFile = Desktop.getDesktop();
+
             try {
-                Runtime.getRuntime().exec("explorer.exe /select," + FilePath);
+                File FileToOpen = new File(FilePath);
+                URI FileURI = FileToOpen.toURI();
+                OpenFile.browse(FileURI);
             }
 
-            catch(Exception ex) {
-                handle(ex);
+            catch (Exception e) {
+                try {
+                    Runtime.getRuntime().exec("explorer.exe /select," + FilePath);
+                }
+
+                catch(Exception ex) {
+                    handle(ex);
+                }
             }
         }
     }
@@ -5453,7 +5473,7 @@ public class Util {
 
         dirField = new JTextField(40);
         dirField.setSelectionColor(selectionColor);
-        dirField.setText("C:\\Users\\" + getWindowsUsername());
+        dirField.setText(System.getProperty("user.dir"));
         dirField.setFont(weatherFontSmall);
         dirField.setForeground(navy);
 
@@ -5508,13 +5528,13 @@ public class Util {
 
         dirSearchParentPanel.add(dirFieldPanel, BorderLayout.PAGE_START);
 
-        File[] DirFiles = new File("C:\\Users\\" + getWindowsUsername()).listFiles();
+        File[] DirFiles = new File(System.getProperty("user.dir")).listFiles();
 
         directoryList = new JList(DirFiles);
 
         directoryList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        File ChosenDir = new File("C:\\Users\\" + getWindowsUsername());
+        File ChosenDir = new File(System.getProperty("user.dir"));
 
         directoryList = new JList(ChosenDir.listFiles());
 
@@ -5707,7 +5727,6 @@ public class Util {
         dirFrame.pack();
         dirFrame.setLocationRelativeTo(null);
         dirFrame.setVisible(true);
-        dirFrame.setAlwaysOnTop(true);
         dirField.requestFocus();
     }
 
@@ -5924,7 +5943,7 @@ public class Util {
 
         CyderScrollPane NewNoteScroll = new CyderScrollPane(newNoteArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         NewNoteScroll.setThumbColor(regularRed);
 
@@ -6388,7 +6407,7 @@ public class Util {
 
     public void handle(Exception e) {
         try {
-            String eFileString = "src\\com\\cyder\\io\\Errors\\" + errorTime() + ".txt";
+            String eFileString = "src\\com\\cyder\\io\\Errors\\" + errorTime() + ".error";
             File eFile = new File(eFileString);
             eFile.createNewFile();
 

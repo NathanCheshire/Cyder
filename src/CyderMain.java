@@ -37,6 +37,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //TODO full screen broken for sliding picture and sometimes buttons don't work probably because of a layering issue
+//TODO if openFile is a txt open in text editor custom, if mp3, open in our mp3, if photo, open in draw image and
+//TODO redo draw image to be able to scroll through directory of images with arrows
+//TODO change username
+//TODO hail state easter egg
 
 public class CyderMain{
     //console vars
@@ -2394,7 +2398,6 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                System.out.println(consoleClockLabel.getWidth());
                 mainUtil.test();
             }
 
@@ -5137,7 +5140,6 @@ public class CyderMain{
                         else {
                             mainUtil.closeAnimation(createUserFrame);
                             createUserFrame.dispose();
-                            System.out.println("here");
                             recognize(name,pass);
                         }
                     }
