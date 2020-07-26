@@ -1614,22 +1614,11 @@ public class Util {
         return hexString.toString();
     }
 
-    public boolean checkPassword(String pass) {
+    //TODO look through all directories in userdata.txt and attempt to match fields "name:" , "password:" to our fed password
+    //todo if we're returning true go ahead and read userdata?
+    public boolean checkPassword(String name, String pass) {
         try {
-            readUserData();
-
-            String realPass = null;
-
-            for (NST nst : userData) {
-                if (nst.getName().equals("Password")) {
-                    realPass = nst.getDescription();
-                    break;
-                }
-            }
-
-            if (realPass.equals(toHexString(getSHA(pass)))) {
-                return true;
-            }
+            File[] users = new File("src\\com\\cyder\\io\\users").listFiles();
         }
 
         catch (Exception e) {
@@ -4268,8 +4257,7 @@ public class Util {
 
     public void test() {
         try {
-            PhotoViewer pv = new PhotoViewer(new File("C:\\users\\nathan\\downloads\\2.png"));
-            pv.draw();
+
         }
 
         catch (Exception e){
@@ -6253,7 +6241,7 @@ public class Util {
             userData.clear();
 
             BufferedReader dataReader = new BufferedReader(new FileReader(
-                    "src\\com\\cyder\\io\\users\\" + getUsername() + "\\" + getUsername() + ".txt"));
+                    "src\\com\\cyder\\io\\users\\" + getUsername() + "\\Userdata.txt"));
 
             String Line = dataReader.readLine();
 
@@ -6276,7 +6264,7 @@ public class Util {
     public void writeUserData(String name, String value) {
         try {
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "src\\com\\cyder\\io\\users\\" + getUsername() + "\\" + getUsername() + ".txt", false));
+                    "src\\com\\cyder\\io\\users\\" + getUsername() + "\\Userdata.txt", false));
 
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name)) {

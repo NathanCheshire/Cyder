@@ -5,7 +5,6 @@ import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
 import com.cyder.handler.ImageUtil;
 import com.cyder.handler.Util;
-import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderScrollPane;
 
@@ -20,7 +19,9 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
@@ -36,8 +37,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//TODO change username option in edit user, can't rename directory because it's in use to rename "name:" inside of user.data
 //TODO issue with scrollbar for output scroll apearing when it doesn't need to
+//TODO redo jpasswordfield security and read about string pool
+//TODO prefs to right of all other stuff
+
+//TODO instead of chaning user directory assign each user a UUID which will never change and we will
+//todo log the user in based on a username and password match from any file, so on user createion generate unique id and check if it exists
+//todo if it doesn't exist then make it the directory name so now don't change the dir name on name change
 
 public class CyderMain{
     //console vars
@@ -184,8 +190,9 @@ public class CyderMain{
                     "You should create one, " + System.getProperty("user.name") + ".", "No Users", 400, 300);
         }
 
+
         if (cypherLenovo && !mainUtil.released()) {
-            recognize("Natche", "21756");
+            recognize("nate", "21756");
         }
 
         else {
@@ -1756,9 +1763,7 @@ public class CyderMain{
         try {
             mainUtil.setUsername(Username);
 
-            File UserDir = new File("src\\com\\cyder\\io\\users\\" + Username);
-
-            if (UserDir.isDirectory() && mainUtil.checkPassword(Password)) {
+            if (mainUtil.checkPassword(Username, Password)) {
 
                 mainUtil.closeAnimation(loginFrame);
 
@@ -3709,44 +3714,11 @@ public class CyderMain{
             int saveColorG = SaveColor.getGreen();
             int saveColorB = SaveColor.getBlue();
 
-            BufferedReader UserReader = new BufferedReader(new FileReader(
-                    "src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\" + mainUtil.getUsername() + ".txt"));
-
-            LinkedList<NST> userNST = new LinkedList<>();
-            String Line = UserReader.readLine();
-
-            while((Line != null && !Line.equals("") && Line.length() != 0)) {
-                String[] parts = Line.split(":");
-                userNST.add(new NST(parts[0],parts[1]));
-                Line = UserReader.readLine();
-            }
-
-            UserReader.close();
-            BufferedWriter UserWriter = new BufferedWriter(new FileWriter(
-                    "src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\" + mainUtil.getUsername() + ".txt"));
-
-            for (NST nst : userNST) {
-                switch (nst.getName()) {
-                    case "Font":
-                        nst.setDescription(SaveFontName);
-                        break;
-                    case "Red":
-                        nst.setDescription(String.valueOf(saveColorR));
-                        break;
-                    case "Green":
-                        nst.setDescription(String.valueOf(saveColorG));
-                        break;
-                    case "Blue":
-                        nst.setDescription(String.valueOf(saveColorB));
-                        break;
-                }
-
-                UserWriter.write(nst.getName() + ":" + nst.getDescription());
-                UserWriter.newLine();
-            }
-
-            UserWriter.flush();
-            UserWriter.close();
+            mainUtil.readUserData();
+            mainUtil.writeUserData("Font",SaveFontName);
+            mainUtil.writeUserData("Red",saveColorR + "");
+            mainUtil.writeUserData("Green",saveColorG + "");
+            mainUtil.writeUserData("Blue",saveColorB + "");
         }
 
         catch (Exception e) {
@@ -3756,45 +3728,18 @@ public class CyderMain{
 
     public void initUserfontAndColor() {
         try {
-            BufferedReader UserReader = new BufferedReader(new FileReader(
-                    "src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\" + mainUtil.getUsername() + ".txt"));
+            mainUtil.readUserData();
 
-            LinkedList<NST> userNST = new LinkedList<>();
-            String Line = UserReader.readLine();
+            Font Userfont = new Font(mainUtil.getUserData("Font"),Font.BOLD, 30);
+            Color Usercolor = new Color(Integer.parseInt(mainUtil.getUserData("Red")),
+                                        Integer.parseInt(mainUtil.getUserData("Green")),
+                                        Integer.parseInt(mainUtil.getUserData("Blue")));
 
-            while((Line != null && !Line.equals("") && Line.length() != 0)) {
-                String[] parts = Line.split(":");
-                userNST.add(new NST(parts[0],parts[1]));
-                Line = UserReader.readLine();
-            }
-
-            UserReader.close();
-
-            int r = 0, g = 0, b = 0;
-            Font Userfont = null;
-
-            for (NST nst : userNST) {
-                switch (nst.getName()) {
-                    case "Font":
-                        Userfont = new Font(nst.getDescription(), Font.BOLD, 30);
-                        break;
-                    case "Red":
-                        r = Integer.parseInt(nst.getDescription());
-                        break;
-                    case "Green":
-                        g = Integer.parseInt(nst.getDescription());
-                        break;
-                    case "Blue":
-                        b = Integer.parseInt(nst.getDescription());
-                        break;
-                }
-            }
-
-            mainUtil.setUsercolor(new Color(r,g,b));
+            mainUtil.setUsercolor(Usercolor);
             mainUtil.setUserfont(Userfont);
 
-            inputField.setForeground(new Color(r,g,b));
-            outputArea.setForeground(new Color(r,g,b));
+            inputField.setForeground(Usercolor);
+            outputArea.setForeground(Usercolor);
 
             inputField.setFont(Userfont);
             outputArea.setFont(Userfont);
@@ -3850,37 +3795,24 @@ public class CyderMain{
         }
     }
 
+    private void changeUsername(String newName) {
+        try {
+            //change file data
+            mainUtil.readUserData();
+            mainUtil.writeUserData("name",newName);
+
+            mainUtil.setUsername(newName);
+        }
+
+        catch (Exception e) {
+            mainUtil.handle(e);
+        }
+    }
+
     private void changePassword(String newPassword) {
         try {
-            String hash = mainUtil.toHexString(mainUtil.getSHA(newPassword));
-
-            BufferedReader userReader = new BufferedReader(new FileReader(
-                    "src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\" + mainUtil.getUsername() + ".txt"));
-
-            LinkedList<NST> userData = new LinkedList<>();
-            String Line = userReader.readLine();
-
-            while (Line != null) {
-                String[] parts = Line.split(":");
-                userData.add(new NST(parts[0],parts[1]));
-
-                Line = userReader.readLine();
-            }
-
-            BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\" + mainUtil.getUsername() + ".txt", false));
-
-            for (NST data: userData) {
-                if (data.getName().equalsIgnoreCase("password")) {
-                    data.setDescription(hash);
-                }
-
-                userWriter.write(data.getName() + ":" + data.getDescription());
-                userWriter.newLine();
-            }
-
-            userWriter.flush();
-            userWriter.close();
+            mainUtil.readUserData();
+            mainUtil.writeUserData("password",mainUtil.toHexString(mainUtil.getSHA(newPassword)));
         }
 
         catch (Exception e) {
@@ -4190,7 +4122,45 @@ public class CyderMain{
 
         JPanel ChangePanel = new JPanel();
 
-        ChangePanel.setLayout(new GridLayout(2, 1, 5, 5));
+        ChangePanel.setLayout(new GridLayout(4, 1, 5, 5));
+
+        JTextField changeUsernameField = new JTextField(10);
+
+        changeUsernameField.addActionListener(e -> changeUsername.doClick());
+
+        changeUsernameField.setFont(mainUtil.weatherFontSmall);
+
+        changeUsernameField.setSelectionColor(mainUtil.selectionColor);
+
+        changeUsername = new CyderButton("Change Username");
+
+        changeUsername.setBackground(mainUtil.regularRed);
+
+        changeUsername.setColors(mainUtil.regularRed);
+
+        changeUsername.setBorder(new LineBorder(mainUtil.navy,5,false));
+
+        changeUsername.setFont(mainUtil.weatherFontSmall);
+
+        changeUsernameField.setBorder(new LineBorder(mainUtil.navy,5,false));
+
+        ChangePanel.add(changeUsernameField);
+
+        ChangePanel.add(changeUsername);
+
+        changeUsernameField.setToolTipText("New username");
+
+        changeUsername.addActionListener(e -> {
+            String newUsername = changeUsernameField.getText();
+            if (!mainUtil.empytStr(newUsername)) {
+                changeUsername(newUsername);
+                mainUtil.inform("Username successfully changed","", 300, 200);
+                refreshUsername();
+                changeUsernameField.setText("");
+            }
+        });
+
+        changeUsername.setBackground(mainUtil.regularRed);
 
         JPasswordField changePasswordField = new JPasswordField(10);
 
@@ -5095,7 +5065,7 @@ public class CyderMain{
                         Files.copy(Source.toPath(), Destination.toPath());
 
                         BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
-                                "src\\com\\cyder\\io\\users\\" + name + "\\" + name + ".txt"));
+                                "src\\com\\cyder\\io\\users\\" + name + "\\Userdata.txt"));
 
                         newUserWriter.write("Name:" + name);
                         newUserWriter.newLine();
@@ -5429,5 +5399,10 @@ public class CyderMain{
         for (youtubeThread ytt: youtubeThreads) {
             ytt.kill();
         }
+    }
+
+    private void refreshUsername() {
+        trayIcon.setToolTip(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
+        consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
     }
 }
