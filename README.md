@@ -4,6 +4,6 @@ Versions:
 Cyder [Apple] (current name and build)<br/>
 Cyder [Mapple] (current name and next build)<br/>
 <br/>
-Past names and builds: 
+Past names and builds:<br/> 
 SASID (begining name)<br/>
 Jesse (Build 0.1.0 - 0.7.1)<br/>
