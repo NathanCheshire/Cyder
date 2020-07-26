@@ -39,11 +39,7 @@ import java.util.concurrent.TimeUnit;
 
 //TODO issue with scrollbar for output scroll apearing when it doesn't need to
 //TODO redo jpasswordfield security and read about string pool
-//TODO prefs to right of all other stuff
-
-//TODO instead of chaning user directory assign each user a UUID which will never change and we will
-//todo log the user in based on a username and password match from any file, so on user createion generate unique id and check if it exists
-//todo if it doesn't exist then make it the directory name so now don't change the dir name on name change
+//TODO delete user or switch user doesn't wok
 
 public class CyderMain{
     //console vars
@@ -192,7 +188,7 @@ public class CyderMain{
 
 
         if (cypherLenovo && !mainUtil.released()) {
-            recognize("nate", "21756");
+            recognize("Nate", "13201320");
         }
 
         else {
@@ -1763,7 +1759,9 @@ public class CyderMain{
         try {
             mainUtil.setUsername(Username);
 
-            if (mainUtil.checkPassword(Username, Password)) {
+            if (mainUtil.checkPassword(Username, mainUtil.toHexString(mainUtil.getSHA(Password)))) {
+
+                mainUtil.readUserData();
 
                 mainUtil.closeAnimation(loginFrame);
 
@@ -1781,7 +1779,7 @@ public class CyderMain{
                 if (mainUtil.getUserData("IntroMusic").equals("1")) {
                     LinkedList<String> MusicList = new LinkedList<>();
 
-                    File UserMusicDir = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\Music");
+                    File UserMusicDir = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Music");
 
                     String[] FileNames = UserMusicDir.list();
 
@@ -1795,7 +1793,7 @@ public class CyderMain{
 
                     if (!MusicList.isEmpty()) {
                         mainUtil.playMusic(
-                                "src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\Music\\" +
+                                "src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Music\\" +
                                         (FileNames[mainUtil.randInt(0,FileNames.length - 1)]));
                     }
                 }
@@ -2249,7 +2247,7 @@ public class CyderMain{
 
             else if (desc.equalsIgnoreCase("addbackgrounds")) {
                 if (mainUtil.confirmation(input)) {
-                    mainUtil.openFile("src\\com\\cyder\\io\\pictures\\" + mainUtil.getUsername() + "\\Backgrounds");
+                    mainUtil.openFile("src\\com\\cyder\\io\\pictures\\" + mainUtil.getUserUUID() + "\\Backgrounds");
                     mainUtil.internetConnect("https://images.google.com/");
                 }
             }
@@ -2326,9 +2324,9 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("deleteuser")) {
-                mainUtil.deleteFolder(new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUsername()));
                 mainUtil.closeAnimation(consoleFrame);
                 consoleFrame.dispose();
+                mainUtil.deleteFolder(new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID()));
                 login(false);
             }
 
@@ -2338,7 +2336,7 @@ public class CyderMain{
                 String searchName = mainUtil.getCurrentBackground().getName().replace(".png", "")
                         + "_Pixelated_Pixel_Size_" + Integer.parseInt(input) + ".png";
 
-                File saveFile = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() +
+                File saveFile = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() +
                         "\\Backgrounds\\" + searchName);
 
                 ImageIO.write(img, "png", saveFile);
@@ -3797,7 +3795,6 @@ public class CyderMain{
 
     private void changeUsername(String newName) {
         try {
-            //change file data
             mainUtil.readUserData();
             mainUtil.writeUserData("name",newName);
 
@@ -3891,7 +3888,7 @@ public class CyderMain{
                 File AddBackground = mainUtil.getFile();
 
                 if (addMusic.getName() != null && addMusic.getName().endsWith(".png")) {
-                    File Destination = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\Backgrounds\\" + AddBackground.getName());
+                    File Destination = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds\\" + AddBackground.getName());
                     Files.copy(new File(AddBackground.getAbsolutePath()).toPath(), Destination.toPath());
                     initializeBackgroundsList();
                     backgroundListScroll.setViewportView(backgroundSelectionList);
@@ -4027,7 +4024,7 @@ public class CyderMain{
                 File AddMusic = mainUtil.getFile();
 
                 if (AddMusic != null && AddMusic.getName().endsWith(".mp3")) {
-                    File Destination = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\Music\\" + AddMusic.getName());
+                    File Destination = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Music\\" + AddMusic.getName());
                     Files.copy(new File(AddMusic.getAbsolutePath()).toPath(), Destination.toPath());
                     initializeMusicList();
                     musicListScroll.setViewportView(musicSelectionList);
@@ -4512,9 +4509,16 @@ public class CyderMain{
 
         prefsPanel.add(inputborder);
 
-        ParentPanel.add(prefsPanel);
+        JPanel masterPanel = new JPanel();
 
-        editUserFrame.add(ParentPanel);
+        masterPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+        masterPanel.setLayout(new GridLayout(1,2,5,5));
+
+        masterPanel.add(ParentPanel);
+        masterPanel.add(prefsPanel);
+
+        editUserFrame.add(masterPanel);
 
         editUserFrame.pack();
 
@@ -4530,7 +4534,7 @@ public class CyderMain{
     }
 
     public void initializeMusicList() {
-        File dir = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\Music");
+        File dir = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Music");
         musicList = new LinkedList<>();
         musicNameList = new LinkedList<>();
 
@@ -4563,7 +4567,7 @@ public class CyderMain{
     }
 
     public void initializeBackgroundsList() {
-        File dir = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUsername() + "\\Backgrounds");
+        File dir = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds");
         backgroundsList = new LinkedList<>();
         backgroundsNameList = new LinkedList<>();
 
@@ -5014,7 +5018,7 @@ public class CyderMain{
             @Override
             public void mouseReleased(MouseEvent e) {
                 try {
-                    String name = newUserName.getText().trim();
+                    String uuid = mainUtil.generateUUID();
                     String pass = new String(newUserPassword.getPassword());
                     String passconf = new String (newUserPasswordconf.getPassword());
 
@@ -5032,14 +5036,14 @@ public class CyderMain{
                         newUserPasswordconf.setText("");
                     }
 
-                    else if (name == null || pass == null || passconf == null || createUserBackground.getName().equals("No file chosen")
-                            || name.equals("") || pass.equals("") || passconf.equals("") || name.length() == 0) {
+                    else if (newUserName.getText().trim() == null || pass == null || passconf == null || createUserBackground.getName().equals("No file chosen")
+                            || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
                         mainUtil.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
                         newUserPassword.setText("");
                         newUserPasswordconf.setText("");
                     }
 
-                    else if (new File("src\\com\\cyder\\io\\users\\" + name).exists()) {
+                    else if (new File("src\\com\\cyder\\io\\users\\" + uuid).exists()) {
                         mainUtil.inform("Sorry, but that username is already in use.\nPlease try a different one.", "", 400, 300);
                         newUserName.setText("");
                         newUserPassword.setText("");
@@ -5048,26 +5052,26 @@ public class CyderMain{
 
                     else
                     {
-                        File NewUserFolder = new File("src\\com\\cyder\\io\\users\\" + name);
+                        File NewUserFolder = new File("src\\com\\cyder\\io\\users\\" + uuid);
                         NewUserFolder.mkdirs();
 
-                        File music = new File("src\\com\\cyder\\io\\users\\" + name + "\\Music");
+                        File music = new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Music");
                         music.mkdir();
 
-                        File notes = new File("src\\com\\cyder\\io\\users\\" + name + "\\Notes");
+                        File notes = new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Notes");
                         notes.mkdir();
 
-                        File backgrounds = new File("src\\com\\cyder\\io\\users\\" + name + "\\Backgrounds");
+                        File backgrounds = new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Backgrounds");
                         backgrounds.mkdir();
 
                         File Source = createUserBackground;
-                        File Destination = new File("src\\com\\cyder\\io\\users\\" + name + "\\Backgrounds\\" + Source.getName());
+                        File Destination = new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Backgrounds\\" + Source.getName());
                         Files.copy(Source.toPath(), Destination.toPath());
 
                         BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
-                                "src\\com\\cyder\\io\\users\\" + name + "\\Userdata.txt"));
+                                "src\\com\\cyder\\io\\users\\" + uuid + "\\Userdata.txt"));
 
-                        newUserWriter.write("Name:" + name);
+                        newUserWriter.write("Name:" + newUserName.getText().trim());
                         newUserWriter.newLine();
                         newUserWriter.write("Font:tahoma");
                         newUserWriter.newLine();
@@ -5103,7 +5107,7 @@ public class CyderMain{
                         mainUtil.closeAnimation(createUserFrame);
                         createUserFrame.dispose();
 
-                        mainUtil.inform("The new user \"" + name + "\" has been created successfully.", "", 400, 300);
+                        mainUtil.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", 500, 300);
 
                         if (consoleFrame != null) {
                             mainUtil.closeAnimation(createUserFrame);
@@ -5113,7 +5117,7 @@ public class CyderMain{
                         else {
                             mainUtil.closeAnimation(createUserFrame);
                             createUserFrame.dispose();
-                            recognize(name,pass);
+                            recognize(newUserName.getText().trim(),pass);
                         }
                     }
                 }

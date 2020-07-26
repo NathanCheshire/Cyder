@@ -66,6 +66,7 @@ public class Util {
 
     //uservars
     private LinkedList<NST> userData = new LinkedList<>();
+    private String userUUID;
     private String username;
     private Color usercolor;
     private Font userfont;
@@ -1614,11 +1615,53 @@ public class Util {
         return hexString.toString();
     }
 
-    //TODO look through all directories in userdata.txt and attempt to match fields "name:" , "password:" to our fed password
-    //todo if we're returning true go ahead and read userdata?
+    public String generateUUID() {
+        try {
+            MessageDigest salt =MessageDigest.getInstance("SHA-256");
+            salt.update(UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
+            return UUID.nameUUIDFromBytes(salt.digest()).toString();
+        }
+
+        catch (Exception e) {
+            handle(e);
+        }
+
+        return null;
+    }
+
     public boolean checkPassword(String name, String pass) {
         try {
             File[] users = new File("src\\com\\cyder\\io\\users").listFiles();
+            LinkedList<File> userDataFiles = new LinkedList<>();
+
+            for (File f : users) {
+                userDataFiles.add(new File(f.getAbsolutePath() + "\\Userdata.txt"));
+            }
+
+            for (int i = 0 ; i < userDataFiles.size() ; i++) {
+                BufferedReader currentRead = new BufferedReader(new FileReader(userDataFiles.get(i)));
+
+                String filename = null;
+                String filepass = null;
+                String Line = currentRead.readLine();
+
+                while (Line != null) {
+                    String[] parts = Line.split(":");
+
+                    if (parts[0].equalsIgnoreCase("Name")) {
+                        filename = parts[1];
+                    } else if (parts[0].equalsIgnoreCase("Password")) {
+                        filepass = parts[1];
+                    }
+
+                    Line = currentRead.readLine();
+                }
+
+                if (pass.equals(filepass) && name.equals(filename)) {
+                    setUserUUID(users[i].getName());
+                    return true;
+                }
+            }
         }
 
         catch (Exception e) {
@@ -2835,7 +2878,7 @@ public class Util {
 
         else {
             try {
-                File[] SelectedFileDir = new File("src\\com\\cyder\\io\\users\\" + getUsername() + "\\Music\\" ).listFiles();
+                File[] SelectedFileDir = new File("src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Music\\" ).listFiles();
                 ArrayList<File> ValidFiles = new ArrayList<>();
                 if (SelectedFileDir == null)
                     return;
@@ -4174,6 +4217,14 @@ public class Util {
         return true;
     }
 
+    public String getUserUUID() {
+        return this.userUUID;
+    }
+
+    public void setUserUUID(String s) {
+        this.userUUID = s;
+    }
+
     public void setUsername(String name) {
         this.username = name;
     }
@@ -5291,7 +5342,7 @@ public class Util {
     }
 
     public void initBackgrounds() {
-        File dir = new File("src\\com\\cyder\\io\\users\\" + getUsername() + "\\Backgrounds");
+        File dir = new File("src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Backgrounds");
 
         FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
 
@@ -5963,7 +6014,7 @@ public class Util {
         submitNewNote.addActionListener(e -> {
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(new FileWriter(
-                        "src\\com\\cyder\\io\\users\\" + getUsername() + "\\Notes\\" + newNoteField.getText() + ".txt",true));
+                        "src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Notes\\" + newNoteField.getText() + ".txt",true));
                 newNoteArea.write(NoteWriter);
                 NoteWriter.close();
             }
@@ -6241,7 +6292,7 @@ public class Util {
             userData.clear();
 
             BufferedReader dataReader = new BufferedReader(new FileReader(
-                    "src\\com\\cyder\\io\\users\\" + getUsername() + "\\Userdata.txt"));
+                    "src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Userdata.txt"));
 
             String Line = dataReader.readLine();
 
@@ -6264,7 +6315,7 @@ public class Util {
     public void writeUserData(String name, String value) {
         try {
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "src\\com\\cyder\\io\\users\\" + getUsername() + "\\Userdata.txt", false));
+                    "src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Userdata.txt", false));
 
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name)) {
