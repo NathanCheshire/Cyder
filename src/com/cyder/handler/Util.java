@@ -4308,7 +4308,7 @@ public class Util {
 
     public void test() {
         try {
-
+            System.out.println(getUserUUID());
         }
 
         catch (Exception e){

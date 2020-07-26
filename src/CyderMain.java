@@ -1770,7 +1770,6 @@ public class CyderMain{
 
                 if (consoleFrame != null) {
                     mainUtil.closeAnimation(consoleFrame);
-
                     consoleFrame.dispose();
                 }
 
@@ -2327,7 +2326,6 @@ public class CyderMain{
                 mainUtil.closeAnimation(consoleFrame);
                 consoleFrame.dispose();
                 mainUtil.deleteFolder(new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID()));
-                login(false);
             }
 
             else if (desc.equalsIgnoreCase("pixelatebackground")) {
