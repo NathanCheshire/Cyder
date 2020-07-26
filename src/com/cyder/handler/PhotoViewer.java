@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 
+//todo implement a scroll animation, remember to take into account you've resized the image to make it fit on screen.
 public class PhotoViewer {
 
     private LinkedList<File> validImages = new LinkedList<>();
@@ -21,6 +22,7 @@ public class PhotoViewer {
     private Util imageUtil = new Util();
     private JFrame pictureFrame;
     private CyderButton closeDraw;
+    private JPanel ParentPanel;
 
     private JLabel PictureLabel;
 
@@ -78,7 +80,7 @@ public class PhotoViewer {
 
         pictureFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel ParentPanel = new JPanel();
+        ParentPanel = new JPanel();
 
         ParentPanel.setBorder(new LineBorder(imageUtil.navy,8,false));
 
@@ -180,16 +182,30 @@ public class PhotoViewer {
         for (int i = 0 ; i < validImages.size() ; i++) {
            if (validImages.get(i).getAbsolutePath().equalsIgnoreCase(startFile.getAbsolutePath())) {
                currentIndex = i;
-               System.out.println(i);
            }
         }
+    }
+
+    private static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
+        BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, img_width, img_height, null);
+        g.dispose();
+
+        return resizedImage;
     }
 
     private void scrollFoward() {
         try {
             if (currentIndex + 1 < validImages.size()) {
                 currentIndex++;
-                //TODO set parent label equal to validImages.get(currentIndex) and use scrolling animation with resize
+                ImageIcon next = checkImage(validImages.get(currentIndex));
+                PictureLabel.setIcon(next);
+                PictureLabel.repaint();
+                ParentPanel.repaint();
+                pictureFrame.pack();
+                pictureFrame.revalidate();
+                pictureFrame.setLocationRelativeTo(null);
             }
         }
 
@@ -202,12 +218,51 @@ public class PhotoViewer {
         try {
             if (currentIndex - 1 >= 0) {
                 currentIndex--;
-                //TODO set parent label equal to validImages.get(currentIndex) and use scrolling animation with resize
+                ImageIcon last = checkImage(validImages.get(currentIndex));
+                PictureLabel.setIcon(last);
+                PictureLabel.repaint();
+                ParentPanel.repaint();
+                pictureFrame.pack();
+                pictureFrame.revalidate();
+                pictureFrame.setLocationRelativeTo(null);
             }
         }
 
         catch (Exception e) {
             imageUtil.handle(e);
         }
+    }
+
+    private ImageIcon checkImage(File im) {
+        try {
+            Dimension dim = imageUtil.getScreenSize();
+            double screenX = dim.getWidth();
+            double screenY = dim.getHeight();
+
+            double aspectRatio = getAspectRatio(new ImageIcon(ImageIO.read(im)));
+            ImageIcon originalIcon = new ImageIcon(ImageIO.read(im));
+            BufferedImage bi = ImageIO.read(im);
+
+            int width = originalIcon.getIconWidth();
+            int height = originalIcon.getIconHeight();
+
+
+            while (width > screenX || height > screenY) {
+                width = (int) (width / aspectRatio);
+                height = (int) (height / aspectRatio);
+            }
+
+            return new ImageIcon(bi.getScaledInstance(width, height, Image.SCALE_SMOOTH));
+        }
+
+        catch (Exception e) {
+            imageUtil.handle(e);
+        }
+
+        return null;
+    }
+
+    private double getAspectRatio(ImageIcon im) {
+        return ((double) im.getIconWidth() / (double) im.getIconHeight());
     }
 }

@@ -93,7 +93,7 @@ public class TextEditor {
         noteScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
                 new LineBorder(textUtil.navy,5,false)));
 
-        noteScroll.setPreferredSize(new Dimension(570,780));
+        noteScroll.setPreferredSize(new Dimension(1000,1000));
 
         ParentPanel.add(noteScroll, BorderLayout.CENTER);
 

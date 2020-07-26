@@ -36,11 +36,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//TODO full screen broken for sliding picture and sometimes buttons don't work probably because of a layering issue
-//TODO if openFile is a txt open in text editor custom, if mp3, open in our mp3, if photo, open in draw image and
-//TODO redo draw image to be able to scroll through directory of images with arrows
-//TODO change username
-//TODO hail state easter egg
+//TODO change username option in edit user, can't rename directory because it's in use to rename "name:" inside of user.data
+//TODO issue with scrollbar for output scroll apearing when it doesn't need to
 
 public class CyderMain{
     //console vars
@@ -246,6 +243,8 @@ public class CyderMain{
                 parentLabel.setIcon(new ImageIcon(mainUtil.getCurrentBackground().toString()));
                 parentLabel.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
             }
+
+            parentLabel.setBorder(new LineBorder(mainUtil.navy,8,true));
 
             parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
 
@@ -1910,7 +1909,7 @@ public class CyderMain{
                     tempW = temporaryImage.getWidth();
                     tempH = temporaryImage.getHeight();
                 }
-                
+
                 else {
                     newBack = mainUtil.resizeImage(newBack.getWidth(), newBack.getHeight(),new File(newBackFile));
                     temporaryImage = mainUtil.resizeImage(newBack.getWidth(), newBack.getHeight(), new File(oldBackFile));
@@ -2575,6 +2574,10 @@ public class CyderMain{
 
             else if (hasWord("siri") || hasWord("jarvis") || hasWord("alexa")) {
                 println("Whata bunch of losers.");
+            }
+
+            else if ((hasWord("mississippi") && hasWord("state") && hasWord("university")) || eic("msu")) {
+                printImage("src\\com\\cyder\\io\\pictures\\msu.png");
             }
 
             else if (hasWord("toystory")) {
