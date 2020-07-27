@@ -1,5 +1,6 @@
 package com.cyder.handler;
 
+import AppPackage.AnimationClass;
 import com.cyder.ui.CyderButton;
 
 import javax.imageio.ImageIO;
@@ -12,19 +13,20 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 
-//todo implement a scroll animation, remember to take into account you've resized the image to make it fit on screen.
 public class PhotoViewer {
 
     private LinkedList<File> validImages = new LinkedList<>();
     private File startFile;
     private int currentIndex;
 
+    private AnimationClass ac = new AnimationClass();
+
     private Util imageUtil = new Util();
     private JFrame pictureFrame;
     private CyderButton closeDraw;
     private JPanel ParentPanel;
 
-    private JLabel PictureLabel;
+    private JLabel pictureLabel;
 
     private int xMouse;
     private int yMouse;
@@ -88,9 +90,9 @@ public class PhotoViewer {
 
         pictureFrame.setContentPane(ParentPanel);
 
-        PictureLabel = new JLabel(new ImageIcon(Image));
+        pictureLabel = new JLabel(checkImage(ImageName));
 
-        ParentPanel.add(PictureLabel, BorderLayout.PAGE_START);
+        ParentPanel.add(pictureLabel, BorderLayout.PAGE_START);
 
         JPanel buttonPanel = new JPanel();
 
@@ -186,7 +188,7 @@ public class PhotoViewer {
         }
     }
 
-    private static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
+    private BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
         BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, img_width, img_height, null);
@@ -198,10 +200,11 @@ public class PhotoViewer {
     private void scrollFoward() {
         try {
             if (currentIndex + 1 < validImages.size()) {
-                currentIndex++;
+                currentIndex += 1;
                 ImageIcon next = checkImage(validImages.get(currentIndex));
-                PictureLabel.setIcon(next);
-                PictureLabel.repaint();
+
+                pictureLabel.setIcon(next);
+                pictureLabel.repaint();
                 ParentPanel.repaint();
                 pictureFrame.pack();
                 pictureFrame.revalidate();
@@ -219,8 +222,8 @@ public class PhotoViewer {
             if (currentIndex - 1 >= 0) {
                 currentIndex--;
                 ImageIcon last = checkImage(validImages.get(currentIndex));
-                PictureLabel.setIcon(last);
-                PictureLabel.repaint();
+                pictureLabel.setIcon(last);
+                pictureLabel.repaint();
                 ParentPanel.repaint();
                 pictureFrame.pack();
                 pictureFrame.revalidate();
@@ -247,7 +250,7 @@ public class PhotoViewer {
             int height = originalIcon.getIconHeight();
 
 
-            while (width > screenX || height > screenY) {
+            while (width + 400 > screenX || height + 400 > screenY) {
                 width = (int) (width / aspectRatio);
                 height = (int) (height / aspectRatio);
             }

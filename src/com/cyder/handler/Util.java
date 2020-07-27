@@ -4305,7 +4305,8 @@ public class Util {
 
     public void test() {
         try {
-            System.out.println(getUserUUID());
+            PhotoViewer pv = new PhotoViewer(new File("C:\\Users\\Nathan\\Pictures\\Favorites\\Mine.png"));
+            pv.draw();
         }
 
         catch (Exception e){
