@@ -1635,7 +1635,9 @@ public class Util {
             LinkedList<File> userDataFiles = new LinkedList<>();
 
             for (File f : users) {
-                userDataFiles.add(new File(f.getAbsolutePath() + "\\Userdata.txt"));
+                if (!f.getName().contains("DeprecatedUser")) {
+                    userDataFiles.add(new File(f.getAbsolutePath() + "\\Userdata.txt"));
+                }
             }
 
             for (int i = 0 ; i < userDataFiles.size() ; i++) {
@@ -1659,6 +1661,7 @@ public class Util {
 
                 if (pass.equals(filepass) && name.equals(filename)) {
                     setUserUUID(users[i].getName());
+                    setUsername(name);
                     return true;
                 }
             }
@@ -6400,7 +6403,7 @@ public class Util {
                 int imageType = currentImage.getType();
 
                 if (getBackgroundX() > getScreenWidth() || getBackgroundY() > getScreenHeight()) {
-                    inform("Resizing the background image:\n" + getValidBackgroundPaths()[i].toString() + "\nsince it exceeds your screen size.","", 400, 200);
+                    inform("Resizing the background image:\n" + getValidBackgroundPaths()[i].getName() + "\nsince it exceeds your screen size.","", 700, 200);
                 }
 
                 while (getBackgroundX() > getScreenWidth() || getBackgroundY() > getScreenHeight()) {
@@ -6594,5 +6597,11 @@ public class Util {
             scroll = false;
             effectLabel.setText("No Audio Currently Playing");
         }
+    }
+
+    public String getDeprecatedUUID() {
+        String uuid = generateUUID();
+        uuid = uuid.substring(0,9);
+        return ("DeprecatedUser-" + uuid);
     }
 }

@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 
 //TODO issue with scrollbar for output scroll apearing when it doesn't need to
 //TODO redo jpasswordfield security and read about string pool
-//TODO delete user or switch user doesn't wok
+//TODO ctrl + c to get out of confirmation
 
 public class CyderMain{
     //console vars
@@ -2326,6 +2326,11 @@ public class CyderMain{
                 mainUtil.closeAnimation(consoleFrame);
                 consoleFrame.dispose();
                 mainUtil.deleteFolder(new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID()));
+
+                //fail safe if not able to delete
+                File renamed = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getDeprecatedUUID());
+                File old = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID());
+                old.renameTo(renamed);
             }
 
             else if (desc.equalsIgnoreCase("pixelatebackground")) {
