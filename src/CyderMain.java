@@ -38,8 +38,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //TODO issue with scrollbar for output scroll apearing when it doesn't need to
-//TODO redo jpasswordfield security and read about string pool
-//TODO ctrl + c to get out of confirmation
 
 public class CyderMain{
     //console vars
@@ -188,7 +186,7 @@ public class CyderMain{
 
 
         if (cypherLenovo && !mainUtil.released()) {
-            recognize("Nate", "13201320");
+            recognize("Nate", "13201320".toCharArray());
         }
 
         else {
@@ -341,6 +339,12 @@ public class CyderMain{
                 public void keyPressed(java.awt.event.KeyEvent e) {
                     if (inputField.getText().length() == 1) {
                         inputField.setText(inputField.getText().toUpperCase());
+                    }
+
+                    if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
+                        handle("controlc");
+                        handle("controlc");
+                        handle("controlc");
                     }
                 }
 
@@ -1683,10 +1687,14 @@ public class CyderMain{
             if (!mainUtil.empytStr(Username)) {
                 Username = Username.substring(0, 1).toUpperCase() + Username.substring(1);
 
-                String Password = new String(pass.getPassword());
+                char[] Password = pass.getPassword();
 
                 if (!mainUtil.empytStr(Username)) {
                     recognize(Username, Password);
+                }
+
+                for (char c : Password) {
+                    c = '\0';
                 }
             }
         });
@@ -1755,7 +1763,7 @@ public class CyderMain{
         });
     }
 
-    private void recognize(String Username, String Password) {
+    private void recognize(String Username, char[] Password) {
         try {
             mainUtil.setUsername(Username);
 
@@ -3104,11 +3112,16 @@ public class CyderMain{
             else if (hasWord("anagram")) {
                 println("This function will tell you if two"
                         + "words are anagrams of each other."
-                        + "Enter your first word");
+                        + " Enter your first word");
                 mainUtil.setUserInputDesc("anagram1");
                 inputField.requestFocus();
                 mainUtil.setUserInputMode(true);
 
+            }
+
+            else if (eic("controlc")) {
+                mainUtil.setUserInputMode(false);
+                println("Escaped");
             }
 
             else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
@@ -3809,7 +3822,7 @@ public class CyderMain{
         }
     }
 
-    private void changePassword(String newPassword) {
+    private void changePassword(char[] newPassword) {
         try {
             mainUtil.readUserData();
             mainUtil.writeUserData("password",mainUtil.toHexString(mainUtil.getSHA(newPassword)));
@@ -4189,9 +4202,9 @@ public class CyderMain{
         changePasswordField.setToolTipText("New password");
 
         changePassword.addActionListener(e -> {
-            String newPassword = new String(changePasswordField.getPassword());
+            char[] newPassword = changePasswordField.getPassword();
 
-            if (!mainUtil.empytStr(newPassword) && newPassword.length() > 4) {
+            if (newPassword.length > 4) {
                 changePassword(newPassword);
                 mainUtil.inform("Password successfully changed","", 300, 200);
                 changePasswordField.setText("");
@@ -4201,6 +4214,10 @@ public class CyderMain{
                 mainUtil.inform("Sorry, " + mainUtil.getUsername() + ", " +
                         "but your password must be greater than 4 characters for security reasons.","", 500, 300);
                 changePasswordField.setText("");
+            }
+
+            for (char c : newPassword) {
+                c = '\0';
             }
         });
 
@@ -5022,16 +5039,16 @@ public class CyderMain{
             public void mouseReleased(MouseEvent e) {
                 try {
                     String uuid = mainUtil.generateUUID();
-                    String pass = new String(newUserPassword.getPassword());
-                    String passconf = new String (newUserPasswordconf.getPassword());
+                    char[] pass = newUserPassword.getPassword();
+                    char[] passconf = newUserPasswordconf.getPassword();
 
-                    if (!pass.equals(passconf) && !mainUtil.empytStr(pass)) {
+                    if (!Arrays.equals(pass, passconf) && pass.length > 0) {
                         mainUtil.inform("Sorry, but your passwords did not match. Please try again.", "",400, 300);
                         newUserPassword.setText("");
                         newUserPasswordconf.setText("");
                     }
 
-                    else if (pass.length() <= 4) {
+                    else if (pass.length <= 4) {
                         mainUtil.inform("Sorry, but your password length should be greater than\n"
                                 + "four characters for security reasons. Please add more characters.", "", 400, 300);
 
@@ -5122,6 +5139,14 @@ public class CyderMain{
                             createUserFrame.dispose();
                             recognize(newUserName.getText().trim(),pass);
                         }
+                    }
+
+                    for (char c : pass) {
+                        c = '\0';
+                    }
+
+                    for (char c : passconf) {
+                        c = '\0';
                     }
                 }
 

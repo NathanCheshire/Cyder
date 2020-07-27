@@ -821,7 +821,7 @@ public class Util {
     }
 
     public boolean compMACAddress(String mac) {
-        return toHexString(getSHA(mac)).equals("5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e");
+        return toHexString(getSHA(mac.toCharArray())).equals("5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e");
     }
 
     private String getWindowsUsername() {
@@ -1585,12 +1585,10 @@ public class Util {
         }
     }
 
-    public byte[] getSHA(String input) {
+    public byte[] getSHA(char[] input) {
         try {
-            // Static getInstance method is called with hashing SHA
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-
-            return md.digest(input.getBytes(StandardCharsets.UTF_8));
+            return md.digest(new String(input).getBytes(StandardCharsets.UTF_8));
         }
 
         catch (Exception ex) {
@@ -1601,13 +1599,9 @@ public class Util {
     }
 
     public String toHexString(byte[] hash) {
-        // Convert byte array into signum representation
         BigInteger number = new BigInteger(1, hash);
-
-        // Convert message into hex value
         StringBuilder hexString = new StringBuilder(number.toString(16));
 
-        // Pad with leading zeros
         while (hexString.length() < 32) {
             hexString.insert(0, '0');
         }
@@ -5436,10 +5430,10 @@ public class Util {
         hashField.setBorder(new LineBorder(navy,5,false));
 
         hashField.addActionListener(e -> {
-            String Hash = new String(hashField.getPassword());
+            char[] Hash = hashField.getPassword();
 
-            if (Hash.length() > 0) {
-                String PrintHash = toHexString(getSHA(new String(hashField.getPassword())));
+            if (Hash.length > 0) {
+                String PrintHash = toHexString(getSHA(hashField.getPassword()));
                 closeAnimation(hashFrame);
                 hashFrame.dispose();
                 inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
@@ -5472,7 +5466,7 @@ public class Util {
         hashButton.setFont(weatherFontSmall);
 
         hashButton.addActionListener(e -> {
-            String PrintHash = toHexString(getSHA(new String(hashField.getPassword())));
+            String PrintHash = toHexString(getSHA(hashField.getPassword()));
             closeAnimation(hashFrame);
             hashFrame.dispose();
             inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
