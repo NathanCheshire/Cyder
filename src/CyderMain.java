@@ -37,7 +37,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//TODO issue with scrollbar for output scroll apearing when it doesn't need to
+//todo slide animation for photo viewer
+//todo sound/gifs in outputArea
 
 public class CyderMain{
     //console vars
@@ -342,8 +343,6 @@ public class CyderMain{
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
-                        handle("controlc");
-                        handle("controlc");
                         handle("controlc");
                     }
                 }
@@ -2848,7 +2847,7 @@ public class CyderMain{
                 println("The font has been reset.");
             }
 
-            else if (hasWord("color") && hasWord("choose")) {
+            else if (hasWord("color")) {
                 Color newColor = mainUtil.getAColor("Select your text color");
                 outputArea.setForeground(newColor);
                 inputField.setForeground(newColor);
@@ -3270,6 +3269,14 @@ public class CyderMain{
 
             else if (eic("long word")) {
                 println("pneumonoultramicroscopicsilicovolcanoconiosis");
+            }
+
+            else if (eic("logic")) {
+                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\commando.mp3");
+            }
+
+            else if (eic("1-800-273-8255") || eic("18002738255")) {
+                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\1800.mp3");
             }
 
             else {

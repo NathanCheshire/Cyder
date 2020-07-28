@@ -62,7 +62,7 @@ public class Util {
     private ImageIcon cyderTrayIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderTrayIcon.png");
     private ImageIcon cyderIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderIcon.png");
     private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-    private String cyderVer = "Apple";
+    private String cyderVer = "Maple";
 
     //uservars
     private LinkedList<NST> userData = new LinkedList<>();
@@ -3089,58 +3089,68 @@ public class Util {
         one.addActionListener(e -> {
             phoneNum = phoneNum + "1";
             numberLabel.setText(phoneNumFormat(phoneNum));
+            checkForSuicideHotline();
         });
 
         two.addActionListener(e -> {
             phoneNum = phoneNum + "2";
             numberLabel.setText(phoneNumFormat(phoneNum));
+            checkForSuicideHotline();
         });
 
         three.addActionListener(e -> {
             phoneNum = phoneNum + "3";
             numberLabel.setText(phoneNumFormat(phoneNum));
+            checkForSuicideHotline();
         });
 
         four.addActionListener(e -> {
             phoneNum = phoneNum + "4";
             numberLabel.setText(phoneNumFormat(phoneNum));
+            checkForSuicideHotline();
         });
 
         five.addActionListener(e -> {
             phoneNum = phoneNum + "5";
             numberLabel.setText(phoneNumFormat(phoneNum));
+            checkForSuicideHotline();
         });
 
         six.addActionListener(e -> {
             phoneNum = phoneNum + "6";
             numberLabel.setText(phoneNumFormat(phoneNum));
+            checkForSuicideHotline();
         });
 
         seven.addActionListener(e -> {
             phoneNum = phoneNum + "7";
             numberLabel.setText(phoneNumFormat(phoneNum));
+            checkForSuicideHotline();
         });
 
         eight.addActionListener(e -> {
             phoneNum = phoneNum + "8";
             numberLabel.setText(phoneNumFormat(phoneNum));
+            checkForSuicideHotline();
         });
 
         nine.addActionListener(e -> {
             phoneNum = phoneNum + "9";
             numberLabel.setText(phoneNumFormat(phoneNum));
+            checkForSuicideHotline();
         });
 
         zero.addActionListener(e -> {
             phoneNum = phoneNum + "0";
             numberLabel.setText(phoneNumFormat(phoneNum));
+            checkForSuicideHotline();
         });
 
         back.addActionListener(e -> {
             if (phoneNum.length() > 0) {
                 phoneNum = phoneNum.substring(0, phoneNum.length() - 1);
-
                 numberLabel.setText(phoneNumFormat(phoneNum));
+                checkForSuicideHotline();
             }
         });
 
@@ -6398,7 +6408,7 @@ public class Util {
                 int imageType = currentImage.getType();
 
                 if (getBackgroundX() > getScreenWidth() || getBackgroundY() > getScreenHeight()) {
-                    inform("Resizing the background image:\n" + getValidBackgroundPaths()[i].getName() + "\nsince it exceeds your screen size.","", 700, 200);
+                    inform("Resized the background image:\n" + getValidBackgroundPaths()[i].getName() + "\nsince it exceeded your screen size.","", 700, 200);
                 }
 
                 while (getBackgroundX() > getScreenWidth() || getBackgroundY() > getScreenHeight()) {
@@ -6598,5 +6608,13 @@ public class Util {
         String uuid = generateUUID();
         uuid = uuid.substring(0,9);
         return ("DeprecatedUser-" + uuid);
+    }
+
+    private void checkForSuicideHotline() {
+        String num = numberLabel.getText().replace("-","").replace("(","").replace(")","").replace(" ","").trim();
+        System.out.println(num);
+        if (num.equals("18002738255")) {
+            playMusic("src\\com\\cyder\\io\\audio\\1800.mp3");
+        }
     }
 }
