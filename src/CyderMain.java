@@ -37,8 +37,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo sound/gifs in outputArea
-//todo tray menu
+//todo sound/gifs/video in outputArea
+//todo tray look and feel and change options
 //todo what if picture is too small for creating user
 
 public class CyderMain{
@@ -2318,7 +2318,10 @@ public class CyderMain{
 
                 //fail safe if not able to delete
                 File renamed = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getDeprecatedUUID());
-                //todo while file does not exist
+                while (renamed.exists()) {
+                    renamed = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getDeprecatedUUID());
+                }
+
                 File old = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID());
                 old.renameTo(renamed);
             }
@@ -5013,8 +5016,12 @@ public class CyderMain{
             public void mouseReleased(MouseEvent e) {
                 try {
                     String uuid = mainUtil.generateUUID();
+                    File folder = new File("src\\com\\cyder\\io\\users\\" + uuid);
 
-                    //todo while uuid is not in use generate a new one
+                    while (folder.exists()) {
+                        uuid = mainUtil.generateUUID();
+                        folder = new File("src\\com\\cyder\\io\\users\\" + uuid);
+                    }
 
                     char[] pass = newUserPassword.getPassword();
                     char[] passconf = newUserPasswordconf.getPassword();
