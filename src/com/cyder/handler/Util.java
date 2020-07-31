@@ -88,6 +88,9 @@ public class Util {
     private boolean consoleClock;
 
     //weather vars
+    private String customCity;
+    private String customState;
+    private boolean useCustomLoc;
     private String sunrise;
     private String sunset;
     private String weatherIcon;
@@ -97,7 +100,7 @@ public class Util {
     private String temperature;
     private String humidity;
     private String pressure;
-    private String uvIndex;
+    private String feelsLike;
     private String windBearing;
 
     //local tray vars
@@ -137,7 +140,7 @@ public class Util {
     private JLabel currentWeatherLabel;
     private JLabel changeLocationLabel;
     private JLabel temperatureLabel;
-    private JLabel uvIndexLabel;
+    private JLabel feelsLikeLabel;
     private JLabel windSpeedLabel;
     private JLabel windDirectionLabel;
     private JLabel humidityLabel;
@@ -1133,32 +1136,53 @@ public class Util {
         return result;
     }
 
+    private void refreshWeatherNow() {
+        try {
+            weatherStats();
+
+            if (useCustomLoc) {
+                locationLabel.setText(customCity + ", " + customState);
+            }
+
+            else {
+                locationLabel.setText(userCity + ", " + userStateAbr);
+            }
+
+            currentWeatherLabel.setText(capsFirst(weatherCondition));
+            temperatureLabel.setText("Temperature: " + temperature + "F");
+            feelsLikeLabel.setText("UV Index: " + feelsLike);
+            windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
+            windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + getWindDirection(windBearing));
+            humidityLabel.setText("Humidity: " + humidity + "%");
+            pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
+            visibilityLabel.setText("Visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
+            sunriseLabel.setText(sunrise + "am");
+            sunsetLabel.setText(sunset + "pm");
+        }
+
+        catch (Exception e) {
+            handle(e);
+        }
+    }
+
     private void refreshWeather() {
         Thread WeatherThread = new Thread(() -> {
             try {
                 while (updateWeather) {
                     Thread.sleep(1800000);
 
+                    weatherStats();
+
                     locationLabel.setText(userCity + ", " + userStateAbr);
-
                     currentWeatherLabel.setText(capsFirst(weatherCondition));
-
                     temperatureLabel.setText("Temperature: " + temperature + "F");
-
-                    uvIndexLabel.setText("UV Index: " + uvIndex);
-
+                    feelsLikeLabel.setText("UV Index: " + feelsLike);
                     windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-
                     windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + getWindDirection(windBearing));
-
                     humidityLabel.setText("Humidity: " + humidity + "%");
-
                     pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
-
                     visibilityLabel.setText("Visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
-
                     sunriseLabel.setText(sunrise + "am");
-
                     sunsetLabel.setText(sunset + "pm");
                 }
             } catch (Exception e) {
@@ -1170,14 +1194,14 @@ public class Util {
     }
 
     private void weatherStats() {
-        //todo if uuid for user already exists do different one
-        //todo redo weather gathering data all in one that only gets location from the field once an hour to refresh it
-
         try {
             getIPData();
 
+            if (useCustomLoc) {
+                userCity = customCity;
+            }
+
             String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&appid=2d790dd0766f1da62af488f101380c75&units=imperial";
-            String uvIndex = "http://api.openweathermap.org/data/2.5/uvi?appid=2d790dd0766f1da62af488f101380c75&lat=" + lat + "&lon=" + lon;
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
@@ -1217,7 +1241,7 @@ public class Util {
                     visibility = field.replaceAll("[^\\d.]", "");
                 }
                 else if (field.contains("feels_like")) {
-                    temperature = field.replaceAll("[^\\d.]", "");
+                    feelsLike = field.replaceAll("[^\\d.]", "");
                 }
                 else if (field.contains("pressure")) {
                     pressure = field.replaceAll("[^\\d.]", "");
@@ -1225,6 +1249,8 @@ public class Util {
                 }
                 else if (field.contains("humidity")) {
                     humidity = field.replaceAll("[^\\d.]", "");
+                } else if (field.contains("temp")) {
+                    temperature = field.replaceAll("[^\\d.]", "");
                 }
             }
 
@@ -1240,19 +1266,6 @@ public class Util {
 
             if (Time.getTime() > SunsetTime.getTime()) {
                 weatherIcon = weatherIcon.replace("d", "n");
-            }
-
-            BufferedReader uvReader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()));
-            uvIndex = uvReader.readLine();
-            uvReader.close();
-
-            String[] parts = uvIndex.split(",");
-
-            for (String part: parts) {
-                if (part.contains("\"value:\"")) {
-                    uvIndex = part.replace("\"value:\"","");
-                    break;
-                }
             }
         }
 
@@ -1297,6 +1310,7 @@ public class Util {
     }
 
     public void weatherWidget() {
+        useCustomLoc = false;
         weatherStats();
 
         if (weatherFrame != null) {
@@ -1412,7 +1426,7 @@ public class Util {
 
         changeLocationLabel.setForeground(vanila);
 
-        changeLocationLabel.setBounds(840, 545,200,30);
+        changeLocationLabel.setBounds(840, 550,200,30);
 
         changeLocationLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -1431,7 +1445,7 @@ public class Util {
 
                 parent.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-                JLabel explenation = new JLabel("<html>Enter your city separated by a comma.<br/>" +
+                JLabel explenation = new JLabel("<html>Enter your city and state separated by a comma.<br/>" +
                         "Note that the format must be precise otherwise<br/>it will fail. " +
                         "Ex: \"New Orleans,LA\"</html>");
 
@@ -1474,8 +1488,14 @@ public class Util {
                 changeLoc.setBackground(regularRed);
 
                 changeLoc.addActionListener(e12 -> {
-                    String newCity = changeLocField.getText();
-                    //todo custom boolean to true now
+                    String[] parts = changeLocField.getText().split(",");
+                    customCity = parts[0];
+                    customState = parts[1];
+                    useCustomLoc = true;
+                    closeAnimation(changeLocationFrame);
+                    changeLocationFrame.dispose();
+                    inform("Attempting to refresh and use the location \"" + customCity + "\" for weather.", "",400, 300);
+                    refreshWeatherNow();
                 });
 
                 JPanel c = new JPanel();
@@ -1518,17 +1538,17 @@ public class Util {
 
         weatherLabel.add(temperatureLabel);
 
-        uvIndexLabel = new JLabel();
+        feelsLikeLabel = new JLabel();
 
-        uvIndexLabel.setForeground(vanila);
+        feelsLikeLabel.setForeground(vanila);
 
-        uvIndexLabel.setFont(weatherFontSmall);
+        feelsLikeLabel.setFont(weatherFontSmall);
 
-        uvIndexLabel.setBounds(16, 310, 200, 30);
+        feelsLikeLabel.setBounds(16, 310, 200, 30);
 
-        uvIndexLabel.setText("UV Index: " + uvIndex);
+        feelsLikeLabel.setText("Feels like: " + feelsLike + "F");
 
-        weatherLabel.add(uvIndexLabel);
+        weatherLabel.add(feelsLikeLabel);
 
         windSpeedLabel = new JLabel();
 

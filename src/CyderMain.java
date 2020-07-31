@@ -37,7 +37,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo slide animation for photo viewer
 //todo sound/gifs in outputArea
 //todo tray menu
 //todo what if picture is too small for creating user
@@ -211,9 +210,7 @@ public class CyderMain{
             mainUtil.getBackgroundSize();
 
             consoleFrame = new JFrame();
-
             consoleFrame.setUndecorated(true);
-
             consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             if (mainUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
@@ -985,7 +982,7 @@ public class CyderMain{
 
             consoleClockLabel.setForeground(mainUtil.vanila);
 
-            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 95,2,250,20);
+            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 86,2,250,20);
 
             consoleDragLabel.add(consoleClockLabel, SwingConstants.CENTER);
 
@@ -1098,7 +1095,7 @@ public class CyderMain{
                         parentLabel.setIcon(newBack);
 
                         parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 95,2,250,20);
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 86,2,250,20);
                     }
 
                     catch (Exception e) {
@@ -1828,7 +1825,7 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 95,2,250,20);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 86,2,250,20);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1866,7 +1863,7 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 95,2,250,20);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 86,2,250,20);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1963,7 +1960,7 @@ public class CyderMain{
                 slidLeft = !slidLeft;
 
                 parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
-                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 95,2,250,20);
+                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 86,2,250,20);
             }
 
             catch (Exception e) {
@@ -2321,6 +2318,7 @@ public class CyderMain{
 
                 //fail safe if not able to delete
                 File renamed = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getDeprecatedUUID());
+                //todo while file does not exist
                 File old = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID());
                 old.renameTo(renamed);
             }
@@ -5015,6 +5013,9 @@ public class CyderMain{
             public void mouseReleased(MouseEvent e) {
                 try {
                     String uuid = mainUtil.generateUUID();
+
+                    //todo while uuid is not in use generate a new one
+
                     char[] pass = newUserPassword.getPassword();
                     char[] passconf = newUserPasswordconf.getPassword();
 
