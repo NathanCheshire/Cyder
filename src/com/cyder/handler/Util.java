@@ -97,7 +97,6 @@ public class Util {
     private String temperature;
     private String humidity;
     private String pressure;
-    private String cloudCover;
     private String uvIndex;
     private String windBearing;
 
@@ -134,10 +133,11 @@ public class Util {
     private JLabel locationLabel;
 
     //weather vars
+    private JFrame changeLocationFrame;
     private JLabel currentWeatherLabel;
+    private JLabel changeLocationLabel;
     private JLabel temperatureLabel;
     private JLabel uvIndexLabel;
-    private JLabel cloudCoverLabel;
     private JLabel windSpeedLabel;
     private JLabel windDirectionLabel;
     private JLabel humidityLabel;
@@ -148,8 +148,6 @@ public class Util {
 
     //media vars
     private JFrame mediaFrame;
-
-    private JButton closeDebug;
     private JLabel displayLabel;
     private JFrame weatherFrame;
     private JButton closeWeather;
@@ -418,7 +416,7 @@ public class Util {
 
     public String consoleTime() {
         Date Time = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE hh:mmaa");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mmaa");
         return dateFormatter.format(Time);
     }
 
@@ -839,7 +837,7 @@ public class Util {
     public void varInit() {
         String windowsUserName = getWindowsUsername();
         this.os = getOS();
-        getLocation();
+        getIPData();
         this.screenX = getScreenWidth();
         this.screenY = getScreenHeight();
     }
@@ -853,11 +851,10 @@ public class Util {
         } catch (Exception e) {
             handle(e);
         }
-
         return name;
     }
 
-    public void getLocation() {
+    private void getIPData() {
         try {
             String Key = "https://api.ipdata.co/?api-key=8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932";
 
@@ -1051,7 +1048,7 @@ public class Util {
 
             NetworkInterface NI = NetworkInterface.getByInetAddress(address);
 
-            getLocation();
+            getIPData();
 
             BufferedImage flag = ImageIO.read(new URL(getUserFlag()));
 
@@ -1146,21 +1143,19 @@ public class Util {
 
                     currentWeatherLabel.setText(capsFirst(weatherCondition));
 
-                    temperatureLabel.setText("temperature: " + temperature + "F");
+                    temperatureLabel.setText("Temperature: " + temperature + "F");
 
                     uvIndexLabel.setText("UV Index: " + uvIndex);
 
-                    cloudCoverLabel.setText("Cloud Cover: " + cloudCover);
-
                     windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
 
-                    windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + getWindDirection());
+                    windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + getWindDirection(windBearing));
 
                     humidityLabel.setText("Humidity: " + humidity + "%");
 
                     pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
 
-                    visibilityLabel.setText("visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
+                    visibilityLabel.setText("Visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
 
                     sunriseLabel.setText(sunrise + "am");
 
@@ -1175,54 +1170,18 @@ public class Util {
     }
 
     private void weatherStats() {
+        //todo if uuid for user already exists do different one
+        //todo redo weather gathering data all in one that only gets location from the field once an hour to refresh it
+
         try {
-            initWeatherVars();
+            getIPData();
 
-            String DarkString = "https://api.darksky.net/forecast/3fc1a7e3f22eb67764c7dc222144bbe0/" + lat + "," + lon + "?exclude=currently,minutely,daily,alerts,flags";
-
-            URL URL = new URL(DarkString);
-            BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
-            String PureJSON = WeatherReader.readLine().split("}")[0] + "}]}}";
-            PureJSON = PureJSON.split("data\":")[1].replace("[", "");
-            PureJSON = PureJSON.split("},")[0];
-            PureJSON = PureJSON.replace("}", "").replace("{", "").replace("]", "").replace("\"", "");
-            String[] parts = PureJSON.split(",");
-
-            for (String part : parts) {
-                if (part.contains("temperature") && !part.contains("apparent")) {
-                    temperature = part.replace("temperature:", "");
-                } else if (part.contains("summary")) {
-                    String weatherSummary = part.replace("summary:", "");
-                } else if (part.contains("pressure")) {
-                    pressure = part.replace("pressure:", "");
-                    pressure = pressure.substring(0, Math.min(pressure.length(), 4));
-                } else if (part.contains("humidity")) {
-                    humidity = part.replace("humidity:", "").replace("0.", "");
-                } else if (part.contains("cloudCover")) {
-                    cloudCover = part.replace("cloudCover:", "").replace("0.", "") + "%";
-                } else if (part.contains("uvIndex")) {
-                    uvIndex = part.replace("uvIndex:", "");
-                }
-            }
-        } catch (Exception e) {
-            handle(e);
-        }
-    }
-
-    private void initWeatherVars() {
-        try {
-            getLocation();
-
-            String Key = "2d790dd0766f1da62af488f101380c75";
-
-            String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&appid=" + Key + "&units=imperial";
+            String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&appid=2d790dd0766f1da62af488f101380c75&units=imperial";
+            String uvIndex = "http://api.openweathermap.org/data/2.5/uvi?appid=2d790dd0766f1da62af488f101380c75&lat=" + lat + "&lon=" + lon;
 
             URL URL = new URL(OpenString);
-
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
-
             String[] Fields = {"", ""};
-
             String Line;
 
             while ((Line = WeatherReader.readLine()) != null) {
@@ -1238,18 +1197,34 @@ public class Util {
             for (String field : Fields) {
                 if (field.contains("sunrise")) {
                     sunrise = field.replaceAll("[^\\d.]", "");
-                } else if (field.contains("sunset")) {
+                }
+                else if (field.contains("sunset")) {
                     sunset = field.replaceAll("[^\\d.]", "");
-                } else if (field.contains("icon")) {
+                }
+                else if (field.contains("icon")) {
                     weatherIcon = field.replace("icon", "");
-                } else if (field.contains("speed")) {
+                }
+                else if (field.contains("speed")) {
                     windSpeed = field.replaceAll("[^\\d.]", "");
-                } else if (field.contains("deg")) {
+                }
+                else if (field.contains("deg")) {
                     windBearing = field.replaceAll("[^\\d.]", "");
-                } else if (field.contains("description")) {
+                }
+                else if (field.contains("description")) {
                     weatherCondition = field.replace("description", "");
-                } else if (field.contains("visibility")) {
+                }
+                else if (field.contains("visibility")) {
                     visibility = field.replaceAll("[^\\d.]", "");
+                }
+                else if (field.contains("feels_like")) {
+                    temperature = field.replaceAll("[^\\d.]", "");
+                }
+                else if (field.contains("pressure")) {
+                    pressure = field.replaceAll("[^\\d.]", "");
+                    pressure = pressure.substring(0, Math.min(pressure.length(), 4));
+                }
+                else if (field.contains("humidity")) {
+                    humidity = field.replaceAll("[^\\d.]", "");
                 }
             }
 
@@ -1266,15 +1241,28 @@ public class Util {
             if (Time.getTime() > SunsetTime.getTime()) {
                 weatherIcon = weatherIcon.replace("d", "n");
             }
-        } catch (Exception e) {
+
+            BufferedReader uvReader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()));
+            uvIndex = uvReader.readLine();
+            uvReader.close();
+
+            String[] parts = uvIndex.split(",");
+
+            for (String part: parts) {
+                if (part.contains("\"value:\"")) {
+                    uvIndex = part.replace("\"value:\"","");
+                    break;
+                }
+            }
+        }
+
+        catch (Exception e) {
             handle(e);
         }
     }
 
-    private String getWindDirection() {
-        initWeatherVars();
-
-        double bear = Double.parseDouble(windBearing);
+    private String getWindDirection(String wb) {
+        double bear = Double.parseDouble(wb);
 
         if (bear == 0) {
             return "N";
@@ -1293,7 +1281,8 @@ public class Util {
         } else if (bear > 270 && bear < 360) {
             return "NW";
         }
-        return null;
+
+        return "NA";
     }
 
     private String capsFirst(String Word) {
@@ -1309,8 +1298,6 @@ public class Util {
 
     public void weatherWidget() {
         weatherStats();
-
-        getLocation();
 
         if (weatherFrame != null) {
             closeAnimation(weatherFrame);
@@ -1381,7 +1368,7 @@ public class Util {
 
         currentTimeLabel.setFont(weatherFontSmall);
 
-        currentTimeLabel.setBounds(16, 57, 600, 30);
+        currentTimeLabel.setBounds(16, 50, 600, 30);
 
         currentTimeLabel.setText(weatherTime());
 
@@ -1393,7 +1380,7 @@ public class Util {
 
         locationLabel.setFont(weatherFontSmall);
 
-        locationLabel.setBounds(16, 113, 300, 30);
+        locationLabel.setBounds(16, 80, 300, 30);
 
         locationLabel.setText(userCity + ", " + userStateAbr);
 
@@ -1401,7 +1388,9 @@ public class Util {
 
         JLabel currentWeatherIconLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\" + weatherIcon + ".png"));
 
-        currentWeatherIconLabel.setBounds(175, 100, 100, 100);
+        currentWeatherIconLabel.setBounds(16, 110, 100, 100);
+
+        currentWeatherIconLabel.setBorder(new LineBorder(navy,5,false));
 
         weatherLabel.add(currentWeatherIconLabel);
 
@@ -1411,11 +1400,111 @@ public class Util {
 
         currentWeatherLabel.setFont(weatherFontSmall);
 
-        currentWeatherLabel.setBounds(16, 170, 250, 20);
+        currentWeatherLabel.setBounds(16, 212, 250, 30);
 
         currentWeatherLabel.setText(capsFirst(weatherCondition));
 
         weatherLabel.add(currentWeatherLabel);
+
+        changeLocationLabel = new JLabel("Change Location");
+
+        changeLocationLabel.setFont(weatherFontSmall);
+
+        changeLocationLabel.setForeground(vanila);
+
+        changeLocationLabel.setBounds(840, 545,200,30);
+
+        changeLocationLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                changeLocationFrame = new JFrame();
+
+                changeLocationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                changeLocationFrame.setTitle("Change Location");
+
+                changeLocationFrame.setIconImage(getCyderIcon().getImage());
+
+                JPanel parent = new JPanel();
+
+                parent.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
+
+                parent.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+                JLabel explenation = new JLabel("<html>Enter your city separated by a comma.<br/>" +
+                        "Note that the format must be precise otherwise<br/>it will fail. " +
+                        "Ex: \"New Orleans,LA\"</html>");
+
+                explenation.setFont(weatherFontSmall);
+
+                explenation.setForeground(navy);
+
+                JPanel a = new JPanel();
+
+                a.add(explenation, SwingConstants.CENTER);
+
+                parent.add(a);
+
+                JTextField changeLocField = new JTextField(20);
+
+                changeLocField.setBorder(new LineBorder(navy,5,false));
+
+                changeLocField.setForeground(navy);
+
+                changeLocField.setFont(weatherFontSmall);
+
+                CyderButton changeLoc = new CyderButton("Change Location");
+
+                changeLoc.setBorder(new LineBorder(navy,5,false));
+
+                changeLocField.addActionListener(e1 -> changeLoc.doClick());
+
+                JPanel b = new JPanel();
+
+                b.add(changeLocField, SwingConstants.CENTER);
+
+                parent.add(b);
+
+                changeLoc.setFont(weatherFontSmall);
+
+                changeLoc.setForeground(navy);
+
+                changeLoc.setColors(regularRed);
+
+                changeLoc.setBackground(regularRed);
+
+                changeLoc.addActionListener(e12 -> {
+                    String newCity = changeLocField.getText();
+                    //todo custom boolean to true now
+                });
+
+                JPanel c = new JPanel();
+
+                c.add(changeLoc, SwingConstants.CENTER);
+
+                parent.add(c);
+
+                changeLocationFrame.add(parent);
+
+                changeLocationFrame.setVisible(true);
+
+                changeLocationFrame.pack();
+
+                changeLocationFrame.setLocationRelativeTo(null);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                changeLocationLabel.setForeground(navy);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                changeLocationLabel.setForeground(vanila);
+            }
+        });
+
+        weatherLabel.add(changeLocationLabel);
 
         temperatureLabel = new JLabel();
 
@@ -1425,7 +1514,7 @@ public class Util {
 
         temperatureLabel.setBounds(16, 270, 300, 30);
 
-        temperatureLabel.setText("temperature: " + temperature + "F");
+        temperatureLabel.setText("Temperature: " + temperature + "F");
 
         weatherLabel.add(temperatureLabel);
 
@@ -1440,18 +1529,6 @@ public class Util {
         uvIndexLabel.setText("UV Index: " + uvIndex);
 
         weatherLabel.add(uvIndexLabel);
-
-        cloudCoverLabel = new JLabel();
-
-        cloudCoverLabel.setForeground(vanila);
-
-        cloudCoverLabel.setFont(weatherFontSmall);
-
-        cloudCoverLabel.setBounds(16, 350, 200, 30);
-
-        cloudCoverLabel.setText("Cloud Cover: " + cloudCover);
-
-        weatherLabel.add(cloudCoverLabel);
 
         windSpeedLabel = new JLabel();
 
@@ -1473,7 +1550,7 @@ public class Util {
 
         windDirectionLabel.setBounds(16, 430, 300, 30);
 
-        windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + getWindDirection());
+        windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + getWindDirection(windBearing));
 
         weatherLabel.add(windDirectionLabel);
 
@@ -1509,7 +1586,7 @@ public class Util {
 
         visibilityLabel.setBounds(16, 550, 300, 30);
 
-        visibilityLabel.setText("visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
+        visibilityLabel.setText("Visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
 
         weatherLabel.add(visibilityLabel, SwingConstants.CENTER);
 
@@ -4315,8 +4392,8 @@ public class Util {
 
     public void test() {
         try {
-            PhotoViewer pv = new PhotoViewer(new File("C:\\Users\\Nathan\\Pictures\\Favorites\\Mine.png"));
-            pv.draw();
+            PhotoViewer pv = new PhotoViewer(new File("C:\\Users\\Nathan\\Pictures\\Favorites"));
+            pv.start();
         }
 
         catch (Exception e){
@@ -5365,7 +5442,7 @@ public class Util {
 
         else if (FilePath.endsWith(".png")) {
             PhotoViewer pv = new PhotoViewer(new File(FilePath));
-            pv.draw();
+            pv.start();
         }
 
         //use our own mp3 player
@@ -6064,7 +6141,7 @@ public class Util {
     }
 
     private void initializeNotesList() {
-        File dir = new File("src\\com\\cyder\\io\\users\\" + username + "\\Notes");
+        File dir = new File("src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Notes");
         noteList = new LinkedList<>();
         noteNameList = new LinkedList<>();
 
@@ -6260,10 +6337,12 @@ public class Util {
     }
 
     public String getUserCity() {
+        getIPData();
         return this.userCity;
     }
 
     public String getUserState() {
+        getIPData();
         return this.userState;
     }
 

@@ -39,6 +39,8 @@ import java.util.concurrent.TimeUnit;
 
 //todo slide animation for photo viewer
 //todo sound/gifs in outputArea
+//todo tray menu
+//todo what if picture is too small for creating user
 
 public class CyderMain{
     //console vars
@@ -59,7 +61,6 @@ public class CyderMain{
     private JButton alternateBackground;
     private JLabel consoleDragLabel;
     private JPanel parentPanel;
-    private CheckboxMenuItem hideOnClose;
     private JButton suggestionButton;
     private JButton menuButton;
     private JFrame loginFrame;
@@ -165,6 +166,7 @@ public class CyderMain{
         boolean cypherLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
 
         if (!mainUtil.released() && !cypherLenovo) {
+            SystemTray.getSystemTray().remove(trayIcon);
             System.exit(0);
         }
 
@@ -1241,65 +1243,51 @@ public class CyderMain{
             println("SystemTray is not supported");
         }
 
-        MenuItem YouTube = new MenuItem("YouTube");
+        MenuItem calculator = new MenuItem("Calculator");
+        calculator.addActionListener(e -> mainUtil.calculator());
 
-        YouTube.addActionListener(e -> mainUtil.internetConnect("https://www.youtube.com"));
+        MenuItem music = new MenuItem("Calculator");
+        music.addActionListener(e -> mainUtil.mp3(null));
 
-        MenuItem Weather = new MenuItem("Weather");
+        MenuItem weather = new MenuItem("Weather");
+        weather.addActionListener(e -> mainUtil.weatherWidget());
 
-        Weather.addActionListener(e -> mainUtil.weatherWidget());
+        MenuItem notes = new MenuItem("Notes");
+        calculator.addActionListener(e -> mainUtil.note());
 
-        MenuItem Music = new MenuItem("Music");
+        MenuItem edituser = new MenuItem("Edit User");
+        edituser.addActionListener(e -> editUser());
 
-        Music.addActionListener(e -> mainUtil.mp3(null));
+        MenuItem tempconv = new MenuItem("Temp Conv");
+        tempconv.addActionListener(e -> mainUtil.temperature());
 
-        MenuItem Show = new MenuItem("Show console");
+        MenuItem youtube = new MenuItem("YouTube");
+        youtube.addActionListener(e -> mainUtil.internetConnect("https://www.youtube.com"));
 
-        Show.addActionListener(e -> {
-            if (consoleFrame != null) {
-                consoleFrame.setVisible(true);
+        MenuItem twitter = new MenuItem("Twitter");
+        twitter.addActionListener(e -> mainUtil.internetConnect("https://www.twitter.com"));
 
-                consoleFrame.setLocationRelativeTo(null);
-            }
-        });
-
-        hideOnClose = new CheckboxMenuItem("Hide on close");
-
-        hideOnClose.setState(false);
-
-        MenuItem Exit = new MenuItem("Exit");
-
-        Exit.addActionListener(e -> {
-            tray.remove(trayIcon);
-
-            System.exit(0);
-        });
-
-        popup.add(YouTube);
-
+        popup.add(calculator);
         popup.addSeparator();
-
-        popup.add(Weather);
-
+        popup.add(music);
         popup.addSeparator();
-
-        popup.add(Music);
-
+        popup.add(weather);
         popup.addSeparator();
-
-        popup.add(Show);
-
+        popup.add(notes);
         popup.addSeparator();
-
-        popup.add(hideOnClose);
-
+        popup.add(edituser);
         popup.addSeparator();
+        popup.add(tempconv);
+        popup.addSeparator();
+        popup.add(youtube);
+        popup.addSeparator();
+        popup.add(twitter);
 
-        popup.add(Exit);
 
-        popup.setFont(new Font("tahoma", Font.BOLD, 15));
+        popup.setFont(mainUtil.weatherFontSmall);
 
         trayIcon.setPopupMenu(popup);
+        trayIcon.setImageAutoSize(true);
 
         try {
             tray.add(trayIcon);
@@ -1359,13 +1347,9 @@ public class CyderMain{
         saveFontColor();
         mainUtil.closeAnimation(consoleFrame);
 
-        if (hideOnClose.getState()) {
-            consoleFrame.setVisible(false);
-        }
+        SystemTray.getSystemTray().remove(trayIcon);
+        System.exit(0);
 
-        else {
-            System.exit(0);
-        }
     }
 
     private void login(boolean AlreadyOpen) {
@@ -1530,6 +1514,7 @@ public class CyderMain{
             loginFrame.dispose();
 
             if (consoleFrame == null) {
+                SystemTray.getSystemTray().remove(trayIcon);
                 System.exit(0);
             }
         });
@@ -2400,13 +2385,8 @@ public class CyderMain{
                 saveFontColor();
                 mainUtil.closeAnimation(consoleFrame);
 
-                if (mainUtil.getHideOnClose()) {
-                    consoleFrame.setVisible(false);
-                }
-
-                else {
-                    System.exit(0);
-                }
+                SystemTray.getSystemTray().remove(trayIcon);
+                System.exit(0);
             }
 
             else if (eic("test")) {
@@ -2985,13 +2965,8 @@ public class CyderMain{
                 saveFontColor();
                 mainUtil.closeAnimation(consoleFrame);
 
-                if (mainUtil.getHideOnClose()) {
-                    consoleFrame.setVisible(false);
-                }
-
-                else {
-                    System.exit(0);
-                }
+                SystemTray.getSystemTray().remove(trayIcon);
+                System.exit(0);
             }
 
             else if (eic("hash")) {
@@ -3159,7 +3134,6 @@ public class CyderMain{
             }
 
             else if (hasWord("location") || (hasWord("where") && hasWord("am") && hasWord("i"))) {
-                mainUtil.getLocation();
                 println("You are currently in " + mainUtil.getUserCity() + ", " +
                         mainUtil.getUserState() + " and your Internet Service Provider is " + mainUtil.getUserISP());
             }
@@ -4790,13 +4764,8 @@ public class CyderMain{
             saveFontColor();
             mainUtil.closeAnimation(consoleFrame);
 
-            if (mainUtil.getHideOnClose()) {
-                consoleFrame.setVisible(false);
-            }
-
-            else {
-                System.exit(0);
-            }
+            SystemTray.getSystemTray().remove(trayIcon);
+            System.exit(0);
         }
     };
 
