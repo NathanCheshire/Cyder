@@ -997,8 +997,6 @@ public class CyderMain{
             if (mainUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
                 checkChime();
 
-            notification("Welcome back Elon!", 240, 60, 2000);
-
             parentLabel.add(consoleDragLabel);
 
             consoleFrame.repaint();
@@ -2348,7 +2346,8 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                mainUtil.test();
+                notification("<html>Welcome back " + mainUtil.getUsername() + ". The time is " + mainUtil.consoleTime() + "</html>",570,30,3500);
+                parentLabel.revalidate();
             }
 
             else if (hasWord("bletchy")) {
@@ -5398,14 +5397,14 @@ public class CyderMain{
         Notification notification = new Notification();
         notification.setWidth(w);
         notification.setHeight(h);
-        notification.setArrow(notification.TOP_ARROW);
+        notification.setArrow(notification.RIGHT_ARROW);
 
         JLabel text = new JLabel(htmltext);
         text.setFont(mainUtil.weatherFontSmall);
         text.setForeground(mainUtil.navy);
         text.setBounds(14,10,w,h);
         notification.add(text);
-        notification.setBounds(consoleDragLabel.getWidth() / 2 - w / 2,30,w + 100,h + 100);
+        notification.setBounds(consoleDragLabel.getWidth() - (w + 30),30,w + 100,h + 100);
         parentLabel.add(notification);
 
         parentLabel.revalidate();
@@ -5416,9 +5415,10 @@ public class CyderMain{
                 while (!notification.isVisible()) {}
                 Thread.sleep(delay);
                 AnimationClass ac = new AnimationClass();
-                ac.jLabelXRight(notification.getX(), parentLabel.getWidth(), 10, 8, notification);
 
+                ac.jLabelXRight(notification.getX(), parentLabel.getWidth(), 10, 8, notification);
                 Thread.sleep(10 * (parentLabel.getWidth() -  notification.getX())/ 8);
+
                 notification.setVisible(false);
             }
 

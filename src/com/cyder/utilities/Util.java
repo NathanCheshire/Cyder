@@ -4412,16 +4412,6 @@ public class Util {
         return (Month == 4 && Date == 1);
     }
 
-    public void test() {
-        try {
-
-        }
-
-        catch (Exception e){
-            handle(e);
-        }
-    }
-
     public void draw(String ImageName) {
         JFrame bodgeFrame = new JFrame();
 
