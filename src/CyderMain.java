@@ -1000,44 +1000,7 @@ public class CyderMain{
             if (mainUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
                 checkChime();
 
-            //move notificaiton business to custom method in here and make sure it doesn't come up
-            //when switching backgrounds
-
-            Notification notification = new Notification();
-            notification.setTimeout(2000);
-            int width = 200;
-            int height = 50;
-            notification.setWidth(width);
-            notification.setHeight(height);
-            notification.setArrow(notification.TOP_ARROW);
-
-            JLabel text = new JLabel("<html>Welcome back, " + mainUtil.getUsername() + "</html>");
-            text.setFont(mainUtil.weatherFontSmall);
-            text.setForeground(mainUtil.navy);
-            text.setBounds(14,10,width,height);
-            notification.add(text);
-            notification.setBounds(consoleDragLabel.getWidth() / 2,30,width + 100,height + 100);
-            parentLabel.add(notification);
-
-
-            new Thread(() -> {
-                try {
-                    while (!notification.isVisible()) {}
-                    Thread.sleep(2000);
-
-                    AnimationClass ac = new AnimationClass();
-
-                    ac.jLabelXRight(notification.getX(), parentLabel.getWidth(), 10, 8, notification);
-
-                    //notification.setVisible(false);
-                }
-
-                catch (Exception e) {
-                    mainUtil.handle(e);
-                }
-            }).start();
-
-
+            notification("Welcome back Elon!", 240, 60, 2000);
 
             parentLabel.add(consoleDragLabel);
 
@@ -5476,5 +5439,39 @@ public class CyderMain{
     private void refreshUsername() {
         trayIcon.setToolTip(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
         consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
+    }
+
+    private void notification(String htmltext, int w, int h, int delay) {
+        Notification notification = new Notification();
+        notification.setWidth(w);
+        notification.setHeight(h);
+        notification.setArrow(notification.TOP_ARROW);
+
+        JLabel text = new JLabel(htmltext);
+        text.setFont(mainUtil.weatherFontSmall);
+        text.setForeground(mainUtil.navy);
+        text.setBounds(14,10,w,h);
+        notification.add(text);
+        notification.setBounds(consoleDragLabel.getWidth() / 2 - w / 2,30,w + 100,h + 100);
+        parentLabel.add(notification);
+
+        parentLabel.revalidate();
+        consoleFrame.revalidate();
+
+        new Thread(() -> {
+            try {
+                while (!notification.isVisible()) {}
+                Thread.sleep(delay);
+                AnimationClass ac = new AnimationClass();
+                ac.jLabelXRight(notification.getX(), parentLabel.getWidth(), 10, 8, notification);
+
+                Thread.sleep(10 * (parentLabel.getWidth() -  notification.getX())/ 8);
+                notification.setVisible(false);
+            }
+
+            catch (Exception e) {
+                mainUtil.handle(e);
+            }
+        }).start();
     }
 }
