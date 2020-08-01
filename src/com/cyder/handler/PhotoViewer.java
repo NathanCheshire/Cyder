@@ -14,11 +14,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 
-//todo add scroll animation and instead of close button make it a change name button that opens a ui
-//todo add DragLabel to panel instead of using close button
-//todo scroll button to side arrows that trigger the animation
-//todo change title on drag label
-
 public class PhotoViewer {
 
     private LinkedList<File> validImages = new LinkedList<>();
@@ -32,12 +27,12 @@ public class PhotoViewer {
     private JFrame renameFrame;
     private DragLabel dl;
     private JFrame pictureFrame;
-    private JPanel parentPanel;
+
 
     private JLabel pictureLabel;
 
-    private CyderButton nextImage;
-    private CyderButton lastImage;
+    private JLabel nextImage;
+    private JLabel lastImage;
     private JLabel rename;
 
     public PhotoViewer(File startDir) {
@@ -67,22 +62,13 @@ public class PhotoViewer {
         pictureFrame.setTitle(ImageName.getName().replace(".png", ""));
         pictureFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        parentPanel = new JPanel();
-        parentPanel.setLayout(null);
-        pictureFrame.setContentPane(parentPanel);
-
         ImageIcon size = checkImage(ImageName);
         pictureLabel = new JLabel(size);
+        pictureFrame.setContentPane(pictureLabel);
+        pictureLabel.setBorder(new LineBorder(imageUtil.navy,8,false));
 
-        parentPanel.setSize(size.getIconWidth(),size.getIconHeight());
-        parentPanel.setBorder(new LineBorder(imageUtil.navy,8,false));
-        parentPanel.add(pictureLabel);
-
-        dl = new DragLabel(parentPanel.getWidth(), 30, pictureFrame);
-        dl.setBounds(0,0, parentPanel.getWidth(), 30);
-        parentPanel.add(dl);
-
-        //todo add next and last buttons to side of picturelabel
+        dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
+        pictureLabel.add(dl);
 
         rename = new JLabel("Rename");
         rename.setForeground(imageUtil.vanila);
@@ -96,9 +82,10 @@ public class PhotoViewer {
                 }
 
                 renameFrame = new JFrame();
+                renameFrame.setResizable(false);
                 renameFrame.setIconImage(imageUtil.getCyderIcon().getImage());
                 renameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                renameFrame.setTitle("Rename " + validImages.get(currentIndex).getName().replace(".png",""));
+                renameFrame.setTitle("Rename");
 
                 JPanel pan = new JPanel();
                 pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
@@ -121,12 +108,30 @@ public class PhotoViewer {
                 attemptRen.setFont(imageUtil.weatherFontSmall);
                 attemptRen.setForeground(imageUtil.navy);
                 attemptRen.addActionListener(e12 -> {
+                    String name = renameField.getText();
+
                     File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
-                    File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),renameField.getText()));
+                    File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
                     oldName.renameTo(newName);
-                    imageUtil.inform("Successfully renamed to " + renameField.getText(),"",400,300);
+                    imageUtil.inform("Successfully renamed to " + name,"",400,300);
+
+                    initFiles();
+
+                    for (int i = 0 ; i < validImages.size() ; i++) {
+                        if (validImages.get(i).getName().equals(name)) {
+                            currentIndex = i;
+                        }
+                    }
+
+                    pictureFrame.setTitle(name);
+
                     imageUtil.closeAnimation(renameFrame);
                     renameFrame.dispose();
+
+                    System.out.println("index: " + currentIndex + "\nFiles:\n");
+                    for (File f : validImages) {
+                        System.out.println(f);
+                    }
                 });
 
                 JPanel b = new JPanel();
@@ -151,8 +156,48 @@ public class PhotoViewer {
             }
         });
 
-        rename.setBounds(parentPanel.getWidth() / 2 - 40, 5, 150, 20);
+        rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
         dl.add(rename);
+
+        nextImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+        nextImage.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                scrollFoward();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture2.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+            }
+        });
+        nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
+        dl.add(nextImage);
+
+        lastImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+        lastImage.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                scrollBack();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture2.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+            }
+        });
+        lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
+        dl.add(lastImage);
 
         pictureFrame.setSize(size.getIconWidth(),size.getIconHeight());
         pictureFrame.setVisible(true);
@@ -161,6 +206,8 @@ public class PhotoViewer {
     }
 
     private void initFiles() {
+        validImages.clear();
+
         File[] possibles = null;
 
         if (startDir.isDirectory()) {
@@ -194,21 +241,157 @@ public class PhotoViewer {
         try {
             if (currentIndex + 1 < validImages.size()) {
                 currentIndex += 1;
-                ImageIcon next = checkImage(validImages.get(currentIndex));
-                Dimension d = new Dimension(next.getIconWidth(), next.getIconHeight());
-
-                pictureLabel.setSize(d);
-                pictureLabel.setIcon(next);
-                pictureLabel.repaint();
-
-                parentPanel.setSize(d);
-                parentPanel.repaint();
-
-                pictureFrame.setSize(d);
-                pictureFrame.revalidate();
-                pictureFrame.setTitle(validImages.get(currentIndex).getName().replace(".png", ""));
-                pictureFrame.setLocationRelativeTo(null);
             }
+
+            else {
+                currentIndex = 0;
+            }
+
+            ImageIcon size = checkImage(validImages.get(currentIndex));
+            pictureLabel = new JLabel(size);
+            pictureFrame.setContentPane(pictureLabel);
+            pictureLabel.setBorder(new LineBorder(imageUtil.navy,8,false));
+
+            dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
+            pictureLabel.add(dl);
+
+            rename = new JLabel("Rename");
+            rename.setForeground(imageUtil.vanila);
+            rename.setFont(imageUtil.weatherFontSmall);
+            rename.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (renameFrame != null) {
+                        imageUtil.closeAnimation(renameFrame);
+                        renameFrame.dispose();
+                    }
+
+                    renameFrame = new JFrame();
+                    renameFrame.setResizable(false);
+                    renameFrame.setIconImage(imageUtil.getCyderIcon().getImage());
+                    renameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    renameFrame.setTitle("Rename");
+
+                    JPanel pan = new JPanel();
+                    pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
+
+                    JTextField renameField = new JTextField(20);
+                    renameField.setFont(imageUtil.weatherFontSmall);
+                    renameField.setForeground(imageUtil.navy);
+                    renameField.setBorder(new LineBorder(imageUtil.navy,5,false));
+
+                    CyderButton attemptRen = new CyderButton("Rename");
+                    attemptRen.setBackground(imageUtil.regularRed);
+                    attemptRen.setColors(imageUtil.regularRed);
+                    renameField.addActionListener(e1 -> attemptRen.doClick());
+
+                    JPanel a = new JPanel();
+                    a.add(renameField, SwingConstants.CENTER);
+                    pan.add(a);
+
+                    attemptRen.setBorder(new LineBorder(imageUtil.navy,5,false));
+                    attemptRen.setFont(imageUtil.weatherFontSmall);
+                    attemptRen.setForeground(imageUtil.navy);
+                    attemptRen.addActionListener(e12 -> {
+                        String name = renameField.getText();
+
+                        File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
+                        File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
+                        oldName.renameTo(newName);
+                        imageUtil.inform("Successfully renamed to " + name,"",400,300);
+
+                        initFiles();
+
+                        for (int i = 0 ; i < validImages.size() ; i++) {
+                            if (validImages.get(i).getName().equals(name)) {
+                                currentIndex = i;
+                            }
+                        }
+
+                        pictureFrame.setTitle(name);
+
+                        imageUtil.closeAnimation(renameFrame);
+                        renameFrame.dispose();
+
+                        System.out.println("index: " + currentIndex + "\nFiles:\n");
+                        for (File f : validImages) {
+                            System.out.println(f);
+                        }
+                    });
+
+                    JPanel b = new JPanel();
+                    b.add(attemptRen, SwingConstants.CENTER);
+                    pan.add(b);
+                    pan.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+                    renameFrame.add(pan);
+                    renameFrame.pack();
+                    renameFrame.setVisible(true);
+                    renameFrame.setLocationRelativeTo(null);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    rename.setForeground(imageUtil.regularRed);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    rename.setForeground(imageUtil.vanila);
+                }
+            });
+
+            rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
+            dl.add(rename);
+
+            nextImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+            nextImage.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    scrollFoward();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture2.png"));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+                }
+            });
+            nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
+            dl.add(nextImage);
+
+            lastImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+            lastImage.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    scrollBack();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture2.png"));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+                }
+            });
+            lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
+            dl.add(lastImage);
+
+            pictureLabel.setSize(size.getIconWidth(), size.getIconHeight());
+            pictureLabel.setIcon(size);
+            pictureLabel.revalidate();
+
+            pictureFrame.setSize(size.getIconWidth(), size.getIconHeight());
+            pictureFrame.revalidate();
+            pictureFrame.setTitle(validImages.get(currentIndex).getName().replace(".png", ""));
+            pictureFrame.setLocationRelativeTo(null);
         }
 
         catch (Exception e) {
@@ -220,26 +403,163 @@ public class PhotoViewer {
         try {
             if (currentIndex - 1 >= 0) {
                 currentIndex--;
-                ImageIcon last = checkImage(validImages.get(currentIndex));
-                Dimension d = new Dimension(last.getIconWidth(), last.getIconHeight());
-
-                pictureLabel.setSize(d);
-                pictureLabel.setIcon(last);
-                pictureLabel.repaint();
-
-                parentPanel.setSize(d);
-                parentPanel.repaint();
-
-                pictureFrame.setSize(d);
-                pictureFrame.revalidate();
-                pictureFrame.setTitle(validImages.get(currentIndex).getName().replace(".png", ""));
-                pictureFrame.setLocationRelativeTo(null);
             }
+
+            else {
+                currentIndex = validImages.size() - 1;
+            }
+
+            ImageIcon size = checkImage(validImages.get(currentIndex));
+            pictureLabel = new JLabel(size);
+            pictureFrame.setContentPane(pictureLabel);
+            pictureLabel.setBorder(new LineBorder(imageUtil.navy,8,false));
+
+            dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
+            pictureLabel.add(dl);
+
+            rename = new JLabel("Rename");
+            rename.setForeground(imageUtil.vanila);
+            rename.setFont(imageUtil.weatherFontSmall);
+            rename.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (renameFrame != null) {
+                        imageUtil.closeAnimation(renameFrame);
+                        renameFrame.dispose();
+                    }
+
+                    renameFrame = new JFrame();
+                    renameFrame.setResizable(false);
+                    renameFrame.setIconImage(imageUtil.getCyderIcon().getImage());
+                    renameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    renameFrame.setTitle("Rename");
+
+                    JPanel pan = new JPanel();
+                    pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
+
+                    JTextField renameField = new JTextField(20);
+                    renameField.setFont(imageUtil.weatherFontSmall);
+                    renameField.setForeground(imageUtil.navy);
+                    renameField.setBorder(new LineBorder(imageUtil.navy,5,false));
+
+                    CyderButton attemptRen = new CyderButton("Rename");
+                    attemptRen.setBackground(imageUtil.regularRed);
+                    attemptRen.setColors(imageUtil.regularRed);
+                    renameField.addActionListener(e1 -> attemptRen.doClick());
+
+                    JPanel a = new JPanel();
+                    a.add(renameField, SwingConstants.CENTER);
+                    pan.add(a);
+
+                    attemptRen.setBorder(new LineBorder(imageUtil.navy,5,false));
+                    attemptRen.setFont(imageUtil.weatherFontSmall);
+                    attemptRen.setForeground(imageUtil.navy);
+                    attemptRen.addActionListener(e12 -> {
+                        String name = renameField.getText();
+
+                        File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
+                        File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
+                        oldName.renameTo(newName);
+                        imageUtil.inform("Successfully renamed to " + name,"",400,300);
+
+                        initFiles();
+
+                        for (int i = 0 ; i < validImages.size() ; i++) {
+                            if (validImages.get(i).getName().equals(name)) {
+                                currentIndex = i;
+                            }
+                        }
+
+                        pictureFrame.setTitle(name);
+
+                        imageUtil.closeAnimation(renameFrame);
+                        renameFrame.dispose();
+
+                        System.out.println("index: " + currentIndex + "\nFiles:\n");
+                        for (File f : validImages) {
+                            System.out.println(f);
+                        }
+                    });
+
+                    JPanel b = new JPanel();
+                    b.add(attemptRen, SwingConstants.CENTER);
+                    pan.add(b);
+                    pan.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+                    renameFrame.add(pan);
+                    renameFrame.pack();
+                    renameFrame.setVisible(true);
+                    renameFrame.setLocationRelativeTo(null);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    rename.setForeground(imageUtil.regularRed);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    rename.setForeground(imageUtil.vanila);
+                }
+            });
+
+            rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
+            dl.add(rename);
+
+            nextImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+            nextImage.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    scrollFoward();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture2.png"));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+                }
+            });
+            nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
+            dl.add(nextImage);
+
+            lastImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+            lastImage.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    scrollBack();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture2.png"));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+                }
+            });
+            lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
+            dl.add(lastImage);
+
+            pictureLabel.setSize(size.getIconWidth(), size.getIconHeight());
+            pictureLabel.setIcon(size);
+            pictureLabel.revalidate();
+
+            pictureFrame.setSize(size.getIconWidth(), size.getIconHeight());
+            pictureFrame.revalidate();
+            pictureFrame.setTitle(validImages.get(currentIndex).getName().replace(".png", ""));
+            pictureFrame.setLocationRelativeTo(null);
         }
 
         catch (Exception e) {
             imageUtil.handle(e);
         }
+
     }
 
     private ImageIcon checkImage(File im) {

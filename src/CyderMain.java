@@ -39,7 +39,11 @@ import java.util.concurrent.TimeUnit;
 
 //todo sound/gifs/video in outputArea
 //todo tray look and feel and change options
-//todo what if picture is too small for creating user
+//todo what if image is too small for photoviewer
+//todo add feature to resize any image (scale up or down)
+//todo move math factory into console must be formatted correctly
+//todo beyond gotlike easter egg
+//todo to implement beyond got like easter egg implement a notification class
 
 public class CyderMain{
     //console vars
@@ -1108,14 +1112,12 @@ public class CyderMain{
                 }
             }
 
-            Thread internetThread = new Thread(() -> {
+            new Thread(() -> {
                 if (!mainUtil.internetReachable()) {
                     println(mainUtil.getUsername() + ", please note that I had trouble reaching the internet. " +
                             "You may not be connected to the internet which means some features may not function properly.");
                 }
-            });
-
-            internetThread.start();
+            }).start();
         }
 
         catch (Exception e) {
@@ -5068,9 +5070,24 @@ public class CyderMain{
                         File backgrounds = new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Backgrounds");
                         backgrounds.mkdir();
 
-                        File Source = createUserBackground;
-                        File Destination = new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Backgrounds\\" + Source.getName());
-                        Files.copy(Source.toPath(), Destination.toPath());
+                        BufferedImage checkIm = ImageIO.read(createUserBackground);
+
+                        double aspectRatio = ((double) checkIm.getWidth() / (double) checkIm.getHeight());
+                        ImageIcon originalIcon = new ImageIcon(checkIm);
+
+                        int width = originalIcon.getIconWidth();
+                        int height = originalIcon.getIconHeight();
+
+                        while (width < 600 || height < 600) {
+                            width = (int) (width * aspectRatio);
+                            height = (int) (height * aspectRatio);
+                        }
+
+                        BufferedImage bi = mainUtil.resizeImage(width, height, createUserBackground);
+                        Graphics2D g2 = bi.createGraphics();
+                        g2.drawImage(bi, 0, 0, null);
+                        g2.dispose();
+                        ImageIO.write(bi, "png", new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Backgrounds\\" + createUserBackground.getName()));
 
                         BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
                                 "src\\com\\cyder\\io\\users\\" + uuid + "\\Userdata.txt"));

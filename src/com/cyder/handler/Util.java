@@ -4412,7 +4412,7 @@ public class Util {
 
     public void test() {
         try {
-            PhotoViewer pv = new PhotoViewer(new File("C:\\Users\\Nathan\\Pictures\\Favorites"));
+            PhotoViewer pv = new PhotoViewer(new File("C:\\Users\\Nathan\\Downloads\\"));
             pv.start();
         }
 
@@ -6507,7 +6507,8 @@ public class Util {
                 int imageType = currentImage.getType();
 
                 if (getBackgroundX() > getScreenWidth() || getBackgroundY() > getScreenHeight()) {
-                    inform("Resized the background image:\n" + getValidBackgroundPaths()[i].getName() + "\nsince it exceeded your screen size.","", 700, 200);
+                    inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too big " +
+                            "(That's what she said ahahahahah hahaha ha ha so funny).","", 700, 200);
                 }
 
                 while (getBackgroundX() > getScreenWidth() || getBackgroundY() > getScreenHeight()) {
@@ -6515,6 +6516,25 @@ public class Util {
 
                     int width = (int) (currentImage.getWidth() / aspectRatio);
                     int height = (int) (currentImage.getHeight() / aspectRatio);
+
+                    BufferedImage saveImage = resizeImage(currentImage, imageType, width, height);
+
+                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
+
+                    setBackgroundX(saveImage.getWidth());
+                    setBackgroundY(saveImage.getHeight());
+                    getValidBackgroundPaths();
+                }
+
+                if (getBackgroundX() < 600 || getBackgroundY() < 600) {
+                    inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too small.","", 700, 200);
+                }
+
+                while (getBackgroundX() < 600 || getBackgroundY() < 600) {
+                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
+
+                    int width = (int) (currentImage.getWidth() * aspectRatio);
+                    int height = (int) (currentImage.getHeight() * aspectRatio);
 
                     BufferedImage saveImage = resizeImage(currentImage, imageType, width, height);
 
