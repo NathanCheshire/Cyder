@@ -4412,15 +4412,15 @@ public class Util {
     public void test() {
         try {
             Notification notification = new Notification();
-            notification.setColor(regularRed);
-            notification.setWidth(500);
-            notification.setHeight(100);
+            notification.setWidth(100);
+            notification.setHeight(200);
+            notification.setArrow(notification.BOTTOM_ARROW);
 
             JFrame testFrame = new JFrame();
-            testFrame.setResizable(true);
+            testFrame.setResizable(false);
+            testFrame.setSize(500,500);
             testFrame.setIconImage(getCyderIcon().getImage());
             testFrame.add(notification);
-            testFrame.pack();
             testFrame.setVisible(true);
             testFrame.setLocationRelativeTo(null);
         }

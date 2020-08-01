@@ -10,9 +10,20 @@ public class Notification extends JPanel {
     private int padding = strokeThickness / 2;
     private int arrowSize = 6;
     private int radius = 10;
-    private Color c = new Color(80, 150, 180);
-    private int width;
-    private int height;
+
+    private Color fillColor = new Color(236,64,122);
+    private Color borderColor = new Color(26, 32, 51);
+
+    private int width = 300;
+    private int height = 300;
+    private int type = 1;
+
+    private String htmlText = "";
+
+    public static final int TOP_ARROW = 1;
+    public static final int LEFT_ARROW = 2;
+    public static final int RIGHT_ARROW = 3;
+    public static final int BOTTOM_ARROW = 4;
 
     public void setStrokeThickness(int strokeThickness) {
         this.strokeThickness= strokeThickness;
@@ -27,7 +38,7 @@ public class Notification extends JPanel {
     }
 
     public void setColor(Color c) {
-        this.c = c;
+        this.fillColor = c;
     }
 
     public void setWidth(int w) {
@@ -38,6 +49,14 @@ public class Notification extends JPanel {
         this.height = h;
     }
 
+    public void setArrow(int type) {
+        this.type = type;
+    }
+
+    public void setText(String text) {
+        this.htmlText = text;
+    }
+
     @Override
     protected void paintComponent(final Graphics g) {
         final Graphics2D graphics2D = (Graphics2D) g;
@@ -45,34 +64,68 @@ public class Notification extends JPanel {
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
         graphics2D.setRenderingHints(qualityHints);
-        graphics2D.setPaint(c);
-
-        int width = getWidth();
-        int height = getHeight();
-
-        //todo make square of any height and width with rounded corners and arrow on any center of any side
-        //todo add as much text as you want
+        graphics2D.setPaint(fillColor);
 
         GeneralPath path = new GeneralPath();
 
-        path.moveTo(5, 10);
+        path.moveTo(10, 10);
 
-        path.curveTo(5, 10, 7, 5, 0, 0);
-        path.curveTo(0, 0, 12, 0, 12, 5);
-        path.curveTo(12, 5, 12, 0, 20, 0);
+        path.curveTo(10, 10,12,8, 14, 6);
+        path.lineTo(this.width + 14, 6);
 
-        path.lineTo(this.width - 10, 0);
-        path.curveTo(width - 10, 0, this.width, 0, this.width, 10);
+        path.curveTo(this.width + 14, 6, this.width + 16, 8, this.width + 18, 10);
+        path.lineTo(this.width + 18, this.height + 10);
 
-        path.lineTo(this.width, this.width - 10);
-        path.curveTo(this.width, this.width - 10, this.width, this.height, this.width - 10, this.height);
+        path.curveTo(this.width + 18, this.height + 10, this.width + 16, this.height + 12, this.width + 14, this.height + 14);
+        path.lineTo(14, this.height + 14);
 
-        path.lineTo(15, this.height);
-        path.curveTo(15, this.height, 5, this.height, 5, this.height - 10);
-
-        path.lineTo(5, 15);
+        path.curveTo(14, this.height + 14, 12, this.height + 12, 10, this.height + 10);
+        path.lineTo( 10, 10);
 
         path.closePath();
         graphics2D.fill(path);
+
+        //todo add text (assume bounds are big enough so just draw jlabel with text on top)
+
+        switch (type) {
+            case 1:
+                path.moveTo(8 + this.width / 2, 6);
+                path.lineTo(14 + this.width / 2,0);
+                path.lineTo(20 + this.width / 2,6);
+                path.lineTo(8 + this.width / 2, 6);
+
+                path.closePath();
+                graphics2D.fill(path);
+                break;
+            case 2:
+                path.moveTo(10, 4 + height/2);
+                path.lineTo(4, 10 + height/2);
+                path.lineTo(10, 16 + height/2);
+                path.lineTo(10, 4 + height/2);
+
+                path.closePath();
+                graphics2D.fill(path);
+                break;
+
+            case 3:
+                path.moveTo(18 + this.width, 4 + height/2);
+                path.lineTo(24 + this.width, 10 + height/2);
+                path.lineTo(18 + this.width, 16 + height/2);
+                path.lineTo(18 + this.width, 4 + height/2);
+
+                path.closePath();
+                graphics2D.fill(path);
+                break;
+
+            case 4:
+                path.moveTo(8 + width/2, 14+ height);
+                path.lineTo(14 + width/2, 20 + height);
+                path.lineTo(20 + width/2, 14 + height);
+                path.lineTo(8 + width/2, 14+ height);
+
+                path.closePath();
+                graphics2D.fill(path);
+                break;
+        }
     }
 }
