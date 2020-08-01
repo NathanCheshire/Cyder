@@ -3,6 +3,7 @@ package com.cyder.handler;
 import AppPackage.AnimationClass;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.DragLabel;
+import com.cyder.utilities.Util;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -575,8 +576,12 @@ public class PhotoViewer {
             int width = originalIcon.getIconWidth();
             int height = originalIcon.getIconHeight();
 
-
             while (width + 400 > screenX || height + 400 > screenY) {
+                width = (int) (width / aspectRatio);
+                height = (int) (height / aspectRatio);
+            }
+
+            while (width  < 600 || height  < 600) {
                 width = (int) (width / aspectRatio);
                 height = (int) (height / aspectRatio);
             }

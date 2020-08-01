@@ -1,6 +1,8 @@
 //package declaration
-package com.cyder.handler;
+package com.cyder.utilities;
 
+import com.cyder.handler.PhotoViewer;
+import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderScrollPane;
@@ -4412,8 +4414,7 @@ public class Util {
 
     public void test() {
         try {
-            PhotoViewer pv = new PhotoViewer(new File("C:\\Users\\Nathan\\Downloads\\"));
-            pv.start();
+            //todo test notification
         }
 
         catch (Exception e){

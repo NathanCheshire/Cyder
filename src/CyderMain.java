@@ -3,8 +3,8 @@ import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
-import com.cyder.handler.ImageUtil;
-import com.cyder.handler.Util;
+import com.cyder.utilities.ImageUtil;
+import com.cyder.utilities.Util;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderScrollPane;
 
@@ -38,12 +38,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //todo sound/gifs/video in outputArea
+//todo whenever more than one thread is running (aside from the thread that checks for this) set icon to blink
 //todo tray look and feel and change options
-//todo what if image is too small for photoviewer
 //todo add feature to resize any image (scale up or down)
 //todo move math factory into console must be formatted correctly
-//todo beyond gotlike easter egg
-//todo to implement beyond got like easter egg implement a notification class
+//todo beyond godlike easter egg (sleeping thread that resets jlabel position to random pos like click me)
+//todo split methods into even more separate classes
 
 public class CyderMain{
     //console vars

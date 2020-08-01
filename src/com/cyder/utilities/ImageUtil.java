@@ -1,4 +1,4 @@
-package com.cyder.handler;
+package com.cyder.utilities;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
