@@ -4,10 +4,7 @@ package com.cyder.utilities;
 import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
-import com.cyder.ui.CyderButton;
-import com.cyder.ui.CyderScrollPane;
-import com.cyder.ui.CyderSliderUI;
-import com.cyder.ui.DragLabel;
+import com.cyder.ui.*;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import javazoom.jl.player.Player;
 
@@ -4414,7 +4411,18 @@ public class Util {
 
     public void test() {
         try {
-            //todo test notification
+            Notification notification = new Notification();
+            notification.setColor(regularRed);
+            notification.setWidth(500);
+            notification.setHeight(100);
+
+            JFrame testFrame = new JFrame();
+            testFrame.setResizable(true);
+            testFrame.setIconImage(getCyderIcon().getImage());
+            testFrame.add(notification);
+            testFrame.pack();
+            testFrame.setVisible(true);
+            testFrame.setLocationRelativeTo(null);
         }
 
         catch (Exception e){

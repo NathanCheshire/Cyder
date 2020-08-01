@@ -1,6 +1,6 @@
 package com.cyder.games;
 
-import com.cyder.handler.Util;
+import com.cyder.utilities.Util;
 import com.cyder.ui.CyderButton;
 
 import javax.swing.*;

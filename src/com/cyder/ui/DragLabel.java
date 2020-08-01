@@ -1,6 +1,6 @@
 package com.cyder.ui;
 
-import com.cyder.handler.Util;
+import com.cyder.utilities.Util;
 
 import javax.swing.*;
 import java.awt.*;
