@@ -38,9 +38,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo sound/gifs/video in outputArea
-//todo whenever more than one thread is running (aside from the thread that checks for this) set icon to blink
-//todo tray look and feel and change options
 //todo add feature to resize any image (scale up or down)
 //todo move math factory into console must be formatted correctly
 //todo beyond godlike easter egg (sleeping thread that resets jlabel position to random pos like click me)
@@ -1242,56 +1239,12 @@ public class CyderMain{
     private void tray() {
         if (!SystemTray.isSupported()) {
             println("SystemTray is not supported");
+            return;
         }
 
-        MenuItem calculator = new MenuItem("Calculator");
-        calculator.addActionListener(e -> mainUtil.calculator());
-
-        MenuItem music = new MenuItem("Calculator");
-        music.addActionListener(e -> mainUtil.mp3(null));
-
-        MenuItem weather = new MenuItem("Weather");
-        weather.addActionListener(e -> mainUtil.weatherWidget());
-
-        MenuItem notes = new MenuItem("Notes");
-        calculator.addActionListener(e -> mainUtil.note());
-
-        MenuItem edituser = new MenuItem("Edit User");
-        edituser.addActionListener(e -> editUser());
-
-        MenuItem tempconv = new MenuItem("Temp Conv");
-        tempconv.addActionListener(e -> mainUtil.temperature());
-
-        MenuItem youtube = new MenuItem("YouTube");
-        youtube.addActionListener(e -> mainUtil.internetConnect("https://www.youtube.com"));
-
-        MenuItem twitter = new MenuItem("Twitter");
-        twitter.addActionListener(e -> mainUtil.internetConnect("https://www.twitter.com"));
-
-        popup.add(calculator);
-        popup.addSeparator();
-        popup.add(music);
-        popup.addSeparator();
-        popup.add(weather);
-        popup.addSeparator();
-        popup.add(notes);
-        popup.addSeparator();
-        popup.add(edituser);
-        popup.addSeparator();
-        popup.add(tempconv);
-        popup.addSeparator();
-        popup.add(youtube);
-        popup.addSeparator();
-        popup.add(twitter);
-
-
-        popup.setFont(mainUtil.weatherFontSmall);
-
-        trayIcon.setPopupMenu(popup);
-        trayIcon.setImageAutoSize(true);
-
         try {
-            tray.add(trayIcon);
+            //todo sort out tray icon image and name, no menu
+            //todo if more than one thread is running then set to the working icon
         }
 
         catch (Exception e) {

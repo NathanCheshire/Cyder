@@ -59,6 +59,7 @@ public class Util {
 
     //Cyder direct vars
     private ImageIcon cyderTrayIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderTrayIcon.png");
+    private ImageIcon cyderTrayIcon2 = new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderTrayIcon2.png");
     private ImageIcon cyderIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderIcon.png");
     private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
     private String cyderVer = "Maple";
@@ -718,6 +719,8 @@ public class Util {
     public ImageIcon getCyderTrayIcon() {
         return this.cyderTrayIcon;
     }
+
+    public ImageIcon getCyderTrayIcon2() {return this.cyderTrayIcon2; }
 
     public ImageIcon getCyderIcon() {
         return this.cyderIcon;
