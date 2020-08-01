@@ -1,18 +1,23 @@
 package com.cyder.ui;
 
+import com.cyder.utilities.Util;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 
-public class Notification extends JPanel {
+public class Notification extends JLabel {
+
+    private Util notificationHandler = new Util();
 
     private int strokeThickness = 5;
     private int padding = strokeThickness / 2;
     private int arrowSize = 6;
     private int radius = 10;
 
+    private int timeout;
+
     private Color fillColor = new Color(236,64,122);
-    private Color borderColor = new Color(26, 32, 51);
 
     private int width = 300;
     private int height = 300;
@@ -26,7 +31,7 @@ public class Notification extends JPanel {
     public static final int BOTTOM_ARROW = 4;
 
     public void setStrokeThickness(int strokeThickness) {
-        this.strokeThickness= strokeThickness;
+        this.strokeThickness = strokeThickness;
     }
 
     public void setArrowSize(int arrowSize) {
@@ -51,10 +56,6 @@ public class Notification extends JPanel {
 
     public void setArrow(int type) {
         this.type = type;
-    }
-
-    public void setText(String text) {
-        this.htmlText = text;
     }
 
     @Override
@@ -84,8 +85,6 @@ public class Notification extends JPanel {
 
         path.closePath();
         graphics2D.fill(path);
-
-        //todo add text (assume bounds are big enough so just draw jlabel with text on top)
 
         switch (type) {
             case 1:

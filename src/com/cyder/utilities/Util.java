@@ -4411,18 +4411,7 @@ public class Util {
 
     public void test() {
         try {
-            Notification notification = new Notification();
-            notification.setWidth(100);
-            notification.setHeight(200);
-            notification.setArrow(notification.BOTTOM_ARROW);
 
-            JFrame testFrame = new JFrame();
-            testFrame.setResizable(false);
-            testFrame.setSize(500,500);
-            testFrame.setIconImage(getCyderIcon().getImage());
-            testFrame.add(notification);
-            testFrame.setVisible(true);
-            testFrame.setLocationRelativeTo(null);
         }
 
         catch (Exception e){

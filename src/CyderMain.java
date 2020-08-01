@@ -3,6 +3,7 @@ import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
+import com.cyder.ui.Notification;
 import com.cyder.utilities.ImageUtil;
 import com.cyder.utilities.Util;
 import com.cyder.ui.CyderButton;
@@ -999,6 +1000,45 @@ public class CyderMain{
             if (mainUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
                 checkChime();
 
+            //move notificaiton business to custom method in here and make sure it doesn't come up
+            //when switching backgrounds
+
+            Notification notification = new Notification();
+            notification.setTimeout(2000);
+            int width = 200;
+            int height = 50;
+            notification.setWidth(width);
+            notification.setHeight(height);
+            notification.setArrow(notification.TOP_ARROW);
+
+            JLabel text = new JLabel("<html>Welcome back, " + mainUtil.getUsername() + "</html>");
+            text.setFont(mainUtil.weatherFontSmall);
+            text.setForeground(mainUtil.navy);
+            text.setBounds(14,10,width,height);
+            notification.add(text);
+            notification.setBounds(consoleDragLabel.getWidth() / 2,30,width + 100,height + 100);
+            parentLabel.add(notification);
+
+
+            new Thread(() -> {
+                try {
+                    while (!notification.isVisible()) {}
+                    Thread.sleep(2000);
+
+                    AnimationClass ac = new AnimationClass();
+
+                    ac.jLabelXRight(notification.getX(), parentLabel.getWidth(), 10, 8, notification);
+
+                    //notification.setVisible(false);
+                }
+
+                catch (Exception e) {
+                    mainUtil.handle(e);
+                }
+            }).start();
+
+
+
             parentLabel.add(consoleDragLabel);
 
             consoleFrame.repaint();
@@ -1042,7 +1082,6 @@ public class CyderMain{
             });
 
             consoleFrame.setVisible(true);
-
             consoleFrame.setLocationRelativeTo(null);
 
             if (mainUtil.getUserData("RandomBackground").equals("1")) {
