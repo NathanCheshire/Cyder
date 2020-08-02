@@ -997,7 +997,7 @@ public class CyderMain{
                 checkChime();
 
             parentLabel.add(consoleDragLabel);
-
+            notification("<html>Welcome back " + mainUtil.getUsername() + ". The time is " + mainUtil.consoleTime() + "</html>",550,30,2000);
             consoleFrame.repaint();
 
             consoleFrame.addWindowListener(new WindowListener() {
@@ -2345,7 +2345,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                notification("<html>Welcome back " + mainUtil.getUsername() + ". The time is " + mainUtil.consoleTime() + "</html>",580,30,3500);
+
             }
 
             else if (hasWord("bletchy")) {
@@ -5402,13 +5402,11 @@ public class CyderMain{
         text.setForeground(mainUtil.navy);
         text.setBounds(14,10,w,h);
         notification.add(text);
-        notification.setBounds(consoleDragLabel.getWidth() - (w + 30),30,w + 100,h + 100);
+        notification.setBounds(consoleDragLabel.getWidth() - (w + 30),30,w * 2,h * 2);
         parentLabel.add(notification);
 
-        //todo fix notification problem
-
-        parentLabel.revalidate();
-        consoleFrame.revalidate();
+        parentLabel.repaint();
+        consoleFrame.repaint();
 
         new Thread(() -> {
             try {
