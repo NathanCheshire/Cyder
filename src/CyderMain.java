@@ -40,7 +40,6 @@ import java.util.concurrent.TimeUnit;
 
 //todo add feature to resize any image (scale up or down)
 //todo move math factory into console must be formatted correctly
-//todo beyond godlike easter egg (sleeping thread that resets jlabel position to random pos like click me)
 //todo split methods into even more separate classes
 
 public class CyderMain{
@@ -2346,8 +2345,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                notification("<html>Welcome back " + mainUtil.getUsername() + ". The time is " + mainUtil.consoleTime() + "</html>",570,30,3500);
-                parentLabel.revalidate();
+                notification("<html>Welcome back " + mainUtil.getUsername() + ". The time is " + mainUtil.consoleTime() + "</html>",580,30,3500);
             }
 
             else if (hasWord("bletchy")) {
@@ -5407,12 +5405,13 @@ public class CyderMain{
         notification.setBounds(consoleDragLabel.getWidth() - (w + 30),30,w + 100,h + 100);
         parentLabel.add(notification);
 
+        //todo fix notification problem
+
         parentLabel.revalidate();
         consoleFrame.revalidate();
 
         new Thread(() -> {
             try {
-                while (!notification.isVisible()) {}
                 Thread.sleep(delay);
                 AnimationClass ac = new AnimationClass();
 
