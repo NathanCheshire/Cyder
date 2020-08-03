@@ -43,8 +43,9 @@ import java.util.concurrent.TimeUnit;
 //todo split methods into even more separate classes
 //todo center clock
 //todo finish notifications and make more robust to replace alot of the inform()
-//todo make prefs window smaller
+//todo make prefs window 2x2 grid with 1,2, new row 3,4 where 1=lists, 2 = prefs, 3 = username, 4 = password
 //todo dir search backwards and fowards, pop between two stacks and then reset when necessary
+//todo add fowards and backwards buttons to dir
 
 public class CyderMain{
     //console vars
@@ -987,7 +988,7 @@ public class CyderMain{
 
             consoleClockLabel.setForeground(mainUtil.vanila);
 
-            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 86,2,250,20);
+            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,190,20);
 
             consoleDragLabel.add(consoleClockLabel, SwingConstants.CENTER);
 
@@ -1001,7 +1002,8 @@ public class CyderMain{
                 checkChime();
 
             parentLabel.add(consoleDragLabel);
-            notification("<html>Welcome back " + mainUtil.getUsername() + ". The time is " + mainUtil.consoleTime() + "</html>",550,30,2000);
+            //todo notification disappear direction and delay (feed it direction constant made in class and master component which animation class uses)
+            notification("<html>Welcome back " + mainUtil.getUsername() + ".</html>",240,30,2000);
             consoleFrame.repaint();
 
             consoleFrame.addWindowListener(new WindowListener() {
@@ -1099,7 +1101,7 @@ public class CyderMain{
                         parentLabel.setIcon(newBack);
 
                         parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 86,2,250,20);
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,190,20);
                     }
 
                     catch (Exception e) {
@@ -1270,7 +1272,8 @@ public class CyderMain{
                             }
                         }
 
-                        consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
+                        if (consoleFrame != null)
+                            consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
                     }
                 }
 
@@ -1815,7 +1818,7 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 86,2,250,20);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,190,20);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1853,7 +1856,7 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 86,2,250,20);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,190,20);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1950,7 +1953,7 @@ public class CyderMain{
                 slidLeft = !slidLeft;
 
                 parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
-                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 86,2,250,20);
+                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,190,20);
             }
 
             catch (Exception e) {
@@ -4205,7 +4208,7 @@ public class CyderMain{
 
         JPanel prefsPanel = new JPanel();
 
-        prefsPanel.setLayout(new GridLayout(6,3));
+        prefsPanel.setLayout(new GridLayout(8,3,0,0));
 
         JLabel introMusicTitle = new JLabel("Intro Music");
 
@@ -4505,7 +4508,7 @@ public class CyderMain{
 
         masterPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        masterPanel.setLayout(new GridLayout(1,2,5,5));
+        masterPanel.setLayout(new GridLayout(1,2));
 
         masterPanel.add(ParentPanel);
         masterPanel.add(prefsPanel);
@@ -5427,6 +5430,7 @@ public class CyderMain{
         consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
     }
 
+    //todo move to notification class since all this does is display it to component and animate away after set time
     private void notification(String htmltext, int w, int h, int delay) {
         Notification notification = new Notification();
         notification.setWidth(w);

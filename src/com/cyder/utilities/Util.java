@@ -58,12 +58,12 @@ public class Util {
     public Color navy = new Color(26, 32, 51);
 
     //Cyder direct vars
-    private ImageIcon cyderTrayIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderTrayIcon.png");
-    private ImageIcon cyderTrayIconBlink = new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderTrayIconBlink.png");
-    private ImageIcon cyderIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderIcon.png");
-    private ImageIcon cyderIconBlink = new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderIconBlink.png");
-    private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-    private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\cyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+    private ImageIcon cyderTrayIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderTrayIcon.png");
+    private ImageIcon cyderTrayIconBlink = new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderTrayIconBlink.png");
+    private ImageIcon cyderIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIcon.png");
+    private ImageIcon cyderIconBlink = new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIconBlink.png");
+    private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+    private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 
     private String cyderVer = "Maple";
 

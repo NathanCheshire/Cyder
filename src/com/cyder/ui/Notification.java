@@ -23,12 +23,15 @@ public class Notification extends JLabel {
     private int height = 300;
     private int type = 1;
 
-    private String htmlText = "";
-
     public static final int TOP_ARROW = 1;
     public static final int LEFT_ARROW = 2;
     public static final int RIGHT_ARROW = 3;
     public static final int BOTTOM_ARROW = 4;
+
+    public static final int TOP_VANISH = 1;
+    public static final int LEFT_VANISH = 2;
+    public static final int RIGHT_VANISH = 3;
+    public static final int BOTTOM_VANISH = 4;
 
     public void setStrokeThickness(int strokeThickness) {
         this.strokeThickness = strokeThickness;
@@ -42,7 +45,7 @@ public class Notification extends JLabel {
         this.radius = radius;
     }
 
-    public void setColor(Color c) {
+    public void setFillColor(Color c) {
         this.fillColor = c;
     }
 
