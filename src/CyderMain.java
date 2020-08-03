@@ -41,6 +41,9 @@ import java.util.concurrent.TimeUnit;
 //todo add feature to resize any image (scale up or down)
 //todo move math factory into console must be formatted correctly
 //todo split methods into even more separate classes
+//todo center clock
+//todo make prefs window smaller
+//todo dir search backwards and fowards, pop between two stacks and then reset when necessary
 
 public class CyderMain{
     //console vars
@@ -1240,8 +1243,18 @@ public class CyderMain{
         }
 
         try {
-            //todo sort out tray icon image and name, no menu
-            //todo if more than one thread is running then set to the working icon
+            new Thread(() -> {
+                while (true) {
+                    ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
+                    int noThreads = currentGroup.activeCount();
+                    Thread[] lstThreads = new Thread[noThreads];
+                    currentGroup.enumerate(lstThreads);
+                    if (noThreads > 6) {
+                        //todo switch tray iconback and program icon back and forth
+                    }
+
+                }
+            }).start();
         }
 
         catch (Exception e) {
