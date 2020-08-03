@@ -38,13 +38,19 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo add feature to resize any image (scale up or down)
+//todo add feature to scale up or down, use two inputfields and a checkbox to maintain aspect ratio
+//todo also use a preview window with an approve image button
+
 //todo split methods into even more separate classes
+//todo block code up and clean up code
+
 //todo finish notifications and make more robust to replace alot of the inform()
 //todo make prefs window 2x2 grid with 1,2, new row 3,4 where 1=lists, 2 = prefs, 3 = username, 4 = password
+
 //todo dir search backwards and fowards, pop between two stacks and then reset when necessary
 //todo add fowards and backwards buttons to dir
-//todo block code up and clean up code
+
+//todo white square in bottom left of consoleframe
 
 public class CyderMain{
     //console vars
@@ -81,6 +87,7 @@ public class CyderMain{
 
     //tray objects
     private final TrayIcon trayIcon = new TrayIcon(mainUtil.getCyderTrayIcon().getImage(),  mainUtil.getCyderVer() + " Cyder" + " [Not logged in]");
+    private final TrayIcon trayIconBlink = new TrayIcon(mainUtil.getCyderTrayIconBlink().getImage(),  mainUtil.getCyderVer() + " Cyder" + " [Not logged in]");
     private final SystemTray tray = SystemTray.getSystemTray();
 
     //popup tray menu
@@ -225,6 +232,7 @@ public class CyderMain{
 
             consoleFrame.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
 
+            //todo make a title method
             consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
 
             parentPanel = new JPanel();
@@ -1001,9 +1009,8 @@ public class CyderMain{
                 checkChime();
 
             parentLabel.add(consoleDragLabel);
-            //todo notification disappear direction and delay (feed it direction constant made in class and master component which animation class uses)
-            notification("<html>Welcome back " + mainUtil.getUsername() + ".</html>",240,30,2000);
-            consoleFrame.repaint();
+
+            notification("Welcome back " + mainUtil.getUsername(),230,30,2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
 
             consoleFrame.addWindowListener(new WindowListener() {
                 @Override
@@ -1115,8 +1122,7 @@ public class CyderMain{
 
             new Thread(() -> {
                 if (!mainUtil.internetReachable()) {
-                    println(mainUtil.getUsername() + ", please note that I had trouble reaching the internet. " +
-                            "You may not be connected to the internet which means some features may not function properly.");
+                    println("Error occured when attempting to reach the internet, " + mainUtil.getUsername());
                 }
             }).start();
         }
@@ -1245,6 +1251,9 @@ public class CyderMain{
         }
 
         try {
+            trayIcon.setPopupMenu(popup);
+            tray.add(trayIcon);
+
             new Thread(() -> {
                 try {
                     boolean toggle = false;
@@ -1257,22 +1266,19 @@ public class CyderMain{
 
                         if (noThreads > 6) {
                             if (toggle) {
-                                consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
-                                //todo tray icon color
+                                trayIcon.setImage(mainUtil.getCyderTrayIconBlink().getImage());
                                 Thread.sleep(500);
                                 toggle = !toggle;
                             }
 
                             else {
-                                consoleFrame.setIconImage(mainUtil.getCyderIconBlink().getImage());
-                                //todo tray icon color
+                                trayIcon.setImage(mainUtil.getCyderTrayIcon().getImage());
                                 Thread.sleep(500);
                                 toggle = !toggle;
                             }
                         }
 
-                        if (consoleFrame != null)
-                            consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
+                        trayIcon.setImage(mainUtil.getCyderTrayIcon().getImage());
                     }
                 }
 
@@ -2912,8 +2918,6 @@ public class CyderMain{
                 File WhereItIs = new File("src\\com\\cyder\\io\\jars\\Jailbreak.jar");
                 Desktop.getDesktop().open(WhereItIs);
             }
-
-            //todo
 
             else if (hasWord("there") && hasWord("no") && hasWord("internet")) {
                 println("Sucks to be you.");
@@ -5402,12 +5406,12 @@ public class CyderMain{
         consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
     }
 
-    //todo move to notification class since all this does is display it to component and animate away after set time
-    private void notification(String htmltext, int w, int h, int delay) {
+    //todo make more robust
+    public void notification(String htmltext, int w, int h, int delay, int arrowDir, int vanishDir) {
         Notification notification = new Notification();
         notification.setWidth(w);
         notification.setHeight(h);
-        notification.setArrow(notification.RIGHT_ARROW);
+        notification.setArrow(arrowDir);
 
         JLabel text = new JLabel(htmltext);
         text.setFont(mainUtil.weatherFontSmall);
@@ -5416,17 +5420,32 @@ public class CyderMain{
         notification.add(text);
         notification.setBounds(consoleDragLabel.getWidth() - (w + 30),30,w * 2,h * 2);
         parentLabel.add(notification);
-
         parentLabel.repaint();
-        consoleFrame.repaint();
 
         new Thread(() -> {
             try {
                 Thread.sleep(delay);
                 AnimationClass ac = new AnimationClass();
 
-                ac.jLabelXRight(notification.getX(), parentLabel.getWidth(), 10, 8, notification);
-                Thread.sleep(10 * (parentLabel.getWidth() -  notification.getX())/ 8);
+                switch(vanishDir) {
+                    case Notification.TOP_VANISH:
+                        ac.jLabelYUp(notification.getY(), - notification.getHeight(), 10, 8, notification);
+                        Thread.sleep(10 * (notification.getHeight() + notification.getY())/ 8);
+                        break;
+                    case Notification.BOTTOM_VANISH:
+                        ac.jLabelYDown(notification.getY(), parentLabel.getHeight(), 10, 8, notification);
+                        Thread.sleep(10 * (parentLabel.getHeight() - notification.getY())/ 8);
+                        break;
+                    case Notification.RIGHT_VANISH:
+                        ac.jLabelXRight(notification.getX(), parentLabel.getWidth(), 10, 8, notification);
+                        Thread.sleep(10 * (parentLabel.getWidth() -  notification.getX())/ 8);
+                        break;
+
+                    case Notification.LEFT_VANISH:
+                        ac.jLabelXLeft(notification.getX(), - notification.getWidth(), 10, 8, notification);
+                        Thread.sleep(10 * (notification.getWidth() + notification.getX())/ 8);
+                        break;
+                }
 
                 notification.setVisible(false);
             }
