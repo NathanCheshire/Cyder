@@ -192,7 +192,7 @@ public class Util {
 
     //boolean vars
     private boolean debugMode;
-    private boolean mathShellMode;
+    private boolean handledMath;
     private boolean hideOnClose;
     private boolean oneMathPrint;
     private boolean alwaysOnTop;
@@ -4139,28 +4139,20 @@ public class Util {
         pizzaFrame.setLocationRelativeTo(null);
     }
 
-    public boolean getMathShellMode() {
-        return this.mathShellMode;
-    }
-
-    public void setMathShellMode(boolean state) {
-        this.mathShellMode = state;
-    }
-
-    public boolean getOneMathPrint() {
-        return this.oneMathPrint;
-    }
-
-    public void setOneMathPrint(boolean state) {
-        this.oneMathPrint = state;
-    }
-
     public int getCurrentDowns() {
         return this.currentDowns;
     }
 
     public void setCurrentDowns(int num) {
         this.currentDowns = num;
+    }
+
+    public boolean getHandledMath() {
+        return this.handledMath;
+    }
+
+    public void setHandledMath(boolean b) {
+        this.handledMath = b;
     }
 
     private void openNote(File File) {

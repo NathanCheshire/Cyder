@@ -39,13 +39,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //todo add feature to resize any image (scale up or down)
-//todo move math factory into console must be formatted correctly
 //todo split methods into even more separate classes
-//todo center clock
 //todo finish notifications and make more robust to replace alot of the inform()
 //todo make prefs window 2x2 grid with 1,2, new row 3,4 where 1=lists, 2 = prefs, 3 = username, 4 = password
 //todo dir search backwards and fowards, pop between two stacks and then reset when necessary
 //todo add fowards and backwards buttons to dir
+//todo block code up and clean up code
 
 public class CyderMain{
     //console vars
@@ -1306,17 +1305,13 @@ public class CyderMain{
                 scrollingIndex = operationList.size() - 1;
                 mainUtil.setCurrentDowns(0);
 
-                if (!mainUtil.getMathShellMode() && !mainUtil.getUserInputMode()) {
+                if (!mainUtil.getUserInputMode()) {
                     handle(op);
                 }
 
                 else if (mainUtil.getUserInputMode()) {
                     mainUtil.setUserInputMode(false);
                     handleSecond(op);
-                }
-
-                else if (mainUtil.getMathShellMode()){
-                    HandleMathShell(op);
                 }
             }
 
@@ -2359,6 +2354,10 @@ public class CyderMain{
 
             String firstWord = mainUtil.firstWord(operation);
 
+            mainUtil.setHandledMath(false);
+
+            handleMath(operation);
+
             if (mainUtil.filter(operation)) {
                 println("Sorry, " + mainUtil.getUsername() + ", but that language is prohibited.");
                 operation = "";
@@ -2368,7 +2367,7 @@ public class CyderMain{
                 println("Nice palindrome.");
             }
 
-            else if (((hasWord("quit") && !mainUtil.getMathShellMode() && !hasWord("db")) ||
+            else if (((hasWord("quit") && !hasWord("db")) ||
                     (eic("leave") || (hasWord("stop") && !hasWord("music") && !hasWord("script")) ||
                             hasWord("exit") || eic("close"))) && !has("dance"))
             {
@@ -2914,11 +2913,7 @@ public class CyderMain{
                 Desktop.getDesktop().open(WhereItIs);
             }
 
-            else if (eic("mathsh")) {
-                mainUtil.setMathShellMode(true);
-                clc();
-                HandleMathShell("");
-            }
+            //todo
 
             else if (hasWord("there") && hasWord("no") && hasWord("internet")) {
                 println("Sucks to be you.");
@@ -3247,7 +3242,7 @@ public class CyderMain{
                 mainUtil.playMusic("src\\com\\cyder\\io\\audio\\1800.mp3");
             }
 
-            else {
+            else if (!mainUtil.getHandledMath()){
                 println("Sorry, " + mainUtil.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");
             }
@@ -3258,113 +3253,90 @@ public class CyderMain{
         }
     }
 
-    public void HandleMathShell(String op) {
-        if (!mainUtil.getOneMathPrint()) {
-            println("Enter a math function in the following format:");
-            println("<operation>(<parameter1>,<parameter2>) (parameter2 is optional)");
-            println("Type \"quit\" to exit the math shell.");
+    private void handleMath(String op) {
+        int firstParen = op.indexOf("(");
+        int comma = op.indexOf(",");
+        int lastParen = op.indexOf(")");
 
-            mainUtil.setOneMathPrint(true);
-        }
+        String mathop;
+        double param1 = 0.0;
+        double param2 = 0.0;
 
-        if (op.equalsIgnoreCase("quit")) {
-            clc();
-            mainUtil.setOneMathPrint(false);
-            mainUtil.setMathShellMode(false);
-        }
+        try {
+            if (firstParen != -1) {
+                mathop = op.substring(0,firstParen);
 
-        else if (op.equalsIgnoreCase("clc")) {
-            clc();
-        }
+                if (comma != -1) {
+                    param1 = Double.parseDouble(op.substring(firstParen+1,comma));
 
-        else {
-            int firstParen = op.indexOf("(");
-            int comma = op.indexOf(",");
-            int lastParen = op.indexOf(")");
-
-            String operation;
-            double param1 = 0.0;
-            double param2 = 0.0;
-
-            try {
-                if (firstParen != -1) {
-                    operation = op.substring(0,firstParen);
-
-                    if (comma != -1) {
-                        param1 = Double.parseDouble(op.substring(firstParen+1,comma));
-
-                        if (lastParen != -1) {
-                            param2 =  Double.parseDouble(op.substring(comma+1,lastParen));
-                        }
+                    if (lastParen != -1) {
+                        param2 =  Double.parseDouble(op.substring(comma+1,lastParen));
                     }
-
-                    else if (lastParen != -1) {
-                        param1 =  Double.parseDouble(op.substring(firstParen+1,lastParen));
-                    }
-
-                    math(operation,param1,param2);
                 }
 
-                else {
-                    math("help",0,0);
+                else if (lastParen != -1) {
+                    param1 =  Double.parseDouble(op.substring(firstParen+1,lastParen));
+                }
+
+                if (mathop.equalsIgnoreCase("abs")) {
+                    println(Math.abs(param1));
+                    mainUtil.setHandledMath(true);
+                }
+
+                else if (mathop.equalsIgnoreCase("ceil")) {
+                    println(Math.ceil(param1));
+                    mainUtil.setHandledMath(true);
+                }
+
+                else if (mathop.equalsIgnoreCase("floor")) {
+                    println(Math.floor(param1));
+                    mainUtil.setHandledMath(true);
+                }
+
+                else if (mathop.equalsIgnoreCase("log")) {
+                    println(Math.log(param1));
+                    mainUtil.setHandledMath(true);
+                }
+
+                else if (mathop.equalsIgnoreCase("log10")) {
+                    println(Math.log10(param1));
+                    mainUtil.setHandledMath(true);
+                }
+
+                else if (mathop.equalsIgnoreCase("max")) {
+                    println(Math.max(param1,param2));
+                    mainUtil.setHandledMath(true);
+                }
+
+                else if (mathop.equalsIgnoreCase("min")) {
+                    println(Math.min(param1,param2));
+                    mainUtil.setHandledMath(true);
+                }
+
+                else if (mathop.equalsIgnoreCase("pow")) {
+                    println(Math.pow(param1,param2));
+                    mainUtil.setHandledMath(true);
+                }
+
+                else if (mathop.equalsIgnoreCase("round")) {
+                    println(Math.round(param1));
+                    mainUtil.setHandledMath(true);
+                }
+
+                else if (mathop.equalsIgnoreCase("sqrt")) {
+                    println(Math.sqrt(param1));
+                    mainUtil.setHandledMath(true);
+                }
+
+                else if (mathop.equalsIgnoreCase("convert2")) {
+                    println(mainUtil.toBinary((int)(param1)));
+                    mainUtil.setHandledMath(true);
                 }
             }
-
-            catch(Exception e) {
-                mainUtil.handle(e);
-            }
-
-        }
-    }
-
-    private void math(String operation, double param1, double param2) {
-        if (operation.equalsIgnoreCase("abs")) {
-            println(Math.abs(param1));
         }
 
-        else if (operation.equalsIgnoreCase("ceil")) {
-            println(Math.ceil(param1));
-        }
-
-        else if (operation.equalsIgnoreCase("floor")) {
-            println(Math.floor(param1));
-        }
-
-        else if (operation.equalsIgnoreCase("log")) {
-            println(Math.log(param1));
-        }
-
-        else if (operation.equalsIgnoreCase("log10")) {
-            println(Math.log10(param1));
-        }
-
-        else if (operation.equalsIgnoreCase("max")) {
-            println(Math.max(param1,param2));
-        }
-
-        else if (operation.equalsIgnoreCase("min")) {
-            println(Math.min(param1,param2));
-        }
-
-        else if (operation.equalsIgnoreCase("pow")) {
-            println(Math.pow(param1,param2));
-        }
-
-        else if (operation.equalsIgnoreCase("round")) {
-            println(Math.round(param1));
-        }
-
-        else if (operation.equalsIgnoreCase("sqrt")) {
-            println(Math.sqrt(param1));
-        }
-
-        else if (operation.equalsIgnoreCase("convert2")) {
-            println(mainUtil.toBinary((int)(param1)));
-        }
-
-        else if (operation.toLowerCase().contains("help")) {
-            println("\nValid expressions:\nabs(arg), ceil(arg), floor(arg), log(arg, arg2), log10(arg),"
-                    + " max(arg, arg2), min(arg, arg2), pow(arg, arg2), round(arg), sqrt(arg), convert2(arg)");
+        catch(Exception e) {
+            mainUtil.handle(e);
         }
     }
 
