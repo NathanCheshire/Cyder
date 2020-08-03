@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 //todo move math factory into console must be formatted correctly
 //todo split methods into even more separate classes
 //todo center clock
+//todo finish notifications and make more robust to replace alot of the inform()
 //todo make prefs window smaller
 //todo dir search backwards and fowards, pop between two stacks and then reset when necessary
 
@@ -1244,15 +1245,37 @@ public class CyderMain{
 
         try {
             new Thread(() -> {
-                while (true) {
-                    ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
-                    int noThreads = currentGroup.activeCount();
-                    Thread[] lstThreads = new Thread[noThreads];
-                    currentGroup.enumerate(lstThreads);
-                    if (noThreads > 6) {
-                        //todo switch tray iconback and program icon back and forth
-                    }
+                try {
+                    boolean toggle = false;
 
+                    while (true) {
+                        ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
+                        int noThreads = currentGroup.activeCount();
+                        Thread[] lstThreads = new Thread[noThreads];
+                        currentGroup.enumerate(lstThreads);
+
+                        if (noThreads > 6) {
+                            if (toggle) {
+                                consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
+                                //todo tray icon color
+                                Thread.sleep(500);
+                                toggle = !toggle;
+                            }
+
+                            else {
+                                consoleFrame.setIconImage(mainUtil.getCyderIconBlink().getImage());
+                                //todo tray icon color
+                                Thread.sleep(500);
+                                toggle = !toggle;
+                            }
+                        }
+
+                        consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
+                    }
+                }
+
+                catch (Exception e) {
+                    mainUtil.handle(e);
                 }
             }).start();
         }
