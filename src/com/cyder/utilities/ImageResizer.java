@@ -21,12 +21,13 @@ public class ImageResizer {
 
     private JTextField xdim;
     private JTextField ydim;
+
     private JLabel previewLabel;
     private JLabel maintainAspectRatioLab;
+
     private Util imageUtil = new Util();
     private File resizeImage;
 
-    private boolean useRightfield = false;
     private boolean maintainAspectRatio = true;
 
     public ImageResizer() {
@@ -101,19 +102,8 @@ public class ImageResizer {
         xdim.setSelectionColor(imageUtil.selectionColor);
         xdim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                int key = evt.getKeyChar();
-               if ((!(key >= 48 && key <= 57) || xdim.getText().length() > 3) && (key != 8 && key != 127)) {
-                    Toolkit.getDefaultToolkit().beep();
-                    xdim.setText(xdim.getText().substring(0, xdim.getText().length() - 1));
-               }
-
-               else {
-                   if (maintainAspectRatio && xdim.getText().length() > 0) {
-                       useRightfield = false;
-                       int i = (int) (Double.parseDouble(xdim.getText()) / getAspectRatio(new ImageIcon(resizeImage.getAbsolutePath())));
-                       ydim.setText(i + "");
-                   }
-               }
+                //todo limit to only numeric digits
+                //todo update fields based off of aspect ratio of the one just edited
             }
         });
 
@@ -131,19 +121,10 @@ public class ImageResizer {
                     maintainAspectRatio = !maintainAspectRatio;
                 }
 
-                //completely broken
                 else {
                     maintainAspectRatioLab.setIcon(selected);
                     maintainAspectRatio = !maintainAspectRatio;
-                    if (useRightfield) {
-                        int i = (int) (Double.parseDouble(ydim.getText()) / getAspectRatio(new ImageIcon(resizeImage.getAbsolutePath())));
-                        xdim.setText(i + "");
-                    }
-
-                    else {
-                        int i = (int) (Double.parseDouble(xdim.getText()) / getAspectRatio(new ImageIcon(resizeImage.getAbsolutePath())));
-                        ydim.setText(i + "");
-                    }
+                    //todo update jtextfields based off of last edited one
                 }
             }
         });
@@ -157,19 +138,9 @@ public class ImageResizer {
         ydim.setSelectionColor(imageUtil.selectionColor);
         ydim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                int key = evt.getKeyChar();
-                if ((!(key >= 48 && key <= 57) || ydim.getText().length() > 3) && (key != 8 && key != 127)) {
-                    Toolkit.getDefaultToolkit().beep();
-                    ydim.setText(ydim.getText().substring(0, ydim.getText().length() - 1));
-                }
-
-                else {
-                    if (maintainAspectRatio && ydim.getText().length() > 0) {
-                        useRightfield = true;
-                        int i = (int) (Double.parseDouble(ydim.getText()) / getAspectRatio(new ImageIcon(resizeImage.getAbsolutePath())));
-                        xdim.setText(i + "");
-                    }
-                }
+                //todo limit to only numeric digits
+                //todo update fields based off of aspect ratio of the one just edited
+                //use key pressed for consumption if it's not right try that
             }
         });
 
