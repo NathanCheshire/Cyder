@@ -42,13 +42,14 @@ import java.util.concurrent.TimeUnit;
 //todo split methods into even more separate classes
 //todo block code up and clean up code
 
-//todo finish notifications and make more robust to replace alot of the inform()
-//todo make prefs window 2x2 grid with 1,2, new row 3,4 where 1=lists, 2 = prefs, 3 = username, 4 = password
-
 //todo notify of exceptions instead of inform(), swap out most informs for notifys too
+//todo make notiy more robust so we can do it outside of the package
+//todo maybe make a notify class that uses notificaiton and you pass it the component to layer on top (this clas could hold disappearing code)
 
 //todo dir search backwards and fowards, pop between two stacks and then reset when necessary
 //todo add fowards and backwards buttons to dir
+
+//todo make alot of stuff into standalone objects like pizza, dir search, and temperature (so multiple instances can exist too)
 
 //todo all notifications widths and heights should be based off of text length and consoledraglabel width too to determine wrapping
 
@@ -84,14 +85,6 @@ public class CyderMain{
     //Objects for main use
     private Util mainUtil = new Util();
     private AnimationClass animation = new AnimationClass();
-
-    //tray objects
-    private final TrayIcon trayIcon = new TrayIcon(mainUtil.getCyderTrayIcon().getImage(),  mainUtil.getCyderVer() + " Cyder" + " [Not logged in]");
-    private final TrayIcon trayIconBlink = new TrayIcon(mainUtil.getCyderTrayIconBlink().getImage(),  mainUtil.getCyderVer() + " Cyder" + " [Not logged in]");
-    private final SystemTray tray = SystemTray.getSystemTray();
-
-    //popup tray menu
-    private final PopupMenu popup = new PopupMenu();
 
     //operation var
     private static ArrayList<String> operationList = new ArrayList<>();
@@ -177,7 +170,6 @@ public class CyderMain{
         boolean cypherLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
 
         if (!mainUtil.released() && !cypherLenovo) {
-            SystemTray.getSystemTray().remove(trayIcon);
             System.exit(0);
         }
 
@@ -187,7 +179,7 @@ public class CyderMain{
 
         mainUtil.varInit();
 
-        tray();
+        threadBlink();
 
         File Users = new File("src\\com\\cyder\\io\\users\\");
 
@@ -200,7 +192,7 @@ public class CyderMain{
 
 
         if (cypherLenovo && !mainUtil.released()) {
-            recognize("Nate", "13201320".toCharArray());
+            recognize("Nathan", "13201320".toCharArray());
         }
 
         else {
@@ -212,7 +204,6 @@ public class CyderMain{
         try{
             mainUtil.initBackgrounds();
             mainUtil.getScreenSize();
-            trayIcon.setToolTip(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
 
             mainUtil.resizeImages();
 
@@ -1119,7 +1110,7 @@ public class CyderMain{
 
             new Thread(() -> {
                 if (!mainUtil.internetReachable()) {
-                    println(mainUtil.getUsername() + ", internet connection slow or unavailble.");
+                    notification(mainUtil.getUsername() + ", internet connection slow or unavailble.", 520, 30, 3000, Notification.TOP_ARROW, Notification.TOP_VANISH);
                 }
             }).start();
         }
@@ -1241,16 +1232,8 @@ public class CyderMain{
         }
     };
 
-    private void tray() {
-        if (!SystemTray.isSupported()) {
-            println("SystemTray is not supported");
-            return;
-        }
-
+    private void threadBlink() {
         try {
-            trayIcon.setPopupMenu(popup);
-            tray.add(trayIcon);
-
             new Thread(() -> {
                 try {
                     boolean toggle = false;
@@ -1262,20 +1245,16 @@ public class CyderMain{
                         currentGroup.enumerate(lstThreads);
 
                         if (noThreads > 6) {
-                            if (toggle) {
-                                trayIcon.setImage(mainUtil.getCyderTrayIconBlink().getImage());
-                                Thread.sleep(500);
-                                toggle = !toggle;
-                            }
-
-                            else {
-                                trayIcon.setImage(mainUtil.getCyderTrayIcon().getImage());
-                                Thread.sleep(500);
-                                toggle = !toggle;
-                            }
+                            consoleFrame.setIconImage(mainUtil.getCyderIconBlink().getImage());
+                            Thread.sleep(1000);
                         }
 
-                        trayIcon.setImage(mainUtil.getCyderTrayIcon().getImage());
+                        else {
+                            if (consoleFrame != null) {
+                                consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
+                                Thread.sleep(1000);
+                            }
+                        }
                     }
                 }
 
@@ -1335,7 +1314,7 @@ public class CyderMain{
         saveFontColor();
         mainUtil.closeAnimation(consoleFrame);
 
-        SystemTray.getSystemTray().remove(trayIcon);
+        
         System.exit(0);
 
     }
@@ -1502,7 +1481,7 @@ public class CyderMain{
             loginFrame.dispose();
 
             if (consoleFrame == null) {
-                SystemTray.getSystemTray().remove(trayIcon);
+                
                 System.exit(0);
             }
         });
@@ -2381,7 +2360,7 @@ public class CyderMain{
                 saveFontColor();
                 mainUtil.closeAnimation(consoleFrame);
 
-                SystemTray.getSystemTray().remove(trayIcon);
+                
                 System.exit(0);
             }
 
@@ -2955,7 +2934,7 @@ public class CyderMain{
                 saveFontColor();
                 mainUtil.closeAnimation(consoleFrame);
 
-                SystemTray.getSystemTray().remove(trayIcon);
+                
                 System.exit(0);
             }
 
@@ -3792,65 +3771,43 @@ public class CyderMain{
         }
 
         editUserFrame = new JFrame();
-
         editUserFrame.setResizable(false);
-
         editUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         editUserFrame.setResizable(false);
-
         editUserFrame.setIconImage(mainUtil.getCyderIcon().getImage());
-
         editUserFrame.setTitle("Edit User");
 
         JPanel ParentPanel = new JPanel();
-
         ParentPanel.setLayout(new BoxLayout(ParentPanel, BoxLayout.Y_AXIS));
-
         ParentPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         JLabel BackgroundLabel = new JLabel("Backgrounds", SwingConstants.CENTER);
-
         BackgroundLabel.setFont(mainUtil.weatherFontSmall);
 
         JPanel LabelPanel = new JPanel();
-
         LabelPanel.add(BackgroundLabel);
 
         initializeBackgroundsList();
 
         backgroundSelectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-
         backgroundListScroll = new CyderScrollPane(backgroundSelectionList,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
         backgroundListScroll.setSize(400, 400);
-
         backgroundListScroll.setBackground(mainUtil.vanila);
-
         backgroundListScroll.setFont(mainUtil.weatherFontBig);
-
         backgroundListScroll.setThumbColor(mainUtil.regularRed);
 
         JPanel ButtonPanel = new JPanel();
-
         ButtonPanel.setLayout(new GridLayout(1, 3, 5, 5));
-
         ButtonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         CyderButton addBackground = new CyderButton("Add Background");
-
         addBackground.setBorder(new LineBorder(mainUtil.navy,5,false));
-
         addBackground.setColors(mainUtil.regularRed);
-
         ButtonPanel.add(addBackground);
-
         addBackground.setFocusPainted(false);
-
         addBackground.setBackground(mainUtil.regularRed);
-
         addBackground.addActionListener(e -> {
             try {
                 File AddBackground = mainUtil.getFile();
@@ -3868,23 +3825,15 @@ public class CyderMain{
                 mainUtil.handle(exc);
             }
         });
-
         addBackground.setFont(mainUtil.weatherFontSmall);
 
         openBackground = new CyderButton("Open Background");
-
         openBackground.setBorder(new LineBorder(mainUtil.navy,5,false));
-
         openBackground.setColors(mainUtil.regularRed);
-
         ButtonPanel.add(openBackground);
-
         openBackground.setFocusPainted(false);
-
         openBackground.setBackground(mainUtil.regularRed);
-
         openBackground.setFont(mainUtil.weatherFontSmall);
-
         openBackground.addActionListener(e -> {
             List<?> ClickedSelectionList = backgroundSelectionList.getSelectedValuesList();
 
@@ -3905,13 +3854,9 @@ public class CyderMain{
         });
 
         CyderButton deleteBackground = new CyderButton("Delete Background");
-
         deleteBackground.setBorder(new LineBorder(mainUtil.navy,5,false));
-
         deleteBackground.setColors(mainUtil.regularRed);
-
         ButtonPanel.add(deleteBackground);
-
         deleteBackground.addActionListener(e -> {
             if (mainUtil.getValidBackgroundPaths().length == 1) {
                 println("Sorry, but that is your only background. Try adding a different one and then " +
@@ -3927,32 +3872,22 @@ public class CyderMain{
                 mainUtil.initBackgrounds();
             }
         });
-
         deleteBackground.setBackground(mainUtil.regularRed);
-
         deleteBackground.setFont(mainUtil.weatherFontSmall);
 
         JPanel BackgroundsPanel = new JPanel();
-
         BackgroundsPanel.setLayout(new BoxLayout(BackgroundsPanel, BoxLayout.Y_AXIS));
-
         BackgroundsPanel.add(LabelPanel);
-
         BackgroundsPanel.add(backgroundListScroll);
-
         BackgroundsPanel.add(ButtonPanel);
-
         BackgroundsPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
                 new LineBorder(mainUtil.navy,5,false)));
-
         ParentPanel.add(BackgroundsPanel);
 
         JLabel MusicLabel = new JLabel("Music", SwingConstants.CENTER);
-
         MusicLabel.setFont(mainUtil.weatherFontSmall);
 
         JPanel MusicLabelPanel = new JPanel();
-
         MusicLabelPanel.add(MusicLabel);
 
         initializeMusicList();
@@ -3964,29 +3899,19 @@ public class CyderMain{
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         musicListScroll.setThumbColor(mainUtil.regularRed);
-
         musicListScroll.setSize(400, 400);
-
         musicListScroll.setBackground(mainUtil.vanila);
-
         musicListScroll.setFont(mainUtil.weatherFontSmall);
 
         JPanel BottomButtonPanel = new JPanel();
-
         BottomButtonPanel.setLayout(new GridLayout(1, 3, 5, 5));
 
         addMusic = new CyderButton("Add Music");
-
         addMusic.setBorder(new LineBorder(mainUtil.navy,5,false));
-
         addMusic.setBackground(mainUtil.regularRed);
-
         addMusic.setColors(mainUtil.regularRed);
-
         addMusic.setFont(mainUtil.weatherFontSmall);
-
         BottomButtonPanel.add(addMusic);
-
         addMusic.addActionListener(e -> {
             try {
                 File AddMusic = mainUtil.getFile();
@@ -4005,23 +3930,14 @@ public class CyderMain{
             }
         });
 
-
         openMusic = new CyderButton("Open Music");
-
         openMusic.setColors(mainUtil.regularRed);
-
         openMusic.setBorder(new LineBorder(mainUtil.navy,5,false));
-
         openMusic.setBackground(mainUtil.regularRed);
-
         openMusic.setFont(mainUtil.weatherFontSmall);
-
         BottomButtonPanel.add(openMusic);
-
         openMusic.setFocusPainted(false);
-
         openMusic.setBackground(mainUtil.regularRed);
-
         openMusic.addActionListener(e -> {
             List<?> ClickedSelectionList = musicSelectionList.getSelectedValuesList();
 
@@ -4043,21 +3959,13 @@ public class CyderMain{
         });
 
         CyderButton deleteMusic = new CyderButton("Delete Music");
-
         deleteMusic.setColors(mainUtil.regularRed);
-
         deleteMusic.setBorder(new LineBorder(mainUtil.navy,5,false));
-
         deleteMusic.setBackground(mainUtil.regularRed);
-
         deleteMusic.setFont(mainUtil.weatherFontSmall);
-
         BottomButtonPanel.add(deleteMusic);
-
         deleteMusic.setFocusPainted(false);
-
         deleteMusic.setBackground(mainUtil.regularRed);
-
         deleteMusic.addActionListener(e -> {
             if (!musicSelectionList.getSelectedValuesList().isEmpty()) {
                 println("You are about to delete a music file. This action cannot be undone."
@@ -4071,50 +3979,30 @@ public class CyderMain{
         BottomButtonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         JPanel MusicPanel = new JPanel();
-
         MusicPanel.setLayout(new BoxLayout(MusicPanel, BoxLayout.Y_AXIS));
-
         MusicPanel.add(MusicLabelPanel);
-
         MusicPanel.add(musicListScroll);
-
         MusicPanel.add(BottomButtonPanel);
-
         MusicPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
                 new LineBorder(mainUtil.navy,5,false)));
 
         ParentPanel.add(MusicPanel);
 
-        JPanel ChangePanel = new JPanel();
-
-        ChangePanel.setLayout(new GridLayout(4, 1, 5, 5));
-
+        JPanel ChangeUsernamePanel = new JPanel();
+        ChangeUsernamePanel.setLayout(new GridLayout(2, 1, 5, 5));
         JTextField changeUsernameField = new JTextField(10);
-
         changeUsernameField.addActionListener(e -> changeUsername.doClick());
-
         changeUsernameField.setFont(mainUtil.weatherFontSmall);
-
         changeUsernameField.setSelectionColor(mainUtil.selectionColor);
-
         changeUsername = new CyderButton("Change Username");
-
         changeUsername.setBackground(mainUtil.regularRed);
-
         changeUsername.setColors(mainUtil.regularRed);
-
         changeUsername.setBorder(new LineBorder(mainUtil.navy,5,false));
-
         changeUsername.setFont(mainUtil.weatherFontSmall);
-
         changeUsernameField.setBorder(new LineBorder(mainUtil.navy,5,false));
-
-        ChangePanel.add(changeUsernameField);
-
-        ChangePanel.add(changeUsername);
-
+        ChangeUsernamePanel.add(changeUsernameField);
+        ChangeUsernamePanel.add(changeUsername);
         changeUsernameField.setToolTipText("New username");
-
         changeUsername.addActionListener(e -> {
             String newUsername = changeUsernameField.getText();
             if (!mainUtil.empytStr(newUsername)) {
@@ -4125,34 +4013,24 @@ public class CyderMain{
             }
         });
 
+
+        JPanel ChangePasswordPanel = new JPanel();
+        ChangePasswordPanel.setLayout(new GridLayout(2, 1, 5, 5));
+
         changeUsername.setBackground(mainUtil.regularRed);
-
         JPasswordField changePasswordField = new JPasswordField(10);
-
         changePasswordField.addActionListener(e -> changePassword.doClick());
-
         changePasswordField.setFont(mainUtil.weatherFontSmall);
-
         changePasswordField.setSelectionColor(mainUtil.selectionColor);
-
         changePassword = new CyderButton("Change Password");
-
         changePassword.setBackground(mainUtil.regularRed);
-
         changePassword.setColors(mainUtil.regularRed);
-
         changePassword.setBorder(new LineBorder(mainUtil.navy,5,false));
-
         changePassword.setFont(mainUtil.weatherFontSmall);
-
         changePasswordField.setBorder(new LineBorder(mainUtil.navy,5,false));
-
-        ChangePanel.add(changePasswordField);
-
-        ChangePanel.add(changePassword);
-
+        ChangePasswordPanel.add(changePasswordField);
+        ChangePasswordPanel.add(changePassword);
         changePasswordField.setToolTipText("New password");
-
         changePassword.addActionListener(e -> {
             char[] newPassword = changePasswordField.getPassword();
 
@@ -4174,57 +4052,38 @@ public class CyderMain{
         });
 
         changePassword.setBackground(mainUtil.regularRed);
+        ChangeUsernamePanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        ChangePanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-        ParentPanel.add(ChangePanel);
+        ParentPanel.add(ChangeUsernamePanel);
 
         ImageIcon selected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox1.png");
-
         ImageIcon notSelected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox2.png");
 
         JPanel prefsPanel = new JPanel();
-
-        prefsPanel.setLayout(new GridLayout(8,3,0,0));
+        prefsPanel.setLayout(new GridLayout(6,3,0,0));
 
         JLabel introMusicTitle = new JLabel("Intro Music");
-
         introMusicTitle.setFont(mainUtil.weatherFontSmall);
-
         introMusicTitle.setForeground(mainUtil.navy);
-
         introMusicTitle.setHorizontalAlignment(JLabel.CENTER);
-
         prefsPanel.add(introMusicTitle);
 
         JLabel debugWindowsLabel = new JLabel("Debug Windows");
-
         debugWindowsLabel.setFont(mainUtil.weatherFontSmall);
-
         debugWindowsLabel.setForeground(mainUtil.navy);
-
         debugWindowsLabel.setHorizontalAlignment(JLabel.CENTER);
-
         prefsPanel.add(debugWindowsLabel);
 
         JLabel randomBackgroundLabel = new JLabel("Random Background");
-
         randomBackgroundLabel.setFont(mainUtil.weatherFontSmall);
-
         randomBackgroundLabel.setForeground(mainUtil.navy);
-
         randomBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
-
         prefsPanel.add(randomBackgroundLabel);
 
         JLabel introMusic = new JLabel();
-
         introMusic.setHorizontalAlignment(JLabel.CENTER);
-
         introMusic.setSize(100,100);
-
         introMusic.setIcon((mainUtil.getUserData("IntroMusic").equals("1") ? selected : notSelected));
-
         introMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -4237,13 +4096,9 @@ public class CyderMain{
         prefsPanel.add(introMusic);
 
         JLabel debugWindows = new JLabel();
-
         debugWindows.setHorizontalAlignment(JLabel.CENTER);
-
         debugWindows.setSize(100,100);
-
         debugWindows.setIcon((mainUtil.getUserData("DebugWindows").equals("1") ? selected : notSelected));
-
         debugWindows.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -4256,13 +4111,9 @@ public class CyderMain{
         prefsPanel.add(debugWindows);
 
         JLabel randBackgroundLabel = new JLabel();
-
         randBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
-
         randBackgroundLabel.setSize(100,100);
-
         randBackgroundLabel.setIcon((mainUtil.getUserData("RandomBackground").equals("1") ? selected : notSelected));
-
         randBackgroundLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -4488,7 +4339,15 @@ public class CyderMain{
         masterPanel.setLayout(new GridLayout(1,2));
 
         masterPanel.add(ParentPanel);
-        masterPanel.add(prefsPanel);
+
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+        rightPanel.add(prefsPanel);
+        //todo fix bodge here to make prefs look pretty
+        ChangePasswordPanel.setBorder(BorderFactory.createEmptyBorder(400,10,20,10));
+        rightPanel.add(ChangePasswordPanel);
+
+        masterPanel.add(rightPanel);
 
         editUserFrame.add(masterPanel);
 
@@ -4735,7 +4594,7 @@ public class CyderMain{
             saveFontColor();
             mainUtil.closeAnimation(consoleFrame);
 
-            SystemTray.getSystemTray().remove(trayIcon);
+            
             System.exit(0);
         }
     };
@@ -5403,11 +5262,9 @@ public class CyderMain{
     }
 
     private void refreshUsername() {
-        trayIcon.setToolTip(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
         consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
     }
 
-    //todo make more robust
     public void notification(String htmltext, int w, int h, int delay, int arrowDir, int vanishDir) {
         Notification notification = new Notification();
         notification.setWidth(w);

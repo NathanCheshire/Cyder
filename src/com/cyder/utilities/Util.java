@@ -58,8 +58,6 @@ public class Util {
     public Color navy = new Color(26, 32, 51);
 
     //Cyder direct vars
-    private ImageIcon cyderTrayIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderTrayIcon.png");
-    private ImageIcon cyderTrayIconBlink = new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderTrayIconBlink.png");
     private ImageIcon cyderIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIcon.png");
     private ImageIcon cyderIconBlink = new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIconBlink.png");
     private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
@@ -105,10 +103,6 @@ public class Util {
     private String pressure;
     private String feelsLike;
     private String windBearing;
-
-    //local tray vars
-    private final TrayIcon trayIcon = new TrayIcon(cyderTrayIcon.getImage(), cyderVer + " [" + username + "]");
-    private final SystemTray tray = SystemTray.getSystemTray();
 
     //screen and mouse vars
     private int screenX;
@@ -719,12 +713,6 @@ public class Util {
         minecraftFrame.setIconImage(new ImageIcon("src\\com\\cyder\\io\\pictures\\Block.png").getImage());
     }
 
-    public ImageIcon getCyderTrayIcon() {
-        return this.cyderTrayIcon;
-    }
-
-    public ImageIcon getCyderTrayIconBlink() {return this.cyderTrayIconBlink; }
-
     public ImageIcon getCyderIcon() {
         return this.cyderIcon;
     }
@@ -851,7 +839,8 @@ public class Util {
     public void varInit() {
         String windowsUserName = getWindowsUsername();
         this.os = getOS();
-        getIPData();
+        if (internetReachable())
+            getIPData();
         this.screenX = getScreenWidth();
         this.screenY = getScreenHeight();
     }
