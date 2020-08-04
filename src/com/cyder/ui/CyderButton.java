@@ -3,6 +3,7 @@ package com.cyder.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JButton;
+import javax.swing.border.LineBorder;
 
 public class CyderButton extends JButton {
 
@@ -20,6 +21,7 @@ public class CyderButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
+        this.setBorder(new LineBorder(new Color(26, 32, 51),5,false));
         if (getModel().isPressed()) {
             g.setColor(pressedBackgroundColor);
         } else if (getModel().isRollover()) {

@@ -570,6 +570,7 @@ public class PhotoViewer {
             double screenY = dim.getHeight();
 
             double aspectRatio = getAspectRatio(new ImageIcon(ImageIO.read(im)));
+            aspectRatio = (aspectRatio == 1.0 ? 2.0 : aspectRatio);
             ImageIcon originalIcon = new ImageIcon(ImageIO.read(im));
             BufferedImage bi = ImageIO.read(im);
 
@@ -582,8 +583,8 @@ public class PhotoViewer {
             }
 
             while (width  < 600 || height  < 600) {
-                width = (int) (width / aspectRatio);
-                height = (int) (height / aspectRatio);
+                width = (int) (width * aspectRatio);
+                height = (int) (height * aspectRatio);
             }
 
             return new ImageIcon(bi.getScaledInstance(width, height, Image.SCALE_SMOOTH));

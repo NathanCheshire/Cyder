@@ -5215,10 +5215,10 @@ public class Util {
 
         yttnField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                if(yttnField.getText().length() >= 11 && !(evt.getKeyChar()==KeyEvent.VK_DELETE || evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
-                    beep();
-                    evt.consume();
-                }
+            if(yttnField.getText().length() >= 11 && !(evt.getKeyChar()==KeyEvent.VK_DELETE || evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+                beep();
+                evt.consume();
+            }
             }
         });
 

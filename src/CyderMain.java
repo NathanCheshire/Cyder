@@ -4,6 +4,7 @@ import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
 import com.cyder.ui.Notification;
+import com.cyder.utilities.ImageResizer;
 import com.cyder.utilities.ImageUtil;
 import com.cyder.utilities.Util;
 import com.cyder.ui.CyderButton;
@@ -38,9 +39,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo add feature to scale up or down, use two inputfields and a checkbox to maintain aspect ratio
-//todo also use a preview window with an approve image button
-
 //todo split methods into even more separate classes
 //todo block code up and clean up code
 
@@ -49,8 +47,6 @@ import java.util.concurrent.TimeUnit;
 
 //todo dir search backwards and fowards, pop between two stacks and then reset when necessary
 //todo add fowards and backwards buttons to dir
-
-//todo white square in bottom left of consoleframe
 
 public class CyderMain{
     //console vars
@@ -232,7 +228,6 @@ public class CyderMain{
 
             consoleFrame.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
 
-            //todo make a title method
             consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
 
             parentPanel = new JPanel();
@@ -258,7 +253,7 @@ public class CyderMain{
                 parentLabel.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
             }
 
-            parentLabel.setBorder(new LineBorder(mainUtil.navy,8,true));
+            parentLabel.setBorder(new LineBorder(mainUtil.navy,8,false));
 
             parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
 
@@ -2389,7 +2384,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-
+                ImageResizer ir = new ImageResizer();
             }
 
             else if (hasWord("bletchy")) {
