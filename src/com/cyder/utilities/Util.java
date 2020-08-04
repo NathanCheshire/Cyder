@@ -5,7 +5,6 @@ import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
-import com.cyder.ui.CyderScrollPane;
 import com.cyder.ui.CyderSliderUI;
 import com.cyder.ui.DragLabel;
 import javazoom.jl.player.Player;
@@ -15,7 +14,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Port;
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -32,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.List;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -113,8 +110,6 @@ public class Util {
     private int yMouse;
 
     //restore vars
-    private int weatherRestoreY;
-    private int weatherRestoreX;
     private int musicRestoreX;
     private int musicRestoreY;
     private int debugRestoreX;
@@ -126,28 +121,9 @@ public class Util {
     //pixel vars
     private JFrame pixelFrame;
 
-    //weather vars
-    private JLabel locationLabel;
-    private JFrame changeLocationFrame;
-    private JLabel currentWeatherLabel;
-    private JLabel changeLocationLabel;
-    private JLabel temperatureLabel;
-    private JLabel feelsLikeLabel;
-    private JLabel windSpeedLabel;
-    private JLabel windDirectionLabel;
-    private JLabel humidityLabel;
-    private JLabel pressureLabel;
-    private JLabel sunsetLabel;
-    private JLabel sunriseLabel;
-    private JLabel visibilityLabel;
-
     //media vars
     private JFrame mediaFrame;
     private JLabel displayLabel;
-    private JFrame weatherFrame;
-    private JButton closeWeather;
-    private JButton minimizeWeather;
-    private JLabel currentTimeLabel;
 
     //music vars
     private ScrollLabel musicScroll;
@@ -176,8 +152,6 @@ public class Util {
 
     //update vars
     private boolean userInputMode;
-    private boolean updateWeather;
-    private boolean updateClock;
 
     //boolean vars
     private boolean debugMode;
@@ -188,21 +162,6 @@ public class Util {
 
     //scrolling var
     private int currentDowns;
-
-    //note vars
-    private JFrame noteEditorFrame;
-    private JTextArea noteEditArea;
-    private JTextField noteEditField;
-    private File currentUserNote;
-    private JFrame newNoteFrame;
-    private JTextField newNoteField;
-    private JTextArea newNoteArea;
-    private JFrame noteFrame;
-    private CyderScrollPane noteListScroll;
-    private JList<?> fileSelectionList;
-    private List<String> noteNameList;
-    private List<File> noteList;
-    private CyderButton openNote;
 
     //drawing vars
     private JFrame pictureFrame;
@@ -575,7 +534,7 @@ public class Util {
         return name;
     }
 
-    private void getIPData() {
+    public void getIPData() {
         try {
             String Key = "https://api.ipdata.co/?api-key=8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932";
 
@@ -799,7 +758,7 @@ public class Util {
         }
     }
 
-    private String[] combineArrays(String[] a, String[] b) {
+    public String[] combineArrays(String[] a, String[] b) {
         int length = a.length + b.length;
         String[] result = new String[length];
         System.arraycopy(a, 0, result, 0, a.length);
@@ -807,64 +766,7 @@ public class Util {
         return result;
     }
 
-    private void refreshWeatherNow() {
-        try {
-            weatherStats();
-
-            if (useCustomLoc) {
-                locationLabel.setText(customCity + ", " + customState);
-            }
-
-            else {
-                locationLabel.setText(userCity + ", " + userStateAbr);
-            }
-
-            currentWeatherLabel.setText(capsFirst(weatherCondition));
-            temperatureLabel.setText("Temperature: " + temperature + "F");
-            feelsLikeLabel.setText("UV Index: " + feelsLike);
-            windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-            windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + getWindDirection(windBearing));
-            humidityLabel.setText("Humidity: " + humidity + "%");
-            pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
-            visibilityLabel.setText("Visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
-            sunriseLabel.setText(sunrise + "am");
-            sunsetLabel.setText(sunset + "pm");
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
-    private void refreshWeather() {
-        Thread WeatherThread = new Thread(() -> {
-            try {
-                while (updateWeather) {
-                    Thread.sleep(1800000);
-
-                    weatherStats();
-
-                    locationLabel.setText(userCity + ", " + userStateAbr);
-                    currentWeatherLabel.setText(capsFirst(weatherCondition));
-                    temperatureLabel.setText("Temperature: " + temperature + "F");
-                    feelsLikeLabel.setText("UV Index: " + feelsLike);
-                    windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-                    windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + getWindDirection(windBearing));
-                    humidityLabel.setText("Humidity: " + humidity + "%");
-                    pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
-                    visibilityLabel.setText("Visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
-                    sunriseLabel.setText(sunrise + "am");
-                    sunsetLabel.setText(sunset + "pm");
-                }
-            } catch (Exception e) {
-                handle(e);
-            }
-        });
-
-        WeatherThread.start();
-    }
-
-    private void weatherStats() {
+    protected void weatherStats() {
         try {
             getIPData();
 
@@ -945,7 +847,7 @@ public class Util {
         }
     }
 
-    private String getWindDirection(String wb) {
+    public String getWindDirection(String wb) {
         double bear = Double.parseDouble(wb);
 
         if (bear == 0) {
@@ -969,7 +871,7 @@ public class Util {
         return "NA";
     }
 
-    private String capsFirst(String Word) {
+    public String capsFirst(String Word) {
         StringBuilder SB = new StringBuilder(Word.length());
         String[] Words = Word.split(" ");
 
@@ -978,367 +880,6 @@ public class Util {
         }
 
         return SB.toString();
-    }
-
-    public void weatherWidget() {
-        useCustomLoc = false;
-        weatherStats();
-
-        if (weatherFrame != null) {
-            closeAnimation(weatherFrame);
-            weatherFrame.dispose();
-        }
-
-        weatherFrame = new JFrame();
-
-        weatherFrame.setTitle("Weather");
-
-        weatherFrame.setSize(1080, 608);
-
-        weatherFrame.setUndecorated(true);
-
-        weatherFrame.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-                weatherFrame.setLocation(weatherRestoreX, weatherRestoreY);
-                weatherFrame.setVisible(true);
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
-        });
-
-        weatherFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JLabel weatherLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\Weather.png"));
-
-        weatherFrame.setContentPane(weatherLabel);
-
-        DragLabel weatherDragLabel = new DragLabel(1080,24, weatherFrame);
-
-        weatherDragLabel.setBounds(0, 0, 1080, 24);
-
-        weatherLabel.add(weatherDragLabel);
-
-        currentTimeLabel = new JLabel();
-
-        currentTimeLabel.setForeground(vanila);
-
-        currentTimeLabel.setFont(weatherFontSmall);
-
-        currentTimeLabel.setBounds(16, 50, 600, 30);
-
-        currentTimeLabel.setText(weatherTime());
-
-        weatherLabel.add(currentTimeLabel, SwingConstants.CENTER);
-
-        locationLabel = new JLabel();
-
-        locationLabel.setForeground(vanila);
-
-        locationLabel.setFont(weatherFontSmall);
-
-        locationLabel.setBounds(16, 80, 300, 30);
-
-        locationLabel.setText(userCity + ", " + userStateAbr);
-
-        weatherLabel.add(locationLabel, SwingConstants.CENTER);
-
-        JLabel currentWeatherIconLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\" + weatherIcon + ".png"));
-
-        currentWeatherIconLabel.setBounds(16, 110, 100, 100);
-
-        currentWeatherIconLabel.setBorder(new LineBorder(navy,5,false));
-
-        weatherLabel.add(currentWeatherIconLabel);
-
-        currentWeatherLabel = new JLabel();
-
-        currentWeatherLabel.setForeground(vanila);
-
-        currentWeatherLabel.setFont(weatherFontSmall);
-
-        currentWeatherLabel.setBounds(16, 212, 250, 30);
-
-        currentWeatherLabel.setText(capsFirst(weatherCondition));
-
-        weatherLabel.add(currentWeatherLabel);
-
-        changeLocationLabel = new JLabel("Change Location");
-
-        changeLocationLabel.setFont(weatherFontSmall);
-
-        changeLocationLabel.setForeground(vanila);
-
-        changeLocationLabel.setBounds(840, 550,200,30);
-
-        changeLocationLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                changeLocationFrame = new JFrame();
-
-                changeLocationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-                changeLocationFrame.setTitle("Change Location");
-
-                changeLocationFrame.setIconImage(getCyderIcon().getImage());
-
-                JPanel parent = new JPanel();
-
-                parent.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
-
-                parent.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-                JLabel explenation = new JLabel("<html>Enter your city and state separated by a comma.<br/>" +
-                        "Note that the format must be precise otherwise<br/>it will fail. " +
-                        "Ex: \"New Orleans,LA\"</html>");
-
-                explenation.setFont(weatherFontSmall);
-
-                explenation.setForeground(navy);
-
-                JPanel a = new JPanel();
-
-                a.add(explenation, SwingConstants.CENTER);
-
-                parent.add(a);
-
-                JTextField changeLocField = new JTextField(20);
-
-                changeLocField.setBorder(new LineBorder(navy,5,false));
-
-                changeLocField.setForeground(navy);
-
-                changeLocField.setFont(weatherFontSmall);
-
-                CyderButton changeLoc = new CyderButton("Change Location");
-
-                changeLoc.setBorder(new LineBorder(navy,5,false));
-
-                changeLocField.addActionListener(e1 -> changeLoc.doClick());
-
-                JPanel b = new JPanel();
-
-                b.add(changeLocField, SwingConstants.CENTER);
-
-                parent.add(b);
-
-                changeLoc.setFont(weatherFontSmall);
-
-                changeLoc.setForeground(navy);
-
-                changeLoc.setColors(regularRed);
-
-                changeLoc.setBackground(regularRed);
-
-                changeLoc.addActionListener(e12 -> {
-                    String[] parts = changeLocField.getText().split(",");
-                    customCity = parts[0];
-                    customState = parts[1];
-                    useCustomLoc = true;
-                    closeAnimation(changeLocationFrame);
-                    changeLocationFrame.dispose();
-                    inform("Attempting to refresh and use the location \"" + customCity + "\" for weather.", "",400, 300);
-                    refreshWeatherNow();
-                });
-
-                JPanel c = new JPanel();
-
-                c.add(changeLoc, SwingConstants.CENTER);
-
-                parent.add(c);
-
-                changeLocationFrame.add(parent);
-
-                changeLocationFrame.setVisible(true);
-
-                changeLocationFrame.pack();
-
-                changeLocationFrame.setLocationRelativeTo(null);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                changeLocationLabel.setForeground(navy);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                changeLocationLabel.setForeground(vanila);
-            }
-        });
-
-        weatherLabel.add(changeLocationLabel);
-
-        temperatureLabel = new JLabel();
-
-        temperatureLabel.setForeground(vanila);
-
-        temperatureLabel.setFont(weatherFontSmall);
-
-        temperatureLabel.setBounds(16, 270, 300, 30);
-
-        temperatureLabel.setText("Temperature: " + temperature + "F");
-
-        weatherLabel.add(temperatureLabel);
-
-        feelsLikeLabel = new JLabel();
-
-        feelsLikeLabel.setForeground(vanila);
-
-        feelsLikeLabel.setFont(weatherFontSmall);
-
-        feelsLikeLabel.setBounds(16, 310, 200, 30);
-
-        feelsLikeLabel.setText("Feels like: " + feelsLike + "F");
-
-        weatherLabel.add(feelsLikeLabel);
-
-        windSpeedLabel = new JLabel();
-
-        windSpeedLabel.setForeground(vanila);
-
-        windSpeedLabel.setFont(weatherFontSmall);
-
-        windSpeedLabel.setBounds(16, 390, 300, 30);
-
-        windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-
-        weatherLabel.add(windSpeedLabel);
-
-        windDirectionLabel = new JLabel();
-
-        windDirectionLabel.setForeground(vanila);
-
-        windDirectionLabel.setFont(weatherFontSmall);
-
-        windDirectionLabel.setBounds(16, 430, 300, 30);
-
-        windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + getWindDirection(windBearing));
-
-        weatherLabel.add(windDirectionLabel);
-
-        humidityLabel = new JLabel();
-
-        humidityLabel.setForeground(vanila);
-
-        humidityLabel.setFont(weatherFontSmall);
-
-        humidityLabel.setBounds(16, 470, 300, 30);
-
-        humidityLabel.setText("Humidity: " + humidity + "%");
-
-        weatherLabel.add(humidityLabel, SwingConstants.CENTER);
-
-        pressureLabel = new JLabel();
-
-        pressureLabel.setForeground(vanila);
-
-        pressureLabel.setFont(weatherFontSmall);
-
-        pressureLabel.setBounds(16, 510, 300, 30);
-
-        pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
-
-        weatherLabel.add(pressureLabel, SwingConstants.CENTER);
-
-        visibilityLabel = new JLabel();
-
-        visibilityLabel.setForeground(vanila);
-
-        visibilityLabel.setFont(weatherFontSmall);
-
-        visibilityLabel.setBounds(16, 550, 300, 30);
-
-        visibilityLabel.setText("Visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
-
-        weatherLabel.add(visibilityLabel, SwingConstants.CENTER);
-
-        sunriseLabel = new JLabel();
-
-        sunriseLabel.setForeground(vanila);
-
-        sunriseLabel.setFont(weatherFontSmall);
-
-        sunriseLabel.setBounds(825, 517, 125, 30);
-
-        sunriseLabel.setText(sunrise + "am");
-
-        weatherLabel.add(sunriseLabel, SwingConstants.CENTER);
-
-        sunsetLabel = new JLabel();
-
-        sunsetLabel.setForeground(vanila);
-
-        sunsetLabel.setFont(weatherFontSmall);
-
-        sunsetLabel.setBounds(950, 519, 120, 30);
-
-        sunsetLabel.setText(sunset + "pm");
-
-        weatherLabel.add(sunsetLabel, SwingConstants.CENTER);
-
-        weatherFrame.setVisible(true);
-
-        weatherFrame.setLocationRelativeTo(null);
-
-        weatherFrame.setAlwaysOnTop(true);
-
-        weatherFrame.setAlwaysOnTop(false);
-
-        weatherFrame.setResizable(false);
-
-        weatherFrame.setIconImage(getCyderIcon().getImage());
-
-        updateClock = true;
-
-        refreshClock();
-
-        updateWeather = true;
-
-        refreshWeather();
-    }
-
-    private void refreshClock() {
-        Thread TimeThread = new Thread(() -> {
-            try {
-                while (updateClock) {
-                    Thread.sleep(1000);
-                    currentTimeLabel.setText(weatherTime());
-                }
-            } catch (Exception e) {
-                handle(e);
-            }
-        });
-
-        TimeThread.start();
     }
 
     public void resetMouse() {
@@ -2804,159 +2345,6 @@ public class Util {
         this.handledMath = b;
     }
 
-    private void openNote(File File) {
-        if (noteEditorFrame != null) {
-            closeAnimation(noteEditorFrame);
-            noteEditorFrame.dispose();
-        }
-
-        noteEditorFrame = new JFrame();
-
-        noteEditorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        noteEditorFrame.setUndecorated(false);
-
-        noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
-
-        noteEditorFrame.setResizable(false);
-
-        noteEditorFrame.setIconImage(getCyderIcon().getImage());
-
-        JPanel ParentPanel = new JPanel();
-
-        noteEditorFrame.setContentPane(ParentPanel);
-
-        ParentPanel.setLayout(new BorderLayout());
-
-        noteEditField = new JTextField(20);
-
-        noteEditField.setToolTipText("Change Name");
-
-        noteEditField.setSelectionColor(selectionColor);
-
-        noteEditField.setText(File.getName().replaceFirst(".txt",""));
-
-        noteEditField.setFont(weatherFontSmall);
-
-        noteEditField.setForeground(navy);
-
-        noteEditField.setBorder(new LineBorder(navy,5,false));
-
-        ParentPanel.add(noteEditField, BorderLayout.PAGE_START);
-
-        noteEditArea = new JTextArea(20, 20);
-
-        noteEditArea.setSelectedTextColor(selectionColor);
-
-        noteEditArea.setFont(weatherFontSmall);
-
-        noteEditArea.setForeground(navy);
-
-        noteEditArea.setEditable(true);
-
-        noteEditArea.setAutoscrolls(true);
-
-        noteEditArea.setLineWrap(true);
-
-        noteEditArea.setWrapStyleWord(true);
-
-        noteEditArea.setFocusable(true);
-
-        CyderScrollPane noteScroll = new CyderScrollPane(noteEditArea,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        noteScroll.setThumbColor(regularRed);
-
-        noteScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-
-        noteScroll.getViewport().setBorder(null);
-
-        noteScroll.setViewportBorder(null);
-
-        noteScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(navy,5,false)));
-
-        noteScroll.setPreferredSize(new Dimension(570,780));
-
-        ParentPanel.add(noteScroll, BorderLayout.CENTER);
-
-        try {
-            BufferedReader InitReader = new BufferedReader(new FileReader(File));
-            String Line = InitReader.readLine();
-
-            while (Line != null) {
-                noteEditArea.append(Line + "\n");
-                Line = InitReader.readLine();
-            }
-
-            InitReader.close();
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-
-        currentUserNote = File;
-
-        CyderButton saveNote = new CyderButton("Save & Resign");
-
-        saveNote.setColors(regularRed);
-
-        saveNote.setBorder(new LineBorder(navy,5,false));
-
-        saveNote.setFocusPainted(false);
-
-        saveNote.setBackground(regularRed);
-
-        saveNote.setFont(weatherFontSmall);
-
-        saveNote.addActionListener(e -> {
-            try {
-                BufferedWriter SaveWriter = new BufferedWriter(new FileWriter(currentUserNote, false));
-                SaveWriter.write(noteEditArea.getText());
-                SaveWriter.close();
-
-                File newName = null;
-
-                if (noteEditField.getText().length() > 0) {
-                    newName = new File(File.getAbsolutePath().replace(File.getName(),noteEditField.getText() + ".txt"));
-                    File.renameTo(newName);
-                    inform(newName.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
-                    initializeNotesList();
-                    noteListScroll.setViewportView(fileSelectionList);
-                    noteListScroll.revalidate();
-                }
-
-                else {
-                    inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
-                }
-                closeAnimation(noteEditorFrame);
-                noteEditorFrame.dispose();
-            }
-
-            catch (Exception exc) {
-                handle(exc);
-            }
-        });
-
-        JPanel SavePanel = new JPanel();
-
-        ParentPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-        SavePanel.add(saveNote, SwingConstants.CENTER);
-
-        ParentPanel.add(SavePanel, BorderLayout.PAGE_END);
-
-        noteEditorFrame.pack();
-
-        noteEditorFrame.setVisible(true);
-
-        noteEditArea.requestFocus();
-
-        noteEditorFrame.setLocationRelativeTo(null);
-    }
-
     public boolean isPalindrome(char[] Word) {
         int start = 0;
         int end = Word.length - 1;
@@ -3607,342 +2995,6 @@ public class Util {
         }
     }
 
-    private void addNote()
-    {
-        if (newNoteFrame != null)
-        {
-            closeAnimation(newNoteFrame);
-
-            newNoteFrame.dispose();
-        }
-
-        newNoteFrame = new JFrame();
-
-        newNoteFrame.setResizable(false);
-
-        newNoteFrame.setTitle("New note");
-
-        newNoteFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        newNoteFrame.setIconImage(getCyderIcon().getImage());
-
-        JPanel ParentPanel = new JPanel();
-
-        ParentPanel.setLayout(new BoxLayout(ParentPanel,BoxLayout.Y_AXIS));
-
-        JLabel FileNameLabel = new JLabel("Note Title");
-
-        FileNameLabel.setFont(weatherFontSmall);
-
-        JPanel TopPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        TopPanel.add(FileNameLabel,SwingConstants.CENTER);
-
-        ParentPanel.add(TopPanel,SwingConstants.CENTER);
-
-        newNoteField = new JTextField(30);
-
-        newNoteField.setFont(weatherFontSmall);
-
-        newNoteField.setForeground(navy);
-
-        newNoteField.setBorder(new LineBorder(navy,5,false));
-
-        newNoteField.setSelectionColor(selectionColor);
-
-        JPanel MiddlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        MiddlePanel.add(newNoteField);
-
-        ParentPanel.add(MiddlePanel);
-
-        JLabel NoteTextLabel = new JLabel("Note Contents");
-
-        NoteTextLabel.setFont(weatherFontSmall);
-
-        JPanel BottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        BottomPanel.add(NoteTextLabel);
-
-        ParentPanel.add(BottomPanel);
-
-        newNoteArea = new JTextArea(20,20);
-
-        newNoteArea.setFont(weatherFontSmall);
-
-        newNoteArea.setAutoscrolls(false);
-
-        newNoteArea.setLineWrap(true);
-
-        newNoteArea.setWrapStyleWord(true);
-
-        newNoteArea.setSelectedTextColor(selectionColor);
-
-        newNoteArea.setBorder(new LineBorder(new Color(0, 0, 0)));
-
-        CyderScrollPane NewNoteScroll = new CyderScrollPane(newNoteArea,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        NewNoteScroll.setThumbColor(regularRed);
-
-        NewNoteScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-
-        NewNoteScroll.getViewport().setBorder(null);
-
-        NewNoteScroll.setViewportBorder(null);
-
-        NewNoteScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(navy,5,false)));
-
-        NewNoteScroll.setPreferredSize(new Dimension(570,780));
-
-        ParentPanel.add(NewNoteScroll);
-
-        CyderButton submitNewNote = new CyderButton("Create Note");
-
-        submitNewNote.setBorder(new LineBorder(navy,5,false));
-
-        submitNewNote.setFocusPainted(false);
-
-        submitNewNote.setColors(regularRed);
-
-        submitNewNote.setBackground(regularRed);
-
-        submitNewNote.setFont(weatherFontSmall);
-
-        submitNewNote.addActionListener(e -> {
-            try {
-                BufferedWriter NoteWriter = new BufferedWriter(new FileWriter(
-                        "src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Notes\\" + newNoteField.getText() + ".txt",true));
-                newNoteArea.write(NoteWriter);
-                NoteWriter.close();
-            }
-
-            catch (Exception ex) {
-                handle(ex);
-            }
-
-            closeAnimation(newNoteFrame);
-
-            newNoteFrame.dispose();
-
-            initializeNotesList();
-
-            noteListScroll.setViewportView(fileSelectionList);
-
-            noteListScroll.revalidate();
-        });
-
-        JPanel ButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        ButtonPanel.add(submitNewNote);
-
-        ButtonPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-        ParentPanel.add(ButtonPanel);
-
-        ParentPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-        newNoteFrame.add(ParentPanel);
-
-        newNoteFrame.pack();
-
-        newNoteFrame.setLocationRelativeTo(null);
-
-        newNoteFrame.setVisible(true);
-
-        newNoteField.requestFocus();
-    }
-
-    private void initializeNotesList() {
-        File dir = new File("src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Notes");
-        noteList = new LinkedList<>();
-        noteNameList = new LinkedList<>();
-
-        for (File file : dir.listFiles()) {
-            if (file.getName().endsWith((".txt"))) {
-                noteList.add(file.getAbsoluteFile());
-                noteNameList.add(file.getName().replace(".txt", ""));
-            }
-        }
-
-        String[] NotesArray = new String[noteNameList.size()];
-        NotesArray = noteNameList.toArray(NotesArray);
-        fileSelectionList = new JList(NotesArray);
-        fileSelectionList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                if (evt.getClickCount() == 2 && fileSelectionList.getSelectedIndex() != -1) {
-                    openNote.doClick();
-                }
-            }
-        });
-
-        fileSelectionList.setFont(weatherFontSmall);
-
-        fileSelectionList.setForeground(navy);
-
-        fileSelectionList.setSelectionBackground(selectionColor);
-    }
-
-    public void note() {
-        if (noteFrame != null) {
-            closeAnimation(noteFrame);
-            noteFrame.dispose();
-        }
-
-        noteFrame = new JFrame();
-
-        noteFrame.setResizable(false);
-
-        noteFrame.setTitle("Notes");
-
-        noteFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        noteFrame.setResizable(false);
-
-        noteFrame.setIconImage(getCyderIcon().getImage());
-
-        JPanel ParentPanel = new JPanel();
-
-        ParentPanel.setLayout(new BoxLayout(ParentPanel,BoxLayout.Y_AXIS));
-
-        ParentPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(navy,5,false)));
-
-        initializeNotesList();
-
-        fileSelectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-
-        fileSelectionList.setFont(weatherFontSmall);
-
-        fileSelectionList.setForeground(navy);
-
-        fileSelectionList.setSelectionBackground(selectionColor);
-
-        noteListScroll = new CyderScrollPane(fileSelectionList,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        noteListScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(navy,5,false)));
-
-        noteListScroll.setThumbColor(regularRed);
-
-        noteListScroll.setPreferredSize(new Dimension(570,300));
-
-        noteListScroll.setFont(weatherFontSmall);
-
-        noteListScroll.setForeground(navy);
-
-        ParentPanel.add(noteListScroll);
-
-        JPanel ButtonPanel = new JPanel();
-
-        ButtonPanel.setLayout(new GridLayout(1,3,5,5));
-
-        CyderButton addNote = new CyderButton("Add Note");
-
-        addNote.setColors(regularRed);
-
-        addNote.setBorder(new LineBorder(navy,5,false));
-
-        ButtonPanel.add(addNote);
-
-        addNote.setFocusPainted(false);
-
-        addNote.setBackground(regularRed);
-
-        addNote.setFont(buttonFont);
-
-        addNote.addActionListener(e -> addNote());
-
-        openNote = new CyderButton("Open Note");
-
-        openNote.setColors(regularRed);
-
-        ButtonPanel.add(openNote);
-
-        openNote.setFocusPainted(false);
-
-        openNote.setBorder(new LineBorder(navy,5,false));
-
-        openNote.setBackground(regularRed);
-
-        openNote.setFont(buttonFont);
-
-        openNote.addActionListener(e -> {
-            List<?> ClickedSelectionList = fileSelectionList.getSelectedValuesList();
-
-            if (!ClickedSelectionList.isEmpty()) {
-                String ClickedSelection = ClickedSelectionList.get(0).toString();
-
-                File ClickedSelectionPath = null;
-
-                for (int i = 0; i < noteNameList.size() ; i++) {
-                    if (ClickedSelection.equals(noteNameList.get(i))) {
-                        ClickedSelectionPath = noteList.get(i);
-                        break;
-                    }
-                }
-
-                openNote(ClickedSelectionPath);
-            }
-        });
-
-        CyderButton deleteNote = new CyderButton("Delete Note");
-
-        deleteNote.setColors(regularRed);
-
-        deleteNote.setBorder(new LineBorder(navy,5,false));
-
-        ButtonPanel.add(deleteNote);
-
-        deleteNote.setFocusPainted(false);
-
-        deleteNote.setBackground(regularRed);
-
-        deleteNote.setFont(buttonFont);
-
-        deleteNote.addActionListener(e -> {
-            List<?> ClickedSelectionList = fileSelectionList.getSelectedValuesList();
-
-            if (!ClickedSelectionList.isEmpty()) {
-                String ClickedSelection = ClickedSelectionList.get(0).toString();
-
-                File ClickedSelectionPath = null;
-
-                for (int i = 0; i < noteNameList.size() ; i++) {
-                    if (ClickedSelection.equals(noteNameList.get(i))) {
-                        ClickedSelectionPath = noteList.get(i);
-                        break;
-                    }
-                }
-
-                if (ClickedSelectionPath != null) {
-                    ClickedSelectionPath.delete();
-                }
-                initializeNotesList();
-                noteListScroll.setViewportView(fileSelectionList);
-                noteListScroll.revalidate();
-            }
-        });
-
-        ParentPanel.add(ButtonPanel);
-
-        ParentPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-        noteFrame.add(ParentPanel);
-
-        noteFrame.setVisible(true);
-
-        noteFrame.pack();
-
-        noteFrame.requestFocus();
-
-        noteFrame.setLocationRelativeTo(null);
-    }
-
     public void setHideOnClose(boolean b) {
         this.hideOnClose = b;
     }
@@ -4168,7 +3220,7 @@ public class Util {
 
     public void handle(Exception e) {
         try {
-            String eFileString = "src\\com\\cyder\\io\\Errors\\" + errorTime() + ".error";
+            String eFileString = "src\\com\\cyder\\exception\\throws\\" + errorTime() + ".error";
             File eFile = new File(eFileString);
             eFile.createNewFile();
 

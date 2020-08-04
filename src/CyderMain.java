@@ -83,6 +83,7 @@ public class CyderMain{
     //Objects for main use
     private Util mainUtil = new Util();
     private AnimationClass animation = new AnimationClass();
+    private Notes userNotes;
 
     //operation var
     private static ArrayList<String> operationList = new ArrayList<>();
@@ -556,7 +557,7 @@ public class CyderMain{
                         weatherLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                mainUtil.weatherWidget();
+                                WeatherWidget ww = new WeatherWidget();
                             }
 
                             @Override
@@ -583,7 +584,7 @@ public class CyderMain{
                         noteLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                mainUtil.note();
+                                userNotes = new Notes(mainUtil.getUserUUID());
                             }
 
                             @Override
@@ -2689,7 +2690,7 @@ public class CyderMain{
 
             else if (hasWord("error") && !hasWord("throw")) {
                 if (mainUtil.getDebugMode()) {
-                    File WhereItIs = new File("src\\com\\cyder\\io\\errors");
+                    File WhereItIs = new File("src\\com\\cyder\\exception\\throws");
                     Desktop.getDesktop().open(WhereItIs);
                 }
 
@@ -2985,7 +2986,7 @@ public class CyderMain{
             }
 
             else if (hasWord("note")) {
-                mainUtil.note();
+                userNotes = new Notes(mainUtil.getUserUUID());
             }
 
             else if ((hasWord("youtube") && hasWord("thumbnail")) || (hasWord("yt") && hasWord("thumb"))) {
@@ -3135,7 +3136,7 @@ public class CyderMain{
             }
 
             else if (hasWord("weather")) {
-                mainUtil.weatherWidget();
+                WeatherWidget ww = new WeatherWidget();
             }
 
             else if (eic("hide")) {
@@ -4058,7 +4059,7 @@ public class CyderMain{
         ImageIcon notSelected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox2.png");
 
         JPanel prefsPanel = new JPanel();
-        prefsPanel.setLayout(new GridLayout(6,3,0,0));
+        prefsPanel.setLayout(new GridLayout(6,3,0,75));
 
         JLabel introMusicTitle = new JLabel("Intro Music");
         introMusicTitle.setFont(mainUtil.weatherFontSmall);
@@ -4341,8 +4342,9 @@ public class CyderMain{
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.add(prefsPanel);
-        //todo fix bodge here to make prefs look pretty
-        ChangePasswordPanel.setBorder(BorderFactory.createEmptyBorder(400,10,20,10));
+
+        ChangePasswordPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
         rightPanel.add(ChangePasswordPanel);
 
         masterPanel.add(rightPanel);
