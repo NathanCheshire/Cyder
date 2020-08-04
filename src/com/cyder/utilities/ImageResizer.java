@@ -22,6 +22,8 @@ public class ImageResizer {
     private JTextField xdim;
     private JTextField ydim;
 
+    private double aspectRatio;
+
     private JLabel previewLabel;
     private JLabel maintainAspectRatioLab;
 
@@ -107,8 +109,25 @@ public class ImageResizer {
         xdim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 leftLastEdited = true;
-                //todo limit to only numeric digits
-                //todo update fields based off of aspect ratio of the one just edited
+                int key = evt.getKeyCode();
+
+                if (xdim.getText().length() > 4 || (!(key >= 48 && key <= 57) && !(key >= 37 && key <= 40) && !(key >= 96 && key <= 105) && key != 8 && key != 46)) {
+                    xdim.setText(xdim.getText().substring(0,xdim.getText().length() - 1));
+                    Toolkit.getDefaultToolkit().beep();
+                }
+
+                else if (maintainAspectRatio){
+                    if (xdim.getText().length() > 0) {
+                        double val = Double.parseDouble(xdim.getText());
+                        double result = val * (aspectRatio < 1 ? 1.0 / aspectRatio : aspectRatio) ;
+                        int set = (int) result;
+                        ydim.setText(set + "");
+                    }
+
+                    else {
+                        ydim.setText("");
+                    }
+                }
             }
         });
 
@@ -131,16 +150,30 @@ public class ImageResizer {
                 maintainAspectRatio = !maintainAspectRatio;
 
                 if (leftLastEdited) {
-                    int baseOff = Integer.parseInt(xdim.getText());
-                    System.out.println("update ydim based off of " + baseOff);
+                    if (xdim.getText().length() > 0) {
+                        double val = Double.parseDouble(xdim.getText());
+                        double result = val * (aspectRatio < 1 ? 1.0 / aspectRatio : aspectRatio);
+                        int set = (int) result;
+                        ydim.setText(set + "");
+                    }
+
+                    else {
+                        ydim.setText("");
+                    }
                 }
 
                 else {
-                    int baseOff = Integer.parseInt(ydim.getText());
-                    System.out.println("update xdim based off of " + baseOff);
-                }
+                    if (ydim.getText().length() > 0) {
+                        double val = Double.parseDouble(ydim.getText());
+                        double result = val * aspectRatio;
+                        int set = (int) result;
+                        xdim.setText(set + "");
+                    }
 
-                //todo update jtextfields based off of last edited one's value and accounting for aspect ratio
+                    else {
+                        xdim.setText("");
+                    }
+                }
             }
             }
         });
@@ -155,9 +188,25 @@ public class ImageResizer {
         ydim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 leftLastEdited = false;
-                //todo limit to only numeric digits
-                //todo update fields based off of aspect ratio of the one just edited
-                //use key pressed for consumption if it's not right try that
+                int key = evt.getKeyCode();
+
+                if (ydim.getText().length() > 4 || (!(key >= 48 && key <= 57) && !(key >= 37 && key <= 40) && !(key >= 96 && key <= 105) && key != 8 && key != 46)) {
+                    ydim.setText(ydim.getText().substring(0,ydim.getText().length() - 1));
+                    Toolkit.getDefaultToolkit().beep();
+                }
+
+                else if (maintainAspectRatio){
+                    if (ydim.getText().length() > 0) {
+                        double val = Double.parseDouble(ydim.getText());
+                        double result = val * aspectRatio;
+                        int set = (int) result;
+                        xdim.setText(set + "");
+                    }
+
+                    else {
+                        xdim.setText("");
+                    }
+                }
             }
         });
 
@@ -190,6 +239,10 @@ public class ImageResizer {
                 try {
                     BufferedImage replace = resizeImage(resizeImage, Integer.parseInt(xdim.getText()), Integer.parseInt(ydim.getText()));
                     ImageIO.write(replace, "png", resizeImage);
+                    imageUtil.inform("The image \"" + resizeImage.getName() + "\" was successfully resized to " +
+                            xdim.getText() + "x" + ydim.getText(),"Success", 500, 300);
+                    imageUtil.closeAnimation(resizeFrame);
+                    resizeFrame.dispose();
                 }
 
                 catch (Exception ex) {
@@ -221,7 +274,7 @@ public class ImageResizer {
             double screenX = dim.getWidth();
             double screenY = dim.getHeight();
 
-            double aspectRatio = getAspectRatio(new ImageIcon(ImageIO.read(im)));
+            aspectRatio = getAspectRatio(new ImageIcon(ImageIO.read(im)));
 
             ImageIcon originalIcon = new ImageIcon(ImageIO.read(im));
             BufferedImage bi = ImageIO.read(im);

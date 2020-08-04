@@ -1005,7 +1005,8 @@ public class CyderMain{
 
             parentLabel.add(consoleDragLabel);
 
-            notification("Welcome back " + mainUtil.getUsername(),230,30,2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
+            String text = "Welcome back " + mainUtil.getUsername();
+            notification(text,13 * text.length(),30,2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
 
             consoleFrame.addWindowListener(new WindowListener() {
                 @Override
@@ -1117,6 +1118,7 @@ public class CyderMain{
             }
 
             //todo remove me
+            //todo remove tray support and just set frame icon
             ImageResizer ir = new ImageResizer();
 
             new Thread(() -> {
