@@ -4,9 +4,7 @@ import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
 import com.cyder.ui.Notification;
-import com.cyder.utilities.ImageResizer;
-import com.cyder.utilities.ImageUtil;
-import com.cyder.utilities.Util;
+import com.cyder.utilities.*;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderScrollPane;
 
@@ -39,19 +37,19 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo split methods into even more separate classes
 //todo block code up and clean up code
 
 //todo notify of exceptions instead of inform(), swap out most informs for notifys too
 //todo make notiy more robust so we can do it outside of the package
 //todo maybe make a notify class that uses notificaiton and you pass it the component to layer on top (this clas could hold disappearing code)
+//todo all notifications widths and heights should be based off of text length and consoledraglabel width too to determine wrapping
 
 //todo dir search backwards and fowards, pop between two stacks and then reset when necessary
 //todo add fowards and backwards buttons to dir
 
-//todo make alot of stuff into standalone objects like pizza, dir search, and temperature (so multiple instances can exist too)
-
-//todo all notifications widths and heights should be based off of text length and consoledraglabel width too to determine wrapping
+//todo weather, stringUtil, securityUtil, internetUtil classes
+//todo static mp3 player so sep class but when opened again other one closes (just reinit object)
+//todo notes to sep class
 
 public class CyderMain{
     //console vars
@@ -498,7 +496,7 @@ public class CyderMain{
                         calculatorLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                mainUtil.calculator();
+                                Calculator c = new Calculator();
                             }
 
                             @Override
@@ -639,7 +637,7 @@ public class CyderMain{
                         temperatureLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                mainUtil.temperature();
+                                TempConverter tc = new TempConverter();
                             }
 
                             @Override
@@ -2467,7 +2465,7 @@ public class CyderMain{
             }
 
             else if (hasWord("temperature") || eic("temp")) {
-                mainUtil.temperature();
+                TempConverter tc = new TempConverter();
             }
 
             else if (has("click me")) {
@@ -2502,7 +2500,7 @@ public class CyderMain{
 
 
             else if (hasWord("phone") || hasWord("dialer") || hasWord(" call")) {
-                mainUtil.phoneDialer();
+                Phone p = new Phone();
             }
 
             else if (hasWord("reset") && hasWord("mouse")) {
@@ -2597,7 +2595,7 @@ public class CyderMain{
             }
 
             else if (hasWord("calculator") && !has("graphing")) {
-                mainUtil.calculator();
+                Calculator c = new Calculator();
             }
 
             else if (firstWord.equalsIgnoreCase("echo")) {
@@ -2746,7 +2744,7 @@ public class CyderMain{
             }
 
             else if (hasWord("pizza")) {
-                mainUtil.pizzaPlace();
+                Pizza p = new Pizza();
             }
 
             else if (hasWord("imposible")) {
@@ -2939,7 +2937,7 @@ public class CyderMain{
             }
 
             else if (eic("hash")) {
-                mainUtil.createHash();
+                Hasher h = new Hasher();
             }
 
             else if (hasWord("home")) {
@@ -2947,7 +2945,7 @@ public class CyderMain{
             }
 
             else if (eic("search") || eic("dir") || (hasWord("file") && hasWord("search")) || eic("directory") || eic("ls")) {
-                mainUtil.directorySearch();
+                DirectorySearch ds = new DirectorySearch();
             }
 
             else if (hasWord("I") && hasWord("love")) {
@@ -2959,7 +2957,7 @@ public class CyderMain{
             }
 
             else if ((hasWord("minecraft") && !hasWord("icon")) || hasWord("mc")) {
-                mainUtil.minecraftWidget();
+                MinecraftWidget mw = new MinecraftWidget();
             }
 
             else if (hasWord("icon") && hasWord("minecraft")) {
@@ -2991,7 +2989,7 @@ public class CyderMain{
             }
 
             else if ((hasWord("youtube") && hasWord("thumbnail")) || (hasWord("yt") && hasWord("thumb"))) {
-                mainUtil.youTubeThumbnail();
+                YouTubeThumbnail yttn = new YouTubeThumbnail();
             }
 
             else if (hasWord("papers") && hasWord("please")) {
@@ -3706,7 +3704,7 @@ public class CyderMain{
 
     public void help() {
         String[] Helps = {"Pixalte a Picture", "Home", "Mathsh", "Pizza", "Vexento", "Youtube", "note", "Create a User"
-                , "Binary", "Font", "Color", "Preferences", "Hash", "Directory Search", "Tic Tac Toe", "Youtube Thumbnail", "Java"
+                , "Binary", "Font", "Color", "Preferences", "Hasher", "Directory Search", "Tic Tac Toe", "Youtube Thumbnail", "Java"
                 , "Tell me a story", "Coffee", "Papers Please", "Delete User", "YouTube Word Search", "System Properties", "Donuts"
                 , "System Sounds", "Weather", "Music", "mp3", "dance", "hangman", "youtube script"};
 
