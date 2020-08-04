@@ -1111,9 +1111,13 @@ public class CyderMain{
                 }
 
                 else {
+                   //todo notify of exceptions instead of inform(), swap out most informs for notifys too
                    throw new FatalException("Only one but also more than one background.");
                 }
             }
+
+            //todo remove me
+            ImageResizer ir = new ImageResizer();
 
             new Thread(() -> {
                 if (!mainUtil.internetReachable()) {
@@ -2384,7 +2388,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                ImageResizer ir = new ImageResizer();
+
             }
 
             else if (hasWord("bletchy")) {

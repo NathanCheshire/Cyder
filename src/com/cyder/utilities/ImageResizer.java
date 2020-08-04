@@ -28,6 +28,7 @@ public class ImageResizer {
     private Util imageUtil = new Util();
     private File resizeImage;
 
+    private boolean leftLastEdited;
     private boolean maintainAspectRatio = true;
 
     public ImageResizer() {
@@ -55,8 +56,11 @@ public class ImageResizer {
                     ImageIcon im = checkImage(resizeImage);
                     previewLabel.setPreferredSize(new Dimension(im.getIconWidth(), im.getIconHeight()));
                     previewLabel.setIcon(im);
-                    xdim.setText(String.valueOf(im.getIconWidth()));
-                    ydim.setText(String.valueOf(im.getIconHeight()));
+
+                    ImageIcon dimIcon = new ImageIcon(ImageIO.read(resizeImage));
+                    xdim.setText(String.valueOf(dimIcon.getIconWidth()));
+                    ydim.setText(String.valueOf(dimIcon.getIconHeight()));
+
                     parentPanel.revalidate();
                     parentPanel.repaint();
                     resizeFrame.revalidate();
@@ -102,6 +106,7 @@ public class ImageResizer {
         xdim.setSelectionColor(imageUtil.selectionColor);
         xdim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
+                leftLastEdited = true;
                 //todo limit to only numeric digits
                 //todo update fields based off of aspect ratio of the one just edited
             }
@@ -116,16 +121,27 @@ public class ImageResizer {
         maintainAspectRatioLab.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (maintainAspectRatio) {
-                    maintainAspectRatioLab.setIcon(notSelected);
-                    maintainAspectRatio = !maintainAspectRatio;
+            if (maintainAspectRatio) {
+                maintainAspectRatioLab.setIcon(notSelected);
+                maintainAspectRatio = !maintainAspectRatio;
+            }
+
+            else {
+                maintainAspectRatioLab.setIcon(selected);
+                maintainAspectRatio = !maintainAspectRatio;
+
+                if (leftLastEdited) {
+                    int baseOff = Integer.parseInt(xdim.getText());
+                    System.out.println("update ydim based off of " + baseOff);
                 }
 
                 else {
-                    maintainAspectRatioLab.setIcon(selected);
-                    maintainAspectRatio = !maintainAspectRatio;
-                    //todo update jtextfields based off of last edited one
+                    int baseOff = Integer.parseInt(ydim.getText());
+                    System.out.println("update xdim based off of " + baseOff);
                 }
+
+                //todo update jtextfields based off of last edited one's value and accounting for aspect ratio
+            }
             }
         });
 
@@ -138,6 +154,7 @@ public class ImageResizer {
         ydim.setSelectionColor(imageUtil.selectionColor);
         ydim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
+                leftLastEdited = false;
                 //todo limit to only numeric digits
                 //todo update fields based off of aspect ratio of the one just edited
                 //use key pressed for consumption if it's not right try that
@@ -169,8 +186,18 @@ public class ImageResizer {
         approve.setColors(imageUtil.regularRed);
         approve.setFocusPainted(false);
         approve.addActionListener(e -> {
-            //todo replace resize image with newImage if it exists from preview
+            if (xdim.getText().length() > 0 && ydim.getText().length() > 0) {
+                try {
+                    BufferedImage replace = resizeImage(resizeImage, Integer.parseInt(xdim.getText()), Integer.parseInt(ydim.getText()));
+                    ImageIO.write(replace, "png", resizeImage);
+                }
+
+                catch (Exception ex) {
+                    imageUtil.handle(ex);
+                }
+            }
         });
+
         JPanel approvePanel = new JPanel();
         approvePanel.setBorder(BorderFactory.createEmptyBorder(30,10,0,10));
         approvePanel.add(approve);
@@ -195,7 +222,7 @@ public class ImageResizer {
             double screenY = dim.getHeight();
 
             double aspectRatio = getAspectRatio(new ImageIcon(ImageIO.read(im)));
-            aspectRatio = (aspectRatio == 1.0 ? 2.0 : aspectRatio);
+
             ImageIcon originalIcon = new ImageIcon(ImageIO.read(im));
             BufferedImage bi = ImageIO.read(im);
 
@@ -203,18 +230,16 @@ public class ImageResizer {
             int height = originalIcon.getIconHeight();
 
             if (width > 800 || height > 800) {
-                aspectRatio = (aspectRatio < 1 ? 1/aspectRatio : aspectRatio);
                 while (width > 800 || height > 800) {
-                    width = (int) (width / aspectRatio);
-                    height = (int) (height / aspectRatio);
+                    width = (int) (width / (2 * aspectRatio));
+                    height = (int) (height / (2 * aspectRatio));
                 }
             }
 
             else {
-                aspectRatio = (aspectRatio < 1 ? 1/aspectRatio : aspectRatio);
                 while (width  < 400 || height < 400) {
-                    width = (int) (width * aspectRatio);
-                    height = (int) (height * aspectRatio);
+                    width = (int) (width * 2 * aspectRatio);
+                    height = (int) (height * 2 * aspectRatio);
                 }
             }
 
@@ -226,5 +251,23 @@ public class ImageResizer {
         }
 
         return null;
+    }
+
+    private BufferedImage resizeImage(File originalImage, int img_width, int img_height) {
+        BufferedImage resizedImage = null;
+
+        try {
+            BufferedImage bi = ImageIO.read(originalImage);
+            resizedImage = new BufferedImage(img_width, img_height, bi.getType());
+            Graphics2D g = resizedImage.createGraphics();
+            g.drawImage(bi, 0, 0, img_width, img_height, null);
+            g.dispose();
+        }
+
+        catch (Exception e) {
+            imageUtil.handle(e);
+        }
+
+        return resizedImage;
     }
 }
