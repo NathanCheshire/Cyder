@@ -45,8 +45,12 @@ import java.util.concurrent.TimeUnit;
 //todo finish notifications and make more robust to replace alot of the inform()
 //todo make prefs window 2x2 grid with 1,2, new row 3,4 where 1=lists, 2 = prefs, 3 = username, 4 = password
 
+//todo notify of exceptions instead of inform(), swap out most informs for notifys too
+
 //todo dir search backwards and fowards, pop between two stacks and then reset when necessary
 //todo add fowards and backwards buttons to dir
+
+//todo all notifications widths and heights should be based off of text length and consoledraglabel width too to determine wrapping
 
 public class CyderMain{
     //console vars
@@ -1005,9 +1009,6 @@ public class CyderMain{
 
             parentLabel.add(consoleDragLabel);
 
-            String text = "Welcome back " + mainUtil.getUsername();
-            notification(text,13 * text.length(),30,2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
-
             consoleFrame.addWindowListener(new WindowListener() {
                 @Override
                 public void windowOpened(WindowEvent e) {
@@ -1112,18 +1113,13 @@ public class CyderMain{
                 }
 
                 else {
-                   //todo notify of exceptions instead of inform(), swap out most informs for notifys too
                    throw new FatalException("Only one but also more than one background.");
                 }
             }
 
-            //todo remove me
-            //todo remove tray support and just set frame icon
-            ImageResizer ir = new ImageResizer();
-
             new Thread(() -> {
                 if (!mainUtil.internetReachable()) {
-                    println("Error occured when attempting to reach the internet, " + mainUtil.getUsername());
+                    println(mainUtil.getUsername() + ", internet connection slow or unavailble.");
                 }
             }).start();
         }
@@ -2161,13 +2157,13 @@ public class CyderMain{
                     int threads = Integer.parseInt(input);
 
                     if (threads > 1) {
-                        mainUtil.inform("The scripts have started. At any point, type \"stop script\" to stop the scripts.",
-                                "Youtube Script", 500, 200);
+                        notification("The scripts have started. At any point, type \"stop script\"",
+                                620, 30, 5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
                     }
 
                     else {
-                        mainUtil.inform("The script has started. At any point, type \"stop script\" to stop the script.",
-                                "Youtube Script", 500, 200);
+                        notification("The script has started. At any point, type \"stop script\"",
+                                620, 30, 5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
                     }
 
                     randomYoutube(consoleFrame, threads);
@@ -3062,7 +3058,7 @@ public class CyderMain{
                 pixelateFile = mainUtil.getFile();
 
                 if (!pixelateFile.getName().endsWith(".png")) {
-                    mainUtil.inform("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images.", "",500, 300);
+                    notification("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images", 610, 30, 5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
                 }
 
                 else if (pixelateFile != null) {
@@ -3245,6 +3241,10 @@ public class CyderMain{
 
             else if (eic("1-800-273-8255") || eic("18002738255")) {
                 mainUtil.playMusic("src\\com\\cyder\\io\\audio\\1800.mp3");
+            }
+
+            else if (hasWord("resize") && (hasWord("image") || hasWord("picture"))) {
+                ImageResizer IR = new ImageResizer();
             }
 
             else if (!mainUtil.getHandledMath()){
