@@ -50,16 +50,17 @@ public class DirectorySearch {
 
         dirField.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),new LineBorder(dirUtil.navy,5,false)));
 
-        CyderButton back = new CyderButton(" < ");
-        back.setFocusPainted(false);
-        back.setForeground(dirUtil.navy);
-        back.setBackground(dirUtil.regularRed);
-        back.setFont(dirUtil.weatherFontSmall);
-        back.setBorder(new LineBorder(dirUtil.navy,5,false));
-        back.setColors(dirUtil.regularRed);
-        back.addActionListener(e -> {
+        CyderButton last = new CyderButton(" < ");
+        last.setFocusPainted(false);
+        last.setForeground(dirUtil.navy);
+        last.setBackground(dirUtil.regularRed);
+        last.setFont(dirUtil.weatherFontSmall);
+        last.setBorder(new LineBorder(dirUtil.navy,5,false));
+        last.setColors(dirUtil.regularRed);
+        last.addActionListener(e -> {
             if (!backward.empty()) {
                 String pop = backward.pop();
+                System.out.println(pop);
                 foward.push(pop);
                 dirField.setText(pop);
                 dirField.requestFocusInWindow();
@@ -75,7 +76,9 @@ public class DirectorySearch {
             }
         });
 
-        dirFieldPanel.add(back, BorderLayout.LINE_START);
+        //todo backwards, fowards, and all three ways trying to add to either stack are broken, write pseudocode
+
+        dirFieldPanel.add(last, BorderLayout.LINE_START);
         dirFieldPanel.add(dirField, BorderLayout.CENTER);
 
         CyderButton next = new CyderButton(" > ");
@@ -86,8 +89,6 @@ public class DirectorySearch {
         next.setBorder(new LineBorder(dirUtil.navy,5,false));
         next.setColors(dirUtil.regularRed);
         next.addActionListener(e -> {
-            //todo foward is broken and getparent file doesn't work we actually need to double pop or something like that to get the
-            //path we should be going to when we press foward or backward
             if (!foward.empty()) {
                 String pop = foward.pop();
                 backward.push(pop);
@@ -170,9 +171,10 @@ public class DirectorySearch {
                     File ChosenDir = (File) directoryList.getModel().getElementAt(index);
 
                     if (ChosenDir.isDirectory()) {
-                        String last = ChosenDir.getAbsoluteFile().getParent();
+                        String was = ChosenDir.getParentFile().toString();
+                        backward.push(was);
                         foward.clear();
-                        backward.push(last);
+                        printStacks();
 
                         dirField.setText(ChosenDir.toString());
 
@@ -221,9 +223,10 @@ public class DirectorySearch {
 
             if (ChosenDir.exists()) {
                 if (ChosenDir.isDirectory()) {
-                    String last = ChosenDir.getAbsoluteFile().getParent();
+                    String was = ChosenDir.getParentFile().toString();
+                    backward.push(was);
                     foward.clear();
-                    backward.push(last);
+                    printStacks();
 
                     directoryList = new JList(ChosenDir.listFiles());
                     File[] Files = ChosenDir.listFiles();
@@ -272,9 +275,10 @@ public class DirectorySearch {
                 File ChosenDir = (File) directoryList.getModel().getElementAt(index);
 
                 if (ChosenDir.isDirectory()) {
-                    String last = ChosenDir.getAbsoluteFile().getParent();
+                    String was = ChosenDir.getParentFile().toString();
+                    backward.push(was);
                     foward.clear();
-                    backward.push(last);
+                    printStacks();
 
                     dirField.setText(ChosenDir.toString());
                     directoryList = new JList(ChosenDir.listFiles());
