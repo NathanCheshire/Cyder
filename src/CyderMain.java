@@ -50,7 +50,6 @@ import java.util.concurrent.TimeUnit;
 
 //todo consolidate looping threads to one main loop thread to check for stuff
 
-//todo stringUtil, securityUtil, internetUtil classes
 //todo static mp3 player so sep class but when opened again other one closes (just reinit object)
 
 public class CyderMain{
@@ -526,7 +525,7 @@ public class CyderMain{
                         musicLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                mainUtil.mp3(null);
+                                mainUtil.mp3("", mainUtil.getUsername(), mainUtil.getUserUUID());
                             }
 
                             @Override
@@ -982,8 +981,8 @@ public class CyderMain{
 
             consoleClockLabel.setForeground(mainUtil.vanila);
 
-            //todo center console clock based on the number of chars on it too
-            consoleClockLabel.setSize(consoleDragLabel.getWidth() / 2 - consoleClockLabel.getWidth()/2,2);
+            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
+                    2,(consoleClockLabel.getText().length() * 17), 25);
 
             consoleDragLabel.add(consoleClockLabel, SwingConstants.CENTER);
 
@@ -1093,7 +1092,8 @@ public class CyderMain{
                         parentLabel.setIcon(newBack);
 
                         parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,200,20);
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
+                                2,(consoleClockLabel.getText().length() * 17), 25);
                     }
 
                     catch (Exception e) {
@@ -1625,7 +1625,8 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,200,20);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
+                2,(consoleClockLabel.getText().length() * 17), 25);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1663,7 +1664,8 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,200,20);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
+                2,(consoleClockLabel.getText().length() * 17), 25);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1760,7 +1762,8 @@ public class CyderMain{
                 slidLeft = !slidLeft;
 
                 parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
-                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,200,20);
+                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
+                        2,(consoleClockLabel.getText().length() * 17), 25);
             }
 
             catch (Exception e) {
@@ -2905,7 +2908,7 @@ public class CyderMain{
             }
 
             else if (hasWord("mp3") || hasWord("music")) {
-                mainUtil.mp3(null);
+                mainUtil.mp3("", mainUtil.getUsername(), mainUtil.getUserUUID());
             }
 
             else if (hasWord("bai")) {
@@ -3784,7 +3787,7 @@ public class CyderMain{
                     }
                 }
 
-                mainUtil.mp3(ClickedSelectionPath);
+                mainUtil.mp3(ClickedSelectionPath.getAbsolutePath(), mainUtil.getUsername(), mainUtil.getUserUUID());
             }
         });
 

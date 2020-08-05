@@ -5,19 +5,18 @@ import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
-import com.cyder.ui.CyderSliderUI;
 import com.cyder.ui.DragLabel;
 import javazoom.jl.player.Player;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.Port;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigInteger;
@@ -62,6 +61,7 @@ public class Util {
     private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
     private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 
+    //cyder version
     private String cyderVer = "Maple";
 
     //uservars
@@ -110,8 +110,6 @@ public class Util {
     private int yMouse;
 
     //restore vars
-    private int musicRestoreX;
-    private int musicRestoreY;
     private int debugRestoreX;
     private int debugRestoreY;
 
@@ -124,31 +122,6 @@ public class Util {
     //media vars
     private JFrame mediaFrame;
     private JLabel displayLabel;
-
-    //music vars
-    private ScrollLabel musicScroll;
-    private JFrame musicFrame;
-    private JSlider musicVolumeSlider;
-    private JButton selectMusicDir;
-    private JButton playPauseMusic;
-    private boolean musicStopped;
-    private JButton lastMusic;
-    private JButton nextMusic;
-    private JButton stopMusic;
-    private JButton loopMusic;
-    private JButton closeMusic;
-    private JLabel musicTitleLabel;
-    private JLabel musicVolumeLabel;
-    private int currentMusicIndex;
-    private File[] musicFiles;
-    private Player mp3Player;
-    private Player player;
-    private BufferedInputStream bis;
-    private FileInputStream fis;
-    private long pauseLocation;
-    private long songTotalLength;
-    private boolean playIcon = true;
-    private boolean repeatAudio;
 
     //update vars
     private boolean userInputMode;
@@ -174,7 +147,12 @@ public class Util {
     private int backgroundX;
     private int backgroundY;
 
+    //information popup
     private JFrame informFrame;
+
+    //static player so only one instance ever exists
+    public static MPEGPlayer CyderPlayer;
+    private static Player player;
 
     //used for second handle
     private String userInputDesc;
@@ -1463,868 +1441,6 @@ public class Util {
         }
     }
 
-    public void mp3(File StartPlaying) {
-        if (musicFrame != null) {
-            closeAnimation(musicFrame);
-            musicFrame.dispose();
-        }
-
-        musicFrame = new JFrame();
-
-        musicFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        musicFrame.setUndecorated(true);
-
-        musicFrame.setTitle("MP3 player");
-
-        musicFrame.setIconImage(getCyderIcon().getImage());
-
-        musicFrame.setBounds(0, 0, 1000, 563);
-
-        JLabel musicLabel = new JLabel();
-
-        musicLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\mp3.png"));
-
-        musicLabel.setBounds(0, 0, 1000, 563);
-
-        musicFrame.setContentPane(musicLabel);
-
-        ImageIcon mini1 = new ImageIcon("src\\com\\cyder\\io\\pictures\\minimize1.png");
-        ImageIcon mini2 = new ImageIcon("src\\com\\cyder\\io\\pictures\\minimize2.png");
-
-        ImageIcon close1 = new ImageIcon("src\\com\\cyder\\io\\pictures\\Close1.png");
-        ImageIcon close2 = new ImageIcon("src\\com\\cyder\\io\\pictures\\Close2.png");
-
-        JLabel musicDragLabel = new JLabel();
-
-        musicDragLabel.setBackground(new Color(20,20,20));
-
-        musicDragLabel.setBounds(0, 0, 1000, 22);
-
-        musicDragLabel.setOpaque(true);
-
-        musicDragLabel.addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                int x = e.getXOnScreen();
-                int y = e.getYOnScreen();
-
-                if (musicFrame != null && musicFrame.isFocused()) {
-                    musicFrame.setLocation(x - xMouse, y - yMouse);
-                }
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                xMouse = e.getX();
-                yMouse = e.getY();
-            }
-        });
-
-        musicFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-                musicFrame.setLocation(musicRestoreX,musicRestoreY);
-                musicFrame.setVisible(true);
-                musicFrame.requestFocus();
-            }
-        });
-
-        JButton close = new JButton("");
-
-        close.setToolTipText("Close");
-
-        close.addActionListener(e -> {
-            closeAnimation(musicFrame);
-            stopMusic.doClick();
-            musicFrame.dispose();
-        });
-
-        close.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                close.setIcon(close2);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                close.setIcon(close1);
-            }
-        });
-
-        close.setBounds(1000 - 26, 0, 22, 20);
-
-        close.setIcon(close1);
-
-        close.setContentAreaFilled(false);
-
-        close.setBorderPainted(false);
-
-        close.setFocusPainted(false);
-
-        musicDragLabel.add(close);
-
-        JButton minimize = new JButton("");
-
-        minimize.setToolTipText("Minimize");
-
-        minimize.addActionListener(e -> {
-            musicRestoreX = musicFrame.getX();
-            musicRestoreY = musicFrame.getY();
-            minimizeAnimation(musicFrame);
-        });
-
-        minimize.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                minimize.setIcon(mini2);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                minimize.setIcon(mini1);
-            }
-        });
-
-        minimize.setBounds(1000 - 52, 0, 22, 20);
-
-        minimize.setIcon(mini1);
-
-        minimize.setContentAreaFilled(false);
-
-        minimize.setBorderPainted(false);
-
-        minimize.setFocusPainted(false);
-
-        musicDragLabel.add(minimize);
-
-        musicLabel.add(musicDragLabel);
-
-        musicTitleLabel = new JLabel("", SwingConstants.CENTER);
-
-        musicTitleLabel.setBounds(280, 38, 400, 30);
-
-        musicTitleLabel.setToolTipText("Currently Playing");
-
-        musicTitleLabel.setFont(new Font("tahoma", Font.BOLD, 18));
-
-        musicTitleLabel.setForeground(vanila);
-
-        musicTitleLabel.setText("No Audio Currently Playing");
-
-        musicLabel.add(musicTitleLabel);
-
-        musicVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
-
-        CyderSliderUI UI = new CyderSliderUI(musicVolumeSlider);
-
-        UI.setFillColor(vanila);
-        UI.setOutlineColor(vanila);
-        UI.setNewValColor(vanila);
-        UI.setOldValColor(vanila);
-        UI.setStroke(new BasicStroke(3.0f));
-
-        musicVolumeSlider.setUI(UI);
-
-        musicVolumeSlider.setBounds(352, 499, 385, 63);
-
-        musicVolumeSlider.setMinimum(0);
-
-        musicVolumeSlider.setMaximum(100);
-
-        musicVolumeSlider.setMajorTickSpacing(5);
-
-        musicVolumeSlider.setMinorTickSpacing(1);
-
-        musicVolumeSlider.setPaintTicks(false);
-
-        musicVolumeSlider.setPaintLabels(false);
-
-        musicVolumeSlider.setVisible(true);
-
-        musicVolumeSlider.setValue(50);
-
-        musicVolumeSlider.setFont(new Font("HeadPlane", Font.BOLD, 18));
-
-        musicVolumeSlider.addChangeListener(e -> {
-            Port.Info Source = Port.Info.SPEAKER;
-            Port.Info Headphones = Port.Info.HEADPHONE;
-
-            if (AudioSystem.isLineSupported(Source)) {
-                try {
-                    Port outline = (Port) AudioSystem.getLine(Source);
-                    outline.open();
-                    FloatControl VolumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
-                    VolumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
-                    musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
-                } catch (Exception ex) {
-                    handle(ex);
-                }
-            }
-
-            if (AudioSystem.isLineSupported(Headphones)) {
-                try {
-                    Port outline = (Port) AudioSystem.getLine(Headphones);
-                    outline.open();
-                    FloatControl VolumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
-                    VolumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
-                    musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
-                } catch (Exception exc) {
-                    handle(exc);
-                }
-            }
-        });
-
-        musicVolumeSlider.setOpaque(false);
-
-        musicVolumeSlider.setToolTipText("Volume");
-
-        musicVolumeSlider.setFocusable(false);
-
-        musicLabel.add(musicVolumeSlider);
-
-        musicVolumeLabel = new JLabel("", SwingConstants.CENTER);
-
-        musicVolumeLabel.setBounds(250, 499, 100, 60);
-
-        musicVolumeLabel.setToolTipText("");
-
-        musicVolumeLabel.setFont(new Font("tahoma", Font.BOLD, 18));
-
-        musicVolumeLabel.setForeground(vanila);
-
-        musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
-
-        musicLabel.add(musicVolumeLabel);
-
-        playPauseMusic = new JButton("");
-
-        playPauseMusic.setToolTipText("play");
-
-        playPauseMusic.addActionListener(e -> {
-            if (mp3Player != null) {
-                if (!playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\play.png"));
-                    playPauseMusic.setToolTipText("play");
-                    playIcon = true;
-                }
-
-                else {
-                    playPauseMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Pause.png"));
-                    playPauseMusic.setToolTipText("Pause");
-                    playIcon = false;
-                }
-
-                if (playIcon) {
-                    try {
-                        pauseLocation = fis.available();
-                    }
-
-                    catch (Exception exc) {
-                        handle(exc);
-                    }
-
-                    stopScrolling();
-                    mp3Player.close();
-                }
-
-                else {
-                    try {
-                        fis = new FileInputStream(musicFiles[currentMusicIndex]);
-                        bis = new BufferedInputStream(fis);
-                        mp3Player = new Player(bis);
-
-                        if (pauseLocation == 0) {
-                            fis.skip(0);
-                        }
-
-                        else {
-
-                            if (songTotalLength - pauseLocation <= 0) {
-                                fis.skip(0);
-                            }
-
-                            else {
-                                fis.skip(songTotalLength - pauseLocation);
-                            }
-                        }
-
-                        resumeMusic();
-                    }
-
-                    catch (Exception ex) {
-                        handle(ex);
-                    }
-                }
-            }
-        });
-
-        playPauseMusic.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\PlayHover.png"));
-                }
-
-                else {
-                    playPauseMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\PauseHover.png"));
-                }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                if (playIcon)
-                {
-                    playPauseMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\play.png"));
-                }
-
-                else
-                {
-                    playPauseMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Pause.png"));
-                }
-            }
-        });
-
-        playPauseMusic.setBounds(121, 263, 75, 75);
-
-        ImageIcon Play = new ImageIcon("src\\com\\cyder\\io\\pictures\\play.png");
-
-        playPauseMusic.setIcon(Play);
-
-        musicLabel.add(playPauseMusic);
-
-        playPauseMusic.setFocusPainted(false);
-
-        playPauseMusic.setOpaque(false);
-
-        playPauseMusic.setContentAreaFilled(false);
-
-        playPauseMusic.setBorderPainted(false);
-
-        lastMusic = new JButton("");
-
-        lastMusic.setToolTipText("Last Audio");
-
-        lastMusic.addActionListener(e -> {
-            repeatAudio = false;
-
-            if (mp3Player != null) {
-                if (currentMusicIndex - 1 >= 0) {
-                    currentMusicIndex -= 1;
-                    mp3Player.close();
-                    mp3Player = null;
-                    stopScrolling();
-                    play(musicFiles[currentMusicIndex]);
-                }
-
-                else if (currentMusicIndex == 0) {
-                    currentMusicIndex = musicFiles.length - 1;
-                    mp3Player.close();
-                    mp3Player = null;
-                    stopScrolling();
-                    play(musicFiles[currentMusicIndex]);
-                }
-            }
-        });
-
-        lastMusic.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                lastMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\SkipBackHover.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                lastMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\SkipBack.png"));
-            }
-        });
-
-        lastMusic.setBounds(121, 363, 75, 75);
-
-        ImageIcon Last = new ImageIcon("src\\com\\cyder\\io\\pictures\\SkipBack.png");
-
-        lastMusic.setIcon(Last);
-
-        musicLabel.add(lastMusic);
-
-        lastMusic.setFocusPainted(false);
-
-        lastMusic.setOpaque(false);
-
-        lastMusic.setContentAreaFilled(false);
-
-        lastMusic.setBorderPainted(false);
-
-        nextMusic = new JButton("");
-
-        nextMusic.setToolTipText("Next Audio");
-
-        nextMusic.addActionListener(e -> {
-            repeatAudio = false;
-
-            if (mp3Player != null) {
-                if (currentMusicIndex + 1 <= musicFiles.length - 1) {
-                    currentMusicIndex += 1;
-                    mp3Player.close();
-                    mp3Player = null;
-                    stopScrolling();
-                    play(musicFiles[currentMusicIndex]);
-                }
-
-                else if (currentMusicIndex + 1 == musicFiles.length) {
-                    currentMusicIndex = 0;
-                    mp3Player.close();
-                    mp3Player = null;
-                    stopScrolling();
-                    play(musicFiles[currentMusicIndex]);
-                }
-            }
-        });
-
-        nextMusic.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                nextMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\SkipHover.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                nextMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Skip.png"));
-            }
-        });
-
-        nextMusic.setBounds(121, 463, 75, 75);
-
-        ImageIcon Next = new ImageIcon("src\\com\\cyder\\io\\pictures\\Skip.png");
-
-        nextMusic.setIcon(Next);
-
-        musicLabel.add(nextMusic);
-
-        nextMusic.setFocusPainted(false);
-
-        nextMusic.setOpaque(false);
-
-        nextMusic.setContentAreaFilled(false);
-
-        nextMusic.setBorderPainted(false);
-
-        loopMusic = new JButton("");
-
-        loopMusic.setToolTipText("Loop Audio");
-
-        loopMusic.addActionListener(e -> {
-            if (!repeatAudio) {
-                loopMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Repeat.png"));
-                loopMusic.setToolTipText("Loop Audio");
-                repeatAudio = true;
-            }
-
-            else {
-                loopMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\NoRepeat.png"));
-                loopMusic.setToolTipText("Loop Audio");
-                repeatAudio = false;
-            }
-        });
-
-        loopMusic.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (repeatAudio)
-                {
-                    loopMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\RepeatHover.png"));
-                }
-
-                else
-                {
-                    loopMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\NoRepeatHover.png"));
-                }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                if (repeatAudio)
-                {
-                    loopMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Repeat.png"));
-                }
-
-                else
-                {
-                    loopMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\NoRepeat.png"));
-                }
-            }
-        });
-
-        loopMusic.setBounds(50, 363, 76, 76);
-
-        ImageIcon Loop = new ImageIcon("src\\com\\cyder\\io\\pictures\\NoRepeat.png");
-
-        loopMusic.setIcon(Loop);
-
-        musicLabel.add(loopMusic);
-
-        loopMusic.setFocusPainted(false);
-
-        loopMusic.setOpaque(false);
-
-        loopMusic.setContentAreaFilled(false);
-
-        loopMusic.setBorderPainted(false);
-
-        stopMusic = new JButton("");
-
-        stopMusic.setToolTipText("Stop");
-
-        stopMusic.addActionListener(e -> {
-            if (mp3Player != null) {
-                mp3Player.close();
-                musicTitleLabel.setText("No audio currently playing");
-                playPauseMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\play.png"));
-                playPauseMusic.setToolTipText("play");
-                playIcon = true;
-                pauseLocation = 0;
-                songTotalLength = 0;
-                musicStopped = true;
-                stopScrolling();
-            }
-        });
-
-        stopMusic.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                stopMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\StopHover.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                stopMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Stop.png"));
-            }
-        });
-
-        stopMusic.setBounds(50, 263, 75, 75);
-
-        ImageIcon Stop = new ImageIcon("src\\com\\cyder\\io\\pictures\\Stop.png");
-
-        stopMusic.setIcon(Stop);
-
-        musicLabel.add(stopMusic);
-
-        stopMusic.setFocusPainted(false);
-
-        stopMusic.setOpaque(false);
-
-        stopMusic.setContentAreaFilled(false);
-
-        stopMusic.setBorderPainted(false);
-
-        selectMusicDir = new JButton("");
-
-        selectMusicDir.setToolTipText("Open File");
-
-        selectMusicDir.addActionListener(e -> {
-            File SelectedFile = getFile();
-
-            if (!SelectedFile.toString().endsWith("mp3")) {
-                if (mp3Player == null) {
-                    inform("Sorry, " + username + ", but that's not an mp3 file.","", 400, 200);
-                }
-            }
-
-            else {
-                File[] SelectedFileDir = SelectedFile.getParentFile().listFiles();
-                ArrayList<File> ValidFiles = new ArrayList<>();
-                for (int i = 0; i < (SelectedFileDir != null ? SelectedFileDir.length : 0); i++) {
-                    if (SelectedFileDir[i].toString().endsWith(".mp3")) {
-                        ValidFiles.add(SelectedFileDir[i]);
-                    }
-                }
-
-                for (int j = 0 ; j < ValidFiles.size() ; j++) {
-                    if (ValidFiles.get(j).equals(SelectedFile)) {
-                        currentMusicIndex = j;
-                    }
-                }
-
-                musicFiles = ValidFiles.toArray(new File[ValidFiles.size()]);
-                play(musicFiles[currentMusicIndex]);
-            }
-        });
-
-        selectMusicDir.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                selectMusicDir.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\SelectFileHover.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                selectMusicDir.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\SelectFile.png"));
-            }
-        });
-
-        selectMusicDir.setBounds(50, 463, 75, 75);
-
-        ImageIcon File = new ImageIcon("src\\com\\cyder\\io\\pictures\\SelectFile.png");
-
-        selectMusicDir.setIcon(File);
-
-        musicLabel.add(selectMusicDir);
-
-        selectMusicDir.setFocusPainted(false);
-
-        selectMusicDir.setOpaque(false);
-
-        selectMusicDir.setContentAreaFilled(false);
-
-        selectMusicDir.setBorderPainted(false);
-
-        musicFrame.setLocationRelativeTo(null);
-
-        musicFrame.setVisible(true);
-
-        musicFrame.setAlwaysOnTop(true);
-
-        musicFrame.setAlwaysOnTop(false);
-
-        musicFrame.requestFocus();
-
-        if (StartPlaying != null) {
-            initMusic(StartPlaying);
-        }
-
-        else {
-            try {
-                File[] SelectedFileDir = new File("src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Music\\" ).listFiles();
-                ArrayList<File> ValidFiles = new ArrayList<>();
-                if (SelectedFileDir == null)
-                    return;
-
-                for (int i = 0; i < SelectedFileDir.length; i++) {
-                    if (SelectedFileDir[i].toString().endsWith(".mp3")) {
-                        ValidFiles.add(SelectedFileDir[i]);
-
-                        if (File.equals(ValidFiles.get(i))) {
-                            currentMusicIndex = i;
-                        }
-                    }
-                }
-
-                musicFiles = ValidFiles.toArray(new File[ValidFiles.size()]);
-
-                if (musicFiles.length != 0) {
-                    play(musicFiles[currentMusicIndex]);
-                }
-            }
-
-            catch (Exception e) {
-                handle(e);
-            }
-        }
-    }
-
-    private void initMusic(File File) {
-        File[] SelectedFileDir = File.getParentFile().listFiles();
-        ArrayList<File> ValidFiles = new ArrayList<>();
-
-        for (java.io.File file : SelectedFileDir) {
-            if (file.toString().endsWith(".mp3")) {
-                ValidFiles.add(file);
-            }
-        }
-
-        for (int i = 0 ; i < ValidFiles.size() ; i++) {
-            if (ValidFiles.get(i).equals(File)) {
-                currentMusicIndex = i;
-            }
-        }
-
-        musicFiles = ValidFiles.toArray(new File[ValidFiles.size()]);
-        play(musicFiles[currentMusicIndex]);
-    }
-
-    private void play(File path) {
-        try {
-            if (mp3Player != null) {
-                mp3Player.close();
-                mp3Player = null;
-            }
-
-            fis = new FileInputStream(path.toString());
-            bis = new BufferedInputStream(fis);
-            mp3Player = new Player(bis);
-            songTotalLength = fis.available();
-            startScrolling();
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-
-        new Thread(() -> {
-            try {
-                playPauseMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Pause.png"));
-                playPauseMusic.setToolTipText("Pause");
-
-                playIcon = false;
-                mp3Player.play();
-
-                if (repeatAudio) {
-                    play(musicFiles[currentMusicIndex]);
-                }
-
-                playPauseMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\play.png"));
-                playPauseMusic.setToolTipText("play");
-                playIcon = true;
-            }
-
-            catch (Exception e) {
-                handle(e);
-            }
-        }).start();
-    }
-
-    private void resumeMusic() {
-        startScrolling();
-        new Thread(() -> {
-            try {
-                mp3Player.play();
-                if (repeatAudio) {
-                    play(musicFiles[currentMusicIndex]);
-                }
-            } catch (Exception e) {
-                handle(e);
-            }
-        }).start();
-    }
-
-    public void playMusic(String FilePath) {
-        try {
-            stopMusic();
-            FileInputStream FileInputStream = new FileInputStream(FilePath);
-            player = new Player(FileInputStream);
-            Thread MusicThread = new Thread(() -> {
-                try {
-                    player.play();
-                }
-
-                catch (Exception e) {
-                    handle(e);
-                }
-            });
-
-            MusicThread.start();
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
-    public void stopMusic() {
-        try {
-            if (player != null && !player.isComplete()) {
-                player.close();
-            }
-
-            player = null;
-            stopScrolling();
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
     public void here() {
         inform("here","Here", 100, 100);
     }
@@ -2970,7 +2086,7 @@ public class Util {
 
         //use our own mp3 player
         else if (FilePath.endsWith(".mp3")) {
-            mp3(new File(FilePath));
+            CyderPlayer = new MPEGPlayer(new File(FilePath), getUsername(), getUserUUID());
         }
 
         //welp just open it outside of the program :(
@@ -3281,98 +2397,50 @@ public class Util {
         this.alwaysOnTop = b;
     }
 
-    private void startScrolling() {
-        musicScroll = new ScrollLabel(musicTitleLabel);
-    }
-
-    private void stopScrolling() {
-        if (musicScroll != null)
-            musicScroll.kill();
-    }
-
-    private class ScrollLabel {
-        private JLabel effectLabel;
-        boolean scroll;
-
-        ScrollLabel(JLabel effLab) {
-            effectLabel = effLab;
-            scroll = true;
-
-            try {
-                int maxLen = 30;
-                int delay = 200;
-                String title = musicFiles[currentMusicIndex].getName().replace(".mp3","");
-                int len = title.length();
-
-                if (len > maxLen) {
-
-                    scroll = true;
-
-                    new Thread(() -> {
-                        try {
-                            while (true) {
-                                String localTitle = musicFiles[currentMusicIndex].getName().replace(".mp3","");
-                                int localLen = localTitle.length();
-                                effectLabel.setText(localTitle.substring(0,26));
-
-                                if (!scroll)
-                                    return;
-
-                                Thread.sleep(2000);
-
-                                for (int i = 0 ; i <= localLen - 26; i++) {
-                                    if (!scroll)
-                                        return;
-
-                                    effectLabel.setText(localTitle.substring(i, i + 26));
-
-                                    if (!scroll)
-                                        return;
-
-                                    Thread.sleep(delay);
-                                }
-
-                                Thread.sleep(2000);
-
-                                for (int i = localLen - 26 ; i >= 0 ; i--) {
-                                    if (!scroll)
-                                        return;
-
-                                    effectLabel.setText(localTitle.substring(i, i + 26));
-
-                                    if (!scroll)
-                                        return;
-
-                                    Thread.sleep(delay);
-                                }
-                            }
-                        }
-
-                        catch (Exception e) {
-                            handle(e);
-                        }
-                    }).start();
-                }
-
-                else {
-                    effectLabel.setText(title);
-                }
-            }
-
-            catch (Exception e) {
-                handle(e);
-            }
-        }
-
-        public void kill() {
-            scroll = false;
-            effectLabel.setText("No Audio Currently Playing");
-        }
-    }
-
     public String getDeprecatedUUID() {
         String uuid = generateUUID();
         uuid = uuid.substring(0,9);
         return ("DeprecatedUser-" + uuid);
+    }
+
+
+    public void mp3(String FilePath, String user, String uuid) {
+        //opening up a new player doesn't stop old player and neither does closing player in the first place
+        CyderPlayer = new MPEGPlayer(new File(FilePath), user, uuid);
+    }
+
+    public void playMusic(String FilePath) {
+        try {
+            stopMusic();
+            FileInputStream FileInputStream = new FileInputStream(FilePath);
+            player = new Player(FileInputStream);
+            Thread MusicThread = new Thread(() -> {
+                try {
+                    player.play();
+                }
+
+                catch (Exception e) {
+                    handle(e);
+                }
+            });
+
+            MusicThread.start();
+        }
+
+        catch (Exception e) {
+            handle(e);
+        }
+    }
+
+    public void stopMusic() {
+        try {
+            if (player != null && !player.isComplete()) {
+                player.close();
+            }
+        }
+
+        catch (Exception e) {
+            handle(e);
+        }
     }
 }
