@@ -38,7 +38,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo block code up and clean up code
+//todo fix layering issue with menu and output area so we can put notifications over output area too
 
 //todo notify of exceptions instead of inform(), swap out most informs for notifys too
 //todo make notiy more robust so we can do it outside of the package
@@ -47,10 +47,6 @@ import java.util.concurrent.TimeUnit;
 
 //todo dir search backwards and fowards, pop between two stacks and then reset when necessary
 //todo add fowards and backwards buttons to dir
-
-//todo consolidate looping threads to one main loop thread to check for stuff
-
-//todo static mp3 player so sep class but when opened again other one closes (just reinit object)
 
 public class CyderMain{
     //console vars
@@ -189,6 +185,7 @@ public class CyderMain{
 
         if (cypherLenovo && !mainUtil.released()) {
             recognize("Nathan", "13201320".toCharArray());
+            DirectorySearch dr = new DirectorySearch();
         }
 
         else {
@@ -1244,13 +1241,13 @@ public class CyderMain{
 
                         if (noThreads > 6) {
                             consoleFrame.setIconImage(mainUtil.getCyderIconBlink().getImage());
-                            Thread.sleep(1000);
+                            Thread.sleep(5000);
                         }
 
                         else {
                             if (consoleFrame != null) {
                                 consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
-                                Thread.sleep(1000);
+                                Thread.sleep(5000);
                             }
                         }
                     }

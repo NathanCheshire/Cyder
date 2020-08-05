@@ -55,7 +55,15 @@ public class MPEGPlayer {
 
         musicFrame.setUndecorated(true);
 
-        musicFrame.setTitle("MP3 player");
+        musicFrame.setTitle("Music Player");
+
+        musicFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (mp3Player != null)
+                    mp3Player.close();
+            }
+        });
 
         musicFrame.setIconImage(musicUtil.getCyderIcon().getImage());
 
@@ -710,6 +718,13 @@ public class MPEGPlayer {
 
         musicFiles = ValidFiles.toArray(new File[ValidFiles.size()]);
         play(musicFiles[currentMusicIndex]);
+    }
+
+    public void kill() {
+        if (mp3Player != null)
+            this.mp3Player.close();
+        musicUtil.closeAnimation(musicFrame);
+        musicFrame.dispose();
     }
 
     private void play(File path) {

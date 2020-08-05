@@ -2405,7 +2405,8 @@ public class Util {
 
 
     public void mp3(String FilePath, String user, String uuid) {
-        //opening up a new player doesn't stop old player and neither does closing player in the first place
+        if (CyderPlayer != null)
+            CyderPlayer.kill();
         CyderPlayer = new MPEGPlayer(new File(FilePath), user, uuid);
     }
 
