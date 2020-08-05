@@ -3,6 +3,7 @@ import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
+import com.cyder.ui.DragLabel;
 import com.cyder.ui.Notification;
 import com.cyder.utilities.*;
 import com.cyder.ui.CyderButton;
@@ -47,9 +48,10 @@ import java.util.concurrent.TimeUnit;
 //todo dir search backwards and fowards, pop between two stacks and then reset when necessary
 //todo add fowards and backwards buttons to dir
 
-//todo weather, stringUtil, securityUtil, internetUtil classes
+//todo consolidate looping threads to one main loop thread to check for stuff
+
+//todo stringUtil, securityUtil, internetUtil classes
 //todo static mp3 player so sep class but when opened again other one closes (just reinit object)
-//todo notes to sep class
 
 public class CyderMain{
     //console vars
@@ -75,8 +77,6 @@ public class CyderMain{
     private JFrame loginFrame;
     private JTextField nameField;
     private JPasswordField pass;
-    private JButton closeLog;
-    private JButton minimizeLog;
     private JLabel newUserLabel;
     private JLabel menuLabel;
 
@@ -99,8 +99,6 @@ public class CyderMain{
     //deiconified restore vars
     private int restoreX;
     private int restoreY;
-    private int loginRestoreX;
-    private int loginRestoreY;
 
     //drag pos vars;
     private int xMouse;
@@ -984,7 +982,8 @@ public class CyderMain{
 
             consoleClockLabel.setForeground(mainUtil.vanila);
 
-            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,190,20);
+            //todo center console clock based on the number of chars on it too
+            consoleClockLabel.setSize(consoleDragLabel.getWidth() / 2 - consoleClockLabel.getWidth()/2,2);
 
             consoleDragLabel.add(consoleClockLabel, SwingConstants.CENTER);
 
@@ -1094,7 +1093,7 @@ public class CyderMain{
                         parentLabel.setIcon(newBack);
 
                         parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,190,20);
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,200,20);
                     }
 
                     catch (Exception e) {
@@ -1340,43 +1339,6 @@ public class CyderMain{
 
         loginFrame.setTitle("Cyder login");
 
-        loginFrame.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-                loginFrame.setLocation(loginRestoreX, loginRestoreY);
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
-        });
-
         loginFrame.setIconImage(mainUtil.getCyderIcon().getImage());
 
         loginLabel = new JLabel();
@@ -1417,138 +1379,7 @@ public class CyderMain{
 
         startSliding();
 
-        minimizeLog = new JButton("");
-
-        minimizeLog.setToolTipText("Minimize");
-
-        minimizeLog.addActionListener(e -> {
-            mainUtil.minimizeAnimation(loginFrame);
-            loginFrame.setState(JFrame.ICONIFIED);
-
-            loginRestoreX = loginFrame.getX();
-            loginRestoreY = loginFrame.getY();
-        });
-
-        minimizeLog.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                minimizeLog.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Minimize2.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                minimizeLog.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Minimize1.png"));
-            }
-        });
-
-        minimizeLog.setBounds(398, 0, 22, 20);
-
-        ImageIcon mini = new ImageIcon("src\\com\\cyder\\io\\pictures\\Minimize1.png");
-
-        minimizeLog.setIcon(mini);
-
-        loginLabel.add(minimizeLog);
-
-        minimizeLog.setFocusPainted(false);
-
-        minimizeLog.setOpaque(false);
-
-        minimizeLog.setContentAreaFilled(false);
-
-        minimizeLog.setBorderPainted(false);
-
-        closeLog = new JButton("");
-
-        closeLog.addActionListener(e -> {
-            mainUtil.closeAnimation(loginFrame);
-
-            loginFrame.dispose();
-
-            if (consoleFrame == null) {
-                
-                System.exit(0);
-            }
-        });
-
-        closeLog.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                closeLog.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Close2.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                closeLog.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Close1.png"));
-            }
-        });
-
-        closeLog.setBounds(420,0,22,22);
-
-        closeLog.setFocusable(false);
-
-        closeLog.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Close1.png"));
-
-        loginLabel.add(closeLog);
-
-        closeLog.setContentAreaFilled(false);
-
-        closeLog.setBorderPainted(false);
-
-        closeLog.setOpaque(false);
-
-        closeLog.setToolTipText("Close");
-
-        JLabel LoginDragLabel = new JLabel();
-
-        LoginDragLabel.setBounds(0,0,420,20);
-
-        LoginDragLabel.addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                int x = e.getXOnScreen();
-                int y = e.getYOnScreen();
-
-                if (loginFrame != null && loginFrame.isFocused()) {
-                    loginFrame.setLocation(x - xMouse, y - yMouse);
-                }
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                xMouse = e.getX();
-                yMouse = e.getY();
-            }
-        });
+        DragLabel LoginDragLabel = new DragLabel(440,30,loginFrame);
 
         loginLabel.add(LoginDragLabel);
 
@@ -1794,7 +1625,7 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,190,20);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,200,20);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1832,7 +1663,7 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,190,20);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,200,20);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1929,7 +1760,7 @@ public class CyderMain{
                 slidLeft = !slidLeft;
 
                 parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
-                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,190,20);
+                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - 190/2,2,200,20);
             }
 
             catch (Exception e) {

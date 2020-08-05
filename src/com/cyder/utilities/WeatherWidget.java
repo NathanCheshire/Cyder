@@ -11,7 +11,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class WeatherWidget {
     private JLabel locationLabel;
@@ -53,6 +55,7 @@ public class WeatherWidget {
     private String userIP;
     private String userPostalCode;
     private String userFlagURL;
+    private String gmtOffset;
 
     private JButton closeWeather;
     private JButton minimizeWeather;
@@ -380,11 +383,12 @@ public class WeatherWidget {
         TimeThread.start();
     }
 
-    //todo weather time needs to be based on time zone of location
-
     public String weatherTime() {
-        Date Time = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, Integer.parseInt(gmtOffset) / 3600);
+        Date Time = cal.getTime();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa zzz EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
+        dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
         return dateFormatter.format(Time);
     }
 
@@ -501,8 +505,12 @@ public class WeatherWidget {
                 }
                 else if (field.contains("humidity")) {
                     humidity = field.replaceAll("[^\\d.]", "");
-                } else if (field.contains("temp")) {
+                }
+                else if (field.contains("temp")) {
                     temperature = field.replaceAll("[^\\d.]", "");
+                }
+                else if (field.contains("timezone")) {
+                    gmtOffset = field.replaceAll("[^0-9\\-]", "");
                 }
             }
 
