@@ -23,6 +23,8 @@ public class DirectorySearch {
     private Stack<String> backward = new Stack<>();
     private Stack<String> foward = new Stack<>();
 
+    private String rightNow = System.getProperty("user.dir");
+
     public DirectorySearch() {
         if (dirFrame != null) {
             dirUtil.closeAnimation(dirFrame);
@@ -59,10 +61,8 @@ public class DirectorySearch {
         last.setColors(dirUtil.regularRed);
         last.addActionListener(e -> {
             if (!backward.empty()) {
-                String pop = backward.pop();
-                System.out.println(pop);
-                foward.push(pop);
-                dirField.setText(pop);
+                foward.push(rightNow);
+                dirField.setText(backward.pop());
                 dirField.requestFocusInWindow();
 
                 try {
@@ -76,8 +76,6 @@ public class DirectorySearch {
             }
         });
 
-        //todo backwards, fowards, and all three ways trying to add to either stack are broken, write pseudocode
-
         dirFieldPanel.add(last, BorderLayout.LINE_START);
         dirFieldPanel.add(dirField, BorderLayout.CENTER);
 
@@ -90,9 +88,8 @@ public class DirectorySearch {
         next.setColors(dirUtil.regularRed);
         next.addActionListener(e -> {
             if (!foward.empty()) {
-                String pop = foward.pop();
-                backward.push(pop);
-                dirField.setText(pop);
+                backward.push(rightNow);
+                dirField.setText(foward.pop());
                 dirField.requestFocusInWindow();
 
                 try {
@@ -171,9 +168,7 @@ public class DirectorySearch {
                     File ChosenDir = (File) directoryList.getModel().getElementAt(index);
 
                     if (ChosenDir.isDirectory()) {
-                        String was = ChosenDir.getParentFile().toString();
-                        backward.push(was);
-                        foward.clear();
+                        //todo
                         printStacks();
 
                         dirField.setText(ChosenDir.toString());
@@ -223,9 +218,7 @@ public class DirectorySearch {
 
             if (ChosenDir.exists()) {
                 if (ChosenDir.isDirectory()) {
-                    String was = ChosenDir.getParentFile().toString();
-                    backward.push(was);
-                    foward.clear();
+                    //todo
                     printStacks();
 
                     directoryList = new JList(ChosenDir.listFiles());
@@ -275,9 +268,7 @@ public class DirectorySearch {
                 File ChosenDir = (File) directoryList.getModel().getElementAt(index);
 
                 if (ChosenDir.isDirectory()) {
-                    String was = ChosenDir.getParentFile().toString();
-                    backward.push(was);
-                    foward.clear();
+                    //todo
                     printStacks();
 
                     dirField.setText(ChosenDir.toString());
