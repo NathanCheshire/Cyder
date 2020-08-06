@@ -39,6 +39,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //todo fix layering issue with menu and output area so we can put notifications over output area too
+
 //todo separate handler method that passes back what to print, what to open, what to draw, notification, etc.
 
 public class CyderMain{
@@ -166,18 +167,7 @@ public class CyderMain{
         }
 
         mainUtil.varInit();
-
         threadBlink();
-
-        File Users = new File("src\\com\\cyder\\users\\");
-
-        String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
-
-        if (directories != null && directories.length == 0) {
-            mainUtil.inform("It appears that no users exist on this build of Cyder. " +
-                    "You should create one, " + System.getProperty("user.name") + ".", "No Users", 400, 300);
-        }
-
 
         if (cypherLenovo && !mainUtil.released()) {
             recognize("Nathan", "13201320".toCharArray());
@@ -1088,7 +1078,8 @@ public class CyderMain{
 
             new Thread(() -> {
                 if (!mainUtil.internetReachable()) {
-                    notification(mainUtil.getUsername() + ", internet connection slow or unavailble.", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH);
+                    notification(mainUtil.getUsername() + ", internet connection slow or unavailble.",
+                            3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
                 }
             }).start();
         }
@@ -1179,33 +1170,32 @@ public class CyderMain{
         }
     };
 
-    //todo put in notifications
     private WindowAdapter consoleEcho = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
         inputField.requestFocus();
 
         if (mainUtil.isChristmas() && !christmasEcho) {
-            notification("Merry Christmas!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
+            notification("Merry Christmas!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
             christmasEcho = true;
         }
 
         if (mainUtil.isHalloween() && !halloweenEcho) {
-            notification("Happy Halloween!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
+            notification("Happy Halloween!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
             halloweenEcho = true;
         }
 
         if (mainUtil.isIndependenceDay() && !independenceDayEcho) {
-            notification("Happy 4th of July", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
+            notification("Happy 4th of July", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
             independenceDayEcho = true;
         }
 
         if (mainUtil.isThanksgiving() && !thanksgivingEcho) {
-            notification("Happy Thanksgiving!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
+            notification("Happy Thanksgiving!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
             thanksgivingEcho = true;
         }
 
         if (mainUtil.isAprilFoolsDay() && !aprilFoolsDayEcho) {
-            notification("Happy April Fools Day!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
+            notification("Happy April Fools Day!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
             aprilFoolsDayEcho = true;
         }
         }
@@ -1315,43 +1305,30 @@ public class CyderMain{
         }
 
         loginFrame.setBounds(0, 0, 440, 520);
-
         loginFrame.setTitle("Cyder login");
-
         loginFrame.setIconImage(mainUtil.getCyderIcon().getImage());
 
         loginLabel = new JLabel();
-
         loginLabel.setVerticalTextPosition(SwingConstants.TOP);
-
         loginLabel.setVerticalAlignment(SwingConstants.TOP);
-
         loginLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\login.png"));
-
         loginLabel.setBounds(0, 0, 440, 520);
+        loginLabel.setBorder(new LineBorder(mainUtil.navy,5,false));
 
         loginFrame.setContentPane(loginLabel);
 
         loginLabel2 = new JLabel();
-
         loginLabel2.setVerticalTextPosition(SwingConstants.TOP);
-
         loginLabel2.setVerticalAlignment(SwingConstants.TOP);
-
         loginLabel2.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Login2.png"));
-
         loginLabel2.setBounds(440,0 , 440, 520);
 
         loginLabel.add(loginLabel2);
 
         loginLabel3 = new JLabel();
-
         loginLabel3.setVerticalTextPosition(SwingConstants.TOP);
-
         loginLabel3.setVerticalAlignment(SwingConstants.TOP);
-
         loginLabel3.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Login3.png"));
-
         loginLabel3.setBounds(880,0 , 440, 520);
 
         loginLabel.add(loginLabel3);
@@ -1363,25 +1340,15 @@ public class CyderMain{
         loginLabel.add(LoginDragLabel);
 
         nameField = new JTextField(20);
-
         nameField.setToolTipText("Username");
-
         nameField.setBounds(57,279,327,41);
-
         nameField.setBackground(new Color(0,0,0,0));
-
-        nameField.setSelectionColor(new Color(204,153,0));
-
+        nameField.setSelectionColor(mainUtil.selectionColor);
         nameField.setBorder(null);
-
         nameField.setFont(new Font("Comic Sans MS",Font.BOLD, 25));
-
         nameField.setForeground(new Color(42,52,61));
-
         nameField.setCaretColor(mainUtil.navy);
-
         nameField.addActionListener(e -> nameField.requestFocusInWindow());
-
         nameField.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
@@ -1407,40 +1374,30 @@ public class CyderMain{
 
         nameField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                if (nameField.getText().length() > 15) {
-                    evt.consume();
-                }
+            if (nameField.getText().length() > 15) {
+                evt.consume();
+            }
 
-                if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
-                    pass.requestFocus();
-                }
+            if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+                pass.requestFocus();
+            }
             }
         });
 
         nameField.setBorder(BorderFactory.createEmptyBorder());
-
         nameField.setOpaque(false);
 
         loginLabel.add(nameField);
 
         pass = new JPasswordField();
-
         pass.setToolTipText("Password");
-
         pass.setBounds(59,348,327,41);
-
         pass.setBackground(new Color(0,0,0,0));
-
-        pass.setSelectionColor(new Color(204,153,0));
-
+        pass.setSelectionColor(mainUtil.selectionColor);
         pass.setBorder(null);
-
         pass.setFont(mainUtil.defaultFont);
-
         pass.setForeground(new Color(42,52,61));
-
         pass.setCaretColor(mainUtil.navy);
-
         pass.addActionListener(e -> {
             String Username = nameField.getText().trim();
 
@@ -1461,35 +1418,21 @@ public class CyderMain{
 
         pass.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                if (pass.getPassword().length > 30) {
-                    evt.consume();
-                }
+            if (pass.getPassword().length > 30) {
+                evt.consume();
+            }
             }
         });
 
         pass.setBorder(BorderFactory.createEmptyBorder());
-
         pass.setOpaque(false);
 
         loginLabel.add(pass);
 
         newUserLabel = new JLabel("Don't have an account?", SwingConstants.CENTER);
-
         newUserLabel.setFont(new Font("tahoma",Font.BOLD,18));
-
         newUserLabel.setForeground(mainUtil.vanila);
-
-        newUserLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+        newUserLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 createUser();
@@ -1513,14 +1456,20 @@ public class CyderMain{
         loginLabel.add(newUserLabel);
 
         loginFrame.setLocationRelativeTo(null);
-
         loginFrame.setVisible(true);
-
         loginFrame.addWindowListener(new WindowAdapter() {
             public void windowOpened(WindowEvent e) {
                 nameField.requestFocus();
             }
         });
+
+        File Users = new File("src\\com\\cyder\\users\\");
+
+        String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
+
+        //if (directories != null && directories.length == 0) {
+            notification("Psst! Create a user, " + System.getProperty("user.name"), 2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, loginLabel);
+        //}
     }
 
     private void recognize(String Username, char[] Password) {
@@ -1949,12 +1898,12 @@ public class CyderMain{
 
                     if (threads > 1) {
                         notification("The scripts have started. At any point, type \"stop script\"",
-                                4000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
+                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentLabel);
                     }
 
                     else {
                         notification("The script has started. At any point, type \"stop script\"",
-                                4000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
+                                4000, Notification.TOP_ARROW, Notification.RIGHT_VANISH,parentLabel);
                     }
 
                     randomYoutube(consoleFrame, threads);
@@ -2849,7 +2798,8 @@ public class CyderMain{
                 pixelateFile = mainUtil.getFile();
 
                 if (!pixelateFile.getName().endsWith(".png")) {
-                    notification("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images",  5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
+                    notification("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images",
+                            5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH, parentLabel);
                 }
 
                 else if (pixelateFile != null) {
@@ -5073,13 +5023,13 @@ public class CyderMain{
         }
     }
 
-    public void notification(String htmltext, int delay, int arrowDir, int vanishDir) {
+    public void notification(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent) {
         if (consoleNotification != null && consoleNotification.isVisible())
             consoleNotification.kill();
 
         consoleNotification = new Notification();
 
-        int w = (int) Math.ceil(10.7 * htmltext.length());
+        int w = (int) Math.ceil(10.9 * htmltext.length());
         int h = 30;
 
         consoleNotification.setWidth(w);
@@ -5089,12 +5039,12 @@ public class CyderMain{
         JLabel text = new JLabel(htmltext);
         text.setFont(mainUtil.weatherFontSmall);
         text.setForeground(mainUtil.navy);
-        text.setBounds(14,10,w,h);
+        text.setBounds(14,10,w,h); //todo here and
         consoleNotification.add(text);
-        consoleNotification.setBounds(consoleDragLabel.getWidth() - (w + 30),30,w * 2,h * 2);
-        parentLabel.add(consoleNotification);
-        parentLabel.repaint();
+        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);//todo here not properly made enough space on notif or parent
+        parent.add(consoleNotification);
+        parent.repaint();
 
-        consoleNotification.vanish(vanishDir, parentLabel, delay);
+        consoleNotification.vanish(vanishDir, parent, delay);
     }
 }

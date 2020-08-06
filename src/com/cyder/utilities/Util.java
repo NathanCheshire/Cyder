@@ -485,7 +485,7 @@ public class Util {
         return toHexString(getSHA(mac.toCharArray())).equals("5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e");
     }
 
-    private String getWindowsUsername() {
+    public String getWindowsUsername() {
         return System.getProperty("user.name");
     }
 
