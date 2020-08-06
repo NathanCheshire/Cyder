@@ -45,9 +45,6 @@ import java.util.concurrent.TimeUnit;
 //todo maybe make a notify class that uses notificaiton and you pass it the component to layer on top (this clas could hold disappearing code)
 //todo all notifications widths and heights should be based off of text length and consoledraglabel width too to determine wrapping
 
-//todo dir search backwards and fowards, pop between two stacks and then reset when necessary
-//todo add fowards and backwards buttons to dir
-
 public class CyderMain{
     //console vars
     private JTextPane outputArea;

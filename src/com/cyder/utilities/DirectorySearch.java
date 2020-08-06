@@ -62,17 +62,37 @@ public class DirectorySearch {
         last.addActionListener(e -> {
             if (!backward.empty()) {
                 foward.push(rightNow);
-                dirField.setText(backward.pop());
-                dirField.requestFocusInWindow();
+                File ChosenDir = new File(backward.pop());
+                rightNow = ChosenDir.toString();
 
-                try {
-                    Robot robot = new Robot();
-                    robot.keyPress(KeyEvent.VK_ENTER);
+                printStacks();
+
+                dirField.setText(ChosenDir.toString());
+                directoryList = new JList(ChosenDir.listFiles());
+
+                File[] Files = ChosenDir.listFiles();
+                String[] Names = new String[Files.length];
+
+                for (int i = 0 ; i < Files.length ; i++) {
+                    Names[i] = Files[i].getName();
                 }
 
-                catch (Exception ex) {
-                    dirUtil.handle(ex);
-                }
+                directoryNameList = new JList(Names);
+                directoryNameList.setFont(dirUtil.weatherFontSmall);
+                directoryNameList.setForeground(dirUtil.navy);
+                directoryNameList.setSelectionBackground(dirUtil.selectionColor);
+                directoryNameList.addMouseListener(directoryListener);
+                directoryNameList.addKeyListener(directoryEnterListener);
+
+                dirScroll.setViewportView(directoryNameList);
+                dirScroll.revalidate();
+                dirScroll.repaint();
+
+                dirSearchParentPanel.revalidate();
+                dirSearchParentPanel.repaint();
+
+                dirFrame.revalidate();
+                dirFrame.repaint();
             }
         });
 
@@ -89,17 +109,37 @@ public class DirectorySearch {
         next.addActionListener(e -> {
             if (!foward.empty()) {
                 backward.push(rightNow);
-                dirField.setText(foward.pop());
-                dirField.requestFocusInWindow();
+                File ChosenDir = new File(foward.pop());
+                rightNow = ChosenDir.toString();
 
-                try {
-                    Robot robot = new Robot();
-                    robot.keyPress(KeyEvent.VK_ENTER);
+                printStacks();
+
+                dirField.setText(ChosenDir.toString());
+                directoryList = new JList(ChosenDir.listFiles());
+
+                File[] Files = ChosenDir.listFiles();
+                String[] Names = new String[Files.length];
+
+                for (int i = 0 ; i < Files.length ; i++) {
+                    Names[i] = Files[i].getName();
                 }
 
-                catch (Exception ex) {
-                    dirUtil.handle(ex);
-                }
+                directoryNameList = new JList(Names);
+                directoryNameList.setFont(dirUtil.weatherFontSmall);
+                directoryNameList.setForeground(dirUtil.navy);
+                directoryNameList.setSelectionBackground(dirUtil.selectionColor);
+                directoryNameList.addMouseListener(directoryListener);
+                directoryNameList.addKeyListener(directoryEnterListener);
+
+                dirScroll.setViewportView(directoryNameList);
+                dirScroll.revalidate();
+                dirScroll.repaint();
+
+                dirSearchParentPanel.revalidate();
+                dirSearchParentPanel.repaint();
+
+                dirFrame.revalidate();
+                dirFrame.repaint();
             }
         });
 
@@ -168,7 +208,15 @@ public class DirectorySearch {
                     File ChosenDir = (File) directoryList.getModel().getElementAt(index);
 
                     if (ChosenDir.isDirectory()) {
-                        //todo
+                        if (!foward.isEmpty() && !foward.peek().equals(rightNow))
+                            foward.clear();
+
+                        if (!backward.isEmpty() && !backward.peek().equals(rightNow) && !foward.isEmpty() && !foward.peek().equals(rightNow))
+                            backward.push(rightNow);
+                        else if (backward.isEmpty());
+                            backward.push(rightNow);
+
+                        rightNow = ChosenDir.toString();
                         printStacks();
 
                         dirField.setText(ChosenDir.toString());
@@ -218,7 +266,15 @@ public class DirectorySearch {
 
             if (ChosenDir.exists()) {
                 if (ChosenDir.isDirectory()) {
-                    //todo
+                    if (!foward.isEmpty() && !foward.peek().equals(rightNow))
+                        foward.clear();
+
+                    if (!backward.isEmpty() && !backward.peek().equals(rightNow) && !foward.isEmpty() && !foward.peek().equals(rightNow))
+                        backward.push(rightNow);
+                    else if (backward.isEmpty());
+                        backward.push(rightNow);
+
+                    rightNow = ChosenDir.toString();
                     printStacks();
 
                     directoryList = new JList(ChosenDir.listFiles());
@@ -268,7 +324,15 @@ public class DirectorySearch {
                 File ChosenDir = (File) directoryList.getModel().getElementAt(index);
 
                 if (ChosenDir.isDirectory()) {
-                    //todo
+                    if (!foward.isEmpty() && !foward.peek().equals(rightNow))
+                        foward.clear();
+
+                    if (!backward.isEmpty() && !backward.peek().equals(rightNow) && !foward.isEmpty() && !foward.peek().equals(rightNow))
+                        backward.push(rightNow);
+                    else if (backward.isEmpty());
+                        backward.push(rightNow);
+
+                    rightNow = ChosenDir.toString();
                     printStacks();
 
                     dirField.setText(ChosenDir.toString());
