@@ -1,5 +1,6 @@
 package com.cyder.ui;
 
+import AppPackage.AnimationClass;
 import com.cyder.utilities.Util;
 
 import javax.swing.*;
@@ -129,5 +130,44 @@ public class Notification extends JLabel {
                 graphics2D.fill(path);
                 break;
         }
+    }
+
+    public void vanish(int vanishDir, Component parent, int delay) {
+        new Thread(() -> {
+            try {
+                Thread.sleep(delay);
+                AnimationClass ac = new AnimationClass();
+
+                switch(vanishDir) {
+                    case Notification.TOP_VANISH:
+                        ac.jLabelYUp(this.getY(), - this.getHeight(), 10, 8, this);
+                        Thread.sleep(10 * (this.getHeight() + this.getY())/ 8);
+                        break;
+                    case Notification.BOTTOM_VANISH:
+                        ac.jLabelYDown(this.getY(), parent.getHeight(), 10, 8, this);
+                        Thread.sleep(10 * (parent.getHeight() - this.getY())/ 8);
+                        break;
+                    case Notification.RIGHT_VANISH:
+                        ac.jLabelXRight(this.getX(), parent.getWidth(), 10, 8, this);
+                        Thread.sleep(10 * (parent.getWidth() -  this.getX())/ 8);
+                        break;
+
+                    case Notification.LEFT_VANISH:
+                        ac.jLabelXLeft(this.getX(), - this.getWidth(), 10, 8, this);
+                        Thread.sleep(10 * (this.getWidth() + this.getX())/ 8);
+                        break;
+                }
+
+                this.setVisible(false);
+            }
+
+            catch (Exception e) {
+                notificationHandler.handle(e);
+            }
+        }).start();
+    }
+
+    public void kill() {
+        this.setVisible(false);
     }
 }

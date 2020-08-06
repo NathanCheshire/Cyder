@@ -39,11 +39,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //todo fix layering issue with menu and output area so we can put notifications over output area too
-
-//todo notify of exceptions instead of inform(), swap out most informs for notifys too
-//todo make notiy more robust so we can do it outside of the package
-//todo maybe make a notify class that uses notificaiton and you pass it the component to layer on top (this clas could hold disappearing code)
-//todo all notifications widths and heights should be based off of text length and consoledraglabel width too to determine wrapping
+//todo separate handler method that passes back what to print, what to open, what to draw, notification, etc.
 
 public class CyderMain{
     //console vars
@@ -122,6 +118,9 @@ public class CyderMain{
     private JFrame fontFrame;
     private JList fontList;
 
+    //notification var
+    private static Notification consoleNotification;
+
     //create user vars
     private JFrame createUserFrame;
     private JPasswordField newUserPasswordconf;
@@ -151,9 +150,9 @@ public class CyderMain{
         System.setProperty("sun.java2d.uiScale","1.0");
 
         UIManager.put("ToolTip.background", mainUtil.consoleColor);
-        UIManager.put("ToolTip.border", Color.black);
+        UIManager.put("ToolTip.border", mainUtil.tooltipBorderColor);
         UIManager.put("ToolTip.font", mainUtil.tahoma);
-        UIManager.put("ToolTip.foreground", new Color(85,85,255));
+        UIManager.put("ToolTip.foreground", mainUtil.tooltipForegroundColor);
 
         //security var
         boolean cypherLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
@@ -170,7 +169,7 @@ public class CyderMain{
 
         threadBlink();
 
-        File Users = new File("src\\com\\cyder\\io\\users\\");
+        File Users = new File("src\\com\\cyder\\users\\");
 
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
 
@@ -182,7 +181,6 @@ public class CyderMain{
 
         if (cypherLenovo && !mainUtil.released()) {
             recognize("Nathan", "13201320".toCharArray());
-            DirectorySearch dr = new DirectorySearch();
         }
 
         else {
@@ -190,7 +188,7 @@ public class CyderMain{
         }
     }
 
-    private void console()  {
+    private void console() {
         try{
             mainUtil.initBackgrounds();
             mainUtil.getScreenSize();
@@ -241,18 +239,6 @@ public class CyderMain{
             parentLabel.setBorder(new LineBorder(mainUtil.navy,8,false));
 
             parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
-
-            parentLabel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
-                    InputEvent.ALT_DOWN_MASK), "alternateBackground");
-
-            parentLabel.getActionMap().put("alternateBackground", new AbstractAction() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    alternateBackground.doClick();
-                }
-            });
 
             parentPanel.add(parentLabel);
 
@@ -1102,7 +1088,7 @@ public class CyderMain{
 
             new Thread(() -> {
                 if (!mainUtil.internetReachable()) {
-                    notification(mainUtil.getUsername() + ", internet connection slow or unavailble.", 520, 30, 3000, Notification.TOP_ARROW, Notification.TOP_VANISH);
+                    notification(mainUtil.getUsername() + ", internet connection slow or unavailble.", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH);
                 }
             }).start();
         }
@@ -1165,7 +1151,7 @@ public class CyderMain{
                 for (int i = 61440 ; i < 61452 ; i++) {
                     if (code == i) {
                         try {
-                            throw new FatalException("\"Interesting F\" + (i - 61427) + \" key.\"");
+                            throw new FatalException("Interesting F" + (i - 61427) + " key");
                         }
 
                         catch (FatalException ex) {
@@ -1193,32 +1179,33 @@ public class CyderMain{
         }
     };
 
+    //todo put in notifications
     private WindowAdapter consoleEcho = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
         inputField.requestFocus();
 
         if (mainUtil.isChristmas() && !christmasEcho) {
-            println("Merry Christmas!");
+            notification("Merry Christmas!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
             christmasEcho = true;
         }
 
         if (mainUtil.isHalloween() && !halloweenEcho) {
-            println("Happy Halloween!");
+            notification("Happy Halloween!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
             halloweenEcho = true;
         }
 
         if (mainUtil.isIndependenceDay() && !independenceDayEcho) {
-            println("Happy 4th of July!");
+            notification("Happy 4th of July", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
             independenceDayEcho = true;
         }
 
         if (mainUtil.isThanksgiving() && !thanksgivingEcho) {
-            println("Happy Thanksgiving!");
+            notification("Happy Thanksgiving!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
             thanksgivingEcho = true;
         }
 
         if (mainUtil.isAprilFoolsDay() && !aprilFoolsDayEcho) {
-            println("Happy April Fools Day!");
+            notification("Happy April Fools Day!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH);
             aprilFoolsDayEcho = true;
         }
         }
@@ -1306,9 +1293,7 @@ public class CyderMain{
         saveFontColor();
         mainUtil.closeAnimation(consoleFrame);
 
-        
         System.exit(0);
-
     }
 
     private void login(boolean AlreadyOpen) {
@@ -1561,7 +1546,7 @@ public class CyderMain{
                 if (mainUtil.getUserData("IntroMusic").equals("1")) {
                     LinkedList<String> MusicList = new LinkedList<>();
 
-                    File UserMusicDir = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Music");
+                    File UserMusicDir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music");
 
                     String[] FileNames = UserMusicDir.list();
 
@@ -1575,7 +1560,7 @@ public class CyderMain{
 
                     if (!MusicList.isEmpty()) {
                         mainUtil.playMusic(
-                                "src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Music\\" +
+                                "src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music\\" +
                                         (FileNames[mainUtil.randInt(0,FileNames.length - 1)]));
                     }
                 }
@@ -1964,12 +1949,12 @@ public class CyderMain{
 
                     if (threads > 1) {
                         notification("The scripts have started. At any point, type \"stop script\"",
-                                620, 30, 5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
+                                4000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
                     }
 
                     else {
                         notification("The script has started. At any point, type \"stop script\"",
-                                620, 30, 5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
+                                4000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
                     }
 
                     randomYoutube(consoleFrame, threads);
@@ -2111,15 +2096,15 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("deleteuser")) {
                 mainUtil.closeAnimation(consoleFrame);
                 consoleFrame.dispose();
-                mainUtil.deleteFolder(new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID()));
+                mainUtil.deleteFolder(new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID()));
 
                 //fail safe if not able to delete
-                File renamed = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getDeprecatedUUID());
+                File renamed = new File("src\\com\\cyder\\users\\" + mainUtil.getDeprecatedUUID());
                 while (renamed.exists()) {
-                    renamed = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getDeprecatedUUID());
+                    renamed = new File("src\\com\\cyder\\users\\" + mainUtil.getDeprecatedUUID());
                 }
 
-                File old = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID());
+                File old = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID());
                 old.renameTo(renamed);
             }
 
@@ -2129,7 +2114,7 @@ public class CyderMain{
                 String searchName = mainUtil.getCurrentBackground().getName().replace(".png", "")
                         + "_Pixelated_Pixel_Size_" + Integer.parseInt(input) + ".png";
 
-                File saveFile = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() +
+                File saveFile = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() +
                         "\\Backgrounds\\" + searchName);
 
                 ImageIO.write(img, "png", saveFile);
@@ -2864,7 +2849,7 @@ public class CyderMain{
                 pixelateFile = mainUtil.getFile();
 
                 if (!pixelateFile.getName().endsWith(".png")) {
-                    notification("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images", 610, 30, 5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
+                    notification("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images",  5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH);
                 }
 
                 else if (pixelateFile != null) {
@@ -2891,6 +2876,7 @@ public class CyderMain{
 
             else if (eic("controlc")) {
                 mainUtil.setUserInputMode(false);
+                killAllYoutube();
                 println("Escaped");
             }
 
@@ -2935,7 +2921,6 @@ public class CyderMain{
             }
 
             else if (hasWord("fibonacci")) {
-                print("0, 1");
                 fib(0,1);
             }
 
@@ -3554,12 +3539,11 @@ public class CyderMain{
     public void fib(int a, int b) {
         try {
             int c = a + b;
-
-            println(", " + c);
-
-            if (c < 2147483647 / 2) {
+            println(c);
+            if (c < 2147483647/2)
                 fib(b, c);
-            }
+            else
+                println("Integer limit reached");
         }
 
         catch (Exception e) {
@@ -3640,7 +3624,7 @@ public class CyderMain{
                 File AddBackground = mainUtil.getFile();
 
                 if (addMusic.getName() != null && addMusic.getName().endsWith(".png")) {
-                    File Destination = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds\\" + AddBackground.getName());
+                    File Destination = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds\\" + AddBackground.getName());
                     Files.copy(new File(AddBackground.getAbsolutePath()).toPath(), Destination.toPath());
                     initializeBackgroundsList();
                     backgroundListScroll.setViewportView(backgroundSelectionList);
@@ -3744,7 +3728,7 @@ public class CyderMain{
                 File AddMusic = mainUtil.getFile();
 
                 if (AddMusic != null && AddMusic.getName().endsWith(".mp3")) {
-                    File Destination = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Music\\" + AddMusic.getName());
+                    File Destination = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music\\" + AddMusic.getName());
                     Files.copy(new File(AddMusic.getAbsolutePath()).toPath(), Destination.toPath());
                     initializeMusicList();
                     musicListScroll.setViewportView(musicSelectionList);
@@ -3835,7 +3819,7 @@ public class CyderMain{
             if (!mainUtil.empytStr(newUsername)) {
                 changeUsername(newUsername);
                 mainUtil.inform("Username successfully changed","", 300, 200);
-                refreshUsername();
+                mainUtil.refreshUsername(consoleFrame);
                 changeUsernameField.setText("");
             }
         });
@@ -4193,7 +4177,7 @@ public class CyderMain{
     }
 
     public void initializeMusicList() {
-        File dir = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Music");
+        File dir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music");
         musicList = new LinkedList<>();
         musicNameList = new LinkedList<>();
 
@@ -4226,7 +4210,7 @@ public class CyderMain{
     }
 
     public void initializeBackgroundsList() {
-        File dir = new File("src\\com\\cyder\\io\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds");
+        File dir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds");
         backgroundsList = new LinkedList<>();
         backgroundsNameList = new LinkedList<>();
 
@@ -4673,11 +4657,11 @@ public class CyderMain{
             public void mouseReleased(MouseEvent e) {
                 try {
                     String uuid = mainUtil.generateUUID();
-                    File folder = new File("src\\com\\cyder\\io\\users\\" + uuid);
+                    File folder = new File("src\\com\\cyder\\users\\" + uuid);
 
                     while (folder.exists()) {
                         uuid = mainUtil.generateUUID();
-                        folder = new File("src\\com\\cyder\\io\\users\\" + uuid);
+                        folder = new File("src\\com\\cyder\\users\\" + uuid);
                     }
 
                     char[] pass = newUserPassword.getPassword();
@@ -4704,7 +4688,7 @@ public class CyderMain{
                         newUserPasswordconf.setText("");
                     }
 
-                    else if (new File("src\\com\\cyder\\io\\users\\" + uuid).exists()) {
+                    else if (new File("src\\com\\cyder\\users\\" + uuid).exists()) {
                         mainUtil.inform("Sorry, but that username is already in use.\nPlease try a different one.", "", 400, 300);
                         newUserName.setText("");
                         newUserPassword.setText("");
@@ -4713,16 +4697,16 @@ public class CyderMain{
 
                     else
                     {
-                        File NewUserFolder = new File("src\\com\\cyder\\io\\users\\" + uuid);
+                        File NewUserFolder = new File("src\\com\\cyder\\users\\" + uuid);
                         NewUserFolder.mkdirs();
 
-                        File music = new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Music");
+                        File music = new File("src\\com\\cyder\\users\\" + uuid + "\\Music");
                         music.mkdir();
 
-                        File notes = new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Notes");
+                        File notes = new File("src\\com\\cyder\\users\\" + uuid + "\\Notes");
                         notes.mkdir();
 
-                        File backgrounds = new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Backgrounds");
+                        File backgrounds = new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds");
                         backgrounds.mkdir();
 
                         BufferedImage checkIm = ImageIO.read(createUserBackground);
@@ -4742,10 +4726,10 @@ public class CyderMain{
                         Graphics2D g2 = bi.createGraphics();
                         g2.drawImage(bi, 0, 0, null);
                         g2.dispose();
-                        ImageIO.write(bi, "png", new File("src\\com\\cyder\\io\\users\\" + uuid + "\\Backgrounds\\" + createUserBackground.getName()));
+                        ImageIO.write(bi, "png", new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds\\" + createUserBackground.getName()));
 
                         BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
-                                "src\\com\\cyder\\io\\users\\" + uuid + "\\Userdata.txt"));
+                                "src\\com\\cyder\\users\\" + uuid + "\\Userdata.txt"));
 
                         newUserWriter.write("Name:" + newUserName.getText().trim());
                         newUserWriter.newLine();
@@ -5089,56 +5073,28 @@ public class CyderMain{
         }
     }
 
-    private void refreshUsername() {
-        consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
-    }
+    public void notification(String htmltext, int delay, int arrowDir, int vanishDir) {
+        if (consoleNotification != null && consoleNotification.isVisible())
+            consoleNotification.kill();
 
-    public void notification(String htmltext, int w, int h, int delay, int arrowDir, int vanishDir) {
-        Notification notification = new Notification();
-        notification.setWidth(w);
-        notification.setHeight(h);
-        notification.setArrow(arrowDir);
+        consoleNotification = new Notification();
+
+        int w = (int) Math.ceil(10.7 * htmltext.length());
+        int h = 30;
+
+        consoleNotification.setWidth(w);
+        consoleNotification.setHeight(h);
+        consoleNotification.setArrow(arrowDir);
 
         JLabel text = new JLabel(htmltext);
         text.setFont(mainUtil.weatherFontSmall);
         text.setForeground(mainUtil.navy);
         text.setBounds(14,10,w,h);
-        notification.add(text);
-        notification.setBounds(consoleDragLabel.getWidth() - (w + 30),30,w * 2,h * 2);
-        parentLabel.add(notification);
+        consoleNotification.add(text);
+        consoleNotification.setBounds(consoleDragLabel.getWidth() - (w + 30),30,w * 2,h * 2);
+        parentLabel.add(consoleNotification);
         parentLabel.repaint();
 
-        new Thread(() -> {
-            try {
-                Thread.sleep(delay);
-                AnimationClass ac = new AnimationClass();
-
-                switch(vanishDir) {
-                    case Notification.TOP_VANISH:
-                        ac.jLabelYUp(notification.getY(), - notification.getHeight(), 10, 8, notification);
-                        Thread.sleep(10 * (notification.getHeight() + notification.getY())/ 8);
-                        break;
-                    case Notification.BOTTOM_VANISH:
-                        ac.jLabelYDown(notification.getY(), parentLabel.getHeight(), 10, 8, notification);
-                        Thread.sleep(10 * (parentLabel.getHeight() - notification.getY())/ 8);
-                        break;
-                    case Notification.RIGHT_VANISH:
-                        ac.jLabelXRight(notification.getX(), parentLabel.getWidth(), 10, 8, notification);
-                        Thread.sleep(10 * (parentLabel.getWidth() -  notification.getX())/ 8);
-                        break;
-
-                    case Notification.LEFT_VANISH:
-                        ac.jLabelXLeft(notification.getX(), - notification.getWidth(), 10, 8, notification);
-                        Thread.sleep(10 * (notification.getWidth() + notification.getX())/ 8);
-                        break;
-                }
-
-                notification.setVisible(false);
-            }
-
-            catch (Exception e) {
-                mainUtil.handle(e);
-            }
-        }).start();
+        consoleNotification.vanish(vanishDir, parentLabel, delay);
     }
 }

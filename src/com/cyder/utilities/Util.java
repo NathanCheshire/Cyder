@@ -51,6 +51,8 @@ public class Util {
     public Color regularRed = new Color(223,85,83);
     public Color intellijPink = new Color(236,64,122);
     public Color consoleColor = new Color(39, 40, 34);
+    public Color tooltipBorderColor = new Color(0,0,0);
+    public Color tooltipForegroundColor = new Color(85,85,255);
     public Color vanila = new Color(252, 251, 227);
     public Color tttblue = new Color(71, 81, 117);
     public Color navy = new Color(26, 32, 51);
@@ -185,6 +187,10 @@ public class Util {
     private int getScreenHeight() {
         this.screenY = this.getScreenSize().height;
         return this.screenY;
+    }
+
+    public void refreshUsername(JFrame frame) {
+        frame.setTitle(getCyderVer() + " Cyder [" + getUsername() + "]");
     }
 
     public void dance(JFrame frame) {
@@ -510,6 +516,47 @@ public class Util {
             handle(e);
         }
         return name;
+    }
+
+    public String getIPKey() {
+        try {
+            BufferedReader keyReader = new BufferedReader(new FileReader("src\\com\\cyder\\io\\text\\keys.txt"));
+            String line = "";
+
+            while ((line = keyReader.readLine()) != null) {
+                String[] parts = line.split(":");
+                if (parts[0].equals("ip")) {
+                    return parts[1];
+                }
+            }
+        }
+
+        catch (Exception ex) {
+            handle(ex);
+        }
+
+        return null;
+    }
+
+    public String getWeatherKey() {
+        try {
+            BufferedReader keyReader = new BufferedReader(new FileReader("src\\com\\cyder\\io\\text\\keys.txt"));
+            String line = "";
+
+            while ((line = keyReader.readLine()) != null) {
+                String[] parts = line.split(":");
+                if (parts[0].equals("weather")) {
+                    return parts[1];
+                }
+
+            }
+        }
+
+        catch (Exception ex) {
+            handle(ex);
+        }
+
+        return null;
     }
 
     public void getIPData() {
@@ -912,7 +959,7 @@ public class Util {
 
     public boolean checkPassword(String name, String pass) {
         try {
-            File[] users = new File("src\\com\\cyder\\io\\users").listFiles();
+            File[] users = new File("src\\com\\cyder\\users").listFiles();
             LinkedList<File> userDataFiles = new LinkedList<>();
 
             for (File f : users) {
@@ -2066,7 +2113,7 @@ public class Util {
     }
 
     public void initBackgrounds() {
-        File dir = new File("src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Backgrounds");
+        File dir = new File("src\\com\\cyder\\users\\" + getUserUUID() + "\\Backgrounds");
 
         FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
 
@@ -2162,7 +2209,7 @@ public class Util {
             userData.clear();
 
             BufferedReader dataReader = new BufferedReader(new FileReader(
-                    "src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Userdata.txt"));
+                    "src\\com\\cyder\\users\\" + getUserUUID() + "\\Userdata.txt"));
 
             String Line = dataReader.readLine();
 
@@ -2185,7 +2232,7 @@ public class Util {
     public void writeUserData(String name, String value) {
         try {
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "src\\com\\cyder\\io\\users\\" + getUserUUID() + "\\Userdata.txt", false));
+                    "src\\com\\cyder\\users\\" + getUserUUID() + "\\Userdata.txt", false));
 
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name)) {

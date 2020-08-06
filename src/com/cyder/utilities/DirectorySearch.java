@@ -65,8 +65,6 @@ public class DirectorySearch {
                 File ChosenDir = new File(backward.pop());
                 rightNow = ChosenDir.toString();
 
-                printStacks();
-
                 dirField.setText(ChosenDir.toString());
                 directoryList = new JList(ChosenDir.listFiles());
 
@@ -111,8 +109,6 @@ public class DirectorySearch {
                 backward.push(rightNow);
                 File ChosenDir = new File(foward.pop());
                 rightNow = ChosenDir.toString();
-
-                printStacks();
 
                 dirField.setText(ChosenDir.toString());
                 directoryList = new JList(ChosenDir.listFiles());
@@ -217,7 +213,6 @@ public class DirectorySearch {
                             backward.push(rightNow);
 
                         rightNow = ChosenDir.toString();
-                        printStacks();
 
                         dirField.setText(ChosenDir.toString());
 
@@ -275,7 +270,6 @@ public class DirectorySearch {
                         backward.push(rightNow);
 
                     rightNow = ChosenDir.toString();
-                    printStacks();
 
                     directoryList = new JList(ChosenDir.listFiles());
                     File[] Files = ChosenDir.listFiles();
@@ -333,7 +327,6 @@ public class DirectorySearch {
                         backward.push(rightNow);
 
                     rightNow = ChosenDir.toString();
-                    printStacks();
 
                     dirField.setText(ChosenDir.toString());
                     directoryList = new JList(ChosenDir.listFiles());

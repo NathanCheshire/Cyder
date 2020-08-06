@@ -387,7 +387,7 @@ public class WeatherWidget {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.HOUR, Integer.parseInt(gmtOffset) / 3600);
         Date Time = cal.getTime();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa zzz EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
         dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
         return dateFormatter.format(Time);
     }
@@ -403,7 +403,7 @@ public class WeatherWidget {
                     locationLabel.setText(userCity + ", " + userStateAbr);
                     currentWeatherLabel.setText(capsFirst(weatherCondition));
                     temperatureLabel.setText("Temperature: " + temperature + "F");
-                    feelsLikeLabel.setText("UV Index: " + feelsLike);
+                    feelsLikeLabel.setText("Feels like: " + feelsLike);
                     windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
                     windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + weatherUtil.getWindDirection(windBearing));
                     humidityLabel.setText("Humidity: " + humidity + "%");
@@ -434,7 +434,7 @@ public class WeatherWidget {
 
             currentWeatherLabel.setText(capsFirst(weatherCondition));
             temperatureLabel.setText("Temperature: " + temperature + "F");
-            feelsLikeLabel.setText("UV Index: " + feelsLike);
+            feelsLikeLabel.setText("Feels like: " + feelsLike);
             windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
             windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + weatherUtil.getWindDirection(windBearing));
             humidityLabel.setText("Humidity: " + humidity + "%");
@@ -457,7 +457,7 @@ public class WeatherWidget {
                 userCity = customCity;
             }
 
-            String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&appid=2d790dd0766f1da62af488f101380c75&units=imperial";
+            String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&appid=" + weatherUtil.getWeatherKey() + "&units=imperial";
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
@@ -560,9 +560,10 @@ public class WeatherWidget {
 
     public void getIPData() {
         try {
-            String Key = "https://api.ipdata.co/?api-key=8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932";
+            String Key = weatherUtil.getIPKey();
+            String url = "https://api.ipdata.co/?api-key=" + Key;
 
-            URL Querry = new URL(Key);
+            URL Querry = new URL(url);
 
             BufferedReader BR = new BufferedReader(new InputStreamReader(Querry.openStream()));
 
