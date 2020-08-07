@@ -38,9 +38,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo fix layering issue with menu and output area so we can put notifications over output area too
-//todo scroll bar appears when not needed sometimes so refresh that
-
 public class CyderMain{
     //console vars
     private JTextPane outputArea;
@@ -59,7 +56,7 @@ public class CyderMain{
     private CyderScrollPane outputScroll;
     private JButton alternateBackground;
     private JLabel consoleDragLabel;
-    private JPanel parentPanel;
+    private JLayeredPane parentPanel;
     private JButton suggestionButton;
     private JButton menuButton;
     private JFrame loginFrame;
@@ -138,7 +135,6 @@ public class CyderMain{
 
     //sliding background var
     private boolean slidLeft;
-    private boolean noScrollAnimation;
 
     //call constructor
     public static void main(String[] ignored) {
@@ -202,7 +198,7 @@ public class CyderMain{
 
             consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
 
-            parentPanel = new JPanel();
+            parentPanel = new JLayeredPane();
 
             parentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -210,7 +206,7 @@ public class CyderMain{
 
             parentPanel.setLayout(null);
 
-            parentLabel = new JLabel("");
+            parentLabel = new JLabel();
 
             if (mainUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                 parentLabel.setIcon(new ImageIcon(mainUtil.resizeImage((int) mainUtil.getScreenSize().getWidth(), (int) mainUtil.getScreenSize().getHeight(), mainUtil.getCurrentBackground())));
@@ -228,7 +224,7 @@ public class CyderMain{
 
             parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
 
-            parentPanel.add(parentLabel);
+            parentPanel.add(parentLabel,1,0);
 
             consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
 
@@ -467,7 +463,7 @@ public class CyderMain{
 
                         menuLabel.setBackground(new Color(26,32,51));
 
-                        parentLabel.add(menuLabel);
+                        parentPanel.add(menuLabel,1,0);
 
                         menuLabel.setBounds(-150,30, 130,260);
 
@@ -692,8 +688,6 @@ public class CyderMain{
                         });
 
                         animation.jLabelXRight(-150,0,10,8, menuLabel);
-
-                        animation.jTextAreaYDown(outputScroll.getY(),outputScroll.getY() + 300,8,10, outputScroll);
                     }
 
                     else if (menuLabel.isVisible()){
@@ -804,10 +798,6 @@ public class CyderMain{
 
             alternateBackground.addActionListener(e -> {
                 mainUtil.initBackgrounds();
-
-                if (menuLabel.isVisible()) {
-                    noScrollAnimation = true;
-                }
 
                 if (mainUtil.ShouldISwitch() && mainUtil.getValidBackgroundPaths().length > 1) {
                     mainUtil.setCurrentBackgroundIndex(mainUtil.getCurrentBackgroundIndex() + 1);
@@ -1113,7 +1103,6 @@ public class CyderMain{
             int code = event.getKeyCode();
 
             try {
-                //todo if not cntrl and alt being held
                 if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
                     if (code == KeyEvent.VK_DOWN) {
                         if (scrollingIndex + 1 < operationList.size()) {
@@ -4866,12 +4855,6 @@ public class CyderMain{
                 menuLabel.setVisible(false);
 
                 menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menuSide1.png"));
-
-                if (!noScrollAnimation) {
-                    animation.jTextAreaYUp(outputScroll.getY(),outputScroll.getY() - 300,8,10, outputScroll);
-                }
-
-                noScrollAnimation = false;
             });
 
             waitThread.start();
