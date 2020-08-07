@@ -296,7 +296,7 @@ public class Notes {
         submitNewNote.addActionListener(e -> {
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(new FileWriter(
-                        "src\\com\\cyder\\io\\users\\" + UUID + "\\Notes\\" + newNoteField.getText() + ".txt",true));
+                        "src\\com\\cyder\\users\\" + UUID + "\\Notes\\" + newNoteField.getText() + ".txt",true));
                 newNoteArea.write(NoteWriter);
                 NoteWriter.close();
             }
@@ -338,7 +338,7 @@ public class Notes {
     }
 
     private void initializeNotesList() {
-        File dir = new File("src\\com\\cyder\\io\\users\\" + UUID + "\\Notes");
+        File dir = new File("src\\com\\cyder\\users\\" + UUID + "\\Notes");
         noteList = new LinkedList<>();
         noteNameList = new LinkedList<>();
 

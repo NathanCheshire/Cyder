@@ -38,6 +38,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo consolildate font and color in user prefs
+
 public class CyderMain{
     //console vars
     private JTextPane outputArea;
@@ -112,7 +114,6 @@ public class CyderMain{
     private CyderButton changePassword;
 
     //font vars
-    private JFrame fontFrame;
     private JList fontList;
 
     //notification var
@@ -195,11 +196,9 @@ public class CyderMain{
             }
 
             consoleFrame.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
-
             consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
 
             parentPanel = new JLayeredPane();
-
             parentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
             consoleFrame.setContentPane(parentPanel);
@@ -221,7 +220,6 @@ public class CyderMain{
             }
 
             parentLabel.setBorder(new LineBorder(mainUtil.navy,8,false));
-
             parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
 
             parentPanel.add(parentLabel,1,0);
@@ -234,7 +232,6 @@ public class CyderMain{
                     //no border
                 }
             };
-
             outputArea.addFocusListener(new FocusListener() {
                 @Override
                 public void focusGained(FocusEvent e) {
@@ -249,29 +246,19 @@ public class CyderMain{
             });
 
             outputArea.setEditable(false);
-
             outputArea.setAutoscrolls(true);
-
             outputArea.setBounds(10, 62, mainUtil.getBackgroundX() - 20, mainUtil.getBackgroundY() - 204);
-
             outputArea.setFocusable(true);
-
             outputArea.setSelectionColor(new Color(204,153,0));
-
             outputArea.setOpaque(false);
-
             outputArea.setBackground(new Color(0,0,0,0));
 
             outputScroll = new CyderScrollPane(outputArea,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
             outputScroll.setThumbColor(mainUtil.intellijPink);
-
             outputScroll.getViewport().setBorder(null);
-
             outputScroll.getViewport().setOpaque(false);
-
             outputScroll.setOpaque(false);
 
             if (mainUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
@@ -345,22 +332,18 @@ public class CyderMain{
             });
 
             inputField.setToolTipText("Input Field");
-
             inputField.setSelectionColor(mainUtil.selectionColor);
-
             inputField.addKeyListener(commandScrolling);
 
             consoleFrame.addWindowListener(consoleEcho);
 
             inputField.setBounds(10, 82 + outputArea.getHeight(),
                     mainUtil.getBackgroundX() - 20, mainUtil.getBackgroundY() - (outputArea.getHeight() + 62 + 40));
-
             inputField.setOpaque(false);
 
             parentLabel.add(inputField);
 
             inputField.addActionListener(inputFieldAction);
-
             inputField.addFocusListener(new FocusListener() {
                 @Override
                 public void focusGained(FocusEvent e) {
@@ -378,9 +361,7 @@ public class CyderMain{
             initUserfontAndColor();
 
             suggestionButton = new JButton("");
-
             suggestionButton.setToolTipText("Suggestions");
-
             suggestionButton.addActionListener(e -> {
                 println("What feature would you like to suggestion? (Please include as much detail as possible such as what" +
                         "key words you should type and how it should be responded to and any options you think might be necessary)");
@@ -388,7 +369,6 @@ public class CyderMain{
                 mainUtil.setUserInputMode(true);
                 inputField.requestFocus();
             });
-
 
             suggestionButton.addMouseListener(new MouseListener() {
                 @Override
@@ -426,17 +406,13 @@ public class CyderMain{
             parentLabel.add(suggestionButton);
 
             suggestionButton.setFocusPainted(false);
-
             suggestionButton.setOpaque(false);
-
             suggestionButton.setContentAreaFilled(false);
-
             suggestionButton.setBorderPainted(false);
 
             menuButton = new JButton("");
 
             menuLabel = new JLabel();
-
             menuLabel.setVisible(false);
 
             menuButton.setToolTipText("Menu");
@@ -458,23 +434,17 @@ public class CyderMain{
                         menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menu2.png"));
 
                         menuLabel = new JLabel("");
-
                         menuLabel.setOpaque(true);
-
                         menuLabel.setBackground(new Color(26,32,51));
 
                         parentPanel.add(menuLabel,1,0);
 
                         menuLabel.setBounds(-150,30, 130,260);
-
                         menuLabel.setVisible(true);
 
                         JLabel calculatorLabel = new JLabel("Calculator");
-
                         calculatorLabel.setFont(mainUtil.weatherFontSmall);
-
                         calculatorLabel.setForeground(mainUtil.vanila);
-
                         calculatorLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
@@ -493,19 +463,13 @@ public class CyderMain{
                         });
 
                         menuLabel.add(calculatorLabel);
-
                         calculatorLabel.setBounds(5,20,150,20);
 
                         JLabel musicLabel = new JLabel("Music");
-
                         musicLabel.setFont(mainUtil.weatherFontSmall);
-
                         musicLabel.setForeground(mainUtil.vanila);
-
                         musicLabel.setBounds(5,50,150,20);
-
                         menuLabel.add(musicLabel);
-
                         musicLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
@@ -524,17 +488,11 @@ public class CyderMain{
                         });
 
                         JLabel weatherLabel = new JLabel("Weather");
-
                         weatherLabel.setFont(mainUtil.weatherFontSmall);
-
                         weatherLabel.setForeground(mainUtil.vanila);
-
                         menuLabel.add(weatherLabel);
-
                         weatherLabel.setBounds(5,80,150,20);
-
                         weatherLabel.setOpaque(false);
-
                         weatherLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
@@ -553,15 +511,10 @@ public class CyderMain{
                         });
 
                         JLabel noteLabel = new JLabel("Notes");
-
                         noteLabel.setFont(mainUtil.weatherFontSmall);
-
                         noteLabel.setForeground(mainUtil.vanila);
-
                         menuLabel.add(noteLabel);
-
                         noteLabel.setBounds(5,110,150,20);
-
                         noteLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
@@ -580,15 +533,10 @@ public class CyderMain{
                         });
 
                         JLabel editUserLabel = new JLabel("Edit user");
-
                         editUserLabel.setFont(mainUtil.weatherFontSmall);
-
                         editUserLabel.setForeground(mainUtil.vanila);
-
                         menuLabel.add(editUserLabel);
-
                         editUserLabel.setBounds(5,140,150,20);
-
                         editUserLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
@@ -607,15 +555,10 @@ public class CyderMain{
                         });
 
                         JLabel temperatureLabel = new JLabel("Temp conv");
-
                         temperatureLabel.setFont(mainUtil.weatherFontSmall);
-
                         temperatureLabel.setForeground(mainUtil.vanila);
-
                         menuLabel.add(temperatureLabel);
-
                         temperatureLabel.setBounds(5,170,150,20);
-
                         temperatureLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
@@ -634,15 +577,10 @@ public class CyderMain{
                         });
 
                         JLabel youtubeLabel = new JLabel("YouTube");
-
                         youtubeLabel.setFont(mainUtil.weatherFontSmall);
-
                         youtubeLabel.setForeground(mainUtil.vanila);
-
                         menuLabel.add(youtubeLabel);
-
                         youtubeLabel.setBounds(5,200,150,20);
-
                         youtubeLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
@@ -661,15 +599,10 @@ public class CyderMain{
                         });
 
                         JLabel twitterLabel = new JLabel("Twitter");
-
                         twitterLabel.setFont(mainUtil.weatherFontSmall);
-
                         twitterLabel.setForeground(mainUtil.vanila);
-
                         menuLabel.add(twitterLabel);
-
                         twitterLabel.setBounds(5,230,150,20);
-
                         twitterLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
@@ -727,19 +660,13 @@ public class CyderMain{
             parentLabel.add(menuButton);
 
             menuButton.setVisible(true);
-
             menuButton.setFocusPainted(false);
-
             menuButton.setOpaque(false);
-
             menuButton.setContentAreaFilled(false);
-
             menuButton.setBorderPainted(false);
 
             minimize = new JButton("");
-
             minimize.setToolTipText("Minimize");
-
             minimize.addActionListener(e -> {
                 restoreX = consoleFrame.getX();
                 restoreY = consoleFrame.getY();
@@ -779,23 +706,15 @@ public class CyderMain{
             minimize.setBounds(mainUtil.getBackgroundX() - 81, 4, 22, 20);
 
             ImageIcon mini = new ImageIcon("src\\com\\cyder\\io\\pictures\\Minimize1.png");
-
             minimize.setIcon(mini);
-
             parentLabel.add(minimize);
-
             minimize.setFocusPainted(false);
-
             minimize.setOpaque(false);
-
             minimize.setContentAreaFilled(false);
-
             minimize.setBorderPainted(false);
 
             alternateBackground = new JButton("");
-
             alternateBackground.setToolTipText("Alternate Background");
-
             alternateBackground.addActionListener(e -> {
                 mainUtil.initBackgrounds();
 
@@ -827,22 +746,7 @@ public class CyderMain{
                 }
             });
 
-            alternateBackground.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
+            alternateBackground.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     alternateBackground.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\ChangeSize2.png"));
@@ -857,41 +761,19 @@ public class CyderMain{
             alternateBackground.setBounds(mainUtil.getBackgroundX() - 54, 4, 22, 20);
 
             ImageIcon Size = new ImageIcon("src\\com\\cyder\\io\\pictures\\ChangeSize1.png");
-
             alternateBackground.setIcon(Size);
 
             parentLabel.add(alternateBackground);
 
             alternateBackground.setFocusPainted(false);
-
             alternateBackground.setOpaque(false);
-
             alternateBackground.setContentAreaFilled(false);
-
             alternateBackground.setBorderPainted(false);
 
             close = new JButton("");
-
             close.setToolTipText("Close");
-
             close.addActionListener(e -> exit());
-
-            close.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
+            close.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     close.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Close2.png"));
@@ -912,23 +794,15 @@ public class CyderMain{
             parentLabel.add(close);
 
             close.setFocusPainted(false);
-
             close.setOpaque(false);
-
             close.setContentAreaFilled(false);
-
             close.setBorderPainted(false);
 
             consoleDragLabel = new JLabel();
-
             consoleDragLabel.setBounds(0,0, mainUtil.getBackgroundX(),30);
-
             consoleDragLabel.setToolTipText("Drag label");
-
             consoleDragLabel.setOpaque(true);
-
             consoleDragLabel.setBackground(new Color(26,32,51));
-
             consoleDragLabel.addMouseMotionListener(new MouseMotionListener() {
                 @Override
                 public void mouseDragged(MouseEvent e) {
@@ -948,17 +822,13 @@ public class CyderMain{
             });
 
             consoleDragLabel.setFont(mainUtil.weatherFontSmall);
-
             consoleDragLabel.setForeground(mainUtil.vanila);
 
             boolean showClock = mainUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
 
             consoleClockLabel = new JLabel(mainUtil.consoleTime());
-
             consoleClockLabel.setFont(mainUtil.weatherFontSmall.deriveFont(20f));
-
             consoleClockLabel.setForeground(mainUtil.vanila);
-
             consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
                     2,(consoleClockLabel.getText().length() * 17), 25);
 
@@ -975,41 +845,11 @@ public class CyderMain{
 
             parentLabel.add(consoleDragLabel);
 
-            consoleFrame.addWindowListener(new WindowListener() {
-                @Override
-                public void windowOpened(WindowEvent e) {
-
-                }
-
-                @Override
-                public void windowClosing(WindowEvent e) {
-
-                }
-
-                @Override
-                public void windowClosed(WindowEvent e) {
-
-                }
-
-                @Override
-                public void windowIconified(WindowEvent e) {
-
-                }
-
+            consoleFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowDeiconified(WindowEvent e) {
                     updateConsoleClock = true;
                     consoleFrame.setLocation(restoreX, restoreY);
-                }
-
-                @Override
-                public void windowActivated(WindowEvent e) {
-
-                }
-
-                @Override
-                public void windowDeactivated(WindowEvent e) {
-
                 }
             });
 
@@ -1019,9 +859,8 @@ public class CyderMain{
             if (mainUtil.getUserData("RandomBackground").equals("1")) {
                 int len = mainUtil.getValidBackgroundPaths().length;
 
-                if (len <= 1) {
+                if (len <= 1)
                     println("Sorry, " + mainUtil.getUsername() + ", but you only have one background file so there's no random element to be chosen.");
-                }
 
                 else if (len > 1) {
                     try {
@@ -1079,16 +918,14 @@ public class CyderMain{
                     }
                 }
 
-                else {
+                else
                    throw new FatalException("Only one but also more than one background.");
-                }
             }
 
             new Thread(() -> {
-                if (!mainUtil.internetReachable()) {
+                if (!mainUtil.internetReachable())
                     notification(mainUtil.getUsername() + ", internet connection slow or unavailble.",
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
-                }
             }).start();
         }
 
@@ -1097,7 +934,7 @@ public class CyderMain{
         }
     }
 
-    private KeyListener commandScrolling = new KeyListener() {
+    private KeyListener commandScrolling = new KeyAdapter() {
         @Override
         public void keyPressed(java.awt.event.KeyEvent event) {
             int code = event.getKeyCode();
@@ -1165,18 +1002,6 @@ public class CyderMain{
             catch (Exception e) {
                 mainUtil.handle(e);
             }
-        }
-
-        @Override
-        public void keyReleased(java.awt.event.KeyEvent event)
-        {
-
-        }
-
-        @Override
-        public void keyTyped(java.awt.event.KeyEvent event)
-        {
-
         }
     };
 
@@ -2580,7 +2405,7 @@ public class CyderMain{
             }
 
             else if (hasWord("font")) {
-                font();
+                editUser();
             }
 
             else if (hasWord("font") && hasWord("reset")) {
@@ -3847,7 +3672,7 @@ public class CyderMain{
         ImageIcon notSelected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox2.png");
 
         JPanel prefsPanel = new JPanel();
-        prefsPanel.setLayout(new GridLayout(6,3,0,75));
+        prefsPanel.setLayout(new GridLayout(6,3,0,20));
 
         JLabel introMusicTitle = new JLabel("Intro Music");
         introMusicTitle.setFont(mainUtil.weatherFontSmall);
@@ -4130,25 +3955,18 @@ public class CyderMain{
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.add(prefsPanel);
-
         ChangePasswordPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
+        rightPanel.add(getFontPanel());
         rightPanel.add(ChangePasswordPanel);
-
         masterPanel.add(rightPanel);
 
         editUserFrame.add(masterPanel);
-
         editUserFrame.pack();
-
         editUserFrame.setLocationRelativeTo(null);
-
         editUserFrame.setVisible(true);
-
         editUserFrame.setAlwaysOnTop(true);
-
         editUserFrame.setAlwaysOnTop(false);
-
         editUserFrame.requestFocus();
     }
 
@@ -4216,46 +4034,26 @@ public class CyderMain{
         backgroundSelectionList.setSelectionBackground(mainUtil.selectionColor);
     }
 
-    public void font() {
-        if (fontFrame != null) {
-            mainUtil.closeAnimation(fontFrame);
-            fontFrame.dispose();
-        }
-
-        fontFrame = new JFrame();
-
-        fontFrame.setTitle("Fonts");
-
-        fontFrame.setResizable(false);
-
-        fontFrame.setIconImage(mainUtil.getCyderIcon().getImage());
-
+    public JPanel getFontPanel() {
         JPanel parentPanel = new JPanel();
 
         parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.PAGE_AXIS));
 
-        parentPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
         JLabel label = new JLabel("Select your desired font");
 
         label.setFont(mainUtil.weatherFontSmall);
-
         label.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
         JPanel labelPanel = new JPanel();
 
         labelPanel.add(label);
-
         parentPanel.add(labelPanel, Component.CENTER_ALIGNMENT);
 
         String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
         fontList = new JList(Fonts);
-
         fontList.setSelectionBackground(mainUtil.selectionColor);
-
         fontList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-
         fontList.setFont(mainUtil.weatherFontSmall);
 
         CyderScrollPane FontListScroll = new CyderScrollPane(fontList,
@@ -4263,23 +4061,15 @@ public class CyderMain{
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         FontListScroll.setThumbColor(mainUtil.intellijPink);
-
         FontListScroll.setBorder(new LineBorder(mainUtil.navy,5,true));
 
         CyderButton applyFont = new CyderButton("Apply Font");
-
-        applyFont.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
+        applyFont.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         applyFont.setColors(mainUtil.regularRed);
-
         applyFont.setToolTipText("Apply");
-
         applyFont.setFont(mainUtil.weatherFontSmall);
-
         applyFont.setFocusPainted(false);
-
         applyFont.setBackground(mainUtil.regularRed);
-
         applyFont.addActionListener(e -> {
             String FontS = (String) fontList.getSelectedValue();
 
@@ -4288,22 +4078,10 @@ public class CyderMain{
                 outputArea.setFont(ApplyFont);
                 inputField.setFont(ApplyFont);
                 println("The font \"" + FontS + "\" has been applied.");
-                mainUtil.closeAnimation(fontFrame);
-                fontFrame.dispose();
             }
         });
 
-        fontList.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
+        fontList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -4322,33 +4100,13 @@ public class CyderMain{
             }
         });
 
-        fontList.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+        fontList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 JList t = (JList) e.getSource();
                 int index = t.locationToIndex(e.getPoint());
 
                 label.setFont(new Font(t.getModel().getElementAt(index).toString(), Font.BOLD, 20));
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         });
 
@@ -4362,15 +4120,7 @@ public class CyderMain{
 
         parentPanel.add(apply, Component.CENTER_ALIGNMENT);
 
-        fontFrame.add(parentPanel);
-
-        fontFrame.pack();
-
-        fontFrame.setLocationRelativeTo(null);
-
-        fontFrame.setVisible(true);
-
-        fontFrame.setAlwaysOnTop(true);
+        return parentPanel;
     }
 
     private Runnable closeRunable = new Runnable() {

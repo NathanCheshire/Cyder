@@ -672,7 +672,7 @@ public class MPEGPlayer {
 
         else {
             try {
-                File[] SelectedFileDir = new File("src\\com\\cyder\\io\\users\\" + musicUtil.getUserUUID() + "\\Music\\" ).listFiles();
+                File[] SelectedFileDir = new File("src\\com\\cyder\\users\\" + musicUtil.getUserUUID() + "\\Music\\" ).listFiles();
                 ArrayList<File> ValidFiles = new ArrayList<>();
                 if (SelectedFileDir == null)
                     return;
