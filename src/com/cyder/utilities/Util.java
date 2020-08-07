@@ -17,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigInteger;
@@ -117,6 +118,13 @@ public class Util {
 
     //debug vars
     private JFrame debugFrame;
+
+    //console orientation var
+    public static int CYDER_UP = 0;
+    public static int CYDER_RIGHT = 1;
+    public static int CYDER_DOWN = 2;
+    public static int CYDER_LEFT = 3;
+    private int consoleDirection;
 
     //pixel vars
     private JFrame pixelFrame;
@@ -1712,16 +1720,6 @@ public class Util {
             pictureFrame.dispose();
         }
 
-        BufferedImage Image = null;
-
-        try {
-            Image = ImageName;
-        }
-
-        catch (Exception exce) {
-            handle(exce);
-        }
-
         pictureFrame = new JFrame();
 
         pictureFrame.setUndecorated(true);
@@ -1752,7 +1750,7 @@ public class Util {
 
         pictureFrame.setContentPane(ParentPanel);
 
-        JLabel PictureLabel = new JLabel(new ImageIcon(Image));
+        JLabel PictureLabel = new JLabel(new ImageIcon(ImageName));
 
         ParentPanel.add(PictureLabel, BorderLayout.PAGE_START);
 
@@ -2490,5 +2488,78 @@ public class Util {
         catch (Exception e) {
             handle(e);
         }
+    }
+
+    public int getConsoleDirection() {
+        return this.consoleDirection;
+    }
+
+    public void setConsoleDirection(int d) {
+        this.consoleDirection = d;
+    }
+
+    public BufferedImage getBi(File imageFile) {
+        try {
+            return ImageIO.read(imageFile);
+        }
+
+        catch (Exception e) {
+            handle(e);
+        }
+
+        return null;
+    }
+
+    public BufferedImage getBi(String filename) {
+        try {
+            return ImageIO.read(new File(filename));
+        }
+
+        catch (Exception e) {
+            handle(e);
+        }
+
+        return null;
+    }
+
+    public BufferedImage getRotatedImage(String name) {
+        switch(this.consoleDirection) {
+            case 0:
+                return getBi(name);
+            case 1:
+                return rotateImageByDegrees(getBi(name),90);
+            case 2:
+                return rotateImageByDegrees(getBi(name),180);
+            case 3:
+                return rotateImageByDegrees(getBi(name),-90);
+        }
+
+        return null;
+    }
+
+    //credit: MadProgrammer from StackOverflow
+    public BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
+        double rads = Math.toRadians(angle);
+
+        double sin = Math.abs(Math.sin(rads));
+        double cos = Math.abs(Math.cos(rads));
+
+        int w = img.getWidth();
+        int h = img.getHeight();
+
+        int newWidth = (int) Math.floor(w * cos + h * sin);
+        int newHeight = (int) Math.floor(h * cos + w * sin);
+
+        BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = rotated.createGraphics();
+        AffineTransform at = new AffineTransform();
+        at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+
+        at.rotate(rads, w / 2, h / 2);
+        g2d.setTransform(at);
+        g2d.drawImage(img, 0, 0, null);
+        g2d.dispose();
+
+        return rotated;
     }
 }

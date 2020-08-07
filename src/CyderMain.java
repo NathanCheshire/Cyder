@@ -39,8 +39,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //todo fix layering issue with menu and output area so we can put notifications over output area too
-
-//todo separate handler method that passes back what to print, what to open, what to draw, notification, etc.
+//todo scroll bar appears when not needed sometimes so refresh that
 
 public class CyderMain{
     //console vars
@@ -167,7 +166,7 @@ public class CyderMain{
         }
 
         mainUtil.varInit();
-        threadBlink();
+        backgroundProcess();
 
         if (cypherLenovo && !mainUtil.released()) {
             recognize("Nathan", "13201320".toCharArray());
@@ -214,15 +213,14 @@ public class CyderMain{
             parentLabel = new JLabel("");
 
             if (mainUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                parentLabel.setIcon(new ImageIcon(mainUtil.resizeImage((int) mainUtil.getScreenSize().getWidth(),
-                        (int) mainUtil.getScreenSize().getHeight(), mainUtil.getCurrentBackground())));
+                parentLabel.setIcon(new ImageIcon(mainUtil.resizeImage((int) mainUtil.getScreenSize().getWidth(), (int) mainUtil.getScreenSize().getHeight(), mainUtil.getCurrentBackground())));
                 parentLabel.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
                 mainUtil.setBackgroundX((int) mainUtil.getScreenSize().getWidth());
                 mainUtil.setBackgroundY((int) mainUtil.getScreenSize().getHeight());
             }
 
             else {
-                parentLabel.setIcon(new ImageIcon(mainUtil.getCurrentBackground().toString()));
+                parentLabel.setIcon(new ImageIcon(mainUtil.getRotatedImage(mainUtil.getCurrentBackground().toString())));
                 parentLabel.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
             }
 
@@ -312,6 +310,26 @@ public class CyderMain{
 
                     if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                         handle("controlc");
+                    }
+
+                    if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                        mainUtil.setConsoleDirection(mainUtil.CYDER_DOWN);
+                        exitFullscreen();
+                    }
+
+                    if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                        mainUtil.setConsoleDirection(mainUtil.CYDER_RIGHT);
+                        exitFullscreen();
+                    }
+
+                    if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                        mainUtil.setConsoleDirection(mainUtil.CYDER_UP);
+                        exitFullscreen();
+                    }
+
+                    if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                        mainUtil.setConsoleDirection(mainUtil.CYDER_LEFT);
+                        exitFullscreen();
                     }
                 }
 
@@ -1095,58 +1113,61 @@ public class CyderMain{
             int code = event.getKeyCode();
 
             try {
-                if (code == KeyEvent.VK_DOWN) {
-                    if (scrollingIndex + 1 < operationList.size()) {
-                        scrollingIndex = scrollingIndex + 1;
-                        inputField.setText(operationList.get(scrollingIndex));
-                    }
-                }
-
-                else if (code == KeyEvent.VK_UP) {
-                    boolean Found = false;
-
-                    for (int i = 0; i < operationList.size() ; i++) {
-                        if (operationList.get(i).equals(inputField.getText())) {
-                            Found = true;
-                            break;
-                        }
-
-                        else if (!operationList.get(i).equals(inputField.getText()) && i == operationList.size() - 1) {
-                            Found = false;
-                            break;
+                //todo if not cntrl and alt being held
+                if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
+                    if (code == KeyEvent.VK_DOWN) {
+                        if (scrollingIndex + 1 < operationList.size()) {
+                            scrollingIndex = scrollingIndex + 1;
+                            inputField.setText(operationList.get(scrollingIndex));
                         }
                     }
 
-                    if (inputField.getText() == null || inputField.getText().equals("")) {
-                        mainUtil.setCurrentDowns(0);
-                    }
+                    else if (code == KeyEvent.VK_UP) {
+                        boolean Found = false;
 
-                    else if (!Found) {
-                        mainUtil.setCurrentDowns(0);
-                    }
+                        for (int i = 0; i < operationList.size() ; i++) {
+                            if (operationList.get(i).equals(inputField.getText())) {
+                                Found = true;
+                                break;
+                            }
 
-                    if (scrollingIndex - 1 >= 0) {
-                        if (mainUtil.getCurrentDowns() != 0) {
-                            scrollingIndex = scrollingIndex - 1;
+                            else if (!operationList.get(i).equals(inputField.getText()) && i == operationList.size() - 1) {
+                                Found = false;
+                                break;
+                            }
                         }
 
-                        inputField.setText(operationList.get(scrollingIndex));
-                        mainUtil.setCurrentDowns(mainUtil.getCurrentDowns() + 1);
-                    }
-
-                    if (operationList.size() == 1) {
-                        inputField.setText(operationList.get(0));
-                    }
-                }
-
-                for (int i = 61440 ; i < 61452 ; i++) {
-                    if (code == i) {
-                        try {
-                            throw new FatalException("Interesting F" + (i - 61427) + " key");
+                        if (inputField.getText() == null || inputField.getText().equals("")) {
+                            mainUtil.setCurrentDowns(0);
                         }
 
-                        catch (FatalException ex) {
-                            mainUtil.handle(ex);
+                        else if (!Found) {
+                            mainUtil.setCurrentDowns(0);
+                        }
+
+                        if (scrollingIndex - 1 >= 0) {
+                            if (mainUtil.getCurrentDowns() != 0) {
+                                scrollingIndex = scrollingIndex - 1;
+                            }
+
+                            inputField.setText(operationList.get(scrollingIndex));
+                            mainUtil.setCurrentDowns(mainUtil.getCurrentDowns() + 1);
+                        }
+
+                        if (operationList.size() == 1) {
+                            inputField.setText(operationList.get(0));
+                        }
+                    }
+
+                    for (int i = 61440 ; i < 61452 ; i++) {
+                        if (code == i) {
+                            try {
+                                throw new FatalException("Interesting F" + (i - 61427) + " key");
+                            }
+
+                            catch (FatalException ex) {
+                                mainUtil.handle(ex);
+                            }
                         }
                     }
                 }
@@ -1201,7 +1222,7 @@ public class CyderMain{
         }
     };
 
-    private void threadBlink() {
+    private void backgroundProcess() {
         try {
             new Thread(() -> {
                 try {
@@ -1238,13 +1259,11 @@ public class CyderMain{
         }
     }
 
-    //Input field enter, start of whole process
     private Action inputFieldAction = new AbstractAction() {
 
         @Override
         public void actionPerformed(ActionEvent e) {
         try {
-            //two vars incase we alter the var op
             String originalOp = inputField.getText().trim();
             String op = originalOp;
 
@@ -1333,7 +1352,7 @@ public class CyderMain{
 
         loginLabel.add(loginLabel3);
 
-        startSliding();
+        loginAnimation();
 
         DragLabel LoginDragLabel = new DragLabel(440,30,loginFrame);
 
@@ -1464,12 +1483,11 @@ public class CyderMain{
         });
 
         File Users = new File("src\\com\\cyder\\users\\");
-
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
 
-        //if (directories != null && directories.length == 0) {
-            notification("Psst! Create a user, " + System.getProperty("user.name"), 2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, loginLabel);
-        //}
+        if (directories != null && directories.length == 0)
+            notification("Psssst! Create a user, " + System.getProperty("user.name"),
+                    2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, loginLabel);
     }
 
     private void recognize(String Username, char[] Password) {
@@ -1499,19 +1517,15 @@ public class CyderMain{
 
                     String[] FileNames = UserMusicDir.list();
 
-                    if (FileNames != null) {
-                        for (String fileName : FileNames) {
-                            if (fileName.endsWith(".mp3")) {
+                    if (FileNames != null)
+                        for (String fileName : FileNames)
+                            if (fileName.endsWith(".mp3"))
                                 MusicList.add(fileName);
-                            }
-                        }
-                    }
 
-                    if (!MusicList.isEmpty()) {
+                    if (!MusicList.isEmpty())
                         mainUtil.playMusic(
                                 "src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music\\" +
                                         (FileNames[mainUtil.randInt(0,FileNames.length - 1)]));
-                    }
                 }
             }
 
@@ -1533,26 +1547,47 @@ public class CyderMain{
         int index = mainUtil.getCurrentBackgroundIndex();
         String backFile = backgrounds[index].toString();
 
-        ImageIcon backIcon = new ImageIcon(backFile);
+        int width = 0;
+        int height = 0;
 
-        int fullW = backIcon.getIconWidth();
-        int fullH = backIcon.getIconHeight();
+        if (mainUtil.getConsoleDirection() == mainUtil.CYDER_UP) {
+            ImageIcon backIcon = new ImageIcon(backFile);
+            width = backIcon.getIconWidth();
+            height = backIcon.getIconHeight();
+            parentLabel.setIcon(backIcon);
+        }
 
-        parentLabel.setIcon(backIcon);
+        else if (mainUtil.getConsoleDirection() == mainUtil.CYDER_DOWN) {
+            ImageIcon backIcon = new ImageIcon(backFile);
+            width = backIcon.getIconWidth();
+            height = backIcon.getIconHeight();
+            parentLabel.setIcon(new ImageIcon(mainUtil.getRotatedImage(mainUtil.getCurrentBackground().toString())));
+        }
+
+        else {
+            ImageIcon backIcon = new ImageIcon(backFile);
+
+            if (mainUtil.getConsoleDirection() == mainUtil.CYDER_LEFT || mainUtil.getConsoleDirection() == mainUtil.CYDER_RIGHT) {
+                height = backIcon.getIconWidth();
+                width = backIcon.getIconHeight();
+            }
+
+            parentLabel.setIcon(new ImageIcon(mainUtil.getRotatedImage(mainUtil.getCurrentBackground().toString())));
+        }
 
         mainUtil.getBackgroundSize();
 
-        consoleFrame.setBounds(0, 0, fullW, fullH);
-        parentPanel.setBounds(0, 0,  fullW, fullH);
-        parentLabel.setBounds(0, 0,  fullW, fullH);
+        consoleFrame.setBounds(0, 0, width, height);
+        parentPanel.setBounds(0, 0,  width, height);
+        parentLabel.setBounds(0, 0,  width, height);
 
-        outputArea.setBounds(0, 0, fullW - 20, fullH - 204);
-        outputScroll.setBounds(10, 62, fullW - 20, fullH - 204);
-        inputField.setBounds(10, 82 + outputArea.getHeight(), fullW - 20, fullH - (outputArea.getHeight() + 62 + 40));
-        consoleDragLabel.setBounds(0,0,fullW,30);
-        minimize.setBounds(fullW - 81, 4, 22, 20);
-        alternateBackground.setBounds(fullW - 54, 4, 22, 20);
-        close.setBounds(fullW - 27, 4, 22, 20);
+        outputArea.setBounds(0, 0, width - 20, height - 204);
+        outputScroll.setBounds(10, 62, width - 20, height - 204);
+        inputField.setBounds(10, 82 + outputArea.getHeight(), width - 20, height - (outputArea.getHeight() + 62 + 40));
+        consoleDragLabel.setBounds(0,0,width,30);
+        minimize.setBounds(width - 81, 4, 22, 20);
+        alternateBackground.setBounds(width - 54, 4, 22, 20);
+        close.setBounds(width - 27, 4, 22, 20);
         consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
                 2,(consoleClockLabel.getText().length() * 17), 25);
 
@@ -1736,7 +1771,7 @@ public class CyderMain{
         return null;
     }
 
-    private void startSliding() {
+    private void loginAnimation() {
         Thread slideThread = new Thread() {
             int count;
 
@@ -2083,6 +2118,8 @@ public class CyderMain{
                 }
 
                 println("Background pixelated and saved as a separate background file.");
+
+                exitFullscreen();
             }
         }
 
@@ -5039,9 +5076,9 @@ public class CyderMain{
         JLabel text = new JLabel(htmltext);
         text.setFont(mainUtil.weatherFontSmall);
         text.setForeground(mainUtil.navy);
-        text.setBounds(14,10,w,h); //todo here and
+        text.setBounds(14,10,w * 2,h);
         consoleNotification.add(text);
-        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);//todo here not properly made enough space on notif or parent
+        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
         parent.add(consoleNotification);
         parent.repaint();
 
