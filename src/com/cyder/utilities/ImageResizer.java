@@ -187,26 +187,26 @@ public class ImageResizer {
         ydim.setSelectionColor(imageUtil.selectionColor);
         ydim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                leftLastEdited = false;
-                int key = evt.getKeyCode();
+            leftLastEdited = false;
+            int key = evt.getKeyCode();
 
-                if (ydim.getText().length() > 4 || (!(key >= 48 && key <= 57) && !(key >= 37 && key <= 40) && !(key >= 96 && key <= 105) && key != 8 && key != 46)) {
-                    ydim.setText(ydim.getText().substring(0,ydim.getText().length() - 1));
-                    Toolkit.getDefaultToolkit().beep();
+            if (ydim.getText().length() > 4 || (!(key >= 48 && key <= 57) && !(key >= 37 && key <= 40) && !(key >= 96 && key <= 105) && key != 8 && key != 46)) {
+                ydim.setText(ydim.getText().substring(0,ydim.getText().length() - 1));
+                Toolkit.getDefaultToolkit().beep();
+            }
+
+            else if (maintainAspectRatio){
+                if (ydim.getText().length() > 0) {
+                    double val = Double.parseDouble(ydim.getText());
+                    double result = val * aspectRatio;
+                    int set = (int) result;
+                    xdim.setText(set + "");
                 }
 
-                else if (maintainAspectRatio){
-                    if (ydim.getText().length() > 0) {
-                        double val = Double.parseDouble(ydim.getText());
-                        double result = val * aspectRatio;
-                        int set = (int) result;
-                        xdim.setText(set + "");
-                    }
-
-                    else {
-                        xdim.setText("");
-                    }
+                else {
+                    xdim.setText("");
                 }
+            }
             }
         });
 

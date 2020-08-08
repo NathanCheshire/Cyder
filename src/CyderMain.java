@@ -38,7 +38,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo consolildate font and color in user prefs
+//todo inform user that passwords are not matching until they do when creating a user
+//todo make do a barrel roll method
 
 public class CyderMain{
     //console vars
@@ -143,7 +144,7 @@ public class CyderMain{
     }
 
     private CyderMain() {
-        //Fix scaling issue for high DPI displays like CypherLenovo which is 2560x1440
+        //Fix scaling issue for high DPI displays like nathanLenovo which is 2560x1440
         System.setProperty("sun.java2d.uiScale","1.0");
 
         UIManager.put("ToolTip.background", mainUtil.consoleColor);
@@ -151,36 +152,30 @@ public class CyderMain{
         UIManager.put("ToolTip.font", mainUtil.tahoma);
         UIManager.put("ToolTip.foreground", mainUtil.tooltipForegroundColor);
 
-        //security var
-        boolean cypherLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
+        //security var for main developer's PC
+        boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
 
-        if (!mainUtil.released() && !cypherLenovo) {
+        if (!mainUtil.released() && !nathanLenovo)
             System.exit(0);
-        }
 
-        if (cypherLenovo) {
+        if (nathanLenovo)
             mainUtil.setDebugMode(true);
-        }
 
         mainUtil.varInit();
         backgroundProcess();
 
-        if (cypherLenovo && !mainUtil.released()) {
+        if (nathanLenovo && !mainUtil.released())
             recognize("Nathan", "13201320".toCharArray());
-        }
 
-        else {
+        else
             login(false);
-        }
     }
 
     private void console() {
         try{
             mainUtil.initBackgrounds();
             mainUtil.getScreenSize();
-
             mainUtil.resizeImages();
-
             mainUtil.getValidBackgroundPaths();
             mainUtil.initBackgrounds();
             mainUtil.getScreenSize();
@@ -2404,7 +2399,7 @@ public class CyderMain{
                 mainUtil.closeCD("D:\\");
             }
 
-            else if (hasWord("font")) {
+            else if (hasWord("font") && !hasWord("reset")) {
                 editUser();
             }
 
@@ -2412,25 +2407,19 @@ public class CyderMain{
                 inputField.setFont(mainUtil.defaultFont);
                 outputArea.setFont(mainUtil.defaultFont);
                 println("The font has been reset.");
+                saveFontColor();
             }
 
-            else if (hasWord("color")) {
-                Color newColor = mainUtil.getAColor("Select your text color");
-                outputArea.setForeground(newColor);
-                inputField.setForeground(newColor);
-
-                if (newColor != mainUtil.getUsercolor()) {
-                    println("The color [" + newColor.getRed() + "," + newColor.getGreen() + "," + newColor.getBlue() + "] has been applied.");
-                    saveFontColor();
-                }
+            else if (hasWord("color") && !hasWord("reset")) {
+                editUser();
             }
 
             else if (hasWord("reset") && hasWord("color")) {
                 outputArea.setForeground(mainUtil.vanila);
                 inputField.setForeground(mainUtil.vanila);
                 println("The text color has been reset.");
+                saveFontColor();
             }
-
 
             else if (eic("top left")) {
                 consoleFrame.setLocation(0,0);
@@ -2778,10 +2767,9 @@ public class CyderMain{
                 Hanger.startHangman();
             }
 
-            else if (hasWord("rgb") && hasWord("hex")) {
-                Color RGBColor = mainUtil.getAColor("Select an RGB color to be converted to hex");
-                println("The color [" + RGBColor.getRed() + "," + RGBColor.getGreen() + "," + RGBColor.getBlue() +
-                        "] converted to hex equals " + mainUtil.rgbtohex(RGBColor));
+
+            else if (hasWord("rgb") || hasWord("hex")) {
+                mainUtil.colorConverter();
             }
 
             else if (hasWord("dance")) {
@@ -3957,7 +3945,14 @@ public class CyderMain{
         rightPanel.add(prefsPanel);
         ChangePasswordPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        rightPanel.add(getFontPanel());
+        JPanel fontColorPanel = new JPanel();
+        fontColorPanel.setLayout(new BoxLayout(fontColorPanel, BoxLayout.X_AXIS));
+        fontColorPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        fontColorPanel.add(getFontPanel());
+        fontColorPanel.add(getColorPanel());
+
+        rightPanel.add(fontColorPanel);
+
         rightPanel.add(ChangePasswordPanel);
         masterPanel.add(rightPanel);
 
@@ -4034,11 +4029,79 @@ public class CyderMain{
         backgroundSelectionList.setSelectionBackground(mainUtil.selectionColor);
     }
 
-    public JPanel getFontPanel() {
+    private JPanel getColorPanel() {
         JPanel parentPanel = new JPanel();
-
         parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.PAGE_AXIS));
 
+        JLabel label = new JLabel("Select your desired color");
+        label.setFont(mainUtil.weatherFontSmall);
+        label.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        JPanel labelPanel = new JPanel();
+        labelPanel.add(label);
+        parentPanel.add(labelPanel, Component.CENTER_ALIGNMENT);
+
+        JTextField hexField = new JTextField("",10);
+        hexField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+            if (hexField.getText().length() > 6) {
+                hexField.setText(hexField.getText().substring(0,hexField.getText().length() - 1));
+                Toolkit.getDefaultToolkit().beep();
+            }
+
+            else {
+                try {
+                    String colorStr = hexField.getText();
+                    label.setForeground(new Color(Integer.valueOf(colorStr.substring(0,2),16),
+                            Integer.valueOf(colorStr.substring(2,4),16),
+                            Integer.valueOf(colorStr.substring(4,6),16)));
+                }
+
+                catch (Exception ignored) {
+
+                }
+            }
+            }
+        });
+        hexField.setFont(mainUtil.weatherFontSmall);
+        hexField.setSelectionColor(mainUtil.selectionColor);
+        hexField.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(2,2,2,2),
+                new LineBorder(mainUtil.navy,5,false)));
+        hexField.setToolTipText("Hex Color");
+
+        JPanel fieldPanel = new JPanel();
+        fieldPanel.add(hexField);
+        fieldPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        parentPanel.add(fieldPanel);
+
+        CyderButton apply = new CyderButton("Apply Color");
+        apply.setFocusPainted(false);
+        apply.setColors(mainUtil.regularRed);
+        apply.setForeground(mainUtil.navy);
+        apply.setBackground(mainUtil.regularRed);
+        apply.setFont(mainUtil.weatherFontSmall);
+        apply.addActionListener(e -> {
+            Color newColor = label.getForeground();
+            outputArea.setForeground(newColor);
+            inputField.setForeground(newColor);
+
+            if (newColor != mainUtil.getUsercolor()) {
+                println("The color [" + newColor.getRed() + "," + newColor.getGreen() + "," + newColor.getBlue() + "] has been applied.");
+                saveFontColor();
+            }
+        });
+
+        JPanel applyPanel = new JPanel();
+        applyPanel.add(apply);
+        applyPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        parentPanel.add(applyPanel, Component.CENTER_ALIGNMENT);
+        parentPanel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+
+        return parentPanel;
+    }
+
+    private JPanel getFontPanel() {
+        JPanel parentPanel = new JPanel();
+        parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.PAGE_AXIS));
         JLabel label = new JLabel("Select your desired font");
 
         label.setFont(mainUtil.weatherFontSmall);
@@ -4113,11 +4176,8 @@ public class CyderMain{
         parentPanel.add(FontListScroll, Component.CENTER_ALIGNMENT);
 
         JPanel apply = new JPanel();
-
         apply.add(applyFont);
-
         apply.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
         parentPanel.add(apply, Component.CENTER_ALIGNMENT);
 
         return parentPanel;

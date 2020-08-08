@@ -13,10 +13,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -313,7 +310,6 @@ public class Util {
         return dateFormatter.format(Time);
     }
 
-
     public String weatherTime() {
         Date Time = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa zzz EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
@@ -396,37 +392,6 @@ public class Util {
 
     public String getCyderVer() {
         return this.cyderVer;
-    }
-
-    public Color getAColor(String Title) {
-        JColorChooser ColorChooser = new JColorChooser();
-        ColorChooser.setFont(tahoma);
-
-        Color ReturnColor;
-        JFrame bodgeFrame = new JFrame();
-        bodgeFrame.setIconImage(getCyderIcon().getImage());
-
-        try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-
-            SwingUtilities.updateComponentTreeUI(bodgeFrame);
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-
-        ReturnColor = ColorChooser.showDialog(bodgeFrame, Title, vanila);
-
-        return (ReturnColor == null ? getUsercolor() : ReturnColor);
-    }
-
-    public String rgbtohex(int r, int g, int b) {
-        return String.format("#%02x%02x%02x", r, g, b);
-    }
-
-    public String rgbtohex(Color Color) {
-        return String.format("#%02x%02x%02x", Color.getRed(), Color.getGreen(), Color.getBlue());
     }
 
     public String fillString(int count, String c) {
@@ -1015,6 +980,100 @@ public class Util {
         Matcher m = Pat.matcher(Search);
         return m.find() ? m.group() : null;
     }
+
+    public void colorConverter() {
+        JFrame colorFrame = new JFrame();
+        colorFrame.setIconImage(getCyderIcon().getImage());
+        colorFrame.setTitle("Color Converter");
+        colorFrame.setSize(400,300);
+        colorFrame.setResizable(false);
+        colorFrame.setUndecorated(true);
+
+        JLabel parentLabel = new JLabel();
+        parentLabel.setBorder(new LineBorder(navy,5,false));
+        parentLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
+        colorFrame.setContentPane(parentLabel);
+
+        JLabel hexLabel = new JLabel("HEX:");
+        hexLabel.setFont(weatherFontSmall);
+        hexLabel.setForeground(navy);
+        hexLabel.setBounds(30, 110,70, 30);
+        parentLabel.add(hexLabel);
+
+        JLabel rgbLabel = new JLabel("RGB:");
+        rgbLabel.setFont(weatherFontSmall);
+        rgbLabel.setForeground(navy);
+        rgbLabel.setBounds(30, 180,70,30);
+        parentLabel.add(rgbLabel);
+
+        JTextField colorBlock = new JTextField();
+        colorBlock.setBackground(navy);
+        colorBlock.setFocusable(false);
+        colorBlock.setToolTipText("Color Preview");
+        colorBlock.setBorder(new LineBorder(navy, 5, false));
+        colorBlock.setBounds(330, 100, 40, 120);
+        parentLabel.add(colorBlock);
+
+        JTextField rgbField = new JTextField(navy.getRed() + "," + navy.getGreen() + "," + navy.getBlue());
+
+        JTextField hexField = new JTextField(String.format("#%02X%02X%02X", navy.getRed(), navy.getGreen(), navy.getBlue()).replace("#",""));
+        hexField.setForeground(navy);
+        hexField.setFont(weatherFontBig);
+        hexField.setBackground(new Color(0,0,0,0));
+        hexField.setSelectionColor(selectionColor);
+        hexField.setToolTipText("Hex Value");
+        hexField.setBorder(new LineBorder(navy,5,false));
+        JTextField finalHexField1 = hexField;
+        JTextField finalRgbField = rgbField;
+        hexField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                try {
+                    Color c = hextorgbColor(finalHexField1.getText());
+                    finalRgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
+                    colorBlock.setBackground(c);
+                }
+
+                catch (Exception ignored) {}
+            }
+        });
+        hexField.setBounds(120, 100,200, 50);
+        hexField.setOpaque(false);
+        parentLabel.add(hexField);
+
+        rgbField.setForeground(navy);
+        rgbField.setFont(weatherFontBig);
+        rgbField.setBackground(new Color(0,0,0,0));
+        rgbField.setSelectionColor(selectionColor);
+        rgbField.setToolTipText("RGB Value");
+        rgbField.setBorder(new LineBorder(navy,5,false));
+        JTextField finalRgbField1 = rgbField;
+        rgbField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                try {
+                    String[] parts = finalRgbField1.getText().split(",");
+                    Color c = new Color(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]),Integer.parseInt(parts[2]));
+                    hexField.setText(rgbtohexString(c));
+                    colorBlock.setBackground(c);
+                }
+
+                catch (Exception ignored) {}
+            }
+        });
+        rgbField.setBounds(120, 170,200, 50);
+        rgbField.setOpaque(false);
+        parentLabel.add(rgbField);
+
+        DragLabel dl = new DragLabel(400, 30, colorFrame);
+        dl.setBounds(0,0,400,30);
+        parentLabel.add(dl);
+
+        colorFrame.setVisible(true);
+        colorFrame.setLocationRelativeTo(null);
+    }
+
+    public Color hextorgbColor(String hex) { return new Color(Integer.valueOf(hex.substring(0,2),16),Integer.valueOf(hex.substring(2,4),16),Integer.valueOf(hex.substring(4,6),16)); }
+    public String hextorgbString(String hex) { return Integer.valueOf(hex.substring(0,2),16) + "," + Integer.valueOf(hex.substring(2,4),16) + "," + Integer.valueOf(hex.substring(4,6),16); }
+    public String rgbtohexString(Color c) { return String.format("%02X%02X%02X", c.getRed(), c.getGreen(), c.getBlue()); }
 
     public void inform(String message, String title, int width, int height) {
         try {

@@ -21,6 +21,7 @@ public class CyderButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
+        this.setFocusPainted(false);
         this.setBorder(new LineBorder(new Color(26, 32, 51),5,false));
         if (getModel().isPressed()) {
             g.setColor(pressedBackgroundColor);
