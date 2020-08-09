@@ -38,7 +38,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo inform user that passwords are not matching until they do when creating a user
+//todo make GUI with parameters width and height that returns a JFrame with everything on it and the parent JLabel for absolute layout usage
 //todo make do a barrel roll method
 
 public class CyderMain{
@@ -1661,8 +1661,6 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("prime") && input != null && !input.equals("")) {
                 int num = Integer.parseInt(input);
 
-                ArrayList<Integer> Numbers = new ArrayList<>();
-
                 if (num <= 0) {
                     println("The inger " + num + " is not a prime number because it is negative.");
                 }
@@ -1674,6 +1672,8 @@ public class CyderMain{
                 else if (num == 2) {
                     println("The integer 2 is indeed a prime number.");
                 }
+
+                ArrayList<Integer> Numbers = new ArrayList<>();
 
                 for (int i = 3 ; i < Math.ceil(Math.sqrt(num)) ; i += 2) {
                     if (num % i == 0) {
@@ -4218,21 +4218,15 @@ public class CyderMain{
         }
 
         createUserFrame = new JFrame();
-
         createUserFrame.setTitle("Create User");
-
         createUserFrame.setResizable(false);
-
         createUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         createUserFrame.setIconImage(mainUtil.getCyderIcon().getImage());
 
         JPanel ParentPanel = new JPanel();
-
         ParentPanel.setLayout(new BoxLayout(ParentPanel,BoxLayout.Y_AXIS));
 
         JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);
-
         NameLabel.setFont(mainUtil.weatherFontSmall);
 
         JPanel NameLabelPanel = new JPanel();
@@ -4310,7 +4304,23 @@ public class CyderMain{
 
         PasswordConfLabel.setForeground(mainUtil.navy);
 
+        JLabel matchPasswords = new JLabel("Passwords match");
+
         newUserPassword = new JPasswordField(15);
+        newUserPassword.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
+                    matchPasswords.setText("Passwords match");
+                    matchPasswords.setForeground(mainUtil.regularGreen);
+                }
+
+                else {
+                    matchPasswords.setText("Passwords do not match");
+                    matchPasswords.setForeground(mainUtil.regularRed);
+                }
+            }
+        });
 
         newUserPassword.setFont(mainUtil.weatherFontSmall);
 
@@ -4321,6 +4331,20 @@ public class CyderMain{
         newUserPassword.setSelectedTextColor(mainUtil.selectionColor);
 
         newUserPasswordconf = new JPasswordField(15);
+        newUserPasswordconf.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
+                    matchPasswords.setText("Passwords match");
+                    matchPasswords.setForeground(mainUtil.regularGreen);
+                }
+
+                else {
+                    matchPasswords.setText("Passwords do not match");
+                    matchPasswords.setForeground(mainUtil.regularRed);
+                }
+            }
+        });
 
         newUserPasswordconf.setFont(mainUtil.weatherFontSmall);
 
@@ -4348,15 +4372,21 @@ public class CyderMain{
 
         PasswordConfLabelPanel.add(PasswordConfLabel,SwingConstants.CENTER);
 
-        ParentPanel.add(PasswordConfLabelPanel);
-
         JPanel passConf = new JPanel();
 
         passConf.add(newUserPasswordconf, SwingConstants.CENTER);
 
         newUserPasswordconf.setBorder(new LineBorder(mainUtil.navy,5,false));
 
+        ParentPanel.add(PasswordConfLabelPanel);
+
         ParentPanel.add(passConf);
+
+        matchPasswords.setFont(mainUtil.weatherFontSmall);
+        matchPasswords.setForeground(mainUtil.regularGreen);
+        JPanel matchPasswordsPanel = new JPanel();
+        matchPasswordsPanel.add(matchPasswords);
+        ParentPanel.add(matchPasswordsPanel);
 
         chooseBackground = new CyderButton("Choose background");
 
@@ -4438,6 +4468,7 @@ public class CyderMain{
 
         createNewUser.setColors(mainUtil.regularRed);
 
+        //todo optimize me
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -4599,13 +4630,9 @@ public class CyderMain{
         createUserFrame.add(ParentPanel);
 
         createUserFrame.pack();
-
         createUserFrame.setLocationRelativeTo(null);
-
         createUserFrame.setVisible(true);
-
         createUserFrame.setAlwaysOnTop(true);
-
         createUserFrame.setAlwaysOnTop(false);
 
         newUserName.requestFocus();

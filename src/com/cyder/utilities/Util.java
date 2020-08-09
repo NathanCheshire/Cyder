@@ -62,7 +62,7 @@ public class Util {
     private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 
     //cyder version
-    private String cyderVer = "Maple";
+    private String cyderVer = "Soultree";
 
     //uservars
     private LinkedList<NST> userData = new LinkedList<>();
@@ -1623,10 +1623,6 @@ public class Util {
         return this.userfont;
     }
 
-    public void setCyderVer(String ver) {
-        this.cyderVer = ver;
-    }
-
     public boolean OnLastBackground() {
         return (validBackgroundPaths.length == currentBackgroundIndex + 1);
     }
@@ -2411,6 +2407,21 @@ public class Util {
                     setBackgroundY(saveImage.getHeight());
                     getValidBackgroundPaths();
                 }
+
+                if (isPrime(getBackgroundX())) {
+                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
+
+                    int width = currentImage.getWidth() + 1;
+                    int height = currentImage.getHeight() + 1;
+
+                    BufferedImage saveImage = resizeImage(currentImage, imageType, width, height);
+
+                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
+
+                    setBackgroundX(saveImage.getWidth());
+                    setBackgroundY(saveImage.getHeight());
+                    getValidBackgroundPaths();
+                }
             }
 
             getValidBackgroundPaths();
@@ -2620,5 +2631,17 @@ public class Util {
         g2d.dispose();
 
         return rotated;
+    }
+
+    public boolean isPrime(int num) {
+        ArrayList<Integer> Numbers = new ArrayList<>();
+
+        for (int i = 3 ; i < Math.ceil(Math.sqrt(num)) ; i += 2) {
+            if (num % i == 0) {
+                Numbers.add(i);
+            }
+        }
+
+        return Numbers.isEmpty();
     }
 }
