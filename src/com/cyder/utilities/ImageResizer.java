@@ -119,7 +119,7 @@ public class ImageResizer {
                 else if (maintainAspectRatio){
                     if (xdim.getText().length() > 0) {
                         double val = Double.parseDouble(xdim.getText());
-                        double result = val * (aspectRatio < 1 ? 1.0 / aspectRatio : aspectRatio) ;
+                        double result = val * (aspectRatio > 1 ? aspectRatio : 1.0 / aspectRatio);
                         int set = (int) result;
                         ydim.setText(set + "");
                     }
@@ -198,7 +198,7 @@ public class ImageResizer {
             else if (maintainAspectRatio){
                 if (ydim.getText().length() > 0) {
                     double val = Double.parseDouble(ydim.getText());
-                    double result = val * aspectRatio;
+                    double result = val * (aspectRatio < 1 ? aspectRatio : 1.0 / aspectRatio);
                     int set = (int) result;
                     xdim.setText(set + "");
                 }
@@ -242,7 +242,6 @@ public class ImageResizer {
                     imageUtil.inform("The image \"" + resizeImage.getName() + "\" was successfully resized to " +
                             xdim.getText() + "x" + ydim.getText(),"Success", 500, 300);
                     imageUtil.closeAnimation(resizeFrame);
-                    resizeFrame.dispose();
                 }
 
                 catch (Exception ex) {

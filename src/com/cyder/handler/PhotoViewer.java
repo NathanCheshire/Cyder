@@ -45,10 +45,8 @@ public class PhotoViewer {
 
         File ImageName = validImages.get(currentIndex);
 
-        if (pictureFrame != null) {
+        if (pictureFrame != null)
             imageUtil.closeAnimation(pictureFrame);
-            pictureFrame.dispose();
-        }
 
         BufferedImage Image = null;
 
@@ -77,10 +75,8 @@ public class PhotoViewer {
         rename.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (renameFrame != null) {
+                if (renameFrame != null)
                     imageUtil.closeAnimation(renameFrame);
-                    renameFrame.dispose();
-                }
 
                 renameFrame = new JFrame();
                 renameFrame.setResizable(false);
@@ -127,7 +123,6 @@ public class PhotoViewer {
                     pictureFrame.setTitle(name);
 
                     imageUtil.closeAnimation(renameFrame);
-                    renameFrame.dispose();
 
                     System.out.println("index: " + currentIndex + "\nFiles:\n");
                     for (File f : validImages) {
@@ -262,10 +257,8 @@ public class PhotoViewer {
             rename.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (renameFrame != null) {
+                    if (renameFrame != null)
                         imageUtil.closeAnimation(renameFrame);
-                        renameFrame.dispose();
-                    }
 
                     renameFrame = new JFrame();
                     renameFrame.setResizable(false);
@@ -312,7 +305,6 @@ public class PhotoViewer {
                         pictureFrame.setTitle(name);
 
                         imageUtil.closeAnimation(renameFrame);
-                        renameFrame.dispose();
 
                         System.out.println("index: " + currentIndex + "\nFiles:\n");
                         for (File f : validImages) {
@@ -424,10 +416,8 @@ public class PhotoViewer {
             rename.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (renameFrame != null) {
+                    if (renameFrame != null)
                         imageUtil.closeAnimation(renameFrame);
-                        renameFrame.dispose();
-                    }
 
                     renameFrame = new JFrame();
                     renameFrame.setResizable(false);
@@ -474,7 +464,6 @@ public class PhotoViewer {
                         pictureFrame.setTitle(name);
 
                         imageUtil.closeAnimation(renameFrame);
-                        renameFrame.dispose();
 
                         System.out.println("index: " + currentIndex + "\nFiles:\n");
                         for (File f : validImages) {

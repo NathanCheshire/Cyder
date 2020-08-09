@@ -22,10 +22,8 @@ public class TextEditor {
     }
 
     private void openNote(File textFile) {
-        if (noteEditorFrame != null) {
+        if (noteEditorFrame != null)
             textUtil.closeAnimation(noteEditorFrame);
-            noteEditorFrame.dispose();
-        }
 
         noteEditorFrame = new JFrame();
 
@@ -143,8 +141,8 @@ public class TextEditor {
                 else {
                     textUtil.inform(textFile.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
                 }
+
                 textUtil.closeAnimation(noteEditorFrame);
-                noteEditorFrame.dispose();
             }
 
             catch (Exception exc) {

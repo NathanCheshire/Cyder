@@ -154,9 +154,6 @@ public class Util {
     private int backgroundX;
     private int backgroundY;
 
-    //information popup
-    private JFrame informFrame;
-
     //static player so only one instance ever exists
     public static MPEGPlayer CyderPlayer;
     private static Player player;
@@ -333,6 +330,8 @@ public class Util {
                     Thread.sleep(1);
                     frame.setLocation(x, i);
                 }
+
+                frame.dispose();
             }
         }
 
@@ -639,10 +638,8 @@ public class Util {
 
     public void debug() {
         try {
-            if (debugFrame != null) {
+            if (debugFrame != null)
                 closeAnimation(debugFrame);
-                debugFrame.dispose();
-            }
 
             debugFrame = new JFrame();
 
@@ -1077,12 +1074,7 @@ public class Util {
 
     public void inform(String message, String title, int width, int height) {
         try {
-            if (informFrame != null) {
-                closeAnimation(informFrame);
-                informFrame.dispose();
-            }
-
-            informFrame = new JFrame();
+            JFrame informFrame = new JFrame();
 
             informFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -1150,7 +1142,6 @@ public class Util {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     closeAnimation(informFrame);
-                    informFrame.dispose();
                 }
 
                 @Override
@@ -1443,10 +1434,8 @@ public class Util {
 
             String NewName = path.getName().replace(".png", "") + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
 
-            if (pixelFrame != null) {
+            if (pixelFrame != null)
                 closeAnimation(pixelFrame);
-                pixelFrame.dispose();
-            }
 
             pixelFrame = new JFrame();
 
@@ -1506,7 +1495,6 @@ public class Util {
                 }
 
                 closeAnimation(pixelFrame);
-                pixelFrame.dispose();
                 inform("The distorted image has been saved to your Downloads folder.","", 400, 200);
             });
 
@@ -1524,10 +1512,7 @@ public class Util {
 
             rejectImage.setFont(weatherFontSmall);
 
-            rejectImage.addActionListener(e -> {
-                closeAnimation(pixelFrame);
-                pixelFrame.dispose();
-            });
+            rejectImage.addActionListener(e -> closeAnimation(pixelFrame));
 
             rejectImage.setSize(pixelFrame.getX(), 20);
 
@@ -1679,10 +1664,8 @@ public class Util {
     public void draw(String ImageName) {
         JFrame bodgeFrame = new JFrame();
 
-        if (pictureFrame != null) {
+        if (pictureFrame != null)
             closeAnimation(pictureFrame);
-            pictureFrame.dispose();
-        }
 
         BufferedImage Image = null;
 
@@ -1744,7 +1727,6 @@ public class Util {
 
         closeDraw.addActionListener(e -> {
             closeAnimation(pictureFrame);
-            pictureFrame.dispose();
             pictureFrame = null;
         });
 
@@ -1770,10 +1752,8 @@ public class Util {
     }
 
     public void draw(BufferedImage ImageName) {
-        if (pictureFrame != null) {
+        if (pictureFrame != null)
             closeAnimation(pictureFrame);
-            pictureFrame.dispose();
-        }
 
         pictureFrame = new JFrame();
 
@@ -1821,10 +1801,7 @@ public class Util {
 
         closeDraw.setFont(weatherFontSmall);
 
-        closeDraw.addActionListener(e -> {
-            closeAnimation(pictureFrame);
-            pictureFrame.dispose();
-        });
+        closeDraw.addActionListener(e -> closeAnimation(pictureFrame));
 
         closeDraw.setSize(pictureFrame.getX(),20);
 
@@ -1849,10 +1826,8 @@ public class Util {
 
     public void clickMe() {
         try {
-            if (clickMeFrame != null) {
+            if (clickMeFrame != null)
                 closeAnimation(clickMeFrame);
-                clickMeFrame.dispose();
-            }
 
             clickMeFrame = new JFrame();
 
@@ -2643,5 +2618,25 @@ public class Util {
         }
 
         return Numbers.isEmpty();
+    }
+
+    public JFrame getCyderFrame(String title, int width, int height, ImageIcon background) {
+        JFrame cyderFrame = new JFrame();
+        cyderFrame.setIconImage(getCyderIcon().getImage());
+        cyderFrame.setTitle(title);
+        cyderFrame.setSize(width,height);
+        cyderFrame.setResizable(false);
+        cyderFrame.setUndecorated(true);
+
+        JLabel parentLabel = new JLabel();
+        parentLabel.setBorder(new LineBorder(navy,5,false));
+        parentLabel.setIcon(background);
+        cyderFrame.setContentPane(parentLabel);
+
+        DragLabel dl = new DragLabel(width, 30, cyderFrame);
+        dl.setBounds(0,0,width,30);
+        parentLabel.add(dl);
+
+        return cyderFrame;
     }
 }

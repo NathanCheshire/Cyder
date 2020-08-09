@@ -35,11 +35,7 @@ public class TicTacToe {
 
     public void startTicTacToe() {
         if (TTTFrame != null)
-        {
             TTTUtil.closeAnimation(TTTFrame);
-
-            TTTFrame.dispose();
-        }
 
         TTTFrame = new JFrame();
 

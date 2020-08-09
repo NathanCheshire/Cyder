@@ -70,7 +70,6 @@ public class DragLabel extends JLabel {
 
         close.addActionListener(e -> {
             dragLabelUtil.closeAnimation(effectFrame);
-            effectFrame.dispose();
         });
 
         close.addMouseListener(new MouseAdapter() {

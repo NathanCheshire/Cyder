@@ -44,10 +44,8 @@ public class MPEGPlayer {
         musicUtil.setUsername(username);
         musicUtil.setUserUUID(UUID);
 
-        if (musicFrame != null) {
+        if (musicFrame != null)
             musicUtil.closeAnimation(musicFrame);
-            musicFrame.dispose();
-        }
 
         musicFrame = new JFrame();
 
@@ -724,7 +722,6 @@ public class MPEGPlayer {
         if (mp3Player != null)
             this.mp3Player.close();
         musicUtil.closeAnimation(musicFrame);
-        musicFrame.dispose();
     }
 
     private void play(File path) {

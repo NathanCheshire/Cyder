@@ -73,10 +73,8 @@ public class WeatherWidget {
         useCustomLoc = false;
         weatherStats();
 
-        if (weatherFrame != null) {
+        if (weatherFrame != null)
             weatherUtil.closeAnimation(weatherFrame);
-            weatherFrame.dispose();
-        }
 
         weatherFrame = new JFrame();
 
@@ -215,7 +213,6 @@ public class WeatherWidget {
                     customState = parts[1];
                     useCustomLoc = true;
                     weatherUtil.closeAnimation(changeLocationFrame);
-                    changeLocationFrame.dispose();
                     weatherUtil.inform("Attempting to refresh and use the location \"" + customCity + "\" for weather.", "",400, 300);
                     refreshWeatherNow();
                 });

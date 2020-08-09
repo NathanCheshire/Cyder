@@ -27,10 +27,8 @@ public class Pizza {
     private JCheckBox soda;
 
     public Pizza() {
-        if (pizzaFrame != null) {
+        if (pizzaFrame != null)
             pizzaUtil.closeAnimation(pizzaFrame);
-            pizzaFrame.dispose();
-        }
 
         pizzaFrame = new JFrame();
         pizzaFrame.setTitle("Pizza");

@@ -52,10 +52,8 @@ public class Hangman {
     }
 
     public void startHangman() {
-        if (HangmanFrame != null) {
+        if (HangmanFrame != null)
             hangmanUtil.closeAnimation(HangmanFrame);
-            HangmanFrame.dispose();
-        }
 
         HangmanFrame = new JFrame();
 

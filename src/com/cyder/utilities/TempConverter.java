@@ -21,10 +21,8 @@ public class TempConverter {
     private Util tempUtil = new Util();
 
     public TempConverter() {
-        if (temperatureFrame != null) {
+        if (temperatureFrame != null)
             tempUtil.closeAnimation(temperatureFrame);
-            temperatureFrame.dispose();
-        }
 
         temperatureFrame = new JFrame();
 

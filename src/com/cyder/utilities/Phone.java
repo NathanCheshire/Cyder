@@ -14,10 +14,8 @@ public class Phone {
     private Util phoneUtil = new Util();
 
     public Phone() {
-        if (phoneFrame != null) {
+        if (phoneFrame != null)
             phoneUtil.closeAnimation(phoneFrame);
-            phoneFrame.dispose();
-        }
 
         phoneFrame = new JFrame();
 

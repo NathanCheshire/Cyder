@@ -24,10 +24,8 @@ public class YouTubeThumbnail {
     private Util yttnUtil = new Util();
 
     public YouTubeThumbnail() {
-        if (yttnFrame != null) {
+        if (yttnFrame != null)
             yttnUtil.closeAnimation(yttnFrame);
-            yttnFrame.dispose();
-        }
 
         yttnFrame = new JFrame();
 
@@ -193,10 +191,7 @@ public class YouTubeThumbnail {
 
                     closeYT.setFont(yttnUtil.weatherFontSmall);
 
-                    closeYT.addActionListener(ev -> {
-                        yttnUtil.closeAnimation(thumbnailFrame);
-                        thumbnailFrame.dispose();
-                    });
+                    closeYT.addActionListener(ev -> yttnUtil.closeAnimation(thumbnailFrame));
 
                     closeYT.setSize(thumbnailFrame.getX(),20);
 

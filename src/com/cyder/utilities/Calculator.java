@@ -19,10 +19,8 @@ public class Calculator {
     public Calculator() {
         calculatorExpression = "";
 
-        if (calculatorFrame != null) {
+        if (calculatorFrame != null)
             calculatorUtil.closeAnimation(calculatorFrame);
-            calculatorFrame.dispose();
-        }
 
         calculatorFrame = new JFrame();
 

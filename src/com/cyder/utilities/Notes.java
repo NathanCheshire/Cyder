@@ -35,10 +35,8 @@ public class Notes {
     public Notes(String UUID) {
         this.UUID = UUID;
 
-        if (noteFrame != null) {
+        if (noteFrame != null)
             noteUtil.closeAnimation(noteFrame);
-            noteFrame.dispose();
-        }
 
         noteFrame = new JFrame();
 
@@ -193,10 +191,8 @@ public class Notes {
     }
 
     private void addNote() {
-        if (newNoteFrame != null) {
+        if (newNoteFrame != null)
             noteUtil.closeAnimation(newNoteFrame);
-            newNoteFrame.dispose();
-        }
 
         newNoteFrame = new JFrame();
 
@@ -307,12 +303,9 @@ public class Notes {
 
             noteUtil.closeAnimation(newNoteFrame);
 
-            newNoteFrame.dispose();
-
             initializeNotesList();
 
             noteListScroll.setViewportView(fileSelectionList);
-
             noteListScroll.revalidate();
         });
 
@@ -368,10 +361,8 @@ public class Notes {
     }
 
     private void openNote(File File) {
-        if (noteEditorFrame != null) {
+        if (noteEditorFrame != null)
             noteUtil.closeAnimation(noteEditorFrame);
-            noteEditorFrame.dispose();
-        }
 
         noteEditorFrame = new JFrame();
 
@@ -496,7 +487,6 @@ public class Notes {
                 }
 
                 noteUtil.closeAnimation(noteEditorFrame);
-                noteEditorFrame.dispose();
             }
 
             catch (Exception exc) {

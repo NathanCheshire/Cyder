@@ -18,10 +18,8 @@ public class MinecraftWidget {
     private Util mcUtil = new Util();
 
     public MinecraftWidget() {
-        if (minecraftFrame != null) {
+        if (minecraftFrame != null)
             mcUtil.closeAnimation(minecraftFrame);
-            minecraftFrame.dispose();
-        }
 
         minecraftFrame = new JFrame();
 

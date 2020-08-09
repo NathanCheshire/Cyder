@@ -38,8 +38,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo make GUI with parameters width and height that returns a JFrame with everything on it and the parent JLabel for absolute layout usage
 //todo make do a barrel roll method
+//todo instead of getjframe, or getjpanel methods make their own classes in UI that extend those components
 
 public class CyderMain{
     //console vars
@@ -1117,7 +1117,6 @@ public class CyderMain{
     private void login(boolean AlreadyOpen) {
         if (loginFrame != null) {
             mainUtil.closeAnimation(loginFrame);
-            loginFrame.dispose();
         }
 
         loginFrame = new JFrame();
@@ -1304,18 +1303,11 @@ public class CyderMain{
             mainUtil.setUsername(Username);
 
             if (mainUtil.checkPassword(Username, mainUtil.toHexString(mainUtil.getSHA(Password)))) {
-
                 mainUtil.readUserData();
-
                 mainUtil.closeAnimation(loginFrame);
 
-                if (loginFrame != null)
-                    loginFrame.dispose();
-
-                if (consoleFrame != null) {
+                if (consoleFrame != null)
                     mainUtil.closeAnimation(consoleFrame);
-                    consoleFrame.dispose();
-                }
 
                 console();
 
@@ -1887,8 +1879,9 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("deleteuser")) {
+                if (!mainUtil.confirmation(input)) return;
+
                 mainUtil.closeAnimation(consoleFrame);
-                consoleFrame.dispose();
                 mainUtil.deleteFolder(new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID()));
 
                 //fail safe if not able to delete
@@ -1966,7 +1959,6 @@ public class CyderMain{
 
                 saveFontColor();
                 mainUtil.closeAnimation(consoleFrame);
-
                 
                 System.exit(0);
             }
@@ -3365,10 +3357,8 @@ public class CyderMain{
     }
 
     public void editUser() {
-        if (editUserFrame != null) {
+        if (editUserFrame != null)
             mainUtil.closeAnimation(editUserFrame);
-            editUserFrame.dispose();
-        }
 
         editUserFrame = new JFrame();
         editUserFrame.setResizable(false);
@@ -4187,11 +4177,9 @@ public class CyderMain{
         @Override
         public void run() {
             mainUtil.closeAnimation(consoleFrame);
-            consoleFrame.dispose();
 
             saveFontColor();
             mainUtil.closeAnimation(consoleFrame);
-
             
             System.exit(0);
         }
@@ -4212,10 +4200,8 @@ public class CyderMain{
     public void createUser() {
         createUserBackground = null;
 
-        if (createUserFrame != null) {
+        if (createUserFrame != null)
             mainUtil.closeAnimation(createUserFrame);
-            createUserFrame.dispose();
-        }
 
         createUserFrame = new JFrame();
         createUserFrame.setTitle("Create User");
@@ -4468,7 +4454,6 @@ public class CyderMain{
 
         createNewUser.setColors(mainUtil.regularRed);
 
-        //todo optimize me
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -4484,21 +4469,7 @@ public class CyderMain{
                     char[] pass = newUserPassword.getPassword();
                     char[] passconf = newUserPasswordconf.getPassword();
 
-                    if (!Arrays.equals(pass, passconf) && pass.length > 0) {
-                        mainUtil.inform("Sorry, but your passwords did not match. Please try again.", "",400, 300);
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    }
-
-                    else if (pass.length <= 4) {
-                        mainUtil.inform("Sorry, but your password length should be greater than\n"
-                                + "four characters for security reasons. Please add more characters.", "", 400, 300);
-
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    }
-
-                    else if (newUserName.getText().trim() == null || pass == null || passconf == null || createUserBackground.getName().equals("No file chosen")
+                    if (newUserName.getText().trim() == null || pass == null || passconf == null || createUserBackground.getName().equals("No file chosen")
                             || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
                         mainUtil.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
                         newUserPassword.setText("");
@@ -4512,88 +4483,70 @@ public class CyderMain{
                         newUserPasswordconf.setText("");
                     }
 
-                    else
-                    {
+                    else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
+                        mainUtil.inform("Sorry, but your passwords did not match. Please try again.", "",400, 300);
+                        newUserPassword.setText("");
+                        newUserPasswordconf.setText("");
+                    }
+
+                    else if (pass.length < 5) {
+                        mainUtil.inform("Sorry, but your password length should be greater than\n"
+                                + "four characters for security reasons. Please add more characters.", "", 400, 300);
+
+                        newUserPassword.setText("");
+                        newUserPasswordconf.setText("");
+                    }
+
+                    else {
                         File NewUserFolder = new File("src\\com\\cyder\\users\\" + uuid);
-                        NewUserFolder.mkdirs();
-
+                        File backgrounds = new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds");
                         File music = new File("src\\com\\cyder\\users\\" + uuid + "\\Music");
-                        music.mkdir();
-
                         File notes = new File("src\\com\\cyder\\users\\" + uuid + "\\Notes");
+
+                        NewUserFolder.mkdirs();
+                        backgrounds.mkdir();
+                        music.mkdir();
                         notes.mkdir();
 
-                        File backgrounds = new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds");
-                        backgrounds.mkdir();
-
-                        BufferedImage checkIm = ImageIO.read(createUserBackground);
-
-                        double aspectRatio = ((double) checkIm.getWidth() / (double) checkIm.getHeight());
-                        ImageIcon originalIcon = new ImageIcon(checkIm);
-
-                        int width = originalIcon.getIconWidth();
-                        int height = originalIcon.getIconHeight();
-
-                        while (width < 600 || height < 600) {
-                            width = (int) (width * aspectRatio);
-                            height = (int) (height * aspectRatio);
-                        }
-
-                        BufferedImage bi = mainUtil.resizeImage(width, height, createUserBackground);
-                        Graphics2D g2 = bi.createGraphics();
-                        g2.drawImage(bi, 0, 0, null);
-                        g2.dispose();
-                        ImageIO.write(bi, "png", new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds\\" + createUserBackground.getName()));
+                        ImageIO.write(ImageIO.read(createUserBackground), "png",
+                                new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds\\" + createUserBackground.getName()));
 
                         BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
                                 "src\\com\\cyder\\users\\" + uuid + "\\Userdata.txt"));
 
-                        newUserWriter.write("Name:" + newUserName.getText().trim());
-                        newUserWriter.newLine();
-                        newUserWriter.write("Font:tahoma");
-                        newUserWriter.newLine();
-                        newUserWriter.write("Red:252");
-                        newUserWriter.newLine();
-                        newUserWriter.write("Green:251");
-                        newUserWriter.newLine();
-                        newUserWriter.write("Blue:227");
-                        newUserWriter.newLine();
-                        newUserWriter.write("Password:" + mainUtil.toHexString(mainUtil.getSHA(pass)));
-                        newUserWriter.newLine();
-                        newUserWriter.write("IntroMusic:0");
-                        newUserWriter.newLine();
-                        newUserWriter.write("DebugWindows:0");
-                        newUserWriter.newLine();
-                        newUserWriter.write("RandomBackground:0");
-                        newUserWriter.newLine();
-                        newUserWriter.write("HourlyChimes:1");
-                        newUserWriter.newLine();
-                        newUserWriter.write("ClockOnConsole:1");
-                        newUserWriter.newLine();
-                        newUserWriter.write("SilenceErrors:1");
-                        newUserWriter.newLine();
-                        newUserWriter.write("FullScreen:0");
-                        newUserWriter.newLine();
-                        newUserWriter.write("OutputBorder:0");
-                        newUserWriter.newLine();
-                        newUserWriter.write("InputBorder:0");
+                        LinkedList<String> data = new LinkedList<>();
+                        data.add("Name:" + newUserName.getText().trim());
+                        data.add("Font:tahoma");
+                        data.add("Red:252");
+                        data.add("Green:251");
+                        data.add("Blue:227");
+                        data.add("Password:" + mainUtil.toHexString(mainUtil.getSHA(pass)));
+                        data.add("IntroMusic:0");
+                        data.add("DebugWindows:0");
+                        data.add("RandomBackground:0");
+                        data.add("HourlyChimes:1");
+                        data.add("ClockOnConsole:1");
+                        data.add("SilenceErrors:1");
+                        data.add("FullScreen:0");
+                        data.add("OutputBorder:0");
+                        data.add("InputBorder:0");
 
-                        newUserWriter.flush();
+                        for (String d : data) {
+                            newUserWriter.write(d);
+                            newUserWriter.newLine();
+                        }
+
                         newUserWriter.close();
 
                         mainUtil.closeAnimation(createUserFrame);
-                        createUserFrame.dispose();
 
                         mainUtil.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", 500, 300);
 
-                        if (consoleFrame != null) {
+                        if (consoleFrame != null)
                             mainUtil.closeAnimation(createUserFrame);
-                            createUserFrame.dispose();
-                        }
 
                         else {
                             mainUtil.closeAnimation(createUserFrame);
-                            createUserFrame.dispose();
                             recognize(newUserName.getText().trim(),pass);
                         }
                     }
@@ -4660,7 +4613,7 @@ public class CyderMain{
         Thread ChimeThread = new Thread(() -> {
             try {
                 while (true) {
-                    Thread.sleep(5000);
+                    Thread.sleep(4000);
                     Calendar now = Calendar.getInstance();
                     if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) <= 5) {
                         mainUtil.playMusic("src\\com\\cyder\\io\\audio\\chime.mp3");
@@ -4837,10 +4790,7 @@ public class CyderMain{
 
                             closeYT.setFont(mainUtil.weatherFontSmall);
 
-                            closeYT.addActionListener(ev -> {
-                                mainUtil.closeAnimation(thumbnailFrame);
-                                thumbnailFrame.dispose();
-                            });
+                            closeYT.addActionListener(ev -> mainUtil.closeAnimation(thumbnailFrame));
 
                             closeYT.setSize(thumbnailFrame.getX(), 20);
 
