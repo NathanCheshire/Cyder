@@ -2619,4 +2619,32 @@ public class Util {
 
         return Numbers.isEmpty();
     }
+
+    public int totalCodeLines(File startDir) {
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files) {
+                return totalCodeLines(f);
+            }
+        }
+
+        else if (startDir.getName().endsWith(".java")) {
+            try {
+                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
+                int ret = 0;
+                String line = "";
+
+                while ((line = lineReader.readLine()) != null)
+                    ret++;
+                return ret;
+            }
+
+            catch (Exception ex) {
+                handle(ex);
+            }
+        }
+
+        return 0;
+    }
 }

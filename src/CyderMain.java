@@ -1158,16 +1158,21 @@ public class CyderMain{
         loginAnimation();
 
         DragLabel LoginDragLabel = new DragLabel(440,30,loginFrame);
-
+        JLabel buildLabel = new JLabel("Build " + mainUtil.getCyderVer());
+        buildLabel.setForeground(mainUtil.vanila);
+        buildLabel.setFont(mainUtil.weatherFontSmall.deriveFont(20f));
+        buildLabel.setBounds(LoginDragLabel.getWidth() / 2 - (buildLabel.getText().length() * 11)/2,
+                2,(buildLabel.getText().length() * 17), 25);
+        LoginDragLabel.add(buildLabel);
         loginLabel.add(LoginDragLabel);
 
         nameField = new JTextField(20);
         nameField.setToolTipText("Username");
-        nameField.setBounds(57,279,327,41);
+        nameField.setBounds(64,279,327,41);
         nameField.setBackground(new Color(0,0,0,0));
         nameField.setSelectionColor(mainUtil.selectionColor);
         nameField.setBorder(null);
-        nameField.setFont(new Font("Comic Sans MS",Font.BOLD, 25));
+        nameField.setFont(mainUtil.weatherFontSmall.deriveFont(30f));
         nameField.setForeground(new Color(42,52,61));
         nameField.setCaretColor(mainUtil.navy);
         nameField.addActionListener(e -> nameField.requestFocusInWindow());
@@ -1213,11 +1218,11 @@ public class CyderMain{
 
         pass = new JPasswordField();
         pass.setToolTipText("Password");
-        pass.setBounds(59,348,327,41);
+        pass.setBounds(64,348,327,41);
         pass.setBackground(new Color(0,0,0,0));
         pass.setSelectionColor(mainUtil.selectionColor);
         pass.setBorder(null);
-        pass.setFont(mainUtil.defaultFont);
+        pass.setFont(mainUtil.weatherFontBig.deriveFont(50f));
         pass.setForeground(new Color(42,52,61));
         pass.setCaretColor(mainUtil.navy);
         pass.addActionListener(e -> {
@@ -2816,6 +2821,10 @@ public class CyderMain{
 
             else if (hasWord("barrel") && hasWord("roll")) {
                 barrelRoll();
+            }
+
+            else if (hasWord("lines") && hasWord("code")) {
+                println("Total lines of code: " + mainUtil.totalCodeLines(new File(System.getProperty("user.dir"))));
             }
 
             else if (!mainUtil.getHandledMath()){
