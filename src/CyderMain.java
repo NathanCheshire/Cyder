@@ -8,6 +8,7 @@ import com.cyder.utilities.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -34,9 +35,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-
-//todo make do a barrel roll method
-//todo getjpanel methods make their own classes in UI that extend those components
 
 public class CyderMain{
     //console vars
@@ -2816,6 +2814,10 @@ public class CyderMain{
                 ImageResizer IR = new ImageResizer();
             }
 
+            else if (hasWord("barrel") && hasWord("roll")) {
+                barrelRoll();
+            }
+
             else if (!mainUtil.getHandledMath()){
                 println("Sorry, " + mainUtil.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");
@@ -4850,5 +4852,28 @@ public class CyderMain{
         parent.repaint();
 
         consoleNotification.vanish(vanishDir, parent, delay);
+    }
+
+    private void barrelRoll() {
+        consoleFrame.setBackground(mainUtil.navy);
+
+        Timer timer = null;
+        Timer finalTimer = timer;
+        timer = new Timer(15, new ActionListener() {
+            private double angle = 0;
+            private double delta = 1.0;
+
+            BufferedImage master = mainUtil.getBi(mainUtil.getCurrentBackground());
+            BufferedImage rotated;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                angle += delta;
+                if (angle >= 360) return;
+                rotated = mainUtil.rotateImageByDegrees(master, angle);
+                parentLabel.setIcon(new ImageIcon(rotated));
+            }
+        });
+        timer.start();
     }
 }
