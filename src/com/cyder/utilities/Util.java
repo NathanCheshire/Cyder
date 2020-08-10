@@ -845,25 +845,30 @@ public class Util {
     public String getWindDirection(String wb) {
         double bear = Double.parseDouble(wb);
 
-        if (bear == 0) {
-            return "N";
-        } else if (bear == 90) {
-            return "E";
-        } else if (bear == 180) {
-            return "S";
-        } else if (bear == 270) {
-            return "W";
-        } else if (bear > 0 && bear < 90) {
-            return "NE";
-        } else if (bear > 90 && bear < 180) {
-            return "SE";
-        } else if (bear > 180 && bear < 270) {
-            return "SW";
-        } else if (bear > 270 && bear < 360) {
-            return "NW";
-        }
+        if (bear > 360)
+            bear -= 360;
 
-        return "NA";
+        String ret = "";
+
+        if (bear > 270 || bear < 90)
+            ret += "N";
+        else if (bear == 270)
+            return "W";
+        else if (bear == 90)
+            return "E";
+        else
+            ret += "S";
+
+        if (bear > 0 && bear < 180)
+            ret += "E";
+        else if (bear == 180)
+            return "S";
+        else if (bear == 0 || bear == 360)
+            return "N";
+        else
+            ret += "W";
+
+        return ret;
     }
 
     public String capsFirst(String Word) {
@@ -2582,7 +2587,7 @@ public class Util {
         return null;
     }
 
-    //credit: MadProgrammer from StackOverflow
+    //Used for barrel roll and flip screen hotkeys, credit: MadProgrammer from StackOverflow
     public BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
         double rads = Math.toRadians(angle);
 
@@ -2611,33 +2616,36 @@ public class Util {
     public boolean isPrime(int num) {
         ArrayList<Integer> Numbers = new ArrayList<>();
 
-        for (int i = 3 ; i < Math.ceil(Math.sqrt(num)) ; i += 2) {
-            if (num % i == 0) {
+        for (int i = 3 ; i < Math.ceil(Math.sqrt(num)) ; i += 2)
+            if (num % i == 0)
                 Numbers.add(i);
-            }
-        }
 
         return Numbers.isEmpty();
     }
 
     public int totalCodeLines(File startDir) {
+        int ret = 0;
+
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
-            for (File f : files) {
-                return totalCodeLines(f);
-            }
+            for (File f : files)
+                ret += totalCodeLines(f);
         }
 
         else if (startDir.getName().endsWith(".java")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                int ret = 0;
                 String line = "";
+                int localRet = 0;
 
                 while ((line = lineReader.readLine()) != null)
-                    ret++;
-                return ret;
+                    localRet++;
+
+                if (debugMode)
+                    System.out.println(startDir.getName() + " contains " + localRet);
+
+                return localRet;
             }
 
             catch (Exception ex) {
@@ -2645,6 +2653,6 @@ public class Util {
             }
         }
 
-        return 0;
+        return ret;
     }
 }

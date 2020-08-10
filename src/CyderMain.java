@@ -1964,6 +1964,8 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
+                for (int i = 0 ; i < 361 ; i++)
+                    println(i + ":" + mainUtil.getWindDirection(i + ""));
 
             }
 
@@ -1985,34 +1987,35 @@ public class CyderMain{
                 }
             }
 
-            else if ((eic("hello") || has("whats up") || eic("hi") || hasWord("hi "))
+            else if ((eic("hello") || has("whats up") || hasWord("hi"))
                     && (!hasWord("print") &&  !hasWord("bletchy") && !hasWord("echo") &&
                     !hasWord("youtube") && !hasWord("google") && !hasWord("wikipedia") &&
                     !hasWord("synonym") && !hasWord("define"))) {
-                int choice = mainUtil.randInt(1,5);
+                int choice = mainUtil.randInt(1,6);
 
-                if (choice == 1) {
-                    println("Hello " + mainUtil.getUsername() + ".");
-                }
-
-                else if (choice == 2) {
-                    println("Hi " + mainUtil.getUsername() + "." );
-                }
-
-                else if (choice == 3) {
-                    println("What's up " + mainUtil.getUsername() + "?");
-                }
-
-                else if (choice == 4) {
-                    println("How are you doing, " + mainUtil.getUsername() + "?");
-                }
-
-                else {
-                    println("Hi, " + mainUtil.getUsername() + ", I'm Cyder.");
+                switch(choice) {
+                    case 1:
+                        println("Hello " + mainUtil.getUsername() + ".");
+                        break;
+                    case 2:
+                        println("Hi " + mainUtil.getUsername() + "." );
+                        break;
+                    case 3:
+                        println("What's up " + mainUtil.getUsername() + "?");
+                        break;
+                    case 4:
+                        println("How are you doing, " + mainUtil.getUsername() + "?");
+                        break;
+                    case 5:
+                        println("Greetings, human " + mainUtil.getUsername() + ".");
+                        break;
+                    case 6:
+                        println("Hi, " + mainUtil.getUsername() + ", I'm Cyder.");
+                        break;
                 }
             }
 
-            else if (hasWord("bye")) {
+            else if (hasWord("bye") || (hasWord("james") && hasWord("arthur"))) {
                 println("Just say you won't let go.");
             }
 
@@ -4868,7 +4871,7 @@ public class CyderMain{
 
         Timer timer = null;
         Timer finalTimer = timer;
-        timer = new Timer(15, new ActionListener() {
+        timer = new Timer(10, new ActionListener() {
             private double angle = 0;
             private double delta = 1.0;
 
@@ -4878,7 +4881,10 @@ public class CyderMain{
             @Override
             public void actionPerformed(ActionEvent e) {
                 angle += delta;
-                if (angle >= 360) return;
+                if (angle >= 360) {
+                    parentLabel.setIcon(new ImageIcon(mainUtil.getCurrentBackground().toString()));
+                    return;
+                }
                 rotated = mainUtil.rotateImageByDegrees(master, angle);
                 parentLabel.setIcon(new ImageIcon(rotated));
             }
