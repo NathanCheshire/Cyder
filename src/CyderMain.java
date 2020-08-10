@@ -3,12 +3,15 @@ import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
-import com.cyder.ui.*;
+import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderScrollPane;
+import com.cyder.ui.DragLabel;
+import com.cyder.ui.Notification;
 import com.cyder.utilities.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -18,9 +21,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
@@ -35,6 +36,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+
+//todo animation class make our own and rename to CyderAnimation instead of AnimationClass
+//todo start to port to javaFX
 
 public class CyderMain{
     //console vars
@@ -1885,9 +1889,11 @@ public class CyderMain{
                 mainUtil.deleteFolder(new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID()));
 
                 //fail safe if not able to delete
-                File renamed = new File("src\\com\\cyder\\users\\" + mainUtil.getDeprecatedUUID());
+                String dep = mainUtil.getDeprecatedUUID();
+                File renamed = new File("src\\com\\cyder\\users\\" + dep);
                 while (renamed.exists()) {
-                    renamed = new File("src\\com\\cyder\\users\\" + mainUtil.getDeprecatedUUID());
+                    dep = mainUtil.getDeprecatedUUID();
+                    renamed = new File("src\\com\\cyder\\users\\" + dep);
                 }
 
                 File old = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID());
@@ -4480,14 +4486,35 @@ public class CyderMain{
                     char[] pass = newUserPassword.getPassword();
                     char[] passconf = newUserPasswordconf.getPassword();
 
-                    if (newUserName.getText().trim() == null || pass == null || passconf == null || createUserBackground.getName().equals("No file chosen")
+                    boolean alreadyExists = false;
+                    File[] files = new File("src\\com\\cyder\\users").listFiles();
+
+                    for (File f: files) {
+                        File data = new File(f.getAbsolutePath() + "\\Userdata.txt");
+                        BufferedReader partReader = new BufferedReader(new FileReader(data));
+                        String line = partReader.readLine();
+                        while (line != null) {
+                            String[] parts = line.split(":");
+                            if (parts[0].equalsIgnoreCase("Name") && parts[1].equalsIgnoreCase(newUserName.getText().trim())) {
+                                alreadyExists = true;
+                                break;
+                            }
+
+                            line = partReader.readLine();
+                        }
+
+                        if (alreadyExists) break;
+                    }
+
+                    if (mainUtil.empytStr(newUserName.getText()) || pass == null || passconf == null || createUserBackground == null ||
+                            createUserBackground.getName().equals("No file chosen")
                             || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
                         mainUtil.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
                         newUserPassword.setText("");
                         newUserPasswordconf.setText("");
                     }
 
-                    else if (new File("src\\com\\cyder\\users\\" + uuid).exists()) {
+                    else if (alreadyExists) {
                         mainUtil.inform("Sorry, but that username is already in use.\nPlease try a different one.", "", 400, 300);
                         newUserName.setText("");
                         newUserPassword.setText("");
@@ -4669,6 +4696,7 @@ public class CyderMain{
 
         Thread bletchyThread = new Thread(() -> {
             int len = s.length();
+
 
             char[] chars = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 

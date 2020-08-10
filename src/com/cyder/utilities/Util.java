@@ -1080,17 +1080,13 @@ public class Util {
     public void inform(String message, String title, int width, int height) {
         try {
             JFrame informFrame = new JFrame();
-
             informFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
             informFrame.setTitle(title);
-
             informFrame.setSize(width, height);
-
             informFrame.setUndecorated(true);
+            informFrame.setBackground(new Color(52,70,84));
 
-            JLabel consoleLabel = new JLabel(new ImageIcon(resizeImage(width, height, new File("src\\com\\cyder\\io\\pictures\\InformBackground.png"))));
-
+            JLabel consoleLabel = new JLabel();
             informFrame.setContentPane(consoleLabel);
 
             informFrame.addMouseMotionListener(new MouseMotionListener() {
