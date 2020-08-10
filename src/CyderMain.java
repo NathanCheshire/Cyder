@@ -3,11 +3,8 @@ import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
-import com.cyder.ui.DragLabel;
-import com.cyder.ui.Notification;
+import com.cyder.ui.*;
 import com.cyder.utilities.*;
-import com.cyder.ui.CyderButton;
-import com.cyder.ui.CyderScrollPane;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -39,7 +36,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //todo make do a barrel roll method
-//todo instead of getjframe, or getjpanel methods make their own classes in UI that extend those components
+//todo getjpanel methods make their own classes in UI that extend those components
 
 public class CyderMain{
     //console vars

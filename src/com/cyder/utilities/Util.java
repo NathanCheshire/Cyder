@@ -2619,24 +2619,4 @@ public class Util {
 
         return Numbers.isEmpty();
     }
-
-    public JFrame getCyderFrame(String title, int width, int height, ImageIcon background) {
-        JFrame cyderFrame = new JFrame();
-        cyderFrame.setIconImage(getCyderIcon().getImage());
-        cyderFrame.setTitle(title);
-        cyderFrame.setSize(width,height);
-        cyderFrame.setResizable(false);
-        cyderFrame.setUndecorated(true);
-
-        JLabel parentLabel = new JLabel();
-        parentLabel.setBorder(new LineBorder(navy,5,false));
-        parentLabel.setIcon(background);
-        cyderFrame.setContentPane(parentLabel);
-
-        DragLabel dl = new DragLabel(width, 30, cyderFrame);
-        dl.setBounds(0,0,width,30);
-        parentLabel.add(dl);
-
-        return cyderFrame;
-    }
 }
