@@ -1,12 +1,8 @@
-import AppPackage.AnimationClass;
 import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
-import com.cyder.ui.CyderButton;
-import com.cyder.ui.CyderScrollPane;
-import com.cyder.ui.DragLabel;
-import com.cyder.ui.Notification;
+import com.cyder.ui.*;
 import com.cyder.utilities.*;
 
 import javax.imageio.ImageIO;
@@ -37,7 +33,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo animation class make our own and rename to CyderAnimation instead of AnimationClass
 //todo start to port to javaFX
 
 public class CyderMain{
@@ -69,7 +64,7 @@ public class CyderMain{
 
     //Objects for main use
     private Util mainUtil = new Util();
-    private AnimationClass animation = new AnimationClass();
+    private CyderAnimation animation = new CyderAnimation();
     private Notes userNotes;
 
     //operation var

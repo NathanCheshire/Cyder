@@ -5,6 +5,7 @@ import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderFrame;
 import com.cyder.ui.DragLabel;
 import javazoom.jl.player.Player;
 
@@ -686,6 +687,7 @@ public class Util {
             FlagLabel.setBounds(debugFrame.getWidth() - 2 * flag.getWidth(),
                     (debugFrame.getHeight() - flag.getHeight()) / 2 , flag.getWidth(), flag.getHeight());
 
+            //todo clean up and make individual labels that you can copy or make jtextarea
             displayLabel.setText("<html>" + "Time requested: " + weatherTime() + "<br/>ISP: " + getUserISP() + "<br/>IP: " + userIP +
                     "<br/>Postal Code: " + getUserPostalCode() + "<br/>City: " + userCity + "<br/>State: "
                     + userState + "<br/>Country: " + userCountry + " (" + userCountryAbr + ")"
@@ -984,29 +986,19 @@ public class Util {
     }
 
     public void colorConverter() {
-        JFrame colorFrame = new JFrame();
-        colorFrame.setIconImage(getCyderIcon().getImage());
-        colorFrame.setTitle("Color Converter");
-        colorFrame.setSize(400,300);
-        colorFrame.setResizable(false);
-        colorFrame.setUndecorated(true);
-
-        JLabel parentLabel = new JLabel();
-        parentLabel.setBorder(new LineBorder(navy,5,false));
-        parentLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
-        colorFrame.setContentPane(parentLabel);
+        CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
 
         JLabel hexLabel = new JLabel("HEX:");
         hexLabel.setFont(weatherFontSmall);
         hexLabel.setForeground(navy);
         hexLabel.setBounds(30, 110,70, 30);
-        parentLabel.add(hexLabel);
+        colorFrame.getContentPane().add(hexLabel);
 
         JLabel rgbLabel = new JLabel("RGB:");
         rgbLabel.setFont(weatherFontSmall);
         rgbLabel.setForeground(navy);
         rgbLabel.setBounds(30, 180,70,30);
-        parentLabel.add(rgbLabel);
+        colorFrame.getContentPane().add(rgbLabel);
 
         JTextField colorBlock = new JTextField();
         colorBlock.setBackground(navy);
@@ -1014,7 +1006,7 @@ public class Util {
         colorBlock.setToolTipText("Color Preview");
         colorBlock.setBorder(new LineBorder(navy, 5, false));
         colorBlock.setBounds(330, 100, 40, 120);
-        parentLabel.add(colorBlock);
+        colorFrame.getContentPane().add(colorBlock);
 
         JTextField rgbField = new JTextField(navy.getRed() + "," + navy.getGreen() + "," + navy.getBlue());
 
@@ -1038,9 +1030,9 @@ public class Util {
                 catch (Exception ignored) {}
             }
         });
-        hexField.setBounds(120, 100,200, 50);
+        hexField.setBounds(100, 100,220, 50);
         hexField.setOpaque(false);
-        parentLabel.add(hexField);
+        colorFrame.getContentPane().add(hexField);
 
         rgbField.setForeground(navy);
         rgbField.setFont(weatherFontBig);
@@ -1061,13 +1053,9 @@ public class Util {
                 catch (Exception ignored) {}
             }
         });
-        rgbField.setBounds(120, 170,200, 50);
+        rgbField.setBounds(100, 170,220, 50);
         rgbField.setOpaque(false);
-        parentLabel.add(rgbField);
-
-        DragLabel dl = new DragLabel(400, 30, colorFrame);
-        dl.setBounds(0,0,400,30);
-        parentLabel.add(dl);
+        colorFrame.getContentPane().add(rgbField);
 
         colorFrame.setVisible(true);
         colorFrame.setLocationRelativeTo(null);

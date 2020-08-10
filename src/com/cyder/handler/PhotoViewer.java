@@ -1,6 +1,5 @@
 package com.cyder.handler;
 
-import AppPackage.AnimationClass;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.DragLabel;
 import com.cyder.utilities.Util;
@@ -20,8 +19,6 @@ public class PhotoViewer {
     private LinkedList<File> validImages = new LinkedList<>();
     private File startDir;
     private int currentIndex;
-
-    private AnimationClass ac = new AnimationClass();
 
     private Util imageUtil = new Util();
 
