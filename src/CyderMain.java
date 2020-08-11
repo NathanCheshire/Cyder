@@ -4856,6 +4856,7 @@ public class CyderMain{
 
     private void barrelRoll() {
         consoleFrame.setBackground(mainUtil.navy);
+        mainUtil.getValidBackgroundPaths();
 
         Timer timer = null;
         Timer finalTimer = timer;

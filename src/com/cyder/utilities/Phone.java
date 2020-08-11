@@ -68,7 +68,7 @@ public class Phone {
         CyderButton back = new CyderButton("<X");
         back.setBorder(new LineBorder(phoneUtil.navy,5,false));
         CyderButton dialNumber = new CyderButton("Call");
-        dialNumber.setBorder(new LineBorder(phoneUtil.navy,3,false));
+        dialNumber.setBorder(new LineBorder(phoneUtil.navy,5,false));
 
         ButtonsPanel.add(one);
         one.setColors(phoneUtil.regularRed);
@@ -265,11 +265,8 @@ public class Phone {
         });
 
         phoneFrame.pack();
-
         phoneFrame.setVisible(true);
-
         phoneFrame.setResizable(false);
-
         phoneFrame.setLocationRelativeTo(null);
     }
 
@@ -323,7 +320,6 @@ public class Phone {
 
     private void checkForSuicideHotline() {
         String num = numberLabel.getText().replace("-","").replace("(","").replace(")","").replace(" ","").trim();
-        System.out.println(num);
         if (num.equals("18002738255")) {
             phoneUtil.playMusic("src\\com\\cyder\\io\\audio\\1800.mp3");
         }
