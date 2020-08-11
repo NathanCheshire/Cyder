@@ -33,8 +33,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo start to port to javaFX
-
 public class CyderMain{
     //console vars
     private JTextPane outputArea;

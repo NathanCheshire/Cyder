@@ -6,14 +6,17 @@ import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
-import com.cyder.ui.DragLabel;
+import com.cyder.ui.CyderScrollPane;
 import javazoom.jl.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -115,7 +118,7 @@ public class Util {
     private int debugRestoreY;
 
     //debug vars
-    private JFrame debugFrame;
+    private CyderFrame debugFrame;
 
     //console orientation var
     public static int CYDER_UP = 0;
@@ -642,112 +645,81 @@ public class Util {
             if (debugFrame != null)
                 closeAnimation(debugFrame);
 
-            debugFrame = new JFrame();
+            debugFrame = new CyderFrame(850, 830,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
+            debugFrame.setTitle("Debug Menu");
 
-            debugFrame.setTitle("debug Menu");
+            JTextPane debugArea = new JTextPane() {
+                @Override
+                public void setBorder(Border border) {
+                    //no border
+                }
+            };
+            debugArea.setEditable(false);
+            debugArea.setForeground(navy);
+            debugArea.setFont(weatherFontSmall);
+            debugArea.setAutoscrolls(true);
+            debugArea.setBounds(30,50,800,800);
+            debugArea.setFocusable(true);
+            debugArea.setSelectionColor(new Color(204,153,0));
+            debugArea.setOpaque(false);
+            debugArea.setBackground(new Color(0,0,0,0));
 
-            debugFrame.setSize(1350, 900);
+            CyderScrollPane debugScroll = new CyderScrollPane(debugArea,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            SimpleAttributeSet set = new SimpleAttributeSet();
+            StyleConstants.setAlignment(set, StyleConstants.ALIGN_CENTER);
+            debugArea.setCharacterAttributes(set, false);
+            debugScroll.setThumbColor(intellijPink);
+            debugScroll.setFont(weatherFontSmall);
+            debugScroll.setForeground(navy);
+            debugScroll.getViewport().setBorder(null);
+            debugScroll.getViewport().setOpaque(false);
+            debugScroll.setOpaque(false);
 
-            debugFrame.setUndecorated(true);
-
-            debugFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            JLabel debugLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
-
-            debugFrame.setContentPane(debugLabel);
-
-            DragLabel debugDragLabel = new DragLabel(1350,27,debugFrame);
-
-            debugDragLabel.setBounds(0, 0, 1350, 27);
-
-            debugLabel.add(debugDragLabel);
-
-            displayLabel = new JLabel("", SwingConstants.LEFT);
-
-            displayLabel.setFont(new Font("Segoe UI Black", Font.BOLD, 22));
-
-            displayLabel.setForeground(new Color(50,50,100));
-
-            DecimalFormat GigaFormater = new DecimalFormat("##.###");
-
-            double GigaBytes = ((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024;
-
+            DecimalFormat gFormater = new DecimalFormat("##.###");
+            double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
             InetAddress address = InetAddress.getLocalHost();
-
-            NetworkInterface NI = NetworkInterface.getByInetAddress(address);
-
+            NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
             getIPData();
-
             BufferedImage flag = ImageIO.read(new URL(getUserFlag()));
 
-            JLabel FlagLabel = new JLabel(new ImageIcon(flag));
+            String print = "Time requested: " + weatherTime() + "\n" +
+                    "ISP: " + getUserISP() + "\n" +
+                    "IP: " + userIP + "\n" +
+                    "Postal Code: " + getUserPostalCode() + "\n" +
+                    "City: " + userCity + "\n" +
+                    "State: " + userState + "\n" +
+                    "Country: " + userCountry + " (" + userCountryAbr + ")" + "\n" +
+                    "Latitude: " + lat + " Degrees N\n" +
+                    "Longitude: " + lon + " Degrees W\n" +
+                    "latency: " + latency() + " ms\n" +
+                    "Google Reachable: " + siteReachable("https://www.google.com") + "\n" +
+                    "YouTube Reachable: " + siteReachable("https://www.youtube.com") + "\n" +
+                    "Apple Reachable: " + siteReachable("https://www.apple.com") + "\n" +
+                    "Microsoft Reachable: " + siteReachable("https://www.microsoft.com//en-us//") + "\n" +
+                    "User Name: " + getWindowsUsername() + "\n" +
+                    "Computer Name: " + getComputerName() + "\n" +
+                    "Available Cores: " + Runtime.getRuntime().availableProcessors() + "\n" +
+                    "Available Memory: " + gBytes + " GigaBytes\n" +
+                    "Operating System: " + os + "\n" +
+                    "Java Version: " + System.getProperty("java.version") + "\n" +
+                    "Network Interface Name: " + netIn.getName() + "\n" +
+                    "Network Interface Display Name: " + netIn.getDisplayName() + "\n" +
+                    "Network MTU: " + netIn.getMTU() + "<\n" +
+                    "Host Address: " + address.getHostAddress() + "\n" +
+                    "Local Host Address: " + address.getLocalHost() + "\n" +
+                    "Loopback Address: " + address.getLoopbackAddress();
 
-            debugLabel.add(FlagLabel);
+            debugArea.insertIcon(new ImageIcon(flag));
 
-            FlagLabel.setBounds(debugFrame.getWidth() - 2 * flag.getWidth(),
-                    (debugFrame.getHeight() - flag.getHeight()) / 2 , flag.getWidth(), flag.getHeight());
+            StyledDocument document = (StyledDocument) debugArea.getDocument();
+            document.insertString(0, print + "\n", null);
+            debugArea.setCaretPosition(debugArea.getDocument().getLength());
 
-            //todo clean up and make individual labels that you can copy or make jtextarea
-            displayLabel.setText("<html>" + "Time requested: " + weatherTime() + "<br/>ISP: " + getUserISP() + "<br/>IP: " + userIP +
-                    "<br/>Postal Code: " + getUserPostalCode() + "<br/>City: " + userCity + "<br/>State: "
-                    + userState + "<br/>Country: " + userCountry + " (" + userCountryAbr + ")"
-                    + "<br/>Latitude: " + lat + " Degrees N<br/>Longitude: " + lon + " Degrees W<br/>latency: " + latency() + " ms<br/>Google Reachable: "
-                    + siteReachable("https://www.google.com") + "<br/>YouTube Reachable: " + siteReachable("https://www.youtube.com") + "<br/>Apple Reachable: "
-                    + siteReachable("https://www.apple.com") + "<br/>Microsoft Reachable: " + siteReachable("https://www.microsoft.com//en-us//")
-                    + "<br/>User Name: " + getWindowsUsername() + "<br/>Computer Name: " + getComputerName() + "<br/>Available Cores: " + Runtime.getRuntime().availableProcessors()
-                    + "<br/>Available Memory: " + Runtime.getRuntime().freeMemory() + " Bytes [" + GigaFormater.format(GigaBytes) + " GigaBytes]<br/>Operating System: "
-                    + os + "<br/>Java Version: " + System.getProperty("java.version") + "<br/>Network Interface Name: " + NI.getName() + "<br/>NI Display Name: "
-                    + NI.getDisplayName() + "<br/>Network MTU: " + NI.getMTU() + "<br/>Host Address: " + address.getHostAddress() + "<br/>Local Host Address: "
-                    + address.getLocalHost() + "<br/>Loopback Address: " + address.getLoopbackAddress() + "</html>");
-
-            displayLabel.setFocusable(true);
-
-            displayLabel.setToolTipText("Click to copy stats to clipboard");
-
-            displayLabel.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    StringSelection selection = new StringSelection(displayLabel.getText());
-                    java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                    clipboard.setContents(selection, selection);
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-
-                }
-            });
-
-            debugLabel.add(displayLabel);
-
-            displayLabel.setBounds(50, 50, 1300, 850);
-
+            debugFrame.getContentPane().add(debugArea);
             debugFrame.setVisible(true);
-
             debugFrame.setLocationRelativeTo(null);
-
-            debugFrame.setAlwaysOnTop(true);
-
-            debugFrame.setAlwaysOnTop(false);
-
-            debugFrame.setResizable(false);
-
-            debugFrame.setIconImage(getCyderIcon().getImage());
         }
 
         catch (Exception e) {
