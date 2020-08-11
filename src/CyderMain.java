@@ -357,22 +357,7 @@ public class CyderMain{
                 inputField.requestFocus();
             });
 
-            suggestionButton.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
+            suggestionButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     suggestionButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\suggestion2.png"));
@@ -404,17 +389,7 @@ public class CyderMain{
 
             menuButton.setToolTipText("Menu");
 
-            menuButton.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
+            menuButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     if (!menuLabel.isVisible()) {
@@ -663,22 +638,7 @@ public class CyderMain{
                 minimizeMenu();
             });
 
-            minimize.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
+            minimize.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     minimize.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\Minimize2.png"));
@@ -912,7 +872,7 @@ public class CyderMain{
             new Thread(() -> {
                 if (!mainUtil.internetReachable())
                     notification(mainUtil.getUsername() + ", internet connection slow or unavailble.",
-                            3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
+                            3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             }).start();
         }
 
@@ -997,27 +957,27 @@ public class CyderMain{
         inputField.requestFocus();
 
         if (mainUtil.isChristmas() && !christmasEcho) {
-            notification("Merry Christmas!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
+            notification("Merry Christmas!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             christmasEcho = true;
         }
 
         if (mainUtil.isHalloween() && !halloweenEcho) {
-            notification("Happy Halloween!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
+            notification("Happy Halloween!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             halloweenEcho = true;
         }
 
         if (mainUtil.isIndependenceDay() && !independenceDayEcho) {
-            notification("Happy 4th of July", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
+            notification("Happy 4th of July", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             independenceDayEcho = true;
         }
 
         if (mainUtil.isThanksgiving() && !thanksgivingEcho) {
-            notification("Happy Thanksgiving!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
+            notification("Happy Thanksgiving!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             thanksgivingEcho = true;
         }
 
         if (mainUtil.isAprilFoolsDay() && !aprilFoolsDayEcho) {
-            notification("Happy April Fools Day!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentLabel);
+            notification("Happy April Fools Day!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             aprilFoolsDayEcho = true;
         }
         }
@@ -1032,11 +992,10 @@ public class CyderMain{
                     while (true) {
                         ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
                         int noThreads = currentGroup.activeCount();
-                        Thread[] lstThreads = new Thread[noThreads];
-                        currentGroup.enumerate(lstThreads);
 
                         if (noThreads > 6) {
                             consoleFrame.setIconImage(mainUtil.getCyderIconBlink().getImage());
+
                             Thread.sleep(5000);
                         }
 
@@ -1292,7 +1251,7 @@ public class CyderMain{
 
         if (directories != null && directories.length == 0)
             notification("Psssst! Create a user, " + System.getProperty("user.name"),
-                    2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, loginLabel);
+                    2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPanel);
     }
 
     private void recognize(String Username, char[] Password) {
@@ -1583,7 +1542,6 @@ public class CyderMain{
 
                         switch (count) {
                             case 0:
-
                                 loginLabel.setBounds(0,0,440,520);
                                 loginLabel2.setBounds(440,0,440,520);
                                 
@@ -1731,12 +1689,12 @@ public class CyderMain{
 
                     if (threads > 1) {
                         notification("The scripts have started. At any point, type \"stop script\"",
-                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentLabel);
+                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel);
                     }
 
                     else {
                         notification("The script has started. At any point, type \"stop script\"",
-                                4000, Notification.TOP_ARROW, Notification.RIGHT_VANISH,parentLabel);
+                                4000, Notification.TOP_ARROW, Notification.RIGHT_VANISH,parentPanel);
                     }
 
                     randomYoutube(consoleFrame, threads);
@@ -2633,7 +2591,7 @@ public class CyderMain{
 
                 if (!pixelateFile.getName().endsWith(".png")) {
                     notification("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images",
-                            5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH, parentLabel);
+                            5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH, parentPanel);
                 }
 
                 else if (pixelateFile != null) {
@@ -2761,7 +2719,6 @@ public class CyderMain{
                 Hanger.startHangman();
             }
 
-
             else if (hasWord("rgb") || hasWord("hex")) {
                 mainUtil.colorConverter();
             }
@@ -2827,6 +2784,16 @@ public class CyderMain{
 
             else if (hasWord("lines") && hasWord("code")) {
                 println("Total lines of code: " + mainUtil.totalCodeLines(new File(System.getProperty("user.dir"))));
+            }
+
+            else if (hasWord("current") && hasWord("threads")) {
+                ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+                int num = threadGroup.activeCount();
+                Thread[] printThreads = new Thread[num];
+                threadGroup.enumerate(printThreads);
+
+                for (int i = 0; i < num ; i++)
+                    println(printThreads[i]);
             }
 
             else if (!mainUtil.getHandledMath()){
@@ -4862,7 +4829,7 @@ public class CyderMain{
         }
     }
 
-    public void notification(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent) {
+    public void notification(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent) {
         if (consoleNotification != null && consoleNotification.isVisible())
             consoleNotification.kill();
 
@@ -4881,7 +4848,7 @@ public class CyderMain{
         text.setBounds(14,10,w * 2,h);
         consoleNotification.add(text);
         consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
-        parent.add(consoleNotification);
+        parent.add(consoleNotification,1,0);
         parent.repaint();
 
         consoleNotification.vanish(vanishDir, parent, delay);

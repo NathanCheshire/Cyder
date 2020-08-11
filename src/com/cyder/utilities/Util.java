@@ -2598,9 +2598,6 @@ public class Util {
                 while ((line = lineReader.readLine()) != null)
                     localRet++;
 
-                if (debugMode)
-                    System.out.println(startDir.getName() + " contains " + localRet);
-
                 return localRet;
             }
 
