@@ -1774,7 +1774,7 @@ public class CyderMain{
 
                 File ClickedSelectionPath = null;
 
-                if (!ClickedSelectionListBackground.isEmpty()) {
+                if (!ClickedSelectionListBackground.isEmpty() && !ClickedSelectionListBackground.get(0).toString().equalsIgnoreCase(mainUtil.getCurrentBackground().getName().replace(".png",""))) {
                     String ClickedSelection = ClickedSelectionListBackground.get(0).toString();
 
                     for (int i = 0; i < backgroundsNameList.size() ; i++) {
@@ -1799,6 +1799,19 @@ public class CyderMain{
                     else {
                         println("Background: " + ClickedSelectionPath.getName().replace(".png","") + " was not deleted.");
                     }
+
+                    //todo not sure if this workds
+                    File[] paths = mainUtil.getValidBackgroundPaths();
+                    for (int i = 0 ; i < paths.length ; i++) {
+                        if (paths[i].equals(mainUtil.getCurrentBackground())) {
+                            mainUtil.setCurrentBackgroundIndex(i);
+                            break;
+                        }
+                    }
+                }
+
+                else {
+                    println("Can't delete background.");
                 }
             }
 

@@ -1574,6 +1574,7 @@ public class Util {
     }
 
     public File[] getValidBackgroundPaths() {
+        initBackgrounds();
         return this.validBackgroundPaths;
     }
 
@@ -2103,9 +2104,7 @@ public class Util {
 
     public void initBackgrounds() {
         File dir = new File("src\\com\\cyder\\users\\" + getUserUUID() + "\\Backgrounds");
-
         FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
-
         validBackgroundPaths = dir.listFiles(PNGFilter);
     }
 
