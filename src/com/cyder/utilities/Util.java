@@ -959,6 +959,7 @@ public class Util {
 
     public void colorConverter() {
         CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
+        colorFrame.setTitle("Color Converter");
 
         JLabel hexLabel = new JLabel("HEX:");
         hexLabel.setFont(weatherFontSmall);

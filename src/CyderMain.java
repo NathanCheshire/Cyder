@@ -3123,20 +3123,10 @@ public class CyderMain{
         String ThisComp = compare.toLowerCase();
         String ThisOp = operation.toLowerCase();
 
-        if (ThisOp.equals(ThisComp)) {
+        if (ThisOp.equals(ThisComp) || ThisOp.contains(' ' + ThisComp + ' ') || ThisOp.contains(' ' + ThisComp))
             return true;
-        }
-
-        else if (ThisOp.contains(' ' + ThisComp + ' ')) {
-            return true;
-        }
-
-        else if (ThisOp.contains(' ' + ThisComp)) {
-            return true;
-        }
 
         else return ThisOp.contains(ThisComp + ' ');
-
     }
 
     private boolean startsWith(String op, String comp) {
@@ -3211,25 +3201,6 @@ public class CyderMain{
         catch (Exception ex) {
             mainUtil.handle(ex);
         }
-    }
-
-    public boolean hasWord(String opLoc, String compare) {
-        String ThisComp = compare.toLowerCase();
-        String ThisOp = opLoc.toLowerCase();
-
-        if (ThisOp.equals(ThisComp)) {
-            return true;
-        }
-
-        else if (ThisOp.contains(' ' + ThisComp + ' ')) {
-            return true;
-        }
-
-        else if (endsWith(ThisOp, ThisComp)) {
-            return true;
-        }
-
-        else return startsWith(ThisOp, ThisComp);
     }
 
     public void saveFontColor() {
@@ -3667,9 +3638,9 @@ public class CyderMain{
         introMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainUtil.getUserData("IntroMusic").equals("1");
-                mainUtil.writeUserData("IntroMusic", (wasSelected ? "0" : "1"));
-                introMusic.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainUtil.getUserData("IntroMusic").equals("1");
+            mainUtil.writeUserData("IntroMusic", (wasSelected ? "0" : "1"));
+            introMusic.setIcon((wasSelected ? notSelected : selected));
             }
         });
 
@@ -3682,9 +3653,9 @@ public class CyderMain{
         debugWindows.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainUtil.getUserData("DebugWindows").equals("1");
-                mainUtil.writeUserData("DebugWindows", (wasSelected ? "0" : "1"));
-                debugWindows.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainUtil.getUserData("DebugWindows").equals("1");
+            mainUtil.writeUserData("DebugWindows", (wasSelected ? "0" : "1"));
+            debugWindows.setIcon((wasSelected ? notSelected : selected));
             }
         });
 
@@ -3697,9 +3668,9 @@ public class CyderMain{
         randBackgroundLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainUtil.getUserData("RandomBackground").equals("1");
-                mainUtil.writeUserData("RandomBackground", (wasSelected ? "0" : "1"));
-                randBackgroundLabel.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainUtil.getUserData("RandomBackground").equals("1");
+            mainUtil.writeUserData("RandomBackground", (wasSelected ? "0" : "1"));
+            randBackgroundLabel.setIcon((wasSelected ? notSelected : selected));
             }
         });
 
@@ -3746,9 +3717,9 @@ public class CyderMain{
         hourlyChimes.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainUtil.getUserData("HourlyChimes").equals("1");
-                mainUtil.writeUserData("HourlyChimes", (wasSelected ? "0" : "1"));
-                hourlyChimes.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainUtil.getUserData("HourlyChimes").equals("1");
+            mainUtil.writeUserData("HourlyChimes", (wasSelected ? "0" : "1"));
+            hourlyChimes.setIcon((wasSelected ? notSelected : selected));
             }
         });
 
@@ -3765,12 +3736,12 @@ public class CyderMain{
         clockOnConsole.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainUtil.getUserData("ClockOnConsole").equals("1");
-                mainUtil.writeUserData("ClockOnConsole", (wasSelected ? "0" : "1"));
-                clockOnConsole.setIcon((wasSelected ? notSelected : selected));
-                consoleClockLabel.setVisible(!wasSelected);
-                updateConsoleClock = !wasSelected;
-                consoleFrame.revalidate();
+            boolean wasSelected = mainUtil.getUserData("ClockOnConsole").equals("1");
+            mainUtil.writeUserData("ClockOnConsole", (wasSelected ? "0" : "1"));
+            clockOnConsole.setIcon((wasSelected ? notSelected : selected));
+            consoleClockLabel.setVisible(!wasSelected);
+            updateConsoleClock = !wasSelected;
+            consoleFrame.revalidate();
             }
         });
 
@@ -3787,9 +3758,9 @@ public class CyderMain{
         silenceErrors.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainUtil.getUserData("SilenceErrors").equals("1");
-                mainUtil.writeUserData("SilenceErrors", (wasSelected ? "0" : "1"));
-                silenceErrors.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainUtil.getUserData("SilenceErrors").equals("1");
+            mainUtil.writeUserData("SilenceErrors", (wasSelected ? "0" : "1"));
+            silenceErrors.setIcon((wasSelected ? notSelected : selected));
             }
 
         });
@@ -3837,16 +3808,16 @@ public class CyderMain{
         fullscreen.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainUtil.getUserData("FullScreen").equals("1");
-                mainUtil.writeUserData("FullScreen", (wasSelected ? "0" : "1"));
-                fullscreen.setIcon((wasSelected ? notSelected : selected));
-                if (wasSelected) {
-                    exitFullscreen();
-                }
+            boolean wasSelected = mainUtil.getUserData("FullScreen").equals("1");
+            mainUtil.writeUserData("FullScreen", (wasSelected ? "0" : "1"));
+            fullscreen.setIcon((wasSelected ? notSelected : selected));
+            if (wasSelected) {
+                exitFullscreen();
+            }
 
-                else {
-                    refreshFullscreen();
-                }
+            else {
+                refreshFullscreen();
+            }
             }
         });
 
@@ -3866,18 +3837,18 @@ public class CyderMain{
         outputborder.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainUtil.getUserData("OutputBorder").equals("1");
-                mainUtil.writeUserData("OutputBorder", (wasSelected ? "0" : "1"));
-                outputborder.setIcon((wasSelected ? notSelected : selected));
-                if (wasSelected) {
-                    outputScroll.setBorder(BorderFactory.createEmptyBorder());
-                }
+            boolean wasSelected = mainUtil.getUserData("OutputBorder").equals("1");
+            mainUtil.writeUserData("OutputBorder", (wasSelected ? "0" : "1"));
+            outputborder.setIcon((wasSelected ? notSelected : selected));
+            if (wasSelected) {
+                outputScroll.setBorder(BorderFactory.createEmptyBorder());
+            }
 
-                else {
-                    outputScroll.setBorder(new LineBorder(mainUtil.vanila,3,true));
-                }
+            else {
+                outputScroll.setBorder(new LineBorder(mainUtil.vanila,3,true));
+            }
 
-                consoleFrame.revalidate();
+            consoleFrame.revalidate();
             }
         });
 
@@ -3894,19 +3865,19 @@ public class CyderMain{
         inputborder.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainUtil.getUserData("InputBorder").equals("1");
-                mainUtil.writeUserData("InputBorder", (wasSelected ? "0" : "1"));
-                inputborder.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainUtil.getUserData("InputBorder").equals("1");
+            mainUtil.writeUserData("InputBorder", (wasSelected ? "0" : "1"));
+            inputborder.setIcon((wasSelected ? notSelected : selected));
 
-                if (wasSelected) {
-                    inputField.setBorder(BorderFactory.createEmptyBorder());
-                }
+            if (wasSelected) {
+                inputField.setBorder(BorderFactory.createEmptyBorder());
+            }
 
-                else {
-                    inputField.setBorder(new LineBorder(mainUtil.vanila,3,true));
-                }
+            else {
+                inputField.setBorder(new LineBorder(mainUtil.vanila,3,true));
+            }
 
-                consoleFrame.revalidate();
+            consoleFrame.revalidate();
             }
         });
 
@@ -3969,9 +3940,9 @@ public class CyderMain{
 
         musicSelectionList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                if (evt.getClickCount() == 2 && musicSelectionList.getSelectedIndex() != -1) {
-                    openMusic.doClick();
-                }
+            if (evt.getClickCount() == 2 && musicSelectionList.getSelectedIndex() != -1) {
+                openMusic.doClick();
+            }
             }
         });
 
@@ -4000,9 +3971,9 @@ public class CyderMain{
 
         backgroundSelectionList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                if (evt.getClickCount() == 2 && backgroundSelectionList.getSelectedIndex() != -1) {
-                    openBackground.doClick();
-                }
+            if (evt.getClickCount() == 2 && backgroundSelectionList.getSelectedIndex() != -1) {
+                openBackground.doClick();
+            }
             }
         });
 
@@ -4127,29 +4098,29 @@ public class CyderMain{
         fontList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    applyFont.doClick();
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                applyFont.doClick();
+            }
+
+            else {
+                try {
+                    label.setFont(new Font(fontList.getSelectedValue().toString(), Font.BOLD, 20));
                 }
 
-                else {
-                    try {
-                        label.setFont(new Font(fontList.getSelectedValue().toString(), Font.BOLD, 20));
-                    }
-
-                    catch (Exception ex) {
-                        mainUtil.handle(ex);
-                    }
+                catch (Exception ex) {
+                    mainUtil.handle(ex);
                 }
+            }
             }
         });
 
         fontList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                JList t = (JList) e.getSource();
-                int index = t.locationToIndex(e.getPoint());
+            JList t = (JList) e.getSource();
+            int index = t.locationToIndex(e.getPoint());
 
-                label.setFont(new Font(t.getModel().getElementAt(index).toString(), Font.BOLD, 20));
+            label.setFont(new Font(t.getModel().getElementAt(index).toString(), Font.BOLD, 20));
             }
         });
 
@@ -4223,9 +4194,9 @@ public class CyderMain{
 
         newUserName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                if (newUserName.getText().length() > 15) {
-                    evt.consume();
-                }
+            if (newUserName.getText().length() > 15) {
+                evt.consume();
+            }
             }
         });
 
@@ -4286,15 +4257,15 @@ public class CyderMain{
         newUserPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
-                    matchPasswords.setText("Passwords match");
-                    matchPasswords.setForeground(mainUtil.regularGreen);
-                }
+            if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
+                matchPasswords.setText("Passwords match");
+                matchPasswords.setForeground(mainUtil.regularGreen);
+            }
 
-                else {
-                    matchPasswords.setText("Passwords do not match");
-                    matchPasswords.setForeground(mainUtil.regularRed);
-                }
+            else {
+                matchPasswords.setText("Passwords do not match");
+                matchPasswords.setForeground(mainUtil.regularRed);
+            }
             }
         });
 
@@ -4310,15 +4281,15 @@ public class CyderMain{
         newUserPasswordconf.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
-                    matchPasswords.setText("Passwords match");
-                    matchPasswords.setForeground(mainUtil.regularGreen);
-                }
+            if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
+                matchPasswords.setText("Passwords match");
+                matchPasswords.setForeground(mainUtil.regularGreen);
+            }
 
-                else {
-                    matchPasswords.setText("Passwords do not match");
-                    matchPasswords.setForeground(mainUtil.regularRed);
-                }
+            else {
+                matchPasswords.setText("Passwords do not match");
+                matchPasswords.setForeground(mainUtil.regularRed);
+            }
             }
         });
 
@@ -4447,133 +4418,131 @@ public class CyderMain{
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                try {
-                    String uuid = mainUtil.generateUUID();
-                    File folder = new File("src\\com\\cyder\\users\\" + uuid);
+            try {
+                String uuid = mainUtil.generateUUID();
+                File folder = new File("src\\com\\cyder\\users\\" + uuid);
 
-                    while (folder.exists()) {
-                        uuid = mainUtil.generateUUID();
-                        folder = new File("src\\com\\cyder\\users\\" + uuid);
-                    }
+                while (folder.exists()) {
+                    uuid = mainUtil.generateUUID();
+                    folder = new File("src\\com\\cyder\\users\\" + uuid);
+                }
 
-                    char[] pass = newUserPassword.getPassword();
-                    char[] passconf = newUserPasswordconf.getPassword();
+                char[] pass = newUserPassword.getPassword();
+                char[] passconf = newUserPasswordconf.getPassword();
 
-                    boolean alreadyExists = false;
-                    File[] files = new File("src\\com\\cyder\\users").listFiles();
+                boolean alreadyExists = false;
+                File[] files = new File("src\\com\\cyder\\users").listFiles();
 
-                    for (File f: files) {
-                        File data = new File(f.getAbsolutePath() + "\\Userdata.txt");
-                        BufferedReader partReader = new BufferedReader(new FileReader(data));
-                        String line = partReader.readLine();
-                        while (line != null) {
-                            String[] parts = line.split(":");
-                            if (parts[0].equalsIgnoreCase("Name") && parts[1].equalsIgnoreCase(newUserName.getText().trim())) {
-                                alreadyExists = true;
-                                break;
-                            }
-
-                            line = partReader.readLine();
+                for (File f: files) {
+                    File data = new File(f.getAbsolutePath() + "\\Userdata.txt");
+                    BufferedReader partReader = new BufferedReader(new FileReader(data));
+                    String line = partReader.readLine();
+                    while (line != null) {
+                        String[] parts = line.split(":");
+                        if (parts[0].equalsIgnoreCase("Name") && parts[1].equalsIgnoreCase(newUserName.getText().trim())) {
+                            alreadyExists = true;
+                            break;
                         }
 
-                        if (alreadyExists) break;
+                        line = partReader.readLine();
                     }
 
-                    if (mainUtil.empytStr(newUserName.getText()) || pass == null || passconf == null || createUserBackground == null ||
-                            createUserBackground.getName().equals("No file chosen")
-                            || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
-                        mainUtil.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
+                    if (alreadyExists) break;
+                }
+
+                if (mainUtil.empytStr(newUserName.getText()) || pass == null || passconf == null || createUserBackground == null ||
+                        createUserBackground.getName().equals("No file chosen")
+                        || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
+                    mainUtil.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
+                    newUserPassword.setText("");
+                    newUserPasswordconf.setText("");
+                }
+
+                else if (alreadyExists) {
+                    mainUtil.inform("Sorry, but that username is already in use.\nPlease try a different one.", "", 400, 300);
+                    newUserName.setText("");
+                    newUserPassword.setText("");
+                    newUserPasswordconf.setText("");
+                }
+
+                else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
+                    mainUtil.inform("Sorry, but your passwords did not match. Please try again.", "",400, 300);
+                    newUserPassword.setText("");
+                    newUserPasswordconf.setText("");
+                }
+
+                else if (pass.length < 5) {
+                    mainUtil.inform("Sorry, but your password length should be greater than\n"
+                            + "four characters for security reasons. Please add more characters.", "", 400, 300);
+
+                    newUserPassword.setText("");
+                    newUserPasswordconf.setText("");
+                }
+
+                else {
+                    File NewUserFolder = new File("src\\com\\cyder\\users\\" + uuid);
+                    File backgrounds = new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds");
+                    File music = new File("src\\com\\cyder\\users\\" + uuid + "\\Music");
+                    File notes = new File("src\\com\\cyder\\users\\" + uuid + "\\Notes");
+
+                    NewUserFolder.mkdirs();
+                    backgrounds.mkdir();
+                    music.mkdir();
+                    notes.mkdir();
+
+                    ImageIO.write(ImageIO.read(createUserBackground), "png",
+                            new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds\\" + createUserBackground.getName()));
+
+                    BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
+                            "src\\com\\cyder\\users\\" + uuid + "\\Userdata.txt"));
+
+                    LinkedList<String> data = new LinkedList<>();
+                    data.add("Name:" + newUserName.getText().trim());
+                    data.add("Font:tahoma");
+                    data.add("Red:252");
+                    data.add("Green:251");
+                    data.add("Blue:227");
+                    data.add("Password:" + mainUtil.toHexString(mainUtil.getSHA(pass)));
+                    data.add("IntroMusic:0");
+                    data.add("DebugWindows:0");
+                    data.add("RandomBackground:0");
+                    data.add("HourlyChimes:1");
+                    data.add("ClockOnConsole:1");
+                    data.add("SilenceErrors:1");
+                    data.add("FullScreen:0");
+                    data.add("OutputBorder:0");
+                    data.add("InputBorder:0");
+
+                    for (String d : data) {
+                        newUserWriter.write(d);
+                        newUserWriter.newLine();
                     }
 
-                    else if (alreadyExists) {
-                        mainUtil.inform("Sorry, but that username is already in use.\nPlease try a different one.", "", 400, 300);
-                        newUserName.setText("");
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    }
+                    newUserWriter.close();
 
-                    else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
-                        mainUtil.inform("Sorry, but your passwords did not match. Please try again.", "",400, 300);
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    }
+                    mainUtil.closeAnimation(createUserFrame);
 
-                    else if (pass.length < 5) {
-                        mainUtil.inform("Sorry, but your password length should be greater than\n"
-                                + "four characters for security reasons. Please add more characters.", "", 400, 300);
+                    mainUtil.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", 500, 300);
 
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    }
-
-                    else {
-                        File NewUserFolder = new File("src\\com\\cyder\\users\\" + uuid);
-                        File backgrounds = new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds");
-                        File music = new File("src\\com\\cyder\\users\\" + uuid + "\\Music");
-                        File notes = new File("src\\com\\cyder\\users\\" + uuid + "\\Notes");
-
-                        NewUserFolder.mkdirs();
-                        backgrounds.mkdir();
-                        music.mkdir();
-                        notes.mkdir();
-
-                        ImageIO.write(ImageIO.read(createUserBackground), "png",
-                                new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds\\" + createUserBackground.getName()));
-
-                        BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
-                                "src\\com\\cyder\\users\\" + uuid + "\\Userdata.txt"));
-
-                        LinkedList<String> data = new LinkedList<>();
-                        data.add("Name:" + newUserName.getText().trim());
-                        data.add("Font:tahoma");
-                        data.add("Red:252");
-                        data.add("Green:251");
-                        data.add("Blue:227");
-                        data.add("Password:" + mainUtil.toHexString(mainUtil.getSHA(pass)));
-                        data.add("IntroMusic:0");
-                        data.add("DebugWindows:0");
-                        data.add("RandomBackground:0");
-                        data.add("HourlyChimes:1");
-                        data.add("ClockOnConsole:1");
-                        data.add("SilenceErrors:1");
-                        data.add("FullScreen:0");
-                        data.add("OutputBorder:0");
-                        data.add("InputBorder:0");
-
-                        for (String d : data) {
-                            newUserWriter.write(d);
-                            newUserWriter.newLine();
-                        }
-
-                        newUserWriter.close();
-
+                    if (consoleFrame != null)
                         mainUtil.closeAnimation(createUserFrame);
 
-                        mainUtil.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", 500, 300);
-
-                        if (consoleFrame != null)
-                            mainUtil.closeAnimation(createUserFrame);
-
-                        else {
-                            mainUtil.closeAnimation(createUserFrame);
-                            recognize(newUserName.getText().trim(),pass);
-                        }
-                    }
-
-                    for (char c : pass) {
-                        c = '\0';
-                    }
-
-                    for (char c : passconf) {
-                        c = '\0';
+                    else {
+                        mainUtil.closeAnimation(createUserFrame);
+                        recognize(newUserName.getText().trim(),pass);
                     }
                 }
 
-                catch (Exception ex) {
-                    mainUtil.handle(ex);
-                }
+                for (char c : pass)
+                    c = '\0';
+
+                for (char c : passconf)
+                    c = '\0';
+            }
+
+            catch (Exception ex) {
+                mainUtil.handle(ex);
+            }
             }
         });
 
@@ -4606,7 +4575,7 @@ public class CyderMain{
         Thread TimeThread = new Thread(() -> {
             try {
                 while (updateConsoleClock) {
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                     consoleClockLabel.setText(mainUtil.consoleTime());
                     consoleClockLabel.setToolTipText(mainUtil.weatherThreadTime());
                 }
@@ -4626,9 +4595,8 @@ public class CyderMain{
                 while (true) {
                     Thread.sleep(4000);
                     Calendar now = Calendar.getInstance();
-                    if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) <= 5) {
+                    if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) < 5)
                         mainUtil.playMusic("src\\com\\cyder\\io\\audio\\chime.mp3");
-                    }
                 }
             }
 
@@ -4725,9 +4693,8 @@ public class CyderMain{
                             UUID = "";
                             StringBuilder UUIDBuilder = new StringBuilder(UUID);
 
-                            for (int i = 1; i < 12; i++) {
+                            for (int i = 1; i < 12; i++)
                                 UUIDBuilder.append(ValidChars[mainUtil.randInt(0, 63)]);
-                            }
 
                             UUID = UUIDBuilder.toString();
 
@@ -4736,9 +4703,7 @@ public class CyderMain{
                             String YouTubeURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
 
                             BufferedImage Thumbnail = ImageIO.read(new URL(YouTubeURL.replace("REPLACE", UUID)));
-
                             killAllYoutube();
-
                             println("YouTube script found valid video with UUID: " + UUID);
 
                             JFrame thumbnailFrame = new JFrame();
@@ -4811,13 +4776,9 @@ public class CyderMain{
                             parentPanel.repaint();
 
                             thumbnailFrame.pack();
-
                             thumbnailFrame.setVisible(true);
-
                             thumbnailFrame.setLocationRelativeTo(null);
-
                             thumbnailFrame.setResizable(false);
-
                             thumbnailFrame.setIconImage(mainUtil.getCyderIcon().getImage());
 
                             break;
