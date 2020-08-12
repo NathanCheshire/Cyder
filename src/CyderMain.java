@@ -33,6 +33,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo convert all swing dependencies to CyderFrames and absolute layout placement
+//todo when setting title of frame, don't actually just put title in top left corner
+//todo port to javaFx and then consolidate FileChooser since you have a main scene
+
 public class CyderMain{
     //console vars
     private JTextPane outputArea;
@@ -747,7 +751,6 @@ public class CyderMain{
 
             consoleDragLabel = new JLabel();
             consoleDragLabel.setBounds(0,0, mainUtil.getBackgroundX(),30);
-            consoleDragLabel.setToolTipText("Drag label");
             consoleDragLabel.setOpaque(true);
             consoleDragLabel.setBackground(new Color(26,32,51));
             consoleDragLabel.addMouseMotionListener(new MouseMotionListener() {
@@ -1673,7 +1676,7 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("disco") && input != null && !input.equals("")) {
-                println("I hope you're not the only one at this part.");
+                println("I hope you're not the only one at this party.");
                 mainUtil.disco(Integer.parseInt(input));
             }
 
@@ -1800,7 +1803,6 @@ public class CyderMain{
                         println("Background: " + ClickedSelectionPath.getName().replace(".png","") + " was not deleted.");
                     }
 
-                    //todo not sure if this workds
                     File[] paths = mainUtil.getValidBackgroundPaths();
                     for (int i = 0 ; i < paths.length ; i++) {
                         if (paths[i].equals(mainUtil.getCurrentBackground())) {
@@ -1811,7 +1813,7 @@ public class CyderMain{
                 }
 
                 else {
-                    println("Can't delete background.");
+                    println("Can't delete your current background.");
                 }
             }
 
@@ -1874,8 +1876,6 @@ public class CyderMain{
                         "\\Backgrounds\\" + searchName);
 
                 ImageIO.write(img, "png", saveFile);
-
-                mainUtil.initBackgrounds();
 
                 mainUtil.initBackgrounds();
 
