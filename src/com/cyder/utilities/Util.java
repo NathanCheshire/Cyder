@@ -660,7 +660,7 @@ public class Util {
             debugArea.setAutoscrolls(true);
             debugArea.setBounds(30,50,800,800);
             debugArea.setFocusable(true);
-            debugArea.setSelectionColor(new Color(204,153,0));
+            debugArea.setSelectionColor(selectionColor);
             debugArea.setOpaque(false);
             debugArea.setBackground(new Color(0,0,0,0));
 
@@ -1622,6 +1622,13 @@ public class Util {
         int Month = Checker.get(Calendar.MONTH) + 1;
         int Date = Checker.get(Calendar.DATE);
         return (Month == 4 && Date == 1);
+    }
+
+    public boolean isDadBirthday() {
+        Calendar Checker = Calendar.getInstance();
+        int Month = Checker.get(Calendar.MONTH) + 1;
+        int Date = Checker.get(Calendar.DATE);
+        return (Month == 8 && Date == 14);
     }
 
     public void draw(String ImageName) {

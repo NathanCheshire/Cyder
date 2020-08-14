@@ -79,6 +79,7 @@ public class CyderMain{
     private boolean independenceDayEcho;
     private boolean aprilFoolsDayEcho;
     private boolean thanksgivingEcho;
+    private boolean dadBirthdayEcho;
 
     //deiconified restore vars
     private int restoreX;
@@ -955,33 +956,41 @@ public class CyderMain{
         }
     };
 
+    //make a special day echo class
     private WindowAdapter consoleEcho = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
         inputField.requestFocus();
 
         if (mainUtil.isChristmas() && !christmasEcho) {
-            notification("Merry Christmas!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+            notification("Merry Christmas!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             christmasEcho = true;
         }
 
         if (mainUtil.isHalloween() && !halloweenEcho) {
-            notification("Happy Halloween!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+            notification("Happy Halloween!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             halloweenEcho = true;
         }
 
         if (mainUtil.isIndependenceDay() && !independenceDayEcho) {
-            notification("Happy 4th of July", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+            notification("Happy 4th of July", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             independenceDayEcho = true;
         }
 
         if (mainUtil.isThanksgiving() && !thanksgivingEcho) {
-            notification("Happy Thanksgiving!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+            notification("Happy Thanksgiving!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             thanksgivingEcho = true;
         }
 
         if (mainUtil.isAprilFoolsDay() && !aprilFoolsDayEcho) {
-            notification("Happy April Fools Day!", 2000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+            notification("Happy April Fools Day!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
             aprilFoolsDayEcho = true;
+        }
+
+        if (mainUtil.isDadBirthday() && !dadBirthdayEcho) {
+            notification("Happy Birthday Dad! Love you!", 5000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel);
+            dadBirthdayEcho = true;
+            mainUtil.playMusic("src\\com\\cyder\\io\\audio\\startrek.mp3");
+            bletchy("Happy Birthday!");
         }
         }
     };
@@ -4642,7 +4651,7 @@ public class CyderMain{
             char[] chars = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 
             for (int i = 1 ; i < len ; i++) {
-                for (int j = 0 ; j < 10 ; j++) {
+                for (int j = 0 ; j < 7 ; j++) {
 
                     String current = "";
 
@@ -4809,7 +4818,8 @@ public class CyderMain{
 
         consoleNotification = new Notification();
 
-        int w = (int) Math.ceil(10.9 * htmltext.length());
+        //width does not work still
+        int w = (int) Math.ceil(12 * htmltext.length());
         int h = 30;
 
         consoleNotification.setWidth(w);

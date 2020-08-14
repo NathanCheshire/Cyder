@@ -97,7 +97,6 @@ public class Pizza {
         pizzaSizeGroup.add(small);
         pizzaSizeGroup.add(medium);
         pizzaSizeGroup.add(large);
-        pizzaSizePanel.setBorder(new LineBorder(pizzaUtil.navy,5,false));
         pizzaSizePanel.add(small);
         pizzaSizePanel.add(medium);
         pizzaSizePanel.add(large);

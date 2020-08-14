@@ -534,25 +534,30 @@ public class WeatherWidget {
     public String getWindDirection(String wb) {
         double bear = Double.parseDouble(wb);
 
-        if (bear == 0) {
-            return "N";
-        } else if (bear == 90) {
-            return "E";
-        } else if (bear == 180) {
-            return "S";
-        } else if (bear == 270) {
-            return "W";
-        } else if (bear > 0 && bear < 90) {
-            return "NE";
-        } else if (bear > 90 && bear < 180) {
-            return "SE";
-        } else if (bear > 180 && bear < 270) {
-            return "SW";
-        } else if (bear > 270 && bear < 360) {
-            return "NW";
-        }
+        if (bear > 360)
+            bear -= 360;
 
-        return "NA";
+        String ret = "";
+
+        if (bear > 270 || bear < 90)
+            ret += "N";
+        else if (bear == 270)
+            return "W";
+        else if (bear == 90)
+            return "E";
+        else
+            ret += "S";
+
+        if (bear > 0 && bear < 180)
+            ret += "E";
+        else if (bear == 180)
+            return "S";
+        else if (bear == 0 || bear == 360)
+            return "N";
+        else
+            ret += "W";
+
+        return ret;
     }
 
     public void getIPData() {

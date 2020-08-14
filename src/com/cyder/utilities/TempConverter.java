@@ -1,13 +1,16 @@
 package com.cyder.utilities;
 
 import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
 public class TempConverter {
-    private JFrame temperatureFrame;
+    private CyderFrame temperatureFrame;
     private JTextField startingValue;
     private JRadioButton oldFahrenheit;
     private JRadioButton newFahrenheit;
@@ -24,13 +27,13 @@ public class TempConverter {
         if (temperatureFrame != null)
             tempUtil.closeAnimation(temperatureFrame);
 
-        temperatureFrame = new JFrame();
-        temperatureFrame.setTitle("Temperature Converter");
-        temperatureFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        BufferedImage im = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = im.createGraphics();
+        g.setPaint(new Color(238,238,238));
+        g.fillRect(0,0,1,1);
 
-        JPanel ParentPanel = (JPanel) temperatureFrame.getContentPane();
-        ParentPanel.setLayout(new BoxLayout(ParentPanel,BoxLayout.Y_AXIS));
-        ParentPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        temperatureFrame = new CyderFrame(700,380,new ImageIcon(im));
+        temperatureFrame.setTitle("Temperature Converter");
 
         JPanel Value = new JPanel();
         JLabel ValueLabel = new JLabel("Measurement: ");
@@ -44,10 +47,11 @@ public class TempConverter {
 
         Value.add(ValueLabel);
         Value.add(startingValue);
-        ParentPanel.add(Value);
+        Value.setBounds(140,45,420,80);
+        temperatureFrame.getContentPane().add(Value);
 
         JPanel RadioCurrentValue = new JPanel();
-        JLabel CurrentValue = new JLabel("Current temperature Unit: ");
+        JLabel CurrentValue = new JLabel("Current Unit: ");
         CurrentValue.setFont(tempUtil.weatherFontSmall);
         RadioCurrentValue.add(CurrentValue);
 
@@ -61,13 +65,15 @@ public class TempConverter {
         radioCurrentValueGroup.add(oldFahrenheit);
         radioCurrentValueGroup.add(oldCelsius);
         radioCurrentValueGroup.add(oldKelvin);
-        ParentPanel.add(RadioCurrentValue);
+        RadioCurrentValue.setBounds(20,150,650,80);
+        temperatureFrame.getContentPane().add(RadioCurrentValue);
+
         RadioCurrentValue.add(oldFahrenheit);
         RadioCurrentValue.add(oldCelsius);
         RadioCurrentValue.add(oldKelvin);
 
         JPanel RadioNewValue = new JPanel();
-        JLabel NewValue = new JLabel("Conversion temperature Unit: ");
+        JLabel NewValue = new JLabel("Conversion Unit: ");
         NewValue.setFont(tempUtil.weatherFontSmall);
         RadioNewValue.add(NewValue);
 
@@ -81,7 +87,9 @@ public class TempConverter {
         radioNewValueGroup.add(newFahrenheit);
         radioNewValueGroup.add(newCelsius);
         radioNewValueGroup.add(newKelvin);
-        ParentPanel.add(RadioNewValue);
+        RadioNewValue.setBounds(10,220,680,80);
+        temperatureFrame.getContentPane().add(RadioNewValue);
+
         RadioNewValue.add(newFahrenheit);
         RadioNewValue.add(newCelsius);
         RadioNewValue.add(newKelvin);
@@ -246,13 +254,11 @@ public class TempConverter {
 
         BottomButtons.add(calculate);
         BottomButtons.add(resetValues);
-        ParentPanel.add(BottomButtons);
 
-        temperatureFrame.pack();
+        BottomButtons.setBounds(10,280,680,80);
+        temperatureFrame.getContentPane().add(BottomButtons);
+
         temperatureFrame.setVisible(true);
         temperatureFrame.setLocationRelativeTo(null);
-        temperatureFrame.setIconImage(tempUtil.getCyderIcon().getImage());
-        temperatureFrame.setAlwaysOnTop(true);
-        temperatureFrame.setAlwaysOnTop(false);
     }
 }
