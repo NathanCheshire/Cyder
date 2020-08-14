@@ -3,8 +3,9 @@ I began using the IDE's (Eclipse at this point) command line to interact but eve
 Now I have moved to IntelliJ IDEA with minimal swing dependencies. The next step in development will be to transition to JavaFX.<br/>
 <br/>
 Versions:<br/>
-Cyder [Apple] (current name and build)<br/>
-Cyder [Mapple] (current name and next build)<br/>
+Cyder [Apple] (init build)<br/>
+Cyder [Mapple] (summer 2020 working name)<br/>
+Cyder [Soultree] (current name/build)<br/>
 <br/>
 Past names and builds:<br/> 
 SASID (begining name)<br/>
