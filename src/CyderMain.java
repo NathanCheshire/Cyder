@@ -33,6 +33,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo adding backgrounds doens't work
 //todo convert all swing dependencies to CyderFrames and absolute layout placement
 //todo when setting title of frame, don't actually just put title in top left corner
 //todo port to javaFx and then consolidate FileChooser since you have a main scene
