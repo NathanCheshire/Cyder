@@ -1624,13 +1624,6 @@ public class Util {
         return (Month == 4 && Date == 1);
     }
 
-    public boolean isDadBirthday() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
-        return (Month == 8 && Date == 14);
-    }
-
     public void draw(String ImageName) {
         JFrame bodgeFrame = new JFrame();
 

@@ -35,8 +35,8 @@ import java.util.concurrent.TimeUnit;
 
 //todo adding backgrounds doens't work
 //todo convert all swing dependencies to CyderFrames and absolute layout placement
+//todo temperature converter redo with no jpanels since it's too big right now
 //todo when setting title of frame, don't actually just put title in top left corner
-//todo port to javaFx and then consolidate FileChooser since you have a main scene
 
 public class CyderMain{
     //console vars
@@ -73,14 +73,6 @@ public class CyderMain{
     //operation var
     private static ArrayList<String> operationList = new ArrayList<>();
     private static int scrollingIndex;
-
-    //holliday echo bools
-    private boolean christmasEcho;
-    private boolean halloweenEcho;
-    private boolean independenceDayEcho;
-    private boolean aprilFoolsDayEcho;
-    private boolean thanksgivingEcho;
-    private boolean dadBirthdayEcho;
 
     //deiconified restore vars
     private int restoreX;
@@ -135,6 +127,8 @@ public class CyderMain{
 
     //sliding background var
     private boolean slidLeft;
+
+    private specialDay specialDayNotifier;
 
     //call constructor
     public static void main(String[] ignored) {
@@ -957,42 +951,36 @@ public class CyderMain{
         }
     };
 
+    private class specialDay {
+        private boolean kill = false;
+
+        public specialDay() {
+            if (!kill) {
+                if (mainUtil.isChristmas())
+                    notification("Merry Christmas!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+
+                if (mainUtil.isHalloween())
+                    notification("Happy Halloween!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+
+                if (mainUtil.isIndependenceDay())
+                    notification("Happy 4th of July", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+
+                if (mainUtil.isThanksgiving())
+                    notification("Happy Thanksgiving!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+
+                if (mainUtil.isAprilFoolsDay())
+                    notification("Happy April Fools Day!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+
+                kill = true;
+            }
+        }
+    }
+
     //make a special day echo class
     private WindowAdapter consoleEcho = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
         inputField.requestFocus();
-
-        if (mainUtil.isChristmas() && !christmasEcho) {
-            notification("Merry Christmas!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
-            christmasEcho = true;
-        }
-
-        if (mainUtil.isHalloween() && !halloweenEcho) {
-            notification("Happy Halloween!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
-            halloweenEcho = true;
-        }
-
-        if (mainUtil.isIndependenceDay() && !independenceDayEcho) {
-            notification("Happy 4th of July", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
-            independenceDayEcho = true;
-        }
-
-        if (mainUtil.isThanksgiving() && !thanksgivingEcho) {
-            notification("Happy Thanksgiving!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
-            thanksgivingEcho = true;
-        }
-
-        if (mainUtil.isAprilFoolsDay() && !aprilFoolsDayEcho) {
-            notification("Happy April Fools Day!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
-            aprilFoolsDayEcho = true;
-        }
-
-        if (mainUtil.isDadBirthday() && !dadBirthdayEcho) {
-            notification("Happy Birthday Dad! Love you!", 5000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel);
-            dadBirthdayEcho = true;
-            mainUtil.playMusic("src\\com\\cyder\\io\\audio\\startrek.mp3");
-            bletchy("Happy Birthday!");
-        }
+        specialDayNotifier = new specialDay();
         }
     };
 
