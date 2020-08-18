@@ -35,8 +35,9 @@ import java.util.concurrent.TimeUnit;
 
 //todo adding backgrounds doens't work
 //todo convert all swing dependencies to CyderFrames and absolute layout placement
-//todo temperature converter redo with no jpanels since it's too big right now
-//todo when setting title of frame, don't actually just put title in top left corner
+//todo deleting background inform can't delete if it's the one being used
+//todo if user has no backgrounds then give them one
+//todo if intro music selected but no music give them one
 
 public class CyderMain{
     //console vars
@@ -1932,9 +1933,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                for (int i = 0 ; i < 361 ; i++)
-                    println(i + ":" + mainUtil.getWindDirection(i + ""));
-
+                notification("Test condition", 2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel);
             }
 
             else if (hasWord("bletchy")) {
@@ -4807,7 +4806,7 @@ public class CyderMain{
 
         consoleNotification = new Notification();
 
-        //width does not work still
+        //todo width does not work still
         int w = (int) Math.ceil(12 * htmltext.length());
         int h = 30;
 

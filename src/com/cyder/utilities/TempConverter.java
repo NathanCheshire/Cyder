@@ -5,8 +5,6 @@ import com.cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
 public class TempConverter {
@@ -27,74 +25,72 @@ public class TempConverter {
         if (temperatureFrame != null)
             tempUtil.closeAnimation(temperatureFrame);
 
-        BufferedImage im = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = im.createGraphics();
-        g.setPaint(new Color(238,238,238));
-        g.fillRect(0,0,1,1);
-
-        temperatureFrame = new CyderFrame(700,380,new ImageIcon(im));
+        temperatureFrame = new CyderFrame(600,320,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
         temperatureFrame.setTitle("Temperature Converter");
 
-        JPanel Value = new JPanel();
         JLabel ValueLabel = new JLabel("Measurement: ");
         ValueLabel.setFont(tempUtil.weatherFontSmall);
-
         startingValue = new JTextField(20);
         startingValue.setBorder(new LineBorder(tempUtil.navy,5,false));
         startingValue.setForeground(tempUtil.navy);
         startingValue.setSelectionColor(tempUtil.selectionColor);
         startingValue.setFont(tempUtil.weatherFontSmall);
-
-        Value.add(ValueLabel);
-        Value.add(startingValue);
-        Value.setBounds(140,45,420,80);
-        temperatureFrame.getContentPane().add(Value);
-
-        JPanel RadioCurrentValue = new JPanel();
-        JLabel CurrentValue = new JLabel("Current Unit: ");
-        CurrentValue.setFont(tempUtil.weatherFontSmall);
-        RadioCurrentValue.add(CurrentValue);
+        ValueLabel.setBounds(60,40, 200, 30);
+        temperatureFrame.getContentPane().add(ValueLabel);
+        startingValue.setBounds(240,40, 300, 35);
+        temperatureFrame.getContentPane().add(startingValue);
 
         oldFahrenheit =  new JRadioButton("Fahrenheit");
         oldCelsius =  new JRadioButton("Celsius");
         oldKelvin = new JRadioButton("Kelvin");
-        oldFahrenheit.setFont(tempUtil.weatherFontSmall);
-        oldCelsius.setFont(tempUtil.weatherFontSmall);
-        oldKelvin.setFont(tempUtil.weatherFontSmall);
+        oldFahrenheit.setFont(tempUtil.weatherFontBig);
+        oldCelsius.setFont(tempUtil.weatherFontBig);
+        oldKelvin.setFont(tempUtil.weatherFontBig);
         radioCurrentValueGroup = new ButtonGroup();
         radioCurrentValueGroup.add(oldFahrenheit);
         radioCurrentValueGroup.add(oldCelsius);
         radioCurrentValueGroup.add(oldKelvin);
-        RadioCurrentValue.setBounds(20,150,650,80);
-        temperatureFrame.getContentPane().add(RadioCurrentValue);
+        oldFahrenheit.setBounds(80,100,300,30);
+        oldCelsius.setBounds(80,150,200,30);
+        oldKelvin.setBounds(80,200,200,30);
+        oldFahrenheit.setOpaque(false);
+        oldCelsius.setOpaque(false);
+        oldKelvin.setOpaque(false);
+        oldFahrenheit.setFocusPainted(false);
+        oldCelsius.setFocusPainted(false);
+        oldKelvin.setFocusPainted(false);
+        temperatureFrame.getContentPane().add(oldFahrenheit);
+        temperatureFrame.getContentPane().add(oldCelsius);
+        temperatureFrame.getContentPane().add(oldKelvin);
 
-        RadioCurrentValue.add(oldFahrenheit);
-        RadioCurrentValue.add(oldCelsius);
-        RadioCurrentValue.add(oldKelvin);
-
-        JPanel RadioNewValue = new JPanel();
-        JLabel NewValue = new JLabel("Conversion Unit: ");
-        NewValue.setFont(tempUtil.weatherFontSmall);
-        RadioNewValue.add(NewValue);
+        JLabel NewValue = new JLabel("-2-");
+        NewValue.setFont(tempUtil.weatherFontBig.deriveFont(60f));
+        NewValue.setBounds(260,150,150,60);
+        temperatureFrame.getContentPane().add(NewValue);
 
         newFahrenheit =  new JRadioButton("Fahrenheit");
         newCelsius =  new JRadioButton("Celsius");
         newKelvin = new JRadioButton("Kelvin");
-        newFahrenheit.setFont(tempUtil.weatherFontSmall);
-        newCelsius.setFont(tempUtil.weatherFontSmall);
-        newKelvin.setFont(tempUtil.weatherFontSmall);
+        newFahrenheit.setFont(tempUtil.weatherFontBig);
+        newCelsius.setFont(tempUtil.weatherFontBig);
+        newKelvin.setFont(tempUtil.weatherFontBig);
         radioNewValueGroup = new ButtonGroup();
         radioNewValueGroup.add(newFahrenheit);
         radioNewValueGroup.add(newCelsius);
         radioNewValueGroup.add(newKelvin);
-        RadioNewValue.setBounds(10,220,680,80);
-        temperatureFrame.getContentPane().add(RadioNewValue);
+        newFahrenheit.setBounds(370,100,300,30);
+        newCelsius.setBounds(370,150,200,30);
+        newKelvin.setBounds(370,200,200,30);
+        newFahrenheit.setOpaque(false);
+        newCelsius.setOpaque(false);
+        newKelvin.setOpaque(false);
+        newFahrenheit.setFocusPainted(false);
+        newCelsius.setFocusPainted(false);
+        newKelvin.setFocusPainted(false);
+        temperatureFrame.getContentPane().add(newFahrenheit);
+        temperatureFrame.getContentPane().add(newCelsius);
+        temperatureFrame.getContentPane().add(newKelvin);
 
-        RadioNewValue.add(newFahrenheit);
-        RadioNewValue.add(newCelsius);
-        RadioNewValue.add(newKelvin);
-
-        JPanel BottomButtons = new JPanel();
         CyderButton calculate = new CyderButton("Calculate");
         calculate.setBorder(new LineBorder(tempUtil.navy,5,false));
 
@@ -233,12 +229,9 @@ public class TempConverter {
         });
 
         CyderButton resetValues = new CyderButton("Reset Values");
-
         resetValues.setBorder(new LineBorder(tempUtil.navy,5,false));
-
         resetValues.setColors(tempUtil.regularRed);
         calculate.setColors(tempUtil.regularRed);
-
         resetValues.addActionListener(e -> {
             startingValue.setText("");
             radioCurrentValueGroup.clearSelection();
@@ -247,17 +240,15 @@ public class TempConverter {
 
         calculate.setBackground(tempUtil.regularRed);
         calculate.setFont(tempUtil.weatherFontSmall);
-
         resetValues.setFocusPainted(false);
         resetValues.setBackground(tempUtil.regularRed);
         resetValues.setFont(tempUtil.weatherFontSmall);
 
-        BottomButtons.add(calculate);
-        BottomButtons.add(resetValues);
+        calculate.setBounds(140,260,150,40);
+        resetValues.setBounds(300,260,150,40);
 
-        BottomButtons.setBounds(10,280,680,80);
-        temperatureFrame.getContentPane().add(BottomButtons);
-
+        temperatureFrame.getContentPane().add(calculate);
+        temperatureFrame.getContentPane().add(resetValues);
         temperatureFrame.setVisible(true);
         temperatureFrame.setLocationRelativeTo(null);
     }
