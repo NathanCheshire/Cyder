@@ -158,7 +158,7 @@ public class CyderMain{
         backgroundProcess();
 
         if (nathanLenovo && !mainUtil.released())
-            recognize("Nathan", "13201320".toCharArray());
+            recognize("Nathan", "".toCharArray());
 
         else
             login(false);
