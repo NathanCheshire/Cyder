@@ -37,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 //todo convert all swing dependencies to CyderFrames and absolute layout placement
 //todo deleting background inform can't delete if it's the one being used
 //todo if user has no backgrounds then give them one
+//todo change file chooser to platform.runLater to use FX components
+//todo open mp4 files using javafx depencency
 //todo if intro music selected but no music give them one
 
 public class CyderMain{
@@ -157,11 +159,35 @@ public class CyderMain{
         mainUtil.varInit();
         backgroundProcess();
 
-        if (nathanLenovo && !mainUtil.released())
-            recognize("Nathan", "13201320".toCharArray());
+        if (nathanLenovo)
+            autoCypher();
 
         else
             login(false);
+    }
+
+    private void autoCypher() {
+        try {
+            File autoCypher = new File("../autocypher.txt");
+
+            if (autoCypher.exists()) {
+                BufferedReader ac = new BufferedReader(new FileReader(autoCypher));
+
+                String line = ac.readLine();
+                String[] parts = line.split(":");
+
+                if (parts.length == 2 && !parts[0].equals("") && !parts[1].equals(""))
+                    recognize(parts[0], parts[1].toCharArray());
+            }
+
+            else {
+                login(false);
+            }
+        }
+
+        catch (Exception e) {
+            mainUtil.handle(e);
+        }
     }
 
     private void console() {

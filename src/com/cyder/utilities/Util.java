@@ -2198,7 +2198,7 @@ public class Util {
             userData.clear();
 
             BufferedReader dataReader = new BufferedReader(new FileReader(
-                    "src\\com\\cyder\\users\\" + getUserUUID() + "\\Userdata.txt"));
+                    "src\\com\\cyder\\users\\" + getUserUUID() + "\\Userdata.txt")); //todo stack overflow somehow here
 
             String Line = dataReader.readLine();
 
