@@ -37,9 +37,12 @@ import java.util.concurrent.TimeUnit;
 //todo convert all swing dependencies to CyderFrames and absolute layout placement
 //todo deleting background inform can't delete if it's the one being used
 //todo if user has no backgrounds then give them one
-//todo change file chooser to platform.runLater to use FX components
 //todo open mp4 files using javafx depencency
 //todo if intro music selected but no music give them one
+//todo glitch when changing direction of background during a barrel roll
+//todo on random youtube 10, we see a notification that is too long and disappears too quickly
+//todo what if user deletes all backgrounds when they already exist
+//todo copy bobby.png and suprise.png to user on creation
 
 public class CyderMain{
     //console vars
@@ -1722,7 +1725,7 @@ public class CyderMain{
 
                     else {
                         notification("The script has started. At any point, type \"stop script\"",
-                                4000, Notification.TOP_ARROW, Notification.RIGHT_VANISH,parentPanel);
+                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel);
                     }
 
                     randomYoutube(consoleFrame, threads);
@@ -2627,7 +2630,7 @@ public class CyderMain{
 
                 if (!pixelateFile.getName().endsWith(".png")) {
                     notification("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images",
-                            5000, Notification.TOP_ARROW, Notification.RIGHT_VANISH, parentPanel);
+                            5000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPanel);
                 }
 
                 else if (pixelateFile != null) {
