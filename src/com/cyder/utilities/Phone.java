@@ -1,49 +1,24 @@
 package com.cyder.utilities;
 
 import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.*;
 
 public class Phone {
-    private JFrame phoneFrame;
     private JLabel numberLabel;
     private String phoneNum;
 
     private Util phoneUtil = new Util();
 
     public Phone() {
-        if (phoneFrame != null)
-            phoneUtil.closeAnimation(phoneFrame);
-
-        phoneFrame = new JFrame();
-
+        CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
         phoneFrame.setTitle("Phone");
 
-        phoneFrame.setLocationRelativeTo(null);
-
-        phoneFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JPanel MyPanel = (JPanel) phoneFrame.getContentPane();
-
-        MyPanel.setLayout(new BoxLayout(MyPanel, BoxLayout.Y_AXIS));
-
-        JPanel topPanel = new JPanel();
-
         numberLabel = new JLabel("#");
-
-        topPanel.add(numberLabel);
-
         numberLabel.setFont(phoneUtil.weatherFontSmall);
-
         numberLabel.setBorder(new LineBorder(phoneUtil.navy,5,false));
-
-        JPanel ButtonsPanel = new JPanel();
-
-        ButtonsPanel.setLayout(new GridLayout(4, 3, 5, 5));
-
-        MyPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         CyderButton zero = new CyderButton("0");
         zero.setBorder(new LineBorder(phoneUtil.navy,5,false));
@@ -70,31 +45,57 @@ public class Phone {
         CyderButton dialNumber = new CyderButton("Call");
         dialNumber.setBorder(new LineBorder(phoneUtil.navy,5,false));
 
-        ButtonsPanel.add(one);
+        numberLabel.setBounds(20, 40, 320 - 40, 40);
+        phoneFrame.getContentPane().add(numberLabel);
+
+        one.setBounds(20, 100, 80, 80);
+        phoneFrame.getContentPane().add(one);
+
+        two.setBounds(120, 100, 80, 80);
+        phoneFrame.getContentPane().add(two);
+
+        three.setBounds(220, 100, 80, 80);
+        phoneFrame.getContentPane().add(three);
+
+        four.setBounds(20, 200, 80, 80);
+        phoneFrame.getContentPane().add(four);
+
+        five.setBounds(120, 200, 80, 80);
+        phoneFrame.getContentPane().add(five);
+
+        six.setBounds(220, 200, 80, 80);
+        phoneFrame.getContentPane().add(six);
+
+        seven.setBounds(20, 300, 80, 80);
+        phoneFrame.getContentPane().add(seven);
+
+        eight.setBounds(120, 300, 80, 80);
+        phoneFrame.getContentPane().add(eight);
+
+        nine.setBounds(220, 300, 80, 80);
+        phoneFrame.getContentPane().add(nine);
+
+        back.setBounds(20, 400, 80, 80);
+        phoneFrame.getContentPane().add(back);
+
+        zero.setBounds(120, 400, 80, 80);
+        phoneFrame.getContentPane().add(zero);
+
+        dialNumber.setBounds(220, 400, 80, 80);
+        phoneFrame.getContentPane().add(dialNumber);
+
         one.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(two);
         two.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(three);
         three.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(four);
         four.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(five);
         five.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(six);
         six.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(seven);
         seven.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(eight);
         eight.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(nine);
         nine.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(dialNumber);
         dialNumber.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(zero);
         zero.setColors(phoneUtil.regularRed);
-        ButtonsPanel.add(back);
         back.setColors(phoneUtil.regularRed);
-        MyPanel.add(topPanel);
 
         one.setFocusPainted(false);
         two.setFocusPainted(false);
@@ -109,165 +110,133 @@ public class Phone {
         dialNumber.setFocusPainted(false);
         back.setFocusPainted(false);
 
-        MyPanel.add(ButtonsPanel);
-
-        phoneFrame.setIconImage(phoneUtil.getCyderIcon().getImage());
-
-        phoneFrame.setVisible(true);
-
-        phoneFrame.setAlwaysOnTop(true);
-
-        phoneFrame.setAlwaysOnTop(false);
-
         one.addActionListener(e -> {
             phoneNum = phoneNum + "1";
             numberLabel.setText(phoneNumFormat(phoneNum));
-            checkForSuicideHotline();
+
         });
 
         two.addActionListener(e -> {
             phoneNum = phoneNum + "2";
             numberLabel.setText(phoneNumFormat(phoneNum));
-            checkForSuicideHotline();
+
         });
 
         three.addActionListener(e -> {
             phoneNum = phoneNum + "3";
             numberLabel.setText(phoneNumFormat(phoneNum));
-            checkForSuicideHotline();
         });
 
         four.addActionListener(e -> {
             phoneNum = phoneNum + "4";
             numberLabel.setText(phoneNumFormat(phoneNum));
-            checkForSuicideHotline();
         });
 
         five.addActionListener(e -> {
             phoneNum = phoneNum + "5";
             numberLabel.setText(phoneNumFormat(phoneNum));
-            checkForSuicideHotline();
         });
 
         six.addActionListener(e -> {
             phoneNum = phoneNum + "6";
             numberLabel.setText(phoneNumFormat(phoneNum));
-            checkForSuicideHotline();
         });
 
         seven.addActionListener(e -> {
             phoneNum = phoneNum + "7";
             numberLabel.setText(phoneNumFormat(phoneNum));
-            checkForSuicideHotline();
         });
 
         eight.addActionListener(e -> {
             phoneNum = phoneNum + "8";
             numberLabel.setText(phoneNumFormat(phoneNum));
-            checkForSuicideHotline();
         });
 
         nine.addActionListener(e -> {
             phoneNum = phoneNum + "9";
             numberLabel.setText(phoneNumFormat(phoneNum));
-            checkForSuicideHotline();
         });
 
         zero.addActionListener(e -> {
             phoneNum = phoneNum + "0";
             numberLabel.setText(phoneNumFormat(phoneNum));
-            checkForSuicideHotline();
         });
 
         back.addActionListener(e -> {
             if (phoneNum.length() > 0) {
                 phoneNum = phoneNum.substring(0, phoneNum.length() - 1);
                 numberLabel.setText(phoneNumFormat(phoneNum));
-                checkForSuicideHotline();
             }
         });
 
-        one.setBackground(new Color(223, 85, 83));
-
+        one.setBackground(phoneUtil.calculatorOrange);
         one.setFont(phoneUtil.weatherFontBig);
 
         two.setFocusPainted(false);
-
-        two.setBackground(new Color(223, 85, 83));
-
+        two.setBackground(phoneUtil.calculatorOrange);
         two.setFont(phoneUtil.weatherFontBig);
 
         three.setFocusPainted(false);
-
-        three.setBackground(new Color(223, 85, 83));
-
+        three.setBackground(phoneUtil.calculatorOrange);
         three.setFont(phoneUtil.weatherFontBig);
 
         four.setFocusPainted(false);
-
-        four.setBackground(new Color(223, 85, 83));
-
+        four.setBackground(phoneUtil.calculatorOrange);
         four.setFont(phoneUtil.weatherFontBig);
 
         five.setFocusPainted(false);
-
-        five.setBackground(new Color(223, 85, 83));
-
+        five.setBackground(phoneUtil.calculatorOrange);
         five.setFont(phoneUtil.weatherFontBig);
 
         six.setFocusPainted(false);
-
-        six.setBackground(new Color(223, 85, 83));
-
+        six.setBackground(phoneUtil.calculatorOrange);
         six.setFont(phoneUtil.weatherFontBig);
 
         seven.setFocusPainted(false);
-
-        seven.setBackground(new Color(223, 85, 83));
-
+        seven.setBackground(phoneUtil.calculatorOrange);
         seven.setFont(phoneUtil.weatherFontBig);
 
         eight.setFocusPainted(false);
-
-        eight.setBackground(new Color(223, 85, 83));
-
+        eight.setBackground(phoneUtil.calculatorOrange);
         eight.setFont(phoneUtil.weatherFontBig);
 
         nine.setFocusPainted(false);
-
-        nine.setBackground(new Color(223, 85, 83));
-
+        nine.setBackground(phoneUtil.calculatorOrange);
         nine.setFont(phoneUtil.weatherFontBig);
 
         zero.setFocusPainted(false);
-
-        zero.setBackground(new Color(223, 85, 83));
-
+        zero.setBackground(phoneUtil.calculatorOrange);
         zero.setFont(phoneUtil.weatherFontBig);
 
         back.setFocusPainted(false);
-
-        back.setBackground(new Color(223, 85, 83));
-
+        back.setBackground(phoneUtil.calculatorOrange);
         back.setFont(phoneUtil.weatherFontBig);
 
         dialNumber.setFocusPainted(false);
-
-        dialNumber.setBackground(new Color(223, 85, 83));
-
+        dialNumber.setBackground(phoneUtil.calculatorOrange);
         dialNumber.setFont(phoneUtil.weatherFontBig);
-
         dialNumber.addActionListener(e -> {
             if (phoneNum.length() > 0) {
-                phoneUtil.inform("Dialing: " + phoneNum,"", 200, 200);
-                phoneNum = "";
+                checkFor223();
+                checkForSuicideHotline();
+
+                if (checkForSuicideHotline()) {
+                    phoneUtil.playMusic("src\\com\\cyder\\io\\audio\\1800.mp3");
+                }
+
+                else if (checkFor223()) {
+                    phoneUtil.playMusic("src\\com\\cyder\\io\\audio\\223.mp3");
+                }
+
+                else {
+                    phoneUtil.inform("Dialing: " + numberLabel.getText(),"", 700, 300);
+                    phoneNum = "";
+                }
             }
         });
 
-        phoneFrame.pack();
-        phoneFrame.setVisible(true);
-        phoneFrame.setResizable(false);
         phoneFrame.setLocationRelativeTo(null);
+        phoneFrame.setVisible(true);
     }
 
     private String phoneNumFormat(String num) {
@@ -307,6 +276,12 @@ public class Phone {
         }
 
         else if (len > 10) {
+            if (len > 15) {
+                phoneNum = numberLabel.getText();
+                return numberLabel.getText();
+            }
+
+
             String leadingDigits = num.substring(0, len - 10);
             int offset = leadingDigits.length();
 
@@ -318,10 +293,13 @@ public class Phone {
         }
     }
 
-    private void checkForSuicideHotline() {
+    private boolean checkForSuicideHotline() {
         String num = numberLabel.getText().replace("-","").replace("(","").replace(")","").replace(" ","").trim();
-        if (num.equals("18002738255")) {
-            phoneUtil.playMusic("src\\com\\cyder\\io\\audio\\1800.mp3");
-        }
+        return num.equals("18002738255");
+    }
+
+    private boolean checkFor223() {
+        String num = numberLabel.getText().replace("-","").replace("(","").replace(")","").replace(" ","").trim();
+        return num.equals("223");
     }
 }

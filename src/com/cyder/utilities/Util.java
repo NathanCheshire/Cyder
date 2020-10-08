@@ -37,6 +37,31 @@ import java.util.regex.Pattern;
 
 public class Util {
 
+    //static strings used for test cases
+    public static String HERE = "here";
+
+    public static String LENGTH_ZERO = "";
+    public static String LENGTH_ONE = "1";
+    public static String LENGTH_TWO = "12";
+    public static String LENGTH_THREE = "123";
+    public static String LENGTH_FOUR = "1234";
+    public static String LENGTH_FIVE = "12345";
+    public static String LENGTH_SIX = "123456";
+    public static String LENGTH_SEVEN = "1234567";
+    public static String LENGTH_EIGHT = "12345678";
+    public static String LENGTH_NINE = "123456789";
+
+    public static String QUICK_BROWN_FOX = "The quick brown fox jumps over the lazy dog";
+
+    public static String SUPER_LONG = "pneumonoultramicroscopicsilicovolcanoconiosis," +
+                                     "pneumonoultramicroscopicsilicovolcanoconiosi," +
+                                     "pneumonoultramicroscopicsilicovolcanoconiosis!" +
+                                     "There, I said it!";
+
+    //integer bounds
+    public static int INFINITY = Integer.MAX_VALUE;
+    public static int NEG_INFINITY = Integer.MIN_VALUE;
+
     //public fonts
     public Font weatherFontSmall = new Font("Segoe UI Black", Font.BOLD, 20);
     public Font weatherFontBig = new Font("Segoe UI Black", Font.BOLD, 30);
@@ -2190,7 +2215,7 @@ public class Util {
         return this.isp;
     }
 
-    public boolean ShouldISwitch() {
+    public boolean canSwitchBackground() {
         return (validBackgroundPaths.length > currentBackgroundIndex + 1 && validBackgroundPaths.length > 1);
     }
 
@@ -2198,8 +2223,10 @@ public class Util {
         try {
             userData.clear();
 
+            String user = getUserUUID();
+
             BufferedReader dataReader = new BufferedReader(new FileReader(
-                    "src\\com\\cyder\\users\\" + getUserUUID() + "\\Userdata.txt")); //todo stack overflow somehow here
+                    "src\\com\\cyder\\users\\" + user + "\\Userdata.txt"));
 
             String Line = dataReader.readLine();
 

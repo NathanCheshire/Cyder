@@ -33,16 +33,18 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo adding backgrounds doens't work
 //todo convert all swing dependencies to CyderFrames and absolute layout placement
 //todo deleting background inform can't delete if it's the one being used
-//todo if user has no backgrounds then give them one
 //todo open mp4 files using javafx depencency
-//todo if intro music selected but no music give them one
 //todo glitch when changing direction of background during a barrel roll
-//todo on random youtube 10, we see a notification that is too long and disappears too quickly
-//todo what if user deletes all backgrounds when they already exist
-//todo copy bobby.png and suprise.png to user on creation
+//todo if you notice no backgrounds for user, copy bobby.png over
+//todo if you noticen no music for user, copy suprise.mp3 over
+//todo perlin-noise GUI swap between 2D and 3D and add color range too
+//todo remove hide mode and make a kind of widget version of it with an expand function
+//todo edit user needs to be more compact and look more consistent
+//todo add a feature to move all windows to the center but alilgn all sub windows with top left corner of console
+//todo fix notificaiton widths and pass in width for it
+//todo does looping music work and do icons make sense? (make loop once, loop all, or shuffle functions)
 
 public class CyderMain{
     //console vars
@@ -695,7 +697,7 @@ public class CyderMain{
             alternateBackground.addActionListener(e -> {
                 mainUtil.initBackgrounds();
 
-                if (mainUtil.ShouldISwitch() && mainUtil.getValidBackgroundPaths().length > 1) {
+                if (mainUtil.canSwitchBackground() && mainUtil.getValidBackgroundPaths().length > 1) {
                     mainUtil.setCurrentBackgroundIndex(mainUtil.getCurrentBackgroundIndex() + 1);
                     switchBackground();
                 }
@@ -3389,7 +3391,7 @@ public class CyderMain{
             try {
                 File AddBackground = mainUtil.getFile();
 
-                if (addMusic.getName() != null && addMusic.getName().endsWith(".png")) {
+                if (AddBackground.getName() != null && AddBackground.getName().endsWith(".png")) {
                     File Destination = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds\\" + AddBackground.getName());
                     Files.copy(new File(AddBackground.getAbsolutePath()).toPath(), Destination.toPath());
                     initializeBackgroundsList();
@@ -4835,7 +4837,6 @@ public class CyderMain{
 
         consoleNotification = new Notification();
 
-        //todo width does not work still
         int w = (int) Math.ceil(12 * htmltext.length());
         int h = 30;
 
