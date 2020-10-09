@@ -1,6 +1,7 @@
 package com.cyder.utilities;
 
 import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -8,52 +9,24 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 
 public class Hasher {
-    private JFrame hashFrame;
     private JPasswordField hashField;
     private Util hashUtil = new Util();
 
     public Hasher() {
-        if (hashFrame != null)
-            hashUtil.closeAnimation(hashFrame);
-
-        hashFrame = new JFrame();
-
-        hashFrame.setResizable(false);
-
+        CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
         hashFrame.setTitle("Hasher");
 
-        hashFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        hashFrame.setIconImage(hashUtil.getCyderIcon().getImage());
-
-        JPanel ParentPanel = new JPanel();
-
-        ParentPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-        ParentPanel.setLayout(new BoxLayout(ParentPanel, BoxLayout.Y_AXIS));
-
-        JPanel InstPanel = new JPanel();
-
-        InstPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
         JLabel Instructions = new JLabel("Enter your password to be hashed");
-
         Instructions.setForeground(hashUtil.navy);
-
         Instructions.setFont(hashUtil.weatherFontSmall);
 
-        InstPanel.add(Instructions);
-
-        ParentPanel.add(InstPanel);
+        Instructions.setBounds(65,40, 400, 30);
+        hashFrame.getContentPane().add(Instructions);
 
         hashField = new JPasswordField(15);
-
         hashField.setForeground(hashUtil.navy);
-
         hashField.setFont(hashUtil.weatherFontSmall);
-
         hashField.setBorder(new LineBorder(hashUtil.navy,5,false));
-
         hashField.addActionListener(e -> {
             char[] Hash = hashField.getPassword();
 
@@ -67,28 +40,14 @@ public class Hasher {
             }
         });
 
-        JPanel FieldPanel = new JPanel();
-
-        FieldPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        FieldPanel.add(hashField);
-
-        ParentPanel.add(FieldPanel);
-
-        JPanel ButtonPanel = new JPanel();
-
-        ButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        hashField.setBounds(50,90, 400, 40);
+        hashFrame.getContentPane().add(hashField);
 
         CyderButton hashButton = new CyderButton("Hasher");
-
         hashButton.setColors(hashUtil.regularRed);
-
         hashButton.setBackground(hashUtil.regularRed);
-
         hashButton.setBorder(new LineBorder(hashUtil.navy,5,false));
-
         hashButton.setFont(hashUtil.weatherFontSmall);
-
         hashButton.addActionListener(e -> {
             String PrintHash = hashUtil.toHexString(hashUtil.getSHA(hashField.getPassword()));
             hashUtil.closeAnimation(hashFrame);
@@ -100,18 +59,11 @@ public class Hasher {
 
         hashButton.setFocusPainted(false);
 
-        ButtonPanel.add(hashButton);
-
-        ParentPanel.add(ButtonPanel);
-
-        hashFrame.add(ParentPanel);
-
-        hashFrame.pack();
+        hashButton.setBounds(200,140, 100, 40);
+        hashFrame.getContentPane().add(hashButton);
 
         hashFrame.setLocationRelativeTo(null);
-
         hashFrame.setVisible(true);
-
         hashFrame.setAlwaysOnTop(true);
     }
 }
