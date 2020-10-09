@@ -94,6 +94,7 @@ public class Util {
     private String cyderVer = "Soultree";
 
     //uservars
+    private BufferedReader dataReader;
     private LinkedList<NST> userData = new LinkedList<>();
     private String userUUID;
     private String username;
@@ -2225,7 +2226,7 @@ public class Util {
 
             String user = getUserUUID();
 
-            BufferedReader dataReader = new BufferedReader(new FileReader(
+            dataReader = new BufferedReader(new FileReader(
                     "src\\com\\cyder\\users\\" + user + "\\Userdata.txt"));
 
             String Line = dataReader.readLine();
@@ -2442,7 +2443,8 @@ public class Util {
         }
 
         catch (Exception ex) {
-            if (debugMode) {
+            if (debugMode && getUserData("SilenceErrors").equals("0")) {
+                System.out.println("Exception in error logger:\n\n");
                 e.printStackTrace();
             }
         }

@@ -37,6 +37,8 @@ public class ImageResizer {
         CyderFrame resizeFrame = new CyderFrame(800,800,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
         resizeFrame.setTitle("Image Resizer");
 
+        previewLabel = new JLabel();
+
         CyderButton chooseFile = new CyderButton("Choose Image");
         chooseFile.setFont(imageUtil.weatherFontSmall);
         chooseFile.setForeground(imageUtil.navy);
@@ -48,19 +50,19 @@ public class ImageResizer {
 
                 if (temp != null && temp.getName().endsWith(".png")) {
                     resizeImage = temp;
-                    ImageIcon im = checkImage(resizeImage);
-                    previewLabel.setPreferredSize(new Dimension(im.getIconWidth(), im.getIconHeight()));
-                    previewLabel.setIcon(im);
+
+                    //add preview label with picture to frame
+                    ImageIcon prevIcon = checkImage(temp);
+                    previewLabel.setIcon(prevIcon);
+                    previewLabel.setBorder(new LineBorder(imageUtil.navy, 3, false));
+                    previewLabel.setBounds(400 - prevIcon.getIconWidth() / 2,450 - prevIcon.getIconHeight() / 2,prevIcon.getIconWidth(),prevIcon.getIconHeight());
+                    resizeFrame.getContentPane().add(previewLabel);
+                    resizeFrame.revalidate();
+                    resizeFrame.repaint();
 
                     ImageIcon dimIcon = new ImageIcon(ImageIO.read(resizeImage));
                     xdim.setText(String.valueOf(dimIcon.getIconWidth()));
                     ydim.setText(String.valueOf(dimIcon.getIconHeight()));
-
-                    //todo figure out center placement and maximize image size and put it in the center
-                    previewLabel.setBounds(50,190, 700, 500);
-                    resizeFrame.getContentPane().add(previewLabel);
-                    previewLabel.revalidate();
-                    previewLabel.repaint();
                 }
 
                 if (temp != null && !Files.probeContentType(Paths.get(resizeImage.getAbsolutePath())).endsWith("png")) {
@@ -206,7 +208,11 @@ public class ImageResizer {
         approve.setColors(imageUtil.regularRed);
         approve.setFocusPainted(false);
         approve.addActionListener(e -> {
-            if (xdim.getText().length() > 0 && ydim.getText().length() > 0) {
+            if (resizeImage == null) {
+                imageUtil.inform("Sorry, but you have no image selected to resize","Exception",400,150);
+            }
+
+            else if (xdim.getText().length() > 0 && ydim.getText().length() > 0) {
                 try {
                     BufferedImage replace = resizeImage(resizeImage, Integer.parseInt(xdim.getText()), Integer.parseInt(ydim.getText()));
                     ImageIO.write(replace, "png", resizeImage);
@@ -232,6 +238,7 @@ public class ImageResizer {
         return ((double) im.getIconWidth() / (double) im.getIconHeight());
     }
 
+    //this method scales an image down, make it so that it's as big as it can be (what's the biggest you can make it with these bounds?)
     private ImageIcon checkImage(File im) {
         try {
             Dimension dim = imageUtil.getScreenSize();
@@ -246,18 +253,21 @@ public class ImageResizer {
             int width = originalIcon.getIconWidth();
             int height = originalIcon.getIconHeight();
 
-            if (width > 800 || height > 800) {
-                while (width > 800 || height > 800) {
+            if (width >= 800 || height >= 800) {
+                while (width > 600 || height > 600) {
                     width = (int) (width / (2 * aspectRatio));
                     height = (int) (height / (2 * aspectRatio));
                 }
             }
 
-            else {
-                while (width  < 400 || height < 400) {
-                    width = (int) (width * 2 * aspectRatio);
-                    height = (int) (height * 2 * aspectRatio);
-                }
+            while (width  <= 200 || height <= 200) {
+                width = (int) (width * 2 * aspectRatio);
+                height = (int) (height * 2 * aspectRatio);
+            }
+
+            if (width == 800) {
+                width = (int) (width / (aspectRatio));
+                height = (int) (height / (aspectRatio));
             }
 
             return new ImageIcon(bi.getScaledInstance(width, height, Image.SCALE_SMOOTH));
