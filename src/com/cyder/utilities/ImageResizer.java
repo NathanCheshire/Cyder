@@ -1,10 +1,10 @@
 package com.cyder.utilities;
 
 import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -34,15 +34,8 @@ public class ImageResizer {
     private boolean maintainAspectRatio = true;
 
     public ImageResizer() {
-        JFrame resizeFrame = new JFrame();
-        resizeFrame.setResizable(false);
-        resizeFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        resizeFrame.setIconImage(imageUtil.getCyderIcon().getImage());
-
-        JPanel parentPanel = new JPanel();
-        parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.Y_AXIS));
-        parentPanel.setBorder(new CompoundBorder(new LineBorder(imageUtil.navy,5,false),
-                BorderFactory.createEmptyBorder(10,10,10,10)));
+        CyderFrame resizeFrame = new CyderFrame(800,800,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
+        resizeFrame.setTitle("Image Resizer");
 
         CyderButton chooseFile = new CyderButton("Choose Image");
         chooseFile.setFont(imageUtil.weatherFontSmall);
@@ -63,12 +56,11 @@ public class ImageResizer {
                     xdim.setText(String.valueOf(dimIcon.getIconWidth()));
                     ydim.setText(String.valueOf(dimIcon.getIconHeight()));
 
-                    parentPanel.revalidate();
-                    parentPanel.repaint();
-                    resizeFrame.revalidate();
-                    resizeFrame.repaint();
-                    resizeFrame.pack();
-                    resizeFrame.setLocationRelativeTo(null);
+                    //todo figure out center placement and maximize image size and put it in the center
+                    previewLabel.setBounds(50,190, 700, 500);
+                    resizeFrame.getContentPane().add(previewLabel);
+                    previewLabel.revalidate();
+                    previewLabel.repaint();
                 }
 
                 if (temp != null && !Files.probeContentType(Paths.get(resizeImage.getAbsolutePath())).endsWith("png")) {
@@ -81,25 +73,22 @@ public class ImageResizer {
             }
         });
 
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(2,3,10,20));
-
         JLabel xdimLabel = new JLabel("x pixels");
         xdimLabel.setForeground(imageUtil.navy);
         xdimLabel.setFont(imageUtil.weatherFontSmall);
-        JPanel xcent = new JPanel();
-        xcent.add(xdimLabel);
-        centerPanel.add(xcent);
 
-        chooseFile.setFocusPainted(false);
-        centerPanel.add(chooseFile);
+        xdimLabel.setBounds(130,40, 100, 40);
+        resizeFrame.getContentPane().add(xdimLabel);
+
+        chooseFile.setBounds(400 - 180 / 2,40, 180, 40);
+        resizeFrame.getContentPane().add(chooseFile);
 
         JLabel ydimLabel = new JLabel("y pixels");
         ydimLabel.setForeground(imageUtil.navy);
         ydimLabel.setFont(imageUtil.weatherFontSmall);
-        JPanel ycent = new JPanel();
-        ycent.add(ydimLabel);
-        centerPanel.add(ycent);
+
+        ydimLabel.setBounds(800 - 130 - 90,40, 100, 40);
+        resizeFrame.getContentPane().add(ydimLabel);
 
         xdim = new JTextField(5);
         xdim.setFont(imageUtil.weatherFontSmall);
@@ -108,30 +97,28 @@ public class ImageResizer {
         xdim.setSelectionColor(imageUtil.selectionColor);
         xdim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                leftLastEdited = true;
-                int key = evt.getKeyCode();
+            leftLastEdited = true;
+            int key = evt.getKeyCode();
 
-                if (xdim.getText().length() > 4 || (!(key >= 48 && key <= 57) && !(key >= 37 && key <= 40) && !(key >= 96 && key <= 105) && key != 8 && key != 46)) {
-                    xdim.setText(xdim.getText().substring(0,xdim.getText().length() - 1));
-                    Toolkit.getDefaultToolkit().beep();
+            if (xdim.getText().length() > 4 || (!(key >= 48 && key <= 57) && !(key >= 37 && key <= 40) && !(key >= 96 && key <= 105) && key != 8 && key != 46)) {
+                xdim.setText(xdim.getText().substring(0,xdim.getText().length() - 1));
+                Toolkit.getDefaultToolkit().beep();
+            }
+
+            else if (maintainAspectRatio){
+                if (xdim.getText().length() > 0) {
+                    ydim.setText(Math.round(Integer.parseInt(xdim.getText()) * 1.0 / aspectRatio) + "");
                 }
 
-                else if (maintainAspectRatio){
-                    if (xdim.getText().length() > 0) {
-                        double val = Double.parseDouble(xdim.getText());
-                        double result = val * (aspectRatio > 1 ? aspectRatio : 1.0 / aspectRatio);
-                        int set = (int) result;
-                        ydim.setText(set + "");
-                    }
-
-                    else {
-                        ydim.setText("");
-                    }
+                else {
+                    ydim.setText("");
                 }
+            }
             }
         });
 
-        centerPanel.add(xdim);
+        xdim.setBounds(125,100, 100, 40);
+        resizeFrame.getContentPane().add(xdim);
 
         maintainAspectRatioLab = new JLabel();
         maintainAspectRatioLab.setToolTipText("Maintain Aspect Ratio");
@@ -151,10 +138,7 @@ public class ImageResizer {
 
                 if (leftLastEdited) {
                     if (xdim.getText().length() > 0) {
-                        double val = Double.parseDouble(xdim.getText());
-                        double result = val * (aspectRatio < 1 ? 1.0 / aspectRatio : aspectRatio);
-                        int set = (int) result;
-                        ydim.setText(set + "");
+                        ydim.setText(Math.round(Integer.parseInt(xdim.getText()) * 1.0 / aspectRatio) + "");
                     }
 
                     else {
@@ -164,10 +148,7 @@ public class ImageResizer {
 
                 else {
                     if (ydim.getText().length() > 0) {
-                        double val = Double.parseDouble(ydim.getText());
-                        double result = val * aspectRatio;
-                        int set = (int) result;
-                        xdim.setText(set + "");
+                        xdim.setText(Math.round(Integer.parseInt(ydim.getText()) * aspectRatio) + "");
                     }
 
                     else {
@@ -178,7 +159,8 @@ public class ImageResizer {
             }
         });
 
-        centerPanel.add(maintainAspectRatioLab);
+        maintainAspectRatioLab.setBounds(400 - 180 / 2,100, 180, 40);
+        resizeFrame.getContentPane().add(maintainAspectRatioLab);
 
         ydim = new JTextField(5);
         ydim.setFont(imageUtil.weatherFontSmall);
@@ -197,10 +179,7 @@ public class ImageResizer {
 
             else if (maintainAspectRatio){
                 if (ydim.getText().length() > 0) {
-                    double val = Double.parseDouble(ydim.getText());
-                    double result = val * (aspectRatio < 1 ? aspectRatio : 1.0 / aspectRatio);
-                    int set = (int) result;
-                    xdim.setText(set + "");
+                    xdim.setText(Math.round(Integer.parseInt(ydim.getText()) * aspectRatio) + "");
                 }
 
                 else {
@@ -210,23 +189,15 @@ public class ImageResizer {
             }
         });
 
-        centerPanel.add(ydim);
-        parentPanel.add(centerPanel);
+        ydim.setBounds(575,100, 100, 40);
+        resizeFrame.getContentPane().add(ydim);
 
-        JLabel originalImage = new JLabel("Original Image");
+        JLabel originalImage = new JLabel("Preview Image");
         originalImage.setFont(imageUtil.weatherFontSmall);
         originalImage.setForeground(imageUtil.navy);
-        JPanel origLabelPanel = new JPanel();
-        origLabelPanel.setBorder(BorderFactory.createEmptyBorder(10,10,0,10));
-        origLabelPanel.add(originalImage);
-        parentPanel.add(origLabelPanel);
 
-        previewLabel = new JLabel("");
-        previewLabel.setBorder(new LineBorder(imageUtil.navy,5,false));
-        previewLabel.setPreferredSize(new Dimension(100,100));
-        JPanel previewPanel = new JPanel();
-        previewPanel.add(previewLabel);
-        parentPanel.add(previewPanel);
+        originalImage.setBounds(400 - 165 / 2,150, 180, 40);
+        resizeFrame.getContentPane().add(originalImage);
 
         CyderButton approve = new CyderButton("Approve Image");
         approve.setForeground(imageUtil.navy);
@@ -250,16 +221,10 @@ public class ImageResizer {
             }
         });
 
-        JPanel approvePanel = new JPanel();
-        approvePanel.setBorder(BorderFactory.createEmptyBorder(30,10,0,10));
-        approvePanel.add(approve);
-        parentPanel.add(approvePanel);
+        approve.setBounds(400 - 180 / 2,735, 180, 40);
+        resizeFrame.getContentPane().add(approve);
 
-        resizeFrame.add(parentPanel);
-        resizeFrame.pack();
-        resizeFrame.revalidate();
         resizeFrame.setVisible(true);
-        resizeFrame.setTitle("Image Resizer");
         resizeFrame.setLocationRelativeTo(null);
     }
 

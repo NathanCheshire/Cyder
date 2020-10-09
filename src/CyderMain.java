@@ -33,6 +33,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo image resizer aspect ratio still doesnt work
 //todo convert all swing dependencies to CyderFrames and absolute layout placement
 //todo deleting background inform can't delete if it's the one being used
 //todo open mp4 files using javafx depencency
