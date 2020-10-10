@@ -1417,6 +1417,7 @@ public class Util {
         systemPropFrame.requestFocus();
     }
 
+    //todo make a seperate class for this similar to image resizer
     public void pixelate(File path, int pixelSize) {
         try {
             BufferedImage ReturnImage = ImageUtil.pixelate(ImageIO.read(path), pixelSize);
@@ -2134,6 +2135,9 @@ public class Util {
         File dir = new File("src\\com\\cyder\\users\\" + getUserUUID() + "\\Backgrounds");
         FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
         validBackgroundPaths = dir.listFiles(PNGFilter);
+
+        if (validBackgroundPaths.length == 0)
+            validBackgroundPaths = new File[]{new File("src\\com\\cyder\\io\\pictures\\Bobby.png")};
     }
 
     public void openFile(String FilePath) {

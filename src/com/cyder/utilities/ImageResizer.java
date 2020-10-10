@@ -234,6 +234,8 @@ public class ImageResizer {
         resizeFrame.setLocationRelativeTo(null);
     }
 
+    //todo refresh image preview based on entered dimensions
+
     private double getAspectRatio(ImageIcon im) {
         return ((double) im.getIconWidth() / (double) im.getIconHeight());
     }
@@ -261,8 +263,6 @@ public class ImageResizer {
                 height = 600;
                 width = (int) (600 *  aspectRatio);
             }
-
-            //todo fix the scales in this and also make the pixelator like it
 
             return new ImageIcon(bi.getScaledInstance(width, height, Image.SCALE_SMOOTH));
         }

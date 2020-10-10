@@ -33,19 +33,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo image resizer aspect ratio still doesnt work
-//todo convert all swing dependencies to CyderFrames and absolute layout placement
-//todo deleting background inform can't delete if it's the one being used
-//todo open mp4 files using javafx depencency
-//todo glitch when changing direction of background during a barrel roll
 //todo if you notice no backgrounds for user, copy bobby.png over
 //todo if you noticen no music for user, copy suprise.mp3 over
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
-//todo remove hide mode and make a kind of widget version of it with an expand function
-//todo edit user needs to be more compact and look more consistent
+//todo make a widget version of cyder that you can swap between big window and widget version
 //todo add a feature to move all windows to the center but alilgn all sub windows with top left corner of console
 //todo fix notificaiton widths and pass in width for it
-//todo does looping music work and do icons make sense? (make loop once, loop all, or shuffle functions)
 
 public class CyderMain{
     //console vars
@@ -1317,6 +1310,8 @@ public class CyderMain{
                         mainUtil.playMusic(
                                 "src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music\\" +
                                         (FileNames[mainUtil.randInt(0,FileNames.length - 1)]));
+                    else
+                        mainUtil.playMusic("src\\com\\cyder\\io\\audio\\Suprise.mp3");
                 }
             }
 
@@ -1844,7 +1839,7 @@ public class CyderMain{
                 }
 
                 else {
-                    println("Can't delete your current background.");
+                    println("You can't delete your current background.");
                 }
             }
 
@@ -2529,7 +2524,6 @@ public class CyderMain{
                 saveFontColor();
                 mainUtil.closeAnimation(consoleFrame);
 
-                
                 System.exit(0);
             }
 
@@ -2737,7 +2731,7 @@ public class CyderMain{
             }
 
             else if (eic("hide")) {
-                consoleFrame.setVisible(false);
+                minimize.doClick();
             }
 
             else if (hasWord("stop") && hasWord("script")) {
@@ -2815,6 +2809,8 @@ public class CyderMain{
 
                 for (int i = 0 ; i < count ; i++)
                     print("pneumonoultramicroscopicsilicovolcanoconiosis");
+
+                println("");
             }
 
             else if (eic("logic")) {
@@ -4866,9 +4862,41 @@ public class CyderMain{
         consoleNotification.vanish(vanishDir, parent, delay);
     }
 
+    public void notification(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
+        if (consoleNotification != null && consoleNotification.isVisible())
+            consoleNotification.kill();
+
+        consoleNotification = new Notification();
+
+        int w = width;
+        int h = 30;
+
+        consoleNotification.setWidth(w);
+        consoleNotification.setHeight(h);
+        consoleNotification.setArrow(arrowDir);
+
+        JLabel text = new JLabel(htmltext);
+        text.setFont(mainUtil.weatherFontSmall);
+        text.setForeground(mainUtil.navy);
+        text.setBounds(14,10,w * 2,h);
+        consoleNotification.add(text);
+        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
+        parent.add(consoleNotification,1,0);
+        parent.repaint();
+
+        consoleNotification.vanish(vanishDir, parent, delay);
+    }
+
     private void barrelRoll() {
+        //todo disable changing direction of background image during this function
+        //todo barrelroll is completely broken
+        //disable
+
         consoleFrame.setBackground(mainUtil.navy);
         mainUtil.getValidBackgroundPaths();
+
+        int dir = mainUtil.getConsoleDirection();
+        BufferedImage master = mainUtil.getRotatedImage(mainUtil.getCurrentBackground().getAbsolutePath());
 
         Timer timer = null;
         Timer finalTimer = timer;
@@ -4876,14 +4904,14 @@ public class CyderMain{
             private double angle = 0;
             private double delta = 1.0;
 
-            BufferedImage master = mainUtil.getBi(mainUtil.getCurrentBackground());
             BufferedImage rotated;
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 angle += delta;
                 if (angle >= 360) {
-                    parentLabel.setIcon(new ImageIcon(mainUtil.getCurrentBackground().toString()));
+                    parentLabel.setIcon(new ImageIcon(master));
+                    mainUtil.setConsoleDirection(dir);
                     return;
                 }
                 rotated = mainUtil.rotateImageByDegrees(master, angle);
