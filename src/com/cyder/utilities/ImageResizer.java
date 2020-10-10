@@ -238,7 +238,6 @@ public class ImageResizer {
         return ((double) im.getIconWidth() / (double) im.getIconHeight());
     }
 
-    //this method scales an image down, make it so that it's as big as it can be (what's the biggest you can make it with these bounds?)
     private ImageIcon checkImage(File im) {
         try {
             Dimension dim = imageUtil.getScreenSize();
@@ -253,22 +252,17 @@ public class ImageResizer {
             int width = originalIcon.getIconWidth();
             int height = originalIcon.getIconHeight();
 
-            if (width >= 800 || height >= 800) {
-                while (width > 600 || height > 600) {
-                    width = (int) (width / (2 * aspectRatio));
-                    height = (int) (height / (2 * aspectRatio));
-                }
+            if (width > height) {
+                width = 600;
+                height = (int) (600 * 1.0 / aspectRatio);
             }
 
-            while (width  <= 200 || height <= 200) {
-                width = (int) (width * 2 * aspectRatio);
-                height = (int) (height * 2 * aspectRatio);
+            else {
+                height = 600;
+                width = (int) (600 *  aspectRatio);
             }
 
-            if (width == 800) {
-                width = (int) (width / (aspectRatio));
-                height = (int) (height / (aspectRatio));
-            }
+            //todo fix the scales in this and also make the pixelator like it
 
             return new ImageIcon(bi.getScaledInstance(width, height, Image.SCALE_SMOOTH));
         }

@@ -454,6 +454,12 @@ public class WeatherWidget {
                 userCity = customCity;
             }
 
+            //todo weather location changer doesn't exactly work and the sunrise and sunset time breaks then (oxford ms is really oxford england i believe)
+            //todo so however you account for time in weather do that for the sunrise and sunset too by adding the time to it
+            //api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
+            //ask user to pass in city name, state code, and country code, direct them to where they can find that information
+            //also tell them they must spell it right
+
             String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&appid=" + weatherUtil.getWeatherKey() + "&units=imperial";
 
             URL URL = new URL(OpenString);

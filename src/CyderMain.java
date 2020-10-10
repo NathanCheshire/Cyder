@@ -2804,8 +2804,17 @@ public class CyderMain{
                 inputField.requestFocus();
             }
 
-            else if (eic("long word")) {
-                println("pneumonoultramicroscopicsilicovolcanoconiosis");
+            else if (hasWord("long") && hasWord("word")) {
+                int count = 0;
+
+                String[] words = operation.split(" ");
+
+                for (String word: words)
+                    if (word.equalsIgnoreCase("long"))
+                        count++;
+
+                for (int i = 0 ; i < count ; i++)
+                    print("pneumonoultramicroscopicsilicovolcanoconiosis");
             }
 
             else if (eic("logic")) {
