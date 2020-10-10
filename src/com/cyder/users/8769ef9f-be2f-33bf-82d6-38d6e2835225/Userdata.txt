@@ -1,0 +1,15 @@
+Name:Karla
+Font:tahoma
+Red:252
+Green:251
+Blue:227
+Password:5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5
+IntroMusic:1
+DebugWindows:0
+RandomBackground:0
+HourlyChimes:1
+ClockOnConsole:1
+SilenceErrors:1
+FullScreen:0
+OutputBorder:0
+InputBorder:0
