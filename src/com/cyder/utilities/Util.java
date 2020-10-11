@@ -67,7 +67,6 @@ public class Util {
     public Font weatherFontBig = new Font("Segoe UI Black", Font.BOLD, 30);
     public Font loginFont = new Font("Comic Sans MS", Font.BOLD, 30);
     public Font defaultFontSmall = new Font("tahoma", Font.BOLD, 15);
-    public Font buttonFont = new Font("Dialog Font", Font.BOLD, 15);
     public Font defaultFont = new Font("tahoma", Font.BOLD, 30);
     public Font tahoma = new Font("tahoma", Font.BOLD, 20);
 

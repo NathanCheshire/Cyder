@@ -32,6 +32,8 @@ public class WeatherWidget {
 
     private String customCity;
     private String customState;
+    private String customCountry;
+
     private String sunrise;
     private String sunset;
     private String weatherIcon;
@@ -66,6 +68,9 @@ public class WeatherWidget {
     private boolean updateWeather;
     private boolean updateClock;
     private boolean useCustomLoc;
+    private boolean outOfCountry;
+
+    private int timeOffset;
 
     private Util weatherUtil = new Util();
 
@@ -134,7 +139,7 @@ public class WeatherWidget {
 
         currentWeatherLabel.setFont(weatherUtil.weatherFontSmall);
 
-        currentWeatherLabel.setBounds(16, 212, 250, 30);
+        currentWeatherLabel.setBounds(16, 212, 400, 30);
 
         currentWeatherLabel.setText(capsFirst(weatherCondition));
 
@@ -165,9 +170,8 @@ public class WeatherWidget {
 
                 parent.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-                JLabel explenation = new JLabel("<html>Enter your city and state separated by a comma.<br/>" +
-                        "Note that the format must be precise otherwise<br/>it will fail. " +
-                        "Ex: \"New Orleans,LA\"</html>");
+                JLabel explenation = new JLabel("<html>Enter your city, state, and country code separated by a comma<br/>" +
+                                                    "Ex: \"New Orleans,LA,US\"<br/>Use null for state if not in US</html>");
 
                 explenation.setFont(weatherUtil.weatherFontSmall);
 
@@ -208,13 +212,28 @@ public class WeatherWidget {
                 changeLoc.setBackground(weatherUtil.regularRed);
 
                 changeLoc.addActionListener(e12 -> {
-                    String[] parts = changeLocField.getText().split(",");
-                    customCity = parts[0];
-                    customState = parts[1];
-                    useCustomLoc = true;
-                    weatherUtil.closeAnimation(changeLocationFrame);
-                    weatherUtil.inform("Attempting to refresh and use the location \"" + customCity + "\" for weather.", "",400, 300);
-                    refreshWeatherNow();
+                    try {
+                        String[] parts = changeLocField.getText().split(",");
+                        customCity = parts[0];
+                        customState = parts[1];
+                        customCountry = parts[2];
+                        useCustomLoc = true;
+
+                        if (customState.equalsIgnoreCase("null"))
+                            outOfCountry = true;
+
+                        weatherUtil.closeAnimation(changeLocationFrame);
+                        weatherUtil.inform("Attempting to refresh and use the location \"" + customCity + "\" for weather.", "",400, 300);
+                        refreshWeatherNow();
+                    }
+
+                    catch (ArrayIndexOutOfBoundsException ignored) {
+                        weatherUtil.inform("Remember to use null for your state if there is no state.", "Error", 450,200);
+                    }
+
+                    catch (Exception ex) {
+                        weatherUtil.handle(ex);
+                    }
                 });
 
                 JPanel c = new JPanel();
@@ -382,7 +401,8 @@ public class WeatherWidget {
 
     public String weatherTime() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.HOUR, Integer.parseInt(gmtOffset) / 3600);
+        timeOffset = Integer.parseInt(gmtOffset) / 3600;
+        cal.add(Calendar.HOUR, timeOffset);
         Date Time = cal.getTime();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
         dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -397,7 +417,14 @@ public class WeatherWidget {
 
                     weatherStats();
 
-                    locationLabel.setText(userCity + ", " + userStateAbr);
+                    if (useCustomLoc) {
+                        locationLabel.setText(customCity + ", " + customState);
+                    }
+
+                    else {
+                        locationLabel.setText(userCity + ", " + userStateAbr);
+                    }
+
                     currentWeatherLabel.setText(capsFirst(weatherCondition));
                     temperatureLabel.setText("Temperature: " + temperature + "F");
                     feelsLikeLabel.setText("Feels like: " + feelsLike);
@@ -406,8 +433,8 @@ public class WeatherWidget {
                     humidityLabel.setText("Humidity: " + humidity + "%");
                     pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
                     visibilityLabel.setText("Visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
-                    sunriseLabel.setText(sunrise + "am");
-                    sunsetLabel.setText(sunset + "pm");
+                    sunriseLabel.setText(correctedSunTime(sunrise) + "am");
+                    sunsetLabel.setText(correctedSunTime(sunset) + "pm");
                 }
             } catch (Exception e) {
                 weatherUtil.handle(e);
@@ -422,6 +449,7 @@ public class WeatherWidget {
             weatherStats();
 
             if (useCustomLoc) {
+                customState = customCountry;
                 locationLabel.setText(customCity + ", " + customState);
             }
 
@@ -437,8 +465,8 @@ public class WeatherWidget {
             humidityLabel.setText("Humidity: " + humidity + "%");
             pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
             visibilityLabel.setText("Visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
-            sunriseLabel.setText(sunrise + "am");
-            sunsetLabel.setText(sunset + "pm");
+            sunriseLabel.setText(correctedSunTime(sunrise) + "am");
+            sunsetLabel.setText(correctedSunTime(sunset) + "pm");
         }
 
         catch (Exception e) {
@@ -446,21 +474,36 @@ public class WeatherWidget {
         }
     }
 
+
+    //todo implement method by account for offset of time
+    //todo make it so user doesn't have to enter null
+    //display for city,state,country doesn't exactly work in terms of displaying what you should be displaying
+    private String correctedSunTime(String absoluteTime) {
+        return absoluteTime;
+    }
+
     protected void weatherStats() {
         try {
             getIPData();
 
+            String OpenString = "";
+
             if (useCustomLoc) {
                 userCity = customCity;
+                userCity = customCity;
+                userState = customState;
+                userCountry = customCountry;
+                OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                        userCity + "," + userCountry + "&appid=" + weatherUtil.getWeatherKey() + "&units=imperial";
+                userState = userCountry;
             }
 
-            //todo weather location changer doesn't exactly work and the sunrise and sunset time breaks then (oxford ms is really oxford england i believe)
-            //todo so however you account for time in weather do that for the sunrise and sunset too by adding the time to it
-            //api.openweathermap.org/data/2.5/weather?q={city name},{state code},{country code}&appid={API key}
-            //ask user to pass in city name, state code, and country code, direct them to where they can find that information
-            //also tell them they must spell it right
+            else {
+                OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                        userCity + "," + userState + "," + userCountry + "&appid=" + weatherUtil.getWeatherKey() + "&units=imperial";
+            }
 
-            String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&appid=" + weatherUtil.getWeatherKey() + "&units=imperial";
+
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));

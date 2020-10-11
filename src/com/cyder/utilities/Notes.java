@@ -100,7 +100,7 @@ public class Notes {
 
         addNote.setBackground(noteUtil.regularRed);
 
-        addNote.setFont(noteUtil.buttonFont);
+        addNote.setFont(noteUtil.weatherFontSmall);
 
         addNote.addActionListener(e -> addNote());
 
@@ -116,7 +116,7 @@ public class Notes {
 
         openNote.setBackground(noteUtil.regularRed);
 
-        openNote.setFont(noteUtil.buttonFont);
+        openNote.setFont(noteUtil.weatherFontSmall);
 
         openNote.addActionListener(e -> {
             List<?> ClickedSelectionList = fileSelectionList.getSelectedValuesList();
@@ -149,7 +149,7 @@ public class Notes {
 
         deleteNote.setBackground(noteUtil.regularRed);
 
-        deleteNote.setFont(noteUtil.buttonFont);
+        deleteNote.setFont(noteUtil.weatherFontSmall);
 
         deleteNote.addActionListener(e -> {
             List<?> ClickedSelectionList = fileSelectionList.getSelectedValuesList();

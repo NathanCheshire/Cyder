@@ -33,12 +33,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo if you notice no backgrounds for user, copy bobby.png over
-//todo if you noticen no music for user, copy suprise.mp3 over
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
 //todo make a widget version of cyder that you can swap between big window and widget version
 //todo add a feature to move all windows to the center but alilgn all sub windows with top left corner of console
-//todo fix notificaiton widths and pass in width for it
 
 public class CyderMain{
     //console vars
@@ -130,7 +127,12 @@ public class CyderMain{
     //sliding background var
     private boolean slidLeft;
 
+    //notifications for holidays
     private specialDay specialDayNotifier;
+
+    //notification test vars
+    private int notificaitonTestWidth;
+    private String notificationTestString;
 
     //call constructor
     public static void main(String[] ignored) {
@@ -896,8 +898,8 @@ public class CyderMain{
 
             new Thread(() -> {
                 if (!mainUtil.internetReachable())
-                    notification(mainUtil.getUsername() + ", internet connection slow or unavailble.",
-                            3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+                    notification("Internet connection slow or unavailble",
+                            3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel,450);
             }).start();
         }
 
@@ -983,19 +985,19 @@ public class CyderMain{
         public specialDay() {
             if (!kill) {
                 if (mainUtil.isChristmas())
-                    notification("Merry Christmas!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+                    notification("Merry Christmas!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
 
                 if (mainUtil.isHalloween())
-                    notification("Happy Halloween!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+                    notification("Happy Halloween!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
 
                 if (mainUtil.isIndependenceDay())
-                    notification("Happy 4th of July", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+                    notification("Happy 4th of July!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
 
                 if (mainUtil.isThanksgiving())
-                    notification("Happy Thanksgiving!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+                    notification("Happy Thanksgiving!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 230);
 
                 if (mainUtil.isAprilFoolsDay())
-                    notification("Happy April Fools Day!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel);
+                    notification("Happy April Fools Day!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 250);
 
                 kill = true;
             }
@@ -1278,7 +1280,7 @@ public class CyderMain{
 
         if (directories != null && directories.length == 0)
             notification("Psssst! Create a user, " + System.getProperty("user.name"),
-                    2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPanel);
+                    2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPanel, 230);
     }
 
     private void recognize(String Username, char[] Password) {
@@ -1718,12 +1720,12 @@ public class CyderMain{
 
                     if (threads > 1) {
                         notification("The scripts have started. At any point, type \"stop script\"",
-                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel);
+                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 600);
                     }
 
                     else {
                         notification("The script has started. At any point, type \"stop script\"",
-                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel);
+                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 600);
                     }
 
                     randomYoutube(consoleFrame, threads);
@@ -1786,7 +1788,7 @@ public class CyderMain{
 
             else if (desc.equalsIgnoreCase("addbackgrounds")) {
                 if (mainUtil.confirmation(input)) {
-                    mainUtil.openFile("src\\com\\cyder\\io\\pictures\\" + mainUtil.getUserUUID() + "\\Backgrounds");
+                    editUser();
                     mainUtil.internetConnect("https://images.google.com/");
                 }
             }
@@ -1919,6 +1921,20 @@ public class CyderMain{
 
                 exitFullscreen();
             }
+
+            else if (desc.equalsIgnoreCase("test notification one")) {
+                notificationTestString = input;
+                inputField.requestFocus();
+                mainUtil.setUserInputMode(true);
+                mainUtil.setUserInputDesc("test notification two");
+                println("Enter notification width in pixels");
+            }
+
+            else if (desc.equalsIgnoreCase("test notification two")) {
+                notificaitonTestWidth = Integer.parseInt(input);
+                notification(notificationTestString, 2000,
+                        Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, notificaitonTestWidth);
+            }
         }
 
         catch (Exception e) {
@@ -1959,8 +1975,15 @@ public class CyderMain{
                 System.exit(0);
             }
 
+            else if (hasWord("test") && hasWord("notification")) {
+                inputField.requestFocus();
+                mainUtil.setUserInputMode(true);
+                mainUtil.setUserInputDesc("test notification one");
+                println("Enter notification string");
+            }
+
             else if (eic("test")) {
-                notification("Test condition", 2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel);
+                notification("Test statement inside of CyderMain.java", 2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 450);
             }
 
             else if (hasWord("bletchy")) {
@@ -2575,7 +2598,7 @@ public class CyderMain{
                 ttt.startTicTacToe();
             }
 
-            else if (hasWord("note")) {
+            else if (hasWord("note") || hasWord("notes")) {
                 userNotes = new Notes(mainUtil.getUserUUID());
             }
 
@@ -2626,8 +2649,7 @@ public class CyderMain{
                 pixelateFile = mainUtil.getFile();
 
                 if (!pixelateFile.getName().endsWith(".png")) {
-                    notification("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images",
-                            5000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPanel);
+                    println("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images");
                 }
 
                 else if (pixelateFile != null) {
