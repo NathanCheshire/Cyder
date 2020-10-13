@@ -897,7 +897,12 @@ public class Util {
     public byte[] getSHA(char[] input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-            return md.digest(new String(input).getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+
+            for (char c : input)
+                sb.append(c);
+
+            return md.digest(sb.toString().getBytes(StandardCharsets.UTF_8));
         }
 
         catch (Exception ex) {
@@ -1416,7 +1421,6 @@ public class Util {
         systemPropFrame.requestFocus();
     }
 
-    //todo make a seperate class for this similar to image resizer
     public void pixelate(File path, int pixelSize) {
         try {
             BufferedImage ReturnImage = ImageUtil.pixelate(ImageIO.read(path), pixelSize);

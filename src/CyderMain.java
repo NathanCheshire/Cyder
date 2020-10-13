@@ -34,8 +34,13 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
-//todo make a widget version of cyder that you can swap between big window and widget version
+//todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
 //todo add a feature to move all windows to the center but alilgn all sub windows with top left corner of console
+//todo when login screen is being shown, make it slide in to view
+//todo when a user deletes the current background, a fatal exception is thrown, also just find anybackground and if none, then use default
+//todo when creating a user if they don't select a background inform them and ask to proceed, if so, give them bobby.png
+//todo pixelate picture seperate gui with a preview image that you update when they press okay
+//todo make photoviewer's resizer the actual background one too
 
 public class CyderMain{
     //console vars
@@ -959,6 +964,7 @@ public class CyderMain{
                         }
                     }
 
+                    //todo does this work? add an easter egg for f17
                     for (int i = 61440 ; i < 61452 ; i++) {
                         if (code == i) {
                             try {
