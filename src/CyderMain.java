@@ -33,14 +33,24 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo notes and textviewer non-swing dependent
+
+//todo redo edit user GUI, put in a scrollable UI, tooltips for everything, seconds for console clock option, make checkbox smaller
+
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
+
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
+
 //todo add a feature to move all windows to the center but alilgn all sub windows with top left corner of console
-//todo when login screen is being shown, make it slide in to view
+//consolidate windows -> need to keep a list of validFrames and loop through them and call setlocation, consoleframex,consoleframey
+
 //todo when a user deletes the current background, a fatal exception is thrown, also just find anybackground and if none, then use default
-//todo when creating a user if they don't select a background inform them and ask to proceed, if so, give them bobby.png
-//todo pixelate picture seperate gui with a preview image that you update when they press okay
-//todo make photoviewer's resizer the actual background one too
+
+//todo make pixelating pictures it's own widget
+
+//todo make photoviewer, the pretty gui one, use image scaling like main for background does
+
+//todo implement debug windows pref
 
 public class CyderMain{
     //console vars
@@ -155,6 +165,8 @@ public class CyderMain{
 
         //security var for main developer's PC
         boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
+
+        mainUtil.cleanUpUsers();
 
         if (!mainUtil.released() && !nathanLenovo)
             System.exit(0);
@@ -832,9 +844,6 @@ public class CyderMain{
                 }
             });
 
-            consoleFrame.setVisible(true);
-            consoleFrame.setLocationRelativeTo(null);
-
             if (mainUtil.getUserData("RandomBackground").equals("1")) {
                 int len = mainUtil.getValidBackgroundPaths().length;
 
@@ -884,7 +893,6 @@ public class CyderMain{
 
                         inputField.requestFocus();
 
-                        consoleFrame.setLocationRelativeTo(null);
                         parentLabel.setIcon(newBack);
 
                         parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
@@ -900,6 +908,24 @@ public class CyderMain{
                 else
                    throw new FatalException("Only one but also more than one background.");
             }
+
+            consoleFrame.setVisible(true);
+            consoleFrame.setLocationRelativeTo(null);
+            int to = consoleFrame.getY();
+            consoleFrame.setLocation(consoleFrame.getX(), 0 - consoleFrame.getHeight());
+
+            for (int i = 0 - consoleFrame.getHeight() ; i < to ; i+= 15) {
+                consoleFrame.setLocation(consoleFrame.getX(), i);
+                try {
+                    Thread.sleep(1);
+                }
+
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            consoleFrame.setLocationRelativeTo(null);
 
             new Thread(() -> {
                 if (!mainUtil.internetReachable())
@@ -964,16 +990,14 @@ public class CyderMain{
                         }
                     }
 
-                    //todo does this work? add an easter egg for f17
                     for (int i = 61440 ; i < 61452 ; i++) {
                         if (code == i) {
-                            try {
-                                throw new FatalException("Interesting F" + (i - 61427) + " key");
-                            }
+                            int seventeen = (i - 61427);
 
-                            catch (FatalException ex) {
-                                mainUtil.handle(ex);
-                            }
+                            if (seventeen == 17)
+                                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\f17.mp3");
+                            else
+                                System.out.println("Interesting F" + (i - 61427) + " key");
                         }
                     }
                 }
@@ -1797,6 +1821,9 @@ public class CyderMain{
                     editUser();
                     mainUtil.internetConnect("https://images.google.com/");
                 }
+
+                else
+                    println("Okay nevermind then");
             }
 
             else if (desc.equalsIgnoreCase("logoff")) {
@@ -1804,6 +1831,9 @@ public class CyderMain{
                     String shutdownCmd = "shutdown -l";
                     Runtime.getRuntime().exec(shutdownCmd);
                 }
+
+                else
+                    println("Okay nevermind then");
             }
 
             else if (desc.equalsIgnoreCase("deletebackground")) {
@@ -1883,7 +1913,10 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("deleteuser")) {
-                if (!mainUtil.confirmation(input)) return;
+                if (!mainUtil.confirmation(input)) {
+                    println("User " + mainUtil.getUsername() + " was not removed.");
+                    return;
+                }
 
                 mainUtil.closeAnimation(consoleFrame);
                 mainUtil.deleteFolder(new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID()));
@@ -2869,6 +2902,15 @@ public class CyderMain{
 
                 for (int i = 0; i < num ; i++)
                     println(printThreads[i]);
+            }
+
+            else if (eic("askew")) {
+                askew();
+            }
+
+            else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
+                Robot rob = new Robot();
+                rob.keyPress(KeyEvent.VK_F17);
             }
 
             else if (!mainUtil.getHandledMath()){
@@ -4512,8 +4554,7 @@ public class CyderMain{
                     if (alreadyExists) break;
                 }
 
-                if (mainUtil.empytStr(newUserName.getText()) || pass == null || passconf == null || createUserBackground == null ||
-                        createUserBackground.getName().equals("No file chosen")
+                if (mainUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
                         || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
                     mainUtil.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
                     newUserPassword.setText("");
@@ -4542,6 +4583,11 @@ public class CyderMain{
                 }
 
                 else {
+                    if (createUserBackground == null) {
+                        mainUtil.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background", 700, 230);
+                        createUserBackground = new File("src\\com\\cyder\\io\\pictures\\bobby.png");
+                    }
+
                     File NewUserFolder = new File("src\\com\\cyder\\users\\" + uuid);
                     File backgrounds = new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds");
                     File music = new File("src\\com\\cyder\\users\\" + uuid + "\\Music");
@@ -4915,31 +4961,31 @@ public class CyderMain{
         consoleNotification.vanish(vanishDir, parent, delay);
     }
 
-    private void barrelRoll() {
-        //todo disable changing direction of background image during this function
-        //todo barrelroll is completely broken
-        //disable
+    private void askew() {
+        consoleFrame.setBackground(mainUtil.navy);
+        parentLabel.setIcon(new ImageIcon(mainUtil.rotateImageByDegrees(mainUtil.getRotatedImage(mainUtil.getCurrentBackground().getAbsolutePath()),3)));
+    }
 
+
+    private void barrelRoll() {
         consoleFrame.setBackground(mainUtil.navy);
         mainUtil.getValidBackgroundPaths();
 
-        int dir = mainUtil.getConsoleDirection();
+        int originConsoleDIr = mainUtil.getConsoleDirection();
         BufferedImage master = mainUtil.getRotatedImage(mainUtil.getCurrentBackground().getAbsolutePath());
 
         Timer timer = null;
         Timer finalTimer = timer;
         timer = new Timer(10, new ActionListener() {
             private double angle = 0;
-            private double delta = 1.0;
+            private double delta = 2.0;
 
             BufferedImage rotated;
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 angle += delta;
-                if (angle >= 360) {
-                    parentLabel.setIcon(new ImageIcon(master));
-                    mainUtil.setConsoleDirection(dir);
+                if (angle > 360) {
                     return;
                 }
                 rotated = mainUtil.rotateImageByDegrees(master, angle);

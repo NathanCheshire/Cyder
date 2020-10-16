@@ -2645,4 +2645,19 @@ public class Util {
 
         return ret;
     }
+
+    public void cleanUpUsers() {
+        File top = new File("src\\com\\cyder\\users");
+        File[] users = top.listFiles();
+
+        for (File userDir : users) {
+            if (!userDir.isDirectory())
+                return;
+
+            File[] currentUserFiles = userDir.listFiles();
+
+            if (currentUserFiles.length == 1 && currentUserFiles[0].getName().equalsIgnoreCase("Userdata.txt"))
+                deleteFolder(userDir);
+        }
+    }
 }
