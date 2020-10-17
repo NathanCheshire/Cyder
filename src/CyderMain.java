@@ -41,11 +41,6 @@ import java.util.concurrent.TimeUnit;
 
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
 
-//todo add a feature to move all windows to the center but alilgn all sub windows with top left corner of console
-//consolidate windows -> need to keep a list of validFrames and loop through them and call setlocation, consoleframex,consoleframey
-
-//todo when a user deletes the current background, a fatal exception is thrown, also just find anybackground and if none, then use default
-
 //todo make pixelating pictures it's own widget
 
 //todo make photoviewer, the pretty gui one, use image scaling like main for background does
@@ -728,13 +723,9 @@ public class CyderMain{
                 }
 
                 else {
-                    try {
-                        throw new FatalException("Background does not exist");
-                    }
-
-                    catch (FatalException ex) {
-                       mainUtil.handle(ex);
-                    }
+                    mainUtil.handle(new FatalException("Background DNE"));
+                    println("Error in parsing background; perhaps it was deleted.");
+                    //todo copy over bobby.png and switch to it
                 }
             });
 
@@ -2021,8 +2012,15 @@ public class CyderMain{
                 println("Enter notification string");
             }
 
-            else if (eic("test")) {
-                notification("Test statement inside of CyderMain.java", 2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 450);
+            else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
+                Frame[] frames = Frame.getFrames();
+
+                int x = consoleFrame.getX();
+                int y = consoleFrame.getY();
+
+                for(Frame f: frames)
+                   if (f.isVisible())
+                       f.setLocation(x,y);
             }
 
             else if (hasWord("bletchy")) {
