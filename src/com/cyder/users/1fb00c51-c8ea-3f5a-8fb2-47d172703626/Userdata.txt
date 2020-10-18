@@ -4,8 +4,8 @@ Red:252
 Green:251
 Blue:227
 Password:3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
-IntroMusic:0
-DebugWindows:1
+IntroMusic:1
+DebugWindows:0
 RandomBackground:0
 HourlyChimes:1
 ClockOnConsole:1

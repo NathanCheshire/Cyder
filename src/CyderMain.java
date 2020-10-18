@@ -34,18 +34,14 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //todo notes and textviewer non-swing dependent
-
 //todo redo edit user GUI, put in a scrollable UI, tooltips for everything, seconds for console clock option, make checkbox smaller
-
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
-
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
-
 //todo make pixelating pictures it's own widget
-
 //todo make photoviewer, the pretty gui one, use image scaling like main for background does
-
-//todo implement debug windows pref
+//todo implement debug windows pref, move computer properties to information pane
+//todo system properties from swing, java properties from swing
+//todo name all files to Cyder temporary file that are temp instead of the long weird string
 
 public class CyderMain{
     //console vars
@@ -722,10 +718,25 @@ public class CyderMain{
                     mainUtil.setUserInputDesc("addbackgrounds");
                 }
 
-                else {
-                    mainUtil.handle(new FatalException("Background DNE"));
-                    println("Error in parsing background; perhaps it was deleted.");
-                    //todo copy over bobby.png and switch to it
+                else { //todo does this work
+                    try {
+                        mainUtil.handle(new FatalException("Background DNE"));
+                        println("Error in parsing background; perhaps it was deleted.");
+
+                        File createUserBackground = new File("src\\com\\cyder\\io\\pictures\\bobby.png");
+
+                        ImageIO.write(ImageIO.read(createUserBackground), "png",
+                                new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds\\bobby.png"));
+
+                        mainUtil.initBackgrounds();
+                        mainUtil.setCurrentBackgroundIndex(mainUtil.getCurrentBackgroundIndex() + 1);
+
+                        switchBackground();
+                    }
+
+                    catch (Exception ex) {
+                        mainUtil.handle(ex);
+                    }
                 }
             });
 
@@ -923,6 +934,12 @@ public class CyderMain{
                     notification("Internet connection slow or unavailble",
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel,450);
             }).start();
+
+            if (mainUtil.getUserData("DebugWindows").equals("1")) {
+                mainUtil.systemProperties();
+                mainUtil.computerProperties();
+                mainUtil.javaProperties();
+            }
         }
 
         catch (Exception e) {
