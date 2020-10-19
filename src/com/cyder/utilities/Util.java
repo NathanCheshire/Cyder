@@ -142,7 +142,7 @@ public class Util {
     private int debugRestoreX;
     private int debugRestoreY;
 
-    //debug vars
+    //debugMenu vars
     private CyderFrame debugFrame;
 
     //console orientation var
@@ -386,6 +386,29 @@ public class Util {
         catch (Exception e) {
             handle(e);
         }
+    }
+
+    public void startAnimation(JFrame frame) {
+        frame.setVisible(false);
+        frame.setLocationRelativeTo(null);
+
+        int to = frame.getY();
+        frame.setLocation(frame.getX(), 0 - frame.getHeight());
+
+        frame.setVisible(true);
+
+        for (int i = 0 - frame.getHeight() ; i < to ; i+= 15) {
+            frame.setLocation(frame.getX(), i);
+            try {
+                Thread.sleep(1);
+            }
+
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        frame.setLocationRelativeTo(null);
     }
 
     public void internetConnect(String URL) {
@@ -666,7 +689,7 @@ public class Util {
         return Latency;
     }
 
-    public void debug() {
+    public void debugMenu() {
         try {
             if (debugFrame != null)
                 closeAnimation(debugFrame);
@@ -921,6 +944,10 @@ public class Util {
         }
 
         return hexString.toString();
+    }
+
+    public String getDeprecatedUUID() {
+        return "VoidUser-" + generateUUID().substring(0,8);
     }
 
     public String generateUUID() {
@@ -2485,11 +2512,6 @@ public class Util {
         this.alwaysOnTop = b;
     }
 
-    public String getDeprecatedUUID() {
-        String uuid = generateUUID();
-        uuid = uuid.substring(0,9);
-        return ("DeprecatedUser-" + uuid);
-    }
 
 
     public void mp3(String FilePath, String user, String uuid) {

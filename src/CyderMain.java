@@ -39,11 +39,15 @@ import java.util.concurrent.TimeUnit;
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
 //todo make pixelating pictures it's own widget
 //todo make photoviewer, the pretty gui one, use image scaling like main for background does
-//todo implement debug windows pref, move computer properties to information pane
+//todo implement debugMenu windows pref, move computer properties to information pane
 //todo system properties from swing, java properties from swing
 //todo name all files to Cyder temporary file that are temp instead of the long weird string
 //todo make login window slide down like console, make method for this called "openanimation" inside of util
 //todo make an animation util class and break up utils into smaller ones, at least 4
+//todo add delete errors function
+//todo move errors to user specific folders
+//todo hangman and ttt use cyder frame
+//todo weather use cyder frame
 
 public class CyderMain{
     //console vars
@@ -720,20 +724,12 @@ public class CyderMain{
                     mainUtil.setUserInputDesc("addbackgrounds");
                 }
 
-                else { //todo does this work
+                else {
                     try {
                         mainUtil.handle(new FatalException("Background DNE"));
                         println("Error in parsing background; perhaps it was deleted.");
 
-                        File createUserBackground = new File("src\\com\\cyder\\io\\pictures\\bobby.png");
-
-                        ImageIO.write(ImageIO.read(createUserBackground), "png",
-                                new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds\\bobby.png"));
-
-                        mainUtil.initBackgrounds();
-                        mainUtil.setCurrentBackgroundIndex(mainUtil.getCurrentBackgroundIndex() + 1);
-
-                        switchBackground();
+                        //todo switch to first background
                     }
 
                     catch (Exception ex) {
@@ -913,23 +909,7 @@ public class CyderMain{
                    throw new FatalException("Only one but also more than one background.");
             }
 
-            consoleFrame.setVisible(true);
-            consoleFrame.setLocationRelativeTo(null);
-            int to = consoleFrame.getY();
-            consoleFrame.setLocation(consoleFrame.getX(), 0 - consoleFrame.getHeight());
-
-            for (int i = 0 - consoleFrame.getHeight() ; i < to ; i+= 15) {
-                consoleFrame.setLocation(consoleFrame.getX(), i);
-                try {
-                    Thread.sleep(1);
-                }
-
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            consoleFrame.setLocationRelativeTo(null);
+            mainUtil.startAnimation(consoleFrame);
 
             new Thread(() -> {
                 if (!mainUtil.internetReachable())
@@ -937,10 +917,12 @@ public class CyderMain{
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel,450);
             }).start();
 
+            //todo redo methods like debugMenu menu
             if (mainUtil.getUserData("DebugWindows").equals("1")) {
                 mainUtil.systemProperties();
                 mainUtil.computerProperties();
                 mainUtil.javaProperties();
+                mainUtil.debugMenu();
             }
         }
 
@@ -1139,6 +1121,8 @@ public class CyderMain{
             mainUtil.closeAnimation(loginFrame);
         }
 
+        mainUtil.cleanUpUsers();
+
         loginFrame = new JFrame();
 
         loginFrame.setUndecorated(true);
@@ -1307,8 +1291,6 @@ public class CyderMain{
 
         loginLabel.add(newUserLabel);
 
-        loginFrame.setLocationRelativeTo(null);
-        loginFrame.setVisible(true);
         loginFrame.addWindowListener(new WindowAdapter() {
             public void windowOpened(WindowEvent e) {
                 nameField.requestFocus();
@@ -1317,6 +1299,8 @@ public class CyderMain{
 
         File Users = new File("src\\com\\cyder\\users\\");
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
+
+        mainUtil.startAnimation(loginFrame);
 
         if (directories != null && directories.length == 0)
             notification("Psssst! Create a user, " + System.getProperty("user.name"),
@@ -1931,8 +1915,8 @@ public class CyderMain{
                 mainUtil.closeAnimation(consoleFrame);
                 mainUtil.deleteFolder(new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID()));
 
-                //fail safe if not able to delete //todo does deprecated uuid work?
                 String dep = mainUtil.getDeprecatedUUID();
+                System.out.println(dep);
                 File renamed = new File("src\\com\\cyder\\users\\" + dep);
                 while (renamed.exists()) {
                     dep = mainUtil.getDeprecatedUUID();
@@ -1942,7 +1926,7 @@ public class CyderMain{
                 File old = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID());
                 old.renameTo(renamed);
 
-                login(false); //todo does this work?
+                login(false);
             }
 
             else if (desc.equalsIgnoreCase("pixelatebackground")) {
@@ -2186,8 +2170,8 @@ public class CyderMain{
                 mainUtil.resetMouse();
             }
 
-            else if (eic("log off")) {
-               println("Are you sure you want to log off your computer? (Enter yes/no)");
+            else if (eic("logoff")) {
+               println("Are you sure you want to log off your computer?\nThis is not Cyder we are talking about (Enter yes/no)");
                mainUtil.setUserInputDesc("logoff");
                inputField.requestFocus();
                mainUtil.setUserInputMode(true);
@@ -2608,8 +2592,8 @@ public class CyderMain{
                 System.exit(0);
             }
 
-            else if (eic("hash")) {
-                Hasher h = new Hasher();
+            else if (hasWord("hash") || hasWord("hashser")) {
+                new Hasher();
             }
 
             else if (hasWord("home")) {
@@ -2820,9 +2804,9 @@ public class CyderMain{
                 consoleFrame.setTitle(mainUtil.getCyderVer() + " [" + mainUtil.getUsername() + "]");
             }
 
-            else if (eic("debug")) {
+            else if (hasWord("debug") && hasWord("menu")) {
                 if (mainUtil.getDebugMode()) {
-                    mainUtil.debug();
+                    mainUtil.debugMenu();
                 }
 
                 else {
@@ -2930,6 +2914,11 @@ public class CyderMain{
             else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
                 Robot rob = new Robot();
                 rob.keyPress(KeyEvent.VK_F17);
+            }
+
+            else if (hasWord("logout")) {
+                consoleFrame.dispose();
+                login(false);
             }
 
             else if (!mainUtil.getHandledMath()){
