@@ -42,6 +42,8 @@ import java.util.concurrent.TimeUnit;
 //todo implement debug windows pref, move computer properties to information pane
 //todo system properties from swing, java properties from swing
 //todo name all files to Cyder temporary file that are temp instead of the long weird string
+//todo make login window slide down like console, make method for this called "openanimation" inside of util
+//todo make an animation util class and break up utils into smaller ones, at least 4
 
 public class CyderMain{
     //console vars
@@ -1929,7 +1931,7 @@ public class CyderMain{
                 mainUtil.closeAnimation(consoleFrame);
                 mainUtil.deleteFolder(new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID()));
 
-                //fail safe if not able to delete
+                //fail safe if not able to delete //todo does deprecated uuid work?
                 String dep = mainUtil.getDeprecatedUUID();
                 File renamed = new File("src\\com\\cyder\\users\\" + dep);
                 while (renamed.exists()) {
@@ -1939,6 +1941,8 @@ public class CyderMain{
 
                 File old = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID());
                 old.renameTo(renamed);
+
+                login(false); //todo does this work?
             }
 
             else if (desc.equalsIgnoreCase("pixelatebackground")) {
