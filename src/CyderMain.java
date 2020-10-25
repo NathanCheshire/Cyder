@@ -47,7 +47,8 @@ import java.util.concurrent.TimeUnit;
 //todo add delete errors function
 //todo move errors to user specific folders
 //todo hangman and ttt use cyder frame
-//todo create exit method that is always ran on exit. Should clean up user dir and temp dir
+//todo start animation for login broken
+//todo login animation sliding for words broken
 
 public class CyderMain{
     //console vars
@@ -151,6 +152,7 @@ public class CyderMain{
         new CyderMain();
     }
 
+    //todo clean up this method since it's getting a little messy
     private CyderMain() {
         //Fix scaling issue for high DPI displays like nathanLenovo which is 2560x1440
         System.setProperty("sun.java2d.uiScale","1.0");
@@ -160,10 +162,13 @@ public class CyderMain{
         UIManager.put("ToolTip.font", mainUtil.tahoma);
         UIManager.put("ToolTip.foreground", mainUtil.tooltipForegroundColor);
 
+        Runtime.getRuntime().addShutdownHook(new Thread(()-> mainUtil.deleteTempDir(), "exit-hook"));
+
         //security var for main developer's PC
         boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
 
         mainUtil.cleanUpUsers();
+        mainUtil.deleteTempDir();
 
         if (!mainUtil.released() && !nathanLenovo)
             System.exit(0);
@@ -917,7 +922,7 @@ public class CyderMain{
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel,450);
             }).start();
 
-            //todo redo methods like debugMenu menu
+            //todo make debug menu the same as the ones before it
             if (mainUtil.getUserData("DebugWindows").equals("1")) {
                 mainUtil.systemProperties();
                 mainUtil.computerProperties();
@@ -1112,6 +1117,8 @@ public class CyderMain{
 
         saveFontColor();
         mainUtil.closeAnimation(consoleFrame);
+
+        mainUtil.deleteTempDir();
 
         System.exit(0);
     }
@@ -2917,8 +2924,12 @@ public class CyderMain{
             }
 
             else if (hasWord("logout")) {
-                consoleFrame.dispose();
+                mainUtil.closeAnimation(consoleFrame);
                 login(false);
+            }
+
+            else if (eic("test")) {
+               println("Test at very end of handle string method");
             }
 
             else if (!mainUtil.getHandledMath()){

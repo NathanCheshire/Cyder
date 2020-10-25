@@ -6,16 +6,11 @@ import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
-import com.cyder.ui.CyderScrollPane;
 import javazoom.jl.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -113,7 +108,6 @@ public class Util {
     private String userIP;
     private String userPostalCode;
     private String userFlagURL;
-    private boolean debugButton;
     private boolean consoleClock;
 
     //weather vars
@@ -138,12 +132,6 @@ public class Util {
     private int xMouse;
     private int yMouse;
 
-    //restore vars
-    private int debugRestoreX;
-    private int debugRestoreY;
-
-    //debugMenu vars
-    private CyderFrame debugFrame;
 
     //console orientation var
     public static int CYDER_UP = 0;
@@ -691,84 +679,42 @@ public class Util {
 
     public void debugMenu() {
         try {
-            if (debugFrame != null)
-                closeAnimation(debugFrame);
-
-            debugFrame = new CyderFrame(850, 830,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
-            debugFrame.setTitle("Debug Menu");
-
-            JTextPane debugArea = new JTextPane() {
-                @Override
-                public void setBorder(Border border) {
-                    //no border
-                }
-            };
-            debugArea.setEditable(false);
-            debugArea.setForeground(navy);
-            debugArea.setFont(weatherFontSmall);
-            debugArea.setAutoscrolls(true);
-            debugArea.setBounds(30,50,800,800);
-            debugArea.setFocusable(true);
-            debugArea.setSelectionColor(selectionColor);
-            debugArea.setOpaque(false);
-            debugArea.setBackground(new Color(0,0,0,0));
-
-            CyderScrollPane debugScroll = new CyderScrollPane(debugArea,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            SimpleAttributeSet set = new SimpleAttributeSet();
-            StyleConstants.setAlignment(set, StyleConstants.ALIGN_CENTER);
-            debugArea.setCharacterAttributes(set, false);
-            debugScroll.setThumbColor(intellijPink);
-            debugScroll.setFont(weatherFontSmall);
-            debugScroll.setForeground(navy);
-            debugScroll.getViewport().setBorder(null);
-            debugScroll.getViewport().setOpaque(false);
-            debugScroll.setOpaque(false);
-
             DecimalFormat gFormater = new DecimalFormat("##.###");
             double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
             getIPData();
             BufferedImage flag = ImageIO.read(new URL(getUserFlag()));
+            draw(flag);
 
-            String print = "Time requested: " + weatherTime() + "\n" +
-                    "ISP: " + getUserISP() + "\n" +
-                    "IP: " + userIP + "\n" +
-                    "Postal Code: " + getUserPostalCode() + "\n" +
-                    "City: " + userCity + "\n" +
-                    "State: " + userState + "\n" +
-                    "Country: " + userCountry + " (" + userCountryAbr + ")" + "\n" +
-                    "Latitude: " + lat + " Degrees N\n" +
-                    "Longitude: " + lon + " Degrees W\n" +
-                    "latency: " + latency() + " ms\n" +
-                    "Google Reachable: " + siteReachable("https://www.google.com") + "\n" +
-                    "YouTube Reachable: " + siteReachable("https://www.youtube.com") + "\n" +
-                    "Apple Reachable: " + siteReachable("https://www.apple.com") + "\n" +
-                    "Microsoft Reachable: " + siteReachable("https://www.microsoft.com//en-us//") + "\n" +
-                    "User Name: " + getWindowsUsername() + "\n" +
-                    "Computer Name: " + getComputerName() + "\n" +
-                    "Available Cores: " + Runtime.getRuntime().availableProcessors() + "\n" +
-                    "Available Memory: " + gBytes + " GigaBytes\n" +
-                    "Operating System: " + os + "\n" +
-                    "Java Version: " + System.getProperty("java.version") + "\n" +
-                    "Network Interface Name: " + netIn.getName() + "\n" +
-                    "Network Interface Display Name: " + netIn.getDisplayName() + "\n" +
-                    "Network MTU: " + netIn.getMTU() + "<\n" +
-                    "Host Address: " + address.getHostAddress() + "\n" +
-                    "Local Host Address: " + address.getLocalHost() + "\n" +
-                    "Loopback Address: " + address.getLoopbackAddress();
+            String[] lines = {"Time requested: " + weatherTime(),
+                    "ISP: " + getUserISP(),
+                    "IP: " + userIP,
+                    "Postal Code: " + getUserPostalCode(),
+                    "City: " + userCity,
+                    "State: " + userState,
+                    "Country: " + userCountry + " (" + userCountryAbr + ")",
+                    "Latitude: " + lat + " Degrees N",
+                    "Longitude: " + lon + " Degrees W",
+                    "latency: " + latency() + " ms",
+                    "Google Reachable: " + siteReachable("https://www.google.com"),
+                    "YouTube Reachable: " + siteReachable("https://www.youtube.com"),
+                    "Apple Reachable: " + siteReachable("https://www.apple.com"),
+                    "Microsoft Reachable: " + siteReachable("https://www.microsoft.com//en-us//"),
+                    "User Name: " + getWindowsUsername(),
+                    "Computer Name: " + getComputerName(),
+                    "Available Cores: " + Runtime.getRuntime().availableProcessors(),
+                    "Available Memory: " + gBytes + " GigaBytes",
+                    "Operating System: " + os,
+                    "Java Version: " + System.getProperty("java.version"),
+                    "Network Interface Name: " + netIn.getName(),
+                    "Network Interface Display Name: " + netIn.getDisplayName(),
+                    "Network MTU: " + netIn.getMTU(),
+                    "Host Address: " + address.getHostAddress(),
+                    "Local Host Address: " + address.getLocalHost(),
+                    "Loopback Address: " + address.getLoopbackAddress()};
 
-            debugArea.insertIcon(new ImageIcon(flag));
-
-            StyledDocument document = (StyledDocument) debugArea.getDocument();
-            document.insertString(0, print + "\n", null);
-            debugArea.setCaretPosition(debugArea.getDocument().getLength());
-
-            debugFrame.getContentPane().add(debugArea);
-            debugFrame.setVisible(true);
-            debugFrame.setLocationRelativeTo(null);
+            createAndOpenTmpFile("DebugProperties",".txt",lines);
         }
 
         catch (Exception e) {
@@ -1261,191 +1207,46 @@ public class Util {
     }
 
     public void closeCD(String drive) {
-        try {
-            File file = File.createTempFile("CDROM", ".vbs");
-            file.deleteOnExit();
-            FileWriter fw = new FileWriter(file);
-            String vbs = "Set wmp = CreateObject(\"WMPlayer.OCX\") \n"
-                    + "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
-                    + drive + "\") \n"
-                    + "cd.Eject \n "
-                    + "cd.Eject ";
-            fw.write(vbs);
-            fw.close();
-            Runtime.getRuntime().exec("wscript " + file.getPath()).waitFor();
-        } catch (Exception ex) {
-            handle(ex);
-        }
+        String[] vbs = {"Set wmp = CreateObject(\"WMPlayer.OCX\")",
+            "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
+            + drive + "\")",
+            "cd.Eject",
+            "cd.Eject"};
+
+        createAndOpenTmpFile("CDROM-CLOSE",".vbs",vbs);
     }
 
     public void openCD(String drive) {
-        try {
-            File file = File.createTempFile("CDROM", ".vbs");
-            file.deleteOnExit();
-            FileWriter fw = new java.io.FileWriter(file);
-            String vbs = "Set wmp = CreateObject(\"WMPlayer.OCX\") \n"
-                    + "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
-                    + drive + "\") \n"
-                    + "cd.Eject";
-            fw.write(vbs);
-            fw.close();
+        String[] vbs = {"Set wmp = CreateObject(\"WMPlayer.OCX\")",
+                "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
+                + drive + "\")",
+                "cd.Eject"};
 
-            Runtime.getRuntime().exec("wscript " + file.getPath()).waitFor();
-        } catch (Exception ex) {
-            handle(ex);
-        }
+        createAndOpenTmpFile("CDROM-OPEN",".vbs",vbs);
     }
     public void systemProperties() {
-        JFrame systemPropFrame = new JFrame();
+        ArrayList<String> arrayLines = new ArrayList<>();
+        arrayLines.add("File Separator: " + System.getProperty("file.separator"));
+        arrayLines.add("Class Path: " + System.getProperty("java.class.path"));
+        arrayLines.add("Java Home: " + System.getProperty("java.home"));
+        arrayLines.add("Java Vendor: " + System.getProperty("java.vendor"));
+        arrayLines.add("Java Vendor URL: " + System.getProperty("java.vendor.url"));
+        arrayLines.add("Java Version: " + System.getProperty("java.version"));
+        arrayLines.add("Line Separator: " + System.getProperty("line.separator"));
+        arrayLines.add("OS Architecture: " + System.getProperty("os.arch"));
+        arrayLines.add("OS Name: " + System.getProperty("os.name"));
+        arrayLines.add("OS Version: " + System.getProperty("os.version"));
+        arrayLines.add("OS Path Separator: " + System.getProperty("path.separator"));
+        arrayLines.add("User Directory: " + System.getProperty("user.dir"));
+        arrayLines.add("User Home: " + System.getProperty("user.home"));
+        arrayLines.add("Computer Username: " + System.getProperty("user.name"));
 
-        systemPropFrame.setResizable(false);
+        String[] lines = new String[arrayLines.size()];
 
-        systemPropFrame.setTitle("System Properties");
+        for (int i = 0 ; i < arrayLines.size() ; i++)
+            lines[i] = arrayLines.get(i);
 
-        systemPropFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        systemPropFrame.setIconImage(getCyderIcon().getImage());
-
-        JPanel parentPanel = new JPanel();
-
-        parentPanel.setLayout(new GridLayout(2, 7, 5, 5));
-
-        CyderButton fileSep = new CyderButton("File Separator");
-        fileSep.setBorder(new LineBorder(navy,5,false));
-        fileSep.setFont(weatherFontSmall);
-        fileSep.setBackground(regularRed);
-        fileSep.setColors(regularRed);
-        parentPanel.add(fileSep);
-        fileSep.addActionListener(e -> inform(System.getProperty("file.separator"),"",700,200));
-
-        CyderButton classPath = new CyderButton("Class Path");
-        classPath.setBorder(new LineBorder(navy,5,false));
-        classPath.setFont(weatherFontSmall);
-        classPath.setBackground(regularRed);
-        classPath.setColors(regularRed);
-        parentPanel.add(classPath);
-        char[] chars = System.getProperty("java.class.path").toCharArray();
-        String build = "";
-        for (char aChar : chars) {
-            if (aChar == ';')
-                build += "<br/>";
-            else
-                build += aChar;
-        }
-        String finalBuild = build;
-        classPath.addActionListener(e -> inform(finalBuild,"",1000,400));
-
-        CyderButton home = new CyderButton("Java Home");
-        home.setBorder(new LineBorder(navy,5,false));
-        home.setFont(weatherFontSmall);
-        home.setBackground(regularRed);
-        home.setColors(regularRed);
-        parentPanel.add(home);
-        home.addActionListener(e -> inform(System.getProperty("java.home"),"",700,200));
-
-        CyderButton vendor = new CyderButton("Java Vendor");
-        vendor.setBorder(new LineBorder(navy,5,false));
-        vendor.setFont(weatherFontSmall);
-        vendor.setBackground(regularRed);
-        vendor.setColors(regularRed);
-        parentPanel.add(vendor);
-        vendor.addActionListener(e -> inform(System.getProperty("java.vendor"),"",700,200));
-
-        CyderButton vendorurl = new CyderButton("Java Vendor URL");
-        vendorurl.setBorder(new LineBorder(navy,5,false));
-        vendorurl.setFont(weatherFontSmall);
-        vendorurl.setBackground(regularRed);
-        vendorurl.setColors(regularRed);
-        parentPanel.add(vendorurl);
-        vendorurl.addActionListener(e -> inform(System.getProperty("java.vendor.url"),"",700,200));
-
-        CyderButton version = new CyderButton("Java Version");
-        version.setBorder(new LineBorder(navy,5,false));
-        version.setFont(weatherFontSmall);
-        version.setBackground(regularRed);
-        version.setColors(regularRed);
-        parentPanel.add(version);
-        version.addActionListener(e -> inform(System.getProperty("java.version"),"",700,200));
-
-        CyderButton linesep = new CyderButton("Line Separator");
-        linesep.setBorder(new LineBorder(navy,5,false));
-        linesep.setFont(weatherFontSmall);
-        linesep.setBackground(regularRed);
-        linesep.setColors(regularRed);
-        parentPanel.add(linesep);
-        linesep.addActionListener(e -> inform(System.getProperty("line.separator"),"",700,200));
-
-        CyderButton osarch = new CyderButton("OS Architecture");
-        osarch.setBorder(new LineBorder(navy,5,false));
-        osarch.setFont(weatherFontSmall);
-        osarch.setBackground(regularRed);
-        osarch.setColors(regularRed);
-        parentPanel.add(osarch);
-        osarch.addActionListener(e -> inform(System.getProperty("os.arch"),"",700,200));
-
-        CyderButton osname = new CyderButton("OS Name");
-        osname.setBorder(new LineBorder(navy,5,false));
-        osname.setFont(weatherFontSmall);
-        osname.setBackground(regularRed);
-        osname.setColors(regularRed);
-        parentPanel.add(osname);
-        osname.addActionListener(e -> inform(System.getProperty("os.name"),"",700,200));
-
-        CyderButton osver = new CyderButton("OS Version");
-        osver.setBorder(new LineBorder(navy,5,false));
-        osver.setFont(weatherFontSmall);
-        osver.setBackground(regularRed);
-        osver.setColors(regularRed);
-        parentPanel.add(osver);
-        osver.addActionListener(e -> inform(System.getProperty("os.version"),"",700,200));
-
-        CyderButton pathsep = new CyderButton("Path Separator");
-        pathsep.setBorder(new LineBorder(navy,5,false));
-        pathsep.setFont(weatherFontSmall);
-        pathsep.setBackground(regularRed);
-        pathsep.setColors(regularRed);
-        parentPanel.add(pathsep);
-        pathsep.addActionListener(e -> inform(System.getProperty("path.separator"),"",700,200));
-
-        CyderButton userdir = new CyderButton("User Directory");
-        userdir.setBorder(new LineBorder(navy,5,false));
-        userdir.setFont(weatherFontSmall);
-        userdir.setBackground(regularRed);
-        userdir.setColors(regularRed);
-        parentPanel.add(userdir);
-        userdir.addActionListener(e -> inform(System.getProperty("user.dir"),"",700,200));
-
-        CyderButton userhome = new CyderButton("User Home");
-        userhome.setBorder(new LineBorder(navy,5,false));
-        userhome.setFont(weatherFontSmall);
-        userhome.setBackground(regularRed);
-        userhome.setColors(regularRed);
-        parentPanel.add(userhome);
-        userhome.addActionListener(e -> inform(System.getProperty("user.home"),"",700,200));
-
-        CyderButton username = new CyderButton("Username");
-        username.setBorder(new LineBorder(navy,5,false));
-        username.setFont(weatherFontSmall);
-        username.setBackground(regularRed);
-        username.setColors(regularRed);
-        parentPanel.add(username);
-        username.addActionListener(e -> inform(System.getProperty("user.name"),"",700,200));
-
-        parentPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-        systemPropFrame.add(parentPanel);
-
-        systemPropFrame.pack();
-
-        systemPropFrame.setLocationRelativeTo(null);
-
-        systemPropFrame.setVisible(true);
-
-        systemPropFrame.setAlwaysOnTop(true);
-
-        systemPropFrame.setAlwaysOnTop(false);
-
-        systemPropFrame.requestFocus();
+        createAndOpenTmpFile("SystemProperties",".txt",lines);
     }
 
     public void pixelate(File path, int pixelSize) {
@@ -2081,42 +1882,32 @@ public class Util {
     }
 
     public void computerProperties() {
-        File file;
-        BufferedWriter fw;
+        ArrayList<String> arrayLines = new ArrayList<>();
 
-        try {
-            file = File.createTempFile("Computer Properties",".txt");
-            file.deleteOnExit();
-            fw = new BufferedWriter(new FileWriter(file));
-            fw.write("Available processors (cores): " + Runtime.getRuntime().availableProcessors());
-            fw.write(System.getProperty("line.separator"));
-            fw.write("Free memory (bytes): " + Runtime.getRuntime().freeMemory());
-            fw.write(System.getProperty("line.separator"));
-            long maxMemory = Runtime.getRuntime().maxMemory();
-            fw.write("Maximum memory (bytes): " + (maxMemory == Long.MAX_VALUE ? "no limit" : maxMemory));
-            fw.write(System.getProperty("line.separator"));
-            fw.write("Total memory available to JVM (bytes): " + Runtime.getRuntime().totalMemory());
-            fw.write(System.getProperty("line.separator"));
-            File[] roots = File.listRoots();
+        arrayLines.add("Available processors (cores): " + Runtime.getRuntime().availableProcessors());
+        arrayLines.add("Free memory (bytes): " + Runtime.getRuntime().freeMemory());
 
-            for (File root : roots) {
-                fw.write("File system root: " + root.getAbsolutePath());
-                fw.write(System.getProperty("line.separator"));
-                fw.write("Total space (bytes): " + root.getTotalSpace());
-                fw.write(System.getProperty("line.separator"));
-                fw.write("Free space (bytes): " + root.getFreeSpace());
-                fw.write(System.getProperty("line.separator"));
-                fw.write("Usable space (bytes): " + root.getUsableSpace());
-            }
+        long maxMemory = Runtime.getRuntime().maxMemory();
 
-            fw.close();
+        arrayLines.add("Maximum memory (bytes): " + (maxMemory == Long.MAX_VALUE ? "no limit" : maxMemory));
+        arrayLines.add("Total memory available to JVM (bytes): " + Runtime.getRuntime().totalMemory());
 
-            Desktop.getDesktop().open(file);
+        File[] roots = File.listRoots();
+
+        for (File root : roots) {
+            arrayLines.add("File system root: " + root.getAbsolutePath());
+            arrayLines.add("Total space (bytes): " + root.getTotalSpace());
+            arrayLines.add("Free space (bytes): " + root.getFreeSpace());
+            arrayLines.add("Usable space (bytes): " + root.getUsableSpace());
         }
 
-        catch (Exception ex) {
-            handle(ex);
+        String[] lines = new String[arrayLines.size()];
+
+        for (int i = 0 ; i < arrayLines.size() ; i++) {
+            lines[i] = arrayLines.get(i);
         }
+
+        createAndOpenTmpFile("Computer Properties",".txt", lines);
     }
 
     public void setCurrentBackgroundIndex(int i) {
@@ -2204,6 +1995,26 @@ public class Util {
                 catch(Exception ex) {
                     handle(ex);
                 }
+            }
+        }
+    }
+
+    public void openFileOutsideProgram(String filePath) {
+        Desktop OpenFile = Desktop.getDesktop();
+
+        try {
+            File FileToOpen = new File(filePath);
+            URI FileURI = FileToOpen.toURI();
+            OpenFile.browse(FileURI);
+        }
+
+        catch (Exception e) {
+            try {
+                Runtime.getRuntime().exec("explorer.exe /select," + filePath);
+            }
+
+            catch(Exception ex) {
+                handle(ex);
             }
         }
     }
@@ -2320,35 +2131,22 @@ public class Util {
     public void javaProperties() {
         ArrayList<String> PropertiesList = new ArrayList<>();
         Properties Props = System.getProperties();
+
         Enumeration<?> keys = Props.keys();
+
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
             String value = (String) Props.get(key);
             PropertiesList.add(key + ": " + value);
         }
 
-        File file;
-        BufferedWriter fw;
+        String[] lines = new String[PropertiesList.size()];
 
-        try {
-            file = File.createTempFile("Properties",".txt");
-            file.deleteOnExit();
-            fw = new BufferedWriter(new FileWriter(file));
-
-            for (int i = 1 ; i < PropertiesList.size() ; i++) {
-                String Line = PropertiesList.get(i);
-                fw.write(Line);
-                fw.write(System.getProperty("line.separator"));
-            }
-
-            fw.close();
-
-            Desktop.getDesktop().open(file);
+        for (int i =  0 ; i < PropertiesList.size() ; i++) {
+            lines[i] = PropertiesList.get(i);
         }
 
-        catch (Exception ex) {
-            handle(ex);
-        }
+        createAndOpenTmpFile("JavaProperties",".txt", lines);
     }
 
     public boolean empytStr(String s) {
@@ -2482,14 +2280,6 @@ public class Util {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void setDebugButton(boolean b) {
-        this.debugButton = b;
-    }
-
-    public boolean getDebugButton() {
-        return this.debugButton;
     }
 
     public void setConsoleClock(boolean b) {
@@ -2683,8 +2473,16 @@ public class Util {
         }
     }
 
-    //todo if this works, use it, also make it for java properties instead of that GUI
-    public boolean createAndOpenTmpFile(String filename, String extension, String[] lines) {
+    public void deleteTempDir() {
+        try {
+            File tmpDir = new File("src/tmp");
+            deleteFolder(tmpDir);
+        } catch (Exception e) {
+            handle(e);
+        }
+    }
+
+    public void createAndOpenTmpFile(String filename, String extension, String[] lines) {
         try {
             File tmpDir = new File("src/tmp");
 
@@ -2698,19 +2496,19 @@ public class Util {
 
             BufferedWriter tmpFileWriter = new BufferedWriter(new FileWriter(tmpFile));
 
-            for (String line: lines)
-                tmpFileWriter.write(line + System.getProperty("line.seperator"));
+            for (String line: lines) {
+                tmpFileWriter.write(line);
+                tmpFileWriter.newLine();
+            }
 
             tmpFileWriter.flush();
             tmpFileWriter.close();
+
+            openFileOutsideProgram(tmpFile.getAbsolutePath());
         }
 
         catch (Exception e) {
             handle(e);
-        }
-
-        finally {
-            return false;
         }
     }
 }
