@@ -2682,4 +2682,35 @@ public class Util {
                 deleteFolder(userDir);
         }
     }
+
+    //todo if this works, use it, also make it for java properties instead of that GUI
+    public boolean createAndOpenTmpFile(String filename, String extension, String[] lines) {
+        try {
+            File tmpDir = new File("src/tmp");
+
+            if (!tmpDir.exists())
+                tmpDir.mkdir();
+
+            File tmpFile = new File(tmpDir + "/" + filename + extension);
+
+            if (!tmpFile.exists())
+                tmpFile.createNewFile();
+
+            BufferedWriter tmpFileWriter = new BufferedWriter(new FileWriter(tmpFile));
+
+            for (String line: lines)
+                tmpFileWriter.write(line + System.getProperty("line.seperator"));
+
+            tmpFileWriter.flush();
+            tmpFileWriter.close();
+        }
+
+        catch (Exception e) {
+            handle(e);
+        }
+
+        finally {
+            return false;
+        }
+    }
 }

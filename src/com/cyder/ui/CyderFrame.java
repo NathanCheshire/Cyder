@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 public class CyderFrame extends JFrame {
 
     public static final int LEFT = 0;
-    public static final int RIGHT = 1;
+    public static final int CENTER = 1;
     private int titlePosition = 0;
 
     private Util fUtil = new Util();
@@ -77,8 +77,6 @@ public class CyderFrame extends JFrame {
 
         if (titlePosition == 1) {
             int halfLen = ((int) Math.ceil(14 * title.length())) / 2;
-            System.out.println(halfLen);
-            System.out.println(width);
 
             titleLabel.setBounds((int) Math.floor(5 + (width / 2.0)) - halfLen, 2, halfLen * 2, 25);
         } else {

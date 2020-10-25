@@ -10,7 +10,7 @@ import java.awt.*;
 public class Hangman {
 
     private JFrame HangmanFrame;
-    private Util hangmanUtil = new Util();
+    private Util hangmanUtil;
 
     private String HangmanWord;
 
@@ -47,11 +47,9 @@ public class Hangman {
 
     private int HangmanWrongGuesses = 1;
 
-    public Hangman() {
-        //empty constructor
-    }
-
     public void startHangman() {
+        hangmanUtil = new Util();
+
         if (HangmanFrame != null)
             hangmanUtil.closeAnimation(HangmanFrame);
 

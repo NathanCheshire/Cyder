@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit;
 //todo add delete errors function
 //todo move errors to user specific folders
 //todo hangman and ttt use cyder frame
-//todo weather use cyder frame
+//todo create exit method that is always ran on exit. Should clean up user dir and temp dir
 
 public class CyderMain{
     //console vars

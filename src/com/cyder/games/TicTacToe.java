@@ -29,9 +29,7 @@ public class TicTacToe {
 
     private JLabel TTTLabel;
 
-    public TicTacToe () {
-        //empty constructor
-    }
+
 
     public void startTicTacToe() {
         if (TTTFrame != null)

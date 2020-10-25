@@ -1,7 +1,7 @@
 package com.cyder.utilities;
 
 import com.cyder.ui.CyderButton;
-import com.cyder.ui.DragLabel;
+import com.cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -63,7 +63,7 @@ public class WeatherWidget {
     private JButton minimizeWeather;
     private JLabel currentTimeLabel;
 
-    private JFrame weatherFrame;
+    private CyderFrame weatherFrame;
 
     private boolean updateWeather;
     private boolean updateClock;
@@ -81,25 +81,9 @@ public class WeatherWidget {
         if (weatherFrame != null)
             weatherUtil.closeAnimation(weatherFrame);
 
-        weatherFrame = new JFrame();
-
+        weatherFrame = new CyderFrame(1080,608,new ImageIcon("src\\com\\cyder\\io\\pictures\\Weather.png"));
+        weatherFrame.setTitlePosition(CyderFrame.CENTER);
         weatherFrame.setTitle("Weather");
-
-        weatherFrame.setSize(1080, 608);
-
-        weatherFrame.setUndecorated(true);
-
-        weatherFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JLabel weatherLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\Weather.png"));
-
-        weatherFrame.setContentPane(weatherLabel);
-
-        DragLabel weatherDragLabel = new DragLabel(1080,24, weatherFrame);
-
-        weatherDragLabel.setBounds(0, 0, 1080, 24);
-
-        weatherLabel.add(weatherDragLabel);
 
         currentTimeLabel = new JLabel();
 
@@ -111,7 +95,7 @@ public class WeatherWidget {
 
         currentTimeLabel.setText(weatherTime());
 
-        weatherLabel.add(currentTimeLabel, SwingConstants.CENTER);
+        weatherFrame.getContentPane().add(currentTimeLabel, SwingConstants.CENTER);
 
         locationLabel = new JLabel();
 
@@ -123,7 +107,7 @@ public class WeatherWidget {
 
         locationLabel.setText(userCity + ", " + userStateAbr);
 
-        weatherLabel.add(locationLabel, SwingConstants.CENTER);
+        weatherFrame.getContentPane().add(locationLabel, SwingConstants.CENTER);
 
         JLabel currentWeatherIconLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\" + weatherIcon + ".png"));
 
@@ -131,7 +115,7 @@ public class WeatherWidget {
 
         currentWeatherIconLabel.setBorder(new LineBorder(weatherUtil.navy,5,false));
 
-        weatherLabel.add(currentWeatherIconLabel);
+        weatherFrame.getContentPane().add(currentWeatherIconLabel);
 
         currentWeatherLabel = new JLabel();
 
@@ -143,7 +127,7 @@ public class WeatherWidget {
 
         currentWeatherLabel.setText(capsFirst(weatherCondition));
 
-        weatherLabel.add(currentWeatherLabel);
+        weatherFrame.getContentPane().add(currentWeatherLabel);
 
         changeLocationLabel = new JLabel("Change Location");
 
@@ -262,7 +246,7 @@ public class WeatherWidget {
             }
         });
 
-        weatherLabel.add(changeLocationLabel);
+        weatherFrame.getContentPane().add(changeLocationLabel);
 
         temperatureLabel = new JLabel();
 
@@ -274,7 +258,7 @@ public class WeatherWidget {
 
         temperatureLabel.setText("Temperature: " + temperature + "F");
 
-        weatherLabel.add(temperatureLabel);
+        weatherFrame.getContentPane().add(temperatureLabel);
 
         feelsLikeLabel = new JLabel();
 
@@ -286,7 +270,7 @@ public class WeatherWidget {
 
         feelsLikeLabel.setText("Feels like: " + feelsLike + "F");
 
-        weatherLabel.add(feelsLikeLabel);
+        weatherFrame.getContentPane().add(feelsLikeLabel);
 
         windSpeedLabel = new JLabel();
 
@@ -298,7 +282,7 @@ public class WeatherWidget {
 
         windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
 
-        weatherLabel.add(windSpeedLabel);
+        weatherFrame.getContentPane().add(windSpeedLabel);
 
         windDirectionLabel = new JLabel();
 
@@ -310,7 +294,7 @@ public class WeatherWidget {
 
         windDirectionLabel.setText("Wind Direction: " + windBearing + ", " + weatherUtil.getWindDirection(windBearing));
 
-        weatherLabel.add(windDirectionLabel);
+        weatherFrame.getContentPane().add(windDirectionLabel);
 
         humidityLabel = new JLabel();
 
@@ -322,7 +306,7 @@ public class WeatherWidget {
 
         humidityLabel.setText("Humidity: " + humidity + "%");
 
-        weatherLabel.add(humidityLabel, SwingConstants.CENTER);
+        weatherFrame.getContentPane().add(humidityLabel, SwingConstants.CENTER);
 
         pressureLabel = new JLabel();
 
@@ -334,7 +318,7 @@ public class WeatherWidget {
 
         pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
 
-        weatherLabel.add(pressureLabel, SwingConstants.CENTER);
+        weatherFrame.getContentPane().add(pressureLabel, SwingConstants.CENTER);
 
         visibilityLabel = new JLabel();
 
@@ -346,7 +330,7 @@ public class WeatherWidget {
 
         visibilityLabel.setText("Visibility: " + Double.parseDouble(visibility) / 1000 + "mi");
 
-        weatherLabel.add(visibilityLabel, SwingConstants.CENTER);
+        weatherFrame.getContentPane().add(visibilityLabel, SwingConstants.CENTER);
 
         sunriseLabel = new JLabel();
 
@@ -358,7 +342,7 @@ public class WeatherWidget {
 
         sunriseLabel.setText(sunrise + "am");
 
-        weatherLabel.add(sunriseLabel, SwingConstants.CENTER);
+        weatherFrame.getContentPane().add(sunriseLabel, SwingConstants.CENTER);
 
         sunsetLabel = new JLabel();
 
@@ -370,7 +354,7 @@ public class WeatherWidget {
 
         sunsetLabel.setText(sunset + "pm");
 
-        weatherLabel.add(sunsetLabel, SwingConstants.CENTER);
+        weatherFrame.getContentPane().add(sunsetLabel, SwingConstants.CENTER);
 
         weatherFrame.setVisible(true);
 
