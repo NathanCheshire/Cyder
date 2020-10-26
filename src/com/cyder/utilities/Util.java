@@ -377,7 +377,6 @@ public class Util {
     }
 
     public void startAnimation(JFrame frame) {
-        frame.setVisible(false);
         frame.setLocationRelativeTo(null);
 
         int to = frame.getY();
