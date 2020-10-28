@@ -552,8 +552,6 @@ public class TicTacToe {
         CurrentPlayerTurn = PlayerX;
 
         UpdatePlayerTurnLabel();
-
-        TTTUtil.startAnimation(TTTFrame);
     }
 
     private void UpdatePlayerTurnLabel() {

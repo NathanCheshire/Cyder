@@ -48,7 +48,7 @@ import java.util.concurrent.TimeUnit;
 //todo move errors to user specific folders
 //todo hangman and ttt use cyder frame
 //todo start animation for login broken
-//todo if you close cyderframe when loginframe is active, don't exit program
+//todo login animation sliding for words broken
 
 public class CyderMain{
     //console vars
@@ -922,6 +922,7 @@ public class CyderMain{
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel,450);
             }).start();
 
+            //todo make debug menu the same as the ones before it
             if (mainUtil.getUserData("DebugWindows").equals("1")) {
                 mainUtil.systemProperties();
                 mainUtil.computerProperties();
