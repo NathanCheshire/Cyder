@@ -13,6 +13,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
+//todo remove swing dependency
+
 public class YouTubeThumbnail {
     private JFrame yttnFrame;
     private CyderButton getYTTN;

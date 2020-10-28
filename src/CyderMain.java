@@ -48,7 +48,9 @@ import java.util.concurrent.TimeUnit;
 //todo move errors to user specific folders
 //todo hangman and ttt use cyder frame
 //todo start animation for login broken
-//todo login animation sliding for words broken
+//todo if press x in cyderframe when login is active, just dispose cyder frame
+//todo utilize start animations after you fix it
+//todo consolidate method for exiting tasks
 
 public class CyderMain{
     //console vars

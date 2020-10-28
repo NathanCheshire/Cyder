@@ -16,7 +16,6 @@ public class Hasher {
         CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
         hashFrame.setTitle("Hasher");
 
-
         JLabel Instructions = new JLabel("Enter your password to be hashed");
         Instructions.setForeground(hashUtil.navy);
         Instructions.setFont(hashUtil.weatherFontSmall);

@@ -24,10 +24,9 @@ public class DirectorySearch {
     private Stack<String> foward = new Stack<>();
 
     private String rightNow = System.getProperty("user.dir");
-
     public DirectorySearch() {
         if (dirFrame != null)
-            dirUtil.closeAnimation(dirFrame);
+            new Util().closeAnimation(dirFrame);
 
         dirFrame = new JFrame();
         dirFrame.setTitle("Directory Search");

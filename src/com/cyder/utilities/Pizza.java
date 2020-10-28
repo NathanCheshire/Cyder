@@ -28,7 +28,7 @@ public class Pizza {
 
     public Pizza() {
         if (pizzaFrame != null)
-            pizzaUtil.closeAnimation(pizzaFrame);
+            new Util().closeAnimation(pizzaFrame);
 
         pizzaFrame = new JFrame();
         pizzaFrame.setTitle("Pizza");

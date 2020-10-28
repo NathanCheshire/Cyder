@@ -68,9 +68,7 @@ public class DragLabel extends JLabel {
 
         close.setToolTipText("Close");
 
-        close.addActionListener(e -> {
-            dragLabelUtil.closeAnimation(effectFrame);
-        });
+        close.addActionListener(e -> dragLabelUtil.closeAnimation(effectFrame));
 
         close.addMouseListener(new MouseAdapter() {
             @Override

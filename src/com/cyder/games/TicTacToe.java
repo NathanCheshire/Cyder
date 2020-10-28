@@ -10,7 +10,9 @@ import java.awt.*;
 public class TicTacToe {
 
     private JFrame TTTFrame;
+
     private Util TTTUtil = new Util();
+
     private CyderButton TTT9;
     private CyderButton TTT8;
     private CyderButton TTT7;
@@ -28,8 +30,6 @@ public class TicTacToe {
     private final int PlayerO = 1;
 
     private JLabel TTTLabel;
-
-
 
     public void startTicTacToe() {
         if (TTTFrame != null)

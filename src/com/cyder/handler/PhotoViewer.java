@@ -26,7 +26,6 @@ public class PhotoViewer {
     private DragLabel dl;
     private JFrame pictureFrame;
 
-
     private JLabel pictureLabel;
 
     private JLabel nextImage;
