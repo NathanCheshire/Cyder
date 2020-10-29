@@ -51,6 +51,8 @@ import java.util.concurrent.TimeUnit;
 //todo if press x in cyderframe when login is active, just dispose cyder frame
 //todo utilize start animations after you fix it
 //todo consolidate method for exiting tasks
+//todo be able to drawimages in console when not here
+//todo remove all old drawimage calls
 
 public class CyderMain{
     //console vars
@@ -164,7 +166,17 @@ public class CyderMain{
         UIManager.put("ToolTip.font", mainUtil.tahoma);
         UIManager.put("ToolTip.foreground", mainUtil.tooltipForegroundColor);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(()-> mainUtil.deleteTempDir(), "exit-hook"));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            mainUtil.closeAnimation(consoleFrame);
+
+            mainUtil.setUsername(mainUtil.getUsername());
+            mainUtil.setUsercolor(mainUtil.getUsercolor());
+            mainUtil.setUserfont(mainUtil.getUserfont());
+
+            saveFontColor();
+
+            mainUtil.deleteTempDir();
+        },"exit-hook"));
 
         //security var for main developer's PC
         boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
@@ -735,8 +747,6 @@ public class CyderMain{
                     try {
                         mainUtil.handle(new FatalException("Background DNE"));
                         println("Error in parsing background; perhaps it was deleted.");
-
-                        //todo switch to first background
                     }
 
                     catch (Exception ex) {
@@ -924,7 +934,7 @@ public class CyderMain{
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel,450);
             }).start();
 
-            //todo make debug menu the same as the ones before it
+
             if (mainUtil.getUserData("DebugWindows").equals("1")) {
                 mainUtil.systemProperties();
                 mainUtil.computerProperties();
@@ -996,7 +1006,7 @@ public class CyderMain{
                             if (seventeen == 17)
                                 mainUtil.playMusic("src\\com\\cyder\\io\\audio\\f17.mp3");
                             else
-                                System.out.println("Interesting F" + (i - 61427) + " key");
+                               println("Interesting F" + (i - 61427) + " key");
                         }
                     }
                 }
@@ -1113,12 +1123,13 @@ public class CyderMain{
     };
 
     private void exit() {
+        mainUtil.closeAnimation(consoleFrame);
+
         mainUtil.setUsername(mainUtil.getUsername());
         mainUtil.setUsercolor(mainUtil.getUsercolor());
         mainUtil.setUserfont(mainUtil.getUserfont());
 
         saveFontColor();
-        mainUtil.closeAnimation(consoleFrame);
 
         mainUtil.deleteTempDir();
 
@@ -1925,7 +1936,7 @@ public class CyderMain{
                 mainUtil.deleteFolder(new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID()));
 
                 String dep = mainUtil.getDeprecatedUUID();
-                System.out.println(dep);
+
                 File renamed = new File("src\\com\\cyder\\users\\" + dep);
                 while (renamed.exists()) {
                     dep = mainUtil.getDeprecatedUUID();
@@ -2009,14 +2020,7 @@ public class CyderMain{
                     (eic("leave") || (hasWord("stop") && !hasWord("music") && !hasWord("script")) ||
                             hasWord("exit") || eic("close"))) && !has("dance"))
             {
-                mainUtil.setUsername(mainUtil.getUsername());
-                mainUtil.setUsercolor(mainUtil.getUsercolor());
-                mainUtil.setUserfont(mainUtil.getUserfont());
-
-                saveFontColor();
-                mainUtil.closeAnimation(consoleFrame);
-                
-                System.exit(0);
+                exit();
             }
 
             else if (hasWord("test") && hasWord("notification")) {
@@ -2591,14 +2595,7 @@ public class CyderMain{
             }
 
             else if (eic("panic")) {
-                mainUtil.setUsername(mainUtil.getUsername());
-                mainUtil.setUsercolor(mainUtil.getUsercolor());
-                mainUtil.setUserfont(mainUtil.getUserfont());
-
-                saveFontColor();
-                mainUtil.closeAnimation(consoleFrame);
-
-                System.exit(0);
+                exit();
             }
 
             else if (hasWord("hash") || hasWord("hashser")) {
@@ -4259,17 +4256,7 @@ public class CyderMain{
         return parentPanel;
     }
 
-    private Runnable closeRunable = new Runnable() {
-        @Override
-        public void run() {
-            mainUtil.closeAnimation(consoleFrame);
-
-            saveFontColor();
-            mainUtil.closeAnimation(consoleFrame);
-            
-            System.exit(0);
-        }
-    };
+    private Runnable closeRunable = this::exit;
 
     public void closeAtHourMinute(int Hour, int Minute) {
         Calendar CloseCalendar = Calendar.getInstance();

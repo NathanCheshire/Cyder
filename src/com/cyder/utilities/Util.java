@@ -684,8 +684,13 @@ public class Util {
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
             getIPData();
+
             BufferedImage flag = ImageIO.read(new URL(getUserFlag()));
-            draw(flag);
+
+            double x = flag.getWidth();
+            double y = flag.getHeight();
+
+            draw(resizeImage(flag, 1, (int)(70 * x / y),(int )(70 * x / y)));
 
             String[] lines = {"Time requested: " + weatherTime(),
                     "ISP: " + getUserISP(),
