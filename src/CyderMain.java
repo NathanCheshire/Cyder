@@ -44,15 +44,16 @@ import java.util.concurrent.TimeUnit;
 //todo name all files to Cyder temporary file that are temp instead of the long weird string
 //todo make login window slide down like console, make method for this called "openanimation" inside of util
 //todo make an animation util class and break up utils into smaller ones, at least 4
-//todo add delete errors function
+//todo add delete errors function if an admin
 //todo move errors to user specific folders
-//todo hangman and ttt use cyder frame
+//todo hangman use cyder frame
 //todo start animation for login broken
 //todo if press x in cyderframe when login is active, just dispose cyder frame
 //todo utilize start animations after you fix it
 //todo consolidate method for exiting tasks
 //todo be able to drawimages in console when not here
 //todo remove all old drawimage calls
+//todo further class separation from main
 
 public class CyderMain{
     //console vars
@@ -2365,7 +2366,7 @@ public class CyderMain{
 
             else if (hasWord("error") && !hasWord("throw")) {
                 if (mainUtil.getDebugMode()) {
-                    File WhereItIs = new File("src\\com\\cyder\\exception\\throws");
+                    File WhereItIs = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Throws\\");
                     Desktop.getDesktop().open(WhereItIs);
                 }
 

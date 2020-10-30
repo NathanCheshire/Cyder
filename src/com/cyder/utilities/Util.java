@@ -2253,7 +2253,12 @@ public class Util {
 
     public void handle(Exception e) {
         try {
-            String eFileString = "src\\com\\cyder\\exception\\throws\\" + errorTime() + ".error";
+            File throwsDir = new File("src\\com\\cyder\\users\\" + getUserUUID() + "\\Throws\\");
+
+            if (!throwsDir.exists())
+                throwsDir.mkdir();
+
+            String eFileString = "src\\com\\cyder\\users\\" + getUserUUID() + "\\Throws\\" + errorTime() + ".error";
             File eFile = new File(eFileString);
             eFile.createNewFile();
 
@@ -2515,5 +2520,9 @@ public class Util {
         catch (Exception e) {
             handle(e);
         }
+    }
+
+    public int startToCenterJLabel(int compWidth, String title) {
+        return (int) Math.floor(5 + (compWidth / 2.0)) - (((int) Math.ceil(14 * title.length())) / 2);
     }
 }

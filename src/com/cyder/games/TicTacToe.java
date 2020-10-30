@@ -1,5 +1,6 @@
 package com.cyder.games;
 
+import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.Util;
 import com.cyder.ui.CyderButton;
 
@@ -9,92 +10,57 @@ import java.awt.*;
 
 public class TicTacToe {
 
-    private JFrame TTTFrame;
+    private CyderFrame tttFrame;
+    private Util tttUtil = new Util();
 
-    private Util TTTUtil = new Util();
-
-    private CyderButton TTT9;
-    private CyderButton TTT8;
-    private CyderButton TTT7;
-    private CyderButton TTT6;
-    private CyderButton TTT5;
-    private CyderButton TTT4;
-    private CyderButton TTT3;
-    private CyderButton TTT2;
-    private CyderButton TTT1;
-    private CyderButton TTTReset;
+    private CyderButton ttt9;
+    private CyderButton ttt8;
+    private CyderButton ttt7;
+    private CyderButton ttt6;
+    private CyderButton ttt5;
+    private CyderButton ttt4;
+    private CyderButton ttt3;
+    private CyderButton ttt2;
+    private CyderButton ttt1;
+    private CyderButton tttReset;
 
     private int CurrentPlayerTurn;
 
     private final int PlayerX = 0;
     private final int PlayerO = 1;
 
-    private JLabel TTTLabel;
+    private JLabel tttLabel;
 
     public void startTicTacToe() {
-        if (TTTFrame != null)
-            TTTUtil.closeAnimation(TTTFrame);
+        if (tttFrame != null)
+            tttUtil.closeAnimation(tttFrame);
 
-        TTTFrame = new JFrame();
+        tttFrame = new CyderFrame(400,500, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        tttFrame.setTitlePosition(tttFrame.CENTER);
+        tttFrame.setTitle("Tic Tac Toe");
 
-        TTTFrame.setTitle("Tic Tac Toe");
+        tttLabel = new JLabel();
+        tttLabel.setFont(tttUtil.weatherFontSmall);
+        tttLabel.setForeground(tttUtil.navy);
+        tttLabel.setBounds(tttUtil.startToCenterJLabel(400,"Tic Tac Toe"),30,
+                tttUtil.startToCenterJLabel(400,tttFrame.getTitle()) * 2,30);
+        tttFrame.getContentPane().add(tttLabel);
 
-        TTTFrame.setResizable(false);
-
-        TTTFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        TTTFrame.setResizable(false);
-
-        TTTFrame.setIconImage(TTTUtil.getCyderIcon().getImage());
-
-        JPanel parentPanel = new JPanel();
-
-        parentPanel.setLayout(new BoxLayout(parentPanel,BoxLayout.Y_AXIS));
-
-        JPanel LabelPanel = new JPanel();
-
-        LabelPanel.setLayout(new BorderLayout());
-
-        TTTLabel = new JLabel();
-
-        TTTLabel.setFont(TTTUtil.weatherFontSmall);
-
-        TTTLabel.setForeground(TTTUtil.navy);
-
-        LabelPanel.add(TTTLabel, SwingConstants.CENTER);
-
-        LabelPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-
-        parentPanel.add(LabelPanel,SwingConstants.CENTER);
-
-        JPanel ButtonPanel = new JPanel();
-
-        GridLayout ButtonLayout = new GridLayout(3,3,5,5);
-
-        ButtonPanel.setLayout(ButtonLayout);
-
-        TTT1 = new CyderButton("");
-
-        TTT1.setPreferredSize(new Dimension(60, 60));
-        
-        TTT1.setColors(TTTUtil.vanila);
-
-        TTT1.setFocusPainted(false);
-
-        TTT1.setBackground(TTTUtil.vanila);
-
-        TTT1.setFont(TTTUtil.weatherFontSmall);
-
-        TTT1.setBorder(new LineBorder(TTTUtil.navy,5,false));
-
-        TTT1.addActionListener(e -> {
-            if (TTT1.getText().isEmpty()) {
+        ttt1 = new CyderButton("");
+        ttt1.setPreferredSize(new Dimension(60, 60));
+        ttt1.setColors(tttUtil.vanila);
+        ttt1.setFocusPainted(false);
+        ttt1.setBackground(tttUtil.vanila);
+        ttt1.setFont(tttUtil.weatherFontBig);
+        ttt1.setBorder(new LineBorder(tttUtil.navy,5,false));
+        ttt1.addActionListener(e -> {
+            if (ttt1.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
-                    TTT1.setText("X");
+                    ttt1.setText("X");
 
-                    TTT1.setForeground(TTTUtil.regularRed);
+                    ttt1.setForeground(tttUtil.regularRed);
 
-                    TTT1.setFont(TTTUtil.weatherFontSmall);
+                    ttt1.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -104,11 +70,11 @@ public class TicTacToe {
                 }
 
                 else {
-                    TTT1.setText("O");
+                    ttt1.setText("O");
 
-                    TTT1.setForeground(TTTUtil.tttblue);
+                    ttt1.setForeground(tttUtil.tttblue);
 
-                    TTT1.setFont(TTTUtil.weatherFontSmall);
+                    ttt1.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -119,30 +85,24 @@ public class TicTacToe {
             }
         });
 
-        ButtonPanel.add(TTT1);
+        ttt1.setBounds(25, 75, 100, 100);
+        tttFrame.getContentPane().add(ttt1);
 
-        TTT2 = new CyderButton("");
-
-        TTT2.setColors(TTTUtil.vanila);
-
-        TTT2.setPreferredSize(new Dimension(60, 60));
-
-        TTT2.setFocusPainted(false);
-
-        TTT2.setBackground(TTTUtil.vanila);
-
-        TTT2.setFont(TTTUtil.weatherFontSmall);
-
-        TTT2.setBorder(new LineBorder(TTTUtil.navy,5,false));
-
-        TTT2.addActionListener(e -> {
-            if (TTT2.getText().isEmpty()) {
+        ttt2 = new CyderButton("");
+        ttt2.setColors(tttUtil.vanila);
+        ttt2.setPreferredSize(new Dimension(60, 60));
+        ttt2.setFocusPainted(false);
+        ttt2.setBackground(tttUtil.vanila);
+        ttt2.setFont(tttUtil.weatherFontBig);
+        ttt2.setBorder(new LineBorder(tttUtil.navy,5,false));
+        ttt2.addActionListener(e -> {
+            if (ttt2.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
-                    TTT2.setText("X");
+                    ttt2.setText("X");
 
-                    TTT2.setForeground(TTTUtil.regularRed);
+                    ttt2.setForeground(tttUtil.regularRed);
 
-                    TTT2.setFont(TTTUtil.weatherFontSmall);
+                    ttt2.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -152,11 +112,11 @@ public class TicTacToe {
                 }
 
                 else {
-                    TTT2.setText("O");
+                    ttt2.setText("O");
 
-                    TTT2.setForeground(TTTUtil.tttblue);
+                    ttt2.setForeground(tttUtil.tttblue);
 
-                    TTT2.setFont(TTTUtil.weatherFontSmall);
+                    ttt2.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -167,30 +127,31 @@ public class TicTacToe {
             }
         });
 
-        ButtonPanel.add(TTT2);
+        ttt2.setBounds(150, 75, 100, 100);
+        tttFrame.getContentPane().add(ttt2);
 
-        TTT3 = new CyderButton("");
+        ttt3 = new CyderButton("");
 
-        TTT3.setColors(TTTUtil.vanila);
+        ttt3.setColors(tttUtil.vanila);
 
-        TTT3.setPreferredSize(new Dimension(60, 60));
+        ttt3.setPreferredSize(new Dimension(60, 60));
 
-        TTT3.setFocusPainted(false);
+        ttt3.setFocusPainted(false);
 
-        TTT3.setBackground(TTTUtil.vanila);
+        ttt3.setBackground(tttUtil.vanila);
 
-        TTT3.setFont(TTTUtil.weatherFontSmall);
+        ttt3.setFont(tttUtil.weatherFontBig);
 
-        TTT3.setBorder(new LineBorder(TTTUtil.navy,5,false));
+        ttt3.setBorder(new LineBorder(tttUtil.navy,5,false));
 
-        TTT3.addActionListener(e -> {
-            if (TTT3.getText().isEmpty()) {
+        ttt3.addActionListener(e -> {
+            if (ttt3.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
-                    TTT3.setText("X");
+                    ttt3.setText("X");
 
-                    TTT3.setForeground(TTTUtil.regularRed);
+                    ttt3.setForeground(tttUtil.regularRed);
 
-                    TTT3.setFont(TTTUtil.weatherFontSmall);
+                    ttt3.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -200,11 +161,11 @@ public class TicTacToe {
                 }
 
                 else {
-                    TTT3.setText("O");
+                    ttt3.setText("O");
 
-                    TTT3.setForeground(TTTUtil.tttblue);
+                    ttt3.setForeground(tttUtil.tttblue);
 
-                    TTT3.setFont(TTTUtil.weatherFontSmall);
+                    ttt3.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -215,30 +176,24 @@ public class TicTacToe {
             }
         });
 
-        ButtonPanel.add(TTT3);
+        ttt3.setBounds(275, 75, 100, 100);
+        tttFrame.getContentPane().add(ttt3);
 
-        TTT4 = new CyderButton("");
-
-        TTT4.setPreferredSize(new Dimension(60, 60));
-
-        TTT4.setFocusPainted(false);
-
-        TTT4.setColors(TTTUtil.vanila);
-
-        TTT4.setBackground(TTTUtil.vanila);
-
-        TTT4.setBorder(new LineBorder(TTTUtil.navy,5,false));
-
-        TTT4.setFont(TTTUtil.weatherFontSmall);
-
-        TTT4.addActionListener(e -> {
-            if (TTT4.getText().isEmpty()) {
+        ttt4 = new CyderButton("");
+        ttt4.setPreferredSize(new Dimension(60, 60));
+        ttt4.setFocusPainted(false);
+        ttt4.setColors(tttUtil.vanila);
+        ttt4.setBackground(tttUtil.vanila);
+        ttt4.setBorder(new LineBorder(tttUtil.navy,5,false));
+        ttt4.setFont(tttUtil.weatherFontBig);
+        ttt4.addActionListener(e -> {
+            if (ttt4.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
-                    TTT4.setText("X");
+                    ttt4.setText("X");
 
-                    TTT4.setForeground(TTTUtil.regularRed);
+                    ttt4.setForeground(tttUtil.regularRed);
 
-                    TTT4.setFont(TTTUtil.weatherFontSmall);
+                    ttt4.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -248,11 +203,11 @@ public class TicTacToe {
                 }
 
                 else {
-                    TTT4.setText("O");
+                    ttt4.setText("O");
 
-                    TTT4.setForeground(TTTUtil.tttblue);
+                    ttt4.setForeground(tttUtil.tttblue);
 
-                    TTT4.setFont(TTTUtil.weatherFontSmall);
+                    ttt4.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -263,30 +218,24 @@ public class TicTacToe {
             }
         });
 
-        ButtonPanel.add(TTT4);
+        ttt4.setBounds(25, 200, 100, 100);
+        tttFrame.getContentPane().add(ttt4);
 
-        TTT5 = new CyderButton("");
-
-        TTT5.setColors(TTTUtil.vanila);
-
-        TTT5.setPreferredSize(new Dimension(60, 60));
-
-        TTT5.setFocusPainted(false);
-
-        TTT5.setBackground(TTTUtil.vanila);
-
-        TTT5.setBorder(new LineBorder(TTTUtil.navy,5,false));
-
-        TTT5.setFont(TTTUtil.weatherFontSmall);
-
-        TTT5.addActionListener(e -> {
-            if (TTT5.getText().isEmpty()) {
+        ttt5 = new CyderButton("");
+        ttt5.setColors(tttUtil.vanila);
+        ttt5.setPreferredSize(new Dimension(60, 60));
+        ttt5.setFocusPainted(false);
+        ttt5.setBackground(tttUtil.vanila);
+        ttt5.setBorder(new LineBorder(tttUtil.navy,5,false));
+        ttt5.setFont(tttUtil.weatherFontBig);
+        ttt5.addActionListener(e -> {
+            if (ttt5.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
-                    TTT5.setText("X");
+                    ttt5.setText("X");
 
-                    TTT5.setForeground(TTTUtil.regularRed);
+                    ttt5.setForeground(tttUtil.regularRed);
 
-                    TTT5.setFont(TTTUtil.weatherFontSmall);
+                    ttt5.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -296,11 +245,11 @@ public class TicTacToe {
                 }
 
                 else {
-                    TTT5.setText("O");
+                    ttt5.setText("O");
 
-                    TTT5.setForeground(TTTUtil.tttblue);
+                    ttt5.setForeground(tttUtil.tttblue);
 
-                    TTT5.setFont(TTTUtil.weatherFontSmall);
+                    ttt5.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -311,30 +260,24 @@ public class TicTacToe {
             }
         });
 
-        ButtonPanel.add(TTT5);
+        ttt5.setBounds(150, 200, 100, 100);
+        tttFrame.getContentPane().add(ttt5);
 
-        TTT6 = new CyderButton("");
-
-        TTT6.setPreferredSize(new Dimension(60, 60));
-
-        TTT6.setFocusPainted(false);
-
-        TTT6.setBackground(TTTUtil.vanila);
-
-        TTT6.setColors(TTTUtil.vanila);
-
-        TTT6.setBorder(new LineBorder(TTTUtil.navy,5,false));
-
-        TTT6.setFont(TTTUtil.weatherFontSmall);
-
-        TTT6.addActionListener(e -> {
-            if (TTT6.getText().isEmpty()) {
+        ttt6 = new CyderButton("");
+        ttt6.setPreferredSize(new Dimension(60, 60));
+        ttt6.setFocusPainted(false);
+        ttt6.setBackground(tttUtil.vanila);
+        ttt6.setColors(tttUtil.vanila);
+        ttt6.setBorder(new LineBorder(tttUtil.navy,5,false));
+        ttt6.setFont(tttUtil.weatherFontBig);
+        ttt6.addActionListener(e -> {
+            if (ttt6.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
-                    TTT6.setText("X");
+                    ttt6.setText("X");
 
-                    TTT6.setForeground(TTTUtil.regularRed);
+                    ttt6.setForeground(tttUtil.regularRed);
 
-                    TTT6.setFont(TTTUtil.weatherFontSmall);
+                    ttt6.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -344,11 +287,11 @@ public class TicTacToe {
                 }
 
                 else {
-                    TTT6.setText("O");
+                    ttt6.setText("O");
 
-                    TTT6.setForeground(TTTUtil.tttblue);
+                    ttt6.setForeground(tttUtil.tttblue);
 
-                    TTT6.setFont(TTTUtil.weatherFontSmall);
+                    ttt6.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -359,30 +302,24 @@ public class TicTacToe {
             }
         });
 
-        ButtonPanel.add(TTT6);
+        ttt6.setBounds(275, 200, 100, 100);
+        tttFrame.getContentPane().add(ttt6);
 
-        TTT7 = new CyderButton("");
-
-        TTT7.setPreferredSize(new Dimension(60, 60));
-
-        TTT7.setFocusPainted(false);
-
-        TTT7.setColors(TTTUtil.vanila);
-
-        TTT7.setBackground(TTTUtil.vanila);
-
-        TTT7.setBorder(new LineBorder(TTTUtil.navy,5,false));
-
-        TTT7.setFont(TTTUtil.weatherFontSmall);
-
-        TTT7.addActionListener(e -> {
-            if (TTT7.getText().isEmpty()) {
+        ttt7 = new CyderButton("");
+        ttt7.setPreferredSize(new Dimension(60, 60));
+        ttt7.setFocusPainted(false);
+        ttt7.setColors(tttUtil.vanila);
+        ttt7.setBackground(tttUtil.vanila);
+        ttt7.setBorder(new LineBorder(tttUtil.navy,5,false));
+        ttt7.setFont(tttUtil.weatherFontBig);
+        ttt7.addActionListener(e -> {
+            if (ttt7.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
-                    TTT7.setText("X");
+                    ttt7.setText("X");
 
-                    TTT7.setForeground(TTTUtil.regularRed);
+                    ttt7.setForeground(tttUtil.regularRed);
 
-                    TTT7.setFont(TTTUtil.weatherFontSmall);
+                    ttt7.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -392,11 +329,11 @@ public class TicTacToe {
                 }
 
                 else {
-                    TTT7.setText("O");
+                    ttt7.setText("O");
 
-                    TTT7.setForeground(TTTUtil.tttblue);
+                    ttt7.setForeground(tttUtil.tttblue);
 
-                    TTT7.setFont(TTTUtil.weatherFontSmall);
+                    ttt7.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -407,30 +344,24 @@ public class TicTacToe {
             }
         });
 
-        ButtonPanel.add(TTT7);
+        ttt7.setBounds(25, 325, 100, 100);
+        tttFrame.getContentPane().add(ttt7);
 
-        TTT8 = new CyderButton("");
-
-        TTT8.setPreferredSize(new Dimension(60, 60));
-
-        TTT8.setFocusPainted(false);
-
-        TTT8.setBackground(TTTUtil.vanila);
-
-        TTT8.setColors(TTTUtil.vanila);
-
-        TTT8.setFont(TTTUtil.weatherFontSmall);
-
-        TTT8.setBorder(new LineBorder(TTTUtil.navy,5,false));
-
-        TTT8.addActionListener(e -> {
-            if (TTT8.getText().isEmpty()) {
+        ttt8 = new CyderButton("");
+        ttt8.setPreferredSize(new Dimension(60, 60));
+        ttt8.setFocusPainted(false);
+        ttt8.setBackground(tttUtil.vanila);
+        ttt8.setColors(tttUtil.vanila);
+        ttt8.setFont(tttUtil.weatherFontBig);
+        ttt8.setBorder(new LineBorder(tttUtil.navy,5,false));
+        ttt8.addActionListener(e -> {
+            if (ttt8.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
-                    TTT8.setText("X");
+                    ttt8.setText("X");
 
-                    TTT8.setForeground(TTTUtil.regularRed);
+                    ttt8.setForeground(tttUtil.regularRed);
 
-                    TTT8.setFont(TTTUtil.weatherFontSmall);
+                    ttt8.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -440,11 +371,11 @@ public class TicTacToe {
                 }
 
                 else {
-                    TTT8.setText("O");
+                    ttt8.setText("O");
 
-                    TTT8.setForeground(TTTUtil.tttblue);
+                    ttt8.setForeground(tttUtil.tttblue);
 
-                    TTT8.setFont(TTTUtil.weatherFontSmall);
+                    ttt8.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -455,30 +386,24 @@ public class TicTacToe {
             }
         });
 
-        ButtonPanel.add(TTT8);
+        ttt8.setBounds(150, 325, 100, 100);
+        tttFrame.getContentPane().add(ttt8);
 
-        TTT9 = new CyderButton("");
-
-        TTT9.setColors(TTTUtil.vanila);
-
-        TTT9.setPreferredSize(new Dimension(60, 60));
-
-        TTT9.setFocusPainted(false);
-
-        TTT9.setBackground(TTTUtil.vanila);
-
-        TTT9.setBorder(new LineBorder(TTTUtil.navy,5,false));
-
-        TTT9.setFont(TTTUtil.weatherFontSmall);
-
-        TTT9.addActionListener(e -> {
-            if (TTT9.getText().isEmpty()) {
+        ttt9 = new CyderButton("");
+        ttt9.setColors(tttUtil.vanila);
+        ttt9.setPreferredSize(new Dimension(60, 60));
+        ttt9.setFocusPainted(false);
+        ttt9.setBackground(tttUtil.vanila);
+        ttt9.setBorder(new LineBorder(tttUtil.navy,5,false));
+        ttt9.setFont(tttUtil.weatherFontBig);
+        ttt9.addActionListener(e -> {
+            if (ttt9.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
-                    TTT9.setText("X");
+                    ttt9.setText("X");
 
-                    TTT9.setForeground(TTTUtil.regularRed);
+                    ttt9.setForeground(tttUtil.regularRed);
 
-                    TTT9.setFont(TTTUtil.weatherFontSmall);
+                    ttt9.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -488,11 +413,11 @@ public class TicTacToe {
                 }
 
                 else {
-                    TTT9.setText("O");
+                    ttt9.setText("O");
 
-                    TTT9.setForeground(TTTUtil.tttblue);
+                    ttt9.setForeground(tttUtil.tttblue);
 
-                    TTT9.setFont(TTTUtil.weatherFontSmall);
+                    ttt9.setFont(tttUtil.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -503,51 +428,22 @@ public class TicTacToe {
             }
         });
 
-        ButtonPanel.add(TTT9);
+        ttt9.setBounds(275, 325, 100, 100);
+        tttFrame.getContentPane().add(ttt9);
 
-        ButtonPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        tttReset = new CyderButton("Reset");
+        tttReset.setFocusPainted(false);
+        tttReset.setBackground(tttUtil.regularRed);
+        tttReset.setFont(tttUtil.weatherFontBig);
+        tttReset.setColors(tttUtil.regularRed);
+        tttReset.setBorder(new LineBorder(tttUtil.navy,5,false));
+        tttReset.addActionListener(e -> TTTBoardReset());
 
-        parentPanel.add(ButtonPanel);
+        tttReset.setBounds(20, 440, 360, 40);
+        tttFrame.getContentPane().add(tttReset);
 
-        JPanel ResetPanel = new JPanel();
-
-        ResetPanel.setLayout(new BorderLayout());
-
-        TTTReset = new CyderButton("Reset");
-
-        TTTReset.setFocusPainted(false);
-
-        TTTReset.setBackground(TTTUtil.regularRed);
-
-        TTTReset.setFont(TTTUtil.weatherFontSmall);
-
-        TTTReset.setColors(TTTUtil.regularRed);
-
-        TTTReset.setBorder(new LineBorder(TTTUtil.navy,5,false));
-
-        TTTReset.addActionListener(e -> TTTBoardReset());
-
-        ResetPanel.add(TTTReset, BorderLayout.CENTER);
-
-        ResetPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-
-        parentPanel.add(ResetPanel);
-
-        parentPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-
-        TTTFrame.add(parentPanel);
-
-        TTTFrame.pack();
-
-        TTTFrame.setLocationRelativeTo(null);
-
-        TTTFrame.setVisible(true);
-
-        TTTFrame.setAlwaysOnTop(true);
-
-        TTTFrame.setAlwaysOnTop(false);
-
-        TTTFrame.requestFocus();
+        tttFrame.setVisible(true);
+        tttUtil.startAnimation(tttFrame);
 
         CurrentPlayerTurn = PlayerX;
 
@@ -556,11 +452,11 @@ public class TicTacToe {
 
     private void UpdatePlayerTurnLabel() {
         if (CurrentPlayerTurn == PlayerX) {
-            TTTLabel.setText("Player Turn: X");
+            tttLabel.setText("Player Turn: X");
         }
 
         else {
-            TTTLabel.setText("Player Turn: O");
+            tttLabel.setText("Player Turn: O");
         }
     }
 
@@ -568,71 +464,71 @@ public class TicTacToe {
         CurrentPlayerTurn = PlayerX;
         UpdatePlayerTurnLabel();
 
-        TTT1.setText("");
-        TTT2.setText("");
-        TTT3.setText("");
-        TTT4.setText("");
-        TTT5.setText("");
-        TTT6.setText("");
-        TTT7.setText("");
-        TTT8.setText("");
-        TTT9.setText("");
+        ttt1.setText("");
+        ttt2.setText("");
+        ttt3.setText("");
+        ttt4.setText("");
+        ttt5.setText("");
+        ttt6.setText("");
+        ttt7.setText("");
+        ttt8.setText("");
+        ttt9.setText("");
     }
 
     private void TTTCheckWin() {
         if (HasPlayerWon("X")) {
-            TTTUtil.inform("X's have won the game! Congratulations!","",200,200);
-            TTTReset.doClick();
+            tttUtil.inform("X's have won the game! Congratulations!","",200,200);
+            tttReset.doClick();
         }
 
         else if (HasPlayerWon("O")) {
-            TTTUtil.inform("O's have won the game! Congratulations!","",200,200);
-            TTTReset.doClick();
+            tttUtil.inform("O's have won the game! Congratulations!","",200,200);
+            tttReset.doClick();
         }
 
         else if (TTTBoardIsFull()) {
-            TTTUtil.inform("The game ended with no winners.","",200,200);
-            TTTReset.doClick();
+            tttUtil.inform("The game ended with no winners.","",200,200);
+            tttReset.doClick();
         }
     }
 
     private boolean HasPlayerWon(String Player) {
-        if (TTT1.getText().equals(Player) && TTT2.getText().equals(Player) && TTT3.getText().equals(Player)) {
+        if (ttt1.getText().equals(Player) && ttt2.getText().equals(Player) && ttt3.getText().equals(Player)) {
             return true;
         }
 
-        if (TTT4.getText().equals(Player) && TTT5.getText().equals(Player) && TTT6.getText().equals(Player)) {
+        if (ttt4.getText().equals(Player) && ttt5.getText().equals(Player) && ttt6.getText().equals(Player)) {
             return true;
         }
 
-        if (TTT7.getText().equals(Player) && TTT8.getText().equals(Player) && TTT9.getText().equals(Player)) {
+        if (ttt7.getText().equals(Player) && ttt8.getText().equals(Player) && ttt9.getText().equals(Player)) {
             return true;
         }
 
-        if (TTT1.getText().equals(Player) && TTT4.getText().equals(Player) && TTT7.getText().equals(Player)) {
+        if (ttt1.getText().equals(Player) && ttt4.getText().equals(Player) && ttt7.getText().equals(Player)) {
             return true;
         }
 
-        if (TTT2.getText().equals(Player) && TTT5.getText().equals(Player) && TTT8.getText().equals(Player))
+        if (ttt2.getText().equals(Player) && ttt5.getText().equals(Player) && ttt8.getText().equals(Player))
         {
             return true;
         }
 
-        if (TTT3.getText().equals(Player) && TTT6.getText().equals(Player) && TTT9.getText().equals(Player)) {
+        if (ttt3.getText().equals(Player) && ttt6.getText().equals(Player) && ttt9.getText().equals(Player)) {
             return true;
         }
 
-        if (TTT1.getText().equals(Player) && TTT5.getText().equals(Player) && TTT9.getText().equals(Player)) {
+        if (ttt1.getText().equals(Player) && ttt5.getText().equals(Player) && ttt9.getText().equals(Player)) {
             return true;
         }
 
-        return TTT3.getText().equals(Player) && TTT5.getText().equals(Player) && TTT7.getText().equals(Player);
+        return ttt3.getText().equals(Player) && ttt5.getText().equals(Player) && ttt7.getText().equals(Player);
     }
 
     private boolean TTTBoardIsFull() {
-        return !TTT1.getText().isEmpty() && !TTT2.getText().isEmpty() &&
-                !TTT3.getText().isEmpty() && !TTT4.getText().isEmpty() &&
-                !TTT5.getText().isEmpty() && !TTT6.getText().isEmpty() &&
-                !TTT7.getText().isEmpty() && !TTT8.getText().isEmpty() && !TTT9.getText().isEmpty();
+        return !ttt1.getText().isEmpty() && !ttt2.getText().isEmpty() &&
+                !ttt3.getText().isEmpty() && !ttt4.getText().isEmpty() &&
+                !ttt5.getText().isEmpty() && !ttt6.getText().isEmpty() &&
+                !ttt7.getText().isEmpty() && !ttt8.getText().isEmpty() && !ttt9.getText().isEmpty();
     }
 }
