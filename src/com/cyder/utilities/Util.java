@@ -2525,4 +2525,16 @@ public class Util {
     public int startToCenterJLabel(int compWidth, String title) {
         return (int) Math.floor(5 + (compWidth / 2.0)) - (((int) Math.ceil(14 * title.length())) / 2);
     }
+
+    public void wipeErrors() {
+        File topDir = new File("src/com/cyder/users");
+        File[] users = topDir.listFiles();
+
+        for (File f : users) {
+            if (f.isDirectory()) {
+                File throwDir = new File("src/com/cyder/users/" + f.getName() + "/throws");
+                if (throwDir.exists()) deleteFolder(throwDir);
+            }
+        }
+    }
 }

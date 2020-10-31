@@ -41,11 +41,7 @@ import java.util.concurrent.TimeUnit;
 //todo make photoviewer, the pretty gui one, use image scaling like main for background does
 //todo implement debugMenu windows pref, move computer properties to information pane
 //todo system properties from swing, java properties from swing
-//todo name all files to Cyder temporary file that are temp instead of the long weird string
-//todo make login window slide down like console, make method for this called "openanimation" inside of util
 //todo make an animation util class and break up utils into smaller ones, at least 4
-//todo add delete errors function if an admin
-//todo move errors to user specific folders
 //todo hangman use cyder frame
 //todo start animation for login broken
 //todo if press x in cyderframe when login is active, just dispose cyder frame
@@ -54,6 +50,8 @@ import java.util.concurrent.TimeUnit;
 //todo be able to drawimages in console when not here
 //todo remove all old drawimage calls
 //todo further class separation from main
+//todo add a systems error dir if no users
+//todo debug error with stackover flow when reading user data, loops sometimes and program doesn't even start
 
 public class CyderMain{
     //console vars
@@ -2364,7 +2362,7 @@ public class CyderMain{
                 }
             }
 
-            else if (hasWord("error") && !hasWord("throw")) {
+            else if ((eic("error") || eic("errors")) && !hasWord("throw")) {
                 if (mainUtil.getDebugMode()) {
                     File WhereItIs = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Throws\\");
                     Desktop.getDesktop().open(WhereItIs);
@@ -2930,6 +2928,17 @@ public class CyderMain{
 
             else if (eic("test")) {
                println("Test at very end of handle string method");
+            }
+
+            else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
+                if (mainUtil.getDebugMode()) {
+                    mainUtil.wipeErrors();
+
+                    println("Delete all user erorrs");
+                }
+
+                else
+                    println("Sorry, " + mainUtil.getUsername() + ", but you don't have permission to do that.");
             }
 
             else if (!mainUtil.getHandledMath()){
