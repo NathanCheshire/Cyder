@@ -82,7 +82,7 @@ public class WeatherWidget {
             weatherUtil.closeAnimation(weatherFrame);
 
         weatherFrame = new CyderFrame(1080,608,new ImageIcon("src\\com\\cyder\\io\\pictures\\Weather.png"));
-        weatherFrame.setTitlePosition(CyderFrame.CENTER);
+        weatherFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
         weatherFrame.setTitle("Weather");
 
         currentTimeLabel = new JLabel();
@@ -473,7 +473,6 @@ public class WeatherWidget {
             String OpenString = "";
 
             if (useCustomLoc) {
-                userCity = customCity;
                 userCity = customCity;
                 userState = customState;
                 userCountry = customCountry;

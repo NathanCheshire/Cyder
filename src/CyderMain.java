@@ -2,6 +2,7 @@ import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
+import com.cyder.handler.PhotoViewer;
 import com.cyder.ui.*;
 import com.cyder.utilities.*;
 
@@ -48,14 +49,13 @@ import java.util.concurrent.TimeUnit;
 //todo utilize start animations after you fix it
 //todo consolidate method for exiting tasks
 //todo be able to drawimages in console when not here
-//todo remove all old drawimage calls
 //todo further class separation from main
 //todo add a systems error dir if no users
 //todo debug error with stackover flow when reading user data, loops sometimes and program doesn't even start
 
 public class CyderMain{
     //console vars
-    private JTextPane outputArea;
+    private static JTextPane outputArea;
     private JTextField inputField;
     private JFrame consoleFrame;
     private JButton minimize;
@@ -2927,14 +2927,14 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-               println("Test at very end of handle string method");
+                notification("Notification for user " + mainUtil.getUsername(), 3000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 370);
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
                 if (mainUtil.getDebugMode()) {
                     mainUtil.wipeErrors();
 
-                    println("Delete all user erorrs");
+                    println("Deleted all user erorrs");
                 }
 
                 else
@@ -3044,7 +3044,7 @@ public class CyderMain{
         println("");
     }
 
-    private void printImage(String filename) {
+    public static void printImage(String filename) {
         outputArea.insertIcon(new ImageIcon(filename));
     }
 
@@ -3532,7 +3532,10 @@ public class CyderMain{
                     }
                 }
 
-                mainUtil.draw(ClickedSelectionPath != null ? ClickedSelectionPath.toString() : null);
+                if (ClickedSelectionPath != null) {
+                    PhotoViewer pv = new PhotoViewer(ClickedSelectionPath);
+                    pv.start();
+                }
             }
         });
 

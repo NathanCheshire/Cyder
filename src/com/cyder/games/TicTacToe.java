@@ -36,7 +36,7 @@ public class TicTacToe {
             tttUtil.closeAnimation(tttFrame);
 
         tttFrame = new CyderFrame(400,500, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
-        tttFrame.setTitlePosition(tttFrame.CENTER);
+        tttFrame.setTitlePosition(tttFrame.CENTER_TITLE);
         tttFrame.setTitle("Tic Tac Toe");
 
         tttLabel = new JLabel();

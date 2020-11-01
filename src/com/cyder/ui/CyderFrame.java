@@ -9,8 +9,8 @@ import java.awt.image.BufferedImage;
 
 public class CyderFrame extends JFrame {
 
-    public static final int LEFT = 0;
-    public static final int CENTER = 1;
+    public static final int LEFT_TITLE = 0;
+    public static final int CENTER_TITLE = 1;
     private int titlePosition = 0;
 
     private Util fUtil = new Util();
