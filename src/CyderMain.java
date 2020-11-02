@@ -13,6 +13,7 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.text.DateFormatter;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -24,6 +25,8 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -41,7 +44,6 @@ import java.util.concurrent.TimeUnit;
 //todo make pixelating pictures it's own widget
 //todo make photoviewer, the pretty gui one, use image scaling like main for background does
 //todo implement debugMenu windows pref, move computer properties to information pane
-//todo system properties from swing, java properties from swing
 //todo make an animation util class and break up utils into smaller ones, at least 4
 //todo hangman use cyder frame
 //todo start animation for login broken
@@ -49,9 +51,11 @@ import java.util.concurrent.TimeUnit;
 //todo utilize start animations after you fix it
 //todo consolidate method for exiting tasks
 //todo be able to drawimages in console when not here
-//todo further class separation from main
+//todo further class separation from CyderMain.java
+//todo further class separation from Util.java
 //todo add a systems error dir if no users
 //todo debug error with stackover flow when reading user data, loops sometimes and program doesn't even start
+//todo keep input and output logs and save to user dir, tell what the output was and if an error was thrown and then reference the error file
 
 public class CyderMain{
     //console vars
@@ -151,7 +155,8 @@ public class CyderMain{
     private String notificationTestString;
 
     //call constructor
-    public static void main(String[] ignored) {
+    public static void main(String[] CA) {
+        logArgs(CA);
         new CyderMain();
     }
 
@@ -165,17 +170,7 @@ public class CyderMain{
         UIManager.put("ToolTip.font", mainUtil.tahoma);
         UIManager.put("ToolTip.foreground", mainUtil.tooltipForegroundColor);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            mainUtil.closeAnimation(consoleFrame);
-
-            mainUtil.setUsername(mainUtil.getUsername());
-            mainUtil.setUsercolor(mainUtil.getUsercolor());
-            mainUtil.setUserfont(mainUtil.getUserfont());
-
-            saveFontColor();
-
-            mainUtil.deleteTempDir();
-        },"exit-hook"));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown,"exit-hook"));
 
         //security var for main developer's PC
         boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
@@ -1120,20 +1115,6 @@ public class CyderMain{
         }
         }
     };
-
-    private void exit() {
-        mainUtil.closeAnimation(consoleFrame);
-
-        mainUtil.setUsername(mainUtil.getUsername());
-        mainUtil.setUsercolor(mainUtil.getUsercolor());
-        mainUtil.setUserfont(mainUtil.getUserfont());
-
-        saveFontColor();
-
-        mainUtil.deleteTempDir();
-
-        System.exit(0);
-    }
 
     private void login(boolean AlreadyOpen) {
         if (loginFrame != null) {
@@ -5015,4 +4996,48 @@ public class CyderMain{
         });
         timer.start();
     }
+
+    private void exit() {
+        mainUtil.closeAnimation(consoleFrame);
+        System.exit(0);
+    }
+
+    private void shutdown() {
+        saveFontColor(); //todo can this go to mainUtil or some shutdown util?
+        mainUtil.deleteTempDir();
+    }
+
+    //todo test this
+    private static void logArgs(String[] cyderArgs) {
+        try {
+            if (cyderArgs.length > 0) {
+                File log = new File("src/CyderArgs.log");
+
+                if (!log.exists())
+                    log.createNewFile();
+
+                BufferedWriter bw = new BufferedWriter(new FileWriter(log, true));
+
+                String argsString = "";
+
+                for (int i = 0 ; i < cyderArgs.length ; i++) {
+                    if (i != 0)
+                        argsString += ",";
+                    argsString += cyderArgs[i];
+                }
+
+                Date current = new Date();
+                DateFormat argsFormat = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+                bw.write(argsFormat.format(current) + " : " + argsString);
+                bw.flush();
+                bw.close();
+            }
+        }
+
+        catch (Exception e) {
+            mainUtil.handle(e);
+        }
+    }
+
+    //todo add a timeUtil where you can pass it any datetime format and it will return a date in that rep, other methods too like correction for timezones
 }
