@@ -5035,7 +5035,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            //todo static error handler handle mainUtil.handle(e);
         }
     }
 
