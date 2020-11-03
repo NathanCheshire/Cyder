@@ -13,7 +13,6 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.text.DateFormatter;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -85,8 +84,8 @@ public class CyderMain{
     private JLabel menuLabel;
 
     //Objects for main use
-    private Util mainUtil = new Util();
-    private CyderAnimation animation = new CyderAnimation();
+    private Util mainUtil;
+    private CyderAnimation animation;
     private Notes userNotes;
 
     //operation var
@@ -156,28 +155,33 @@ public class CyderMain{
 
     //call constructor
     public static void main(String[] CA) {
-        logArgs(CA);
         new CyderMain();
+        logArgs(CA);
     }
 
     //todo clean up this method since it's getting a little messy
     private CyderMain() {
+        mainUtil = new Util();
+        animation = new CyderAnimation();
+
         //Fix scaling issue for high DPI displays like nathanLenovo which is 2560x1440
         System.setProperty("sun.java2d.uiScale","1.0");
 
+        //this sets up special looking tooltips
         UIManager.put("ToolTip.background", mainUtil.consoleColor);
         UIManager.put("ToolTip.border", mainUtil.tooltipBorderColor);
         UIManager.put("ToolTip.font", mainUtil.tahoma);
         UIManager.put("ToolTip.foreground", mainUtil.tooltipForegroundColor);
 
+        //this adds a shutdown hook so that we always do certain things on exit
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown,"exit-hook"));
-
-        //security var for main developer's PC
-        boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
 
         mainUtil.cleanUpUsers();
         mainUtil.deleteTempDir();
 
+        boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
+
+        //exit the program if it's notreleased and it's not on Natche's PC
         if (!mainUtil.released() && !nathanLenovo)
             System.exit(0);
 
@@ -1744,7 +1748,7 @@ public class CyderMain{
 
                     if (threads > 1) {
                         notification("The scripts have started. At any point, type \"stop script\"",
-                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 600);
+                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 620);
                     }
 
                     else {
@@ -1997,7 +2001,7 @@ public class CyderMain{
             }
 
             else if (((hasWord("quit") && !hasWord("db")) ||
-                    (eic("leave") || (hasWord("stop") && !hasWord("music") && !hasWord("script")) ||
+                    (eic("leave") || (hasWord("stop") && !hasWord("music") && !hasWord("script") && !hasWord("scripts")) ||
                             hasWord("exit") || eic("close"))) && !has("dance"))
             {
                 exit();
@@ -2883,7 +2887,7 @@ public class CyderMain{
                 println("Total lines of code: " + mainUtil.totalCodeLines(new File(System.getProperty("user.dir"))));
             }
 
-            else if (hasWord("current") && hasWord("threads")) {
+            else if ( hasWord("threads")) {
                 ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                 int num = threadGroup.activeCount();
                 Thread[] printThreads = new Thread[num];
@@ -5007,37 +5011,37 @@ public class CyderMain{
         mainUtil.deleteTempDir();
     }
 
-    //todo test this
+    //todo can this go to some util method when you separate methods out of here and Util?
     private static void logArgs(String[] cyderArgs) {
         try {
-            if (cyderArgs.length > 0) {
-                File log = new File("src/CyderArgs.log");
+            if (cyderArgs.length == 0)
+                cyderArgs = new String[]{"Started by " + System.getProperty("user.name")};
 
-                if (!log.exists())
-                    log.createNewFile();
+            File log = new File("src/CyderArgs.log");
 
-                BufferedWriter bw = new BufferedWriter(new FileWriter(log, true));
+            if (!log.exists())
+                log.createNewFile();
 
-                String argsString = "";
+            BufferedWriter bw = new BufferedWriter(new FileWriter(log, true));
 
-                for (int i = 0 ; i < cyderArgs.length ; i++) {
-                    if (i != 0)
-                        argsString += ",";
-                    argsString += cyderArgs[i];
-                }
+            String argsString = "";
 
-                Date current = new Date();
-                DateFormat argsFormat = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
-                bw.write(argsFormat.format(current) + " : " + argsString);
-                bw.flush();
-                bw.close();
+            for (int i = 0 ; i < cyderArgs.length ; i++) {
+                if (i != 0)
+                    argsString += ",";
+                argsString += cyderArgs[i];
             }
+
+            Date current = new Date();
+            DateFormat argsFormat = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+            bw.write(argsFormat.format(current) + " : " + argsString);
+            bw.newLine();
+            bw.flush();
+            bw.close();
         }
 
         catch (Exception e) {
-            //todo static error handler handle mainUtil.handle(e);
+            new Util().staticHandle(e);
         }
     }
-
-    //todo add a timeUtil where you can pass it any datetime format and it will return a date in that rep, other methods too like correction for timezones
 }

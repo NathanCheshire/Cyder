@@ -2090,6 +2090,10 @@ public class Util {
         return Toolkit.getDefaultToolkit().getScreenResolution();
     }
 
+    public static void staticHandle(Exception e) {
+        new Util().handle(e);
+    }
+
     public void handle(Exception e) {
         try {
             File throwsDir = new File("src\\com\\cyder\\users\\" + getUserUUID() + "\\Throws\\");
