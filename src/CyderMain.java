@@ -55,6 +55,7 @@ import java.util.concurrent.TimeUnit;
 //todo add a systems error dir if no users
 //todo debug error with stackover flow when reading user data, loops sometimes and program doesn't even start
 //todo keep input and output logs and save to user dir, tell what the output was and if an error was thrown and then reference the error file
+//todo I feel like a lot of stuff should be static since it means it belongs to the class an not an instance of it
 
 public class CyderMain{
     //console vars
@@ -159,43 +160,52 @@ public class CyderMain{
         logArgs(CA);
     }
 
-    //todo clean up this method since it's getting a little messy
     private CyderMain() {
+        //this adds a shutdown hook so that we always do certain things on exit
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown,"exit-hook"));
+
+        initObjects();
+        initSystemProperties();
+        initUIManager();
+
+        mainUtil.cleanUpUsers();
+        mainUtil.deleteTempDir();
+        mainUtil.varInit();
+
+        backgroundProcess();
+
+        boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
+
+        if (nathanLenovo) {
+            mainUtil.setDebugMode(true);
+            autoCypher();
+        }
+
+        else if (!mainUtil.released()) {
+            System.exit(0);
+        }
+
+        else {
+            login(false);
+        }
+    }
+
+    private void initObjects() {
         mainUtil = new Util();
         animation = new CyderAnimation();
+    }
 
+    private void initSystemProperties() {
         //Fix scaling issue for high DPI displays like nathanLenovo which is 2560x1440
         System.setProperty("sun.java2d.uiScale","1.0");
+    }
 
+    private void initUIManager() {
         //this sets up special looking tooltips
         UIManager.put("ToolTip.background", mainUtil.consoleColor);
         UIManager.put("ToolTip.border", mainUtil.tooltipBorderColor);
         UIManager.put("ToolTip.font", mainUtil.tahoma);
         UIManager.put("ToolTip.foreground", mainUtil.tooltipForegroundColor);
-
-        //this adds a shutdown hook so that we always do certain things on exit
-        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown,"exit-hook"));
-
-        mainUtil.cleanUpUsers();
-        mainUtil.deleteTempDir();
-
-        boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
-
-        //exit the program if it's notreleased and it's not on Natche's PC
-        if (!mainUtil.released() && !nathanLenovo)
-            System.exit(0);
-
-        if (nathanLenovo)
-            mainUtil.setDebugMode(true);
-
-        mainUtil.varInit();
-        backgroundProcess();
-
-        if (nathanLenovo)
-            autoCypher();
-
-        else
-            login(false);
     }
 
     private void autoCypher() {
@@ -448,6 +458,7 @@ public class CyderMain{
 
             menuButton.setToolTipText("Menu");
 
+            //todo move the menu stuff out of here to make it cleaner
             menuButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
@@ -779,7 +790,13 @@ public class CyderMain{
 
             close = new JButton("");
             close.setToolTipText("Close");
-            close.addActionListener(e -> exit());
+            close.addActionListener(e -> {
+                if (loginFrame != null && loginFrame.isVisible())
+                    mainUtil.closeAnimation(consoleFrame);
+                else
+                    exit();
+            });
+
             close.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
@@ -3294,6 +3311,7 @@ public class CyderMain{
         return reverse.toCharArray();
     }
 
+    //todo move to separate handler
     private void logToDo(String input) {
         try {
             if (input != null && !input.equals("") && !mainUtil.filter(input) && input.length() > 6 && !mainUtil.filter(input)) {
@@ -3322,6 +3340,7 @@ public class CyderMain{
 
     public void saveFontColor() {
         try {
+            //todo make outputarea and inputfield accessible outside of method so you can move savefontcolor()
             Font SaveFont = outputArea.getFont();
             String SaveFontName = SaveFont.getName();
             Color SaveColor = outputArea.getForeground();
@@ -3342,6 +3361,7 @@ public class CyderMain{
         }
     }
 
+    //todo move out
     public void initUserfontAndColor() {
         try {
             mainUtil.readUserData();
@@ -3366,6 +3386,7 @@ public class CyderMain{
         }
     }
 
+    //todo this should move
     public void randomYoutube(JFrame frameForTitle, int threadCount) {
         frameForTitle.setTitle("YouTube script running");
 
@@ -3375,6 +3396,7 @@ public class CyderMain{
         }
     }
 
+    //todo move to stringUtils that returns array to print
     public void help() {
         String[] Helps = {"Pixalte a Picture", "Home", "Mathsh", "Pizza", "Vexento", "Youtube", "note", "Create a User"
                 , "Binary", "Font", "Color", "Preferences", "Hasher", "Directory Search", "Tic Tac Toe", "Youtube Thumbnail", "Java"
@@ -4036,6 +4058,7 @@ public class CyderMain{
         editUserFrame.requestFocus();
     }
 
+    //todo move to util
     public void initializeMusicList() {
         File dir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music");
         musicList = new LinkedList<>();
@@ -4069,6 +4092,7 @@ public class CyderMain{
         musicSelectionList.setSelectionBackground(mainUtil.selectionColor);
     }
 
+    //todo move to util
     public void initializeBackgroundsList() {
         File dir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds");
         backgroundsList = new LinkedList<>();
@@ -4169,7 +4193,7 @@ public class CyderMain{
 
         return parentPanel;
     }
-
+    //todo move font and color to customizingUtil
     private JPanel getFontPanel() {
         JPanel parentPanel = new JPanel();
         parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.PAGE_AXIS));
@@ -4254,8 +4278,7 @@ public class CyderMain{
         return parentPanel;
     }
 
-    private Runnable closeRunable = this::exit;
-
+    //todo move to time util
     public void closeAtHourMinute(int Hour, int Minute) {
         Calendar CloseCalendar = Calendar.getInstance();
         CloseCalendar.add(Calendar.DAY_OF_MONTH, 0);
@@ -4265,9 +4288,10 @@ public class CyderMain{
         CloseCalendar.set(Calendar.MILLISECOND, 0);
         long HowMany = (CloseCalendar.getTimeInMillis() - System.currentTimeMillis());
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.schedule(closeRunable,HowMany, TimeUnit.MILLISECONDS);
+        scheduler.schedule(this::exit,HowMany, TimeUnit.MILLISECONDS);
     }
 
+    //todo move this out
     public void createUser() {
         createUserBackground = null;
 
@@ -4685,6 +4709,7 @@ public class CyderMain{
         newUserName.requestFocus();
     }
 
+    //todo same as below and make consoleClockLabel static or some
     private void refreshConsoleClock() {
         Thread TimeThread = new Thread(() -> {
             try {
@@ -4703,6 +4728,7 @@ public class CyderMain{
         TimeThread.start();
     }
 
+    //todo move to checking utils thread that runs in background
     private void checkChime() {
         Thread ChimeThread = new Thread(() -> {
             try {
@@ -4736,7 +4762,6 @@ public class CyderMain{
                 }
 
                 menuLabel.setVisible(false);
-
                 menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menuSide1.png"));
             });
 
@@ -4744,6 +4769,7 @@ public class CyderMain{
         }
     }
 
+    //todo make this more customizable and make it return an arry so that here you can loop through array and add ms delay
     private void bletchy(String str) {
         str = str.toLowerCase();
         str = str.replaceFirst("(?:bletchy)+", "").trim();
@@ -4820,10 +4846,9 @@ public class CyderMain{
                             killAllYoutube();
                             println("YouTube script found valid video with UUID: " + UUID);
 
+                            //todo move this out of main and also make this cyderframe
                             JFrame thumbnailFrame = new JFrame();
-
                             thumbnailFrame.setUndecorated(true);
-
                             thumbnailFrame.setTitle(UUID);
 
                             thumbnailFrame.addMouseMotionListener(new MouseMotionListener() {
@@ -5007,7 +5032,7 @@ public class CyderMain{
     }
 
     private void shutdown() {
-        saveFontColor(); //todo can this go to mainUtil or some shutdown util?
+        saveFontColor();
         mainUtil.deleteTempDir();
     }
 

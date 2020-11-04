@@ -494,6 +494,7 @@ public class Util {
         return sb.toString();
     }
 
+    //tests for my mac addr
     public boolean compMACAddress(String mac) {
         return toHexString(getSHA(mac.toCharArray())).equals("5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e");
     }
