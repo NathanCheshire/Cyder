@@ -1,6 +1,5 @@
 package com.cyder.obj;
 
-@SuppressWarnings("all")
 public class NBT {
 
     //A simple Named Binary Tag object for use anywhere

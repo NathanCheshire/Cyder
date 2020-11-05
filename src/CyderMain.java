@@ -211,8 +211,9 @@ public class CyderMain{
     private void autoCypher() {
         try {
             File autoCypher = new File("../autocypher.txt");
+            File Users = new File("src\\com\\cyder\\users\\");
 
-            if (autoCypher.exists()) {
+            if (autoCypher.exists() && Users.listFiles().length != 0) {
                 BufferedReader ac = new BufferedReader(new FileReader(autoCypher));
 
                 String line = ac.readLine();
@@ -1323,6 +1324,7 @@ public class CyderMain{
 
         mainUtil.startAnimation(loginFrame);
 
+        //todo make this work
         if (directories != null && directories.length == 0)
             notification("Psssst! Create a user, " + System.getProperty("user.name"),
                     2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPanel, 230);

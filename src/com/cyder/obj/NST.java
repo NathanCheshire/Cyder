@@ -1,6 +1,5 @@
 package com.cyder.obj;
 
-@SuppressWarnings("all")
 public class NST {
 
     //A simple Named String Tag object for use anywhere

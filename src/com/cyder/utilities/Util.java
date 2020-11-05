@@ -3,6 +3,7 @@ package com.cyder.utilities;
 
 import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
+import com.cyder.obj.NBT;
 import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -1933,7 +1934,8 @@ public class Util {
         }
 
         catch(Exception e) {
-            handle(e);
+            handle(e); //todo stack over flow looping between three methods occurs right now
+            //comes through here so trace it
         }
     }
 
