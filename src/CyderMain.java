@@ -56,6 +56,11 @@ import java.util.concurrent.TimeUnit;
 //todo debug error with stackover flow when reading user data, loops sometimes and program doesn't even start
 //todo keep input and output logs and save to user dir, tell what the output was and if an error was thrown and then reference the error file
 //todo I feel like a lot of stuff should be static since it means it belongs to the class an not an instance of it
+//todo BLOB and SLOB objects binary large object and string large object, and glusters for each that use hashtables
+//todo make use of nbt where nst can be nbt
+//todo make nbt extend nst
+//todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
+//todo add a way for notifcations to go down and then back up from center of jframe
 
 public class CyderMain{
     //console vars
@@ -460,229 +465,7 @@ public class CyderMain{
             menuButton.setToolTipText("Menu");
 
             //todo move the menu stuff out of here to make it cleaner
-            menuButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    if (!menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menu2.png"));
-
-                        menuLabel = new JLabel("");
-                        menuLabel.setOpaque(true);
-                        menuLabel.setBackground(new Color(26,32,51));
-
-                        parentPanel.add(menuLabel,1,0);
-
-                        menuLabel.setBounds(-150,30, 130,260);
-                        menuLabel.setVisible(true);
-
-                        JLabel calculatorLabel = new JLabel("Calculator");
-                        calculatorLabel.setFont(mainUtil.weatherFontSmall);
-                        calculatorLabel.setForeground(mainUtil.vanila);
-                        calculatorLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                Calculator c = new Calculator();
-                            }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                calculatorLabel.setForeground(mainUtil.regularRed);
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                calculatorLabel.setForeground(mainUtil.vanila);
-                            }
-                        });
-
-                        menuLabel.add(calculatorLabel);
-                        calculatorLabel.setBounds(5,20,150,20);
-
-                        JLabel musicLabel = new JLabel("Music");
-                        musicLabel.setFont(mainUtil.weatherFontSmall);
-                        musicLabel.setForeground(mainUtil.vanila);
-                        musicLabel.setBounds(5,50,150,20);
-                        menuLabel.add(musicLabel);
-                        musicLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                mainUtil.mp3("", mainUtil.getUsername(), mainUtil.getUserUUID());
-                            }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                musicLabel.setForeground(mainUtil.regularRed);
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                musicLabel.setForeground(mainUtil.vanila);
-                            }
-                        });
-
-                        JLabel weatherLabel = new JLabel("Weather");
-                        weatherLabel.setFont(mainUtil.weatherFontSmall);
-                        weatherLabel.setForeground(mainUtil.vanila);
-                        menuLabel.add(weatherLabel);
-                        weatherLabel.setBounds(5,80,150,20);
-                        weatherLabel.setOpaque(false);
-                        weatherLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                WeatherWidget ww = new WeatherWidget();
-                            }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                weatherLabel.setForeground(mainUtil.regularRed);
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                weatherLabel.setForeground(mainUtil.vanila);
-                            }
-                        });
-
-                        JLabel noteLabel = new JLabel("Notes");
-                        noteLabel.setFont(mainUtil.weatherFontSmall);
-                        noteLabel.setForeground(mainUtil.vanila);
-                        menuLabel.add(noteLabel);
-                        noteLabel.setBounds(5,110,150,20);
-                        noteLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                userNotes = new Notes(mainUtil.getUserUUID());
-                            }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                noteLabel.setForeground(mainUtil.regularRed);
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                noteLabel.setForeground(mainUtil.vanila);
-                            }
-                        });
-
-                        JLabel editUserLabel = new JLabel("Edit user");
-                        editUserLabel.setFont(mainUtil.weatherFontSmall);
-                        editUserLabel.setForeground(mainUtil.vanila);
-                        menuLabel.add(editUserLabel);
-                        editUserLabel.setBounds(5,140,150,20);
-                        editUserLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                editUser();
-                            }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                editUserLabel.setForeground(mainUtil.regularRed);
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                editUserLabel.setForeground(mainUtil.vanila);
-                            }
-                        });
-
-                        JLabel temperatureLabel = new JLabel("Temp conv");
-                        temperatureLabel.setFont(mainUtil.weatherFontSmall);
-                        temperatureLabel.setForeground(mainUtil.vanila);
-                        menuLabel.add(temperatureLabel);
-                        temperatureLabel.setBounds(5,170,150,20);
-                        temperatureLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                TempConverter tc = new TempConverter();
-                            }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                temperatureLabel.setForeground(mainUtil.regularRed);
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                temperatureLabel.setForeground(mainUtil.vanila);
-                            }
-                        });
-
-                        JLabel youtubeLabel = new JLabel("YouTube");
-                        youtubeLabel.setFont(mainUtil.weatherFontSmall);
-                        youtubeLabel.setForeground(mainUtil.vanila);
-                        menuLabel.add(youtubeLabel);
-                        youtubeLabel.setBounds(5,200,150,20);
-                        youtubeLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                mainUtil.internetConnect("https://youtube.com");
-                            }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                youtubeLabel.setForeground(mainUtil.regularRed);
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                youtubeLabel.setForeground(mainUtil.vanila);
-                            }
-                        });
-
-                        JLabel twitterLabel = new JLabel("Twitter");
-                        twitterLabel.setFont(mainUtil.weatherFontSmall);
-                        twitterLabel.setForeground(mainUtil.vanila);
-                        menuLabel.add(twitterLabel);
-                        twitterLabel.setBounds(5,230,150,20);
-                        twitterLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                mainUtil.internetConnect("https://twitter.com");
-                            }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                twitterLabel.setForeground(mainUtil.regularRed);
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                twitterLabel.setForeground(mainUtil.vanila);
-                            }
-                        });
-
-                        animation.jLabelXRight(-150,0,10,8, menuLabel);
-                    }
-
-                    else if (menuLabel.isVisible()){
-                        minimizeMenu();
-                    }
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    if (menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menu2.png"));
-                    }
-
-                    else {
-                        menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menuSide2.png"));
-                    }
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    if (menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menu1.png"));
-                    }
-
-                    else {
-                        menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menuSide1.png"));
-                    }
-                }
-            });
+            menuButton.addMouseListener(consoleMenu);
 
             menuButton.setBounds(4, 4, 22, 22);
 
@@ -964,76 +747,301 @@ public class CyderMain{
         }
     }
 
-    private KeyListener commandScrolling = new KeyAdapter() {
+    private MouseAdapter consoleMenu = new MouseAdapter() {
         @Override
-        public void keyPressed(java.awt.event.KeyEvent event) {
-            int code = event.getKeyCode();
+        public void mouseReleased(MouseEvent e) {
+            if (!menuLabel.isVisible()) {
+                menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menu2.png"));
 
-            try {
-                if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
-                    if (code == KeyEvent.VK_DOWN) {
-                        if (scrollingIndex + 1 < operationList.size()) {
-                            scrollingIndex = scrollingIndex + 1;
-                            inputField.setText(operationList.get(scrollingIndex));
-                        }
+                menuLabel = new JLabel("");
+                menuLabel.setOpaque(true);
+                menuLabel.setBackground(new Color(26,32,51));
+
+                parentPanel.add(menuLabel,1,0);
+
+                menuLabel.setBounds(-150,30, 130,260);
+                menuLabel.setVisible(true);
+
+                JLabel calculatorLabel = new JLabel("Calculator");
+                calculatorLabel.setFont(mainUtil.weatherFontSmall);
+                calculatorLabel.setForeground(mainUtil.vanila);
+                calculatorLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        Calculator c = new Calculator();
                     }
 
-                    else if (code == KeyEvent.VK_UP) {
-                        boolean Found = false;
-
-                        for (int i = 0; i < operationList.size() ; i++) {
-                            if (operationList.get(i).equals(inputField.getText())) {
-                                Found = true;
-                                break;
-                            }
-
-                            else if (!operationList.get(i).equals(inputField.getText()) && i == operationList.size() - 1) {
-                                Found = false;
-                                break;
-                            }
-                        }
-
-                        if (inputField.getText() == null || inputField.getText().equals("")) {
-                            mainUtil.setCurrentDowns(0);
-                        }
-
-                        else if (!Found) {
-                            mainUtil.setCurrentDowns(0);
-                        }
-
-                        if (scrollingIndex - 1 >= 0) {
-                            if (mainUtil.getCurrentDowns() != 0) {
-                                scrollingIndex = scrollingIndex - 1;
-                            }
-
-                            inputField.setText(operationList.get(scrollingIndex));
-                            mainUtil.setCurrentDowns(mainUtil.getCurrentDowns() + 1);
-                        }
-
-                        if (operationList.size() == 1) {
-                            inputField.setText(operationList.get(0));
-                        }
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        calculatorLabel.setForeground(mainUtil.regularRed);
                     }
 
-                    for (int i = 61440 ; i < 61452 ; i++) {
-                        if (code == i) {
-                            int seventeen = (i - 61427);
-
-                            if (seventeen == 17)
-                                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\f17.mp3");
-                            else
-                               println("Interesting F" + (i - 61427) + " key");
-                        }
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        calculatorLabel.setForeground(mainUtil.vanila);
                     }
-                }
+                });
+
+                menuLabel.add(calculatorLabel);
+                calculatorLabel.setBounds(5,20,150,20);
+
+                JLabel musicLabel = new JLabel("Music");
+                musicLabel.setFont(mainUtil.weatherFontSmall);
+                musicLabel.setForeground(mainUtil.vanila);
+                musicLabel.setBounds(5,50,150,20);
+                menuLabel.add(musicLabel);
+                musicLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        mainUtil.mp3("", mainUtil.getUsername(), mainUtil.getUserUUID());
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        musicLabel.setForeground(mainUtil.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        musicLabel.setForeground(mainUtil.vanila);
+                    }
+                });
+
+                JLabel weatherLabel = new JLabel("Weather");
+                weatherLabel.setFont(mainUtil.weatherFontSmall);
+                weatherLabel.setForeground(mainUtil.vanila);
+                menuLabel.add(weatherLabel);
+                weatherLabel.setBounds(5,80,150,20);
+                weatherLabel.setOpaque(false);
+                weatherLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        WeatherWidget ww = new WeatherWidget();
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        weatherLabel.setForeground(mainUtil.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        weatherLabel.setForeground(mainUtil.vanila);
+                    }
+                });
+
+                JLabel noteLabel = new JLabel("Notes");
+                noteLabel.setFont(mainUtil.weatherFontSmall);
+                noteLabel.setForeground(mainUtil.vanila);
+                menuLabel.add(noteLabel);
+                noteLabel.setBounds(5,110,150,20);
+                noteLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        userNotes = new Notes(mainUtil.getUserUUID());
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        noteLabel.setForeground(mainUtil.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        noteLabel.setForeground(mainUtil.vanila);
+                    }
+                });
+
+                JLabel editUserLabel = new JLabel("Edit user");
+                editUserLabel.setFont(mainUtil.weatherFontSmall);
+                editUserLabel.setForeground(mainUtil.vanila);
+                menuLabel.add(editUserLabel);
+                editUserLabel.setBounds(5,140,150,20);
+                editUserLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        editUser();
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        editUserLabel.setForeground(mainUtil.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        editUserLabel.setForeground(mainUtil.vanila);
+                    }
+                });
+
+                JLabel temperatureLabel = new JLabel("Temp conv");
+                temperatureLabel.setFont(mainUtil.weatherFontSmall);
+                temperatureLabel.setForeground(mainUtil.vanila);
+                menuLabel.add(temperatureLabel);
+                temperatureLabel.setBounds(5,170,150,20);
+                temperatureLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        TempConverter tc = new TempConverter();
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        temperatureLabel.setForeground(mainUtil.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        temperatureLabel.setForeground(mainUtil.vanila);
+                    }
+                });
+
+                JLabel youtubeLabel = new JLabel("YouTube");
+                youtubeLabel.setFont(mainUtil.weatherFontSmall);
+                youtubeLabel.setForeground(mainUtil.vanila);
+                menuLabel.add(youtubeLabel);
+                youtubeLabel.setBounds(5,200,150,20);
+                youtubeLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        mainUtil.internetConnect("https://youtube.com");
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        youtubeLabel.setForeground(mainUtil.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        youtubeLabel.setForeground(mainUtil.vanila);
+                    }
+                });
+
+                JLabel twitterLabel = new JLabel("Twitter");
+                twitterLabel.setFont(mainUtil.weatherFontSmall);
+                twitterLabel.setForeground(mainUtil.vanila);
+                menuLabel.add(twitterLabel);
+                twitterLabel.setBounds(5,230,150,20);
+                twitterLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        mainUtil.internetConnect("https://twitter.com");
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        twitterLabel.setForeground(mainUtil.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        twitterLabel.setForeground(mainUtil.vanila);
+                    }
+                });
+
+                animation.jLabelXRight(-150,0,10,8, menuLabel);
             }
 
-            catch (Exception e) {
-                mainUtil.handle(e);
+            else if (menuLabel.isVisible()){
+                minimizeMenu();
+            }
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if (menuLabel.isVisible()) {
+                menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menu2.png"));
+            }
+
+            else {
+                menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menuSide2.png"));
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (menuLabel.isVisible()) {
+                menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menu1.png"));
+            }
+
+            else {
+                menuButton.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\menuSide1.png"));
             }
         }
     };
 
+    private KeyListener commandScrolling = new KeyAdapter() {
+        @Override
+        public void keyPressed(java.awt.event.KeyEvent event) {
+        int code = event.getKeyCode();
+
+        try {
+            if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
+                if (code == KeyEvent.VK_DOWN) {
+                    if (scrollingIndex + 1 < operationList.size()) {
+                        scrollingIndex = scrollingIndex + 1;
+                        inputField.setText(operationList.get(scrollingIndex));
+                    }
+                }
+
+                else if (code == KeyEvent.VK_UP) {
+                    boolean Found = false;
+
+                    for (int i = 0; i < operationList.size() ; i++) {
+                        if (operationList.get(i).equals(inputField.getText())) {
+                            Found = true;
+                            break;
+                        }
+
+                        else if (!operationList.get(i).equals(inputField.getText()) && i == operationList.size() - 1) {
+                            Found = false;
+                            break;
+                        }
+                    }
+
+                    if (inputField.getText() == null || inputField.getText().equals("")) {
+                        mainUtil.setCurrentDowns(0);
+                    }
+
+                    else if (!Found) {
+                        mainUtil.setCurrentDowns(0);
+                    }
+
+                    if (scrollingIndex - 1 >= 0) {
+                        if (mainUtil.getCurrentDowns() != 0) {
+                            scrollingIndex = scrollingIndex - 1;
+                        }
+
+                        inputField.setText(operationList.get(scrollingIndex));
+                        mainUtil.setCurrentDowns(mainUtil.getCurrentDowns() + 1);
+                    }
+
+                    if (operationList.size() == 1) {
+                        inputField.setText(operationList.get(0));
+                    }
+                }
+
+                for (int i = 61440 ; i < 61452 ; i++) {
+                    if (code == i) {
+                        int seventeen = (i - 61427);
+
+                        if (seventeen == 17)
+                            mainUtil.playMusic("src\\com\\cyder\\io\\audio\\f17.mp3");
+                        else
+                           println("Interesting F" + (i - 61427) + " key");
+                    }
+                }
+            }
+        }
+
+        catch (Exception e) {
+            mainUtil.handle(e);
+        }
+        }
+    };
+
+    //todo separate class
     private class specialDay {
         private boolean kill = false;
 
@@ -1324,10 +1332,10 @@ public class CyderMain{
 
         mainUtil.startAnimation(loginFrame);
 
-        //todo make this work
+
         if (directories != null && directories.length == 0)
             notification("Psssst! Create a user, " + System.getProperty("user.name"),
-                    2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPanel, 230);
+                    2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, loginLabel, 230);
     }
 
     private void recognize(String Username, char[] Password) {
@@ -4951,6 +4959,31 @@ public class CyderMain{
         consoleNotification = new Notification();
 
         int w = (int) Math.ceil(12 * htmltext.length());
+        int h = 30;
+
+        consoleNotification.setWidth(w);
+        consoleNotification.setHeight(h);
+        consoleNotification.setArrow(arrowDir);
+
+        JLabel text = new JLabel(htmltext);
+        text.setFont(mainUtil.weatherFontSmall);
+        text.setForeground(mainUtil.navy);
+        text.setBounds(14,10,w * 2,h);
+        consoleNotification.add(text);
+        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
+        parent.add(consoleNotification,1,0);
+        parent.repaint();
+
+        consoleNotification.vanish(vanishDir, parent, delay);
+    }
+
+    public void notification(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
+        if (consoleNotification != null && consoleNotification.isVisible())
+            consoleNotification.kill();
+
+        consoleNotification = new Notification();
+
+        int w = width;
         int h = 30;
 
         consoleNotification.setWidth(w);

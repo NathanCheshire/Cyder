@@ -3,7 +3,6 @@ package com.cyder.utilities;
 
 import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
-import com.cyder.obj.NBT;
 import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -1914,8 +1913,10 @@ public class Util {
     public void readUserData() {
         try {
             userData.clear();
-
             String user = getUserUUID();
+
+            if (user == null)
+                return;
 
             dataReader = new BufferedReader(new FileReader(
                     "src\\com\\cyder\\users\\" + user + "\\Userdata.txt"));
@@ -1924,9 +1925,7 @@ public class Util {
 
             while (Line != null) {
                 String[] parts = Line.split(":");
-
                 userData.add(new NST(parts[0], parts[1]));
-
                 Line = dataReader.readLine();
             }
 
@@ -1934,8 +1933,7 @@ public class Util {
         }
 
         catch(Exception e) {
-            handle(e); //todo stack over flow looping between three methods occurs right now
-            //comes through here so trace it
+            handle(e);
         }
     }
 
@@ -2131,7 +2129,7 @@ public class Util {
         }
 
         catch (Exception ex) {
-            if (debugMode && getUserData("SilenceErrors").equals("0")) {
+            if (debugMode && getUserData("SilenceErrors") != null && getUserData("SilenceErrors").equals("0")) {
                 System.out.println("Exception in error logger:\n\n");
                 e.printStackTrace();
             }
@@ -2368,7 +2366,7 @@ public class Util {
         }
     }
 
-    public int startToCenterJLabel(int compWidth, String title) {
+    public int xOffsetForCenterJLabel(int compWidth, String title) {
         return (int) Math.floor(5 + (compWidth / 2.0)) - (((int) Math.ceil(14 * title.length())) / 2);
     }
 

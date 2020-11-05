@@ -42,8 +42,8 @@ public class TicTacToe {
         tttLabel = new JLabel();
         tttLabel.setFont(tttUtil.weatherFontSmall);
         tttLabel.setForeground(tttUtil.navy);
-        tttLabel.setBounds(tttUtil.startToCenterJLabel(400,"Tic Tac Toe"),30,
-                tttUtil.startToCenterJLabel(400,tttFrame.getTitle()) * 2,30);
+        tttLabel.setBounds(tttUtil.xOffsetForCenterJLabel(400,"Tic Tac Toe"),30,
+                tttUtil.xOffsetForCenterJLabel(400,tttFrame.getTitle()) * 2,30);
         tttFrame.getContentPane().add(tttLabel);
 
         ttt1 = new CyderButton("");

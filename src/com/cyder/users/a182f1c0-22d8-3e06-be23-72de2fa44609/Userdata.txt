@@ -1,0 +1,15 @@
+Name:Nathan
+Font:tahoma
+Red:236
+Green:64
+Blue:122
+Password:3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+IntroMusic:0
+DebugWindows:0
+RandomBackground:0
+HourlyChimes:1
+ClockOnConsole:1
+SilenceErrors:1
+FullScreen:0
+OutputBorder:0
+InputBorder:0
