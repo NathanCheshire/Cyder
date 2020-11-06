@@ -37,29 +37,42 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //todo notes and textviewer non-swing dependent
+
 //todo redo edit user GUI, put in a scrollable UI, tooltips for everything, seconds for console clock option, make checkbox smaller
+
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
 //todo make pixelating pictures it's own widget
+
 //todo make photoviewer, the pretty gui one, use image scaling like main for background does
-//todo implement debugMenu windows pref, move computer properties to information pane
-//todo make an animation util class and break up utils into smaller ones, at least 4
+
 //todo hangman use cyder frame
-//todo start animation for login broken
 //todo if press x in cyderframe when login is active, just dispose cyder frame
 //todo utilize start animations after you fix it
 //todo consolidate method for exiting tasks
+
 //todo be able to drawimages in console when not here
+
+//todo make an animation util class
+//todo network util class
+//todo io class instead of util
+//todo ui utils class
+//todo startStopUtil for starting up and exiting methods
+//todo string utils
+
 //todo further class separation from CyderMain.java
 //todo further class separation from Util.java
-//todo add a systems error dir if no users
-//todo debug error with stackover flow when reading user data, loops sometimes and program doesn't even start
+
+//todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
+//todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
+
 //todo keep input and output logs and save to user dir, tell what the output was and if an error was thrown and then reference the error file
+
 //todo I feel like a lot of stuff should be static since it means it belongs to the class an not an instance of it
-//todo BLOB and SLOB objects binary large object and string large object, and glusters for each that use hashtables
+
 //todo make use of nbt where nst can be nbt
 //todo make nbt extend nst
-//todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
+
 //todo add a way for notifcations to go down and then back up from center of jframe
 
 public class CyderMain{
@@ -464,7 +477,6 @@ public class CyderMain{
 
             menuButton.setToolTipText("Menu");
 
-            //todo move the menu stuff out of here to make it cleaner
             menuButton.addMouseListener(consoleMenu);
 
             menuButton.setBounds(4, 4, 22, 22);
@@ -4203,7 +4215,8 @@ public class CyderMain{
 
         return parentPanel;
     }
-    //todo move font and color to customizingUtil
+
+    //todo move font and color to ui util
     private JPanel getFontPanel() {
         JPanel parentPanel = new JPanel();
         parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.PAGE_AXIS));
@@ -4681,6 +4694,7 @@ public class CyderMain{
                     }
                 }
 
+                //proper password handling in Java (main bitch <3)
                 for (char c : pass)
                     c = '\0';
 
