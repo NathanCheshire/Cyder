@@ -166,7 +166,7 @@ public class CyderMain{
     private boolean slidLeft;
 
     //notifications for holidays
-    private specialDay specialDayNotifier;
+    private SpecialDay specialDayNotifier;
 
     //notification test vars
     private int notificaitonTestWidth;
@@ -587,8 +587,11 @@ public class CyderMain{
             close = new JButton("");
             close.setToolTipText("Close");
             close.addActionListener(e -> {
-                if (loginFrame != null && loginFrame.isVisible())
+                if (loginFrame != null && loginFrame.isVisible()) {
                     mainUtil.closeAnimation(consoleFrame);
+                    consoleFrame = null;
+                }
+
                 else
                     exit();
             });
@@ -1053,37 +1056,11 @@ public class CyderMain{
         }
     };
 
-    //todo separate class
-    private class specialDay {
-        private boolean kill = false;
-
-        public specialDay() {
-            if (!kill) {
-                if (mainUtil.isChristmas())
-                    notification("Merry Christmas!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
-
-                if (mainUtil.isHalloween())
-                    notification("Happy Halloween!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
-
-                if (mainUtil.isIndependenceDay())
-                    notification("Happy 4th of July!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
-
-                if (mainUtil.isThanksgiving())
-                    notification("Happy Thanksgiving!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 230);
-
-                if (mainUtil.isAprilFoolsDay())
-                    notification("Happy April Fools Day!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 250);
-
-                kill = true;
-            }
-        }
-    }
-
     //make a special day echo class
     private WindowAdapter consoleEcho = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
         inputField.requestFocus();
-        specialDayNotifier = new specialDay();
+        specialDayNotifier = new SpecialDay(parentPanel);
         }
     };
 
@@ -1388,6 +1365,8 @@ public class CyderMain{
                 nameField.setText("");
                 pass.setText("");
                 nameField.requestFocusInWindow();
+                notification("Could not recognize user",
+                        2000, Notification.TOP_ARROW, Notification.TOP_VANISH, loginLabel, 280);
             }
         }
 
@@ -4314,7 +4293,7 @@ public class CyderMain{
         scheduler.schedule(this::exit,HowMany, TimeUnit.MILLISECONDS);
     }
 
-    //todo move this out
+    //todo convert to cyderframe
     public void createUser() {
         createUserBackground = null;
 
@@ -4690,6 +4669,7 @@ public class CyderMain{
 
                     else {
                         mainUtil.closeAnimation(createUserFrame);
+                        mainUtil.closeAnimation(loginFrame);
                         recognize(newUserName.getText().trim(),pass);
                     }
                 }
