@@ -80,10 +80,10 @@ import java.util.concurrent.TimeUnit;
 public class CyderMain{
     //console vars
     private static JTextPane outputArea;
-    private JTextField inputField;
-    private JFrame consoleFrame;
-    private JButton minimize;
-    private JButton close;
+    private static JTextField inputField;
+    private static JFrame consoleFrame;
+    private static JButton minimize;
+    private static JButton close;
     private JLabel consoleClockLabel;
     private boolean updateConsoleClock;
     private JLabel loginLabel;
@@ -95,7 +95,7 @@ public class CyderMain{
     private CyderScrollPane outputScroll;
     private JButton alternateBackground;
     private JLabel consoleDragLabel;
-    private JLayeredPane parentPanel;
+    private static JLayeredPane parentPanel;
     private JButton suggestionButton;
     private JButton menuButton;
     private JFrame loginFrame;
@@ -2934,6 +2934,12 @@ public class CyderMain{
             else if (eic("test")) {
                 TimeUtil tu = new TimeUtil();
                 tu.test(outputArea);
+                //heres where you're at, from above you can pass stuff around and append to it
+                //from below, when you use this it doesn't work but when you use main's notify it does?
+
+                //when you change all to this below, it becomes big and ignores ui scaling
+                consoleNotification.notify("Internet connection slow or unavailble",
+                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel,450);
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
@@ -4948,6 +4954,8 @@ public class CyderMain{
             ytt.kill();
         }
     }
+
+    //todo move file.txt to temp dir
 
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
         if (consoleNotification != null && consoleNotification.isVisible())
