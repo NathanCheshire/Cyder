@@ -146,7 +146,7 @@ public class CyderMain{
     //font vars
     private JList fontList;
 
-    //notification var
+    //notify var
     private static Notification consoleNotification;
 
     //create user vars
@@ -170,7 +170,7 @@ public class CyderMain{
     //notifications for holidays
     private SpecialDay specialDayNotifier;
 
-    //notification test vars
+    //notify test vars
     private int notificaitonTestWidth;
     private String notificationTestString;
 
@@ -240,7 +240,7 @@ public class CyderMain{
                 String[] parts = line.split(":");
 
                 if (parts.length == 2 && !parts[0].equals("") && !parts[1].equals(""))
-                    recognize(parts[0], parts[1].toCharArray());
+                    recognize(parts[0], parts[1].toCharArray()); //todo my user doesn't exist it just stays here and doesn't move past
             }
 
             else {
@@ -746,7 +746,7 @@ public class CyderMain{
 
             new Thread(() -> {
                 if (!mainUtil.internetReachable())
-                    notification("Internet connection slow or unavailble",
+                    notify("Internet connection slow or unavailble",
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel,450);
             }).start();
 
@@ -1325,7 +1325,7 @@ public class CyderMain{
 
 
         if (directories != null && directories.length == 0)
-            notification("Psssst! Create a user, " + System.getProperty("user.name"),
+            notify("Psssst! Create a user, " + System.getProperty("user.name"),
                     2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, loginLabel, 230);
     }
 
@@ -1367,7 +1367,7 @@ public class CyderMain{
                 nameField.setText("");
                 pass.setText("");
                 nameField.requestFocusInWindow();
-                notification("Could not recognize user",
+                notify("Could not recognize user",
                         2000, Notification.TOP_ARROW, Notification.TOP_VANISH, loginLabel, 280);
             }
         }
@@ -1767,12 +1767,12 @@ public class CyderMain{
                     int threads = Integer.parseInt(input);
 
                     if (threads > 1) {
-                        notification("The scripts have started. At any point, type \"stop script\"",
+                        notify("The scripts have started. At any point, type \"stop script\"",
                                 4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 620);
                     }
 
                     else {
-                        notification("The script has started. At any point, type \"stop script\"",
+                        notify("The script has started. At any point, type \"stop script\"",
                                 4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 600);
                     }
 
@@ -1981,17 +1981,17 @@ public class CyderMain{
                 exitFullscreen();
             }
 
-            else if (desc.equalsIgnoreCase("test notification one")) {
+            else if (desc.equalsIgnoreCase("test notify one")) {
                 notificationTestString = input;
                 inputField.requestFocus();
                 mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("test notification two");
-                println("Enter notification width in pixels");
+                mainUtil.setUserInputDesc("test notify two");
+                println("Enter notify width in pixels");
             }
 
-            else if (desc.equalsIgnoreCase("test notification two")) {
+            else if (desc.equalsIgnoreCase("test notify two")) {
                 notificaitonTestWidth = Integer.parseInt(input);
-                notification(notificationTestString, 2000,
+                notify(notificationTestString, 2000,
                         Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, notificaitonTestWidth);
             }
         }
@@ -2027,11 +2027,11 @@ public class CyderMain{
                 exit();
             }
 
-            else if (hasWord("test") && hasWord("notification")) {
+            else if (hasWord("test") && hasWord("notify")) {
                 inputField.requestFocus();
                 mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("test notification one");
-                println("Enter notification string");
+                mainUtil.setUserInputDesc("test notify one");
+                println("Enter notify string");
             }
 
             else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
@@ -4949,7 +4949,7 @@ public class CyderMain{
         }
     }
 
-    public void notification(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
+    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
         if (consoleNotification != null && consoleNotification.isVisible())
             consoleNotification.kill();
 
@@ -4974,7 +4974,7 @@ public class CyderMain{
         consoleNotification.vanish(vanishDir, parent, delay);
     }
 
-    public void notification(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
+    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
         if (consoleNotification != null && consoleNotification.isVisible())
             consoleNotification.kill();
 
