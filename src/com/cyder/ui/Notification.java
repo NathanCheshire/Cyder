@@ -89,6 +89,9 @@ public class Notification extends JLabel {
         path.closePath();
         graphics2D.fill(path);
 
+        //todo add a border with customizable color and width
+
+        //this adds the arrow on sides
         switch (type) {
             case 1:
                 path.moveTo(8 + this.width / 2, 6);

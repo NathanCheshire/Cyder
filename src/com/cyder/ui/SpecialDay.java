@@ -11,6 +11,8 @@ public class SpecialDay {
     private Util mainUtil;
 
     public SpecialDay(JLayeredPane parentPanel) {
+        mainUtil = new Util();
+
         if (!kill) {
             if (mainUtil.isChristmas())
                 //notification("Merry Christmas!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);

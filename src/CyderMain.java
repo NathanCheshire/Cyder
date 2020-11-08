@@ -75,6 +75,8 @@ import java.util.concurrent.TimeUnit;
 
 //todo add a way for notifcations to go down and then back up from center of jframe
 
+//todo make the frame and drag label stay when switching backgrounds and the image be separate
+
 public class CyderMain{
     //console vars
     private static JTextPane outputArea;
@@ -2930,7 +2932,8 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                notification("Notification for user " + mainUtil.getUsername(), 3000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 370);
+                TimeUtil tu = new TimeUtil();
+                tu.test(outputArea);
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
@@ -4944,31 +4947,6 @@ public class CyderMain{
         for (youtubeThread ytt: youtubeThreads) {
             ytt.kill();
         }
-    }
-
-    public void notification(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent) {
-        if (consoleNotification != null && consoleNotification.isVisible())
-            consoleNotification.kill();
-
-        consoleNotification = new Notification();
-
-        int w = (int) Math.ceil(12 * htmltext.length());
-        int h = 30;
-
-        consoleNotification.setWidth(w);
-        consoleNotification.setHeight(h);
-        consoleNotification.setArrow(arrowDir);
-
-        JLabel text = new JLabel(htmltext);
-        text.setFont(mainUtil.weatherFontSmall);
-        text.setForeground(mainUtil.navy);
-        text.setBounds(14,10,w * 2,h);
-        consoleNotification.add(text);
-        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
-        parent.add(consoleNotification,1,0);
-        parent.repaint();
-
-        consoleNotification.vanish(vanishDir, parent, delay);
     }
 
     public void notification(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
