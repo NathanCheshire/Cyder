@@ -8,7 +8,7 @@ import java.awt.geom.GeneralPath;
 
 public class Notification extends JLabel {
 
-    private Util notifUtil = new Util();
+    private Util notificationHandler = new Util();
 
     private int strokeThickness = 5;
     private int padding = strokeThickness / 2;
@@ -164,58 +164,12 @@ public class Notification extends JLabel {
             }
 
             catch (Exception e) {
-                notifUtil.handle(e);
+                notificationHandler.handle(e);
             }
         }).start();
     }
 
     public void kill() {
         this.setVisible(false);
-    }
-
-    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
-        if (this != null && this.isVisible())
-            this.kill();
-
-        int w = width;
-        int h = 30;
-
-        this.setWidth(w);
-        this.setHeight(h);
-        this.setArrow(arrowDir);
-
-        JLabel text = new JLabel(htmltext);
-        text.setFont(notifUtil.weatherFontSmall);
-        text.setForeground(notifUtil.navy);
-        text.setBounds(14,10,w * 2,h);
-        this.add(text);
-        this.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
-        parent.add(this,1,0);
-        parent.repaint();
-
-        this.vanish(vanishDir, parent, delay);
-    }
-
-    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
-        if (this != null && this.isVisible())
-            this.kill();
-
-        int w = width;
-        int h = 30;
-
-        this.setWidth(w);
-        this.setHeight(h);
-        this.setArrow(arrowDir);
-
-        JLabel text = new JLabel(htmltext);
-        text.setFont(notifUtil.weatherFontSmall);
-        text.setForeground(notifUtil.navy);
-        text.setBounds(14,10,w * 2,h);
-        this.add(text);
-        this.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
-        parent.add(this,1,0);
-        parent.repaint();
-
-        this.vanish(vanishDir, parent, delay);
     }
 }

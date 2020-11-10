@@ -76,14 +76,15 @@ import java.util.concurrent.TimeUnit;
 //todo add a way for notifcations to go down and then back up from center of jframe
 
 //todo make the frame and drag label stay when switching backgrounds and the image be separate
+//todo you kind of did this in login with the sliding text
 
 public class CyderMain{
     //console vars
-    private static JTextPane outputArea;
-    private static JTextField inputField;
-    private static JFrame consoleFrame;
-    private static JButton minimize;
-    private static JButton close;
+    private JTextPane outputArea;
+    private JTextField inputField;
+    private JFrame consoleFrame;
+    private JButton minimize;
+    private JButton close;
     private JLabel consoleClockLabel;
     private boolean updateConsoleClock;
     private JLabel loginLabel;
@@ -95,7 +96,7 @@ public class CyderMain{
     private CyderScrollPane outputScroll;
     private JButton alternateBackground;
     private JLabel consoleDragLabel;
-    private static JLayeredPane parentPanel;
+    private JLayeredPane parentPane;
     private JButton suggestionButton;
     private JButton menuButton;
     private JFrame loginFrame;
@@ -146,9 +147,6 @@ public class CyderMain{
     //font vars
     private JList fontList;
 
-    //notify var
-    private static Notification consoleNotification;
-
     //create user vars
     private JFrame createUserFrame;
     private JPasswordField newUserPasswordconf;
@@ -157,6 +155,9 @@ public class CyderMain{
     private CyderButton createNewUser;
     private CyderButton chooseBackground;
     private File createUserBackground;
+
+    //notificaiton
+    private static Notification consoleNotification;
 
     //pixealte file
     private File pixelateFile;
@@ -275,12 +276,12 @@ public class CyderMain{
             consoleFrame.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
             consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
 
-            parentPanel = new JLayeredPane();
-            parentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+            parentPane = new JLayeredPane();
+            parentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-            consoleFrame.setContentPane(parentPanel);
+            consoleFrame.setContentPane(parentPane);
 
-            parentPanel.setLayout(null);
+            parentPane.setLayout(null);
 
             parentLabel = new JLabel();
 
@@ -299,7 +300,7 @@ public class CyderMain{
             parentLabel.setBorder(new LineBorder(mainUtil.navy,8,false));
             parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
 
-            parentPanel.add(parentLabel,1,0);
+            parentPane.add(parentLabel,1,0);
 
             consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
 
@@ -713,7 +714,7 @@ public class CyderMain{
                         parentLabel.setIcon(newBack);
 
                         consoleFrame.setBounds(0, 0, tempW, tempH);
-                        parentPanel.setBounds(0, 0,  tempW, tempH);
+                        parentPane.setBounds(0, 0,  tempW, tempH);
                         parentLabel.setBounds(0, 0,  tempW, tempH);
 
                         outputArea.setBounds(0, 0, tempW - 20, tempH - 204);
@@ -747,7 +748,7 @@ public class CyderMain{
             new Thread(() -> {
                 if (!mainUtil.internetReachable())
                     notify("Internet connection slow or unavailble",
-                            3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel,450);
+                            3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
             }).start();
 
 
@@ -774,7 +775,7 @@ public class CyderMain{
                 menuLabel.setOpaque(true);
                 menuLabel.setBackground(new Color(26,32,51));
 
-                parentPanel.add(menuLabel,1,0);
+                parentPane.add(menuLabel,1,0);
 
                 menuLabel.setBounds(-150,30, 130,260);
                 menuLabel.setVisible(true);
@@ -1062,7 +1063,7 @@ public class CyderMain{
     private WindowAdapter consoleEcho = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
         inputField.requestFocus();
-        specialDayNotifier = new SpecialDay(parentPanel);
+        specialDayNotifier = new SpecialDay(parentPane);
         }
     };
 
@@ -1323,10 +1324,9 @@ public class CyderMain{
 
         mainUtil.startAnimation(loginFrame);
 
-
         if (directories != null && directories.length == 0)
             notify("Psssst! Create a user, " + System.getProperty("user.name"),
-                    2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, loginLabel, 230);
+                2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, loginLabel, 230);
     }
 
     private void recognize(String Username, char[] Password) {
@@ -1414,7 +1414,7 @@ public class CyderMain{
         mainUtil.getBackgroundSize();
 
         consoleFrame.setBounds(0, 0, width, height);
-        parentPanel.setBounds(0, 0,  width, height);
+        parentPane.setBounds(0, 0,  width, height);
         parentLabel.setBounds(0, 0,  width, height);
 
         outputArea.setBounds(0, 0, width - 20, height - 204);
@@ -1453,7 +1453,7 @@ public class CyderMain{
         mainUtil.getBackgroundSize();
 
         consoleFrame.setBounds(0, 0, fullW, fullH);
-        parentPanel.setBounds(0, 0,  fullW, fullH);
+        parentPane.setBounds(0, 0,  fullW, fullH);
         parentLabel.setBounds(0, 0,  fullW, fullH);
 
         outputArea.setBounds(0, 0, fullW - 20, fullH - 204);
@@ -1512,7 +1512,7 @@ public class CyderMain{
                 mainUtil.getBackgroundSize();
 
                 consoleFrame.setBounds(0, 0, tempW, tempH);
-                parentPanel.setBounds(0, 0,  tempW, tempH);
+                parentPane.setBounds(0, 0,  tempW, tempH);
                 parentLabel.setBounds(0, 0,  tempW, tempH);
 
                 outputArea.setBounds(0, 0, tempW - 20, tempH - 204);
@@ -1534,7 +1534,7 @@ public class CyderMain{
                     temporaryLabel = new JLabel();
                     parentLabel.setIcon(new ImageIcon(newBack));
                     temporaryLabel.setIcon(new ImageIcon(temporaryImage));
-                    parentPanel.add(temporaryLabel);
+                    parentPane.add(temporaryLabel);
                     parentLabel.setBounds(-tempW, 0, tempW, tempH);
                     temporaryLabel.setBounds(0, 0 ,tempW, tempH);
 
@@ -1548,7 +1548,7 @@ public class CyderMain{
                     temporaryLabel = new JLabel();
                     parentLabel.setIcon(new ImageIcon(newBack));
                     temporaryLabel.setIcon(new ImageIcon(temporaryImage));
-                    parentPanel.add(temporaryLabel);
+                    parentPane.add(temporaryLabel);
                     parentLabel.setBounds(tempW, 0, tempW, tempH);
                     temporaryLabel.setBounds(0, 0 ,tempW, tempH);
 
@@ -1768,12 +1768,12 @@ public class CyderMain{
 
                     if (threads > 1) {
                         notify("The scripts have started. At any point, type \"stop script\"",
-                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 620);
+                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPane, 620);
                     }
 
                     else {
                         notify("The script has started. At any point, type \"stop script\"",
-                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, 600);
+                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPane, 600);
                     }
 
                     randomYoutube(consoleFrame, threads);
@@ -1992,7 +1992,7 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("test notify two")) {
                 notificaitonTestWidth = Integer.parseInt(input);
                 notify(notificationTestString, 2000,
-                        Notification.RIGHT_ARROW, Notification.RIGHT_VANISH,parentPanel, notificaitonTestWidth);
+                        Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPane, notificaitonTestWidth);
             }
         }
 
@@ -2933,13 +2933,13 @@ public class CyderMain{
 
             else if (eic("test")) {
                 TimeUtil tu = new TimeUtil();
-                tu.test(outputArea);
+                //todo tu.test(outputArea);
                 //heres where you're at, from above you can pass stuff around and append to it
                 //from below, when you use this it doesn't work but when you use main's notify it does?
 
                 //when you change all to this below, it becomes big and ignores ui scaling
-                consoleNotification.notify("Internet connection slow or unavailble",
-                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel,450);
+                notify("Internet connection slow or unavailble",
+                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
@@ -3056,7 +3056,7 @@ public class CyderMain{
         println("");
     }
 
-    public static void printImage(String filename) {
+    public void printImage(String filename) {
         outputArea.insertIcon(new ImageIcon(filename));
     }
 
@@ -4957,56 +4957,6 @@ public class CyderMain{
 
     //todo move file.txt to temp dir
 
-    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
-        if (consoleNotification != null && consoleNotification.isVisible())
-            consoleNotification.kill();
-
-        consoleNotification = new Notification();
-
-        int w = width;
-        int h = 30;
-
-        consoleNotification.setWidth(w);
-        consoleNotification.setHeight(h);
-        consoleNotification.setArrow(arrowDir);
-
-        JLabel text = new JLabel(htmltext);
-        text.setFont(mainUtil.weatherFontSmall);
-        text.setForeground(mainUtil.navy);
-        text.setBounds(14,10,w * 2,h);
-        consoleNotification.add(text);
-        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
-        parent.add(consoleNotification,1,0);
-        parent.repaint();
-
-        consoleNotification.vanish(vanishDir, parent, delay);
-    }
-
-    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
-        if (consoleNotification != null && consoleNotification.isVisible())
-            consoleNotification.kill();
-
-        consoleNotification = new Notification();
-
-        int w = width;
-        int h = 30;
-
-        consoleNotification.setWidth(w);
-        consoleNotification.setHeight(h);
-        consoleNotification.setArrow(arrowDir);
-
-        JLabel text = new JLabel(htmltext);
-        text.setFont(mainUtil.weatherFontSmall);
-        text.setForeground(mainUtil.navy);
-        text.setBounds(14,10,w * 2,h);
-        consoleNotification.add(text);
-        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
-        parent.add(consoleNotification,1,0);
-        parent.repaint();
-
-        consoleNotification.vanish(vanishDir, parent, delay);
-    }
-
     private void askew() {
         consoleFrame.setBackground(mainUtil.navy);
         parentLabel.setIcon(new ImageIcon(mainUtil.rotateImageByDegrees(mainUtil.getRotatedImage(mainUtil.getCurrentBackground().getAbsolutePath()),3)));
@@ -5083,5 +5033,56 @@ public class CyderMain{
         catch (Exception e) {
             new Util().staticHandle(e);
         }
+    }
+
+    //todo move to separte class when you can
+    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
+        if (consoleNotification != null && consoleNotification.isVisible())
+            consoleNotification.kill();
+
+        consoleNotification = new Notification();
+
+        int w = width;
+        int h = 30;
+
+        consoleNotification.setWidth(w);
+        consoleNotification.setHeight(h);
+        consoleNotification.setArrow(arrowDir);
+
+        JLabel text = new JLabel(htmltext);
+        text.setFont(mainUtil.weatherFontSmall);
+        text.setForeground(mainUtil.navy);
+        text.setBounds(14,10,w * 2,h);
+        consoleNotification.add(text);
+        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
+        parent.add(consoleNotification,1,0);
+        parent.repaint();
+
+        consoleNotification.vanish(vanishDir, parent, delay);
+    }
+
+    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
+        if (consoleNotification != null && consoleNotification.isVisible())
+            consoleNotification.kill();
+
+        consoleNotification = new Notification();
+
+        int w = width;
+        int h = 30;
+
+        consoleNotification.setWidth(w);
+        consoleNotification.setHeight(h);
+        consoleNotification.setArrow(arrowDir);
+
+        JLabel text = new JLabel(htmltext);
+        text.setFont(mainUtil.weatherFontSmall);
+        text.setForeground(mainUtil.navy);
+        text.setBounds(14,10,w * 2,h);
+        consoleNotification.add(text);
+        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
+        parent.add(consoleNotification,1,0);
+        parent.repaint();
+
+        consoleNotification.vanish(vanishDir, parent, delay);
     }
 }
