@@ -74,6 +74,7 @@ import java.util.concurrent.TimeUnit;
 //todo make nbt extend nst
 
 //todo add a way for notifcations to go down and then back up from center of jframe
+//todo in add a notificaiton function within cyder frame
 
 //todo make the frame and drag label stay when switching backgrounds and the image be separate
 //todo you kind of did this in login with the sliding text
@@ -2933,13 +2934,7 @@ public class CyderMain{
 
             else if (eic("test")) {
                 TimeUtil tu = new TimeUtil();
-                //todo tu.test(outputArea);
-                //heres where you're at, from above you can pass stuff around and append to it
-                //from below, when you use this it doesn't work but when you use main's notify it does?
-
-                //when you change all to this below, it becomes big and ignores ui scaling
-                notify("Internet connection slow or unavailble",
-                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
+                tu.test(outputArea);
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
