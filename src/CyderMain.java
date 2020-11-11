@@ -79,9 +79,11 @@ import java.util.concurrent.TimeUnit;
 //todo make the frame and drag label stay when switching backgrounds and the image be separate
 //todo you kind of did this in login with the sliding text
 
+//todo double hash sha perhaps to avoid someone just hashing their own password and pasting itin
+
 public class CyderMain{
     //console vars
-    private JTextPane outputArea;
+    private static JTextPane outputArea;
     private JTextField inputField;
     private JFrame consoleFrame;
     private JButton minimize;
@@ -242,7 +244,7 @@ public class CyderMain{
                 String[] parts = line.split(":");
 
                 if (parts.length == 2 && !parts[0].equals("") && !parts[1].equals(""))
-                    recognize(parts[0], parts[1].toCharArray()); //todo my user doesn't exist it just stays here and doesn't move past
+                    recognize(parts[0], parts[1].toCharArray());
             }
 
             else {
@@ -757,7 +759,7 @@ public class CyderMain{
                 mainUtil.systemProperties();
                 mainUtil.computerProperties();
                 mainUtil.javaProperties();
-                mainUtil.debugMenu();
+                mainUtil.debugMenu(outputArea);
             }
         }
 
@@ -1060,7 +1062,7 @@ public class CyderMain{
         }
     };
 
-    //make a special day echo class
+    //when we first launch this will check for any special days in the special days class
     private WindowAdapter consoleEcho = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
         inputField.requestFocus();
@@ -1146,8 +1148,8 @@ public class CyderMain{
 
         mainUtil.cleanUpUsers();
 
+        //todo make cyderframe
         loginFrame = new JFrame();
-
         loginFrame.setUndecorated(true);
 
         if (!AlreadyOpen) {
@@ -1364,12 +1366,16 @@ public class CyderMain{
                 }
             }
 
-            else {
+            else if (loginFrame.isVisible()){
                 nameField.setText("");
                 pass.setText("");
                 nameField.requestFocusInWindow();
                 notify("Could not recognize user",
                         2000, Notification.TOP_ARROW, Notification.TOP_VANISH, loginLabel, 280);
+            }
+
+            else {
+                login(false);
             }
         }
 
@@ -2817,7 +2823,7 @@ public class CyderMain{
 
             else if (hasWord("debug") && hasWord("menu")) {
                 if (mainUtil.getDebugMode()) {
-                    mainUtil.debugMenu();
+                    mainUtil.debugMenu(outputArea);
                 }
 
                 else {
@@ -2934,7 +2940,8 @@ public class CyderMain{
 
             else if (eic("test")) {
                 TimeUtil tu = new TimeUtil();
-                tu.test(outputArea);
+                tu.notify("Internet connection slow or unavailble",
+                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
@@ -3051,7 +3058,7 @@ public class CyderMain{
         println("");
     }
 
-    public void printImage(String filename) {
+    public static void printImage(String filename) {
         outputArea.insertIcon(new ImageIcon(filename));
     }
 
@@ -3345,7 +3352,7 @@ public class CyderMain{
 
     public void saveFontColor() {
         try {
-            //todo make outputarea and inputfield accessible outside of method so you can move savefontcolor()
+            //todo move to shutdown util
             Font SaveFont = outputArea.getFont();
             String SaveFontName = SaveFont.getName();
             Color SaveColor = outputArea.getForeground();
@@ -3366,7 +3373,6 @@ public class CyderMain{
         }
     }
 
-    //todo move out
     public void initUserfontAndColor() {
         try {
             mainUtil.readUserData();
@@ -3401,7 +3407,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to stringUtils that returns array to print
+    //todo move to stringUtils that returns an array that handler can print to outputArea
     public void help() {
         String[] Helps = {"Pixalte a Picture", "Home", "Mathsh", "Pizza", "Vexento", "Youtube", "note", "Create a User"
                 , "Binary", "Font", "Color", "Preferences", "Hasher", "Directory Search", "Tic Tac Toe", "Youtube Thumbnail", "Java"
@@ -3465,6 +3471,7 @@ public class CyderMain{
         if (editUserFrame != null)
             mainUtil.closeAnimation(editUserFrame);
 
+        //todo redo and make cyderframe
         editUserFrame = new JFrame();
         editUserFrame.setResizable(false);
         editUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

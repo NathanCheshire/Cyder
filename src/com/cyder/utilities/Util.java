@@ -678,7 +678,7 @@ public class Util {
         return Latency;
     }
 
-    public void debugMenu() {
+    public void debugMenu(JTextPane outputArea) {
         try {
             DecimalFormat gFormater = new DecimalFormat("##.###");
             double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
@@ -691,9 +691,7 @@ public class Util {
             double x = flag.getWidth();
             double y = flag.getHeight();
 
-            BufferedImage draw = resizeImage(flag, 1, (int) (150 * x / y),(int) (150 * x / y));
-
-            //todo be able to pass this BI to main to draw to textpane
+            outputArea.insertIcon(new ImageIcon(resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
 
             String[] lines = {"Time requested: " + weatherTime(),
                     "ISP: " + getUserISP(),
@@ -2156,11 +2154,11 @@ public class Util {
         this.alwaysOnTop = b;
     }
 
-
-
     public void mp3(String FilePath, String user, String uuid) {
         if (CyderPlayer != null)
             CyderPlayer.kill();
+
+        stopMusic();
         CyderPlayer = new MPEGPlayer(new File(FilePath), user, uuid);
     }
 

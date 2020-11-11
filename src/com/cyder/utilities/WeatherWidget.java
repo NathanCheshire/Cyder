@@ -459,10 +459,11 @@ public class WeatherWidget {
     }
 
 
-    //todo implement method by account for offset of time
+    //todo visibility never changes
     //todo make it so user doesn't have to enter null
-    //display for city,state,country doesn't exactly work in terms of displaying what you should be displaying
+    //todo display for city,state,country doesn't exactly work in terms of displaying what you should be displaying
     private String correctedSunTime(String absoluteTime) {
+        //todo implement me to account for offset of time, same offset as time so steal from there
         return absoluteTime;
     }
 
