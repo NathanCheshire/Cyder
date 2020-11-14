@@ -1,30 +1,58 @@
 package com.cyder.utilities;
 
 import com.cyder.ui.Notification;
-
 import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.TimeZone;
 
 public class TimeUtil {
 
-    //todo correction for timezone method
-    private Util timeUtil = new Util();
+    private Util timeUtil;
+
+    private int gmtOffset;
+
+    private String userCity;
+    private String userState;
+    private String userCountry;
+
+    public TimeUtil() {
+        timeUtil = new Util();
+        initGMTOffset();
+    }
 
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
         Notification consoleNotification = new Notification();
 
-        int w = 200;
-        int h = 120;
+        int w = width;
+        int h = 30;
 
-        consoleNotification.setWidth(w);
-        consoleNotification.setHeight(h);
         consoleNotification.setArrow(arrowDir);
 
         JLabel text = new JLabel();
-        text.setText("<html>"+ "This is a message<br/>This is a message<br/>This is a message<br/>This is a message" +"</html>");
-        //todo ahhh so for every break +30 on height it
+        text.setText(htmltext);
+
+        int lastIndex = 0;
+
+        while(lastIndex != -1){
+
+            lastIndex = text.getText().indexOf("<br/>",lastIndex);
+
+            if(lastIndex != -1){
+                h += 30;
+                lastIndex += "<br/>".length();
+            }
+        }
+
+        consoleNotification.setWidth(w);
+        consoleNotification.setHeight(h);
+
         text.setFont(timeUtil.weatherFontSmall);
         text.setForeground(timeUtil.navy);
         text.setBounds(14,10,w * 2,h);
@@ -42,5 +70,96 @@ public class TimeUtil {
 
     public String formatCurrentDate(DateTimeFormatter dtf) {
         return dtf.format(LocalDate.now());
+    }
+
+    public LinkedList<String> getTimezoneIDs() {
+        TimeZone tz = TimeZone.getDefault();
+
+        int offset = gmtOffset * 1000;
+        String[] availableIDs = tz.getAvailableIDs(offset);
+
+        LinkedList<String> timezoneIDs = new LinkedList<>();
+
+        Collections.addAll(timezoneIDs, availableIDs);
+
+        return timezoneIDs;
+    }
+
+    //returns gmt offset for current loc in seconds
+    public int getGMTOffsetSeconds() {
+        return gmtOffset;
+    }
+
+    //returns gmt offset for current loc, so slidell is -6, miami is -5
+    public int getGMTOffsetHours() {
+        return gmtOffset / 60 / 60;
+    }
+
+    private void initGMTOffset() {
+        try {
+            getIPData();
+
+            String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                    userCity + "," + userState + "," + userCountry + "&appid=" + timeUtil.getWeatherKey() + "&units=imperial";
+
+            URL URL = new URL(OpenString);
+            BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
+            String[] Fields = {"", ""};
+            String Line;
+
+            while ((Line = WeatherReader.readLine()) != null) {
+                String[] LineArray = Line.replace("{", "").replace("}", "")
+                        .replace(":", "").replace("\"", "").replace("[", "")
+                        .replace("]", "").replace(":", "").split(",");
+
+                Fields = timeUtil.combineArrays(Fields, LineArray);
+            }
+
+            WeatherReader.close();
+
+            for (String field : Fields) {
+                if (field.contains("timezone")) {
+                    gmtOffset = Integer.parseInt(field.replaceAll("[^0-9\\-]", ""));
+                }
+            }
+        }
+
+        catch (Exception e) {
+            timeUtil.handle(e);
+        }
+    }
+
+    //todo we need to have a class level IP data util that refreshes constantly that other classes can pull from
+    private void getIPData() {
+        try {
+            String Key = timeUtil.getIPKey();
+            String url = "https://api.ipdata.co/?api-key=" + Key;
+
+            URL Querry = new URL(url);
+
+            BufferedReader BR = new BufferedReader(new InputStreamReader(Querry.openStream()));
+
+            String CurrentLine;
+
+            while ((CurrentLine = BR.readLine()) != null) {
+                if (CurrentLine.contains("city")) {
+                    userCity = (CurrentLine.replace("city", "").replace(",", "").replace("\"", "").replace(":", "").trim());
+                }
+
+                else if (CurrentLine.contains("\"region\"")) {
+                    userState = (CurrentLine.replace("region", "").replace(",", "").replace("\"", "").replace(":", "").trim());
+                }
+
+                else if (CurrentLine.contains("\"country_name\"")) {
+                    userCountry = (CurrentLine.replace("country_name", "").replace(",", "").replace("\"", "").replace(":", "").trim());
+                }
+            }
+
+            BR.close();
+        }
+
+        catch (Exception e) {
+            timeUtil.handle(e);
+        }
     }
 }

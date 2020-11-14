@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
-public final class ImageUtil {
+public class ImageUtil {
 
     public static BufferedImage pixelate(BufferedImage imageToPixelate, int pixelSize) {
         BufferedImage pixelateImage = new BufferedImage(

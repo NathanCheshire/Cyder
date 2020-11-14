@@ -36,6 +36,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo utils should be specific to a user
+
 //todo notes and textviewer non-swing dependent
 
 //todo redo edit user GUI, put in a scrollable UI, tooltips for everything, seconds for console clock option, make checkbox smaller
@@ -47,7 +49,6 @@ import java.util.concurrent.TimeUnit;
 //todo make photoviewer, the pretty gui one, use image scaling like main for background does
 
 //todo hangman use cyder frame
-//todo if press x in cyderframe when login is active, just dispose cyder frame
 //todo utilize start animations after you fix it
 //todo consolidate method for exiting tasks
 
@@ -73,13 +74,15 @@ import java.util.concurrent.TimeUnit;
 //todo make use of nbt where nst can be nbt
 //todo make nbt extend nst
 
+//todo cyder frame should have a notify method that will drop down from center and back up
+
 //todo add a way for notifcations to go down and then back up from center of jframe
 //todo in add a notificaiton function within cyder frame
 
 //todo make the frame and drag label stay when switching backgrounds and the image be separate
 //todo you kind of did this in login with the sliding text
 
-//todo double hash sha perhaps to avoid someone just hashing their own password and pasting itin
+//todo double hash sha perhaps to avoid someone just hashing their own password and pasting it in
 
 public class CyderMain{
     //console vars
@@ -439,7 +442,21 @@ public class CyderMain{
 
             inputField.setCaretColor(mainUtil.vanila);
 
-            initUserfontAndColor();
+            mainUtil.readUserData();
+
+            Font Userfont = new Font(mainUtil.getUserData("Font"),Font.BOLD, 30);
+            Color Usercolor = new Color(Integer.parseInt(mainUtil.getUserData("Red")),
+                    Integer.parseInt(mainUtil.getUserData("Green")),
+                    Integer.parseInt(mainUtil.getUserData("Blue")));
+
+            mainUtil.setUsercolor(Usercolor);
+            mainUtil.setUserfont(Userfont);
+
+            inputField.setForeground(Usercolor);
+            outputArea.setForeground(Usercolor);
+
+            inputField.setFont(Userfont);
+            outputArea.setFont(Userfont);
 
             suggestionButton = new JButton("");
             suggestionButton.setToolTipText("Suggestions");
@@ -1080,7 +1097,7 @@ public class CyderMain{
                         ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
                         int noThreads = currentGroup.activeCount();
 
-                        if (noThreads > 6) {
+                        if (noThreads > 6 && consoleFrame != null) {
                             consoleFrame.setIconImage(mainUtil.getCyderIconBlink().getImage());
 
                             Thread.sleep(5000);
@@ -2485,7 +2502,6 @@ public class CyderMain{
                 inputField.setFont(mainUtil.defaultFont);
                 outputArea.setFont(mainUtil.defaultFont);
                 println("The font has been reset.");
-                saveFontColor();
             }
 
             else if (hasWord("color") && !hasWord("reset")) {
@@ -2496,7 +2512,6 @@ public class CyderMain{
                 outputArea.setForeground(mainUtil.vanila);
                 inputField.setForeground(mainUtil.vanila);
                 println("The text color has been reset.");
-                saveFontColor();
             }
 
             else if (eic("top left")) {
@@ -2940,8 +2955,9 @@ public class CyderMain{
 
             else if (eic("test")) {
                 TimeUtil tu = new TimeUtil();
-                tu.notify("Internet connection slow or unavailble",
-                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
+                println(tu.getGMTOffsetHours());
+                tu.notify("<html>Internet connection<br/><br/>slow or unavailable<br/><br/><br/><br/><br/>test</html>",
+                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,300);
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
@@ -3350,53 +3366,6 @@ public class CyderMain{
         }
     }
 
-    public void saveFontColor() {
-        try {
-            //todo move to shutdown util
-            Font SaveFont = outputArea.getFont();
-            String SaveFontName = SaveFont.getName();
-            Color SaveColor = outputArea.getForeground();
-
-            int saveColorR = SaveColor.getRed();
-            int saveColorG = SaveColor.getGreen();
-            int saveColorB = SaveColor.getBlue();
-
-            mainUtil.readUserData();
-            mainUtil.writeUserData("Font",SaveFontName);
-            mainUtil.writeUserData("Red",saveColorR + "");
-            mainUtil.writeUserData("Green",saveColorG + "");
-            mainUtil.writeUserData("Blue",saveColorB + "");
-        }
-
-        catch (Exception e) {
-            mainUtil.handle(e);
-        }
-    }
-
-    public void initUserfontAndColor() {
-        try {
-            mainUtil.readUserData();
-
-            Font Userfont = new Font(mainUtil.getUserData("Font"),Font.BOLD, 30);
-            Color Usercolor = new Color(Integer.parseInt(mainUtil.getUserData("Red")),
-                                        Integer.parseInt(mainUtil.getUserData("Green")),
-                                        Integer.parseInt(mainUtil.getUserData("Blue")));
-
-            mainUtil.setUsercolor(Usercolor);
-            mainUtil.setUserfont(Userfont);
-
-            inputField.setForeground(Usercolor);
-            outputArea.setForeground(Usercolor);
-
-            inputField.setFont(Userfont);
-            outputArea.setFont(Userfont);
-        }
-
-        catch (Exception e) {
-            mainUtil.handle(e);
-        }
-    }
-
     //todo this should move
     public void randomYoutube(JFrame frameForTitle, int threadCount) {
         frameForTitle.setTitle("YouTube script running");
@@ -3408,6 +3377,7 @@ public class CyderMain{
     }
 
     //todo move to stringUtils that returns an array that handler can print to outputArea
+    //also make this dynamic so that it can show every command and a description of it too
     public void help() {
         String[] Helps = {"Pixalte a Picture", "Home", "Mathsh", "Pizza", "Vexento", "Youtube", "note", "Create a User"
                 , "Binary", "Font", "Color", "Preferences", "Hasher", "Directory Search", "Tic Tac Toe", "Youtube Thumbnail", "Java"
@@ -4193,7 +4163,6 @@ public class CyderMain{
 
             if (newColor != mainUtil.getUsercolor()) {
                 println("The color [" + newColor.getRed() + "," + newColor.getGreen() + "," + newColor.getBlue() + "] has been applied.");
-                saveFontColor();
             }
         });
 
@@ -4999,8 +4968,27 @@ public class CyderMain{
     }
 
     private void shutdown() {
-        saveFontColor();
-        mainUtil.deleteTempDir();
+        try {
+            Font SaveFont = outputArea.getFont();
+            String SaveFontName = SaveFont.getName();
+            Color SaveColor = outputArea.getForeground();
+
+            int saveColorR = SaveColor.getRed();
+            int saveColorG = SaveColor.getGreen();
+            int saveColorB = SaveColor.getBlue();
+
+            mainUtil.readUserData();
+            mainUtil.writeUserData("Font",SaveFontName);
+            mainUtil.writeUserData("Red",saveColorR + "");
+            mainUtil.writeUserData("Green",saveColorG + "");
+            mainUtil.writeUserData("Blue",saveColorB + "");
+
+            mainUtil.deleteTempDir();
+        }
+
+        catch (Exception e) {
+            mainUtil.handle(e);
+        }
     }
 
     //todo can this go to some util method when you separate methods out of here and Util?
