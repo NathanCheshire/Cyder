@@ -8,9 +8,13 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.TimeZone;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class TimeUtil {
 
@@ -22,11 +26,16 @@ public class TimeUtil {
     private String userState;
     private String userCountry;
 
+    private JFrame consoleFrame;
+
     public TimeUtil() {
         timeUtil = new Util();
         initGMTOffset();
     }
 
+    //todo
+    //tu.notify("<html>Internet connection<br/><br/>slow or unavailable<br/><br/><br/><br/><br/>test</html>",
+    //                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,300);
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
         Notification consoleNotification = new Notification();
 
@@ -161,5 +170,27 @@ public class TimeUtil {
         catch (Exception e) {
             timeUtil.handle(e);
         }
+    }
+
+    public void closeAtHourMinute(int Hour, int Minute, JFrame consoleFrame) {
+        Calendar CloseCalendar = Calendar.getInstance();
+
+        this.consoleFrame = consoleFrame;
+
+        CloseCalendar.add(Calendar.DAY_OF_MONTH, 0);
+        CloseCalendar.set(Calendar.HOUR_OF_DAY, Hour);
+        CloseCalendar.set(Calendar.MINUTE, Minute);
+        CloseCalendar.set(Calendar.SECOND, 0);
+        CloseCalendar.set(Calendar.MILLISECOND, 0);
+
+        long HowMany = (CloseCalendar.getTimeInMillis() - System.currentTimeMillis());
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+        scheduler.schedule(this::exit,HowMany, TimeUnit.MILLISECONDS);
+    }
+
+    private void exit() {
+        timeUtil.closeAnimation(consoleFrame);
+        System.exit(0);
     }
 }

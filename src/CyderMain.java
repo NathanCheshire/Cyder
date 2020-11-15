@@ -31,10 +31,7 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 
 //todo utils should be specific to a user
 
@@ -113,6 +110,7 @@ public class CyderMain{
 
     //Objects for main use
     private Util mainUtil;
+    private StringUtil stringUtil;
     private CyderAnimation animation;
     private Notes userNotes;
 
@@ -220,6 +218,7 @@ public class CyderMain{
     private void initObjects() {
         mainUtil = new Util();
         animation = new CyderAnimation();
+        stringUtil = new StringUtil(outputArea);
     }
 
     private void initSystemProperties() {
@@ -2403,7 +2402,7 @@ public class CyderMain{
             }
 
             else if (eic("help")) {
-                help();
+                stringUtil.help(outputArea);
             }
 
             else if (hasWord("light") && hasWord("saber")) {
@@ -2954,10 +2953,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                TimeUtil tu = new TimeUtil();
-                println(tu.getGMTOffsetHours());
-                tu.notify("<html>Internet connection<br/><br/>slow or unavailable<br/><br/><br/><br/><br/>test</html>",
-                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,300);
+
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
@@ -3291,54 +3287,6 @@ public class CyderMain{
         else return ThisOp.contains(ThisComp + ' ');
     }
 
-    private boolean startsWith(String op, String comp) {
-        char[] opA = op.toLowerCase().toCharArray();
-
-        char[] compA = comp.toLowerCase().toCharArray();
-
-        for (int i = 0 ; i < comp.length() ; i++) {
-            if (Math.min(compA.length, opA.length) >= i) {
-                return false;
-            }
-
-            if (Math.min(compA.length, opA.length) < i && compA[i] != opA[i]) {
-                return false;
-            }
-
-            else if (Math.min(compA.length, opA.length) < i && compA[i] == opA[i] && i == compA.length - 1 && opA[i+1] == ' ') {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean endsWith(String op, String comp) {
-        char[] opA = reverseArray(op.toLowerCase().toCharArray());
-        char[] compA = reverseArray(comp.toLowerCase().toCharArray());
-
-        for (int i = 0 ; i < comp.length() ; i++) {
-            if (Math.min(opA.length, compA.length) >= i) {
-                return false;
-            }
-
-            if (i < Math.min(opA.length, compA.length) && compA[i] != opA[i]) {
-                return false;
-            }
-
-            else if (compA[i] == opA[i] && i == compA.length - 1 && opA[i+1] == ' ') {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private char[] reverseArray(char[] Array) {
-        String reverse = new StringBuilder(new String(Array)).reverse().toString();
-        return reverse.toCharArray();
-    }
-
     //todo move to separate handler
     private void logToDo(String input) {
         try {
@@ -3373,28 +3321,6 @@ public class CyderMain{
         for (int i = 0 ; i < threadCount ; i++) {
             youtubeThread current = new youtubeThread();
             youtubeThreads.add(current);
-        }
-    }
-
-    //todo move to stringUtils that returns an array that handler can print to outputArea
-    //also make this dynamic so that it can show every command and a description of it too
-    public void help() {
-        String[] Helps = {"Pixalte a Picture", "Home", "Mathsh", "Pizza", "Vexento", "Youtube", "note", "Create a User"
-                , "Binary", "Font", "Color", "Preferences", "Hasher", "Directory Search", "Tic Tac Toe", "Youtube Thumbnail", "Java"
-                , "Tell me a story", "Coffee", "Papers Please", "Delete User", "YouTube Word Search", "System Properties", "Donuts"
-                , "System Sounds", "Weather", "Music", "mp3", "dance", "hangman", "youtube script"};
-
-        ArrayList<Integer> UniqueIndexes = new ArrayList<>();
-
-        for (int i = 0; i < Helps.length; i++) {
-            UniqueIndexes.add(i);
-        }
-
-        Collections.shuffle(UniqueIndexes);
-        println("Try typing:");
-
-        for (int i = 0; i < 10; i++) {
-            println(Helps[UniqueIndexes.get(i)]);
         }
     }
 
@@ -3547,6 +3473,7 @@ public class CyderMain{
                 mainUtil.initBackgrounds();
             }
         });
+
         deleteBackground.setBackground(mainUtil.regularRed);
         deleteBackground.setFont(mainUtil.weatherFontSmall);
 
@@ -4258,19 +4185,6 @@ public class CyderMain{
         parentPanel.add(apply, Component.CENTER_ALIGNMENT);
 
         return parentPanel;
-    }
-
-    //todo move to time util
-    public void closeAtHourMinute(int Hour, int Minute) {
-        Calendar CloseCalendar = Calendar.getInstance();
-        CloseCalendar.add(Calendar.DAY_OF_MONTH, 0);
-        CloseCalendar.set(Calendar.HOUR_OF_DAY, Hour);
-        CloseCalendar.set(Calendar.MINUTE, Minute);
-        CloseCalendar.set(Calendar.SECOND, 0);
-        CloseCalendar.set(Calendar.MILLISECOND, 0);
-        long HowMany = (CloseCalendar.getTimeInMillis() - System.currentTimeMillis());
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.schedule(this::exit,HowMany, TimeUnit.MILLISECONDS);
     }
 
     //todo convert to cyderframe
