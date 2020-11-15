@@ -4001,7 +4001,7 @@ public class CyderMain{
         musicSelectionList.setSelectionBackground(mainUtil.selectionColor);
     }
 
-    //todo move to util
+    //todo move to panel util
     public void initializeBackgroundsList() {
         File dir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds");
         backgroundsList = new LinkedList<>();
@@ -4102,7 +4102,7 @@ public class CyderMain{
         return parentPanel;
     }
 
-    //todo move font and color to ui util
+    //todo move font and color to panel util
     private JPanel getFontPanel() {
         JPanel parentPanel = new JPanel();
         parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.PAGE_AXIS));
@@ -4187,13 +4187,13 @@ public class CyderMain{
         return parentPanel;
     }
 
-    //todo convert to cyderframe
     public void createUser() {
         createUserBackground = null;
 
         if (createUserFrame != null)
             mainUtil.closeAnimation(createUserFrame);
 
+        //todo CyderFrame
         createUserFrame = new JFrame();
         createUserFrame.setTitle("Create User");
         createUserFrame.setResizable(false);
@@ -4375,17 +4375,7 @@ public class CyderMain{
 
         chooseBackground.setColors(mainUtil.regularRed);
 
-        chooseBackground.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+        chooseBackground.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 try {
@@ -4677,7 +4667,8 @@ public class CyderMain{
             int len = s.length();
 
 
-            char[] chars = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+            char[] alphas = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+            char[] numerics = {'0','1','2','3','4','5','6','7','8','9'};
 
             for (int i = 1 ; i < len ; i++) {
                 for (int j = 0 ; j < 7 ; j++) {
@@ -4685,7 +4676,7 @@ public class CyderMain{
                     String current = "";
 
                     for (int k = 0 ; k <= len ; k++) {
-                        current += chars[mainUtil.randInt(0,25)];
+                        current += alphas[mainUtil.randInt(0,25)];
                     }
 
                     println((s.substring(0,i) + current.substring(i, len)).toUpperCase());
