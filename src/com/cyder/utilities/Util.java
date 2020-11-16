@@ -573,6 +573,7 @@ public class Util {
         return null;
     }
 
+    //todo replace everything here and other classes that use this with iputil
     public void getIPData() {
         try {
             String Key = "https://api.ipdata.co/?api-key=8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932";

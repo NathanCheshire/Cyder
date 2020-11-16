@@ -19,21 +19,18 @@ import java.util.concurrent.TimeUnit;
 public class TimeUtil {
 
     private Util timeUtil;
-
     private int gmtOffset;
-
-    private String userCity;
-    private String userState;
-    private String userCountry;
-
     private JFrame consoleFrame;
+    private ipUtil ipUtil;
 
     public TimeUtil() {
         timeUtil = new Util();
+        ipUtil = new ipUtil();
+
         initGMTOffset();
     }
 
-    //todo
+    //todo make this it's own class too and make a notification native to cyderFrame
     //tu.notify("<html>Internet connection<br/><br/>slow or unavailable<br/><br/><br/><br/><br/>test</html>",
     //                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,300);
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
@@ -106,10 +103,9 @@ public class TimeUtil {
 
     private void initGMTOffset() {
         try {
-            getIPData();
-
             String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
-                    userCity + "," + userState + "," + userCountry + "&appid=" + timeUtil.getWeatherKey() + "&units=imperial";
+                    ipUtil.getUserCity() + "," + ipUtil.getUserState() + "," +
+                    ipUtil.getUserCountry() + "&appid=" + timeUtil.getWeatherKey() + "&units=imperial";
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
@@ -131,40 +127,6 @@ public class TimeUtil {
                     gmtOffset = Integer.parseInt(field.replaceAll("[^0-9\\-]", ""));
                 }
             }
-        }
-
-        catch (Exception e) {
-            timeUtil.handle(e);
-        }
-    }
-
-    //todo we need to have a class level IP data util that refreshes constantly that other classes can pull from
-    private void getIPData() {
-        try {
-            String Key = timeUtil.getIPKey();
-            String url = "https://api.ipdata.co/?api-key=" + Key;
-
-            URL Querry = new URL(url);
-
-            BufferedReader BR = new BufferedReader(new InputStreamReader(Querry.openStream()));
-
-            String CurrentLine;
-
-            while ((CurrentLine = BR.readLine()) != null) {
-                if (CurrentLine.contains("city")) {
-                    userCity = (CurrentLine.replace("city", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"region\"")) {
-                    userState = (CurrentLine.replace("region", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"country_name\"")) {
-                    userCountry = (CurrentLine.replace("country_name", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-            }
-
-            BR.close();
         }
 
         catch (Exception e) {

@@ -1799,7 +1799,12 @@ public class CyderMain{
                                 4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPane, 600);
                     }
 
-                    randomYoutube(consoleFrame, threads);
+                    consoleFrame.setTitle("YouTube script running");
+
+                    for (int i = 0 ; i < threads ; i++) {
+                        youtubeThread current = new youtubeThread();
+                        youtubeThreads.add(current);
+                    }
                 }
 
                 catch (Exception e) {
@@ -2069,7 +2074,7 @@ public class CyderMain{
             }
 
             else if (hasWord("bletchy")) {
-                bletchy(operation);
+                stringUtil.bletchy(operation,false,50);
             }
 
             else if ((hasWord("flip") &&  hasWord("coin")) || (hasWord("heads") && hasWord("tails"))) {
@@ -2153,7 +2158,7 @@ public class CyderMain{
             }
 
             else if (hasWord("scrub")) {
-                bletchy("No you!");
+                stringUtil.bletchy("No you!",false,50);
             }
 
             else if (eic("break;")) {
@@ -2184,7 +2189,7 @@ public class CyderMain{
             }
 
             else if (has("How old are you") || (hasWord("what") && hasWord("age"))) {
-                bletchy("I am 2^8");
+                stringUtil.bletchy("I am 2^8",true,50);
             }
 
             else if (((hasWord("who") || hasWord("what")) && has("you")) && hasWord("name")) {
@@ -2928,7 +2933,7 @@ public class CyderMain{
                 println("Total lines of code: " + mainUtil.totalCodeLines(new File(System.getProperty("user.dir"))));
             }
 
-            else if ( hasWord("threads")) {
+            else if (hasWord("threads")) {
                 ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                 int num = threadGroup.activeCount();
                 Thread[] printThreads = new Thread[num];
@@ -3311,16 +3316,6 @@ public class CyderMain{
 
         catch (Exception ex) {
             mainUtil.handle(ex);
-        }
-    }
-
-    //todo this should move
-    public void randomYoutube(JFrame frameForTitle, int threadCount) {
-        frameForTitle.setTitle("YouTube script running");
-
-        for (int i = 0 ; i < threadCount ; i++) {
-            youtubeThread current = new youtubeThread();
-            youtubeThreads.add(current);
         }
     }
 
@@ -4558,7 +4553,7 @@ public class CyderMain{
                     }
                 }
 
-                //proper password handling in Java (main bitch <3)
+                //proper password handling in Java
                 for (char c : pass)
                     c = '\0';
 
@@ -4597,7 +4592,7 @@ public class CyderMain{
         newUserName.requestFocus();
     }
 
-    //todo same as below and make consoleClockLabel static or some
+    //todo same as below and make consoleClockLabel static or something
     private void refreshConsoleClock() {
         Thread TimeThread = new Thread(() -> {
             try {
@@ -4657,48 +4652,7 @@ public class CyderMain{
         }
     }
 
-    //todo make this more customizable and make it return an arry so that here you can loop through array and add ms delay
-    private void bletchy(String str) {
-        str = str.toLowerCase();
-        str = str.replaceFirst("(?:bletchy)+", "").trim();
-        final String s = str;
-
-        Thread bletchyThread = new Thread(() -> {
-            int len = s.length();
-
-
-            char[] alphas = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-            char[] numerics = {'0','1','2','3','4','5','6','7','8','9'};
-
-            for (int i = 1 ; i < len ; i++) {
-                for (int j = 0 ; j < 7 ; j++) {
-
-                    String current = "";
-
-                    for (int k = 0 ; k <= len ; k++) {
-                        current += alphas[mainUtil.randInt(0,25)];
-                    }
-
-                    println((s.substring(0,i) + current.substring(i, len)).toUpperCase());
-
-                    try {
-                        Thread.sleep(50);
-                    }
-
-                    catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    clc();
-                }
-            }
-
-            println(s.toUpperCase());
-        });
-
-        bletchyThread.start();
-    }
-
+    //todo put all threads in thread class
     private class youtubeThread  {
         private boolean exit = false;
         youtubeThread() {
@@ -4826,12 +4780,12 @@ public class CyderMain{
     }
 
     private void killAllYoutube() {
-        for (youtubeThread ytt: youtubeThreads) {
+        for (youtubeThread ytt : youtubeThreads) {
             ytt.kill();
         }
     }
 
-    //todo move file.txt to temp dir
+    //todo move file.txt to temp dir, file used for filechooser
 
     private void askew() {
         consoleFrame.setBackground(mainUtil.navy);
@@ -4867,8 +4821,10 @@ public class CyderMain{
         timer.start();
     }
 
+    //exiting method, system.exit will call shutdown hook which wil then call shutdown();
     private void exit() {
         mainUtil.closeAnimation(consoleFrame);
+        killAllYoutube();
         System.exit(0);
     }
 

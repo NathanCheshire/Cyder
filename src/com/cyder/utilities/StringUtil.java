@@ -18,38 +18,49 @@ public class StringUtil {
     public void help(JTextPane outputArea) {
         this.outputArea = outputArea;
 
-        //todo make this dynamic so that it can show every command and a description of it too
-        String[] Helps = {"Pixalte a Picture",
+        String[] Helps = {
+                "askew",
+                "mp3",
                 "Home",
-                "Mathsh",
+                "note",
+                "Font",
+                "Java",
+                "logic",
                 "Pizza",
+                "Color",
+                "Music",
+                "dance",
+                "logout",
+                "Mathsh",
+                "Binary",
+                "Hasher",
+                "Coffee",
+                "Donuts",
+                "threads",
+                "weather",
                 "Vexento",
                 "Youtube",
-                "note",
-                "Create a User",
-                "Binary",
-                "Font",
-                "Color",
-                "Preferences",
-                "Hasher",
-                "Directory Search",
-                "Tic Tac Toe",
-                "Youtube Thumbnail",
-                "Java",
-                "Tell me a story",
-                "Coffee",
-                "Papers Please",
-                "Delete User",
-                "YouTube Word Search",
-                "System Properties",
-                "Donuts",
-                "System Sounds",
                 "Weather",
-                "Music",
-                "mp3",
-                "dance",
                 "hangman",
-                "youtube script"};
+                "edit user",
+                "long word",
+                "rgb to hex",
+                "barrel roll",
+                "Preferences",
+                "Tic Tac Toe",
+                "Delete User",
+                "resize image",
+                "Create a User",
+                "Papers Please",
+                "System Sounds",
+                "youtube script",
+                "Tell me a story",
+                "Directory Search",
+                "Youtube Thumbnail",
+                "System Properties",
+                "Pixelate a Picture",
+                "YouTube Word Search",
+        };
 
         ArrayList<Integer> UniqueIndexes = new ArrayList<>();
 
@@ -303,7 +314,7 @@ public class StringUtil {
         return false;
     }
 
-    private void bletchy(String decodeString, boolean useNumbers, int miliDelay) {
+    public void bletchy(String decodeString, boolean useNumbers, int miliDelay) {
         decodeString = decodeString.toLowerCase();
         decodeString = decodeString.replaceFirst("(?:bletchy)+", "").trim();
         final String s = decodeString;
