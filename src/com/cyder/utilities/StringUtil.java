@@ -335,7 +335,7 @@ public class StringUtil {
                     String current = "";
 
                     for (int k = 0 ; k <= len ; k++) {
-                        current += alphas[stringUtil.randInt(0,alphas.length)];
+                        current += alphas[stringUtil.randInt(0,alphas.length - 1)];
                     }
 
                     println((s.substring(0,i) + current.substring(i, len)).toUpperCase());
@@ -356,6 +356,10 @@ public class StringUtil {
         });
 
         bletchyThread.start();
+    }
+
+    public void setOutputArea(JTextPane jTextPane) {
+        this.outputArea = jTextPane;
     }
 
     private String[] bletchy(String decodeString, boolean useNumbers) {
@@ -380,7 +384,7 @@ public class StringUtil {
                 String current = "";
 
                 for (int k = 0 ; k <= len ; k++) {
-                    current += alphas[stringUtil.randInt(0,alphas.length)];
+                    current += alphas[stringUtil.randInt(0,alphas.length - 1)];
                 }
 
                 returnList.add((s.substring(0,i) + current.substring(i, len)).toUpperCase());

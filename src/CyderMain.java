@@ -2073,7 +2073,9 @@ public class CyderMain{
                        f.setLocation(x,y);
             }
 
+            //todo make ctrl + c break bletchy
             else if (hasWord("bletchy")) {
+                stringUtil.setOutputArea(outputArea);
                 stringUtil.bletchy(operation,false,50);
             }
 
@@ -2158,6 +2160,7 @@ public class CyderMain{
             }
 
             else if (hasWord("scrub")) {
+                stringUtil.setOutputArea(outputArea);
                 stringUtil.bletchy("No you!",false,50);
             }
 
@@ -2189,7 +2192,8 @@ public class CyderMain{
             }
 
             else if (has("How old are you") || (hasWord("what") && hasWord("age"))) {
-                stringUtil.bletchy("I am 2^8",true,50);
+                stringUtil.setOutputArea(outputArea);
+                stringUtil.bletchy("I am 2^8",false,50);
             }
 
             else if (((hasWord("who") || hasWord("what")) && has("you")) && hasWord("name")) {
