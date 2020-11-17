@@ -2073,7 +2073,6 @@ public class CyderMain{
                        f.setLocation(x,y);
             }
 
-            //todo make ctrl + c break bletchy
             else if (hasWord("bletchy")) {
                 stringUtil.setOutputArea(outputArea);
                 stringUtil.bletchy(operation,false,50);
@@ -2759,6 +2758,7 @@ public class CyderMain{
             else if (eic("controlc")) {
                 mainUtil.setUserInputMode(false);
                 killAllYoutube();
+                killAllBletchy();
                 println("Escaped");
             }
 
@@ -3966,7 +3966,6 @@ public class CyderMain{
         editUserFrame.requestFocus();
     }
 
-    //todo move to util
     public void initializeMusicList() {
         File dir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music");
         musicList = new LinkedList<>();
@@ -4000,7 +3999,7 @@ public class CyderMain{
         musicSelectionList.setSelectionBackground(mainUtil.selectionColor);
     }
 
-    //todo move to panel util
+    //todo above and below are for editing user, make it its own widget/class
     public void initializeBackgroundsList() {
         File dir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds");
         backgroundsList = new LinkedList<>();
@@ -4684,7 +4683,6 @@ public class CyderMain{
                                 UUIDBuilder.append(ValidChars[mainUtil.randInt(0, 63)]);
 
                             UUID = UUIDBuilder.toString();
-
                             println("Checked UUID: " + UUID);
                             Start = Start + UUID;
                             String YouTubeURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
@@ -4693,79 +4691,25 @@ public class CyderMain{
                             killAllYoutube();
                             println("YouTube script found valid video with UUID: " + UUID);
 
-                            //todo move this out of main and also make this cyderframe
-                            JFrame thumbnailFrame = new JFrame();
-                            thumbnailFrame.setUndecorated(true);
+                            CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(),Thumbnail.getHeight(),new ImageIcon(Thumbnail));
+                            thumbnailFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
                             thumbnailFrame.setTitle(UUID);
 
-                            thumbnailFrame.addMouseMotionListener(new MouseMotionListener() {
-                                @Override
-                                public void mouseDragged(MouseEvent e) {
-                                    int x = e.getXOnScreen();
-                                    int y = e.getYOnScreen();
-
-                                    if (thumbnailFrame != null && thumbnailFrame.isFocused()) {
-                                        thumbnailFrame.setLocation(x - xMouse, y - yMouse);
-                                    }
-                                }
-
-                                @Override
-                                public void mouseMoved(MouseEvent e) {
-                                    xMouse = e.getX();
-                                    yMouse = e.getY();
-                                }
-                            });
-
-                            thumbnailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-                            JPanel parentPanel = new JPanel();
-
-                            parentPanel.setBorder(new LineBorder(mainUtil.navy, 10, false));
-
-                            parentPanel.setLayout(new BorderLayout());
-
-                            thumbnailFrame.setContentPane(parentPanel);
-
-                            JLabel PictureLabel = new JLabel(new ImageIcon(Thumbnail));
-
-                            PictureLabel.setToolTipText("Open video " + UUID);
-
+                            JLabel pictureLabel = new JLabel();
+                            pictureLabel.setToolTipText("Open video " + UUID);
                             String video = "https://www.youtube.com/watch?v=" + UUID;
-
-                            PictureLabel.addMouseListener(new MouseAdapter() {
+                            pictureLabel.addMouseListener(new MouseAdapter() {
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
                                     mainUtil.internetConnect(video);
                                 }
                             });
 
-                            parentPanel.add(PictureLabel, BorderLayout.PAGE_START);
+                            pictureLabel.setBounds(0,0,thumbnailFrame.getWidth(),thumbnailFrame.getHeight());
+                            thumbnailFrame.getContentPane().add(pictureLabel);
 
-                            CyderButton closeYT = new CyderButton("Close");
-
-                            closeYT.setColors(mainUtil.regularRed);
-
-                            closeYT.setBorder(new LineBorder(mainUtil.navy, 5, false));
-
-                            closeYT.setFocusPainted(false);
-
-                            closeYT.setBackground(mainUtil.regularRed);
-
-                            closeYT.setFont(mainUtil.weatherFontSmall);
-
-                            closeYT.addActionListener(ev -> mainUtil.closeAnimation(thumbnailFrame));
-
-                            closeYT.setSize(thumbnailFrame.getX(), 20);
-
-                            parentPanel.add(closeYT, BorderLayout.PAGE_END);
-
-                            parentPanel.repaint();
-
-                            thumbnailFrame.pack();
                             thumbnailFrame.setVisible(true);
                             thumbnailFrame.setLocationRelativeTo(null);
-                            thumbnailFrame.setResizable(false);
-                            thumbnailFrame.setIconImage(mainUtil.getCyderIcon().getImage());
 
                             break;
                         }
@@ -4781,6 +4725,10 @@ public class CyderMain{
         public void kill() {
             this.exit = true;
         }
+    }
+
+    private void killAllBletchy() {
+        stringUtil.killBletchy();
     }
 
     private void killAllYoutube() {

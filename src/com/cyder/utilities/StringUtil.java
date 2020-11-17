@@ -10,6 +10,8 @@ public class StringUtil {
     private static JTextPane outputArea;
     private Util stringUtil;
 
+    private Thread bletchyThread;
+
     public StringUtil(JTextPane outputArea) {
         this.outputArea = outputArea;
         stringUtil = new Util();
@@ -319,7 +321,7 @@ public class StringUtil {
         decodeString = decodeString.replaceFirst("(?:bletchy)+", "").trim();
         final String s = decodeString;
 
-        Thread bletchyThread = new Thread(() -> {
+        bletchyThread = new Thread(() -> {
             int len = s.length();
 
             char[] alphas = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
@@ -358,16 +360,20 @@ public class StringUtil {
         bletchyThread.start();
     }
 
+    public void killBletchy() {
+        //todo kill all bletchy and make it it's own thread stuff like youtube thread
+    }
+
     public void setOutputArea(JTextPane jTextPane) {
         this.outputArea = jTextPane;
     }
 
-    private String[] bletchy(String decodeString, boolean useNumbers) {
+    public String[] bletchy(String decodeString, boolean useNumbers) {
+        LinkedList<String> retList = new LinkedList<>();
+
         decodeString = decodeString.toLowerCase();
         decodeString = decodeString.replaceFirst("(?:bletchy)+", "").trim();
         final String s = decodeString;
-
-        LinkedList<String> returnList = new LinkedList<>();
 
         int len = s.length();
 
@@ -383,21 +389,15 @@ public class StringUtil {
 
                 String current = "";
 
-                for (int k = 0 ; k <= len ; k++) {
+                for (int k = 0 ; k <= len ; k++)
                     current += alphas[stringUtil.randInt(0,alphas.length - 1)];
-                }
 
-                returnList.add((s.substring(0,i) + current.substring(i, len)).toUpperCase());
+                retList.add((s.substring(0,i) + current.substring(i, len)).toUpperCase());
             }
         }
 
-        returnList.add(s.toUpperCase());
+        retList.add(s.toUpperCase());
 
-        String[] ret = new String[returnList.size()];
-
-        for (int i = 0 ; i < returnList.size() ; i++)
-            ret[i] = returnList.get(i);
-
-        return ret;
+        return retList.toArray(new String[0]);
     }
 }
