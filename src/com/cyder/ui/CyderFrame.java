@@ -79,7 +79,7 @@ public class CyderFrame extends JFrame {
         if (titlePosition == 1) {
             int halfLen = ((int) Math.ceil(14 * title.length())) / 2;
 
-            titleLabel.setBounds((int) Math.floor(5 + (width / 2.0)) - halfLen, 2, halfLen * 2, 25);
+            titleLabel.setBounds((int) Math.floor(5 + (width / 2.0)) - halfLen, 2, halfLen * 4, 25);
         } else {
             titleLabel.setBounds(5, 2, ((int) Math.ceil(14 * title.length())), 25);
         }

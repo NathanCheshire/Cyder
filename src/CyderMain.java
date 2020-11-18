@@ -3,6 +3,7 @@ import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
 import com.cyder.handler.PhotoViewer;
+import com.cyder.threads.YoutubeThread;
 import com.cyder.ui.*;
 import com.cyder.utilities.*;
 
@@ -21,7 +22,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -32,8 +32,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-
-//todo utils should be specific to a user
 
 //todo notes and textviewer non-swing dependent
 
@@ -47,24 +45,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //todo hangman use cyder frame
 //todo utilize start animations after you fix it
-//todo consolidate method for exiting tasks
-
-//todo be able to drawimages in console when not here
 
 //todo make an animation util class
 //todo network util class
-//todo io class instead of util
 //todo ui utils class
-//todo startStopUtil for starting up and exiting methods
-//todo string utils
 
 //todo further class separation from CyderMain.java
 //todo further class separation from Util.java
 
 //todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
 //todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
-
-//todo keep input and output logs and save to user dir, tell what the output was and if an error was thrown and then reference the error file
 
 //todo I feel like a lot of stuff should be static since it means it belongs to the class an not an instance of it
 
@@ -152,7 +142,7 @@ public class CyderMain{
     private JList fontList;
 
     //create user vars
-    private JFrame createUserFrame;
+    private CyderFrame createUserFrame;
     private JPasswordField newUserPasswordconf;
     private JPasswordField newUserPassword;
     private JTextField newUserName;
@@ -170,7 +160,7 @@ public class CyderMain{
     private File pixelateFile;
 
     //Linked List of youtube scripts
-    private LinkedList<youtubeThread> youtubeThreads = new LinkedList<>();
+    private LinkedList<YoutubeThread> youtubeThreads = new LinkedList<>();
 
     //sliding background var
     private boolean slidLeft;
@@ -1789,31 +1779,29 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("random youtube")) {
-                try {
+               try {
                     int threads = Integer.parseInt(input);
 
-                    if (threads > 1) {
-                        notify("The scripts have started. At any point, type \"stop script\"",
-                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPane, 620);
-                    }
+                    notify("The" + (threads > 1 ? " scripts have " : " script has ") + "started. At any point, type \"stop script\"",
+                            4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPane, 620);
 
-                    else {
-                        notify("The script has started. At any point, type \"stop script\"",
-                                4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPane, 600);
-                    }
-
-                    consoleFrame.setTitle("YouTube script running");
-
+                    //todo secondary class to start all them and can also kill all of them
                     for (int i = 0 ; i < threads ; i++) {
-                        youtubeThread current = new youtubeThread();
+                        YoutubeThread current = new YoutubeThread(outputArea);
                         youtubeThreads.add(current);
                     }
                 }
 
-                catch (Exception e) {
+                catch (NumberFormatException e) {
                     println("Invalid input for number of threads to start.");
                 }
+
+               catch (Exception e) {
+                   mainUtil.handle(e);
+               }
             }
+
+            //todo image resizer checkbox broken
 
             else if (desc.equalsIgnoreCase("anagram1")) {
                 println("Enter your second word");
@@ -2654,13 +2642,8 @@ public class CyderMain{
                 mainUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
             }
 
-            else if ((hasWord("minecraft") && !hasWord("icon")) || hasWord("mc")) {
+            else if (hasWord("minecraft")) {
                 mw = new MinecraftWidget();
-            }
-
-            else if (hasWord("icon") && hasWord("minecraft")) {
-                //todo this is broken because of thread indicator
-                consoleFrame.setIconImage(new ImageIcon("src\\com\\cyder\\io\\pictures\\Chest.png").getImage());
             }
 
             else if (eic("loop")) {
@@ -2948,7 +2931,7 @@ public class CyderMain{
                 threadGroup.enumerate(printThreads);
 
                 for (int i = 0; i < num ; i++)
-                    println(printThreads[i]);
+                    println(printThreads[i].getName());
             }
 
             else if (eic("askew")) {
@@ -4195,35 +4178,19 @@ public class CyderMain{
         if (createUserFrame != null)
             mainUtil.closeAnimation(createUserFrame);
 
-        //todo CyderFrame
-        createUserFrame = new JFrame();
+        createUserFrame = new CyderFrame(356,473,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         createUserFrame.setTitle("Create User");
-        createUserFrame.setResizable(false);
-        createUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        createUserFrame.setIconImage(mainUtil.getCyderIcon().getImage());
-
-        JPanel ParentPanel = new JPanel();
-        ParentPanel.setLayout(new BoxLayout(ParentPanel,BoxLayout.Y_AXIS));
 
         JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);
         NameLabel.setFont(mainUtil.weatherFontSmall);
-
-        JPanel NameLabelPanel = new JPanel();
-
-        NameLabelPanel.add(NameLabel, SwingConstants.CENTER);
-
-        ParentPanel.add(NameLabelPanel);
+        NameLabel.setBounds(120,30,121,30); //todo bounds for labels
+        createUserFrame.getContentPane().add(NameLabel);
 
         newUserName = new JTextField(15);
-
         newUserName.setSelectionColor(mainUtil.selectionColor);
-
         newUserName.setFont(mainUtil.weatherFontSmall);
-
         newUserName.setForeground(mainUtil.navy);
-
         newUserName.setFont(mainUtil.weatherFontSmall);
-
         newUserName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
             if (newUserName.getText().length() > 15) {
@@ -4233,7 +4200,6 @@ public class CyderMain{
         });
 
         newUserName.setBorder(new LineBorder(new Color(0, 0, 0)));
-
         newUserName.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
@@ -4264,24 +4230,14 @@ public class CyderMain{
         });
 
         newUserName.setBorder(new LineBorder(mainUtil.navy,5,false));
+        newUserName.setBounds(60,70,240,40);
+        createUserFrame.getContentPane().add(newUserName);
 
-        JPanel userNameFieldPanel = new JPanel();
-
-        userNameFieldPanel.add(newUserName);
-
-        ParentPanel.add(userNameFieldPanel);
-
-        JLabel PasswordLabel = new JLabel("Password: ", SwingConstants.CENTER);
-
-        PasswordLabel.setFont(mainUtil.weatherFontSmall);
-
-        PasswordLabel.setForeground(mainUtil.navy);
-
-        JLabel PasswordConfLabel = new JLabel("Re-enter pass: ", SwingConstants.CENTER);
-
-        PasswordConfLabel.setFont(mainUtil.weatherFontSmall);
-
-        PasswordConfLabel.setForeground(mainUtil.navy);
+        JLabel passwordLabel = new JLabel("Password: ", SwingConstants.CENTER);
+        passwordLabel.setFont(mainUtil.weatherFontSmall);
+        passwordLabel.setForeground(mainUtil.navy);
+        passwordLabel.setBounds(60,120,240,30);
+        createUserFrame.getContentPane().add(passwordLabel);
 
         JLabel matchPasswords = new JLabel("Passwords match");
 
@@ -4290,93 +4246,62 @@ public class CyderMain{
             @Override
             public void keyReleased(KeyEvent e) {
             if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
-                matchPasswords.setText("Passwords match");
+                matchPasswords.setText("<html><div style='text-align: center;'>Passwords match</div></html>");
                 matchPasswords.setForeground(mainUtil.regularGreen);
             }
 
             else {
-                matchPasswords.setText("Passwords do not match");
+                matchPasswords.setText("<html><div style='text-align: center;'>Passwords don't match</div></html>");
                 matchPasswords.setForeground(mainUtil.regularRed);
             }
             }
         });
-
         newUserPassword.setFont(mainUtil.weatherFontSmall);
-
         newUserPassword.setForeground(mainUtil.navy);
-
-        newUserPassword.setBorder(new LineBorder(new Color(0, 0, 0)));
-
+        newUserPassword.setBorder(new LineBorder(mainUtil.navy,5,false));
         newUserPassword.setSelectedTextColor(mainUtil.selectionColor);
+        newUserPassword.setBounds(60,160,240,40);
+        createUserFrame.getContentPane().add(newUserPassword);
+
+        JLabel passwordLabelConf = new JLabel("Confirm Password: ", SwingConstants.CENTER);
+        passwordLabelConf.setFont(mainUtil.weatherFontSmall);
+        passwordLabelConf.setForeground(mainUtil.navy);
+        passwordLabelConf.setBounds(60,210,240,30);
+        createUserFrame.getContentPane().add(passwordLabelConf);
 
         newUserPasswordconf = new JPasswordField(15);
         newUserPasswordconf.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
             if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
-                matchPasswords.setText("Passwords match");
+                matchPasswords.setText("<html><div style='text-align: center;'>Passwords match</div></html>");
                 matchPasswords.setForeground(mainUtil.regularGreen);
             }
 
             else {
-                matchPasswords.setText("Passwords do not match");
+                matchPasswords.setText("<html><div style='text-align: center;'>Passwords don't match</div></html>");
                 matchPasswords.setForeground(mainUtil.regularRed);
             }
             }
         });
 
         newUserPasswordconf.setFont(mainUtil.weatherFontSmall);
-
         newUserPasswordconf.setForeground(mainUtil.navy);
-
-        newUserPasswordconf.setBorder(new LineBorder(new Color(0, 0, 0)));
-
-        newUserPasswordconf.setSelectedTextColor(mainUtil.selectionColor);
-
-        JPanel PasswordLabelPanel = new JPanel();
-
-        PasswordLabelPanel.add(PasswordLabel, SwingConstants.CENTER);
-
-        ParentPanel.add(PasswordLabelPanel);
-
-        JPanel newPassPanel = new JPanel();
-
-        newPassPanel.add(newUserPassword);
-
-        newUserPassword.setBorder(new LineBorder(mainUtil.navy,5,false));
-
-        ParentPanel.add(newPassPanel);
-
-        JPanel PasswordConfLabelPanel = new JPanel();
-
-        PasswordConfLabelPanel.add(PasswordConfLabel,SwingConstants.CENTER);
-
-        JPanel passConf = new JPanel();
-
-        passConf.add(newUserPasswordconf, SwingConstants.CENTER);
-
         newUserPasswordconf.setBorder(new LineBorder(mainUtil.navy,5,false));
-
-        ParentPanel.add(PasswordConfLabelPanel);
-
-        ParentPanel.add(passConf);
+        newUserPasswordconf.setSelectedTextColor(mainUtil.selectionColor);
+        newUserPasswordconf.setBounds(60,250,240,40);
+        createUserFrame.getContentPane().add(newUserPasswordconf);
 
         matchPasswords.setFont(mainUtil.weatherFontSmall);
         matchPasswords.setForeground(mainUtil.regularGreen);
-        JPanel matchPasswordsPanel = new JPanel();
-        matchPasswordsPanel.add(matchPasswords);
-        ParentPanel.add(matchPasswordsPanel);
+        matchPasswords.setBounds(65,300,300,30);
+        createUserFrame.getContentPane().add(matchPasswords);
 
         chooseBackground = new CyderButton("Choose background");
-
         chooseBackground.setToolTipText("Click me to choose a background");
-
         chooseBackground.setFont(mainUtil.weatherFontSmall);
-
         chooseBackground.setBackground(mainUtil.regularRed);
-
         chooseBackground.setColors(mainUtil.regularRed);
-
         chooseBackground.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -4420,23 +4345,13 @@ public class CyderMain{
         });
 
         chooseBackground.setBorder(new LineBorder(mainUtil.navy,5,false));
-
-        JPanel BackgroundPanel = new JPanel();
-
-        BackgroundPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        BackgroundPanel.add(chooseBackground);
-
-        ParentPanel.add(BackgroundPanel);
+        chooseBackground.setBounds(60,340,240,40);
+        createUserFrame.getContentPane().add(chooseBackground);
 
         createNewUser = new CyderButton("Create User");
-
         createNewUser.setFont(mainUtil.weatherFontSmall);
-
         createNewUser.setBackground(mainUtil.regularRed);
-
         createNewUser.setColors(mainUtil.regularRed);
-
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -4575,27 +4490,12 @@ public class CyderMain{
         });
 
         createNewUser.setBorder(new LineBorder(mainUtil.navy,5,false));
-
         createNewUser.setFont(mainUtil.weatherFontSmall);
+        createNewUser.setBounds(60,390,240,40);
+        createUserFrame.getContentPane().add(createNewUser);
 
-        JPanel CreatePanel = new JPanel();
-
-        CreatePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        CreatePanel.add(createNewUser);
-
-        ParentPanel.add(CreatePanel);
-
-        ParentPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-
-        createUserFrame.add(ParentPanel);
-
-        createUserFrame.pack();
         createUserFrame.setLocationRelativeTo(null);
         createUserFrame.setVisible(true);
-        createUserFrame.setAlwaysOnTop(true);
-        createUserFrame.setAlwaysOnTop(false);
-
         newUserName.requestFocus();
     }
 
@@ -4659,80 +4559,8 @@ public class CyderMain{
         }
     }
 
-    //todo put in own class file
-    private class youtubeThread  {
-        private boolean exit = false;
-        youtubeThread() {
-            Thread tread = new Thread(() -> {
-                while (!exit) {
-                    String Start;
-                    String UUID;
-
-                    char[] ValidChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-                            'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-                            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2',
-                            '3', '4', '5', '6', '7', '8', '9', '-', '_'};
-
-                    for (int j = 1; j < 100000; j++) {
-                        try {
-                            if (exit)
-                                break;
-
-                            Start = "https://www.youtube.com/watch?v=";
-                            UUID = "";
-                            StringBuilder UUIDBuilder = new StringBuilder(UUID);
-
-                            for (int i = 1; i < 12; i++)
-                                UUIDBuilder.append(ValidChars[mainUtil.randInt(0, 63)]);
-
-                            UUID = UUIDBuilder.toString();
-                            println("Checked UUID: " + UUID);
-                            Start = Start + UUID;
-                            String YouTubeURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
-
-                            BufferedImage Thumbnail = ImageIO.read(new URL(YouTubeURL.replace("REPLACE", UUID)));
-                            killAllYoutube();
-                            println("YouTube script found valid video with UUID: " + UUID);
-
-                            CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(),Thumbnail.getHeight(),new ImageIcon(Thumbnail));
-                            thumbnailFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
-                            thumbnailFrame.setTitle(UUID);
-
-                            JLabel pictureLabel = new JLabel();
-                            pictureLabel.setToolTipText("Open video " + UUID);
-                            String video = "https://www.youtube.com/watch?v=" + UUID;
-                            pictureLabel.addMouseListener(new MouseAdapter() {
-                                @Override
-                                public void mouseClicked(MouseEvent e) {
-                                    mainUtil.internetConnect(video);
-                                }
-                            });
-
-                            pictureLabel.setBounds(0,0,thumbnailFrame.getWidth(),thumbnailFrame.getHeight());
-                            thumbnailFrame.getContentPane().add(pictureLabel);
-
-                            thumbnailFrame.setVisible(true);
-                            thumbnailFrame.setLocationRelativeTo(null);
-
-                            break;
-                        }
-
-                        catch (Exception ignored) {}
-                    }
-                }
-            });
-
-            tread.start();
-        }
-
-        public void kill() {
-            this.exit = true;
-        }
-    }
-
     private void killAllYoutube() {
-        for (youtubeThread ytt : youtubeThreads) {
+        for (YoutubeThread ytt : youtubeThreads) {
             ytt.kill();
         }
     }

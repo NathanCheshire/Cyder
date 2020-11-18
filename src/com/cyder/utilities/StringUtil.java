@@ -80,7 +80,7 @@ public class StringUtil {
             println(Helps[UniqueIndexes.get(i)]);
     }
 
-    private void print(String Usage) {
+    public void print(String Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Usage, null);
@@ -92,7 +92,7 @@ public class StringUtil {
         }
     }
 
-    private void print(int Usage) {
+    public void print(int Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Integer.toString(Usage), null);
@@ -104,7 +104,7 @@ public class StringUtil {
         }
     }
 
-    private void print(double Usage) {
+    public void print(double Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Double.toString(Usage), null);
@@ -116,7 +116,7 @@ public class StringUtil {
         }
     }
 
-    private void print(boolean Usage) {
+    public void print(boolean Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Boolean.toString(Usage), null);
@@ -128,7 +128,7 @@ public class StringUtil {
         }
     }
 
-    private void print(float Usage) {
+    public void print(float Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Float.toString(Usage), null);
@@ -140,7 +140,7 @@ public class StringUtil {
         }
     }
 
-    private void print(long Usage) {
+    public void print(long Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Long.toString(Usage), null);
@@ -152,7 +152,7 @@ public class StringUtil {
         }
     }
 
-    private void print(char Usage) {
+    public void print(char Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), String.valueOf(Usage), null);
@@ -164,7 +164,7 @@ public class StringUtil {
         }
     }
 
-    private void print(Object Usage) {
+    public void print(Object Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Usage.toString(), null);
@@ -176,7 +176,7 @@ public class StringUtil {
         }
     }
 
-    private void println(String Usage) {
+    public void println(String Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -188,7 +188,7 @@ public class StringUtil {
         }
     }
 
-    private void println(int Usage) {
+    public void println(int Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -200,7 +200,7 @@ public class StringUtil {
         }
     }
 
-    private void println(double Usage) {
+    public void println(double Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -212,7 +212,7 @@ public class StringUtil {
         }
     }
 
-    private void println(boolean Usage) {
+    public void println(boolean Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -224,7 +224,7 @@ public class StringUtil {
         }
     }
 
-    private void println(float Usage) {
+    public void println(float Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -236,7 +236,7 @@ public class StringUtil {
         }
     }
 
-    private void println(long Usage) {
+    public void println(long Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -248,7 +248,7 @@ public class StringUtil {
         }
     }
 
-    private void println(char Usage) {
+    public void println(char Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -260,7 +260,7 @@ public class StringUtil {
         }
     }
 
-    private void println(Object Usage) {
+    public void println(Object Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), Usage.toString() + "\n", null);
@@ -272,12 +272,12 @@ public class StringUtil {
         }
     }
 
-    private char[] reverseArray(char[] Array) {
+    public char[] reverseArray(char[] Array) {
         String reverse = new StringBuilder(new String(Array)).reverse().toString();
         return reverse.toCharArray();
     }
 
-    private boolean startsWith(String op, String comp) {
+    public boolean startsWith(String op, String comp) {
         char[] opA = op.toLowerCase().toCharArray();
 
         char[] compA = comp.toLowerCase().toCharArray();
@@ -299,7 +299,7 @@ public class StringUtil {
         return false;
     }
 
-    private boolean endsWith(String op, String comp) {
+    public boolean endsWith(String op, String comp) {
         char[] opA = reverseArray(op.toLowerCase().toCharArray());
         char[] compA = reverseArray(comp.toLowerCase().toCharArray());
 
