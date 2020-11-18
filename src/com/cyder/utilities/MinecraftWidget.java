@@ -1,15 +1,13 @@
 package com.cyder.utilities;
 
-import com.cyder.ui.DragLabel;
+import com.cyder.ui.CyderFrame;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 public class MinecraftWidget {
-    private JFrame minecraftFrame;
+    private CyderFrame minecraftFrame;
     private JLabel realmsLabel;
     private JLabel chestLabel;
     private JLabel hamLabel;
@@ -21,76 +19,12 @@ public class MinecraftWidget {
         if (minecraftFrame != null)
             mcUtil.closeAnimation(minecraftFrame);
 
-        minecraftFrame = new JFrame();
-
+        minecraftFrame = new CyderFrame(1263,160, new ImageIcon("src\\com\\cyder\\io\\pictures\\Minecraft.png"));
+        minecraftFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
         minecraftFrame.setTitle("Minecraft Widget");
 
-        minecraftFrame.setSize(1263, 160);
-
-        minecraftFrame.setUndecorated(true);
-
-        minecraftFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        minecraftFrame.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
-        });
-
-        JLabel minecraftLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\Minecraft.png"));
-
-        minecraftFrame.setContentPane(minecraftLabel);
-
-        DragLabel minecraftDragLabel = new DragLabel(1263,27,minecraftFrame);
-
-        minecraftDragLabel.setBounds(0, 0, 1263, 27);
-
-        minecraftLabel.add(minecraftDragLabel);
-
         blockLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\Block.png"));
-
-        blockLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+        blockLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 mcUtil.internetConnect("https://my.minecraft.net/en-us/store/minecraft/");
@@ -112,22 +46,11 @@ public class MinecraftWidget {
         });
 
         blockLabel.setBounds(83, 46, 50, 45);
-
-        minecraftLabel.add(blockLabel);
+        minecraftFrame.getContentPane().add(blockLabel);
 
         realmsLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\Realms.png"));
 
-        realmsLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+        realmsLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) { mcUtil.internetConnect("https://minecraft.net/en-us/realms/?ref=m");
             }
@@ -149,21 +72,11 @@ public class MinecraftWidget {
 
         realmsLabel.setBounds(196, 51, 70, 45);
 
-        minecraftLabel.add(realmsLabel);
+        minecraftFrame.getContentPane().add(realmsLabel);
 
         chestLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\Chest.png"));
 
-        chestLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+        chestLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 mcUtil.internetConnect("https://minecraft.net/en-us/store/?ref=m");
@@ -186,21 +99,11 @@ public class MinecraftWidget {
 
         chestLabel.setBounds(1009, 44, 60, 50);
 
-        minecraftLabel.add(chestLabel);
+        minecraftFrame.getContentPane().add(chestLabel);
 
         hamLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\Hamburger.png"));
 
-        hamLabel.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+        hamLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 mcUtil.internetConnect("https://minecraft.net/en-us/?ref=m");
@@ -223,17 +126,13 @@ public class MinecraftWidget {
 
         hamLabel.setBounds(1135, 52, 42, 40);
 
-        minecraftLabel.add(hamLabel);
+        minecraftFrame.getContentPane().add(hamLabel);
 
         minecraftFrame.setVisible(true);
 
         mcUtil.getScreenSize();
 
         minecraftFrame.setLocation((int) mcUtil.getScreenSize().getWidth() / 2 - (1263 / 2), (int) mcUtil.getScreenSize().getHeight() - 240);
-
-        minecraftFrame.setAlwaysOnTop(true);
-
-        minecraftFrame.setResizable(false);
 
         minecraftFrame.setIconImage(new ImageIcon("src\\com\\cyder\\io\\pictures\\Block.png").getImage());
     }

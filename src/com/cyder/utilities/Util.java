@@ -987,6 +987,7 @@ public class Util {
         JTextField colorBlock = new JTextField();
         colorBlock.setBackground(navy);
         colorBlock.setFocusable(false);
+        colorBlock.setCursor(null);
         colorBlock.setToolTipText("Color Preview");
         colorBlock.setBorder(new LineBorder(navy, 5, false));
         colorBlock.setBounds(330, 100, 40, 120);

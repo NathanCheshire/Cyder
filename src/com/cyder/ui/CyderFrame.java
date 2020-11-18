@@ -71,6 +71,7 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void setTitle(String title) {
+        super.setTitle(title); //todo sometimes you may not want this so add a toggle for it
         titleLabel = new JLabel(title);
         titleLabel.setFont(fUtil.weatherFontSmall.deriveFont(20f));
         titleLabel.setForeground(fUtil.vanila);

@@ -160,6 +160,9 @@ public class CyderMain{
     private CyderButton chooseBackground;
     private File createUserBackground;
 
+    //minecraft class so we can only have one
+    private MinecraftWidget mw;
+
     //notificaiton
     private static Notification consoleNotification;
 
@@ -768,7 +771,7 @@ public class CyderMain{
                 if (!mainUtil.internetReachable())
                     notify("Internet connection slow or unavailble",
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
-            }).start();
+            },"slow-internet-checker").start();
 
 
             if (mainUtil.getUserData("DebugWindows").equals("1")) {
@@ -1114,7 +1117,7 @@ public class CyderMain{
                 catch (Exception e) {
                     mainUtil.handle(e);
                 }
-            }).start();
+            },"background-process-checker (this)").start();
         }
 
         catch (Exception e) {
@@ -2652,10 +2655,11 @@ public class CyderMain{
             }
 
             else if ((hasWord("minecraft") && !hasWord("icon")) || hasWord("mc")) {
-                MinecraftWidget mw = new MinecraftWidget();
+                mw = new MinecraftWidget();
             }
 
             else if (hasWord("icon") && hasWord("minecraft")) {
+                //todo this is broken because of thread indicator
                 consoleFrame.setIconImage(new ImageIcon("src\\com\\cyder\\io\\pictures\\Chest.png").getImage());
             }
 
@@ -4609,12 +4613,12 @@ public class CyderMain{
             catch (Exception e) {
                 mainUtil.handle(e);
             }
-        });
+        },"console-clock-updater");
 
         TimeThread.start();
     }
 
-    //todo move to checking utils thread that runs in background
+    //todo move to checking utils thread that runs in background, name all threads
     private void checkChime() {
         Thread ChimeThread = new Thread(() -> {
             try {
@@ -4629,7 +4633,7 @@ public class CyderMain{
             catch (Exception e) {
                 mainUtil.handle(e);
             }
-        });
+        },"chime-checker");
 
         ChimeThread.start();
     }
