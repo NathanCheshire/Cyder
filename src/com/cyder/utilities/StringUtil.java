@@ -10,11 +10,15 @@ public class StringUtil {
     private static JTextPane outputArea;
     private Util stringUtil;
 
-    private Thread bletchyThread;
+    private bletchyThread bletchThread;
 
     public StringUtil(JTextPane outputArea) {
         this.outputArea = outputArea;
         stringUtil = new Util();
+    }
+
+    public void setOutputArea(JTextPane jTextPane) {
+        this.outputArea = jTextPane;
     }
 
     public void help(JTextPane outputArea) {
@@ -317,30 +321,23 @@ public class StringUtil {
     }
 
     public void bletchy(String decodeString, boolean useNumbers, int miliDelay) {
-        decodeString = decodeString.toLowerCase();
-        decodeString = decodeString.replaceFirst("(?:bletchy)+", "").trim();
-        final String s = decodeString;
+        String[] print = bletchy(decodeString,useNumbers);
 
-        bletchyThread = new Thread(() -> {
-            int len = s.length();
+        bletchThread = new bletchyThread(print,miliDelay);
+    }
 
-            char[] alphas = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-            char[] alphaNumeric = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-                    '0','1','2','3','4','5','6','7','8','9'};
+    private class bletchyThread  {
+        private boolean exit = false;
 
-            if (useNumbers)
-                alphas = alphaNumeric;
-
-            for (int i = 1 ; i < len ; i++) {
-                for (int j = 0 ; j < 7 ; j++) {
-
-                    String current = "";
-
-                    for (int k = 0 ; k <= len ; k++) {
-                        current += alphas[stringUtil.randInt(0,alphas.length - 1)];
+        bletchyThread(String[] print, int miliDelay) {
+            new Thread(() -> {
+                for (int i = 1 ; i < print.length ; i++) {
+                    if (exit) {
+                        println("Escaped");
+                        return;
                     }
 
-                    println((s.substring(0,i) + current.substring(i, len)).toUpperCase());
+                    println(print[i]);
 
                     try {
                         Thread.sleep(miliDelay);
@@ -352,20 +349,21 @@ public class StringUtil {
 
                     outputArea.setText("");
                 }
-            }
 
-            println(s.toUpperCase());
-        });
+                println(print[print.length - 1].toUpperCase());
 
-        bletchyThread.start();
+                this.kill();
+            }).start();
+        }
+
+        public void kill() {
+            this.exit = true;
+        }
     }
 
     public void killBletchy() {
-        //todo kill all bletchy and make it it's own thread stuff like youtube thread
-    }
-
-    public void setOutputArea(JTextPane jTextPane) {
-        this.outputArea = jTextPane;
+        if (bletchThread != null)
+            bletchThread.kill();
     }
 
     public String[] bletchy(String decodeString, boolean useNumbers) {
@@ -384,8 +382,10 @@ public class StringUtil {
         if (useNumbers)
             alphas = alphaNumeric;
 
+        int iterationsPerChar = 7;
+
         for (int i = 1 ; i < len ; i++) {
-            for (int j = 0 ; j < 7 ; j++) {
+            for (int j = 0 ; j < iterationsPerChar ; j++) {
 
                 String current = "";
 
@@ -399,5 +399,9 @@ public class StringUtil {
         retList.add(s.toUpperCase());
 
         return retList.toArray(new String[0]);
+    }
+
+    public void printArr(Object[] arr) {
+        for (Object o : arr) println(o);
     }
 }

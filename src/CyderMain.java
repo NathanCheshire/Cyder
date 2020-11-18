@@ -2758,7 +2758,7 @@ public class CyderMain{
             else if (eic("controlc")) {
                 mainUtil.setUserInputMode(false);
                 killAllYoutube();
-                killAllBletchy();
+                stringUtil.killBletchy();
                 println("Escaped");
             }
 
@@ -4655,7 +4655,7 @@ public class CyderMain{
         }
     }
 
-    //todo put all threads in thread class
+    //todo put in own class file
     private class youtubeThread  {
         private boolean exit = false;
         youtubeThread() {
@@ -4725,10 +4725,6 @@ public class CyderMain{
         public void kill() {
             this.exit = true;
         }
-    }
-
-    private void killAllBletchy() {
-        stringUtil.killBletchy();
     }
 
     private void killAllYoutube() {
