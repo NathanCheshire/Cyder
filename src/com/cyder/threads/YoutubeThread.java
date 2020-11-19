@@ -45,7 +45,6 @@ public class YoutubeThread {
                             UUIDBuilder.append(ValidChars[u.randInt(0, 63)]);
 
                         UUID = UUIDBuilder.toString();
-                        UUID = "DuOYHHoqCig";
                         su.println("Checked UUID: " + UUID);
                         Start = Start + UUID;
                         String YouTubeURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";

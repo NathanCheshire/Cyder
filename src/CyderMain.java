@@ -4666,32 +4666,12 @@ public class CyderMain{
         }
     }
 
-    //todo move to separte class when you can
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
-        if (consoleNotification != null && consoleNotification.isVisible())
-            consoleNotification.kill();
-
-        consoleNotification = new Notification();
-
-        int w = width;
-        int h = 30;
-
-        consoleNotification.setWidth(w);
-        consoleNotification.setHeight(h);
-        consoleNotification.setArrow(arrowDir);
-
-        JLabel text = new JLabel(htmltext);
-        text.setFont(mainUtil.weatherFontSmall);
-        text.setForeground(mainUtil.navy);
-        text.setBounds(14,10,w * 2,h);
-        consoleNotification.add(text);
-        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
-        parent.add(consoleNotification,1,0);
-        parent.repaint();
-
-        consoleNotification.vanish(vanishDir, parent, delay);
+        //todo copy when below working
     }
 
+    //todo utilize colors, fonts, font weights, and new lines now
+    //<html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style="color:rgb(252, 251, 227)">fourth with color</p><br/><p style="font-family:verdana">fifth with font</p></html>
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
         if (consoleNotification != null && consoleNotification.isVisible())
             consoleNotification.kill();
@@ -4701,11 +4681,24 @@ public class CyderMain{
         int w = width;
         int h = 30;
 
+        int lastIndex = 0;
+
+        while (lastIndex != -1){
+
+            lastIndex = htmltext.indexOf("<br/>",lastIndex);
+
+            if (lastIndex != -1){
+                h += 30;
+                lastIndex += "<br/>".length();
+            }
+        }
+
         consoleNotification.setWidth(w);
         consoleNotification.setHeight(h);
         consoleNotification.setArrow(arrowDir);
 
-        JLabel text = new JLabel(htmltext);
+        JLabel text = new JLabel();
+        text.setText(htmltext);
         text.setFont(mainUtil.weatherFontSmall);
         text.setForeground(mainUtil.navy);
         text.setBounds(14,10,w * 2,h);
