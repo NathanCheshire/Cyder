@@ -71,7 +71,7 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void setTitle(String title) {
-        super.setTitle(title); //todo sometimes you may not want this so add a toggle for it
+        super.setTitle(title);
         titleLabel = new JLabel(title);
         titleLabel.setFont(fUtil.weatherFontSmall.deriveFont(20f));
         titleLabel.setForeground(fUtil.vanila);
@@ -86,4 +86,44 @@ public class CyderFrame extends JFrame {
 
         dl.add(titleLabel);
     }
+
+    //todo make this more robust so all you have to do is call frame.notify for anything instead of making a notification from scratch
+    //todo add enter direction, top down, from left, or default which is from right
+    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, int width) {
+        Notification frameNotification = new Notification();
+
+        int w = width;
+        int h = 30;
+
+        frameNotification.setArrow(arrowDir);
+
+        JLabel text = new JLabel();
+        text.setText(htmltext);
+
+        int lastIndex = 0;
+
+        while(lastIndex != -1){
+
+            lastIndex = text.getText().indexOf("<br/>",lastIndex);
+
+            if(lastIndex != -1){
+                h += 30;
+                lastIndex += "<br/>".length();
+            }
+        }
+
+        frameNotification.setWidth(w);
+        frameNotification.setHeight(h);
+
+        text.setFont(fUtil.weatherFontSmall);
+        text.setForeground(fUtil.navy);
+        text.setBounds(14,10,w * 2,h);
+        frameNotification.add(text);
+        frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30),30,w * 2,h * 2);
+        this.getContentPane().add(frameNotification,1,0);
+        this.getContentPane().repaint();
+
+        frameNotification.vanish(vanishDir, this.getContentPane(), delay);
+    }
+
 }

@@ -533,6 +533,7 @@ public class PhotoViewer {
 
     }
 
+    //returns a scaled down imageicon if the image file is too big
     private ImageIcon checkImage(File im) {
         try {
             Dimension dim = imageUtil.getScreenSize();
@@ -547,7 +548,7 @@ public class PhotoViewer {
             int width = originalIcon.getIconWidth();
             int height = originalIcon.getIconHeight();
 
-            while (width + 400 > screenX || height + 400 > screenY) {
+            while (width > screenX || height > screenY) {
                 width = (int) (width / aspectRatio);
                 height = (int) (height / aspectRatio);
             }

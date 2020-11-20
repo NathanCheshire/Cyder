@@ -1,6 +1,5 @@
 package com.cyder.utilities;
 
-import com.cyder.ui.Notification;
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -28,46 +27,6 @@ public class TimeUtil {
         ipUtil = new ipUtil();
 
         initGMTOffset();
-    }
-
-    //todo make this it's own class too and make a notification native to cyderFrame
-    //tu.notify("<html>Internet connection<br/><br/>slow or unavailable<br/><br/><br/><br/><br/>test</html>",
-    //                        3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,300);
-    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
-        Notification consoleNotification = new Notification();
-
-        int w = width;
-        int h = 30;
-
-        consoleNotification.setArrow(arrowDir);
-
-        JLabel text = new JLabel();
-        text.setText(htmltext);
-
-        int lastIndex = 0;
-
-        while(lastIndex != -1){
-
-            lastIndex = text.getText().indexOf("<br/>",lastIndex);
-
-            if(lastIndex != -1){
-                h += 30;
-                lastIndex += "<br/>".length();
-            }
-        }
-
-        consoleNotification.setWidth(w);
-        consoleNotification.setHeight(h);
-
-        text.setFont(timeUtil.weatherFontSmall);
-        text.setForeground(timeUtil.navy);
-        text.setBounds(14,10,w * 2,h);
-        consoleNotification.add(text);
-        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
-        parent.add(consoleNotification,1,0);
-        parent.repaint();
-
-        consoleNotification.vanish(vanishDir, parent, delay);
     }
 
     public String formatDate(LocalDateTime now, DateTimeFormatter dtf) {

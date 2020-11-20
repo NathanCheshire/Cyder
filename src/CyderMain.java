@@ -33,21 +33,27 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+//todo put all background checking things in one thread
+//todo fix double chime on hour glitch
+//todo when doing confirmations through the console, pull it to front and then push it back
+//todo make prefs for filled output area and input field
+//todo let color for text be inputed in rgb format too
+//todo be able to set background to a solid color and make that an image and save it
+
 //todo utilize colors, fonts, font weights, and new lines now
 //<html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style="color:rgb(252, 251, 227)">fourth with color</p>
 // <p style="font-family:verdana">fifth with font</p></html>
 
 //todo notes and textviewer non-swing dependent
 
-//todo redo edit user GUI, put in a scrollable UI, tooltips for everything, seconds for console clock option, make checkbox smaller
+//todo redo edit user GUI, put in a scrollable UI, tooltips for everything, seconds for console clock option, make checkboxes smaller
 
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
 //todo make pixelating pictures it's own widget
 
-//todo make photoviewer, the pretty gui one, use image scaling like main for background does
-
 //todo hangman use cyder frame
+//todo photo viewer renmaing needs to be cyderframe
 //todo utilize start animations after you fix it
 
 //todo make an animation util class
@@ -3354,13 +3360,6 @@ public class CyderMain{
     }
 
     //todo make a cyderframe
-    //todo put all background checking things in one thread
-    //todo fix double chime on hour glitch
-    //todo when doing confirmations through the console, pull it to front and then push it back
-    //todo make prefs for filled output area and input field
-    //todo let color for text be inputed in rgb format too
-    //todo be able to set background to a solid color and make that an image and save it
-
     public void editUser() {
         if (editUserFrame != null)
             mainUtil.closeAnimation(editUserFrame);

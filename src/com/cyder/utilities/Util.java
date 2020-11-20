@@ -33,29 +33,28 @@ import java.util.regex.Pattern;
 public class Util {
 
     //static strings used for test cases
-    public static String HERE = "here";
+    public static final String HERE = "here";
 
-    public static String LENGTH_ZERO = "";
-    public static String LENGTH_ONE = "1";
-    public static String LENGTH_TWO = "12";
-    public static String LENGTH_THREE = "123";
-    public static String LENGTH_FOUR = "1234";
-    public static String LENGTH_FIVE = "12345";
-    public static String LENGTH_SIX = "123456";
-    public static String LENGTH_SEVEN = "1234567";
-    public static String LENGTH_EIGHT = "12345678";
-    public static String LENGTH_NINE = "123456789";
+    public static final String LENGTH_ZERO = "";
+    public static final String LENGTH_ONE = "1";
+    public static final String LENGTH_TWO = "12";
+    public static final String LENGTH_THREE = "123";
+    public static final String LENGTH_FOUR = "1234";
+    public static final String LENGTH_FIVE = "12345";
+    public static final String LENGTH_SIX = "123456";
+    public static final String LENGTH_SEVEN = "1234567";
+    public static final String LENGTH_EIGHT = "12345678";
+    public static final String LENGTH_NINE = "123456789";
 
-    public static String QUICK_BROWN_FOX = "The quick brown fox jumps over the lazy dog";
+    public static final String QUICK_BROWN_FOX = "The quick brown fox jumps over the lazy dog";
 
-    public static String SUPER_LONG = "pneumonoultramicroscopicsilicovolcanoconiosis," +
+    public static final String SUPER_LONG = "pneumonoultramicroscopicsilicovolcanoconiosis," +
                                      "pneumonoultramicroscopicsilicovolcanoconiosi," +
                                      "pneumonoultramicroscopicsilicovolcanoconiosis!" +
                                      "There, I said it!";
-
     //integer bounds
-    public static int INFINITY = Integer.MAX_VALUE;
-    public static int NEG_INFINITY = Integer.MIN_VALUE;
+    public static final int INFINITY = Integer.MAX_VALUE;
+    public static final int NEG_INFINITY = Integer.MIN_VALUE;
 
     //public fonts
     public Font weatherFontSmall = new Font("Segoe UI Black", Font.BOLD, 20);

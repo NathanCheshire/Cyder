@@ -137,19 +137,11 @@ public class CyderSliderUI extends BasicSliderUI {
 
     @Override
     public void paintThumb(Graphics g) {
-        Rectangle knobBounds = thumbRect;
-        int w = knobBounds.width;
-        int h = knobBounds.height;
-        Graphics2D g2d = (Graphics2D) g.create();
-        Shape thumbShape = createThumbShape(w - 1, h - 1);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.translate(knobBounds.x, knobBounds.y);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        Rectangle t = thumbRect;
         g2d.setColor(fillColor);
-        g2d.fill(thumbShape);
-
-        g2d.setColor(outlineColor);
-        g2d.draw(thumbShape);
+        g2d.fillOval(t.x, t.y, 25, 25);
         g2d.dispose();
     }
 

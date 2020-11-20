@@ -1,7 +1,8 @@
 package com.cyder.utilities;
 
+import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderSliderUI;
-import com.cyder.ui.DragLabel;
+import com.cyder.ui.Notification;
 import javazoom.jl.player.Player;
 
 import javax.sound.sampled.AudioSystem;
@@ -9,7 +10,10 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Port;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,7 +21,7 @@ import java.util.ArrayList;
 
 public class MPEGPlayer {
     private ScrollLabel musicScroll;
-    private JFrame musicFrame;
+    private CyderFrame musicFrame;
     private JSlider musicVolumeSlider;
     private JButton selectMusicDir;
     private JButton playPauseMusic;
@@ -47,44 +51,22 @@ public class MPEGPlayer {
         if (musicFrame != null)
             musicUtil.closeAnimation(musicFrame);
 
-        musicFrame = new JFrame();
-
-        musicFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        musicFrame.setUndecorated(true);
-
-        musicFrame.setTitle("Music Player");
+        musicFrame = new CyderFrame(1000,563,new ImageIcon("src\\com\\cyder\\io\\pictures\\mp3.png"));
+        musicFrame.setTitle("Flash Player");
 
         musicFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                if (mp3Player != null)
-                    mp3Player.close();
+            if (mp3Player != null)
+                mp3Player.close();
             }
         });
-
-        musicFrame.setIconImage(musicUtil.getCyderIcon().getImage());
-
-        musicFrame.setBounds(0, 0, 1000, 563);
-
-        JLabel musicLabel = new JLabel();
-
-        musicLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\mp3.png"));
-
-        musicLabel.setBounds(0, 0, 1000, 563);
-
-        musicFrame.setContentPane(musicLabel);
 
         ImageIcon mini1 = new ImageIcon("src\\com\\cyder\\io\\pictures\\minimize1.png");
         ImageIcon mini2 = new ImageIcon("src\\com\\cyder\\io\\pictures\\minimize2.png");
 
         ImageIcon close1 = new ImageIcon("src\\com\\cyder\\io\\pictures\\Close1.png");
         ImageIcon close2 = new ImageIcon("src\\com\\cyder\\io\\pictures\\Close2.png");
-
-        DragLabel musicDragLabel = new DragLabel(1000,22,musicFrame);
-        musicDragLabel.setBackground(new Color(20,20,20));
-        musicDragLabel.setBounds(0, 0, 1000, 22);
-        musicLabel.add(musicDragLabel);
 
         musicTitleLabel = new JLabel("", SwingConstants.CENTER);
 
@@ -98,7 +80,7 @@ public class MPEGPlayer {
 
         musicTitleLabel.setText("No Audio Currently Playing");
 
-        musicLabel.add(musicTitleLabel);
+        musicFrame.getContentPane().add(musicTitleLabel);
 
         musicVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
 
@@ -167,7 +149,7 @@ public class MPEGPlayer {
 
         musicVolumeSlider.setFocusable(false);
 
-        musicLabel.add(musicVolumeSlider);
+        musicFrame.getContentPane().add(musicVolumeSlider);
 
         musicVolumeLabel = new JLabel("", SwingConstants.CENTER);
 
@@ -181,7 +163,7 @@ public class MPEGPlayer {
 
         musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
 
-        musicLabel.add(musicVolumeLabel);
+        musicFrame.getContentPane().add(musicVolumeLabel);
 
         playPauseMusic = new JButton("");
 
@@ -245,22 +227,7 @@ public class MPEGPlayer {
             }
         });
 
-        playPauseMusic.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+        playPauseMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (playIcon) {
@@ -292,7 +259,7 @@ public class MPEGPlayer {
 
         playPauseMusic.setIcon(Play);
 
-        musicLabel.add(playPauseMusic);
+        musicFrame.getContentPane().add(playPauseMusic);
 
         playPauseMusic.setFocusPainted(false);
 
@@ -328,22 +295,7 @@ public class MPEGPlayer {
             }
         });
 
-        lastMusic.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+        lastMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 lastMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\SkipBackHover.png"));
@@ -361,7 +313,7 @@ public class MPEGPlayer {
 
         lastMusic.setIcon(Last);
 
-        musicLabel.add(lastMusic);
+        musicFrame.getContentPane().add(lastMusic);
 
         lastMusic.setFocusPainted(false);
 
@@ -397,22 +349,7 @@ public class MPEGPlayer {
             }
         });
 
-        nextMusic.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+        nextMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 nextMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\SkipHover.png"));
@@ -430,7 +367,7 @@ public class MPEGPlayer {
 
         nextMusic.setIcon(Next);
 
-        musicLabel.add(nextMusic);
+        musicFrame.getContentPane().add(nextMusic);
 
         nextMusic.setFocusPainted(false);
 
@@ -458,22 +395,7 @@ public class MPEGPlayer {
             }
         });
 
-        loopMusic.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+        loopMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (repeatAudio)
@@ -507,7 +429,7 @@ public class MPEGPlayer {
 
         loopMusic.setIcon(Loop);
 
-        musicLabel.add(loopMusic);
+        musicFrame.getContentPane().add(loopMusic);
 
         loopMusic.setFocusPainted(false);
 
@@ -535,22 +457,7 @@ public class MPEGPlayer {
             }
         });
 
-        stopMusic.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+        stopMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 stopMusic.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\StopHover.png"));
@@ -568,7 +475,7 @@ public class MPEGPlayer {
 
         stopMusic.setIcon(Stop);
 
-        musicLabel.add(stopMusic);
+        musicFrame.getContentPane().add(stopMusic);
 
         stopMusic.setFocusPainted(false);
 
@@ -611,22 +518,7 @@ public class MPEGPlayer {
             }
         });
 
-        selectMusicDir.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+        selectMusicDir.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 selectMusicDir.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\SelectFileHover.png"));
@@ -644,7 +536,7 @@ public class MPEGPlayer {
 
         selectMusicDir.setIcon(File);
 
-        musicLabel.add(selectMusicDir);
+        musicFrame.getContentPane().add(selectMusicDir);
 
         selectMusicDir.setFocusPainted(false);
 
@@ -655,14 +547,12 @@ public class MPEGPlayer {
         selectMusicDir.setBorderPainted(false);
 
         musicFrame.setLocationRelativeTo(null);
-
         musicFrame.setVisible(true);
-
         musicFrame.setAlwaysOnTop(true);
-
         musicFrame.setAlwaysOnTop(false);
-
         musicFrame.requestFocus();
+
+        musicFrame.notify("<html>Welcome to<br/>FlashPlayer!</html>",2000, Notification.RIGHT_ARROW,Notification.RIGHT_VANISH,150);
 
         if (StartPlaying != null && !StartPlaying.getName().equals("")) {
             initMusic(StartPlaying);
