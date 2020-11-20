@@ -33,6 +33,10 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+//todo utilize colors, fonts, font weights, and new lines now
+//<html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style="color:rgb(252, 251, 227)">fourth with color</p>
+// <p style="font-family:verdana">fifth with font</p></html>
+
 //todo notes and textviewer non-swing dependent
 
 //todo redo edit user GUI, put in a scrollable UI, tooltips for everything, seconds for console clock option, make checkbox smaller
@@ -3349,11 +3353,18 @@ public class CyderMain{
         }
     }
 
+    //todo make a cyderframe
+    //todo put all background checking things in one thread
+    //todo fix double chime on hour glitch
+    //todo when doing confirmations through the console, pull it to front and then push it back
+    //todo make prefs for filled output area and input field
+    //todo let color for text be inputed in rgb format too
+    //todo be able to set background to a solid color and make that an image and save it
+
     public void editUser() {
         if (editUserFrame != null)
             mainUtil.closeAnimation(editUserFrame);
 
-        //todo redo and make cyderframe
         editUserFrame = new JFrame();
         editUserFrame.setResizable(false);
         editUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -3381,6 +3392,8 @@ public class CyderMain{
         backgroundListScroll.setBackground(mainUtil.vanila);
         backgroundListScroll.setFont(mainUtil.weatherFontBig);
         backgroundListScroll.setThumbColor(mainUtil.regularRed);
+        backgroundSelectionList.setBackground(new Color(0,0,0,0));
+        backgroundListScroll.getViewport().setBackground(new Color(0,0,0,0));
 
         JPanel ButtonPanel = new JPanel();
         ButtonPanel.setLayout(new GridLayout(1, 3, 5, 5));
@@ -3396,7 +3409,7 @@ public class CyderMain{
             try {
                 File AddBackground = mainUtil.getFile();
 
-                if (AddBackground.getName() != null && AddBackground.getName().endsWith(".png")) {
+                if (AddBackground != null && AddBackground.getName().endsWith(".png")) {
                     File Destination = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds\\" + AddBackground.getName());
                     Files.copy(new File(AddBackground.getAbsolutePath()).toPath(), Destination.toPath());
                     initializeBackgroundsList();
@@ -3490,6 +3503,8 @@ public class CyderMain{
         musicListScroll.setSize(400, 400);
         musicListScroll.setBackground(mainUtil.vanila);
         musicListScroll.setFont(mainUtil.weatherFontSmall);
+        musicSelectionList.setBackground(new Color(0,0,0,0));
+        musicListScroll.getViewport().setBackground(new Color(0,0,0,0));
 
         JPanel BottomButtonPanel = new JPanel();
         BottomButtonPanel.setLayout(new GridLayout(1, 3, 5, 5));
@@ -4667,19 +4682,13 @@ public class CyderMain{
     }
 
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
-        //todo copy when below working
-    }
-
-    //todo utilize colors, fonts, font weights, and new lines now
-    //<html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style="color:rgb(252, 251, 227)">fourth with color</p><br/><p style="font-family:verdana">fifth with font</p></html>
-    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
         if (consoleNotification != null && consoleNotification.isVisible())
             consoleNotification.kill();
 
         consoleNotification = new Notification();
 
         int w = width;
-        int h = 30;
+        int h = 40;
 
         int lastIndex = 0;
 
@@ -4692,6 +4701,50 @@ public class CyderMain{
                 lastIndex += "<br/>".length();
             }
         }
+
+        if (h == 40)
+            h = 30;
+
+        consoleNotification.setWidth(w);
+        consoleNotification.setHeight(h);
+        consoleNotification.setArrow(arrowDir);
+
+        JLabel text = new JLabel();
+        text.setText(htmltext);
+        text.setFont(mainUtil.weatherFontSmall);
+        text.setForeground(mainUtil.navy);
+        text.setBounds(14,10,w * 2,h);
+        consoleNotification.add(text);
+        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
+        parent.add(consoleNotification,1,0);
+        parent.repaint();
+
+        consoleNotification.vanish(vanishDir, parent, delay);
+    }
+
+    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
+        if (consoleNotification != null && consoleNotification.isVisible())
+            consoleNotification.kill();
+
+        consoleNotification = new Notification();
+
+        int w = width;
+        int h = 40;
+
+        int lastIndex = 0;
+
+        while (lastIndex != -1){
+
+            lastIndex = htmltext.indexOf("<br/>",lastIndex);
+
+            if (lastIndex != -1){
+                h += 30;
+                lastIndex += "<br/>".length();
+            }
+        }
+
+        if (h == 40)
+            h = 30;
 
         consoleNotification.setWidth(w);
         consoleNotification.setHeight(h);

@@ -119,11 +119,6 @@ public class PhotoViewer {
                     pictureFrame.setTitle(name);
 
                     imageUtil.closeAnimation(renameFrame);
-
-                    System.out.println("index: " + currentIndex + "\nFiles:\n");
-                    for (File f : validImages) {
-                        System.out.println(f);
-                    }
                 });
 
                 JPanel b = new JPanel();
@@ -301,11 +296,6 @@ public class PhotoViewer {
                         pictureFrame.setTitle(name);
 
                         imageUtil.closeAnimation(renameFrame);
-
-                        System.out.println("index: " + currentIndex + "\nFiles:\n");
-                        for (File f : validImages) {
-                            System.out.println(f);
-                        }
                     });
 
                     JPanel b = new JPanel();
@@ -460,11 +450,6 @@ public class PhotoViewer {
                         pictureFrame.setTitle(name);
 
                         imageUtil.closeAnimation(renameFrame);
-
-                        System.out.println("index: " + currentIndex + "\nFiles:\n");
-                        for (File f : validImages) {
-                            System.out.println(f);
-                        }
                     });
 
                     JPanel b = new JPanel();
