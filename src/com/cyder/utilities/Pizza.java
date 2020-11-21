@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pizza {
-    private Util pizzaUtil = new Util();
+    private GeneralUtil pizzaGeneralUtil = new GeneralUtil();
     private JFrame pizzaFrame;
     private JTextField enterNameField;
     private JTextField enterName;
@@ -28,12 +28,12 @@ public class Pizza {
 
     public Pizza() {
         if (pizzaFrame != null)
-            new Util().closeAnimation(pizzaFrame);
+            new GeneralUtil().closeAnimation(pizzaFrame);
 
         pizzaFrame = new JFrame();
         pizzaFrame.setTitle("Pizza");
         pizzaFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        pizzaFrame.setIconImage(pizzaUtil.getCyderIcon().getImage());
+        pizzaFrame.setIconImage(pizzaGeneralUtil.getCyderIcon().getImage());
         pizzaFrame.setResizable(false);
 
         JPanel parentPanel = new JPanel();
@@ -41,15 +41,15 @@ public class Pizza {
         parentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JLabel CustomerName = new JLabel("Name");
-        CustomerName.setFont(pizzaUtil.weatherFontSmall);
-        CustomerName.setForeground(pizzaUtil.navy);
+        CustomerName.setFont(pizzaGeneralUtil.weatherFontSmall);
+        CustomerName.setForeground(pizzaGeneralUtil.navy);
         JPanel namePanel = new JPanel();
         namePanel.add(CustomerName, SwingConstants.CENTER);
 
         enterName = new JTextField(20);
-        enterName.setSelectionColor(pizzaUtil.selectionColor);
-        enterName.setForeground(pizzaUtil.navy);
-        enterName.setFont(pizzaUtil.weatherFontSmall);
+        enterName.setSelectionColor(pizzaGeneralUtil.selectionColor);
+        enterName.setForeground(pizzaGeneralUtil.navy);
+        enterName.setFont(pizzaGeneralUtil.weatherFontSmall);
         enterName.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
@@ -73,26 +73,26 @@ public class Pizza {
             }
         });
 
-        enterName.setBorder(new LineBorder(pizzaUtil.navy,5,false));
+        enterName.setBorder(new LineBorder(pizzaGeneralUtil.navy,5,false));
         JPanel nameFieldPanel = new JPanel();
         nameFieldPanel.add(enterName, SwingConstants.CENTER);
 
         JPanel pizzaSizeLabelPanel = new JPanel();
         JLabel pizzaSizeLabel = new JLabel("Pizza Size");
-        pizzaSizeLabel.setFont(pizzaUtil.weatherFontSmall);
-        pizzaSizeLabel.setForeground(pizzaUtil.navy);
+        pizzaSizeLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
+        pizzaSizeLabel.setForeground(pizzaGeneralUtil.navy);
         pizzaSizeLabelPanel.add(pizzaSizeLabel, SwingConstants.CENTER);
 
         JPanel pizzaSizePanel = new JPanel();
         small = new JRadioButton("small");
-        small.setFont(pizzaUtil.weatherFontSmall);
-        small.setForeground(pizzaUtil.navy);
+        small.setFont(pizzaGeneralUtil.weatherFontSmall);
+        small.setForeground(pizzaGeneralUtil.navy);
         medium = new JRadioButton("medium");
-        medium.setFont(pizzaUtil.weatherFontSmall);
-        medium.setForeground(pizzaUtil.navy);
+        medium.setFont(pizzaGeneralUtil.weatherFontSmall);
+        medium.setForeground(pizzaGeneralUtil.navy);
         large = new JRadioButton("Large");
-        large.setFont(pizzaUtil.weatherFontSmall);
-        large.setForeground(pizzaUtil.navy);
+        large.setFont(pizzaGeneralUtil.weatherFontSmall);
+        large.setForeground(pizzaGeneralUtil.navy);
         ButtonGroup pizzaSizeGroup = new ButtonGroup();
         pizzaSizeGroup.add(small);
         pizzaSizeGroup.add(medium);
@@ -103,23 +103,23 @@ public class Pizza {
 
         JPanel crustPanel = new JPanel();
         JLabel crustLabel = new JLabel("Crust Type");
-        crustLabel.setFont(pizzaUtil.weatherFontSmall);
-        crustLabel.setForeground(pizzaUtil.navy);
+        crustLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
+        crustLabel.setForeground(pizzaGeneralUtil.navy);
         crustPanel.add(crustLabel,SwingConstants.CENTER);
 
 
         String[] CrustTypeChoice = {"Thin", "Thick", "Deep Dish", "Classic", "Tavern", "Seasonal"};
         pizzaCrustCombo = new JComboBox(CrustTypeChoice);
-        pizzaCrustCombo.setBorder(new LineBorder(pizzaUtil.navy,5,false));
-        pizzaCrustCombo.setForeground(pizzaUtil.navy);
-        pizzaCrustCombo.setFont(pizzaUtil.weatherFontSmall);
+        pizzaCrustCombo.setBorder(new LineBorder(pizzaGeneralUtil.navy,5,false));
+        pizzaCrustCombo.setForeground(pizzaGeneralUtil.navy);
+        pizzaCrustCombo.setFont(pizzaGeneralUtil.weatherFontSmall);
         JPanel crustChoicePanel = new JPanel();
         crustChoicePanel.add(pizzaCrustCombo,SwingConstants.CENTER);
 
         JPanel pizzaTopingsLabelPanel = new JPanel();
         JLabel Topings = new JLabel("Topings");
-        Topings.setFont(pizzaUtil.weatherFontSmall);
-        Topings.setForeground(pizzaUtil.navy);
+        Topings.setFont(pizzaGeneralUtil.weatherFontSmall);
+        Topings.setForeground(pizzaGeneralUtil.navy);
         pizzaTopingsLabelPanel.add(Topings, SwingConstants.CENTER);
 
         String[] pizzaTopingsStrList = {"Pepperoni", "Sausage", "Green Peppers",
@@ -127,76 +127,76 @@ public class Pizza {
                 "Olives", "Mushrooms"};
         JList pizzaToppingsJList = new JList(pizzaTopingsStrList);
         pizzaTopingsList = pizzaToppingsJList;
-        pizzaTopingsList.setForeground(pizzaUtil.navy);
-        pizzaTopingsList.setFont(pizzaUtil.weatherFontSmall);
-        pizzaTopingsList.setSelectionBackground(pizzaUtil.selectionColor);
+        pizzaTopingsList.setForeground(pizzaGeneralUtil.navy);
+        pizzaTopingsList.setFont(pizzaGeneralUtil.weatherFontSmall);
+        pizzaTopingsList.setSelectionBackground(pizzaGeneralUtil.selectionColor);
         pizzaTopingsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         CyderScrollPane PizzaTopingsListScroll = new CyderScrollPane(pizzaTopingsList,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        PizzaTopingsListScroll.setThumbColor(pizzaUtil.regularRed);
+        PizzaTopingsListScroll.setThumbColor(pizzaGeneralUtil.regularRed);
         PizzaTopingsListScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         PizzaTopingsListScroll.getViewport().setBorder(null);
         PizzaTopingsListScroll.setViewportBorder(null);
-        PizzaTopingsListScroll.setBorder(new LineBorder(pizzaUtil.navy,5,false));
+        PizzaTopingsListScroll.setBorder(new LineBorder(pizzaGeneralUtil.navy,5,false));
         PizzaTopingsListScroll.setPreferredSize(new Dimension(200,200));
         JPanel pizzaTopingsScrollPanel = new JPanel();
         pizzaTopingsScrollPanel.add(PizzaTopingsListScroll, SwingConstants.CENTER);
 
         JPanel extrasLabelPanel = new JPanel();
         JLabel Extra = new JLabel("Extras");
-        Extra.setForeground(pizzaUtil.navy);
-        Extra.setFont(pizzaUtil.weatherFontSmall);
+        Extra.setForeground(pizzaGeneralUtil.navy);
+        Extra.setFont(pizzaGeneralUtil.weatherFontSmall);
         extrasLabelPanel.add(Extra,SwingConstants.CENTER);
 
         JPanel extraCheckPanel = new JPanel();
         breadSticks = new JCheckBox("Breadsticks");
-        breadSticks.setForeground(pizzaUtil.navy);
-        breadSticks.setFont(pizzaUtil.weatherFontSmall);
+        breadSticks.setForeground(pizzaGeneralUtil.navy);
+        breadSticks.setFont(pizzaGeneralUtil.weatherFontSmall);
         salad = new JCheckBox("Salad");
-        salad.setForeground(pizzaUtil.navy);
-        salad.setFont(pizzaUtil.weatherFontSmall);
+        salad.setForeground(pizzaGeneralUtil.navy);
+        salad.setFont(pizzaGeneralUtil.weatherFontSmall);
         soda = new JCheckBox("Soda");
-        soda.setForeground(pizzaUtil.navy);
-        soda.setFont(pizzaUtil.weatherFontSmall);
+        soda.setForeground(pizzaGeneralUtil.navy);
+        soda.setFont(pizzaGeneralUtil.weatherFontSmall);
         extraCheckPanel.add(breadSticks);
         extraCheckPanel.add(salad);
         extraCheckPanel.add(soda);
 
         JLabel orderCommentsLabel = new JLabel("Order Comments");
-        orderCommentsLabel.setFont(pizzaUtil.weatherFontSmall);
-        orderCommentsLabel.setForeground(pizzaUtil.navy);
+        orderCommentsLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
+        orderCommentsLabel.setForeground(pizzaGeneralUtil.navy);
         JPanel orderCommentsLabelPanel = new JPanel();
         orderCommentsLabelPanel.add(orderCommentsLabel, SwingConstants.CENTER);
 
         orderCommentsTextArea = new JTextArea(5,20);
-        orderCommentsTextArea.setFont(pizzaUtil.weatherFontSmall);
+        orderCommentsTextArea.setFont(pizzaGeneralUtil.weatherFontSmall);
         orderCommentsTextArea.setAutoscrolls(true);
         orderCommentsTextArea.setLineWrap(true);
         orderCommentsTextArea.setWrapStyleWord(true);
-        orderCommentsTextArea.setSelectedTextColor(pizzaUtil.selectionColor);
+        orderCommentsTextArea.setSelectedTextColor(pizzaGeneralUtil.selectionColor);
         orderCommentsTextArea.setBorder(new LineBorder(new Color(0, 0, 0)));
 
         CyderScrollPane orderCommentsScroll = new CyderScrollPane(orderCommentsTextArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        orderCommentsScroll.setThumbColor(pizzaUtil.regularRed);
+        orderCommentsScroll.setThumbColor(pizzaGeneralUtil.regularRed);
         orderCommentsScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         orderCommentsScroll.getViewport().setBorder(null);
         orderCommentsScroll.setViewportBorder(null);
         orderCommentsScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(pizzaUtil.navy,5,false)));
+                new LineBorder(pizzaGeneralUtil.navy,5,false)));
         orderCommentsScroll.setPreferredSize(new Dimension(400,200));
         JPanel scrollPanel = new JPanel();
         scrollPanel.add(orderCommentsScroll, SwingConstants.CENTER);
 
         JPanel BottomButtons = new JPanel();
         CyderButton placeOrder = new CyderButton("Place Order");
-        placeOrder.setFont(pizzaUtil.weatherFontSmall);
-        placeOrder.setColors(pizzaUtil.regularRed);
+        placeOrder.setFont(pizzaGeneralUtil.weatherFontSmall);
+        placeOrder.setColors(pizzaGeneralUtil.regularRed);
         placeOrder.addActionListener(e -> {
             if (enterName.getText().length() <= 0) {
-                pizzaUtil.inform("Sorry, but you must enter a name.","", 400, 200);
+                pizzaGeneralUtil.inform("Sorry, but you must enter a name.","", 400, 200);
             }
 
             else {
@@ -260,13 +260,13 @@ public class Pizza {
 
 
                 if (Comments.length() == 0) {
-                    pizzaUtil.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
+                    pizzaGeneralUtil.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
                             + "<br/>" + Size + "<br/><br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Topings: " + "<br/><br/>" + TopingsChosen
                             + "<br/><br/>" + Extras,"", 500, 1200);
                 }
 
                 else {
-                    pizzaUtil.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
+                    pizzaGeneralUtil.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
                             + "<br/>" + Size + "<br/><br/>" + "Crust Type: " + "<br/>" + Crust + "<br/><br/>" + "Topings: " + "<br/>" + TopingsChosen
                             + "<br/>" + Extras + "<br/><br/>Comments: " + "<br/><br/>" + Comments,"", 500, 1200);
                 }
@@ -274,8 +274,8 @@ public class Pizza {
         });
 
         CyderButton resetPizza = new CyderButton("Reset Values");
-        resetPizza.setColors(pizzaUtil.regularRed);
-        resetPizza.setFont(pizzaUtil.weatherFontSmall);
+        resetPizza.setColors(pizzaGeneralUtil.regularRed);
+        resetPizza.setFont(pizzaGeneralUtil.weatherFontSmall);
         resetPizza.addActionListener(e -> {
             enterName.setText("");
             pizzaSizeGroup.clearSelection();
@@ -288,10 +288,10 @@ public class Pizza {
         });
 
         resetPizza.setFocusPainted(false);
-        resetPizza.setBorder(new LineBorder(pizzaUtil.navy,5,false));
-        placeOrder.setBorder(new LineBorder(pizzaUtil.navy,5,false));
-        resetPizza.setBackground(pizzaUtil.regularRed);
-        placeOrder.setBackground(pizzaUtil.regularRed);
+        resetPizza.setBorder(new LineBorder(pizzaGeneralUtil.navy,5,false));
+        placeOrder.setBorder(new LineBorder(pizzaGeneralUtil.navy,5,false));
+        resetPizza.setBackground(pizzaGeneralUtil.regularRed);
+        placeOrder.setBackground(pizzaGeneralUtil.regularRed);
         placeOrder.setFocusPainted(false);
         BottomButtons.add(placeOrder);
         BottomButtons.add(resetPizza);

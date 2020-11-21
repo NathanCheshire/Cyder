@@ -17,14 +17,14 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeUtil {
 
-    private Util timeUtil;
+    private GeneralUtil timeGeneralUtil;
     private int gmtOffset;
     private JFrame consoleFrame;
-    private ipUtil ipUtil;
+    private InternetProtocolUtil InternetProtocolUtil;
 
     public TimeUtil() {
-        timeUtil = new Util();
-        ipUtil = new ipUtil();
+        timeGeneralUtil = new GeneralUtil();
+        InternetProtocolUtil = new InternetProtocolUtil();
 
         initGMTOffset();
     }
@@ -63,8 +63,8 @@ public class TimeUtil {
     private void initGMTOffset() {
         try {
             String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
-                    ipUtil.getUserCity() + "," + ipUtil.getUserState() + "," +
-                    ipUtil.getUserCountry() + "&appid=" + timeUtil.getWeatherKey() + "&units=imperial";
+                    InternetProtocolUtil.getUserCity() + "," + InternetProtocolUtil.getUserState() + "," +
+                    InternetProtocolUtil.getUserCountry() + "&appid=" + timeGeneralUtil.getWeatherKey() + "&units=imperial";
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
@@ -76,7 +76,7 @@ public class TimeUtil {
                         .replace(":", "").replace("\"", "").replace("[", "")
                         .replace("]", "").replace(":", "").split(",");
 
-                Fields = timeUtil.combineArrays(Fields, LineArray);
+                Fields = timeGeneralUtil.combineArrays(Fields, LineArray);
             }
 
             WeatherReader.close();
@@ -89,7 +89,7 @@ public class TimeUtil {
         }
 
         catch (Exception e) {
-            timeUtil.handle(e);
+            timeGeneralUtil.handle(e);
         }
     }
 
@@ -111,7 +111,7 @@ public class TimeUtil {
     }
 
     private void exit() {
-        timeUtil.closeAnimation(consoleFrame);
+        timeGeneralUtil.closeAnimation(consoleFrame);
         System.exit(0);
     }
 }

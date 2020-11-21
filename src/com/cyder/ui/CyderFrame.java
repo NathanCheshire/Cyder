@@ -1,6 +1,6 @@
 package com.cyder.ui;
 
-import com.cyder.utilities.Util;
+import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -13,7 +13,7 @@ public class CyderFrame extends JFrame {
     public static final int CENTER_TITLE = 1;
     private int titlePosition = 0;
 
-    private Util fUtil = new Util();
+    private GeneralUtil fGeneralUtil = new GeneralUtil();
     private int width;
     private int height;
     private ImageIcon background;
@@ -28,10 +28,10 @@ public class CyderFrame extends JFrame {
 
         setResizable(false);
         setUndecorated(true);
-        setIconImage(fUtil.getCyderIcon().getImage());
+        setIconImage(fGeneralUtil.getCyderIcon().getImage());
 
         JLabel parentLabel = new JLabel();
-        parentLabel.setBorder(new LineBorder(fUtil.navy, 5, false));
+        parentLabel.setBorder(new LineBorder(fGeneralUtil.navy, 5, false));
         parentLabel.setIcon(background);
         setContentPane(parentLabel);
 
@@ -53,10 +53,10 @@ public class CyderFrame extends JFrame {
 
         setResizable(false);
         setUndecorated(true);
-        setIconImage(fUtil.getCyderIcon().getImage());
+        setIconImage(fGeneralUtil.getCyderIcon().getImage());
 
         JLabel parentLabel = new JLabel();
-        parentLabel.setBorder(new LineBorder(fUtil.navy, 5, false));
+        parentLabel.setBorder(new LineBorder(fGeneralUtil.navy, 5, false));
         parentLabel.setIcon(background);
         setContentPane(parentLabel);
 
@@ -73,8 +73,8 @@ public class CyderFrame extends JFrame {
     public void setTitle(String title) {
         super.setTitle(title);
         titleLabel = new JLabel(title);
-        titleLabel.setFont(fUtil.weatherFontSmall.deriveFont(20f));
-        titleLabel.setForeground(fUtil.vanila);
+        titleLabel.setFont(fGeneralUtil.weatherFontSmall.deriveFont(20f));
+        titleLabel.setForeground(fGeneralUtil.vanila);
 
         if (titlePosition == 1) {
             int halfLen = ((int) Math.ceil(14 * title.length())) / 2;
@@ -115,8 +115,8 @@ public class CyderFrame extends JFrame {
         frameNotification.setWidth(w);
         frameNotification.setHeight(h);
 
-        text.setFont(fUtil.weatherFontSmall);
-        text.setForeground(fUtil.navy);
+        text.setFont(fGeneralUtil.weatherFontSmall);
+        text.setForeground(fGeneralUtil.navy);
         text.setBounds(14,10,w * 2,h);
         frameNotification.add(text);
 

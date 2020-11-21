@@ -10,30 +10,30 @@ import java.awt.datatransfer.StringSelection;
 
 public class Hasher {
     private JPasswordField hashField;
-    private Util hashUtil = new Util();
+    private GeneralUtil hashGeneralUtil = new GeneralUtil();
 
     public Hasher() {
         CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
         hashFrame.setTitle("Hasher");
 
         JLabel Instructions = new JLabel("Enter your password to be hashed");
-        Instructions.setForeground(hashUtil.navy);
-        Instructions.setFont(hashUtil.weatherFontSmall);
+        Instructions.setForeground(hashGeneralUtil.navy);
+        Instructions.setFont(hashGeneralUtil.weatherFontSmall);
 
         Instructions.setBounds(65,40, 400, 30);
         hashFrame.getContentPane().add(Instructions);
 
         hashField = new JPasswordField(15);
-        hashField.setForeground(hashUtil.navy);
-        hashField.setFont(hashUtil.weatherFontSmall);
-        hashField.setBorder(new LineBorder(hashUtil.navy,5,false));
+        hashField.setForeground(hashGeneralUtil.navy);
+        hashField.setFont(hashGeneralUtil.weatherFontSmall);
+        hashField.setBorder(new LineBorder(hashGeneralUtil.navy,5,false));
         hashField.addActionListener(e -> {
             char[] Hash = hashField.getPassword();
 
             if (Hash.length > 0) {
-                String PrintHash = hashUtil.toHexString(hashUtil.getSHA(hashField.getPassword()));
-                hashUtil.closeAnimation(hashFrame);
-                hashUtil.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
+                String PrintHash = hashGeneralUtil.toHexString(hashGeneralUtil.getSHA(hashField.getPassword()));
+                hashGeneralUtil.closeAnimation(hashFrame);
+                hashGeneralUtil.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
                 StringSelection selection = new StringSelection(PrintHash);
                 java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 clipboard.setContents(selection, selection);
@@ -44,14 +44,14 @@ public class Hasher {
         hashFrame.getContentPane().add(hashField);
 
         CyderButton hashButton = new CyderButton("Hasher");
-        hashButton.setColors(hashUtil.regularRed);
-        hashButton.setBackground(hashUtil.regularRed);
-        hashButton.setBorder(new LineBorder(hashUtil.navy,5,false));
-        hashButton.setFont(hashUtil.weatherFontSmall);
+        hashButton.setColors(hashGeneralUtil.regularRed);
+        hashButton.setBackground(hashGeneralUtil.regularRed);
+        hashButton.setBorder(new LineBorder(hashGeneralUtil.navy,5,false));
+        hashButton.setFont(hashGeneralUtil.weatherFontSmall);
         hashButton.addActionListener(e -> {
-            String PrintHash = hashUtil.toHexString(hashUtil.getSHA(hashField.getPassword()));
-            hashUtil.closeAnimation(hashFrame);
-            hashUtil.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
+            String PrintHash = hashGeneralUtil.toHexString(hashGeneralUtil.getSHA(hashField.getPassword()));
+            hashGeneralUtil.closeAnimation(hashFrame);
+            hashGeneralUtil.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
             StringSelection selection = new StringSelection(PrintHash);
             java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(selection, selection);

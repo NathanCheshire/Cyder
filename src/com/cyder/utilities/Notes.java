@@ -30,13 +30,13 @@ public class Notes {
 
     private String UUID = "";
 
-    private Util noteUtil = new Util();
+    private GeneralUtil noteGeneralUtil = new GeneralUtil();
 
     public Notes(String UUID) {
         this.UUID = UUID;
 
         if (noteFrame != null)
-            noteUtil.closeAnimation(noteFrame);
+            noteGeneralUtil.closeAnimation(noteFrame);
 
         noteFrame = new JFrame();
 
@@ -48,39 +48,39 @@ public class Notes {
 
         noteFrame.setResizable(false);
 
-        noteFrame.setIconImage(noteUtil.getCyderIcon().getImage());
+        noteFrame.setIconImage(noteGeneralUtil.getCyderIcon().getImage());
 
         JPanel ParentPanel = new JPanel();
 
         ParentPanel.setLayout(new BoxLayout(ParentPanel,BoxLayout.Y_AXIS));
 
         ParentPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(noteUtil.navy,5,false)));
+                new LineBorder(noteGeneralUtil.navy,5,false)));
 
         initializeNotesList();
 
         fileSelectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        fileSelectionList.setFont(noteUtil.weatherFontSmall);
+        fileSelectionList.setFont(noteGeneralUtil.weatherFontSmall);
 
-        fileSelectionList.setForeground(noteUtil.navy);
+        fileSelectionList.setForeground(noteGeneralUtil.navy);
 
-        fileSelectionList.setSelectionBackground(noteUtil.selectionColor);
+        fileSelectionList.setSelectionBackground(noteGeneralUtil.selectionColor);
 
         noteListScroll = new CyderScrollPane(fileSelectionList,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         noteListScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(noteUtil.navy,5,false)));
+                new LineBorder(noteGeneralUtil.navy,5,false)));
 
-        noteListScroll.setThumbColor(noteUtil.regularRed);
+        noteListScroll.setThumbColor(noteGeneralUtil.regularRed);
 
         noteListScroll.setPreferredSize(new Dimension(570,300));
 
-        noteListScroll.setFont(noteUtil.weatherFontSmall);
+        noteListScroll.setFont(noteGeneralUtil.weatherFontSmall);
 
-        noteListScroll.setForeground(noteUtil.navy);
+        noteListScroll.setForeground(noteGeneralUtil.navy);
 
         ParentPanel.add(noteListScroll);
 
@@ -90,33 +90,33 @@ public class Notes {
 
         CyderButton addNote = new CyderButton("Add Note");
 
-        addNote.setColors(noteUtil.regularRed);
+        addNote.setColors(noteGeneralUtil.regularRed);
 
-        addNote.setBorder(new LineBorder(noteUtil.navy,5,false));
+        addNote.setBorder(new LineBorder(noteGeneralUtil.navy,5,false));
 
         ButtonPanel.add(addNote);
 
         addNote.setFocusPainted(false);
 
-        addNote.setBackground(noteUtil.regularRed);
+        addNote.setBackground(noteGeneralUtil.regularRed);
 
-        addNote.setFont(noteUtil.weatherFontSmall);
+        addNote.setFont(noteGeneralUtil.weatherFontSmall);
 
         addNote.addActionListener(e -> addNote());
 
         openNote = new CyderButton("Open Note");
 
-        openNote.setColors(noteUtil.regularRed);
+        openNote.setColors(noteGeneralUtil.regularRed);
 
         ButtonPanel.add(openNote);
 
         openNote.setFocusPainted(false);
 
-        openNote.setBorder(new LineBorder(noteUtil.navy,5,false));
+        openNote.setBorder(new LineBorder(noteGeneralUtil.navy,5,false));
 
-        openNote.setBackground(noteUtil.regularRed);
+        openNote.setBackground(noteGeneralUtil.regularRed);
 
-        openNote.setFont(noteUtil.weatherFontSmall);
+        openNote.setFont(noteGeneralUtil.weatherFontSmall);
 
         openNote.addActionListener(e -> {
             List<?> ClickedSelectionList = fileSelectionList.getSelectedValuesList();
@@ -139,17 +139,17 @@ public class Notes {
 
         CyderButton deleteNote = new CyderButton("Delete Note");
 
-        deleteNote.setColors(noteUtil.regularRed);
+        deleteNote.setColors(noteGeneralUtil.regularRed);
 
-        deleteNote.setBorder(new LineBorder(noteUtil.navy,5,false));
+        deleteNote.setBorder(new LineBorder(noteGeneralUtil.navy,5,false));
 
         ButtonPanel.add(deleteNote);
 
         deleteNote.setFocusPainted(false);
 
-        deleteNote.setBackground(noteUtil.regularRed);
+        deleteNote.setBackground(noteGeneralUtil.regularRed);
 
-        deleteNote.setFont(noteUtil.weatherFontSmall);
+        deleteNote.setFont(noteGeneralUtil.weatherFontSmall);
 
         deleteNote.addActionListener(e -> {
             List<?> ClickedSelectionList = fileSelectionList.getSelectedValuesList();
@@ -192,7 +192,7 @@ public class Notes {
 
     private void addNote() {
         if (newNoteFrame != null)
-            noteUtil.closeAnimation(newNoteFrame);
+            noteGeneralUtil.closeAnimation(newNoteFrame);
 
         newNoteFrame = new JFrame();
 
@@ -202,7 +202,7 @@ public class Notes {
 
         newNoteFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        newNoteFrame.setIconImage(noteUtil.getCyderIcon().getImage());
+        newNoteFrame.setIconImage(noteGeneralUtil.getCyderIcon().getImage());
 
         JPanel ParentPanel = new JPanel();
 
@@ -210,7 +210,7 @@ public class Notes {
 
         JLabel FileNameLabel = new JLabel("Note Title");
 
-        FileNameLabel.setFont(noteUtil.weatherFontSmall);
+        FileNameLabel.setFont(noteGeneralUtil.weatherFontSmall);
 
         JPanel TopPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
@@ -220,13 +220,13 @@ public class Notes {
 
         newNoteField = new JTextField(30);
 
-        newNoteField.setFont(noteUtil.weatherFontSmall);
+        newNoteField.setFont(noteGeneralUtil.weatherFontSmall);
 
-        newNoteField.setForeground(noteUtil.navy);
+        newNoteField.setForeground(noteGeneralUtil.navy);
 
-        newNoteField.setBorder(new LineBorder(noteUtil.navy,5,false));
+        newNoteField.setBorder(new LineBorder(noteGeneralUtil.navy,5,false));
 
-        newNoteField.setSelectionColor(noteUtil.selectionColor);
+        newNoteField.setSelectionColor(noteGeneralUtil.selectionColor);
 
         JPanel MiddlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
@@ -236,7 +236,7 @@ public class Notes {
 
         JLabel NoteTextLabel = new JLabel("Note Contents");
 
-        NoteTextLabel.setFont(noteUtil.weatherFontSmall);
+        NoteTextLabel.setFont(noteGeneralUtil.weatherFontSmall);
 
         JPanel BottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
@@ -246,7 +246,7 @@ public class Notes {
 
         newNoteArea = new JTextArea(20,20);
 
-        newNoteArea.setFont(noteUtil.weatherFontSmall);
+        newNoteArea.setFont(noteGeneralUtil.weatherFontSmall);
 
         newNoteArea.setAutoscrolls(false);
 
@@ -254,7 +254,7 @@ public class Notes {
 
         newNoteArea.setWrapStyleWord(true);
 
-        newNoteArea.setSelectedTextColor(noteUtil.selectionColor);
+        newNoteArea.setSelectedTextColor(noteGeneralUtil.selectionColor);
 
         newNoteArea.setBorder(new LineBorder(new Color(0, 0, 0)));
 
@@ -262,7 +262,7 @@ public class Notes {
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        NewNoteScroll.setThumbColor(noteUtil.regularRed);
+        NewNoteScroll.setThumbColor(noteGeneralUtil.regularRed);
 
         NewNoteScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 
@@ -271,7 +271,7 @@ public class Notes {
         NewNoteScroll.setViewportBorder(null);
 
         NewNoteScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(noteUtil.navy,5,false)));
+                new LineBorder(noteGeneralUtil.navy,5,false)));
 
         NewNoteScroll.setPreferredSize(new Dimension(570,780));
 
@@ -279,15 +279,15 @@ public class Notes {
 
         CyderButton submitNewNote = new CyderButton("Create Note");
 
-        submitNewNote.setBorder(new LineBorder(noteUtil.navy,5,false));
+        submitNewNote.setBorder(new LineBorder(noteGeneralUtil.navy,5,false));
 
         submitNewNote.setFocusPainted(false);
 
-        submitNewNote.setColors(noteUtil.regularRed);
+        submitNewNote.setColors(noteGeneralUtil.regularRed);
 
-        submitNewNote.setBackground(noteUtil.regularRed);
+        submitNewNote.setBackground(noteGeneralUtil.regularRed);
 
-        submitNewNote.setFont(noteUtil.weatherFontSmall);
+        submitNewNote.setFont(noteGeneralUtil.weatherFontSmall);
 
         submitNewNote.addActionListener(e -> {
             try {
@@ -298,10 +298,10 @@ public class Notes {
             }
 
             catch (Exception ex) {
-                noteUtil.handle(ex);
+                noteGeneralUtil.handle(ex);
             }
 
-            noteUtil.closeAnimation(newNoteFrame);
+            noteGeneralUtil.closeAnimation(newNoteFrame);
 
             initializeNotesList();
 
@@ -353,16 +353,16 @@ public class Notes {
             }
         });
 
-        fileSelectionList.setFont(noteUtil.weatherFontSmall);
+        fileSelectionList.setFont(noteGeneralUtil.weatherFontSmall);
 
-        fileSelectionList.setForeground(noteUtil.navy);
+        fileSelectionList.setForeground(noteGeneralUtil.navy);
 
-        fileSelectionList.setSelectionBackground(noteUtil.selectionColor);
+        fileSelectionList.setSelectionBackground(noteGeneralUtil.selectionColor);
     }
 
     private void openNote(File File) {
         if (noteEditorFrame != null)
-            noteUtil.closeAnimation(noteEditorFrame);
+            noteGeneralUtil.closeAnimation(noteEditorFrame);
 
         noteEditorFrame = new JFrame();
 
@@ -374,7 +374,7 @@ public class Notes {
 
         noteEditorFrame.setResizable(false);
 
-        noteEditorFrame.setIconImage(noteUtil.getCyderIcon().getImage());
+        noteEditorFrame.setIconImage(noteGeneralUtil.getCyderIcon().getImage());
 
         JPanel ParentPanel = new JPanel();
 
@@ -386,25 +386,25 @@ public class Notes {
 
         noteEditField.setToolTipText("Change Name");
 
-        noteEditField.setSelectionColor(noteUtil.selectionColor);
+        noteEditField.setSelectionColor(noteGeneralUtil.selectionColor);
 
         noteEditField.setText(File.getName().replaceFirst(".txt",""));
 
-        noteEditField.setFont(noteUtil.weatherFontSmall);
+        noteEditField.setFont(noteGeneralUtil.weatherFontSmall);
 
-        noteEditField.setForeground(noteUtil.navy);
+        noteEditField.setForeground(noteGeneralUtil.navy);
 
-        noteEditField.setBorder(new LineBorder(noteUtil.navy,5,false));
+        noteEditField.setBorder(new LineBorder(noteGeneralUtil.navy,5,false));
 
         ParentPanel.add(noteEditField, BorderLayout.PAGE_START);
 
         noteEditArea = new JTextArea(20, 20);
 
-        noteEditArea.setSelectedTextColor(noteUtil.selectionColor);
+        noteEditArea.setSelectedTextColor(noteGeneralUtil.selectionColor);
 
-        noteEditArea.setFont(noteUtil.weatherFontSmall);
+        noteEditArea.setFont(noteGeneralUtil.weatherFontSmall);
 
-        noteEditArea.setForeground(noteUtil.navy);
+        noteEditArea.setForeground(noteGeneralUtil.navy);
 
         noteEditArea.setEditable(true);
 
@@ -420,7 +420,7 @@ public class Notes {
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        noteScroll.setThumbColor(noteUtil.regularRed);
+        noteScroll.setThumbColor(noteGeneralUtil.regularRed);
 
         noteScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 
@@ -429,7 +429,7 @@ public class Notes {
         noteScroll.setViewportBorder(null);
 
         noteScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(noteUtil.navy,5,false)));
+                new LineBorder(noteGeneralUtil.navy,5,false)));
 
         noteScroll.setPreferredSize(new Dimension(570,780));
 
@@ -448,22 +448,22 @@ public class Notes {
         }
 
         catch (Exception e) {
-            noteUtil.handle(e);
+            noteGeneralUtil.handle(e);
         }
 
         currentUserNote = File;
 
         CyderButton saveNote = new CyderButton("Save & Resign");
 
-        saveNote.setColors(noteUtil.regularRed);
+        saveNote.setColors(noteGeneralUtil.regularRed);
 
-        saveNote.setBorder(new LineBorder(noteUtil.navy,5,false));
+        saveNote.setBorder(new LineBorder(noteGeneralUtil.navy,5,false));
 
         saveNote.setFocusPainted(false);
 
-        saveNote.setBackground(noteUtil.regularRed);
+        saveNote.setBackground(noteGeneralUtil.regularRed);
 
-        saveNote.setFont(noteUtil.weatherFontSmall);
+        saveNote.setFont(noteGeneralUtil.weatherFontSmall);
 
         saveNote.addActionListener(e -> {
             try {
@@ -476,21 +476,21 @@ public class Notes {
                 if (noteEditField.getText().length() > 0) {
                     newName = new File(File.getAbsolutePath().replace(File.getName(),noteEditField.getText() + ".txt"));
                     File.renameTo(newName);
-                    noteUtil.inform(newName.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
+                    noteGeneralUtil.inform(newName.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
                     initializeNotesList();
                     noteListScroll.setViewportView(fileSelectionList);
                     noteListScroll.revalidate();
                 }
 
                 else {
-                    noteUtil.inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
+                    noteGeneralUtil.inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
                 }
 
-                noteUtil.closeAnimation(noteEditorFrame);
+                noteGeneralUtil.closeAnimation(noteEditorFrame);
             }
 
             catch (Exception exc) {
-                noteUtil.handle(exc);
+                noteGeneralUtil.handle(exc);
             }
         });
 

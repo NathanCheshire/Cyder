@@ -19,22 +19,22 @@ public class TempConverter {
     private ButtonGroup radioNewValueGroup;
     private ButtonGroup radioCurrentValueGroup;
 
-    private Util tempUtil = new Util();
+    private GeneralUtil tempGeneralUtil = new GeneralUtil();
 
     public TempConverter() {
         if (temperatureFrame != null)
-            new Util().closeAnimation(temperatureFrame);
+            new GeneralUtil().closeAnimation(temperatureFrame);
 
         temperatureFrame = new CyderFrame(600,320,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
         temperatureFrame.setTitle("Temperature Converter");
 
         JLabel ValueLabel = new JLabel("Measurement: ");
-        ValueLabel.setFont(tempUtil.weatherFontSmall);
+        ValueLabel.setFont(tempGeneralUtil.weatherFontSmall);
         startingValue = new JTextField(20);
-        startingValue.setBorder(new LineBorder(tempUtil.navy,5,false));
-        startingValue.setForeground(tempUtil.navy);
-        startingValue.setSelectionColor(tempUtil.selectionColor);
-        startingValue.setFont(tempUtil.weatherFontSmall);
+        startingValue.setBorder(new LineBorder(tempGeneralUtil.navy,5,false));
+        startingValue.setForeground(tempGeneralUtil.navy);
+        startingValue.setSelectionColor(tempGeneralUtil.selectionColor);
+        startingValue.setFont(tempGeneralUtil.weatherFontSmall);
         ValueLabel.setBounds(60,40, 200, 30);
         temperatureFrame.getContentPane().add(ValueLabel);
         startingValue.setBounds(240,40, 300, 35);
@@ -43,9 +43,9 @@ public class TempConverter {
         oldFahrenheit =  new JRadioButton("Fahrenheit");
         oldCelsius =  new JRadioButton("Celsius");
         oldKelvin = new JRadioButton("Kelvin");
-        oldFahrenheit.setFont(tempUtil.weatherFontBig);
-        oldCelsius.setFont(tempUtil.weatherFontBig);
-        oldKelvin.setFont(tempUtil.weatherFontBig);
+        oldFahrenheit.setFont(tempGeneralUtil.weatherFontBig);
+        oldCelsius.setFont(tempGeneralUtil.weatherFontBig);
+        oldKelvin.setFont(tempGeneralUtil.weatherFontBig);
         radioCurrentValueGroup = new ButtonGroup();
         radioCurrentValueGroup.add(oldFahrenheit);
         radioCurrentValueGroup.add(oldCelsius);
@@ -64,16 +64,16 @@ public class TempConverter {
         temperatureFrame.getContentPane().add(oldKelvin);
 
         JLabel NewValue = new JLabel("-2-");
-        NewValue.setFont(tempUtil.weatherFontBig.deriveFont(60f));
+        NewValue.setFont(tempGeneralUtil.weatherFontBig.deriveFont(60f));
         NewValue.setBounds(260,150,150,60);
         temperatureFrame.getContentPane().add(NewValue);
 
         newFahrenheit =  new JRadioButton("Fahrenheit");
         newCelsius =  new JRadioButton("Celsius");
         newKelvin = new JRadioButton("Kelvin");
-        newFahrenheit.setFont(tempUtil.weatherFontBig);
-        newCelsius.setFont(tempUtil.weatherFontBig);
-        newKelvin.setFont(tempUtil.weatherFontBig);
+        newFahrenheit.setFont(tempGeneralUtil.weatherFontBig);
+        newCelsius.setFont(tempGeneralUtil.weatherFontBig);
+        newKelvin.setFont(tempGeneralUtil.weatherFontBig);
         radioNewValueGroup = new ButtonGroup();
         radioNewValueGroup.add(newFahrenheit);
         radioNewValueGroup.add(newCelsius);
@@ -92,7 +92,7 @@ public class TempConverter {
         temperatureFrame.getContentPane().add(newKelvin);
 
         CyderButton calculate = new CyderButton("Calculate");
-        calculate.setBorder(new LineBorder(tempUtil.navy,5,false));
+        calculate.setBorder(new LineBorder(tempGeneralUtil.navy,5,false));
 
         calculate.addActionListener(e -> {
             try {
@@ -100,20 +100,20 @@ public class TempConverter {
                 double CalculationValue = Double.parseDouble(startingValue.getText());
 
                 if (oldKelvin.isSelected() && CalculationValue <= 0) {
-                    tempUtil.inform("Temperatures below absolute zero are imposible.","", 400, 200);
+                    tempGeneralUtil.inform("Temperatures below absolute zero are imposible.","", 400, 200);
                 }
 
                 else {
                     if (oldFahrenheit.isSelected()) {
                         if (newFahrenheit.isSelected())
-                            tempUtil.inform("Get out of here with that. Your value is already in Fahrenheit.","", 400, 200);
+                            tempGeneralUtil.inform("Get out of here with that. Your value is already in Fahrenheit.","", 400, 200);
 
                         else if (newCelsius.isSelected()) {
                             double CelsiusFromFahrenheit;
 
                             CelsiusFromFahrenheit = (CalculationValue - 32.0) / 1.8;
 
-                            tempUtil.inform( CalculationValue + " Fahrenheit converted to Celsius equals: "
+                            tempGeneralUtil.inform( CalculationValue + " Fahrenheit converted to Celsius equals: "
                                     + tempFormat.format(CelsiusFromFahrenheit),"", 400, 200);
 
                             startingValue.setText("");
@@ -128,7 +128,7 @@ public class TempConverter {
                             KelvinFromFahrenheit = (CalculationValue +459.67) * 5/9;
 
                             if (KelvinFromFahrenheit >= 0) {
-                                tempUtil.inform(CalculationValue + " Fahrenheit converted to Kelvin equals: "
+                                tempGeneralUtil.inform(CalculationValue + " Fahrenheit converted to Kelvin equals: "
                                         + tempFormat.format(KelvinFromFahrenheit),"", 400, 200);
 
                                 startingValue.setText("");
@@ -139,7 +139,7 @@ public class TempConverter {
                             }
 
                             else
-                                tempUtil.inform("Temperatures below absolute zero are imposible.","", 400, 200);
+                                tempGeneralUtil.inform("Temperatures below absolute zero are imposible.","", 400, 200);
                         }
                     }
 
@@ -149,7 +149,7 @@ public class TempConverter {
 
                             FahrenheitFromCelsius = (CalculationValue *1.8) + 32;
 
-                            tempUtil.inform(CalculationValue + " Celsius converted to Fahrenheit equals: "
+                            tempGeneralUtil.inform(CalculationValue + " Celsius converted to Fahrenheit equals: "
                                     + tempFormat.format(FahrenheitFromCelsius),"", 400, 200);
 
                             startingValue.setText("");
@@ -160,7 +160,7 @@ public class TempConverter {
                         }
 
                         else if (newCelsius.isSelected())
-                            tempUtil.inform("Get out of here with that. Your value is already in Celsius.","", 400, 200);
+                            tempGeneralUtil.inform("Get out of here with that. Your value is already in Celsius.","", 400, 200);
 
                         else if (newKelvin.isSelected()) {
                             double KelvinFromCelsius;
@@ -168,7 +168,7 @@ public class TempConverter {
                             KelvinFromCelsius = CalculationValue + 273.15 ;
 
                             if (KelvinFromCelsius >= 0) {
-                                tempUtil.inform(CalculationValue + " Celsius converted to Kelvin equals: "
+                                tempGeneralUtil.inform(CalculationValue + " Celsius converted to Kelvin equals: "
                                         + tempFormat.format(KelvinFromCelsius),"", 400, 200);
 
                                 startingValue.setText("");
@@ -179,7 +179,7 @@ public class TempConverter {
                             }
 
                             else
-                                tempUtil.inform("Temperatures below absolute zero are imposible.","", 400, 200);
+                                tempGeneralUtil.inform("Temperatures below absolute zero are imposible.","", 400, 200);
                         }
                     }
 
@@ -189,7 +189,7 @@ public class TempConverter {
 
                             FahrenheitFromKelvin = CalculationValue * 1.8 - 459.67;
 
-                            tempUtil.inform(CalculationValue + " Kelvin converted to Fahrenheit equals: "
+                            tempGeneralUtil.inform(CalculationValue + " Kelvin converted to Fahrenheit equals: "
                                     + tempFormat.format(FahrenheitFromKelvin),"", 400, 200);
 
                             startingValue.setText("");
@@ -204,7 +204,7 @@ public class TempConverter {
 
                             CelsiusFromKelvin = CalculationValue - 273.15;
 
-                            tempUtil.inform( CalculationValue + " Kelvin converted to Celsius equals: "
+                            tempGeneralUtil.inform( CalculationValue + " Kelvin converted to Celsius equals: "
                                     + tempFormat.format(CelsiusFromKelvin),"", 400, 200);
 
                             startingValue.setText("");
@@ -215,34 +215,34 @@ public class TempConverter {
                         }
 
                         else if (newKelvin.isSelected())
-                            tempUtil.inform("Get out of here with that. Your value is already in Kelvin","", 400, 200);
+                            tempGeneralUtil.inform("Get out of here with that. Your value is already in Kelvin","", 400, 200);
                     }
 
                     else
-                        tempUtil.inform("Please select your current temperature unit and the one you want to convet to.","", 400, 200);
+                        tempGeneralUtil.inform("Please select your current temperature unit and the one you want to convet to.","", 400, 200);
                 }
             }
 
             catch (Exception ex) {
-                tempUtil.inform("Your value must only contain numbers.","", 400, 200);
+                tempGeneralUtil.inform("Your value must only contain numbers.","", 400, 200);
             }
         });
 
         CyderButton resetValues = new CyderButton("Reset Values");
-        resetValues.setBorder(new LineBorder(tempUtil.navy,5,false));
-        resetValues.setColors(tempUtil.regularRed);
-        calculate.setColors(tempUtil.regularRed);
+        resetValues.setBorder(new LineBorder(tempGeneralUtil.navy,5,false));
+        resetValues.setColors(tempGeneralUtil.regularRed);
+        calculate.setColors(tempGeneralUtil.regularRed);
         resetValues.addActionListener(e -> {
             startingValue.setText("");
             radioCurrentValueGroup.clearSelection();
             radioNewValueGroup.clearSelection();
         });
 
-        calculate.setBackground(tempUtil.regularRed);
-        calculate.setFont(tempUtil.weatherFontSmall);
+        calculate.setBackground(tempGeneralUtil.regularRed);
+        calculate.setFont(tempGeneralUtil.weatherFontSmall);
         resetValues.setFocusPainted(false);
-        resetValues.setBackground(tempUtil.regularRed);
-        resetValues.setFont(tempUtil.weatherFontSmall);
+        resetValues.setBackground(tempGeneralUtil.regularRed);
+        resetValues.setFont(tempGeneralUtil.weatherFontSmall);
 
         calculate.setBounds(140,260,150,40);
         resetValues.setBounds(300,260,150,40);

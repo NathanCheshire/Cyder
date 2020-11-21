@@ -1,6 +1,6 @@
 package com.cyder.ui;
 
-import com.cyder.utilities.Util;
+import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.geom.GeneralPath;
 
 public class Notification extends JLabel {
 
-    private Util notificationHandler = new Util();
+    private GeneralUtil notificationHandler = new GeneralUtil();
 
     private int strokeThickness = 5;
     private int padding = strokeThickness / 2;

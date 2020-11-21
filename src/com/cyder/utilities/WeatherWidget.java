@@ -71,13 +71,13 @@ public class WeatherWidget {
     private int currentLocationGMTOffset;
     private boolean GMTset;
 
-    private Util weatherUtil = new Util();
+    private GeneralUtil weatherGeneralUtil = new GeneralUtil();
 
     public WeatherWidget() {
         weatherStats();
 
         if (weatherFrame != null)
-            weatherUtil.closeAnimation(weatherFrame);
+            weatherGeneralUtil.closeAnimation(weatherFrame);
 
         weatherFrame = new CyderFrame(500,608,new ImageIcon("src\\com\\cyder\\io\\pictures\\Weather.png"));
         weatherFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
@@ -85,9 +85,9 @@ public class WeatherWidget {
 
         currentTimeLabel = new JLabel();
 
-        currentTimeLabel.setForeground(weatherUtil.vanila);
+        currentTimeLabel.setForeground(weatherGeneralUtil.vanila);
 
-        currentTimeLabel.setFont(weatherUtil.weatherFontSmall);
+        currentTimeLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         currentTimeLabel.setBounds(16, 50, 600, 30);
 
@@ -97,9 +97,9 @@ public class WeatherWidget {
 
         locationLabel = new JLabel();
 
-        locationLabel.setForeground(weatherUtil.vanila);
+        locationLabel.setForeground(weatherGeneralUtil.vanila);
 
-        locationLabel.setFont(weatherUtil.weatherFontSmall);
+        locationLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         locationLabel.setBounds(16, 85, 480, 30);
 
@@ -111,15 +111,15 @@ public class WeatherWidget {
 
         currentWeatherIconLabel.setBounds(16, 125, 100, 100);
 
-        currentWeatherIconLabel.setBorder(new LineBorder(weatherUtil.navy,5,false));
+        currentWeatherIconLabel.setBorder(new LineBorder(weatherGeneralUtil.navy,5,false));
 
         weatherFrame.getContentPane().add(currentWeatherIconLabel);
 
         currentWeatherLabel = new JLabel();
 
-        currentWeatherLabel.setForeground(weatherUtil.vanila);
+        currentWeatherLabel.setForeground(weatherGeneralUtil.vanila);
 
-        currentWeatherLabel.setFont(weatherUtil.weatherFontSmall);
+        currentWeatherLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         currentWeatherLabel.setBounds(16, 255, 400, 30);
 
@@ -129,9 +129,9 @@ public class WeatherWidget {
 
         changeLocationLabel = new JLabel("Change Location");
 
-        changeLocationLabel.setFont(weatherUtil.weatherFontSmall);
+        changeLocationLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
-        changeLocationLabel.setForeground(weatherUtil.vanila);
+        changeLocationLabel.setForeground(weatherGeneralUtil.vanila);
 
         changeLocationLabel.setBounds(165, 220,200,30);
 
@@ -144,7 +144,7 @@ public class WeatherWidget {
 
                 changeLocationFrame.setTitle("Change Location");
 
-                changeLocationFrame.setIconImage(weatherUtil.getCyderIcon().getImage());
+                changeLocationFrame.setIconImage(weatherGeneralUtil.getCyderIcon().getImage());
 
                 JPanel parent = new JPanel();
 
@@ -156,9 +156,9 @@ public class WeatherWidget {
                                                     "Example: \"New Orleans,LA,US\"<br/>If you don't have a state, don't worry about" +
                                                     " it, I'll figure it out.</html>");
 
-                explenation.setFont(weatherUtil.weatherFontSmall);
+                explenation.setFont(weatherGeneralUtil.weatherFontSmall);
 
-                explenation.setForeground(weatherUtil.navy);
+                explenation.setForeground(weatherGeneralUtil.navy);
 
                 JPanel a = new JPanel();
 
@@ -168,15 +168,15 @@ public class WeatherWidget {
 
                 JTextField changeLocField = new JTextField(20);
 
-                changeLocField.setBorder(new LineBorder(weatherUtil.navy,5,false));
+                changeLocField.setBorder(new LineBorder(weatherGeneralUtil.navy,5,false));
 
-                changeLocField.setForeground(weatherUtil.navy);
+                changeLocField.setForeground(weatherGeneralUtil.navy);
 
-                changeLocField.setFont(weatherUtil.weatherFontSmall);
+                changeLocField.setFont(weatherGeneralUtil.weatherFontSmall);
 
                 CyderButton changeLoc = new CyderButton("Change Location");
 
-                changeLoc.setBorder(new LineBorder(weatherUtil.navy,5,false));
+                changeLoc.setBorder(new LineBorder(weatherGeneralUtil.navy,5,false));
 
                 changeLocField.addActionListener(e1 -> changeLoc.doClick());
 
@@ -186,13 +186,13 @@ public class WeatherWidget {
 
                 parent.add(b);
 
-                changeLoc.setFont(weatherUtil.weatherFontSmall);
+                changeLoc.setFont(weatherGeneralUtil.weatherFontSmall);
 
-                changeLoc.setForeground(weatherUtil.navy);
+                changeLoc.setForeground(weatherGeneralUtil.navy);
 
-                changeLoc.setColors(weatherUtil.regularRed);
+                changeLoc.setColors(weatherGeneralUtil.regularRed);
 
-                changeLoc.setBackground(weatherUtil.regularRed);
+                changeLoc.setBackground(weatherGeneralUtil.regularRed);
 
                 changeLoc.addActionListener(e12 -> {
                     try {
@@ -200,13 +200,13 @@ public class WeatherWidget {
 
                         useCustomLoc = true;
 
-                        weatherUtil.closeAnimation(changeLocationFrame);
-                        weatherUtil.inform("Attempting to refresh and use the location \"" + locationString + "\" for weather.", "",400, 300);
+                        weatherGeneralUtil.closeAnimation(changeLocationFrame);
+                        weatherGeneralUtil.inform("Attempting to refresh and use the location \"" + locationString + "\" for weather.", "",400, 300);
                         refreshWeatherNow();
                     }
 
                     catch (Exception ex) {
-                        weatherUtil.handle(ex);
+                        weatherGeneralUtil.handle(ex);
                     }
                 });
 
@@ -227,12 +227,12 @@ public class WeatherWidget {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                changeLocationLabel.setForeground(weatherUtil.navy);
+                changeLocationLabel.setForeground(weatherGeneralUtil.navy);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                changeLocationLabel.setForeground(weatherUtil.vanila);
+                changeLocationLabel.setForeground(weatherGeneralUtil.vanila);
             }
         });
 
@@ -240,9 +240,9 @@ public class WeatherWidget {
 
         temperatureLabel = new JLabel();
 
-        temperatureLabel.setForeground(weatherUtil.vanila);
+        temperatureLabel.setForeground(weatherGeneralUtil.vanila);
 
-        temperatureLabel.setFont(weatherUtil.weatherFontSmall);
+        temperatureLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         temperatureLabel.setBounds(16, 300, 300, 30);
 
@@ -252,9 +252,9 @@ public class WeatherWidget {
 
         feelsLikeLabel = new JLabel();
 
-        feelsLikeLabel.setForeground(weatherUtil.vanila);
+        feelsLikeLabel.setForeground(weatherGeneralUtil.vanila);
 
-        feelsLikeLabel.setFont(weatherUtil.weatherFontSmall);
+        feelsLikeLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         feelsLikeLabel.setBounds(16, 345, 200, 30);
 
@@ -264,9 +264,9 @@ public class WeatherWidget {
 
         windSpeedLabel = new JLabel();
 
-        windSpeedLabel.setForeground(weatherUtil.vanila);
+        windSpeedLabel.setForeground(weatherGeneralUtil.vanila);
 
-        windSpeedLabel.setFont(weatherUtil.weatherFontSmall);
+        windSpeedLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         windSpeedLabel.setBounds(16, 390, 300, 30);
 
@@ -276,21 +276,21 @@ public class WeatherWidget {
 
         windDirectionLabel = new JLabel();
 
-        windDirectionLabel.setForeground(weatherUtil.vanila);
+        windDirectionLabel.setForeground(weatherGeneralUtil.vanila);
 
-        windDirectionLabel.setFont(weatherUtil.weatherFontSmall);
+        windDirectionLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         windDirectionLabel.setBounds(16, 430, 400, 30);
 
-        windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + weatherUtil.getWindDirection(windBearing));
+        windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + weatherGeneralUtil.getWindDirection(windBearing));
 
         weatherFrame.getContentPane().add(windDirectionLabel);
 
         humidityLabel = new JLabel();
 
-        humidityLabel.setForeground(weatherUtil.vanila);
+        humidityLabel.setForeground(weatherGeneralUtil.vanila);
 
-        humidityLabel.setFont(weatherUtil.weatherFontSmall);
+        humidityLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         humidityLabel.setBounds(16, 470, 300, 30);
 
@@ -300,9 +300,9 @@ public class WeatherWidget {
 
         pressureLabel = new JLabel();
 
-        pressureLabel.setForeground(weatherUtil.vanila);
+        pressureLabel.setForeground(weatherGeneralUtil.vanila);
 
-        pressureLabel.setFont(weatherUtil.weatherFontSmall);
+        pressureLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         pressureLabel.setBounds(16, 510, 300, 30);
 
@@ -312,9 +312,9 @@ public class WeatherWidget {
 
         timezoneLabel = new JLabel();
 
-        timezoneLabel.setForeground(weatherUtil.vanila);
+        timezoneLabel.setForeground(weatherGeneralUtil.vanila);
 
-        timezoneLabel.setFont(weatherUtil.weatherFontSmall);
+        timezoneLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         timezoneLabel.setBounds(16, 550, 400, 30);
 
@@ -324,9 +324,9 @@ public class WeatherWidget {
 
         sunriseLabel = new JLabel();
 
-        sunriseLabel.setForeground(weatherUtil.vanila);
+        sunriseLabel.setForeground(weatherGeneralUtil.vanila);
 
-        sunriseLabel.setFont(weatherUtil.weatherFontSmall);
+        sunriseLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         sunriseLabel.setBounds(150, 187, 125, 30);
 
@@ -336,9 +336,9 @@ public class WeatherWidget {
 
         sunsetLabel = new JLabel();
 
-        sunsetLabel.setForeground(weatherUtil.vanila);
+        sunsetLabel.setForeground(weatherGeneralUtil.vanila);
 
-        sunsetLabel.setFont(weatherUtil.weatherFontSmall);
+        sunsetLabel.setFont(weatherGeneralUtil.weatherFontSmall);
 
         sunsetLabel.setBounds(275, 189, 120, 30);
 
@@ -350,7 +350,7 @@ public class WeatherWidget {
 
         weatherFrame.setLocationRelativeTo(null);
 
-        weatherFrame.setIconImage(weatherUtil.getCyderIcon().getImage());
+        weatherFrame.setIconImage(weatherGeneralUtil.getCyderIcon().getImage());
 
         updateClock = true;
         refreshClock();
@@ -366,7 +366,7 @@ public class WeatherWidget {
                     currentTimeLabel.setText(weatherTime());
                 }
             } catch (Exception e) {
-                weatherUtil.handle(e);
+                weatherGeneralUtil.handle(e);
             }
         });
 
@@ -396,7 +396,7 @@ public class WeatherWidget {
                     temperatureLabel.setText("Temperature: " + temperature + "F");
                     feelsLikeLabel.setText("Feels like: " + feelsLike);
                     windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-                    windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + weatherUtil.getWindDirection(windBearing));
+                    windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + weatherGeneralUtil.getWindDirection(windBearing));
                     humidityLabel.setText("Humidity: " + humidity + "%");
                     pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
                     timezoneLabel.setText("Timezone stats: " + getTimezoneLabel());
@@ -404,7 +404,7 @@ public class WeatherWidget {
                     sunsetLabel.setText(correctedSunTime(sunset) + "pm");
                 }
             } catch (Exception e) {
-                weatherUtil.handle(e);
+                weatherGeneralUtil.handle(e);
             }
         });
 
@@ -420,7 +420,7 @@ public class WeatherWidget {
             temperatureLabel.setText("Temperature: " + temperature + "F");
             feelsLikeLabel.setText("Feels like: " + feelsLike);
             windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-            windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + weatherUtil.getWindDirection(windBearing));
+            windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + weatherGeneralUtil.getWindDirection(windBearing));
             humidityLabel.setText("Humidity: " + humidity + "%");
             pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
             timezoneLabel.setText("Timezone stats: " + getTimezoneLabel());
@@ -429,7 +429,7 @@ public class WeatherWidget {
         }
 
         catch (Exception e) {
-            weatherUtil.handle(e);
+            weatherGeneralUtil.handle(e);
         }
     }
 
@@ -473,7 +473,7 @@ public class WeatherWidget {
             String OpenString = "";
 
             OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
-                        locationString + "&appid=" + weatherUtil.getWeatherKey() + "&units=imperial";
+                        locationString + "&appid=" + weatherGeneralUtil.getWeatherKey() + "&units=imperial";
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
@@ -485,7 +485,7 @@ public class WeatherWidget {
                         .replace(":", "").replace("\"", "").replace("[", "")
                         .replace("]", "").replace(":", "").split(",");
 
-                Fields = weatherUtil.combineArrays(Fields, LineArray);
+                Fields = weatherGeneralUtil.combineArrays(Fields, LineArray);
             }
 
             WeatherReader.close();
@@ -551,7 +551,7 @@ public class WeatherWidget {
         }
 
         catch (Exception e) {
-            weatherUtil.handle(e);
+            weatherGeneralUtil.handle(e);
         }
     }
 
@@ -586,7 +586,7 @@ public class WeatherWidget {
 
     public void getIPData() {
         try {
-            String Key = weatherUtil.getIPKey();
+            String Key = weatherGeneralUtil.getIPKey();
             String url = "https://api.ipdata.co/?api-key=" + Key;
 
             URL Querry = new URL(url);
@@ -644,7 +644,7 @@ public class WeatherWidget {
             }
             BR.close();
         } catch (Exception e) {
-            weatherUtil.handle(e);
+            weatherGeneralUtil.handle(e);
         }
     }
 

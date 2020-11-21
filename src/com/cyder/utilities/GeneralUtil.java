@@ -30,7 +30,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Util {
+public class GeneralUtil {
 
     //static strings used for test cases
     public static final String HERE = "here";
@@ -572,10 +572,10 @@ public class Util {
         return null;
     }
 
-    //todo replace everything here and other classes that use this with iputil
+    //todo remove this and replace usages with new InternetProtocolUtil class
     public void getIPData() {
         try {
-            String Key = "https://api.ipdata.co/?api-key=8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932";
+            String Key = "https://api.ipdata.co/?api-key=" + getIPKey();
 
             URL Querry = new URL(Key);
 
@@ -2091,7 +2091,7 @@ public class Util {
     }
 
     public static void staticHandle(Exception e) {
-        new Util().handle(e);
+        new GeneralUtil().handle(e);
     }
 
     public void handle(Exception e) {

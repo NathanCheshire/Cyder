@@ -2,7 +2,7 @@ package com.cyder.handler;
 
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderScrollPane;
-import com.cyder.utilities.Util;
+import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -14,7 +14,7 @@ public class TextEditor {
 
     private JFrame noteEditorFrame;
     private JTextField noteEditField;
-    private Util textUtil = new Util();
+    private GeneralUtil textGeneralUtil = new GeneralUtil();
     private JTextArea noteEditArea;
 
     public TextEditor(String filePath) {
@@ -23,7 +23,7 @@ public class TextEditor {
 
     private void openNote(File textFile) {
         if (noteEditorFrame != null)
-            textUtil.closeAnimation(noteEditorFrame);
+            textGeneralUtil.closeAnimation(noteEditorFrame);
 
         noteEditorFrame = new JFrame();
 
@@ -35,7 +35,7 @@ public class TextEditor {
 
         noteEditorFrame.setResizable(false);
 
-        noteEditorFrame.setIconImage(textUtil.getCyderIcon().getImage());
+        noteEditorFrame.setIconImage(textGeneralUtil.getCyderIcon().getImage());
 
         JPanel ParentPanel = new JPanel();
 
@@ -47,25 +47,25 @@ public class TextEditor {
 
         noteEditField.setToolTipText("Change Name");
 
-        noteEditField.setSelectionColor(textUtil.selectionColor);
+        noteEditField.setSelectionColor(textGeneralUtil.selectionColor);
 
         noteEditField.setText(textFile.getName().replaceFirst(".txt",""));
 
-        noteEditField.setFont(textUtil.weatherFontSmall);
+        noteEditField.setFont(textGeneralUtil.weatherFontSmall);
 
-        noteEditField.setForeground(textUtil.navy);
+        noteEditField.setForeground(textGeneralUtil.navy);
 
-        noteEditField.setBorder(new LineBorder(textUtil.navy,5,false));
+        noteEditField.setBorder(new LineBorder(textGeneralUtil.navy,5,false));
 
         ParentPanel.add(noteEditField, BorderLayout.PAGE_START);
 
         noteEditArea = new JTextArea(20, 20);
 
-        noteEditArea.setSelectedTextColor(textUtil.selectionColor);
+        noteEditArea.setSelectedTextColor(textGeneralUtil.selectionColor);
 
-        noteEditArea.setFont(textUtil.weatherFontSmall);
+        noteEditArea.setFont(textGeneralUtil.weatherFontSmall);
 
-        noteEditArea.setForeground(textUtil.navy);
+        noteEditArea.setForeground(textGeneralUtil.navy);
 
         noteEditArea.setEditable(true);
 
@@ -81,7 +81,7 @@ public class TextEditor {
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        noteScroll.setThumbColor(textUtil.regularRed);
+        noteScroll.setThumbColor(textGeneralUtil.regularRed);
 
         noteScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 
@@ -90,7 +90,7 @@ public class TextEditor {
         noteScroll.setViewportBorder(null);
 
         noteScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(textUtil.navy,5,false)));
+                new LineBorder(textGeneralUtil.navy,5,false)));
 
         noteScroll.setPreferredSize(new Dimension(1000,1000));
 
@@ -109,20 +109,20 @@ public class TextEditor {
         }
 
         catch (Exception e) {
-            textUtil.handle(e);
+            textGeneralUtil.handle(e);
         }
 
         CyderButton saveNote = new CyderButton("Save & Resign");
 
-        saveNote.setColors(textUtil.regularRed);
+        saveNote.setColors(textGeneralUtil.regularRed);
 
-        saveNote.setBorder(new LineBorder(textUtil.navy,5,false));
+        saveNote.setBorder(new LineBorder(textGeneralUtil.navy,5,false));
 
         saveNote.setFocusPainted(false);
 
-        saveNote.setBackground(textUtil.regularRed);
+        saveNote.setBackground(textGeneralUtil.regularRed);
 
-        saveNote.setFont(textUtil.weatherFontSmall);
+        saveNote.setFont(textGeneralUtil.weatherFontSmall);
 
         saveNote.addActionListener(e -> {
             try {
@@ -135,18 +135,18 @@ public class TextEditor {
                 if (noteEditField.getText().length() > 0) {
                     newName = new File(textFile.getAbsolutePath().replace(textFile.getName(),noteEditField.getText() + ".txt"));
                     textFile.renameTo(newName);
-                    textUtil.inform(newName.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
+                    textGeneralUtil.inform(newName.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
                 }
 
                 else {
-                    textUtil.inform(textFile.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
+                    textGeneralUtil.inform(textFile.getName().replace(".txt", "") + " has been successfully saved.","", 400, 200);
                 }
 
-                textUtil.closeAnimation(noteEditorFrame);
+                textGeneralUtil.closeAnimation(noteEditorFrame);
             }
 
             catch (Exception exc) {
-                textUtil.handle(exc);
+                textGeneralUtil.handle(exc);
             }
         });
 

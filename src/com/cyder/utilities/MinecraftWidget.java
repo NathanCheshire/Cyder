@@ -13,11 +13,11 @@ public class MinecraftWidget {
     private JLabel hamLabel;
     private JLabel blockLabel;
 
-    private Util mcUtil = new Util();
+    private GeneralUtil mcGeneralUtil = new GeneralUtil();
 
     public MinecraftWidget() {
         if (minecraftFrame != null)
-            mcUtil.closeAnimation(minecraftFrame);
+            mcGeneralUtil.closeAnimation(minecraftFrame);
 
         minecraftFrame = new CyderFrame(1263,160, new ImageIcon("src\\com\\cyder\\io\\pictures\\Minecraft.png"));
         minecraftFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
@@ -27,7 +27,7 @@ public class MinecraftWidget {
         blockLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                mcUtil.internetConnect("https://my.minecraft.net/en-us/store/minecraft/");
+                mcGeneralUtil.internetConnect("https://my.minecraft.net/en-us/store/minecraft/");
             }
 
             @Override
@@ -52,7 +52,7 @@ public class MinecraftWidget {
 
         realmsLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) { mcUtil.internetConnect("https://minecraft.net/en-us/realms/?ref=m");
+            public void mouseReleased(MouseEvent e) { mcGeneralUtil.internetConnect("https://minecraft.net/en-us/realms/?ref=m");
             }
 
             @Override
@@ -79,7 +79,7 @@ public class MinecraftWidget {
         chestLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                mcUtil.internetConnect("https://minecraft.net/en-us/store/?ref=m");
+                mcGeneralUtil.internetConnect("https://minecraft.net/en-us/store/?ref=m");
             }
 
             @Override
@@ -106,7 +106,7 @@ public class MinecraftWidget {
         hamLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                mcUtil.internetConnect("https://minecraft.net/en-us/?ref=m");
+                mcGeneralUtil.internetConnect("https://minecraft.net/en-us/?ref=m");
             }
 
             @Override
@@ -130,9 +130,9 @@ public class MinecraftWidget {
 
         minecraftFrame.setVisible(true);
 
-        mcUtil.getScreenSize();
+        mcGeneralUtil.getScreenSize();
 
-        minecraftFrame.setLocation((int) mcUtil.getScreenSize().getWidth() / 2 - (1263 / 2), (int) mcUtil.getScreenSize().getHeight() - 240);
+        minecraftFrame.setLocation((int) mcGeneralUtil.getScreenSize().getWidth() / 2 - (1263 / 2), (int) mcGeneralUtil.getScreenSize().getHeight() - 240);
 
         minecraftFrame.setIconImage(new ImageIcon("src\\com\\cyder\\io\\pictures\\Block.png").getImage());
     }

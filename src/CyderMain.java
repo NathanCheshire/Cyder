@@ -60,7 +60,7 @@ import java.util.concurrent.ThreadLocalRandom;
 //todo network util class
 //todo ui utils class
 
-//todo further class separation from Util.java
+//todo further class separation from GeneralUtil.java
 
 //todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
 //todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
@@ -111,7 +111,7 @@ public class CyderMain{
     private JLabel menuLabel;
 
     //Objects for main use
-    private Util mainUtil;
+    private GeneralUtil mainGeneralUtil;
     private StringUtil stringUtil;
     private CyderAnimation animation;
     private Notes userNotes;
@@ -198,20 +198,20 @@ public class CyderMain{
         initSystemProperties();
         initUIManager();
 
-        mainUtil.cleanUpUsers();
-        mainUtil.deleteTempDir();
-        mainUtil.varInit();
+        mainGeneralUtil.cleanUpUsers();
+        mainGeneralUtil.deleteTempDir();
+        mainGeneralUtil.varInit();
 
         backgroundProcessChecker();
 
-        boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
+        boolean nathanLenovo = mainGeneralUtil.compMACAddress(mainGeneralUtil.getMACAddress());
 
         if (nathanLenovo) {
-            mainUtil.setDebugMode(true);
+            mainGeneralUtil.setDebugMode(true);
             autoCypher();
         }
 
-        else if (!mainUtil.released()) {
+        else if (!mainGeneralUtil.released()) {
             System.exit(0);
         }
 
@@ -221,7 +221,7 @@ public class CyderMain{
     }
 
     private void initObjects() {
-        mainUtil = new Util();
+        mainGeneralUtil = new GeneralUtil();
         animation = new CyderAnimation();
         stringUtil = new StringUtil(outputArea);
     }
@@ -233,10 +233,10 @@ public class CyderMain{
 
     private void initUIManager() {
         //this sets up special looking tooltips
-        UIManager.put("ToolTip.background", mainUtil.consoleColor);
-        UIManager.put("ToolTip.border", mainUtil.tooltipBorderColor);
-        UIManager.put("ToolTip.font", mainUtil.tahoma);
-        UIManager.put("ToolTip.foreground", mainUtil.tooltipForegroundColor);
+        UIManager.put("ToolTip.background", mainGeneralUtil.consoleColor);
+        UIManager.put("ToolTip.border", mainGeneralUtil.tooltipBorderColor);
+        UIManager.put("ToolTip.font", mainGeneralUtil.tahoma);
+        UIManager.put("ToolTip.foreground", mainGeneralUtil.tooltipForegroundColor);
     }
 
     private void autoCypher() {
@@ -260,31 +260,31 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
     private void console() {
         try{
-            mainUtil.initBackgrounds();
-            mainUtil.getScreenSize();
-            mainUtil.resizeImages();
-            mainUtil.getValidBackgroundPaths();
-            mainUtil.initBackgrounds();
-            mainUtil.getScreenSize();
-            mainUtil.getBackgroundSize();
+            mainGeneralUtil.initBackgrounds();
+            mainGeneralUtil.getScreenSize();
+            mainGeneralUtil.resizeImages();
+            mainGeneralUtil.getValidBackgroundPaths();
+            mainGeneralUtil.initBackgrounds();
+            mainGeneralUtil.getScreenSize();
+            mainGeneralUtil.getBackgroundSize();
 
             consoleFrame = new JFrame();
             consoleFrame.setUndecorated(true);
             consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            if (mainUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                mainUtil.setBackgroundX((int) mainUtil.getScreenSize().getWidth());
-                mainUtil.setBackgroundY((int) mainUtil.getScreenSize().getHeight());
+            if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+                mainGeneralUtil.setBackgroundX((int) mainGeneralUtil.getScreenSize().getWidth());
+                mainGeneralUtil.setBackgroundY((int) mainGeneralUtil.getScreenSize().getHeight());
             }
 
-            consoleFrame.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
-            consoleFrame.setTitle(mainUtil.getCyderVer() + " Cyder [" + mainUtil.getUsername() + "]");
+            consoleFrame.setBounds(0, 0, mainGeneralUtil.getBackgroundX(), mainGeneralUtil.getBackgroundY());
+            consoleFrame.setTitle(mainGeneralUtil.getCyderVer() + " Cyder [" + mainGeneralUtil.getUsername() + "]");
 
             parentPane = new JLayeredPane();
             parentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -295,24 +295,24 @@ public class CyderMain{
 
             parentLabel = new JLabel();
 
-            if (mainUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                parentLabel.setIcon(new ImageIcon(mainUtil.resizeImage((int) mainUtil.getScreenSize().getWidth(), (int) mainUtil.getScreenSize().getHeight(), mainUtil.getCurrentBackground())));
-                parentLabel.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
-                mainUtil.setBackgroundX((int) mainUtil.getScreenSize().getWidth());
-                mainUtil.setBackgroundY((int) mainUtil.getScreenSize().getHeight());
+            if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+                parentLabel.setIcon(new ImageIcon(mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(), (int) mainGeneralUtil.getScreenSize().getHeight(), mainGeneralUtil.getCurrentBackground())));
+                parentLabel.setBounds(0, 0, mainGeneralUtil.getBackgroundX(), mainGeneralUtil.getBackgroundY());
+                mainGeneralUtil.setBackgroundX((int) mainGeneralUtil.getScreenSize().getWidth());
+                mainGeneralUtil.setBackgroundY((int) mainGeneralUtil.getScreenSize().getHeight());
             }
 
             else {
-                parentLabel.setIcon(new ImageIcon(mainUtil.getRotatedImage(mainUtil.getCurrentBackground().toString())));
-                parentLabel.setBounds(0, 0, mainUtil.getBackgroundX(), mainUtil.getBackgroundY());
+                parentLabel.setIcon(new ImageIcon(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString())));
+                parentLabel.setBounds(0, 0, mainGeneralUtil.getBackgroundX(), mainGeneralUtil.getBackgroundY());
             }
 
-            parentLabel.setBorder(new LineBorder(mainUtil.navy,8,false));
-            parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
+            parentLabel.setBorder(new LineBorder(mainGeneralUtil.navy,8,false));
+            parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
 
             parentPane.add(parentLabel,1,0);
 
-            consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
+            consoleFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
 
             outputArea = new JTextPane() {
                 @Override
@@ -335,7 +335,7 @@ public class CyderMain{
 
             outputArea.setEditable(false);
             outputArea.setAutoscrolls(true);
-            outputArea.setBounds(10, 62, mainUtil.getBackgroundX() - 20, mainUtil.getBackgroundY() - 204);
+            outputArea.setBounds(10, 62, mainGeneralUtil.getBackgroundX() - 20, mainGeneralUtil.getBackgroundY() - 204);
             outputArea.setFocusable(true);
             outputArea.setSelectionColor(new Color(204,153,0));
             outputArea.setOpaque(false);
@@ -344,27 +344,27 @@ public class CyderMain{
             outputScroll = new CyderScrollPane(outputArea,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            outputScroll.setThumbColor(mainUtil.intellijPink);
+            outputScroll.setThumbColor(mainGeneralUtil.intellijPink);
             outputScroll.getViewport().setBorder(null);
             outputScroll.getViewport().setOpaque(false);
             outputScroll.setOpaque(false);
 
-            if (mainUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
-                outputScroll.setBorder(new LineBorder(mainUtil.vanila,3,true));
+            if (mainGeneralUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
+                outputScroll.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
             }
 
             else {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
             }
 
-            outputScroll.setBounds(10, 62, mainUtil.getBackgroundX() - 20, mainUtil.getBackgroundY() - 204);
+            outputScroll.setBounds(10, 62, mainGeneralUtil.getBackgroundX() - 20, mainGeneralUtil.getBackgroundY() - 204);
 
             parentLabel.add(outputScroll);
 
             inputField = new JTextField(40);
 
-            if (mainUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
-                inputField.setBorder(new LineBorder(mainUtil.vanila,3,true));
+            if (mainGeneralUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
+                inputField.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
             }
 
             else {
@@ -384,22 +384,22 @@ public class CyderMain{
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainUtil.setConsoleDirection(mainUtil.CYDER_DOWN);
+                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CYDER_DOWN);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainUtil.setConsoleDirection(mainUtil.CYDER_RIGHT);
+                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CYDER_RIGHT);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainUtil.setConsoleDirection(mainUtil.CYDER_UP);
+                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CYDER_UP);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainUtil.setConsoleDirection(mainUtil.CYDER_LEFT);
+                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CYDER_LEFT);
                         exitFullscreen();
                     }
                 }
@@ -420,13 +420,13 @@ public class CyderMain{
             });
 
             inputField.setToolTipText("Input Field");
-            inputField.setSelectionColor(mainUtil.selectionColor);
+            inputField.setSelectionColor(mainGeneralUtil.selectionColor);
             inputField.addKeyListener(commandScrolling);
 
             consoleFrame.addWindowListener(consoleEcho);
 
             inputField.setBounds(10, 82 + outputArea.getHeight(),
-                    mainUtil.getBackgroundX() - 20, mainUtil.getBackgroundY() - (outputArea.getHeight() + 62 + 40));
+                    mainGeneralUtil.getBackgroundX() - 20, mainGeneralUtil.getBackgroundY() - (outputArea.getHeight() + 62 + 40));
             inputField.setOpaque(false);
 
             parentLabel.add(inputField);
@@ -444,17 +444,17 @@ public class CyderMain{
                 }
             });
 
-            inputField.setCaretColor(mainUtil.vanila);
+            inputField.setCaretColor(mainGeneralUtil.vanila);
 
-            mainUtil.readUserData();
+            mainGeneralUtil.readUserData();
 
-            Font Userfont = new Font(mainUtil.getUserData("Font"),Font.BOLD, 30);
-            Color Usercolor = new Color(Integer.parseInt(mainUtil.getUserData("Red")),
-                    Integer.parseInt(mainUtil.getUserData("Green")),
-                    Integer.parseInt(mainUtil.getUserData("Blue")));
+            Font Userfont = new Font(mainGeneralUtil.getUserData("Font"),Font.BOLD, 30);
+            Color Usercolor = new Color(Integer.parseInt(mainGeneralUtil.getUserData("Red")),
+                    Integer.parseInt(mainGeneralUtil.getUserData("Green")),
+                    Integer.parseInt(mainGeneralUtil.getUserData("Blue")));
 
-            mainUtil.setUsercolor(Usercolor);
-            mainUtil.setUserfont(Userfont);
+            mainGeneralUtil.setUsercolor(Usercolor);
+            mainGeneralUtil.setUserfont(Userfont);
 
             inputField.setForeground(Usercolor);
             outputArea.setForeground(Usercolor);
@@ -467,8 +467,8 @@ public class CyderMain{
             suggestionButton.addActionListener(e -> {
                 println("What feature would you like to suggestion? (Please include as much detail as possible such as what" +
                         "key words you should type and how it should be responded to and any options you think might be necessary)");
-                mainUtil.setUserInputDesc("suggestion");
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("suggestion");
+                mainGeneralUtil.setUserInputMode(true);
                 inputField.requestFocus();
             });
 
@@ -525,7 +525,7 @@ public class CyderMain{
             minimize.addActionListener(e -> {
                 restoreX = consoleFrame.getX();
                 restoreY = consoleFrame.getY();
-                mainUtil.minimizeAnimation(consoleFrame);
+                mainGeneralUtil.minimizeAnimation(consoleFrame);
                 updateConsoleClock = false;
                 consoleFrame.setState(Frame.ICONIFIED);
                 minimizeMenu();
@@ -543,7 +543,7 @@ public class CyderMain{
                 }
             });
 
-            minimize.setBounds(mainUtil.getBackgroundX() - 81, 4, 22, 20);
+            minimize.setBounds(mainGeneralUtil.getBackgroundX() - 81, 4, 22, 20);
 
             ImageIcon mini = new ImageIcon("src\\com\\cyder\\io\\pictures\\Minimize1.png");
             minimize.setIcon(mini);
@@ -556,33 +556,33 @@ public class CyderMain{
             alternateBackground = new JButton("");
             alternateBackground.setToolTipText("Alternate Background");
             alternateBackground.addActionListener(e -> {
-                mainUtil.initBackgrounds();
+                mainGeneralUtil.initBackgrounds();
 
-                if (mainUtil.canSwitchBackground() && mainUtil.getValidBackgroundPaths().length > 1) {
-                    mainUtil.setCurrentBackgroundIndex(mainUtil.getCurrentBackgroundIndex() + 1);
+                if (mainGeneralUtil.canSwitchBackground() && mainGeneralUtil.getValidBackgroundPaths().length > 1) {
+                    mainGeneralUtil.setCurrentBackgroundIndex(mainGeneralUtil.getCurrentBackgroundIndex() + 1);
                     switchBackground();
                 }
 
-                else if (mainUtil.OnLastBackground() && mainUtil.getValidBackgroundPaths().length > 1) {
-                    mainUtil.setCurrentBackgroundIndex(0);
+                else if (mainGeneralUtil.OnLastBackground() && mainGeneralUtil.getValidBackgroundPaths().length > 1) {
+                    mainGeneralUtil.setCurrentBackgroundIndex(0);
                     switchBackground();
                 }
 
-                else if (mainUtil.getValidBackgroundPaths().length == 1) {
+                else if (mainGeneralUtil.getValidBackgroundPaths().length == 1) {
                     println("You only have one background image. Would you like to add more? (Enter yes/no)");
                     inputField.requestFocus();
-                    mainUtil.setUserInputMode(true);
-                    mainUtil.setUserInputDesc("addbackgrounds");
+                    mainGeneralUtil.setUserInputMode(true);
+                    mainGeneralUtil.setUserInputDesc("addbackgrounds");
                 }
 
                 else {
                     try {
-                        mainUtil.handle(new FatalException("Background DNE"));
+                        mainGeneralUtil.handle(new FatalException("Background DNE"));
                         println("Error in parsing background; perhaps it was deleted.");
                     }
 
                     catch (Exception ex) {
-                        mainUtil.handle(ex);
+                        mainGeneralUtil.handle(ex);
                     }
                 }
             });
@@ -599,7 +599,7 @@ public class CyderMain{
                 }
             });
 
-            alternateBackground.setBounds(mainUtil.getBackgroundX() - 54, 4, 22, 20);
+            alternateBackground.setBounds(mainGeneralUtil.getBackgroundX() - 54, 4, 22, 20);
 
             ImageIcon Size = new ImageIcon("src\\com\\cyder\\io\\pictures\\ChangeSize1.png");
             alternateBackground.setIcon(Size);
@@ -615,7 +615,7 @@ public class CyderMain{
             close.setToolTipText("Close");
             close.addActionListener(e -> {
                 if (loginFrame != null && loginFrame.isVisible()) {
-                    mainUtil.closeAnimation(consoleFrame);
+                    mainGeneralUtil.closeAnimation(consoleFrame);
                     consoleFrame = null;
                 }
 
@@ -635,7 +635,7 @@ public class CyderMain{
                 }
             });
 
-            close.setBounds(mainUtil.getBackgroundX() - 27, 4, 22, 20);
+            close.setBounds(mainGeneralUtil.getBackgroundX() - 27, 4, 22, 20);
 
             ImageIcon exit = new ImageIcon("src\\com\\cyder\\io\\pictures\\Close1.png");
 
@@ -649,7 +649,7 @@ public class CyderMain{
             close.setBorderPainted(false);
 
             consoleDragLabel = new JLabel();
-            consoleDragLabel.setBounds(0,0, mainUtil.getBackgroundX(),30);
+            consoleDragLabel.setBounds(0,0, mainGeneralUtil.getBackgroundX(),30);
             consoleDragLabel.setOpaque(true);
             consoleDragLabel.setBackground(new Color(26,32,51));
             consoleDragLabel.addMouseMotionListener(new MouseMotionListener() {
@@ -670,14 +670,14 @@ public class CyderMain{
                 }
             });
 
-            consoleDragLabel.setFont(mainUtil.weatherFontSmall);
-            consoleDragLabel.setForeground(mainUtil.vanila);
+            consoleDragLabel.setFont(mainGeneralUtil.weatherFontSmall);
+            consoleDragLabel.setForeground(mainGeneralUtil.vanila);
 
-            boolean showClock = mainUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
+            boolean showClock = mainGeneralUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
 
-            consoleClockLabel = new JLabel(mainUtil.consoleTime());
-            consoleClockLabel.setFont(mainUtil.weatherFontSmall.deriveFont(20f));
-            consoleClockLabel.setForeground(mainUtil.vanila);
+            consoleClockLabel = new JLabel(mainGeneralUtil.consoleTime());
+            consoleClockLabel.setFont(mainGeneralUtil.weatherFontSmall.deriveFont(20f));
+            consoleClockLabel.setForeground(mainGeneralUtil.vanila);
             consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
                     2,(consoleClockLabel.getText().length() * 17), 25);
 
@@ -689,7 +689,7 @@ public class CyderMain{
 
             consoleClockLabel.setVisible(showClock);
 
-            if (mainUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
+            if (mainGeneralUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
                 checkChime();
 
             parentLabel.add(consoleDragLabel);
@@ -702,27 +702,27 @@ public class CyderMain{
                 }
             });
 
-            if (mainUtil.getUserData("RandomBackground").equals("1")) {
-                int len = mainUtil.getValidBackgroundPaths().length;
+            if (mainGeneralUtil.getUserData("RandomBackground").equals("1")) {
+                int len = mainGeneralUtil.getValidBackgroundPaths().length;
 
                 if (len <= 1)
-                    println("Sorry, " + mainUtil.getUsername() + ", but you only have one background file so there's no random element to be chosen.");
+                    println("Sorry, " + mainGeneralUtil.getUsername() + ", but you only have one background file so there's no random element to be chosen.");
 
                 else if (len > 1) {
                     try {
-                        File[] backgrounds = mainUtil.getValidBackgroundPaths();
+                        File[] backgrounds = mainGeneralUtil.getValidBackgroundPaths();
 
-                        mainUtil.setCurrentBackgroundIndex(mainUtil.randInt(0, (backgrounds.length) - 1));
+                        mainGeneralUtil.setCurrentBackgroundIndex(mainGeneralUtil.randInt(0, (backgrounds.length) - 1));
 
-                        String newBackFile = mainUtil.getCurrentBackground().toString();
+                        String newBackFile = mainGeneralUtil.getCurrentBackground().toString();
 
                         ImageIcon newBack;
                         int tempW = 0;
                         int tempH = 0;
 
-                        if (mainUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                            newBack = new ImageIcon(mainUtil.resizeImage((int) mainUtil.getScreenSize().getWidth(),
-                                    (int) mainUtil.getScreenSize().getHeight(), new File(newBackFile)));
+                        if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+                            newBack = new ImageIcon(mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(),
+                                    (int) mainGeneralUtil.getScreenSize().getHeight(), new File(newBackFile)));
                             tempW = newBack.getIconWidth();
                             tempH = newBack.getIconHeight();
                         }
@@ -733,7 +733,7 @@ public class CyderMain{
                             tempH = newBack.getIconHeight();
                         }
 
-                        mainUtil.getBackgroundSize();
+                        mainGeneralUtil.getBackgroundSize();
 
                         parentLabel.setIcon(newBack);
 
@@ -753,13 +753,13 @@ public class CyderMain{
 
                         parentLabel.setIcon(newBack);
 
-                        parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
+                        parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
                         consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
                                 2,(consoleClockLabel.getText().length() * 17), 25);
                     }
 
                     catch (Exception e) {
-                        mainUtil.handle(e);
+                        mainGeneralUtil.handle(e);
                     }
                 }
 
@@ -767,25 +767,25 @@ public class CyderMain{
                    throw new FatalException("Only one but also more than one background.");
             }
 
-            mainUtil.startAnimation(consoleFrame);
+            mainGeneralUtil.startAnimation(consoleFrame);
 
             new Thread(() -> {
-                if (!mainUtil.internetReachable())
+                if (!mainGeneralUtil.internetReachable())
                     notify("Internet connection slow or unavailble",
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
             },"slow-internet-checker").start();
 
 
-            if (mainUtil.getUserData("DebugWindows").equals("1")) {
-                mainUtil.systemProperties();
-                mainUtil.computerProperties();
-                mainUtil.javaProperties();
-                mainUtil.debugMenu(outputArea);
+            if (mainGeneralUtil.getUserData("DebugWindows").equals("1")) {
+                mainGeneralUtil.systemProperties();
+                mainGeneralUtil.computerProperties();
+                mainGeneralUtil.javaProperties();
+                mainGeneralUtil.debugMenu(outputArea);
             }
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -805,8 +805,8 @@ public class CyderMain{
                 menuLabel.setVisible(true);
 
                 JLabel calculatorLabel = new JLabel("Calculator");
-                calculatorLabel.setFont(mainUtil.weatherFontSmall);
-                calculatorLabel.setForeground(mainUtil.vanila);
+                calculatorLabel.setFont(mainGeneralUtil.weatherFontSmall);
+                calculatorLabel.setForeground(mainGeneralUtil.vanila);
                 calculatorLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -815,12 +815,12 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        calculatorLabel.setForeground(mainUtil.regularRed);
+                        calculatorLabel.setForeground(mainGeneralUtil.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        calculatorLabel.setForeground(mainUtil.vanila);
+                        calculatorLabel.setForeground(mainGeneralUtil.vanila);
                     }
                 });
 
@@ -828,30 +828,30 @@ public class CyderMain{
                 calculatorLabel.setBounds(5,20,150,20);
 
                 JLabel musicLabel = new JLabel("Music");
-                musicLabel.setFont(mainUtil.weatherFontSmall);
-                musicLabel.setForeground(mainUtil.vanila);
+                musicLabel.setFont(mainGeneralUtil.weatherFontSmall);
+                musicLabel.setForeground(mainGeneralUtil.vanila);
                 musicLabel.setBounds(5,50,150,20);
                 menuLabel.add(musicLabel);
                 musicLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        mainUtil.mp3("", mainUtil.getUsername(), mainUtil.getUserUUID());
+                        mainGeneralUtil.mp3("", mainGeneralUtil.getUsername(), mainGeneralUtil.getUserUUID());
                     }
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        musicLabel.setForeground(mainUtil.regularRed);
+                        musicLabel.setForeground(mainGeneralUtil.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        musicLabel.setForeground(mainUtil.vanila);
+                        musicLabel.setForeground(mainGeneralUtil.vanila);
                     }
                 });
 
                 JLabel weatherLabel = new JLabel("Weather");
-                weatherLabel.setFont(mainUtil.weatherFontSmall);
-                weatherLabel.setForeground(mainUtil.vanila);
+                weatherLabel.setFont(mainGeneralUtil.weatherFontSmall);
+                weatherLabel.setForeground(mainGeneralUtil.vanila);
                 menuLabel.add(weatherLabel);
                 weatherLabel.setBounds(5,80,150,20);
                 weatherLabel.setOpaque(false);
@@ -863,40 +863,40 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        weatherLabel.setForeground(mainUtil.regularRed);
+                        weatherLabel.setForeground(mainGeneralUtil.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        weatherLabel.setForeground(mainUtil.vanila);
+                        weatherLabel.setForeground(mainGeneralUtil.vanila);
                     }
                 });
 
                 JLabel noteLabel = new JLabel("Notes");
-                noteLabel.setFont(mainUtil.weatherFontSmall);
-                noteLabel.setForeground(mainUtil.vanila);
+                noteLabel.setFont(mainGeneralUtil.weatherFontSmall);
+                noteLabel.setForeground(mainGeneralUtil.vanila);
                 menuLabel.add(noteLabel);
                 noteLabel.setBounds(5,110,150,20);
                 noteLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        userNotes = new Notes(mainUtil.getUserUUID());
+                        userNotes = new Notes(mainGeneralUtil.getUserUUID());
                     }
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        noteLabel.setForeground(mainUtil.regularRed);
+                        noteLabel.setForeground(mainGeneralUtil.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        noteLabel.setForeground(mainUtil.vanila);
+                        noteLabel.setForeground(mainGeneralUtil.vanila);
                     }
                 });
 
                 JLabel editUserLabel = new JLabel("Edit user");
-                editUserLabel.setFont(mainUtil.weatherFontSmall);
-                editUserLabel.setForeground(mainUtil.vanila);
+                editUserLabel.setFont(mainGeneralUtil.weatherFontSmall);
+                editUserLabel.setForeground(mainGeneralUtil.vanila);
                 menuLabel.add(editUserLabel);
                 editUserLabel.setBounds(5,140,150,20);
                 editUserLabel.addMouseListener(new MouseAdapter() {
@@ -907,18 +907,18 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        editUserLabel.setForeground(mainUtil.regularRed);
+                        editUserLabel.setForeground(mainGeneralUtil.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        editUserLabel.setForeground(mainUtil.vanila);
+                        editUserLabel.setForeground(mainGeneralUtil.vanila);
                     }
                 });
 
                 JLabel temperatureLabel = new JLabel("Temp conv");
-                temperatureLabel.setFont(mainUtil.weatherFontSmall);
-                temperatureLabel.setForeground(mainUtil.vanila);
+                temperatureLabel.setFont(mainGeneralUtil.weatherFontSmall);
+                temperatureLabel.setForeground(mainGeneralUtil.vanila);
                 menuLabel.add(temperatureLabel);
                 temperatureLabel.setBounds(5,170,150,20);
                 temperatureLabel.addMouseListener(new MouseAdapter() {
@@ -929,56 +929,56 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        temperatureLabel.setForeground(mainUtil.regularRed);
+                        temperatureLabel.setForeground(mainGeneralUtil.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        temperatureLabel.setForeground(mainUtil.vanila);
+                        temperatureLabel.setForeground(mainGeneralUtil.vanila);
                     }
                 });
 
                 JLabel youtubeLabel = new JLabel("YouTube");
-                youtubeLabel.setFont(mainUtil.weatherFontSmall);
-                youtubeLabel.setForeground(mainUtil.vanila);
+                youtubeLabel.setFont(mainGeneralUtil.weatherFontSmall);
+                youtubeLabel.setForeground(mainGeneralUtil.vanila);
                 menuLabel.add(youtubeLabel);
                 youtubeLabel.setBounds(5,200,150,20);
                 youtubeLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        mainUtil.internetConnect("https://youtube.com");
+                        mainGeneralUtil.internetConnect("https://youtube.com");
                     }
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        youtubeLabel.setForeground(mainUtil.regularRed);
+                        youtubeLabel.setForeground(mainGeneralUtil.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        youtubeLabel.setForeground(mainUtil.vanila);
+                        youtubeLabel.setForeground(mainGeneralUtil.vanila);
                     }
                 });
 
                 JLabel twitterLabel = new JLabel("Twitter");
-                twitterLabel.setFont(mainUtil.weatherFontSmall);
-                twitterLabel.setForeground(mainUtil.vanila);
+                twitterLabel.setFont(mainGeneralUtil.weatherFontSmall);
+                twitterLabel.setForeground(mainGeneralUtil.vanila);
                 menuLabel.add(twitterLabel);
                 twitterLabel.setBounds(5,230,150,20);
                 twitterLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        mainUtil.internetConnect("https://twitter.com");
+                        mainGeneralUtil.internetConnect("https://twitter.com");
                     }
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        twitterLabel.setForeground(mainUtil.regularRed);
+                        twitterLabel.setForeground(mainGeneralUtil.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        twitterLabel.setForeground(mainUtil.vanila);
+                        twitterLabel.setForeground(mainGeneralUtil.vanila);
                     }
                 });
 
@@ -1043,20 +1043,20 @@ public class CyderMain{
                     }
 
                     if (inputField.getText() == null || inputField.getText().equals("")) {
-                        mainUtil.setCurrentDowns(0);
+                        mainGeneralUtil.setCurrentDowns(0);
                     }
 
                     else if (!Found) {
-                        mainUtil.setCurrentDowns(0);
+                        mainGeneralUtil.setCurrentDowns(0);
                     }
 
                     if (scrollingIndex - 1 >= 0) {
-                        if (mainUtil.getCurrentDowns() != 0) {
+                        if (mainGeneralUtil.getCurrentDowns() != 0) {
                             scrollingIndex = scrollingIndex - 1;
                         }
 
                         inputField.setText(operationList.get(scrollingIndex));
-                        mainUtil.setCurrentDowns(mainUtil.getCurrentDowns() + 1);
+                        mainGeneralUtil.setCurrentDowns(mainGeneralUtil.getCurrentDowns() + 1);
                     }
 
                     if (operationList.size() == 1) {
@@ -1069,7 +1069,7 @@ public class CyderMain{
                         int seventeen = (i - 61427);
 
                         if (seventeen == 17)
-                            mainUtil.playMusic("src\\com\\cyder\\io\\audio\\f17.mp3");
+                            mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\f17.mp3");
                         else
                            println("Interesting F" + (i - 61427) + " key");
                     }
@@ -1078,7 +1078,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
         }
     };
@@ -1103,14 +1103,14 @@ public class CyderMain{
                         int noThreads = currentGroup.activeCount();
 
                         if (noThreads > 6 && consoleFrame != null) {
-                            consoleFrame.setIconImage(mainUtil.getCyderIconBlink().getImage());
+                            consoleFrame.setIconImage(mainGeneralUtil.getCyderIconBlink().getImage());
 
                             Thread.sleep(5000);
                         }
 
                         else {
                             if (consoleFrame != null) {
-                                consoleFrame.setIconImage(mainUtil.getCyderIcon().getImage());
+                                consoleFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
                                 Thread.sleep(5000);
                             }
                         }
@@ -1118,13 +1118,13 @@ public class CyderMain{
                 }
 
                 catch (Exception e) {
-                    mainUtil.handle(e);
+                    mainGeneralUtil.handle(e);
                 }
             },"background-process-checker").start();
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -1136,20 +1136,20 @@ public class CyderMain{
             String originalOp = inputField.getText().trim();
             String op = originalOp;
 
-            if (!mainUtil.empytStr(op)) {
+            if (!mainGeneralUtil.empytStr(op)) {
                 if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
                     operationList.add(op);
                 }
 
                 scrollingIndex = operationList.size() - 1;
-                mainUtil.setCurrentDowns(0);
+                mainGeneralUtil.setCurrentDowns(0);
 
-                if (!mainUtil.getUserInputMode()) {
+                if (!mainGeneralUtil.getUserInputMode()) {
                     handle(op);
                 }
 
-                else if (mainUtil.getUserInputMode()) {
-                    mainUtil.setUserInputMode(false);
+                else if (mainGeneralUtil.getUserInputMode()) {
+                    mainGeneralUtil.setUserInputMode(false);
                     handleSecond(op);
                 }
             }
@@ -1158,17 +1158,17 @@ public class CyderMain{
         }
 
         catch (Exception ex) {
-            mainUtil.handle(ex);
+            mainGeneralUtil.handle(ex);
         }
         }
     };
 
     private void login(boolean AlreadyOpen) {
         if (loginFrame != null) {
-            mainUtil.closeAnimation(loginFrame);
+            mainGeneralUtil.closeAnimation(loginFrame);
         }
 
-        mainUtil.cleanUpUsers();
+        mainGeneralUtil.cleanUpUsers();
 
         //todo make cyderframe
         loginFrame = new JFrame();
@@ -1184,14 +1184,14 @@ public class CyderMain{
 
         loginFrame.setBounds(0, 0, 440, 520);
         loginFrame.setTitle("Cyder login");
-        loginFrame.setIconImage(mainUtil.getCyderIcon().getImage());
+        loginFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
 
         loginLabel = new JLabel();
         loginLabel.setVerticalTextPosition(SwingConstants.TOP);
         loginLabel.setVerticalAlignment(SwingConstants.TOP);
         loginLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\login.png"));
         loginLabel.setBounds(0, 0, 440, 520);
-        loginLabel.setBorder(new LineBorder(mainUtil.navy,5,false));
+        loginLabel.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
 
         loginFrame.setContentPane(loginLabel);
 
@@ -1214,9 +1214,9 @@ public class CyderMain{
         loginAnimation();
 
         DragLabel LoginDragLabel = new DragLabel(440,30,loginFrame);
-        JLabel buildLabel = new JLabel("Build " + mainUtil.getCyderVer());
-        buildLabel.setForeground(mainUtil.vanila);
-        buildLabel.setFont(mainUtil.weatherFontSmall.deriveFont(20f));
+        JLabel buildLabel = new JLabel("Build " + mainGeneralUtil.getCyderVer());
+        buildLabel.setForeground(mainGeneralUtil.vanila);
+        buildLabel.setFont(mainGeneralUtil.weatherFontSmall.deriveFont(20f));
         buildLabel.setBounds(LoginDragLabel.getWidth() / 2 - (buildLabel.getText().length() * 11)/2,
                 2,(buildLabel.getText().length() * 17), 25);
         LoginDragLabel.add(buildLabel);
@@ -1226,11 +1226,11 @@ public class CyderMain{
         nameField.setToolTipText("Username");
         nameField.setBounds(64,279,327,41);
         nameField.setBackground(new Color(0,0,0,0));
-        nameField.setSelectionColor(mainUtil.selectionColor);
+        nameField.setSelectionColor(mainGeneralUtil.selectionColor);
         nameField.setBorder(null);
-        nameField.setFont(mainUtil.weatherFontSmall.deriveFont(30f));
+        nameField.setFont(mainGeneralUtil.weatherFontSmall.deriveFont(30f));
         nameField.setForeground(new Color(42,52,61));
-        nameField.setCaretColor(mainUtil.navy);
+        nameField.setCaretColor(mainGeneralUtil.navy);
         nameField.addActionListener(e -> nameField.requestFocusInWindow());
         nameField.addKeyListener(new KeyListener() {
             @Override
@@ -1276,20 +1276,20 @@ public class CyderMain{
         pass.setToolTipText("Password");
         pass.setBounds(64,348,327,41);
         pass.setBackground(new Color(0,0,0,0));
-        pass.setSelectionColor(mainUtil.selectionColor);
+        pass.setSelectionColor(mainGeneralUtil.selectionColor);
         pass.setBorder(null);
-        pass.setFont(mainUtil.weatherFontBig.deriveFont(50f));
+        pass.setFont(mainGeneralUtil.weatherFontBig.deriveFont(50f));
         pass.setForeground(new Color(42,52,61));
-        pass.setCaretColor(mainUtil.navy);
+        pass.setCaretColor(mainGeneralUtil.navy);
         pass.addActionListener(e -> {
             String Username = nameField.getText().trim();
 
-            if (!mainUtil.empytStr(Username)) {
+            if (!mainGeneralUtil.empytStr(Username)) {
                 Username = Username.substring(0, 1).toUpperCase() + Username.substring(1);
 
                 char[] Password = pass.getPassword();
 
-                if (!mainUtil.empytStr(Username)) {
+                if (!mainGeneralUtil.empytStr(Username)) {
                     recognize(Username, Password);
                 }
 
@@ -1314,7 +1314,7 @@ public class CyderMain{
 
         newUserLabel = new JLabel("Don't have an account?", SwingConstants.CENTER);
         newUserLabel.setFont(new Font("tahoma",Font.BOLD,18));
-        newUserLabel.setForeground(mainUtil.vanila);
+        newUserLabel.setForeground(mainGeneralUtil.vanila);
         newUserLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -1324,13 +1324,13 @@ public class CyderMain{
             @Override
             public void mouseEntered(MouseEvent e) {
                 newUserLabel.setText("Create an account!");
-                newUserLabel.setForeground(mainUtil.regularRed);
+                newUserLabel.setForeground(mainGeneralUtil.regularRed);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 newUserLabel.setText("Don't have an account?");
-                newUserLabel.setForeground(mainUtil.vanila);
+                newUserLabel.setForeground(mainGeneralUtil.vanila);
             }
         });
 
@@ -1347,7 +1347,7 @@ public class CyderMain{
         File Users = new File("src\\com\\cyder\\users\\");
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
 
-        mainUtil.startAnimation(loginFrame);
+        mainGeneralUtil.startAnimation(loginFrame);
 
         if (directories != null && directories.length == 0)
             notify("Psssst! Create a user, " + System.getProperty("user.name"),
@@ -1356,21 +1356,21 @@ public class CyderMain{
 
     private void recognize(String Username, char[] Password) {
         try {
-            mainUtil.setUsername(Username);
+            mainGeneralUtil.setUsername(Username);
 
-            if (mainUtil.checkPassword(Username, mainUtil.toHexString(mainUtil.getSHA(Password)))) {
-                mainUtil.readUserData();
-                mainUtil.closeAnimation(loginFrame);
+            if (mainGeneralUtil.checkPassword(Username, mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(Password)))) {
+                mainGeneralUtil.readUserData();
+                mainGeneralUtil.closeAnimation(loginFrame);
 
                 if (consoleFrame != null)
-                    mainUtil.closeAnimation(consoleFrame);
+                    mainGeneralUtil.closeAnimation(consoleFrame);
 
                 console();
 
-                if (mainUtil.getUserData("IntroMusic").equals("1")) {
+                if (mainGeneralUtil.getUserData("IntroMusic").equals("1")) {
                     LinkedList<String> MusicList = new LinkedList<>();
 
-                    File UserMusicDir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music");
+                    File UserMusicDir = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Music");
 
                     String[] FileNames = UserMusicDir.list();
 
@@ -1380,11 +1380,11 @@ public class CyderMain{
                                 MusicList.add(fileName);
 
                     if (!MusicList.isEmpty())
-                        mainUtil.playMusic(
-                                "src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music\\" +
-                                        (FileNames[mainUtil.randInt(0,FileNames.length - 1)]));
+                        mainGeneralUtil.playMusic(
+                                "src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Music\\" +
+                                        (FileNames[mainGeneralUtil.randInt(0,FileNames.length - 1)]));
                     else
-                        mainUtil.playMusic("src\\com\\cyder\\io\\audio\\Suprise.mp3");
+                        mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\Suprise.mp3");
                 }
             }
 
@@ -1402,45 +1402,45 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
     private void exitFullscreen() {
-        mainUtil.initBackgrounds();
-        File[] backgrounds = mainUtil.getValidBackgroundPaths();
-        int index = mainUtil.getCurrentBackgroundIndex();
+        mainGeneralUtil.initBackgrounds();
+        File[] backgrounds = mainGeneralUtil.getValidBackgroundPaths();
+        int index = mainGeneralUtil.getCurrentBackgroundIndex();
         String backFile = backgrounds[index].toString();
 
         int width = 0;
         int height = 0;
 
-        if (mainUtil.getConsoleDirection() == mainUtil.CYDER_UP) {
+        if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CYDER_UP) {
             ImageIcon backIcon = new ImageIcon(backFile);
             width = backIcon.getIconWidth();
             height = backIcon.getIconHeight();
             parentLabel.setIcon(backIcon);
         }
 
-        else if (mainUtil.getConsoleDirection() == mainUtil.CYDER_DOWN) {
+        else if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CYDER_DOWN) {
             ImageIcon backIcon = new ImageIcon(backFile);
             width = backIcon.getIconWidth();
             height = backIcon.getIconHeight();
-            parentLabel.setIcon(new ImageIcon(mainUtil.getRotatedImage(mainUtil.getCurrentBackground().toString())));
+            parentLabel.setIcon(new ImageIcon(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString())));
         }
 
         else {
             ImageIcon backIcon = new ImageIcon(backFile);
 
-            if (mainUtil.getConsoleDirection() == mainUtil.CYDER_LEFT || mainUtil.getConsoleDirection() == mainUtil.CYDER_RIGHT) {
+            if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CYDER_LEFT || mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CYDER_RIGHT) {
                 height = backIcon.getIconWidth();
                 width = backIcon.getIconHeight();
             }
 
-            parentLabel.setIcon(new ImageIcon(mainUtil.getRotatedImage(mainUtil.getCurrentBackground().toString())));
+            parentLabel.setIcon(new ImageIcon(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString())));
         }
 
-        mainUtil.getBackgroundSize();
+        mainGeneralUtil.getBackgroundSize();
 
         consoleFrame.setBounds(0, 0, width, height);
         parentPane.setBounds(0, 0,  width, height);
@@ -1465,21 +1465,21 @@ public class CyderMain{
     }
 
     private void refreshFullscreen() {
-        mainUtil.initBackgrounds();
-        File[] backgrounds = mainUtil.getValidBackgroundPaths();
-        int index = mainUtil.getCurrentBackgroundIndex();
+        mainGeneralUtil.initBackgrounds();
+        File[] backgrounds = mainGeneralUtil.getValidBackgroundPaths();
+        int index = mainGeneralUtil.getCurrentBackgroundIndex();
         String backFile = backgrounds[index].toString();
 
         ImageIcon backIcon = new ImageIcon(backFile);
 
-        BufferedImage fullimg = mainUtil.resizeImage((int) mainUtil.getScreenSize().getWidth(),
-                (int) mainUtil.getScreenSize().getHeight(), new File(backFile));
+        BufferedImage fullimg = mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(),
+                (int) mainGeneralUtil.getScreenSize().getHeight(), new File(backFile));
         int fullW = fullimg.getWidth();
         int fullH = fullimg.getHeight();
 
         parentLabel.setIcon(new ImageIcon(fullimg));
 
-        mainUtil.getBackgroundSize();
+        mainGeneralUtil.getBackgroundSize();
 
         consoleFrame.setBounds(0, 0, fullW, fullH);
         parentPane.setBounds(0, 0,  fullW, fullH);
@@ -1506,12 +1506,12 @@ public class CyderMain{
     private void switchBackground() {
         Thread slideThread = new Thread(() -> {
             try {
-                mainUtil.initBackgrounds();
+                mainGeneralUtil.initBackgrounds();
 
-                File[] backgrounds = mainUtil.getValidBackgroundPaths();
-                int oldIndex = (mainUtil.getCurrentBackgroundIndex() == 0 ? backgrounds.length - 1 : mainUtil.getCurrentBackgroundIndex() - 1);
+                File[] backgrounds = mainGeneralUtil.getValidBackgroundPaths();
+                int oldIndex = (mainGeneralUtil.getCurrentBackgroundIndex() == 0 ? backgrounds.length - 1 : mainGeneralUtil.getCurrentBackgroundIndex() - 1);
                 String oldBackFile = backgrounds[oldIndex].toString();
-                String newBackFile = mainUtil.getCurrentBackground().toString();
+                String newBackFile = mainGeneralUtil.getCurrentBackground().toString();
 
                 ImageIcon oldBack = new ImageIcon(oldBackFile);
                 BufferedImage newBack = ImageIO.read(new File(newBackFile));
@@ -1520,25 +1520,25 @@ public class CyderMain{
                 int tempW = 0;
                 int tempH = 0;
                 
-                if (mainUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                    oldBack = new ImageIcon(mainUtil.resizeImage((int) mainUtil.getScreenSize().getWidth(),
-                            (int) mainUtil.getScreenSize().getHeight(),new File(oldBackFile)));
-                    newBack = mainUtil.resizeImage((int) mainUtil.getScreenSize().getWidth(), (int) mainUtil.getScreenSize().getHeight(),
+                if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+                    oldBack = new ImageIcon(mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(),
+                            (int) mainGeneralUtil.getScreenSize().getHeight(),new File(oldBackFile)));
+                    newBack = mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(), (int) mainGeneralUtil.getScreenSize().getHeight(),
                             new File(newBackFile));
-                    temporaryImage = mainUtil.resizeImage((int) mainUtil.getScreenSize().getWidth(), (int) mainUtil.getScreenSize().getHeight(),
+                    temporaryImage = mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(), (int) mainGeneralUtil.getScreenSize().getHeight(),
                             new File(oldBackFile));
                     tempW = temporaryImage.getWidth();
                     tempH = temporaryImage.getHeight();
                 }
 
                 else {
-                    newBack = mainUtil.resizeImage(newBack.getWidth(), newBack.getHeight(),new File(newBackFile));
-                    temporaryImage = mainUtil.resizeImage(newBack.getWidth(), newBack.getHeight(), new File(oldBackFile));
+                    newBack = mainGeneralUtil.resizeImage(newBack.getWidth(), newBack.getHeight(),new File(newBackFile));
+                    temporaryImage = mainGeneralUtil.resizeImage(newBack.getWidth(), newBack.getHeight(), new File(oldBackFile));
                     tempW = temporaryImage.getWidth();
                     tempH = temporaryImage.getHeight();
                 }
 
-                mainUtil.getBackgroundSize();
+                mainGeneralUtil.getBackgroundSize();
 
                 consoleFrame.setBounds(0, 0, tempW, tempH);
                 parentPane.setBounds(0, 0,  tempW, tempH);
@@ -1589,13 +1589,13 @@ public class CyderMain{
 
                 slidLeft = !slidLeft;
 
-                parentLabel.setToolTipText(mainUtil.getCurrentBackground().getName().replace(".png", ""));
+                parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
                 consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
                         2,(consoleClockLabel.getText().length() * 17), 25);
             }
 
             catch (Exception e) {
-                mainUtil.handle(e);
+                mainGeneralUtil.handle(e);
             }
         });
 
@@ -1630,7 +1630,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
 
         return null;
@@ -1690,7 +1690,7 @@ public class CyderMain{
                 }
 
                 catch (Exception e) {
-                    mainUtil.handle(e);
+                    mainGeneralUtil.handle(e);
                 }
             }
         };
@@ -1705,12 +1705,12 @@ public class CyderMain{
 
     private void handleSecond(String input) {
         try {
-            String desc = mainUtil.getUserInputDesc();
+            String desc = mainGeneralUtil.getUserInputDesc();
 
-            if (desc.equalsIgnoreCase("url") && !mainUtil.empytStr(input)) {
+            if (desc.equalsIgnoreCase("url") && !mainGeneralUtil.empytStr(input)) {
                 URI URI = new URI(input);
                 println("Attempting to connect...");
-                mainUtil.internetConnect(URI);
+                mainGeneralUtil.internetConnect(URI);
             }
 
             else if (desc.equalsIgnoreCase("prime") && input != null && !input.equals("")) {
@@ -1748,24 +1748,24 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("google") && input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ", "+");
                 println("Attempting to connect...");
-                mainUtil.internetConnect("https://www.google.com/search?q=" + input);
+                mainGeneralUtil.internetConnect("https://www.google.com/search?q=" + input);
             }
 
             else if (desc.equalsIgnoreCase("youtube")&& input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ", "+");
                 println("Attempting to connect...");
-                mainUtil.internetConnect("https://www.youtube.com/results?search_query=" + input);
+                mainGeneralUtil.internetConnect("https://www.youtube.com/results?search_query=" + input);
             }
 
             else if (desc.equalsIgnoreCase("math") && input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ", "+");
                 println("Attempting to connect...");
-                mainUtil.internetConnect("https://www.wolframalpha.com/input/?i=" + input);
+                mainGeneralUtil.internetConnect("https://www.wolframalpha.com/input/?i=" + input);
             }
 
             else if (desc.equalsIgnoreCase("binary")) {
-                if (input.matches("[0-9]+") && !mainUtil.empytStr(input)) {
-                    String Print = mainUtil.toBinary(Integer.parseInt(input));
+                if (input.matches("[0-9]+") && !mainGeneralUtil.empytStr(input)) {
+                    String Print = mainGeneralUtil.toBinary(Integer.parseInt(input));
                     println(input + " converted to binary equals: " + Print);
                 }
 
@@ -1777,18 +1777,18 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("wiki") && input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ","_");
                 println("Attempting to connect...");
-                mainUtil.internetConnect("https://en.wikipedia.org/wiki/" + input);
+                mainGeneralUtil.internetConnect("https://en.wikipedia.org/wiki/" + input);
             }
 
             else if (desc.equalsIgnoreCase("disco") && input != null && !input.equals("")) {
                 println("I hope you're not the only one at this party.");
-                mainUtil.disco(Integer.parseInt(input));
+                mainGeneralUtil.disco(Integer.parseInt(input));
             }
 
             else if (desc.equalsIgnoreCase("youtube word search") && input != null && !input.equals("")) {
                 String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
                 browse = browse.replace("REPLACE", input).replace(" ", "+");
-                mainUtil.internetConnect(browse);
+                mainGeneralUtil.internetConnect(browse);
             }
 
             else if (desc.equalsIgnoreCase("random youtube")) {
@@ -1810,7 +1810,7 @@ public class CyderMain{
                 }
 
                catch (Exception e) {
-                   mainUtil.handle(e);
+                   mainGeneralUtil.handle(e);
                }
             }
 
@@ -1818,8 +1818,8 @@ public class CyderMain{
                 println("Enter your second word");
                 anagram = input;
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("anagram2");
+                mainGeneralUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("anagram2");
             }
 
             else if (desc.equalsIgnoreCase("anagram2")) {
@@ -1851,7 +1851,7 @@ public class CyderMain{
 
             else if (desc.equalsIgnoreCase("pixelate") && input != null && !input.equals("")) {
                 println("Pixelating " + pixelateFile.getName() + " with a pixel block size of " + input + "...");
-                mainUtil.pixelate(pixelateFile, Integer.parseInt(input));
+                mainGeneralUtil.pixelate(pixelateFile, Integer.parseInt(input));
             }
 
             else if (desc.equalsIgnoreCase("alphabetize")) {
@@ -1865,9 +1865,9 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("addbackgrounds")) {
-                if (mainUtil.confirmation(input)) {
+                if (mainGeneralUtil.confirmation(input)) {
                     editUser();
-                    mainUtil.internetConnect("https://images.google.com/");
+                    mainGeneralUtil.internetConnect("https://images.google.com/");
                 }
 
                 else
@@ -1875,7 +1875,7 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("logoff")) {
-                if (mainUtil.confirmation(input)) {
+                if (mainGeneralUtil.confirmation(input)) {
                     String shutdownCmd = "shutdown -l";
                     Runtime.getRuntime().exec(shutdownCmd);
                 }
@@ -1889,7 +1889,7 @@ public class CyderMain{
 
                 File ClickedSelectionPath = null;
 
-                if (!ClickedSelectionListBackground.isEmpty() && !ClickedSelectionListBackground.get(0).toString().equalsIgnoreCase(mainUtil.getCurrentBackground().getName().replace(".png",""))) {
+                if (!ClickedSelectionListBackground.isEmpty() && !ClickedSelectionListBackground.get(0).toString().equalsIgnoreCase(mainGeneralUtil.getCurrentBackground().getName().replace(".png",""))) {
                     String ClickedSelection = ClickedSelectionListBackground.get(0).toString();
 
                     for (int i = 0; i < backgroundsNameList.size() ; i++) {
@@ -1906,19 +1906,19 @@ public class CyderMain{
                     backgroundListScroll.setViewportView(backgroundSelectionList);
                     backgroundListScroll.revalidate();
 
-                    if (mainUtil.confirmation(input)) {
+                    if (mainGeneralUtil.confirmation(input)) {
                         println("Background: " + ClickedSelectionPath.getName().replace(".png","") + " successfully deleted.");
-                        mainUtil.initBackgrounds();
+                        mainGeneralUtil.initBackgrounds();
                     }
 
                     else {
                         println("Background: " + ClickedSelectionPath.getName().replace(".png","") + " was not deleted.");
                     }
 
-                    File[] paths = mainUtil.getValidBackgroundPaths();
+                    File[] paths = mainGeneralUtil.getValidBackgroundPaths();
                     for (int i = 0 ; i < paths.length ; i++) {
-                        if (paths[i].equals(mainUtil.getCurrentBackground())) {
-                            mainUtil.setCurrentBackgroundIndex(i);
+                        if (paths[i].equals(mainGeneralUtil.getCurrentBackground())) {
+                            mainGeneralUtil.setCurrentBackgroundIndex(i);
                             break;
                         }
                     }
@@ -1950,7 +1950,7 @@ public class CyderMain{
                     musicListScroll.setViewportView(musicSelectionList);
                     musicListScroll.revalidate();
 
-                    if (mainUtil.confirmation(input)) {
+                    if (mainGeneralUtil.confirmation(input)) {
                         println("Music: " + ClickedSelectionPath.getName().replace(".png","") + " successfully deleted.");
                     }
 
@@ -1961,48 +1961,48 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("deleteuser")) {
-                if (!mainUtil.confirmation(input)) {
-                    println("User " + mainUtil.getUsername() + " was not removed.");
+                if (!mainGeneralUtil.confirmation(input)) {
+                    println("User " + mainGeneralUtil.getUsername() + " was not removed.");
                     return;
                 }
 
-                mainUtil.closeAnimation(consoleFrame);
-                mainUtil.deleteFolder(new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID()));
+                mainGeneralUtil.closeAnimation(consoleFrame);
+                mainGeneralUtil.deleteFolder(new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID()));
 
-                String dep = mainUtil.getDeprecatedUUID();
+                String dep = mainGeneralUtil.getDeprecatedUUID();
 
                 File renamed = new File("src\\com\\cyder\\users\\" + dep);
                 while (renamed.exists()) {
-                    dep = mainUtil.getDeprecatedUUID();
+                    dep = mainGeneralUtil.getDeprecatedUUID();
                     renamed = new File("src\\com\\cyder\\users\\" + dep);
                 }
 
-                File old = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID());
+                File old = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID());
                 old.renameTo(renamed);
 
                 login(false);
             }
 
             else if (desc.equalsIgnoreCase("pixelatebackground")) {
-                BufferedImage img = ImageUtil.pixelate(ImageIO.read(mainUtil.getCurrentBackground().getAbsoluteFile()), Integer.parseInt(input));
+                BufferedImage img = ImageUtil.pixelate(ImageIO.read(mainGeneralUtil.getCurrentBackground().getAbsoluteFile()), Integer.parseInt(input));
 
-                String searchName = mainUtil.getCurrentBackground().getName().replace(".png", "")
+                String searchName = mainGeneralUtil.getCurrentBackground().getName().replace(".png", "")
                         + "_Pixelated_Pixel_Size_" + Integer.parseInt(input) + ".png";
 
-                File saveFile = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() +
+                File saveFile = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() +
                         "\\Backgrounds\\" + searchName);
 
                 ImageIO.write(img, "png", saveFile);
 
-                mainUtil.initBackgrounds();
+                mainGeneralUtil.initBackgrounds();
 
-                File[] backgrounds = mainUtil.getValidBackgroundPaths();
+                File[] backgrounds = mainGeneralUtil.getValidBackgroundPaths();
 
                 for (int i = 0 ; i < backgrounds.length ; i++) {
                     if (backgrounds[i].getName().equals(searchName)) {
                         parentLabel.setIcon(new ImageIcon(backgrounds[i].toString()));
                         parentLabel.setToolTipText(backgrounds[i].getName().replace(".png",""));
-                        mainUtil.setCurrentBackgroundIndex(i);
+                        mainGeneralUtil.setCurrentBackgroundIndex(i);
                     }
                 }
 
@@ -2014,8 +2014,8 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("test notify one")) {
                 notificationTestString = input;
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("test notify two");
+                mainGeneralUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("test notify two");
                 println("Enter notify width in pixels");
             }
 
@@ -2027,7 +2027,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -2035,18 +2035,18 @@ public class CyderMain{
         try {
             operation = input;
 
-            String firstWord = mainUtil.firstWord(operation);
+            String firstWord = mainGeneralUtil.firstWord(operation);
 
-            mainUtil.setHandledMath(false);
+            mainGeneralUtil.setHandledMath(false);
 
             handleMath(operation);
 
-            if (mainUtil.filter(operation)) {
-                println("Sorry, " + mainUtil.getUsername() + ", but that language is prohibited.");
+            if (mainGeneralUtil.filter(operation)) {
+                println("Sorry, " + mainGeneralUtil.getUsername() + ", but that language is prohibited.");
                 operation = "";
             }
 
-            else if (mainUtil.isPalindrome(operation.replace(" ", "").toCharArray()) && operation.length() > 3){
+            else if (mainGeneralUtil.isPalindrome(operation.replace(" ", "").toCharArray()) && operation.length() > 3){
                 println("Nice palindrome.");
             }
 
@@ -2059,8 +2059,8 @@ public class CyderMain{
 
             else if (hasWord("test") && hasWord("notify")) {
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("test notify one");
+                mainGeneralUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("test notify one");
                 println("Enter notify string");
             }
 
@@ -2098,26 +2098,26 @@ public class CyderMain{
                     && (!hasWord("print") &&  !hasWord("bletchy") && !hasWord("echo") &&
                     !hasWord("youtube") && !hasWord("google") && !hasWord("wikipedia") &&
                     !hasWord("synonym") && !hasWord("define"))) {
-                int choice = mainUtil.randInt(1,6);
+                int choice = mainGeneralUtil.randInt(1,6);
 
                 switch(choice) {
                     case 1:
-                        println("Hello " + mainUtil.getUsername() + ".");
+                        println("Hello " + mainGeneralUtil.getUsername() + ".");
                         break;
                     case 2:
-                        println("Hi " + mainUtil.getUsername() + "." );
+                        println("Hi " + mainGeneralUtil.getUsername() + "." );
                         break;
                     case 3:
-                        println("What's up " + mainUtil.getUsername() + "?");
+                        println("What's up " + mainGeneralUtil.getUsername() + "?");
                         break;
                     case 4:
-                        println("How are you doing, " + mainUtil.getUsername() + "?");
+                        println("How are you doing, " + mainGeneralUtil.getUsername() + "?");
                         break;
                     case 5:
-                        println("Greetings, human " + mainUtil.getUsername() + ".");
+                        println("Greetings, human " + mainGeneralUtil.getUsername() + ".");
                         break;
                     case 6:
-                        println("Hi, " + mainUtil.getUsername() + ", I'm Cyder.");
+                        println("Hi, " + mainGeneralUtil.getUsername() + ", I'm Cyder.");
                         break;
                 }
             }
@@ -2127,7 +2127,7 @@ public class CyderMain{
             }
 
             else if (hasWord("time") && hasWord("what")) {
-                println(mainUtil.weatherTime());
+                println(mainGeneralUtil.weatherTime());
             }
 
             else if (eic("die") || (hasWord("roll") && hasWord("die"))) {
@@ -2171,8 +2171,8 @@ public class CyderMain{
 
             else if (hasWord("url")) {
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("url");
+                mainGeneralUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("url");
                 println("Enter your desired URL");
             }
 
@@ -2181,7 +2181,7 @@ public class CyderMain{
             }
 
             else if (has("click me")) {
-                mainUtil.clickMe();
+                mainGeneralUtil.clickMe();
             }
 
             else if ((hasWord("how") && hasWord("are") && hasWord("you")) && !hasWord("age") && !hasWord("old")) {
@@ -2217,14 +2217,14 @@ public class CyderMain{
             }
 
             else if (hasWord("reset") && hasWord("mouse")) {
-                mainUtil.resetMouse();
+                mainGeneralUtil.resetMouse();
             }
 
             else if (eic("logoff")) {
                println("Are you sure you want to log off your computer?\nThis is not Cyder we are talking about (Enter yes/no)");
-               mainUtil.setUserInputDesc("logoff");
+               mainGeneralUtil.setUserInputDesc("logoff");
                inputField.requestFocus();
-               mainUtil.setUserInputMode(true);
+               mainGeneralUtil.setUserInputMode(true);
             }
 
             else if (eic("clc") || eic("cls") || eic("clear") || (hasWord("clear") && hasWord("screen"))) {
@@ -2260,11 +2260,11 @@ public class CyderMain{
             }
 
             else if (hasWord("toystory")) {
-                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\TheClaw.mp3");
+                mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\TheClaw.mp3");
             }
 
             else if (has("stop") && has("music")) {
-                mainUtil.stopMusic();
+                mainGeneralUtil.stopMusic();
             }
 
             else if (hasWord("reset") && hasWord("clipboard")) {
@@ -2275,36 +2275,36 @@ public class CyderMain{
             }
 
             else if ((has("graphing") && has("calculator")) || has("desmos") || has("graphing")) {
-                mainUtil.internetConnect("https://www.desmos.com/calculator");
+                mainGeneralUtil.internetConnect("https://www.desmos.com/calculator");
             }
 
             else if (has("airHeads xtremes") || has("candy")) {
-                mainUtil.internetConnect("http://airheads.com/candy#xtremes");
+                mainGeneralUtil.internetConnect("http://airheads.com/candy#xtremes");
             }
 
             else if (hasWord("prime")) {
                 println("Enter any positive integer and I will tell you if it's prime and what it's divisible by.");
-                mainUtil.setUserInputDesc("prime");
+                mainGeneralUtil.setUserInputDesc("prime");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputMode(true);
             }
 
             else if (hasWord("youtube") && (!has("word search") && !has("mode") && !has("random") && !has("thumbnail"))) {
                 println("What would you like to search YouTube for?");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("youtube");
+                mainGeneralUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("youtube");
             }
 
             else if ((hasWord("google") && !has("mode") && !has("stupid"))) {
                 println("What would you like to Google?");
-                mainUtil.setUserInputDesc("google");
+                mainGeneralUtil.setUserInputDesc("google");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputMode(true);
             }
 
             else if (eic("404")) {
-                mainUtil.internetConnect("http://google.com/=");
+                mainGeneralUtil.internetConnect("http://google.com/=");
             }
 
             else if (hasWord("calculator") && !has("graphing")) {
@@ -2331,7 +2331,7 @@ public class CyderMain{
             }
 
             else if (hasWord("triangle")) {
-                mainUtil.internetConnect("https://www.triangle-calculator.com/");
+                mainGeneralUtil.internetConnect("https://www.triangle-calculator.com/");
             }
 
             else if (hasWord("why")) {
@@ -2348,7 +2348,7 @@ public class CyderMain{
 
             else if (eic("dbquit")) {
                 println("Debug mode exited");
-                mainUtil.setDebugMode(false);
+                mainGeneralUtil.setDebugMode(false);
             }
 
             else if (hasWord("luck")) {
@@ -2373,9 +2373,9 @@ public class CyderMain{
 
             else if (has("math") && !eic("mathsh")) {
                 println("What math operation would you like to perform?");
-                mainUtil.setUserInputDesc("math");
+                mainGeneralUtil.setUserInputDesc("math");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputMode(true);
             }
 
             else if (eic("nathan")) {
@@ -2385,13 +2385,13 @@ public class CyderMain{
             else if (has("always on top mode")) {
                 if (hasWord("true")) {
                     println("Always on top mode has been set to true.");
-                    mainUtil.setAlwaysOnTopMode(true);
+                    mainGeneralUtil.setAlwaysOnTopMode(true);
                     consoleFrame.setAlwaysOnTop(true);
                 }
 
                 else if (hasWord("false")) {
                     println("Always on top mode has been set to false.");
-                    mainUtil.setAlwaysOnTopMode(false);
+                    mainGeneralUtil.setAlwaysOnTopMode(false);
                     consoleFrame.setAlwaysOnTop(false);
                 }
 
@@ -2401,8 +2401,8 @@ public class CyderMain{
             }
 
             else if ((eic("error") || eic("errors")) && !hasWord("throw")) {
-                if (mainUtil.getDebugMode()) {
-                    File WhereItIs = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Throws\\");
+                if (mainGeneralUtil.getDebugMode()) {
+                    File WhereItIs = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Throws\\");
                     Desktop.getDesktop().open(WhereItIs);
                 }
 
@@ -2416,15 +2416,15 @@ public class CyderMain{
             }
 
             else if (hasWord("light") && hasWord("saber")) {
-                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\Lightsaber.mp3");
+                mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\Lightsaber.mp3");
             }
 
             else if (hasWord("xbox")) {
-                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\xbox.mp3");
+                mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\xbox.mp3");
             }
 
             else if (has("star") && has("trek")) {
-                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\StarTrek.mp3");
+                mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\StarTrek.mp3");
             }
 
             else if (eic("cmd") || (hasWord("command") && hasWord("prompt"))) {
@@ -2433,7 +2433,7 @@ public class CyderMain{
             }
 
             else if (hasWord("shakespeare")) {
-                int rand = mainUtil.randInt(1,2);
+                int rand = mainGeneralUtil.randInt(1,2);
 
                 if (rand == 1) {
                     println("Glamis hath murdered sleep, and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
@@ -2446,14 +2446,14 @@ public class CyderMain{
             }
 
             else if (hasWord("windows")) {
-                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\windows.mp3");
+                mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\windows.mp3");
             }
 
             else if (hasWord("binary")) {
                 println("Enter a decimal number to be converted to binary.");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("binary");
+                mainGeneralUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("binary");
             }
 
             else if (hasWord("pizza")) {
@@ -2475,32 +2475,32 @@ public class CyderMain{
             else if (firstWord.equalsIgnoreCase("define")) {
                 String Define = operation.toLowerCase().replace("'", "").replace(" ", "+").replace("define", "");
 
-                mainUtil.internetConnect("http://www.dictionary.com/browse/" + Define + "?s=t");
+                mainGeneralUtil.internetConnect("http://www.dictionary.com/browse/" + Define + "?s=t");
             }
 
             else if (hasWord("wikipedia")) {
                 println("What would you like to look up on Wikipedia?");
-                mainUtil.setUserInputDesc("wiki");
+                mainGeneralUtil.setUserInputDesc("wiki");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputMode(true);
             }
 
             else if (firstWord.equalsIgnoreCase("synonym")) {
                 String Syn = operation.replace("synonym","");
                 Syn = Syn.replace("'", "").replace(" ", "+");
-                mainUtil.internetConnect("http://www.thesaurus.com//browse//" + Syn);
+                mainGeneralUtil.internetConnect("http://www.thesaurus.com//browse//" + Syn);
             }
 
             else if (hasWord("board")) {
-                mainUtil.internetConnect("http://gameninja.com//games//fly-squirrel-fly.html");
+                mainGeneralUtil.internetConnect("http://gameninja.com//games//fly-squirrel-fly.html");
             }
 
             else if (hasWord("open cd")) {
-                mainUtil.openCD("D:\\");
+                mainGeneralUtil.openCD("D:\\");
             }
 
             else if (hasWord("close cd")) {
-                mainUtil.closeCD("D:\\");
+                mainGeneralUtil.closeCD("D:\\");
             }
 
             else if (hasWord("font") && !hasWord("reset")) {
@@ -2508,8 +2508,8 @@ public class CyderMain{
             }
 
             else if (hasWord("font") && hasWord("reset")) {
-                inputField.setFont(mainUtil.defaultFont);
-                outputArea.setFont(mainUtil.defaultFont);
+                inputField.setFont(mainGeneralUtil.defaultFont);
+                outputArea.setFont(mainGeneralUtil.defaultFont);
                 println("The font has been reset.");
             }
 
@@ -2518,8 +2518,8 @@ public class CyderMain{
             }
 
             else if (hasWord("reset") && hasWord("color")) {
-                outputArea.setForeground(mainUtil.vanila);
-                inputField.setForeground(mainUtil.vanila);
+                outputArea.setForeground(mainGeneralUtil.vanila);
+                inputField.setForeground(mainGeneralUtil.vanila);
                 println("The text color has been reset.");
             }
 
@@ -2559,16 +2559,16 @@ public class CyderMain{
             else if (hasWord("random") && hasWord("youtube")) {
                 println("How many isntances of the script do you want to start?");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("random youtube");
+                mainGeneralUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("random youtube");
             }
 
             else if (hasWord("arduino")) {
-                mainUtil.internetConnect("https://www.arduino.cc/");
+                mainGeneralUtil.internetConnect("https://www.arduino.cc/");
             }
 
             else if (has("rasberry pi")) {
-                mainUtil.internetConnect("https://www.raspberrypi.org/");
+                mainGeneralUtil.internetConnect("https://www.raspberrypi.org/");
             }
 
             else if (eic("&&")) {
@@ -2581,16 +2581,16 @@ public class CyderMain{
 
             else if (eic("youtube word search")) {
                 println("Enter the desired word you would like to find in a YouTube URL");
-                mainUtil.setUserInputDesc("youtube word search");
+                mainGeneralUtil.setUserInputDesc("youtube word search");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputMode(true);
             }
 
             else if (hasWord("disco")) {
                 println("How many iterations would you like to disco for? (Enter a positive integer)");
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputMode(true);
                 inputField.requestFocus();
-                mainUtil.setUserInputDesc("disco");
+                mainGeneralUtil.setUserInputDesc("disco");
             }
 
             else if (hasWord("game")) {
@@ -2613,7 +2613,7 @@ public class CyderMain{
             }
 
             else if (hasWord("java") && hasWord("properties")) {
-                mainUtil.javaProperties();
+                mainGeneralUtil.javaProperties();
             }
 
             else if (eic("preferences") || eic("prefs")) {
@@ -2621,12 +2621,12 @@ public class CyderMain{
             }
 
             else if (hasWord("story") && hasWord("tell")) {
-                println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + mainUtil.getUsername() + " started talking to Cyder."
+                println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + mainGeneralUtil.getUsername() + " started talking to Cyder."
                         + " It was at this moment that Cyder knew its day had been ruined.");
             }
 
             else if (eic("hey")) {
-                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\heyya.mp3");
+                mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\heyya.mp3");
             }
 
             else if (eic("panic")) {
@@ -2646,11 +2646,11 @@ public class CyderMain{
             }
 
             else if (hasWord("I") && hasWord("love")) {
-                println("Sorry, " + mainUtil.getUsername() + ", but I don't understand human emotions or affections.");
+                println("Sorry, " + mainGeneralUtil.getUsername() + ", but I don't understand human emotions or affections.");
             }
 
             else if (hasWord("vexento")) {
-                mainUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
+                mainGeneralUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
             }
 
             else if (hasWord("minecraft")) {
@@ -2658,17 +2658,17 @@ public class CyderMain{
             }
 
             else if (eic("loop")) {
-                println("mainUtil.handle(\"loop\");");
+                println("mainGeneralUtil.handle(\"loop\");");
             }
 
             else if (hasWord("cyder") && has("dir")) {
-                if (mainUtil.getDebugMode()) {
+                if (mainGeneralUtil.getDebugMode()) {
                     String CurrentDir = System.getProperty("user.dir");
-                    mainUtil.openFile(CurrentDir);
+                    mainGeneralUtil.openFile(CurrentDir);
                 }
 
                 else {
-                    println("Sorry, " + mainUtil.getUsername() + ", but you don't have permission to do that.");
+                    println("Sorry, " + mainGeneralUtil.getUsername() + ", but you don't have permission to do that.");
                 }
             }
 
@@ -2678,7 +2678,7 @@ public class CyderMain{
             }
 
             else if (hasWord("note") || hasWord("notes")) {
-                userNotes = new Notes(mainUtil.getUserUUID());
+                userNotes = new Notes(mainGeneralUtil.getUserUUID());
             }
 
             else if ((hasWord("youtube") && hasWord("thumbnail")) || (hasWord("yt") && hasWord("thumb"))) {
@@ -2686,7 +2686,7 @@ public class CyderMain{
             }
 
             else if (hasWord("papers") && hasWord("please")) {
-                mainUtil.internetConnect("http://papersplea.se/");
+                mainGeneralUtil.internetConnect("http://papersplea.se/");
             }
 
             else if (eic("java")) {
@@ -2698,7 +2698,7 @@ public class CyderMain{
             }
 
             else if (hasWord("coffee")) {
-                mainUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
+                mainGeneralUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
             }
 
             else if (hasWord("ip")) {
@@ -2717,44 +2717,44 @@ public class CyderMain{
 
             else if(hasWord("computer") && hasWord("properties")) {
                 println("This may take a second, stand by...");
-                mainUtil.computerProperties();
+                mainGeneralUtil.computerProperties();
             }
 
             else if (hasWord("system") && hasWord("properties")) {
-                mainUtil.systemProperties();
+                mainGeneralUtil.systemProperties();
             }
 
             else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
-                pixelateFile = mainUtil.getFile();
+                pixelateFile = mainGeneralUtil.getFile();
 
                 if (!pixelateFile.getName().endsWith(".png")) {
-                    println("Sorry, " + mainUtil.getUsername() + ", but this feature only supports PNG images");
+                    println("Sorry, " + mainGeneralUtil.getUsername() + ", but this feature only supports PNG images");
                 }
 
                 else if (pixelateFile != null) {
                     println("Enter your pixel size (Enter a positive integer)");
-                    mainUtil.setUserInputDesc("pixelate");
+                    mainGeneralUtil.setUserInputDesc("pixelate");
                     inputField.requestFocus();
-                    mainUtil.setUserInputMode(true);
+                    mainGeneralUtil.setUserInputMode(true);
                 }
             }
 
             else if (hasWord("donuts")) {
-                mainUtil.internetConnect("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
+                mainGeneralUtil.internetConnect("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
             }
 
             else if (hasWord("anagram")) {
                 println("This function will tell you if two"
                         + "words are anagrams of each other."
                         + " Enter your first word");
-                mainUtil.setUserInputDesc("anagram1");
+                mainGeneralUtil.setUserInputDesc("anagram1");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputMode(true);
 
             }
 
             else if (eic("controlc")) {
-                mainUtil.setUserInputMode(false);
+                mainGeneralUtil.setUserInputMode(false);
                 killAllYoutube();
                 stringUtil.killBletchy();
                 println("Escaped");
@@ -2763,29 +2763,29 @@ public class CyderMain{
             else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
                 println("Enter your word to be alphabetically rearranged");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("alphabetize");
+                mainGeneralUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("alphabetize");
             }
 
             else if (hasWord("mp3") || hasWord("music")) {
-                mainUtil.mp3("", mainUtil.getUsername(), mainUtil.getUserUUID());
+                mainGeneralUtil.mp3("", mainGeneralUtil.getUsername(), mainGeneralUtil.getUserUUID());
             }
 
             else if (hasWord("bai")) {
-                mainUtil.internetConnect("http://www.drinkbai.com");
+                mainGeneralUtil.internetConnect("http://www.drinkbai.com");
             }
 
             else if (has("occam") && hasWord("razor")) {
-                mainUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
+                mainGeneralUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
             }
 
             else if (hasWord("cyder") && (hasWord("picture") ||hasWord("image"))) {
-                if (mainUtil.getDebugMode()) {
-                    mainUtil.openFile("src\\com\\cyder\\io\\pictures");
+                if (mainGeneralUtil.getDebugMode()) {
+                    mainGeneralUtil.openFile("src\\com\\cyder\\io\\pictures");
                 }
 
                 else {
-                    println("Sorry, " + mainUtil.getUsername() + ", but you do not have permission to access that.");
+                    println("Sorry, " + mainGeneralUtil.getUsername() + ", but you do not have permission to access that.");
                 }
             }
 
@@ -2796,8 +2796,8 @@ public class CyderMain{
             }
 
             else if (hasWord("location") || (hasWord("where") && hasWord("am") && hasWord("i"))) {
-                println("You are currently in " + mainUtil.getUserCity() + ", " +
-                        mainUtil.getUserState() + " and your Internet Service Provider is " + mainUtil.getUserISP());
+                println("You are currently in " + mainGeneralUtil.getUserCity() + ", " +
+                        mainGeneralUtil.getUserState() + " and your Internet Service Provider is " + mainGeneralUtil.getUserISP());
             }
 
             else if (hasWord("fibonacci")) {
@@ -2809,7 +2809,7 @@ public class CyderMain{
             }
 
             else if (hasWord("throw") && hasWord("error")) {
-                throw new CyderException("Error thrown on " + mainUtil.userTime());
+                throw new CyderException("Error thrown on " + mainGeneralUtil.userTime());
             }
 
             else if (hasWord("asdf")) {
@@ -2825,7 +2825,7 @@ public class CyderMain{
             }
 
             else if (eic("about:blank")) {
-                mainUtil.internetConnect("about:blank");
+                mainGeneralUtil.internetConnect("about:blank");
             }
 
             else if (hasWord("weather")) {
@@ -2839,16 +2839,16 @@ public class CyderMain{
             else if (hasWord("stop") && hasWord("script")) {
                 println("YouTube scripts have been killed.");
                 killAllYoutube();
-                consoleFrame.setTitle(mainUtil.getCyderVer() + " [" + mainUtil.getUsername() + "]");
+                consoleFrame.setTitle(mainGeneralUtil.getCyderVer() + " [" + mainGeneralUtil.getUsername() + "]");
             }
 
             else if (hasWord("debug") && hasWord("menu")) {
-                if (mainUtil.getDebugMode()) {
-                    mainUtil.debugMenu(outputArea);
+                if (mainGeneralUtil.getDebugMode()) {
+                    mainGeneralUtil.debugMenu(outputArea);
                 }
 
                 else {
-                    println("Sorry, " + mainUtil.getUsername() + ", but you do not have permission to use that feature.");
+                    println("Sorry, " + mainGeneralUtil.getUsername() + ", but you do not have permission to use that feature.");
                 }
             }
 
@@ -2858,11 +2858,11 @@ public class CyderMain{
             }
 
             else if (hasWord("rgb") || hasWord("hex")) {
-                mainUtil.colorConverter();
+                mainGeneralUtil.colorConverter();
             }
 
             else if (hasWord("dance")) {
-                mainUtil.dance(consoleFrame);
+                mainGeneralUtil.dance(consoleFrame);
             }
 
             else if (hasWord("clear") && (
@@ -2883,9 +2883,9 @@ public class CyderMain{
                             hasWord("account"))) {
 
                 println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputMode(true);
                 inputField.requestFocus();
-                mainUtil.setUserInputDesc("deleteuser");
+                mainGeneralUtil.setUserInputDesc("deleteuser");
             }
 
             else if ((hasWord("create") || hasWord("new")) &&
@@ -2895,8 +2895,8 @@ public class CyderMain{
 
             else if (hasWord("pixelate") && hasWord("background")) {
                 println("Enter your pixel size (a positive integer)");
-                mainUtil.setUserInputDesc("pixelatebackground");
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("pixelatebackground");
+                mainGeneralUtil.setUserInputMode(true);
                 inputField.requestFocus();
             }
 
@@ -2916,11 +2916,11 @@ public class CyderMain{
             }
 
             else if (eic("logic")) {
-                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\commando.mp3");
+                mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\commando.mp3");
             }
 
             else if (eic("1-800-273-8255") || eic("18002738255")) {
-                mainUtil.playMusic("src\\com\\cyder\\io\\audio\\1800.mp3");
+                mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\1800.mp3");
             }
 
             else if (hasWord("resize") && (hasWord("image") || hasWord("picture"))) {
@@ -2932,7 +2932,7 @@ public class CyderMain{
             }
 
             else if (hasWord("lines") && hasWord("code")) {
-                println("Total lines of code: " + mainUtil.totalCodeLines(new File(System.getProperty("user.dir"))));
+                println("Total lines of code: " + mainGeneralUtil.totalCodeLines(new File(System.getProperty("user.dir"))));
             }
 
             else if (hasWord("threads")) {
@@ -2955,7 +2955,7 @@ public class CyderMain{
             }
 
             else if (hasWord("logout")) {
-                mainUtil.closeAnimation(consoleFrame);
+                mainGeneralUtil.closeAnimation(consoleFrame);
                 login(false);
             }
 
@@ -2964,24 +2964,24 @@ public class CyderMain{
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
-                if (mainUtil.getDebugMode()) {
-                    mainUtil.wipeErrors();
+                if (mainGeneralUtil.getDebugMode()) {
+                    mainGeneralUtil.wipeErrors();
 
                     println("Deleted all user erorrs");
                 }
 
                 else
-                    println("Sorry, " + mainUtil.getUsername() + ", but you don't have permission to do that.");
+                    println("Sorry, " + mainGeneralUtil.getUsername() + ", but you don't have permission to do that.");
             }
 
-            else if (!mainUtil.getHandledMath()){
-                println("Sorry, " + mainUtil.getUsername() + ", but I don't recognize that command." +
+            else if (!mainGeneralUtil.getHandledMath()){
+                println("Sorry, " + mainGeneralUtil.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");
             }
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3012,63 +3012,63 @@ public class CyderMain{
 
                 if (mathop.equalsIgnoreCase("abs")) {
                     println(Math.abs(param1));
-                    mainUtil.setHandledMath(true);
+                    mainGeneralUtil.setHandledMath(true);
                 }
 
                 else if (mathop.equalsIgnoreCase("ceil")) {
                     println(Math.ceil(param1));
-                    mainUtil.setHandledMath(true);
+                    mainGeneralUtil.setHandledMath(true);
                 }
 
                 else if (mathop.equalsIgnoreCase("floor")) {
                     println(Math.floor(param1));
-                    mainUtil.setHandledMath(true);
+                    mainGeneralUtil.setHandledMath(true);
                 }
 
                 else if (mathop.equalsIgnoreCase("log")) {
                     println(Math.log(param1));
-                    mainUtil.setHandledMath(true);
+                    mainGeneralUtil.setHandledMath(true);
                 }
 
                 else if (mathop.equalsIgnoreCase("log10")) {
                     println(Math.log10(param1));
-                    mainUtil.setHandledMath(true);
+                    mainGeneralUtil.setHandledMath(true);
                 }
 
                 else if (mathop.equalsIgnoreCase("max")) {
                     println(Math.max(param1,param2));
-                    mainUtil.setHandledMath(true);
+                    mainGeneralUtil.setHandledMath(true);
                 }
 
                 else if (mathop.equalsIgnoreCase("min")) {
                     println(Math.min(param1,param2));
-                    mainUtil.setHandledMath(true);
+                    mainGeneralUtil.setHandledMath(true);
                 }
 
                 else if (mathop.equalsIgnoreCase("pow")) {
                     println(Math.pow(param1,param2));
-                    mainUtil.setHandledMath(true);
+                    mainGeneralUtil.setHandledMath(true);
                 }
 
                 else if (mathop.equalsIgnoreCase("round")) {
                     println(Math.round(param1));
-                    mainUtil.setHandledMath(true);
+                    mainGeneralUtil.setHandledMath(true);
                 }
 
                 else if (mathop.equalsIgnoreCase("sqrt")) {
                     println(Math.sqrt(param1));
-                    mainUtil.setHandledMath(true);
+                    mainGeneralUtil.setHandledMath(true);
                 }
 
                 else if (mathop.equalsIgnoreCase("convert2")) {
-                    println(mainUtil.toBinary((int)(param1)));
-                    mainUtil.setHandledMath(true);
+                    println(mainGeneralUtil.toBinary((int)(param1)));
+                    mainGeneralUtil.setHandledMath(true);
                 }
             }
         }
 
         catch(Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3089,7 +3089,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3101,7 +3101,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3113,7 +3113,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3125,7 +3125,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3137,7 +3137,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3149,7 +3149,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3161,7 +3161,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3173,7 +3173,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3185,7 +3185,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3197,7 +3197,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3209,7 +3209,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3221,7 +3221,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3233,7 +3233,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3245,7 +3245,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3257,7 +3257,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3269,7 +3269,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
@@ -3297,10 +3297,10 @@ public class CyderMain{
     //todo move to separate handler
     private void logToDo(String input) {
         try {
-            if (input != null && !input.equals("") && !mainUtil.filter(input) && input.length() > 6 && !mainUtil.filter(input)) {
+            if (input != null && !input.equals("") && !mainGeneralUtil.filter(input) && input.length() > 6 && !mainGeneralUtil.filter(input)) {
                 BufferedWriter sugWriter = new BufferedWriter(new FileWriter("src\\com\\cyder\\io\\text\\add.txt", true));
 
-                sugWriter.write("User " + mainUtil.getUsername() + " at " + mainUtil.weatherThreadTime() + " made the suggestion: ");
+                sugWriter.write("User " + mainGeneralUtil.getUsername() + " at " + mainGeneralUtil.weatherThreadTime() + " made the suggestion: ");
                 sugWriter.write(System.getProperty("line.separator"));
 
                 sugWriter.write(input);
@@ -3317,7 +3317,7 @@ public class CyderMain{
         }
 
         catch (Exception ex) {
-            mainUtil.handle(ex);
+            mainGeneralUtil.handle(ex);
         }
     }
 
@@ -3332,44 +3332,44 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
     private void changeUsername(String newName) {
         try {
-            mainUtil.readUserData();
-            mainUtil.writeUserData("name",newName);
+            mainGeneralUtil.readUserData();
+            mainGeneralUtil.writeUserData("name",newName);
 
-            mainUtil.setUsername(newName);
+            mainGeneralUtil.setUsername(newName);
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
     private void changePassword(char[] newPassword) {
         try {
-            mainUtil.readUserData();
-            mainUtil.writeUserData("password",mainUtil.toHexString(mainUtil.getSHA(newPassword)));
+            mainGeneralUtil.readUserData();
+            mainGeneralUtil.writeUserData("password", mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(newPassword)));
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
     //todo make a cyderframe
     public void editUser() {
         if (editUserFrame != null)
-            mainUtil.closeAnimation(editUserFrame);
+            mainGeneralUtil.closeAnimation(editUserFrame);
 
         editUserFrame = new JFrame();
         editUserFrame.setResizable(false);
         editUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         editUserFrame.setResizable(false);
-        editUserFrame.setIconImage(mainUtil.getCyderIcon().getImage());
+        editUserFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
         editUserFrame.setTitle("Edit User");
 
         JPanel ParentPanel = new JPanel();
@@ -3377,7 +3377,7 @@ public class CyderMain{
         ParentPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         JLabel BackgroundLabel = new JLabel("Backgrounds", SwingConstants.CENTER);
-        BackgroundLabel.setFont(mainUtil.weatherFontSmall);
+        BackgroundLabel.setFont(mainGeneralUtil.weatherFontSmall);
 
         JPanel LabelPanel = new JPanel();
         LabelPanel.add(BackgroundLabel);
@@ -3389,9 +3389,9 @@ public class CyderMain{
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         backgroundListScroll.setSize(400, 400);
-        backgroundListScroll.setBackground(mainUtil.vanila);
-        backgroundListScroll.setFont(mainUtil.weatherFontBig);
-        backgroundListScroll.setThumbColor(mainUtil.regularRed);
+        backgroundListScroll.setBackground(mainGeneralUtil.vanila);
+        backgroundListScroll.setFont(mainGeneralUtil.weatherFontBig);
+        backgroundListScroll.setThumbColor(mainGeneralUtil.regularRed);
         backgroundSelectionList.setBackground(new Color(0,0,0,0));
         backgroundListScroll.getViewport().setBackground(new Color(0,0,0,0));
 
@@ -3400,17 +3400,17 @@ public class CyderMain{
         ButtonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         CyderButton addBackground = new CyderButton("Add Background");
-        addBackground.setBorder(new LineBorder(mainUtil.navy,5,false));
-        addBackground.setColors(mainUtil.regularRed);
+        addBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        addBackground.setColors(mainGeneralUtil.regularRed);
         ButtonPanel.add(addBackground);
         addBackground.setFocusPainted(false);
-        addBackground.setBackground(mainUtil.regularRed);
+        addBackground.setBackground(mainGeneralUtil.regularRed);
         addBackground.addActionListener(e -> {
             try {
-                File AddBackground = mainUtil.getFile();
+                File AddBackground = mainGeneralUtil.getFile();
 
                 if (AddBackground != null && AddBackground.getName().endsWith(".png")) {
-                    File Destination = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds\\" + AddBackground.getName());
+                    File Destination = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Backgrounds\\" + AddBackground.getName());
                     Files.copy(new File(AddBackground.getAbsolutePath()).toPath(), Destination.toPath());
                     initializeBackgroundsList();
                     backgroundListScroll.setViewportView(backgroundSelectionList);
@@ -3419,18 +3419,18 @@ public class CyderMain{
             }
 
             catch (Exception exc) {
-                mainUtil.handle(exc);
+                mainGeneralUtil.handle(exc);
             }
         });
-        addBackground.setFont(mainUtil.weatherFontSmall);
+        addBackground.setFont(mainGeneralUtil.weatherFontSmall);
 
         openBackground = new CyderButton("Open Background");
-        openBackground.setBorder(new LineBorder(mainUtil.navy,5,false));
-        openBackground.setColors(mainUtil.regularRed);
+        openBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        openBackground.setColors(mainGeneralUtil.regularRed);
         ButtonPanel.add(openBackground);
         openBackground.setFocusPainted(false);
-        openBackground.setBackground(mainUtil.regularRed);
-        openBackground.setFont(mainUtil.weatherFontSmall);
+        openBackground.setBackground(mainGeneralUtil.regularRed);
+        openBackground.setFont(mainGeneralUtil.weatherFontSmall);
         openBackground.addActionListener(e -> {
             List<?> ClickedSelectionList = backgroundSelectionList.getSelectedValuesList();
 
@@ -3454,27 +3454,27 @@ public class CyderMain{
         });
 
         CyderButton deleteBackground = new CyderButton("Delete Background");
-        deleteBackground.setBorder(new LineBorder(mainUtil.navy,5,false));
-        deleteBackground.setColors(mainUtil.regularRed);
+        deleteBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        deleteBackground.setColors(mainGeneralUtil.regularRed);
         ButtonPanel.add(deleteBackground);
         deleteBackground.addActionListener(e -> {
-            if (mainUtil.getValidBackgroundPaths().length == 1) {
+            if (mainGeneralUtil.getValidBackgroundPaths().length == 1) {
                 println("Sorry, but that is your only background. Try adding a different one and then " +
-                        "removing it if you still don't want " + mainUtil.getValidBackgroundPaths()[0].getName() + ".");
+                        "removing it if you still don't want " + mainGeneralUtil.getValidBackgroundPaths()[0].getName() + ".");
             }
 
             else if (!backgroundSelectionList.getSelectedValuesList().isEmpty()){
                 println("You are about to delete a background file. This action cannot be undone."
                         + " Are you sure you wish to continue? (yes/no)");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
-                mainUtil.setUserInputDesc("deletebackground");
-                mainUtil.initBackgrounds();
+                mainGeneralUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputDesc("deletebackground");
+                mainGeneralUtil.initBackgrounds();
             }
         });
 
-        deleteBackground.setBackground(mainUtil.regularRed);
-        deleteBackground.setFont(mainUtil.weatherFontSmall);
+        deleteBackground.setBackground(mainGeneralUtil.regularRed);
+        deleteBackground.setFont(mainGeneralUtil.weatherFontSmall);
 
         JPanel BackgroundsPanel = new JPanel();
         BackgroundsPanel.setLayout(new BoxLayout(BackgroundsPanel, BoxLayout.Y_AXIS));
@@ -3482,11 +3482,11 @@ public class CyderMain{
         BackgroundsPanel.add(backgroundListScroll);
         BackgroundsPanel.add(ButtonPanel);
         BackgroundsPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(mainUtil.navy,5,false)));
+                new LineBorder(mainGeneralUtil.navy,5,false)));
         ParentPanel.add(BackgroundsPanel);
 
         JLabel MusicLabel = new JLabel("Music", SwingConstants.CENTER);
-        MusicLabel.setFont(mainUtil.weatherFontSmall);
+        MusicLabel.setFont(mainGeneralUtil.weatherFontSmall);
 
         JPanel MusicLabelPanel = new JPanel();
         MusicLabelPanel.add(MusicLabel);
@@ -3499,10 +3499,10 @@ public class CyderMain{
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        musicListScroll.setThumbColor(mainUtil.regularRed);
+        musicListScroll.setThumbColor(mainGeneralUtil.regularRed);
         musicListScroll.setSize(400, 400);
-        musicListScroll.setBackground(mainUtil.vanila);
-        musicListScroll.setFont(mainUtil.weatherFontSmall);
+        musicListScroll.setBackground(mainGeneralUtil.vanila);
+        musicListScroll.setFont(mainGeneralUtil.weatherFontSmall);
         musicSelectionList.setBackground(new Color(0,0,0,0));
         musicListScroll.getViewport().setBackground(new Color(0,0,0,0));
 
@@ -3510,17 +3510,17 @@ public class CyderMain{
         BottomButtonPanel.setLayout(new GridLayout(1, 3, 5, 5));
 
         addMusic = new CyderButton("Add Music");
-        addMusic.setBorder(new LineBorder(mainUtil.navy,5,false));
-        addMusic.setBackground(mainUtil.regularRed);
-        addMusic.setColors(mainUtil.regularRed);
-        addMusic.setFont(mainUtil.weatherFontSmall);
+        addMusic.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        addMusic.setBackground(mainGeneralUtil.regularRed);
+        addMusic.setColors(mainGeneralUtil.regularRed);
+        addMusic.setFont(mainGeneralUtil.weatherFontSmall);
         BottomButtonPanel.add(addMusic);
         addMusic.addActionListener(e -> {
             try {
-                File AddMusic = mainUtil.getFile();
+                File AddMusic = mainGeneralUtil.getFile();
 
                 if (AddMusic != null && AddMusic.getName().endsWith(".mp3")) {
-                    File Destination = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music\\" + AddMusic.getName());
+                    File Destination = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Music\\" + AddMusic.getName());
                     Files.copy(new File(AddMusic.getAbsolutePath()).toPath(), Destination.toPath());
                     initializeMusicList();
                     musicListScroll.setViewportView(musicSelectionList);
@@ -3529,18 +3529,18 @@ public class CyderMain{
             }
 
             catch (Exception exc) {
-                mainUtil.handle(exc);
+                mainGeneralUtil.handle(exc);
             }
         });
 
         openMusic = new CyderButton("Open Music");
-        openMusic.setColors(mainUtil.regularRed);
-        openMusic.setBorder(new LineBorder(mainUtil.navy,5,false));
-        openMusic.setBackground(mainUtil.regularRed);
-        openMusic.setFont(mainUtil.weatherFontSmall);
+        openMusic.setColors(mainGeneralUtil.regularRed);
+        openMusic.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        openMusic.setBackground(mainGeneralUtil.regularRed);
+        openMusic.setFont(mainGeneralUtil.weatherFontSmall);
         BottomButtonPanel.add(openMusic);
         openMusic.setFocusPainted(false);
-        openMusic.setBackground(mainUtil.regularRed);
+        openMusic.setBackground(mainGeneralUtil.regularRed);
         openMusic.addActionListener(e -> {
             List<?> ClickedSelectionList = musicSelectionList.getSelectedValuesList();
 
@@ -3557,25 +3557,25 @@ public class CyderMain{
                     }
                 }
 
-                mainUtil.mp3(ClickedSelectionPath.getAbsolutePath(), mainUtil.getUsername(), mainUtil.getUserUUID());
+                mainGeneralUtil.mp3(ClickedSelectionPath.getAbsolutePath(), mainGeneralUtil.getUsername(), mainGeneralUtil.getUserUUID());
             }
         });
 
         CyderButton deleteMusic = new CyderButton("Delete Music");
-        deleteMusic.setColors(mainUtil.regularRed);
-        deleteMusic.setBorder(new LineBorder(mainUtil.navy,5,false));
-        deleteMusic.setBackground(mainUtil.regularRed);
-        deleteMusic.setFont(mainUtil.weatherFontSmall);
+        deleteMusic.setColors(mainGeneralUtil.regularRed);
+        deleteMusic.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        deleteMusic.setBackground(mainGeneralUtil.regularRed);
+        deleteMusic.setFont(mainGeneralUtil.weatherFontSmall);
         BottomButtonPanel.add(deleteMusic);
         deleteMusic.setFocusPainted(false);
-        deleteMusic.setBackground(mainUtil.regularRed);
+        deleteMusic.setBackground(mainGeneralUtil.regularRed);
         deleteMusic.addActionListener(e -> {
             if (!musicSelectionList.getSelectedValuesList().isEmpty()) {
                 println("You are about to delete a music file. This action cannot be undone."
                         + " Are you sure you wish to continue? (yes/no)");
-                mainUtil.setUserInputDesc("deletemusic");
+                mainGeneralUtil.setUserInputDesc("deletemusic");
                 inputField.requestFocus();
-                mainUtil.setUserInputMode(true);
+                mainGeneralUtil.setUserInputMode(true);
             }
         });
 
@@ -3587,7 +3587,7 @@ public class CyderMain{
         MusicPanel.add(musicListScroll);
         MusicPanel.add(BottomButtonPanel);
         MusicPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(mainUtil.navy,5,false)));
+                new LineBorder(mainGeneralUtil.navy,5,false)));
 
         ParentPanel.add(MusicPanel);
 
@@ -3595,23 +3595,23 @@ public class CyderMain{
         ChangeUsernamePanel.setLayout(new GridLayout(2, 1, 5, 5));
         JTextField changeUsernameField = new JTextField(10);
         changeUsernameField.addActionListener(e -> changeUsername.doClick());
-        changeUsernameField.setFont(mainUtil.weatherFontSmall);
-        changeUsernameField.setSelectionColor(mainUtil.selectionColor);
+        changeUsernameField.setFont(mainGeneralUtil.weatherFontSmall);
+        changeUsernameField.setSelectionColor(mainGeneralUtil.selectionColor);
         changeUsername = new CyderButton("Change Username");
-        changeUsername.setBackground(mainUtil.regularRed);
-        changeUsername.setColors(mainUtil.regularRed);
-        changeUsername.setBorder(new LineBorder(mainUtil.navy,5,false));
-        changeUsername.setFont(mainUtil.weatherFontSmall);
-        changeUsernameField.setBorder(new LineBorder(mainUtil.navy,5,false));
+        changeUsername.setBackground(mainGeneralUtil.regularRed);
+        changeUsername.setColors(mainGeneralUtil.regularRed);
+        changeUsername.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        changeUsername.setFont(mainGeneralUtil.weatherFontSmall);
+        changeUsernameField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
         ChangeUsernamePanel.add(changeUsernameField);
         ChangeUsernamePanel.add(changeUsername);
         changeUsernameField.setToolTipText("New username");
         changeUsername.addActionListener(e -> {
             String newUsername = changeUsernameField.getText();
-            if (!mainUtil.empytStr(newUsername)) {
+            if (!mainGeneralUtil.empytStr(newUsername)) {
                 changeUsername(newUsername);
-                mainUtil.inform("Username successfully changed","", 300, 200);
-                mainUtil.refreshUsername(consoleFrame);
+                mainGeneralUtil.inform("Username successfully changed","", 300, 200);
+                mainGeneralUtil.refreshUsername(consoleFrame);
                 changeUsernameField.setText("");
             }
         });
@@ -3620,17 +3620,17 @@ public class CyderMain{
         JPanel ChangePasswordPanel = new JPanel();
         ChangePasswordPanel.setLayout(new GridLayout(2, 1, 5, 5));
 
-        changeUsername.setBackground(mainUtil.regularRed);
+        changeUsername.setBackground(mainGeneralUtil.regularRed);
         JPasswordField changePasswordField = new JPasswordField(10);
         changePasswordField.addActionListener(e -> changePassword.doClick());
-        changePasswordField.setFont(mainUtil.weatherFontSmall);
-        changePasswordField.setSelectionColor(mainUtil.selectionColor);
+        changePasswordField.setFont(mainGeneralUtil.weatherFontSmall);
+        changePasswordField.setSelectionColor(mainGeneralUtil.selectionColor);
         changePassword = new CyderButton("Change Password");
-        changePassword.setBackground(mainUtil.regularRed);
-        changePassword.setColors(mainUtil.regularRed);
-        changePassword.setBorder(new LineBorder(mainUtil.navy,5,false));
-        changePassword.setFont(mainUtil.weatherFontSmall);
-        changePasswordField.setBorder(new LineBorder(mainUtil.navy,5,false));
+        changePassword.setBackground(mainGeneralUtil.regularRed);
+        changePassword.setColors(mainGeneralUtil.regularRed);
+        changePassword.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        changePassword.setFont(mainGeneralUtil.weatherFontSmall);
+        changePasswordField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
         ChangePasswordPanel.add(changePasswordField);
         ChangePasswordPanel.add(changePassword);
         changePasswordField.setToolTipText("New password");
@@ -3639,12 +3639,12 @@ public class CyderMain{
 
             if (newPassword.length > 4) {
                 changePassword(newPassword);
-                mainUtil.inform("Password successfully changed","", 300, 200);
+                mainGeneralUtil.inform("Password successfully changed","", 300, 200);
                 changePasswordField.setText("");
             }
 
             else {
-                mainUtil.inform("Sorry, " + mainUtil.getUsername() + ", " +
+                mainGeneralUtil.inform("Sorry, " + mainGeneralUtil.getUsername() + ", " +
                         "but your password must be greater than 4 characters for security reasons.","", 500, 300);
                 changePasswordField.setText("");
             }
@@ -3654,7 +3654,7 @@ public class CyderMain{
             }
         });
 
-        changePassword.setBackground(mainUtil.regularRed);
+        changePassword.setBackground(mainGeneralUtil.regularRed);
         ChangeUsernamePanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
         ParentPanel.add(ChangeUsernamePanel);
@@ -3666,32 +3666,32 @@ public class CyderMain{
         prefsPanel.setLayout(new GridLayout(6,3,0,20));
 
         JLabel introMusicTitle = new JLabel("Intro Music");
-        introMusicTitle.setFont(mainUtil.weatherFontSmall);
-        introMusicTitle.setForeground(mainUtil.navy);
+        introMusicTitle.setFont(mainGeneralUtil.weatherFontSmall);
+        introMusicTitle.setForeground(mainGeneralUtil.navy);
         introMusicTitle.setHorizontalAlignment(JLabel.CENTER);
         prefsPanel.add(introMusicTitle);
 
         JLabel debugWindowsLabel = new JLabel("Debug Windows");
-        debugWindowsLabel.setFont(mainUtil.weatherFontSmall);
-        debugWindowsLabel.setForeground(mainUtil.navy);
+        debugWindowsLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        debugWindowsLabel.setForeground(mainGeneralUtil.navy);
         debugWindowsLabel.setHorizontalAlignment(JLabel.CENTER);
         prefsPanel.add(debugWindowsLabel);
 
         JLabel randomBackgroundLabel = new JLabel("Random Background");
-        randomBackgroundLabel.setFont(mainUtil.weatherFontSmall);
-        randomBackgroundLabel.setForeground(mainUtil.navy);
+        randomBackgroundLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        randomBackgroundLabel.setForeground(mainGeneralUtil.navy);
         randomBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
         prefsPanel.add(randomBackgroundLabel);
 
         JLabel introMusic = new JLabel();
         introMusic.setHorizontalAlignment(JLabel.CENTER);
         introMusic.setSize(100,100);
-        introMusic.setIcon((mainUtil.getUserData("IntroMusic").equals("1") ? selected : notSelected));
+        introMusic.setIcon((mainGeneralUtil.getUserData("IntroMusic").equals("1") ? selected : notSelected));
         introMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainUtil.getUserData("IntroMusic").equals("1");
-            mainUtil.writeUserData("IntroMusic", (wasSelected ? "0" : "1"));
+            boolean wasSelected = mainGeneralUtil.getUserData("IntroMusic").equals("1");
+            mainGeneralUtil.writeUserData("IntroMusic", (wasSelected ? "0" : "1"));
             introMusic.setIcon((wasSelected ? notSelected : selected));
             }
         });
@@ -3701,12 +3701,12 @@ public class CyderMain{
         JLabel debugWindows = new JLabel();
         debugWindows.setHorizontalAlignment(JLabel.CENTER);
         debugWindows.setSize(100,100);
-        debugWindows.setIcon((mainUtil.getUserData("DebugWindows").equals("1") ? selected : notSelected));
+        debugWindows.setIcon((mainGeneralUtil.getUserData("DebugWindows").equals("1") ? selected : notSelected));
         debugWindows.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainUtil.getUserData("DebugWindows").equals("1");
-            mainUtil.writeUserData("DebugWindows", (wasSelected ? "0" : "1"));
+            boolean wasSelected = mainGeneralUtil.getUserData("DebugWindows").equals("1");
+            mainGeneralUtil.writeUserData("DebugWindows", (wasSelected ? "0" : "1"));
             debugWindows.setIcon((wasSelected ? notSelected : selected));
             }
         });
@@ -3716,12 +3716,12 @@ public class CyderMain{
         JLabel randBackgroundLabel = new JLabel();
         randBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
         randBackgroundLabel.setSize(100,100);
-        randBackgroundLabel.setIcon((mainUtil.getUserData("RandomBackground").equals("1") ? selected : notSelected));
+        randBackgroundLabel.setIcon((mainGeneralUtil.getUserData("RandomBackground").equals("1") ? selected : notSelected));
         randBackgroundLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainUtil.getUserData("RandomBackground").equals("1");
-            mainUtil.writeUserData("RandomBackground", (wasSelected ? "0" : "1"));
+            boolean wasSelected = mainGeneralUtil.getUserData("RandomBackground").equals("1");
+            mainGeneralUtil.writeUserData("RandomBackground", (wasSelected ? "0" : "1"));
             randBackgroundLabel.setIcon((wasSelected ? notSelected : selected));
             }
         });
@@ -3730,9 +3730,9 @@ public class CyderMain{
 
         JLabel hourlyChimesLabel = new JLabel("Hourly Chimes");
 
-        hourlyChimesLabel.setFont(mainUtil.weatherFontSmall);
+        hourlyChimesLabel.setFont(mainGeneralUtil.weatherFontSmall);
 
-        hourlyChimesLabel.setForeground(mainUtil.navy);
+        hourlyChimesLabel.setForeground(mainGeneralUtil.navy);
 
         hourlyChimesLabel.setHorizontalAlignment(JLabel.CENTER);
 
@@ -3740,9 +3740,9 @@ public class CyderMain{
 
         JLabel clockLabel = new JLabel("Console Clock");
 
-        clockLabel.setFont(mainUtil.weatherFontSmall);
+        clockLabel.setFont(mainGeneralUtil.weatherFontSmall);
 
-        clockLabel.setForeground(mainUtil.navy);
+        clockLabel.setForeground(mainGeneralUtil.navy);
 
         clockLabel.setHorizontalAlignment(JLabel.CENTER);
 
@@ -3750,9 +3750,9 @@ public class CyderMain{
 
         JLabel silenceLabel = new JLabel("Silence Errors");
 
-        silenceLabel.setFont(mainUtil.weatherFontSmall);
+        silenceLabel.setFont(mainGeneralUtil.weatherFontSmall);
 
-        silenceLabel.setForeground(mainUtil.navy);
+        silenceLabel.setForeground(mainGeneralUtil.navy);
 
         silenceLabel.setHorizontalAlignment(JLabel.CENTER);
 
@@ -3764,13 +3764,13 @@ public class CyderMain{
 
         hourlyChimes.setSize(100,100);
 
-        hourlyChimes.setIcon((mainUtil.getUserData("HourlyChimes").equals("1") ? selected : notSelected));
+        hourlyChimes.setIcon((mainGeneralUtil.getUserData("HourlyChimes").equals("1") ? selected : notSelected));
 
         hourlyChimes.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainUtil.getUserData("HourlyChimes").equals("1");
-            mainUtil.writeUserData("HourlyChimes", (wasSelected ? "0" : "1"));
+            boolean wasSelected = mainGeneralUtil.getUserData("HourlyChimes").equals("1");
+            mainGeneralUtil.writeUserData("HourlyChimes", (wasSelected ? "0" : "1"));
             hourlyChimes.setIcon((wasSelected ? notSelected : selected));
             }
         });
@@ -3783,13 +3783,13 @@ public class CyderMain{
 
         clockOnConsole.setSize(100,100);
 
-        clockOnConsole.setIcon((mainUtil.getUserData("ClockOnConsole").equals("1") ? selected : notSelected));
+        clockOnConsole.setIcon((mainGeneralUtil.getUserData("ClockOnConsole").equals("1") ? selected : notSelected));
 
         clockOnConsole.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainUtil.getUserData("ClockOnConsole").equals("1");
-            mainUtil.writeUserData("ClockOnConsole", (wasSelected ? "0" : "1"));
+            boolean wasSelected = mainGeneralUtil.getUserData("ClockOnConsole").equals("1");
+            mainGeneralUtil.writeUserData("ClockOnConsole", (wasSelected ? "0" : "1"));
             clockOnConsole.setIcon((wasSelected ? notSelected : selected));
             consoleClockLabel.setVisible(!wasSelected);
             updateConsoleClock = !wasSelected;
@@ -3805,13 +3805,13 @@ public class CyderMain{
 
         silenceErrors.setSize(100,100);
 
-        silenceErrors.setIcon((mainUtil.getUserData("SilenceErrors").equals("1") ? selected : notSelected));
+        silenceErrors.setIcon((mainGeneralUtil.getUserData("SilenceErrors").equals("1") ? selected : notSelected));
 
         silenceErrors.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainUtil.getUserData("SilenceErrors").equals("1");
-            mainUtil.writeUserData("SilenceErrors", (wasSelected ? "0" : "1"));
+            boolean wasSelected = mainGeneralUtil.getUserData("SilenceErrors").equals("1");
+            mainGeneralUtil.writeUserData("SilenceErrors", (wasSelected ? "0" : "1"));
             silenceErrors.setIcon((wasSelected ? notSelected : selected));
             }
 
@@ -3821,9 +3821,9 @@ public class CyderMain{
 
         JLabel fullscreenLabel = new JLabel("Fullscreen");
 
-        fullscreenLabel.setFont(mainUtil.weatherFontSmall);
+        fullscreenLabel.setFont(mainGeneralUtil.weatherFontSmall);
 
-        fullscreenLabel.setForeground(mainUtil.navy);
+        fullscreenLabel.setForeground(mainGeneralUtil.navy);
 
         fullscreenLabel.setHorizontalAlignment(JLabel.CENTER);
 
@@ -3831,9 +3831,9 @@ public class CyderMain{
 
         JLabel outputBorder = new JLabel("Output Area Border");
 
-        outputBorder.setFont(mainUtil.weatherFontSmall);
+        outputBorder.setFont(mainGeneralUtil.weatherFontSmall);
 
-        outputBorder.setForeground(mainUtil.navy);
+        outputBorder.setForeground(mainGeneralUtil.navy);
 
         outputBorder.setHorizontalAlignment(JLabel.CENTER);
 
@@ -3841,9 +3841,9 @@ public class CyderMain{
 
         JLabel inputBorder = new JLabel("Input Field Border");
 
-        inputBorder.setFont(mainUtil.weatherFontSmall);
+        inputBorder.setFont(mainGeneralUtil.weatherFontSmall);
 
-        inputBorder.setForeground(mainUtil.navy);
+        inputBorder.setForeground(mainGeneralUtil.navy);
 
         inputBorder.setHorizontalAlignment(JLabel.CENTER);
 
@@ -3855,13 +3855,13 @@ public class CyderMain{
 
         fullscreen.setSize(100,100);
 
-        fullscreen.setIcon((mainUtil.getUserData("FullScreen").equals("1") ? selected : notSelected));
+        fullscreen.setIcon((mainGeneralUtil.getUserData("FullScreen").equals("1") ? selected : notSelected));
 
         fullscreen.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainUtil.getUserData("FullScreen").equals("1");
-            mainUtil.writeUserData("FullScreen", (wasSelected ? "0" : "1"));
+            boolean wasSelected = mainGeneralUtil.getUserData("FullScreen").equals("1");
+            mainGeneralUtil.writeUserData("FullScreen", (wasSelected ? "0" : "1"));
             fullscreen.setIcon((wasSelected ? notSelected : selected));
             if (wasSelected) {
                 exitFullscreen();
@@ -3876,7 +3876,7 @@ public class CyderMain{
         prefsPanel.add(fullscreen);
 
         prefsPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(mainUtil.navy,5,false)));
+                new LineBorder(mainGeneralUtil.navy,5,false)));
 
         JLabel outputborder = new JLabel();
 
@@ -3884,20 +3884,20 @@ public class CyderMain{
 
         outputborder.setSize(100,100);
 
-        outputborder.setIcon((mainUtil.getUserData("OutputBorder").equals("1") ? selected : notSelected));
+        outputborder.setIcon((mainGeneralUtil.getUserData("OutputBorder").equals("1") ? selected : notSelected));
 
         outputborder.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainUtil.getUserData("OutputBorder").equals("1");
-            mainUtil.writeUserData("OutputBorder", (wasSelected ? "0" : "1"));
+            boolean wasSelected = mainGeneralUtil.getUserData("OutputBorder").equals("1");
+            mainGeneralUtil.writeUserData("OutputBorder", (wasSelected ? "0" : "1"));
             outputborder.setIcon((wasSelected ? notSelected : selected));
             if (wasSelected) {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
             }
 
             else {
-                outputScroll.setBorder(new LineBorder(mainUtil.vanila,3,true));
+                outputScroll.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
             }
 
             consoleFrame.revalidate();
@@ -3912,13 +3912,13 @@ public class CyderMain{
 
         inputborder.setSize(100,100);
 
-        inputborder.setIcon((mainUtil.getUserData("InputBorder").equals("1") ? selected : notSelected));
+        inputborder.setIcon((mainGeneralUtil.getUserData("InputBorder").equals("1") ? selected : notSelected));
 
         inputborder.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainUtil.getUserData("InputBorder").equals("1");
-            mainUtil.writeUserData("InputBorder", (wasSelected ? "0" : "1"));
+            boolean wasSelected = mainGeneralUtil.getUserData("InputBorder").equals("1");
+            mainGeneralUtil.writeUserData("InputBorder", (wasSelected ? "0" : "1"));
             inputborder.setIcon((wasSelected ? notSelected : selected));
 
             if (wasSelected) {
@@ -3926,7 +3926,7 @@ public class CyderMain{
             }
 
             else {
-                inputField.setBorder(new LineBorder(mainUtil.vanila,3,true));
+                inputField.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
             }
 
             consoleFrame.revalidate();
@@ -3969,7 +3969,7 @@ public class CyderMain{
     }
 
     public void initializeMusicList() {
-        File dir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Music");
+        File dir = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Music");
         musicList = new LinkedList<>();
         musicNameList = new LinkedList<>();
 
@@ -3986,9 +3986,9 @@ public class CyderMain{
 
         musicSelectionList = new JList(MusicArray);
 
-        musicSelectionList.setFont(mainUtil.weatherFontSmall);
+        musicSelectionList.setFont(mainGeneralUtil.weatherFontSmall);
 
-        musicSelectionList.setForeground(mainUtil.navy);
+        musicSelectionList.setForeground(mainGeneralUtil.navy);
 
         musicSelectionList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -3998,12 +3998,12 @@ public class CyderMain{
             }
         });
 
-        musicSelectionList.setSelectionBackground(mainUtil.selectionColor);
+        musicSelectionList.setSelectionBackground(mainGeneralUtil.selectionColor);
     }
 
     //todo above and below are for editing user, make it its own widget/class
     public void initializeBackgroundsList() {
-        File dir = new File("src\\com\\cyder\\users\\" + mainUtil.getUserUUID() + "\\Backgrounds");
+        File dir = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Backgrounds");
         backgroundsList = new LinkedList<>();
         backgroundsNameList = new LinkedList<>();
 
@@ -4018,9 +4018,9 @@ public class CyderMain{
         BackgroundsArray = backgroundsNameList.toArray(BackgroundsArray);
         backgroundSelectionList = new JList(BackgroundsArray);
 
-        backgroundSelectionList.setFont(mainUtil.weatherFontSmall);
+        backgroundSelectionList.setFont(mainGeneralUtil.weatherFontSmall);
 
-        backgroundSelectionList.setForeground(mainUtil.navy);
+        backgroundSelectionList.setForeground(mainGeneralUtil.navy);
 
         backgroundSelectionList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -4030,7 +4030,7 @@ public class CyderMain{
             }
         });
 
-        backgroundSelectionList.setSelectionBackground(mainUtil.selectionColor);
+        backgroundSelectionList.setSelectionBackground(mainGeneralUtil.selectionColor);
     }
 
     private JPanel getColorPanel() {
@@ -4038,7 +4038,7 @@ public class CyderMain{
         parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.PAGE_AXIS));
 
         JLabel label = new JLabel("Select your desired color");
-        label.setFont(mainUtil.weatherFontSmall);
+        label.setFont(mainGeneralUtil.weatherFontSmall);
         label.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         JPanel labelPanel = new JPanel();
         labelPanel.add(label);
@@ -4066,10 +4066,10 @@ public class CyderMain{
             }
             }
         });
-        hexField.setFont(mainUtil.weatherFontSmall);
-        hexField.setSelectionColor(mainUtil.selectionColor);
+        hexField.setFont(mainGeneralUtil.weatherFontSmall);
+        hexField.setSelectionColor(mainGeneralUtil.selectionColor);
         hexField.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(2,2,2,2),
-                new LineBorder(mainUtil.navy,5,false)));
+                new LineBorder(mainGeneralUtil.navy,5,false)));
         hexField.setToolTipText("Hex Color");
 
         JPanel fieldPanel = new JPanel();
@@ -4079,16 +4079,16 @@ public class CyderMain{
 
         CyderButton apply = new CyderButton("Apply Color");
         apply.setFocusPainted(false);
-        apply.setColors(mainUtil.regularRed);
-        apply.setForeground(mainUtil.navy);
-        apply.setBackground(mainUtil.regularRed);
-        apply.setFont(mainUtil.weatherFontSmall);
+        apply.setColors(mainGeneralUtil.regularRed);
+        apply.setForeground(mainGeneralUtil.navy);
+        apply.setBackground(mainGeneralUtil.regularRed);
+        apply.setFont(mainGeneralUtil.weatherFontSmall);
         apply.addActionListener(e -> {
             Color newColor = label.getForeground();
             outputArea.setForeground(newColor);
             inputField.setForeground(newColor);
 
-            if (newColor != mainUtil.getUsercolor()) {
+            if (newColor != mainGeneralUtil.getUsercolor()) {
                 println("The color [" + newColor.getRed() + "," + newColor.getGreen() + "," + newColor.getBlue() + "] has been applied.");
             }
         });
@@ -4108,7 +4108,7 @@ public class CyderMain{
         parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.PAGE_AXIS));
         JLabel label = new JLabel("Select your desired font");
 
-        label.setFont(mainUtil.weatherFontSmall);
+        label.setFont(mainGeneralUtil.weatherFontSmall);
         label.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
         JPanel labelPanel = new JPanel();
@@ -4119,24 +4119,24 @@ public class CyderMain{
         String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
         fontList = new JList(Fonts);
-        fontList.setSelectionBackground(mainUtil.selectionColor);
+        fontList.setSelectionBackground(mainGeneralUtil.selectionColor);
         fontList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        fontList.setFont(mainUtil.weatherFontSmall);
+        fontList.setFont(mainGeneralUtil.weatherFontSmall);
 
         CyderScrollPane FontListScroll = new CyderScrollPane(fontList,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        FontListScroll.setThumbColor(mainUtil.intellijPink);
-        FontListScroll.setBorder(new LineBorder(mainUtil.navy,5,true));
+        FontListScroll.setThumbColor(mainGeneralUtil.intellijPink);
+        FontListScroll.setBorder(new LineBorder(mainGeneralUtil.navy,5,true));
 
         CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        applyFont.setColors(mainUtil.regularRed);
+        applyFont.setColors(mainGeneralUtil.regularRed);
         applyFont.setToolTipText("Apply");
-        applyFont.setFont(mainUtil.weatherFontSmall);
+        applyFont.setFont(mainGeneralUtil.weatherFontSmall);
         applyFont.setFocusPainted(false);
-        applyFont.setBackground(mainUtil.regularRed);
+        applyFont.setBackground(mainGeneralUtil.regularRed);
         applyFont.addActionListener(e -> {
             String FontS = (String) fontList.getSelectedValue();
 
@@ -4161,7 +4161,7 @@ public class CyderMain{
                 }
 
                 catch (Exception ex) {
-                    mainUtil.handle(ex);
+                    mainGeneralUtil.handle(ex);
                 }
             }
             }
@@ -4191,21 +4191,21 @@ public class CyderMain{
         createUserBackground = null;
 
         if (createUserFrame != null)
-            mainUtil.closeAnimation(createUserFrame);
+            mainGeneralUtil.closeAnimation(createUserFrame);
 
         createUserFrame = new CyderFrame(356,473,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         createUserFrame.setTitle("Create User");
 
         JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);
-        NameLabel.setFont(mainUtil.weatherFontSmall);
+        NameLabel.setFont(mainGeneralUtil.weatherFontSmall);
         NameLabel.setBounds(120,30,121,30); //todo bounds for labels
         createUserFrame.getContentPane().add(NameLabel);
 
         newUserName = new JTextField(15);
-        newUserName.setSelectionColor(mainUtil.selectionColor);
-        newUserName.setFont(mainUtil.weatherFontSmall);
-        newUserName.setForeground(mainUtil.navy);
-        newUserName.setFont(mainUtil.weatherFontSmall);
+        newUserName.setSelectionColor(mainGeneralUtil.selectionColor);
+        newUserName.setFont(mainGeneralUtil.weatherFontSmall);
+        newUserName.setForeground(mainGeneralUtil.navy);
+        newUserName.setFont(mainGeneralUtil.weatherFontSmall);
         newUserName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
             if (newUserName.getText().length() > 15) {
@@ -4244,13 +4244,13 @@ public class CyderMain{
             }
         });
 
-        newUserName.setBorder(new LineBorder(mainUtil.navy,5,false));
+        newUserName.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
         newUserName.setBounds(60,70,240,40);
         createUserFrame.getContentPane().add(newUserName);
 
         JLabel passwordLabel = new JLabel("Password: ", SwingConstants.CENTER);
-        passwordLabel.setFont(mainUtil.weatherFontSmall);
-        passwordLabel.setForeground(mainUtil.navy);
+        passwordLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        passwordLabel.setForeground(mainGeneralUtil.navy);
         passwordLabel.setBounds(60,120,240,30);
         createUserFrame.getContentPane().add(passwordLabel);
 
@@ -4262,25 +4262,25 @@ public class CyderMain{
             public void keyReleased(KeyEvent e) {
             if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
                 matchPasswords.setText("<html><div style='text-align: center;'>Passwords match</div></html>");
-                matchPasswords.setForeground(mainUtil.regularGreen);
+                matchPasswords.setForeground(mainGeneralUtil.regularGreen);
             }
 
             else {
                 matchPasswords.setText("<html><div style='text-align: center;'>Passwords don't match</div></html>");
-                matchPasswords.setForeground(mainUtil.regularRed);
+                matchPasswords.setForeground(mainGeneralUtil.regularRed);
             }
             }
         });
-        newUserPassword.setFont(mainUtil.weatherFontSmall);
-        newUserPassword.setForeground(mainUtil.navy);
-        newUserPassword.setBorder(new LineBorder(mainUtil.navy,5,false));
-        newUserPassword.setSelectedTextColor(mainUtil.selectionColor);
+        newUserPassword.setFont(mainGeneralUtil.weatherFontSmall);
+        newUserPassword.setForeground(mainGeneralUtil.navy);
+        newUserPassword.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        newUserPassword.setSelectedTextColor(mainGeneralUtil.selectionColor);
         newUserPassword.setBounds(60,160,240,40);
         createUserFrame.getContentPane().add(newUserPassword);
 
         JLabel passwordLabelConf = new JLabel("Confirm Password: ", SwingConstants.CENTER);
-        passwordLabelConf.setFont(mainUtil.weatherFontSmall);
-        passwordLabelConf.setForeground(mainUtil.navy);
+        passwordLabelConf.setFont(mainGeneralUtil.weatherFontSmall);
+        passwordLabelConf.setForeground(mainGeneralUtil.navy);
         passwordLabelConf.setBounds(60,210,240,30);
         createUserFrame.getContentPane().add(passwordLabelConf);
 
@@ -4290,38 +4290,38 @@ public class CyderMain{
             public void keyReleased(KeyEvent e) {
             if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
                 matchPasswords.setText("<html><div style='text-align: center;'>Passwords match</div></html>");
-                matchPasswords.setForeground(mainUtil.regularGreen);
+                matchPasswords.setForeground(mainGeneralUtil.regularGreen);
             }
 
             else {
                 matchPasswords.setText("<html><div style='text-align: center;'>Passwords don't match</div></html>");
-                matchPasswords.setForeground(mainUtil.regularRed);
+                matchPasswords.setForeground(mainGeneralUtil.regularRed);
             }
             }
         });
 
-        newUserPasswordconf.setFont(mainUtil.weatherFontSmall);
-        newUserPasswordconf.setForeground(mainUtil.navy);
-        newUserPasswordconf.setBorder(new LineBorder(mainUtil.navy,5,false));
-        newUserPasswordconf.setSelectedTextColor(mainUtil.selectionColor);
+        newUserPasswordconf.setFont(mainGeneralUtil.weatherFontSmall);
+        newUserPasswordconf.setForeground(mainGeneralUtil.navy);
+        newUserPasswordconf.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        newUserPasswordconf.setSelectedTextColor(mainGeneralUtil.selectionColor);
         newUserPasswordconf.setBounds(60,250,240,40);
         createUserFrame.getContentPane().add(newUserPasswordconf);
 
-        matchPasswords.setFont(mainUtil.weatherFontSmall);
-        matchPasswords.setForeground(mainUtil.regularGreen);
+        matchPasswords.setFont(mainGeneralUtil.weatherFontSmall);
+        matchPasswords.setForeground(mainGeneralUtil.regularGreen);
         matchPasswords.setBounds(65,300,300,30);
         createUserFrame.getContentPane().add(matchPasswords);
 
         chooseBackground = new CyderButton("Choose background");
         chooseBackground.setToolTipText("Click me to choose a background");
-        chooseBackground.setFont(mainUtil.weatherFontSmall);
-        chooseBackground.setBackground(mainUtil.regularRed);
-        chooseBackground.setColors(mainUtil.regularRed);
+        chooseBackground.setFont(mainGeneralUtil.weatherFontSmall);
+        chooseBackground.setBackground(mainGeneralUtil.regularRed);
+        chooseBackground.setColors(mainGeneralUtil.regularRed);
         chooseBackground.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 try {
-                    File temp = mainUtil.getFile();
+                    File temp = mainGeneralUtil.getFile();
                     if (temp != null) {
                         createUserBackground = temp;
                     }
@@ -4349,7 +4349,7 @@ public class CyderMain{
                 }
 
                 catch (Exception ex) {
-                    mainUtil.handle(ex);
+                    mainGeneralUtil.handle(ex);
                 }
             }
 
@@ -4359,23 +4359,23 @@ public class CyderMain{
             }
         });
 
-        chooseBackground.setBorder(new LineBorder(mainUtil.navy,5,false));
+        chooseBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
         chooseBackground.setBounds(60,340,240,40);
         createUserFrame.getContentPane().add(chooseBackground);
 
         createNewUser = new CyderButton("Create User");
-        createNewUser.setFont(mainUtil.weatherFontSmall);
-        createNewUser.setBackground(mainUtil.regularRed);
-        createNewUser.setColors(mainUtil.regularRed);
+        createNewUser.setFont(mainGeneralUtil.weatherFontSmall);
+        createNewUser.setBackground(mainGeneralUtil.regularRed);
+        createNewUser.setColors(mainGeneralUtil.regularRed);
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
             try {
-                String uuid = mainUtil.generateUUID();
+                String uuid = mainGeneralUtil.generateUUID();
                 File folder = new File("src\\com\\cyder\\users\\" + uuid);
 
                 while (folder.exists()) {
-                    uuid = mainUtil.generateUUID();
+                    uuid = mainGeneralUtil.generateUUID();
                     folder = new File("src\\com\\cyder\\users\\" + uuid);
                 }
 
@@ -4402,28 +4402,28 @@ public class CyderMain{
                     if (alreadyExists) break;
                 }
 
-                if (mainUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
+                if (mainGeneralUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
                         || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
-                    mainUtil.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
+                    mainGeneralUtil.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
                     newUserPassword.setText("");
                     newUserPasswordconf.setText("");
                 }
 
                 else if (alreadyExists) {
-                    mainUtil.inform("Sorry, but that username is already in use.\nPlease try a different one.", "", 400, 300);
+                    mainGeneralUtil.inform("Sorry, but that username is already in use.\nPlease try a different one.", "", 400, 300);
                     newUserName.setText("");
                     newUserPassword.setText("");
                     newUserPasswordconf.setText("");
                 }
 
                 else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
-                    mainUtil.inform("Sorry, but your passwords did not match. Please try again.", "",400, 300);
+                    mainGeneralUtil.inform("Sorry, but your passwords did not match. Please try again.", "",400, 300);
                     newUserPassword.setText("");
                     newUserPasswordconf.setText("");
                 }
 
                 else if (pass.length < 5) {
-                    mainUtil.inform("Sorry, but your password length should be greater than\n"
+                    mainGeneralUtil.inform("Sorry, but your password length should be greater than\n"
                             + "four characters for security reasons. Please add more characters.", "", 400, 300);
 
                     newUserPassword.setText("");
@@ -4432,7 +4432,7 @@ public class CyderMain{
 
                 else {
                     if (createUserBackground == null) {
-                        mainUtil.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background", 700, 230);
+                        mainGeneralUtil.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background", 700, 230);
                         createUserBackground = new File("src\\com\\cyder\\io\\pictures\\bobby.png");
                     }
 
@@ -4458,7 +4458,7 @@ public class CyderMain{
                     data.add("Red:252");
                     data.add("Green:251");
                     data.add("Blue:227");
-                    data.add("Password:" + mainUtil.toHexString(mainUtil.getSHA(pass)));
+                    data.add("Password:" + mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(pass)));
                     data.add("IntroMusic:0");
                     data.add("DebugWindows:0");
                     data.add("RandomBackground:0");
@@ -4476,16 +4476,16 @@ public class CyderMain{
 
                     newUserWriter.close();
 
-                    mainUtil.closeAnimation(createUserFrame);
+                    mainGeneralUtil.closeAnimation(createUserFrame);
 
-                    mainUtil.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", 500, 300);
+                    mainGeneralUtil.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", 500, 300);
 
                     if (consoleFrame != null)
-                        mainUtil.closeAnimation(createUserFrame);
+                        mainGeneralUtil.closeAnimation(createUserFrame);
 
                     else {
-                        mainUtil.closeAnimation(createUserFrame);
-                        mainUtil.closeAnimation(loginFrame);
+                        mainGeneralUtil.closeAnimation(createUserFrame);
+                        mainGeneralUtil.closeAnimation(loginFrame);
                         recognize(newUserName.getText().trim(),pass);
                     }
                 }
@@ -4499,13 +4499,13 @@ public class CyderMain{
             }
 
             catch (Exception ex) {
-                mainUtil.handle(ex);
+                mainGeneralUtil.handle(ex);
             }
             }
         });
 
-        createNewUser.setBorder(new LineBorder(mainUtil.navy,5,false));
-        createNewUser.setFont(mainUtil.weatherFontSmall);
+        createNewUser.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        createNewUser.setFont(mainGeneralUtil.weatherFontSmall);
         createNewUser.setBounds(60,390,240,40);
         createUserFrame.getContentPane().add(createNewUser);
 
@@ -4520,13 +4520,13 @@ public class CyderMain{
             try {
                 while (updateConsoleClock) {
                     Thread.sleep(3000);
-                    consoleClockLabel.setText(mainUtil.consoleTime());
-                    consoleClockLabel.setToolTipText(mainUtil.weatherThreadTime());
+                    consoleClockLabel.setText(mainGeneralUtil.consoleTime());
+                    consoleClockLabel.setToolTipText(mainGeneralUtil.weatherThreadTime());
                 }
             }
 
             catch (Exception e) {
-                mainUtil.handle(e);
+                mainGeneralUtil.handle(e);
             }
         },"console-clock-updater");
 
@@ -4541,12 +4541,12 @@ public class CyderMain{
                     Thread.sleep(4000);
                     Calendar now = Calendar.getInstance();
                     if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) <= 4)
-                        mainUtil.playMusic("src\\com\\cyder\\io\\audio\\chime.mp3");
+                        mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\chime.mp3");
                 }
             }
 
             catch (Exception e) {
-                mainUtil.handle(e);
+                mainGeneralUtil.handle(e);
             }
         },"chime-checker");
 
@@ -4563,7 +4563,7 @@ public class CyderMain{
                 }
 
                 catch (Exception ex) {
-                    mainUtil.handle(ex);
+                    mainGeneralUtil.handle(ex);
                 }
 
                 menuLabel.setVisible(false);
@@ -4583,17 +4583,17 @@ public class CyderMain{
     //todo move file.txt to temp dir, file used for filechooser
 
     private void askew() {
-        consoleFrame.setBackground(mainUtil.navy);
-        parentLabel.setIcon(new ImageIcon(mainUtil.rotateImageByDegrees(mainUtil.getRotatedImage(mainUtil.getCurrentBackground().getAbsolutePath()),3)));
+        consoleFrame.setBackground(mainGeneralUtil.navy);
+        parentLabel.setIcon(new ImageIcon(mainGeneralUtil.rotateImageByDegrees(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath()),3)));
     }
 
 
     private void barrelRoll() {
-        consoleFrame.setBackground(mainUtil.navy);
-        mainUtil.getValidBackgroundPaths();
+        consoleFrame.setBackground(mainGeneralUtil.navy);
+        mainGeneralUtil.getValidBackgroundPaths();
 
-        int originConsoleDIr = mainUtil.getConsoleDirection();
-        BufferedImage master = mainUtil.getRotatedImage(mainUtil.getCurrentBackground().getAbsolutePath());
+        int originConsoleDIr = mainGeneralUtil.getConsoleDirection();
+        BufferedImage master = mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath());
 
         Timer timer = null;
         Timer finalTimer = timer;
@@ -4609,7 +4609,7 @@ public class CyderMain{
                 if (angle > 360) {
                     return;
                 }
-                rotated = mainUtil.rotateImageByDegrees(master, angle);
+                rotated = mainGeneralUtil.rotateImageByDegrees(master, angle);
                 parentLabel.setIcon(new ImageIcon(rotated));
             }
         });
@@ -4618,7 +4618,7 @@ public class CyderMain{
 
     //exiting method, system.exit will call shutdown hook which wil then call shutdown();
     private void exit() {
-        mainUtil.closeAnimation(consoleFrame);
+        mainGeneralUtil.closeAnimation(consoleFrame);
         killAllYoutube();
         System.exit(0);
     }
@@ -4633,21 +4633,21 @@ public class CyderMain{
             int saveColorG = SaveColor.getGreen();
             int saveColorB = SaveColor.getBlue();
 
-            mainUtil.readUserData();
-            mainUtil.writeUserData("Font",SaveFontName);
-            mainUtil.writeUserData("Red",saveColorR + "");
-            mainUtil.writeUserData("Green",saveColorG + "");
-            mainUtil.writeUserData("Blue",saveColorB + "");
+            mainGeneralUtil.readUserData();
+            mainGeneralUtil.writeUserData("Font",SaveFontName);
+            mainGeneralUtil.writeUserData("Red",saveColorR + "");
+            mainGeneralUtil.writeUserData("Green",saveColorG + "");
+            mainGeneralUtil.writeUserData("Blue",saveColorB + "");
 
-            mainUtil.deleteTempDir();
+            mainGeneralUtil.deleteTempDir();
         }
 
         catch (Exception e) {
-            mainUtil.handle(e);
+            mainGeneralUtil.handle(e);
         }
     }
 
-    //todo can this go to some util method when you separate methods out of here and Util?
+    //todo can this go to some util method when you separate methods out of here and GeneralUtil?
     private static void logArgs(String[] cyderArgs) {
         try {
             if (cyderArgs.length == 0)
@@ -4677,7 +4677,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            new Util().staticHandle(e);
+            new GeneralUtil().staticHandle(e);
         }
     }
 
@@ -4712,8 +4712,8 @@ public class CyderMain{
 
         JLabel text = new JLabel();
         text.setText(htmltext);
-        text.setFont(mainUtil.weatherFontSmall);
-        text.setForeground(mainUtil.navy);
+        text.setFont(mainGeneralUtil.weatherFontSmall);
+        text.setForeground(mainGeneralUtil.navy);
         text.setBounds(14,10,w * 2,h);
         consoleNotification.add(text);
         consoleNotification.setBounds(parent.getWidth() / 2 - (w/2),30,w * 2,h * 2);
@@ -4754,8 +4754,8 @@ public class CyderMain{
 
         JLabel text = new JLabel();
         text.setText(htmltext);
-        text.setFont(mainUtil.weatherFontSmall);
-        text.setForeground(mainUtil.navy);
+        text.setFont(mainGeneralUtil.weatherFontSmall);
+        text.setForeground(mainGeneralUtil.navy);
         text.setBounds(14,10,w * 2,h);
         consoleNotification.add(text);
         consoleNotification.setBounds(parent.getWidth() / 2 - (w/2),30,w * 2,h * 2);

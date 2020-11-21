@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-public class ipUtil {
+public class InternetProtocolUtil {
 
     public static String getUserCity() {
         return userCity;
@@ -62,13 +62,13 @@ public class ipUtil {
     public static String lon;
     public static String isp;
 
-    private static Util util;
+    private static GeneralUtil generalUtil;
 
-    public ipUtil() {
-        util = new Util();
+    public InternetProtocolUtil() {
+        generalUtil = new GeneralUtil();
 
         try {
-            String Key = "https://api.ipdata.co/?api-key=8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932";
+            String Key = "https://api.ipdata.co/?api-key=" + generalUtil.getIPKey();
             URL Querry = new URL(Key);
             BufferedReader BR = new BufferedReader(new InputStreamReader(Querry.openStream()));
             String CurrentLine;
@@ -122,7 +122,7 @@ public class ipUtil {
             }
             BR.close();
         } catch (Exception e) {
-            util.handle(e);
+            generalUtil.handle(e);
         }
     }
 }

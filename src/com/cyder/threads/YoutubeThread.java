@@ -2,7 +2,7 @@ package com.cyder.threads;
 
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.StringUtil;
-import com.cyder.utilities.Util;
+import com.cyder.utilities.GeneralUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,11 +15,11 @@ public class YoutubeThread {
     private boolean exit = false;
 
     private StringUtil su;
-    private Util u;
+    private GeneralUtil u;
 
     public YoutubeThread(JTextPane jTextPane) {
         su = new StringUtil(jTextPane);
-        u = new Util();
+        u = new GeneralUtil();
 
         new Thread(() -> {
             while (!exit) {
@@ -62,7 +62,7 @@ public class YoutubeThread {
                         pictureLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                new Util().internetConnect(video);
+                                new GeneralUtil().internetConnect(video);
                             }
                         });
 

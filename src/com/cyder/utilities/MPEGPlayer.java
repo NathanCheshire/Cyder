@@ -42,14 +42,14 @@ public class MPEGPlayer {
     private boolean playIcon = true;
     private boolean repeatAudio;
 
-    Util musicUtil = new Util();
+    GeneralUtil musicGeneralUtil = new GeneralUtil();
 
     public MPEGPlayer(File StartPlaying, String username, String UUID) {
-        musicUtil.setUsername(username);
-        musicUtil.setUserUUID(UUID);
+        musicGeneralUtil.setUsername(username);
+        musicGeneralUtil.setUserUUID(UUID);
 
         if (musicFrame != null)
-            musicUtil.closeAnimation(musicFrame);
+            musicGeneralUtil.closeAnimation(musicFrame);
 
         musicFrame = new CyderFrame(1000,563,new ImageIcon("src\\com\\cyder\\io\\pictures\\mp3.png"));
         musicFrame.setTitle("Flash Player");
@@ -76,7 +76,7 @@ public class MPEGPlayer {
 
         musicTitleLabel.setFont(new Font("tahoma", Font.BOLD, 18));
 
-        musicTitleLabel.setForeground(musicUtil.vanila);
+        musicTitleLabel.setForeground(musicGeneralUtil.vanila);
 
         musicTitleLabel.setText("No Audio Currently Playing");
 
@@ -86,10 +86,10 @@ public class MPEGPlayer {
 
         CyderSliderUI UI = new CyderSliderUI(musicVolumeSlider);
 
-        UI.setFillColor(musicUtil.vanila);
-        UI.setOutlineColor(musicUtil.vanila);
-        UI.setNewValColor(musicUtil.vanila);
-        UI.setOldValColor(musicUtil.vanila);
+        UI.setFillColor(musicGeneralUtil.vanila);
+        UI.setOutlineColor(musicGeneralUtil.vanila);
+        UI.setNewValColor(musicGeneralUtil.vanila);
+        UI.setOldValColor(musicGeneralUtil.vanila);
         UI.setStroke(new BasicStroke(3.0f));
 
         musicVolumeSlider.setUI(UI);
@@ -126,7 +126,7 @@ public class MPEGPlayer {
                     VolumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
                     musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
                 } catch (Exception ex) {
-                    musicUtil.handle(ex);
+                    musicGeneralUtil.handle(ex);
                 }
             }
 
@@ -138,7 +138,7 @@ public class MPEGPlayer {
                     VolumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
                     musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
                 } catch (Exception exc) {
-                    musicUtil.handle(exc);
+                    musicGeneralUtil.handle(exc);
                 }
             }
         });
@@ -159,7 +159,7 @@ public class MPEGPlayer {
 
         musicVolumeLabel.setFont(new Font("tahoma", Font.BOLD, 18));
 
-        musicVolumeLabel.setForeground(musicUtil.vanila);
+        musicVolumeLabel.setForeground(musicGeneralUtil.vanila);
 
         musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
 
@@ -189,7 +189,7 @@ public class MPEGPlayer {
                     }
 
                     catch (Exception exc) {
-                        musicUtil.handle(exc);
+                        musicGeneralUtil.handle(exc);
                     }
 
                     stopScrolling();
@@ -221,7 +221,7 @@ public class MPEGPlayer {
                     }
 
                     catch (Exception ex) {
-                        musicUtil.handle(ex);
+                        musicGeneralUtil.handle(ex);
                     }
                 }
             }
@@ -490,11 +490,11 @@ public class MPEGPlayer {
         selectMusicDir.setToolTipText("Open File");
 
         selectMusicDir.addActionListener(e -> {
-            File SelectedFile = musicUtil.getFile();
+            File SelectedFile = musicGeneralUtil.getFile();
 
             if (!SelectedFile.toString().endsWith("mp3")) {
                 if (mp3Player == null) {
-                    musicUtil.inform("Sorry, " + musicUtil.getUsername() + ", but that's not an mp3 file.","", 400, 200);
+                    musicGeneralUtil.inform("Sorry, " + musicGeneralUtil.getUsername() + ", but that's not an mp3 file.","", 400, 200);
                 }
             }
 
@@ -560,7 +560,7 @@ public class MPEGPlayer {
 
         else {
             try {
-                File[] SelectedFileDir = new File("src\\com\\cyder\\users\\" + musicUtil.getUserUUID() + "\\Music\\" ).listFiles();
+                File[] SelectedFileDir = new File("src\\com\\cyder\\users\\" + musicGeneralUtil.getUserUUID() + "\\Music\\" ).listFiles();
                 ArrayList<File> ValidFiles = new ArrayList<>();
                 if (SelectedFileDir == null)
                     return;
@@ -583,7 +583,7 @@ public class MPEGPlayer {
             }
 
             catch (Exception e) {
-                musicUtil.handle(e);
+                musicGeneralUtil.handle(e);
             }
         }
     }
@@ -611,7 +611,7 @@ public class MPEGPlayer {
     public void kill() {
         if (mp3Player != null)
             this.mp3Player.close();
-        musicUtil.closeAnimation(musicFrame);
+        musicGeneralUtil.closeAnimation(musicFrame);
     }
 
     private void play(File path) {
@@ -629,7 +629,7 @@ public class MPEGPlayer {
         }
 
         catch (Exception e) {
-            musicUtil.handle(e);
+            musicGeneralUtil.handle(e);
         }
 
         new Thread(() -> {
@@ -650,7 +650,7 @@ public class MPEGPlayer {
             }
 
             catch (Exception e) {
-                musicUtil.handle(e);
+                musicGeneralUtil.handle(e);
             }
         }).start();
     }
@@ -664,7 +664,7 @@ public class MPEGPlayer {
                     play(musicFiles[currentMusicIndex]);
                 }
             } catch (Exception e) {
-                musicUtil.handle(e);
+                musicGeneralUtil.handle(e);
             }
         }).start();
     }
@@ -728,7 +728,7 @@ public class MPEGPlayer {
                         }
 
                         catch (Exception e) {
-                            musicUtil.handle(e);
+                            musicGeneralUtil.handle(e);
                         }
                     }).start();
                 }
@@ -739,7 +739,7 @@ public class MPEGPlayer {
             }
 
             catch (Exception e) {
-                musicUtil.handle(e);
+                musicGeneralUtil.handle(e);
             }
         }
 

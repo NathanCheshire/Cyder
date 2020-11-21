@@ -27,7 +27,7 @@ public class ImageResizer {
     private JLabel previewLabel;
     private JLabel maintainAspectRatioLab;
 
-    private Util imageUtil = new Util();
+    private GeneralUtil imageGeneralUtil = new GeneralUtil();
     private File resizeImage;
 
     private boolean leftLastEdited;
@@ -40,13 +40,13 @@ public class ImageResizer {
         previewLabel = new JLabel();
 
         CyderButton chooseFile = new CyderButton("Choose Image");
-        chooseFile.setFont(imageUtil.weatherFontSmall);
-        chooseFile.setForeground(imageUtil.navy);
-        chooseFile.setBackground(imageUtil.regularRed);
-        chooseFile.setColors(imageUtil.regularRed);
+        chooseFile.setFont(imageGeneralUtil.weatherFontSmall);
+        chooseFile.setForeground(imageGeneralUtil.navy);
+        chooseFile.setBackground(imageGeneralUtil.regularRed);
+        chooseFile.setColors(imageGeneralUtil.regularRed);
         chooseFile.addActionListener(e -> {
             try {
-                File temp = imageUtil.getFile();
+                File temp = imageGeneralUtil.getFile();
 
                 if (temp != null && temp.getName().endsWith(".png")) {
                     resizeImage = temp;
@@ -54,7 +54,7 @@ public class ImageResizer {
                     //add preview label with picture to frame
                     ImageIcon prevIcon = checkImage(temp);
                     previewLabel.setIcon(prevIcon);
-                    previewLabel.setBorder(new LineBorder(imageUtil.navy, 3, false));
+                    previewLabel.setBorder(new LineBorder(imageGeneralUtil.navy, 3, false));
                     previewLabel.setBounds(400 - prevIcon.getIconWidth() / 2,450 - prevIcon.getIconHeight() / 2,prevIcon.getIconWidth(),prevIcon.getIconHeight());
                     resizeFrame.getContentPane().add(previewLabel);
                     resizeFrame.revalidate();
@@ -71,13 +71,13 @@ public class ImageResizer {
             }
 
             catch (Exception ex) {
-                imageUtil.handle(ex);
+                imageGeneralUtil.handle(ex);
             }
         });
 
         JLabel xdimLabel = new JLabel("x pixels");
-        xdimLabel.setForeground(imageUtil.navy);
-        xdimLabel.setFont(imageUtil.weatherFontSmall);
+        xdimLabel.setForeground(imageGeneralUtil.navy);
+        xdimLabel.setFont(imageGeneralUtil.weatherFontSmall);
 
         xdimLabel.setBounds(130,40, 100, 40);
         resizeFrame.getContentPane().add(xdimLabel);
@@ -86,17 +86,17 @@ public class ImageResizer {
         resizeFrame.getContentPane().add(chooseFile);
 
         JLabel ydimLabel = new JLabel("y pixels");
-        ydimLabel.setForeground(imageUtil.navy);
-        ydimLabel.setFont(imageUtil.weatherFontSmall);
+        ydimLabel.setForeground(imageGeneralUtil.navy);
+        ydimLabel.setFont(imageGeneralUtil.weatherFontSmall);
 
         ydimLabel.setBounds(800 - 130 - 90,40, 100, 40);
         resizeFrame.getContentPane().add(ydimLabel);
 
         xdim = new JTextField(5);
-        xdim.setFont(imageUtil.weatherFontSmall);
-        xdim.setBorder(new LineBorder(imageUtil.navy,5,false));
-        xdim.setForeground(imageUtil.navy);
-        xdim.setSelectionColor(imageUtil.selectionColor);
+        xdim.setFont(imageGeneralUtil.weatherFontSmall);
+        xdim.setBorder(new LineBorder(imageGeneralUtil.navy,5,false));
+        xdim.setForeground(imageGeneralUtil.navy);
+        xdim.setSelectionColor(imageGeneralUtil.selectionColor);
         xdim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
             leftLastEdited = true;
@@ -165,10 +165,10 @@ public class ImageResizer {
         resizeFrame.getContentPane().add(maintainAspectRatioLab);
 
         ydim = new JTextField(5);
-        ydim.setFont(imageUtil.weatherFontSmall);
-        ydim.setBorder(new LineBorder(imageUtil.navy,5,false));
-        ydim.setForeground(imageUtil.navy);
-        ydim.setSelectionColor(imageUtil.selectionColor);
+        ydim.setFont(imageGeneralUtil.weatherFontSmall);
+        ydim.setBorder(new LineBorder(imageGeneralUtil.navy,5,false));
+        ydim.setForeground(imageGeneralUtil.navy);
+        ydim.setSelectionColor(imageGeneralUtil.selectionColor);
         ydim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
             leftLastEdited = false;
@@ -195,34 +195,34 @@ public class ImageResizer {
         resizeFrame.getContentPane().add(ydim);
 
         JLabel originalImage = new JLabel("Preview Image");
-        originalImage.setFont(imageUtil.weatherFontSmall);
-        originalImage.setForeground(imageUtil.navy);
+        originalImage.setFont(imageGeneralUtil.weatherFontSmall);
+        originalImage.setForeground(imageGeneralUtil.navy);
 
         originalImage.setBounds(400 - 165 / 2,150, 180, 40);
         resizeFrame.getContentPane().add(originalImage);
 
         CyderButton approve = new CyderButton("Approve Image");
-        approve.setForeground(imageUtil.navy);
-        approve.setFont(imageUtil.weatherFontSmall);
-        approve.setBackground(imageUtil.regularRed);
-        approve.setColors(imageUtil.regularRed);
+        approve.setForeground(imageGeneralUtil.navy);
+        approve.setFont(imageGeneralUtil.weatherFontSmall);
+        approve.setBackground(imageGeneralUtil.regularRed);
+        approve.setColors(imageGeneralUtil.regularRed);
         approve.setFocusPainted(false);
         approve.addActionListener(e -> {
             if (resizeImage == null) {
-                imageUtil.inform("Sorry, but you have no image selected to resize","Exception",400,150);
+                imageGeneralUtil.inform("Sorry, but you have no image selected to resize","Exception",400,150);
             }
 
             else if (xdim.getText().length() > 0 && ydim.getText().length() > 0) {
                 try {
                     BufferedImage replace = resizeImage(resizeImage, Integer.parseInt(xdim.getText()), Integer.parseInt(ydim.getText()));
                     ImageIO.write(replace, "png", resizeImage);
-                    imageUtil.inform("The image \"" + resizeImage.getName() + "\" was successfully resized to " +
+                    imageGeneralUtil.inform("The image \"" + resizeImage.getName() + "\" was successfully resized to " +
                             xdim.getText() + "x" + ydim.getText(),"Success", 500, 300);
-                    imageUtil.closeAnimation(resizeFrame);
+                    imageGeneralUtil.closeAnimation(resizeFrame);
                 }
 
                 catch (Exception ex) {
-                    imageUtil.handle(ex);
+                    imageGeneralUtil.handle(ex);
                 }
             }
         });
@@ -240,7 +240,7 @@ public class ImageResizer {
 
     private ImageIcon checkImage(File im) {
         try {
-            Dimension dim = imageUtil.getScreenSize();
+            Dimension dim = imageGeneralUtil.getScreenSize();
             double screenX = dim.getWidth();
             double screenY = dim.getHeight();
 
@@ -266,7 +266,7 @@ public class ImageResizer {
         }
 
         catch (Exception e) {
-            imageUtil.handle(e);
+            imageGeneralUtil.handle(e);
         }
 
         return null;
@@ -284,7 +284,7 @@ public class ImageResizer {
         }
 
         catch (Exception e) {
-            imageUtil.handle(e);
+            imageGeneralUtil.handle(e);
         }
 
         return resizedImage;

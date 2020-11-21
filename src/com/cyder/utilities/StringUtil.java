@@ -8,13 +8,13 @@ import java.util.LinkedList;
 
 public class StringUtil {
     private static JTextPane outputArea;
-    private Util stringUtil;
+    private GeneralUtil stringGeneralUtil;
 
     private bletchyThread bletchThread;
 
     public StringUtil(JTextPane outputArea) {
         this.outputArea = outputArea;
-        stringUtil = new Util();
+        stringGeneralUtil = new GeneralUtil();
     }
 
     public void setOutputArea(JTextPane jTextPane) {
@@ -88,7 +88,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -100,7 +100,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -112,7 +112,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -124,7 +124,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -136,7 +136,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -148,7 +148,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -160,7 +160,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -172,7 +172,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -184,7 +184,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -196,7 +196,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -208,7 +208,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -220,7 +220,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -232,7 +232,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -244,7 +244,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -256,7 +256,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -268,7 +268,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringUtil.handle(e);
+            stringGeneralUtil.handle(e);
         }
     }
 
@@ -344,7 +344,7 @@ public class StringUtil {
                     }
 
                     catch (Exception e) {
-                        stringUtil.handle(e);
+                        stringGeneralUtil.handle(e);
                     }
 
                     outputArea.setText("");
@@ -390,7 +390,7 @@ public class StringUtil {
                 String current = "";
 
                 for (int k = 0 ; k <= len ; k++)
-                    current += alphas[stringUtil.randInt(0,alphas.length - 1)];
+                    current += alphas[stringGeneralUtil.randInt(0,alphas.length - 1)];
 
                 retList.add((s.substring(0,i) + current.substring(i, len)).toUpperCase());
             }

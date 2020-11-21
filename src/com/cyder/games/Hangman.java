@@ -1,6 +1,6 @@
 package com.cyder.games;
 
-import com.cyder.utilities.Util;
+import com.cyder.utilities.GeneralUtil;
 import com.cyder.ui.CyderButton;
 
 import javax.swing.*;
@@ -10,7 +10,7 @@ import java.awt.*;
 public class Hangman {
 
     private JFrame HangmanFrame;
-    private Util hangmanUtil;
+    private GeneralUtil hangmanGeneralUtil;
 
     private String HangmanWord;
 
@@ -48,10 +48,10 @@ public class Hangman {
     private int HangmanWrongGuesses = 1;
 
     public void startHangman() {
-        hangmanUtil = new Util();
+        hangmanGeneralUtil = new GeneralUtil();
 
         if (HangmanFrame != null)
-            hangmanUtil.closeAnimation(HangmanFrame);
+            hangmanGeneralUtil.closeAnimation(HangmanFrame);
 
         HangmanFrame = new JFrame();
 
@@ -105,14 +105,14 @@ public class Hangman {
 
         HangmanA.setFocusPainted(false);
 
-        HangmanA.setBackground(hangmanUtil.vanila);
+        HangmanA.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanA.setFont(hangmanUtil.weatherFontSmall);
+        HangmanA.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanA.addActionListener(e -> {
             LetterChosen("a");
             HangmanA.setEnabled(false);
-            HangmanA.setForeground(hangmanUtil.regularRed);
+            HangmanA.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanA);
@@ -123,14 +123,14 @@ public class Hangman {
 
         HangmanB.setFocusPainted(false);
 
-        HangmanB.setBackground(hangmanUtil.vanila);
+        HangmanB.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanB.setFont(hangmanUtil.weatherFontSmall);
+        HangmanB.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanB.addActionListener(e -> {
             LetterChosen("b");
             HangmanB.setEnabled(false);
-            HangmanB.setForeground(hangmanUtil.regularRed);
+            HangmanB.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanB);
@@ -141,14 +141,14 @@ public class Hangman {
 
         HangmanC.setFocusPainted(false);
 
-        HangmanC.setBackground(hangmanUtil.vanila);
+        HangmanC.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanC.setFont(hangmanUtil.weatherFontSmall);
+        HangmanC.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanC.addActionListener(e -> {
             LetterChosen("c");
             HangmanC.setEnabled(false);
-            HangmanC.setForeground(hangmanUtil.regularRed);
+            HangmanC.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanC);
@@ -159,14 +159,14 @@ public class Hangman {
 
         HangmanD.setFocusPainted(false);
 
-        HangmanD.setBackground(hangmanUtil.vanila);
+        HangmanD.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanD.setFont(hangmanUtil.weatherFontSmall);
+        HangmanD.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanD.addActionListener(e -> {
             LetterChosen("d");
             HangmanD.setEnabled(false);
-            HangmanD.setForeground(hangmanUtil.regularRed);
+            HangmanD.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanD);
@@ -177,16 +177,16 @@ public class Hangman {
 
         HangmanE.setFocusPainted(false);
 
-        HangmanE.setBackground(hangmanUtil.vanila);
+        HangmanE.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanE.setFont(hangmanUtil.weatherFontSmall);
+        HangmanE.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanE.addActionListener(e -> {
             LetterChosen("e");
 
             HangmanE.setEnabled(false);
 
-            HangmanE.setForeground(hangmanUtil.regularRed);
+            HangmanE.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanE);
@@ -197,14 +197,14 @@ public class Hangman {
 
         HangmanF.setFocusPainted(false);
 
-        HangmanF.setBackground(hangmanUtil.vanila);
+        HangmanF.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanF.setFont(hangmanUtil.weatherFontSmall);
+        HangmanF.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanF.addActionListener(e -> {
             LetterChosen("f");
             HangmanF.setEnabled(false);
-            HangmanF.setForeground(hangmanUtil.regularRed);
+            HangmanF.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanF);
@@ -215,14 +215,14 @@ public class Hangman {
 
         HangmanG.setFocusPainted(false);
 
-        HangmanG.setBackground(hangmanUtil.vanila);
+        HangmanG.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanG.setFont(hangmanUtil.weatherFontSmall);
+        HangmanG.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanG.addActionListener(e -> {
             LetterChosen("g");
             HangmanG.setEnabled(false);
-            HangmanG.setForeground(hangmanUtil.regularRed);
+            HangmanG.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanG);
@@ -233,14 +233,14 @@ public class Hangman {
 
         HangmanH.setFocusPainted(false);
 
-        HangmanH.setBackground(hangmanUtil.vanila);
+        HangmanH.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanH.setFont(hangmanUtil.weatherFontSmall);
+        HangmanH.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanH.addActionListener(e -> {
             LetterChosen("h");
             HangmanH.setEnabled(false);
-            HangmanH.setForeground(hangmanUtil.regularRed);
+            HangmanH.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanH);
@@ -251,14 +251,14 @@ public class Hangman {
 
         HangmanI.setFocusPainted(false);
 
-        HangmanI.setBackground(hangmanUtil.vanila);
+        HangmanI.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanI.setFont(hangmanUtil.weatherFontSmall);
+        HangmanI.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanI.addActionListener(e -> {
             LetterChosen("i");
             HangmanI.setEnabled(false);
-            HangmanI.setForeground(hangmanUtil.regularRed);
+            HangmanI.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanI);
@@ -269,14 +269,14 @@ public class Hangman {
 
         HangmanJ.setFocusPainted(false);
 
-        HangmanJ.setBackground(hangmanUtil.vanila);
+        HangmanJ.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanJ.setFont(hangmanUtil.weatherFontSmall);
+        HangmanJ.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanJ.addActionListener(e -> {
             LetterChosen("j");
             HangmanJ.setEnabled(false);
-            HangmanJ.setForeground(hangmanUtil.regularRed);
+            HangmanJ.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanJ);
@@ -287,14 +287,14 @@ public class Hangman {
 
         HangmanK.setFocusPainted(false);
 
-        HangmanK.setBackground(hangmanUtil.vanila);
+        HangmanK.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanK.setFont(hangmanUtil.weatherFontSmall);
+        HangmanK.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanK.addActionListener(e -> {
             LetterChosen("k");
             HangmanK.setEnabled(false);
-            HangmanK.setForeground(hangmanUtil.regularRed);
+            HangmanK.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanK);
@@ -305,14 +305,14 @@ public class Hangman {
 
         HangmanL.setFocusPainted(false);
 
-        HangmanL.setBackground(hangmanUtil.vanila);
+        HangmanL.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanL.setFont(hangmanUtil.weatherFontSmall);
+        HangmanL.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanL.addActionListener(e -> {
             LetterChosen("l");
             HangmanL.setEnabled(false);
-            HangmanL.setForeground(hangmanUtil.regularRed);
+            HangmanL.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanL);
@@ -323,14 +323,14 @@ public class Hangman {
 
         HangmanM.setFocusPainted(false);
 
-        HangmanM.setBackground(hangmanUtil.vanila);
+        HangmanM.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanM.setFont(hangmanUtil.weatherFontSmall);
+        HangmanM.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanM.addActionListener(e -> {
             LetterChosen("m");
             HangmanM.setEnabled(false);
-            HangmanM.setForeground(hangmanUtil.regularRed);
+            HangmanM.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanM);
@@ -341,14 +341,14 @@ public class Hangman {
 
         HangmanN.setFocusPainted(false);
 
-        HangmanN.setBackground(hangmanUtil.vanila);
+        HangmanN.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanN.setFont(hangmanUtil.weatherFontSmall);
+        HangmanN.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanN.addActionListener(e -> {
             LetterChosen("n");
             HangmanN.setEnabled(false);
-            HangmanN.setForeground(hangmanUtil.regularRed);
+            HangmanN.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanN);
@@ -359,14 +359,14 @@ public class Hangman {
 
         HangmanO.setFocusPainted(false);
 
-        HangmanO.setBackground(hangmanUtil.vanila);
+        HangmanO.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanO.setFont(hangmanUtil.weatherFontSmall);
+        HangmanO.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanO.addActionListener(e -> {
             LetterChosen("o");
             HangmanO.setEnabled(false);
-            HangmanO.setForeground(hangmanUtil.regularRed);
+            HangmanO.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanO);
@@ -377,14 +377,14 @@ public class Hangman {
 
         HangmanP.setFocusPainted(false);
 
-        HangmanP.setBackground(hangmanUtil.vanila);
+        HangmanP.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanP.setFont(hangmanUtil.weatherFontSmall);
+        HangmanP.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanP.addActionListener(e -> {
             LetterChosen("p");
             HangmanP.setEnabled(false);
-            HangmanP.setForeground(hangmanUtil.regularRed);
+            HangmanP.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanP);
@@ -395,14 +395,14 @@ public class Hangman {
 
         HangmanQ.setFocusPainted(false);
 
-        HangmanQ.setBackground(hangmanUtil.vanila);
+        HangmanQ.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanQ.setFont(hangmanUtil.weatherFontSmall);
+        HangmanQ.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanQ.addActionListener(e -> {
             LetterChosen("q");
             HangmanQ.setEnabled(false);
-            HangmanQ.setForeground(hangmanUtil.regularRed);
+            HangmanQ.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanQ);
@@ -413,14 +413,14 @@ public class Hangman {
 
         HangmanR.setFocusPainted(false);
 
-        HangmanR.setBackground(hangmanUtil.vanila);
+        HangmanR.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanR.setFont(hangmanUtil.weatherFontSmall);
+        HangmanR.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanR.addActionListener(e -> {
             LetterChosen("r");
             HangmanR.setEnabled(false);
-            HangmanR.setForeground(hangmanUtil.regularRed);
+            HangmanR.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanR);
@@ -431,14 +431,14 @@ public class Hangman {
 
         HangmanS.setFocusPainted(false);
 
-        HangmanS.setBackground(hangmanUtil.vanila);
+        HangmanS.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanS.setFont(hangmanUtil.weatherFontSmall);
+        HangmanS.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanS.addActionListener(e -> {
             LetterChosen("s");
             HangmanS.setEnabled(false);
-            HangmanS.setForeground(hangmanUtil.regularRed);
+            HangmanS.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanS);
@@ -449,14 +449,14 @@ public class Hangman {
 
         HangmanT.setFocusPainted(false);
 
-        HangmanT.setBackground(hangmanUtil.vanila);
+        HangmanT.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanT.setFont(hangmanUtil.weatherFontSmall);
+        HangmanT.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanT.addActionListener(e -> {
             LetterChosen("t");
             HangmanT.setEnabled(false);
-            HangmanT.setForeground(hangmanUtil.regularRed);
+            HangmanT.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanT);
@@ -467,14 +467,14 @@ public class Hangman {
 
         HangmanU.setFocusPainted(false);
 
-        HangmanU.setBackground(hangmanUtil.vanila);
+        HangmanU.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanU.setFont(hangmanUtil.weatherFontSmall);
+        HangmanU.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanU.addActionListener(e -> {
             LetterChosen("u");
             HangmanU.setEnabled(false);
-            HangmanU.setForeground(hangmanUtil.regularRed);
+            HangmanU.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanU);
@@ -485,14 +485,14 @@ public class Hangman {
 
         HangmanV.setFocusPainted(false);
 
-        HangmanV.setBackground(hangmanUtil.vanila);
+        HangmanV.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanV.setFont(hangmanUtil.weatherFontSmall);
+        HangmanV.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanV.addActionListener(e -> {
             LetterChosen("v");
             HangmanV.setEnabled(false);
-            HangmanV.setForeground(hangmanUtil.regularRed);
+            HangmanV.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanV);
@@ -503,14 +503,14 @@ public class Hangman {
 
         HangmanW.setFocusPainted(false);
 
-        HangmanW.setBackground(hangmanUtil.vanila);
+        HangmanW.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanW.setFont(hangmanUtil.weatherFontSmall);
+        HangmanW.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanW.addActionListener(e -> {
             LetterChosen("w");
             HangmanW.setEnabled(false);
-            HangmanW.setForeground(hangmanUtil.regularRed);
+            HangmanW.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanW);
@@ -521,14 +521,14 @@ public class Hangman {
 
         HangmanX.setFocusPainted(false);
 
-        HangmanX.setBackground(hangmanUtil.vanila);
+        HangmanX.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanX.setFont(hangmanUtil.weatherFontSmall);
+        HangmanX.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanX.addActionListener(e -> {
             LetterChosen("x");
             HangmanX.setEnabled(false);
-            HangmanX.setForeground(hangmanUtil.regularRed);
+            HangmanX.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanX);
@@ -539,14 +539,14 @@ public class Hangman {
 
         HangmanY.setFocusPainted(false);
 
-        HangmanY.setBackground(hangmanUtil.vanila);
+        HangmanY.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanY.setFont(hangmanUtil.weatherFontSmall);
+        HangmanY.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanY.addActionListener(e -> {
             LetterChosen("y");
             HangmanY.setEnabled(false);
-            HangmanY.setForeground(hangmanUtil.regularRed);
+            HangmanY.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanY);
@@ -557,14 +557,14 @@ public class Hangman {
 
         HangmanZ.setFocusPainted(false);
 
-        HangmanZ.setBackground(hangmanUtil.vanila);
+        HangmanZ.setBackground(hangmanGeneralUtil.vanila);
 
-        HangmanZ.setFont(hangmanUtil.weatherFontSmall);
+        HangmanZ.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanZ.addActionListener(e -> {
             LetterChosen("z");
             HangmanZ.setEnabled(false);
-            HangmanZ.setForeground(hangmanUtil.regularRed);
+            HangmanZ.setForeground(hangmanGeneralUtil.regularRed);
         });
 
         ButtonPanel.add(HangmanZ);
@@ -579,67 +579,67 @@ public class Hangman {
 
         HangmanReset.setFocusPainted(false);
 
-        HangmanReset.setBackground(hangmanUtil.regularRed);
+        HangmanReset.setBackground(hangmanGeneralUtil.regularRed);
 
-        HangmanReset.setFont(hangmanUtil.weatherFontSmall);
+        HangmanReset.setFont(hangmanGeneralUtil.weatherFontSmall);
 
         HangmanReset.addActionListener(e -> setup());
 
-        HangmanReset.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanA.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanB.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanC.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanD.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanE.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanF.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanG.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanH.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanI.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanJ.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanK.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanL.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanM.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanN.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanO.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanP.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanQ.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanR.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanS.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanT.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanU.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanV.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanW.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanX.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanY.setBorder(new LineBorder(hangmanUtil.navy,5,false));
-        HangmanZ.setBorder(new LineBorder(hangmanUtil.navy,5,false));
+        HangmanReset.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanA.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanB.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanC.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanD.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanE.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanF.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanG.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanH.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanI.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanJ.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanK.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanL.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanM.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanN.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanO.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanP.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanQ.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanR.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanS.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanT.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanU.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanV.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanW.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanX.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanY.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        HangmanZ.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
 
-        HangmanReset.setColors(hangmanUtil.regularRed);
-        HangmanA.setColors(hangmanUtil.vanila);
-        HangmanB.setColors(hangmanUtil.vanila);
-        HangmanC.setColors(hangmanUtil.vanila);
-        HangmanD.setColors(hangmanUtil.vanila);
-        HangmanE.setColors(hangmanUtil.vanila);
-        HangmanF.setColors(hangmanUtil.vanila);
-        HangmanG.setColors(hangmanUtil.vanila);
-        HangmanH.setColors(hangmanUtil.vanila);
-        HangmanI.setColors(hangmanUtil.vanila);
-        HangmanJ.setColors(hangmanUtil.vanila);
-        HangmanK.setColors(hangmanUtil.vanila);
-        HangmanL.setColors(hangmanUtil.vanila);
-        HangmanM.setColors(hangmanUtil.vanila);
-        HangmanN.setColors(hangmanUtil.vanila);
-        HangmanO.setColors(hangmanUtil.vanila);
-        HangmanP.setColors(hangmanUtil.vanila);
-        HangmanQ.setColors(hangmanUtil.vanila);
-        HangmanR.setColors(hangmanUtil.vanila);
-        HangmanS.setColors(hangmanUtil.vanila);
-        HangmanT.setColors(hangmanUtil.vanila);
-        HangmanU.setColors(hangmanUtil.vanila);
-        HangmanV.setColors(hangmanUtil.vanila);
-        HangmanW.setColors(hangmanUtil.vanila);
-        HangmanX.setColors(hangmanUtil.vanila);
-        HangmanY.setColors(hangmanUtil.vanila);
-        HangmanZ.setColors(hangmanUtil.vanila);
+        HangmanReset.setColors(hangmanGeneralUtil.regularRed);
+        HangmanA.setColors(hangmanGeneralUtil.vanila);
+        HangmanB.setColors(hangmanGeneralUtil.vanila);
+        HangmanC.setColors(hangmanGeneralUtil.vanila);
+        HangmanD.setColors(hangmanGeneralUtil.vanila);
+        HangmanE.setColors(hangmanGeneralUtil.vanila);
+        HangmanF.setColors(hangmanGeneralUtil.vanila);
+        HangmanG.setColors(hangmanGeneralUtil.vanila);
+        HangmanH.setColors(hangmanGeneralUtil.vanila);
+        HangmanI.setColors(hangmanGeneralUtil.vanila);
+        HangmanJ.setColors(hangmanGeneralUtil.vanila);
+        HangmanK.setColors(hangmanGeneralUtil.vanila);
+        HangmanL.setColors(hangmanGeneralUtil.vanila);
+        HangmanM.setColors(hangmanGeneralUtil.vanila);
+        HangmanN.setColors(hangmanGeneralUtil.vanila);
+        HangmanO.setColors(hangmanGeneralUtil.vanila);
+        HangmanP.setColors(hangmanGeneralUtil.vanila);
+        HangmanQ.setColors(hangmanGeneralUtil.vanila);
+        HangmanR.setColors(hangmanGeneralUtil.vanila);
+        HangmanS.setColors(hangmanGeneralUtil.vanila);
+        HangmanT.setColors(hangmanGeneralUtil.vanila);
+        HangmanU.setColors(hangmanGeneralUtil.vanila);
+        HangmanV.setColors(hangmanGeneralUtil.vanila);
+        HangmanW.setColors(hangmanGeneralUtil.vanila);
+        HangmanX.setColors(hangmanGeneralUtil.vanila);
+        HangmanY.setColors(hangmanGeneralUtil.vanila);
+        HangmanZ.setColors(hangmanGeneralUtil.vanila);
         
         ResetPanel.add(HangmanReset, BorderLayout.CENTER);
 
@@ -681,9 +681,9 @@ public class Hangman {
                 ,"satellites","satisfied","scared","selection","shake","shaking","shallow","shout","silly","simplest","slight","slip","slope","soap","solar","species"
                 ,"spin","stiff","swung","tales","thumb","tobacco","toy","trap","treated","tune","University","vapor","vessels","wealth","wolf","zoo"};
 
-        HangmanWord = words[hangmanUtil.randInt(0, words.length - 1)].toLowerCase();
+        HangmanWord = words[hangmanGeneralUtil.randInt(0, words.length - 1)].toLowerCase();
 
-        HangmanLabel.setText(hangmanUtil.fillString(HangmanWord.length(), " _ "));
+        HangmanLabel.setText(hangmanGeneralUtil.fillString(HangmanWord.length(), " _ "));
 
         HangmanImageLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\hangman.png"));
 

@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.Stack;
 
 public class DirectorySearch {
-    private Util dirUtil = new Util();
+    private GeneralUtil dirGeneralUtil = new GeneralUtil();
     private JFrame dirFrame;
     private JTextField dirField;
     private CyderScrollPane dirScroll;
@@ -26,36 +26,36 @@ public class DirectorySearch {
     private String rightNow = System.getProperty("user.dir");
     public DirectorySearch() {
         if (dirFrame != null)
-            new Util().closeAnimation(dirFrame);
+            new GeneralUtil().closeAnimation(dirFrame);
 
         dirFrame = new JFrame();
         dirFrame.setTitle("Directory Search");
         dirFrame.setResizable(false);
         dirFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        dirFrame.setIconImage(dirUtil.getCyderIcon().getImage());
+        dirFrame.setIconImage(dirGeneralUtil.getCyderIcon().getImage());
 
         dirSearchParentPanel = new JPanel();
         dirSearchParentPanel.setLayout(new BorderLayout());
 
         dirField = new JTextField(40);
-        dirField.setSelectionColor(dirUtil.selectionColor);
+        dirField.setSelectionColor(dirGeneralUtil.selectionColor);
         dirField.setText(System.getProperty("user.dir"));
-        dirField.setFont(dirUtil.weatherFontSmall);
-        dirField.setForeground(dirUtil.navy);
+        dirField.setFont(dirGeneralUtil.weatherFontSmall);
+        dirField.setForeground(dirGeneralUtil.navy);
 
         dirField.addActionListener(directoryFieldListener);
         JPanel dirFieldPanel = new JPanel();
         dirFieldPanel.setLayout(new BorderLayout());
 
-        dirField.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),new LineBorder(dirUtil.navy,5,false)));
+        dirField.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),new LineBorder(dirGeneralUtil.navy,5,false)));
 
         CyderButton last = new CyderButton(" < ");
         last.setFocusPainted(false);
-        last.setForeground(dirUtil.navy);
-        last.setBackground(dirUtil.regularRed);
-        last.setFont(dirUtil.weatherFontSmall);
-        last.setBorder(new LineBorder(dirUtil.navy,5,false));
-        last.setColors(dirUtil.regularRed);
+        last.setForeground(dirGeneralUtil.navy);
+        last.setBackground(dirGeneralUtil.regularRed);
+        last.setFont(dirGeneralUtil.weatherFontSmall);
+        last.setBorder(new LineBorder(dirGeneralUtil.navy,5,false));
+        last.setColors(dirGeneralUtil.regularRed);
         last.addActionListener(e -> {
             if (!backward.empty()) {
                 foward.push(rightNow);
@@ -73,9 +73,9 @@ public class DirectorySearch {
                 }
 
                 directoryNameList = new JList(Names);
-                directoryNameList.setFont(dirUtil.weatherFontSmall);
-                directoryNameList.setForeground(dirUtil.navy);
-                directoryNameList.setSelectionBackground(dirUtil.selectionColor);
+                directoryNameList.setFont(dirGeneralUtil.weatherFontSmall);
+                directoryNameList.setForeground(dirGeneralUtil.navy);
+                directoryNameList.setSelectionBackground(dirGeneralUtil.selectionColor);
                 directoryNameList.addMouseListener(directoryListener);
                 directoryNameList.addKeyListener(directoryEnterListener);
 
@@ -96,11 +96,11 @@ public class DirectorySearch {
 
         CyderButton next = new CyderButton(" > ");
         next.setFocusPainted(false);
-        next.setForeground(dirUtil.navy);
-        next.setBackground(dirUtil.regularRed);
-        next.setFont(dirUtil.weatherFontSmall);
-        next.setBorder(new LineBorder(dirUtil.navy,5,false));
-        next.setColors(dirUtil.regularRed);
+        next.setForeground(dirGeneralUtil.navy);
+        next.setBackground(dirGeneralUtil.regularRed);
+        next.setFont(dirGeneralUtil.weatherFontSmall);
+        next.setBorder(new LineBorder(dirGeneralUtil.navy,5,false));
+        next.setColors(dirGeneralUtil.regularRed);
         next.addActionListener(e -> {
             if (!foward.empty()) {
                 backward.push(rightNow);
@@ -118,9 +118,9 @@ public class DirectorySearch {
                 }
 
                 directoryNameList = new JList(Names);
-                directoryNameList.setFont(dirUtil.weatherFontSmall);
-                directoryNameList.setForeground(dirUtil.navy);
-                directoryNameList.setSelectionBackground(dirUtil.selectionColor);
+                directoryNameList.setFont(dirGeneralUtil.weatherFontSmall);
+                directoryNameList.setForeground(dirGeneralUtil.navy);
+                directoryNameList.setSelectionBackground(dirGeneralUtil.selectionColor);
                 directoryNameList.addMouseListener(directoryListener);
                 directoryNameList.addKeyListener(directoryEnterListener);
 
@@ -163,9 +163,9 @@ public class DirectorySearch {
         }
 
         directoryNameList = new JList(Names);
-        directoryNameList.setFont(dirUtil.weatherFontSmall);
-        directoryNameList.setSelectionBackground(dirUtil.selectionColor);
-        directoryNameList.setForeground(dirUtil.navy);
+        directoryNameList.setFont(dirGeneralUtil.weatherFontSmall);
+        directoryNameList.setSelectionBackground(dirGeneralUtil.selectionColor);
+        directoryNameList.setForeground(dirGeneralUtil.navy);
         directoryNameList.addMouseListener(directoryListener);
 
         directoryNameList.addKeyListener(directoryEnterListener);
@@ -173,12 +173,12 @@ public class DirectorySearch {
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        dirScroll.setThumbColor(dirUtil.regularRed);
+        dirScroll.setThumbColor(dirGeneralUtil.regularRed);
 
-        dirScroll.setForeground(dirUtil.navy);
-        dirScroll.setFont(dirUtil.weatherFontSmall);
+        dirScroll.setForeground(dirGeneralUtil.navy);
+        dirScroll.setFont(dirGeneralUtil.weatherFontSmall);
         dirScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(dirUtil.navy,5,false)));
+                new LineBorder(dirGeneralUtil.navy,5,false)));
 
         dirSearchParentPanel.add(dirScroll, BorderLayout.CENTER);
         dirSearchParentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -224,9 +224,9 @@ public class DirectorySearch {
 
                         directoryNameList = new JList(Names);
 
-                        directoryNameList.setFont(dirUtil.weatherFontSmall);
-                        directoryNameList.setForeground(dirUtil.navy);
-                        directoryNameList.setSelectionBackground(dirUtil.selectionColor);
+                        directoryNameList.setFont(dirGeneralUtil.weatherFontSmall);
+                        directoryNameList.setForeground(dirGeneralUtil.navy);
+                        directoryNameList.setSelectionBackground(dirGeneralUtil.selectionColor);
 
                         directoryNameList.addMouseListener(directoryListener);
                         directoryNameList.addKeyListener(directoryEnterListener);
@@ -243,7 +243,7 @@ public class DirectorySearch {
                     }
 
                     else if (ChosenDir.isFile()) {
-                        dirUtil.openFile(ChosenDir.getAbsolutePath());
+                        dirGeneralUtil.openFile(ChosenDir.getAbsolutePath());
                     }
                 }
             }
@@ -281,9 +281,9 @@ public class DirectorySearch {
                     }
 
                     directoryNameList = new JList(Names);
-                    directoryNameList.setFont(dirUtil.weatherFontSmall);
-                    directoryNameList.setForeground(dirUtil.navy);
-                    directoryNameList.setSelectionBackground(dirUtil.selectionColor);
+                    directoryNameList.setFont(dirGeneralUtil.weatherFontSmall);
+                    directoryNameList.setForeground(dirGeneralUtil.navy);
+                    directoryNameList.setSelectionBackground(dirGeneralUtil.selectionColor);
                     directoryNameList.addMouseListener(directoryListener);
                     directoryNameList.addKeyListener(directoryEnterListener);
                     dirScroll.setViewportView(directoryNameList);
@@ -296,12 +296,12 @@ public class DirectorySearch {
                 }
 
                 else if (ChosenDir.isFile()) {
-                    dirUtil.openFile(ChosenDir.getAbsolutePath());
+                    dirGeneralUtil.openFile(ChosenDir.getAbsolutePath());
                 }
             }
 
             else {
-                dirUtil.beep();
+                dirGeneralUtil.beep();
             }
         }
     };
@@ -336,7 +336,7 @@ public class DirectorySearch {
                     }
 
                     directoryNameList = new JList(Names);
-                    directoryNameList.setFont(dirUtil.weatherFontSmall);
+                    directoryNameList.setFont(dirGeneralUtil.weatherFontSmall);
                     directoryNameList.addMouseListener(directoryListener);
                     directoryNameList.addKeyListener(directoryEnterListener);
 
@@ -352,7 +352,7 @@ public class DirectorySearch {
                 }
 
                 else if (ChosenDir.isFile()) {
-                    dirUtil.openFile(ChosenDir.getAbsolutePath());
+                    dirGeneralUtil.openFile(ChosenDir.getAbsolutePath());
                 }
             }
         }
