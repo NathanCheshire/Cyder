@@ -234,8 +234,6 @@ public class ImageResizer {
         resizeFrame.setLocationRelativeTo(null);
     }
 
-    //todo refresh image preview based on entered dimensions
-
     private double getAspectRatio(ImageIcon im) {
         return ((double) im.getIconWidth() / (double) im.getIconHeight());
     }

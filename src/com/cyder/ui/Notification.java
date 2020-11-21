@@ -18,6 +18,7 @@ public class Notification extends JLabel {
     private int timeout;
 
     private Color fillColor = new Color(236,64,122);
+    //todo this will be secondary color when you do colors overhaul where user can change the navy color for stuff
 
     private int width = 300;
     private int height = 300;
@@ -32,6 +33,10 @@ public class Notification extends JLabel {
     public static final int LEFT_VANISH = 2;
     public static final int RIGHT_VANISH = 3;
     public static final int BOTTOM_VANISH = 4;
+
+    public static final int LEFT_START = 1;
+    public static final int TOP_START = 2;
+    public static final int RIGHT_START = 3;
 
     public void setStrokeThickness(int strokeThickness) {
         this.strokeThickness = strokeThickness;
@@ -64,72 +69,75 @@ public class Notification extends JLabel {
     @Override
     protected void paintComponent(final Graphics g) {
         final Graphics2D graphics2D = (Graphics2D) g;
+
         RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-
         graphics2D.setRenderingHints(qualityHints);
-        graphics2D.setPaint(fillColor);
-
-        GeneralPath path = new GeneralPath();
-
-        path.moveTo(10, 10);
-
-        path.curveTo(10, 10,12,8, 14, 6);
-        path.lineTo(this.width + 14, 6);
-
-        path.curveTo(this.width + 14, 6, this.width + 16, 8, this.width + 18, 10);
-        path.lineTo(this.width + 18, this.height + 10);
-
-        path.curveTo(this.width + 18, this.height + 10, this.width + 16, this.height + 12, this.width + 14, this.height + 14);
-        path.lineTo(14, this.height + 14);
-
-        path.curveTo(14, this.height + 14, 12, this.height + 12, 10, this.height + 10);
-        path.lineTo( 10, 10);
-
-        path.closePath();
-        graphics2D.fill(path);
 
         //todo add a border with customizable color and width
+        //make do the same thing as above before it but make it one pixel bigger and the filling one pixel smaller
+        //todo draw path and also draw arrow border
+
+        graphics2D.setPaint(fillColor);
+
+        GeneralPath fillPath = new GeneralPath();
+
+        fillPath.moveTo(10, 10);
+
+        fillPath.curveTo(10, 10,12,8, 14, 6);
+        fillPath.lineTo(this.width + 14, 6);
+
+        fillPath.curveTo(this.width + 14, 6, this.width + 16, 8, this.width + 18, 10);
+        fillPath.lineTo(this.width + 18, this.height + 10);
+
+        fillPath.curveTo(this.width + 18, this.height + 10, this.width + 16, this.height + 12, this.width + 14, this.height + 14);
+        fillPath.lineTo(14, this.height + 14);
+
+        fillPath.curveTo(14, this.height + 14, 12, this.height + 12, 10, this.height + 10);
+        fillPath.lineTo( 10, 10);
+
+        fillPath.closePath();
+        graphics2D.fill(fillPath);
 
         //this adds the arrow on sides
         switch (type) {
             case 1:
-                path.moveTo(8 + this.width / 2, 6);
-                path.lineTo(14 + this.width / 2,0);
-                path.lineTo(20 + this.width / 2,6);
-                path.lineTo(8 + this.width / 2, 6);
+                fillPath.moveTo(8 + this.width / 2, 6);
+                fillPath.lineTo(14 + this.width / 2,0);
+                fillPath.lineTo(20 + this.width / 2,6);
+                fillPath.lineTo(8 + this.width / 2, 6);
 
-                path.closePath();
-                graphics2D.fill(path);
+                fillPath.closePath();
+                graphics2D.fill(fillPath);
                 break;
             case 2:
-                path.moveTo(10, 4 + height/2);
-                path.lineTo(4, 10 + height/2);
-                path.lineTo(10, 16 + height/2);
-                path.lineTo(10, 4 + height/2);
+                fillPath.moveTo(10, 4 + height/2);
+                fillPath.lineTo(4, 10 + height/2);
+                fillPath.lineTo(10, 16 + height/2);
+                fillPath.lineTo(10, 4 + height/2);
 
-                path.closePath();
-                graphics2D.fill(path);
+                fillPath.closePath();
+                graphics2D.fill(fillPath);
                 break;
 
             case 3:
-                path.moveTo(18 + this.width, 4 + height/2);
-                path.lineTo(24 + this.width, 10 + height/2);
-                path.lineTo(18 + this.width, 16 + height/2);
-                path.lineTo(18 + this.width, 4 + height/2);
+                fillPath.moveTo(18 + this.width, 4 + height/2);
+                fillPath.lineTo(24 + this.width, 10 + height/2);
+                fillPath.lineTo(18 + this.width, 16 + height/2);
+                fillPath.lineTo(18 + this.width, 4 + height/2);
 
-                path.closePath();
-                graphics2D.fill(path);
+                fillPath.closePath();
+                graphics2D.fill(fillPath);
                 break;
 
             case 4:
-                path.moveTo(8 + width/2, 14+ height);
-                path.lineTo(14 + width/2, 20 + height);
-                path.lineTo(20 + width/2, 14 + height);
-                path.lineTo(8 + width/2, 14+ height);
+                fillPath.moveTo(8 + width/2, 14+ height);
+                fillPath.lineTo(14 + width/2, 20 + height);
+                fillPath.lineTo(20 + width/2, 14 + height);
+                fillPath.lineTo(8 + width/2, 14+ height);
 
-                path.closePath();
-                graphics2D.fill(path);
+                fillPath.closePath();
+                graphics2D.fill(fillPath);
                 break;
         }
     }

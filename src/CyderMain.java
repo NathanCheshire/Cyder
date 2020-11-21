@@ -60,7 +60,6 @@ import java.util.concurrent.ThreadLocalRandom;
 //todo network util class
 //todo ui utils class
 
-//todo further class separation from CyderMain.java
 //todo further class separation from Util.java
 
 //todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
@@ -72,14 +71,17 @@ import java.util.concurrent.ThreadLocalRandom;
 //todo make nbt extend nst
 
 //todo cyder frame should have a notify method that will drop down from center and back up
-
 //todo add a way for notifcations to go down and then back up from center of jframe
 //todo in add a notificaiton function within cyder frame
 
 //todo make the frame and drag label stay when switching backgrounds and the image be separate
-//todo you kind of did this in login with the sliding text
+//todo you kind of did this in login with the sliding text, then notification will not go over it
 
 //todo double hash sha perhaps to avoid someone just hashing their own password and pasting it in
+
+//todo hot key in menu to kill background processes like bletchy and youtube threads, anything that makes the icon yellow basically
+
+//todo allow users to map up to three internet links on the menu, add a bar to sep system from user stuff
 
 public class CyderMain{
     //console vars
@@ -200,7 +202,7 @@ public class CyderMain{
         mainUtil.deleteTempDir();
         mainUtil.varInit();
 
-        backgroundProcess();
+        backgroundProcessChecker();
 
         boolean nathanLenovo = mainUtil.compMACAddress(mainUtil.getMACAddress());
 
@@ -1089,12 +1091,13 @@ public class CyderMain{
         }
     };
 
-    private void backgroundProcess() {
+    private void backgroundProcessChecker() {
         try {
             new Thread(() -> {
                 try {
-                    boolean toggle = false;
-
+                    //todo don't count threads, just look at names so ignore: Monitor Ctrl-Break, Image Fetcher 0,
+                    // AWT-EventQueue-0, DestroyJavaVM, and then the thread checker that you will
+                    // make that combines all system checking threads
                     while (true) {
                         ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
                         int noThreads = currentGroup.activeCount();
@@ -1117,7 +1120,7 @@ public class CyderMain{
                 catch (Exception e) {
                     mainUtil.handle(e);
                 }
-            },"background-process-checker (this)").start();
+            },"background-process-checker").start();
         }
 
         catch (Exception e) {
@@ -1793,7 +1796,7 @@ public class CyderMain{
                     int threads = Integer.parseInt(input);
 
                     notify("The" + (threads > 1 ? " scripts have " : " script has ") + "started. At any point, type \"stop script\"",
-                            4000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPane, 620);
+                            4000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane, 620);
 
                     //todo secondary class to start all them and can also kill all of them
                     for (int i = 0 ; i < threads ; i++) {
@@ -1810,8 +1813,6 @@ public class CyderMain{
                    mainUtil.handle(e);
                }
             }
-
-            //todo image resizer checkbox broken
 
             else if (desc.equalsIgnoreCase("anagram1")) {
                 println("Enter your second word");
@@ -2021,7 +2022,7 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("test notify two")) {
                 notificaitonTestWidth = Integer.parseInt(input);
                 notify(notificationTestString, 2000,
-                        Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, parentPane, notificaitonTestWidth);
+                        Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane, notificaitonTestWidth);
             }
         }
 
@@ -2959,7 +2960,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-
+                //todo make me an object so you can just go to an object to run tests
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
@@ -4539,7 +4540,7 @@ public class CyderMain{
                 while (true) {
                     Thread.sleep(4000);
                     Calendar now = Calendar.getInstance();
-                    if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) < 5)
+                    if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) <= 4)
                         mainUtil.playMusic("src\\com\\cyder\\io\\audio\\chime.mp3");
                 }
             }
@@ -4680,6 +4681,7 @@ public class CyderMain{
         }
     }
 
+    //todo remove this once loginFrame is cyderFrame
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
         if (consoleNotification != null && consoleNotification.isVisible())
             consoleNotification.kill();
@@ -4714,13 +4716,14 @@ public class CyderMain{
         text.setForeground(mainUtil.navy);
         text.setBounds(14,10,w * 2,h);
         consoleNotification.add(text);
-        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
+        consoleNotification.setBounds(parent.getWidth() / 2 - (w/2),30,w * 2,h * 2);
         parent.add(consoleNotification,1,0);
         parent.repaint();
 
         consoleNotification.vanish(vanishDir, parent, delay);
     }
 
+    //todo make a centered one that vanishes to top
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
         if (consoleNotification != null && consoleNotification.isVisible())
             consoleNotification.kill();
@@ -4755,7 +4758,7 @@ public class CyderMain{
         text.setForeground(mainUtil.navy);
         text.setBounds(14,10,w * 2,h);
         consoleNotification.add(text);
-        consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);
+        consoleNotification.setBounds(parent.getWidth() / 2 - (w/2),30,w * 2,h * 2);
         parent.add(consoleNotification,1,0);
         parent.repaint();
 

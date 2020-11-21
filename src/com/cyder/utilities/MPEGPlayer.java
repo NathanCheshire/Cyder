@@ -70,7 +70,7 @@ public class MPEGPlayer {
 
         musicTitleLabel = new JLabel("", SwingConstants.CENTER);
 
-        musicTitleLabel.setBounds(280, 38, 400, 30);
+        musicTitleLabel.setBounds(310, 38, 400, 30);
 
         musicTitleLabel.setToolTipText("Currently Playing");
 
@@ -552,7 +552,7 @@ public class MPEGPlayer {
         musicFrame.setAlwaysOnTop(false);
         musicFrame.requestFocus();
 
-        musicFrame.notify("<html>Welcome to<br/>FlashPlayer!</html>",2000, Notification.RIGHT_ARROW,Notification.RIGHT_VANISH,150);
+        musicFrame.notify("Welcome to FlashPlayer (haha get it?)",2000, Notification.TOP_ARROW,Notification.TOP_START, Notification.TOP_VANISH,415);
 
         if (StartPlaying != null && !StartPlaying.getName().equals("")) {
             initMusic(StartPlaying);

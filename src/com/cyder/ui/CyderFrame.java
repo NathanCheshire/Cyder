@@ -87,9 +87,9 @@ public class CyderFrame extends JFrame {
         dl.add(titleLabel);
     }
 
-    //todo make this more robust so all you have to do is call frame.notify for anything instead of making a notification from scratch
-    //todo add enter direction, top down, from left, or default which is from right
-    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, int width) {
+    //todo make this more robust so all you have to do is call frame.notify for anything
+    // instead of making a notification from scratch per class like in main.java
+    public void notify(String htmltext, int delay, int arrowDir, int startDir, int vanishDir, int width) {
         Notification frameNotification = new Notification();
 
         int w = width;
@@ -119,7 +119,14 @@ public class CyderFrame extends JFrame {
         text.setForeground(fUtil.navy);
         text.setBounds(14,10,w * 2,h);
         frameNotification.add(text);
-        frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30),30,w * 2,h * 2);
+
+        if (startDir == Notification.LEFT_START)
+            frameNotification.setBounds(0,30,w * 2,h * 2);
+        else if (startDir == Notification.RIGHT_START)
+            frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30),30,w * 2,h * 2);
+        else
+            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2),30,w * 2,h * 2);
+
         this.getContentPane().add(frameNotification,1,0);
         this.getContentPane().repaint();
 
