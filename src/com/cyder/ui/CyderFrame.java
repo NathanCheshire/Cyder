@@ -87,8 +87,6 @@ public class CyderFrame extends JFrame {
         dl.add(titleLabel);
     }
 
-    //todo make this more robust so all you have to do is call frame.notify for anything
-    // instead of making a notification from scratch per class like in main.java
     public void notify(String htmltext, int delay, int arrowDir, int startDir, int vanishDir, int width) {
         Notification frameNotification = new Notification();
 

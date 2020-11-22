@@ -74,10 +74,26 @@ public class Notification extends JLabel {
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 
-        //todo add a border with customizable color and width
-        //make do the same thing as above before it but make it one pixel bigger and the filling one pixel smaller
-        //todo draw path and also draw arrow border
+        graphics2D.setPaint(fillColor.darker().darker());
 
+        GeneralPath outlinePath = new GeneralPath();
+
+        outlinePath.moveTo(8, 8);
+
+        outlinePath.curveTo(8, 8,10,6, 12, 4);
+        outlinePath.lineTo(this.width + 14 + 2, 4);
+
+        outlinePath.curveTo(this.width + 14 + 2, 4, this.width + 16 + 2, 6, this.width + 18 + 2, 8);
+        outlinePath.lineTo(this.width + 18 + 2, this.height + 10 + 2);
+
+        outlinePath.curveTo(this.width + 18 + 2, this.height + 10  +2, this.width + 16 + 2, this.height + 12 + 2, this.width + 14 + 2, this.height + 14  +2);
+        outlinePath.lineTo(12, this.height + 14 + 2);
+
+        outlinePath.curveTo(12, this.height + 14 + 2, 10, this.height + 12 + 2, 8, this.height + 10 + 2);
+        outlinePath.lineTo( 8, 8);
+
+        outlinePath.closePath();
+        graphics2D.fill(outlinePath);
         graphics2D.setPaint(fillColor);
 
         GeneralPath fillPath = new GeneralPath();
@@ -100,8 +116,9 @@ public class Notification extends JLabel {
         graphics2D.fill(fillPath);
 
         //this adds the arrow on sides
+        //todo add border to arrowe
         switch (type) {
-            case 1:
+            case 1: //top
                 fillPath.moveTo(8 + this.width / 2, 6);
                 fillPath.lineTo(14 + this.width / 2,0);
                 fillPath.lineTo(20 + this.width / 2,6);
@@ -110,7 +127,7 @@ public class Notification extends JLabel {
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
                 break;
-            case 2:
+            case 2: //left
                 fillPath.moveTo(10, 4 + height/2);
                 fillPath.lineTo(4, 10 + height/2);
                 fillPath.lineTo(10, 16 + height/2);
@@ -120,7 +137,7 @@ public class Notification extends JLabel {
                 graphics2D.fill(fillPath);
                 break;
 
-            case 3:
+            case 3: //right
                 fillPath.moveTo(18 + this.width, 4 + height/2);
                 fillPath.lineTo(24 + this.width, 10 + height/2);
                 fillPath.lineTo(18 + this.width, 16 + height/2);
@@ -130,7 +147,7 @@ public class Notification extends JLabel {
                 graphics2D.fill(fillPath);
                 break;
 
-            case 4:
+            case 4: //bottom
                 fillPath.moveTo(8 + width/2, 14+ height);
                 fillPath.lineTo(14 + width/2, 20 + height);
                 fillPath.lineTo(20 + width/2, 14 + height);
