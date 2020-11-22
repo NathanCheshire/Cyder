@@ -50,17 +50,17 @@ public class InternetProtocolUtil {
         return isp;
     }
 
-    public static String userCity;
-    public static String userState;
-    public static String userCountry;
-    public static String userStateAbr;
-    public static String userCountryAbr;
-    public static String userIP;
-    public static String userPostalCode;
-    public static String userFlagURL;
-    public static String lat;
-    public static String lon;
-    public static String isp;
+    private static String userCity;
+    private static String userState;
+    private static String userCountry;
+    private static String userStateAbr;
+    private static String userCountryAbr;
+    private static String userIP;
+    private static String userPostalCode;
+    private static String userFlagURL;
+    private static String lat;
+    private static String lon;
+    private static String isp;
 
     private static GeneralUtil generalUtil;
 

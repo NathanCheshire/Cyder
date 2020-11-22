@@ -465,7 +465,11 @@ public class WeatherWidget {
 
     protected void weatherStats() {
         try {
-            getIPData();
+            InternetProtocolUtil ipu = new InternetProtocolUtil();
+
+            userCity = ipu.getUserCity();
+            userState = ipu.getUserState();
+            userCountry = ipu.getUserCountry();
 
             if (!useCustomLoc)
                 locationString = userCity + "," + userState + "," + userCountry;
@@ -582,70 +586,6 @@ public class WeatherWidget {
             ret += "W";
 
         return ret;
-    }
-
-    public void getIPData() {
-        try {
-            String Key = weatherGeneralUtil.getIPKey();
-            String url = "https://api.ipdata.co/?api-key=" + Key;
-
-            URL Querry = new URL(url);
-
-            BufferedReader BR = new BufferedReader(new InputStreamReader(Querry.openStream()));
-
-            String CurrentLine;
-
-            while ((CurrentLine = BR.readLine()) != null) {
-                if (CurrentLine.contains("city")) {
-                    userCity = (CurrentLine.replace("city", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"region\"")) {
-                    userState = (CurrentLine.replace("region", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"region_code\"")) {
-                    userStateAbr = (CurrentLine.replace("region_code", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("asn")) {
-                    CurrentLine = BR.readLine();
-                    CurrentLine = BR.readLine();
-                    isp = (CurrentLine.replace("name", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"country_name\"")) {
-                    userCountry = (CurrentLine.replace("country_name", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"country_code\"")) {
-                    userCountryAbr = (CurrentLine.replace("country_code", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"latitude\"")) {
-                    lat = (CurrentLine.replace("latitude", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"longitude\"")) {
-                    lon = (CurrentLine.replace("longitude", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"ip\"")) {
-                    userIP = (CurrentLine.replace("ip", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"flag\"")) {
-                    userFlagURL = (CurrentLine.replace("\"flag\"", "").replace("\"","").replace(",", "").trim()).replaceFirst(":","");
-                }
-
-                else if (CurrentLine.contains("postal")) {
-                    userPostalCode = (CurrentLine.replace("\"postal\"", "").replace("\"","").replace(",", "").replace(":", "").trim());
-                }
-            }
-            BR.close();
-        } catch (Exception e) {
-            weatherGeneralUtil.handle(e);
-        }
     }
 
     private String capsFirst(String Word) {
