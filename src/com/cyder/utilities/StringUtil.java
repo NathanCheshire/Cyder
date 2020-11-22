@@ -12,8 +12,7 @@ public class StringUtil {
 
     private bletchyThread bletchThread;
 
-    public StringUtil(JTextPane outputArea) {
-        this.outputArea = outputArea;
+    public StringUtil() {
         stringGeneralUtil = new GeneralUtil();
     }
 

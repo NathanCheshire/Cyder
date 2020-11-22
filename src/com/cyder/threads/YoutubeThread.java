@@ -18,7 +18,8 @@ public class YoutubeThread {
     private GeneralUtil u;
 
     public YoutubeThread(JTextPane jTextPane) {
-        su = new StringUtil(jTextPane);
+        su = new StringUtil();
+        su.setOutputArea(jTextPane);
         u = new GeneralUtil();
 
         new Thread(() -> {

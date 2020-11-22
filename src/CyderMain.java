@@ -3,6 +3,7 @@ import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
 import com.cyder.handler.PhotoViewer;
+import com.cyder.handler.TestClass;
 import com.cyder.threads.YoutubeThread;
 import com.cyder.ui.*;
 import com.cyder.utilities.*;
@@ -222,7 +223,8 @@ public class CyderMain{
     private void initObjects() {
         mainGeneralUtil = new GeneralUtil();
         animation = new CyderAnimation();
-        stringUtil = new StringUtil(outputArea);
+        stringUtil = new StringUtil();
+        stringUtil.setOutputArea(outputArea);
     }
 
     private void initSystemProperties() {
@@ -2946,7 +2948,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                //todo make me an object so you can just go to an object to run tests
+                new TestClass();
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
@@ -3283,7 +3285,7 @@ public class CyderMain{
     //todo move to separate handler
     private void logToDo(String input) {
         try {
-            if (input != null && !input.equals("") && !mainGeneralUtil.filter(input) && input.length() > 6 && !mainGeneralUtil.filter(input)) {
+            if (input != null && !input.equals("") && !mainGeneralUtil.filter(input) && input.length() > 10 && !mainGeneralUtil.filter(input)) {
                 BufferedWriter sugWriter = new BufferedWriter(new FileWriter("src\\com\\cyder\\io\\text\\add.txt", true));
 
                 sugWriter.write("User " + mainGeneralUtil.getUsername() + " at " + mainGeneralUtil.weatherThreadTime() + " made the suggestion: ");
@@ -3346,8 +3348,12 @@ public class CyderMain{
         }
     }
 
+    //todo barrel roll and switching console dir doesn't work in full screen
+
     //todo make a cyderframe
     //todo consolidate music and backgrounds into same jlist
+    //todo inform you can only add png and mp3s if they select something else
+    //todo add background opacity slider if user wants background border and fill
     public void editUser() {
         if (editUserFrame != null)
             mainGeneralUtil.closeAnimation(editUserFrame);
@@ -4607,8 +4613,13 @@ public class CyderMain{
     private void exit() {
         mainGeneralUtil.closeAnimation(consoleFrame);
         killAllYoutube();
+        stringUtil.killBletchy();
         System.exit(0);
     }
+
+    //todo add more to cyderargs.log
+    //todo make cyderargs push to bottom so new stuff is at top
+    //todo move users out of cyder and into same dir as com
 
     private void shutdown() {
         try {

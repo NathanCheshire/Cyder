@@ -1,6 +1,7 @@
 //package declaration
 package com.cyder.utilities;
 
+import com.cyder.exception.FatalException;
 import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
@@ -1611,12 +1612,19 @@ public class GeneralUtil {
     }
 
     public void initBackgrounds() {
-        File dir = new File("src\\com\\cyder\\users\\" + getUserUUID() + "\\Backgrounds");
-        FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
-        validBackgroundPaths = dir.listFiles(PNGFilter);
+        try {
+            File dir = new File("src\\com\\cyder\\users\\" + getUserUUID() + "\\Backgrounds");
+            FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
+            validBackgroundPaths = dir.listFiles(PNGFilter);
 
-        if (validBackgroundPaths.length == 0)
-            validBackgroundPaths = new File[]{new File("src\\com\\cyder\\io\\pictures\\Bobby.png")};
+            if (validBackgroundPaths.length == 0)
+                validBackgroundPaths = new File[]{new File("src\\com\\cyder\\io\\pictures\\Bobby.png")};
+        }
+
+        catch (ArrayIndexOutOfBoundsException ex) {
+            handle(ex);
+            handle(new FatalException(ex.getMessage()));
+        }
     }
 
     public void openFile(String FilePath) {
