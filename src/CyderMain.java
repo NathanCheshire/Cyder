@@ -71,8 +71,7 @@ import java.util.concurrent.ThreadLocalRandom;
 //todo make nbt extend nst
 
 //todo cyder frame should have a notify method that will drop down from center and back up
-//todo add a way for notifcations to go down and then back up from center of jframe
-//todo in add a notificaiton function within cyder frame
+//todo enter animation toggle for notification
 
 //todo make the frame and drag label stay when switching backgrounds and the image be separate
 //todo you kind of did this in login with the sliding text, then notification will not go over it
@@ -1796,9 +1795,8 @@ public class CyderMain{
                     int threads = Integer.parseInt(input);
 
                     notify("The" + (threads > 1 ? " scripts have " : " script has ") + "started. At any point, type \"stop script\"",
-                            4000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane, 620);
+                            4000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane, (threads > 1 ? 620 : 610));
 
-                    //todo secondary class to start all them and can also kill all of them
                     for (int i = 0 ; i < threads ; i++) {
                         YoutubeThread current = new YoutubeThread(outputArea);
                         youtubeThreads.add(current);
@@ -2503,18 +2501,10 @@ public class CyderMain{
                 mainGeneralUtil.closeCD("D:\\");
             }
 
-            else if (hasWord("font") && !hasWord("reset")) {
-                editUser();
-            }
-
             else if (hasWord("font") && hasWord("reset")) {
                 inputField.setFont(mainGeneralUtil.defaultFont);
                 outputArea.setFont(mainGeneralUtil.defaultFont);
                 println("The font has been reset.");
-            }
-
-            else if (hasWord("color") && !hasWord("reset")) {
-                editUser();
             }
 
             else if (hasWord("reset") && hasWord("color")) {
@@ -2616,7 +2606,7 @@ public class CyderMain{
                 mainGeneralUtil.javaProperties();
             }
 
-            else if (eic("preferences") || eic("prefs")) {
+            else if ((hasWord("edit") && hasWord ("user")) || (hasWord("font") && !hasWord("reset")) || (hasWord("color") && !hasWord("reset")) || (eic("preferences") || eic("prefs"))) {
                 editUser();
             }
 
@@ -2802,10 +2792,6 @@ public class CyderMain{
 
             else if (hasWord("fibonacci")) {
                 fib(0,1);
-            }
-
-            else if (hasWord("edit") && hasWord ("user")) {
-                editUser();
             }
 
             else if (hasWord("throw") && hasWord("error")) {
@@ -3361,6 +3347,7 @@ public class CyderMain{
     }
 
     //todo make a cyderframe
+    //todo consolidate music and backgrounds into same jlist
     public void editUser() {
         if (editUserFrame != null)
             mainGeneralUtil.closeAnimation(editUserFrame);
