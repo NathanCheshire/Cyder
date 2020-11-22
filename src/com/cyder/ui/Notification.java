@@ -115,7 +115,7 @@ public class Notification extends JLabel {
         graphics2D.fill(fillPath);
 
         //this adds the arrow on sides
-        //todo add border to arrowe
+        //todo add border to arrows
         switch (type) {
             case 1: //top
                 fillPath.moveTo(8 + this.width / 2, 6);
