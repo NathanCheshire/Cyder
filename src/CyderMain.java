@@ -2796,8 +2796,8 @@ public class CyderMain{
             }
 
             else if (hasWord("location") || (hasWord("where") && hasWord("am") && hasWord("i"))) {
-                println("You are currently in " + mainGeneralUtil.getUserCity() + ", " +
-                        mainGeneralUtil.getUserState() + " and your Internet Service Provider is " + mainGeneralUtil.getUserISP());
+                println("You are currently in " + new InternetProtocolUtil().getUserCity() + ", " +
+                        new InternetProtocolUtil().getUserState() + " and your Internet Service Provider is " + new InternetProtocolUtil().getIsp());
             }
 
             else if (hasWord("fibonacci")) {

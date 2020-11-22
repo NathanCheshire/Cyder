@@ -96,17 +96,6 @@ public class GeneralUtil {
     private String os;
     private int currentBackgroundIndex = 0;
     private File[] validBackgroundPaths;
-    private String userCity;
-    private String userState;
-    private String userStateAbr;
-    private String isp;
-    private String lat;
-    private String lon;
-    private String userCountry;
-    private String userCountryAbr;
-    private String userIP;
-    private String userPostalCode;
-    private String userFlagURL;
     private boolean consoleClock;
 
     //weather vars
@@ -513,8 +502,6 @@ public class GeneralUtil {
     public void varInit() {
         String windowsUserName = getWindowsUsername();
         this.os = getOS();
-        if (internetReachable())
-            getIPData();
         this.screenX = getScreenWidth();
         this.screenY = getScreenHeight();
     }
@@ -572,70 +559,6 @@ public class GeneralUtil {
         return null;
     }
 
-    //todo remove this and replace usages with new InternetProtocolUtil class
-    public void getIPData() {
-        try {
-            String Key = "https://api.ipdata.co/?api-key=" + getIPKey();
-
-            URL Querry = new URL(Key);
-
-            BufferedReader BR = new BufferedReader(new InputStreamReader(Querry.openStream()));
-
-            String CurrentLine;
-
-            while ((CurrentLine = BR.readLine()) != null) {
-                if (CurrentLine.contains("city")) {
-                    userCity = (CurrentLine.replace("city", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"region\"")) {
-                    userState = (CurrentLine.replace("region", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"region_code\"")) {
-                    userStateAbr = (CurrentLine.replace("region_code", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("asn")) {
-                    CurrentLine = BR.readLine();
-                    CurrentLine = BR.readLine();
-                    isp = (CurrentLine.replace("name", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"country_name\"")) {
-                    userCountry = (CurrentLine.replace("country_name", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"country_code\"")) {
-                    userCountryAbr = (CurrentLine.replace("country_code", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"latitude\"")) {
-                    lat = (CurrentLine.replace("latitude", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"longitude\"")) {
-                    lon = (CurrentLine.replace("longitude", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"ip\"")) {
-                    userIP = (CurrentLine.replace("ip", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                }
-
-                else if (CurrentLine.contains("\"flag\"")) {
-                    userFlagURL = (CurrentLine.replace("\"flag\"", "").replace("\"","").replace(",", "").trim()).replaceFirst(":","");
-                }
-
-                else if (CurrentLine.contains("postal")) {
-                    userPostalCode = (CurrentLine.replace("\"postal\"", "").replace("\"","").replace(",", "").replace(":", "").trim());
-                }
-            }
-            BR.close();
-        } catch (Exception e) {
-            handle(e);
-        }
-    }
-
     private boolean siteReachable(String URL) {
         Process Ping;
 
@@ -684,9 +607,10 @@ public class GeneralUtil {
             double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
-            getIPData();
 
-            BufferedImage flag = ImageIO.read(new URL(getUserFlag()));
+            InternetProtocolUtil ipu = new InternetProtocolUtil();
+
+            BufferedImage flag = ImageIO.read(new URL(new InternetProtocolUtil().getUserFlagURL()));
 
             double x = flag.getWidth();
             double y = flag.getHeight();
@@ -694,14 +618,14 @@ public class GeneralUtil {
             outputArea.insertIcon(new ImageIcon(resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
 
             String[] lines = {"Time requested: " + weatherTime(),
-                    "ISP: " + getUserISP(),
-                    "IP: " + userIP,
-                    "Postal Code: " + getUserPostalCode(),
-                    "City: " + userCity,
-                    "State: " + userState,
-                    "Country: " + userCountry + " (" + userCountryAbr + ")",
-                    "Latitude: " + lat + " Degrees N",
-                    "Longitude: " + lon + " Degrees W",
+                    "ISP: " + ipu.getIsp(),
+                    "IP: " + ipu.getUserIP(),
+                    "Postal Code: " + ipu.getUserPostalCode(),
+                    "City: " + ipu.getUserCity(),
+                    "State: " + ipu.getUserState(),
+                    "Country: " + ipu.getUserCountry() + " (" + ipu.getUserCountryAbr() + ")",
+                    "Latitude: " + ipu.getLat() + " Degrees N",
+                    "Longitude: " + ipu.getLon() + " Degrees W",
                     "latency: " + latency() + " ms",
                     "Google Reachable: " + siteReachable("https://www.google.com"),
                     "YouTube Reachable: " + siteReachable("https://www.youtube.com"),
@@ -734,116 +658,6 @@ public class GeneralUtil {
         System.arraycopy(a, 0, result, 0, a.length);
         System.arraycopy(b, 0, result, a.length, b.length);
         return result;
-    }
-
-    protected void weatherStats() {
-        try {
-            getIPData();
-
-            if (useCustomLoc) {
-                userCity = customCity;
-            }
-
-            String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&appid=2d790dd0766f1da62af488f101380c75&units=imperial";
-
-            URL URL = new URL(OpenString);
-            BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
-            String[] Fields = {"", ""};
-            String Line;
-
-            while ((Line = WeatherReader.readLine()) != null) {
-                String[] LineArray = Line.replace("{", "").replace("}", "")
-                        .replace(":", "").replace("\"", "").replace("[", "")
-                        .replace("]", "").replace(":", "").split(",");
-
-                Fields = combineArrays(Fields, LineArray);
-            }
-
-            WeatherReader.close();
-
-            for (String field : Fields) {
-                if (field.contains("sunrise")) {
-                    sunrise = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("sunset")) {
-                    sunset = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("icon")) {
-                    weatherIcon = field.replace("icon", "");
-                }
-                else if (field.contains("speed")) {
-                    windSpeed = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("deg")) {
-                    windBearing = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("description")) {
-                    weatherCondition = field.replace("description", "");
-                }
-                else if (field.contains("visibility")) {
-                    visibility = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("feels_like")) {
-                    feelsLike = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("pressure")) {
-                    pressure = field.replaceAll("[^\\d.]", "");
-                    pressure = pressure.substring(0, Math.min(pressure.length(), 4));
-                }
-                else if (field.contains("humidity")) {
-                    humidity = field.replaceAll("[^\\d.]", "");
-                } else if (field.contains("temp")) {
-                    temperature = field.replaceAll("[^\\d.]", "");
-                }
-            }
-
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
-
-            Date SunriseTime = new Date((long) Integer.parseInt(sunrise) * 1000);
-            sunrise = dateFormatter.format(SunriseTime);
-
-            Date SunsetTime = new Date((long) Integer.parseInt(sunset) * 1000);
-            sunset = dateFormatter.format(SunsetTime);
-
-            Date Time = new Date();
-
-            if (Time.getTime() > SunsetTime.getTime()) {
-                weatherIcon = weatherIcon.replace("d", "n");
-            }
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
-    public String getWindDirection(String wb) {
-        double bear = Double.parseDouble(wb);
-
-        if (bear > 360)
-            bear -= 360;
-
-        String ret = "";
-
-        if (bear > 270 || bear < 90)
-            ret += "N";
-        else if (bear == 270)
-            return "W";
-        else if (bear == 90)
-            return "E";
-        else
-            ret += "S";
-
-        if (bear > 0 && bear < 180)
-            ret += "E";
-        else if (bear == 180)
-            return "S";
-        else if (bear == 0 || bear == 360)
-            return "N";
-        else
-            ret += "W";
-
-        return ret;
     }
 
     public String capsFirst(String Word) {
@@ -1871,38 +1685,8 @@ public class GeneralUtil {
         return this.hideOnClose;
     }
 
-    public String getUserCity() {
-        getIPData();
-        return this.userCity;
-    }
-
-    public String getUserState() {
-        getIPData();
-        return this.userState;
-    }
-
     public String getUserOS() {
         return this.os;
-    }
-
-    public String getUserCountryAbr() {
-        return this.userCountryAbr;
-    }
-
-    public String getUserIP() {
-        return this.userIP;
-    }
-
-    public String getUserFlag() {
-        return this.userFlagURL;
-    }
-
-    public String getUserPostalCode() {
-        return this.userPostalCode;
-    }
-
-    public String getUserISP() {
-        return this.isp;
     }
 
     public boolean canSwitchBackground() {

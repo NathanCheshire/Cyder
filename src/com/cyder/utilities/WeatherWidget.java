@@ -282,7 +282,7 @@ public class WeatherWidget {
 
         windDirectionLabel.setBounds(16, 430, 400, 30);
 
-        windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + weatherGeneralUtil.getWindDirection(windBearing));
+        windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + getWindDirection(windBearing));
 
         weatherFrame.getContentPane().add(windDirectionLabel);
 
@@ -396,7 +396,7 @@ public class WeatherWidget {
                     temperatureLabel.setText("Temperature: " + temperature + "F");
                     feelsLikeLabel.setText("Feels like: " + feelsLike);
                     windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-                    windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + weatherGeneralUtil.getWindDirection(windBearing));
+                    windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + getWindDirection(windBearing));
                     humidityLabel.setText("Humidity: " + humidity + "%");
                     pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
                     timezoneLabel.setText("Timezone stats: " + getTimezoneLabel());
@@ -420,7 +420,7 @@ public class WeatherWidget {
             temperatureLabel.setText("Temperature: " + temperature + "F");
             feelsLikeLabel.setText("Feels like: " + feelsLike);
             windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-            windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + weatherGeneralUtil.getWindDirection(windBearing));
+            windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + getWindDirection(windBearing));
             humidityLabel.setText("Humidity: " + humidity + "%");
             pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
             timezoneLabel.setText("Timezone stats: " + getTimezoneLabel());

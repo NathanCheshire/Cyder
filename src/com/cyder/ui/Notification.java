@@ -18,7 +18,6 @@ public class Notification extends JLabel {
     private int timeout;
 
     private Color fillColor = new Color(236,64,122);
-    //todo this will be secondary color when you do colors overhaul where user can change the navy color for stuff
 
     private int width = 300;
     private int height = 300;
