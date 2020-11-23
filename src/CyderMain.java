@@ -24,6 +24,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -133,22 +134,6 @@ public class CyderMain{
 
     //anagram one var
     private String anagram;
-
-    //Edit user vars
-    private JFrame editUserFrame;
-    private CyderScrollPane backgroundListScroll;
-    private CyderButton openBackground;
-    private CyderButton addMusic;
-    private CyderButton openMusic;
-    private JList<?> backgroundSelectionList;
-    private CyderScrollPane musicListScroll;
-    private List<File> musicList;
-    private List<String> musicNameList;
-    private JList<?> musicSelectionList;
-    private List<File> backgroundsList;
-    private List<String> backgroundsNameList;
-    private CyderButton changeUsername;
-    private CyderButton changePassword;
 
     //font vars
     private JList fontList;
@@ -1884,82 +1869,6 @@ public class CyderMain{
                     println("Okay nevermind then");
             }
 
-            else if (desc.equalsIgnoreCase("deletebackground")) {
-                List<?> ClickedSelectionListBackground = backgroundSelectionList.getSelectedValuesList();
-
-                File ClickedSelectionPath = null;
-
-                if (!ClickedSelectionListBackground.isEmpty() && !ClickedSelectionListBackground.get(0).toString().equalsIgnoreCase(mainGeneralUtil.getCurrentBackground().getName().replace(".png",""))) {
-                    String ClickedSelection = ClickedSelectionListBackground.get(0).toString();
-
-                    for (int i = 0; i < backgroundsNameList.size() ; i++) {
-                        if (ClickedSelection.equals(backgroundsNameList.get(i))) {
-                            ClickedSelectionPath = backgroundsList.get(i);
-                            break;
-                        }
-                    }
-
-                    if (ClickedSelectionPath != null) {
-                        ClickedSelectionPath.delete();
-                    }
-                    initializeBackgroundsList();
-                    backgroundListScroll.setViewportView(backgroundSelectionList);
-                    backgroundListScroll.revalidate();
-
-                    if (mainGeneralUtil.confirmation(input)) {
-                        println("Background: " + ClickedSelectionPath.getName().replace(".png","") + " successfully deleted.");
-                        mainGeneralUtil.initBackgrounds();
-                    }
-
-                    else {
-                        println("Background: " + ClickedSelectionPath.getName().replace(".png","") + " was not deleted.");
-                    }
-
-                    File[] paths = mainGeneralUtil.getValidBackgroundPaths();
-                    for (int i = 0 ; i < paths.length ; i++) {
-                        if (paths[i].equals(mainGeneralUtil.getCurrentBackground())) {
-                            mainGeneralUtil.setCurrentBackgroundIndex(i);
-                            break;
-                        }
-                    }
-                }
-
-                else {
-                    println("You can't delete your current background.");
-                }
-            }
-
-            else if (desc.equalsIgnoreCase("deletemusic")) {
-                List<?> ClickedSelectionListMusic = musicSelectionList.getSelectedValuesList();
-
-                File ClickedSelectionPath = null;
-
-                if (!ClickedSelectionListMusic.isEmpty()) {
-                    String ClickedSelection = ClickedSelectionListMusic.get(0).toString();
-
-                    for (int i = 0; i < musicNameList.size() ; i++) {
-                        if (ClickedSelection.equals(musicNameList.get(i))) {
-                            ClickedSelectionPath = musicList.get(i);
-
-                            break;
-                        }
-                    }
-
-                    ClickedSelectionPath.delete();
-                    initializeMusicList();
-                    musicListScroll.setViewportView(musicSelectionList);
-                    musicListScroll.revalidate();
-
-                    if (mainGeneralUtil.confirmation(input)) {
-                        println("Music: " + ClickedSelectionPath.getName().replace(".png","") + " successfully deleted.");
-                    }
-
-                    else {
-                        println("Music: " + ClickedSelectionPath.getName().replace(".png","") + " was not deleted.");
-                    }
-                }
-            }
-
             else if (desc.equalsIgnoreCase("deleteuser")) {
                 if (!mainGeneralUtil.confirmation(input)) {
                     println("User " + mainGeneralUtil.getUsername() + " was not removed.");
@@ -3348,66 +3257,123 @@ public class CyderMain{
         }
     }
 
-    //todo barrel roll and switching console dir doesn't work in full screen
+    public void initMusicBackgroundList() {
+        File backgroundDir = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Backgrounds");
+        File musicDir = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Music");
 
-    //todo make a cyderframe
-    //todo consolidate music and backgrounds into same jlist
+        musicBackgroundList = new LinkedList<>();
+        musicBackgroundNameList = new LinkedList<>();
+
+        for (File file : backgroundDir.listFiles()) {
+            if (file.getName().endsWith((".png"))) {
+                musicBackgroundList.add(file.getAbsoluteFile());
+                musicBackgroundNameList.add(file.getName().replace(".png", ""));
+            }
+        }
+
+        for (File file : musicDir.listFiles()) {
+            if (file.getName().endsWith((".mp3"))) {
+                musicBackgroundList.add(file.getAbsoluteFile());
+                musicBackgroundNameList.add(file.getName().replace(".mp3", ""));
+            }
+        }
+
+        String[] BackgroundsArray = new String[musicBackgroundNameList.size()];
+        BackgroundsArray = musicBackgroundNameList.toArray(BackgroundsArray);
+
+        musicBackgroundSelectionList = new JList(BackgroundsArray);
+        musicBackgroundSelectionList.setFont(mainGeneralUtil.weatherFontSmall);
+        musicBackgroundSelectionList.setForeground(mainGeneralUtil.navy);
+        musicBackgroundSelectionList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+            if (evt.getClickCount() == 2 && musicBackgroundSelectionList.getSelectedIndex() != -1) {
+                openMusicBackground.doClick();
+            }
+            }
+        });
+
+        musicBackgroundSelectionList.setSelectionBackground(mainGeneralUtil.selectionColor);
+    }
+
+    //todo barrel roll and switching console dir doesn't work in full screen
     //todo inform you can only add png and mp3s if they select something else
-    //todo add background opacity slider if user wants background border and fill
+
+    //Edit user vars
+    private CyderFrame editUserFrame;
+
+    private CyderScrollPane musicBackgroundScroll;
+    private CyderButton addMusicBackground;
+    private CyderButton openMusicBackground;
+    private CyderButton deleteMusicBackground;
+    private JList<?> musicBackgroundSelectionList;
+    private List<String> musicBackgroundNameList;
+    private List<File> musicBackgroundList;
+
+    private CyderButton changeUsername;
+    private CyderButton changePassword;
+
     public void editUser() {
         if (editUserFrame != null)
             mainGeneralUtil.closeAnimation(editUserFrame);
 
-        editUserFrame = new JFrame();
-        editUserFrame.setResizable(false);
-        editUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        editUserFrame.setResizable(false);
-        editUserFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
+        editUserFrame = new CyderFrame(1000,800,new ImageIcon("src/com/cyder/io/pictures/DegbugBackground.png"));
+        editUserFrame.setTitlePosition(CyderFrame.LEFT_TITLE);
         editUserFrame.setTitle("Edit User");
 
-        JPanel ParentPanel = new JPanel();
-        ParentPanel.setLayout(new BoxLayout(ParentPanel, BoxLayout.Y_AXIS));
-        ParentPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        JLabel BackgroundLabel = new JLabel("Backgrounds", SwingConstants.CENTER);
+
+
+        //first panel--------------------
+
+        JLabel BackgroundLabel = new JLabel("Music & Backgrounds", SwingConstants.CENTER);
         BackgroundLabel.setFont(mainGeneralUtil.weatherFontSmall);
 
         JPanel LabelPanel = new JPanel();
         LabelPanel.add(BackgroundLabel);
 
-        initializeBackgroundsList();
+        initMusicBackgroundList();
 
-        backgroundSelectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        backgroundListScroll = new CyderScrollPane(backgroundSelectionList,
+        musicBackgroundSelectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        musicBackgroundScroll = new CyderScrollPane(musicBackgroundSelectionList,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        backgroundListScroll.setSize(400, 400);
-        backgroundListScroll.setBackground(mainGeneralUtil.vanila);
-        backgroundListScroll.setFont(mainGeneralUtil.weatherFontBig);
-        backgroundListScroll.setThumbColor(mainGeneralUtil.regularRed);
-        backgroundSelectionList.setBackground(new Color(0,0,0,0));
-        backgroundListScroll.getViewport().setBackground(new Color(0,0,0,0));
+        musicBackgroundScroll.setSize(400, 400);
+        musicBackgroundScroll.setBackground(mainGeneralUtil.vanila);
+        musicBackgroundScroll.setFont(mainGeneralUtil.weatherFontBig);
+        musicBackgroundScroll.setThumbColor(mainGeneralUtil.regularRed);
+        musicBackgroundSelectionList.setBackground(new Color(0,0,0,0));
+        musicBackgroundScroll.getViewport().setBackground(new Color(0,0,0,0));
 
         JPanel ButtonPanel = new JPanel();
         ButtonPanel.setLayout(new GridLayout(1, 3, 5, 5));
         ButtonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        CyderButton addBackground = new CyderButton("Add Background");
-        addBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        addBackground.setColors(mainGeneralUtil.regularRed);
-        ButtonPanel.add(addBackground);
-        addBackground.setFocusPainted(false);
-        addBackground.setBackground(mainGeneralUtil.regularRed);
-        addBackground.addActionListener(e -> {
+        addMusicBackground = new CyderButton("Add");
+        addMusicBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        addMusicBackground.setColors(mainGeneralUtil.regularRed);
+        ButtonPanel.add(addMusicBackground);
+        addMusicBackground.setFocusPainted(false);
+        addMusicBackground.setBackground(mainGeneralUtil.regularRed);
+        addMusicBackground.addActionListener(e -> {
             try {
-                File AddBackground = mainGeneralUtil.getFile();
+                File addFile = mainGeneralUtil.getFile();
 
-                if (AddBackground != null && AddBackground.getName().endsWith(".png")) {
-                    File Destination = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Backgrounds\\" + AddBackground.getName());
-                    Files.copy(new File(AddBackground.getAbsolutePath()).toPath(), Destination.toPath());
-                    initializeBackgroundsList();
-                    backgroundListScroll.setViewportView(backgroundSelectionList);
-                    backgroundListScroll.revalidate();
+                Path copyPath = new File(addFile.getAbsolutePath()).toPath();
+
+                if (addFile != null && addFile.getName().endsWith(".png")) {
+                    File Destination = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Backgrounds\\" + addFile.getName());
+                    Files.copy(copyPath, Destination.toPath());
+                    initMusicBackgroundList();
+                    musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
+                    musicBackgroundScroll.revalidate();
+                }
+
+                else if (addFile != null && addFile.getName().endsWith(".mp3")) {
+                    File Destination = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Music\\" + addFile.getName());
+                    Files.copy(copyPath, Destination.toPath());
+                    initMusicBackgroundList();
+                    musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
+                    musicBackgroundScroll.revalidate();
                 }
             }
 
@@ -3415,175 +3381,110 @@ public class CyderMain{
                 mainGeneralUtil.handle(exc);
             }
         });
-        addBackground.setFont(mainGeneralUtil.weatherFontSmall);
 
-        openBackground = new CyderButton("Open Background");
-        openBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        openBackground.setColors(mainGeneralUtil.regularRed);
-        ButtonPanel.add(openBackground);
-        openBackground.setFocusPainted(false);
-        openBackground.setBackground(mainGeneralUtil.regularRed);
-        openBackground.setFont(mainGeneralUtil.weatherFontSmall);
-        openBackground.addActionListener(e -> {
-            List<?> ClickedSelectionList = backgroundSelectionList.getSelectedValuesList();
+        addMusicBackground.setFont(mainGeneralUtil.weatherFontSmall);
+
+        openMusicBackground = new CyderButton("Open");
+        openMusicBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        openMusicBackground.setColors(mainGeneralUtil.regularRed);
+        openMusicBackground.setFocusPainted(false);
+        openMusicBackground.setBackground(mainGeneralUtil.regularRed);
+        openMusicBackground.setFont(mainGeneralUtil.weatherFontSmall);
+        openMusicBackground.addActionListener(e -> {
+            List<?> ClickedSelectionList = musicBackgroundSelectionList.getSelectedValuesList();
 
             if (!ClickedSelectionList.isEmpty()) {
                 String ClickedSelection = ClickedSelectionList.get(0).toString();
 
                 File ClickedSelectionPath = null;
 
-                for (int i = 0; i < backgroundsNameList.size() ; i++) {
-                    if (ClickedSelection.equals(backgroundsNameList.get(i))) {
-                        ClickedSelectionPath = backgroundsList.get(i);
+                for (int i = 0; i < musicBackgroundNameList.size() ; i++) {
+                    if (ClickedSelection.equals(musicBackgroundNameList.get(i))) {
+                        ClickedSelectionPath = musicBackgroundList.get(i);
                         break;
                     }
                 }
 
                 if (ClickedSelectionPath != null) {
-                    PhotoViewer pv = new PhotoViewer(ClickedSelectionPath);
-                    pv.start();
+                    if (ClickedSelectionPath.getName().endsWith(".png")) {
+                        PhotoViewer pv = new PhotoViewer(ClickedSelectionPath);
+                        pv.start();
+                    }
+
+                    else if (ClickedSelectionPath.getName().endsWith(".mp3")) {
+                        //todo does chime mess up logic or a song that's currently playing?
+                        mainGeneralUtil.mp3(ClickedSelection,mainGeneralUtil.getUsername(),mainGeneralUtil.getUserUUID());
+                    }
                 }
             }
         });
 
-        CyderButton deleteBackground = new CyderButton("Delete Background");
-        deleteBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        deleteBackground.setColors(mainGeneralUtil.regularRed);
-        ButtonPanel.add(deleteBackground);
-        deleteBackground.addActionListener(e -> {
-            if (mainGeneralUtil.getValidBackgroundPaths().length == 1) {
-                println("Sorry, but that is your only background. Try adding a different one and then " +
-                        "removing it if you still don't want " + mainGeneralUtil.getValidBackgroundPaths()[0].getName() + ".");
-            }
+        deleteMusicBackground = new CyderButton("Delete");
+        deleteMusicBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        deleteMusicBackground.setColors(mainGeneralUtil.regularRed);
+        deleteMusicBackground.addActionListener(e -> {
+            if (!musicBackgroundSelectionList.getSelectedValuesList().isEmpty()) {
+                List<?> ClickedSelectionListMusic = musicBackgroundSelectionList.getSelectedValuesList();
 
-            else if (!backgroundSelectionList.getSelectedValuesList().isEmpty()){
-                println("You are about to delete a background file. This action cannot be undone."
-                        + " Are you sure you wish to continue? (yes/no)");
-                inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
-                mainGeneralUtil.setUserInputDesc("deletebackground");
-                mainGeneralUtil.initBackgrounds();
+                File ClickedSelectionPath = null;
+
+                if (!ClickedSelectionListMusic.isEmpty()) {
+                    String ClickedSelection = ClickedSelectionListMusic.get(0).toString();
+
+                    for (int i = 0; i < musicBackgroundNameList.size() ; i++) {
+                        if (ClickedSelection.equals(musicBackgroundList.get(i))) {
+                            ClickedSelectionPath = musicBackgroundList.get(i);
+
+                            break;
+                        }
+                    }
+
+                    //todo does this check work?
+                    if (ClickedSelection.endsWith(".png") &&
+                            ClickedSelection.equalsIgnoreCase(mainGeneralUtil.getCurrentBackground().getName().replace(".png",""))) {
+                        println("Unable to delete the background you are currently using");
+                    }
+
+                    else {
+                        ClickedSelectionPath.delete();
+                        initMusicBackgroundList();
+                        musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
+                        musicBackgroundScroll.revalidate();
+
+                        if (ClickedSelection.endsWith(".mp3"))
+                            println("Music: " + ClickedSelectionPath.getName().replace(".mp3","") + " successfully deleted.");
+                        else if (ClickedSelection.endsWith(".png")) {
+                            println("Background: " + ClickedSelectionPath.getName().replace(".png","") + " successfully deleted.");
+
+                            File[] paths = mainGeneralUtil.getValidBackgroundPaths();
+                            for (int i = 0 ; i < paths.length ; i++) {
+                                if (paths[i].equals(mainGeneralUtil.getCurrentBackground())) {
+                                    mainGeneralUtil.setCurrentBackgroundIndex(i);
+                                    break;
+                                }
+                            }
+
+                            mainGeneralUtil.initBackgrounds();
+                        }
+                    }
+                }
             }
         });
 
-        deleteBackground.setBackground(mainGeneralUtil.regularRed);
-        deleteBackground.setFont(mainGeneralUtil.weatherFontSmall);
+        deleteMusicBackground.setBackground(mainGeneralUtil.regularRed);
+        deleteMusicBackground.setFont(mainGeneralUtil.weatherFontSmall);
 
         JPanel BackgroundsPanel = new JPanel();
         BackgroundsPanel.setLayout(new BoxLayout(BackgroundsPanel, BoxLayout.Y_AXIS));
         BackgroundsPanel.add(LabelPanel);
-        BackgroundsPanel.add(backgroundListScroll);
+        BackgroundsPanel.add(musicBackgroundScroll);
         BackgroundsPanel.add(ButtonPanel);
         BackgroundsPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
                 new LineBorder(mainGeneralUtil.navy,5,false)));
-        ParentPanel.add(BackgroundsPanel);
 
-        JLabel MusicLabel = new JLabel("Music", SwingConstants.CENTER);
-        MusicLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        //------------------------------- end first panel
 
-        JPanel MusicLabelPanel = new JPanel();
-        MusicLabelPanel.add(MusicLabel);
-
-        initializeMusicList();
-
-        musicSelectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-
-        musicListScroll = new CyderScrollPane(musicSelectionList,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        musicListScroll.setThumbColor(mainGeneralUtil.regularRed);
-        musicListScroll.setSize(400, 400);
-        musicListScroll.setBackground(mainGeneralUtil.vanila);
-        musicListScroll.setFont(mainGeneralUtil.weatherFontSmall);
-        musicSelectionList.setBackground(new Color(0,0,0,0));
-        musicListScroll.getViewport().setBackground(new Color(0,0,0,0));
-
-        JPanel BottomButtonPanel = new JPanel();
-        BottomButtonPanel.setLayout(new GridLayout(1, 3, 5, 5));
-
-        addMusic = new CyderButton("Add Music");
-        addMusic.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        addMusic.setBackground(mainGeneralUtil.regularRed);
-        addMusic.setColors(mainGeneralUtil.regularRed);
-        addMusic.setFont(mainGeneralUtil.weatherFontSmall);
-        BottomButtonPanel.add(addMusic);
-        addMusic.addActionListener(e -> {
-            try {
-                File AddMusic = mainGeneralUtil.getFile();
-
-                if (AddMusic != null && AddMusic.getName().endsWith(".mp3")) {
-                    File Destination = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Music\\" + AddMusic.getName());
-                    Files.copy(new File(AddMusic.getAbsolutePath()).toPath(), Destination.toPath());
-                    initializeMusicList();
-                    musicListScroll.setViewportView(musicSelectionList);
-                    musicListScroll.revalidate();
-                }
-            }
-
-            catch (Exception exc) {
-                mainGeneralUtil.handle(exc);
-            }
-        });
-
-        openMusic = new CyderButton("Open Music");
-        openMusic.setColors(mainGeneralUtil.regularRed);
-        openMusic.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        openMusic.setBackground(mainGeneralUtil.regularRed);
-        openMusic.setFont(mainGeneralUtil.weatherFontSmall);
-        BottomButtonPanel.add(openMusic);
-        openMusic.setFocusPainted(false);
-        openMusic.setBackground(mainGeneralUtil.regularRed);
-        openMusic.addActionListener(e -> {
-            List<?> ClickedSelectionList = musicSelectionList.getSelectedValuesList();
-
-            if (!ClickedSelectionList.isEmpty()) {
-                String ClickedSelection = ClickedSelectionList.get(0).toString();
-
-                File ClickedSelectionPath = null;
-
-                for (int i = 0; i < musicNameList.size() ; i++) {
-                    if (ClickedSelection.equals(musicNameList.get(i))) {
-                        ClickedSelectionPath = musicList.get(i);
-
-                        break;
-                    }
-                }
-
-                mainGeneralUtil.mp3(ClickedSelectionPath.getAbsolutePath(), mainGeneralUtil.getUsername(), mainGeneralUtil.getUserUUID());
-            }
-        });
-
-        CyderButton deleteMusic = new CyderButton("Delete Music");
-        deleteMusic.setColors(mainGeneralUtil.regularRed);
-        deleteMusic.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        deleteMusic.setBackground(mainGeneralUtil.regularRed);
-        deleteMusic.setFont(mainGeneralUtil.weatherFontSmall);
-        BottomButtonPanel.add(deleteMusic);
-        deleteMusic.setFocusPainted(false);
-        deleteMusic.setBackground(mainGeneralUtil.regularRed);
-        deleteMusic.addActionListener(e -> {
-            if (!musicSelectionList.getSelectedValuesList().isEmpty()) {
-                println("You are about to delete a music file. This action cannot be undone."
-                        + " Are you sure you wish to continue? (yes/no)");
-                mainGeneralUtil.setUserInputDesc("deletemusic");
-                inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
-            }
-        });
-
-        BottomButtonPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-        JPanel MusicPanel = new JPanel();
-        MusicPanel.setLayout(new BoxLayout(MusicPanel, BoxLayout.Y_AXIS));
-        MusicPanel.add(MusicLabelPanel);
-        MusicPanel.add(musicListScroll);
-        MusicPanel.add(BottomButtonPanel);
-        MusicPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(mainGeneralUtil.navy,5,false)));
-
-        ParentPanel.add(MusicPanel);
-
+        //bottom panel that always stays
         JPanel ChangeUsernamePanel = new JPanel();
         ChangeUsernamePanel.setLayout(new GridLayout(2, 1, 5, 5));
         JTextField changeUsernameField = new JTextField(10);
@@ -3650,7 +3551,7 @@ public class CyderMain{
         changePassword.setBackground(mainGeneralUtil.regularRed);
         ChangeUsernamePanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-        ParentPanel.add(ChangeUsernamePanel);
+        //prefs panel is panel 3 start----------------------------------------
 
         ImageIcon selected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox1.png");
         ImageIcon notSelected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox2.png");
@@ -3722,43 +3623,27 @@ public class CyderMain{
         prefsPanel.add(randBackgroundLabel);
 
         JLabel hourlyChimesLabel = new JLabel("Hourly Chimes");
-
         hourlyChimesLabel.setFont(mainGeneralUtil.weatherFontSmall);
-
         hourlyChimesLabel.setForeground(mainGeneralUtil.navy);
-
         hourlyChimesLabel.setHorizontalAlignment(JLabel.CENTER);
-
         prefsPanel.add(hourlyChimesLabel);
 
         JLabel clockLabel = new JLabel("Console Clock");
-
         clockLabel.setFont(mainGeneralUtil.weatherFontSmall);
-
         clockLabel.setForeground(mainGeneralUtil.navy);
-
         clockLabel.setHorizontalAlignment(JLabel.CENTER);
-
         prefsPanel.add(clockLabel);
 
         JLabel silenceLabel = new JLabel("Silence Errors");
-
         silenceLabel.setFont(mainGeneralUtil.weatherFontSmall);
-
         silenceLabel.setForeground(mainGeneralUtil.navy);
-
         silenceLabel.setHorizontalAlignment(JLabel.CENTER);
-
         prefsPanel.add(silenceLabel);
 
         JLabel hourlyChimes = new JLabel();
-
         hourlyChimes.setHorizontalAlignment(JLabel.CENTER);
-
         hourlyChimes.setSize(100,100);
-
         hourlyChimes.setIcon((mainGeneralUtil.getUserData("HourlyChimes").equals("1") ? selected : notSelected));
-
         hourlyChimes.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -3771,13 +3656,9 @@ public class CyderMain{
         prefsPanel.add(hourlyChimes);
 
         JLabel clockOnConsole = new JLabel();
-
         clockOnConsole.setHorizontalAlignment(JLabel.CENTER);
-
         clockOnConsole.setSize(100,100);
-
         clockOnConsole.setIcon((mainGeneralUtil.getUserData("ClockOnConsole").equals("1") ? selected : notSelected));
-
         clockOnConsole.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -3793,13 +3674,9 @@ public class CyderMain{
         prefsPanel.add(clockOnConsole);
 
         JLabel silenceErrors = new JLabel();
-
         silenceErrors.setHorizontalAlignment(JLabel.CENTER);
-
         silenceErrors.setSize(100,100);
-
         silenceErrors.setIcon((mainGeneralUtil.getUserData("SilenceErrors").equals("1") ? selected : notSelected));
-
         silenceErrors.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -3813,43 +3690,28 @@ public class CyderMain{
         prefsPanel.add(silenceErrors);
 
         JLabel fullscreenLabel = new JLabel("Fullscreen");
-
         fullscreenLabel.setFont(mainGeneralUtil.weatherFontSmall);
-
         fullscreenLabel.setForeground(mainGeneralUtil.navy);
-
         fullscreenLabel.setHorizontalAlignment(JLabel.CENTER);
-
         prefsPanel.add(fullscreenLabel);
 
         JLabel outputBorder = new JLabel("Output Area Border");
-
         outputBorder.setFont(mainGeneralUtil.weatherFontSmall);
-
         outputBorder.setForeground(mainGeneralUtil.navy);
-
         outputBorder.setHorizontalAlignment(JLabel.CENTER);
 
         prefsPanel.add(outputBorder);
 
         JLabel inputBorder = new JLabel("Input Field Border");
-
         inputBorder.setFont(mainGeneralUtil.weatherFontSmall);
-
         inputBorder.setForeground(mainGeneralUtil.navy);
-
         inputBorder.setHorizontalAlignment(JLabel.CENTER);
-
         prefsPanel.add(inputBorder);
 
         JLabel fullscreen = new JLabel();
-
         fullscreen.setHorizontalAlignment(JLabel.CENTER);
-
         fullscreen.setSize(100,100);
-
         fullscreen.setIcon((mainGeneralUtil.getUserData("FullScreen").equals("1") ? selected : notSelected));
-
         fullscreen.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -3872,13 +3734,9 @@ public class CyderMain{
                 new LineBorder(mainGeneralUtil.navy,5,false)));
 
         JLabel outputborder = new JLabel();
-
         outputborder.setHorizontalAlignment(JLabel.CENTER);
-
         outputborder.setSize(100,100);
-
         outputborder.setIcon((mainGeneralUtil.getUserData("OutputBorder").equals("1") ? selected : notSelected));
-
         outputborder.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -3900,13 +3758,9 @@ public class CyderMain{
         prefsPanel.add(outputborder);
 
         JLabel inputborder = new JLabel();
-
         inputborder.setHorizontalAlignment(JLabel.CENTER);
-
         inputborder.setSize(100,100);
-
         inputborder.setIcon((mainGeneralUtil.getUserData("InputBorder").equals("1") ? selected : notSelected));
-
         inputborder.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -3928,257 +3782,16 @@ public class CyderMain{
 
         prefsPanel.add(inputborder);
 
-        JPanel masterPanel = new JPanel();
+        //end of prefs panel (panel 3)
 
-        masterPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        //todo font and color panel from drawing in FAST notebook
 
-        masterPanel.setLayout(new GridLayout(1,2));
-
-        masterPanel.add(ParentPanel);
-
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.add(prefsPanel);
-        ChangePasswordPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-        JPanel fontColorPanel = new JPanel();
-        fontColorPanel.setLayout(new BoxLayout(fontColorPanel, BoxLayout.X_AXIS));
-        fontColorPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-        fontColorPanel.add(getFontPanel());
-        fontColorPanel.add(getColorPanel());
-
-        rightPanel.add(fontColorPanel);
-
-        rightPanel.add(ChangePasswordPanel);
-        masterPanel.add(rightPanel);
-
-        editUserFrame.add(masterPanel);
-        editUserFrame.pack();
         editUserFrame.setLocationRelativeTo(null);
         editUserFrame.setVisible(true);
-        editUserFrame.setAlwaysOnTop(true);
-        editUserFrame.setAlwaysOnTop(false);
         editUserFrame.requestFocus();
     }
 
-    public void initializeMusicList() {
-        File dir = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Music");
-        musicList = new LinkedList<>();
-        musicNameList = new LinkedList<>();
-
-        for (File file : dir.listFiles()) {
-            if (file.getName().endsWith((".mp3"))) {
-                musicList.add(file.getAbsoluteFile());
-                musicNameList.add(file.getName().replace(".mp3", ""));
-            }
-        }
-
-        String[] MusicArray = new String[musicNameList.size()];
-
-        MusicArray = musicNameList.toArray(MusicArray);
-
-        musicSelectionList = new JList(MusicArray);
-
-        musicSelectionList.setFont(mainGeneralUtil.weatherFontSmall);
-
-        musicSelectionList.setForeground(mainGeneralUtil.navy);
-
-        musicSelectionList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-            if (evt.getClickCount() == 2 && musicSelectionList.getSelectedIndex() != -1) {
-                openMusic.doClick();
-            }
-            }
-        });
-
-        musicSelectionList.setSelectionBackground(mainGeneralUtil.selectionColor);
-    }
-
-    //todo above and below are for editing user, make it its own widget/class
-    public void initializeBackgroundsList() {
-        File dir = new File("src\\com\\cyder\\users\\" + mainGeneralUtil.getUserUUID() + "\\Backgrounds");
-        backgroundsList = new LinkedList<>();
-        backgroundsNameList = new LinkedList<>();
-
-        for (File file : dir.listFiles()) {
-            if (file.getName().endsWith((".png"))) {
-                backgroundsList.add(file.getAbsoluteFile());
-                backgroundsNameList.add(file.getName().replace(".png", ""));
-            }
-        }
-
-        String[] BackgroundsArray = new String[backgroundsNameList.size()];
-        BackgroundsArray = backgroundsNameList.toArray(BackgroundsArray);
-        backgroundSelectionList = new JList(BackgroundsArray);
-
-        backgroundSelectionList.setFont(mainGeneralUtil.weatherFontSmall);
-
-        backgroundSelectionList.setForeground(mainGeneralUtil.navy);
-
-        backgroundSelectionList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-            if (evt.getClickCount() == 2 && backgroundSelectionList.getSelectedIndex() != -1) {
-                openBackground.doClick();
-            }
-            }
-        });
-
-        backgroundSelectionList.setSelectionBackground(mainGeneralUtil.selectionColor);
-    }
-
-    private JPanel getColorPanel() {
-        JPanel parentPanel = new JPanel();
-        parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.PAGE_AXIS));
-
-        JLabel label = new JLabel("Select your desired color");
-        label.setFont(mainGeneralUtil.weatherFontSmall);
-        label.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        JPanel labelPanel = new JPanel();
-        labelPanel.add(label);
-        parentPanel.add(labelPanel, Component.CENTER_ALIGNMENT);
-
-        JTextField hexField = new JTextField("",10);
-        hexField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-            if (hexField.getText().length() > 6) {
-                hexField.setText(hexField.getText().substring(0,hexField.getText().length() - 1));
-                Toolkit.getDefaultToolkit().beep();
-            }
-
-            else {
-                try {
-                    String colorStr = hexField.getText();
-                    label.setForeground(new Color(Integer.valueOf(colorStr.substring(0,2),16),
-                            Integer.valueOf(colorStr.substring(2,4),16),
-                            Integer.valueOf(colorStr.substring(4,6),16)));
-                }
-
-                catch (Exception ignored) {
-
-                }
-            }
-            }
-        });
-        hexField.setFont(mainGeneralUtil.weatherFontSmall);
-        hexField.setSelectionColor(mainGeneralUtil.selectionColor);
-        hexField.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(2,2,2,2),
-                new LineBorder(mainGeneralUtil.navy,5,false)));
-        hexField.setToolTipText("Hex Color");
-
-        JPanel fieldPanel = new JPanel();
-        fieldPanel.add(hexField);
-        fieldPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-        parentPanel.add(fieldPanel);
-
-        CyderButton apply = new CyderButton("Apply Color");
-        apply.setFocusPainted(false);
-        apply.setColors(mainGeneralUtil.regularRed);
-        apply.setForeground(mainGeneralUtil.navy);
-        apply.setBackground(mainGeneralUtil.regularRed);
-        apply.setFont(mainGeneralUtil.weatherFontSmall);
-        apply.addActionListener(e -> {
-            Color newColor = label.getForeground();
-            outputArea.setForeground(newColor);
-            inputField.setForeground(newColor);
-
-            if (newColor != mainGeneralUtil.getUsercolor()) {
-                println("The color [" + newColor.getRed() + "," + newColor.getGreen() + "," + newColor.getBlue() + "] has been applied.");
-            }
-        });
-
-        JPanel applyPanel = new JPanel();
-        applyPanel.add(apply);
-        applyPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-        parentPanel.add(applyPanel, Component.CENTER_ALIGNMENT);
-        parentPanel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
-
-        return parentPanel;
-    }
-
-    //todo move font and color to panel util
-    private JPanel getFontPanel() {
-        JPanel parentPanel = new JPanel();
-        parentPanel.setLayout(new BoxLayout(parentPanel, BoxLayout.PAGE_AXIS));
-        JLabel label = new JLabel("Select your desired font");
-
-        label.setFont(mainGeneralUtil.weatherFontSmall);
-        label.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-
-        JPanel labelPanel = new JPanel();
-
-        labelPanel.add(label);
-        parentPanel.add(labelPanel, Component.CENTER_ALIGNMENT);
-
-        String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-
-        fontList = new JList(Fonts);
-        fontList.setSelectionBackground(mainGeneralUtil.selectionColor);
-        fontList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        fontList.setFont(mainGeneralUtil.weatherFontSmall);
-
-        CyderScrollPane FontListScroll = new CyderScrollPane(fontList,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        FontListScroll.setThumbColor(mainGeneralUtil.intellijPink);
-        FontListScroll.setBorder(new LineBorder(mainGeneralUtil.navy,5,true));
-
-        CyderButton applyFont = new CyderButton("Apply Font");
-        applyFont.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        applyFont.setColors(mainGeneralUtil.regularRed);
-        applyFont.setToolTipText("Apply");
-        applyFont.setFont(mainGeneralUtil.weatherFontSmall);
-        applyFont.setFocusPainted(false);
-        applyFont.setBackground(mainGeneralUtil.regularRed);
-        applyFont.addActionListener(e -> {
-            String FontS = (String) fontList.getSelectedValue();
-
-            if (FontS != null) {
-                Font ApplyFont = new Font(FontS, Font.BOLD, 30);
-                outputArea.setFont(ApplyFont);
-                inputField.setFont(ApplyFont);
-                println("The font \"" + FontS + "\" has been applied.");
-            }
-        });
-
-        fontList.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                applyFont.doClick();
-            }
-
-            else {
-                try {
-                    label.setFont(new Font(fontList.getSelectedValue().toString(), Font.BOLD, 20));
-                }
-
-                catch (Exception ex) {
-                    mainGeneralUtil.handle(ex);
-                }
-            }
-            }
-        });
-
-        fontList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            JList t = (JList) e.getSource();
-            int index = t.locationToIndex(e.getPoint());
-
-            label.setFont(new Font(t.getModel().getElementAt(index).toString(), Font.BOLD, 20));
-            }
-        });
-
-        parentPanel.add(FontListScroll, Component.CENTER_ALIGNMENT);
-
-        JPanel apply = new JPanel();
-        apply.add(applyFont);
-        apply.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-        parentPanel.add(apply, Component.CENTER_ALIGNMENT);
-
-        return parentPanel;
-    }
+    //todo getBackgroundAndMusicPanel(), getFontColorPanel(), getPrefsPanel() - you can switch and animate between these once the first part is built
 
     public void createUser() {
         createUserBackground = null;
