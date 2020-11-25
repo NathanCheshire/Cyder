@@ -3326,7 +3326,7 @@ public class CyderMain{
         switchingPanel.setOpaque(true);
         switchingPanel.setBounds(140,70,720, 500);
         switchingPanel.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        switchingPanel.setBackground(null);
+        switchingPanel.setBackground(mainGeneralUtil.vanila);
         editUserFrame.getContentPane().add(switchingPanel);
 
         switchToMusicAndBackgrounds();
@@ -3690,6 +3690,8 @@ public class CyderMain{
         }
     }
 
+    //todo mp3 skips forward on play/pause fix
+    //todo scrollbar is cut off here sometimes
     private void switchToMusicAndBackgrounds() {
         JLabel BackgroundLabel = new JLabel("Music & Backgrounds", SwingConstants.CENTER);
         BackgroundLabel.setFont(mainGeneralUtil.weatherFontSmall);
@@ -3706,7 +3708,7 @@ public class CyderMain{
         musicBackgroundScroll.setSize(400, 400);
         musicBackgroundScroll.setFont(mainGeneralUtil.weatherFontBig);
         musicBackgroundScroll.setThumbColor(mainGeneralUtil.regularRed);
-        musicBackgroundSelectionList.setBackground(new Color(0,0,0,0));
+        musicBackgroundSelectionList.setBackground(mainGeneralUtil.vanila);
         musicBackgroundScroll.getViewport().setBackground(new Color(0,0,0,0));
         musicBackgroundScroll.setBounds(20,50,680,380);
         switchingPanel.add(musicBackgroundScroll);
