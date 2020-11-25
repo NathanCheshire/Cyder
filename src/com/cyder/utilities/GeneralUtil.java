@@ -1936,7 +1936,7 @@ public class GeneralUtil {
     }
 
     public boolean confirmation(String input) {
-        return (input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y"));
+        return (input.contains("yes") || input.equalsIgnoreCase("y"));
     }
 
     public boolean getAlwaysOnTopMode() {
