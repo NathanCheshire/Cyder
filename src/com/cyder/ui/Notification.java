@@ -115,9 +115,8 @@ public class Notification extends JLabel {
         graphics2D.fill(fillPath);
 
         //this adds the arrow on sides
-        //todo add border to arrows
         switch (type) {
-            case 1: //top
+            case Notification.TOP:
                 fillPath.moveTo(8 + this.width / 2, 6);
                 fillPath.lineTo(14 + this.width / 2,0);
                 fillPath.lineTo(20 + this.width / 2,6);
@@ -125,8 +124,11 @@ public class Notification extends JLabel {
 
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
+
+                //todo add border to arrows
+
                 break;
-            case 2: //left
+            case Notification.LEFT: //left
                 fillPath.moveTo(10, 4 + height/2);
                 fillPath.lineTo(4, 10 + height/2);
                 fillPath.lineTo(10, 16 + height/2);
@@ -134,9 +136,11 @@ public class Notification extends JLabel {
 
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
-                break;
 
-            case 3: //right
+                //todo add border to arrows
+
+                break;
+            case Notification.BOTTOM:
                 fillPath.moveTo(18 + this.width, 4 + height/2);
                 fillPath.lineTo(24 + this.width, 10 + height/2);
                 fillPath.lineTo(18 + this.width, 16 + height/2);
@@ -144,9 +148,11 @@ public class Notification extends JLabel {
 
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
-                break;
 
-            case 4: //bottom
+                //todo add border to arrows
+
+                break;
+            case Notification.RIGHT:
                 fillPath.moveTo(8 + width/2, 14+ height);
                 fillPath.lineTo(14 + width/2, 20 + height);
                 fillPath.lineTo(20 + width/2, 14 + height);
@@ -154,6 +160,9 @@ public class Notification extends JLabel {
 
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
+
+                //todo add border to arrows
+
                 break;
         }
     }

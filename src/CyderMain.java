@@ -3633,7 +3633,7 @@ public class CyderMain{
     }
 
     private void switchToFontAndColor() {
-        //todo
+
     }
 
     //todo here now
