@@ -13,7 +13,16 @@ public class CyderSliderUI extends BasicSliderUI {
     private Color oldValColor;
     private Color newValColor;
     private Color fillColor;
-    private Color outlineColor ;
+    private Color outlineColor;
+
+    public static final int CIRCLE = 0;
+    public static final int RECTANGLE = 1;
+
+    private int sliderShape = 0;
+
+    public void setSliderShape(int shape) {
+        this.sliderShape = shape;
+    }
 
     private transient boolean upperDragging;
 
@@ -138,13 +147,32 @@ public class CyderSliderUI extends BasicSliderUI {
 
     @Override
     public void paintThumb(Graphics g) {
-        //todo add a toggle to choose between circle or rectangle
+
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        Rectangle t = thumbRect;
-        g2d.setColor(fillColor);
-        g2d.fillOval(t.x, t.y, 25, 25);
-        g2d.dispose();
+
+        if (sliderShape == 0) {
+            g2d = (Graphics2D) g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            Rectangle t = thumbRect;
+            g2d.setColor(fillColor);
+            g2d.fillOval(t.x, t.y, 25, 25);
+            g2d.dispose();
+        } else {
+            Rectangle knobBounds = thumbRect;
+            int w = knobBounds.width;
+            int h = knobBounds.height;
+            g2d = (Graphics2D) g.create();
+            Shape thumbShape = createThumbShape(w - 1, h - 1);
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.translate(knobBounds.x, knobBounds.y);
+            g2d.setColor(fillColor);
+            g2d.fill(thumbShape);
+
+            g2d.setColor(outlineColor);
+            g2d.draw(thumbShape);
+            g2d.dispose();
+        }
     }
 
     public class RangeTrackListener extends TrackListener {

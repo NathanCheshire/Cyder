@@ -89,8 +89,9 @@ public class MPEGPlayer {
         UI.setFillColor(musicGeneralUtil.vanila);
         UI.setOutlineColor(musicGeneralUtil.vanila);
         UI.setNewValColor(musicGeneralUtil.vanila);
-        UI.setOldValColor(musicGeneralUtil.vanila);
+        UI.setOldValColor(musicGeneralUtil.regularRed);
         UI.setStroke(new BasicStroke(3.0f));
+        UI.setSliderShape(CyderSliderUI.CIRCLE);
 
         musicVolumeSlider.setUI(UI);
 

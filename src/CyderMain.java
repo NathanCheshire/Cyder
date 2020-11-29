@@ -9,6 +9,9 @@ import com.cyder.ui.*;
 import com.cyder.utilities.*;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.Port;
 import javax.swing.Timer;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -3331,7 +3334,8 @@ public class CyderMain{
         switchingPanel.setBackground(new Color(255,255,255));
         editUserFrame.getContentPane().add(switchingPanel);
 
-        switchToMusicAndBackgrounds();
+        switchToPreferences();
+        prefsPanelIndex = 2;
 
         backwardPanel = new CyderButton("< Prev");
         backwardPanel.setBackground(mainGeneralUtil.regularRed);
@@ -3645,12 +3649,13 @@ public class CyderMain{
     }
 
     private void switchToFontAndColor() {
-
+        //todo copy from colorconverter and old font changer
     }
 
     ImageIcon selected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox1.png");
     ImageIcon notSelected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox2.png");
 
+    //todo roganize preferences in userdata.txt and add the new ones on creation
     private void switchToPreferences() {
         JLabel prefsTitle = new JLabel("Preferences");
         prefsTitle.setFont(mainGeneralUtil.weatherFontBig);
@@ -3663,31 +3668,36 @@ public class CyderMain{
         introMusicTitle.setFont(mainGeneralUtil.weatherFontSmall);
         introMusicTitle.setForeground(mainGeneralUtil.navy);
         introMusicTitle.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        introMusicTitle.setBounds(20,50,130,25);
+        switchingPanel.add(introMusicTitle);
 
-        JLabel debugWindowsLabel = new JLabel("Debug Windows");
+        JLabel debugWindowsLabel = new JLabel("Debug");
         debugWindowsLabel.setFont(mainGeneralUtil.weatherFontSmall);
         debugWindowsLabel.setForeground(mainGeneralUtil.navy);
         debugWindowsLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        debugWindowsLabel.setBounds(130,50,160,25);
+        switchingPanel.add(debugWindowsLabel);
 
-        JLabel randomBackgroundLabel = new JLabel("Random Background");
+        JLabel randomBackgroundLabel = new JLabel("Random Back");
         randomBackgroundLabel.setFont(mainGeneralUtil.weatherFontSmall);
         randomBackgroundLabel.setForeground(mainGeneralUtil.navy);
         randomBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        randomBackgroundLabel.setBounds(150 + 120,50,160,25);
+        switchingPanel.add(randomBackgroundLabel);
 
-        JLabel outputBorderLabel = new JLabel("Output Border");
+        JLabel outputBorderLabel = new JLabel("Out Border");
         outputBorderLabel.setFont(mainGeneralUtil.weatherFontSmall);
         outputBorderLabel.setForeground(mainGeneralUtil.navy);
         outputBorderLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        outputBorderLabel.setBounds(150 + 20 + 10 + 150 + 90,50,160,25);
+        switchingPanel.add(outputBorderLabel);
 
-        JLabel inputBorderLabel = new JLabel("Input Border");
+        JLabel inputBorderLabel = new JLabel("In Border");
         inputBorderLabel.setFont(mainGeneralUtil.weatherFontSmall);
         inputBorderLabel.setForeground(mainGeneralUtil.navy);
         inputBorderLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        inputBorderLabel.setBounds(150 + 20 + 20 + 150 + 225,50,160,25);
+        switchingPanel.add(inputBorderLabel);
 
         JLabel introMusic = new JLabel();
         introMusic.setHorizontalAlignment(JLabel.CENTER);
@@ -3701,7 +3711,8 @@ public class CyderMain{
             introMusic.setIcon((wasSelected ? notSelected : selected));
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        introMusic.setBounds(20, 80,100,100);
+        switchingPanel.add(introMusic);
 
         JLabel debugWindows = new JLabel();
         debugWindows.setHorizontalAlignment(JLabel.CENTER);
@@ -3715,7 +3726,8 @@ public class CyderMain{
             debugWindows.setIcon((wasSelected ? notSelected : selected));
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        debugWindows.setBounds(20 + 45 + 100, 80,100,100);
+        switchingPanel.add(debugWindows);
 
         JLabel randBackgroundLabel = new JLabel();
         randBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -3729,7 +3741,8 @@ public class CyderMain{
             randBackgroundLabel.setIcon((wasSelected ? notSelected : selected));
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        randBackgroundLabel.setBounds(20 + 2 * 45 + 2 * 100, 80,100,100);
+        switchingPanel.add(randBackgroundLabel);
 
         JLabel outputBorder = new JLabel();
         outputBorder.setHorizontalAlignment(JLabel.CENTER);
@@ -3752,7 +3765,8 @@ public class CyderMain{
             consoleFrame.revalidate();
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        outputBorder.setBounds(20 + 3 * 45 + 3 * 100, 80,100,100);
+        switchingPanel.add(outputBorder);
 
         JLabel inputBorder = new JLabel();
         inputBorder.setHorizontalAlignment(JLabel.CENTER);
@@ -3776,37 +3790,43 @@ public class CyderMain{
             consoleFrame.revalidate();
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        inputBorder.setBounds(20 + 4 * 45 + 4 * 100, 80,100,100);
+        switchingPanel.add(inputBorder);
 
-        JLabel hourlyChimesLabel = new JLabel("Hourly Chimes");
+        JLabel hourlyChimesLabel = new JLabel("Hour Chimes");
         hourlyChimesLabel.setFont(mainGeneralUtil.weatherFontSmall);
         hourlyChimesLabel.setForeground(mainGeneralUtil.navy);
         hourlyChimesLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        hourlyChimesLabel.setBounds(5,210,170,30);
+        switchingPanel.add(hourlyChimesLabel);
 
-        JLabel silenceLabel = new JLabel("Silence Errors");
+        JLabel silenceLabel = new JLabel("No Errors");
         silenceLabel.setFont(mainGeneralUtil.weatherFontSmall);
         silenceLabel.setForeground(mainGeneralUtil.navy);
         silenceLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        silenceLabel.setBounds(150,210,150,30);
+        switchingPanel.add(silenceLabel);
 
         JLabel fullscreenLabel = new JLabel("Fullscreen");
         fullscreenLabel.setFont(mainGeneralUtil.weatherFontSmall);
         fullscreenLabel.setForeground(mainGeneralUtil.navy);
         fullscreenLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        fullscreenLabel.setBounds(285,210,170,30);
+        switchingPanel.add(fullscreenLabel);
 
-        JLabel outputFillLabel = new JLabel("Fill Output");
+        JLabel outputFillLabel = new JLabel("Fill Out");
         outputFillLabel.setFont(mainGeneralUtil.weatherFontSmall);
         outputFillLabel.setForeground(mainGeneralUtil.navy);
         outputFillLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        outputFillLabel.setBounds(420,210,170,30);
+        switchingPanel.add(outputFillLabel);
 
-        JLabel inputFillLabel = new JLabel("Fill Input");
+        JLabel inputFillLabel = new JLabel("Fill In");
         inputFillLabel.setFont(mainGeneralUtil.weatherFontSmall);
         inputFillLabel.setForeground(mainGeneralUtil.navy);
         inputFillLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        inputFillLabel.setBounds(560,210,170,30);
+        switchingPanel.add(inputFillLabel);
 
         JLabel hourlyChimes = new JLabel();
         hourlyChimes.setHorizontalAlignment(JLabel.CENTER);
@@ -3820,7 +3840,8 @@ public class CyderMain{
             hourlyChimes.setIcon((wasSelected ? notSelected : selected));
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        hourlyChimes.setBounds(20, 235,100,100);
+        switchingPanel.add(hourlyChimes);
 
         JLabel silenceErrors = new JLabel();
         silenceErrors.setHorizontalAlignment(JLabel.CENTER);
@@ -3835,7 +3856,8 @@ public class CyderMain{
             }
 
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        silenceErrors.setBounds(20 + 100 + 45, 235,100,100);
+        switchingPanel.add(silenceErrors);
 
         JLabel fullscreen = new JLabel();
         fullscreen.setHorizontalAlignment(JLabel.CENTER);
@@ -3856,7 +3878,8 @@ public class CyderMain{
             }
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        fullscreen.setBounds(20 + 2 * 100 + 2 * 45, 235,100,100);
+        switchingPanel.add(fullscreen);
 
         JLabel outputFill = new JLabel();
         outputFill.setHorizontalAlignment(JLabel.CENTER);
@@ -3871,7 +3894,8 @@ public class CyderMain{
             //todo other tasks
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        outputFill.setBounds(20 + 3 * 100 + 3 * 45, 235,100,100);
+        switchingPanel.add(outputFill);
 
         JLabel inputFill = new JLabel();
         inputFill.setHorizontalAlignment(JLabel.CENTER);
@@ -3886,19 +3910,22 @@ public class CyderMain{
             //todo other tasks
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        inputFill.setBounds(20 + 4 * 100 + 4 * 45, 235,100,100);
+        switchingPanel.add(inputFill);
 
         JLabel clockLabel = new JLabel("Console Clock");
         clockLabel.setFont(mainGeneralUtil.weatherFontSmall);
         clockLabel.setForeground(mainGeneralUtil.navy);
         clockLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        clockLabel.setBounds(20,380,170,25);
+        switchingPanel.add(clockLabel);
 
-        JLabel showSecondsLabel = new JLabel("Show Seconds");
+        JLabel showSecondsLabel = new JLabel("Clock Seconds");
         showSecondsLabel.setFont(mainGeneralUtil.weatherFontSmall);
         showSecondsLabel.setForeground(mainGeneralUtil.navy);
         showSecondsLabel.setHorizontalAlignment(JLabel.CENTER);
-        //todo bounds and switchingPanel.getContentPane().add();
+        showSecondsLabel.setBounds(220,380,170,25);
+        switchingPanel.add(showSecondsLabel);
 
         JLabel clockOnConsole = new JLabel();
         clockOnConsole.setHorizontalAlignment(JLabel.CENTER);
@@ -3915,7 +3942,8 @@ public class CyderMain{
             consoleFrame.revalidate();
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        clockOnConsole.setBounds(50,400,100,100);
+        switchingPanel.add(clockOnConsole);
 
         JLabel showSeconds = new JLabel();
         showSeconds.setHorizontalAlignment(JLabel.CENTER);
@@ -3926,13 +3954,74 @@ public class CyderMain{
             public void mouseReleased(MouseEvent e) {
             boolean wasSelected = mainGeneralUtil.getUserData("ShowSeconds").equals("1");
             mainGeneralUtil.writeUserData("ShowSeconds", (wasSelected ? "0" : "1"));
-            clockOnConsole.setIcon((wasSelected ? notSelected : selected));
+                showSeconds.setIcon((wasSelected ? notSelected : selected));
             //todo update clock every second and use other time method with seconds though
             }
         });
-        //todo bounds and switchingPanel.getContentPane().add();
+        showSeconds.setBounds(50 + 200,400,100,100);
+        switchingPanel.add(showSeconds);
 
-        //todo fill opacity and fill color sliders
+        JSlider opacitySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
+        CyderSliderUI UI = new CyderSliderUI(opacitySlider);
+
+        UI.setFillColor(Color.darkGray);
+        UI.setOutlineColor(mainGeneralUtil.vanila);
+        UI.setNewValColor(mainGeneralUtil.regularRed);
+        UI.setOldValColor(mainGeneralUtil.regularBlue);
+        UI.setSliderShape(CyderSliderUI.RECTANGLE);
+        UI.setStroke(new BasicStroke(3.0f));
+
+        opacitySlider.setUI(UI);
+        opacitySlider.setMinimum(0);
+        opacitySlider.setMaximum(100);
+        opacitySlider.setMajorTickSpacing(5);
+        opacitySlider.setMinorTickSpacing(1);
+        opacitySlider.setPaintTicks(false);
+        opacitySlider.setPaintLabels(false);
+        opacitySlider.setVisible(true);
+        opacitySlider.setValue(50);
+        opacitySlider.setFont(new Font("HeadPlane", Font.BOLD, 18));
+        opacitySlider.addChangeListener(e -> {
+            //todo
+        });
+
+        opacitySlider.setOpaque(false);
+        opacitySlider.setToolTipText("Fill Opacity");
+        opacitySlider.setFocusable(false);
+
+        opacitySlider.setBounds(470,400,220,50);
+        switchingPanel.add(opacitySlider);
+
+        JSlider colorSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
+        CyderSliderUI UI1 = new CyderSliderUI(colorSlider);
+
+        UI1.setFillColor(Color.darkGray);
+        UI1.setOutlineColor(mainGeneralUtil.vanila);
+        UI1.setNewValColor(mainGeneralUtil.regularRed);
+        UI1.setOldValColor(mainGeneralUtil.regularBlue);
+        UI1.setSliderShape(CyderSliderUI.RECTANGLE);
+        UI1.setStroke(new BasicStroke(3.0f));
+
+        colorSlider.setUI(UI1);
+        colorSlider.setMinimum(0);
+        colorSlider.setMaximum(100);
+        colorSlider.setMajorTickSpacing(5);
+        colorSlider.setMinorTickSpacing(1);
+        colorSlider.setPaintTicks(false);
+        colorSlider.setPaintLabels(false);
+        colorSlider.setVisible(true);
+        colorSlider.setValue(50);
+        colorSlider.setFont(new Font("HeadPlane", Font.BOLD, 18));
+        colorSlider.addChangeListener(e -> {
+            //todo change colors based on position
+        });
+
+        colorSlider.setOpaque(false);
+        colorSlider.setToolTipText("Fill Opacity");
+        colorSlider.setFocusable(false);
+
+        colorSlider.setBounds(470,440,220,50);
+        switchingPanel.add(colorSlider);
 
         switchingPanel.revalidate();
     }
@@ -3940,6 +4029,7 @@ public class CyderMain{
     //todo add auto testing if in debug mode and only use debug mode to know if we should auto handle/test something on start
     //todo if a pref keyword doesn't exist in userdata, add it and set to default
 
+    //todo on closing console frame if login open, close all other windows except login frame
 
     //todo on jlabels that you change the text like the don't have a user, create one,
     // copy whatever you did there to the passwords match or don't match and take note for future use
@@ -4298,7 +4388,7 @@ public class CyderMain{
                 while (true) {
                     Thread.sleep(4000);
                     Calendar now = Calendar.getInstance();
-                    if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) <= 4)
+                    if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) <= 4) //todo and get preference chime is true
                         mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\chime.mp3");
                 }
             }

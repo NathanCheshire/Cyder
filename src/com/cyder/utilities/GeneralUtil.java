@@ -68,6 +68,7 @@ public class GeneralUtil {
     //public colors
     public Color selectionColor = new Color(204,153,0);
     public Color regularGreen = new Color(60, 167, 92);
+    public Color regularBlue = new Color(38,168,255);
     public Color calculatorOrange = new Color(255,140,0);
     public Color regularRed = new Color(223,85,83);
     public Color intellijPink = new Color(236,64,122);
