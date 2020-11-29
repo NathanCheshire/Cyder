@@ -3432,6 +3432,12 @@ public class CyderMain{
     }
 
     private void nextEditUser() {
+        switchingPanel.removeAll();
+        switchingPanel.revalidate();
+        switchingPanel.repaint();
+        editUserFrame.revalidate();
+        editUserFrame.repaint();
+
         prefsPanelIndex++;
 
         if (prefsPanelIndex == 3)
@@ -3452,6 +3458,12 @@ public class CyderMain{
     }
 
     private void lastEditUser() {
+        switchingPanel.removeAll();
+        switchingPanel.revalidate();
+        switchingPanel.repaint();
+        editUserFrame.revalidate();
+        editUserFrame.repaint();
+
         prefsPanelIndex--;
 
         if (prefsPanelIndex == -1)
@@ -3475,8 +3487,8 @@ public class CyderMain{
 
     private void switchToMusicAndBackgrounds() {
         JLabel BackgroundLabel = new JLabel("Music & Backgrounds", SwingConstants.CENTER);
-        BackgroundLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        BackgroundLabel.setBounds(720 / 2 - 250 / 2,10,250,30);
+        BackgroundLabel.setFont(mainGeneralUtil.weatherFontBig);
+        BackgroundLabel.setBounds(720 / 2 - 375 / 2,10,375,40);
         switchingPanel.add(BackgroundLabel);
 
         initMusicBackgroundList();
@@ -3490,7 +3502,7 @@ public class CyderMain{
         musicBackgroundScroll.setThumbColor(mainGeneralUtil.regularRed);
         musicBackgroundSelectionList.setBackground(new Color(255,255,255));
         musicBackgroundScroll.getViewport().setBackground(new Color(0,0,0,0));
-        musicBackgroundScroll.setBounds(20,50,680,380);
+        musicBackgroundScroll.setBounds(20,60,680,360);
         switchingPanel.add(musicBackgroundScroll);
 
         addMusicBackground = new CyderButton("Add");
@@ -3636,31 +3648,46 @@ public class CyderMain{
 
     }
 
-    //todo here now
-    private void switchToPreferences() {
-        ImageIcon selected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox1.png");
-        ImageIcon notSelected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox2.png");
+    ImageIcon selected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox1.png");
+    ImageIcon notSelected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox2.png");
 
-        JPanel prefsPanel = new JPanel();
-        prefsPanel.setLayout(new GridLayout(6,3,0,20));
+    private void switchToPreferences() {
+        JLabel prefsTitle = new JLabel("Preferences");
+        prefsTitle.setFont(mainGeneralUtil.weatherFontBig);
+        prefsTitle.setForeground(mainGeneralUtil.navy);
+        prefsTitle.setHorizontalAlignment(JLabel.CENTER);
+        prefsTitle.setBounds(720 / 2 - 250 / 2,10,250,30);
+        switchingPanel.add(prefsTitle);
 
         JLabel introMusicTitle = new JLabel("Intro Music");
         introMusicTitle.setFont(mainGeneralUtil.weatherFontSmall);
         introMusicTitle.setForeground(mainGeneralUtil.navy);
         introMusicTitle.setHorizontalAlignment(JLabel.CENTER);
-        prefsPanel.add(introMusicTitle);
+        //todo bounds and switchingPanel.getContentPane().add();
 
         JLabel debugWindowsLabel = new JLabel("Debug Windows");
         debugWindowsLabel.setFont(mainGeneralUtil.weatherFontSmall);
         debugWindowsLabel.setForeground(mainGeneralUtil.navy);
         debugWindowsLabel.setHorizontalAlignment(JLabel.CENTER);
-        prefsPanel.add(debugWindowsLabel);
+        //todo bounds and switchingPanel.getContentPane().add();
 
         JLabel randomBackgroundLabel = new JLabel("Random Background");
         randomBackgroundLabel.setFont(mainGeneralUtil.weatherFontSmall);
         randomBackgroundLabel.setForeground(mainGeneralUtil.navy);
         randomBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
-        prefsPanel.add(randomBackgroundLabel);
+        //todo bounds and switchingPanel.getContentPane().add();
+
+        JLabel outputBorderLabel = new JLabel("Output Border");
+        outputBorderLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        outputBorderLabel.setForeground(mainGeneralUtil.navy);
+        outputBorderLabel.setHorizontalAlignment(JLabel.CENTER);
+        //todo bounds and switchingPanel.getContentPane().add();
+
+        JLabel inputBorderLabel = new JLabel("Input Border");
+        inputBorderLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        inputBorderLabel.setForeground(mainGeneralUtil.navy);
+        inputBorderLabel.setHorizontalAlignment(JLabel.CENTER);
+        //todo bounds and switchingPanel.getContentPane().add();
 
         JLabel introMusic = new JLabel();
         introMusic.setHorizontalAlignment(JLabel.CENTER);
@@ -3669,13 +3696,12 @@ public class CyderMain{
         introMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("IntroMusic").equals("1");
-                mainGeneralUtil.writeUserData("IntroMusic", (wasSelected ? "0" : "1"));
-                introMusic.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainGeneralUtil.getUserData("IntroMusic").equals("1");
+            mainGeneralUtil.writeUserData("IntroMusic", (wasSelected ? "0" : "1"));
+            introMusic.setIcon((wasSelected ? notSelected : selected));
             }
         });
-
-        prefsPanel.add(introMusic);
+        //todo bounds and switchingPanel.getContentPane().add();
 
         JLabel debugWindows = new JLabel();
         debugWindows.setHorizontalAlignment(JLabel.CENTER);
@@ -3684,13 +3710,12 @@ public class CyderMain{
         debugWindows.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("DebugWindows").equals("1");
-                mainGeneralUtil.writeUserData("DebugWindows", (wasSelected ? "0" : "1"));
-                debugWindows.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainGeneralUtil.getUserData("DebugWindows").equals("1");
+            mainGeneralUtil.writeUserData("DebugWindows", (wasSelected ? "0" : "1"));
+            debugWindows.setIcon((wasSelected ? notSelected : selected));
             }
         });
-
-        prefsPanel.add(debugWindows);
+        //todo bounds and switchingPanel.getContentPane().add();
 
         JLabel randBackgroundLabel = new JLabel();
         randBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -3699,31 +3724,89 @@ public class CyderMain{
         randBackgroundLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("RandomBackground").equals("1");
-                mainGeneralUtil.writeUserData("RandomBackground", (wasSelected ? "0" : "1"));
-                randBackgroundLabel.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainGeneralUtil.getUserData("RandomBackground").equals("1");
+            mainGeneralUtil.writeUserData("RandomBackground", (wasSelected ? "0" : "1"));
+            randBackgroundLabel.setIcon((wasSelected ? notSelected : selected));
             }
         });
+        //todo bounds and switchingPanel.getContentPane().add();
 
-        prefsPanel.add(randBackgroundLabel);
+        JLabel outputBorder = new JLabel();
+        outputBorder.setHorizontalAlignment(JLabel.CENTER);
+        outputBorder.setSize(100,100);
+        outputBorder.setIcon((mainGeneralUtil.getUserData("OutputBorder").equals("1") ? selected : notSelected));
+        outputBorder.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            boolean wasSelected = mainGeneralUtil.getUserData("OutputBorder").equals("1");
+            mainGeneralUtil.writeUserData("OutputBorder", (wasSelected ? "0" : "1"));
+            outputBorder.setIcon((wasSelected ? notSelected : selected));
+            if (wasSelected) {
+                outputScroll.setBorder(BorderFactory.createEmptyBorder());
+            }
+
+            else {
+                outputScroll.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
+            }
+
+            consoleFrame.revalidate();
+            }
+        });
+        //todo bounds and switchingPanel.getContentPane().add();
+
+        JLabel inputBorder = new JLabel();
+        inputBorder.setHorizontalAlignment(JLabel.CENTER);
+        inputBorder.setSize(100,100);
+        inputBorder.setIcon((mainGeneralUtil.getUserData("InputBorder").equals("1") ? selected : notSelected));
+        inputBorder.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            boolean wasSelected = mainGeneralUtil.getUserData("InputBorder").equals("1");
+            mainGeneralUtil.writeUserData("InputBorder", (wasSelected ? "0" : "1"));
+            inputBorder.setIcon((wasSelected ? notSelected : selected));
+
+            if (wasSelected) {
+                inputField.setBorder(BorderFactory.createEmptyBorder());
+            }
+
+            else {
+                inputField.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
+            }
+
+            consoleFrame.revalidate();
+            }
+        });
+        //todo bounds and switchingPanel.getContentPane().add();
 
         JLabel hourlyChimesLabel = new JLabel("Hourly Chimes");
         hourlyChimesLabel.setFont(mainGeneralUtil.weatherFontSmall);
         hourlyChimesLabel.setForeground(mainGeneralUtil.navy);
         hourlyChimesLabel.setHorizontalAlignment(JLabel.CENTER);
-        prefsPanel.add(hourlyChimesLabel);
-
-        JLabel clockLabel = new JLabel("Console Clock");
-        clockLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        clockLabel.setForeground(mainGeneralUtil.navy);
-        clockLabel.setHorizontalAlignment(JLabel.CENTER);
-        prefsPanel.add(clockLabel);
+        //todo bounds and switchingPanel.getContentPane().add();
 
         JLabel silenceLabel = new JLabel("Silence Errors");
         silenceLabel.setFont(mainGeneralUtil.weatherFontSmall);
         silenceLabel.setForeground(mainGeneralUtil.navy);
         silenceLabel.setHorizontalAlignment(JLabel.CENTER);
-        prefsPanel.add(silenceLabel);
+        //todo bounds and switchingPanel.getContentPane().add();
+
+        JLabel fullscreenLabel = new JLabel("Fullscreen");
+        fullscreenLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        fullscreenLabel.setForeground(mainGeneralUtil.navy);
+        fullscreenLabel.setHorizontalAlignment(JLabel.CENTER);
+        //todo bounds and switchingPanel.getContentPane().add();
+
+        JLabel outputFillLabel = new JLabel("Fill Output");
+        outputFillLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        outputFillLabel.setForeground(mainGeneralUtil.navy);
+        outputFillLabel.setHorizontalAlignment(JLabel.CENTER);
+        //todo bounds and switchingPanel.getContentPane().add();
+
+        JLabel inputFillLabel = new JLabel("Fill Input");
+        inputFillLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        inputFillLabel.setForeground(mainGeneralUtil.navy);
+        inputFillLabel.setHorizontalAlignment(JLabel.CENTER);
+        //todo bounds and switchingPanel.getContentPane().add();
 
         JLabel hourlyChimes = new JLabel();
         hourlyChimes.setHorizontalAlignment(JLabel.CENTER);
@@ -3732,31 +3815,12 @@ public class CyderMain{
         hourlyChimes.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("HourlyChimes").equals("1");
-                mainGeneralUtil.writeUserData("HourlyChimes", (wasSelected ? "0" : "1"));
-                hourlyChimes.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainGeneralUtil.getUserData("HourlyChimes").equals("1");
+            mainGeneralUtil.writeUserData("HourlyChimes", (wasSelected ? "0" : "1"));
+            hourlyChimes.setIcon((wasSelected ? notSelected : selected));
             }
         });
-
-        prefsPanel.add(hourlyChimes);
-
-        JLabel clockOnConsole = new JLabel();
-        clockOnConsole.setHorizontalAlignment(JLabel.CENTER);
-        clockOnConsole.setSize(100,100);
-        clockOnConsole.setIcon((mainGeneralUtil.getUserData("ClockOnConsole").equals("1") ? selected : notSelected));
-        clockOnConsole.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("ClockOnConsole").equals("1");
-                mainGeneralUtil.writeUserData("ClockOnConsole", (wasSelected ? "0" : "1"));
-                clockOnConsole.setIcon((wasSelected ? notSelected : selected));
-                consoleClockLabel.setVisible(!wasSelected);
-                updateConsoleClock = !wasSelected;
-                consoleFrame.revalidate();
-            }
-        });
-
-        prefsPanel.add(clockOnConsole);
+        //todo bounds and switchingPanel.getContentPane().add();
 
         JLabel silenceErrors = new JLabel();
         silenceErrors.setHorizontalAlignment(JLabel.CENTER);
@@ -3765,33 +3829,13 @@ public class CyderMain{
         silenceErrors.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("SilenceErrors").equals("1");
-                mainGeneralUtil.writeUserData("SilenceErrors", (wasSelected ? "0" : "1"));
-                silenceErrors.setIcon((wasSelected ? notSelected : selected));
+            boolean wasSelected = mainGeneralUtil.getUserData("SilenceErrors").equals("1");
+            mainGeneralUtil.writeUserData("SilenceErrors", (wasSelected ? "0" : "1"));
+            silenceErrors.setIcon((wasSelected ? notSelected : selected));
             }
 
         });
-
-        prefsPanel.add(silenceErrors);
-
-        JLabel fullscreenLabel = new JLabel("Fullscreen");
-        fullscreenLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        fullscreenLabel.setForeground(mainGeneralUtil.navy);
-        fullscreenLabel.setHorizontalAlignment(JLabel.CENTER);
-        prefsPanel.add(fullscreenLabel);
-
-        JLabel outputBorder = new JLabel("Output Area Border");
-        outputBorder.setFont(mainGeneralUtil.weatherFontSmall);
-        outputBorder.setForeground(mainGeneralUtil.navy);
-        outputBorder.setHorizontalAlignment(JLabel.CENTER);
-
-        prefsPanel.add(outputBorder);
-
-        JLabel inputBorder = new JLabel("Input Field Border");
-        inputBorder.setFont(mainGeneralUtil.weatherFontSmall);
-        inputBorder.setForeground(mainGeneralUtil.navy);
-        inputBorder.setHorizontalAlignment(JLabel.CENTER);
-        prefsPanel.add(inputBorder);
+        //todo bounds and switchingPanel.getContentPane().add();
 
         JLabel fullscreen = new JLabel();
         fullscreen.setHorizontalAlignment(JLabel.CENTER);
@@ -3800,73 +3844,106 @@ public class CyderMain{
         fullscreen.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("FullScreen").equals("1");
-                mainGeneralUtil.writeUserData("FullScreen", (wasSelected ? "0" : "1"));
-                fullscreen.setIcon((wasSelected ? notSelected : selected));
-                if (wasSelected) {
-                    exitFullscreen();
-                }
+            boolean wasSelected = mainGeneralUtil.getUserData("FullScreen").equals("1");
+            mainGeneralUtil.writeUserData("FullScreen", (wasSelected ? "0" : "1"));
+            fullscreen.setIcon((wasSelected ? notSelected : selected));
+            if (wasSelected) {
+                exitFullscreen();
+            }
 
-                else {
-                    refreshFullscreen();
-                }
+            else {
+                refreshFullscreen();
+            }
             }
         });
+        //todo bounds and switchingPanel.getContentPane().add();
 
-        prefsPanel.add(fullscreen);
-
-        prefsPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(mainGeneralUtil.navy,5,false)));
-
-        JLabel outputborder = new JLabel();
-        outputborder.setHorizontalAlignment(JLabel.CENTER);
-        outputborder.setSize(100,100);
-        outputborder.setIcon((mainGeneralUtil.getUserData("OutputBorder").equals("1") ? selected : notSelected));
-        outputborder.addMouseListener(new MouseAdapter() {
+        JLabel outputFill = new JLabel();
+        outputFill.setHorizontalAlignment(JLabel.CENTER);
+        outputFill.setSize(100,100);
+        outputFill.setIcon((mainGeneralUtil.getUserData("OutputFill").equals("1") ? selected : notSelected));
+        outputFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("OutputBorder").equals("1");
-                mainGeneralUtil.writeUserData("OutputBorder", (wasSelected ? "0" : "1"));
-                outputborder.setIcon((wasSelected ? notSelected : selected));
-                if (wasSelected) {
-                    outputScroll.setBorder(BorderFactory.createEmptyBorder());
-                }
-
-                else {
-                    outputScroll.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
-                }
-
-                consoleFrame.revalidate();
+            boolean wasSelected = mainGeneralUtil.getUserData("OutputFill").equals("1");
+            mainGeneralUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
+            outputFill.setIcon((wasSelected ? notSelected : selected));
+            //todo other tasks
             }
         });
+        //todo bounds and switchingPanel.getContentPane().add();
 
-        prefsPanel.add(outputborder);
-
-        JLabel inputborder = new JLabel();
-        inputborder.setHorizontalAlignment(JLabel.CENTER);
-        inputborder.setSize(100,100);
-        inputborder.setIcon((mainGeneralUtil.getUserData("InputBorder").equals("1") ? selected : notSelected));
-        inputborder.addMouseListener(new MouseAdapter() {
+        JLabel inputFill = new JLabel();
+        inputFill.setHorizontalAlignment(JLabel.CENTER);
+        inputFill.setSize(100,100);
+        inputFill.setIcon((mainGeneralUtil.getUserData("InputFill").equals("1") ? selected : notSelected));
+        inputFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("InputBorder").equals("1");
-                mainGeneralUtil.writeUserData("InputBorder", (wasSelected ? "0" : "1"));
-                inputborder.setIcon((wasSelected ? notSelected : selected));
-
-                if (wasSelected) {
-                    inputField.setBorder(BorderFactory.createEmptyBorder());
-                }
-
-                else {
-                    inputField.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
-                }
-
-                consoleFrame.revalidate();
+            boolean wasSelected = mainGeneralUtil.getUserData("InputFill").equals("1");
+            mainGeneralUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
+            inputFill.setIcon((wasSelected ? notSelected : selected));
+            //todo other tasks
             }
         });
+        //todo bounds and switchingPanel.getContentPane().add();
 
-        prefsPanel.add(inputborder);
+        JLabel clockLabel = new JLabel("Console Clock");
+        clockLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        clockLabel.setForeground(mainGeneralUtil.navy);
+        clockLabel.setHorizontalAlignment(JLabel.CENTER);
+        //todo bounds and switchingPanel.getContentPane().add();
+
+        JLabel showSecondsLabel = new JLabel("Show Seconds");
+        showSecondsLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        showSecondsLabel.setForeground(mainGeneralUtil.navy);
+        showSecondsLabel.setHorizontalAlignment(JLabel.CENTER);
+        //todo bounds and switchingPanel.getContentPane().add();
+
+        JLabel clockOnConsole = new JLabel();
+        clockOnConsole.setHorizontalAlignment(JLabel.CENTER);
+        clockOnConsole.setSize(100,100);
+        clockOnConsole.setIcon((mainGeneralUtil.getUserData("ClockOnConsole").equals("1") ? selected : notSelected));
+        clockOnConsole.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            boolean wasSelected = mainGeneralUtil.getUserData("ClockOnConsole").equals("1");
+            mainGeneralUtil.writeUserData("ClockOnConsole", (wasSelected ? "0" : "1"));
+            clockOnConsole.setIcon((wasSelected ? notSelected : selected));
+            consoleClockLabel.setVisible(!wasSelected);
+            updateConsoleClock = !wasSelected;
+            consoleFrame.revalidate();
+            }
+        });
+        //todo bounds and switchingPanel.getContentPane().add();
+
+        JLabel showSeconds = new JLabel();
+        showSeconds.setHorizontalAlignment(JLabel.CENTER);
+        showSeconds.setSize(100,100);
+        showSeconds.setIcon((mainGeneralUtil.getUserData("ShowSeconds").equals("1") ? selected : notSelected));
+        showSeconds.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            boolean wasSelected = mainGeneralUtil.getUserData("ShowSeconds").equals("1");
+            mainGeneralUtil.writeUserData("ShowSeconds", (wasSelected ? "0" : "1"));
+            clockOnConsole.setIcon((wasSelected ? notSelected : selected));
+            //todo update clock every second and use other time method with seconds though
+            }
+        });
+        //todo bounds and switchingPanel.getContentPane().add();
+
+        //todo fill opacity and fill color sliders
+
+        switchingPanel.revalidate();
     }
+
+    //todo add auto testing if in debug mode and only use debug mode to know if we should auto handle/test something on start
+    //todo if a pref keyword doesn't exist in userdata, add it and set to default
+
+
+    //todo on jlabels that you change the text like the don't have a user, create one,
+    // copy whatever you did there to the passwords match or don't match and take note for future use
+    //todo call this a cyder label
 
     public void createUser() {
         createUserBackground = null;
