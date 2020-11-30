@@ -146,7 +146,7 @@ public class PhotoViewer {
         rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
         dl.add(rename);
 
-        nextImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+        nextImage = new JLabel(new ImageIcon("src/com/cyder/io/pictures/nextPicture1.png"));
         nextImage.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -155,18 +155,18 @@ public class PhotoViewer {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture2.png"));
+                nextImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/nextPicture2.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+                nextImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/nextPicture1.png"));
             }
         });
         nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
         dl.add(nextImage);
 
-        lastImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+        lastImage = new JLabel(new ImageIcon("src/com/cyder/io/pictures/lastPicture1.png"));
         lastImage.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -175,12 +175,12 @@ public class PhotoViewer {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture2.png"));
+                lastImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/lastPicture2.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+                lastImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/lastPicture1.png"));
             }
         });
         lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
@@ -323,7 +323,7 @@ public class PhotoViewer {
             rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
             dl.add(rename);
 
-            nextImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+            nextImage = new JLabel(new ImageIcon("src/com/cyder/io/pictures/nextPicture1.png"));
             nextImage.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -332,18 +332,18 @@ public class PhotoViewer {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture2.png"));
+                    nextImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/nextPicture2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+                    nextImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/nextPicture1.png"));
                 }
             });
             nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
             dl.add(nextImage);
 
-            lastImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+            lastImage = new JLabel(new ImageIcon("src/com/cyder/io/pictures/lastPicture1.png"));
             lastImage.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -352,12 +352,12 @@ public class PhotoViewer {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture2.png"));
+                    lastImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/lastPicture2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+                    lastImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/lastPicture1.png"));
                 }
             });
             lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
@@ -477,7 +477,7 @@ public class PhotoViewer {
             rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
             dl.add(rename);
 
-            nextImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+            nextImage = new JLabel(new ImageIcon("src/com/cyder/io/pictures/nextPicture1.png"));
             nextImage.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -486,18 +486,18 @@ public class PhotoViewer {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture2.png"));
+                    nextImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/nextPicture2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    nextImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\nextPicture1.png"));
+                    nextImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/nextPicture1.png"));
                 }
             });
             nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
             dl.add(nextImage);
 
-            lastImage = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+            lastImage = new JLabel(new ImageIcon("src/com/cyder/io/pictures/lastPicture1.png"));
             lastImage.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -506,12 +506,12 @@ public class PhotoViewer {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture2.png"));
+                    lastImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/lastPicture2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    lastImage.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\lastPicture1.png"));
+                    lastImage.setIcon(new ImageIcon("src/com/cyder/io/pictures/lastPicture1.png"));
                 }
             });
             lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);

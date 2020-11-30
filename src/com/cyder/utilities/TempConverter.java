@@ -25,7 +25,7 @@ public class TempConverter {
         if (temperatureFrame != null)
             new GeneralUtil().closeAnimation(temperatureFrame);
 
-        temperatureFrame = new CyderFrame(600,320,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
+        temperatureFrame = new CyderFrame(600,320,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         temperatureFrame.setTitle("Temperature Converter");
 
         JLabel ValueLabel = new JLabel("Measurement: ");

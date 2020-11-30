@@ -61,7 +61,7 @@ public class Hangman {
 
         HangmanFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        ImageIcon img = new ImageIcon("src\\com\\cyder\\io\\pictures\\hangman.png");
+        ImageIcon img = new ImageIcon("src/com/cyder/io/pictures/hangman.png");
 
         HangmanFrame.setIconImage(img.getImage());
 
@@ -83,7 +83,7 @@ public class Hangman {
 
         HangmanImageLabel = new JLabel();
 
-        HangmanImageLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\hangman.png"));
+        HangmanImageLabel.setIcon(new ImageIcon("src/com/cyder/io/pictures/hangman.png"));
 
         JPanel ImagePanel = new JPanel();
 
@@ -685,7 +685,7 @@ public class Hangman {
 
         HangmanLabel.setText(hangmanGeneralUtil.fillString(HangmanWord.length(), " _ "));
 
-        HangmanImageLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\hangman.png"));
+        HangmanImageLabel.setIcon(new ImageIcon("src/com/cyder/io/pictures/hangman.png"));
 
         HangmanWrongGuesses = 0;
 
@@ -854,7 +854,7 @@ public class Hangman {
 
         else {
             if (HangmanWrongGuesses == 7) {
-                HangmanImageLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\hangman8.png"));
+                HangmanImageLabel.setIcon(new ImageIcon("src/com/cyder/io/pictures/hangman8.png"));
                 HangmanLabel.setFont(new Font("Dialog Font",Font.BOLD,20));
                 HangmanLabel.setText("Game over! You were unable to guess \"" + HangmanWord + ".\" Would you like to play again?");
 
@@ -891,7 +891,7 @@ public class Hangman {
             else {
                 HangmanWrongGuesses++;
 
-                HangmanImageLabel.setIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\hangman" + HangmanWrongGuesses + ".png"));
+                HangmanImageLabel.setIcon(new ImageIcon("src/com/cyder/io/pictures/hangman" + HangmanWrongGuesses + ".png"));
             }
         }
     }

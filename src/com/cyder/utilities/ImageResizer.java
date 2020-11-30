@@ -16,8 +16,8 @@ import java.nio.file.Paths;
 
 public class ImageResizer {
 
-    ImageIcon selected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox1.png");
-    ImageIcon notSelected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox2.png");
+    ImageIcon selected = new ImageIcon("src/com/cyder/io/pictures/checkbox1.png");
+    ImageIcon notSelected = new ImageIcon("src/com/cyder/io/pictures/checkbox2.png");
 
     private JTextField xdim;
     private JTextField ydim;
@@ -34,7 +34,7 @@ public class ImageResizer {
     private boolean maintainAspectRatio = true;
 
     public ImageResizer() {
-        CyderFrame resizeFrame = new CyderFrame(800,800,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
+        CyderFrame resizeFrame = new CyderFrame(800,800,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         resizeFrame.setTitle("Image Resizer");
 
         previewLabel = new JLabel();

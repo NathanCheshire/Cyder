@@ -80,16 +80,15 @@ public class GeneralUtil {
     public Color navy = new Color(26, 32, 51);
 
     //Cyder direct vars
-    private ImageIcon cyderIcon = new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIcon.png");
-    private ImageIcon cyderIconBlink = new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIconBlink.png");
-    private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-    private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src\\com\\cyder\\io\\pictures\\CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+    private ImageIcon cyderIcon = new ImageIcon("src/com/cyder/io/pictures/CyderIcon.png");
+    private ImageIcon cyderIconBlink = new ImageIcon("src/com/cyder/io/pictures/CyderIconBlink.png");
+    private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src/com/cyder/io/pictures/CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+    private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src/com/cyder/io/pictures/CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 
     //cyder version
     private String cyderVer = "Soultree";
 
     //uservars
-    private BufferedReader dataReader;
     private LinkedList<NST> userData = new LinkedList<>();
     private String userUUID;
     private String username;
@@ -127,7 +126,10 @@ public class GeneralUtil {
 
     //console orientation var
 
-    //todo use enums instead of all constants
+    //todo use enums instead of all constants, make enums package
+
+    //todo make color utils
+    //todo separate utils from widgets in utils package
 
     public static int CYDER_UP = 0;
     public static int CYDER_RIGHT = 1;
@@ -449,7 +451,7 @@ public class GeneralUtil {
     //This was the best bodge I ever pulled off
     public File getFile() {
         try {
-            File WhereItIs = new File("src\\com\\cyder\\io\\jars\\FileChooser.jar");
+            File WhereItIs = new File("src/com/cyder/io/jars/FileChooser.jar");
             Desktop.getDesktop().open(WhereItIs);
             File f = new File("File.txt");
             f.delete();
@@ -529,7 +531,7 @@ public class GeneralUtil {
 
     public String getIPKey() {
         try {
-            BufferedReader keyReader = new BufferedReader(new FileReader("src\\com\\cyder\\io\\text\\keys.txt"));
+            BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/io/text/keys.txt"));
             String line = "";
 
             while ((line = keyReader.readLine()) != null) {
@@ -549,7 +551,7 @@ public class GeneralUtil {
 
     public String getWeatherKey() {
         try {
-            BufferedReader keyReader = new BufferedReader(new FileReader("src\\com\\cyder\\io\\text\\keys.txt"));
+            BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/io/text/keys.txt"));
             String line = "";
 
             while ((line = keyReader.readLine()) != null) {
@@ -741,12 +743,12 @@ public class GeneralUtil {
 
     public boolean checkPassword(String name, String pass) {
         try {
-            File[] users = new File("src\\com\\cyder\\users").listFiles();
+            File[] users = new File("src/com/cyder/users").listFiles();
             LinkedList<File> userDataFiles = new LinkedList<>();
 
             for (File f : users) {
                 if (!f.getName().contains("DeprecatedUser")) {
-                    userDataFiles.add(new File(f.getAbsolutePath() + "\\Userdata.txt"));
+                    userDataFiles.add(new File(f.getAbsolutePath() + "/Userdata.txt"));
                 }
             }
 
@@ -791,7 +793,7 @@ public class GeneralUtil {
     }
 
     public void colorConverter() {
-        CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
+        CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         colorFrame.setTitle("Color Converter");
 
         JLabel hexLabel = new JLabel("HEX:");
@@ -1360,7 +1362,7 @@ public class GeneralUtil {
                     .replace("4","a").replace("@","a").replace("5","s").replace("7","t")
                     .replace("0","o").replace("9","g").replace("%", "i").replace("#","h").replace("$","s");
 
-            String fileName = "src\\com\\cyder\\io\\text\\v.txt";
+            String fileName = "src/com/cyder/io/text/v.txt";
 
             BufferedReader vReader = new  BufferedReader(new FileReader(fileName));
 
@@ -1557,12 +1559,12 @@ public class GeneralUtil {
 
     public void initBackgrounds() {
         try {
-            File dir = new File("src\\com\\cyder\\users\\" + getUserUUID() + "\\Backgrounds");
+            File dir = new File("src/com/cyder/users/" + getUserUUID() + "/Backgrounds");
             FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
             validBackgroundPaths = dir.listFiles(PNGFilter);
 
             if (validBackgroundPaths.length == 0)
-                validBackgroundPaths = new File[]{new File("src\\com\\cyder\\io\\pictures\\Bobby.png")};
+                validBackgroundPaths = new File[]{new File("src/com/cyder/io/pictures/Bobby.png")};
         }
 
         catch (ArrayIndexOutOfBoundsException ex) {
@@ -1653,8 +1655,8 @@ public class GeneralUtil {
             if (user == null)
                 return;
 
-            dataReader = new BufferedReader(new FileReader(
-                    "src\\com\\cyder\\users\\" + user + "\\Userdata.txt"));
+            BufferedReader dataReader = new BufferedReader(new FileReader(
+                    "src/com/cyder/users/" + user + "/Userdata.txt"));
 
             String Line = dataReader.readLine();
 
@@ -1663,6 +1665,8 @@ public class GeneralUtil {
                 userData.add(new NST(parts[0], parts[1]));
                 Line = dataReader.readLine();
             }
+
+            dataReader.close();
         }
 
         catch(Exception e) {
@@ -1673,7 +1677,7 @@ public class GeneralUtil {
     public void writeUserData(String name, String value) {
         try {
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "src\\com\\cyder\\users\\" + getUserUUID() + "\\Userdata.txt", false));
+                    "src/com/cyder/users/" + getUserUUID() + "/Userdata.txt", false));
 
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name)) {
@@ -1687,7 +1691,6 @@ public class GeneralUtil {
             userWriter.close();
 
             readUserData();
-            dataReader.close();
         }
 
         catch (Exception e) {
@@ -1697,12 +1700,6 @@ public class GeneralUtil {
 
     public String getUserData(String name) {
         readUserData();
-
-        try {
-            dataReader.close();
-        } catch (Exception e) {
-            handle(e);
-        }
 
         for (NST data : userData) {
             if (data.getName().equalsIgnoreCase(name)) {
@@ -1837,12 +1834,12 @@ public class GeneralUtil {
 
     public void handle(Exception e) {
         try {
-            File throwsDir = new File("src\\com\\cyder\\users\\" + getUserUUID() + "\\Throws\\");
+            File throwsDir = new File("src/com/cyder/users/" + getUserUUID() + "/Throws/");
 
             if (!throwsDir.exists())
                 throwsDir.mkdir();
 
-            String eFileString = "src\\com\\cyder\\users\\" + getUserUUID() + "\\Throws\\" + errorTime() + ".error";
+            String eFileString = "src/com/cyder/users/" + getUserUUID() + "/Throws/" + errorTime() + ".error";
             File eFile = new File(eFileString);
             eFile.createNewFile();
 
@@ -2053,7 +2050,7 @@ public class GeneralUtil {
     }
 
     public void cleanUpUsers() {
-        File top = new File("src\\com\\cyder\\users");
+        File top = new File("src/com/cyder/users");
         File[] users = top.listFiles();
 
         for (File userDir : users) {

@@ -13,7 +13,7 @@ public class Phone {
     private GeneralUtil phoneGeneralUtil = new GeneralUtil();
 
     public Phone() {
-        CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon("src\\com\\cyder\\io\\pictures\\DebugBackground.png"));
+        CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         phoneFrame.setTitle("Phone");
 
         numberLabel = new JLabel("#");
@@ -221,11 +221,11 @@ public class Phone {
                 checkForSuicideHotline();
 
                 if (checkForSuicideHotline()) {
-                    phoneGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\1800.mp3");
+                    phoneGeneralUtil.playMusic("src/com/cyder/io/audio/1800.mp3");
                 }
 
                 else if (checkFor223()) {
-                    phoneGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\223.mp3");
+                    phoneGeneralUtil.playMusic("src/com/cyder/io/audio/223.mp3");
                 }
 
                 else {

@@ -79,7 +79,7 @@ public class WeatherWidget {
         if (weatherFrame != null)
             weatherGeneralUtil.closeAnimation(weatherFrame);
 
-        weatherFrame = new CyderFrame(500,608,new ImageIcon("src\\com\\cyder\\io\\pictures\\Weather.png"));
+        weatherFrame = new CyderFrame(500,608,new ImageIcon("src/com/cyder/io/pictures/Weather.png"));
         weatherFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
         weatherFrame.setTitle("Weather");
 
@@ -107,7 +107,7 @@ public class WeatherWidget {
 
         weatherFrame.getContentPane().add(locationLabel, SwingConstants.CENTER);
 
-        JLabel currentWeatherIconLabel = new JLabel(new ImageIcon("src\\com\\cyder\\io\\pictures\\" + weatherIcon + ".png"));
+        JLabel currentWeatherIconLabel = new JLabel(new ImageIcon("src/com/cyder/io/pictures/" + weatherIcon + ".png"));
 
         currentWeatherIconLabel.setBounds(16, 125, 100, 100);
 
