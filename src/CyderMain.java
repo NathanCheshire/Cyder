@@ -2685,7 +2685,7 @@ public class CyderMain{
                 mainGeneralUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
             }
 
-            else if (hasWord("cyder") && (hasWord("picture") ||hasWord("image"))) {
+            else if (hasWord("cyder") && (has("picture") || has("image"))) {
                 if (mainGeneralUtil.getDebugMode()) {
                     mainGeneralUtil.openFile("src\\com\\cyder\\io\\pictures");
                 }
@@ -2745,13 +2745,7 @@ public class CyderMain{
             }
 
             else if (hasWord("debug") && hasWord("menu")) {
-                if (mainGeneralUtil.getDebugMode()) {
-                    mainGeneralUtil.debugMenu(outputArea);
-                }
-
-                else {
-                    println("Sorry, " + mainGeneralUtil.getUsername() + ", but you do not have permission to use that feature.");
-                }
+                mainGeneralUtil.debugMenu(outputArea);
             }
 
             else if (hasWord("hangman")) {
@@ -3883,57 +3877,13 @@ public class CyderMain{
         outputFill.setHorizontalAlignment(JLabel.CENTER);
         outputFill.setSize(100,100);
         outputFill.setIcon((mainGeneralUtil.getUserData("OutputFill").equals("1") ? selected : notSelected));
-        outputFill.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("OutputFill").equals("1");
-            mainGeneralUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
-            outputFill.setIcon((wasSelected ? notSelected : selected));
-
-            if (wasSelected) {
-                outputArea.setBackground(null);
-                outputArea.setOpaque(false);
-                consoleFrame.revalidate();
-            }
-
-            else {
-                outputArea.setBackground(new Color(mainGeneralUtil.vanila.getRed(),mainGeneralUtil.vanila.getGreen(),mainGeneralUtil.vanila.getBlue(),255 / 2));
-                outputArea.setOpaque(true);
-                consoleFrame.revalidate();
-            }
-            }
-        });
         outputFill.setBounds(20 + 3 * 100 + 3 * 45, 235,100,100);
         switchingPanel.add(outputFill);
-
-        //todo on startup make sure input and output are painted or filled with color selected
-        //todo also save fill color now
-        //todo add more to cyderargs
 
         JLabel inputFill = new JLabel();
         inputFill.setHorizontalAlignment(JLabel.CENTER);
         inputFill.setSize(100,100);
         inputFill.setIcon((mainGeneralUtil.getUserData("InputFill").equals("1") ? selected : notSelected));
-        inputFill.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("InputFill").equals("1");
-            mainGeneralUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
-            inputFill.setIcon((wasSelected ? notSelected : selected));
-
-            if (wasSelected) {
-                inputField.setBackground(null);
-                inputField.setOpaque(false);
-                consoleFrame.revalidate();
-            }
-
-            else {
-                inputField.setBackground(mainGeneralUtil.vanila);
-                inputField.setOpaque(true);
-                consoleFrame.revalidate();
-            }
-            }
-        });
         inputFill.setBounds(20 + 4 * 100 + 4 * 45, 235,100,100);
         switchingPanel.add(inputFill);
 
@@ -4024,14 +3974,66 @@ public class CyderMain{
             //todo save opacity level in userdata now and get it and init it on startup and value for slider when in prefs
             if (mainGeneralUtil.getUserData("OutputFill").equals("1")) {
                 outputArea.setBackground(new Color(outputArea.getForeground().getRed(), outputArea.getForeground().getGreen(),
-                                                   outputArea.getForeground().getBlue(), 255 * opacitySlider.getValue() / 100));
+                                                   outputArea.getForeground().getBlue(), 255 * (opacitySlider.getValue() / 100)));
+
                 System.out.println(255 * opacitySlider.getValue() / 100);
                 outputArea.setOpaque(true);
+
+                outputScroll.revalidate();
+                outputScroll.repaint();
+
+                outputArea.revalidate();
+                outputArea.repaint();
+
                 consoleFrame.revalidate();
             }
 
             if (mainGeneralUtil.getUserData("InputFill").equals("1")) {
                 //todo copy from above
+            }
+        });
+
+        outputFill.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            boolean wasSelected = mainGeneralUtil.getUserData("OutputFill").equals("1");
+            mainGeneralUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
+            outputFill.setIcon((wasSelected ? notSelected : selected));
+
+            if (wasSelected) {
+                outputArea.setBackground(null);
+                outputArea.setOpaque(false);
+                consoleFrame.revalidate();
+            }
+
+            else {
+                Color v = mainGeneralUtil.vanila;
+                outputArea.setBackground(new Color(v.getRed(),v.getGreen(),v.getBlue(),255)); //todo opacity from user data
+                outputArea.setOpaque(true);
+                consoleFrame.revalidate();
+            }
+            }
+        });
+
+        inputFill.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            boolean wasSelected = mainGeneralUtil.getUserData("InputFill").equals("1");
+            mainGeneralUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
+            inputFill.setIcon((wasSelected ? notSelected : selected));
+
+            if (wasSelected) {
+                inputField.setBackground(null);
+                inputField.setOpaque(false);
+                consoleFrame.revalidate();
+            }
+
+            else {
+                Color v = mainGeneralUtil.vanila;
+                inputField.setBackground(new Color(v.getRed(),v.getGreen(),v.getBlue(),255)); //todo opacity from user data
+                inputField.setOpaque(true);
+                consoleFrame.revalidate();
+            }
             }
         });
 
@@ -4084,6 +4086,12 @@ public class CyderMain{
     //todo on jlabels that you change the text like the don't have a user, create one,
     // copy whatever you did there to the passwords match or don't match and take note for future use
     //todo call this a cyder label
+
+    //todo on startup make sure input and output are painted or filled with color selected
+
+    //todo also save fill color now
+
+    //todo add more to cyderargs
 
     public void createUser() {
         createUserBackground = null;
