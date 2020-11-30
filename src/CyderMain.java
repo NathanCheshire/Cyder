@@ -3488,8 +3488,6 @@ public class CyderMain{
         }
     }
 
-    //todo mp3 skips forward on play/pause fix
-
     private void switchToMusicAndBackgrounds() {
         JLabel BackgroundLabel = new JLabel("Music & Backgrounds", SwingConstants.CENTER);
         BackgroundLabel.setFont(mainGeneralUtil.weatherFontBig);
@@ -3899,7 +3897,7 @@ public class CyderMain{
             }
 
             else {
-                outputArea.setBackground(mainGeneralUtil.vanila);
+                outputArea.setBackground(new Color(mainGeneralUtil.vanila.getRed(),mainGeneralUtil.vanila.getGreen(),mainGeneralUtil.vanila.getBlue(),255 / 2));
                 outputArea.setOpaque(true);
                 consoleFrame.revalidate();
             }
@@ -4022,7 +4020,19 @@ public class CyderMain{
         opacitySlider.setValue(50);
         opacitySlider.setFont(new Font("HeadPlane", Font.BOLD, 18));
         opacitySlider.addChangeListener(e -> {
-            //todo
+
+            //todo save opacity level in userdata now and get it and init it on startup and value for slider when in prefs
+            if (mainGeneralUtil.getUserData("OutputFill").equals("1")) {
+                outputArea.setBackground(new Color(outputArea.getForeground().getRed(), outputArea.getForeground().getGreen(),
+                                                   outputArea.getForeground().getBlue(), 255 * opacitySlider.getValue() / 100));
+                System.out.println(255 * opacitySlider.getValue() / 100);
+                outputArea.setOpaque(true);
+                consoleFrame.revalidate();
+            }
+
+            if (mainGeneralUtil.getUserData("InputFill").equals("1")) {
+                //todo copy from above
+            }
         });
 
         opacitySlider.setOpaque(false);

@@ -203,19 +203,15 @@ public class MPEGPlayer {
                         bis = new BufferedInputStream(fis);
                         mp3Player = new Player(bis);
 
-                        if (pauseLocation == 0) {
+                        if (pauseLocation == 0)
                             fis.skip(0);
-                        }
 
                         else {
-
-                            if (songTotalLength - pauseLocation <= 0) {
+                            if (songTotalLength - pauseLocation <= 0)
                                 fis.skip(0);
-                            }
 
-                            else {
-                                fis.skip(songTotalLength - pauseLocation);
-                            }
+                            else
+                                fis.skip(songTotalLength - pauseLocation - 14000);
                         }
 
                         resumeMusic();

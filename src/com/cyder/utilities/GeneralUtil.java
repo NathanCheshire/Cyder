@@ -120,11 +120,15 @@ public class GeneralUtil {
     private int screenWidth;
     private int screenHeight;
 
-    //inform and clickMe drag vars
+    //todo make inform it's own class that uses a cyder frame, crops the background image,
+    // and gets a color that works for the background gotten
     private int xMouse;
     private int yMouse;
 
     //console orientation var
+
+    //todo use enums instead of all constants
+
     public static int CYDER_UP = 0;
     public static int CYDER_RIGHT = 1;
     public static int CYDER_DOWN = 2;
@@ -133,10 +137,6 @@ public class GeneralUtil {
 
     //pixel vars
     private JFrame pixelFrame;
-
-    //media vars
-    private JFrame mediaFrame;
-    private JLabel displayLabel;
 
     //update vars
     private boolean userInputMode;
@@ -156,7 +156,7 @@ public class GeneralUtil {
     private CyderButton closeDraw;
 
     //click me var
-    private JFrame clickMeFrame;
+    private CyderFrame clickMeFrame;
 
     //backbround vars
     private int backgroundX;
@@ -1303,56 +1303,21 @@ public class GeneralUtil {
         return (Month == 4 && Date == 1);
     }
 
-    //todo make cyderframe
     public void clickMe() {
         try {
             if (clickMeFrame != null)
                 closeAnimation(clickMeFrame);
 
-            clickMeFrame = new JFrame();
-
-            clickMeFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+            clickMeFrame = new CyderFrame(200,100,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+            clickMeFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
             clickMeFrame.setTitle("");
 
-            clickMeFrame.setSize(200, 100);
-
-            clickMeFrame.setUndecorated(true);
-
-            JLabel consoleLabel = new JLabel(new ImageIcon(resizeImage(200, 200, new File("src\\com\\cyder\\io\\pictures\\DebugBackground.png"))));
-
-            clickMeFrame.setContentPane(consoleLabel);
-
-            clickMeFrame.addMouseMotionListener(new MouseMotionListener() {
-                @Override
-                public void mouseDragged(MouseEvent e) {
-                    int x = e.getXOnScreen();
-                    int y = e.getYOnScreen();
-
-                    if (clickMeFrame != null && clickMeFrame.isFocused()) {
-                        clickMeFrame.setLocation(x - xMouse, y - yMouse);
-                    }
-                }
-
-                @Override
-                public void mouseMoved(MouseEvent e) {
-                    xMouse = e.getX();
-                    yMouse = e.getY();
-                }
-            });
-
             JLabel dismiss = new JLabel("Click Me!");
-
             dismiss.setHorizontalAlignment(JLabel.CENTER);
-
             dismiss.setVerticalAlignment(JLabel.CENTER);
-
             dismiss.setForeground(navy);
-
             dismiss.setFont(weatherFontBig.deriveFont(24f));
-
-            dismiss.setBounds(20, 30, 150, 40);
-
+            dismiss.setBounds(20, 40, 150, 40);
             dismiss.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
@@ -1371,25 +1336,15 @@ public class GeneralUtil {
                 }
             });
 
-            consoleLabel.add(dismiss);
-
-            consoleLabel.setBorder(new LineBorder(navy,5,false));
+            clickMeFrame.getContentPane().add(dismiss);
 
             clickMeFrame.setVisible(true);
 
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-
             GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
-
             Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-
             clickMeFrame.setLocation(randInt(0, (int) (rect.getMaxX() - 200)),randInt(0,(int) rect.getMaxY() - 200));
-
             clickMeFrame.setAlwaysOnTop(true);
-
-            clickMeFrame.setResizable(false);
-
-            clickMeFrame.setIconImage(getCyderIcon().getImage());
         }
 
         catch (Exception e) {
