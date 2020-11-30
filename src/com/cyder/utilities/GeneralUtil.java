@@ -116,12 +116,13 @@ public class GeneralUtil {
     private String feelsLike;
     private String windBearing;
 
-    //screen and mouse vars
-    private int screenX;
-    private int screenY;
+    //screen size vars
+    private int screenWidth;
+    private int screenHeight;
+
+    //inform and clickMe drag vars
     private int xMouse;
     private int yMouse;
-
 
     //console orientation var
     public static int CYDER_UP = 0;
@@ -189,13 +190,13 @@ public class GeneralUtil {
     }
 
     private int getScreenWidth() {
-        this.screenX = this.getScreenSize().width;
-        return this.screenX;
+        this.screenWidth = this.getScreenSize().width;
+        return this.screenWidth;
     }
 
     private int getScreenHeight() {
-        this.screenY = this.getScreenSize().height;
-        return this.screenY;
+        this.screenHeight = this.getScreenSize().height;
+        return this.screenHeight;
     }
 
     public void refreshUsername(JFrame frame) {
@@ -223,17 +224,17 @@ public class GeneralUtil {
                     frame.setLocation(x, i);
                 }
 
-                frame.setLocation(screenX / 2 - frame.getWidth() / 2, screenY - frame.getHeight());
+                frame.setLocation(screenWidth / 2 - frame.getWidth() / 2, screenHeight - frame.getHeight());
                 point = frame.getLocationOnScreen();
                 x = (int) point.getX();
                 y = (int) point.getY();
 
-                for (int i = x; i <= (screenX - frame.getWidth()); i += 10) {
+                for (int i = x; i <= (screenWidth - frame.getWidth()); i += 10) {
                     Thread.sleep(delay);
                     frame.setLocation(i, y);
                 }
 
-                frame.setLocation(screenX - frame.getWidth(), screenY - frame.getHeight());
+                frame.setLocation(screenWidth - frame.getWidth(), screenHeight - frame.getHeight());
                 point = frame.getLocationOnScreen();
                 x = (int) point.getX();
                 y = (int) point.getY();
@@ -243,7 +244,7 @@ public class GeneralUtil {
                     frame.setLocation(x, i);
                 }
 
-                frame.setLocation(screenX - frame.getWidth(), 0);
+                frame.setLocation(screenWidth - frame.getWidth(), 0);
                 point = frame.getLocationOnScreen();
                 x = (int) point.getX();
                 y = (int) point.getY();
@@ -258,26 +259,26 @@ public class GeneralUtil {
                 x = (int) point.getX();
                 y = (int) point.getY();
 
-                for (int i = y; i <= (screenY - frame.getHeight()); i += 10) {
+                for (int i = y; i <= (screenHeight - frame.getHeight()); i += 10) {
                     Thread.sleep(delay);
                     frame.setLocation(x, i);
                 }
 
-                frame.setLocation(0, screenY - frame.getHeight());
+                frame.setLocation(0, screenHeight - frame.getHeight());
                 point = frame.getLocationOnScreen();
                 x = (int) point.getX();
                 y = (int) point.getY();
 
-                for (int i = x; i <= (screenX / 2 - frame.getWidth() / 2); i += 10) {
+                for (int i = x; i <= (screenWidth / 2 - frame.getWidth() / 2); i += 10) {
                     Thread.sleep(delay);
                     frame.setLocation(i, y);
                 }
 
-                frame.setLocation(screenX / 2 - frame.getWidth() / 2, screenY - frame.getHeight());
+                frame.setLocation(screenWidth / 2 - frame.getWidth() / 2, screenHeight - frame.getHeight());
                 int acc = frame.getY();
                 x = frame.getX();
 
-                while (frame.getY() >= (screenY / 2 - frame.getHeight() / 2)) {
+                while (frame.getY() >= (screenHeight / 2 - frame.getHeight() / 2)) {
                     Thread.sleep(delay);
                     acc -= 10;
                     frame.setLocation(x, acc);
@@ -311,6 +312,12 @@ public class GeneralUtil {
     public String consoleTime() {
         Date Time = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mmaa");
+        return dateFormatter.format(Time);
+    }
+
+    public String consoleSecondTime() {
+        Date Time = new Date();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
         return dateFormatter.format(Time);
     }
 
@@ -504,8 +511,8 @@ public class GeneralUtil {
     public void varInit() {
         String windowsUserName = getWindowsUsername();
         this.os = getOS();
-        this.screenX = getScreenWidth();
-        this.screenY = getScreenHeight();
+        this.screenWidth = getScreenWidth();
+        this.screenHeight = getScreenHeight();
     }
 
     private String getComputerName() {
@@ -917,17 +924,7 @@ public class GeneralUtil {
 
             dismiss.setBounds(20, height - 70, width - 20, 40);
 
-            dismiss.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
+            dismiss.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     closeAnimation(informFrame);
@@ -1306,6 +1303,7 @@ public class GeneralUtil {
         return (Month == 4 && Date == 1);
     }
 
+    //todo make cyderframe
     public void clickMe() {
         try {
             if (clickMeFrame != null)
@@ -1321,7 +1319,7 @@ public class GeneralUtil {
 
             clickMeFrame.setUndecorated(true);
 
-            JLabel consoleLabel = new JLabel(new ImageIcon(resizeImage(200, 200, new File("src\\com\\cyder\\io\\pictures\\InformBackground.png"))));
+            JLabel consoleLabel = new JLabel(new ImageIcon(resizeImage(200, 200, new File("src\\com\\cyder\\io\\pictures\\DebugBackground.png"))));
 
             clickMeFrame.setContentPane(consoleLabel);
 
@@ -1349,23 +1347,13 @@ public class GeneralUtil {
 
             dismiss.setVerticalAlignment(JLabel.CENTER);
 
-            dismiss.setForeground(vanila);
+            dismiss.setForeground(navy);
 
             dismiss.setFont(weatherFontBig.deriveFont(24f));
 
             dismiss.setBounds(20, 30, 150, 40);
 
-            dismiss.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
+            dismiss.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     clickMeFrame.dispose();
@@ -1379,7 +1367,7 @@ public class GeneralUtil {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    dismiss.setForeground(vanila);
+                    dismiss.setForeground(navy);
                 }
             });
 
@@ -1720,8 +1708,6 @@ public class GeneralUtil {
                 userData.add(new NST(parts[0], parts[1]));
                 Line = dataReader.readLine();
             }
-
-            dataReader.close();
         }
 
         catch(Exception e) {
@@ -1746,6 +1732,7 @@ public class GeneralUtil {
             userWriter.close();
 
             readUserData();
+            dataReader.close();
         }
 
         catch (Exception e) {
@@ -1755,6 +1742,12 @@ public class GeneralUtil {
 
     public String getUserData(String name) {
         readUserData();
+
+        try {
+            dataReader.close();
+        } catch (Exception e) {
+            handle(e);
+        }
 
         for (NST data : userData) {
             if (data.getName().equalsIgnoreCase(name)) {

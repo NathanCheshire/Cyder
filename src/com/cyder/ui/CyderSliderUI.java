@@ -125,7 +125,6 @@ public class CyderSliderUI extends BasicSliderUI {
 
     @Override
     public void paintTrack(Graphics g) {
-        //todo here we can choose to paint each end a certain color, implement that
         Graphics2D g2d = (Graphics2D) g;
         Stroke old = g2d.getStroke();
         g2d.setStroke(stroke);

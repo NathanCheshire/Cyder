@@ -9,13 +9,9 @@ import com.cyder.ui.*;
 import com.cyder.utilities.*;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.Port;
 import javax.swing.Timer;
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.text.StyledDocument;
@@ -679,8 +675,7 @@ public class CyderMain{
 
             consoleClockLabel.setVisible(showClock);
 
-            if (mainGeneralUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
-                checkChime();
+            checkChime();
 
             parentLabel.add(consoleDragLabel);
 
@@ -1452,6 +1447,9 @@ public class CyderMain{
         inputField.requestFocus();
 
         consoleFrame.setLocationRelativeTo(null);
+
+        editUserFrame.setAlwaysOnTop(true);
+        editUserFrame.setAlwaysOnTop(false);
     }
 
     private void refreshFullscreen() {
@@ -1491,6 +1489,9 @@ public class CyderMain{
         inputField.requestFocus();
 
         consoleFrame.setLocationRelativeTo(null);
+
+        editUserFrame.setAlwaysOnTop(true);
+        editUserFrame.setAlwaysOnTop(false);
     }
 
     private void switchBackground() {
@@ -3655,7 +3656,6 @@ public class CyderMain{
     ImageIcon selected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox1.png");
     ImageIcon notSelected = new ImageIcon("src\\com\\cyder\\io\\pictures\\checkbox2.png");
 
-    //todo roganize preferences in userdata.txt and add the new ones on creation
     private void switchToPreferences() {
         JLabel prefsTitle = new JLabel("Preferences");
         prefsTitle.setFont(mainGeneralUtil.weatherFontBig);
@@ -3891,11 +3891,26 @@ public class CyderMain{
             boolean wasSelected = mainGeneralUtil.getUserData("OutputFill").equals("1");
             mainGeneralUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
             outputFill.setIcon((wasSelected ? notSelected : selected));
-            //todo other tasks
+
+            if (wasSelected) {
+                outputArea.setBackground(null);
+                outputArea.setOpaque(false);
+                consoleFrame.revalidate();
+            }
+
+            else {
+                outputArea.setBackground(mainGeneralUtil.vanila);
+                outputArea.setOpaque(true);
+                consoleFrame.revalidate();
+            }
             }
         });
         outputFill.setBounds(20 + 3 * 100 + 3 * 45, 235,100,100);
         switchingPanel.add(outputFill);
+
+        //todo on startup make sure input and output are painted or filled with color selected
+        //todo also save fill color now
+        //todo add more to cyderargs
 
         JLabel inputFill = new JLabel();
         inputFill.setHorizontalAlignment(JLabel.CENTER);
@@ -3907,7 +3922,18 @@ public class CyderMain{
             boolean wasSelected = mainGeneralUtil.getUserData("InputFill").equals("1");
             mainGeneralUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
             inputFill.setIcon((wasSelected ? notSelected : selected));
-            //todo other tasks
+
+            if (wasSelected) {
+                inputField.setBackground(null);
+                inputField.setOpaque(false);
+                consoleFrame.revalidate();
+            }
+
+            else {
+                inputField.setBackground(mainGeneralUtil.vanila);
+                inputField.setOpaque(true);
+                consoleFrame.revalidate();
+            }
             }
         });
         inputFill.setBounds(20 + 4 * 100 + 4 * 45, 235,100,100);
@@ -3938,8 +3964,18 @@ public class CyderMain{
             mainGeneralUtil.writeUserData("ClockOnConsole", (wasSelected ? "0" : "1"));
             clockOnConsole.setIcon((wasSelected ? notSelected : selected));
             consoleClockLabel.setVisible(!wasSelected);
-            updateConsoleClock = !wasSelected;
+
+            if (consoleClockLabel.isVisible())
+                updateConsoleClock = true;
+
             consoleFrame.revalidate();
+
+            if (consoleClockLabel.isVisible()) {
+                if (mainGeneralUtil.getUserData("ShowSeconds").equals("1"))
+                    consoleClockLabel.setText(mainGeneralUtil.consoleSecondTime());
+                else
+                    consoleClockLabel.setText(mainGeneralUtil.consoleTime());
+            }
             }
         });
         clockOnConsole.setBounds(50,400,100,100);
@@ -3954,8 +3990,12 @@ public class CyderMain{
             public void mouseReleased(MouseEvent e) {
             boolean wasSelected = mainGeneralUtil.getUserData("ShowSeconds").equals("1");
             mainGeneralUtil.writeUserData("ShowSeconds", (wasSelected ? "0" : "1"));
-                showSeconds.setIcon((wasSelected ? notSelected : selected));
-            //todo update clock every second and use other time method with seconds though
+            showSeconds.setIcon((wasSelected ? notSelected : selected));
+
+            if (wasSelected)
+                consoleClockLabel.setText(mainGeneralUtil.consoleTime());
+            else
+                consoleClockLabel.setText(mainGeneralUtil.consoleSecondTime());
             }
         });
         showSeconds.setBounds(50 + 200,400,100,100);
@@ -4294,6 +4334,9 @@ public class CyderMain{
                     music.mkdir();
                     notes.mkdir();
 
+                    //todo replace all "\\" in filepaths with "/"
+                    //todo make it easy to add preferences
+
                     ImageIO.write(ImageIO.read(createUserBackground), "png",
                             new File("src\\com\\cyder\\users\\" + uuid + "\\Backgrounds\\" + createUserBackground.getName()));
 
@@ -4307,15 +4350,21 @@ public class CyderMain{
                     data.add("Green:251");
                     data.add("Blue:227");
                     data.add("Password:" + mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(pass)));
+
                     data.add("IntroMusic:0");
                     data.add("DebugWindows:0");
                     data.add("RandomBackground:0");
-                    data.add("HourlyChimes:1");
-                    data.add("ClockOnConsole:1");
-                    data.add("SilenceErrors:1");
-                    data.add("FullScreen:0");
                     data.add("OutputBorder:0");
                     data.add("InputBorder:0");
+
+                    data.add("HourlyChimes:1");
+                    data.add("SilenceErrors:1");
+                    data.add("FullScreen:0");
+                    data.add("OutputFill:0");
+                    data.add("InputFill:0");
+
+                    data.add("ClockOnConsole:1");
+                    data.add("ShowSeconds:1");
 
                     for (String d : data) {
                         newUserWriter.write(d);
@@ -4362,14 +4411,18 @@ public class CyderMain{
         newUserName.requestFocus();
     }
 
-    //todo same as below and make consoleClockLabel static or something
     private void refreshConsoleClock() {
         Thread TimeThread = new Thread(() -> {
             try {
                 while (updateConsoleClock) {
-                    Thread.sleep(3000);
-                    consoleClockLabel.setText(mainGeneralUtil.consoleTime());
+                    if (consoleClockLabel.isVisible())
+                        if (mainGeneralUtil.getUserData("ShowSeconds").equalsIgnoreCase("1"))
+                            consoleClockLabel.setText(mainGeneralUtil.consoleSecondTime());
+                        else
+                            consoleClockLabel.setText(mainGeneralUtil.consoleTime());
+
                     consoleClockLabel.setToolTipText(mainGeneralUtil.weatherThreadTime());
+                    Thread.sleep(1000);
                 }
             }
 
@@ -4381,14 +4434,14 @@ public class CyderMain{
         TimeThread.start();
     }
 
-    //todo move to checking utils thread that runs in background, name all threads
     private void checkChime() {
         Thread ChimeThread = new Thread(() -> {
             try {
                 while (true) {
-                    Thread.sleep(4000);
+                    Thread.sleep(1000);
                     Calendar now = Calendar.getInstance();
-                    if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) <= 4) //todo and get preference chime is true
+                    if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) <= 1 &&
+                       (mainGeneralUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")))
                         mainGeneralUtil.playMusic("src\\com\\cyder\\io\\audio\\chime.mp3");
                 }
             }
