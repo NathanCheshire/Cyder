@@ -1,9 +1,0 @@
-Error thrown by line: 1085 from
-class java.lang.NullPointerException
-
-Stack Trace:
-
-java.lang.NullPointerException
-	at CyderMain.lambda$backgroundProcess$5(CyderMain.java:1085)
-	at java.base/java.lang.Thread.run(Thread.java:844)
-

@@ -1320,8 +1320,8 @@ public class CyderMain{
         mainGeneralUtil.startAnimation(loginFrame);
 
         if (directories != null && directories.length == 0)
-            notify("Psssst! Create a user, " + System.getProperty("user.name"),
-                2000, Notification.RIGHT_ARROW, Notification.RIGHT_VANISH, loginLabel, 230);
+            notify("<html>Psssst! Create a user,<br/>" + System.getProperty("user.name") + "</html>",
+                2000, Notification.TOP_ARROW, Notification.TOP_VANISH, loginLabel, 230);
     }
 
     private void recognize(String Username, char[] Password) {
@@ -2824,7 +2824,7 @@ public class CyderMain{
 
                 for (int i = 0; i < num ; i++)
                     if (!printThreads[i].isDaemon())
-                        println(printThreads[i].getName());
+                        println(printThreads[i]);
             }
 
             else if (hasWord("threads") && hasWord("daemon")) {
@@ -2834,7 +2834,7 @@ public class CyderMain{
                 threadGroup.enumerate(printThreads);
 
                 for (int i = 0; i < num ; i++)
-                    println(printThreads[i].getName());
+                    println(printThreads[i]);
             }
 
             else if (eic("askew")) {
@@ -3180,7 +3180,7 @@ public class CyderMain{
         String ThisComp = compare.toLowerCase();
         String ThisOp = operation.toLowerCase();
 
-        if (ThisOp.equals(ThisComp) || ThisOp.contains(' ' + ThisComp + ' ') || ThisOp.contains(' ' + ThisComp))
+        if (ThisOp.equals(ThisComp) || ThisOp.contains(' ' + ThisComp + ' ') || ThisOp.contains(' ' + ThisComp) || ThisOp.contains(ThisComp + ' '))
             return true;
 
         else return ThisOp.contains(ThisComp + ' ');
@@ -3743,7 +3743,7 @@ public class CyderMain{
             }
 
             else {
-                outputScroll.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
+                outputScroll.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true)); //todo background color
             }
 
             consoleFrame.revalidate();
@@ -3768,7 +3768,7 @@ public class CyderMain{
             }
 
             else {
-                inputField.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
+                inputField.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true)); //todo background color
             }
 
             consoleFrame.revalidate();
@@ -3962,26 +3962,24 @@ public class CyderMain{
         opacitySlider.setValue(50);
         opacitySlider.setFont(new Font("HeadPlane", Font.BOLD, 18));
         opacitySlider.addChangeListener(e -> {
-
-            //todo save opacity level in userdata now and get it and init it on startup and value for slider when in prefs
             if (mainGeneralUtil.getUserData("OutputFill").equals("1")) {
-                outputArea.setBackground(new Color(outputArea.getForeground().getRed(), outputArea.getForeground().getGreen(),
-                                                   outputArea.getForeground().getBlue(), 255 * (opacitySlider.getValue() / 100)));
+                mainGeneralUtil.writeUserData("Opacity",(int) (255.0 * (opacitySlider.getValue() / 100.0)) + "");
 
-                System.out.println(255 * opacitySlider.getValue() / 100);
-                outputArea.setOpaque(true);
-
-                outputScroll.revalidate();
-                outputScroll.repaint();
+                Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
+                outputArea.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
 
                 outputArea.revalidate();
                 outputArea.repaint();
-
                 consoleFrame.revalidate();
             }
 
             if (mainGeneralUtil.getUserData("InputFill").equals("1")) {
-                //todo copy from above
+                //todo copy from above when working
+
+                //todo kind of works when you first enable the checkbox for opacity so start there
+
+                //todo save opacity level in userdata now and get it and init it on startup and value for slider when in prefs
+                //todo fix rendering artifacts with setOpaque methods
             }
         });
 
@@ -3993,15 +3991,19 @@ public class CyderMain{
             outputFill.setIcon((wasSelected ? notSelected : selected));
 
             if (wasSelected) {
-                outputArea.setBackground(null);
                 outputArea.setOpaque(false);
+                outputScroll.setOpaque(false);
+
+                outputArea.setBackground(null);
                 consoleFrame.revalidate();
             }
 
             else {
-                Color v = mainGeneralUtil.vanila;
-                outputArea.setBackground(new Color(v.getRed(),v.getGreen(),v.getBlue(),255)); //todo opacity from user data
                 outputArea.setOpaque(true);
+                outputScroll.setOpaque(true);
+
+                Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
+                outputArea.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
                 consoleFrame.revalidate();
             }
             }
@@ -4015,15 +4017,14 @@ public class CyderMain{
             inputFill.setIcon((wasSelected ? notSelected : selected));
 
             if (wasSelected) {
-                inputField.setBackground(null);
                 inputField.setOpaque(false);
+                inputField.setBackground(null);
                 consoleFrame.revalidate();
             }
 
             else {
-                Color v = mainGeneralUtil.vanila;
-                inputField.setBackground(new Color(v.getRed(),v.getGreen(),v.getBlue(),255)); //todo opacity from user data
-                inputField.setOpaque(true);
+                Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
+                inputField.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
                 consoleFrame.revalidate();
             }
             }
@@ -4033,44 +4034,16 @@ public class CyderMain{
         opacitySlider.setToolTipText("Fill Opacity");
         opacitySlider.setFocusable(false);
 
-        opacitySlider.setBounds(470,400,220,50);
+        opacitySlider.setBounds(470,370,220,50);
         switchingPanel.add(opacitySlider);
 
-        JSlider colorSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
-        CyderSliderUI UI1 = new CyderSliderUI(colorSlider);
-
-        UI1.setFillColor(Color.darkGray);
-        UI1.setOutlineColor(mainGeneralUtil.vanila);
-        UI1.setNewValColor(mainGeneralUtil.regularRed);
-        UI1.setOldValColor(mainGeneralUtil.regularBlue);
-        UI1.setSliderShape(CyderSliderUI.RECTANGLE);
-        UI1.setStroke(new BasicStroke(3.0f));
-
-        colorSlider.setUI(UI1);
-        colorSlider.setMinimum(0);
-        colorSlider.setMaximum(100);
-        colorSlider.setMajorTickSpacing(5);
-        colorSlider.setMinorTickSpacing(1);
-        colorSlider.setPaintTicks(false);
-        colorSlider.setPaintLabels(false);
-        colorSlider.setVisible(true);
-        colorSlider.setValue(50);
-        colorSlider.setFont(new Font("HeadPlane", Font.BOLD, 18));
-        colorSlider.addChangeListener(e -> {
-            //todo change colors based on position
-        });
-
-        colorSlider.setOpaque(false);
-        colorSlider.setToolTipText("Fill Opacity");
-        colorSlider.setFocusable(false);
-
-        colorSlider.setBounds(470,440,220,50);
-        switchingPanel.add(colorSlider);
+        //todo color field with preview
 
         switchingPanel.revalidate();
     }
 
-    //todo add auto testing if in debug mode and only use debug mode to know if we should auto handle/test something on start
+    //todo if we're using bobby because there are no background images, copy it to backgrounds
+
     //todo if a pref keyword doesn't exist in userdata, add it and set to default
 
     //todo on closing console frame if login open, close all other windows except login frame
@@ -4081,7 +4054,7 @@ public class CyderMain{
 
     //todo on startup make sure input and output are painted or filled with color selected
 
-    //todo also save fill color now
+    //todo also save background and opacity now on shutdown when you save foreground
 
     //todo add more to cyderargs
 
@@ -4356,8 +4329,8 @@ public class CyderMain{
                     data.add("Name:" + newUserName.getText().trim());
                     data.add("Font:tahoma");
                     data.add("Foreground:FCFBE3");
-                    data.add("Background:");//todo
-                    data.add("Opacity:");//todo
+                    data.add("Background:FFFFFF");//todo
+                    data.add("Opacity:0");//todo
                     data.add("Password:" + mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(pass)));//todo change to diff name? more secure?
 
                     data.add("IntroMusic:0");
