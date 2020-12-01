@@ -436,8 +436,9 @@ public class CyderMain{
             if (mainGeneralUtil.getUserData("OutputFill").equals("1"))
                 outputArea.setBackground(new Color(c.getRed(),c.getGreen(),c.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
 
-            if (mainGeneralUtil.getUserData("InputFill").equals("1"))
+            if (mainGeneralUtil.getUserData("InputFill").equals("1")) //todo doesn't work
                 inputField.setBackground(new Color(c.getRed(),c.getGreen(),c.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
+
 
             inputField.setFont(Userfont);
             outputArea.setFont(Userfont);
@@ -3997,16 +3998,11 @@ public class CyderMain{
                 outputFill.setIcon((wasSelected ? notSelected : selected));
 
                 if (wasSelected) {
-                    outputArea.setBackground(null);
-                    outputArea.setOpaque(false);
-                    consoleFrame.revalidate();
+                    //todo copy from below
                 }
 
                 else {
-                    Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
-                    outputArea.setOpaque(true);
-                    outputArea.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue()));
-                    consoleFrame.revalidate();
+                   //todo copy from below
                 }
             }
         });
@@ -4019,11 +4015,16 @@ public class CyderMain{
                 inputFill.setIcon((wasSelected ? notSelected : selected));
 
                 if (wasSelected) {
-                    //todo copy from above
+                    inputField.setBackground(null);
+                    inputField.setOpaque(false);
+                    consoleFrame.revalidate();
                 }
 
                 else {
-                    //todo copy from above
+                    Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
+                    inputField.setOpaque(true);
+                    inputField.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
+                    consoleFrame.revalidate();
                 }
             }
         });
