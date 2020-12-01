@@ -316,7 +316,7 @@ public class CyderMain{
             outputArea.setBounds(10, 62, mainGeneralUtil.getBackgroundX() - 20, mainGeneralUtil.getBackgroundY() - 204);
             outputArea.setFocusable(true);
             outputArea.setSelectionColor(new Color(204,153,0));
-            outputArea.setOpaque(false);
+            outputArea.setOpaque(true);
             outputArea.setBackground(new Color(0,0,0,0));
 
             outputScroll = new CyderScrollPane(outputArea,
@@ -429,6 +429,14 @@ public class CyderMain{
 
             inputField.setForeground(Usercolor);
             outputArea.setForeground(Usercolor);
+
+            Color c = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
+
+            if (mainGeneralUtil.getUserData("OutputFill").equals("1"))
+                outputArea.setBackground(new Color(c.getRed(),c.getGreen(),c.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
+
+            if (mainGeneralUtil.getUserData("InputFill").equals("1"))
+                inputField.setBackground(new Color(c.getRed(),c.getGreen(),c.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
 
             inputField.setFont(Userfont);
             outputArea.setFont(Userfont);
@@ -3959,26 +3967,23 @@ public class CyderMain{
         opacitySlider.setPaintTicks(false);
         opacitySlider.setPaintLabels(false);
         opacitySlider.setVisible(true);
-        opacitySlider.setValue(50);
+        opacitySlider.setValue((int)(Double.parseDouble(mainGeneralUtil.getUserData("Opacity")) / 255.0 * 100.0));
         opacitySlider.setFont(new Font("HeadPlane", Font.BOLD, 18));
         opacitySlider.addChangeListener(e -> {
-            if (mainGeneralUtil.getUserData("OutputFill").equals("1")) {
-                mainGeneralUtil.writeUserData("Opacity",(int) (255.0 * (opacitySlider.getValue() / 100.0)) + "");
+            mainGeneralUtil.writeUserData("Opacity",(int) (255.0 * (opacitySlider.getValue() / 100.0)) + "");
 
+            if (mainGeneralUtil.getUserData("OutputFill").equals("1")) {
                 Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
                 outputArea.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
-
                 outputArea.revalidate();
                 outputArea.repaint();
+
                 consoleFrame.revalidate();
             }
 
             if (mainGeneralUtil.getUserData("InputFill").equals("1")) {
                 //todo copy from above when working
-
                 //todo kind of works when you first enable the checkbox for opacity so start there
-
-                //todo save opacity level in userdata now and get it and init it on startup and value for slider when in prefs
                 //todo fix rendering artifacts with setOpaque methods
             }
         });
