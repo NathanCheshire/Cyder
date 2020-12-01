@@ -19,10 +19,7 @@ public class TestClass {
 
             Thread.sleep((long) (Math.random() * 100));
 
-            //execute tests here
-
-            long end = System.currentTimeMillis();
-            su.println("Finished tests in: " + (end - start) + "ms");
+            su.println("Finished tests in: " + (System.currentTimeMillis() - start) + "ms");
         }
 
         catch (Exception e) {

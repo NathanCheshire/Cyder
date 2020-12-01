@@ -1701,11 +1701,16 @@ public class GeneralUtil {
     public String getUserData(String name) {
         readUserData();
 
+        if (userData.isEmpty())
+            return null;
+
         for (NST data : userData) {
             if (data.getName().equalsIgnoreCase(name)) {
                 return data.getDescription();
             }
         }
+
+
 
         return null;
     }

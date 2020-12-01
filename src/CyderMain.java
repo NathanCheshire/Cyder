@@ -29,10 +29,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 //todo put all background checking things in one thread
 //todo fix double chime on hour glitch
@@ -46,8 +49,6 @@ import java.util.concurrent.ThreadLocalRandom;
 // <p style="font-family:verdana">fifth with font</p></html>
 
 //todo notes and textviewer non-swing dependent
-
-//todo redo edit user GUI, put in a scrollable UI, tooltips for everything, seconds for console clock option, make checkboxes smaller
 
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
@@ -67,9 +68,6 @@ import java.util.concurrent.ThreadLocalRandom;
 //todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
 
 //todo I feel like a lot of stuff should be static since it means it belongs to the class an not an instance of it
-
-//todo make use of nbt where nst can be nbt
-//todo make nbt extend nst
 
 //todo cyder frame should have a notify method that will drop down from center and back up
 //todo enter animation toggle for notification
@@ -305,16 +303,11 @@ public class CyderMain{
                     //no border
                 }
             };
-            outputArea.addFocusListener(new FocusListener() {
+            outputArea.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
                     minimizeMenu();
                     inputField.requestFocus();
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-
                 }
             });
 
@@ -417,15 +410,10 @@ public class CyderMain{
             parentLabel.add(inputField);
 
             inputField.addActionListener(inputFieldAction);
-            inputField.addFocusListener(new FocusListener() {
+            inputField.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
                     minimizeMenu();
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-
                 }
             });
 
@@ -654,26 +642,34 @@ public class CyderMain{
                 }
             });
 
-            consoleDragLabel.setFont(mainGeneralUtil.weatherFontSmall);
-            consoleDragLabel.setForeground(mainGeneralUtil.vanila);
-
-            boolean showClock = mainGeneralUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
-
             consoleClockLabel = new JLabel(mainGeneralUtil.consoleTime());
             consoleClockLabel.setFont(mainGeneralUtil.weatherFontSmall.deriveFont(20f));
             consoleClockLabel.setForeground(mainGeneralUtil.vanila);
-            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
+            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 20,
                     2,(consoleClockLabel.getText().length() * 17), 25);
 
             consoleDragLabel.add(consoleClockLabel, SwingConstants.CENTER);
 
-            updateConsoleClock = showClock;
+            updateConsoleClock = mainGeneralUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
 
-            refreshConsoleClock();
+            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+                if (consoleClockLabel.isVisible())
+                    if (mainGeneralUtil.getUserData("ShowSeconds").equalsIgnoreCase("1"))
+                        consoleClockLabel.setText(mainGeneralUtil.consoleSecondTime());
+                    else
+                        consoleClockLabel.setText(mainGeneralUtil.consoleTime());
 
-            consoleClockLabel.setVisible(showClock);
+                consoleClockLabel.setToolTipText(mainGeneralUtil.weatherThreadTime());
 
-            checkChime();
+            },0, 500, TimeUnit.MILLISECONDS);
+
+            consoleClockLabel.setVisible(updateConsoleClock);
+
+            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+                if (mainGeneralUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
+                    mainGeneralUtil.playMusic("src/com/cyder/io/audio/chime.mp3");
+
+            }, 3600 - LocalDateTime.now().getSecond() - LocalDateTime.now().getMinute() * 60, 3600, TimeUnit.SECONDS);
 
             parentLabel.add(consoleDragLabel);
 
@@ -737,7 +733,7 @@ public class CyderMain{
                         parentLabel.setIcon(newBack);
 
                         parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 20,
                                 2,(consoleClockLabel.getText().length() * 17), 25);
                     }
 
@@ -1075,40 +1071,31 @@ public class CyderMain{
     };
 
     private void backgroundProcessChecker() {
-        try {
-            new Thread(() -> {
-                try {
-                    //todo don't count threads, just look at names so ignore: Monitor Ctrl-Break, Image Fetcher 0,
-                    // AWT-EventQueue-0, DestroyJavaVM, and then the thread checker that you will
-                    // make that combines all system checking threads
-                    while (true) {
-                        ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
-                        int noThreads = currentGroup.activeCount();
+        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+            if (consoleFrame != null) {
+                ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+                int num = threadGroup.activeCount();
+                Thread[] printThreads = new Thread[num];
+                threadGroup.enumerate(printThreads);
 
-                        if (noThreads > 6 && consoleFrame != null) {
-                            consoleFrame.setIconImage(mainGeneralUtil.getCyderIconBlink().getImage());
+                int threadCount = 0;
 
-                            Thread.sleep(5000);
-                        }
+                for (int i = 0; i < num ; i++)
+                    if (!printThreads[i].isDaemon() &&
+                        !printThreads[i].getName().contains("pool") &&
+                        !printThreads[i].getName().contains("AWT-EventQueue-0") &&
+                        !printThreads[i].getName().contains("DestroyJavaVM"))
 
-                        else {
-                            if (consoleFrame != null) {
-                                consoleFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
-                                Thread.sleep(5000);
-                            }
-                        }
-                    }
-                }
+                        threadCount++;
 
-                catch (Exception e) {
-                    mainGeneralUtil.handle(e);
-                }
-            },"background-process-checker").start();
-        }
+                if (threadCount > 0)
+                    consoleFrame.setIconImage(mainGeneralUtil.getCyderIconBlink().getImage());
 
-        catch (Exception e) {
-            mainGeneralUtil.handle(e);
-        }
+                else
+                    consoleFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
+            }
+
+        }, 0, 3, TimeUnit.SECONDS);
     }
 
     private Action inputFieldAction = new AbstractAction() {
@@ -1436,7 +1423,7 @@ public class CyderMain{
         minimize.setBounds(width - 81, 4, 22, 20);
         alternateBackground.setBounds(width - 54, 4, 22, 20);
         close.setBounds(width - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 20,
                 2,(consoleClockLabel.getText().length() * 17), 25);
 
         consoleFrame.repaint();
@@ -1478,7 +1465,7 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 20,
                 2,(consoleClockLabel.getText().length() * 17), 25);
 
         consoleFrame.repaint();
@@ -1579,7 +1566,7 @@ public class CyderMain{
                 slidLeft = !slidLeft;
 
                 parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
-                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2,
+                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 20,
                         2,(consoleClockLabel.getText().length() * 17), 25);
             }
 
@@ -2829,7 +2816,18 @@ public class CyderMain{
                 println("Total lines of code: " + mainGeneralUtil.totalCodeLines(new File(System.getProperty("user.dir"))));
             }
 
-            else if (hasWord("threads")) {
+            else if (hasWord("threads") && !hasWord("daemon")) {
+                ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+                int num = threadGroup.activeCount();
+                Thread[] printThreads = new Thread[num];
+                threadGroup.enumerate(printThreads);
+
+                for (int i = 0; i < num ; i++)
+                    if (!printThreads[i].isDaemon())
+                        println(printThreads[i].getName());
+            }
+
+            else if (hasWord("threads") && hasWord("daemon")) {
                 ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                 int num = threadGroup.activeCount();
                 Thread[] printThreads = new Thread[num];
@@ -3599,14 +3597,10 @@ public class CyderMain{
                         }
                     }
 
-                    //todo deleting current background doesn't work
-                    if (ClickedSelection.endsWith(".png") &&
-                            ClickedSelection.equalsIgnoreCase(mainGeneralUtil.getCurrentBackground().getName().replace(".png",""))) {
-                        println("Unable to delete the background you are currently using");
-                    }
+                    if (ClickedSelection.equalsIgnoreCase(mainGeneralUtil.getCurrentBackground().getName().replace(".png","")))
+                        mainGeneralUtil.inform("Unable to delete the background you are currently using","Error",400,150);
 
                     else {
-                        System.out.println(ClickedSelectionPath);
                         ClickedSelectionPath.delete();
                         initMusicBackgroundList();
                         musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
@@ -4424,49 +4418,6 @@ public class CyderMain{
         createUserFrame.setLocationRelativeTo(null);
         createUserFrame.setVisible(true);
         newUserName.requestFocus();
-    }
-
-    private void refreshConsoleClock() {
-        Thread TimeThread = new Thread(() -> {
-            try {
-                while (updateConsoleClock) {
-                    if (consoleClockLabel.isVisible())
-                        if (mainGeneralUtil.getUserData("ShowSeconds").equalsIgnoreCase("1"))
-                            consoleClockLabel.setText(mainGeneralUtil.consoleSecondTime());
-                        else
-                            consoleClockLabel.setText(mainGeneralUtil.consoleTime());
-
-                    consoleClockLabel.setToolTipText(mainGeneralUtil.weatherThreadTime());
-                    Thread.sleep(1000);
-                }
-            }
-
-            catch (Exception e) {
-                mainGeneralUtil.handle(e);
-            }
-        },"console-clock-updater");
-
-        TimeThread.start();
-    }
-
-    private void checkChime() {
-        Thread ChimeThread = new Thread(() -> {
-            try {
-                while (true) {
-                    Thread.sleep(1000);
-                    Calendar now = Calendar.getInstance();
-                    if (now.get(Calendar.MINUTE) == 0 && now.get(Calendar.SECOND) <= 1 &&
-                       (mainGeneralUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")))
-                        mainGeneralUtil.playMusic("src/com/cyder/io/audio/chime.mp3");
-                }
-            }
-
-            catch (Exception e) {
-                mainGeneralUtil.handle(e);
-            }
-        },"chime-checker");
-
-        ChimeThread.start();
     }
 
     private void minimizeMenu() {

@@ -14,6 +14,7 @@ public class Hasher {
 
     public Hasher() {
         CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        hashFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
         hashFrame.setTitle("Hasher");
 
         JLabel Instructions = new JLabel("Enter your password to be hashed");
@@ -43,7 +44,7 @@ public class Hasher {
         hashField.setBounds(50,90, 400, 40);
         hashFrame.getContentPane().add(hashField);
 
-        CyderButton hashButton = new CyderButton("Hasher");
+        CyderButton hashButton = new CyderButton("Hash");
         hashButton.setColors(hashGeneralUtil.regularRed);
         hashButton.setBackground(hashGeneralUtil.regularRed);
         hashButton.setBorder(new LineBorder(hashGeneralUtil.navy,5,false));
