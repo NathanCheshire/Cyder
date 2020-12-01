@@ -277,6 +277,7 @@ public class CyderMain{
             parentPane.setLayout(null);
 
             parentLabel = new JLabel();
+            parentLabel.setOpaque(false);
 
             if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                 parentLabel.setIcon(new ImageIcon(mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(), (int) mainGeneralUtil.getScreenSize().getHeight(), mainGeneralUtil.getCurrentBackground())));
@@ -3991,47 +3992,39 @@ public class CyderMain{
         outputFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("OutputFill").equals("1");
-            mainGeneralUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
-            outputFill.setIcon((wasSelected ? notSelected : selected));
+                boolean wasSelected = mainGeneralUtil.getUserData("OutputFill").equals("1");
+                mainGeneralUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
+                outputFill.setIcon((wasSelected ? notSelected : selected));
 
-            if (wasSelected) {
-                outputArea.setOpaque(false);
-                outputScroll.setOpaque(false);
+                if (wasSelected) {
+                    outputArea.setBackground(null);
+                    outputArea.setOpaque(false);
+                    consoleFrame.revalidate();
+                }
 
-                outputArea.setBackground(null);
-                consoleFrame.revalidate();
-            }
-
-            else {
-                outputArea.setOpaque(true);
-                outputScroll.setOpaque(true);
-
-                Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
-                outputArea.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
-                consoleFrame.revalidate();
-            }
+                else {
+                    Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
+                    outputArea.setOpaque(true);
+                    outputArea.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue()));
+                    consoleFrame.revalidate();
+                }
             }
         });
 
         inputFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("InputFill").equals("1");
-            mainGeneralUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
-            inputFill.setIcon((wasSelected ? notSelected : selected));
+                boolean wasSelected = mainGeneralUtil.getUserData("InputFill").equals("1");
+                mainGeneralUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
+                inputFill.setIcon((wasSelected ? notSelected : selected));
 
-            if (wasSelected) {
-                inputField.setOpaque(false);
-                inputField.setBackground(null);
-                consoleFrame.revalidate();
-            }
+                if (wasSelected) {
+                    //todo copy from above
+                }
 
-            else {
-                Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
-                inputField.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
-                consoleFrame.revalidate();
-            }
+                else {
+                    //todo copy from above
+                }
             }
         });
 
