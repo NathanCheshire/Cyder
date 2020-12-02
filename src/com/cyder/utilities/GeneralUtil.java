@@ -77,6 +77,7 @@ public class GeneralUtil {
     public Color tooltipForegroundColor = new Color(85,85,255);
     public Color tooltipBackgroundColor = new Color(0,0,0);
     public Color vanila = new Color(252, 251, 227);
+    public Color defaultColor = new Color(252, 251, 227);
     public Color tttblue = new Color(71, 81, 117);
     public Color navy = new Color(26, 32, 51);
 

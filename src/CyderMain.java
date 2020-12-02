@@ -2434,12 +2434,14 @@ public class CyderMain{
                 inputField.setFont(mainGeneralUtil.defaultFont);
                 outputArea.setFont(mainGeneralUtil.defaultFont);
                 println("The font has been reset.");
+                mainGeneralUtil.writeUserData("Font",outputArea.getFont().getName());
             }
 
             else if (hasWord("reset") && hasWord("color")) {
                 outputArea.setForeground(mainGeneralUtil.vanila);
                 inputField.setForeground(mainGeneralUtil.vanila);
                 println("The text color has been reset.");
+                mainGeneralUtil.writeUserData("Foreground",mainGeneralUtil.rgbtohexString(mainGeneralUtil.defaultColor));
             }
 
             else if (eic("top left")) {
@@ -3323,8 +3325,7 @@ public class CyderMain{
         switchingPanel.setBackground(new Color(255,255,255));
         editUserFrame.getContentPane().add(switchingPanel);
 
-        switchToPreferences();
-        prefsPanelIndex = 1; //todo remove me
+        switchToMusicAndBackgrounds();
 
         backwardPanel = new CyderButton("< Prev");
         backwardPanel.setBackground(mainGeneralUtil.regularRed);
@@ -3632,7 +3633,184 @@ public class CyderMain{
     }
 
     private void switchToFontAndColor() {
+        JLabel TitleLabel = new JLabel("Foreground & Font", SwingConstants.CENTER);
+        TitleLabel.setFont(mainGeneralUtil.weatherFontBig);
+        TitleLabel.setBounds(720 / 2 - 375 / 2,10,375,40);
+        switchingPanel.add(TitleLabel);
 
+        int colorOffsetX = 340;
+        int colorOffsetY = 100;
+
+        JLabel ColorLabel = new JLabel("Text Color");
+        ColorLabel.setFont(mainGeneralUtil.weatherFontBig);
+        ColorLabel.setForeground(mainGeneralUtil.navy);
+        ColorLabel.setBounds(120 + colorOffsetX, 50 + colorOffsetY,300, 30);
+        switchingPanel.add(ColorLabel);
+
+        JLabel hexLabel = new JLabel("HEX:");
+        hexLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        hexLabel.setForeground(mainGeneralUtil.navy);
+        hexLabel.setBounds(30 + colorOffsetX, 110 + colorOffsetY,70, 30);
+        switchingPanel.add(hexLabel);
+
+        JLabel rgbLabel = new JLabel("RGB:");
+        rgbLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        rgbLabel.setForeground(mainGeneralUtil.navy);
+        rgbLabel.setBounds(30 + colorOffsetX, 180 + colorOffsetY,70,30);
+        switchingPanel.add(rgbLabel);
+
+        JTextField colorBlock = new JTextField();
+        colorBlock.setBackground(mainGeneralUtil.navy);
+        colorBlock.setFocusable(false);
+        colorBlock.setCursor(null);
+        colorBlock.setToolTipText("Color Preview");
+        colorBlock.setBorder(new LineBorder(mainGeneralUtil.navy, 5, false));
+        colorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 120);
+        switchingPanel.add(colorBlock);
+
+        JTextField rgbField = new JTextField(mainGeneralUtil.navy.getRed() + "," + mainGeneralUtil.navy.getGreen() + "," + mainGeneralUtil.navy.getBlue());
+
+        JTextField hexField = new JTextField(String.format("#%02X%02X%02X", mainGeneralUtil.navy.getRed(), mainGeneralUtil.navy.getGreen(), mainGeneralUtil.navy.getBlue()).replace("#",""));
+        hexField.setForeground(mainGeneralUtil.navy);
+        hexField.setFont(mainGeneralUtil.weatherFontBig);
+        hexField.setBackground(new Color(0,0,0,0));
+        hexField.setSelectionColor(mainGeneralUtil.selectionColor);
+        hexField.setToolTipText("Hex Value");
+        hexField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        JTextField finalHexField1 = hexField;
+        JTextField finalRgbField = rgbField;
+        hexField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                try {
+                    Color c = mainGeneralUtil.hextorgbColor(finalHexField1.getText());
+                    finalRgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
+                    colorBlock.setBackground(c);
+                }
+
+                catch (Exception ignored) {}
+            }
+        });
+        hexField.setBounds(100 + colorOffsetX, 100 + colorOffsetY,220, 50);
+        hexField.setOpaque(false);
+        switchingPanel.add(hexField);
+
+        rgbField.setForeground(mainGeneralUtil.navy);
+        rgbField.setFont(mainGeneralUtil.weatherFontBig);
+        rgbField.setBackground(new Color(0,0,0,0));
+        rgbField.setSelectionColor(mainGeneralUtil.selectionColor);
+        rgbField.setToolTipText("RGB Value");
+        rgbField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        JTextField finalRgbField1 = rgbField;
+        rgbField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                try {
+                    String[] parts = finalRgbField1.getText().split(",");
+                    Color c = new Color(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]),Integer.parseInt(parts[2]));
+                    hexField.setText(mainGeneralUtil.rgbtohexString(c));
+                    colorBlock.setBackground(c);
+                }
+
+                catch (Exception ignored) {}
+            }
+        });
+        rgbField.setBounds(100 + colorOffsetX, 170 + colorOffsetY,220, 50);
+        rgbField.setOpaque(false);
+        switchingPanel.add(rgbField);
+
+        CyderButton applyColor = new CyderButton("Apply Color");
+        applyColor.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        applyColor.setColors(mainGeneralUtil.regularRed);
+        applyColor.setToolTipText("Apply");
+        applyColor.setFont(mainGeneralUtil.weatherFontSmall);
+        applyColor.setFocusPainted(false);
+        applyColor.setBackground(mainGeneralUtil.regularRed);
+        applyColor.addActionListener(e -> {
+            mainGeneralUtil.writeUserData("Foreground",hexField.getText());
+
+            Color updateC = mainGeneralUtil.hextorgbColor(hexField.getText());
+
+            outputArea.setForeground(updateC);
+            inputField.setForeground(updateC);
+
+            println("The Color \"" + updateC + "\" has been applied.");
+        });
+        applyColor.setBounds(460,420,200,40);
+        switchingPanel.add(applyColor);
+
+        JLabel FontLabel = new JLabel("Font");
+        FontLabel.setFont(mainGeneralUtil.weatherFontBig);
+        FontLabel.setForeground(mainGeneralUtil.navy);
+        FontLabel.setBounds(150, 60,300, 30);
+        switchingPanel.add(FontLabel);
+
+        String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+
+        fontList = new JList(Fonts);
+        fontList.setSelectionBackground(mainGeneralUtil.selectionColor);
+        fontList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        fontList.setFont(mainGeneralUtil.weatherFontSmall);
+
+        CyderScrollPane FontListScroll = new CyderScrollPane(fontList,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        FontListScroll.setThumbColor(mainGeneralUtil.intellijPink);
+        FontListScroll.setBorder(new LineBorder(mainGeneralUtil.navy,5,true));
+
+        CyderButton applyFont = new CyderButton("Apply Font");
+        applyFont.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        applyFont.setColors(mainGeneralUtil.regularRed);
+        applyFont.setToolTipText("Apply");
+        applyFont.setFont(mainGeneralUtil.weatherFontSmall);
+        applyFont.setFocusPainted(false);
+        applyFont.setBackground(mainGeneralUtil.regularRed);
+        applyFont.addActionListener(e -> {
+            String FontS = (String) fontList.getSelectedValue();
+
+            if (FontS != null) {
+                Font ApplyFont = new Font(FontS, Font.BOLD, 30);
+                outputArea.setFont(ApplyFont);
+                inputField.setFont(ApplyFont);
+                mainGeneralUtil.writeUserData("Font",FontS);
+                println("The font \"" + FontS + "\" has been applied.");
+            }
+        });
+        applyFont.setBounds(100,420,200,40);
+        switchingPanel.add(applyFont);
+
+        fontList.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    applyFont.doClick();
+                }
+
+                else {
+                    try {
+                        FontLabel.setFont(new Font(fontList.getSelectedValue().toString(), Font.BOLD, 30));
+                    }
+
+                    catch (Exception ex) {
+                        mainGeneralUtil.handle(ex);
+                    }
+                }
+            }
+        });
+
+        fontList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                JList t = (JList) e.getSource();
+                int index = t.locationToIndex(e.getPoint());
+
+                FontLabel.setFont(new Font(t.getModel().getElementAt(index).toString(), Font.BOLD, 30));
+            }
+        });
+
+        FontListScroll.setBounds(50,100,300,300);
+        switchingPanel.add(FontListScroll, Component.CENTER_ALIGNMENT);
+
+        switchingPanel.revalidate();
     }
 
     ImageIcon selected = new ImageIcon("src/com/cyder/io/pictures/checkbox1.png");
