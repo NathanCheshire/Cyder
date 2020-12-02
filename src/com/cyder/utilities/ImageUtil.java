@@ -1,10 +1,24 @@
 package com.cyder.utilities;
 
+import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderFrame;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.*;
 
 public class ImageUtil {
+
+    private GeneralUtil giu;
+    private CyderFrame pixelFrame;
+
+    public ImageUtil() {
+        giu = new GeneralUtil();
+    }
 
     public static BufferedImage pixelate(BufferedImage imageToPixelate, int pixelSize) {
         BufferedImage pixelateImage = new BufferedImage(
@@ -75,5 +89,67 @@ public class ImageUtil {
                 .getKey();
 
         return new Color(dominantRGB);
+    }
+
+    public void pixelate(File path, int pixelSize) {
+        try {
+            BufferedImage retImage = ImageUtil.pixelate(ImageIO.read(path), pixelSize);
+            String NewName = path.getName().replace(".png", "") + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
+
+            if (pixelFrame != null)
+                giu.closeAnimation(pixelFrame);
+
+            pixelFrame = new CyderFrame(retImage.getWidth(),retImage.getHeight(), new ImageIcon(retImage));
+            pixelFrame.setTitle("Approve Pixelation");
+
+            CyderButton approveImage = new CyderButton("Approve Image");
+            approveImage.setFocusPainted(false);
+            approveImage.setBackground(giu.regularRed);
+            approveImage.setColors(giu.regularRed);
+            approveImage.setBorder(new LineBorder(giu.navy,3,false));
+            approveImage.setFont(giu.weatherFontSmall);
+
+            approveImage.addActionListener(e -> {
+                try {
+                    ImageIO.write(retImage, "png", new File("C:\\Users\\" + giu.getWindowsUsername() + "\\Downloads\\" + NewName));
+                } catch (Exception exc) {
+                    giu.handle(exc);
+                }
+
+                giu.closeAnimation(pixelFrame);
+                pixelFrame.inform("The pixelated image has been saved to your Downloads folder.","Saved", 400, 200);
+            });
+            approveImage.setBounds(20, retImage.getHeight() - 100,retImage.getWidth() - 40, 40);
+            pixelFrame.getContentPane().add(approveImage);
+
+            CyderButton rejectImage = new CyderButton("Reject Image");
+            rejectImage.setFocusPainted(false);
+            rejectImage.setBackground(giu.regularRed);
+            rejectImage.setBorder(new LineBorder(giu.navy,3,false));
+            rejectImage.setColors(giu.regularRed);
+            rejectImage.setFont(giu.weatherFontSmall);
+            rejectImage.addActionListener(e -> giu.closeAnimation(pixelFrame));
+            rejectImage.setSize(pixelFrame.getX(), 20);
+            rejectImage.setBounds(20, retImage.getHeight() - 60,retImage.getWidth() - 40, 40);
+            pixelFrame.getContentPane().add(rejectImage);
+
+            pixelFrame.setVisible(true);
+            pixelFrame.setLocationRelativeTo(null);
+            pixelFrame.setAlwaysOnTop(true);
+        }
+
+        catch (Exception e) {
+            giu.handle(e);
+        }
+    }
+
+    public BufferedImage imageFromColor(int x, int y, Color c) {
+        BufferedImage bi = new BufferedImage(x,y,BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics = bi.createGraphics();
+
+        graphics.setPaint(c);
+        graphics.fillRect ( 0, 0, x, y);
+
+        return bi;
     }
 }

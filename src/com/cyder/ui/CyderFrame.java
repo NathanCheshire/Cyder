@@ -3,6 +3,7 @@ package com.cyder.ui;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.ImageUtil;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -15,6 +16,7 @@ public class CyderFrame extends JFrame {
     private int titlePosition = 0;
 
     private GeneralUtil fGeneralUtil = new GeneralUtil();
+    private ImageUtil iu = new ImageUtil();
     private int width;
     private int height;
     private ImageIcon background;
@@ -134,7 +136,7 @@ public class CyderFrame extends JFrame {
 
     public void inform(String text, String title, int width, int height) {
         try {
-            BufferedImage back = fGeneralUtil.resizeImage(width,height,fGeneralUtil.getCurrentBackground());
+            BufferedImage back = iu.imageFromColor(width,height,iu.getDominantColor(ImageIO.read(fGeneralUtil.getCurrentBackground())));
 
             CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(back));
             informFrame.setTitle(title);

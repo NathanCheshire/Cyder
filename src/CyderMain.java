@@ -37,15 +37,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo make inform it's own class that uses a cyder frame, crops the background image,
-// and gets a color that works for the background gotten
-
 //todo center console clock label and use swingconstants.center to center the seconds if enabled
 //todo holding down ctrl paints a cross on the horizontal and vertical axis, holding down ctrl + shift puts duke in the middle too
 
 //todo use enums instead of all constants, make enums package
 //todo make color utils
-//todo separate utils from widgets in utils package
 
 //todo make password more secure maybe salt or something?
 //todo double hash sha perhaps to avoid someone just hashing their own password and pasting it in
@@ -64,11 +60,7 @@ import java.util.concurrent.TimeUnit;
 
 //todo on closing console frame if login open, close all other windows except login frame
 
-//todo put all background checking things in one thread
-//todo fix double chime on hour glitch
 //todo when doing confirmations through the console, pull it to front and then push it back
-//todo make prefs for filled output area and input field
-//todo let color for text be inputed in rgb format too
 //todo be able to set background to a solid color and make that an image and save it
 
 //todo utilize colors, fonts, font weights, and new lines now
@@ -92,8 +84,6 @@ import java.util.concurrent.TimeUnit;
 
 //todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
 //todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
-
-//todo I feel like a lot of stuff should be static since it means it belongs to the class an not an instance of it
 
 //todo make the frame and drag label stay when switching backgrounds and the image be separate
 //todo you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
@@ -1828,7 +1818,7 @@ public class CyderMain{
 
             else if (desc.equalsIgnoreCase("pixelate") && input != null && !input.equals("")) {
                 println("Pixelating " + pixelateFile.getName() + " with a pixel block size of " + input + "...");
-                mainGeneralUtil.pixelate(pixelateFile, Integer.parseInt(input));
+                new ImageUtil().pixelate(pixelateFile, Integer.parseInt(input));
             }
 
             else if (desc.equalsIgnoreCase("alphabetize")) {
@@ -2620,7 +2610,6 @@ public class CyderMain{
                 mainGeneralUtil.systemProperties();
             }
 
-            //todo moving this
             else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
                 pixelateFile = mainGeneralUtil.getFile();
 

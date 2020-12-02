@@ -32,6 +32,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.cyder.utilities.ImageUtil.getDominantColor;
+
 public class GeneralUtil {
 
     //static strings used for test cases
@@ -125,9 +127,6 @@ public class GeneralUtil {
     public static int CYDER_DOWN = 2;
     public static int CYDER_LEFT = 3;
     private int consoleDirection;
-
-    //pixel vars
-    private JFrame pixelFrame;
 
     //update vars
     private boolean userInputMode;
@@ -873,7 +872,7 @@ public class GeneralUtil {
 
     public void inform(String text, String title, int width, int height) {
         try {
-            BufferedImage back = resizeImage(width,height,getCurrentBackground());
+            BufferedImage back = new ImageUtil().imageFromColor(width,height,getDominantColor(ImageIO.read(getCurrentBackground())));
 
             CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(back));
             informFrame.setTitle(title);
@@ -1003,102 +1002,6 @@ public class GeneralUtil {
             lines[i] = arrayLines.get(i);
 
         createAndOpenTmpFile("SystemProperties",".txt",lines);
-    }
-
-    public void pixelate(File path, int pixelSize) {
-        try {
-            BufferedImage ReturnImage = ImageUtil.pixelate(ImageIO.read(path), pixelSize);
-
-            String NewName = path.getName().replace(".png", "") + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
-
-            if (pixelFrame != null)
-                closeAnimation(pixelFrame);
-
-            pixelFrame = new JFrame();
-
-            pixelFrame.setUndecorated(true);
-
-            pixelFrame.setTitle("Approve Pixelation");
-
-            //todo move to image utils and use cyderframe
-
-            pixelFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            JPanel ParentPanel = new JPanel();
-
-            ParentPanel.setLayout(new BorderLayout());
-
-            pixelFrame.setContentPane(ParentPanel);
-
-            JLabel PictureLabel = new JLabel(new ImageIcon(ReturnImage));
-
-            ParentPanel.add(PictureLabel, BorderLayout.CENTER);
-
-            CyderButton approveImage = new CyderButton("Approve Image");
-
-            approveImage.setFocusPainted(false);
-
-            approveImage.setBackground(navy);
-
-            approveImage.setColors(navy);
-
-            approveImage.setBorder(new LineBorder(navy,3,false));
-
-            approveImage.setForeground(vanila);
-
-            approveImage.setFont(weatherFontSmall);
-
-            approveImage.addActionListener(e -> {
-                try {
-                    ImageIO.write(ReturnImage, "png", new File("C:\\Users\\" + getWindowsUsername() + "\\Downloads\\" + NewName));
-                } catch (Exception exc) {
-                    handle(exc);
-                }
-
-                closeAnimation(pixelFrame);
-                inform("The distorted image has been saved to your Downloads folder.","", 400, 200);
-            });
-
-            approveImage.setSize(pixelFrame.getX(), 20);
-
-            CyderButton rejectImage = new CyderButton("Reject Image");
-
-            rejectImage.setFocusPainted(false);
-
-            rejectImage.setBackground(regularRed);
-
-            rejectImage.setBorder(new LineBorder(navy,3,false));
-
-            rejectImage.setColors(regularRed);
-
-            rejectImage.setFont(weatherFontSmall);
-
-            rejectImage.addActionListener(e -> closeAnimation(pixelFrame));
-
-            rejectImage.setSize(pixelFrame.getX(), 20);
-
-            ParentPanel.add(rejectImage, BorderLayout.PAGE_START);
-
-            ParentPanel.add(approveImage, BorderLayout.PAGE_END);
-
-            ParentPanel.repaint();
-
-            pixelFrame.pack();
-
-            pixelFrame.setVisible(true);
-
-            pixelFrame.setLocationRelativeTo(null);
-
-            pixelFrame.setAlwaysOnTop(true);
-
-            pixelFrame.setResizable(false);
-
-            pixelFrame.setIconImage(cyderIcon.getImage());
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
     }
 
     public int getCurrentDowns() {
