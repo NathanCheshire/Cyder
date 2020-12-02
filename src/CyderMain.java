@@ -1162,9 +1162,8 @@ public class CyderMain{
     };
 
     private void login(boolean AlreadyOpen) {
-        if (loginFrame != null) {
+        if (loginFrame != null)
             mainGeneralUtil.closeAnimation(loginFrame);
-        }
 
         mainGeneralUtil.cleanUpUsers();
 
@@ -1172,21 +1171,17 @@ public class CyderMain{
         loginFrame = new JFrame();
         loginFrame.setUndecorated(true);
 
-        if (!AlreadyOpen) {
+        if (!AlreadyOpen)
             loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        }
 
-        else if (AlreadyOpen) {
+        else
             loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        }
 
         loginFrame.setBounds(0, 0, 440, 520);
         loginFrame.setTitle("Cyder login");
         loginFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
 
         loginLabel = new JLabel();
-        loginLabel.setVerticalTextPosition(SwingConstants.TOP);
-        loginLabel.setVerticalAlignment(SwingConstants.TOP);
         loginLabel.setIcon(new ImageIcon("src/com/cyder/io/pictures/login.png"));
         loginLabel.setBounds(0, 0, 440, 520);
         loginLabel.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
@@ -1194,16 +1189,12 @@ public class CyderMain{
         loginFrame.setContentPane(loginLabel);
 
         loginLabel2 = new JLabel();
-        loginLabel2.setVerticalTextPosition(SwingConstants.TOP);
-        loginLabel2.setVerticalAlignment(SwingConstants.TOP);
         loginLabel2.setIcon(new ImageIcon("src/com/cyder/io/pictures/Login2.png"));
         loginLabel2.setBounds(440,0 , 440, 520);
 
         loginLabel.add(loginLabel2);
 
         loginLabel3 = new JLabel();
-        loginLabel3.setVerticalTextPosition(SwingConstants.TOP);
-        loginLabel3.setVerticalAlignment(SwingConstants.TOP);
         loginLabel3.setIcon(new ImageIcon("src/com/cyder/io/pictures/Login3.png"));
         loginLabel3.setBounds(880,0 , 440, 520);
 
