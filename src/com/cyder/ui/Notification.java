@@ -77,90 +77,123 @@ public class Notification extends JLabel {
 
         GeneralPath outlinePath = new GeneralPath();
 
-        outlinePath.moveTo(8, 8);
+        outlinePath.moveTo(8, 8 + 2);
 
-        outlinePath.curveTo(8, 8,10,6, 12, 4);
-        outlinePath.lineTo(this.width + 14 + 2, 4);
+        outlinePath.curveTo(8, 8 + 2,10,6 + 2, 12, 4 + 2);
+        outlinePath.lineTo(this.width + 14 + 2, 4 + 2);
 
-        outlinePath.curveTo(this.width + 14 + 2, 4, this.width + 16 + 2, 6, this.width + 18 + 2, 8);
-        outlinePath.lineTo(this.width + 18 + 2, this.height + 10 + 2);
+        outlinePath.curveTo(this.width + 14 + 2, 4 + 2, this.width + 16 + 2, 6 + 2, this.width + 18 + 2, 8 + 2);
+        outlinePath.lineTo(this.width + 18 + 2, this.height + 10 + 2 + 2);
 
-        outlinePath.curveTo(this.width + 18 + 2, this.height + 10  +2, this.width + 16 + 2, this.height + 12 + 2, this.width + 14 + 2, this.height + 14  +2);
-        outlinePath.lineTo(12, this.height + 14 + 2);
+        outlinePath.curveTo(this.width + 18 + 2, this.height + 10 + 2 + 2, this.width + 16 + 2, this.height + 12 + 2  + 2, this.width + 14 + 2, this.height + 14 + 2  + 2);
+        outlinePath.lineTo(12, this.height + 14 + 2 + 2);
 
-        outlinePath.curveTo(12, this.height + 14 + 2, 10, this.height + 12 + 2, 8, this.height + 10 + 2);
-        outlinePath.lineTo( 8, 8);
+        outlinePath.curveTo(12, this.height + 14 + 2 + 2, 10, this.height + 12 + 2 + 2, 8, this.height + 10 + 2 + 2);
+        outlinePath.lineTo( 8, 8 + 2);
 
-        outlinePath.closePath();
-        graphics2D.fill(outlinePath);
+        switch (type) {
+            case Notification.TOP_ARROW:
+                outlinePath.moveTo(6 + this.width / 2, 6 + 2);
+                outlinePath.lineTo(14 + this.width / 2,-2 + 2);
+                outlinePath.lineTo(22 + this.width / 2,6 + 2);
+                outlinePath.lineTo(6 + this.width / 2, 6 + 2);
+
+                outlinePath.closePath();
+                graphics2D.fill(outlinePath);
+
+                break;
+            case Notification.LEFT_ARROW:
+                outlinePath.moveTo(8, 2 + height/2 + 2);
+                outlinePath.lineTo(2, 10 + height/2 + 2);
+                outlinePath.lineTo(8, 18 + height/2 + 2);
+                outlinePath.lineTo(8, 2 + height/2 + 2);
+
+                outlinePath.closePath();
+                graphics2D.fill(outlinePath);
+
+                break;
+            case Notification.RIGHT_ARROW:
+                outlinePath.moveTo(18 + this.width, 2 + height/2 + 2);
+                outlinePath.lineTo(26 + this.width, 10 + height/2 + 2);
+                outlinePath.lineTo(18 + this.width, 18 + height/2 + 2);
+                outlinePath.lineTo(18 + this.width, 2 + height/2 + 2);
+
+                outlinePath.closePath();
+                graphics2D.fill(outlinePath);
+
+                break;
+            case Notification.BOTTOM_ARROW:
+                outlinePath.moveTo(8 + width/2, 16 + height + 2);
+                outlinePath.lineTo(14 + width/2, 22 + height + 2);
+                outlinePath.lineTo(20 + width/2, 16 + height + 2);
+                outlinePath.lineTo(8 + width/2, 16 + height + 2);
+
+                outlinePath.closePath();
+                graphics2D.fill(outlinePath);
+
+                break;
+        }
+
         graphics2D.setPaint(fillColor);
 
         GeneralPath fillPath = new GeneralPath();
 
-        fillPath.moveTo(10, 10);
+        fillPath.moveTo(10, 10 + 2);
 
-        fillPath.curveTo(10, 10,12,8, 14, 6);
-        fillPath.lineTo(this.width + 14, 6);
+        fillPath.curveTo(10, 10 + 2,12,8 + 2, 14, 6 + 2);
+        fillPath.lineTo(this.width + 14, 6 + 2);
 
-        fillPath.curveTo(this.width + 14, 6, this.width + 16, 8, this.width + 18, 10);
-        fillPath.lineTo(this.width + 18, this.height + 10);
+        fillPath.curveTo(this.width + 14, 6 + 2, this.width + 16, 8 + 2, this.width + 18, 10 + 2);
+        fillPath.lineTo(this.width + 18, this.height + 10 + 2);
 
-        fillPath.curveTo(this.width + 18, this.height + 10, this.width + 16, this.height + 12, this.width + 14, this.height + 14);
-        fillPath.lineTo(14, this.height + 14);
+        fillPath.curveTo(this.width + 18, this.height + 10 + 2, this.width + 16, this.height + 12 + 2, this.width + 14, this.height + 14 + 2);
+        fillPath.lineTo(14, this.height + 14 + 2);
 
-        fillPath.curveTo(14, this.height + 14, 12, this.height + 12, 10, this.height + 10);
-        fillPath.lineTo( 10, 10);
+        fillPath.curveTo(14, this.height + 14 + 2, 12, this.height + 12 + 2, 10, this.height + 10 + 2);
+        fillPath.lineTo( 10, 10 + 2);
 
         fillPath.closePath();
         graphics2D.fill(fillPath);
 
         switch (type) {
-            case Notification.TOP:
-                fillPath.moveTo(8 + this.width / 2, 6);
-                fillPath.lineTo(14 + this.width / 2,0);
-                fillPath.lineTo(20 + this.width / 2,6);
-                fillPath.lineTo(8 + this.width / 2, 6);
+            case Notification.TOP_ARROW:
+                fillPath.moveTo(8 + this.width / 2, 6 + 2);
+                fillPath.lineTo(14 + this.width / 2, 2);
+                fillPath.lineTo(20 + this.width / 2,6 + 2);
+                fillPath.lineTo(8 + this.width / 2, 6 + 2);
 
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
-
-                //todo add top arrow border
 
                 break;
-            case Notification.LEFT:
-                fillPath.moveTo(10, 4 + height/2);
-                fillPath.lineTo(4, 10 + height/2);
-                fillPath.lineTo(10, 16 + height/2);
-                fillPath.lineTo(10, 4 + height/2);
+            case Notification.LEFT_ARROW:
+                fillPath.moveTo(10, 4 + height/2 + 2);
+                fillPath.lineTo(4, 10 + height/2 + 2);
+                fillPath.lineTo(10, 16 + height/2 + 2);
+                fillPath.lineTo(10, 4 + height/2 + 2);
 
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
-
-                //todo left arrow border
 
                 break;
-            case Notification.BOTTOM:
-                fillPath.moveTo(18 + this.width, 4 + height/2);
-                fillPath.lineTo(24 + this.width, 10 + height/2);
-                fillPath.lineTo(18 + this.width, 16 + height/2);
-                fillPath.lineTo(18 + this.width, 4 + height/2);
+            case Notification.RIGHT_ARROW:
+                fillPath.moveTo(18 + this.width, 4 + height/2 + 2);
+                fillPath.lineTo(24 + this.width, 10 + height/2 + 2);
+                fillPath.lineTo(18 + this.width, 16 + height/2 + 2);
+                fillPath.lineTo(18 + this.width, 4 + height/2 + 2);
 
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
-
-                //todo add bottom arrow border
 
                 break;
-            case Notification.RIGHT:
-                fillPath.moveTo(8 + width/2, 14+ height);
-                fillPath.lineTo(14 + width/2, 20 + height);
-                fillPath.lineTo(20 + width/2, 14 + height);
-                fillPath.lineTo(8 + width/2, 14+ height);
+            case Notification.BOTTOM_ARROW:
+                fillPath.moveTo(8 + width/2, 14 + height + 2);
+                fillPath.lineTo(14 + width/2, 20 + height + 2);
+                fillPath.lineTo(20 + width/2, 14 + height + 2);
+                fillPath.lineTo(8 + width/2, 14 + height + 2);
 
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
-
-                //todo add right arrow border
 
                 break;
         }

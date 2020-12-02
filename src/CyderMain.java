@@ -1314,7 +1314,7 @@ public class CyderMain{
 
         if (directories != null && directories.length == 0)
             loginFrame.notify("<html>Psssst! Create a user,<br/>" + System.getProperty("user.name") + "</html>",
-                    2000, Notification.TOP_ARROW, Notification.TOP_START, Notification.TOP_VANISH, 230);
+                    4000, Notification.TOP_ARROW, Notification.TOP_START, Notification.TOP_VANISH, 230);
     }
 
     private void recognize(String Username, char[] Password) {

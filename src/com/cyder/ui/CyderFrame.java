@@ -124,9 +124,9 @@ public class CyderFrame extends JFrame {
         if (startDir == Notification.LEFT_START)
             frameNotification.setBounds(0,30,w * 2,h * 2);
         else if (startDir == Notification.RIGHT_START)
-            frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30),30,w * 2,h * 2);
+            frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30),32,w * 2,h * 2);
         else
-            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2),30,w * 2,h * 2);
+            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2),32,w * 2,h * 2);
 
         this.getContentPane().add(frameNotification,1,0);
         this.getContentPane().repaint();
