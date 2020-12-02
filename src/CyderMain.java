@@ -36,6 +36,19 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo make inform it's own class that uses a cyder frame, crops the background image,
+// and gets a color that works for the background gotten
+
+//todo center console clock label and use swingconstants.center to center the seconds if enabled
+//todo holding down ctrl paints a cross on the horizontal and vertical axis, holding down ctrl + shift puts duke in the middle too
+
+//todo use enums instead of all constants, make enums package
+//todo make color utils
+//todo separate utils from widgets in utils package
+
+//todo make password more secure maybe salt or something?
+//todo double hash sha perhaps to avoid someone just hashing their own password and pasting it in
+
 //todo make it so all you can have is jar and system files and it'll create everything else such as dirs
 
 //todo move users out of cyder and into same dir as com
@@ -74,7 +87,6 @@ import java.util.concurrent.TimeUnit;
 //todo make an animation util class
 //todo network util class
 //todo ui utils class
-
 //todo further class separation from GeneralUtil.java
 
 //todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
@@ -82,15 +94,8 @@ import java.util.concurrent.TimeUnit;
 
 //todo I feel like a lot of stuff should be static since it means it belongs to the class an not an instance of it
 
-//todo cyder frame should have a notify method that will drop down from center and back up
-//todo enter animation toggle for notification
-
 //todo make the frame and drag label stay when switching backgrounds and the image be separate
-//todo you kind of did this in login with the sliding text, then notification will not go over it
-
-//todo double hash sha perhaps to avoid someone just hashing their own password and pasting it in
-
-//todo hot key in menu to kill background processes like bletchy and youtube threads, anything that makes the icon yellow basically
+//todo you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
 
 //todo allow users to map up to three internet links on the menu, add a bar to sep system from user stuff
 
@@ -103,7 +108,6 @@ public class CyderMain{
     private JButton close;
     private JLabel consoleClockLabel;
     private boolean updateConsoleClock;
-    private JLabel loginLabel;
     private JLabel loginLabel2;
     private JLabel loginLabel3;
     private JLabel parentLabel;
@@ -115,7 +119,7 @@ public class CyderMain{
     private JLayeredPane parentPane;
     private JButton suggestionButton;
     private JButton menuButton;
-    private JFrame loginFrame;
+    private CyderFrame loginFrame;
     private JTextField nameField;
     private JPasswordField pass;
     private JLabel newUserLabel;
@@ -1167,9 +1171,8 @@ public class CyderMain{
 
         mainGeneralUtil.cleanUpUsers();
 
-        //todo make cyderframe
-        loginFrame = new JFrame();
-        loginFrame.setUndecorated(true);
+        loginFrame = new CyderFrame(440,520,new ImageIcon("src/com/cyder/io/pictures/login.png"));
+        loginFrame.setTitle("Build " + mainGeneralUtil.getCyderVer());
 
         if (!AlreadyOpen)
             loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1177,39 +1180,19 @@ public class CyderMain{
         else
             loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        loginFrame.setBounds(0, 0, 440, 520);
-        loginFrame.setTitle("Cyder login");
-        loginFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
-
-        loginLabel = new JLabel();
-        loginLabel.setIcon(new ImageIcon("src/com/cyder/io/pictures/login.png"));
-        loginLabel.setBounds(0, 0, 440, 520);
-        loginLabel.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-
-        loginFrame.setContentPane(loginLabel);
-
         loginLabel2 = new JLabel();
         loginLabel2.setIcon(new ImageIcon("src/com/cyder/io/pictures/Login2.png"));
         loginLabel2.setBounds(440,0 , 440, 520);
 
-        loginLabel.add(loginLabel2);
+        loginFrame.getContentPane().add(loginLabel2);
 
         loginLabel3 = new JLabel();
         loginLabel3.setIcon(new ImageIcon("src/com/cyder/io/pictures/Login3.png"));
         loginLabel3.setBounds(880,0 , 440, 520);
 
-        loginLabel.add(loginLabel3);
+        loginFrame.getContentPane().add(loginLabel3);
 
         loginAnimation();
-
-        DragLabel LoginDragLabel = new DragLabel(440,30,loginFrame);
-        JLabel buildLabel = new JLabel("Build " + mainGeneralUtil.getCyderVer());
-        buildLabel.setForeground(mainGeneralUtil.vanila);
-        buildLabel.setFont(mainGeneralUtil.weatherFontSmall.deriveFont(20f));
-        buildLabel.setBounds(LoginDragLabel.getWidth() / 2 - (buildLabel.getText().length() * 11)/2,
-                2,(buildLabel.getText().length() * 17), 25);
-        LoginDragLabel.add(buildLabel);
-        loginLabel.add(LoginDragLabel);
 
         nameField = new JTextField(20);
         nameField.setToolTipText("Username");
@@ -1259,7 +1242,7 @@ public class CyderMain{
         nameField.setBorder(BorderFactory.createEmptyBorder());
         nameField.setOpaque(false);
 
-        loginLabel.add(nameField);
+        loginFrame.getContentPane().add(nameField);
 
         pass = new JPasswordField();
         pass.setToolTipText("Password");
@@ -1299,7 +1282,7 @@ public class CyderMain{
         pass.setBorder(BorderFactory.createEmptyBorder());
         pass.setOpaque(false);
 
-        loginLabel.add(pass);
+        loginFrame.getContentPane().add(pass);
 
         newUserLabel = new JLabel("Don't have an account?", SwingConstants.CENTER);
         newUserLabel.setFont(new Font("tahoma",Font.BOLD,18));
@@ -1325,7 +1308,7 @@ public class CyderMain{
 
         newUserLabel.setBounds(89,425,262,33);
 
-        loginLabel.add(newUserLabel);
+        loginFrame.getContentPane().add(newUserLabel);
 
         loginFrame.addWindowListener(new WindowAdapter() {
             public void windowOpened(WindowEvent e) {
@@ -1339,8 +1322,8 @@ public class CyderMain{
         mainGeneralUtil.startAnimation(loginFrame);
 
         if (directories != null && directories.length == 0)
-            notify("<html>Psssst! Create a user,<br/>" + System.getProperty("user.name") + "</html>",
-                2000, Notification.TOP_ARROW, Notification.TOP_VANISH, loginLabel, 230);
+            loginFrame.notify("<html>Psssst! Create a user,<br/>" + System.getProperty("user.name") + "</html>",
+                    2000, Notification.TOP_ARROW, Notification.TOP_START, Notification.TOP_VANISH, 230);
     }
 
     private void recognize(String Username, char[] Password) {
@@ -1381,8 +1364,8 @@ public class CyderMain{
                 nameField.setText("");
                 pass.setText("");
                 nameField.requestFocusInWindow();
-                notify("Could not recognize user",
-                        2000, Notification.TOP_ARROW, Notification.TOP_VANISH, loginLabel, 280);
+                loginFrame.notify("Could not recognize user",
+                        2000, Notification.TOP_ARROW, Notification.TOP_START, Notification.TOP_VANISH, 280);
             }
 
             else {
@@ -1645,7 +1628,6 @@ public class CyderMain{
 
                         switch (count) {
                             case 0:
-                                loginLabel.setBounds(0,0,440,520);
                                 loginLabel2.setBounds(440,0,440,520);
                                 
                                 Thread.sleep(scrollDelay);
@@ -2873,6 +2855,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
+                loginFrame.inform("This is a test to see how long the notifcation thingy can be before getting cut off","Test",500,200);
                 new TestClass(outputArea);
             }
 
@@ -3654,6 +3637,7 @@ public class CyderMain{
         colorBlock.setBackground(mainGeneralUtil.navy);
         colorBlock.setFocusable(false);
         colorBlock.setCursor(null);
+        colorBlock.setBackground(mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Foreground")));
         colorBlock.setToolTipText("Color Preview");
         colorBlock.setBorder(new LineBorder(mainGeneralUtil.navy, 5, false));
         colorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 120);
@@ -3661,7 +3645,7 @@ public class CyderMain{
 
         JTextField rgbField = new JTextField(mainGeneralUtil.navy.getRed() + "," + mainGeneralUtil.navy.getGreen() + "," + mainGeneralUtil.navy.getBlue());
 
-        JTextField hexField = new JTextField(String.format("#%02X%02X%02X", mainGeneralUtil.navy.getRed(), mainGeneralUtil.navy.getGreen(), mainGeneralUtil.navy.getBlue()).replace("#",""));
+        JTextField hexField = new JTextField(mainGeneralUtil.getUserData("Foreground"));
         hexField.setForeground(mainGeneralUtil.navy);
         hexField.setFont(mainGeneralUtil.weatherFontBig);
         hexField.setBackground(new Color(0,0,0,0));
@@ -3690,6 +3674,8 @@ public class CyderMain{
         rgbField.setBackground(new Color(0,0,0,0));
         rgbField.setSelectionColor(mainGeneralUtil.selectionColor);
         rgbField.setToolTipText("RGB Value");
+        Color c = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Foreground"));
+        rgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
         rgbField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
         JTextField finalRgbField1 = rgbField;
         rgbField.addKeyListener(new KeyAdapter() {
@@ -4178,12 +4164,14 @@ public class CyderMain{
         colorBlock.setFocusable(false);
         colorBlock.setCursor(null);
         colorBlock.setToolTipText("Color Preview");
+        colorBlock.setBackground(mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")));
         colorBlock.setBorder(new LineBorder(mainGeneralUtil.navy, 5, false));
         colorBlock.setBounds(630, 380, 40, 100);
         switchingPanel.add(colorBlock);
 
         JTextField hexField = new JTextField(String.format("#%02X%02X%02X", mainGeneralUtil.navy.getRed(), mainGeneralUtil.navy.getGreen(), mainGeneralUtil.navy.getBlue()).replace("#",""));
         hexField.setForeground(mainGeneralUtil.navy);
+        hexField.setText(mainGeneralUtil.getUserData("Background"));
         hexField.setFont(mainGeneralUtil.weatherFontSmall);
         hexField.setBackground(new Color(255,255,255));
         hexField.setSelectionColor(mainGeneralUtil.selectionColor);
@@ -4619,48 +4607,6 @@ public class CyderMain{
         }
     }
 
-    //todo remove this once loginFrame is cyderFrame
-    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLabel parent, int width) {
-        if (consoleNotification != null && consoleNotification.isVisible())
-            consoleNotification.kill();
-
-        consoleNotification = new Notification();
-
-        int w = width;
-        int h = 40;
-
-        int lastIndex = 0;
-
-        while (lastIndex != -1){
-
-            lastIndex = htmltext.indexOf("<br/>",lastIndex);
-
-            if (lastIndex != -1){
-                h += 30;
-                lastIndex += "<br/>".length();
-            }
-        }
-
-        if (h == 40)
-            h = 30;
-
-        consoleNotification.setWidth(w);
-        consoleNotification.setHeight(h);
-        consoleNotification.setArrow(arrowDir);
-
-        JLabel text = new JLabel();
-        text.setText(htmltext);
-        text.setFont(mainGeneralUtil.weatherFontSmall);
-        text.setForeground(mainGeneralUtil.navy);
-        text.setBounds(14,10,w * 2,h);
-        consoleNotification.add(text);
-        consoleNotification.setBounds(parent.getWidth() / 2 - (w/2),30,w * 2,h * 2);
-        parent.add(consoleNotification,1,0);
-        parent.repaint();
-
-        consoleNotification.vanish(vanishDir, parent, delay);
-    }
-
     //todo remove once consoleframe extends cyderframe
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
         if (consoleNotification != null && consoleNotification.isVisible())
@@ -4702,8 +4648,4 @@ public class CyderMain{
 
         consoleNotification.vanish(vanishDir, parent, delay);
     }
-
-    //todo center console clock label and use swingconstants.center to center the seconds if enabled
-
-    //todo holding down ctrl paints a cross on the horizontal and vertical axis, holding down ctrl + shift puts duke in the middle too
 }

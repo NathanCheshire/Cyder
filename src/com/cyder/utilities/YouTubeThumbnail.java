@@ -1,22 +1,19 @@
 package com.cyder.utilities;
 
 import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
-//todo remove swing dependency
-
 public class YouTubeThumbnail {
-    private JFrame yttnFrame;
+    private CyderFrame yttnFrame;
     private CyderButton getYTTN;
     private JTextField yttnField;
 
@@ -29,44 +26,25 @@ public class YouTubeThumbnail {
         if (yttnFrame != null)
             yttnGeneralUtil.closeAnimation(yttnFrame);
 
-        yttnFrame = new JFrame();
-
-        yttnFrame.setResizable(false);
-
+        yttnFrame = new CyderFrame(600,250,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         yttnFrame.setTitle("YouTube Thumbnail");
 
-        yttnFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        yttnFrame.setIconImage(yttnGeneralUtil.getCyderIcon().getImage());
-
-        JPanel ParentPanel = new JPanel();
-
-        ParentPanel.setLayout(new BoxLayout(ParentPanel,BoxLayout.Y_AXIS));
-
         JLabel VideoID = new JLabel("Enter a valid YouTube video ID");
-
         VideoID.setFont(yttnGeneralUtil.weatherFontBig);
-
         VideoID.setForeground(yttnGeneralUtil.navy);
-
-        JPanel TopPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        TopPanel.add(VideoID);
-
-        ParentPanel.add(TopPanel);
+        VideoID.setBounds(40,40,600,40);
+        yttnFrame.getContentPane().add(VideoID);
 
         yttnField = new JTextField(30);
-
+        yttnField.setSelectionColor(yttnGeneralUtil.selectionColor);
         yttnField.setBorder(new LineBorder(yttnGeneralUtil.navy,5,false));
-
         yttnField.addActionListener(e -> getYTTN.doClick());
-
         yttnField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                if(yttnField.getText().length() >= 11 && !(evt.getKeyChar()== KeyEvent.VK_DELETE || evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
-                    yttnGeneralUtil.beep();
-                    evt.consume();
-                }
+            if(yttnField.getText().length() >= 11 && !(evt.getKeyChar()== KeyEvent.VK_DELETE || evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+                yttnGeneralUtil.beep();
+                evt.consume();
+            }
             }
         });
 
@@ -92,152 +70,64 @@ public class YouTubeThumbnail {
         });
 
         yttnField.setFont(yttnGeneralUtil.weatherFontSmall);
-
         yttnField.setBorder(new LineBorder(yttnGeneralUtil.navy,5,false));
-
-        JPanel MiddlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        MiddlePanel.add(yttnField);
-
-        ParentPanel.add(MiddlePanel);
+        yttnField.setBounds(150,120,300,40);
+        yttnFrame.getContentPane().add(yttnField);
 
         getYTTN = new CyderButton("Get Thumbnail");
-
         getYTTN.setBorder(new LineBorder(yttnGeneralUtil.navy,5,false));
-
         getYTTN.setColors(yttnGeneralUtil.regularRed);
-
         getYTTN.setFocusPainted(false);
-
         getYTTN.setBackground(yttnGeneralUtil.regularRed);
-
         getYTTN.setFont(yttnGeneralUtil.weatherFontSmall);
-
-        getYTTN.addActionListener(e -> {
-            yttnGeneralUtil.closeAnimation(yttnFrame);
-
-            yttnFrame.dispose();
-
-            String YouTubeID = yttnField.getText();
-
-            if (YouTubeID.length() < 11) {
-                yttnGeneralUtil.inform("Sorry, " + yttnGeneralUtil.getUsername() + ", but that's not a valid YouTube video ID.","", 400, 200);
-            }
-
-            else {
-                String YouTubeURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
-                YouTubeURL = YouTubeURL.replace("REPLACE", YouTubeID);
-                URL url;
-
-                try {
-                    url = new URL(YouTubeURL);
-
-                    BufferedImage Thumbnail = ImageIO.read(url);
-
-                    JFrame thumbnailFrame = new JFrame();
-
-                    thumbnailFrame.setUndecorated(true);
-
-                    thumbnailFrame.setTitle(YouTubeID);
-
-                    thumbnailFrame.addMouseMotionListener(new MouseMotionListener() {
-                        @Override
-                        public void mouseDragged(MouseEvent e) {
-                            int x = e.getXOnScreen();
-                            int y = e.getYOnScreen();
-
-                            if (thumbnailFrame != null && thumbnailFrame.isFocused()) {
-                                thumbnailFrame.setLocation(x - xMouse, y - yMouse);
-                            }
-                        }
-
-                        @Override
-                        public void mouseMoved(MouseEvent e) {
-                            xMouse = e.getX();
-                            yMouse = e.getY();
-                        }
-                    });
-
-                    thumbnailFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-                    JPanel parentPanel = new JPanel();
-
-                    parentPanel.setBorder(new LineBorder(yttnGeneralUtil.navy,10,false));
-
-                    parentPanel.setLayout(new BorderLayout());
-
-                    thumbnailFrame.setContentPane(parentPanel);
-
-                    JLabel PictureLabel = new JLabel(new ImageIcon(Thumbnail));
-
-                    PictureLabel.setToolTipText("Open video " + YouTubeID);
-
-                    PictureLabel.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            yttnGeneralUtil.internetConnect("https://www.youtube.com/watch?v=" + YouTubeID);
-                        }
-                    });
-
-                    parentPanel.add(PictureLabel, BorderLayout.PAGE_START);
-
-                    CyderButton closeYT = new CyderButton("Close");
-
-                    closeYT.setColors(yttnGeneralUtil.regularRed);
-
-                    closeYT.setBorder(new LineBorder(yttnGeneralUtil.navy,5,false));
-
-                    closeYT.setFocusPainted(false);
-
-                    closeYT.setBackground(yttnGeneralUtil.regularRed);
-
-                    closeYT.setFont(yttnGeneralUtil.weatherFontSmall);
-
-                    closeYT.addActionListener(ev -> yttnGeneralUtil.closeAnimation(thumbnailFrame));
-
-                    closeYT.setSize(thumbnailFrame.getX(),20);
-
-                    parentPanel.add(closeYT,BorderLayout.PAGE_END);
-
-                    parentPanel.repaint();
-
-                    thumbnailFrame.pack();
-
-                    thumbnailFrame.setVisible(true);
-
-                    thumbnailFrame.setLocationRelativeTo(null);
-
-                    thumbnailFrame.setResizable(false);
-
-                    thumbnailFrame.setIconImage(yttnGeneralUtil.getCyderIcon().getImage());
-                }
-
-                catch (Exception exc) {
-                    yttnGeneralUtil.inform("Sorry, " + yttnGeneralUtil.getUsername() + ", but that's not a valid YouTube video ID.","", 400, 200);
-                }
-            }
-        });
-
-        JPanel ButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        ButtonPanel.add(getYTTN);
-
-        ParentPanel.add(ButtonPanel);
-
-        ParentPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-
-        yttnFrame.add(ParentPanel);
-
-        yttnFrame.pack();
+        getYTTN.addActionListener(e -> getYTTNAction());
+        getYTTN.setBounds(150,170,300,40);
+        yttnFrame.getContentPane().add(getYTTN);
 
         yttnFrame.setLocationRelativeTo(null);
-
         yttnFrame.setVisible(true);
-
-        yttnFrame.setAlwaysOnTop(true);
-
-        yttnFrame.setAlwaysOnTop(false);
-
         yttnField.requestFocus();
+    }
+
+    private void getYTTNAction() {
+        String YouTubeID = yttnField.getText();
+
+        if (YouTubeID.length() < 11)
+            yttnFrame.inform("Sorry, " + yttnGeneralUtil.getUsername() + ", but that's not a valid YouTube video ID.","Invalid", 400, 200);
+
+        else {
+            String YouTubeURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
+            YouTubeURL = YouTubeURL.replace("REPLACE", YouTubeID);
+            URL url;
+
+            try {
+                url = new URL(YouTubeURL);
+
+                BufferedImage Thumbnail = ImageIO.read(url);
+
+                CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(), Thumbnail.getHeight(), new ImageIcon(Thumbnail));
+                thumbnailFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
+                thumbnailFrame.setTitle(YouTubeID);
+
+                JLabel PictureLabel = new JLabel();
+                PictureLabel.setToolTipText("Open video " + YouTubeID);
+                PictureLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        yttnGeneralUtil.internetConnect("https://www.youtube.com/watch?v=" + YouTubeID);
+                    }
+                });
+                PictureLabel.setBounds(0, 0, Thumbnail.getWidth(), Thumbnail.getHeight());
+                thumbnailFrame.getContentPane().add(PictureLabel);
+
+                thumbnailFrame.setVisible(true);
+                thumbnailFrame.setLocationRelativeTo(yttnFrame);
+                yttnGeneralUtil.closeAnimation(yttnFrame);
+            }
+
+            catch (Exception exc) {
+                yttnFrame.inform("Sorry, " + yttnGeneralUtil.getUsername() + ", but that's not a valid YouTube video ID.","Invalid", 400, 200);
+            }
+        }
     }
 }

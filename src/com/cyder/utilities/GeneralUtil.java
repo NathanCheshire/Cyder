@@ -87,18 +87,15 @@ public class GeneralUtil {
     private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src/com/cyder/io/pictures/CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
     private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src/com/cyder/io/pictures/CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 
-    //cyder version
-    private String cyderVer = "Soultree"; //todo make this it's own file that is read in on startup
-
     //uservars
     private LinkedList<NST> userData = new LinkedList<>();
     private static String userUUID;
     private static String username;
     private static Color usercolor;
     private static Font userfont;
-    private String os;
-    private int currentBackgroundIndex = 0;
-    private File[] validBackgroundPaths;
+    private static String os;
+    private static int currentBackgroundIndex = 0;
+    private static File[] validBackgroundPaths;
     private boolean consoleClock;
 
     //weather vars
@@ -121,17 +118,11 @@ public class GeneralUtil {
     private int screenWidth;
     private int screenHeight;
 
-    //todo make inform it's own class that uses a cyder frame, crops the background image,
-    // and gets a color that works for the background gotten
+    //todo remove once inform util is done
     private int xMouse;
     private int yMouse;
 
     //console orientation var
-
-    //todo use enums instead of all constants, make enums package
-    //todo make color utils
-    //todo separate utils from widgets in utils package
-
     public static int CYDER_UP = 0;
     public static int CYDER_RIGHT = 1;
     public static int CYDER_DOWN = 2;
@@ -424,7 +415,15 @@ public class GeneralUtil {
     public ImageIcon getScaledCyderIconBlink() {return this.scaledCyderIconBlink;}
 
     public String getCyderVer() {
-        return this.cyderVer;
+        try (BufferedReader br = new BufferedReader(new FileReader("src/Title.txt"))) {
+            return br.readLine();
+        }
+
+        catch (Exception e) {
+            handle(e);
+        }
+
+        return null;
     }
 
     public String fillString(int count, String c) {
@@ -865,94 +864,37 @@ public class GeneralUtil {
         colorFrame.setLocationRelativeTo(null);
     }
 
-    public Color hextorgbColor(String hex) { return new Color(Integer.valueOf(hex.substring(0,2),16),Integer.valueOf(hex.substring(2,4),16),Integer.valueOf(hex.substring(4,6),16)); }
-    public String hextorgbString(String hex) { return Integer.valueOf(hex.substring(0,2),16) + "," + Integer.valueOf(hex.substring(2,4),16) + "," + Integer.valueOf(hex.substring(4,6),16); }
-    public String rgbtohexString(Color c) { return String.format("%02X%02X%02X", c.getRed(), c.getGreen(), c.getBlue()); }
+    public Color hextorgbColor(String hex) {
+        return new Color(Integer.valueOf(hex.substring(0,2),16),Integer.valueOf(hex.substring(2,4),16),Integer.valueOf(hex.substring(4,6),16));
+    }
+    public String hextorgbString(String hex) {
+        return Integer.valueOf(hex.substring(0,2),16) + "," + Integer.valueOf(hex.substring(2,4),16) + "," + Integer.valueOf(hex.substring(4,6),16);
+    }
+    public String rgbtohexString(Color c) {
+        return String.format("%02X%02X%02X", c.getRed(), c.getGreen(), c.getBlue());
+    }
 
-    public void inform(String message, String title, int width, int height) {
+    public void inform(String text, String title, int width, int height) {
         try {
-            JFrame informFrame = new JFrame();
-            informFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            BufferedImage back = resizeImage(width,height,getCurrentBackground());
+
+            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(back));
             informFrame.setTitle(title);
-            informFrame.setSize(width, height);
-            informFrame.setUndecorated(true);
-            informFrame.setBackground(new Color(52,70,84));
 
-            JLabel consoleLabel = new JLabel();
-            informFrame.setContentPane(consoleLabel);
-
-            informFrame.addMouseMotionListener(new MouseMotionListener() {
-                @Override
-                public void mouseDragged(MouseEvent e) {
-                    int x = e.getXOnScreen();
-                    int y = e.getYOnScreen();
-
-                    if (informFrame != null && informFrame.isFocused()) {
-                        informFrame.setLocation(x - xMouse, y - yMouse);
-                    }
-                }
-
-                @Override
-                public void mouseMoved(MouseEvent e) {
-                    xMouse = e.getX();
-                    yMouse = e.getY();
-                }
-            });
-
-            JLabel desc = new JLabel("<html><div style='text-align: center;'>" + message + "</div></html>");
+            JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
 
             desc.setHorizontalAlignment(JLabel.CENTER);
             desc.setVerticalAlignment(JLabel.CENTER);
+            ImageUtil iu = new ImageUtil();
+            desc.setForeground(iu.getDominantColorOpposite(back));
+            desc.setFont(weatherFontSmall.deriveFont(22f));
+            desc.setBounds(10, 35, width - 20, height - 35 * 2);
 
-            desc.setForeground(vanila);
-
-            desc.setFont(weatherFontSmall);
-
-            desc.setBounds(10, 10, width - 20, height - 100);
-
-            JLabel dismiss = new JLabel("Dismiss");
-
-            dismiss.setHorizontalAlignment(JLabel.CENTER);
-            dismiss.setVerticalAlignment(JLabel.CENTER);
-
-            dismiss.setForeground(vanila);
-
-            dismiss.setFont(weatherFontBig);
-
-            dismiss.setBounds(20, height - 70, width - 20, 40);
-
-            dismiss.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    closeAnimation(informFrame);
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    dismiss.setForeground(regularRed);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    dismiss.setForeground(vanila);
-                }
-            });
-
-            consoleLabel.add(desc);
-
-            consoleLabel.add(dismiss);
-
-            consoleLabel.setBorder(new LineBorder(navy,5,false));
+            informFrame.getContentPane().add(desc);
 
             informFrame.setVisible(true);
-
             informFrame.setLocationRelativeTo(null);
-
             informFrame.setAlwaysOnTop(true);
-
-            informFrame.setResizable(false);
-
-            informFrame.setIconImage(getCyderIcon().getImage());
         }
 
         catch (Exception e) {
@@ -1704,8 +1646,6 @@ public class GeneralUtil {
                 return data.getDescription();
             }
         }
-
-
 
         return null;
     }

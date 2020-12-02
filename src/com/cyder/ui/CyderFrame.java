@@ -1,6 +1,7 @@
 package com.cyder.ui;
 
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -131,4 +132,31 @@ public class CyderFrame extends JFrame {
         frameNotification.vanish(vanishDir, this.getContentPane(), delay);
     }
 
+    public void inform(String text, String title, int width, int height) {
+        try {
+            BufferedImage back = fGeneralUtil.resizeImage(width,height,fGeneralUtil.getCurrentBackground());
+
+            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(back));
+            informFrame.setTitle(title);
+
+            JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
+
+            desc.setHorizontalAlignment(JLabel.CENTER);
+            desc.setVerticalAlignment(JLabel.CENTER);
+            ImageUtil iu = new ImageUtil();
+            desc.setForeground(iu.getDominantColorOpposite(back));
+            desc.setFont(fGeneralUtil.weatherFontSmall.deriveFont(22f));
+            desc.setBounds(10, 35, width - 20, height - 35 * 2);
+
+            informFrame.getContentPane().add(desc);
+
+            informFrame.setVisible(true);
+            informFrame.setLocationRelativeTo(this);
+            informFrame.setAlwaysOnTop(true);
+        }
+
+        catch (Exception e) {
+            fGeneralUtil.handle(e);
+        }
+    }
 }
