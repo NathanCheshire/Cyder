@@ -1,8 +1,9 @@
-package com.cyder.utilities;
+package com.cyder.widgets;
 
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderSliderUI;
 import com.cyder.ui.Notification;
+import com.cyder.utilities.GeneralUtil;
 import javazoom.jl.player.Player;
 
 import javax.sound.sampled.AudioSystem;

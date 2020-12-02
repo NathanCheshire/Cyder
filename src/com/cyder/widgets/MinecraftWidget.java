@@ -1,6 +1,7 @@
-package com.cyder.utilities;
+package com.cyder.widgets;
 
 import com.cyder.ui.CyderFrame;
+import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

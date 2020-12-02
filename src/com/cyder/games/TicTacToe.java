@@ -477,17 +477,17 @@ public class TicTacToe {
 
     private void TTTCheckWin() {
         if (HasPlayerWon("X")) {
-            tttGeneralUtil.inform("X's have won the game! Congratulations!","",200,200);
+            tttFrame.inform("X's have won the game! Congratulations!","",200,200);
             tttReset.doClick();
         }
 
         else if (HasPlayerWon("O")) {
-            tttGeneralUtil.inform("O's have won the game! Congratulations!","",200,200);
+            tttFrame.inform("O's have won the game! Congratulations!","",200,200);
             tttReset.doClick();
         }
 
         else if (TTTBoardIsFull()) {
-            tttGeneralUtil.inform("The game ended with no winners.","",200,200);
+            tttFrame.inform("The game ended with no winners.","",200,200);
             tttReset.doClick();
         }
     }

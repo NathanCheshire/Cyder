@@ -1,7 +1,8 @@
-package com.cyder.utilities;
+package com.cyder.widgets;
 
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
+import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -100,20 +101,20 @@ public class TempConverter {
                 double CalculationValue = Double.parseDouble(startingValue.getText());
 
                 if (oldKelvin.isSelected() && CalculationValue <= 0) {
-                    tempGeneralUtil.inform("Temperatures below absolute zero are imposible.","", 400, 200);
+                    temperatureFrame.inform("Temperatures below absolute zero are imposible.","", 400, 200);
                 }
 
                 else {
                     if (oldFahrenheit.isSelected()) {
                         if (newFahrenheit.isSelected())
-                            tempGeneralUtil.inform("Get out of here with that. Your value is already in Fahrenheit.","", 400, 200);
+                            temperatureFrame.inform("Get out of here with that. Your value is already in Fahrenheit.","", 400, 200);
 
                         else if (newCelsius.isSelected()) {
                             double CelsiusFromFahrenheit;
 
                             CelsiusFromFahrenheit = (CalculationValue - 32.0) / 1.8;
 
-                            tempGeneralUtil.inform( CalculationValue + " Fahrenheit converted to Celsius equals: "
+                            temperatureFrame.inform( CalculationValue + " Fahrenheit converted to Celsius equals: "
                                     + tempFormat.format(CelsiusFromFahrenheit),"", 400, 200);
 
                             startingValue.setText("");
@@ -128,7 +129,7 @@ public class TempConverter {
                             KelvinFromFahrenheit = (CalculationValue +459.67) * 5/9;
 
                             if (KelvinFromFahrenheit >= 0) {
-                                tempGeneralUtil.inform(CalculationValue + " Fahrenheit converted to Kelvin equals: "
+                                temperatureFrame.inform(CalculationValue + " Fahrenheit converted to Kelvin equals: "
                                         + tempFormat.format(KelvinFromFahrenheit),"", 400, 200);
 
                                 startingValue.setText("");
@@ -139,7 +140,7 @@ public class TempConverter {
                             }
 
                             else
-                                tempGeneralUtil.inform("Temperatures below absolute zero are imposible.","", 400, 200);
+                                temperatureFrame.inform("Temperatures below absolute zero are imposible.","", 400, 200);
                         }
                     }
 
@@ -149,7 +150,7 @@ public class TempConverter {
 
                             FahrenheitFromCelsius = (CalculationValue *1.8) + 32;
 
-                            tempGeneralUtil.inform(CalculationValue + " Celsius converted to Fahrenheit equals: "
+                            temperatureFrame.inform(CalculationValue + " Celsius converted to Fahrenheit equals: "
                                     + tempFormat.format(FahrenheitFromCelsius),"", 400, 200);
 
                             startingValue.setText("");
@@ -160,7 +161,7 @@ public class TempConverter {
                         }
 
                         else if (newCelsius.isSelected())
-                            tempGeneralUtil.inform("Get out of here with that. Your value is already in Celsius.","", 400, 200);
+                            temperatureFrame.inform("Get out of here with that. Your value is already in Celsius.","", 400, 200);
 
                         else if (newKelvin.isSelected()) {
                             double KelvinFromCelsius;
@@ -168,7 +169,7 @@ public class TempConverter {
                             KelvinFromCelsius = CalculationValue + 273.15 ;
 
                             if (KelvinFromCelsius >= 0) {
-                                tempGeneralUtil.inform(CalculationValue + " Celsius converted to Kelvin equals: "
+                                temperatureFrame.inform(CalculationValue + " Celsius converted to Kelvin equals: "
                                         + tempFormat.format(KelvinFromCelsius),"", 400, 200);
 
                                 startingValue.setText("");
@@ -179,7 +180,7 @@ public class TempConverter {
                             }
 
                             else
-                                tempGeneralUtil.inform("Temperatures below absolute zero are imposible.","", 400, 200);
+                                temperatureFrame.inform("Temperatures below absolute zero are imposible.","", 400, 200);
                         }
                     }
 
@@ -189,7 +190,7 @@ public class TempConverter {
 
                             FahrenheitFromKelvin = CalculationValue * 1.8 - 459.67;
 
-                            tempGeneralUtil.inform(CalculationValue + " Kelvin converted to Fahrenheit equals: "
+                            temperatureFrame.inform(CalculationValue + " Kelvin converted to Fahrenheit equals: "
                                     + tempFormat.format(FahrenheitFromKelvin),"", 400, 200);
 
                             startingValue.setText("");
@@ -204,7 +205,7 @@ public class TempConverter {
 
                             CelsiusFromKelvin = CalculationValue - 273.15;
 
-                            tempGeneralUtil.inform( CalculationValue + " Kelvin converted to Celsius equals: "
+                            temperatureFrame.inform( CalculationValue + " Kelvin converted to Celsius equals: "
                                     + tempFormat.format(CelsiusFromKelvin),"", 400, 200);
 
                             startingValue.setText("");
@@ -215,16 +216,16 @@ public class TempConverter {
                         }
 
                         else if (newKelvin.isSelected())
-                            tempGeneralUtil.inform("Get out of here with that. Your value is already in Kelvin","", 400, 200);
+                            temperatureFrame.inform("Get out of here with that. Your value is already in Kelvin","", 400, 200);
                     }
 
                     else
-                        tempGeneralUtil.inform("Please select your current temperature unit and the one you want to convet to.","", 400, 200);
+                        temperatureFrame.inform("Please select your current temperature unit and the one you want to convet to.","", 400, 200);
                 }
             }
 
             catch (Exception ex) {
-                tempGeneralUtil.inform("Your value must only contain numbers.","", 400, 200);
+                temperatureFrame.inform("Your value must only contain numbers.","", 400, 200);
             }
         });
 

@@ -1,7 +1,8 @@
-package com.cyder.utilities;
+package com.cyder.widgets;
 
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
+import com.cyder.utilities.GeneralUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

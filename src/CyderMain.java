@@ -7,6 +7,7 @@ import com.cyder.handler.TestClass;
 import com.cyder.threads.YoutubeThread;
 import com.cyder.ui.*;
 import com.cyder.utilities.*;
+import com.cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.Timer;
@@ -2619,6 +2620,7 @@ public class CyderMain{
                 mainGeneralUtil.systemProperties();
             }
 
+            //todo moving this
             else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
                 pixelateFile = mainGeneralUtil.getFile();
 
@@ -3336,7 +3338,7 @@ public class CyderMain{
             String newUsername = changeUsernameField.getText();
             if (!mainGeneralUtil.empytStr(newUsername)) {
                 changeUsername(newUsername);
-                mainGeneralUtil.inform("Username successfully changed","", 300, 200);
+                editUserFrame.inform("Username successfully changed","", 300, 200);
                 mainGeneralUtil.refreshUsername(consoleFrame);
                 changeUsernameField.setText("");
             }
@@ -3377,12 +3379,12 @@ public class CyderMain{
 
             if (newPassword.length > 4) {
                 changePassword(newPassword);
-                mainGeneralUtil.inform("Password successfully changed","", 300, 200);
+                editUserFrame.inform("Password successfully changed","", 300, 200);
                 changePasswordField.setText("");
             }
 
             else {
-                mainGeneralUtil.inform("Sorry, " + mainGeneralUtil.getUsername() + ", " +
+                editUserFrame.inform("Sorry, " + mainGeneralUtil.getUsername() + ", " +
                         "but your password must be greater than 4 characters for security reasons.","", 500, 300);
                 changePasswordField.setText("");
             }
@@ -3502,7 +3504,7 @@ public class CyderMain{
                 }
 
                 else {
-                    mainGeneralUtil.inform("Sorry, " + mainGeneralUtil.getUsername() + ", but you can only add PNGs and MP3s", "Error",400,200);
+                    editUserFrame.inform("Sorry, " + mainGeneralUtil.getUsername() + ", but you can only add PNGs and MP3s", "Error",400,200);
                 }
             }
 
@@ -3571,7 +3573,7 @@ public class CyderMain{
                     }
 
                     if (ClickedSelection.equalsIgnoreCase(mainGeneralUtil.getCurrentBackground().getName().replace(".png","")))
-                        mainGeneralUtil.inform("Unable to delete the background you are currently using","Error",400,150);
+                        editUserFrame.inform("Unable to delete the background you are currently using","Error",400,150);
 
                     else {
                         ClickedSelectionPath.delete();
@@ -4410,26 +4412,26 @@ public class CyderMain{
 
                 if (mainGeneralUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
                         || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
-                    mainGeneralUtil.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
+                    createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
                     newUserPassword.setText("");
                     newUserPasswordconf.setText("");
                 }
 
                 else if (alreadyExists) {
-                    mainGeneralUtil.inform("Sorry, but that username is already in use.\nPlease try a different one.", "", 400, 300);
+                    createUserFrame.inform("Sorry, but that username is already in use.\nPlease try a different one.", "", 400, 300);
                     newUserName.setText("");
                     newUserPassword.setText("");
                     newUserPasswordconf.setText("");
                 }
 
                 else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
-                    mainGeneralUtil.inform("Sorry, but your passwords did not match. Please try again.", "",400, 300);
+                    createUserFrame.inform("Sorry, but your passwords did not match. Please try again.", "",400, 300);
                     newUserPassword.setText("");
                     newUserPasswordconf.setText("");
                 }
 
                 else if (pass.length < 5) {
-                    mainGeneralUtil.inform("Sorry, but your password length should be greater than\n"
+                    createUserFrame.inform("Sorry, but your password length should be greater than\n"
                             + "four characters for security reasons. Please add more characters.", "", 400, 300);
 
                     newUserPassword.setText("");
@@ -4438,7 +4440,7 @@ public class CyderMain{
 
                 else {
                     if (createUserBackground == null) {
-                        mainGeneralUtil.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background", 700, 230);
+                        createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background", 700, 230);
                         createUserBackground = new File("src/com/cyder/io/pictures/bobby.png");
                     }
 
@@ -4490,7 +4492,7 @@ public class CyderMain{
 
                     mainGeneralUtil.closeAnimation(createUserFrame);
 
-                    mainGeneralUtil.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", 500, 300);
+                    createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", 500, 300);
 
                     if (consoleFrame != null)
                         mainGeneralUtil.closeAnimation(createUserFrame);

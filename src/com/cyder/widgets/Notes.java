@@ -1,7 +1,8 @@
-package com.cyder.utilities;
+package com.cyder.widgets;
 
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderScrollPane;
+import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;

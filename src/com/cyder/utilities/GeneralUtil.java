@@ -7,6 +7,7 @@ import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
+import com.cyder.widgets.MPEGPlayer;
 import javazoom.jl.player.Player;
 
 import javax.imageio.ImageIO;
@@ -117,10 +118,6 @@ public class GeneralUtil {
     //screen size vars
     private int screenWidth;
     private int screenHeight;
-
-    //todo remove once inform util is done
-    private int xMouse;
-    private int yMouse;
 
     //console orientation var
     public static int CYDER_UP = 0;
@@ -1023,23 +1020,7 @@ public class GeneralUtil {
 
             pixelFrame.setTitle("Approve Pixelation");
 
-            pixelFrame.addMouseMotionListener(new MouseMotionListener() {
-                @Override
-                public void mouseDragged(MouseEvent e) {
-                    int x = e.getXOnScreen();
-                    int y = e.getYOnScreen();
-
-                    if (pixelFrame != null && pixelFrame.isFocused()) {
-                        pixelFrame.setLocation(x - xMouse, y - yMouse);
-                    }
-                }
-
-                @Override
-                public void mouseMoved(MouseEvent e) {
-                    xMouse = e.getX();
-                    yMouse = e.getY();
-                }
-            });
+            //todo move to image utils and use cyderframe
 
             pixelFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -1120,10 +1101,6 @@ public class GeneralUtil {
         }
     }
 
-    public void here() {
-        inform("here","Here", 100, 100);
-    }
-
     public int getCurrentDowns() {
         return this.currentDowns;
     }
@@ -1197,7 +1174,7 @@ public class GeneralUtil {
         return this.validBackgroundPaths;
     }
 
-    protected void beep() {
+    public void beep() {
         Toolkit.getDefaultToolkit().beep();
     }
 
@@ -1690,7 +1667,7 @@ public class GeneralUtil {
 
                 if (getBackgroundX() > getScreenWidth() || getBackgroundY() > getScreenHeight()) {
                     inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too big " +
-                            "(That's what she said ahahahahah hahaha ha ha so funny).","", 700, 200);
+                            "(That's what she said ahahahahah hahaha ha ha so funny).","System Action", 700, 200);
                 }
 
                 while (getBackgroundX() > getScreenWidth() || getBackgroundY() > getScreenHeight()) {
@@ -1709,7 +1686,7 @@ public class GeneralUtil {
                 }
 
                 if (getBackgroundX() < 600 || getBackgroundY() < 600) {
-                    inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too small.","", 700, 200);
+                    inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too small.","System Action", 700, 200);
                 }
 
                 while (getBackgroundX() < 600 || getBackgroundY() < 600) {

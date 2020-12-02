@@ -1,7 +1,9 @@
-package com.cyder.utilities;
+package com.cyder.widgets;
 
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
+import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.InternetProtocolUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -201,7 +203,7 @@ public class WeatherWidget {
                         useCustomLoc = true;
 
                         weatherGeneralUtil.closeAnimation(changeLocationFrame);
-                        weatherGeneralUtil.inform("Attempting to refresh and use the location \"" + locationString + "\" for weather.", "",400, 300);
+                        weatherFrame.inform("Attempting to refresh and use the location \"" + locationString + "\" for weather.", "",400, 300);
                         refreshWeatherNow();
                     }
 
