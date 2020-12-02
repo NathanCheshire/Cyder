@@ -4,13 +4,11 @@ import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -58,6 +56,13 @@ public class TimeUtil {
     //returns gmt offset for current loc, so slidell is -6, miami is -5
     public int getGMTOffsetHours() {
         return gmtOffset / 60 / 60;
+    }
+
+    public String weatherTime() {
+        Calendar cal = Calendar.getInstance();
+        Date Time = cal.getTime();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
+        return dateFormatter.format(Time);
     }
 
     private void initGMTOffset() {

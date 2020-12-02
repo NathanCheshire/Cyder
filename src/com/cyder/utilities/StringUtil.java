@@ -2,8 +2,11 @@ package com.cyder.utilities;
 
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class StringUtil {
@@ -402,5 +405,79 @@ public class StringUtil {
 
     public void printArr(Object[] arr) {
         for (Object o : arr) println(o);
+    }
+
+    public void logArgs(String[] cyderArgs) {
+        try {
+            if (cyderArgs.length == 0)
+                cyderArgs = new String[]{"Started by " + System.getProperty("user.name")};
+
+            File log = new File("src/CyderArgs.log");
+
+            if (!log.exists())
+                log.createNewFile();
+
+            BufferedReader br = new BufferedReader(new FileReader(log));
+
+            LinkedList<String> lines = new LinkedList<>();
+            String line;
+
+            while ((line = br.readLine()) != null)
+                lines.add(line);
+
+            br.close();
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(log,false));
+
+            String argsString = "";
+
+            for (int i = 0 ; i < cyderArgs.length ; i++) {
+                if (i != 0)
+                    argsString += ",";
+                argsString += cyderArgs[i];
+            }
+
+            InternetProtocolUtil ipu = new InternetProtocolUtil();
+
+            lines.push(new SimpleDateFormat("MM-dd-yy HH:mm:ss").format(new Date()) + " : " + argsString + " in " + ipu.getUserCity() + ", " + ipu.getUserState());
+
+            for (String lin : lines) {
+                bw.write(lin);
+                bw.newLine();
+            }
+
+            bw.flush();
+            bw.close();
+        }
+
+        catch (Exception e) {
+            stringGeneralUtil.staticHandle(e);
+        }
+    }
+
+    public void logToDo(String input) {
+        try {
+            if (input != null && !input.equals("") && !stringGeneralUtil.filter(input) && input.length() > 10 && !stringGeneralUtil.filter(input)) {
+                BufferedWriter sugWriter = new BufferedWriter(new FileWriter("src/com/cyder/io/text/add.txt", true));
+
+                sugWriter.write("User " + stringGeneralUtil.getUsername() + " at " + new TimeUtil().weatherTime() + " made the suggestion: ");
+                sugWriter.write(System.getProperty("line.separator"));
+
+                sugWriter.write(input);
+
+                sugWriter.write(System.getProperty("line.separator"));
+                sugWriter.write(System.getProperty("line.separator"));
+
+                sugWriter.flush();
+                sugWriter.close();
+
+                println("Request registered.");
+                sugWriter.close();
+            }
+        }
+
+        catch (Exception ex) {
+            stringGeneralUtil.handle(ex);
+        }
     }
 }

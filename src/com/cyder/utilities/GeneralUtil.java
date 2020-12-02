@@ -73,8 +73,9 @@ public class GeneralUtil {
     public Color regularRed = new Color(223,85,83);
     public Color intellijPink = new Color(236,64,122);
     public Color consoleColor = new Color(39, 40, 34);
-    public Color tooltipBorderColor = new Color(0,0,0);
+    public Color tooltipBorderColor = new Color(26, 32, 51);
     public Color tooltipForegroundColor = new Color(85,85,255);
+    public Color tooltipBackgroundColor = new Color(0,0,0);
     public Color vanila = new Color(252, 251, 227);
     public Color tttblue = new Color(71, 81, 117);
     public Color navy = new Color(26, 32, 51);
@@ -86,14 +87,14 @@ public class GeneralUtil {
     private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src/com/cyder/io/pictures/CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 
     //cyder version
-    private String cyderVer = "Soultree";
+    private String cyderVer = "Soultree"; //todo make this it's own file that is read in on startup
 
     //uservars
     private LinkedList<NST> userData = new LinkedList<>();
-    private String userUUID;
-    private String username;
-    private Color usercolor;
-    private Font userfont;
+    private static String userUUID;
+    private static String username;
+    private static Color usercolor;
+    private static Font userfont;
     private String os;
     private int currentBackgroundIndex = 0;
     private File[] validBackgroundPaths;
@@ -127,7 +128,6 @@ public class GeneralUtil {
     //console orientation var
 
     //todo use enums instead of all constants, make enums package
-
     //todo make color utils
     //todo separate utils from widgets in utils package
 
@@ -326,12 +326,6 @@ public class GeneralUtil {
     public String weatherTime() {
         Date Time = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa zzz EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
-        return dateFormatter.format(Time);
-    }
-
-    public String weatherThreadTime() {
-        Date Time = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("h:maa zzz EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
         return dateFormatter.format(Time);
     }
 

@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.BorderUIResource;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -25,8 +26,6 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,6 +36,20 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo make it so all you can have is jar and system files and it'll create everything else such as dirs
+
+//todo move users out of cyder and into same dir as com
+
+//todo move file.txt to temp dir, file used for filechooser
+
+//todo barrel roll and switching console dir doesn't work in full screen
+
+//todo if we're using bobby because there are no background images, copy it to backgrounds
+
+//todo if a pref keyword doesn't exist in userdata, add it and set to default
+
+//todo on closing console frame if login open, close all other windows except login frame
+
 //todo put all background checking things in one thread
 //todo fix double chime on hour glitch
 //todo when doing confirmations through the console, pull it to front and then push it back
@@ -45,7 +58,7 @@ import java.util.concurrent.TimeUnit;
 //todo be able to set background to a solid color and make that an image and save it
 
 //todo utilize colors, fonts, font weights, and new lines now
-//<html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style="color:rgb(252, 251, 227)">fourth with color</p>
+// <html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style="color:rgb(252, 251, 227)">fourth with color</p>
 // <p style="font-family:verdana">fifth with font</p></html>
 
 //todo notes and textviewer non-swing dependent
@@ -113,6 +126,7 @@ public class CyderMain{
     private StringUtil stringUtil;
     private CyderAnimation animation;
     private Notes userNotes;
+    private TimeUtil timeUtil;
 
     //operation var
     private static ArrayList<String> operationList = new ArrayList<>();
@@ -168,12 +182,10 @@ public class CyderMain{
 
     //call constructor
     public static void main(String[] CA) {
-        new CyderMain();
-        logArgs(CA);
+        new CyderMain(CA);
     }
 
-    private CyderMain() {
-        //this adds a shutdown hook so that we always do certain things on exit
+    private CyderMain(String[] CA) {
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown,"exit-hook"));
 
         initObjects();
@@ -184,6 +196,8 @@ public class CyderMain{
         mainGeneralUtil.deleteTempDir();
         mainGeneralUtil.varInit();
 
+        stringUtil.logArgs(CA);
+
         backgroundProcessChecker();
 
         boolean nathanLenovo = mainGeneralUtil.compMACAddress(mainGeneralUtil.getMACAddress());
@@ -193,13 +207,11 @@ public class CyderMain{
             autoCypher();
         }
 
-        else if (!mainGeneralUtil.released()) {
+        else if (!mainGeneralUtil.released())
             System.exit(0);
-        }
 
-        else {
+        else
             login(false);
-        }
     }
 
     private void initObjects() {
@@ -207,6 +219,7 @@ public class CyderMain{
         animation = new CyderAnimation();
         stringUtil = new StringUtil();
         stringUtil.setOutputArea(outputArea);
+        timeUtil = new TimeUtil();
     }
 
     private void initSystemProperties() {
@@ -216,9 +229,9 @@ public class CyderMain{
 
     private void initUIManager() {
         //this sets up special looking tooltips
-        UIManager.put("ToolTip.background", mainGeneralUtil.consoleColor);
-        UIManager.put("ToolTip.border", mainGeneralUtil.tooltipBorderColor);
-        UIManager.put("ToolTip.font", mainGeneralUtil.tahoma);
+        UIManager.put("ToolTip.background", mainGeneralUtil.tooltipBackgroundColor);
+        UIManager.put("ToolTip.border", new BorderUIResource(BorderFactory.createLineBorder(mainGeneralUtil.tooltipBorderColor,2,true)));
+        UIManager.put("ToolTip.font", mainGeneralUtil.tahoma.deriveFont(22f));
         UIManager.put("ToolTip.foreground", mainGeneralUtil.tooltipForegroundColor);
     }
 
@@ -674,7 +687,7 @@ public class CyderMain{
                     else
                         consoleClockLabel.setText(mainGeneralUtil.consoleTime());
 
-                consoleClockLabel.setToolTipText(mainGeneralUtil.weatherThreadTime());
+                consoleClockLabel.setToolTipText(timeUtil.weatherTime());
 
             },0, 500, TimeUnit.MILLISECONDS);
 
@@ -1851,7 +1864,7 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("suggestion")) {
-                logToDo(input);
+                stringUtil.logToDo(input);
             }
 
             else if (desc.equalsIgnoreCase("addbackgrounds")) {
@@ -2463,6 +2476,7 @@ public class CyderMain{
             }
 
             else if (hasWord("random") && hasWord("youtube")) {
+                killAllYoutube();
                 println("How many isntances of the script do you want to start?");
                 inputField.requestFocus();
                 mainGeneralUtil.setUserInputMode(true);
@@ -3200,33 +3214,6 @@ public class CyderMain{
         else return ThisOp.contains(ThisComp + ' ');
     }
 
-    //todo move to separate handler
-    private void logToDo(String input) {
-        try {
-            if (input != null && !input.equals("") && !mainGeneralUtil.filter(input) && input.length() > 10 && !mainGeneralUtil.filter(input)) {
-                BufferedWriter sugWriter = new BufferedWriter(new FileWriter("src/com/cyder/io/text/add.txt", true));
-
-                sugWriter.write("User " + mainGeneralUtil.getUsername() + " at " + mainGeneralUtil.weatherThreadTime() + " made the suggestion: ");
-                sugWriter.write(System.getProperty("line.separator"));
-
-                sugWriter.write(input);
-
-                sugWriter.write(System.getProperty("line.separator"));
-                sugWriter.write(System.getProperty("line.separator"));
-
-                sugWriter.flush();
-                sugWriter.close();
-
-                println("Request registered.");
-                sugWriter.close();
-            }
-        }
-
-        catch (Exception ex) {
-            mainGeneralUtil.handle(ex);
-        }
-    }
-
     public void fib(int a, int b) {
         try {
             int c = a + b;
@@ -3304,9 +3291,6 @@ public class CyderMain{
         musicBackgroundSelectionList.setSelectionBackground(mainGeneralUtil.selectionColor);
     }
 
-    //todo barrel roll and switching console dir doesn't work in full screen
-    //todo inform you can only add png and mp3s if they select something else
-
     //Edit user vars
     private CyderFrame editUserFrame;
     private CyderScrollPane musicBackgroundScroll;
@@ -3340,7 +3324,7 @@ public class CyderMain{
         editUserFrame.getContentPane().add(switchingPanel);
 
         switchToPreferences();
-        prefsPanelIndex = 2;
+        prefsPanelIndex = 1; //todo remove me
 
         backwardPanel = new CyderButton("< Prev");
         backwardPanel.setBackground(mainGeneralUtil.regularRed);
@@ -3648,7 +3632,7 @@ public class CyderMain{
     }
 
     private void switchToFontAndColor() {
-        //todo copy from colorconverter and old font changer
+
     }
 
     ImageIcon selected = new ImageIcon("src/com/cyder/io/pictures/checkbox1.png");
@@ -3698,6 +3682,7 @@ public class CyderMain{
         switchingPanel.add(inputBorderLabel);
 
         JLabel introMusic = new JLabel();
+        introMusic.setToolTipText("Play intro music on start");
         introMusic.setHorizontalAlignment(JLabel.CENTER);
         introMusic.setSize(100,100);
         introMusic.setIcon((mainGeneralUtil.getUserData("IntroMusic").equals("1") ? selected : notSelected));
@@ -3713,6 +3698,7 @@ public class CyderMain{
         switchingPanel.add(introMusic);
 
         JLabel debugWindows = new JLabel();
+        debugWindows.setToolTipText("Show debug windows on start");
         debugWindows.setHorizontalAlignment(JLabel.CENTER);
         debugWindows.setSize(100,100);
         debugWindows.setIcon((mainGeneralUtil.getUserData("DebugWindows").equals("1") ? selected : notSelected));
@@ -3728,6 +3714,7 @@ public class CyderMain{
         switchingPanel.add(debugWindows);
 
         JLabel randBackgroundLabel = new JLabel();
+        randBackgroundLabel.setToolTipText("Choose a random background on start");
         randBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
         randBackgroundLabel.setSize(100,100);
         randBackgroundLabel.setIcon((mainGeneralUtil.getUserData("RandomBackground").equals("1") ? selected : notSelected));
@@ -3743,6 +3730,7 @@ public class CyderMain{
         switchingPanel.add(randBackgroundLabel);
 
         JLabel outputBorder = new JLabel();
+        outputBorder.setToolTipText("Draw a border around the output area");
         outputBorder.setHorizontalAlignment(JLabel.CENTER);
         outputBorder.setSize(100,100);
         outputBorder.setIcon((mainGeneralUtil.getUserData("OutputBorder").equals("1") ? selected : notSelected));
@@ -3767,6 +3755,7 @@ public class CyderMain{
         switchingPanel.add(outputBorder);
 
         JLabel inputBorder = new JLabel();
+        inputBorder.setToolTipText("Draw a border around the input field");
         inputBorder.setHorizontalAlignment(JLabel.CENTER);
         inputBorder.setSize(100,100);
         inputBorder.setIcon((mainGeneralUtil.getUserData("InputBorder").equals("1") ? selected : notSelected));
@@ -3827,6 +3816,7 @@ public class CyderMain{
         switchingPanel.add(inputFillLabel);
 
         JLabel hourlyChimes = new JLabel();
+        hourlyChimes.setToolTipText("Chime every hour");
         hourlyChimes.setHorizontalAlignment(JLabel.CENTER);
         hourlyChimes.setSize(100,100);
         hourlyChimes.setIcon((mainGeneralUtil.getUserData("HourlyChimes").equals("1") ? selected : notSelected));
@@ -3842,6 +3832,7 @@ public class CyderMain{
         switchingPanel.add(hourlyChimes);
 
         JLabel silenceErrors = new JLabel();
+        silenceErrors.setToolTipText("Hide errors that occur");
         silenceErrors.setHorizontalAlignment(JLabel.CENTER);
         silenceErrors.setSize(100,100);
         silenceErrors.setIcon((mainGeneralUtil.getUserData("SilenceErrors").equals("1") ? selected : notSelected));
@@ -3858,6 +3849,7 @@ public class CyderMain{
         switchingPanel.add(silenceErrors);
 
         JLabel fullscreen = new JLabel();
+        fullscreen.setToolTipText("Toggle between fullscreen (Extremely Experimental)");
         fullscreen.setHorizontalAlignment(JLabel.CENTER);
         fullscreen.setSize(100,100);
         fullscreen.setIcon((mainGeneralUtil.getUserData("FullScreen").equals("1") ? selected : notSelected));
@@ -3880,6 +3872,7 @@ public class CyderMain{
         switchingPanel.add(fullscreen);
 
         JLabel outputFill = new JLabel();
+        outputFill.setToolTipText("Fill the output area with your custom color");
         outputFill.setHorizontalAlignment(JLabel.CENTER);
         outputFill.setSize(100,100);
         outputFill.setIcon((mainGeneralUtil.getUserData("OutputFill").equals("1") ? selected : notSelected));
@@ -3887,6 +3880,7 @@ public class CyderMain{
         switchingPanel.add(outputFill);
 
         JLabel inputFill = new JLabel();
+        inputFill.setToolTipText("Fill the input field with your custom color");
         inputFill.setHorizontalAlignment(JLabel.CENTER);
         inputFill.setSize(100,100);
         inputFill.setIcon((mainGeneralUtil.getUserData("InputFill").equals("1") ? selected : notSelected));
@@ -3908,6 +3902,7 @@ public class CyderMain{
         switchingPanel.add(showSecondsLabel);
 
         JLabel clockOnConsole = new JLabel();
+        clockOnConsole.setToolTipText("Show clock at top of main window");
         clockOnConsole.setHorizontalAlignment(JLabel.CENTER);
         clockOnConsole.setSize(100,100);
         clockOnConsole.setIcon((mainGeneralUtil.getUserData("ClockOnConsole").equals("1") ? selected : notSelected));
@@ -3936,6 +3931,7 @@ public class CyderMain{
         switchingPanel.add(clockOnConsole);
 
         JLabel showSeconds = new JLabel();
+        showSeconds.setToolTipText("Show seconds on console clock");
         showSeconds.setHorizontalAlignment(JLabel.CENTER);
         showSeconds.setSize(100,100);
         showSeconds.setIcon((mainGeneralUtil.getUserData("ShowSeconds").equals("1") ? selected : notSelected));
@@ -4001,25 +3997,44 @@ public class CyderMain{
             }
         });
 
-        //todo color field with preview for filling/border
+        JLabel hexLabel = new JLabel("Hex Code");
+        hexLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        hexLabel.setForeground(mainGeneralUtil.navy);
+        hexLabel.setHorizontalAlignment(JLabel.CENTER);
+        hexLabel.setBounds(434, 380,150, 30);
+        switchingPanel.add(hexLabel);
 
+        JTextField colorBlock = new JTextField();
+        colorBlock.setBackground(mainGeneralUtil.navy);
+        colorBlock.setFocusable(false);
+        colorBlock.setCursor(null);
+        colorBlock.setToolTipText("Color Preview");
+        colorBlock.setBorder(new LineBorder(mainGeneralUtil.navy, 5, false));
+        colorBlock.setBounds(630, 380, 40, 100);
+        switchingPanel.add(colorBlock);
+
+        JTextField hexField = new JTextField(String.format("#%02X%02X%02X", mainGeneralUtil.navy.getRed(), mainGeneralUtil.navy.getGreen(), mainGeneralUtil.navy.getBlue()).replace("#",""));
+        hexField.setForeground(mainGeneralUtil.navy);
+        hexField.setFont(mainGeneralUtil.weatherFontSmall);
+        hexField.setBackground(new Color(255,255,255));
+        hexField.setSelectionColor(mainGeneralUtil.selectionColor);
+        hexField.setToolTipText("Input field and output area fill color if enabled");
+        hexField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        hexField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                try {
+                    colorBlock.setBackground(mainGeneralUtil.hextorgbColor(hexField.getText()));
+                    mainGeneralUtil.writeUserData("Background",hexField.getText());
+                }
+
+                catch (Exception ignored) {}
+            }
+        });
+        hexField.setBounds(460, 420,100, 40);
+        switchingPanel.add(hexField);
 
         switchingPanel.revalidate();
     }
-
-    //todo preferences tooltips
-
-    //todo if we're using bobby because there are no background images, copy it to backgrounds
-
-    //todo if a pref keyword doesn't exist in userdata, add it and set to default
-
-    //todo on closing console frame if login open, close all other windows except login frame
-
-    //todo on jlabels that you change the text like the don't have a user, create one,
-    // copy whatever you did there to the passwords match or don't match and take note for future use
-    //todo call this a cyder label
-
-    //todo add more to cyderargs
 
     public void createUser() {
         createUserBackground = null;
@@ -4032,7 +4047,7 @@ public class CyderMain{
 
         JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);
         NameLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        NameLabel.setBounds(120,30,121,30); //todo bounds for labels
+        NameLabel.setBounds(120,30,121,30);
         createUserFrame.getContentPane().add(NameLabel);
 
         newUserName = new JTextField(15);
@@ -4088,19 +4103,19 @@ public class CyderMain{
         passwordLabel.setBounds(60,120,240,30);
         createUserFrame.getContentPane().add(passwordLabel);
 
-        JLabel matchPasswords = new JLabel("Passwords match");
+        JLabel matchPasswords = new JLabel("Passwords match", SwingConstants.CENTER);
 
         newUserPassword = new JPasswordField(15);
         newUserPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
             if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
-                matchPasswords.setText("<html><div style='text-align: center;'>Passwords match</div></html>");
+                matchPasswords.setText("Passwords match");
                 matchPasswords.setForeground(mainGeneralUtil.regularGreen);
             }
 
             else {
-                matchPasswords.setText("<html><div style='text-align: center;'>Passwords don't match</div></html>");
+                matchPasswords.setText("Passwords do not match");
                 matchPasswords.setForeground(mainGeneralUtil.regularRed);
             }
             }
@@ -4123,12 +4138,12 @@ public class CyderMain{
             @Override
             public void keyReleased(KeyEvent e) {
             if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
-                matchPasswords.setText("<html><div style='text-align: center;'>Passwords match</div></html>");
+                matchPasswords.setText("Passwords match");
                 matchPasswords.setForeground(mainGeneralUtil.regularGreen);
             }
 
             else {
-                matchPasswords.setText("<html><div style='text-align: center;'>Passwords don't match</div></html>");
+                matchPasswords.setText("Passwords do not match");
                 matchPasswords.setForeground(mainGeneralUtil.regularRed);
             }
             }
@@ -4143,7 +4158,7 @@ public class CyderMain{
 
         matchPasswords.setFont(mainGeneralUtil.weatherFontSmall);
         matchPasswords.setForeground(mainGeneralUtil.regularGreen);
-        matchPasswords.setBounds(65,300,300,30);
+        matchPasswords.setBounds(32,300,300,30);
         createUserFrame.getContentPane().add(matchPasswords);
 
         chooseBackground = new CyderButton("Choose background");
@@ -4280,8 +4295,6 @@ public class CyderMain{
                     music.mkdir();
                     notes.mkdir();
 
-                    //todo make it easy to add preferences
-
                     ImageIO.write(ImageIO.read(createUserBackground), "png",
                             new File("src/com/cyder/users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
 
@@ -4290,10 +4303,11 @@ public class CyderMain{
 
                     LinkedList<String> data = new LinkedList<>();
                     data.add("Name:" + newUserName.getText().trim());
+                    data.add("Password:" + mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(pass)));
+
                     data.add("Font:tahoma");
                     data.add("Foreground:FCFBE3");
                     data.add("Background:FFFFFF");
-                    data.add("Password:" + mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(pass)));//todo change to diff name? more secure?
 
                     data.add("IntroMusic:0");
                     data.add("DebugWindows:0");
@@ -4377,18 +4391,14 @@ public class CyderMain{
     }
 
     private void killAllYoutube() {
-        for (YoutubeThread ytt : youtubeThreads) {
+        for (YoutubeThread ytt : youtubeThreads)
             ytt.kill();
-        }
     }
-
-    //todo move file.txt to temp dir, file used for filechooser
 
     private void askew() {
         consoleFrame.setBackground(mainGeneralUtil.navy);
         parentLabel.setIcon(new ImageIcon(mainGeneralUtil.rotateImageByDegrees(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath()),3)));
     }
-
 
     private void barrelRoll() {
         consoleFrame.setBackground(mainGeneralUtil.navy);
@@ -4426,10 +4436,6 @@ public class CyderMain{
         System.exit(0);
     }
 
-    //todo add more to cyderargs.log
-    //todo make cyderargs push to bottom so new stuff is at top
-    //todo move users out of cyder and into same dir as com
-
     private void shutdown() {
         try {
             mainGeneralUtil.readUserData();
@@ -4441,40 +4447,6 @@ public class CyderMain{
 
         catch (Exception e) {
             mainGeneralUtil.handle(e);
-        }
-    }
-
-    //todo can this go to some util method when you separate methods out of here and GeneralUtil?
-    private static void logArgs(String[] cyderArgs) {
-        try {
-            if (cyderArgs.length == 0)
-                cyderArgs = new String[]{"Started by " + System.getProperty("user.name")};
-
-            File log = new File("src/CyderArgs.log");
-
-            if (!log.exists())
-                log.createNewFile();
-
-            BufferedWriter bw = new BufferedWriter(new FileWriter(log, true));
-
-            String argsString = "";
-
-            for (int i = 0 ; i < cyderArgs.length ; i++) {
-                if (i != 0)
-                    argsString += ",";
-                argsString += cyderArgs[i];
-            }
-
-            Date current = new Date();
-            DateFormat argsFormat = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
-            bw.write(argsFormat.format(current) + " : " + argsString);
-            bw.newLine();
-            bw.flush();
-            bw.close();
-        }
-
-        catch (Exception e) {
-            new GeneralUtil().staticHandle(e);
         }
     }
 
@@ -4520,7 +4492,7 @@ public class CyderMain{
         consoleNotification.vanish(vanishDir, parent, delay);
     }
 
-    //todo make a centered one that vanishes to top
+    //todo remove once consoleframe extends cyderframe
     public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
         if (consoleNotification != null && consoleNotification.isVisible())
             consoleNotification.kill();
@@ -4561,4 +4533,8 @@ public class CyderMain{
 
         consoleNotification.vanish(vanishDir, parent, delay);
     }
+
+    //todo center console clock label and use swingconstants.center to center the seconds if enabled
+
+    //todo holding down ctrl paints a cross on the horizontal and vertical axis, holding down ctrl + shift puts duke in the middle too
 }

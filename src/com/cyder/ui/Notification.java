@@ -114,7 +114,6 @@ public class Notification extends JLabel {
         fillPath.closePath();
         graphics2D.fill(fillPath);
 
-        //this adds the arrow on sides
         switch (type) {
             case Notification.TOP:
                 fillPath.moveTo(8 + this.width / 2, 6);
@@ -125,10 +124,10 @@ public class Notification extends JLabel {
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
 
-                //todo add border to arrows
+                //todo add top arrow border
 
                 break;
-            case Notification.LEFT: //left
+            case Notification.LEFT:
                 fillPath.moveTo(10, 4 + height/2);
                 fillPath.lineTo(4, 10 + height/2);
                 fillPath.lineTo(10, 16 + height/2);
@@ -137,7 +136,7 @@ public class Notification extends JLabel {
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
 
-                //todo add border to arrows
+                //todo left arrow border
 
                 break;
             case Notification.BOTTOM:
@@ -149,7 +148,7 @@ public class Notification extends JLabel {
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
 
-                //todo add border to arrows
+                //todo add bottom arrow border
 
                 break;
             case Notification.RIGHT:
@@ -161,7 +160,7 @@ public class Notification extends JLabel {
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
 
-                //todo add border to arrows
+                //todo add right arrow border
 
                 break;
         }
