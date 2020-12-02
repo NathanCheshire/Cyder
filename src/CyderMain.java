@@ -37,9 +37,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo center console clock label and use swingconstants.center to center the seconds if enabled
-//todo holding down ctrl paints a cross on the horizontal and vertical axis, holding down ctrl + shift puts duke in the middle too
-
 //todo use enums instead of all constants, make enums package
 //todo make color utils
 
@@ -175,6 +172,10 @@ public class CyderMain{
     private int notificaitonTestWidth;
     private String notificationTestString;
 
+    //boolean for drawing line
+    private boolean drawLines = false;
+    private Color lineColor = Color.white;
+
     //call constructor
     public static void main(String[] CA) {
         new CyderMain(CA);
@@ -265,7 +266,39 @@ public class CyderMain{
             mainGeneralUtil.getScreenSize();
             mainGeneralUtil.getBackgroundSize();
 
-            consoleFrame = new JFrame();
+            consoleFrame = new JFrame() {
+                @Override
+                public void paint(Graphics g) {
+                    super.paint(g);
+
+                    if (drawLines) {
+                        Graphics2D g2d = (Graphics2D) g;
+
+                        g2d.setPaint(lineColor);
+                        g2d.setStroke(new BasicStroke(5));
+
+                        g2d.drawLine(consoleFrame.getWidth() / 2 - 3,32,consoleFrame.getWidth() / 2 - 3,consoleFrame.getHeight() - 12);
+                        g2d.drawLine(10, consoleFrame.getHeight() / 2 - 3, consoleFrame.getWidth() - 12, consoleFrame.getHeight() / 2 - 3);
+
+                        BufferedImage img = null;
+
+                        try {
+                            img = ImageIO.read(new File("src/com/cyder/io/pictures/Duke.png"));
+                        }
+
+                        catch (Exception e) {
+                            mainGeneralUtil.handle(e);
+                        }
+
+                        int w = img.getWidth(null);
+                        int h = img.getHeight(null);
+
+                        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+                        g2d.drawImage(img, consoleFrame.getWidth() / 2 - w / 2, consoleFrame.getHeight() / 2 - h / 2, null);
+                    }
+                }
+            };
             consoleFrame.setUndecorated(true);
             consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -358,7 +391,6 @@ public class CyderMain{
                 inputField.setBorder(BorderFactory.createEmptyBorder());
             }
 
-
             inputField.addKeyListener(new KeyListener() {
                 @Override
                 public void keyPressed(java.awt.event.KeyEvent e) {
@@ -389,12 +421,22 @@ public class CyderMain{
                         mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CYDER_LEFT);
                         exitFullscreen();
                     }
+
+                    if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                        drawLines = true;
+                        consoleFrame.repaint();
+                    }
                 }
 
                 @Override
                 public void keyReleased(java.awt.event.KeyEvent e) {
                     if (inputField.getText().length() == 1) {
                         inputField.setText(inputField.getText().toUpperCase());
+                    }
+
+                    if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                        drawLines = false;
+                        consoleFrame.repaint();
                     }
                 }
 
@@ -552,6 +594,14 @@ public class CyderMain{
             alternateBackground.addActionListener(e -> {
                 mainGeneralUtil.initBackgrounds();
 
+                try {
+                    lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(mainGeneralUtil.getCurrentBackground()));
+                }
+
+                catch (IOException ex) {
+                    mainGeneralUtil.handle(ex);
+                }
+
                 if (mainGeneralUtil.canSwitchBackground() && mainGeneralUtil.getValidBackgroundPaths().length > 1) {
                     mainGeneralUtil.setCurrentBackgroundIndex(mainGeneralUtil.getCurrentBackgroundIndex() + 1);
                     switchBackground();
@@ -665,10 +715,10 @@ public class CyderMain{
                 }
             });
 
-            consoleClockLabel = new JLabel(mainGeneralUtil.consoleTime());
+            consoleClockLabel = new JLabel(mainGeneralUtil.consoleTime(), SwingConstants.CENTER);
             consoleClockLabel.setFont(mainGeneralUtil.weatherFontSmall.deriveFont(20f));
             consoleClockLabel.setForeground(mainGeneralUtil.vanila);
-            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 20,
+            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
                     2,(consoleClockLabel.getText().length() * 17), 25);
 
             consoleDragLabel.add(consoleClockLabel, SwingConstants.CENTER);
@@ -756,7 +806,7 @@ public class CyderMain{
                         parentLabel.setIcon(newBack);
 
                         parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 20,
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
                                 2,(consoleClockLabel.getText().length() * 17), 25);
                     }
 
@@ -771,12 +821,13 @@ public class CyderMain{
 
             mainGeneralUtil.startAnimation(consoleFrame);
 
-            new Thread(() -> {
+            new Thread(() -> { //todo change to checker
                 if (!mainGeneralUtil.internetReachable())
                     notify("Internet connection slow or unavailble",
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
             },"slow-internet-checker").start();
 
+            lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(mainGeneralUtil.getCurrentBackground()));
 
             if (mainGeneralUtil.getUserData("DebugWindows").equals("1")) {
                 mainGeneralUtil.systemProperties();
@@ -1416,7 +1467,7 @@ public class CyderMain{
         minimize.setBounds(width - 81, 4, 22, 20);
         alternateBackground.setBounds(width - 54, 4, 22, 20);
         close.setBounds(width - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 20,
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
                 2,(consoleClockLabel.getText().length() * 17), 25);
 
         consoleFrame.repaint();
@@ -1458,7 +1509,7 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 20,
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
                 2,(consoleClockLabel.getText().length() * 17), 25);
 
         consoleFrame.repaint();
@@ -1559,7 +1610,7 @@ public class CyderMain{
                 slidLeft = !slidLeft;
 
                 parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
-                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 20,
+                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
                         2,(consoleClockLabel.getText().length() * 17), 25);
             }
 
