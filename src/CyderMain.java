@@ -317,7 +317,7 @@ public class CyderMain{
             outputArea.setBounds(10, 62, mainGeneralUtil.getBackgroundX() - 20, mainGeneralUtil.getBackgroundY() - 204);
             outputArea.setFocusable(true);
             outputArea.setSelectionColor(new Color(204,153,0));
-            outputArea.setOpaque(true);
+            outputArea.setOpaque(false);
             outputArea.setBackground(new Color(0,0,0,0));
 
             outputScroll = new CyderScrollPane(outputArea,
@@ -329,7 +329,7 @@ public class CyderMain{
             outputScroll.setOpaque(false);
 
             if (mainGeneralUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
-                outputScroll.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
+                outputScroll.setBorder(new LineBorder(mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")),3,true));
             }
 
             else {
@@ -343,7 +343,7 @@ public class CyderMain{
             inputField = new JTextField(40);
 
             if (mainGeneralUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
-                inputField.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true));
+                inputField.setBorder(new LineBorder(mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")),3,true));
             }
 
             else {
@@ -431,13 +431,18 @@ public class CyderMain{
             inputField.setForeground(Usercolor);
             outputArea.setForeground(Usercolor);
 
-            Color c = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
+            Color fillColor = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
 
-            if (mainGeneralUtil.getUserData("OutputFill").equals("1"))
-                outputArea.setBackground(new Color(c.getRed(),c.getGreen(),c.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
+            if (mainGeneralUtil.getUserData("OutputFill").equals("1")) {
+                outputArea.setOpaque(true);
+                outputArea.setBackground(fillColor);
+                outputArea.repaint();
+                outputArea.revalidate();
+                consoleFrame.revalidate();
+            }
 
-            if (mainGeneralUtil.getUserData("InputFill").equals("1")) //todo doesn't work
-                inputField.setBackground(new Color(c.getRed(),c.getGreen(),c.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
+            if (mainGeneralUtil.getUserData("InputFill").equals("1"))
+                inputField.setBackground(fillColor);
 
 
             inputField.setFont(Userfont);
@@ -2736,7 +2741,6 @@ public class CyderMain{
             else if (hasWord("stop") && hasWord("script")) {
                 println("YouTube scripts have been killed.");
                 killAllYoutube();
-                consoleFrame.setTitle(mainGeneralUtil.getCyderVer() + " [" + mainGeneralUtil.getUsername() + "]");
             }
 
             else if (hasWord("debug") && hasWord("menu")) {
@@ -3753,7 +3757,7 @@ public class CyderMain{
             }
 
             else {
-                outputScroll.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true)); //todo background color
+                outputScroll.setBorder(new LineBorder(mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")),3,true));
             }
 
             consoleFrame.revalidate();
@@ -3778,7 +3782,7 @@ public class CyderMain{
             }
 
             else {
-                inputField.setBorder(new LineBorder(mainGeneralUtil.vanila,3,true)); //todo background color
+                inputField.setBorder(new LineBorder(mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")),3,true));
             }
 
             consoleFrame.revalidate();
@@ -3951,45 +3955,6 @@ public class CyderMain{
         showSeconds.setBounds(50 + 200,400,100,100);
         switchingPanel.add(showSeconds);
 
-        JSlider opacitySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
-        CyderSliderUI UI = new CyderSliderUI(opacitySlider);
-
-        UI.setFillColor(Color.darkGray);
-        UI.setOutlineColor(mainGeneralUtil.vanila);
-        UI.setNewValColor(mainGeneralUtil.regularRed);
-        UI.setOldValColor(mainGeneralUtil.regularBlue);
-        UI.setSliderShape(CyderSliderUI.RECTANGLE);
-        UI.setStroke(new BasicStroke(3.0f));
-
-        opacitySlider.setUI(UI);
-        opacitySlider.setMinimum(0);
-        opacitySlider.setMaximum(100);
-        opacitySlider.setMajorTickSpacing(5);
-        opacitySlider.setMinorTickSpacing(1);
-        opacitySlider.setPaintTicks(false);
-        opacitySlider.setPaintLabels(false);
-        opacitySlider.setVisible(true);
-        opacitySlider.setValue((int)(Double.parseDouble(mainGeneralUtil.getUserData("Opacity")) / 255.0 * 100.0));
-        opacitySlider.setFont(new Font("HeadPlane", Font.BOLD, 18));
-        opacitySlider.addChangeListener(e -> {
-            mainGeneralUtil.writeUserData("Opacity",(int) (255.0 * (opacitySlider.getValue() / 100.0)) + "");
-
-            if (mainGeneralUtil.getUserData("OutputFill").equals("1")) {
-                Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
-                outputArea.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
-                outputArea.revalidate();
-                outputArea.repaint();
-
-                consoleFrame.revalidate();
-            }
-
-            if (mainGeneralUtil.getUserData("InputFill").equals("1")) {
-                //todo copy from above when working
-                //todo kind of works when you first enable the checkbox for opacity so start there
-                //todo fix rendering artifacts with setOpaque methods
-            }
-        });
-
         outputFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -3998,11 +3963,17 @@ public class CyderMain{
                 outputFill.setIcon((wasSelected ? notSelected : selected));
 
                 if (wasSelected) {
-                    //todo copy from below
+                    outputArea.setBackground(null);
+                    outputArea.setOpaque(false);
+                    consoleFrame.revalidate();
                 }
 
                 else {
-                   //todo copy from below
+                    outputArea.setOpaque(true);
+                    outputArea.setBackground(mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")));
+                    outputArea.repaint();
+                    outputArea.revalidate();
+                    consoleFrame.revalidate();
                 }
             }
         });
@@ -4021,25 +3992,22 @@ public class CyderMain{
                 }
 
                 else {
-                    Color userC = mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
                     inputField.setOpaque(true);
-                    inputField.setBackground(new Color(userC.getRed(),userC.getGreen(),userC.getBlue(),Integer.parseInt(mainGeneralUtil.getUserData("Opacity"))));
+                    inputField.setBackground(mainGeneralUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")));
+                    inputField.repaint();
+                    inputField.revalidate();
                     consoleFrame.revalidate();
                 }
             }
         });
 
-        opacitySlider.setOpaque(false);
-        opacitySlider.setToolTipText("Fill Opacity");
-        opacitySlider.setFocusable(false);
+        //todo color field with preview for filling/border
 
-        opacitySlider.setBounds(470,370,220,50);
-        switchingPanel.add(opacitySlider);
-
-        //todo color field with preview
 
         switchingPanel.revalidate();
     }
+
+    //todo preferences tooltips
 
     //todo if we're using bobby because there are no background images, copy it to backgrounds
 
@@ -4050,10 +4018,6 @@ public class CyderMain{
     //todo on jlabels that you change the text like the don't have a user, create one,
     // copy whatever you did there to the passwords match or don't match and take note for future use
     //todo call this a cyder label
-
-    //todo on startup make sure input and output are painted or filled with color selected
-
-    //todo also save background and opacity now on shutdown when you save foreground
 
     //todo add more to cyderargs
 
@@ -4328,8 +4292,7 @@ public class CyderMain{
                     data.add("Name:" + newUserName.getText().trim());
                     data.add("Font:tahoma");
                     data.add("Foreground:FCFBE3");
-                    data.add("Background:FFFFFF");//todo
-                    data.add("Opacity:0");//todo
+                    data.add("Background:FFFFFF");
                     data.add("Password:" + mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(pass)));//todo change to diff name? more secure?
 
                     data.add("IntroMusic:0");
@@ -4469,13 +4432,9 @@ public class CyderMain{
 
     private void shutdown() {
         try {
-            Font SaveFont = outputArea.getFont();
-            String SaveFontName = SaveFont.getName();
-            Color SaveColor = outputArea.getForeground();
-
             mainGeneralUtil.readUserData();
-            mainGeneralUtil.writeUserData("Font",SaveFontName);
-            mainGeneralUtil.writeUserData("Foreground",mainGeneralUtil.rgbtohexString(SaveColor));
+            mainGeneralUtil.writeUserData("Font",outputArea.getFont().getName());
+            mainGeneralUtil.writeUserData("Foreground",mainGeneralUtil.rgbtohexString(outputArea.getForeground()));
 
             mainGeneralUtil.deleteTempDir();
         }
