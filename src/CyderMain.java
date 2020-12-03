@@ -51,13 +51,8 @@ import java.util.concurrent.TimeUnit;
 
 //todo barrel roll and switching console dir doesn't work in full screen
 
-//todo if we're using bobby because there are no background images, copy it to backgrounds
-
 //todo if a pref keyword doesn't exist in userdata, add it and set to default
 
-//todo on closing console frame if login open, close all other windows except login frame
-
-//todo when doing confirmations through the console, pull it to front and then push it back
 //todo be able to set background to a solid color and make that an image and save it
 
 //todo utilize colors, fonts, font weights, and new lines now
@@ -283,7 +278,7 @@ public class CyderMain{
                         BufferedImage img = null;
 
                         try {
-                            img = ImageIO.read(new File("src/com/cyder/io/pictures/Duke.png"));
+                            img = ImageIO.read(new File("src/com/cyder/io/pictures/Neffex.png"));
                         }
 
                         catch (Exception e) {
@@ -658,15 +653,7 @@ public class CyderMain{
 
             close = new JButton("");
             close.setToolTipText("Close");
-            close.addActionListener(e -> {
-                if (loginFrame != null && loginFrame.isVisible()) {
-                    mainGeneralUtil.closeAnimation(consoleFrame);
-                    consoleFrame = null;
-                }
-
-                else
-                    exit();
-            });
+            close.addActionListener(e -> exit());
 
             close.addMouseListener(new MouseAdapter() {
                 @Override
@@ -821,11 +808,13 @@ public class CyderMain{
 
             mainGeneralUtil.startAnimation(consoleFrame);
 
-            new Thread(() -> { //todo change to checker
+            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 if (!mainGeneralUtil.internetReachable())
                     notify("Internet connection slow or unavailble",
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
-            },"slow-internet-checker").start();
+            },0, 10, TimeUnit.MINUTES);
+
+            consoleClockLabel.setVisible(updateConsoleClock);
 
             lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(mainGeneralUtil.getCurrentBackground()));
 
@@ -2899,6 +2888,10 @@ public class CyderMain{
             else if (eic("test")) {
                 loginFrame.inform("This is a test to see how long the notifcation thingy can be before getting cut off","Test",500,200);
                 new TestClass(outputArea);
+            }
+
+            else if (hasWord("duke")) {
+                printImage("src/com/cyder/io/pictures/Duke.png");
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
