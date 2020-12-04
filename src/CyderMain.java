@@ -37,6 +37,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo cyder checkbox
+//todo cyder label
+//todo cyder textfield
+
 //todo use enums instead of all constants, make enums package
 //todo make color utils
 
