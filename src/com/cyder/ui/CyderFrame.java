@@ -160,4 +160,77 @@ public class CyderFrame extends JFrame {
             fGeneralUtil.handle(e);
         }
     }
+
+    public void enterAnimation() {
+        dl.disableDragging();
+
+        this.setVisible(false);
+        this.setLocationRelativeTo(null);
+
+        int to = this.getY();
+        this.setLocation(this.getX(), 0 - this.getHeight());
+
+        this.setVisible(true);
+
+        for (int i = 0 - this.getHeight() ; i < to ; i+= 15) {
+            this.setLocation(this.getX(), i);
+            try {
+                Thread.sleep(1);
+            }
+
+            catch (Exception e) {
+                fGeneralUtil.handle(e);
+            }
+        }
+
+        this.setLocationRelativeTo(null);
+
+        dl.enableDragging();
+    }
+
+    public void closeAnimation() {
+        dl.disableDragging();
+
+        try {
+            if (this != null && this.isVisible()) {
+                Point point = this.getLocationOnScreen();
+                int x = (int) point.getX();
+                int y = (int) point.getY();
+
+                for (int i = y; i >= 0 - this.getHeight(); i -= 15) {
+                    Thread.sleep(1);
+                    this.setLocation(x, i);
+                }
+
+                this.dispose();
+            }
+        }
+
+        catch (Exception e) {
+            fGeneralUtil.handle(e);
+        }
+    }
+
+    public void minimizeAnimation() {
+        dl.disableDragging();
+
+        Point point = this.getLocationOnScreen();
+        int x = (int) point.getX();
+        int y = (int) point.getY();
+
+        try {
+            for (int i = y; i <= fGeneralUtil.getScreenHeight(); i += 15) {
+                Thread.sleep(1);
+                this.setLocation(x, i);
+            }
+
+            this.setState(JFrame.ICONIFIED);
+        }
+
+        catch (Exception e) {
+            fGeneralUtil.handle(e);
+        }
+
+        dl.enableDragging();
+    }
 }

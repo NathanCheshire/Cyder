@@ -83,6 +83,8 @@ import java.util.concurrent.TimeUnit;
 
 //todo allow users to map up to three internet links on the menu, add a bar to sep system from user stuff
 
+//todo cyder progress bar
+
 public class CyderMain{
     //console vars
     private static JTextPane outputArea;

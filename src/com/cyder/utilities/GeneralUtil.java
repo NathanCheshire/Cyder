@@ -185,7 +185,7 @@ public class GeneralUtil {
         return this.screenWidth;
     }
 
-    private int getScreenHeight() {
+    public int getScreenHeight() {
         this.screenHeight = this.getScreenSize().height;
         return this.screenHeight;
     }
@@ -374,7 +374,7 @@ public class GeneralUtil {
             }
 
             catch (Exception e) {
-                e.printStackTrace();
+                handle(e);
             }
         }
 

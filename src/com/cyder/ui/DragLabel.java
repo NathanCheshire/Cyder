@@ -29,6 +29,8 @@ public class DragLabel extends JLabel {
     private JButton close;
     private JButton minimize;
 
+    private boolean draggingEnabled = true;
+
     public DragLabel(int w, int h, JFrame effectFrame) {
         this.width = w;
         this.height = h;
@@ -43,7 +45,7 @@ public class DragLabel extends JLabel {
                 int x = e.getXOnScreen();
                 int y = e.getYOnScreen();
 
-                if (effectFrame != null && effectFrame.isFocused()) {
+                if (effectFrame != null && effectFrame.isFocused() && draggingEnabled) {
                     effectFrame.setLocation(x - xMouse, y - yMouse);
                 }
             }
@@ -58,9 +60,9 @@ public class DragLabel extends JLabel {
         effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowDeiconified(WindowEvent e) {
-                effectFrame.setLocation(restoreX,restoreY);
-                effectFrame.setVisible(true);
-                effectFrame.requestFocus();
+            effectFrame.setLocation(restoreX,restoreY);
+            effectFrame.setVisible(true);
+            effectFrame.requestFocus();
             }
         });
 
@@ -137,5 +139,17 @@ public class DragLabel extends JLabel {
 
     public JFrame getEffectFrame() {
         return this.effectFrame;
+    }
+
+    public void disableDragging() {
+        draggingEnabled = false;
+    }
+
+    public void enableDragging() {
+        draggingEnabled = true;
+    }
+
+    public boolean isDraggingEnabled() {
+        return draggingEnabled;
     }
 }
