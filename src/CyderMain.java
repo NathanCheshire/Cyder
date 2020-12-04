@@ -37,6 +37,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo add animations to cyderframe directly and disable drag label during animation
+
 //todo cyder checkbox
 //todo cyder label
 //todo cyder textfield
@@ -69,7 +71,6 @@ import java.util.concurrent.TimeUnit;
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
 //todo make pixelating pictures it's own widget
 
-//todo hangman use cyder frame
 //todo photo viewer renmaing needs to be cyderframe
 //todo utilize start animations after you fix it
 
@@ -252,6 +253,7 @@ public class CyderMain{
 
         catch (Exception e) {
             mainGeneralUtil.handle(e);
+            login(false);
         }
     }
 

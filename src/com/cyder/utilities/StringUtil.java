@@ -480,4 +480,11 @@ public class StringUtil {
             stringGeneralUtil.handle(ex);
         }
     }
+
+    public String getApostrophe(String name) {
+        if (name.endsWith("s"))
+            return "'";
+        else
+            return "'s";
+    }
 }
