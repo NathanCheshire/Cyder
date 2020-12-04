@@ -1,25 +1,24 @@
 package com.cyder.widgets;
 
 import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
 import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.Stack;
 
 public class DirectorySearch {
     private GeneralUtil dirGeneralUtil = new GeneralUtil();
-    private JFrame dirFrame;
+    private CyderFrame dirFrame;
     private JTextField dirField;
     private CyderScrollPane dirScroll;
     private JList<?> directoryNameList;
     private JList<?> directoryList;
-    private JPanel dirSearchParentPanel;
 
     private Stack<String> backward = new Stack<>();
     private Stack<String> foward = new Stack<>();
@@ -29,26 +28,18 @@ public class DirectorySearch {
         if (dirFrame != null)
             new GeneralUtil().closeAnimation(dirFrame);
 
-        dirFrame = new JFrame();
-        dirFrame.setTitle("Directory Search");
-        dirFrame.setResizable(false);
-        dirFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        dirFrame.setIconImage(dirGeneralUtil.getCyderIcon().getImage());
-
-        dirSearchParentPanel = new JPanel();
-        dirSearchParentPanel.setLayout(new BorderLayout());
+        dirFrame = new CyderFrame(620,470, new ImageIcon("src/com/cyder/io/pictrures/DebugBackground.png"));
+        dirFrame.setTitle(new File(System.getProperty("user.dir")).getName());
 
         dirField = new JTextField(40);
         dirField.setSelectionColor(dirGeneralUtil.selectionColor);
         dirField.setText(System.getProperty("user.dir"));
         dirField.setFont(dirGeneralUtil.weatherFontSmall);
         dirField.setForeground(dirGeneralUtil.navy);
-
         dirField.addActionListener(directoryFieldListener);
-        JPanel dirFieldPanel = new JPanel();
-        dirFieldPanel.setLayout(new BorderLayout());
-
-        dirField.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),new LineBorder(dirGeneralUtil.navy,5,false)));
+        dirField.setBorder(new LineBorder(dirGeneralUtil.navy,5,false));
+        dirField.setBounds(15 + 40 + 15,60,620 - 160,40);
+        dirFrame.getContentPane().add(dirField);
 
         CyderButton last = new CyderButton(" < ");
         last.setFocusPainted(false);
@@ -84,16 +75,12 @@ public class DirectorySearch {
                 dirScroll.revalidate();
                 dirScroll.repaint();
 
-                dirSearchParentPanel.revalidate();
-                dirSearchParentPanel.repaint();
-
                 dirFrame.revalidate();
                 dirFrame.repaint();
             }
         });
-
-        dirFieldPanel.add(last, BorderLayout.LINE_START);
-        dirFieldPanel.add(dirField, BorderLayout.CENTER);
+        last.setBounds(15,50,40,60);
+        dirFrame.getContentPane().add(last);
 
         CyderButton next = new CyderButton(" > ");
         next.setFocusPainted(false);
@@ -129,17 +116,14 @@ public class DirectorySearch {
                 dirScroll.revalidate();
                 dirScroll.repaint();
 
-                dirSearchParentPanel.revalidate();
-                dirSearchParentPanel.repaint();
+                dirFrame.setTitle(ChosenDir.getName());
 
                 dirFrame.revalidate();
                 dirFrame.repaint();
             }
         });
-
-        dirFieldPanel.add(next, BorderLayout.LINE_END);
-
-        dirSearchParentPanel.add(dirFieldPanel, BorderLayout.PAGE_START);
+        next.setBounds(620 - 15 - 15 - 40,50,40,60);
+        dirFrame.getContentPane().add(next);
 
         File[] DirFiles = new File(System.getProperty("user.dir")).listFiles();
 
@@ -180,12 +164,9 @@ public class DirectorySearch {
         dirScroll.setFont(dirGeneralUtil.weatherFontSmall);
         dirScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
                 new LineBorder(dirGeneralUtil.navy,5,false)));
+        dirScroll.setBounds(10,120,600,470 - 120 - 10);
+        dirFrame.getContentPane().add(dirScroll);
 
-        dirSearchParentPanel.add(dirScroll, BorderLayout.CENTER);
-        dirSearchParentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        dirFrame.add(dirSearchParentPanel);
-        dirFrame.pack();
         dirFrame.setLocationRelativeTo(null);
         dirFrame.setVisible(true);
         dirField.requestFocus();
@@ -236,8 +217,7 @@ public class DirectorySearch {
                         dirScroll.revalidate();
                         dirScroll.repaint();
 
-                        dirSearchParentPanel.revalidate();
-                        dirSearchParentPanel.repaint();
+                        dirFrame.setTitle(ChosenDir.getName());
 
                         dirFrame.revalidate();
                         dirFrame.repaint();
@@ -290,10 +270,10 @@ public class DirectorySearch {
                     dirScroll.setViewportView(directoryNameList);
                     dirScroll.revalidate();
                     dirScroll.repaint();
-                    dirSearchParentPanel.revalidate();
-                    dirSearchParentPanel.repaint();
                     dirFrame.revalidate();
                     dirFrame.repaint();
+
+                    dirFrame.setTitle(ChosenDir.getName());
                 }
 
                 else if (ChosenDir.isFile()) {
@@ -345,8 +325,7 @@ public class DirectorySearch {
                     dirScroll.revalidate();
                     dirScroll.repaint();
 
-                    dirSearchParentPanel.revalidate();
-                    dirSearchParentPanel.repaint();
+                    dirFrame.setTitle(ChosenDir.getName());
 
                     dirFrame.revalidate();
                     dirFrame.repaint();

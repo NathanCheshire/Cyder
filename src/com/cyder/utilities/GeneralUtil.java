@@ -14,7 +14,10 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -31,8 +34,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.cyder.utilities.ImageUtil.getDominantColor;
 
 public class GeneralUtil {
 
@@ -872,9 +873,7 @@ public class GeneralUtil {
 
     public void inform(String text, String title, int width, int height) {
         try {
-            BufferedImage back = new ImageUtil().imageFromColor(width,height,getDominantColor(ImageIO.read(getCurrentBackground())));
-
-            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(back));
+            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,navy)));
             informFrame.setTitle(title);
 
             JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
@@ -882,7 +881,7 @@ public class GeneralUtil {
             desc.setHorizontalAlignment(JLabel.CENTER);
             desc.setVerticalAlignment(JLabel.CENTER);
             ImageUtil iu = new ImageUtil();
-            desc.setForeground(iu.getDominantColorOpposite(back));
+            desc.setForeground(vanila);
             desc.setFont(weatherFontSmall.deriveFont(22f));
             desc.setBounds(10, 35, width - 20, height - 35 * 2);
 

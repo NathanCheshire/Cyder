@@ -65,8 +65,6 @@ import java.util.concurrent.TimeUnit;
 // <html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style="color:rgb(252, 251, 227)">fourth with color</p>
 // <p style="font-family:verdana">fifth with font</p></html>
 
-//todo notes and textviewer non-swing dependent
-
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
 //todo make pixelating pictures it's own widget
@@ -74,9 +72,7 @@ import java.util.concurrent.TimeUnit;
 //todo photo viewer renmaing needs to be cyderframe
 //todo utilize start animations after you fix it
 
-//todo make an animation util class
 //todo network util class
-//todo ui utils class
 //todo further class separation from GeneralUtil.java
 
 //todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
@@ -3612,7 +3608,7 @@ public class CyderMain{
                     }
 
                     if (ClickedSelection.equalsIgnoreCase(mainGeneralUtil.getCurrentBackground().getName().replace(".png","")))
-                        editUserFrame.inform("Unable to delete the background you are currently using","Error",400,150);
+                        editUserFrame.inform("Unable to delete the background you are currently using","Error",400,200);
 
                     else {
                         ClickedSelectionPath.delete();

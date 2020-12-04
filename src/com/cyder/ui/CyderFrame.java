@@ -3,7 +3,6 @@ package com.cyder.ui;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.ImageUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -41,6 +40,12 @@ public class CyderFrame extends JFrame {
         dl = new DragLabel(width, 30, this);
         dl.setBounds(0, 0, width, 30);
         parentLabel.add(dl);
+
+        titleLabel = new JLabel("");
+        titleLabel.setFont(fGeneralUtil.weatherFontSmall.deriveFont(20f));
+        titleLabel.setForeground(fGeneralUtil.vanila);
+
+        dl.add(titleLabel);
     }
 
     public CyderFrame(int width, int height) {
@@ -75,9 +80,7 @@ public class CyderFrame extends JFrame {
     @Override
     public void setTitle(String title) {
         super.setTitle(title);
-        titleLabel = new JLabel(title);
-        titleLabel.setFont(fGeneralUtil.weatherFontSmall.deriveFont(20f));
-        titleLabel.setForeground(fGeneralUtil.vanila);
+        titleLabel.setText(title);
 
         if (titlePosition == 1) {
             int halfLen = ((int) Math.ceil(14 * title.length())) / 2;
@@ -86,8 +89,6 @@ public class CyderFrame extends JFrame {
         } else {
             titleLabel.setBounds(5, 2, ((int) Math.ceil(14 * title.length())), 25);
         }
-
-        dl.add(titleLabel);
     }
 
     public void notify(String htmltext, int delay, int arrowDir, int startDir, int vanishDir, int width) {
@@ -136,9 +137,7 @@ public class CyderFrame extends JFrame {
 
     public void inform(String text, String title, int width, int height) {
         try {
-            BufferedImage back = iu.imageFromColor(width,height,iu.getDominantColor(ImageIO.read(fGeneralUtil.getCurrentBackground())));
-
-            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(back));
+            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,fGeneralUtil.navy)));
             informFrame.setTitle(title);
 
             JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
@@ -146,7 +145,7 @@ public class CyderFrame extends JFrame {
             desc.setHorizontalAlignment(JLabel.CENTER);
             desc.setVerticalAlignment(JLabel.CENTER);
             ImageUtil iu = new ImageUtil();
-            desc.setForeground(iu.getDominantColorOpposite(back));
+            desc.setForeground(fGeneralUtil.vanila);
             desc.setFont(fGeneralUtil.weatherFontSmall.deriveFont(22f));
             desc.setBounds(10, 35, width - 20, height - 35 * 2);
 
