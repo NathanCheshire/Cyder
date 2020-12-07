@@ -80,7 +80,6 @@ public class InternetProtocolUtil {
 
                 else if (CurrentLine.contains("\"region\"")) {
                     userState = (CurrentLine.replace("region", "").replace(",", "").replace("\"", "").replace(":", "").trim());
-                    System.out.println(userState);
                 }
 
                 else if (CurrentLine.contains("\"region_code\"")) {

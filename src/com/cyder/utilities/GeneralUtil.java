@@ -1701,7 +1701,7 @@ public class GeneralUtil {
     }
 
     public boolean confirmation(String input) {
-        return (input.contains("yes") || input.equalsIgnoreCase("y"));
+        return (input.toLowerCase().contains("yes") || input.equalsIgnoreCase("y"));
     }
 
     public boolean getAlwaysOnTopMode() {

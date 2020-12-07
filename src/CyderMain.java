@@ -37,6 +37,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo light mode and dark mode
+
+//todo temporarily toggle prefs for instance via input field
+
+//todo change background color for console frame
+
+//todo some scrolls with borders are not fitted properly
+
+//todo if you deleted a user, close all frames before going to login
+//todo if you created the first user, auto login
+
 //todo if location isn't found say so and say certain features might not work
 
 //todo deleting user doesnt work
@@ -175,6 +186,7 @@ public class CyderMain{
 
     //boolean for drawing line
     private boolean drawLines = false;
+    private boolean linesDrawn = false;
     private Color lineColor = Color.white;
 
     //call constructor
@@ -271,34 +283,36 @@ public class CyderMain{
             consoleFrame = new JFrame() {
                 @Override
                 public void paint(Graphics g) {
-                    super.paint(g);
+                super.paint(g);
 
-                    if (drawLines) {
-                        Graphics2D g2d = (Graphics2D) g;
+                if (drawLines && !linesDrawn) {
+                    Graphics2D g2d = (Graphics2D) g;
 
-                        g2d.setPaint(lineColor);
-                        g2d.setStroke(new BasicStroke(5));
+                    g2d.setPaint(lineColor);
+                    g2d.setStroke(new BasicStroke(5));
 
-                        g2d.drawLine(consoleFrame.getWidth() / 2 - 3,32,consoleFrame.getWidth() / 2 - 3,consoleFrame.getHeight() - 12);
-                        g2d.drawLine(10, consoleFrame.getHeight() / 2 - 3, consoleFrame.getWidth() - 12, consoleFrame.getHeight() / 2 - 3);
+                    g2d.drawLine(consoleFrame.getWidth() / 2 - 3,32,consoleFrame.getWidth() / 2 - 3,consoleFrame.getHeight() - 12);
+                    g2d.drawLine(10, consoleFrame.getHeight() / 2 - 3, consoleFrame.getWidth() - 12, consoleFrame.getHeight() / 2 - 3);
 
-                        BufferedImage img = null;
+                    BufferedImage img = null;
 
-                        try {
-                            img = ImageIO.read(new File("src/com/cyder/io/pictures/Neffex.png"));
-                        }
-
-                        catch (Exception e) {
-                            mainGeneralUtil.handle(e);
-                        }
-
-                        int w = img.getWidth(null);
-                        int h = img.getHeight(null);
-
-                        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-
-                        g2d.drawImage(img, consoleFrame.getWidth() / 2 - w / 2, consoleFrame.getHeight() / 2 - h / 2, null);
+                    try {
+                        img = ImageIO.read(new File("src/com/cyder/io/pictures/Neffex.png"));
                     }
+
+                    catch (Exception e) {
+                        mainGeneralUtil.handle(e);
+                    }
+
+                    int w = img.getWidth(null);
+                    int h = img.getHeight(null);
+
+                    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+                    g2d.drawImage(img, consoleFrame.getWidth() / 2 - w / 2, consoleFrame.getHeight() / 2 - h / 2, null);
+
+                    linesDrawn = true;
+                }
                 }
             };
             consoleFrame.setUndecorated(true);
@@ -425,8 +439,10 @@ public class CyderMain{
                     }
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                        drawLines = true;
-                        consoleFrame.repaint();
+                        if (!linesDrawn) {
+                            drawLines = true;
+                            consoleFrame.repaint();
+                        }
                     }
                 }
 
@@ -438,6 +454,7 @@ public class CyderMain{
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
                         drawLines = false;
+                        linesDrawn = false;
                         consoleFrame.repaint();
                     }
                 }
@@ -2865,7 +2882,7 @@ public class CyderMain{
 
                 for (int i = 0; i < num ; i++)
                     if (!printThreads[i].isDaemon())
-                        println(printThreads[i]);
+                        println(printThreads[i].getName());
             }
 
             else if (hasWord("threads") && hasWord("daemon")) {
@@ -2875,7 +2892,7 @@ public class CyderMain{
                 threadGroup.enumerate(printThreads);
 
                 for (int i = 0; i < num ; i++)
-                    println(printThreads[i]);
+                    println(printThreads[i].getName());
             }
 
             else if (eic("askew")) {
