@@ -233,4 +233,11 @@ public class CyderFrame extends JFrame {
 
         dl.enableDragging();
     }
+
+    public void setRelocatable(boolean relocatable) {
+        if (relocatable)
+            dl.enableDragging();
+        else
+            dl.disableDragging();
+    }
 }

@@ -37,11 +37,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo add animations to cyderframe directly and disable drag label during animation
+//todo if location isn't found say so and say certain features might not work
 
-//todo cyder checkbox
+//todo deleting user doesnt work
+//todo weather doesn't work and different city is unkonwn
+
+//todo make a getinput method
+
 //todo cyder label
 //todo cyder textfield
+//todo cyder progress bar
 
 //todo use enums instead of all constants, make enums package
 //todo make color utils
@@ -82,8 +87,6 @@ import java.util.concurrent.TimeUnit;
 //todo you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
 
 //todo allow users to map up to three internet links on the menu, add a bar to sep system from user stuff
-
-//todo cyder progress bar
 
 public class CyderMain{
     //console vars
@@ -232,7 +235,7 @@ public class CyderMain{
     private void autoCypher() {
         try {
             File autoCypher = new File("../autocypher.txt");
-            File Users = new File("src/com/cyder/users/");
+            File Users = new File("src/users/");
 
             if (autoCypher.exists() && Users.listFiles().length != 0) {
                 BufferedReader ac = new BufferedReader(new FileReader(autoCypher));
@@ -1351,7 +1354,7 @@ public class CyderMain{
             }
         });
 
-        File Users = new File("src/com/cyder/users/");
+        File Users = new File("src/users/");
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
 
         mainGeneralUtil.startAnimation(loginFrame);
@@ -1377,7 +1380,7 @@ public class CyderMain{
                 if (mainGeneralUtil.getUserData("IntroMusic").equals("1")) {
                     LinkedList<String> MusicList = new LinkedList<>();
 
-                    File UserMusicDir = new File("src/com/cyder/users/" + mainGeneralUtil.getUserUUID() + "/Music");
+                    File UserMusicDir = new File("src/users/" + mainGeneralUtil.getUserUUID() + "/Music");
 
                     String[] FileNames = UserMusicDir.list();
 
@@ -1388,7 +1391,7 @@ public class CyderMain{
 
                     if (!MusicList.isEmpty())
                         mainGeneralUtil.playMusic(
-                                "src/com/cyder/users/" + mainGeneralUtil.getUserUUID() + "/Music/" +
+                                "src/users/" + mainGeneralUtil.getUserUUID() + "/Music/" +
                                         (FileNames[mainGeneralUtil.randInt(0,FileNames.length - 1)]));
                     else
                         mainGeneralUtil.playMusic("src/com/cyder/io/audio/Suprise.mp3");
@@ -1902,17 +1905,17 @@ public class CyderMain{
                 }
 
                 mainGeneralUtil.closeAnimation(consoleFrame);
-                mainGeneralUtil.deleteFolder(new File("src/com/cyder/users/" + mainGeneralUtil.getUserUUID()));
+                mainGeneralUtil.deleteFolder(new File("src/users/" + mainGeneralUtil.getUserUUID()));
 
                 String dep = mainGeneralUtil.getDeprecatedUUID();
 
-                File renamed = new File("src/com/cyder/users/" + dep);
+                File renamed = new File("src/users/" + dep);
                 while (renamed.exists()) {
                     dep = mainGeneralUtil.getDeprecatedUUID();
-                    renamed = new File("src/com/cyder/users/" + dep);
+                    renamed = new File("src/users/" + dep);
                 }
 
-                File old = new File("src/com/cyder/users/" + mainGeneralUtil.getUserUUID());
+                File old = new File("src/users/" + mainGeneralUtil.getUserUUID());
                 old.renameTo(renamed);
 
                 login(false);
@@ -1924,7 +1927,7 @@ public class CyderMain{
                 String searchName = mainGeneralUtil.getCurrentBackground().getName().replace(".png", "")
                         + "_Pixelated_Pixel_Size_" + Integer.parseInt(input) + ".png";
 
-                File saveFile = new File("src/com/cyder/users/" + mainGeneralUtil.getUserUUID() +
+                File saveFile = new File("src/users/" + mainGeneralUtil.getUserUUID() +
                         "/Backgrounds/" + searchName);
 
                 ImageIO.write(img, "png", saveFile);
@@ -2337,7 +2340,7 @@ public class CyderMain{
 
             else if ((eic("error") || eic("errors")) && !hasWord("throw")) {
                 if (mainGeneralUtil.getDebugMode()) {
-                    File WhereItIs = new File("src/com/cyder/users/" + mainGeneralUtil.getUserUUID() + "/Throws/");
+                    File WhereItIs = new File("src/users/" + mainGeneralUtil.getUserUUID() + "/Throws/");
                     Desktop.getDesktop().open(WhereItIs);
                 }
 
@@ -3269,8 +3272,8 @@ public class CyderMain{
     }
 
     public void initMusicBackgroundList() {
-        File backgroundDir = new File("src/com/cyder/users/" + mainGeneralUtil.getUserUUID() + "/Backgrounds");
-        File musicDir = new File("src/com/cyder/users/" + mainGeneralUtil.getUserUUID() + "/Music");
+        File backgroundDir = new File("src/users/" + mainGeneralUtil.getUserUUID() + "/Backgrounds");
+        File musicDir = new File("src/users/" + mainGeneralUtil.getUserUUID() + "/Music");
 
         musicBackgroundList = new LinkedList<>();
         musicBackgroundNameList = new LinkedList<>();
@@ -3525,7 +3528,7 @@ public class CyderMain{
                 Path copyPath = new File(addFile.getAbsolutePath()).toPath();
 
                 if (addFile != null && addFile.getName().endsWith(".png")) {
-                    File Destination = new File("src/com/cyder/users/" + mainGeneralUtil.getUserUUID() + "/Backgrounds/" + addFile.getName());
+                    File Destination = new File("src/users/" + mainGeneralUtil.getUserUUID() + "/Backgrounds/" + addFile.getName());
                     Files.copy(copyPath, Destination.toPath());
                     initMusicBackgroundList();
                     musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
@@ -3533,7 +3536,7 @@ public class CyderMain{
                 }
 
                 else if (addFile != null && addFile.getName().endsWith(".mp3")) {
-                    File Destination = new File("src/com/cyder/users/" + mainGeneralUtil.getUserUUID() + "/Music/" + addFile.getName());
+                    File Destination = new File("src/users/" + mainGeneralUtil.getUserUUID() + "/Music/" + addFile.getName());
                     Files.copy(copyPath, Destination.toPath());
                     initMusicBackgroundList();
                     musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
@@ -3875,11 +3878,12 @@ public class CyderMain{
         inputBorderLabel.setBounds(150 + 20 + 20 + 150 + 225,50,160,25);
         switchingPanel.add(inputBorderLabel);
 
-        JLabel introMusic = new JLabel();
+        CheckBox introMusic = new CheckBox();
         introMusic.setToolTipText("Play intro music on start");
-        introMusic.setHorizontalAlignment(JLabel.CENTER);
-        introMusic.setSize(100,100);
-        introMusic.setIcon((mainGeneralUtil.getUserData("IntroMusic").equals("1") ? selected : notSelected));
+
+        if (mainGeneralUtil.getUserData("IntroMusic").equals("1"))
+            introMusic.setSelected();
+
         introMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -4417,18 +4421,18 @@ public class CyderMain{
             public void mouseReleased(MouseEvent e) {
             try {
                 String uuid = mainGeneralUtil.generateUUID();
-                File folder = new File("src/com/cyder/users/" + uuid);
+                File folder = new File("src/users/" + uuid);
 
                 while (folder.exists()) {
                     uuid = mainGeneralUtil.generateUUID();
-                    folder = new File("src/com/cyder/users/" + uuid);
+                    folder = new File("src/users/" + uuid);
                 }
 
                 char[] pass = newUserPassword.getPassword();
                 char[] passconf = newUserPasswordconf.getPassword();
 
                 boolean alreadyExists = false;
-                File[] files = new File("src/com/cyder/users").listFiles();
+                File[] files = new File("src/users").listFiles();
 
                 for (File f: files) {
                     File data = new File(f.getAbsolutePath() + "/Userdata.txt");
@@ -4481,10 +4485,10 @@ public class CyderMain{
                         createUserBackground = new File("src/com/cyder/io/pictures/bobby.png");
                     }
 
-                    File NewUserFolder = new File("src/com/cyder/users/" + uuid);
-                    File backgrounds = new File("src/com/cyder/users/" + uuid + "/Backgrounds");
-                    File music = new File("src/com/cyder/users/" + uuid + "/Music");
-                    File notes = new File("src/com/cyder/users/" + uuid + "/Notes");
+                    File NewUserFolder = new File("src/users/" + uuid);
+                    File backgrounds = new File("src/users/" + uuid + "/Backgrounds");
+                    File music = new File("src/users/" + uuid + "/Music");
+                    File notes = new File("src/users/" + uuid + "/Notes");
 
                     NewUserFolder.mkdirs();
                     backgrounds.mkdir();
@@ -4492,10 +4496,10 @@ public class CyderMain{
                     notes.mkdir();
 
                     ImageIO.write(ImageIO.read(createUserBackground), "png",
-                            new File("src/com/cyder/users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
+                            new File("src/users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
 
                     BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
-                            "src/com/cyder/users/" + uuid + "/Userdata.txt"));
+                            "src/users/" + uuid + "/Userdata.txt"));
 
                     LinkedList<String> data = new LinkedList<>();
                     data.add("Name:" + newUserName.getText().trim());

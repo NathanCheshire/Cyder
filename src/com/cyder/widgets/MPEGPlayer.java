@@ -558,7 +558,7 @@ public class MPEGPlayer {
 
         else {
             try {
-                File[] SelectedFileDir = new File("src/com/cyder/users/" + musicGeneralUtil.getUserUUID() + "/Music/" ).listFiles();
+                File[] SelectedFileDir = new File("src/users/" + musicGeneralUtil.getUserUUID() + "/Music/" ).listFiles();
                 ArrayList<File> ValidFiles = new ArrayList<>();
                 if (SelectedFileDir == null)
                     return;

@@ -187,19 +187,4 @@ public class CyderScrollPane extends JScrollPane {
             }
         }
     }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(400, 400));
-
-        JPanel content = new JPanel();
-        content.setBackground(Color.WHITE);
-        content.setPreferredSize(new Dimension(500, 500));
-        content.add(new JLabel("test"));
-        frame.add(new CyderScrollPane(content));
-
-        frame.pack();
-        frame.setVisible(true);
-    }
 }

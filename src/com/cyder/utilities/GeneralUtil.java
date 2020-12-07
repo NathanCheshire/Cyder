@@ -720,7 +720,7 @@ public class GeneralUtil {
 
     public String generateUUID() {
         try {
-            MessageDigest salt =MessageDigest.getInstance("SHA-256");
+            MessageDigest salt = MessageDigest.getInstance("SHA-256");
             salt.update(UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
             return UUID.nameUUIDFromBytes(salt.digest()).toString();
         }
@@ -734,7 +734,7 @@ public class GeneralUtil {
 
     public boolean checkPassword(String name, String pass) {
         try {
-            File[] users = new File("src/com/cyder/users").listFiles();
+            File[] users = new File("src/users").listFiles();
             LinkedList<File> userDataFiles = new LinkedList<>();
 
             for (File f : users) {
@@ -1375,7 +1375,7 @@ public class GeneralUtil {
 
     public void initBackgrounds() {
         try {
-            File dir = new File("src/com/cyder/users/" + getUserUUID() + "/Backgrounds");
+            File dir = new File("src/users/" + getUserUUID() + "/Backgrounds");
             FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
             validBackgroundPaths = dir.listFiles(PNGFilter);
 
@@ -1472,7 +1472,7 @@ public class GeneralUtil {
                 return;
 
             BufferedReader dataReader = new BufferedReader(new FileReader(
-                    "src/com/cyder/users/" + user + "/Userdata.txt"));
+                    "src/users/" + user + "/Userdata.txt"));
 
             String Line = dataReader.readLine();
 
@@ -1493,7 +1493,7 @@ public class GeneralUtil {
     public void writeUserData(String name, String value) {
         try {
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "src/com/cyder/users/" + getUserUUID() + "/Userdata.txt", false));
+                    "src/users/" + getUserUUID() + "/Userdata.txt", false));
 
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name)) {
@@ -1653,12 +1653,12 @@ public class GeneralUtil {
 
     public void handle(Exception e) {
         try {
-            File throwsDir = new File("src/com/cyder/users/" + getUserUUID() + "/Throws/");
+            File throwsDir = new File("src/users/" + getUserUUID() + "/Throws/");
 
             if (!throwsDir.exists())
                 throwsDir.mkdir();
 
-            String eFileString = "src/com/cyder/users/" + getUserUUID() + "/Throws/" + errorTime() + ".error";
+            String eFileString = "src/users/" + getUserUUID() + "/Throws/" + errorTime() + ".error";
             File eFile = new File(eFileString);
             eFile.createNewFile();
 
@@ -1869,7 +1869,7 @@ public class GeneralUtil {
     }
 
     public void cleanUpUsers() {
-        File top = new File("src/com/cyder/users");
+        File top = new File("src/users");
         File[] users = top.listFiles();
 
         for (File userDir : users) {
@@ -1927,12 +1927,12 @@ public class GeneralUtil {
     }
 
     public void wipeErrors() {
-        File topDir = new File("src/com/cyder/users");
+        File topDir = new File("src/users");
         File[] users = topDir.listFiles();
 
         for (File f : users) {
             if (f.isDirectory()) {
-                File throwDir = new File("src/com/cyder/users/" + f.getName() + "/throws");
+                File throwDir = new File("src/users/" + f.getName() + "/throws");
                 if (throwDir.exists()) deleteFolder(throwDir);
             }
         }
