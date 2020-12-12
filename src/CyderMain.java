@@ -37,6 +37,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo orange vs blue border for working in background doesnt seem to work
+
+//todo add logout button to menu
+//todo make login bigger and 800x800
+
+//todo make all cyder ui components should extend a CyderContainer and implement an interface that allows them to be moved around
+// during runtime
+
 //todo light mode and dark mode
 
 //todo temporarily toggle prefs for instance via input field
