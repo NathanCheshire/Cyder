@@ -1415,7 +1415,9 @@ public class CyderMain{
 
             if (mainGeneralUtil.checkPassword(Username, mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(Password)))) {
                 mainGeneralUtil.readUserData();
-                loginFrame.closeAnimation();
+
+                if (loginFrame != null)
+                    loginFrame.closeAnimation();
 
                 if (consoleFrame != null)
                     frameAni.closeAnimation(consoleFrame);
@@ -2363,24 +2365,6 @@ public class CyderMain{
 
             else if (eic("nathan")) {
                 printlnImage("src/com/cyder/io/pictures/me.png");
-            }
-
-            else if (has("always on top mode")) {
-                if (hasWord("true")) {
-                    println("Always on top mode has been set to true.");
-                    mainGeneralUtil.setAlwaysOnTopMode(true);
-                    consoleFrame.setAlwaysOnTop(true);
-                }
-
-                else if (hasWord("false")) {
-                    println("Always on top mode has been set to false.");
-                    mainGeneralUtil.setAlwaysOnTopMode(false);
-                    consoleFrame.setAlwaysOnTop(false);
-                }
-
-                else {
-                    println("Please specify the boolean value of always on top mode.");
-                }
             }
 
             else if ((eic("error") || eic("errors")) && !hasWord("throw")) {
@@ -3424,7 +3408,7 @@ public class CyderMain{
             if (!mainGeneralUtil.empytStr(newUsername)) {
                 changeUsername(newUsername);
                 editUserFrame.inform("Username successfully changed","", 300, 200);
-                mainGeneralUtil.refreshUsername(consoleFrame);
+                consoleFrame.setTitle(mainGeneralUtil.getCyderVer() + " Cyder [" + newUsername + "]");
                 changeUsernameField.setText("");
             }
         });

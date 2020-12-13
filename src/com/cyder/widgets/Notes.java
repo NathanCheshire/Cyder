@@ -39,7 +39,7 @@ public class Notes {
         this.UUID = UUID;
 
         if (noteFrame != null)
-            noteGeneralUtil.closeAnimation(noteFrame);
+            noteFrame.closeAnimation();
 
         noteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         noteFrame.setTitle(noteGeneralUtil.getUsername() + new StringUtil().getApostrophe(noteGeneralUtil.getUsername()) + " notes");
@@ -138,7 +138,7 @@ public class Notes {
 
     private void addNote() {
         if (newNoteFrame != null)
-            noteGeneralUtil.closeAnimation(newNoteFrame);
+            newNoteFrame.closeAnimation();
 
         newNoteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         newNoteFrame.setTitle("New note");
@@ -203,7 +203,7 @@ public class Notes {
                 noteGeneralUtil.handle(ex);
             }
 
-            noteGeneralUtil.closeAnimation(newNoteFrame);
+            newNoteFrame.closeAnimation();
 
             initializeNotesList();
 
@@ -250,7 +250,7 @@ public class Notes {
 
     private void openNote(File File) {
         if (noteEditorFrame != null)
-            noteGeneralUtil.closeAnimation(noteEditorFrame);
+            noteEditorFrame.closeAnimation();
 
         noteEditorFrame = newNoteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
@@ -333,7 +333,7 @@ public class Notes {
                     noteGeneralUtil.inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
                 }
 
-                noteGeneralUtil.closeAnimation(noteEditorFrame);
+                noteEditorFrame.closeAnimation();
             }
 
             catch (Exception exc) {

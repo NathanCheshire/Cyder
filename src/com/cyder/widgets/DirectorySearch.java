@@ -26,7 +26,7 @@ public class DirectorySearch {
     private String rightNow = System.getProperty("user.dir");
     public DirectorySearch() {
         if (dirFrame != null)
-            new GeneralUtil().closeAnimation(dirFrame);
+            dirFrame.closeAnimation();
 
         dirFrame = new CyderFrame(620,470, new ImageIcon("src/com/cyder/io/pictrures/DebugBackground.png"));
         dirFrame.setTitle(new File(System.getProperty("user.dir")).getName());

@@ -116,7 +116,7 @@ public class TimeUtil {
     }
 
     private void exit() {
-        timeGeneralUtil.closeAnimation(consoleFrame);
+        new FrameAnimations().closeAnimation(consoleFrame);
         System.exit(0);
     }
 }

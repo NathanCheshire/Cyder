@@ -97,7 +97,7 @@ public class ImageUtil {
             String NewName = path.getName().replace(".png", "") + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
 
             if (pixelFrame != null)
-                giu.closeAnimation(pixelFrame);
+                pixelFrame.closeAnimation();
 
             pixelFrame = new CyderFrame(retImage.getWidth(),retImage.getHeight(), new ImageIcon(retImage));
             pixelFrame.setTitle("Approve Pixelation");
@@ -116,7 +116,7 @@ public class ImageUtil {
                     giu.handle(exc);
                 }
 
-                giu.closeAnimation(pixelFrame);
+                pixelFrame.closeAnimation();
                 pixelFrame.inform("The pixelated image has been saved to your Downloads folder.","Saved", 400, 200);
             });
             approveImage.setBounds(20, retImage.getHeight() - 100,retImage.getWidth() - 40, 40);
@@ -128,7 +128,7 @@ public class ImageUtil {
             rejectImage.setBorder(new LineBorder(giu.navy,3,false));
             rejectImage.setColors(giu.regularRed);
             rejectImage.setFont(giu.weatherFontSmall);
-            rejectImage.addActionListener(e -> giu.closeAnimation(pixelFrame));
+            rejectImage.addActionListener(e -> pixelFrame.closeAnimation());
             rejectImage.setSize(pixelFrame.getX(), 20);
             rejectImage.setBounds(20, retImage.getHeight() - 60,retImage.getWidth() - 40, 40);
             pixelFrame.getContentPane().add(rejectImage);

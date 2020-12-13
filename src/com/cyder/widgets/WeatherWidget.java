@@ -2,6 +2,7 @@ package com.cyder.widgets;
 
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
+import com.cyder.utilities.FrameAnimations;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.InternetProtocolUtil;
 
@@ -79,7 +80,7 @@ public class WeatherWidget {
         weatherStats();
 
         if (weatherFrame != null)
-            weatherGeneralUtil.closeAnimation(weatherFrame);
+            weatherFrame.closeAnimation();
 
         weatherFrame = new CyderFrame(500,608,new ImageIcon("src/com/cyder/io/pictures/Weather.png"));
         weatherFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
@@ -202,7 +203,7 @@ public class WeatherWidget {
 
                         useCustomLoc = true;
 
-                        weatherGeneralUtil.closeAnimation(changeLocationFrame);
+                        new FrameAnimations().closeAnimation(changeLocationFrame);
                         weatherFrame.inform("Attempting to refresh and use the location \"" + locationString + "\" for weather.", "",400, 300);
                         refreshWeatherNow();
                     }

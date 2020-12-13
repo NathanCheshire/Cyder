@@ -2,6 +2,7 @@ package com.cyder.handler;
 
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.DragLabel;
+import com.cyder.utilities.FrameAnimations;
 import com.cyder.utilities.GeneralUtil;
 
 import javax.imageio.ImageIO;
@@ -21,6 +22,7 @@ public class PhotoViewer {
     private int currentIndex;
 
     private GeneralUtil imageGeneralUtil = new GeneralUtil();
+    private FrameAnimations fa = new FrameAnimations();
 
     private JFrame renameFrame;
     private DragLabel dl;
@@ -42,7 +44,7 @@ public class PhotoViewer {
         File ImageName = validImages.get(currentIndex);
 
         if (pictureFrame != null)
-            imageGeneralUtil.closeAnimation(pictureFrame);
+            fa.closeAnimation(pictureFrame);
 
         BufferedImage Image = null;
 
@@ -72,7 +74,7 @@ public class PhotoViewer {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (renameFrame != null)
-                    imageGeneralUtil.closeAnimation(renameFrame);
+                    fa.closeAnimation(renameFrame);
 
                 renameFrame = new JFrame();
                 renameFrame.setResizable(false);
@@ -118,7 +120,7 @@ public class PhotoViewer {
 
                     pictureFrame.setTitle(name);
 
-                    imageGeneralUtil.closeAnimation(renameFrame);
+                    fa.closeAnimation(renameFrame);
                 });
 
                 JPanel b = new JPanel();
@@ -249,7 +251,7 @@ public class PhotoViewer {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     if (renameFrame != null)
-                        imageGeneralUtil.closeAnimation(renameFrame);
+                        fa.closeAnimation(renameFrame);
 
                     renameFrame = new JFrame();
                     renameFrame.setResizable(false);
@@ -295,7 +297,7 @@ public class PhotoViewer {
 
                         pictureFrame.setTitle(name);
 
-                        imageGeneralUtil.closeAnimation(renameFrame);
+                        fa.closeAnimation(renameFrame);
                     });
 
                     JPanel b = new JPanel();
@@ -403,7 +405,7 @@ public class PhotoViewer {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     if (renameFrame != null)
-                        imageGeneralUtil.closeAnimation(renameFrame);
+                        fa.closeAnimation(renameFrame);
 
                     renameFrame = new JFrame();
                     renameFrame.setResizable(false);
@@ -449,7 +451,7 @@ public class PhotoViewer {
 
                         pictureFrame.setTitle(name);
 
-                        imageGeneralUtil.closeAnimation(renameFrame);
+                        fa.closeAnimation(renameFrame);
                     });
 
                     JPanel b = new JPanel();

@@ -1,4 +1,4 @@
-//package declaration
+
 package com.cyder.utilities;
 
 import com.cyder.exception.FatalException;
@@ -36,6 +36,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GeneralUtil {
+
+    //todo enums package
 
     //static strings used for test cases
     public static final String HERE = "here";
@@ -102,22 +104,6 @@ public class GeneralUtil {
     private static File[] validBackgroundPaths;
     private boolean consoleClock;
 
-    //weather vars
-    private String customCity;
-    private String customState;
-    private boolean useCustomLoc;
-    private String sunrise;
-    private String sunset;
-    private String weatherIcon;
-    private String weatherCondition;
-    private String windSpeed;
-    private String visibility;
-    private String temperature;
-    private String humidity;
-    private String pressure;
-    private String feelsLike;
-    private String windBearing;
-
     //screen size vars
     private int screenWidth;
     private int screenHeight;
@@ -160,26 +146,26 @@ public class GeneralUtil {
     //used for second handle
     private String userInputDesc;
 
+    //system utils
     public Dimension getScreenSize() {
         return Toolkit.getDefaultToolkit().getScreenSize();
     }
 
+    //string utils
     public boolean getUserInputMode() {
         return this.userInputMode;
     }
-
     public void setUserInputMode(boolean b) {
         this.userInputMode = b;
     }
-
     public String getUserInputDesc() {
         return this.userInputDesc;
     }
-
     public void setUserInputDesc(String s) {
         this.userInputDesc = s;
     }
 
+    //system utils
     private int getScreenWidth() {
         this.screenWidth = this.getScreenSize().width;
         return this.screenWidth;
@@ -190,10 +176,7 @@ public class GeneralUtil {
         return this.screenHeight;
     }
 
-    public void refreshUsername(JFrame frame) {
-        frame.setTitle(getCyderVer() + " Cyder [" + getUsername() + "]");
-    }
-
+    //put in cyderframe class
     public void dance(JFrame frame) {
         Thread DanceThread = new Thread(() -> {
             try {
@@ -288,36 +271,38 @@ public class GeneralUtil {
         DanceThread.start();
     }
 
+    //time util
     public String errorTime() {
         DateFormat dateFormat = new SimpleDateFormat("MMddyy-HH-mmaa");
         Date date = new Date();
         return dateFormat.format(date);
     }
-
+    //time util
     public String userTime() {
         Date Time = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
         return dateFormatter.format(Time);
     }
-
+    //time util
     public String consoleTime() {
         Date Time = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mmaa");
         return dateFormatter.format(Time);
     }
-
+    //time util
     public String consoleSecondTime() {
         Date Time = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
         return dateFormatter.format(Time);
     }
-
+    //time util
     public String weatherTime() {
         Date Time = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa zzz EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
         return dateFormatter.format(Time);
     }
 
+    //network util
     public void internetConnect(String URL) {
         Desktop Internet = Desktop.getDesktop();
         try {
@@ -326,7 +311,7 @@ public class GeneralUtil {
             handle(ex);
         }
     }
-
+    //network util
     public void internetConnect(URI URI) {
         Desktop Internet = Desktop.getDesktop();
         try {
@@ -336,18 +321,15 @@ public class GeneralUtil {
         }
     }
 
+    //system util
     public ImageIcon getCyderIcon() {
         return this.cyderIcon;
     }
-
     public ImageIcon getCyderIconBlink() {
         return this.cyderIconBlink;
     }
-
     public ImageIcon getScaledCyderIcon() {return this.scaledCyderIcon;}
-
     public ImageIcon getScaledCyderIconBlink() {return this.scaledCyderIconBlink;}
-
     public String getCyderVer() {
         try (BufferedReader br = new BufferedReader(new FileReader("src/Title.txt"))) {
             return br.readLine();
@@ -360,6 +342,7 @@ public class GeneralUtil {
         return null;
     }
 
+    //string util
     public String fillString(int count, String c) {
         StringBuilder sb = new StringBuilder(count);
 
@@ -370,6 +353,7 @@ public class GeneralUtil {
         return sb.toString();
     }
 
+    //num util
     public int randInt(int min, int max) {
         Random rand = new Random();
         int randomNum = rand.nextInt((max - min) + 1) + min;
@@ -383,10 +367,13 @@ public class GeneralUtil {
             Desktop.getDesktop().open(WhereItIs);
             File f = new File("File.txt");
             f.delete();
-            while (!f.exists()) {}
+            while (!f.exists()) {
+                Thread.onSpinWait();
+            }
+
             Thread.sleep(200);
 
-            BufferedReader waitReader = new BufferedReader(new FileReader("File.txt"));
+            BufferedReader waitReader = new BufferedReader(new FileReader("File.txt")); //todo move to temp dir
             File chosenFile = new File(waitReader.readLine());
             f.delete();
             waitReader.close();
@@ -401,6 +388,7 @@ public class GeneralUtil {
         return null;
     }
 
+    //networ kutil
     public String getMACAddress() {
         byte[] MAC = null;
 
@@ -422,22 +410,25 @@ public class GeneralUtil {
     }
 
     //tests for my mac addr
+    //network util
     public boolean compMACAddress(String mac) {
         return toHexString(getSHA(mac.toCharArray())).equals("5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e");
     }
 
+    //system util
     public String getWindowsUsername() {
         return System.getProperty("user.name");
     }
-
     private String getOS() {
         return System.getProperty("os.name");
     }
 
+    //todo make dir for title, released, and such
     public boolean released() {
         return false;
     }
 
+    //do away with
     public void varInit() {
         String windowsUserName = getWindowsUsername();
         this.os = getOS();
@@ -445,6 +436,7 @@ public class GeneralUtil {
         this.screenHeight = getScreenHeight();
     }
 
+    //system util
     private String getComputerName() {
         String name = null;
 
@@ -457,6 +449,7 @@ public class GeneralUtil {
         return name;
     }
 
+    //change to user by user so in user util
     public String getIPKey() {
         try {
             BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/io/text/keys.txt"));
@@ -477,6 +470,7 @@ public class GeneralUtil {
         return null;
     }
 
+    //change to user by user so in user util
     public String getWeatherKey() {
         try {
             BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/io/text/keys.txt"));
@@ -498,6 +492,7 @@ public class GeneralUtil {
         return null;
     }
 
+    //network util
     private boolean siteReachable(String URL) {
         Process Ping;
 
@@ -516,10 +511,11 @@ public class GeneralUtil {
         return true;
     }
 
+    //network util
     private int latency() {
         Socket Sock = new Socket();
         SocketAddress Address = new InetSocketAddress("www.google.com", 80);
-        int Timeout = 2000;
+        int Timeout = 2000; //todo pass timeout in constructor
         long start = System.currentTimeMillis();
 
         try {
@@ -540,6 +536,7 @@ public class GeneralUtil {
         return Latency;
     }
 
+    //text popups
     public void debugMenu(JTextPane outputArea) {
         try {
             DecimalFormat gFormater = new DecimalFormat("##.###");
@@ -591,6 +588,7 @@ public class GeneralUtil {
         }
     }
 
+    //string util
     public String[] combineArrays(String[] a, String[] b) {
         int length = a.length + b.length;
         String[] result = new String[length];
@@ -598,7 +596,7 @@ public class GeneralUtil {
         System.arraycopy(b, 0, result, a.length, b.length);
         return result;
     }
-
+    //string util
     public String capsFirst(String Word) {
         StringBuilder SB = new StringBuilder(Word.length());
         String[] Words = Word.split(" ");
@@ -609,7 +607,7 @@ public class GeneralUtil {
 
         return SB.toString();
     }
-
+    //system util
     public void resetMouse() {
         try {
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -622,6 +620,7 @@ public class GeneralUtil {
         }
     }
 
+    //security util
     public byte[] getSHA(char[] input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -639,7 +638,7 @@ public class GeneralUtil {
 
         return null;
     }
-
+    //security util
     public String toHexString(byte[] hash) {
         BigInteger number = new BigInteger(1, hash);
         StringBuilder hexString = new StringBuilder(number.toString(16));
@@ -650,11 +649,10 @@ public class GeneralUtil {
 
         return hexString.toString();
     }
-
+    //security util
     public String getDeprecatedUUID() {
         return "VoidUser-" + generateUUID().substring(0,8);
     }
-
     public String generateUUID() {
         try {
             MessageDigest salt = MessageDigest.getInstance("SHA-256");
@@ -668,7 +666,7 @@ public class GeneralUtil {
 
         return null;
     }
-
+    //security util
     public boolean checkPassword(String name, String pass) {
         try {
             File[] users = new File("src/users").listFiles();
@@ -714,12 +712,15 @@ public class GeneralUtil {
         return false;
     }
 
+    //todo make a regex matcher
+    //string util
     public String firstNumber(String Search) {
         Pattern Pat = Pattern.compile("\\d+");
         Matcher m = Pat.matcher(Search);
         return m.find() ? m.group() : null;
     }
 
+    //todo make widget
     public void colorConverter() {
         CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         colorFrame.setTitle("Color Converter");
@@ -798,6 +799,7 @@ public class GeneralUtil {
         colorFrame.setLocationRelativeTo(null);
     }
 
+    //color util
     public Color hextorgbColor(String hex) {
         return new Color(Integer.valueOf(hex.substring(0,2),16),Integer.valueOf(hex.substring(2,4),16),Integer.valueOf(hex.substring(4,6),16));
     }
@@ -808,6 +810,7 @@ public class GeneralUtil {
         return String.format("%02X%02X%02X", c.getRed(), c.getGreen(), c.getBlue());
     }
 
+    //make own class
     public void inform(String text, String title, int width, int height) {
         try {
             CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,navy)));
@@ -834,45 +837,48 @@ public class GeneralUtil {
         }
     }
 
+    //string util
     public String firstWord(String Word) {
         String[] sentences = Word.split(" ");
         return sentences[0];
     }
 
+    //num util
     public String toBinary(int value) {
-        String binaryResult;
+        String bin;
 
         if (value > 0) {
-            int columnExponent = 0;
-            int remainingValue = value;
+            int colExp = 0;
+            int val = value;
 
-            while (Math.pow(2, columnExponent) <= value) {
-                columnExponent = columnExponent + 1;
+            while (Math.pow(2, colExp) <= value) {
+                colExp = colExp + 1;
             }
 
-            String binaryResultUse = "";
+            bin = "";
 
             do {
-                columnExponent = columnExponent - 1;
-                int columnWeight = (int) Math.pow(2, columnExponent);
+                colExp--;
+                int columnWeight = (int) Math.pow(2, colExp);
 
-                if (columnWeight <= remainingValue) {
-                    binaryResultUse = binaryResultUse + "1";
-                    remainingValue = remainingValue - columnWeight;
-                } else {
-                    binaryResultUse = binaryResultUse + "0";
+                if (columnWeight <= val) {
+                    bin += "1";
+                    val -= columnWeight;
                 }
+
+                else
+                    bin += "0";
             }
 
-            while (columnExponent > 0);
+            while (colExp > 0);
 
-            return binaryResultUse;
+            return bin;
         }
 
-        binaryResult = "0";
-        return binaryResult;
+        return "NaN";
     }
 
+    //network util
     public boolean internetReachable() {
         Process Ping;
 
@@ -889,14 +895,15 @@ public class GeneralUtil {
         return false;
     }
 
+    //todo get rid of debug mode
     public void setDebugMode(boolean b) {
         this.debugMode = b;
     }
-
     public boolean getDebugMode() {
         return this.debugMode;
     }
 
+    //system utils
     public void closeCD(String drive) {
         String[] vbs = {"Set wmp = CreateObject(\"WMPlayer.OCX\")",
             "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
@@ -906,7 +913,7 @@ public class GeneralUtil {
 
         createAndOpenTmpFile("CDROM-CLOSE",".vbs",vbs);
     }
-
+    //system utils
     public void openCD(String drive) {
         String[] vbs = {"Set wmp = CreateObject(\"WMPlayer.OCX\")",
                 "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
@@ -915,6 +922,8 @@ public class GeneralUtil {
 
         createAndOpenTmpFile("CDROM-OPEN",".vbs",vbs);
     }
+
+    //popup utils
     public void systemProperties() {
         ArrayList<String> arrayLines = new ArrayList<>();
         arrayLines.add("File Separator: " + System.getProperty("file.separator"));
@@ -951,11 +960,11 @@ public class GeneralUtil {
     public boolean getHandledMath() {
         return this.handledMath;
     }
-
     public void setHandledMath(boolean b) {
         this.handledMath = b;
     }
 
+    //string util
     public boolean isPalindrome(char[] Word) {
         int start = 0;
         int end = Word.length - 1;
@@ -972,76 +981,63 @@ public class GeneralUtil {
         return true;
     }
 
+    //user utils
     public String getUserUUID() {
         return this.userUUID;
     }
-
     public void setUserUUID(String s) {
         this.userUUID = s;
     }
-
     public void setUsername(String name) {
         this.username = name;
     }
-
     public String getUsername() {
         return this.username;
     }
-
     public void setUsercolor(Color c) {
         this.usercolor = c;
     }
-
     public Color getUsercolor() {
         return this.usercolor;
     }
-
     public void setUserfont(Font f) {
         this.userfont = f;
     }
-
     public Font getUserfont() {
         return this.userfont;
     }
 
+    //move to consoleframe
     public boolean OnLastBackground() {
         return (validBackgroundPaths.length == currentBackgroundIndex + 1);
     }
-
     public File[] getValidBackgroundPaths() {
         initBackgrounds();
         return this.validBackgroundPaths;
     }
 
-    public void beep() {
-        Toolkit.getDefaultToolkit().beep();
-    }
-
-    public static void sBeep() {
-        Toolkit.getDefaultToolkit().beep();
-    }
-
+    //date util
     public boolean isChristmas() {
         Calendar Checker = Calendar.getInstance();
         int Month = Checker.get(Calendar.MONTH) + 1;
         int Date = Checker.get(Calendar.DATE);
         return (Month == 12 && Date == 25);
     }
-
+    //date util
     public boolean isHalloween() {
         Calendar Checker = Calendar.getInstance();
         int Month = Checker.get(Calendar.MONTH) + 1;
         int Date = Checker.get(Calendar.DATE);
         return (Month == 10 && Date == 31);
     }
-
+    //date util
     public boolean isIndependenceDay() {
         Calendar Checker = Calendar.getInstance();
         int Month = Checker.get(Calendar.MONTH) + 1;
         int Date = Checker.get(Calendar.DATE);
         return (Month == 7 && Date == 4);
     }
-
+    //date util
     public boolean isThanksgiving() {
         Calendar Checker = Calendar.getInstance();
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -1050,7 +1046,7 @@ public class GeneralUtil {
         LocalDate RealTG = LocalDate.of(year, 11, 1).with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
         return (Month == 11 && Date == RealTG.getDayOfMonth());
     }
-
+    //date util
     public boolean isAprilFoolsDay() {
         Calendar Checker = Calendar.getInstance();
         int Month = Checker.get(Calendar.MONTH) + 1;
@@ -1058,6 +1054,7 @@ public class GeneralUtil {
         return (Month == 4 && Date == 1);
     }
 
+    //widget
     public void clickMe() {
         try {
             if (clickMeFrame != null)
@@ -1107,6 +1104,7 @@ public class GeneralUtil {
         }
     }
 
+    //string util, todo filter a lot more than just input
     public boolean filter(String FilterWord) {
         FilterWord = FilterWord.toLowerCase();
 
@@ -1136,6 +1134,7 @@ public class GeneralUtil {
         return false;
     }
 
+    //system utils
     public void disco(int iterations) {
         Thread DiscoThread = new Thread(() -> {
             try {
@@ -1199,6 +1198,7 @@ public class GeneralUtil {
         DiscoThread.start();
     }
 
+    //image utils
     public BufferedImage resizeImage(int x, int y, File UneditedImage) {
         BufferedImage ReturnImage = null;
 
@@ -1221,6 +1221,7 @@ public class GeneralUtil {
         return ReturnImage;
     }
 
+    //system utils
     public void deleteFolder(File folder) {
         File[] files = folder.listFiles();
 
@@ -1239,6 +1240,7 @@ public class GeneralUtil {
         folder.delete();
     }
 
+    //popup
     public void computerProperties() {
         ArrayList<String> arrayLines = new ArrayList<>();
 
@@ -1268,18 +1270,16 @@ public class GeneralUtil {
         createAndOpenTmpFile("Computer Properties",".txt", lines);
     }
 
+    //consoleframe
     public void setCurrentBackgroundIndex(int i) {
         this.currentBackgroundIndex = i;
     }
-
     public int getCurrentBackgroundIndex() {
         return this.currentBackgroundIndex;
     }
-
     public File getCurrentBackground() {
         return validBackgroundPaths[currentBackgroundIndex];
     }
-
     public void getBackgroundSize() {
         ImageIcon Size = new ImageIcon(getCurrentBackground().toString());
 
@@ -1294,22 +1294,21 @@ public class GeneralUtil {
         }
     }
 
+    //consoleframe
     public int getBackgroundX() {
         return this.backgroundX;
     }
-
     public int getBackgroundY() {
         return this.backgroundY;
     }
-
     public void setBackgroundX(int x) {
         this.backgroundX = x;
     }
-
     public void setBackgroundY(int y) {
         this.backgroundY = y;
     }
 
+    //console frame
     public void initBackgrounds() {
         try {
             File dir = new File("src/users/" + getUserUUID() + "/Backgrounds");
@@ -1326,6 +1325,7 @@ public class GeneralUtil {
         }
     }
 
+    //io utils
     public void openFile(String FilePath) {
         //use our custom text editor
         if (FilePath.endsWith(".txt")) {
@@ -1364,6 +1364,7 @@ public class GeneralUtil {
         }
     }
 
+    //io utils
     public void openFileOutsideProgram(String filePath) {
         Desktop OpenFile = Desktop.getDesktop();
 
@@ -1384,22 +1385,17 @@ public class GeneralUtil {
         }
     }
 
-    public void setHideOnClose(boolean b) {
-        this.hideOnClose = b;
-    }
-
-    public boolean getHideOnClose() {
-        return this.hideOnClose;
-    }
-
+    //system utils (screen resolution stuff too)
     public String getUserOS() {
         return this.os;
     }
 
+    //put in consoleframe class
     public boolean canSwitchBackground() {
         return (validBackgroundPaths.length > currentBackgroundIndex + 1 && validBackgroundPaths.length > 1);
     }
 
+    //io utils
     public void readUserData() {
         try {
             userData.clear();
@@ -1427,6 +1423,7 @@ public class GeneralUtil {
         }
     }
 
+    //io utils (something here is broken since sometimes userdata will end up empty)
     public void writeUserData(String name, String value) {
         try {
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
@@ -1451,6 +1448,7 @@ public class GeneralUtil {
         }
     }
 
+    //io utils
     public String getUserData(String name) {
         readUserData();
 
@@ -1466,6 +1464,7 @@ public class GeneralUtil {
         return null;
     }
 
+    //string utils
     public void javaProperties() {
         ArrayList<String> PropertiesList = new ArrayList<>();
         Properties Props = System.getProperties();
@@ -1487,10 +1486,12 @@ public class GeneralUtil {
         createAndOpenTmpFile("JavaProperties",".txt", lines);
     }
 
+    //string utils
     public boolean empytStr(String s) {
         return (s == null ? null: (s == null) || (s.trim().equals("")) || (s.trim().length() == 0));
     }
 
+    //image utils
     public void resizeImages() {
         try {
             for (int i = 0 ; i < getValidBackgroundPaths().length ; i++) {
@@ -1567,6 +1568,7 @@ public class GeneralUtil {
         }
     }
 
+    //image utils
     private static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
         BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
         Graphics2D g = resizedImage.createGraphics();
@@ -1576,10 +1578,10 @@ public class GeneralUtil {
         return resizedImage;
     }
 
+    //image utils
     private double getAspectRatio(BufferedImage im) {
         return ((double) im.getWidth() / (double) im.getHeight());
     }
-
     public int getScreenResolution() {
         return Toolkit.getDefaultToolkit().getScreenResolution();
     }
@@ -1587,7 +1589,7 @@ public class GeneralUtil {
     public static void staticHandle(Exception e) {
         new GeneralUtil().handle(e);
     }
-
+    //handle class
     public void handle(Exception e) {
         try {
             File throwsDir = new File("src/users/" + getUserUUID() + "/Throws/");
@@ -1629,26 +1631,20 @@ public class GeneralUtil {
         }
     }
 
+    //prefs utils?
     public void setConsoleClock(boolean b) {
         this.consoleClock = b;
     }
-
     public boolean getConsoleClock() {
         return this.consoleClock;
     }
 
+    //input utils with getinput
     public boolean confirmation(String input) {
         return (input.toLowerCase().contains("yes") || input.equalsIgnoreCase("y"));
     }
 
-    public boolean getAlwaysOnTopMode() {
-        return this.alwaysOnTop;
-    }
-
-    public void setAlwaysOnTopMode(boolean b) {
-        this.alwaysOnTop = b;
-    }
-
+    //static music player widget
     public void mp3(String FilePath, String user, String uuid) {
         if (CyderPlayer != null)
             CyderPlayer.kill();
@@ -1657,6 +1653,7 @@ public class GeneralUtil {
         CyderPlayer = new MPEGPlayer(new File(FilePath), user, uuid);
     }
 
+    //static music player widget
     public void playMusic(String FilePath) {
         try {
             stopMusic();
@@ -1680,6 +1677,7 @@ public class GeneralUtil {
         }
     }
 
+    //static music player widget
     public void stopMusic() {
         try {
             if (player != null && !player.isComplete()) {
@@ -1692,14 +1690,15 @@ public class GeneralUtil {
         }
     }
 
+    //put in consoleframe class
     public int getConsoleDirection() {
         return this.consoleDirection;
     }
-
     public void setConsoleDirection(int d) {
         this.consoleDirection = d;
     }
 
+    //image utils
     public BufferedImage getBi(File imageFile) {
         try {
             return ImageIO.read(imageFile);
@@ -1712,6 +1711,7 @@ public class GeneralUtil {
         return null;
     }
 
+    //image utils
     public BufferedImage getBi(String filename) {
         try {
             return ImageIO.read(new File(filename));
@@ -1724,6 +1724,7 @@ public class GeneralUtil {
         return null;
     }
 
+    //image utils
     public BufferedImage getRotatedImage(String name) {
         switch(this.consoleDirection) {
             case 0:
@@ -1739,6 +1740,7 @@ public class GeneralUtil {
         return null;
     }
 
+    //image utils
     //Used for barrel roll and flip screen hotkeys, credit: MadProgrammer from StackOverflow
     public BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
         double rads = Math.toRadians(angle);
@@ -1765,6 +1767,7 @@ public class GeneralUtil {
         return rotated;
     }
 
+    //num utils
     public boolean isPrime(int num) {
         ArrayList<Integer> Numbers = new ArrayList<>();
 
@@ -1775,6 +1778,7 @@ public class GeneralUtil {
         return Numbers.isEmpty();
     }
 
+    //string util
     public int totalCodeLines(File startDir) {
         int ret = 0;
 
@@ -1805,6 +1809,7 @@ public class GeneralUtil {
         return ret;
     }
 
+    //io utils
     public void cleanUpUsers() {
         File top = new File("src/users");
         File[] users = top.listFiles();
@@ -1820,6 +1825,7 @@ public class GeneralUtil {
         }
     }
 
+    //io util
     public void deleteTempDir() {
         try {
             File tmpDir = new File("src/tmp");
@@ -1829,6 +1835,7 @@ public class GeneralUtil {
         }
     }
 
+    //io utils
     public void createAndOpenTmpFile(String filename, String extension, String[] lines) {
         try {
             File tmpDir = new File("src/tmp");
@@ -1859,10 +1866,12 @@ public class GeneralUtil {
         }
     }
 
+    //ui utils
     public int xOffsetForCenterJLabel(int compWidth, String title) {
         return (int) Math.floor(5 + (compWidth / 2.0)) - (((int) Math.ceil(14 * title.length())) / 2);
     }
 
+    //io utils
     public void wipeErrors() {
         File topDir = new File("src/users");
         File[] users = topDir.listFiles();

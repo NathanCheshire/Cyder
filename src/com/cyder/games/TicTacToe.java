@@ -33,7 +33,7 @@ public class TicTacToe {
 
     public void startTicTacToe() {
         if (tttFrame != null)
-            tttGeneralUtil.closeAnimation(tttFrame);
+            tttFrame.closeAnimation();
 
         tttFrame = new CyderFrame(400,500, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         tttFrame.setTitlePosition(tttFrame.CENTER_TITLE);
@@ -442,8 +442,8 @@ public class TicTacToe {
         tttReset.setBounds(20, 440, 360, 40);
         tttFrame.getContentPane().add(tttReset);
 
-        tttFrame.setVisible(true);
-        tttGeneralUtil.startAnimation(tttFrame);
+        tttFrame.setVisible(true); //todo override this in cyderframe to call enter animation
+        tttFrame.enterAnimation();
 
         CurrentPlayerTurn = PlayerX;
 

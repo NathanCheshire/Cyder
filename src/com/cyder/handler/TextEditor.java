@@ -13,7 +13,7 @@ import java.io.*;
 
 public class TextEditor {
 
-    private JFrame noteEditorFrame;
+    private CyderFrame noteEditorFrame;
     private JTextField noteEditField;
     private GeneralUtil textGeneralUtil = new GeneralUtil();
     private JTextArea noteEditArea;
@@ -24,7 +24,7 @@ public class TextEditor {
 
     private void openNote(File File) {
         if (noteEditorFrame != null)
-            textGeneralUtil.closeAnimation(noteEditorFrame);
+            noteEditorFrame.closeAnimation();
 
         noteEditorFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
@@ -102,7 +102,7 @@ public class TextEditor {
                     textGeneralUtil.inform(File.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
                 }
 
-                textGeneralUtil.closeAnimation(noteEditorFrame);
+                noteEditorFrame.closeAnimation();
             }
 
             catch (Exception exc) {

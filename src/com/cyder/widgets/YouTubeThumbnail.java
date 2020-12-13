@@ -25,7 +25,7 @@ public class YouTubeThumbnail {
 
     public YouTubeThumbnail() {
         if (yttnFrame != null)
-            yttnGeneralUtil.closeAnimation(yttnFrame);
+            yttnFrame.closeAnimation();
 
         yttnFrame = new CyderFrame(600,250,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         yttnFrame.setTitle("YouTube Thumbnail");
@@ -123,7 +123,7 @@ public class YouTubeThumbnail {
 
                 thumbnailFrame.setVisible(true);
                 thumbnailFrame.setLocationRelativeTo(yttnFrame);
-                yttnGeneralUtil.closeAnimation(yttnFrame);
+                yttnFrame.closeAnimation();
             }
 
             catch (Exception exc) {

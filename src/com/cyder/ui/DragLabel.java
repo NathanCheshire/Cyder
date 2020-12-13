@@ -1,5 +1,6 @@
 package com.cyder.ui;
 
+import com.cyder.utilities.FrameAnimations;
 import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ public class DragLabel extends JLabel {
     private static JFrame effectFrame;
 
     GeneralUtil dragLabelGeneralUtil = new GeneralUtil();
+    FrameAnimations fa = new FrameAnimations();
 
     private int xMouse;
     private int yMouse;
@@ -70,7 +72,7 @@ public class DragLabel extends JLabel {
 
         close.setToolTipText("Close");
 
-        close.addActionListener(e -> dragLabelGeneralUtil.closeAnimation(effectFrame));
+        close.addActionListener(e -> fa.closeAnimation(effectFrame));
 
         close.addMouseListener(new MouseAdapter() {
             @Override
@@ -96,7 +98,7 @@ public class DragLabel extends JLabel {
         minimize.addActionListener(e -> {
             restoreX = effectFrame.getX();
             restoreY = effectFrame.getY();
-            dragLabelGeneralUtil.minimizeAnimation(effectFrame);
+            fa.minimizeAnimation(effectFrame);
         });
 
         minimize.addMouseListener(new MouseAdapter() {

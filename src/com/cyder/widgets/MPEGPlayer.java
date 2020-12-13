@@ -50,7 +50,7 @@ public class MPEGPlayer {
         musicGeneralUtil.setUserUUID(UUID);
 
         if (musicFrame != null)
-            musicGeneralUtil.closeAnimation(musicFrame);
+            musicFrame.closeAnimation();
 
         musicFrame = new CyderFrame(1000,563,new ImageIcon("src/com/cyder/io/pictures/mp3.png"));
         musicFrame.setTitle("Flash Player");
@@ -609,7 +609,7 @@ public class MPEGPlayer {
     public void kill() {
         if (mp3Player != null)
             this.mp3Player.close();
-        musicGeneralUtil.closeAnimation(musicFrame);
+        musicFrame.closeAnimation();
     }
 
     private void play(File path) {

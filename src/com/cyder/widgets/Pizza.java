@@ -21,7 +21,7 @@ public class Pizza {
 
     private GeneralUtil pizzaGeneralUtil = new GeneralUtil();
 
-    private JFrame pizzaFrame;
+    private CyderFrame pizzaFrame;
     private JTextField nameField;
     private JLabel smallPizza;
     private JLabel mediumPizza;
@@ -41,7 +41,7 @@ public class Pizza {
 
     public Pizza() {
         if (pizzaFrame != null)
-            new GeneralUtil().closeAnimation(pizzaFrame);
+            pizzaFrame.closeAnimation();
 
         pizzaFrame = new CyderFrame(600,800, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         pizzaFrame.setTitle("Pizza");

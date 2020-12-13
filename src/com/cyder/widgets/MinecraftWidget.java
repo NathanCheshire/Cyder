@@ -18,7 +18,7 @@ public class MinecraftWidget {
 
     public MinecraftWidget() {
         if (minecraftFrame != null)
-            mcGeneralUtil.closeAnimation(minecraftFrame);
+            minecraftFrame.closeAnimation();
 
         minecraftFrame = new CyderFrame(1263,160, new ImageIcon("src/com/cyder/io/pictures/Minecraft.png"));
         minecraftFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
