@@ -37,13 +37,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo resize weather widget background
+//todo weather will not work if IP cannot find location, happened in captiva florida
+
 //todo orange vs blue border for working in background doesnt seem to work
 
 //todo add logout button to menu
 //todo make login bigger and 800x800
 
-//todo make all cyder ui components should extend a CyderContainer and implement an interface that allows them to be moved around
-// during runtime
+//todo make all UI components implement CyderMoveable
 
 //todo light mode and dark mode
 
