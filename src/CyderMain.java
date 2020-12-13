@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 //todo add logout button to menu
 //todo make login bigger and 800x800
 
-//todo make all UI components implement CyderMoveable
+//todo make all UI components implement CyderMouseDraggable
 
 //todo light mode and dark mode
 

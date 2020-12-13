@@ -1,9 +1,10 @@
 package com.cyder.ui;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import javax.swing.JButton;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 public class CyderButton extends JButton {
 
@@ -17,6 +18,17 @@ public class CyderButton extends JButton {
     public CyderButton(String text) {
         super(text);
         super.setContentAreaFilled(false);
+        this.addMouseListener(new CyderMouseDraggable() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                super.mousePressed(me);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent me) {
+                super.mouseReleased(me);
+            }
+        });
     }
 
     @Override
@@ -58,4 +70,6 @@ public class CyderButton extends JButton {
     public void setPressedBackgroundColor(Color pressedBackgroundColor) {
         this.pressedBackgroundColor = pressedBackgroundColor;
     }
+
+
 }

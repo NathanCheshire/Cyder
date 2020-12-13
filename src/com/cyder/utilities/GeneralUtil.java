@@ -133,7 +133,7 @@ public class GeneralUtil {
     private boolean userInputMode;
 
     //boolean vars
-    private boolean debugMode;
+    private static boolean debugMode;
     private boolean handledMath;
     private boolean hideOnClose;
     private boolean oneMathPrint;
