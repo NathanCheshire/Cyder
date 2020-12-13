@@ -318,69 +318,6 @@ public class GeneralUtil {
         return dateFormatter.format(Time);
     }
 
-    public void closeAnimation(JFrame frame) {
-        try {
-            if (frame != null && frame.isVisible()) {
-                Point point = frame.getLocationOnScreen();
-                int x = (int) point.getX();
-                int y = (int) point.getY();
-
-                for (int i = y; i >= 0 - frame.getHeight(); i -= 15) {
-                    Thread.sleep(1);
-                    frame.setLocation(x, i);
-                }
-
-                frame.dispose();
-            }
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
-    public void minimizeAnimation(JFrame frame) {
-        Point point = frame.getLocationOnScreen();
-        int x = (int) point.getX();
-        int y = (int) point.getY();
-
-        try {
-            for (int i = y; i <= getScreenHeight(); i += 15) {
-                Thread.sleep(1);
-                frame.setLocation(x, i);
-            }
-
-            frame.setState(JFrame.ICONIFIED);
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
-    public void startAnimation(JFrame frame) {
-        frame.setVisible(false);
-        frame.setLocationRelativeTo(null);
-
-        int to = frame.getY();
-        frame.setLocation(frame.getX(), 0 - frame.getHeight());
-
-        frame.setVisible(true);
-
-        for (int i = 0 - frame.getHeight() ; i < to ; i+= 15) {
-            frame.setLocation(frame.getX(), i);
-            try {
-                Thread.sleep(1);
-            }
-
-            catch (Exception e) {
-                handle(e);
-            }
-        }
-
-        frame.setLocationRelativeTo(null);
-    }
-
     public void internetConnect(String URL) {
         Desktop Internet = Desktop.getDesktop();
         try {
@@ -1124,7 +1061,7 @@ public class GeneralUtil {
     public void clickMe() {
         try {
             if (clickMeFrame != null)
-                closeAnimation(clickMeFrame);
+                clickMeFrame.closeAnimation();
 
             clickMeFrame = new CyderFrame(200,100,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
             clickMeFrame.setTitlePosition(CyderFrame.CENTER_TITLE);

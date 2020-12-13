@@ -3,7 +3,6 @@ package com.cyder.ui;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class CyderButton extends JButton {

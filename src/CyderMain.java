@@ -38,33 +38,27 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //todo resize weather widget background
+//todo if location isn't found say so and say certain features might not work
 //todo weather will not work if IP cannot find location, happened in captiva florida
 
 //todo orange vs blue border for working in background doesnt seem to work
 
-//todo add logout button to menu
 //todo make login bigger and 800x800
 
-//todo make all UI components implement CyderMouseDraggable
+//todo light mode and dark mode (switch vanila and navy for informs)
 
-//todo light mode and dark mode
+//todo temporarily toggle prefs for via input field keywords
 
-//todo temporarily toggle prefs for instance via input field
-
-//todo change background color for console frame
+//todo change background color for console frame so like not navy
 
 //todo some scrolls with borders are not fitted properly
 
 //todo if you deleted a user, close all frames before going to login
 //todo if you created the first user, auto login
 
-//todo if location isn't found say so and say certain features might not work
-
-//todo deleting user doesnt work
-//todo weather doesn't work and different city is unkonwn
-
 //todo make a getinput method
 
+//todo make all UI components implement CyderMouseDraggable
 //todo cyder label
 //todo cyder textfield
 //todo cyder progress bar
@@ -95,16 +89,14 @@ import java.util.concurrent.TimeUnit;
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
 //todo make pixelating pictures it's own widget
 
-//todo photo viewer renmaing needs to be cyderframe
 //todo utilize start animations after you fix it
 
-//todo network util class
 //todo further class separation from GeneralUtil.java
 
 //todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
 //todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
 
-//todo make the frame and drag label stay when switching backgrounds and the image be separate
+//todo make the frame and drag label stay when switching backgrounds and the image be separate (inside of consoleframe class)
 //todo you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
 
 //todo allow users to map up to three internet links on the menu, add a bar to sep system from user stuff
@@ -160,8 +152,8 @@ public class CyderMain{
     //anagram one var
     private String anagram;
 
-    //font vars
-    private JList fontList;
+    //frame util (to be removed once consoleframe extends cyderframe)
+    private FrameAnimations frameAni;
 
     //create user vars
     private CyderFrame createUserFrame;
@@ -180,6 +172,9 @@ public class CyderMain{
 
     //pixealte file
     private File pixelateFile;
+
+    //font list for prefs
+    private JList fontList;
 
     //Linked List of youtube scripts
     private LinkedList<YoutubeThread> youtubeThreads = new LinkedList<>();
@@ -239,6 +234,7 @@ public class CyderMain{
         stringUtil = new StringUtil();
         stringUtil.setOutputArea(outputArea);
         timeUtil = new TimeUtil();
+        frameAni = new FrameAnimations();
     }
 
     private void initSystemProperties() {
@@ -590,7 +586,7 @@ public class CyderMain{
             minimize.addActionListener(e -> {
                 restoreX = consoleFrame.getX();
                 restoreY = consoleFrame.getY();
-                mainGeneralUtil.minimizeAnimation(consoleFrame);
+                frameAni.minimizeAnimation(consoleFrame);
                 updateConsoleClock = false;
                 consoleFrame.setState(Frame.ICONIFIED);
                 minimizeMenu();
@@ -840,7 +836,7 @@ public class CyderMain{
                    throw new FatalException("Only one but also more than one background.");
             }
 
-            mainGeneralUtil.startAnimation(consoleFrame);
+            frameAni.enterAnimation(consoleFrame);
 
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 if (!mainGeneralUtil.internetReachable())
@@ -877,7 +873,7 @@ public class CyderMain{
 
                 parentPane.add(menuLabel,1,0);
 
-                menuLabel.setBounds(-150,30, 130,260);
+                menuLabel.setBounds(-150,30, 130,290);
                 menuLabel.setVisible(true);
 
                 JLabel calculatorLabel = new JLabel("Calculator");
@@ -1058,6 +1054,28 @@ public class CyderMain{
                     }
                 });
 
+                JLabel logoutLabel = new JLabel("Logout");
+                logoutLabel.setFont(mainGeneralUtil.weatherFontSmall);
+                logoutLabel.setForeground(mainGeneralUtil.vanila);
+                menuLabel.add(logoutLabel);
+                logoutLabel.setBounds(5,255,150,30);
+                logoutLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        handle("logout");
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        logoutLabel.setForeground(mainGeneralUtil.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        logoutLabel.setForeground(mainGeneralUtil.vanila);
+                    }
+                });
+
                 animation.jLabelXRight(-150,0,10,8, menuLabel);
             }
 
@@ -1232,7 +1250,7 @@ public class CyderMain{
 
     private void login(boolean AlreadyOpen) {
         if (loginFrame != null)
-            mainGeneralUtil.closeAnimation(loginFrame);
+            loginFrame.closeAnimation();
 
         mainGeneralUtil.cleanUpUsers();
 
@@ -1384,7 +1402,7 @@ public class CyderMain{
         File Users = new File("src/users/");
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
 
-        mainGeneralUtil.startAnimation(loginFrame);
+        loginFrame.enterAnimation();
 
         if (directories != null && directories.length == 0)
             loginFrame.notify("<html>Psssst! Create a user,<br/>" + System.getProperty("user.name") + "</html>",
@@ -1397,10 +1415,10 @@ public class CyderMain{
 
             if (mainGeneralUtil.checkPassword(Username, mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(Password)))) {
                 mainGeneralUtil.readUserData();
-                mainGeneralUtil.closeAnimation(loginFrame);
+                loginFrame.closeAnimation();
 
                 if (consoleFrame != null)
-                    mainGeneralUtil.closeAnimation(consoleFrame);
+                    frameAni.closeAnimation(consoleFrame);
 
                 console();
 
@@ -1931,7 +1949,7 @@ public class CyderMain{
                     return;
                 }
 
-                mainGeneralUtil.closeAnimation(consoleFrame);
+                frameAni.closeAnimation(consoleFrame);
                 mainGeneralUtil.deleteFolder(new File("src/users/" + mainGeneralUtil.getUserUUID()));
 
                 String dep = mainGeneralUtil.getDeprecatedUUID();
@@ -2915,7 +2933,7 @@ public class CyderMain{
             }
 
             else if (hasWord("logout")) {
-                mainGeneralUtil.closeAnimation(consoleFrame);
+                frameAni.closeAnimation(consoleFrame);
                 login(false);
             }
 
@@ -3354,7 +3372,7 @@ public class CyderMain{
 
     public void editUser() {
         if (editUserFrame != null)
-            mainGeneralUtil.closeAnimation(editUserFrame);
+            editUserFrame.closeAnimation();
 
         editUserFrame = new CyderFrame(1000,800,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         editUserFrame.setTitlePosition(CyderFrame.LEFT_TITLE);
@@ -4267,7 +4285,7 @@ public class CyderMain{
         createUserBackground = null;
 
         if (createUserFrame != null)
-            mainGeneralUtil.closeAnimation(createUserFrame);
+            createUserFrame.closeAnimation();
 
         createUserFrame = new CyderFrame(356,473,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
         createUserFrame.setTitle("Create User");
@@ -4558,16 +4576,14 @@ public class CyderMain{
 
                     newUserWriter.close();
 
-                    mainGeneralUtil.closeAnimation(createUserFrame);
+                    createUserFrame.closeAnimation();
 
                     createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", 500, 300);
 
-                    if (consoleFrame != null)
-                        mainGeneralUtil.closeAnimation(createUserFrame);
+                    createUserFrame.closeAnimation();
 
-                    else {
-                        mainGeneralUtil.closeAnimation(createUserFrame);
-                        mainGeneralUtil.closeAnimation(loginFrame);
+                    if (consoleFrame == null && loginFrame != null) {
+                        loginFrame.closeAnimation();
                         recognize(newUserName.getText().trim(),pass);
                     }
                 }
@@ -4657,7 +4673,7 @@ public class CyderMain{
 
     //exiting method, system.exit will call shutdown hook which wil then call shutdown();
     private void exit() {
-        mainGeneralUtil.closeAnimation(consoleFrame);
+        frameAni.closeAnimation(consoleFrame);
         killAllYoutube();
         stringUtil.killBletchy();
         System.exit(0);

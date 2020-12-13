@@ -1,14 +1,11 @@
 package com.cyder.ui;
 
-import com.cyder.utilities.GeneralUtil;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-//todo utilize
 public abstract class CyderMouseDraggable extends MouseAdapter {
 
-    private GeneralUtil gu = new GeneralUtil();
+    private static boolean movingComponents = false; //todo set if trying to play with comp. locations
     private int xOffset;
     private int yOffset;
 
@@ -18,7 +15,7 @@ public abstract class CyderMouseDraggable extends MouseAdapter {
     }
 
     public void mouseReleased(MouseEvent me) {
-        if (gu.getDebugMode()) {
+        if (movingComponents) {
             int x = me.getX() + me.getComponent().getX() - xOffset;
             int y = me.getY() + me.getComponent().getY() - yOffset;
             System.out.println(x + "," + y);
