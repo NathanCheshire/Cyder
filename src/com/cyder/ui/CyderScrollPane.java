@@ -8,7 +8,7 @@ import java.awt.*;
 /*
     Credit: Philipp Danner from Stack Overflow
     https://stackoverflow.com/questions/16373459/java-jscrollbar-design/16375805
- */
+*/
 
 public class CyderScrollPane extends JScrollPane {
 
@@ -64,41 +64,41 @@ public class CyderScrollPane extends JScrollPane {
 
             @Override
             public void layoutContainer(Container parent) {
-                Rectangle availR = parent.getBounds();
-                availR.x = availR.y = 0;
+            Rectangle availR = parent.getBounds();
+            availR.x = availR.y = 0;
 
-                // viewport
-                Insets insets = parent.getInsets();
-                availR.x = insets.left;
-                availR.y = insets.top;
-                availR.width -= insets.left + insets.right;
-                availR.height -= insets.top + insets.bottom;
-                if (viewport != null) {
-                    viewport.setBounds(availR);
-                }
+            // viewport
+            Insets insets = parent.getInsets();
+            availR.x = insets.left;
+            availR.y = insets.top;
+            availR.width -= insets.left + insets.right;
+            availR.height -= insets.top + insets.bottom;
+            if (viewport != null) {
+                viewport.setBounds(availR);
+            }
 
-                boolean vsbNeeded = isVerticalScrollBarfNecessary();
-                boolean hsbNeeded = isHorizontalScrollBarNecessary();
+            boolean vsbNeeded = isVerticalScrollBarfNecessary();
+            boolean hsbNeeded = isHorizontalScrollBarNecessary();
 
-                // vertical scroll bar
-                Rectangle vsbR = new Rectangle();
-                vsbR.width = SB_SIZE;
-                vsbR.height = availR.height - (hsbNeeded ? vsbR.width : 0);
-                vsbR.x = availR.x + availR.width - vsbR.width;
-                vsbR.y = availR.y;
-                if (vsb != null) {
-                    vsb.setBounds(vsbR);
-                }
+            // vertical scroll bar
+            Rectangle vsbR = new Rectangle();
+            vsbR.width = SB_SIZE;
+            vsbR.height = availR.height - (hsbNeeded ? vsbR.width : 0);
+            vsbR.x = availR.x + availR.width - vsbR.width;
+            vsbR.y = availR.y;
+            if (vsb != null) {
+                vsb.setBounds(vsbR);
+            }
 
-                // horizontal scroll bar
-                Rectangle hsbR = new Rectangle();
-                hsbR.height = SB_SIZE;
-                hsbR.width = availR.width - (vsbNeeded ? hsbR.height : 0);
-                hsbR.x = availR.x;
-                hsbR.y = availR.y + availR.height - hsbR.height;
-                if (hsb != null) {
-                    hsb.setBounds(hsbR);
-                }
+            // horizontal scroll bar
+            Rectangle hsbR = new Rectangle();
+            hsbR.height = SB_SIZE;
+            hsbR.width = availR.width - (vsbNeeded ? hsbR.height : 0);
+            hsbR.x = availR.x;
+            hsbR.y = availR.y + availR.height - hsbR.height;
+            if (hsb != null) {
+                hsb.setBounds(hsbR);
+            }
             }
         });
 
@@ -143,8 +143,7 @@ public class CyderScrollPane extends JScrollPane {
         }
 
         @Override
-        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-        }
+        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) { }
 
         @Override
         protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
@@ -171,13 +170,8 @@ public class CyderScrollPane extends JScrollPane {
             sp.repaint();
         }
 
-        /**
-         * Invisible Buttons, to hide scroll bar buttons
-         */
+        //invisible buttons to hide scroll bar buttons - inner class
         private static class InvisibleScrollBarButton extends JButton {
-
-            private static final long serialVersionUID = 1552427919226628689L;
-
             private InvisibleScrollBarButton() {
                 setOpaque(false);
                 setFocusable(false);

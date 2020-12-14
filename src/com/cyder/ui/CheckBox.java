@@ -1,6 +1,7 @@
 package com.cyder.ui;
 
 import javax.swing.*;
+import java.awt.event.MouseEvent;
 
 public class CheckBox extends JLabel {
 
@@ -11,6 +12,17 @@ public class CheckBox extends JLabel {
         this.setSize(100,100);
         this.setNotSelected();
         this.setHorizontalAlignment(JLabel.CENTER);
+        this.addMouseListener(new CyderMouseDraggable() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                super.mousePressed(me);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent me) {
+                super.mouseReleased(me);
+            }
+        });
     }
 
     public void setSelected() {
