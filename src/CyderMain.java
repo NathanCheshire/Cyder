@@ -185,6 +185,10 @@ public class CyderMain{
     //notifications for holidays
     private SpecialDay specialDayNotifier;
 
+    //network util
+    private NetworkUtil networkUtil;
+    private SystemUtil systemUtil;
+
     //notify test vars
     private int notificaitonTestWidth;
     private String notificationTestString;
@@ -208,13 +212,12 @@ public class CyderMain{
 
         mainGeneralUtil.cleanUpUsers();
         mainGeneralUtil.deleteTempDir();
-        mainGeneralUtil.varInit();
 
         stringUtil.logArgs(CA);
 
         backgroundProcessChecker();
 
-        boolean nathanLenovo = mainGeneralUtil.compMACAddress(mainGeneralUtil.getMACAddress());
+        boolean nathanLenovo = networkUtil.compMACAddress(mainGeneralUtil.getMACAddress());
 
         if (nathanLenovo)
             autoCypher();
@@ -233,6 +236,8 @@ public class CyderMain{
         stringUtil.setOutputArea(outputArea);
         timeUtil = new TimeUtil();
         frameAni = new FrameAnimations();
+        networkUtil = new NetworkUtil();
+        systemUtil = new SystemUtil();
     }
 
     private void initSystemProperties() {
@@ -277,11 +282,9 @@ public class CyderMain{
     private void console() {
         try{
             mainGeneralUtil.initBackgrounds();
-            mainGeneralUtil.getScreenSize();
             mainGeneralUtil.resizeImages();
             mainGeneralUtil.getValidBackgroundPaths();
             mainGeneralUtil.initBackgrounds();
-            mainGeneralUtil.getScreenSize();
             mainGeneralUtil.getBackgroundSize();
 
             consoleFrame = new JFrame() {
@@ -323,12 +326,12 @@ public class CyderMain{
             consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                mainGeneralUtil.setBackgroundX((int) mainGeneralUtil.getScreenSize().getWidth());
-                mainGeneralUtil.setBackgroundY((int) mainGeneralUtil.getScreenSize().getHeight());
+                mainGeneralUtil.setBackgroundX((int) systemUtil.getScreenSize().getWidth());
+                mainGeneralUtil.setBackgroundY((int) systemUtil.getScreenSize().getHeight());
             }
 
             consoleFrame.setBounds(0, 0, mainGeneralUtil.getBackgroundX(), mainGeneralUtil.getBackgroundY());
-            consoleFrame.setTitle(mainGeneralUtil.getCyderVer() + " Cyder [" + mainGeneralUtil.getUsername() + "]");
+            consoleFrame.setTitle(systemUtil.getCyderVer() + " Cyder [" + mainGeneralUtil.getUsername() + "]");
 
             parentPane = new JLayeredPane();
             parentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -341,10 +344,10 @@ public class CyderMain{
             parentLabel.setOpaque(false);
 
             if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                parentLabel.setIcon(new ImageIcon(mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(), (int) mainGeneralUtil.getScreenSize().getHeight(), mainGeneralUtil.getCurrentBackground())));
+                parentLabel.setIcon(new ImageIcon(mainGeneralUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(), (int) systemUtil.getScreenSize().getHeight(), mainGeneralUtil.getCurrentBackground())));
                 parentLabel.setBounds(0, 0, mainGeneralUtil.getBackgroundX(), mainGeneralUtil.getBackgroundY());
-                mainGeneralUtil.setBackgroundX((int) mainGeneralUtil.getScreenSize().getWidth());
-                mainGeneralUtil.setBackgroundY((int) mainGeneralUtil.getScreenSize().getHeight());
+                mainGeneralUtil.setBackgroundX((int) systemUtil.getScreenSize().getWidth());
+                mainGeneralUtil.setBackgroundY((int) systemUtil.getScreenSize().getHeight());
             }
 
             else {
@@ -357,7 +360,7 @@ public class CyderMain{
 
             parentPane.add(parentLabel,1,0);
 
-            consoleFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
+            consoleFrame.setIconImage(systemUtil.getCyderIcon().getImage());
 
             outputArea = new JTextPane() {
                 @Override
@@ -788,8 +791,8 @@ public class CyderMain{
                         int tempH = 0;
 
                         if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                            newBack = new ImageIcon(mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(),
-                                    (int) mainGeneralUtil.getScreenSize().getHeight(), new File(newBackFile)));
+                            newBack = new ImageIcon(mainGeneralUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(),
+                                    (int) systemUtil.getScreenSize().getHeight(), new File(newBackFile)));
                             tempW = newBack.getIconWidth();
                             tempH = newBack.getIconHeight();
                         }
@@ -837,7 +840,7 @@ public class CyderMain{
             frameAni.enterAnimation(consoleFrame);
 
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-                if (!mainGeneralUtil.internetReachable())
+                if (!networkUtil.internetReachable())
                     notify("Internet connection slow or unavailble",
                             3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
             },0, 10, TimeUnit.MINUTES);
@@ -1016,7 +1019,7 @@ public class CyderMain{
                 youtubeLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        mainGeneralUtil.internetConnect("https://youtube.com");
+                        networkUtil.internetConnect("https://youtube.com");
                     }
 
                     @Override
@@ -1038,7 +1041,7 @@ public class CyderMain{
                 twitterLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        mainGeneralUtil.internetConnect("https://twitter.com");
+                        networkUtil.internetConnect("https://twitter.com");
                     }
 
                     @Override
@@ -1202,10 +1205,10 @@ public class CyderMain{
                         threadCount++;
 
                 if (threadCount > 0)
-                    consoleFrame.setIconImage(mainGeneralUtil.getCyderIconBlink().getImage());
+                    consoleFrame.setIconImage(systemUtil.getCyderIconBlink().getImage());
 
                 else
-                    consoleFrame.setIconImage(mainGeneralUtil.getCyderIcon().getImage());
+                    consoleFrame.setIconImage(systemUtil.getCyderIcon().getImage());
             }
 
         }, 0, 3, TimeUnit.SECONDS);
@@ -1254,7 +1257,7 @@ public class CyderMain{
 
         loginFrame = new CyderFrame(800,800,new ImageIcon("src/com/cyder/io/pictures/login.png"));
         loginFrame.setTitlePosition(CyderFrame.LEFT_TITLE);
-        loginFrame.setTitle(mainGeneralUtil.getCyderVer());
+        loginFrame.setTitle(systemUtil.getCyderVer());
 
         if (!AlreadyOpen)
             loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1278,7 +1281,7 @@ public class CyderMain{
 
         nameField = new JTextField(20);
         nameField.setToolTipText("Username");
-        nameField.setBounds(225,300,350,50);
+        nameField.setBounds(225,400,350,50);
         nameField.setBackground(mainGeneralUtil.vanila);
         nameField.setSelectionColor(mainGeneralUtil.selectionColor);
         nameField.setBorder(new LineBorder(mainGeneralUtil.navy,4,false));
@@ -1325,7 +1328,7 @@ public class CyderMain{
 
         pass = new JPasswordField();
         pass.setToolTipText("Password");
-        pass.setBounds(225,400,350,50);
+        pass.setBounds(225,500,350,50);
         pass.setBackground(mainGeneralUtil.vanila);
         pass.setSelectionColor(mainGeneralUtil.selectionColor);
         pass.setBorder(new LineBorder(mainGeneralUtil.navy,4,false));
@@ -1395,6 +1398,7 @@ public class CyderMain{
         File Users = new File("src/users/");
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
 
+        loginFrame.setVisible(true);
         loginFrame.enterAnimation();
 
         if (directories != null && directories.length == 0)
@@ -1525,8 +1529,8 @@ public class CyderMain{
 
         ImageIcon backIcon = new ImageIcon(backFile);
 
-        BufferedImage fullimg = mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(),
-                (int) mainGeneralUtil.getScreenSize().getHeight(), new File(backFile));
+        BufferedImage fullimg = mainGeneralUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(),
+                (int) systemUtil.getScreenSize().getHeight(), new File(backFile));
         int fullW = fullimg.getWidth();
         int fullH = fullimg.getHeight();
 
@@ -1577,11 +1581,11 @@ public class CyderMain{
                 int tempH = 0;
                 
                 if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                    oldBack = new ImageIcon(mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(),
-                            (int) mainGeneralUtil.getScreenSize().getHeight(),new File(oldBackFile)));
-                    newBack = mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(), (int) mainGeneralUtil.getScreenSize().getHeight(),
+                    oldBack = new ImageIcon(mainGeneralUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(),
+                            (int) systemUtil.getScreenSize().getHeight(),new File(oldBackFile)));
+                    newBack = mainGeneralUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(), (int) systemUtil.getScreenSize().getHeight(),
                             new File(newBackFile));
-                    temporaryImage = mainGeneralUtil.resizeImage((int) mainGeneralUtil.getScreenSize().getWidth(), (int) mainGeneralUtil.getScreenSize().getHeight(),
+                    temporaryImage = mainGeneralUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(), (int) systemUtil.getScreenSize().getHeight(),
                             new File(oldBackFile));
                     tempW = temporaryImage.getWidth();
                     tempH = temporaryImage.getHeight();
@@ -1693,8 +1697,8 @@ public class CyderMain{
     }
 
     private void loginAnimation() {
-        Thread slideThread = new Thread() {
-            int count;
+        new Thread() {
+            int count = 2;
 
             @Override
             public void run() {
@@ -1748,9 +1752,7 @@ public class CyderMain{
                     mainGeneralUtil.handle(e);
                 }
             }
-        };
-
-        slideThread.start();
+        }.start();
     }
 
     private void clc() {
@@ -1765,7 +1767,7 @@ public class CyderMain{
             if (desc.equalsIgnoreCase("url") && !mainGeneralUtil.empytStr(input)) {
                 URI URI = new URI(input);
                 println("Attempting to connect...");
-                mainGeneralUtil.internetConnect(URI);
+                networkUtil.internetConnect(URI);
             }
 
             else if (desc.equalsIgnoreCase("prime") && input != null && !input.equals("")) {
@@ -1803,19 +1805,19 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("google") && input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ", "+");
                 println("Attempting to connect...");
-                mainGeneralUtil.internetConnect("https://www.google.com/search?q=" + input);
+                networkUtil.internetConnect("https://www.google.com/search?q=" + input);
             }
 
             else if (desc.equalsIgnoreCase("youtube")&& input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ", "+");
                 println("Attempting to connect...");
-                mainGeneralUtil.internetConnect("https://www.youtube.com/results?search_query=" + input);
+                networkUtil.internetConnect("https://www.youtube.com/results?search_query=" + input);
             }
 
             else if (desc.equalsIgnoreCase("math") && input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ", "+");
                 println("Attempting to connect...");
-                mainGeneralUtil.internetConnect("https://www.wolframalpha.com/input/?i=" + input);
+                networkUtil.internetConnect("https://www.wolframalpha.com/input/?i=" + input);
             }
 
             else if (desc.equalsIgnoreCase("binary")) {
@@ -1832,18 +1834,18 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("wiki") && input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ","_");
                 println("Attempting to connect...");
-                mainGeneralUtil.internetConnect("https://en.wikipedia.org/wiki/" + input);
+                networkUtil.internetConnect("https://en.wikipedia.org/wiki/" + input);
             }
 
             else if (desc.equalsIgnoreCase("disco") && input != null && !input.equals("")) {
                 println("I hope you're not the only one at this party.");
-                mainGeneralUtil.disco(Integer.parseInt(input));
+                systemUtil.disco(Integer.parseInt(input));
             }
 
             else if (desc.equalsIgnoreCase("youtube word search") && input != null && !input.equals("")) {
                 String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
                 browse = browse.replace("REPLACE", input).replace(" ", "+");
-                mainGeneralUtil.internetConnect(browse);
+                networkUtil.internetConnect(browse);
             }
 
             else if (desc.equalsIgnoreCase("random youtube")) {
@@ -1921,7 +1923,7 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("addbackgrounds")) {
                 if (mainGeneralUtil.confirmation(input)) {
                     editUser();
-                    mainGeneralUtil.internetConnect("https://images.google.com/");
+                    networkUtil.internetConnect("https://images.google.com/");
                 }
 
                 else
@@ -1945,7 +1947,7 @@ public class CyderMain{
                 }
 
                 frameAni.closeAnimation(consoleFrame);
-                mainGeneralUtil.deleteFolder(new File("src/users/" + mainGeneralUtil.getUserUUID()));
+                systemUtil.deleteFolder(new File("src/users/" + mainGeneralUtil.getUserUUID()));
 
                 String dep = mainGeneralUtil.getDeprecatedUUID();
 
@@ -2195,7 +2197,7 @@ public class CyderMain{
             }
 
             else if (hasWord("reset") && hasWord("mouse")) {
-                mainGeneralUtil.resetMouse();
+                systemUtil.resetMouse();
             }
 
             else if (eic("logoff")) {
@@ -2253,11 +2255,11 @@ public class CyderMain{
             }
 
             else if ((has("graphing") && has("calculator")) || has("desmos") || has("graphing")) {
-                mainGeneralUtil.internetConnect("https://www.desmos.com/calculator");
+                networkUtil.internetConnect("https://www.desmos.com/calculator");
             }
 
             else if (has("airHeads xtremes") || has("candy")) {
-                mainGeneralUtil.internetConnect("http://airheads.com/candy#xtremes");
+                networkUtil.internetConnect("http://airheads.com/candy#xtremes");
             }
 
             else if (hasWord("prime")) {
@@ -2282,7 +2284,7 @@ public class CyderMain{
             }
 
             else if (eic("404")) {
-                mainGeneralUtil.internetConnect("http://google.com/=");
+                networkUtil.internetConnect("http://google.com/=");
             }
 
             else if (hasWord("calculator") && !has("graphing")) {
@@ -2309,7 +2311,7 @@ public class CyderMain{
             }
 
             else if (hasWord("triangle")) {
-                mainGeneralUtil.internetConnect("https://www.triangle-calculator.com/");
+                networkUtil.internetConnect("https://www.triangle-calculator.com/");
             }
 
             else if (hasWord("why")) {
@@ -2424,7 +2426,7 @@ public class CyderMain{
             else if (firstWord.equalsIgnoreCase("define")) {
                 String Define = operation.toLowerCase().replace("'", "").replace(" ", "+").replace("define", "");
 
-                mainGeneralUtil.internetConnect("http://www.dictionary.com/browse/" + Define + "?s=t");
+                networkUtil.internetConnect("http://www.dictionary.com/browse/" + Define + "?s=t");
             }
 
             else if (hasWord("wikipedia")) {
@@ -2437,19 +2439,19 @@ public class CyderMain{
             else if (firstWord.equalsIgnoreCase("synonym")) {
                 String Syn = operation.replace("synonym","");
                 Syn = Syn.replace("'", "").replace(" ", "+");
-                mainGeneralUtil.internetConnect("http://www.thesaurus.com//browse//" + Syn);
+                networkUtil.internetConnect("http://www.thesaurus.com//browse//" + Syn);
             }
 
             else if (hasWord("board")) {
-                mainGeneralUtil.internetConnect("http://gameninja.com//games//fly-squirrel-fly.html");
+                networkUtil.internetConnect("http://gameninja.com//games//fly-squirrel-fly.html");
             }
 
             else if (hasWord("open cd")) {
-                mainGeneralUtil.openCD("D:\\");
+                systemUtil.openCD("D:\\");
             }
 
             else if (hasWord("close cd")) {
-                mainGeneralUtil.closeCD("D:\\");
+                systemUtil.closeCD("D:\\");
             }
 
             else if (hasWord("font") && hasWord("reset")) {
@@ -2508,11 +2510,11 @@ public class CyderMain{
             }
 
             else if (hasWord("arduino")) {
-                mainGeneralUtil.internetConnect("https://www.arduino.cc/");
+                networkUtil.internetConnect("https://www.arduino.cc/");
             }
 
             else if (has("rasberry pi")) {
-                mainGeneralUtil.internetConnect("https://www.raspberrypi.org/");
+                networkUtil.internetConnect("https://www.raspberrypi.org/");
             }
 
             else if (eic("&&")) {
@@ -2594,7 +2596,7 @@ public class CyderMain{
             }
 
             else if (hasWord("vexento")) {
-                mainGeneralUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
+                networkUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
             }
 
             else if (hasWord("minecraft")) {
@@ -2606,7 +2608,7 @@ public class CyderMain{
             }
 
             else if (hasWord("cyder") && has("dir")) {
-                if (mainGeneralUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
+                if (networkUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
                     String CurrentDir = System.getProperty("user.dir");
                     mainGeneralUtil.openFile(CurrentDir);
                 }
@@ -2630,7 +2632,7 @@ public class CyderMain{
             }
 
             else if (hasWord("papers") && hasWord("please")) {
-                mainGeneralUtil.internetConnect("http://papersplea.se/");
+                networkUtil.internetConnect("http://papersplea.se/");
             }
 
             else if (eic("java")) {
@@ -2642,7 +2644,7 @@ public class CyderMain{
             }
 
             else if (hasWord("coffee")) {
-                mainGeneralUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
+                networkUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
             }
 
             else if (hasWord("ip")) {
@@ -2684,7 +2686,7 @@ public class CyderMain{
             }
 
             else if (hasWord("donuts")) {
-                mainGeneralUtil.internetConnect("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
+                networkUtil.internetConnect("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
             }
 
             else if (hasWord("anagram")) {
@@ -2716,15 +2718,15 @@ public class CyderMain{
             }
 
             else if (hasWord("bai")) {
-                mainGeneralUtil.internetConnect("http://www.drinkbai.com");
+                networkUtil.internetConnect("http://www.drinkbai.com");
             }
 
             else if (has("occam") && hasWord("razor")) {
-                mainGeneralUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
+                networkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
             }
 
             else if (hasWord("cyder") && (has("picture") || has("image"))) {
-                if (mainGeneralUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
+                if (networkUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
                     mainGeneralUtil.openFile("src/com/cyder/io/pictures");
                 }
 
@@ -2765,7 +2767,7 @@ public class CyderMain{
             }
 
             else if (eic("about:blank")) {
-                mainGeneralUtil.internetConnect("about:blank");
+                networkUtil.internetConnect("about:blank");
             }
 
             else if (hasWord("weather")) {
@@ -2913,7 +2915,7 @@ public class CyderMain{
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
-                if (mainGeneralUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
+                if (networkUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
                     mainGeneralUtil.wipeErrors();
 
                     println("Deleted all user erorrs");
@@ -3390,7 +3392,7 @@ public class CyderMain{
             if (!mainGeneralUtil.empytStr(newUsername)) {
                 changeUsername(newUsername);
                 editUserFrame.inform("Username successfully changed","", 300, 200);
-                consoleFrame.setTitle(mainGeneralUtil.getCyderVer() + " Cyder [" + newUsername + "]");
+                consoleFrame.setTitle(systemUtil.getCyderVer() + " Cyder [" + newUsername + "]");
                 changeUsernameField.setText("");
             }
         });

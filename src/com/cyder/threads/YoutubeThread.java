@@ -1,6 +1,7 @@
 package com.cyder.threads;
 
 import com.cyder.ui.CyderFrame;
+import com.cyder.utilities.NetworkUtil;
 import com.cyder.utilities.StringUtil;
 import com.cyder.utilities.GeneralUtil;
 
@@ -63,7 +64,7 @@ public class YoutubeThread {
                         pictureLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                new GeneralUtil().internetConnect(video);
+                                new NetworkUtil().internetConnect(video);
                             }
                         });
 

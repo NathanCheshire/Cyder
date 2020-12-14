@@ -111,7 +111,7 @@ public class ImageUtil {
 
             approveImage.addActionListener(e -> {
                 try {
-                    ImageIO.write(retImage, "png", new File("C:\\Users\\" + giu.getWindowsUsername() + "\\Downloads\\" + NewName));
+                    ImageIO.write(retImage, "png", new File("C:\\Users\\" + new SystemUtil().getWindowsUsername() + "\\Downloads\\" + NewName));
                 } catch (Exception exc) {
                     giu.handle(exc);
                 }

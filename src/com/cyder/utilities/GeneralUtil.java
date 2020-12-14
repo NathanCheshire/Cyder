@@ -15,14 +15,16 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigInteger;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.URI;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.text.DateFormat;
@@ -87,12 +89,6 @@ public class GeneralUtil {
     public Color tttblue = new Color(71, 81, 117);
     public Color navy = new Color(26, 32, 51);
 
-    //Cyder direct vars
-    private ImageIcon cyderIcon = new ImageIcon("src/com/cyder/io/pictures/CyderIcon.png");
-    private ImageIcon cyderIconBlink = new ImageIcon("src/com/cyder/io/pictures/CyderIconBlink.png");
-    private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src/com/cyder/io/pictures/CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-    private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src/com/cyder/io/pictures/CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-
     //uservars
     private LinkedList<NST> userData = new LinkedList<>();
     private static String userUUID;
@@ -103,10 +99,6 @@ public class GeneralUtil {
     private static int currentBackgroundIndex = 0;
     private static File[] validBackgroundPaths;
     private boolean consoleClock;
-
-    //screen size vars
-    private int screenWidth;
-    private int screenHeight;
 
     //console orientation var
     public static int CYDER_UP = 0;
@@ -142,11 +134,6 @@ public class GeneralUtil {
     //used for second handle
     private String userInputDesc;
 
-    //system utils
-    public Dimension getScreenSize() {
-        return Toolkit.getDefaultToolkit().getScreenSize();
-    }
-
     //string utils
     public boolean getUserInputMode() {
         return this.userInputMode;
@@ -160,19 +147,6 @@ public class GeneralUtil {
     public void setUserInputDesc(String s) {
         this.userInputDesc = s;
     }
-
-    //system utils
-    public int getScreenWidth() {
-        this.screenWidth = this.getScreenSize().width;
-        return this.screenWidth;
-    }
-
-    public int getScreenHeight() {
-        this.screenHeight = this.getScreenSize().height;
-        return this.screenHeight;
-    }
-
-
 
     //time util
     public String errorTime() {
@@ -203,46 +177,6 @@ public class GeneralUtil {
         Date Time = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa zzz EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
         return dateFormatter.format(Time);
-    }
-
-    //network util
-    public void internetConnect(String URL) {
-        Desktop Internet = Desktop.getDesktop();
-        try {
-            Internet.browse(new URI(URL));
-        } catch (Exception ex) {
-            handle(ex);
-        }
-    }
-    //network util
-    public void internetConnect(URI URI) {
-        Desktop Internet = Desktop.getDesktop();
-        try {
-            Internet.browse(URI);
-        } catch (Exception ex) {
-            handle(ex);
-        }
-    }
-
-    //system util
-    public ImageIcon getCyderIcon() {
-        return this.cyderIcon;
-    }
-    public ImageIcon getCyderIconBlink() {
-        return this.cyderIconBlink;
-    }
-    public ImageIcon getScaledCyderIcon() {return this.scaledCyderIcon;}
-    public ImageIcon getScaledCyderIconBlink() {return this.scaledCyderIconBlink;}
-    public String getCyderVer() {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/Title.txt"))) {
-            return br.readLine();
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-
-        return null;
     }
 
     //string util
@@ -312,44 +246,9 @@ public class GeneralUtil {
         return sb.toString();
     }
 
-    //tests for my mac addr
-    //network util
-    public boolean compMACAddress(String mac) {
-        return toHexString(getSHA(mac.toCharArray())).equals("5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e");
-    }
-
-    //system util
-    public String getWindowsUsername() {
-        return System.getProperty("user.name");
-    }
-    private String getOS() {
-        return System.getProperty("os.name");
-    }
-
     //todo make dir for title, released, and such
     public boolean released() {
         return false;
-    }
-
-    //do away with
-    public void varInit() {
-        String windowsUserName = getWindowsUsername();
-        this.os = getOS();
-        this.screenWidth = getScreenWidth();
-        this.screenHeight = getScreenHeight();
-    }
-
-    //system util
-    private String getComputerName() {
-        String name = null;
-
-        try {
-            InetAddress Add = InetAddress.getLocalHost();
-            name = Add.getHostName();
-        } catch (Exception e) {
-            handle(e);
-        }
-        return name;
     }
 
     //change to user by user so in user util
@@ -395,50 +294,6 @@ public class GeneralUtil {
         return null;
     }
 
-    //network util
-    private boolean siteReachable(String URL) {
-        Process Ping;
-
-        try {
-            Ping = java.lang.Runtime.getRuntime().exec("ping -n 1 " + URL);
-            int ReturnValue = Ping.waitFor();
-            if (ReturnValue == 0) {
-                return false;
-            }
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-
-        return true;
-    }
-
-    //network util
-    private int latency() {
-        Socket Sock = new Socket();
-        SocketAddress Address = new InetSocketAddress("www.google.com", 80);
-        int Timeout = 2000; //todo pass timeout in constructor
-        long start = System.currentTimeMillis();
-
-        try {
-            Sock.connect(Address, Timeout);
-        } catch (Exception e) {
-            handle(e);
-        }
-
-        long stop = System.currentTimeMillis();
-        int Latency = (int) (stop - start);
-
-        try {
-            Sock.close();
-        } catch (Exception e) {
-            handle(e);
-        }
-
-        return Latency;
-    }
-
     //text popups
     public void debugMenu(JTextPane outputArea) {
         try {
@@ -456,6 +311,9 @@ public class GeneralUtil {
 
             outputArea.insertIcon(new ImageIcon(resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
 
+            NetworkUtil nu = new NetworkUtil();
+            SystemUtil su = new SystemUtil();
+
             String[] lines = {"Time requested: " + weatherTime(),
                     "ISP: " + ipu.getIsp(),
                     "IP: " + ipu.getUserIP(),
@@ -465,13 +323,13 @@ public class GeneralUtil {
                     "Country: " + ipu.getUserCountry() + " (" + ipu.getUserCountryAbr() + ")",
                     "Latitude: " + ipu.getLat() + " Degrees N",
                     "Longitude: " + ipu.getLon() + " Degrees W",
-                    "latency: " + latency() + " ms",
-                    "Google Reachable: " + siteReachable("https://www.google.com"),
-                    "YouTube Reachable: " + siteReachable("https://www.youtube.com"),
-                    "Apple Reachable: " + siteReachable("https://www.apple.com"),
-                    "Microsoft Reachable: " + siteReachable("https://www.microsoft.com//en-us//"),
-                    "User Name: " + getWindowsUsername(),
-                    "Computer Name: " + getComputerName(),
+                    "latency: " + nu.latency(10000) + " ms",
+                    "Google Reachable: " + nu.siteReachable("https://www.google.com"),
+                    "YouTube Reachable: " + nu.siteReachable("https://www.youtube.com"),
+                    "Apple Reachable: " + nu.siteReachable("https://www.apple.com"),
+                    "Microsoft Reachable: " + nu.siteReachable("https://www.microsoft.com//en-us//"),
+                    "User Name: " + su.getWindowsUsername(),
+                    "Computer Name: " + su.getComputerName(),
                     "Available Cores: " + Runtime.getRuntime().availableProcessors(),
                     "Available Memory: " + gBytes + " GigaBytes",
                     "Operating System: " + os,
@@ -509,18 +367,6 @@ public class GeneralUtil {
         }
 
         return SB.toString();
-    }
-    //system util
-    public void resetMouse() {
-        try {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            int centerX = screenSize.width / 2;
-            int centerY = screenSize.height / 2;
-            Robot Rob = new Robot();
-            Rob.mouseMove(centerX, centerY);
-        } catch (Exception ex) {
-            handle(ex);
-        }
     }
 
     //security util
@@ -781,45 +627,6 @@ public class GeneralUtil {
         return "NaN";
     }
 
-    //network util
-    public boolean internetReachable() {
-        Process Ping;
-
-        try {
-            Ping = java.lang.Runtime.getRuntime().exec("ping -n 1 www.google.com");
-            int ReturnValue = Ping.waitFor();
-            if (ReturnValue == 0) {
-                return true;
-            }
-        } catch (Exception e) {
-            handle(e);
-        }
-
-        return false;
-    }
-
-    //todo make methods to run vbs scripts
-
-    //system utils
-    public void closeCD(String drive) {
-        String[] vbs = {"Set wmp = CreateObject(\"WMPlayer.OCX\")",
-            "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
-            + drive + "\")",
-            "cd.Eject",
-            "cd.Eject"};
-
-        createAndOpenTmpFile("CDROM-CLOSE",".vbs",vbs);
-    }
-    //system utils
-    public void openCD(String drive) {
-        String[] vbs = {"Set wmp = CreateObject(\"WMPlayer.OCX\")",
-                "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
-                + drive + "\")",
-                "cd.Eject"};
-
-        createAndOpenTmpFile("CDROM-OPEN",".vbs",vbs);
-    }
-
     //popup utils
     public void systemProperties() {
         ArrayList<String> arrayLines = new ArrayList<>();
@@ -1032,70 +839,6 @@ public class GeneralUtil {
         return false;
     }
 
-    //system utils
-    public void disco(int iterations) {
-        Thread DiscoThread = new Thread(() -> {
-            try {
-                boolean Fixed = false;
-                boolean NumOn = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_NUM_LOCK);
-                boolean CapsOn = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
-                boolean ScrollOn = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_SCROLL_LOCK);
-
-                for (int i = 1; i < iterations ; i++) {
-                    Robot Rob = new Robot();
-
-                    if (!Fixed) {
-                        Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
-                        Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, false);
-                        Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_SCROLL_LOCK, false);
-
-                        Fixed = true;
-                    }
-
-                    Rob.keyPress(KeyEvent.VK_NUM_LOCK);
-                    Rob.keyRelease(KeyEvent.VK_NUM_LOCK);
-
-                    Thread.sleep(170);
-
-                    Rob.keyPress(KeyEvent.VK_CAPS_LOCK);
-                    Rob.keyRelease(KeyEvent.VK_CAPS_LOCK);
-
-                    Thread.sleep(170);
-
-                    Rob.keyPress(KeyEvent.VK_SCROLL_LOCK);
-                    Rob.keyRelease(KeyEvent.VK_SCROLL_LOCK);
-
-                    Thread.sleep(170);
-
-                    Rob.keyPress(KeyEvent.VK_NUM_LOCK);
-                    Rob.keyRelease(KeyEvent.VK_NUM_LOCK);
-
-                    Thread.sleep(170);
-
-                    Rob.keyPress(KeyEvent.VK_CAPS_LOCK);
-                    Rob.keyRelease(KeyEvent.VK_CAPS_LOCK);
-
-                    Thread.sleep(170);
-
-                    Rob.keyPress(KeyEvent.VK_SCROLL_LOCK);
-                    Rob.keyRelease(KeyEvent.VK_SCROLL_LOCK);
-
-                    Thread.sleep(170);
-                }
-
-                Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, NumOn);
-                Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, CapsOn);
-                Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_SCROLL_LOCK, ScrollOn);
-            }
-
-            catch (Exception ex) {
-                handle(ex);
-            }
-        });
-
-        DiscoThread.start();
-    }
-
     //image utils
     public BufferedImage resizeImage(int x, int y, File UneditedImage) {
         BufferedImage ReturnImage = null;
@@ -1117,25 +860,6 @@ public class GeneralUtil {
         }
 
         return ReturnImage;
-    }
-
-    //system utils
-    public void deleteFolder(File folder) {
-        File[] files = folder.listFiles();
-
-        if (files != null) {
-            for (File f: files) {
-                if (f.isDirectory()) {
-                    deleteFolder(f);
-                }
-
-                else {
-                    f.delete();
-                }
-            }
-        }
-
-        folder.delete();
     }
 
     //popup
@@ -1182,8 +906,8 @@ public class GeneralUtil {
         ImageIcon Size = new ImageIcon(getCurrentBackground().toString());
 
         if (getUserData("FullScreen").equalsIgnoreCase("1")) {
-            backgroundX = (int) getScreenSize().getWidth();
-            backgroundY = (int) getScreenSize().getHeight();
+            backgroundX = new SystemUtil().getScreenWidth();
+            backgroundY = new SystemUtil().getScreenHeight();
         }
 
         else {
@@ -1281,11 +1005,6 @@ public class GeneralUtil {
                 handle(ex);
             }
         }
-    }
-
-    //system utils (screen resolution stuff too)
-    public String getUserOS() {
-        return this.os;
     }
 
     //put in consoleframe class
@@ -1403,12 +1122,12 @@ public class GeneralUtil {
                 double aspectRatio = getAspectRatio(currentImage);
                 int imageType = currentImage.getType();
 
-                if (getBackgroundX() > getScreenWidth() || getBackgroundY() > getScreenHeight()) {
+                if (getBackgroundX() > new SystemUtil().getScreenWidth() || getBackgroundY() > new SystemUtil().getScreenHeight()) {
                     inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too big " +
                             "(That's what she said ahahahahah hahaha ha ha so funny).","System Action", 700, 200);
                 }
 
-                while (getBackgroundX() > getScreenWidth() || getBackgroundY() > getScreenHeight()) {
+                while (getBackgroundX() > new SystemUtil().getScreenWidth() || getBackgroundY() > new SystemUtil().getScreenHeight()) {
                     currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
 
                     int width = (int) (currentImage.getWidth() / aspectRatio);
@@ -1720,7 +1439,7 @@ public class GeneralUtil {
             File[] currentUserFiles = userDir.listFiles();
 
             if (currentUserFiles.length == 1 && currentUserFiles[0].getName().equalsIgnoreCase("Userdata.txt"))
-                deleteFolder(userDir);
+                new SystemUtil().deleteFolder(userDir);
         }
     }
 
@@ -1728,7 +1447,7 @@ public class GeneralUtil {
     public void deleteTempDir() {
         try {
             File tmpDir = new File("src/tmp");
-            deleteFolder(tmpDir);
+            new SystemUtil().deleteFolder(tmpDir);
         } catch (Exception e) {
             handle(e);
         }
@@ -1778,7 +1497,7 @@ public class GeneralUtil {
         for (File f : users) {
             if (f.isDirectory()) {
                 File throwDir = new File("src/users/" + f.getName() + "/throws");
-                if (throwDir.exists()) deleteFolder(throwDir);
+                if (throwDir.exists()) new SystemUtil().deleteFolder(throwDir);
             }
         }
     }

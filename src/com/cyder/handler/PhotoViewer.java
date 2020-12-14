@@ -4,6 +4,7 @@ import com.cyder.ui.CyderButton;
 import com.cyder.ui.DragLabel;
 import com.cyder.utilities.FrameAnimations;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.SystemUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class PhotoViewer {
 
     private GeneralUtil imageGeneralUtil = new GeneralUtil();
     private FrameAnimations fa = new FrameAnimations();
+    private SystemUtil su = new SystemUtil();
 
     private JFrame renameFrame;
     private DragLabel dl;
@@ -78,7 +80,7 @@ public class PhotoViewer {
 
                 renameFrame = new JFrame();
                 renameFrame.setResizable(false);
-                renameFrame.setIconImage(imageGeneralUtil.getCyderIcon().getImage());
+                renameFrame.setIconImage(su.getCyderIcon().getImage());
                 renameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 renameFrame.setTitle("Rename");
 
@@ -191,7 +193,7 @@ public class PhotoViewer {
         pictureFrame.setSize(size.getIconWidth(),size.getIconHeight());
         pictureFrame.setVisible(true);
         pictureFrame.setLocationRelativeTo(null);
-        pictureFrame.setIconImage(imageGeneralUtil.getCyderIcon().getImage());
+        pictureFrame.setIconImage(su.getCyderIcon().getImage());
     }
 
     private void initFiles() {
@@ -255,7 +257,7 @@ public class PhotoViewer {
 
                     renameFrame = new JFrame();
                     renameFrame.setResizable(false);
-                    renameFrame.setIconImage(imageGeneralUtil.getCyderIcon().getImage());
+                    renameFrame.setIconImage(su.getCyderIcon().getImage());
                     renameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     renameFrame.setTitle("Rename");
 
@@ -409,7 +411,7 @@ public class PhotoViewer {
 
                     renameFrame = new JFrame();
                     renameFrame.setResizable(false);
-                    renameFrame.setIconImage(imageGeneralUtil.getCyderIcon().getImage());
+                    renameFrame.setIconImage(su.getCyderIcon().getImage());
                     renameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     renameFrame.setTitle("Rename");
 
@@ -538,7 +540,7 @@ public class PhotoViewer {
     //returns a scaled down imageicon if the image file is too big
     private ImageIcon checkImage(File im) {
         try {
-            Dimension dim = imageGeneralUtil.getScreenSize();
+            Dimension dim = su.getScreenSize();
             double screenX = dim.getWidth();
             double screenY = dim.getHeight();
 

@@ -3,6 +3,7 @@ package com.cyder.widgets;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.SystemUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -241,7 +242,7 @@ public class ImageResizer {
 
     private ImageIcon checkImage(File im) {
         try {
-            Dimension dim = imageGeneralUtil.getScreenSize();
+            Dimension dim = new SystemUtil().getScreenSize();
             double screenX = dim.getWidth();
             double screenY = dim.getHeight();
 

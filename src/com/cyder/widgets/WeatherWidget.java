@@ -5,6 +5,7 @@ import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.FrameAnimations;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.InternetProtocolUtil;
+import com.cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -147,7 +148,7 @@ public class WeatherWidget {
 
                 changeLocationFrame.setTitle("Change Location");
 
-                changeLocationFrame.setIconImage(weatherGeneralUtil.getCyderIcon().getImage());
+                changeLocationFrame.setIconImage(new SystemUtil().getCyderIcon().getImage());
 
                 JPanel parent = new JPanel();
 
@@ -353,7 +354,7 @@ public class WeatherWidget {
 
         weatherFrame.setLocationRelativeTo(null);
 
-        weatherFrame.setIconImage(weatherGeneralUtil.getCyderIcon().getImage());
+        weatherFrame.setIconImage(new SystemUtil().getCyderIcon().getImage());
 
         updateClock = true;
         refreshClock();

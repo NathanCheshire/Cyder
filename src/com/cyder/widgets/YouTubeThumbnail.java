@@ -3,6 +3,7 @@ package com.cyder.widgets;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.NetworkUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class YouTubeThumbnail {
     private int yMouse;
 
     private GeneralUtil yttnGeneralUtil = new GeneralUtil();
+    private NetworkUtil networkUtil = new NetworkUtil();
 
     public YouTubeThumbnail() {
         if (yttnFrame != null)
@@ -116,7 +118,7 @@ public class YouTubeThumbnail {
                 PictureLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        yttnGeneralUtil.internetConnect("https://www.youtube.com/watch?v=" + YouTubeID);
+                    networkUtil.internetConnect("https://www.youtube.com/watch?v=" + YouTubeID);
                     }
                 });
                 PictureLabel.setBounds(0, 0, Thumbnail.getWidth(), Thumbnail.getHeight());

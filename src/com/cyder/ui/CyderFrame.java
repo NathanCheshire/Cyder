@@ -2,6 +2,7 @@ package com.cyder.ui;
 
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.ImageUtil;
+import com.cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -15,6 +16,7 @@ public class CyderFrame extends JFrame {
     private int titlePosition = 0;
 
     private GeneralUtil fGeneralUtil = new GeneralUtil();
+    private SystemUtil systemUtil = new SystemUtil();
     private ImageUtil iu = new ImageUtil();
     private int width;
     private int height;
@@ -30,7 +32,7 @@ public class CyderFrame extends JFrame {
 
         setResizable(false);
         setUndecorated(true);
-        setIconImage(fGeneralUtil.getCyderIcon().getImage());
+        setIconImage(systemUtil.getCyderIcon().getImage());
 
         JLabel parentLabel = new JLabel();
         parentLabel.setBorder(new LineBorder(fGeneralUtil.navy, 5, false));
@@ -61,7 +63,7 @@ public class CyderFrame extends JFrame {
 
         setResizable(false);
         setUndecorated(true);
-        setIconImage(fGeneralUtil.getCyderIcon().getImage());
+        setIconImage(systemUtil.getCyderIcon().getImage());
 
         JLabel parentLabel = new JLabel();
         parentLabel.setBorder(new LineBorder(fGeneralUtil.navy, 5, false));
@@ -77,6 +79,7 @@ public class CyderFrame extends JFrame {
         this.titlePosition = titlePosition;
     }
 
+    //todo test this to make sure correct
     @Override
     public void setTitle(String title) {
         super.setTitle(title);
@@ -228,7 +231,7 @@ public class CyderFrame extends JFrame {
         int y = (int) point.getY();
 
         try {
-            for (int i = y; i <= fGeneralUtil.getScreenHeight(); i += 15) {
+            for (int i = y; i <= systemUtil.getScreenHeight(); i += 15) {
                 Thread.sleep(1);
                 this.setLocation(x, i);
             }
@@ -271,17 +274,17 @@ public class CyderFrame extends JFrame {
                     setLocation(x, i);
                 }
 
-                setLocation(fGeneralUtil.getScreenWidth() / 2 - getWidth() / 2, fGeneralUtil.getScreenHeight() - getHeight());
+                setLocation(systemUtil.getScreenWidth() / 2 - getWidth() / 2, systemUtil.getScreenHeight() - getHeight());
                 point = getLocationOnScreen();
                 x = (int) point.getX();
                 y = (int) point.getY();
 
-                for (int i = x; i <= (fGeneralUtil.getScreenWidth() - getWidth()); i += 10) {
+                for (int i = x; i <= (systemUtil.getScreenWidth() - getWidth()); i += 10) {
                     Thread.sleep(delay);
                     setLocation(i, y);
                 }
 
-                setLocation(fGeneralUtil.getScreenWidth() - getWidth(), fGeneralUtil.getScreenHeight() - getHeight());
+                setLocation(systemUtil.getScreenWidth() - getWidth(), systemUtil.getScreenHeight() - getHeight());
                 point = getLocationOnScreen();
                 x = (int) point.getX();
                 y = (int) point.getY();
@@ -291,7 +294,7 @@ public class CyderFrame extends JFrame {
                     setLocation(x, i);
                 }
 
-                setLocation(fGeneralUtil.getScreenWidth() - getWidth(), 0);
+                setLocation(systemUtil.getScreenWidth() - getWidth(), 0);
                 point = getLocationOnScreen();
                 x = (int) point.getX();
                 y = (int) point.getY();
@@ -306,26 +309,26 @@ public class CyderFrame extends JFrame {
                 x = (int) point.getX();
                 y = (int) point.getY();
 
-                for (int i = y; i <= (fGeneralUtil.getScreenHeight() - getHeight()); i += 10) {
+                for (int i = y; i <= (systemUtil.getScreenHeight() - getHeight()); i += 10) {
                     Thread.sleep(delay);
                     setLocation(x, i);
                 }
 
-                setLocation(0, fGeneralUtil.getScreenHeight() - getHeight());
+                setLocation(0, systemUtil.getScreenHeight() - getHeight());
                 point = getLocationOnScreen();
                 x = (int) point.getX();
                 y = (int) point.getY();
 
-                for (int i = x; i <= (fGeneralUtil.getScreenWidth() / 2 - getWidth() / 2); i += 10) {
+                for (int i = x; i <= (systemUtil.getScreenWidth() / 2 - getWidth() / 2); i += 10) {
                     Thread.sleep(delay);
                     setLocation(i, y);
                 }
 
-                setLocation(fGeneralUtil.getScreenWidth() / 2 - getWidth() / 2, fGeneralUtil.getScreenHeight() - getHeight());
+                setLocation(systemUtil.getScreenWidth() / 2 - getWidth() / 2, systemUtil.getScreenHeight() - getHeight());
                 int acc = getY();
                 x = getX();
 
-                while (getY() >= (fGeneralUtil.getScreenHeight() / 2 - getHeight() / 2)) {
+                while (getY() >= (systemUtil.getScreenHeight() / 2 - getHeight() / 2)) {
                     Thread.sleep(delay);
                     acc -= 10;
                     setLocation(x, acc);

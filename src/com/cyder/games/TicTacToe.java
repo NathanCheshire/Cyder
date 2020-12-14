@@ -442,7 +442,7 @@ public class TicTacToe {
         tttReset.setBounds(20, 440, 360, 40);
         tttFrame.getContentPane().add(tttReset);
 
-        tttFrame.setVisible(true); //todo override this in cyderframe to call enter animation
+        tttFrame.setVisible(true);
         tttFrame.enterAnimation();
 
         CurrentPlayerTurn = PlayerX;
