@@ -162,6 +162,9 @@ public class CyderFrame extends JFrame {
     }
 
     public void enterAnimation() {
+        if (this == null)
+            return;
+
         dl.disableDragging();
 
         this.setVisible(false);
@@ -189,6 +192,9 @@ public class CyderFrame extends JFrame {
     }
 
     public void closeAnimation() {
+        if (this == null)
+            return;
+
         dl.disableDragging();
 
         try {
@@ -212,6 +218,9 @@ public class CyderFrame extends JFrame {
     }
 
     public void minimizeAnimation() {
+        if (this == null)
+            return;
+
         dl.disableDragging();
 
         Point point = this.getLocationOnScreen();
@@ -239,5 +248,99 @@ public class CyderFrame extends JFrame {
             dl.enableDragging();
         else
             dl.disableDragging();
+    }
+
+    public void dance() {
+        Thread DanceThread = new Thread(() -> {
+            try {
+                int delay = 10;
+
+                setAlwaysOnTop(true);
+                setLocationRelativeTo(null);
+
+                Point point = getLocationOnScreen();
+
+                int x = (int) point.getX();
+                int y = (int) point.getY();
+
+                int restoreX = x;
+                int restoreY = y;
+
+                for (int i = y; i <= (-getHeight()); i += 10) {
+                    Thread.sleep(delay);
+                    setLocation(x, i);
+                }
+
+                setLocation(fGeneralUtil.getScreenWidth() / 2 - getWidth() / 2, fGeneralUtil.getScreenHeight() - getHeight());
+                point = getLocationOnScreen();
+                x = (int) point.getX();
+                y = (int) point.getY();
+
+                for (int i = x; i <= (fGeneralUtil.getScreenWidth() - getWidth()); i += 10) {
+                    Thread.sleep(delay);
+                    setLocation(i, y);
+                }
+
+                setLocation(fGeneralUtil.getScreenWidth() - getWidth(), fGeneralUtil.getScreenHeight() - getHeight());
+                point = getLocationOnScreen();
+                x = (int) point.getX();
+                y = (int) point.getY();
+
+                for (int i = y; i >= -10; i -= 10) {
+                    Thread.sleep(delay);
+                    setLocation(x, i);
+                }
+
+                setLocation(fGeneralUtil.getScreenWidth() - getWidth(), 0);
+                point = getLocationOnScreen();
+                x = (int) point.getX();
+                y = (int) point.getY();
+
+                for (int i = x; i >= 10; i -= 10) {
+                    Thread.sleep(delay);
+                    setLocation(i, y);
+                }
+
+                setLocation(0, 0);
+                point = getLocationOnScreen();
+                x = (int) point.getX();
+                y = (int) point.getY();
+
+                for (int i = y; i <= (fGeneralUtil.getScreenHeight() - getHeight()); i += 10) {
+                    Thread.sleep(delay);
+                    setLocation(x, i);
+                }
+
+                setLocation(0, fGeneralUtil.getScreenHeight() - getHeight());
+                point = getLocationOnScreen();
+                x = (int) point.getX();
+                y = (int) point.getY();
+
+                for (int i = x; i <= (fGeneralUtil.getScreenWidth() / 2 - getWidth() / 2); i += 10) {
+                    Thread.sleep(delay);
+                    setLocation(i, y);
+                }
+
+                setLocation(fGeneralUtil.getScreenWidth() / 2 - getWidth() / 2, fGeneralUtil.getScreenHeight() - getHeight());
+                int acc = getY();
+                x = getX();
+
+                while (getY() >= (fGeneralUtil.getScreenHeight() / 2 - getHeight() / 2)) {
+                    Thread.sleep(delay);
+                    acc -= 10;
+                    setLocation(x, acc);
+                }
+
+                setLocation(restoreX, restoreY);
+                setAlwaysOnTop(false);
+
+            }
+
+            catch (Exception e) {
+                fGeneralUtil.handle(e);
+            }
+        });
+
+        DanceThread.start();
     }
 }

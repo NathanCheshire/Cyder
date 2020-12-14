@@ -7,6 +7,7 @@ import com.cyder.utilities.GeneralUtil;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -43,7 +44,7 @@ public class YouTubeThumbnail {
         yttnField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
             if(yttnField.getText().length() >= 11 && !(evt.getKeyChar()== KeyEvent.VK_DELETE || evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
-                yttnGeneralUtil.beep();
+                Toolkit.getDefaultToolkit().beep();
                 evt.consume();
             }
             }

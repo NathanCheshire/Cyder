@@ -216,10 +216,8 @@ public class CyderMain{
 
         boolean nathanLenovo = mainGeneralUtil.compMACAddress(mainGeneralUtil.getMACAddress());
 
-        if (nathanLenovo) {
-            mainGeneralUtil.setDebugMode(true);
+        if (nathanLenovo)
             autoCypher();
-        }
 
         else if (!mainGeneralUtil.released())
             System.exit(0);
@@ -1254,8 +1252,9 @@ public class CyderMain{
 
         mainGeneralUtil.cleanUpUsers();
 
-        loginFrame = new CyderFrame(440,520,new ImageIcon("src/com/cyder/io/pictures/login.png"));
-        loginFrame.setTitle("Build " + mainGeneralUtil.getCyderVer());
+        loginFrame = new CyderFrame(800,800,new ImageIcon("src/com/cyder/io/pictures/login.png"));
+        loginFrame.setTitlePosition(CyderFrame.LEFT_TITLE);
+        loginFrame.setTitle(mainGeneralUtil.getCyderVer());
 
         if (!AlreadyOpen)
             loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1265,13 +1264,13 @@ public class CyderMain{
 
         loginLabel2 = new JLabel();
         loginLabel2.setIcon(new ImageIcon("src/com/cyder/io/pictures/Login2.png"));
-        loginLabel2.setBounds(440,0 , 440, 520);
+        loginLabel2.setBounds(800,0 , 800, 800);
 
         loginFrame.getContentPane().add(loginLabel2);
 
         loginLabel3 = new JLabel();
         loginLabel3.setIcon(new ImageIcon("src/com/cyder/io/pictures/Login3.png"));
-        loginLabel3.setBounds(880,0 , 440, 520);
+        loginLabel3.setBounds(800,0 , 800, 800);
 
         loginFrame.getContentPane().add(loginLabel3);
 
@@ -1279,12 +1278,12 @@ public class CyderMain{
 
         nameField = new JTextField(20);
         nameField.setToolTipText("Username");
-        nameField.setBounds(64,279,327,41);
-        nameField.setBackground(new Color(0,0,0,0));
+        nameField.setBounds(225,300,350,50);
+        nameField.setBackground(mainGeneralUtil.vanila);
         nameField.setSelectionColor(mainGeneralUtil.selectionColor);
-        nameField.setBorder(null);
+        nameField.setBorder(new LineBorder(mainGeneralUtil.navy,4,false));
         nameField.setFont(mainGeneralUtil.weatherFontSmall.deriveFont(30f));
-        nameField.setForeground(new Color(42,52,61));
+        nameField.setForeground(mainGeneralUtil.navy);
         nameField.setCaretColor(mainGeneralUtil.navy);
         nameField.addActionListener(e -> nameField.requestFocusInWindow());
         nameField.addKeyListener(new KeyListener() {
@@ -1312,7 +1311,7 @@ public class CyderMain{
 
         nameField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-            if (nameField.getText().length() > 15) {
+            if (nameField.getText().length() > 20) {
                 evt.consume();
             }
 
@@ -1322,19 +1321,16 @@ public class CyderMain{
             }
         });
 
-        nameField.setBorder(BorderFactory.createEmptyBorder());
-        nameField.setOpaque(false);
-
         loginFrame.getContentPane().add(nameField);
 
         pass = new JPasswordField();
         pass.setToolTipText("Password");
-        pass.setBounds(64,348,327,41);
-        pass.setBackground(new Color(0,0,0,0));
+        pass.setBounds(225,400,350,50);
+        pass.setBackground(mainGeneralUtil.vanila);
         pass.setSelectionColor(mainGeneralUtil.selectionColor);
-        pass.setBorder(null);
-        pass.setFont(mainGeneralUtil.weatherFontBig.deriveFont(50f));
-        pass.setForeground(new Color(42,52,61));
+        pass.setBorder(new LineBorder(mainGeneralUtil.navy,4,false));
+        pass.setFont(mainGeneralUtil.weatherFontBig.deriveFont(40f));
+        pass.setForeground(mainGeneralUtil.navy);
         pass.setCaretColor(mainGeneralUtil.navy);
         pass.addActionListener(e -> {
             String Username = nameField.getText().trim();
@@ -1362,13 +1358,10 @@ public class CyderMain{
             }
         });
 
-        pass.setBorder(BorderFactory.createEmptyBorder());
-        pass.setOpaque(false);
-
         loginFrame.getContentPane().add(pass);
 
         newUserLabel = new JLabel("Don't have an account?", SwingConstants.CENTER);
-        newUserLabel.setFont(new Font("tahoma",Font.BOLD,18));
+        newUserLabel.setFont(new Font("tahoma",Font.BOLD,22));
         newUserLabel.setForeground(mainGeneralUtil.vanila);
         newUserLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -1389,7 +1382,7 @@ public class CyderMain{
             }
         });
 
-        newUserLabel.setBounds(89,425,262,33);
+        newUserLabel.setBounds(265,650,270,35);
 
         loginFrame.getContentPane().add(newUserLabel);
 
@@ -1707,13 +1700,13 @@ public class CyderMain{
             public void run() {
                 try {
                     while (true) {
-                        long scrollDelay = 2000;
-                        int miliDelay = 5;
+                        long scrollDelay = 4000;
+                        int miliDelay = 1;
                         int increment = 2;
 
                         switch (count) {
                             case 0:
-                                loginLabel2.setBounds(440,0,440,520);
+                                loginLabel2.setBounds(800,0,800,800);
                                 
                                 Thread.sleep(scrollDelay);
 
@@ -1726,10 +1719,10 @@ public class CyderMain{
                             case 1:
                                 Thread.sleep(scrollDelay);
 
-                                loginLabel2.setBounds(0,0,440,520);
-                                loginLabel3.setBounds(440,0,440,520);
-                                animation.jLabelXLeft(0, -440, miliDelay, increment, loginLabel2);
-                                animation.jLabelXLeft(440, 0 ,miliDelay, increment, loginLabel3);
+                                loginLabel2.setBounds(0,0,800,800);
+                                loginLabel3.setBounds(800,0,800,800);
+                                animation.jLabelXLeft(0, -800, miliDelay, increment, loginLabel2);
+                                animation.jLabelXLeft(800, 0 ,miliDelay, increment, loginLabel3);
 
                                 Thread.sleep(scrollDelay);
 
@@ -1738,10 +1731,10 @@ public class CyderMain{
                             case 2:
                                 Thread.sleep(scrollDelay);
 
-                                loginLabel3.setBounds(0,0,440,520);
-                                loginLabel2.setBounds(-440,0,440,520);
-                                animation.jLabelXRight(0, 440, miliDelay, increment, loginLabel3);
-                                animation.jLabelXRight(-440,0,miliDelay,increment, loginLabel2);
+                                loginLabel3.setBounds(0,0,800,800);
+                                loginLabel2.setBounds(-800,0,800,800);
+                                animation.jLabelXRight(0, 800, miliDelay, increment, loginLabel3);
+                                animation.jLabelXRight(-800,0,miliDelay,increment, loginLabel2);
 
                                 Thread.sleep(scrollDelay);
 
@@ -2026,7 +2019,7 @@ public class CyderMain{
 
             handleMath(operation);
 
-            if (mainGeneralUtil.filter(operation)) {
+            if (mainGeneralUtil.filterLanguage(operation)) {
                 println("Sorry, " + mainGeneralUtil.getUsername() + ", but that language is prohibited.");
                 operation = "";
             }
@@ -2331,11 +2324,6 @@ public class CyderMain{
                 println("Alright Scooby Doo.");
             }
 
-            else if (eic("dbquit")) {
-                println("Debug mode exited");
-                mainGeneralUtil.setDebugMode(false);
-            }
-
             else if (hasWord("luck")) {
                 if (Math.random() * 100 <= 0.001) {
                     println("YOU WON!!");
@@ -2368,14 +2356,8 @@ public class CyderMain{
             }
 
             else if ((eic("error") || eic("errors")) && !hasWord("throw")) {
-                if (mainGeneralUtil.getDebugMode()) {
-                    File WhereItIs = new File("src/users/" + mainGeneralUtil.getUserUUID() + "/Throws/");
-                    Desktop.getDesktop().open(WhereItIs);
-                }
-
-                else {
-                    println("There are no errors here.");
-                }
+                File WhereItIs = new File("src/users/" + mainGeneralUtil.getUserUUID() + "/Throws/");
+                Desktop.getDesktop().open(WhereItIs);
             }
 
             else if (eic("help")) {
@@ -2624,7 +2606,7 @@ public class CyderMain{
             }
 
             else if (hasWord("cyder") && has("dir")) {
-                if (mainGeneralUtil.getDebugMode()) {
+                if (mainGeneralUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
                     String CurrentDir = System.getProperty("user.dir");
                     mainGeneralUtil.openFile(CurrentDir);
                 }
@@ -2742,7 +2724,7 @@ public class CyderMain{
             }
 
             else if (hasWord("cyder") && (has("picture") || has("image"))) {
-                if (mainGeneralUtil.getDebugMode()) {
+                if (mainGeneralUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
                     mainGeneralUtil.openFile("src/com/cyder/io/pictures");
                 }
 
@@ -2813,7 +2795,7 @@ public class CyderMain{
             }
 
             else if (hasWord("dance")) {
-                mainGeneralUtil.dance(consoleFrame);
+                //todo add in once consoleframe extends cyderframe
             }
 
             else if (hasWord("clear") && (
@@ -2931,7 +2913,7 @@ public class CyderMain{
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
-                if (mainGeneralUtil.getDebugMode()) {
+                if (mainGeneralUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
                     mainGeneralUtil.wipeErrors();
 
                     println("Deleted all user erorrs");

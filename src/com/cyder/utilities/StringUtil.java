@@ -457,7 +457,7 @@ public class StringUtil {
 
     public void logToDo(String input) {
         try {
-            if (input != null && !input.equals("") && !stringGeneralUtil.filter(input) && input.length() > 10 && !stringGeneralUtil.filter(input)) {
+            if (input != null && !input.equals("") && !stringGeneralUtil.filterLanguage(input) && input.length() > 10 && !stringGeneralUtil.filterLanguage(input)) {
                 BufferedWriter sugWriter = new BufferedWriter(new FileWriter("src/com/cyder/io/text/add.txt", true));
 
                 sugWriter.write("User " + stringGeneralUtil.getUsername() + " at " + new TimeUtil().weatherTime() + " made the suggestion: ");

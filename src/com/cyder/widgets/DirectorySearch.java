@@ -8,6 +8,7 @@ import com.cyder.utilities.GeneralUtil;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.Stack;
@@ -282,7 +283,7 @@ public class DirectorySearch {
             }
 
             else {
-                dirGeneralUtil.beep();
+                Toolkit.getDefaultToolkit().beep();
             }
         }
     };

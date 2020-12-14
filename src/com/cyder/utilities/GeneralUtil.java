@@ -119,7 +119,6 @@ public class GeneralUtil {
     private boolean userInputMode;
 
     //boolean vars
-    private static boolean debugMode;
     private boolean handledMath;
     private boolean hideOnClose;
     private boolean oneMathPrint;
@@ -131,9 +130,6 @@ public class GeneralUtil {
     //drawing vars
     private JFrame pictureFrame;
     private CyderButton closeDraw;
-
-    //click me var
-    private CyderFrame clickMeFrame;
 
     //backbround vars
     private int backgroundX;
@@ -166,7 +162,7 @@ public class GeneralUtil {
     }
 
     //system utils
-    private int getScreenWidth() {
+    public int getScreenWidth() {
         this.screenWidth = this.getScreenSize().width;
         return this.screenWidth;
     }
@@ -176,100 +172,7 @@ public class GeneralUtil {
         return this.screenHeight;
     }
 
-    //put in cyderframe class
-    public void dance(JFrame frame) {
-        Thread DanceThread = new Thread(() -> {
-            try {
-                int delay = 10;
 
-                frame.setAlwaysOnTop(true);
-                frame.setLocationRelativeTo(null);
-
-                Point point = frame.getLocationOnScreen();
-
-                int x = (int) point.getX();
-                int y = (int) point.getY();
-
-                int restoreX = x;
-                int restoreY = y;
-
-                for (int i = y; i <= (-frame.getHeight()); i += 10) {
-                    Thread.sleep(delay);
-                    frame.setLocation(x, i);
-                }
-
-                frame.setLocation(screenWidth / 2 - frame.getWidth() / 2, screenHeight - frame.getHeight());
-                point = frame.getLocationOnScreen();
-                x = (int) point.getX();
-                y = (int) point.getY();
-
-                for (int i = x; i <= (screenWidth - frame.getWidth()); i += 10) {
-                    Thread.sleep(delay);
-                    frame.setLocation(i, y);
-                }
-
-                frame.setLocation(screenWidth - frame.getWidth(), screenHeight - frame.getHeight());
-                point = frame.getLocationOnScreen();
-                x = (int) point.getX();
-                y = (int) point.getY();
-
-                for (int i = y; i >= -10; i -= 10) {
-                    Thread.sleep(delay);
-                    frame.setLocation(x, i);
-                }
-
-                frame.setLocation(screenWidth - frame.getWidth(), 0);
-                point = frame.getLocationOnScreen();
-                x = (int) point.getX();
-                y = (int) point.getY();
-
-                for (int i = x; i >= 10; i -= 10) {
-                    Thread.sleep(delay);
-                    frame.setLocation(i, y);
-                }
-
-                frame.setLocation(0, 0);
-                point = frame.getLocationOnScreen();
-                x = (int) point.getX();
-                y = (int) point.getY();
-
-                for (int i = y; i <= (screenHeight - frame.getHeight()); i += 10) {
-                    Thread.sleep(delay);
-                    frame.setLocation(x, i);
-                }
-
-                frame.setLocation(0, screenHeight - frame.getHeight());
-                point = frame.getLocationOnScreen();
-                x = (int) point.getX();
-                y = (int) point.getY();
-
-                for (int i = x; i <= (screenWidth / 2 - frame.getWidth() / 2); i += 10) {
-                    Thread.sleep(delay);
-                    frame.setLocation(i, y);
-                }
-
-                frame.setLocation(screenWidth / 2 - frame.getWidth() / 2, screenHeight - frame.getHeight());
-                int acc = frame.getY();
-                x = frame.getX();
-
-                while (frame.getY() >= (screenHeight / 2 - frame.getHeight() / 2)) {
-                    Thread.sleep(delay);
-                    acc -= 10;
-                    frame.setLocation(x, acc);
-                }
-
-                frame.setLocation(restoreX, restoreY);
-                frame.setAlwaysOnTop(false);
-
-            }
-
-            catch (Exception e) {
-                handle(e);
-            }
-        });
-
-        DanceThread.start();
-    }
 
     //time util
     public String errorTime() {
@@ -895,13 +798,7 @@ public class GeneralUtil {
         return false;
     }
 
-    //todo get rid of debug mode
-    public void setDebugMode(boolean b) {
-        this.debugMode = b;
-    }
-    public boolean getDebugMode() {
-        return this.debugMode;
-    }
+    //todo make methods to run vbs scripts
 
     //system utils
     public void closeCD(String drive) {
@@ -1057,10 +954,7 @@ public class GeneralUtil {
     //widget
     public void clickMe() {
         try {
-            if (clickMeFrame != null)
-                clickMeFrame.closeAnimation();
-
-            clickMeFrame = new CyderFrame(200,100,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+            CyderFrame clickMeFrame = new CyderFrame(200,100,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
             clickMeFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
             clickMeFrame.setTitle("");
 
@@ -1104,25 +998,29 @@ public class GeneralUtil {
         }
     }
 
-    //string util, todo filter a lot more than just input
-    public boolean filter(String FilterWord) {
-        FilterWord = FilterWord.toLowerCase();
+    //string utils
+    public String filterLeet(String filter) {
+        return filter.replace("!","i").replace("3","e")
+                .replace("4","a").replace("@","a")
+                .replace("5","s").replace("7","t")
+                .replace("0","o").replace("9","g")
+                .replace("%", "i").replace("#","h")
+                .replace("$","s").replace("1","i");
+    }
+
+    //string util
+    public boolean filterLanguage(String filter) {
+        filter = filter.toLowerCase();
 
         try {
-            FilterWord = FilterWord.replace("1","i").replace("!","i").replace("3","e")
-                    .replace("4","a").replace("@","a").replace("5","s").replace("7","t")
-                    .replace("0","o").replace("9","g").replace("%", "i").replace("#","h").replace("$","s");
+            filter = filterLeet(filter);
 
-            String fileName = "src/com/cyder/io/text/v.txt";
-
-            BufferedReader vReader = new  BufferedReader(new FileReader(fileName));
-
+            BufferedReader vReader = new  BufferedReader(new FileReader("src/com/cyder/io/text/v.txt"));
             String Line = vReader.readLine();
 
             while((Line != null && !Line.equals("") && Line.length() != 0))  {
-                if (FilterWord.contains(Line)) {
+                if (filter.contains(Line))
                     return true;
-                }
                 Line = vReader.readLine();
             }
         }
@@ -1624,9 +1522,10 @@ public class GeneralUtil {
         }
 
         catch (Exception ex) {
-            if (debugMode && getUserData("SilenceErrors") != null && getUserData("SilenceErrors").equals("0")) {
+            if (getUserData("SilenceErrors") != null && getUserData("SilenceErrors").equals("0")) {
                 System.out.println("Exception in error logger:\n\n");
                 e.printStackTrace();
+                //todo show popup on cyderframe
             }
         }
     }

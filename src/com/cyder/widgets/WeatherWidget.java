@@ -82,7 +82,7 @@ public class WeatherWidget {
         if (weatherFrame != null)
             weatherFrame.closeAnimation();
 
-        weatherFrame = new CyderFrame(500,608,new ImageIcon("src/com/cyder/io/pictures/Weather.png"));
+        weatherFrame = new CyderFrame(500,600,new ImageIcon("src/com/cyder/io/pictures/Weather.png"));
         weatherFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
         weatherFrame.setTitle("Weather");
 
