@@ -144,7 +144,7 @@ public class CyderMain{
     private String anagram;
 
     //frame util (to be removed once consoleframe extends cyderframe)
-    private FrameAnimations frameAni;
+    private AnimationUtil frameAni;
 
     //create user vars
     private CyderFrame createUserFrame;
@@ -202,7 +202,7 @@ public class CyderMain{
         initUIManager();
 
         mainGeneralUtil.cleanUpUsers();
-        mainGeneralUtil.deleteTempDir();
+        IOUtil.deleteTempDir();
 
         stringUtil.logArgs(CA);
 
@@ -226,7 +226,7 @@ public class CyderMain{
         stringUtil = new StringUtil();
         stringUtil.setOutputArea(outputArea);
         timeUtil = new TimeUtil();
-        frameAni = new FrameAnimations();
+        frameAni = new AnimationUtil();
         networkUtil = new NetworkUtil();
         systemUtil = new SystemUtil();
     }
@@ -316,7 +316,7 @@ public class CyderMain{
             consoleFrame.setUndecorated(true);
             consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+            if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                 mainGeneralUtil.setBackgroundX((int) systemUtil.getScreenSize().getWidth());
                 mainGeneralUtil.setBackgroundY((int) systemUtil.getScreenSize().getHeight());
             }
@@ -334,7 +334,7 @@ public class CyderMain{
             parentLabel = new JLabel();
             parentLabel.setOpaque(false);
 
-            if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+            if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                 parentLabel.setIcon(new ImageIcon(mainGeneralUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(), (int) systemUtil.getScreenSize().getHeight(), mainGeneralUtil.getCurrentBackground())));
                 parentLabel.setBounds(0, 0, mainGeneralUtil.getBackgroundX(), mainGeneralUtil.getBackgroundY());
                 mainGeneralUtil.setBackgroundX((int) systemUtil.getScreenSize().getWidth());
@@ -383,8 +383,8 @@ public class CyderMain{
             outputScroll.getViewport().setOpaque(false);
             outputScroll.setOpaque(false);
 
-            if (mainGeneralUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
-                outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")),3,true));
+            if (IOUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
+                outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")),3,true));
             }
 
             else {
@@ -397,8 +397,8 @@ public class CyderMain{
 
             inputField = new JTextField(40);
 
-            if (mainGeneralUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
-                inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")),3,true));
+            if (IOUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
+                inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")),3,true));
             }
 
             else {
@@ -487,10 +487,10 @@ public class CyderMain{
 
             inputField.setCaretColor(mainGeneralUtil.vanila);
 
-            mainGeneralUtil.readUserData();
+            IOUtil.readUserData();
 
-            Font Userfont = new Font(mainGeneralUtil.getUserData("Font"),Font.BOLD, 30);
-            Color Usercolor = ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Foreground"));
+            Font Userfont = new Font(IOUtil.getUserData("Font"),Font.BOLD, 30);
+            Color Usercolor = ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
 
             mainGeneralUtil.setUsercolor(Usercolor);
             mainGeneralUtil.setUserfont(Userfont);
@@ -498,9 +498,9 @@ public class CyderMain{
             inputField.setForeground(Usercolor);
             outputArea.setForeground(Usercolor);
 
-            Color fillColor = ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Background"));
+            Color fillColor = ColorUtil.hextorgbColor(IOUtil.getUserData("Background"));
 
-            if (mainGeneralUtil.getUserData("OutputFill").equals("1")) {
+            if (IOUtil.getUserData("OutputFill").equals("1")) {
                 outputArea.setOpaque(true);
                 outputArea.setBackground(fillColor);
                 outputArea.repaint();
@@ -508,7 +508,7 @@ public class CyderMain{
                 consoleFrame.revalidate();
             }
 
-            if (mainGeneralUtil.getUserData("InputFill").equals("1"))
+            if (IOUtil.getUserData("InputFill").equals("1"))
                 inputField.setBackground(fillColor);
 
 
@@ -732,11 +732,11 @@ public class CyderMain{
 
             consoleDragLabel.add(consoleClockLabel, SwingConstants.CENTER);
 
-            updateConsoleClock = mainGeneralUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
+            updateConsoleClock = IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
 
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 if (consoleClockLabel.isVisible())
-                    if (mainGeneralUtil.getUserData("ShowSeconds").equalsIgnoreCase("1"))
+                    if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1"))
                         consoleClockLabel.setText(TimeUtil.consoleSecondTime());
                     else
                         consoleClockLabel.setText(TimeUtil.consoleTime());
@@ -748,7 +748,7 @@ public class CyderMain{
             consoleClockLabel.setVisible(updateConsoleClock);
 
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-                if (mainGeneralUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
+                if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
                     mainGeneralUtil.playMusic("src/com/cyder/io/audio/chime.mp3");
 
             }, 3600 - LocalDateTime.now().getSecond() - LocalDateTime.now().getMinute() * 60, 3600, TimeUnit.SECONDS);
@@ -763,7 +763,7 @@ public class CyderMain{
                 }
             });
 
-            if (mainGeneralUtil.getUserData("RandomBackground").equals("1")) {
+            if (IOUtil.getUserData("RandomBackground").equals("1")) {
                 int len = mainGeneralUtil.getValidBackgroundPaths().length;
 
                 if (len <= 1)
@@ -773,7 +773,7 @@ public class CyderMain{
                     try {
                         File[] backgrounds = mainGeneralUtil.getValidBackgroundPaths();
 
-                        mainGeneralUtil.setCurrentBackgroundIndex(mainGeneralUtil.randInt(0, (backgrounds.length) - 1));
+                        mainGeneralUtil.setCurrentBackgroundIndex(NumberUtil.randInt(0, (backgrounds.length) - 1));
 
                         String newBackFile = mainGeneralUtil.getCurrentBackground().toString();
 
@@ -781,7 +781,7 @@ public class CyderMain{
                         int tempW = 0;
                         int tempH = 0;
 
-                        if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+                        if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                             newBack = new ImageIcon(mainGeneralUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(),
                                     (int) systemUtil.getScreenSize().getHeight(), new File(newBackFile)));
                             tempW = newBack.getIconWidth();
@@ -840,7 +840,7 @@ public class CyderMain{
 
             lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(mainGeneralUtil.getCurrentBackground()));
 
-            if (mainGeneralUtil.getUserData("DebugWindows").equals("1")) {
+            if (IOUtil.getUserData("DebugWindows").equals("1")) {
                 StatUtil.systemProperties();
                 StatUtil.computerProperties();
                 StatUtil.javaProperties();
@@ -1402,7 +1402,7 @@ public class CyderMain{
             mainGeneralUtil.setUsername(Username);
 
             if (mainGeneralUtil.checkPassword(Username, mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(Password)))) {
-                mainGeneralUtil.readUserData();
+                IOUtil.readUserData();
 
                 if (loginFrame != null)
                     loginFrame.closeAnimation();
@@ -1412,7 +1412,7 @@ public class CyderMain{
 
                 console();
 
-                if (mainGeneralUtil.getUserData("IntroMusic").equals("1")) {
+                if (IOUtil.getUserData("IntroMusic").equals("1")) {
                     LinkedList<String> MusicList = new LinkedList<>();
 
                     File UserMusicDir = new File("src/users/" + mainGeneralUtil.getUserUUID() + "/Music");
@@ -1427,7 +1427,7 @@ public class CyderMain{
                     if (!MusicList.isEmpty())
                         mainGeneralUtil.playMusic(
                                 "src/users/" + mainGeneralUtil.getUserUUID() + "/Music/" +
-                                        (FileNames[mainGeneralUtil.randInt(0,FileNames.length - 1)]));
+                                        (FileNames[NumberUtil.randInt(0,FileNames.length - 1)]));
                     else
                         mainGeneralUtil.playMusic("src/com/cyder/io/audio/Suprise.mp3");
                 }
@@ -1571,7 +1571,7 @@ public class CyderMain{
                 int tempW = 0;
                 int tempH = 0;
                 
-                if (mainGeneralUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+                if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                     oldBack = new ImageIcon(mainGeneralUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(),
                             (int) systemUtil.getScreenSize().getHeight(),new File(oldBackFile)));
                     newBack = mainGeneralUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(), (int) systemUtil.getScreenSize().getHeight(),
@@ -1813,7 +1813,7 @@ public class CyderMain{
 
             else if (desc.equalsIgnoreCase("binary")) {
                 if (input.matches("[0-9]+") && !stringUtil.empytStr(input)) {
-                    String Print = mainGeneralUtil.toBinary(Integer.parseInt(input));
+                    String Print = NumberUtil.toBinary(Integer.parseInt(input));
                     println(input + " converted to binary equals: " + Print);
                 }
 
@@ -2074,7 +2074,7 @@ public class CyderMain{
                     && (!hasWord("print") &&  !hasWord("bletchy") && !hasWord("echo") &&
                     !hasWord("youtube") && !hasWord("google") && !hasWord("wikipedia") &&
                     !hasWord("synonym") && !hasWord("define"))) {
-                int choice = mainGeneralUtil.randInt(1,6);
+                int choice = NumberUtil.randInt(1,6);
 
                 switch(choice) {
                     case 1:
@@ -2380,7 +2380,7 @@ public class CyderMain{
             }
 
             else if (hasWord("shakespeare")) {
-                int rand = mainGeneralUtil.randInt(1,2);
+                int rand = NumberUtil.randInt(1,2);
 
                 if (rand == 1) {
                     println("Glamis hath murdered sleep, and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
@@ -2454,14 +2454,14 @@ public class CyderMain{
                 inputField.setFont(mainGeneralUtil.defaultFont);
                 outputArea.setFont(mainGeneralUtil.defaultFont);
                 println("The font has been reset.");
-                mainGeneralUtil.writeUserData("Font",outputArea.getFont().getName());
+                IOUtil.writeUserData("Font",outputArea.getFont().getName());
             }
 
             else if (hasWord("reset") && hasWord("color")) {
                 outputArea.setForeground(mainGeneralUtil.vanila);
                 inputField.setForeground(mainGeneralUtil.vanila);
                 println("The text color has been reset.");
-                mainGeneralUtil.writeUserData("Foreground",ColorUtil.rgbtohexString(mainGeneralUtil.defaultColor));
+                IOUtil.writeUserData("Foreground",ColorUtil.rgbtohexString(mainGeneralUtil.defaultColor));
             }
 
             else if (eic("top left")) {
@@ -2863,7 +2863,7 @@ public class CyderMain{
             }
 
             else if (hasWord("lines") && hasWord("code")) {
-                println("Total lines of code: " + mainGeneralUtil.totalCodeLines(new File(System.getProperty("user.dir"))));
+                println("Total lines of code: " + NumberUtil.totalCodeLines(new File(System.getProperty("user.dir"))));
             }
 
             else if (hasWord("threads") && !hasWord("daemon")) {
@@ -3008,7 +3008,7 @@ public class CyderMain{
                 }
 
                 else if (mathop.equalsIgnoreCase("convert2")) {
-                    println(mainGeneralUtil.toBinary((int)(param1)));
+                    println(NumberUtil.toBinary((int)(param1)));
                     mainGeneralUtil.setHandledMath(true);
                 }
             }
@@ -3258,8 +3258,8 @@ public class CyderMain{
 
     private void changeUsername(String newName) {
         try {
-            mainGeneralUtil.readUserData();
-            mainGeneralUtil.writeUserData("name",newName);
+            IOUtil.readUserData();
+            IOUtil.writeUserData("name",newName);
 
             mainGeneralUtil.setUsername(newName);
         }
@@ -3271,8 +3271,8 @@ public class CyderMain{
 
     private void changePassword(char[] newPassword) {
         try {
-            mainGeneralUtil.readUserData();
-            mainGeneralUtil.writeUserData("password", mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(newPassword)));
+            IOUtil.readUserData();
+            IOUtil.writeUserData("password", mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(newPassword)));
         }
 
         catch (Exception e) {
@@ -3688,7 +3688,7 @@ public class CyderMain{
         colorBlock.setBackground(mainGeneralUtil.navy);
         colorBlock.setFocusable(false);
         colorBlock.setCursor(null);
-        colorBlock.setBackground(ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Foreground")));
+        colorBlock.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground")));
         colorBlock.setToolTipText("Color Preview");
         colorBlock.setBorder(new LineBorder(mainGeneralUtil.navy, 5, false));
         colorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 120);
@@ -3696,7 +3696,7 @@ public class CyderMain{
 
         JTextField rgbField = new JTextField(mainGeneralUtil.navy.getRed() + "," + mainGeneralUtil.navy.getGreen() + "," + mainGeneralUtil.navy.getBlue());
 
-        JTextField hexField = new JTextField(mainGeneralUtil.getUserData("Foreground"));
+        JTextField hexField = new JTextField(IOUtil.getUserData("Foreground"));
         hexField.setForeground(mainGeneralUtil.navy);
         hexField.setFont(mainGeneralUtil.weatherFontBig);
         hexField.setBackground(new Color(0,0,0,0));
@@ -3725,7 +3725,7 @@ public class CyderMain{
         rgbField.setBackground(new Color(0,0,0,0));
         rgbField.setSelectionColor(mainGeneralUtil.selectionColor);
         rgbField.setToolTipText("RGB Value");
-        Color c = ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Foreground"));
+        Color c = ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
         rgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
         rgbField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
         JTextField finalRgbField1 = rgbField;
@@ -3753,7 +3753,7 @@ public class CyderMain{
         applyColor.setFocusPainted(false);
         applyColor.setBackground(mainGeneralUtil.regularRed);
         applyColor.addActionListener(e -> {
-            mainGeneralUtil.writeUserData("Foreground",hexField.getText());
+            IOUtil.writeUserData("Foreground",hexField.getText());
 
             Color updateC = ColorUtil.hextorgbColor(hexField.getText());
 
@@ -3799,7 +3799,7 @@ public class CyderMain{
                 Font ApplyFont = new Font(FontS, Font.BOLD, 30);
                 outputArea.setFont(ApplyFont);
                 inputField.setFont(ApplyFont);
-                mainGeneralUtil.writeUserData("Font",FontS);
+                IOUtil.writeUserData("Font",FontS);
                 println("The font \"" + FontS + "\" has been applied.");
             }
         });
@@ -3890,14 +3890,14 @@ public class CyderMain{
         CheckBox introMusic = new CheckBox();
         introMusic.setToolTipText("Play intro music on start");
 
-        if (mainGeneralUtil.getUserData("IntroMusic").equals("1"))
+        if (IOUtil.getUserData("IntroMusic").equals("1"))
             introMusic.setSelected();
 
         introMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("IntroMusic").equals("1");
-            mainGeneralUtil.writeUserData("IntroMusic", (wasSelected ? "0" : "1"));
+            boolean wasSelected = IOUtil.getUserData("IntroMusic").equals("1");
+                IOUtil.writeUserData("IntroMusic", (wasSelected ? "0" : "1"));
             introMusic.setIcon((wasSelected ? notSelected : selected));
             }
         });
@@ -3908,12 +3908,12 @@ public class CyderMain{
         debugWindows.setToolTipText("Show debug windows on start");
         debugWindows.setHorizontalAlignment(JLabel.CENTER);
         debugWindows.setSize(100,100);
-        debugWindows.setIcon((mainGeneralUtil.getUserData("DebugWindows").equals("1") ? selected : notSelected));
+        debugWindows.setIcon((IOUtil.getUserData("DebugWindows").equals("1") ? selected : notSelected));
         debugWindows.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("DebugWindows").equals("1");
-            mainGeneralUtil.writeUserData("DebugWindows", (wasSelected ? "0" : "1"));
+            boolean wasSelected = IOUtil.getUserData("DebugWindows").equals("1");
+                IOUtil.writeUserData("DebugWindows", (wasSelected ? "0" : "1"));
             debugWindows.setIcon((wasSelected ? notSelected : selected));
             }
         });
@@ -3924,12 +3924,12 @@ public class CyderMain{
         randBackgroundLabel.setToolTipText("Choose a random background on start");
         randBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
         randBackgroundLabel.setSize(100,100);
-        randBackgroundLabel.setIcon((mainGeneralUtil.getUserData("RandomBackground").equals("1") ? selected : notSelected));
+        randBackgroundLabel.setIcon((IOUtil.getUserData("RandomBackground").equals("1") ? selected : notSelected));
         randBackgroundLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("RandomBackground").equals("1");
-            mainGeneralUtil.writeUserData("RandomBackground", (wasSelected ? "0" : "1"));
+            boolean wasSelected = IOUtil.getUserData("RandomBackground").equals("1");
+                IOUtil.writeUserData("RandomBackground", (wasSelected ? "0" : "1"));
             randBackgroundLabel.setIcon((wasSelected ? notSelected : selected));
             }
         });
@@ -3940,19 +3940,19 @@ public class CyderMain{
         outputBorder.setToolTipText("Draw a border around the output area");
         outputBorder.setHorizontalAlignment(JLabel.CENTER);
         outputBorder.setSize(100,100);
-        outputBorder.setIcon((mainGeneralUtil.getUserData("OutputBorder").equals("1") ? selected : notSelected));
+        outputBorder.setIcon((IOUtil.getUserData("OutputBorder").equals("1") ? selected : notSelected));
         outputBorder.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("OutputBorder").equals("1");
-            mainGeneralUtil.writeUserData("OutputBorder", (wasSelected ? "0" : "1"));
+            boolean wasSelected = IOUtil.getUserData("OutputBorder").equals("1");
+                IOUtil.writeUserData("OutputBorder", (wasSelected ? "0" : "1"));
             outputBorder.setIcon((wasSelected ? notSelected : selected));
             if (wasSelected) {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
             }
 
             else {
-                outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")),3,true));
+                outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")),3,true));
             }
 
             consoleFrame.revalidate();
@@ -3965,12 +3965,12 @@ public class CyderMain{
         inputBorder.setToolTipText("Draw a border around the input field");
         inputBorder.setHorizontalAlignment(JLabel.CENTER);
         inputBorder.setSize(100,100);
-        inputBorder.setIcon((mainGeneralUtil.getUserData("InputBorder").equals("1") ? selected : notSelected));
+        inputBorder.setIcon((IOUtil.getUserData("InputBorder").equals("1") ? selected : notSelected));
         inputBorder.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("InputBorder").equals("1");
-            mainGeneralUtil.writeUserData("InputBorder", (wasSelected ? "0" : "1"));
+            boolean wasSelected = IOUtil.getUserData("InputBorder").equals("1");
+                IOUtil.writeUserData("InputBorder", (wasSelected ? "0" : "1"));
             inputBorder.setIcon((wasSelected ? notSelected : selected));
 
             if (wasSelected) {
@@ -3978,7 +3978,7 @@ public class CyderMain{
             }
 
             else {
-                inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")),3,true));
+                inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")),3,true));
             }
 
             consoleFrame.revalidate();
@@ -4026,12 +4026,12 @@ public class CyderMain{
         hourlyChimes.setToolTipText("Chime every hour");
         hourlyChimes.setHorizontalAlignment(JLabel.CENTER);
         hourlyChimes.setSize(100,100);
-        hourlyChimes.setIcon((mainGeneralUtil.getUserData("HourlyChimes").equals("1") ? selected : notSelected));
+        hourlyChimes.setIcon((IOUtil.getUserData("HourlyChimes").equals("1") ? selected : notSelected));
         hourlyChimes.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("HourlyChimes").equals("1");
-            mainGeneralUtil.writeUserData("HourlyChimes", (wasSelected ? "0" : "1"));
+            boolean wasSelected = IOUtil.getUserData("HourlyChimes").equals("1");
+                IOUtil.writeUserData("HourlyChimes", (wasSelected ? "0" : "1"));
             hourlyChimes.setIcon((wasSelected ? notSelected : selected));
             }
         });
@@ -4042,12 +4042,12 @@ public class CyderMain{
         silenceErrors.setToolTipText("Hide errors that occur");
         silenceErrors.setHorizontalAlignment(JLabel.CENTER);
         silenceErrors.setSize(100,100);
-        silenceErrors.setIcon((mainGeneralUtil.getUserData("SilenceErrors").equals("1") ? selected : notSelected));
+        silenceErrors.setIcon((IOUtil.getUserData("SilenceErrors").equals("1") ? selected : notSelected));
         silenceErrors.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("SilenceErrors").equals("1");
-            mainGeneralUtil.writeUserData("SilenceErrors", (wasSelected ? "0" : "1"));
+            boolean wasSelected = IOUtil.getUserData("SilenceErrors").equals("1");
+                IOUtil.writeUserData("SilenceErrors", (wasSelected ? "0" : "1"));
             silenceErrors.setIcon((wasSelected ? notSelected : selected));
             }
 
@@ -4059,12 +4059,12 @@ public class CyderMain{
         fullscreen.setToolTipText("Toggle between fullscreen (Extremely Experimental)");
         fullscreen.setHorizontalAlignment(JLabel.CENTER);
         fullscreen.setSize(100,100);
-        fullscreen.setIcon((mainGeneralUtil.getUserData("FullScreen").equals("1") ? selected : notSelected));
+        fullscreen.setIcon((IOUtil.getUserData("FullScreen").equals("1") ? selected : notSelected));
         fullscreen.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("FullScreen").equals("1");
-            mainGeneralUtil.writeUserData("FullScreen", (wasSelected ? "0" : "1"));
+            boolean wasSelected = IOUtil.getUserData("FullScreen").equals("1");
+                IOUtil.writeUserData("FullScreen", (wasSelected ? "0" : "1"));
             fullscreen.setIcon((wasSelected ? notSelected : selected));
             if (wasSelected) {
                 exitFullscreen();
@@ -4082,7 +4082,7 @@ public class CyderMain{
         outputFill.setToolTipText("Fill the output area with your custom color");
         outputFill.setHorizontalAlignment(JLabel.CENTER);
         outputFill.setSize(100,100);
-        outputFill.setIcon((mainGeneralUtil.getUserData("OutputFill").equals("1") ? selected : notSelected));
+        outputFill.setIcon((IOUtil.getUserData("OutputFill").equals("1") ? selected : notSelected));
         outputFill.setBounds(20 + 3 * 100 + 3 * 45, 235,100,100);
         switchingPanel.add(outputFill);
 
@@ -4090,7 +4090,7 @@ public class CyderMain{
         inputFill.setToolTipText("Fill the input field with your custom color");
         inputFill.setHorizontalAlignment(JLabel.CENTER);
         inputFill.setSize(100,100);
-        inputFill.setIcon((mainGeneralUtil.getUserData("InputFill").equals("1") ? selected : notSelected));
+        inputFill.setIcon((IOUtil.getUserData("InputFill").equals("1") ? selected : notSelected));
         inputFill.setBounds(20 + 4 * 100 + 4 * 45, 235,100,100);
         switchingPanel.add(inputFill);
 
@@ -4112,12 +4112,12 @@ public class CyderMain{
         clockOnConsole.setToolTipText("Show clock at top of main window");
         clockOnConsole.setHorizontalAlignment(JLabel.CENTER);
         clockOnConsole.setSize(100,100);
-        clockOnConsole.setIcon((mainGeneralUtil.getUserData("ClockOnConsole").equals("1") ? selected : notSelected));
+        clockOnConsole.setIcon((IOUtil.getUserData("ClockOnConsole").equals("1") ? selected : notSelected));
         clockOnConsole.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("ClockOnConsole").equals("1");
-            mainGeneralUtil.writeUserData("ClockOnConsole", (wasSelected ? "0" : "1"));
+            boolean wasSelected = IOUtil.getUserData("ClockOnConsole").equals("1");
+                IOUtil.writeUserData("ClockOnConsole", (wasSelected ? "0" : "1"));
             clockOnConsole.setIcon((wasSelected ? notSelected : selected));
             consoleClockLabel.setVisible(!wasSelected);
 
@@ -4127,7 +4127,7 @@ public class CyderMain{
             consoleFrame.revalidate();
 
             if (consoleClockLabel.isVisible()) {
-                if (mainGeneralUtil.getUserData("ShowSeconds").equals("1"))
+                if (IOUtil.getUserData("ShowSeconds").equals("1"))
                     consoleClockLabel.setText(TimeUtil.consoleSecondTime());
                 else
                     consoleClockLabel.setText(TimeUtil.consoleTime());
@@ -4141,12 +4141,12 @@ public class CyderMain{
         showSeconds.setToolTipText("Show seconds on console clock");
         showSeconds.setHorizontalAlignment(JLabel.CENTER);
         showSeconds.setSize(100,100);
-        showSeconds.setIcon((mainGeneralUtil.getUserData("ShowSeconds").equals("1") ? selected : notSelected));
+        showSeconds.setIcon((IOUtil.getUserData("ShowSeconds").equals("1") ? selected : notSelected));
         showSeconds.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = mainGeneralUtil.getUserData("ShowSeconds").equals("1");
-            mainGeneralUtil.writeUserData("ShowSeconds", (wasSelected ? "0" : "1"));
+            boolean wasSelected = IOUtil.getUserData("ShowSeconds").equals("1");
+                IOUtil.writeUserData("ShowSeconds", (wasSelected ? "0" : "1"));
             showSeconds.setIcon((wasSelected ? notSelected : selected));
 
             if (wasSelected)
@@ -4161,8 +4161,8 @@ public class CyderMain{
         outputFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("OutputFill").equals("1");
-                mainGeneralUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
+                boolean wasSelected = IOUtil.getUserData("OutputFill").equals("1");
+                IOUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
                 outputFill.setIcon((wasSelected ? notSelected : selected));
 
                 if (wasSelected) {
@@ -4173,7 +4173,7 @@ public class CyderMain{
 
                 else {
                     outputArea.setOpaque(true);
-                    outputArea.setBackground(ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")));
+                    outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
                     outputArea.repaint();
                     outputArea.revalidate();
                     consoleFrame.revalidate();
@@ -4184,8 +4184,8 @@ public class CyderMain{
         inputFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = mainGeneralUtil.getUserData("InputFill").equals("1");
-                mainGeneralUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
+                boolean wasSelected = IOUtil.getUserData("InputFill").equals("1");
+                IOUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
                 inputFill.setIcon((wasSelected ? notSelected : selected));
 
                 if (wasSelected) {
@@ -4196,7 +4196,7 @@ public class CyderMain{
 
                 else {
                     inputField.setOpaque(true);
-                    inputField.setBackground(ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")));
+                    inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
                     inputField.repaint();
                     inputField.revalidate();
                     consoleFrame.revalidate();
@@ -4216,14 +4216,14 @@ public class CyderMain{
         colorBlock.setFocusable(false);
         colorBlock.setCursor(null);
         colorBlock.setToolTipText("Color Preview");
-        colorBlock.setBackground(ColorUtil.hextorgbColor(mainGeneralUtil.getUserData("Background")));
+        colorBlock.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
         colorBlock.setBorder(new LineBorder(mainGeneralUtil.navy, 5, false));
         colorBlock.setBounds(630, 380, 40, 100);
         switchingPanel.add(colorBlock);
 
         JTextField hexField = new JTextField(String.format("#%02X%02X%02X", mainGeneralUtil.navy.getRed(), mainGeneralUtil.navy.getGreen(), mainGeneralUtil.navy.getBlue()).replace("#",""));
         hexField.setForeground(mainGeneralUtil.navy);
-        hexField.setText(mainGeneralUtil.getUserData("Background"));
+        hexField.setText(IOUtil.getUserData("Background"));
         hexField.setFont(mainGeneralUtil.weatherFontSmall);
         hexField.setBackground(new Color(255,255,255));
         hexField.setSelectionColor(mainGeneralUtil.selectionColor);
@@ -4233,7 +4233,7 @@ public class CyderMain{
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
                     colorBlock.setBackground(ColorUtil.hextorgbColor(hexField.getText()));
-                    mainGeneralUtil.writeUserData("Background",hexField.getText());
+                    IOUtil.writeUserData("Background",hexField.getText());
                 }
 
                 catch (Exception ignored) {}
@@ -4645,11 +4645,11 @@ public class CyderMain{
 
     private void shutdown() {
         try {
-            mainGeneralUtil.readUserData();
-            mainGeneralUtil.writeUserData("Font",outputArea.getFont().getName());
-            mainGeneralUtil.writeUserData("Foreground",ColorUtil.rgbtohexString(outputArea.getForeground()));
+            IOUtil.readUserData();
+            IOUtil.writeUserData("Font",outputArea.getFont().getName());
+            IOUtil.writeUserData("Foreground",ColorUtil.rgbtohexString(outputArea.getForeground()));
 
-            mainGeneralUtil.deleteTempDir();
+            IOUtil.deleteTempDir();
         }
 
         catch (Exception e) {

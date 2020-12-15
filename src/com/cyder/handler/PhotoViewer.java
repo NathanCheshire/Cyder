@@ -2,7 +2,7 @@ package com.cyder.handler;
 
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.DragLabel;
-import com.cyder.utilities.FrameAnimations;
+import com.cyder.utilities.AnimationUtil;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.SystemUtil;
 
@@ -23,7 +23,7 @@ public class PhotoViewer {
     private int currentIndex;
 
     private GeneralUtil imageGeneralUtil = new GeneralUtil();
-    private FrameAnimations fa = new FrameAnimations();
+    private AnimationUtil fa = new AnimationUtil();
     private SystemUtil su = new SystemUtil();
 
     private JFrame renameFrame;

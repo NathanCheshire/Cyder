@@ -1,6 +1,6 @@
 package com.cyder.ui;
 
-import com.cyder.utilities.FrameAnimations;
+import com.cyder.utilities.AnimationUtil;
 import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
@@ -15,7 +15,7 @@ public class DragLabel extends JLabel {
     private static JFrame effectFrame;
 
     GeneralUtil dragLabelGeneralUtil = new GeneralUtil();
-    FrameAnimations fa = new FrameAnimations();
+    AnimationUtil fa = new AnimationUtil();
 
     private int xMouse;
     private int yMouse;

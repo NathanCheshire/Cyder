@@ -100,7 +100,7 @@ public class SystemUtil {
                 "cd.Eject",
                 "cd.Eject"};
 
-        gu.createAndOpenTmpFile("CDROM-CLOSE",".vbs",vbs);
+        IOUtil.createAndOpenTmpFile("CDROM-CLOSE",".vbs",vbs);
     }
 
     public void openCD(String drive) {
@@ -109,7 +109,7 @@ public class SystemUtil {
                         + drive + "\")",
                 "cd.Eject"};
 
-        gu.createAndOpenTmpFile("CDROM-OPEN",".vbs",vbs);
+        IOUtil.createAndOpenTmpFile("CDROM-OPEN",".vbs",vbs);
     }
 
     public void disco(int iterations) {

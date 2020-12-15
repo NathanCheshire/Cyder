@@ -3,11 +3,11 @@ package com.cyder.utilities;
 import javax.swing.*;
 import java.awt.*;
 
-public class FrameAnimations {
+public class AnimationUtil {
 
     private GeneralUtil gu;
 
-    public FrameAnimations() {
+    public AnimationUtil() {
         gu = new GeneralUtil();
     }
 

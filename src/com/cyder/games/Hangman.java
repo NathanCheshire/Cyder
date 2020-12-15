@@ -3,6 +3,7 @@ package com.cyder.games;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.NumberUtil;
 import com.cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -136,7 +137,7 @@ public class Hangman {
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/com/cyder/io/text/hangman.csv"))) {
             String[] doc = br.readLine().split(",");
-            HangmanWord = doc[hangmanGeneralUtil.randInt(0, doc.length - 1)].toLowerCase();
+            HangmanWord = doc[NumberUtil.randInt(0, doc.length - 1)].toLowerCase();
 
         }
 

@@ -4,7 +4,6 @@ package com.cyder.utilities;
 import com.cyder.exception.FatalException;
 import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
-import com.cyder.obj.NST;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.widgets.MPEGPlayer;
@@ -27,7 +26,9 @@ import java.security.MessageDigest;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.*;
+import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.UUID;
 
 public class GeneralUtil {
 
@@ -82,7 +83,7 @@ public class GeneralUtil {
     public static Color navy = new Color(26, 32, 51);
 
     //uservars
-    private LinkedList<NST> userData = new LinkedList<>();
+
     private static String userUUID;
     private static String username;
     private static Color usercolor;
@@ -119,13 +120,6 @@ public class GeneralUtil {
     //static player so only one instance ever exists
     public static MPEGPlayer CyderPlayer;
     private static Player player;
-
-    //num util
-    public int randInt(int min, int max) {
-        Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-        return randomNum;
-    }
 
     //This was the best bodge I ever pulled off
     public File getFile() {
@@ -343,41 +337,6 @@ public class GeneralUtil {
         }
     }
 
-    //num util
-    public String toBinary(int value) {
-        String bin;
-
-        if (value > 0) {
-            int colExp = 0;
-            int val = value;
-
-            while (Math.pow(2, colExp) <= value) {
-                colExp = colExp + 1;
-            }
-
-            bin = "";
-
-            do {
-                colExp--;
-                int columnWeight = (int) Math.pow(2, colExp);
-
-                if (columnWeight <= val) {
-                    bin += "1";
-                    val -= columnWeight;
-                }
-
-                else
-                    bin += "0";
-            }
-
-            while (colExp > 0);
-
-            return bin;
-        }
-
-        return "NaN";
-    }
-
     public int getCurrentDowns() {
         return this.currentDowns;
     }
@@ -394,29 +353,35 @@ public class GeneralUtil {
     }
 
     //user utils
-    public String getUserUUID() {
-        return this.userUUID;
+    public static String getUserUUID() {
+        return userUUID;
     }
-    public void setUserUUID(String s) {
-        this.userUUID = s;
+    public static void setUserUUID(String s) {
+        userUUID = s;
     }
-    public void setUsername(String name) {
-        this.username = name;
+
+    //user utils
+    public static void setUsername(String name) {
+        username = name;
     }
-    public String getUsername() {
-        return this.username;
+    public static String getUsername() {
+        return username;
     }
-    public void setUsercolor(Color c) {
-        this.usercolor = c;
+
+    //user utils
+    public static void setUsercolor(Color c) {
+        usercolor = c;
     }
-    public Color getUsercolor() {
-        return this.usercolor;
+    public static Color getUsercolor() {
+        return usercolor;
     }
-    public void setUserfont(Font f) {
-        this.userfont = f;
+
+    //user utils
+    public static void setUserfont(Font f) {
+        userfont = f;
     }
-    public Font getUserfont() {
-        return this.userfont;
+    public static Font getUserfont() {
+        return userfont;
     }
 
     //move to consoleframe
@@ -428,28 +393,28 @@ public class GeneralUtil {
         return this.validBackgroundPaths;
     }
 
-    //date util
+    //time util
     public boolean isChristmas() {
         Calendar Checker = Calendar.getInstance();
         int Month = Checker.get(Calendar.MONTH) + 1;
         int Date = Checker.get(Calendar.DATE);
         return (Month == 12 && Date == 25);
     }
-    //date util
+    //time util
     public boolean isHalloween() {
         Calendar Checker = Calendar.getInstance();
         int Month = Checker.get(Calendar.MONTH) + 1;
         int Date = Checker.get(Calendar.DATE);
         return (Month == 10 && Date == 31);
     }
-    //date util
+    //time util
     public boolean isIndependenceDay() {
         Calendar Checker = Calendar.getInstance();
         int Month = Checker.get(Calendar.MONTH) + 1;
         int Date = Checker.get(Calendar.DATE);
         return (Month == 7 && Date == 4);
     }
-    //date util
+    //time util
     public boolean isThanksgiving() {
         Calendar Checker = Calendar.getInstance();
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -458,7 +423,7 @@ public class GeneralUtil {
         LocalDate RealTG = LocalDate.of(year, 11, 1).with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
         return (Month == 11 && Date == RealTG.getDayOfMonth());
     }
-    //date util
+    //time util
     public boolean isAprilFoolsDay() {
         Calendar Checker = Calendar.getInstance();
         int Month = Checker.get(Calendar.MONTH) + 1;
@@ -504,7 +469,7 @@ public class GeneralUtil {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
             Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-            clickMeFrame.setLocation(randInt(0, (int) (rect.getMaxX() - 200)),randInt(0,(int) rect.getMaxY() - 200));
+            clickMeFrame.setLocation(NumberUtil.randInt(0, (int) (rect.getMaxX() - 200)),NumberUtil.randInt(0,(int) rect.getMaxY() - 200));
             clickMeFrame.setAlwaysOnTop(true);
         }
 
@@ -549,7 +514,7 @@ public class GeneralUtil {
     public void getBackgroundSize() {
         ImageIcon Size = new ImageIcon(getCurrentBackground().toString());
 
-        if (getUserData("FullScreen").equalsIgnoreCase("1")) {
+        if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
             backgroundX = new SystemUtil().getScreenWidth();
             backgroundY = new SystemUtil().getScreenHeight();
         }
@@ -592,7 +557,7 @@ public class GeneralUtil {
     }
 
     //io utils
-    public void openFile(String FilePath) {
+    public static void openFile(String FilePath) {
         //use our custom text editor
         if (FilePath.endsWith(".txt")) {
             TextEditor te = new TextEditor(FilePath);
@@ -630,93 +595,9 @@ public class GeneralUtil {
         }
     }
 
-    //io utils
-    public void openFileOutsideProgram(String filePath) {
-        Desktop OpenFile = Desktop.getDesktop();
-
-        try {
-            File FileToOpen = new File(filePath);
-            URI FileURI = FileToOpen.toURI();
-            OpenFile.browse(FileURI);
-        }
-
-        catch (Exception e) {
-            try {
-                Runtime.getRuntime().exec("explorer.exe /select," + filePath);
-            }
-
-            catch(Exception ex) {
-                handle(ex);
-            }
-        }
-    }
-
     //put in consoleframe class
     public boolean canSwitchBackground() {
         return (validBackgroundPaths.length > currentBackgroundIndex + 1 && validBackgroundPaths.length > 1);
-    }
-
-    //io utils
-    public void readUserData() {
-        userData.clear();
-        String user = getUserUUID();
-
-        if (user == null)
-            return;
-
-        try (BufferedReader dataReader = new BufferedReader(new FileReader(
-                "src/users/" + user + "/Userdata.txt"))){
-
-            String Line;
-
-            while ((Line = dataReader.readLine()) != null) {
-                String[] parts = Line.split(":");
-                userData.add(new NST(parts[0], parts[1]));
-            }
-        }
-
-        catch(Exception e) {
-            handle(e);
-        }
-    }
-
-    //io utils (something here is broken since sometimes userdata will end up empty)
-    public void writeUserData(String name, String value) {
-        if (getUserUUID() == null)
-            return;
-
-        try (BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                "src/users/" + getUserUUID() + "/Userdata.txt", false))) {
-
-
-            for (NST data : userData) {
-                if (data.getName().equalsIgnoreCase(name))
-                    data.setData(value);
-
-                userWriter.write(data.getName() + ":" + data.getData());
-                userWriter.newLine();
-            }
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
-    //io utils
-    public String getUserData(String name) {
-        readUserData();
-
-        if (userData.isEmpty())
-            return null;
-
-        for (NST data : userData) {
-            if (data.getName().equalsIgnoreCase(name)) {
-                return data.getData();
-            }
-        }
-
-        return null;
     }
 
     //image utils
@@ -772,7 +653,7 @@ public class GeneralUtil {
                     getValidBackgroundPaths();
                 }
 
-                if (isPrime(getBackgroundX())) {
+                if (NumberUtil.isPrime(getBackgroundX())) {
                     currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
 
                     int width = currentImage.getWidth() + 1;
@@ -814,11 +695,13 @@ public class GeneralUtil {
         return Toolkit.getDefaultToolkit().getScreenResolution();
     }
 
+    //handle class
     public static void staticHandle(Exception e) {
         new GeneralUtil().handle(e);
     }
+
     //handle class
-    public void handle(Exception e) {
+    public static void handle(Exception e) {
         try {
             File throwsDir = new File("src/users/" + getUserUUID() + "/Throws/");
 
@@ -846,16 +729,16 @@ public class GeneralUtil {
             errorWriter.flush();
             errorWriter.close();
 
-            if (getUserData("SilenceErrors").equals("1"))
+            if (IOUtil.getUserData("SilenceErrors").equals("1"))
                 return;
             openFile(eFileString);
         }
 
         catch (Exception ex) {
-            if (getUserData("SilenceErrors") != null && getUserData("SilenceErrors").equals("0")) {
+            if (IOUtil.getUserData("SilenceErrors") != null && IOUtil.getUserData("SilenceErrors").equals("0")) {
                 System.out.println("Exception in error logger:\n\n");
                 e.printStackTrace();
-                //todo show popup on cyderframe
+                //todo show popup with inform on consoleframe
             }
         }
     }
@@ -996,48 +879,6 @@ public class GeneralUtil {
         return rotated;
     }
 
-    //num utils
-    public boolean isPrime(int num) {
-        ArrayList<Integer> Numbers = new ArrayList<>();
-
-        for (int i = 3 ; i < Math.ceil(Math.sqrt(num)) ; i += 2)
-            if (num % i == 0)
-                Numbers.add(i);
-
-        return Numbers.isEmpty();
-    }
-
-    //num util
-    public int totalCodeLines(File startDir) {
-        int ret = 0;
-
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
-
-            for (File f : files)
-                ret += totalCodeLines(f);
-        }
-
-        else if (startDir.getName().endsWith(".java")) {
-            try {
-                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line = "";
-                int localRet = 0;
-
-                while ((line = lineReader.readLine()) != null)
-                    localRet++;
-
-                return localRet;
-            }
-
-            catch (Exception ex) {
-                handle(ex);
-            }
-        }
-
-        return ret;
-    }
-
     //io utils
     public void cleanUpUsers() {
         File top = new File("src/users");
@@ -1051,47 +892,6 @@ public class GeneralUtil {
 
             if (currentUserFiles.length == 1 && currentUserFiles[0].getName().equalsIgnoreCase("Userdata.txt"))
                 new SystemUtil().deleteFolder(userDir);
-        }
-    }
-
-    //io util
-    public void deleteTempDir() {
-        try {
-            File tmpDir = new File("src/tmp");
-            new SystemUtil().deleteFolder(tmpDir);
-        } catch (Exception e) {
-            handle(e);
-        }
-    }
-
-    //io utils
-    public void createAndOpenTmpFile(String filename, String extension, String[] lines) {
-        try {
-            File tmpDir = new File("src/tmp");
-
-            if (!tmpDir.exists())
-                tmpDir.mkdir();
-
-            File tmpFile = new File(tmpDir + "/" + filename + extension);
-
-            if (!tmpFile.exists())
-                tmpFile.createNewFile();
-
-            BufferedWriter tmpFileWriter = new BufferedWriter(new FileWriter(tmpFile));
-
-            for (String line: lines) {
-                tmpFileWriter.write(line);
-                tmpFileWriter.newLine();
-            }
-
-            tmpFileWriter.flush();
-            tmpFileWriter.close();
-
-            openFileOutsideProgram(tmpFile.getAbsolutePath());
-        }
-
-        catch (Exception e) {
-            handle(e);
         }
     }
 

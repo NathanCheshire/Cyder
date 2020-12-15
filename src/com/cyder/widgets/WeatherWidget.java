@@ -201,7 +201,7 @@ public class WeatherWidget {
 
                         useCustomLoc = true;
 
-                        new FrameAnimations().closeAnimation(changeLocationFrame);
+                        new AnimationUtil().closeAnimation(changeLocationFrame);
                         weatherFrame.inform("Attempting to refresh and use the location \"" + locationString + "\" for weather.", "",400, 300);
                         refreshWeatherNow();
                     }

@@ -410,7 +410,7 @@ public class StringUtil {
                 String current = "";
 
                 for (int k = 0 ; k <= len ; k++)
-                    current += alphas[stringGeneralUtil.randInt(0,alphas.length - 1)];
+                    current += alphas[NumberUtil.randInt(0,alphas.length - 1)];
 
                 retList.add((s.substring(0,i) + current.substring(i, len)).toUpperCase());
             }

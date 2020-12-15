@@ -31,7 +31,7 @@ public class StatUtil {
             lines[i] = PropertiesList.get(i);
         }
 
-        new GeneralUtil().createAndOpenTmpFile("JavaProperties",".txt", lines);
+        IOUtil.createAndOpenTmpFile("JavaProperties",".txt", lines);
     }
 
     public static void systemProperties() {
@@ -56,7 +56,7 @@ public class StatUtil {
         for (int i = 0 ; i < arrayLines.size() ; i++)
             lines[i] = arrayLines.get(i);
 
-        new GeneralUtil().createAndOpenTmpFile("SystemProperties",".txt",lines);
+        IOUtil.createAndOpenTmpFile("SystemProperties",".txt",lines);
     }
 
     public static void computerProperties() {
@@ -85,7 +85,7 @@ public class StatUtil {
             lines[i] = arrayLines.get(i);
         }
 
-        new GeneralUtil().createAndOpenTmpFile("Computer Properties",".txt", lines);
+        IOUtil.createAndOpenTmpFile("Computer Properties",".txt", lines);
     }
 
     public static void debugMenu(JTextPane outputArea) {
@@ -134,7 +134,7 @@ public class StatUtil {
                     "Local Host Address: " + address.getLocalHost(),
                     "Loopback Address: " + address.getLoopbackAddress()};
 
-            new GeneralUtil().createAndOpenTmpFile("DebugProperties",".txt",lines);
+            IOUtil.createAndOpenTmpFile("DebugProperties",".txt",lines);
         }
 
         catch (Exception e) {

@@ -2,6 +2,7 @@ package com.cyder.threads;
 
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.NetworkUtil;
+import com.cyder.utilities.NumberUtil;
 import com.cyder.utilities.StringUtil;
 import com.cyder.utilities.GeneralUtil;
 
@@ -44,7 +45,7 @@ public class YoutubeThread {
                         StringBuilder UUIDBuilder = new StringBuilder(UUID);
 
                         for (int i = 1; i < 12; i++)
-                            UUIDBuilder.append(ValidChars[u.randInt(0, 63)]);
+                            UUIDBuilder.append(ValidChars[NumberUtil.randInt(0, 63)]);
 
                         UUID = UUIDBuilder.toString();
                         su.println("Checked UUID: " + UUID);

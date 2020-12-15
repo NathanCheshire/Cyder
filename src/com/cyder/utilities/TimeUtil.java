@@ -111,7 +111,7 @@ public class TimeUtil {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
         scheduler.schedule(() -> {
-            new FrameAnimations().closeAnimation(consoleFrame);
+            new AnimationUtil().closeAnimation(consoleFrame);
             System.exit(0);
         }, HowMany, TimeUnit.MILLISECONDS);
     }
