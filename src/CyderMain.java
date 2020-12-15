@@ -37,13 +37,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo resize weather widget background
+//todo make alot of stuff static so you don't need to instantiate a method
+//todo SysData.log for title and such, consolidate with cyder args but push below a ------- line
+
 //todo if location isn't found say so and say certain features might not work
 //todo weather will not work if IP cannot find location, happened in captiva florida
 
 //todo orange vs blue border for working in background doesnt seem to work
-
-//todo make login bigger and 800x800
 
 //todo light mode and dark mode (switch vanila and navy for informs)
 
@@ -1393,8 +1393,8 @@ public class CyderMain{
         loginFrame.enterAnimation();
 
         if (directories != null && directories.length == 0)
-            loginFrame.notify("<html>Psssst! Create a user,<br/>" + System.getProperty("user.name") + "</html>",
-                    4000, Notification.TOP_ARROW, Notification.TOP_START, Notification.TOP_VANISH, 230);
+            loginFrame.notify("<html><b>" + System.getProperty("user.name") + ":<br/>There are no users<br/>please create one</b></html>",
+                    4000, Notification.TOP_ARROW, Notification.TOP_START, Notification.TOP_VANISH, 250);
     }
 
     private void recognize(String Username, char[] Password) {
@@ -2793,7 +2793,7 @@ public class CyderMain{
             }
 
             else if (hasWord("dance")) {
-                //todo for all frames, make them dance, make this action ctrl+c -able
+                //todo for all CyderFrames, make them dance, make this action ctrl+c -able
             }
 
             else if (hasWord("clear") && (

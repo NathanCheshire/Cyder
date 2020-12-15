@@ -501,7 +501,7 @@ public class GeneralUtil {
     //make own class
     public void inform(String text, String title, int width, int height) {
         try {
-            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,navy)));
+            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,vanila)));
             informFrame.setTitle(title);
 
             JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
@@ -509,7 +509,7 @@ public class GeneralUtil {
             desc.setHorizontalAlignment(JLabel.CENTER);
             desc.setVerticalAlignment(JLabel.CENTER);
             ImageUtil iu = new ImageUtil();
-            desc.setForeground(vanila);
+            desc.setForeground(navy);
             desc.setFont(weatherFontSmall.deriveFont(22f));
             desc.setBounds(10, 35, width - 20, height - 35 * 2);
 
@@ -896,25 +896,21 @@ public class GeneralUtil {
 
     //io utils
     public void readUserData() {
-        try {
-            userData.clear();
-            String user = getUserUUID();
+        userData.clear();
+        String user = getUserUUID();
 
-            if (user == null)
-                return;
+        if (user == null)
+            return;
 
-            BufferedReader dataReader = new BufferedReader(new FileReader(
-                    "src/users/" + user + "/Userdata.txt"));
+        try (BufferedReader dataReader = new BufferedReader(new FileReader(
+                "src/users/" + user + "/Userdata.txt"))){
 
-            String Line = dataReader.readLine();
+            String Line;
 
-            while (Line != null) {
+            while ((Line = dataReader.readLine()) != null) {
                 String[] parts = Line.split(":");
                 userData.add(new NST(parts[0], parts[1]));
-                Line = dataReader.readLine();
             }
-
-            dataReader.close();
         }
 
         catch(Exception e) {
@@ -924,22 +920,20 @@ public class GeneralUtil {
 
     //io utils (something here is broken since sometimes userdata will end up empty)
     public void writeUserData(String name, String value) {
-        try {
-            BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "src/users/" + getUserUUID() + "/Userdata.txt", false));
+        if (getUserUUID() == null)
+            return;
+
+        try (BufferedWriter userWriter = new BufferedWriter(new FileWriter(
+                "src/users/" + getUserUUID() + "/Userdata.txt", false))) {
+
 
             for (NST data : userData) {
-                if (data.getName().equalsIgnoreCase(name)) {
+                if (data.getName().equalsIgnoreCase(name))
                     data.setData(value);
-                }
 
                 userWriter.write(data.getName() + ":" + data.getData());
                 userWriter.newLine();
             }
-
-            userWriter.close();
-
-            readUserData();
         }
 
         catch (Exception e) {

@@ -140,7 +140,7 @@ public class CyderFrame extends JFrame {
 
     public void inform(String text, String title, int width, int height) {
         try {
-            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,fGeneralUtil.navy)));
+            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,fGeneralUtil.vanila)));
             informFrame.setTitle(title);
 
             JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
@@ -148,7 +148,7 @@ public class CyderFrame extends JFrame {
             desc.setHorizontalAlignment(JLabel.CENTER);
             desc.setVerticalAlignment(JLabel.CENTER);
             ImageUtil iu = new ImageUtil();
-            desc.setForeground(fGeneralUtil.vanila);
+            desc.setForeground(fGeneralUtil.navy);
             desc.setFont(fGeneralUtil.weatherFontSmall.deriveFont(22f));
             desc.setBounds(10, 35, width - 20, height - 35 * 2);
 
