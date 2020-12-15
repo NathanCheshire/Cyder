@@ -53,14 +53,9 @@ import java.util.concurrent.TimeUnit;
 
 //todo some scrolls with borders are not fitted properly
 
-//todo if you deleted a user, close all frames before going to login
-//todo if you created the first user, auto login
-
 //todo make a getinput method
 
-//todo make all UI components implement CyderMouseDraggable
 //todo cyder label
-//todo cyder textfield
 //todo cyder progress bar
 
 //todo use enums instead of all constants, make enums package
@@ -70,8 +65,6 @@ import java.util.concurrent.TimeUnit;
 //todo double hash sha perhaps to avoid someone just hashing their own password and pasting it in
 
 //todo make it so all you can have is jar and system files and it'll create everything else such as dirs
-
-//todo move users out of cyder and into same dir as com
 
 //todo move file.txt to temp dir, file used for filechooser
 
@@ -1958,6 +1951,11 @@ public class CyderMain{
                 File old = new File("src/users/" + mainGeneralUtil.getUserUUID());
                 old.renameTo(renamed);
 
+                Frame[] frames = Frame.getFrames();
+
+                for(Frame f: frames)
+                    f.dispose();
+
                 login(false);
             }
 
@@ -2795,7 +2793,7 @@ public class CyderMain{
             }
 
             else if (hasWord("dance")) {
-                //todo add in once consoleframe extends cyderframe
+                //todo for all frames, make them dance, make this action ctrl+c -able
             }
 
             else if (hasWord("clear") && (
@@ -4548,7 +4546,7 @@ public class CyderMain{
 
                     createUserFrame.closeAnimation();
 
-                    if (consoleFrame == null && loginFrame != null) {
+                    if (!consoleFrame.isVisible() && loginFrame != null) {
                         loginFrame.closeAnimation();
                         recognize(newUserName.getText().trim(),pass);
                     }

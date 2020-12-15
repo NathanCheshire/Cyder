@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 
 public abstract class CyderMouseDraggable extends MouseAdapter {
 
-    private static boolean movingComponents = false; //todo set if trying to play with comp. locations
+    private static boolean movingComponents = false; //todo set if trying to play with comp. locations, put bool in sys file
     private int xOffset;
     private int yOffset;
 
