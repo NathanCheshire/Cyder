@@ -2,10 +2,7 @@ package com.cyder.widgets;
 
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.FrameAnimations;
-import com.cyder.utilities.GeneralUtil;
-import com.cyder.utilities.InternetProtocolUtil;
-import com.cyder.utilities.SystemUtil;
+import com.cyder.utilities.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -493,7 +490,7 @@ public class WeatherWidget {
                         .replace(":", "").replace("\"", "").replace("[", "")
                         .replace("]", "").replace(":", "").split(",");
 
-                Fields = weatherGeneralUtil.combineArrays(Fields, LineArray);
+                Fields = new StringUtil().combineArrays(Fields, LineArray);
             }
 
             WeatherReader.close();

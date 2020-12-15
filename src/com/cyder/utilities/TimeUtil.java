@@ -81,7 +81,7 @@ public class TimeUtil {
                         .replace(":", "").replace("\"", "").replace("[", "")
                         .replace("]", "").replace(":", "").split(",");
 
-                Fields = timeGeneralUtil.combineArrays(Fields, LineArray);
+                Fields = new StringUtil().combineArrays(Fields, LineArray);
             }
 
             WeatherReader.close();

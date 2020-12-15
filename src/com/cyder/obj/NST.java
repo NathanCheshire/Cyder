@@ -5,41 +5,41 @@ public class NST {
     //A simple Named String Tag object for use anywhere
 
     private String name;
-    private String description;
+    private String data;
 
     public NST() {
         this.name = null;
-        this.description = null;
+        this.data = null;
     }
 
     public NST(String initName) {
         this.name = initName;
-        this.description = null;
+        this.data = null;
     }
 
     public NST(String initName, String initDesc) {
         this.name = initName;
-        this.description = initDesc;
+        this.data = initDesc;
     }
 
     public void setName(String newName) {
         this.name = newName;
     }
 
-    public void setDescription(String newDesc) {
-        this.description = newDesc;
+    public void setData(String newDesc) {
+        this.data = newDesc;
     }
 
     public void setNST(String newName, String newDesc) {
         this.name = newName;
-        this.description = newDesc;
+        this.data = newDesc;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public String getDescription() {
-        return this.description;
+    public String getData() {
+        return this.data;
     }
 }

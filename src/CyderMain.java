@@ -91,8 +91,6 @@ import java.util.concurrent.TimeUnit;
 
 //todo utilize start animations after you fix it
 
-//todo further class separation from GeneralUtil.java
-
 //todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
 //todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
 
@@ -529,8 +527,8 @@ public class CyderMain{
             suggestionButton.addActionListener(e -> {
                 println("What feature would you like to suggestion? (Please include as much detail as possible such as what" +
                         "key words you should type and how it should be responded to and any options you think might be necessary)");
-                mainGeneralUtil.setUserInputDesc("suggestion");
-                mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputDesc("suggestion");
+                stringUtil.setUserInputMode(true);
                 inputField.requestFocus();
             });
 
@@ -641,8 +639,8 @@ public class CyderMain{
                 else if (mainGeneralUtil.getValidBackgroundPaths().length == 1) {
                     println("You only have one background image. Would you like to add more? (Enter yes/no)");
                     inputField.requestFocus();
-                    mainGeneralUtil.setUserInputMode(true);
-                    mainGeneralUtil.setUserInputDesc("addbackgrounds");
+                    stringUtil.setUserInputMode(true);
+                    stringUtil.setUserInputDesc("addbackgrounds");
                     inputField.requestFocus();
                 }
 
@@ -1222,7 +1220,7 @@ public class CyderMain{
             String originalOp = inputField.getText().trim();
             String op = originalOp;
 
-            if (!mainGeneralUtil.empytStr(op)) {
+            if (!stringUtil.empytStr(op)) {
                 if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
                     operationList.add(op);
                 }
@@ -1230,12 +1228,12 @@ public class CyderMain{
                 scrollingIndex = operationList.size() - 1;
                 mainGeneralUtil.setCurrentDowns(0);
 
-                if (!mainGeneralUtil.getUserInputMode()) {
+                if (!stringUtil.getUserInputMode()) {
                     handle(op);
                 }
 
-                else if (mainGeneralUtil.getUserInputMode()) {
-                    mainGeneralUtil.setUserInputMode(false);
+                else if (stringUtil.getUserInputMode()) {
+                    stringUtil.setUserInputMode(false);
                     handleSecond(op);
                 }
             }
@@ -1338,12 +1336,12 @@ public class CyderMain{
         pass.addActionListener(e -> {
             String Username = nameField.getText().trim();
 
-            if (!mainGeneralUtil.empytStr(Username)) {
+            if (!stringUtil.empytStr(Username)) {
                 Username = Username.substring(0, 1).toUpperCase() + Username.substring(1);
 
                 char[] Password = pass.getPassword();
 
-                if (!mainGeneralUtil.empytStr(Username)) {
+                if (!stringUtil.empytStr(Username)) {
                     recognize(Username, Password);
                 }
 
@@ -1762,9 +1760,9 @@ public class CyderMain{
 
     private void handleSecond(String input) {
         try {
-            String desc = mainGeneralUtil.getUserInputDesc();
+            String desc = stringUtil.getUserInputDesc();
 
-            if (desc.equalsIgnoreCase("url") && !mainGeneralUtil.empytStr(input)) {
+            if (desc.equalsIgnoreCase("url") && !stringUtil.empytStr(input)) {
                 URI URI = new URI(input);
                 println("Attempting to connect...");
                 networkUtil.internetConnect(URI);
@@ -1821,7 +1819,7 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("binary")) {
-                if (input.matches("[0-9]+") && !mainGeneralUtil.empytStr(input)) {
+                if (input.matches("[0-9]+") && !stringUtil.empytStr(input)) {
                     String Print = mainGeneralUtil.toBinary(Integer.parseInt(input));
                     println(input + " converted to binary equals: " + Print);
                 }
@@ -1874,8 +1872,8 @@ public class CyderMain{
                 println("Enter your second word");
                 anagram = input;
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
-                mainGeneralUtil.setUserInputDesc("anagram2");
+                stringUtil.setUserInputMode(true);
+                stringUtil.setUserInputDesc("anagram2");
             }
 
             else if (desc.equalsIgnoreCase("anagram2")) {
@@ -1994,8 +1992,8 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("test notify one")) {
                 notificationTestString = input;
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
-                mainGeneralUtil.setUserInputDesc("test notify two");
+                stringUtil.setUserInputMode(true);
+                stringUtil.setUserInputDesc("test notify two");
                 println("Enter notify width in pixels");
             }
 
@@ -2015,18 +2013,18 @@ public class CyderMain{
         try {
             operation = input;
 
-            String firstWord = mainGeneralUtil.firstWord(operation);
+            String firstWord = stringUtil.firstWord(operation);
 
             mainGeneralUtil.setHandledMath(false);
 
             handleMath(operation);
 
-            if (mainGeneralUtil.filterLanguage(operation)) {
+            if (stringUtil.filterLanguage(operation)) {
                 println("Sorry, " + mainGeneralUtil.getUsername() + ", but that language is prohibited.");
                 operation = "";
             }
 
-            else if (mainGeneralUtil.isPalindrome(operation.replace(" ", "").toCharArray()) && operation.length() > 3){
+            else if (stringUtil.isPalindrome(operation.replace(" ", "").toCharArray()) && operation.length() > 3){
                 println("Nice palindrome.");
             }
 
@@ -2039,8 +2037,8 @@ public class CyderMain{
 
             else if (hasWord("test") && hasWord("notify")) {
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
-                mainGeneralUtil.setUserInputDesc("test notify one");
+                stringUtil.setUserInputMode(true);
+                stringUtil.setUserInputDesc("test notify one");
                 println("Enter notify string");
             }
 
@@ -2151,8 +2149,8 @@ public class CyderMain{
 
             else if (hasWord("url")) {
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
-                mainGeneralUtil.setUserInputDesc("url");
+                stringUtil.setUserInputMode(true);
+                stringUtil.setUserInputDesc("url");
                 println("Enter your desired URL");
             }
 
@@ -2202,9 +2200,9 @@ public class CyderMain{
 
             else if (eic("logoff")) {
                println("Are you sure you want to log off your computer?\nThis is not Cyder we are talking about (Enter yes/no)");
-               mainGeneralUtil.setUserInputDesc("logoff");
+                stringUtil.setUserInputDesc("logoff");
                inputField.requestFocus();
-               mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputMode(true);
             }
 
             else if (eic("clc") || eic("cls") || eic("clear") || (hasWord("clear") && hasWord("screen"))) {
@@ -2264,23 +2262,23 @@ public class CyderMain{
 
             else if (hasWord("prime")) {
                 println("Enter any positive integer and I will tell you if it's prime and what it's divisible by.");
-                mainGeneralUtil.setUserInputDesc("prime");
+                stringUtil.setUserInputDesc("prime");
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputMode(true);
             }
 
             else if (hasWord("youtube") && (!has("word search") && !has("mode") && !has("random") && !has("thumbnail"))) {
                 println("What would you like to search YouTube for?");
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
-                mainGeneralUtil.setUserInputDesc("youtube");
+                stringUtil.setUserInputMode(true);
+                stringUtil.setUserInputDesc("youtube");
             }
 
             else if ((hasWord("google") && !has("mode") && !has("stupid"))) {
                 println("What would you like to Google?");
-                mainGeneralUtil.setUserInputDesc("google");
+                stringUtil.setUserInputDesc("google");
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputMode(true);
             }
 
             else if (eic("404")) {
@@ -2348,9 +2346,9 @@ public class CyderMain{
 
             else if (has("math") && !eic("mathsh")) {
                 println("What math operation would you like to perform?");
-                mainGeneralUtil.setUserInputDesc("math");
+                stringUtil.setUserInputDesc("math");
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputMode(true);
             }
 
             else if (eic("nathan")) {
@@ -2403,8 +2401,8 @@ public class CyderMain{
             else if (hasWord("binary")) {
                 println("Enter a decimal number to be converted to binary.");
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
-                mainGeneralUtil.setUserInputDesc("binary");
+                stringUtil.setUserInputMode(true);
+                stringUtil.setUserInputDesc("binary");
             }
 
             else if (hasWord("pizza")) {
@@ -2431,9 +2429,9 @@ public class CyderMain{
 
             else if (hasWord("wikipedia")) {
                 println("What would you like to look up on Wikipedia?");
-                mainGeneralUtil.setUserInputDesc("wiki");
+                stringUtil.setUserInputDesc("wiki");
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputMode(true);
             }
 
             else if (firstWord.equalsIgnoreCase("synonym")) {
@@ -2505,8 +2503,8 @@ public class CyderMain{
                 killAllYoutube();
                 println("How many isntances of the script do you want to start?");
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
-                mainGeneralUtil.setUserInputDesc("random youtube");
+                stringUtil.setUserInputMode(true);
+                stringUtil.setUserInputDesc("random youtube");
             }
 
             else if (hasWord("arduino")) {
@@ -2527,16 +2525,16 @@ public class CyderMain{
 
             else if (eic("youtube word search")) {
                 println("Enter the desired word you would like to find in a YouTube URL");
-                mainGeneralUtil.setUserInputDesc("youtube word search");
+                stringUtil.setUserInputDesc("youtube word search");
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputMode(true);
             }
 
             else if (hasWord("disco")) {
                 println("How many iterations would you like to disco for? (Enter a positive integer)");
-                mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputMode(true);
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputDesc("disco");
+                stringUtil.setUserInputDesc("disco");
             }
 
             else if (hasWord("game")) {
@@ -2679,9 +2677,9 @@ public class CyderMain{
 
                 else if (pixelateFile != null) {
                     println("Enter your pixel size (Enter a positive integer)");
-                    mainGeneralUtil.setUserInputDesc("pixelate");
+                    stringUtil.setUserInputDesc("pixelate");
                     inputField.requestFocus();
-                    mainGeneralUtil.setUserInputMode(true);
+                    stringUtil.setUserInputMode(true);
                 }
             }
 
@@ -2693,14 +2691,14 @@ public class CyderMain{
                 println("This function will tell you if two"
                         + "words are anagrams of each other."
                         + " Enter your first word");
-                mainGeneralUtil.setUserInputDesc("anagram1");
+                stringUtil.setUserInputDesc("anagram1");
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputMode(true);
 
             }
 
             else if (eic("controlc")) {
-                mainGeneralUtil.setUserInputMode(false);
+                stringUtil.setUserInputMode(false);
                 killAllYoutube();
                 stringUtil.killBletchy();
                 println("Escaped");
@@ -2709,8 +2707,8 @@ public class CyderMain{
             else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
                 println("Enter your word to be alphabetically rearranged");
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputMode(true);
-                mainGeneralUtil.setUserInputDesc("alphabetize");
+                stringUtil.setUserInputMode(true);
+                stringUtil.setUserInputDesc("alphabetize");
             }
 
             else if (hasWord("mp3") || hasWord("music")) {
@@ -2818,9 +2816,9 @@ public class CyderMain{
                             hasWord("account"))) {
 
                 println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
-                mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputMode(true);
                 inputField.requestFocus();
-                mainGeneralUtil.setUserInputDesc("deleteuser");
+                stringUtil.setUserInputDesc("deleteuser");
             }
 
             else if ((hasWord("create") || hasWord("new")) &&
@@ -2830,8 +2828,8 @@ public class CyderMain{
 
             else if (hasWord("pixelate") && hasWord("background")) {
                 println("Enter your pixel size (a positive integer)");
-                mainGeneralUtil.setUserInputDesc("pixelatebackground");
-                mainGeneralUtil.setUserInputMode(true);
+                stringUtil.setUserInputDesc("pixelatebackground");
+                stringUtil.setUserInputMode(true);
                 inputField.requestFocus();
             }
 
@@ -3389,7 +3387,7 @@ public class CyderMain{
         changeUsername.setFont(mainGeneralUtil.weatherFontSmall);
         changeUsername.addActionListener(e -> {
             String newUsername = changeUsernameField.getText();
-            if (!mainGeneralUtil.empytStr(newUsername)) {
+            if (!stringUtil.empytStr(newUsername)) {
                 changeUsername(newUsername);
                 editUserFrame.inform("Username successfully changed","", 300, 200);
                 consoleFrame.setTitle(systemUtil.getCyderVer() + " Cyder [" + newUsername + "]");
@@ -3406,9 +3404,9 @@ public class CyderMain{
         deleteUser.setFont(mainGeneralUtil.weatherFontSmall);
         deleteUser.addActionListener(e -> {
             println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
-            mainGeneralUtil.setUserInputMode(true);
+            stringUtil.setUserInputMode(true);
             inputField.requestFocus();
-            mainGeneralUtil.setUserInputDesc("deleteuser");
+            stringUtil.setUserInputDesc("deleteuser");
         });
         deleteUser.setBounds(425,700,150,90);
         editUserFrame.getContentPane().add(deleteUser);
@@ -4464,7 +4462,7 @@ public class CyderMain{
                     if (alreadyExists) break;
                 }
 
-                if (mainGeneralUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
+                if (stringUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
                         || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
                     createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
                     newUserPassword.setText("");

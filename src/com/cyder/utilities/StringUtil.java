@@ -8,15 +8,33 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtil {
     private static JTextPane outputArea;
     private GeneralUtil stringGeneralUtil;
 
+    private boolean userInputMode;
+    private String userInputDesc;
+
     private bletchyThread bletchThread;
 
     public StringUtil() {
         stringGeneralUtil = new GeneralUtil();
+    }
+
+    public boolean getUserInputMode() {
+        return this.userInputMode;
+    }
+    public void setUserInputMode(boolean b) {
+        this.userInputMode = b;
+    }
+    public String getUserInputDesc() {
+        return this.userInputDesc;
+    }
+    public void setUserInputDesc(String s) {
+        this.userInputDesc = s;
     }
 
     public void setOutputArea(JTextPane jTextPane) {
@@ -457,7 +475,7 @@ public class StringUtil {
 
     public void logToDo(String input) {
         try {
-            if (input != null && !input.equals("") && !stringGeneralUtil.filterLanguage(input) && input.length() > 10 && !stringGeneralUtil.filterLanguage(input)) {
+            if (input != null && !input.equals("") && !filterLanguage(input) && input.length() > 10 && !filterLanguage(input)) {
                 BufferedWriter sugWriter = new BufferedWriter(new FileWriter("src/com/cyder/io/text/add.txt", true));
 
                 sugWriter.write("User " + stringGeneralUtil.getUsername() + " at " + new TimeUtil().weatherTime() + " made the suggestion: ");
@@ -487,4 +505,100 @@ public class StringUtil {
         else
             return "'s";
     }
+
+    public boolean empytStr(String s) {
+        return (s == null ? null: (s == null) || (s.trim().equals("")) || (s.trim().length() == 0));
+    }
+
+    public String fillString(int count, String c) {
+        StringBuilder sb = new StringBuilder(count);
+
+        for (int i = 0; i < count; i++) {
+            sb.append(c);
+        }
+
+        return sb.toString();
+    }
+
+    //todo make a regex matcher
+
+    public String firstWord(String Word) {
+        String[] sentences = Word.split(" ");
+        return sentences[0];
+    }
+
+    public boolean isPalindrome(char[] Word) {
+        int start = 0;
+        int end = Word.length - 1;
+
+        while (end > start) {
+            if (Word[start] != Word[end]) {
+                return false;
+            }
+
+            start++;
+            end--;
+        }
+
+        return true;
+    }
+
+    public String firstNumber(String Search) {
+        Pattern Pat = Pattern.compile("\\d+");
+        Matcher m = Pat.matcher(Search);
+        return m.find() ? m.group() : null;
+    }
+
+    public String[] combineArrays(String[] a, String[] b) {
+        int length = a.length + b.length;
+        String[] result = new String[length];
+        System.arraycopy(a, 0, result, 0, a.length);
+        System.arraycopy(b, 0, result, a.length, b.length);
+        return result;
+    }
+
+    public String capsFirst(String Word) {
+        StringBuilder SB = new StringBuilder(Word.length());
+        String[] Words = Word.split(" ");
+
+        for (String word : Words) {
+            SB.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
+        }
+
+        return SB.toString();
+    }
+
+    public String filterLeet(String filter) {
+        return filter.replace("!","i").replace("3","e")
+                .replace("4","a").replace("@","a")
+                .replace("5","s").replace("7","t")
+                .replace("0","o").replace("9","g")
+                .replace("%", "i").replace("#","h")
+                .replace("$","s").replace("1","i");
+    }
+
+    public boolean filterLanguage(String filter) {
+        filter = filter.toLowerCase();
+
+        try {
+            filter = filterLeet(filter);
+
+            BufferedReader vReader = new  BufferedReader(new FileReader("src/com/cyder/io/text/v.txt"));
+            String Line = vReader.readLine();
+
+            while((Line != null && !Line.equals("") && Line.length() != 0))  {
+                if (filter.contains(Line))
+                    return true;
+                Line = vReader.readLine();
+            }
+        }
+
+        catch (Exception ex) {
+            stringGeneralUtil.handle(ex);
+        }
+
+        return false;
+    }
+
+
 }

@@ -34,8 +34,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GeneralUtil {
 
@@ -45,22 +43,22 @@ public class GeneralUtil {
     public static final String HERE = "here";
 
     public static final String LENGTH_ZERO = "";
-    public static final String LENGTH_ONE = "1";
-    public static final String LENGTH_TWO = "12";
-    public static final String LENGTH_THREE = "123";
-    public static final String LENGTH_FOUR = "1234";
-    public static final String LENGTH_FIVE = "12345";
-    public static final String LENGTH_SIX = "123456";
-    public static final String LENGTH_SEVEN = "1234567";
-    public static final String LENGTH_EIGHT = "12345678";
-    public static final String LENGTH_NINE = "123456789";
+    public static final String LENGTH_ONE = "0";
+    public static final String LENGTH_TWO = "01";
+    public static final String LENGTH_THREE = "012";
+    public static final String LENGTH_FOUR = "0123";
+    public static final String LENGTH_FIVE = "01234";
+    public static final String LENGTH_SIX = "102345";
+    public static final String LENGTH_SEVEN = "0123456";
+    public static final String LENGTH_EIGHT = "01234567";
+    public static final String LENGTH_NINE = "012345678";
 
     public static final String QUICK_BROWN_FOX = "The quick brown fox jumps over the lazy dog";
 
     public static final String SUPER_LONG = "pneumonoultramicroscopicsilicovolcanoconiosis," +
-                                     "pneumonoultramicroscopicsilicovolcanoconiosi," +
-                                     "pneumonoultramicroscopicsilicovolcanoconiosis!" +
-                                     "There, I said it!";
+                                             "pneumonoultramicroscopicsilicovolcanoconiosi," +
+                                             "pneumonoultramicroscopicsilicovolcanoconiosis!" +
+                                             "There, I said it!";
     //integer bounds
     public static final int INFINITY = Integer.MAX_VALUE;
     public static final int NEG_INFINITY = Integer.MIN_VALUE;
@@ -107,9 +105,6 @@ public class GeneralUtil {
     public static int CYDER_LEFT = 3;
     private int consoleDirection;
 
-    //update vars
-    private boolean userInputMode;
-
     //boolean vars
     private boolean handledMath;
     private boolean hideOnClose;
@@ -130,23 +125,6 @@ public class GeneralUtil {
     //static player so only one instance ever exists
     public static MPEGPlayer CyderPlayer;
     private static Player player;
-
-    //used for second handle
-    private String userInputDesc;
-
-    //string utils
-    public boolean getUserInputMode() {
-        return this.userInputMode;
-    }
-    public void setUserInputMode(boolean b) {
-        this.userInputMode = b;
-    }
-    public String getUserInputDesc() {
-        return this.userInputDesc;
-    }
-    public void setUserInputDesc(String s) {
-        this.userInputDesc = s;
-    }
 
     //time util
     public String errorTime() {
@@ -177,17 +155,6 @@ public class GeneralUtil {
         Date Time = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa zzz EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
         return dateFormatter.format(Time);
-    }
-
-    //string util
-    public String fillString(int count, String c) {
-        StringBuilder sb = new StringBuilder(count);
-
-        for (int i = 0; i < count; i++) {
-            sb.append(c);
-        }
-
-        return sb.toString();
     }
 
     //num util
@@ -349,26 +316,6 @@ public class GeneralUtil {
         }
     }
 
-    //string util
-    public String[] combineArrays(String[] a, String[] b) {
-        int length = a.length + b.length;
-        String[] result = new String[length];
-        System.arraycopy(a, 0, result, 0, a.length);
-        System.arraycopy(b, 0, result, a.length, b.length);
-        return result;
-    }
-    //string util
-    public String capsFirst(String Word) {
-        StringBuilder SB = new StringBuilder(Word.length());
-        String[] Words = Word.split(" ");
-
-        for (String word : Words) {
-            SB.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
-        }
-
-        return SB.toString();
-    }
-
     //security util
     public byte[] getSHA(char[] input) {
         try {
@@ -459,14 +406,6 @@ public class GeneralUtil {
         }
 
         return false;
-    }
-
-    //todo make a regex matcher
-    //string util
-    public String firstNumber(String Search) {
-        Pattern Pat = Pattern.compile("\\d+");
-        Matcher m = Pat.matcher(Search);
-        return m.find() ? m.group() : null;
     }
 
     //todo make widget
@@ -586,12 +525,6 @@ public class GeneralUtil {
         }
     }
 
-    //string util
-    public String firstWord(String Word) {
-        String[] sentences = Word.split(" ");
-        return sentences[0];
-    }
-
     //num util
     public String toBinary(int value) {
         String bin;
@@ -666,23 +599,6 @@ public class GeneralUtil {
     }
     public void setHandledMath(boolean b) {
         this.handledMath = b;
-    }
-
-    //string util
-    public boolean isPalindrome(char[] Word) {
-        int start = 0;
-        int end = Word.length - 1;
-
-        while (end > start) {
-            if (Word[start] != Word[end]) {
-                return false;
-            }
-
-            start++;
-            end--;
-        }
-
-        return true;
     }
 
     //user utils
@@ -803,40 +719,6 @@ public class GeneralUtil {
         catch (Exception e) {
             handle(e);
         }
-    }
-
-    //string utils
-    public String filterLeet(String filter) {
-        return filter.replace("!","i").replace("3","e")
-                .replace("4","a").replace("@","a")
-                .replace("5","s").replace("7","t")
-                .replace("0","o").replace("9","g")
-                .replace("%", "i").replace("#","h")
-                .replace("$","s").replace("1","i");
-    }
-
-    //string util
-    public boolean filterLanguage(String filter) {
-        filter = filter.toLowerCase();
-
-        try {
-            filter = filterLeet(filter);
-
-            BufferedReader vReader = new  BufferedReader(new FileReader("src/com/cyder/io/text/v.txt"));
-            String Line = vReader.readLine();
-
-            while((Line != null && !Line.equals("") && Line.length() != 0))  {
-                if (filter.contains(Line))
-                    return true;
-                Line = vReader.readLine();
-            }
-        }
-
-        catch (Exception ex) {
-            handle(ex);
-        }
-
-        return false;
     }
 
     //image utils
@@ -1048,10 +930,10 @@ public class GeneralUtil {
 
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name)) {
-                    data.setDescription(value);
+                    data.setData(value);
                 }
 
-                userWriter.write(data.getName() + ":" + data.getDescription());
+                userWriter.write(data.getName() + ":" + data.getData());
                 userWriter.newLine();
             }
 
@@ -1074,14 +956,14 @@ public class GeneralUtil {
 
         for (NST data : userData) {
             if (data.getName().equalsIgnoreCase(name)) {
-                return data.getDescription();
+                return data.getData();
             }
         }
 
         return null;
     }
 
-    //string utils
+    //popup util
     public void javaProperties() {
         ArrayList<String> PropertiesList = new ArrayList<>();
         Properties Props = System.getProperties();
@@ -1101,11 +983,6 @@ public class GeneralUtil {
         }
 
         createAndOpenTmpFile("JavaProperties",".txt", lines);
-    }
-
-    //string utils
-    public boolean empytStr(String s) {
-        return (s == null ? null: (s == null) || (s.trim().equals("")) || (s.trim().length() == 0));
     }
 
     //image utils
@@ -1396,7 +1273,7 @@ public class GeneralUtil {
         return Numbers.isEmpty();
     }
 
-    //string util
+    //num util
     public int totalCodeLines(File startDir) {
         int ret = 0;
 

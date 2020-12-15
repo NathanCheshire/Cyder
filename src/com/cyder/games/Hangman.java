@@ -3,6 +3,7 @@ package com.cyder.games;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -143,7 +144,7 @@ public class Hangman {
             hangmanGeneralUtil.handle(e);
         }
 
-        HangmanLabel.setText("<html>" + hangmanGeneralUtil.fillString(HangmanWord.length(), " _ ") + "</html>");
+        HangmanLabel.setText("<html>" + new StringUtil().fillString(HangmanWord.length(), " _ ") + "</html>");
 
         HangmanImageLabel.setIcon(new ImageIcon("src/com/cyder/io/pictures/hangman.png"));
 

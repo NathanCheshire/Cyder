@@ -5,46 +5,46 @@ public class NBT {
     //A simple Named Binary Tag object for use anywhere
 
     private String name;
-    private boolean binary;
+    private boolean data;
 
     public NBT() {
         this.name = "null";
-        this.binary = false;
+        this.data = false;
     }
 
     public NBT(String initName) {
         this.name = initName;
-        this.binary = false;
+        this.data = false;
     }
 
     public NBT(boolean initBin) {
         this.name = "null";
-        this.binary = initBin;
+        this.data = initBin;
     }
 
     public NBT(String initName, boolean initBin) {
         this.name = initName;
-        this.binary = initBin;
+        this.data = initBin;
     }
 
     public void setName(String newName) {
         this.name = newName;
     }
 
-    public void setBinary(boolean newBin) {
-        this.binary = newBin;
+    public void setData(boolean newBin) {
+        this.data = newBin;
     }
 
     public void setNBT(String newName, boolean newBin) {
         this.name = newName;
-        this.binary = newBin;
+        this.data = newBin;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public boolean getBinary() {
-        return this.binary;
+    public boolean getData() {
+        return this.data;
     }
 }
