@@ -61,7 +61,7 @@ public class SystemUtil {
         return System.getProperty("user.name");
     }
 
-    private String getOS() {
+    public static String getOS() {
         return System.getProperty("os.name");
     }
 

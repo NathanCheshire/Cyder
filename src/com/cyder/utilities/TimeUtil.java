@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,12 +18,11 @@ public class TimeUtil {
 
     private GeneralUtil timeGeneralUtil;
     private int gmtOffset;
-    private JFrame consoleFrame;
-    private InternetProtocolUtil InternetProtocolUtil;
+    private IPUtil InternetProtocolUtil;
 
     public TimeUtil() {
         timeGeneralUtil = new GeneralUtil();
-        InternetProtocolUtil = new InternetProtocolUtil();
+        InternetProtocolUtil = new IPUtil();
 
         initGMTOffset();
     }
@@ -58,7 +58,7 @@ public class TimeUtil {
         return gmtOffset / 60 / 60;
     }
 
-    public String weatherTime() {
+    public static String weatherTime() {
         Calendar cal = Calendar.getInstance();
         Date Time = cal.getTime();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
@@ -98,10 +98,8 @@ public class TimeUtil {
         }
     }
 
-    public void closeAtHourMinute(int Hour, int Minute, JFrame consoleFrame) {
+    public static void closeAtHourMinute(int Hour, int Minute, JFrame consoleFrame) {
         Calendar CloseCalendar = Calendar.getInstance();
-
-        this.consoleFrame = consoleFrame;
 
         CloseCalendar.add(Calendar.DAY_OF_MONTH, 0);
         CloseCalendar.set(Calendar.HOUR_OF_DAY, Hour);
@@ -112,11 +110,33 @@ public class TimeUtil {
         long HowMany = (CloseCalendar.getTimeInMillis() - System.currentTimeMillis());
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-        scheduler.schedule(this::exit,HowMany, TimeUnit.MILLISECONDS);
+        scheduler.schedule(() -> {
+            new FrameAnimations().closeAnimation(consoleFrame);
+            System.exit(0);
+        }, HowMany, TimeUnit.MILLISECONDS);
     }
 
-    private void exit() {
-        new FrameAnimations().closeAnimation(consoleFrame);
-        System.exit(0);
+    public static String errorTime() {
+        DateFormat dateFormat = new SimpleDateFormat("MMddyy-HH-mmaa");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+    public static String userTime() {
+        Date Time = new Date();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
+        return dateFormatter.format(Time);
+    }
+
+    public static String consoleTime() {
+        Date Time = new Date();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mmaa");
+        return dateFormatter.format(Time);
+    }
+
+    public static String consoleSecondTime() {
+        Date Time = new Date();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
+        return dateFormatter.format(Time);
     }
 }

@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-public class InternetProtocolUtil {
+public class IPUtil {
 
     public static String getUserCity() {
         return userCity;
@@ -64,7 +64,7 @@ public class InternetProtocolUtil {
 
     private static GeneralUtil generalUtil;
 
-    public InternetProtocolUtil() {
+    public IPUtil() {
         generalUtil = new GeneralUtil();
 
         try {

@@ -455,7 +455,7 @@ public class StringUtil {
                 argsString += cyderArgs[i];
             }
 
-            InternetProtocolUtil ipu = new InternetProtocolUtil();
+            IPUtil ipu = new IPUtil();
 
             lines.push(new SimpleDateFormat("MM-dd-yy HH:mm:ss").format(new Date()) + " : " + argsString + " in " + ipu.getUserCity() + ", " + ipu.getUserState());
 

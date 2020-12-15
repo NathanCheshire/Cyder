@@ -12,9 +12,7 @@ import javazoom.jl.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -24,12 +22,8 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URI;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -64,15 +58,15 @@ public class GeneralUtil {
     public static final int NEG_INFINITY = Integer.MIN_VALUE;
 
     //public fonts
-    public Font weatherFontSmall = new Font("Segoe UI Black", Font.BOLD, 20);
-    public Font weatherFontBig = new Font("Segoe UI Black", Font.BOLD, 30);
+    public static Font weatherFontSmall = new Font("Segoe UI Black", Font.BOLD, 20);
+    public static Font weatherFontBig = new Font("Segoe UI Black", Font.BOLD, 30);
     public Font loginFont = new Font("Comic Sans MS", Font.BOLD, 30);
     public Font defaultFontSmall = new Font("tahoma", Font.BOLD, 15);
     public Font defaultFont = new Font("tahoma", Font.BOLD, 30);
     public Font tahoma = new Font("tahoma", Font.BOLD, 20);
 
     //public colors
-    public Color selectionColor = new Color(204,153,0);
+    public static Color selectionColor = new Color(204,153,0);
     public Color regularGreen = new Color(60, 167, 92);
     public Color regularBlue = new Color(38,168,255);
     public Color calculatorOrange = new Color(255,140,0);
@@ -85,7 +79,7 @@ public class GeneralUtil {
     public Color vanila = new Color(252, 251, 227);
     public Color defaultColor = new Color(252, 251, 227);
     public Color tttblue = new Color(71, 81, 117);
-    public Color navy = new Color(26, 32, 51);
+    public static Color navy = new Color(26, 32, 51);
 
     //uservars
     private LinkedList<NST> userData = new LinkedList<>();
@@ -125,37 +119,6 @@ public class GeneralUtil {
     //static player so only one instance ever exists
     public static MPEGPlayer CyderPlayer;
     private static Player player;
-
-    //time util
-    public String errorTime() {
-        DateFormat dateFormat = new SimpleDateFormat("MMddyy-HH-mmaa");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
-    //time util
-    public String userTime() {
-        Date Time = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
-        return dateFormatter.format(Time);
-    }
-    //time util
-    public String consoleTime() {
-        Date Time = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mmaa");
-        return dateFormatter.format(Time);
-    }
-    //time util
-    public String consoleSecondTime() {
-        Date Time = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
-        return dateFormatter.format(Time);
-    }
-    //time util
-    public String weatherTime() {
-        Date Time = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa zzz EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
-        return dateFormatter.format(Time);
-    }
 
     //num util
     public int randInt(int min, int max) {
@@ -261,61 +224,6 @@ public class GeneralUtil {
         return null;
     }
 
-    //text popups
-    public void debugMenu(JTextPane outputArea) {
-        try {
-            DecimalFormat gFormater = new DecimalFormat("##.###");
-            double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
-            InetAddress address = InetAddress.getLocalHost();
-            NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
-
-            InternetProtocolUtil ipu = new InternetProtocolUtil();
-
-            BufferedImage flag = ImageIO.read(new URL(new InternetProtocolUtil().getUserFlagURL()));
-
-            double x = flag.getWidth();
-            double y = flag.getHeight();
-
-            outputArea.insertIcon(new ImageIcon(resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
-
-            NetworkUtil nu = new NetworkUtil();
-            SystemUtil su = new SystemUtil();
-
-            String[] lines = {"Time requested: " + weatherTime(),
-                    "ISP: " + ipu.getIsp(),
-                    "IP: " + ipu.getUserIP(),
-                    "Postal Code: " + ipu.getUserPostalCode(),
-                    "City: " + ipu.getUserCity(),
-                    "State: " + ipu.getUserState(),
-                    "Country: " + ipu.getUserCountry() + " (" + ipu.getUserCountryAbr() + ")",
-                    "Latitude: " + ipu.getLat() + " Degrees N",
-                    "Longitude: " + ipu.getLon() + " Degrees W",
-                    "latency: " + nu.latency(10000) + " ms",
-                    "Google Reachable: " + nu.siteReachable("https://www.google.com"),
-                    "YouTube Reachable: " + nu.siteReachable("https://www.youtube.com"),
-                    "Apple Reachable: " + nu.siteReachable("https://www.apple.com"),
-                    "Microsoft Reachable: " + nu.siteReachable("https://www.microsoft.com//en-us//"),
-                    "User Name: " + su.getWindowsUsername(),
-                    "Computer Name: " + su.getComputerName(),
-                    "Available Cores: " + Runtime.getRuntime().availableProcessors(),
-                    "Available Memory: " + gBytes + " GigaBytes",
-                    "Operating System: " + os,
-                    "Java Version: " + System.getProperty("java.version"),
-                    "Network Interface Name: " + netIn.getName(),
-                    "Network Interface Display Name: " + netIn.getDisplayName(),
-                    "Network MTU: " + netIn.getMTU(),
-                    "Host Address: " + address.getHostAddress(),
-                    "Local Host Address: " + address.getLocalHost(),
-                    "Loopback Address: " + address.getLoopbackAddress()};
-
-            createAndOpenTmpFile("DebugProperties",".txt",lines);
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
     //security util
     public byte[] getSHA(char[] input) {
         try {
@@ -408,96 +316,6 @@ public class GeneralUtil {
         return false;
     }
 
-    //todo make widget
-    public void colorConverter() {
-        CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
-        colorFrame.setTitle("Color Converter");
-
-        JLabel hexLabel = new JLabel("HEX:");
-        hexLabel.setFont(weatherFontSmall);
-        hexLabel.setForeground(navy);
-        hexLabel.setBounds(30, 110,70, 30);
-        colorFrame.getContentPane().add(hexLabel);
-
-        JLabel rgbLabel = new JLabel("RGB:");
-        rgbLabel.setFont(weatherFontSmall);
-        rgbLabel.setForeground(navy);
-        rgbLabel.setBounds(30, 180,70,30);
-        colorFrame.getContentPane().add(rgbLabel);
-
-        JTextField colorBlock = new JTextField();
-        colorBlock.setBackground(navy);
-        colorBlock.setFocusable(false);
-        colorBlock.setCursor(null);
-        colorBlock.setToolTipText("Color Preview");
-        colorBlock.setBorder(new LineBorder(navy, 5, false));
-        colorBlock.setBounds(330, 100, 40, 120);
-        colorFrame.getContentPane().add(colorBlock);
-
-        JTextField rgbField = new JTextField(navy.getRed() + "," + navy.getGreen() + "," + navy.getBlue());
-
-        JTextField hexField = new JTextField(String.format("#%02X%02X%02X", navy.getRed(), navy.getGreen(), navy.getBlue()).replace("#",""));
-        hexField.setForeground(navy);
-        hexField.setFont(weatherFontBig);
-        hexField.setBackground(new Color(0,0,0,0));
-        hexField.setSelectionColor(selectionColor);
-        hexField.setToolTipText("Hex Value");
-        hexField.setBorder(new LineBorder(navy,5,false));
-        JTextField finalHexField1 = hexField;
-        JTextField finalRgbField = rgbField;
-        hexField.addKeyListener(new KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                try {
-                    Color c = hextorgbColor(finalHexField1.getText());
-                    finalRgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
-                    colorBlock.setBackground(c);
-                }
-
-                catch (Exception ignored) {}
-            }
-        });
-        hexField.setBounds(100, 100,220, 50);
-        hexField.setOpaque(false);
-        colorFrame.getContentPane().add(hexField);
-
-        rgbField.setForeground(navy);
-        rgbField.setFont(weatherFontBig);
-        rgbField.setBackground(new Color(0,0,0,0));
-        rgbField.setSelectionColor(selectionColor);
-        rgbField.setToolTipText("RGB Value");
-        rgbField.setBorder(new LineBorder(navy,5,false));
-        JTextField finalRgbField1 = rgbField;
-        rgbField.addKeyListener(new KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                try {
-                    String[] parts = finalRgbField1.getText().split(",");
-                    Color c = new Color(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]),Integer.parseInt(parts[2]));
-                    hexField.setText(rgbtohexString(c));
-                    colorBlock.setBackground(c);
-                }
-
-                catch (Exception ignored) {}
-            }
-        });
-        rgbField.setBounds(100, 170,220, 50);
-        rgbField.setOpaque(false);
-        colorFrame.getContentPane().add(rgbField);
-
-        colorFrame.setVisible(true);
-        colorFrame.setLocationRelativeTo(null);
-    }
-
-    //color util
-    public Color hextorgbColor(String hex) {
-        return new Color(Integer.valueOf(hex.substring(0,2),16),Integer.valueOf(hex.substring(2,4),16),Integer.valueOf(hex.substring(4,6),16));
-    }
-    public String hextorgbString(String hex) {
-        return Integer.valueOf(hex.substring(0,2),16) + "," + Integer.valueOf(hex.substring(2,4),16) + "," + Integer.valueOf(hex.substring(4,6),16);
-    }
-    public String rgbtohexString(Color c) {
-        return String.format("%02X%02X%02X", c.getRed(), c.getGreen(), c.getBlue());
-    }
-
     //make own class
     public void inform(String text, String title, int width, int height) {
         try {
@@ -558,32 +376,6 @@ public class GeneralUtil {
         }
 
         return "NaN";
-    }
-
-    //popup utils
-    public void systemProperties() {
-        ArrayList<String> arrayLines = new ArrayList<>();
-        arrayLines.add("File Separator: " + System.getProperty("file.separator"));
-        arrayLines.add("Class Path: " + System.getProperty("java.class.path"));
-        arrayLines.add("Java Home: " + System.getProperty("java.home"));
-        arrayLines.add("Java Vendor: " + System.getProperty("java.vendor"));
-        arrayLines.add("Java Vendor URL: " + System.getProperty("java.vendor.url"));
-        arrayLines.add("Java Version: " + System.getProperty("java.version"));
-        arrayLines.add("Line Separator: " + System.getProperty("line.separator"));
-        arrayLines.add("OS Architecture: " + System.getProperty("os.arch"));
-        arrayLines.add("OS Name: " + System.getProperty("os.name"));
-        arrayLines.add("OS Version: " + System.getProperty("os.version"));
-        arrayLines.add("OS Path Separator: " + System.getProperty("path.separator"));
-        arrayLines.add("User Directory: " + System.getProperty("user.dir"));
-        arrayLines.add("User Home: " + System.getProperty("user.home"));
-        arrayLines.add("Computer Username: " + System.getProperty("user.name"));
-
-        String[] lines = new String[arrayLines.size()];
-
-        for (int i = 0 ; i < arrayLines.size() ; i++)
-            lines[i] = arrayLines.get(i);
-
-        createAndOpenTmpFile("SystemProperties",".txt",lines);
     }
 
     public int getCurrentDowns() {
@@ -742,36 +534,6 @@ public class GeneralUtil {
         }
 
         return ReturnImage;
-    }
-
-    //popup
-    public void computerProperties() {
-        ArrayList<String> arrayLines = new ArrayList<>();
-
-        arrayLines.add("Available processors (cores): " + Runtime.getRuntime().availableProcessors());
-        arrayLines.add("Free memory (bytes): " + Runtime.getRuntime().freeMemory());
-
-        long maxMemory = Runtime.getRuntime().maxMemory();
-
-        arrayLines.add("Maximum memory (bytes): " + (maxMemory == Long.MAX_VALUE ? "no limit" : maxMemory));
-        arrayLines.add("Total memory available to JVM (bytes): " + Runtime.getRuntime().totalMemory());
-
-        File[] roots = File.listRoots();
-
-        for (File root : roots) {
-            arrayLines.add("File system root: " + root.getAbsolutePath());
-            arrayLines.add("Total space (bytes): " + root.getTotalSpace());
-            arrayLines.add("Free space (bytes): " + root.getFreeSpace());
-            arrayLines.add("Usable space (bytes): " + root.getUsableSpace());
-        }
-
-        String[] lines = new String[arrayLines.size()];
-
-        for (int i = 0 ; i < arrayLines.size() ; i++) {
-            lines[i] = arrayLines.get(i);
-        }
-
-        createAndOpenTmpFile("Computer Properties",".txt", lines);
     }
 
     //consoleframe
@@ -957,28 +719,6 @@ public class GeneralUtil {
         return null;
     }
 
-    //popup util
-    public void javaProperties() {
-        ArrayList<String> PropertiesList = new ArrayList<>();
-        Properties Props = System.getProperties();
-
-        Enumeration<?> keys = Props.keys();
-
-        while (keys.hasMoreElements()) {
-            String key = (String) keys.nextElement();
-            String value = (String) Props.get(key);
-            PropertiesList.add(key + ": " + value);
-        }
-
-        String[] lines = new String[PropertiesList.size()];
-
-        for (int i =  0 ; i < PropertiesList.size() ; i++) {
-            lines[i] = PropertiesList.get(i);
-        }
-
-        createAndOpenTmpFile("JavaProperties",".txt", lines);
-    }
-
     //image utils
     public void resizeImages() {
         try {
@@ -1057,7 +797,7 @@ public class GeneralUtil {
     }
 
     //image utils
-    private static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
+    static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
         BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, img_width, img_height, null);
@@ -1085,7 +825,7 @@ public class GeneralUtil {
             if (!throwsDir.exists())
                 throwsDir.mkdir();
 
-            String eFileString = "src/users/" + getUserUUID() + "/Throws/" + errorTime() + ".error";
+            String eFileString = "src/users/" + getUserUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
             File eFile = new File(eFileString);
             eFile.createNewFile();
 

@@ -466,7 +466,7 @@ public class WeatherWidget {
 
     protected void weatherStats() {
         try {
-            InternetProtocolUtil ipu = new InternetProtocolUtil();
+            IPUtil ipu = new IPUtil();
 
             userCity = ipu.getUserCity();
             userState = ipu.getUserState();
