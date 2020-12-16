@@ -1,10 +1,12 @@
 package com.cyder.widgets;
 
 import com.cyder.Constants.CyderColors;
+import com.cyder.enums.ArrowDirection;
+import com.cyder.enums.StartDirection;
+import com.cyder.enums.VanishDirection;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderSliderUI;
-import com.cyder.ui.Notification;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.IOUtil;
 import javazoom.jl.player.Player;
@@ -95,7 +97,6 @@ public class MPEGPlayer {
         UI.setNewValColor(CyderColors.vanila);
         UI.setOldValColor(CyderColors.regularRed);
         UI.setStroke(new BasicStroke(3.0f));
-        UI.setSliderShape(CyderSliderUI.CIRCLE);
 
         musicVolumeSlider.setUI(UI);
 
@@ -153,6 +154,8 @@ public class MPEGPlayer {
         musicVolumeSlider.setToolTipText("Volume");
 
         musicVolumeSlider.setFocusable(false);
+
+        musicVolumeSlider.repaint();
 
         musicFrame.getContentPane().add(musicVolumeSlider);
 
@@ -553,7 +556,7 @@ public class MPEGPlayer {
         musicFrame.setAlwaysOnTop(false);
         musicFrame.requestFocus();
 
-        musicFrame.notify("Welcome to FlashPlayer (haha get it?)",2000, Notification.TOP_ARROW,Notification.TOP_START, Notification.TOP_VANISH,415);
+        musicFrame.notify("Welcome to FlashPlayer (haha get it?)",2000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP,415);
 
         if (StartPlaying != null && !StartPlaying.getName().equals("")) {
             initMusic(StartPlaying);

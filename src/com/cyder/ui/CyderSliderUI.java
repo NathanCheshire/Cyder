@@ -1,5 +1,7 @@
 package com.cyder.ui;
 
+import com.cyder.enums.SliderShape;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
@@ -15,12 +17,9 @@ public class CyderSliderUI extends BasicSliderUI {
     private Color fillColor;
     private Color outlineColor;
 
-    public static final int CIRCLE = 0;
-    public static final int RECTANGLE = 1;
+    private SliderShape sliderShape = SliderShape.RECT;
 
-    private int sliderShape = 0;
-
-    public void setSliderShape(int shape) {
+    public void setSliderShape(SliderShape shape) {
         this.sliderShape = shape;
     }
 
@@ -118,7 +117,6 @@ public class CyderSliderUI extends BasicSliderUI {
         return super.getThumbSize();
     }
 
-
     private Shape createThumbShape(int width, int height) {
         return new Rectangle2D.Double(0, 0, width, height);
     }
@@ -149,7 +147,7 @@ public class CyderSliderUI extends BasicSliderUI {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        if (sliderShape == 0) {
+        if (sliderShape == SliderShape.CIRCLE) {
             g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             Rectangle t = thumbRect;

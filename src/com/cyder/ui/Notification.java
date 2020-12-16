@@ -1,5 +1,7 @@
 package com.cyder.ui;
 
+import com.cyder.enums.ArrowDirection;
+import com.cyder.enums.VanishDirection;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.utilities.GeneralUtil;
 
@@ -22,21 +24,8 @@ public class Notification extends JLabel {
 
     private int width = 300;
     private int height = 300;
-    private int type = 1;
 
-    public static final int TOP_ARROW = 1;
-    public static final int LEFT_ARROW = 2;
-    public static final int RIGHT_ARROW = 3;
-    public static final int BOTTOM_ARROW = 4;
-
-    public static final int TOP_VANISH = 1;
-    public static final int LEFT_VANISH = 2;
-    public static final int RIGHT_VANISH = 3;
-    public static final int BOTTOM_VANISH = 4;
-
-    public static final int LEFT_START = 1;
-    public static final int TOP_START = 2;
-    public static final int RIGHT_START = 3;
+    private ArrowDirection ArrowType = ArrowDirection.TOP;
 
     public void setStrokeThickness(int strokeThickness) {
         this.strokeThickness = strokeThickness;
@@ -62,8 +51,8 @@ public class Notification extends JLabel {
         this.height = h;
     }
 
-    public void setArrow(int type) {
-        this.type = type;
+    public void setArrow(ArrowDirection type) {
+        this.ArrowType = type;
     }
 
     @Override
@@ -92,8 +81,8 @@ public class Notification extends JLabel {
         outlinePath.curveTo(12, this.height + 14 + 2 + 2, 10, this.height + 12 + 2 + 2, 8, this.height + 10 + 2 + 2);
         outlinePath.lineTo( 8, 8 + 2);
 
-        switch (type) {
-            case Notification.TOP_ARROW:
+        switch (ArrowType) {
+            case TOP:
                 outlinePath.moveTo(6 + this.width / 2, 6 + 2);
                 outlinePath.lineTo(14 + this.width / 2,-2 + 2);
                 outlinePath.lineTo(22 + this.width / 2,6 + 2);
@@ -103,7 +92,7 @@ public class Notification extends JLabel {
                 graphics2D.fill(outlinePath);
 
                 break;
-            case Notification.LEFT_ARROW:
+            case LEFT:
                 outlinePath.moveTo(8, 2 + height/2 + 2);
                 outlinePath.lineTo(2, 10 + height/2 + 2);
                 outlinePath.lineTo(8, 18 + height/2 + 2);
@@ -113,7 +102,7 @@ public class Notification extends JLabel {
                 graphics2D.fill(outlinePath);
 
                 break;
-            case Notification.RIGHT_ARROW:
+            case RIGHT:
                 outlinePath.moveTo(18 + this.width, 2 + height/2 + 2);
                 outlinePath.lineTo(26 + this.width, 10 + height/2 + 2);
                 outlinePath.lineTo(18 + this.width, 18 + height/2 + 2);
@@ -123,7 +112,7 @@ public class Notification extends JLabel {
                 graphics2D.fill(outlinePath);
 
                 break;
-            case Notification.BOTTOM_ARROW:
+            case BOTTOM:
                 outlinePath.moveTo(8 + width/2, 16 + height + 2);
                 outlinePath.lineTo(14 + width/2, 22 + height + 2);
                 outlinePath.lineTo(20 + width/2, 16 + height + 2);
@@ -156,8 +145,8 @@ public class Notification extends JLabel {
         fillPath.closePath();
         graphics2D.fill(fillPath);
 
-        switch (type) {
-            case Notification.TOP_ARROW:
+        switch (ArrowType) {
+            case TOP:
                 fillPath.moveTo(8 + this.width / 2, 6 + 2);
                 fillPath.lineTo(14 + this.width / 2, 2);
                 fillPath.lineTo(20 + this.width / 2,6 + 2);
@@ -167,7 +156,7 @@ public class Notification extends JLabel {
                 graphics2D.fill(fillPath);
 
                 break;
-            case Notification.LEFT_ARROW:
+            case LEFT:
                 fillPath.moveTo(10, 4 + height/2 + 2);
                 fillPath.lineTo(4, 10 + height/2 + 2);
                 fillPath.lineTo(10, 16 + height/2 + 2);
@@ -177,7 +166,7 @@ public class Notification extends JLabel {
                 graphics2D.fill(fillPath);
 
                 break;
-            case Notification.RIGHT_ARROW:
+            case RIGHT:
                 fillPath.moveTo(18 + this.width, 4 + height/2 + 2);
                 fillPath.lineTo(24 + this.width, 10 + height/2 + 2);
                 fillPath.lineTo(18 + this.width, 16 + height/2 + 2);
@@ -187,7 +176,7 @@ public class Notification extends JLabel {
                 graphics2D.fill(fillPath);
 
                 break;
-            case Notification.BOTTOM_ARROW:
+            case BOTTOM:
                 fillPath.moveTo(8 + width/2, 14 + height + 2);
                 fillPath.lineTo(14 + width/2, 20 + height + 2);
                 fillPath.lineTo(20 + width/2, 14 + height + 2);
@@ -200,27 +189,27 @@ public class Notification extends JLabel {
         }
     }
 
-    public void vanish(int vanishDir, Component parent, int delay) {
+    public void vanish(VanishDirection vanishDir, Component parent, int delay) {
         new Thread(() -> {
             try {
                 Thread.sleep(delay);
                 CyderAnimation ca = new CyderAnimation();
 
                 switch(vanishDir) {
-                    case Notification.TOP_VANISH:
+                    case TOP:
                         ca.jLabelYUp(this.getY(), - this.getHeight(), 10, 8, this);
                         Thread.sleep(10 * (this.getHeight() + this.getY())/ 8);
                         break;
-                    case Notification.BOTTOM_VANISH:
+                    case BOTTOM:
                         ca.jLabelYDown(this.getY(), parent.getHeight(), 10, 8, this);
                         Thread.sleep(10 * (parent.getHeight() - this.getY())/ 8);
                         break;
-                    case Notification.RIGHT_VANISH:
+                    case RIGHT:
                         ca.jLabelXRight(this.getX(), parent.getWidth(), 10, 8, this);
                         Thread.sleep(10 * (parent.getWidth() -  this.getX())/ 8);
                         break;
 
-                    case Notification.LEFT_VANISH:
+                    case LEFT:
                         ca.jLabelXLeft(this.getX(), - this.getWidth(), 10, 8, this);
                         Thread.sleep(10 * (this.getWidth() + this.getX())/ 8);
                         break;

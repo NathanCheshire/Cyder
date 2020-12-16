@@ -1,5 +1,6 @@
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
+import com.cyder.enums.*;
 import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
@@ -40,7 +41,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo all public static final ints and stuff in enums package classes
+//todo enter and exit for notifications
+
+//todo general util goes away
+//todo default val for all enums
 
 //todo make alot of stuff static so you don't need to instantiate a method
 //todo SysData.log for title and such, consolidate with cyder args but push below a ------- line
@@ -64,7 +68,6 @@ import java.util.concurrent.TimeUnit;
 //todo cyder progress bar
 
 //todo use enums instead of all constants, make enums package
-//todo make color utils
 
 //todo make password more secure maybe salt or something?
 //todo double hash sha perhaps to avoid someone just hashing their own password and pasting it in
@@ -422,22 +425,22 @@ public class CyderMain{
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CONSOLE_DOWN);
+                        mainGeneralUtil.setConsoleDirection(ConsoleDirection.DOWN);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CONSOLE_RIGHT);
+                        mainGeneralUtil.setConsoleDirection(ConsoleDirection.RIGHT);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CONSOLE_UP);
+                        mainGeneralUtil.setConsoleDirection(ConsoleDirection.UP);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CONSOLE_LEFT);
+                        mainGeneralUtil.setConsoleDirection(ConsoleDirection.LEFT);
                         exitFullscreen();
                     }
 
@@ -838,7 +841,7 @@ public class CyderMain{
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 if (!networkUtil.internetReachable())
                     notify("Internet connection slow or unavailble",
-                            3000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane,450);
+                            3000, ArrowDirection.TOP, VanishDirection.TOP, parentPane,450);
             },0, 10, TimeUnit.MINUTES);
 
             consoleClockLabel.setVisible(updateConsoleClock);
@@ -1252,7 +1255,7 @@ public class CyderMain{
         IOUtil.cleanUpUsers();
 
         loginFrame = new CyderFrame(800,800,new ImageIcon("src/com/cyder/sys/pictures/login.png"));
-        loginFrame.setTitlePosition(CyderFrame.LEFT_TITLE);
+        loginFrame.setTitlePosition(TitlePosition.LEFT);
         loginFrame.setTitle(systemUtil.getCyderVer());
 
         if (!AlreadyOpen)
@@ -1399,7 +1402,7 @@ public class CyderMain{
 
         if (directories != null && directories.length == 0)
             loginFrame.notify("<html><b>" + System.getProperty("user.name") + ":<br/>There are no users<br/>please create one</b></html>",
-                    4000, Notification.TOP_ARROW, Notification.TOP_START, Notification.TOP_VANISH, 250);
+                    4000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP, 250);
     }
 
     private void recognize(String Username, char[] Password) {
@@ -1443,7 +1446,7 @@ public class CyderMain{
                 pass.setText("");
                 nameField.requestFocusInWindow();
                 loginFrame.notify("Could not recognize user",
-                        2000, Notification.TOP_ARROW, Notification.TOP_START, Notification.TOP_VANISH, 280);
+                        2000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP, 280);
             }
 
             else {
@@ -1465,29 +1468,34 @@ public class CyderMain{
         int width = 0;
         int height = 0;
 
-        if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CONSOLE_UP) {
-            ImageIcon backIcon = new ImageIcon(backFile);
-            width = backIcon.getIconWidth();
-            height = backIcon.getIconHeight();
-            parentLabel.setIcon(backIcon);
-        }
+        ImageIcon backIcon;
 
-        else if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CONSOLE_DOWN) {
-            ImageIcon backIcon = new ImageIcon(backFile);
-            width = backIcon.getIconWidth();
-            height = backIcon.getIconHeight();
-            parentLabel.setIcon(new ImageIcon(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString())));
-        }
+        switch (mainGeneralUtil.getConsoleDirection()) {
+            case UP:
+                backIcon = new ImageIcon(backFile);
+                width = backIcon.getIconWidth();
+                height = backIcon.getIconHeight();
+                parentLabel.setIcon(backIcon);
 
-        else {
-            ImageIcon backIcon = new ImageIcon(backFile);
+                break;
+            case DOWN:
+                backIcon = new ImageIcon(backFile);
+                width = backIcon.getIconWidth();
+                height = backIcon.getIconHeight();
+                parentLabel.setIcon(new ImageIcon(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString())));
 
-            if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CONSOLE_LEFT || mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CONSOLE_RIGHT) {
-                height = backIcon.getIconWidth();
-                width = backIcon.getIconHeight();
-            }
+                break;
+            default:
+                backIcon = new ImageIcon(backFile);
 
-            parentLabel.setIcon(new ImageIcon(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString())));
+                if (mainGeneralUtil.getConsoleDirection() == ConsoleDirection.LEFT || mainGeneralUtil.getConsoleDirection() == ConsoleDirection.RIGHT) {
+                    height = backIcon.getIconWidth();
+                    width = backIcon.getIconHeight();
+                }
+
+                parentLabel.setIcon(new ImageIcon(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString())));
+
+                break;
         }
 
         mainGeneralUtil.getBackgroundSize();
@@ -1513,8 +1521,8 @@ public class CyderMain{
 
         consoleFrame.setLocationRelativeTo(null);
 
-        editUserFrame.setAlwaysOnTop(true);
-        editUserFrame.setAlwaysOnTop(false);
+        if (editUserFrame != null && editUserFrame.isVisible())
+            editUserFrame.requestFocus();
     }
 
     private void refreshFullscreen() {
@@ -1849,7 +1857,7 @@ public class CyderMain{
                     int threads = Integer.parseInt(input);
 
                     notify("The" + (threads > 1 ? " scripts have " : " script has ") + "started. At any point, type \"stop script\"",
-                            4000, Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane, (threads > 1 ? 620 : 610));
+                            4000, ArrowDirection.TOP, VanishDirection.TOP, parentPane, (threads > 1 ? 620 : 610));
 
                     for (int i = 0 ; i < threads ; i++) {
                         YoutubeThread current = new YoutubeThread(outputArea);
@@ -2003,7 +2011,7 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("test notify two")) {
                 notificaitonTestWidth = Integer.parseInt(input);
                 notify(notificationTestString, 2000,
-                        Notification.TOP_ARROW, Notification.TOP_VANISH, parentPane, notificaitonTestWidth);
+                        ArrowDirection.TOP, VanishDirection.TOP, parentPane, notificaitonTestWidth);
             }
         }
 
@@ -3344,7 +3352,7 @@ public class CyderMain{
             editUserFrame.closeAnimation();
 
         editUserFrame = new CyderFrame(1000,800,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
-        editUserFrame.setTitlePosition(CyderFrame.LEFT_TITLE);
+        editUserFrame.setTitlePosition(TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
 
         switchingPanel = new JLabel();
@@ -3663,7 +3671,7 @@ public class CyderMain{
     }
 
     private void switchToFontAndColor() {
-        JLabel TitleLabel = new JLabel("Foreground & CyderFonts", SwingConstants.CENTER);
+        JLabel TitleLabel = new JLabel("Foreground & Font", SwingConstants.CENTER);
         TitleLabel.setFont(CyderFonts.weatherFontBig);
         TitleLabel.setBounds(720 / 2 - 375 / 2,10,375,40);
         switchingPanel.add(TitleLabel);
@@ -3765,12 +3773,12 @@ public class CyderMain{
             outputArea.setForeground(updateC);
             inputField.setForeground(updateC);
 
-            println("The Color \"" + updateC + "\" has been applied.");
+            println("The Color [" + updateC.getRed() + "," + updateC.getGreen() + "," + updateC.getBlue() + "] has been applied.");
         });
         applyColor.setBounds(460,420,200,40);
         switchingPanel.add(applyColor);
 
-        JLabel FontLabel = new JLabel("CyderFonts");
+        JLabel FontLabel = new JLabel("Fonts");
         FontLabel.setFont(CyderFonts.weatherFontBig);
         FontLabel.setForeground(CyderColors.navy);
         FontLabel.setBounds(150, 60,300, 30);
@@ -3790,7 +3798,7 @@ public class CyderMain{
         FontListScroll.setThumbColor(CyderColors.intellijPink);
         FontListScroll.setBorder(new LineBorder(CyderColors.navy,5,true));
 
-        CyderButton applyFont = new CyderButton("Apply CyderFonts");
+        CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         applyFont.setColors(CyderColors.regularRed);
         applyFont.setToolTipText("Apply");
@@ -3804,7 +3812,7 @@ public class CyderMain{
                 Font ApplyFont = new Font(FontS, Font.BOLD, 30);
                 outputArea.setFont(ApplyFont);
                 inputField.setFont(ApplyFont);
-                IOUtil.writeUserData("CyderFonts",FontS);
+                IOUtil.writeUserData("Font",FontS);
                 println("The font \"" + FontS + "\" has been applied.");
             }
         });
@@ -4616,7 +4624,7 @@ public class CyderMain{
         consoleFrame.setBackground(CyderColors.navy);
         mainGeneralUtil.getValidBackgroundPaths();
 
-        int originConsoleDIr = mainGeneralUtil.getConsoleDirection();
+        ConsoleDirection originConsoleDIr = mainGeneralUtil.getConsoleDirection();
         BufferedImage master = mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath());
 
         Timer timer = null;
@@ -4663,7 +4671,7 @@ public class CyderMain{
     }
 
     //todo remove once consoleframe extends cyderframe
-    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
+    public void notify(String htmltext, int delay, ArrowDirection arrowDir, VanishDirection vanishDir, JLayeredPane parent, int width) {
         if (consoleNotification != null && consoleNotification.isVisible())
             consoleNotification.kill();
 

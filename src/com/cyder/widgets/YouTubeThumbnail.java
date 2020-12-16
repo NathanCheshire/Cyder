@@ -2,6 +2,7 @@ package com.cyder.widgets;
 
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
+import com.cyder.enums.TitlePosition;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
@@ -112,7 +113,7 @@ public class YouTubeThumbnail {
                 BufferedImage Thumbnail = ImageIO.read(url);
 
                 CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(), Thumbnail.getHeight(), new ImageIcon(Thumbnail));
-                thumbnailFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
+                thumbnailFrame.setTitlePosition(TitlePosition.CENTER);
                 thumbnailFrame.setTitle(YouTubeID);
 
                 JLabel PictureLabel = new JLabel();

@@ -1,5 +1,6 @@
 package com.cyder.widgets;
 
+import com.cyder.enums.TitlePosition;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.NetworkUtil;
@@ -25,7 +26,7 @@ public class MinecraftWidget {
             minecraftFrame.closeAnimation();
 
         minecraftFrame = new CyderFrame(1263,160, new ImageIcon("src/com/cyder/sys/pictures/Minecraft.png"));
-        minecraftFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
+        minecraftFrame.setTitlePosition(TitlePosition.CENTER);
         minecraftFrame.setTitle("Minecraft Widget");
 
         blockLabel = new JLabel(new ImageIcon("src/com/cyder/sys/pictures/Block.png"));

@@ -2,11 +2,14 @@ package com.cyder.ui;
 
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
+import com.cyder.enums.ArrowDirection;
+import com.cyder.enums.VanishDirection;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.TimeUtil;
 
 import javax.swing.*;
 
+//todo consolidate with console frame
 public class SpecialDay {
     private boolean kill = false;
     private JLayeredPane parentPanel;
@@ -18,25 +21,25 @@ public class SpecialDay {
 
         if (!kill) {
             if (TimeUtil.isChristmas())
-                notify("Merry Christmas!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
+                notify("Merry Christmas!", 3000, ArrowDirection.TOP, VanishDirection.TOP,parentPanel, 200);
 
             if (TimeUtil.isHalloween())
-                notify("Happy Halloween!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
+                notify("Happy Halloween!", 3000, ArrowDirection.TOP, VanishDirection.TOP,parentPanel, 200);
 
             if (TimeUtil.isIndependenceDay())
-                notify("Happy 4th of July!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
+                notify("Happy 4th of July!", 3000, ArrowDirection.TOP, VanishDirection.TOP,parentPanel, 200);
 
             if (TimeUtil.isThanksgiving())
-                notify("Happy Thanksgiving!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 230);
+                notify("Happy Thanksgiving!", 3000, ArrowDirection.TOP, VanishDirection.TOP,parentPanel, 230);
 
             if (TimeUtil.isAprilFoolsDay())
-                notify("Happy April Fools Day!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 250);
+                notify("Happy April Fools Day!", 3000, ArrowDirection.TOP, VanishDirection.TOP,parentPanel, 250);
 
             kill = true;
         }
     }
 
-    public void notify(String htmltext, int delay, int arrowDir, int vanishDir, JLayeredPane parent, int width) {
+    public void notify(String htmltext, int delay, ArrowDirection arrowDir, VanishDirection vanishDir, JLayeredPane parent, int width) {
         Notification consoleNotification = new Notification();
 
         int w = width;

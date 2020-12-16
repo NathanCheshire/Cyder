@@ -1,5 +1,6 @@
 package com.cyder.threads;
 
+import com.cyder.enums.TitlePosition;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.NetworkUtil;
 import com.cyder.utilities.NumberUtil;
@@ -56,7 +57,7 @@ public class YoutubeThread {
                         su.println("YouTube script found valid video with UUID: " + UUID);
 
                         CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(),Thumbnail.getHeight(),new ImageIcon(Thumbnail));
-                        thumbnailFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
+                        thumbnailFrame.setTitlePosition(TitlePosition.CENTER);
                         thumbnailFrame.setTitle(UUID);
 
                         JLabel pictureLabel = new JLabel();

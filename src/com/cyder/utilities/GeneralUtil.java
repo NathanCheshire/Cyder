@@ -1,6 +1,7 @@
 
 package com.cyder.utilities;
 
+import com.cyder.enums.ConsoleDirection;
 import com.cyder.exception.FatalException;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
@@ -11,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+
+import static com.cyder.enums.ConsoleDirection.*;
 
 public class GeneralUtil {
 
@@ -24,24 +27,17 @@ public class GeneralUtil {
     private static File[] validBackgroundPaths;
     private boolean consoleClock;
 
-    //todo enums for stuff like this and make all consistent with directions for same nums, well
-    // won't need nums for enum
-    public static final int CONSOLE_UP = 0;
-    public static final int CONSOLE_RIGHT = 1;
-    public static final int CONSOLE_DOWN = 2;
-    public static final int CONSOLE_LEFT = 3;
-
-    private int consoleDirection;
+    private ConsoleDirection consoleDirection = UP;
     //put these in consoleframe
     public BufferedImage getRotatedImage(String name) {
-        switch(this.consoleDirection) {
-            case 0:
+        switch(consoleDirection) {
+            case UP:
                 return ImageUtil.getBi(name);
-            case 1:
+            case RIGHT:
                 return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),90);
-            case 2:
+            case DOWN:
                 return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),180);
-            case 3:
+            case LEFT:
                 return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),-90);
         }
 
@@ -239,10 +235,10 @@ public class GeneralUtil {
     }
 
     //console frame
-    public int getConsoleDirection() {
+    public ConsoleDirection getConsoleDirection() {
         return this.consoleDirection;
     }
-    public void setConsoleDirection(int d) {
+    public void setConsoleDirection(ConsoleDirection d) {
         this.consoleDirection = d;
     }
 

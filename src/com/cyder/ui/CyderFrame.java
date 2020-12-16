@@ -2,8 +2,11 @@ package com.cyder.ui;
 
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
+import com.cyder.enums.ArrowDirection;
+import com.cyder.enums.StartDirection;
+import com.cyder.enums.TitlePosition;
+import com.cyder.enums.VanishDirection;
 import com.cyder.handler.ErrorHandler;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.ImageUtil;
 import com.cyder.utilities.SystemUtil;
 
@@ -14,15 +17,13 @@ import java.awt.image.BufferedImage;
 
 public class CyderFrame extends JFrame {
 
-    public static final int LEFT_TITLE = 0;
-    public static final int CENTER_TITLE = 1;
-    private int titlePosition = 0;
+    private TitlePosition titlePosition = TitlePosition.LEFT;
 
-    private GeneralUtil fGeneralUtil = new GeneralUtil();
     private SystemUtil systemUtil = new SystemUtil();
-    private ImageUtil iu = new ImageUtil();
+
     private int width;
     private int height;
+
     private ImageIcon background;
     private DragLabel dl;
     private JLabel titleLabel;
@@ -78,7 +79,7 @@ public class CyderFrame extends JFrame {
         parentLabel.add(dl);
     }
 
-    public void setTitlePosition(int titlePosition) {
+    public void setTitlePosition(TitlePosition titlePosition) {
         this.titlePosition = titlePosition;
     }
 
@@ -87,7 +88,7 @@ public class CyderFrame extends JFrame {
         super.setTitle(title);
         titleLabel.setText(title);
 
-        if (titlePosition == 1) {
+        if (titlePosition == TitlePosition.CENTER) {
             int halfLen = ((int) Math.ceil(14 * title.length())) / 2;
 
             titleLabel.setBounds((int) Math.floor(5 + (width / 2.0)) - halfLen, 2, halfLen * 4, 25);
@@ -96,7 +97,7 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    public void notify(String htmltext, int delay, int arrowDir, int startDir, int vanishDir, int width) {
+    public void notify(String htmltext, int delay, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir, int width) {
         Notification frameNotification = new Notification();
 
         int w = width;
@@ -127,9 +128,9 @@ public class CyderFrame extends JFrame {
         text.setBounds(14,10,w * 2,h);
         frameNotification.add(text);
 
-        if (startDir == Notification.LEFT_START)
+        if (startDir == StartDirection.LEFT)
             frameNotification.setBounds(0,30,w * 2,h * 2);
-        else if (startDir == Notification.RIGHT_START)
+        else if (startDir == StartDirection.RIGHT)
             frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30),32,w * 2,h * 2);
         else
             frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2),32,w * 2,h * 2);
