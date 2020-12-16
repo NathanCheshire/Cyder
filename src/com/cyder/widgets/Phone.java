@@ -231,7 +231,7 @@ public class Phone {
                 }
 
                 else {
-                    phoneGeneralUtil.inform("Dialing: " + numberLabel.getText(),"", 700, 300);
+                    GenericInform.inform("Dialing: " + numberLabel.getText(),"", 700, 300);
                     phoneNum = "";
                 }
             }

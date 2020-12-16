@@ -2,6 +2,7 @@
 package com.cyder.utilities;
 
 import com.cyder.exception.FatalException;
+import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.widgets.GenericInform;
 
@@ -10,17 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.math.BigInteger;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.UUID;
 
 public class GeneralUtil {
 
@@ -124,61 +114,14 @@ public class GeneralUtil {
     private int backgroundX;
     private int backgroundY;
 
-    //This was the best bodge I ever pulled off
-    public File getFile() {
-        try {
-            File WhereItIs = new File("src/com/cyder/sys/jars/FileChooser.jar");
-            Desktop.getDesktop().open(WhereItIs);
-            File f = new File("File.txt");
-            f.delete();
-            while (!f.exists()) {
-                Thread.onSpinWait();
-            }
 
-            Thread.sleep(200);
 
-            BufferedReader waitReader = new BufferedReader(new FileReader("File.txt")); //todo move to temp dir
-            File chosenFile = new File(waitReader.readLine());
-            f.delete();
-            waitReader.close();
-
-            return (chosenFile.getName().equalsIgnoreCase("null") ? null : chosenFile);
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-
-        return null;
-    }
-
-    //networ kutil
-    public String getMACAddress() {
-        byte[] MAC = null;
-
-        try {
-            InetAddress address = InetAddress.getLocalHost();
-            NetworkInterface NI = NetworkInterface.getByInetAddress(address);
-            MAC = NI.getHardwareAddress();
-        } catch (Exception e) {
-            handle(e);
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < MAC.length; i++) {
-            sb.append(String.format("%02X%s", MAC[i], (i < MAC.length - 1) ? "-" : ""));
-        }
-
-        return sb.toString();
-    }
-
-    //todo make dir for title, released, and such
+    //Sys.log with title and other stuff
     public boolean released() {
         return false;
     }
 
-    //change to user by user so in user util
+    //io util, put in user data
     public String getIPKey() {
         try {
             BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/sys/text/keys.txt"));
@@ -193,13 +136,13 @@ public class GeneralUtil {
         }
 
         catch (Exception ex) {
-            handle(ex);
+            ErrorHandler.handle(ex);
         }
 
         return null;
     }
 
-    //change to user by user so in user util
+    //io util, put in user data
     public String getWeatherKey() {
         try {
             BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/sys/text/keys.txt"));
@@ -215,112 +158,19 @@ public class GeneralUtil {
         }
 
         catch (Exception ex) {
-            handle(ex);
+            ErrorHandler.handle(ex);
         }
 
         return null;
     }
 
-    //security util
-    public byte[] getSHA(char[] input) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            StringBuilder sb = new StringBuilder();
-
-            for (char c : input)
-                sb.append(c);
-
-            return md.digest(sb.toString().getBytes(StandardCharsets.UTF_8));
-        }
-
-        catch (Exception ex) {
-            handle(ex);
-        }
-
-        return null;
-    }
-    //security util
-    public String toHexString(byte[] hash) {
-        BigInteger number = new BigInteger(1, hash);
-        StringBuilder hexString = new StringBuilder(number.toString(16));
-
-        while (hexString.length() < 32) {
-            hexString.insert(0, '0');
-        }
-
-        return hexString.toString();
-    }
-    //security util
-    public String getDeprecatedUUID() {
-        return "VoidUser-" + generateUUID().substring(0,8);
-    }
-    public String generateUUID() {
-        try {
-            MessageDigest salt = MessageDigest.getInstance("SHA-256");
-            salt.update(UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
-            return UUID.nameUUIDFromBytes(salt.digest()).toString();
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-
-        return null;
-    }
-    //security util
-    public boolean checkPassword(String name, String pass) {
-        try {
-            File[] users = new File("src/users").listFiles();
-            LinkedList<File> userDataFiles = new LinkedList<>();
-
-            for (File f : users) {
-                if (!f.getName().contains("DeprecatedUser")) {
-                    userDataFiles.add(new File(f.getAbsolutePath() + "/Userdata.txt"));
-                }
-            }
-
-            for (int i = 0 ; i < userDataFiles.size() ; i++) {
-                BufferedReader currentRead = new BufferedReader(new FileReader(userDataFiles.get(i)));
-
-                String filename = null;
-                String filepass = null;
-                String Line = currentRead.readLine();
-
-                while (Line != null) {
-                    String[] parts = Line.split(":");
-
-                    if (parts[0].equalsIgnoreCase("Name")) {
-                        filename = parts[1];
-                    } else if (parts[0].equalsIgnoreCase("Password")) {
-                        filepass = parts[1];
-                    }
-
-                    Line = currentRead.readLine();
-                }
-
-                if (pass.equals(filepass) && name.equals(filename)) {
-                    setUserUUID(users[i].getName());
-                    setUsername(name);
-                    return true;
-                }
-            }
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-
-        return false;
-    }
-
+    //console frame
     public int getCurrentDowns() {
         return this.currentDowns;
     }
-
     public void setCurrentDowns(int num) {
         this.currentDowns = num;
     }
-
     public boolean getHandledMath() {
         return this.handledMath;
     }
@@ -369,45 +219,7 @@ public class GeneralUtil {
         return this.validBackgroundPaths;
     }
 
-    //time util
-    public boolean isChristmas() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
-        return (Month == 12 && Date == 25);
-    }
-    //time util
-    public boolean isHalloween() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
-        return (Month == 10 && Date == 31);
-    }
-    //time util
-    public boolean isIndependenceDay() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
-        return (Month == 7 && Date == 4);
-    }
-    //time util
-    public boolean isThanksgiving() {
-        Calendar Checker = Calendar.getInstance();
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
-        LocalDate RealTG = LocalDate.of(year, 11, 1).with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
-        return (Month == 11 && Date == RealTG.getDayOfMonth());
-    }
-    //time util
-    public boolean isAprilFoolsDay() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
-        return (Month == 4 && Date == 1);
-    }
-
-    //consoleframe
+    //console frame
     public void setCurrentBackgroundIndex(int i) {
         this.currentBackgroundIndex = i;
     }
@@ -457,65 +269,17 @@ public class GeneralUtil {
         }
 
         catch (ArrayIndexOutOfBoundsException ex) {
-            handle(ex);
-            handle(new FatalException(ex.getMessage()));
+            ErrorHandler.handle(ex);
+            ErrorHandler.handle(new FatalException(ex.getMessage()));
         }
     }
 
-    //put in consoleframe class
+    //console frame
     public boolean canSwitchBackground() {
         return (validBackgroundPaths.length > currentBackgroundIndex + 1 && validBackgroundPaths.length > 1);
     }
 
-    //handle class
-    public static void staticHandle(Exception e) {
-        new GeneralUtil().handle(e);
-    }
-
-    //handle class
-    public static void handle(Exception e) {
-        try {
-            File throwsDir = new File("src/users/" + getUserUUID() + "/Throws/");
-
-            if (!throwsDir.exists())
-                throwsDir.mkdir();
-
-            String eFileString = "src/users/" + getUserUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
-            File eFile = new File(eFileString);
-            eFile.createNewFile();
-
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-
-            String stackTrack = sw.toString();
-            int lineNumber = e.getStackTrace()[0].getLineNumber();
-            Class c = e.getClass();
-
-            String write = "Error thrown by line: " + lineNumber + " from\n" + c +
-                    "\n\nStack Trace:\n\n" + stackTrack;
-
-            BufferedWriter errorWriter = new BufferedWriter(new FileWriter(eFileString));
-            errorWriter.write(write);
-            errorWriter.newLine();
-            errorWriter.flush();
-            errorWriter.close();
-
-            if (IOUtil.getUserData("SilenceErrors").equals("1"))
-                return;
-            IOUtil.openFile(eFileString);
-        }
-
-        catch (Exception ex) {
-            if (IOUtil.getUserData("SilenceErrors") != null && IOUtil.getUserData("SilenceErrors").equals("0")) {
-                System.out.println("Exception in error logger:\n\n");
-                e.printStackTrace();
-                //todo show popup with inform on consoleframe
-            }
-        }
-    }
-
-    //prefs utils?
+    //console frame
     public void setConsoleClock(boolean b) {
         this.consoleClock = b;
     }
@@ -523,12 +287,7 @@ public class GeneralUtil {
         return this.consoleClock;
     }
 
-    //input utils with getinput
-    public boolean confirmation(String input) {
-        return (input.toLowerCase().contains("yes") || input.equalsIgnoreCase("y"));
-    }
-
-    //put in consoleframe class
+    //console frame
     public int getConsoleDirection() {
         return this.consoleDirection;
     }
@@ -609,7 +368,7 @@ public class GeneralUtil {
         }
 
         catch (Exception ex) {
-            handle(ex);
+            ErrorHandler.handle(ex);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.cyder.ui;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.ImageUtil;
 import com.cyder.utilities.SystemUtil;
@@ -159,7 +160,7 @@ public class CyderFrame extends JFrame {
         }
 
         catch (Exception e) {
-            fGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -184,7 +185,7 @@ public class CyderFrame extends JFrame {
             }
 
             catch (Exception e) {
-                fGeneralUtil.handle(e);
+                ErrorHandler.handle(e);
             }
         }
 
@@ -215,7 +216,7 @@ public class CyderFrame extends JFrame {
         }
 
         catch (Exception e) {
-            fGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -239,7 +240,7 @@ public class CyderFrame extends JFrame {
         }
 
         catch (Exception e) {
-            fGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         dl.enableDragging();
@@ -339,7 +340,7 @@ public class CyderFrame extends JFrame {
             }
 
             catch (Exception e) {
-                fGeneralUtil.handle(e);
+                ErrorHandler.handle(e);
             }
         });
 

@@ -308,7 +308,7 @@ public class Pizza {
         placeOrder.setBackground(pizzaGeneralUtil.regularRed);
         placeOrder.addActionListener(e -> {
             if (nameField.getText().length() <= 0)
-                pizzaGeneralUtil.inform("Sorry, but you must enter a name.","", 300, 200);
+                GenericInform.inform("Sorry, but you must enter a name.","", 300, 200);
 
             else {
                 String Name = nameField.getText().substring(0, 1).toUpperCase() + nameField.getText().substring(1) + "<br/>";
@@ -359,13 +359,13 @@ public class Pizza {
                     Extras = "<br/>Extras: " + "<br/>" + Extras;
 
                 if (Comments.length() == 0) {
-                    pizzaGeneralUtil.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
+                    GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
                         + "<br/>" + Size + "<br/><br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Topings: " + "<br/><br/>" + TopingsChosen
                         + "<br/><br/>" + Extras,"Order Summary", 500, 1200);
                 }
 
                 else {
-                    pizzaGeneralUtil.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
+                    GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
                         + "<br/>" + Size + "<br/><br/>" + "Crust Type: " + "<br/>" + Crust + "<br/><br/>" + "Topings: " + "<br/>" + TopingsChosen
                         + "<br/>" + Extras + "<br/><br/>Comments: " + "<br/><br/>" + Comments,"Order Summary", 500, 1200);
                 }

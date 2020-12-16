@@ -4,6 +4,7 @@ import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.widgets.GenericInform;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -75,7 +76,7 @@ public class TextEditor {
         }
 
         catch (Exception e) {
-            textGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         CyderButton saveNote = new CyderButton("Save & Resign");
@@ -95,18 +96,18 @@ public class TextEditor {
                 if (noteEditField.getText().length() > 0) {
                     newName = new File(File.getAbsolutePath().replace(File.getName(),noteEditField.getText() + ".txt"));
                     File.renameTo(newName);
-                    textGeneralUtil.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
+                    GenericInform.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
                 }
 
                 else {
-                    textGeneralUtil.inform(File.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
+                    GenericInform.inform(File.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
                 }
 
                 noteEditorFrame.closeAnimation();
             }
 
             catch (Exception exc) {
-                textGeneralUtil.handle(exc);
+                ErrorHandler.handle(exc);
             }
         });
         saveNote.setBounds(50,550,600 - 50 - 50, 40);

@@ -1,5 +1,6 @@
 package com.cyder.games;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
@@ -142,7 +143,7 @@ public class Hangman {
         }
 
         catch (Exception e) {
-            hangmanGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         HangmanLabel.setText("<html>" + new StringUtil().fillString(HangmanWord.length(), " _ ") + "</html>");

@@ -1,8 +1,10 @@
 package com.cyder.widgets;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.IOUtil;
 import com.cyder.utilities.SystemUtil;
 
 import javax.imageio.ImageIO;
@@ -48,7 +50,7 @@ public class ImageResizer {
         chooseFile.setColors(imageGeneralUtil.regularRed);
         chooseFile.addActionListener(e -> {
             try {
-                File temp = imageGeneralUtil.getFile();
+                File temp = IOUtil.getFile();
 
                 if (temp != null && temp.getName().endsWith(".png")) {
                     resizeImage = temp;
@@ -73,7 +75,7 @@ public class ImageResizer {
             }
 
             catch (Exception ex) {
-                imageGeneralUtil.handle(ex);
+                ErrorHandler.handle(ex);
             }
         });
 
@@ -211,20 +213,20 @@ public class ImageResizer {
         approve.setFocusPainted(false);
         approve.addActionListener(e -> {
             if (resizeImage == null) {
-                imageGeneralUtil.inform("Sorry, but you have no image selected to resize","Exception",400,150);
+                GenericInform.inform("Sorry, but you have no image selected to resize","Exception",400,150);
             }
 
             else if (xdim.getText().length() > 0 && ydim.getText().length() > 0) {
                 try {
                     BufferedImage replace = resizeImage(resizeImage, Integer.parseInt(xdim.getText()), Integer.parseInt(ydim.getText()));
                     ImageIO.write(replace, "png", resizeImage);
-                    imageGeneralUtil.inform("The image \"" + resizeImage.getName() + "\" was successfully resized to " +
+                    GenericInform.inform("The image \"" + resizeImage.getName() + "\" was successfully resized to " +
                             xdim.getText() + "x" + ydim.getText(),"Success", 500, 300);
                     resizeFrame.closeAnimation();
                 }
 
                 catch (Exception ex) {
-                    imageGeneralUtil.handle(ex);
+                    ErrorHandler.handle(ex);
                 }
             }
         });
@@ -268,7 +270,7 @@ public class ImageResizer {
         }
 
         catch (Exception e) {
-            imageGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return null;
@@ -286,7 +288,7 @@ public class ImageResizer {
         }
 
         catch (Exception e) {
-            imageGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return resizedImage;

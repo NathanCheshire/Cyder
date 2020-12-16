@@ -3,6 +3,7 @@ package com.cyder.widgets;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.SecurityUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -33,9 +34,9 @@ public class Hasher {
             char[] Hash = hashField.getPassword();
 
             if (Hash.length > 0) {
-                String PrintHash = hashGeneralUtil.toHexString(hashGeneralUtil.getSHA(hashField.getPassword()));
+                String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA(hashField.getPassword()));
                 hashFrame.closeAnimation();
-                hashGeneralUtil.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
+                GenericInform.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
                 StringSelection selection = new StringSelection(PrintHash);
                 java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 clipboard.setContents(selection, selection);
@@ -51,9 +52,9 @@ public class Hasher {
         hashButton.setBorder(new LineBorder(hashGeneralUtil.navy,5,false));
         hashButton.setFont(hashGeneralUtil.weatherFontSmall);
         hashButton.addActionListener(e -> {
-            String PrintHash = hashGeneralUtil.toHexString(hashGeneralUtil.getSHA(hashField.getPassword()));
+            String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA(hashField.getPassword()));
             hashFrame.closeAnimation();
-            hashGeneralUtil.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
+            GenericInform.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
             StringSelection selection = new StringSelection(PrintHash);
             java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(selection, selection);

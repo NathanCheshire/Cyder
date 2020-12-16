@@ -1,6 +1,7 @@
 package com.cyder.ui;
 
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.TimeUtil;
 
 import javax.swing.*;
 
@@ -14,19 +15,19 @@ public class SpecialDay {
         mainGeneralUtil = new GeneralUtil();
 
         if (!kill) {
-            if (mainGeneralUtil.isChristmas())
+            if (TimeUtil.isChristmas())
                 notify("Merry Christmas!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
 
-            if (mainGeneralUtil.isHalloween())
+            if (TimeUtil.isHalloween())
                 notify("Happy Halloween!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
 
-            if (mainGeneralUtil.isIndependenceDay())
+            if (TimeUtil.isIndependenceDay())
                 notify("Happy 4th of July!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 200);
 
-            if (mainGeneralUtil.isThanksgiving())
+            if (TimeUtil.isThanksgiving())
                 notify("Happy Thanksgiving!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 230);
 
-            if (mainGeneralUtil.isAprilFoolsDay())
+            if (TimeUtil.isAprilFoolsDay())
                 notify("Happy April Fools Day!", 3000, Notification.TOP_ARROW, Notification.TOP_VANISH,parentPanel, 250);
 
             kill = true;

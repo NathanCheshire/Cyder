@@ -1,5 +1,6 @@
 package com.cyder.widgets;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
@@ -131,14 +132,14 @@ public class Calculator {
         calculatorEquals.setFont(calculatorGeneralUtil.weatherFontBig);
         calculatorEquals.addActionListener(e -> {
             try {
-                 calculatorGeneralUtil.inform("Answer:<br/>" + new DoubleEvaluator().evaluate(calculatorField.getText().trim()), "Result", calculatorFrame.getWidth(),calculatorFrame.getHeight());
+                 GenericInform.inform("Answer:<br/>" + new DoubleEvaluator().evaluate(calculatorField.getText().trim()), "Result", calculatorFrame.getWidth(),calculatorFrame.getHeight());
             }
 
             catch (Exception exc) {
-                calculatorGeneralUtil.inform("Unrecognized expression. Please use multiplication signs after parenthesis and check the exact syntax of your expression for common" +
+                GenericInform.inform("Unrecognized expression. Please use multiplication signs after parenthesis and check the exact syntax of your expression for common" +
                         " errors such as missing delimiters.<br/>Note that this calculator does support typing in the Text Field and can handle more complicated" +
                         "<br/>expressions such as sin, cos, tan, log, ln, floor, etc.","", calculatorFrame.getWidth(), calculatorFrame.getHeight());
-                calculatorGeneralUtil.handle(exc);
+                ErrorHandler.handle(exc);
             }
         });
         calculatorField.addActionListener(e -> calculatorEquals.doClick());

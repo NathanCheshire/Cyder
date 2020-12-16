@@ -1,5 +1,7 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.ErrorHandler;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -138,7 +140,7 @@ public class StatUtil {
         }
 
         catch (Exception e) {
-            new GeneralUtil().handle(e);
+            ErrorHandler.handle(e);
         }
     }
 }

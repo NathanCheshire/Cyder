@@ -2,6 +2,7 @@ import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
+import com.cyder.handler.ErrorHandler;
 import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TestClass;
 import com.cyder.threads.YoutubeThread;
@@ -208,7 +209,7 @@ public class CyderMain{
 
         backgroundProcessChecker();
 
-        boolean nathanLenovo = networkUtil.compMACAddress(mainGeneralUtil.getMACAddress());
+        boolean nathanLenovo = SecurityUtil.compMACAddress(SecurityUtil.getMACAddress());
 
         if (nathanLenovo)
             autoCypher();
@@ -265,7 +266,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
             login(false);
         }
     }
@@ -299,7 +300,7 @@ public class CyderMain{
                     }
 
                     catch (Exception e) {
-                        mainGeneralUtil.handle(e);
+                        ErrorHandler.handle(e);
                     }
 
                     int w = img.getWidth(null);
@@ -616,7 +617,7 @@ public class CyderMain{
                 }
 
                 catch (IOException ex) {
-                    mainGeneralUtil.handle(ex);
+                    ErrorHandler.handle(ex);
                 }
 
                 if (mainGeneralUtil.canSwitchBackground() && mainGeneralUtil.getValidBackgroundPaths().length > 1) {
@@ -639,12 +640,12 @@ public class CyderMain{
 
                 else {
                     try {
-                        mainGeneralUtil.handle(new FatalException("Background DNE"));
+                        ErrorHandler.handle(new FatalException("Background DNE"));
                         println("Error in parsing background; perhaps it was deleted.");
                     }
 
                     catch (Exception ex) {
-                        mainGeneralUtil.handle(ex);
+                        ErrorHandler.handle(ex);
                     }
                 }
             });
@@ -820,7 +821,7 @@ public class CyderMain{
                     }
 
                     catch (Exception e) {
-                        mainGeneralUtil.handle(e);
+                        ErrorHandler.handle(e);
                     }
                 }
 
@@ -849,7 +850,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -1164,7 +1165,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
         }
     };
@@ -1235,7 +1236,7 @@ public class CyderMain{
         }
 
         catch (Exception ex) {
-            mainGeneralUtil.handle(ex);
+            ErrorHandler.handle(ex);
         }
         }
     };
@@ -1401,7 +1402,7 @@ public class CyderMain{
         try {
             mainGeneralUtil.setUsername(Username);
 
-            if (mainGeneralUtil.checkPassword(Username, mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(Password)))) {
+            if (SecurityUtil.checkPassword(Username, SecurityUtil.toHexString(SecurityUtil.getSHA(Password)))) {
                 IOUtil.readUserData();
 
                 if (loginFrame != null)
@@ -1447,7 +1448,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -1646,7 +1647,7 @@ public class CyderMain{
             }
 
             catch (Exception e) {
-                mainGeneralUtil.handle(e);
+                ErrorHandler.handle(e);
             }
         });
 
@@ -1681,7 +1682,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return null;
@@ -1740,7 +1741,7 @@ public class CyderMain{
                 }
 
                 catch (Exception e) {
-                    mainGeneralUtil.handle(e);
+                    ErrorHandler.handle(e);
                 }
             }
         }.start();
@@ -1857,7 +1858,7 @@ public class CyderMain{
                 }
 
                catch (Exception e) {
-                   mainGeneralUtil.handle(e);
+                   ErrorHandler.handle(e);
                }
             }
 
@@ -1912,7 +1913,7 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("addbackgrounds")) {
-                if (mainGeneralUtil.confirmation(input)) {
+                if (InputUtil.confirmation(input)) {
                     editUser();
                     networkUtil.internetConnect("https://images.google.com/");
                 }
@@ -1922,7 +1923,7 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("logoff")) {
-                if (mainGeneralUtil.confirmation(input)) {
+                if (InputUtil.confirmation(input)) {
                     String shutdownCmd = "shutdown -l";
                     Runtime.getRuntime().exec(shutdownCmd);
                 }
@@ -1932,7 +1933,7 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("deleteuser")) {
-                if (!mainGeneralUtil.confirmation(input)) {
+                if (!InputUtil.confirmation(input)) {
                     println("User " + mainGeneralUtil.getUsername() + " was not removed.");
                     return;
                 }
@@ -1940,11 +1941,11 @@ public class CyderMain{
                 frameAni.closeAnimation(consoleFrame);
                 systemUtil.deleteFolder(new File("src/users/" + mainGeneralUtil.getUserUUID()));
 
-                String dep = mainGeneralUtil.getDeprecatedUUID();
+                String dep = SecurityUtil.getDeprecatedUUID();
 
                 File renamed = new File("src/users/" + dep);
                 while (renamed.exists()) {
-                    dep = mainGeneralUtil.getDeprecatedUUID();
+                    dep = SecurityUtil.getDeprecatedUUID();
                     renamed = new File("src/users/" + dep);
                 }
 
@@ -2003,7 +2004,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -2600,11 +2601,11 @@ public class CyderMain{
             }
 
             else if (eic("loop")) {
-                println("mainGeneralUtil.handle(\"loop\");");
+                println("ErrorHandler.handle(\"loop\");");
             }
 
             else if (hasWord("cyder") && has("dir")) {
-                if (networkUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
+                if (SecurityUtil.compMACAddress(SecurityUtil.getMACAddress())) {
                     String CurrentDir = System.getProperty("user.dir");
                     IOUtil.openFile(CurrentDir);
                 }
@@ -2667,7 +2668,7 @@ public class CyderMain{
             }
 
             else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
-                pixelateFile = mainGeneralUtil.getFile();
+                pixelateFile = IOUtil.getFile();
 
                 if (!pixelateFile.getName().endsWith(".png")) {
                     println("Sorry, " + mainGeneralUtil.getUsername() + ", but this feature only supports PNG images");
@@ -2722,7 +2723,7 @@ public class CyderMain{
             }
 
             else if (hasWord("cyder") && (has("picture") || has("image"))) {
-                if (networkUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
+                if (SecurityUtil.compMACAddress(SecurityUtil.getMACAddress())) {
                     IOUtil.openFile("src/com/cyder/sys/pictures");
                 }
 
@@ -2911,7 +2912,7 @@ public class CyderMain{
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
-                if (networkUtil.compMACAddress(mainGeneralUtil.getMACAddress())) {
+                if (SecurityUtil.compMACAddress(SecurityUtil.getMACAddress())) {
                     IOUtil.wipeErrors();
 
                     println("Deleted all user erorrs");
@@ -2928,7 +2929,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3015,7 +3016,7 @@ public class CyderMain{
         }
 
         catch(Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3036,7 +3037,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3048,7 +3049,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3060,7 +3061,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3072,7 +3073,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3084,7 +3085,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3096,7 +3097,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3108,7 +3109,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3120,7 +3121,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3132,7 +3133,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3144,7 +3145,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3156,7 +3157,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3168,7 +3169,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3180,7 +3181,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3192,7 +3193,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3204,7 +3205,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3216,7 +3217,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3252,7 +3253,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3265,18 +3266,18 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
     private void changePassword(char[] newPassword) {
         try {
             IOUtil.readUserData();
-            IOUtil.writeUserData("password", mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(newPassword)));
+            IOUtil.writeUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA(newPassword)));
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -3529,7 +3530,7 @@ public class CyderMain{
         addMusicBackground.setBackground(mainGeneralUtil.regularRed);
         addMusicBackground.addActionListener(e -> {
             try {
-                File addFile = mainGeneralUtil.getFile();
+                File addFile = IOUtil.getFile();
 
                 if (addFile == null)
                     return;
@@ -3558,7 +3559,7 @@ public class CyderMain{
             }
 
             catch (Exception exc) {
-                mainGeneralUtil.handle(exc);
+                ErrorHandler.handle(exc);
             }
         });
         addMusicBackground.setFont(mainGeneralUtil.weatherFontSmall);
@@ -3819,7 +3820,7 @@ public class CyderMain{
                 }
 
                 catch (Exception ex) {
-                    mainGeneralUtil.handle(ex);
+                    ErrorHandler.handle(ex);
                 }
             }
             }
@@ -4379,7 +4380,7 @@ public class CyderMain{
             @Override
             public void mouseReleased(MouseEvent e) {
                 try {
-                    File temp = mainGeneralUtil.getFile();
+                    File temp = IOUtil.getFile();
                     if (temp != null) {
                         createUserBackground = temp;
                     }
@@ -4407,7 +4408,7 @@ public class CyderMain{
                 }
 
                 catch (Exception ex) {
-                    mainGeneralUtil.handle(ex);
+                    ErrorHandler.handle(ex);
                 }
             }
 
@@ -4429,11 +4430,11 @@ public class CyderMain{
             @Override
             public void mouseReleased(MouseEvent e) {
             try {
-                String uuid = mainGeneralUtil.generateUUID();
+                String uuid = SecurityUtil.generateUUID();
                 File folder = new File("src/users/" + uuid);
 
                 while (folder.exists()) {
-                    uuid = mainGeneralUtil.generateUUID();
+                    uuid = SecurityUtil.generateUUID();
                     folder = new File("src/users/" + uuid);
                 }
 
@@ -4512,7 +4513,7 @@ public class CyderMain{
 
                     LinkedList<String> data = new LinkedList<>();
                     data.add("Name:" + newUserName.getText().trim());
-                    data.add("Password:" + mainGeneralUtil.toHexString(mainGeneralUtil.getSHA(pass)));
+                    data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
 
                     data.add("Font:tahoma");
                     data.add("Foreground:FCFBE3");
@@ -4561,7 +4562,7 @@ public class CyderMain{
             }
 
             catch (Exception ex) {
-                mainGeneralUtil.handle(ex);
+                ErrorHandler.handle(ex);
             }
             }
         });
@@ -4586,7 +4587,7 @@ public class CyderMain{
                 }
 
                 catch (Exception ex) {
-                    mainGeneralUtil.handle(ex);
+                    ErrorHandler.handle(ex);
                 }
 
                 menuLabel.setVisible(false);
@@ -4653,7 +4654,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            mainGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 

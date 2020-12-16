@@ -1,5 +1,7 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.ErrorHandler;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -122,7 +124,7 @@ public class IPUtil {
             }
             BR.close();
         } catch (Exception e) {
-            generalUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 }

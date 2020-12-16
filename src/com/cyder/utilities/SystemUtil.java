@@ -1,5 +1,7 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.ErrorHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -9,12 +11,6 @@ import java.io.FileReader;
 import java.net.InetAddress;
 
 public class SystemUtil {
-
-    private GeneralUtil gu;
-
-    public SystemUtil() {
-        gu = new GeneralUtil();
-    }
 
     private ImageIcon cyderIcon = new ImageIcon("src/com/cyder/sys/pictures/CyderIcon.png");
     private ImageIcon cyderIconBlink = new ImageIcon("src/com/cyder/sys/pictures/CyderIconBlink.png");
@@ -51,7 +47,7 @@ public class SystemUtil {
         }
 
         catch (Exception e) {
-            gu.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return null;
@@ -73,7 +69,7 @@ public class SystemUtil {
             InetAddress Add = InetAddress.getLocalHost();
             name = Add.getHostName();
         } catch (Exception e) {
-            gu.handle(e);
+            ErrorHandler.handle(e);
         }
         return name;
     }
@@ -87,7 +83,7 @@ public class SystemUtil {
             Robot Rob = new Robot();
             Rob.mouseMove(centerX, centerY);
         } catch (Exception ex) {
-            gu.handle(ex);
+            ErrorHandler.handle(ex);
         }
     }
 
@@ -168,7 +164,7 @@ public class SystemUtil {
             }
 
             catch (Exception ex) {
-                gu.handle(ex);
+                ErrorHandler.handle(ex);
             }
         });
 

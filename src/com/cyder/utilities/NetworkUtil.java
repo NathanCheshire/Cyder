@@ -1,5 +1,7 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.ErrorHandler;
+
 import java.awt.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -8,18 +10,12 @@ import java.net.URI;
 
 public class NetworkUtil {
 
-    private GeneralUtil gu;
-
-    public NetworkUtil() {
-        gu = new GeneralUtil();
-    }
-
     public void internetConnect(String URL) {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(new URI(URL));
         } catch (Exception ex) {
-            gu.handle(ex);
+            ErrorHandler.handle(ex);
         }
     }
 
@@ -28,13 +24,8 @@ public class NetworkUtil {
         try {
             Internet.browse(URI);
         } catch (Exception ex) {
-            gu.handle(ex);
+            ErrorHandler.handle(ex);
         }
-    }
-
-    public boolean compMACAddress(String mac) {
-        //todo make this more secure
-        return gu.toHexString(gu.getSHA(mac.toCharArray())).equals("5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e");
     }
 
     public boolean siteReachable(String URL) {
@@ -49,7 +40,7 @@ public class NetworkUtil {
         }
 
         catch (Exception e) {
-            gu.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return true;
@@ -63,7 +54,7 @@ public class NetworkUtil {
         try {
             Sock.connect(Address, timeout);
         } catch (Exception e) {
-            gu.handle(e);
+            ErrorHandler.handle(e);
         }
 
         long stop = System.currentTimeMillis();
@@ -72,7 +63,7 @@ public class NetworkUtil {
         try {
             Sock.close();
         } catch (Exception e) {
-            gu.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return Latency;
@@ -87,7 +78,7 @@ public class NetworkUtil {
         try {
             Sock.connect(Address, Timeout);
         } catch (Exception e) {
-            gu.handle(e);
+            ErrorHandler.handle(e);
         }
 
         long stop = System.currentTimeMillis();
@@ -96,7 +87,7 @@ public class NetworkUtil {
         try {
             Sock.close();
         } catch (Exception e) {
-            gu.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return Latency;
@@ -112,7 +103,7 @@ public class NetworkUtil {
                 return true;
             }
         } catch (Exception e) {
-            gu.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return false;

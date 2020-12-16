@@ -1,14 +1,18 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.ErrorHandler;
+
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -94,7 +98,7 @@ public class TimeUtil {
         }
 
         catch (Exception e) {
-            timeGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -138,5 +142,42 @@ public class TimeUtil {
         Date Time = new Date();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
         return dateFormatter.format(Time);
+    }
+
+    public static boolean isChristmas() {
+        Calendar Checker = Calendar.getInstance();
+        int Month = Checker.get(Calendar.MONTH) + 1;
+        int Date = Checker.get(Calendar.DATE);
+        return (Month == 12 && Date == 25);
+    }
+
+    public static boolean isHalloween() {
+        Calendar Checker = Calendar.getInstance();
+        int Month = Checker.get(Calendar.MONTH) + 1;
+        int Date = Checker.get(Calendar.DATE);
+        return (Month == 10 && Date == 31);
+    }
+
+    public static boolean isIndependenceDay() {
+        Calendar Checker = Calendar.getInstance();
+        int Month = Checker.get(Calendar.MONTH) + 1;
+        int Date = Checker.get(Calendar.DATE);
+        return (Month == 7 && Date == 4);
+    }
+
+    public static boolean isThanksgiving() {
+        Calendar Checker = Calendar.getInstance();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int Month = Checker.get(Calendar.MONTH) + 1;
+        int Date = Checker.get(Calendar.DATE);
+        LocalDate RealTG = LocalDate.of(year, 11, 1).with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
+        return (Month == 11 && Date == RealTG.getDayOfMonth());
+    }
+
+    public static boolean isAprilFoolsDay() {
+        Calendar Checker = Calendar.getInstance();
+        int Month = Checker.get(Calendar.MONTH) + 1;
+        int Date = Checker.get(Calendar.DATE);
+        return (Month == 4 && Date == 1);
     }
 }

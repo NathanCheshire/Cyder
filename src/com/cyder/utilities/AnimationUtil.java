@@ -1,5 +1,7 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.ErrorHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -28,7 +30,7 @@ public class AnimationUtil {
         }
 
         catch (Exception e) {
-            gu.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -47,7 +49,7 @@ public class AnimationUtil {
         }
 
         catch (Exception e) {
-            gu.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -67,7 +69,7 @@ public class AnimationUtil {
             }
 
             catch (Exception e) {
-                gu.handle(e);
+                ErrorHandler.handle(e);
             }
         }
 

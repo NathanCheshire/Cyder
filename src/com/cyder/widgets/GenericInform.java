@@ -1,5 +1,6 @@
 package com.cyder.widgets;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.ImageUtil;
@@ -29,7 +30,7 @@ public class GenericInform {
         }
 
         catch (Exception e) {
-            GeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 }

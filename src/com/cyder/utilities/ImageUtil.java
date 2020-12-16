@@ -1,5 +1,6 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 
@@ -114,7 +115,7 @@ public class ImageUtil {
                 try {
                     ImageIO.write(retImage, "png", new File("C:\\Users\\" + new SystemUtil().getWindowsUsername() + "\\Downloads\\" + NewName));
                 } catch (Exception exc) {
-                    giu.handle(exc);
+                    ErrorHandler.handle(exc);
                 }
 
                 pixelFrame.closeAnimation();
@@ -140,7 +141,7 @@ public class ImageUtil {
         }
 
         catch (Exception e) {
-            giu.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -170,7 +171,7 @@ public class ImageUtil {
         }
 
         catch (Exception e) {
-            GeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return ReturnImage;
@@ -182,7 +183,7 @@ public class ImageUtil {
         }
 
         catch (Exception e) {
-            GeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return null;
@@ -194,7 +195,7 @@ public class ImageUtil {
         }
 
         catch (Exception e) {
-            GeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return null;

@@ -1,5 +1,7 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.ErrorHandler;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -78,7 +80,7 @@ public class NumberUtil {
             }
 
             catch (Exception ex) {
-                new GeneralUtil().handle(ex);
+                ErrorHandler.handle(ex);
             }
         }
 

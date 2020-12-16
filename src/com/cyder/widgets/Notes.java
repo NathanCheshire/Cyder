@@ -1,5 +1,6 @@
 package com.cyder.widgets;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
@@ -200,7 +201,7 @@ public class Notes {
             }
 
             catch (Exception ex) {
-                noteGeneralUtil.handle(ex);
+                ErrorHandler.handle(ex);
             }
 
             newNoteFrame.closeAnimation();
@@ -301,7 +302,7 @@ public class Notes {
         }
 
         catch (Exception e) {
-            noteGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         currentUserNote = File;
@@ -323,21 +324,21 @@ public class Notes {
                 if (noteEditField.getText().length() > 0) {
                     newName = new File(File.getAbsolutePath().replace(File.getName(),noteEditField.getText() + ".txt"));
                     File.renameTo(newName);
-                    noteGeneralUtil.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
+                    GenericInform.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
                     initializeNotesList();
                     noteListScroll.setViewportView(fileSelectionList);
                     noteListScroll.revalidate();
                 }
 
                 else {
-                    noteGeneralUtil.inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
+                    GenericInform.inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
                 }
 
                 noteEditorFrame.closeAnimation();
             }
 
             catch (Exception exc) {
-                noteGeneralUtil.handle(exc);
+                ErrorHandler.handle(exc);
             }
         });
         saveNote.setBounds(50,550,600 - 50 - 50, 40);

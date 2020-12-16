@@ -1,5 +1,7 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.ErrorHandler;
+
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
 import java.io.*;
@@ -108,7 +110,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -120,7 +122,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -132,7 +134,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -144,7 +146,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -156,7 +158,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -168,7 +170,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -180,7 +182,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -192,7 +194,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -204,7 +206,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -216,7 +218,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -228,7 +230,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -240,7 +242,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -252,7 +254,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -264,7 +266,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -276,7 +278,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -288,7 +290,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -364,7 +366,7 @@ public class StringUtil {
                     }
 
                     catch (Exception e) {
-                        stringGeneralUtil.handle(e);
+                        ErrorHandler.handle(e);
                     }
 
                     outputArea.setText("");
@@ -469,7 +471,7 @@ public class StringUtil {
         }
 
         catch (Exception e) {
-            stringGeneralUtil.staticHandle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -495,7 +497,7 @@ public class StringUtil {
         }
 
         catch (Exception ex) {
-            stringGeneralUtil.handle(ex);
+            ErrorHandler.handle(ex);
         }
     }
 
@@ -594,7 +596,7 @@ public class StringUtil {
         }
 
         catch (Exception ex) {
-            stringGeneralUtil.handle(ex);
+            ErrorHandler.handle(ex);
         }
 
         return false;

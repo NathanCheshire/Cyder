@@ -1,9 +1,11 @@
 package com.cyder.widgets;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderSliderUI;
 import com.cyder.ui.Notification;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.IOUtil;
 import javazoom.jl.player.Player;
 
 import javax.sound.sampled.AudioSystem;
@@ -128,7 +130,7 @@ public class MPEGPlayer {
                     VolumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
                     musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
                 } catch (Exception ex) {
-                    musicGeneralUtil.handle(ex);
+                    ErrorHandler.handle(ex);
                 }
             }
 
@@ -140,7 +142,7 @@ public class MPEGPlayer {
                     VolumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
                     musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
                 } catch (Exception exc) {
-                    musicGeneralUtil.handle(exc);
+                    ErrorHandler.handle(exc);
                 }
             }
         });
@@ -191,7 +193,7 @@ public class MPEGPlayer {
                     }
 
                     catch (Exception exc) {
-                        musicGeneralUtil.handle(exc);
+                        ErrorHandler.handle(exc);
                     }
 
                     stopScrolling();
@@ -219,7 +221,7 @@ public class MPEGPlayer {
                     }
 
                     catch (Exception ex) {
-                        musicGeneralUtil.handle(ex);
+                        ErrorHandler.handle(ex);
                     }
                 }
             }
@@ -488,11 +490,11 @@ public class MPEGPlayer {
         selectMusicDir.setToolTipText("Open File");
 
         selectMusicDir.addActionListener(e -> {
-            File SelectedFile = musicGeneralUtil.getFile();
+            File SelectedFile = IOUtil.getFile();
 
             if (!SelectedFile.toString().endsWith("mp3")) {
                 if (mp3Player == null) {
-                    musicGeneralUtil.inform("Sorry, " + musicGeneralUtil.getUsername() + ", but that's not an mp3 file.","", 400, 200);
+                    GenericInform.inform("Sorry, " + musicGeneralUtil.getUsername() + ", but that's not an mp3 file.","", 400, 200);
                 }
             }
 
@@ -581,7 +583,7 @@ public class MPEGPlayer {
             }
 
             catch (Exception e) {
-                musicGeneralUtil.handle(e);
+                ErrorHandler.handle(e);
             }
         }
     }
@@ -627,7 +629,7 @@ public class MPEGPlayer {
         }
 
         catch (Exception e) {
-            musicGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         new Thread(() -> {
@@ -648,7 +650,7 @@ public class MPEGPlayer {
             }
 
             catch (Exception e) {
-                musicGeneralUtil.handle(e);
+                ErrorHandler.handle(e);
             }
         }).start();
     }
@@ -662,7 +664,7 @@ public class MPEGPlayer {
                     play(musicFiles[currentMusicIndex]);
                 }
             } catch (Exception e) {
-                musicGeneralUtil.handle(e);
+                ErrorHandler.handle(e);
             }
         }).start();
     }
@@ -726,7 +728,7 @@ public class MPEGPlayer {
                         }
 
                         catch (Exception e) {
-                            musicGeneralUtil.handle(e);
+                            ErrorHandler.handle(e);
                         }
                     }).start();
                 }
@@ -737,7 +739,7 @@ public class MPEGPlayer {
             }
 
             catch (Exception e) {
-                musicGeneralUtil.handle(e);
+                ErrorHandler.handle(e);
             }
         }
 

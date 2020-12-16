@@ -1,5 +1,6 @@
 package com.cyder.ui;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
@@ -229,7 +230,7 @@ public class Notification extends JLabel {
             }
 
             catch (Exception e) {
-                notificationHandler.handle(e);
+               ErrorHandler.handle(e);
             }
         }).start();
     }

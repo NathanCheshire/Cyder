@@ -5,6 +5,7 @@ import com.cyder.ui.DragLabel;
 import com.cyder.utilities.AnimationUtil;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.SystemUtil;
+import com.cyder.widgets.GenericInform;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -53,7 +54,7 @@ public class PhotoViewer {
         try {
             Image = ImageIO.read(ImageName);
         } catch (Exception ex) {
-            imageGeneralUtil.handle(ex);
+            ErrorHandler.handle(ex);
         }
 
         pictureFrame = new JFrame();
@@ -110,7 +111,7 @@ public class PhotoViewer {
                     File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
                     File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
                     oldName.renameTo(newName);
-                    imageGeneralUtil.inform("Successfully renamed to " + name,"",400,300);
+                    GenericInform.inform("Successfully renamed to " + name,"",400,300);
 
                     initFiles();
 
@@ -287,7 +288,7 @@ public class PhotoViewer {
                         File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
                         File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
                         oldName.renameTo(newName);
-                        imageGeneralUtil.inform("Successfully renamed to " + name,"",400,300);
+                        GenericInform.inform("Successfully renamed to " + name,"",400,300);
 
                         initFiles();
 
@@ -378,7 +379,7 @@ public class PhotoViewer {
         }
 
         catch (Exception e) {
-            imageGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -441,7 +442,7 @@ public class PhotoViewer {
                         File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
                         File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
                         oldName.renameTo(newName);
-                        imageGeneralUtil.inform("Successfully renamed to " + name,"",400,300);
+                        GenericInform.inform("Successfully renamed to " + name,"",400,300);
 
                         initFiles();
 
@@ -532,7 +533,7 @@ public class PhotoViewer {
         }
 
         catch (Exception e) {
-            imageGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
     }
@@ -566,7 +567,7 @@ public class PhotoViewer {
         }
 
         catch (Exception e) {
-            imageGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
 
         return null;

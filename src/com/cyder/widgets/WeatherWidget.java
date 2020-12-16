@@ -1,5 +1,6 @@
 package com.cyder.widgets;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.*;
@@ -207,7 +208,7 @@ public class WeatherWidget {
                     }
 
                     catch (Exception ex) {
-                        weatherGeneralUtil.handle(ex);
+                        ErrorHandler.handle(ex);
                     }
                 });
 
@@ -367,7 +368,7 @@ public class WeatherWidget {
                     currentTimeLabel.setText(weatherTime());
                 }
             } catch (Exception e) {
-                weatherGeneralUtil.handle(e);
+                ErrorHandler.handle(e);
             }
         });
 
@@ -405,7 +406,7 @@ public class WeatherWidget {
                     sunsetLabel.setText(correctedSunTime(sunset) + "pm");
                 }
             } catch (Exception e) {
-                weatherGeneralUtil.handle(e);
+                ErrorHandler.handle(e);
             }
         });
 
@@ -430,7 +431,7 @@ public class WeatherWidget {
         }
 
         catch (Exception e) {
-            weatherGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -556,7 +557,7 @@ public class WeatherWidget {
         }
 
         catch (Exception e) {
-            weatherGeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 

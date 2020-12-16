@@ -1,5 +1,6 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.ErrorHandler;
 import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
@@ -32,7 +33,7 @@ public class IOUtil {
             }
 
             catch(Exception ex) {
-                new GeneralUtil().handle(ex);
+                ErrorHandler.handle(ex);
             }
         }
     }
@@ -63,7 +64,7 @@ public class IOUtil {
         }
 
         catch (Exception e) {
-            new GeneralUtil().handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -72,7 +73,7 @@ public class IOUtil {
             File tmpDir = new File("src/tmp");
             new SystemUtil().deleteFolder(tmpDir);
         } catch (Exception e) {
-            new GeneralUtil().handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -95,7 +96,7 @@ public class IOUtil {
         }
 
         catch(Exception e) {
-            GeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -117,7 +118,7 @@ public class IOUtil {
         }
 
         catch (Exception e) {
-            GeneralUtil.handle(e);
+           ErrorHandler.handle(e);
         }
     }
 
@@ -195,7 +196,7 @@ public class IOUtil {
                 }
 
                 catch(Exception ex) {
-                    GeneralUtil.handle(ex);
+                    ErrorHandler.handle(ex);
                 }
             }
         }
@@ -220,7 +221,7 @@ public class IOUtil {
                 }
 
                 catch (Exception e) {
-                    GeneralUtil.handle(e);
+                    ErrorHandler.handle(e);
                 }
             });
 
@@ -228,7 +229,7 @@ public class IOUtil {
         }
 
         catch (Exception e) {
-            GeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -241,7 +242,33 @@ public class IOUtil {
         }
 
         catch (Exception e) {
-            GeneralUtil.handle(e);
+            ErrorHandler.handle(e);
         }
+    }
+
+    public static File getFile() {
+        try (BufferedReader waitReader = new BufferedReader(new FileReader("File.txt"))) { //todo move file.txt to tmp dir
+            Desktop.getDesktop().open(new File("src/com/cyder/sys/jars/FileChooser.jar"));
+
+            File f = new File("File.txt");
+            f.delete();
+
+            while (!f.exists()) {
+                Thread.onSpinWait();
+            }
+
+            Thread.sleep(200);
+
+            File chosenFile = new File(waitReader.readLine());
+            f.delete();
+
+            return (chosenFile.getName().equalsIgnoreCase("null") ? null : chosenFile);
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return null;
     }
 }
