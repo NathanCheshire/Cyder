@@ -41,7 +41,7 @@ public class Notes {
         if (noteFrame != null)
             noteFrame.closeAnimation();
 
-        noteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        noteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         noteFrame.setTitle(noteGeneralUtil.getUsername() + new StringUtil().getApostrophe(noteGeneralUtil.getUsername()) + " notes");
 
         initializeNotesList();
@@ -140,7 +140,7 @@ public class Notes {
         if (newNoteFrame != null)
             newNoteFrame.closeAnimation();
 
-        newNoteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        newNoteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         newNoteFrame.setTitle("New note");
 
         JLabel FileNameLabel = new JLabel("Note Title");
@@ -252,7 +252,7 @@ public class Notes {
         if (noteEditorFrame != null)
             noteEditorFrame.closeAnimation();
 
-        noteEditorFrame = newNoteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        noteEditorFrame = newNoteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
 
         noteEditField = new JTextField(20);

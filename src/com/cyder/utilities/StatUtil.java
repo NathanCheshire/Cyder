@@ -102,7 +102,7 @@ public class StatUtil {
             double x = flag.getWidth();
             double y = flag.getHeight();
 
-            outputArea.insertIcon(new ImageIcon(new GeneralUtil().resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
+            outputArea.insertIcon(new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
 
             NetworkUtil nu = new NetworkUtil();
             SystemUtil su = new SystemUtil();

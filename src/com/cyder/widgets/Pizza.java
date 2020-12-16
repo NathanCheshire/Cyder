@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pizza {
-    ImageIcon selected = new ImageIcon("src/com/cyder/io/pictures/checkbox1.png");
-    ImageIcon notSelected = new ImageIcon("src/com/cyder/io/pictures/checkbox2.png");
+    ImageIcon selected = new ImageIcon("src/com/cyder/sys/pictures/checkbox1.png");
+    ImageIcon notSelected = new ImageIcon("src/com/cyder/sys/pictures/checkbox2.png");
 
     private GeneralUtil pizzaGeneralUtil = new GeneralUtil();
 
@@ -43,7 +43,7 @@ public class Pizza {
         if (pizzaFrame != null)
             pizzaFrame.closeAnimation();
 
-        pizzaFrame = new CyderFrame(600,800, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        pizzaFrame = new CyderFrame(600,800, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         pizzaFrame.setTitle("Pizza");
 
         JLabel CustomerName = new JLabel("Name:");

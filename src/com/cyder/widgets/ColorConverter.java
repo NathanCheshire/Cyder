@@ -13,7 +13,7 @@ import static com.cyder.utilities.GeneralUtil.navy;
 
 public class ColorConverter {
     public static void colorConverter() {
-        CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         colorFrame.setTitle("Color Converter");
 
         JLabel hexLabel = new JLabel("HEX:");

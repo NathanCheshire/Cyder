@@ -22,11 +22,11 @@ public class DragLabel extends JLabel {
 
     private Color navy = new Color(26, 32, 51);
 
-    ImageIcon mini1 = new ImageIcon("src/com/cyder/io/pictures/minimize1.png");
-    ImageIcon mini2 = new ImageIcon("src/com/cyder/io/pictures/minimize2.png");
+    ImageIcon mini1 = new ImageIcon("src/com/cyder/sys/pictures/minimize1.png");
+    ImageIcon mini2 = new ImageIcon("src/com/cyder/sys/pictures/minimize2.png");
 
-    ImageIcon close1 = new ImageIcon("src/com/cyder/io/pictures/Close1.png");
-    ImageIcon close2 = new ImageIcon("src/com/cyder/io/pictures/Close2.png");
+    ImageIcon close1 = new ImageIcon("src/com/cyder/sys/pictures/Close1.png");
+    ImageIcon close2 = new ImageIcon("src/com/cyder/sys/pictures/Close2.png");
 
     private JButton close;
     private JButton minimize;

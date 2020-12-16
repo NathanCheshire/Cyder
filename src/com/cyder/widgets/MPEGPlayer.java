@@ -52,7 +52,7 @@ public class MPEGPlayer {
         if (musicFrame != null)
             musicFrame.closeAnimation();
 
-        musicFrame = new CyderFrame(1000,563,new ImageIcon("src/com/cyder/io/pictures/mp3.png"));
+        musicFrame = new CyderFrame(1000,563,new ImageIcon("src/com/cyder/sys/pictures/mp3.png"));
         musicFrame.setTitle("Flash Player");
 
         musicFrame.addWindowListener(new WindowAdapter() {
@@ -63,11 +63,11 @@ public class MPEGPlayer {
             }
         });
 
-        ImageIcon mini1 = new ImageIcon("src/com/cyder/io/pictures/minimize1.png");
-        ImageIcon mini2 = new ImageIcon("src/com/cyder/io/pictures/minimize2.png");
+        ImageIcon mini1 = new ImageIcon("src/com/cyder/sys/pictures/minimize1.png");
+        ImageIcon mini2 = new ImageIcon("src/com/cyder/sys/pictures/minimize2.png");
 
-        ImageIcon close1 = new ImageIcon("src/com/cyder/io/pictures/Close1.png");
-        ImageIcon close2 = new ImageIcon("src/com/cyder/io/pictures/Close2.png");
+        ImageIcon close1 = new ImageIcon("src/com/cyder/sys/pictures/Close1.png");
+        ImageIcon close2 = new ImageIcon("src/com/cyder/sys/pictures/Close2.png");
 
         musicTitleLabel = new JLabel("", SwingConstants.CENTER);
 
@@ -174,13 +174,13 @@ public class MPEGPlayer {
         playPauseMusic.addActionListener(e -> {
             if (mp3Player != null) {
                 if (!playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/play.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/play.png"));
                     playPauseMusic.setToolTipText("play");
                     playIcon = true;
                 }
 
                 else {
-                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/Pause.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/Pause.png"));
                     playPauseMusic.setToolTipText("Pause");
                     playIcon = false;
                 }
@@ -229,11 +229,11 @@ public class MPEGPlayer {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/PlayHover.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/PlayHover.png"));
                 }
 
                 else {
-                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/PauseHover.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/PauseHover.png"));
                 }
             }
 
@@ -241,19 +241,19 @@ public class MPEGPlayer {
             public void mouseExited(MouseEvent e) {
                 if (playIcon)
                 {
-                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/play.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/play.png"));
                 }
 
                 else
                 {
-                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/Pause.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/Pause.png"));
                 }
             }
         });
 
         playPauseMusic.setBounds(121, 263, 75, 75);
 
-        ImageIcon Play = new ImageIcon("src/com/cyder/io/pictures/play.png");
+        ImageIcon Play = new ImageIcon("src/com/cyder/sys/pictures/play.png");
 
         playPauseMusic.setIcon(Play);
 
@@ -296,18 +296,18 @@ public class MPEGPlayer {
         lastMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                lastMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/SkipBackHover.png"));
+                lastMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/SkipBackHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                lastMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/SkipBack.png"));
+                lastMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/SkipBack.png"));
             }
         });
 
         lastMusic.setBounds(121, 363, 75, 75);
 
-        ImageIcon Last = new ImageIcon("src/com/cyder/io/pictures/SkipBack.png");
+        ImageIcon Last = new ImageIcon("src/com/cyder/sys/pictures/SkipBack.png");
 
         lastMusic.setIcon(Last);
 
@@ -350,18 +350,18 @@ public class MPEGPlayer {
         nextMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                nextMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/SkipHover.png"));
+                nextMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/SkipHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                nextMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/Skip.png"));
+                nextMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/Skip.png"));
             }
         });
 
         nextMusic.setBounds(121, 463, 75, 75);
 
-        ImageIcon Next = new ImageIcon("src/com/cyder/io/pictures/Skip.png");
+        ImageIcon Next = new ImageIcon("src/com/cyder/sys/pictures/Skip.png");
 
         nextMusic.setIcon(Next);
 
@@ -381,13 +381,13 @@ public class MPEGPlayer {
 
         loopMusic.addActionListener(e -> {
             if (!repeatAudio) {
-                loopMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/Repeat.png"));
+                loopMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/Repeat.png"));
                 loopMusic.setToolTipText("Loop Audio");
                 repeatAudio = true;
             }
 
             else {
-                loopMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/NoRepeat.png"));
+                loopMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/NoRepeat.png"));
                 loopMusic.setToolTipText("Loop Audio");
                 repeatAudio = false;
             }
@@ -398,12 +398,12 @@ public class MPEGPlayer {
             public void mouseEntered(MouseEvent e) {
                 if (repeatAudio)
                 {
-                    loopMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/RepeatHover.png"));
+                    loopMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/RepeatHover.png"));
                 }
 
                 else
                 {
-                    loopMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/NoRepeatHover.png"));
+                    loopMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/NoRepeatHover.png"));
                 }
             }
 
@@ -411,19 +411,19 @@ public class MPEGPlayer {
             public void mouseExited(MouseEvent e) {
                 if (repeatAudio)
                 {
-                    loopMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/Repeat.png"));
+                    loopMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/Repeat.png"));
                 }
 
                 else
                 {
-                    loopMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/NoRepeat.png"));
+                    loopMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/NoRepeat.png"));
                 }
             }
         });
 
         loopMusic.setBounds(50, 363, 76, 76);
 
-        ImageIcon Loop = new ImageIcon("src/com/cyder/io/pictures/NoRepeat.png");
+        ImageIcon Loop = new ImageIcon("src/com/cyder/sys/pictures/NoRepeat.png");
 
         loopMusic.setIcon(Loop);
 
@@ -445,7 +445,7 @@ public class MPEGPlayer {
             if (mp3Player != null) {
                 mp3Player.close();
                 musicTitleLabel.setText("No audio currently playing");
-                playPauseMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/play.png"));
+                playPauseMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/play.png"));
                 playPauseMusic.setToolTipText("play");
                 playIcon = true;
                 pauseLocation = 0;
@@ -458,18 +458,18 @@ public class MPEGPlayer {
         stopMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                stopMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/StopHover.png"));
+                stopMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/StopHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                stopMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/Stop.png"));
+                stopMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/Stop.png"));
             }
         });
 
         stopMusic.setBounds(50, 263, 75, 75);
 
-        ImageIcon Stop = new ImageIcon("src/com/cyder/io/pictures/Stop.png");
+        ImageIcon Stop = new ImageIcon("src/com/cyder/sys/pictures/Stop.png");
 
         stopMusic.setIcon(Stop);
 
@@ -519,18 +519,18 @@ public class MPEGPlayer {
         selectMusicDir.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                selectMusicDir.setIcon(new ImageIcon("src/com/cyder/io/pictures/SelectFileHover.png"));
+                selectMusicDir.setIcon(new ImageIcon("src/com/cyder/sys/pictures/SelectFileHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                selectMusicDir.setIcon(new ImageIcon("src/com/cyder/io/pictures/SelectFile.png"));
+                selectMusicDir.setIcon(new ImageIcon("src/com/cyder/sys/pictures/SelectFile.png"));
             }
         });
 
         selectMusicDir.setBounds(50, 463, 75, 75);
 
-        ImageIcon File = new ImageIcon("src/com/cyder/io/pictures/SelectFile.png");
+        ImageIcon File = new ImageIcon("src/com/cyder/sys/pictures/SelectFile.png");
 
         selectMusicDir.setIcon(File);
 
@@ -632,7 +632,7 @@ public class MPEGPlayer {
 
         new Thread(() -> {
             try {
-                playPauseMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/Pause.png"));
+                playPauseMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/Pause.png"));
                 playPauseMusic.setToolTipText("Pause");
 
                 playIcon = false;
@@ -642,7 +642,7 @@ public class MPEGPlayer {
                     play(musicFiles[currentMusicIndex]);
                 }
 
-                playPauseMusic.setIcon(new ImageIcon("src/com/cyder/io/pictures/play.png"));
+                playPauseMusic.setIcon(new ImageIcon("src/com/cyder/sys/pictures/play.png"));
                 playPauseMusic.setToolTipText("play");
                 playIcon = true;
             }

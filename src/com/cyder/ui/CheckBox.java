@@ -5,8 +5,8 @@ import java.awt.event.MouseEvent;
 
 public class CheckBox extends JLabel {
 
-    private ImageIcon selected = new ImageIcon("src/com/cyder/io/pictures/checkbox1.png");
-    private ImageIcon notSelected = new ImageIcon("src/com/cyder/io/pictures/checkbox2.png");
+    private ImageIcon selected = new ImageIcon("src/com/cyder/sys/pictures/checkbox1.png");
+    private ImageIcon notSelected = new ImageIcon("src/com/cyder/sys/pictures/checkbox2.png");
 
     public CheckBox() {
         this.setSize(100,100);

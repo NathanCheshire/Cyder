@@ -3,6 +3,7 @@ package com.cyder.games;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.ui.CyderButton;
+import com.cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -35,15 +36,15 @@ public class TicTacToe {
         if (tttFrame != null)
             tttFrame.closeAnimation();
 
-        tttFrame = new CyderFrame(400,500, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        tttFrame = new CyderFrame(400,500, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         tttFrame.setTitlePosition(tttFrame.CENTER_TITLE);
         tttFrame.setTitle("Tic Tac Toe");
 
         tttLabel = new JLabel();
         tttLabel.setFont(tttGeneralUtil.weatherFontSmall);
         tttLabel.setForeground(tttGeneralUtil.navy);
-        tttLabel.setBounds(tttGeneralUtil.xOffsetForCenterJLabel(400,"Tic Tac Toe"),30,
-                tttGeneralUtil.xOffsetForCenterJLabel(400,tttFrame.getTitle()) * 2,30);
+        tttLabel.setBounds(ImageUtil.xOffsetForCenterJLabel(400,"Tic Tac Toe"),30,
+                ImageUtil.xOffsetForCenterJLabel(400,tttFrame.getTitle()) * 2,30);
         tttFrame.getContentPane().add(tttLabel);
 
         ttt1 = new CyderButton("");

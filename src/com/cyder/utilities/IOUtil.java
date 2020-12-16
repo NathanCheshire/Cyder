@@ -1,6 +1,10 @@
 package com.cyder.utilities;
 
+import com.cyder.handler.PhotoViewer;
+import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
+import com.cyder.widgets.MPEGPlayer;
+import javazoom.jl.player.Player;
 
 import java.awt.*;
 import java.io.*;
@@ -9,6 +13,9 @@ import java.util.LinkedList;
 
 public class IOUtil {
     private static LinkedList<NST> userData = new LinkedList<>();
+
+    private static MPEGPlayer CyderPlayer;
+    private static Player player;
 
     public static void openFileOutsideProgram(String filePath) {
         Desktop OpenFile = Desktop.getDesktop();
@@ -127,5 +134,114 @@ public class IOUtil {
         }
 
         return null;
+    }
+
+    public static void cleanUpUsers() {
+        File top = new File("src/users");
+        File[] users = top.listFiles();
+
+        for (File userDir : users) {
+            if (!userDir.isDirectory())
+                return;
+
+            File[] currentUserFiles = userDir.listFiles();
+
+            if (currentUserFiles.length == 1 && currentUserFiles[0].getName().equalsIgnoreCase("Userdata.txt"))
+                new SystemUtil().deleteFolder(userDir);
+        }
+    }
+
+    public static void wipeErrors() {
+        File topDir = new File("src/users");
+        File[] users = topDir.listFiles();
+
+        for (File f : users) {
+            if (f.isDirectory()) {
+                File throwDir = new File("src/users/" + f.getName() + "/throws");
+                if (throwDir.exists()) new SystemUtil().deleteFolder(throwDir);
+            }
+        }
+    }
+
+    public static void openFile(String FilePath) {
+        //use our custom text editor
+        if (FilePath.endsWith(".txt")) {
+            TextEditor te = new TextEditor(FilePath);
+        }
+
+        else if (FilePath.endsWith(".png")) {
+            PhotoViewer pv = new PhotoViewer(new File(FilePath));
+            pv.start();
+        }
+
+        //use our own mp3 player
+        else if (FilePath.endsWith(".mp3")) {
+            CyderPlayer = new MPEGPlayer(new File(FilePath), GeneralUtil.getUsername(), GeneralUtil.getUserUUID());
+        }
+
+        //welp just open it outside of the program :(
+        else {
+            Desktop OpenFile = Desktop.getDesktop();
+
+            try {
+                File FileToOpen = new File(FilePath);
+                URI FileURI = FileToOpen.toURI();
+                OpenFile.browse(FileURI);
+            }
+
+            catch (Exception e) {
+                try {
+                    Runtime.getRuntime().exec("explorer.exe /select," + FilePath);
+                }
+
+                catch(Exception ex) {
+                    GeneralUtil.handle(ex);
+                }
+            }
+        }
+    }
+
+    public static void mp3(String FilePath, String user, String uuid) {
+        if (CyderPlayer != null)
+            CyderPlayer.kill();
+
+        stopMusic();
+        CyderPlayer = new MPEGPlayer(new File(FilePath), user, uuid);
+    }
+
+    public static void playMusic(String FilePath) {
+        try {
+            stopMusic();
+            FileInputStream FileInputStream = new FileInputStream(FilePath);
+            player = new Player(FileInputStream);
+            Thread MusicThread = new Thread(() -> {
+                try {
+                    player.play();
+                }
+
+                catch (Exception e) {
+                    GeneralUtil.handle(e);
+                }
+            });
+
+            MusicThread.start();
+        }
+
+        catch (Exception e) {
+            GeneralUtil.handle(e);
+        }
+    }
+
+    //static music player widget
+    public static void stopMusic() {
+        try {
+            if (player != null && !player.isComplete()) {
+                player.close();
+            }
+        }
+
+        catch (Exception e) {
+            GeneralUtil.handle(e);
+        }
     }
 }

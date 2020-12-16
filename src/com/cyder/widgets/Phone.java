@@ -3,6 +3,7 @@ package com.cyder.widgets;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.IOUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -14,7 +15,7 @@ public class Phone {
     private GeneralUtil phoneGeneralUtil = new GeneralUtil();
 
     public Phone() {
-        CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         phoneFrame.setTitle("Phone");
 
         numberLabel = new JLabel("#");
@@ -222,11 +223,11 @@ public class Phone {
                 checkForSuicideHotline();
 
                 if (checkForSuicideHotline()) {
-                    phoneGeneralUtil.playMusic("src/com/cyder/io/audio/1800.mp3");
+                    IOUtil.playMusic("src/com/cyder/sys/audio/1800.mp3");
                 }
 
                 else if (checkFor223()) {
-                    phoneGeneralUtil.playMusic("src/com/cyder/io/audio/223.mp3");
+                    IOUtil.playMusic("src/com/cyder/sys/audio/223.mp3");
                 }
 
                 else {

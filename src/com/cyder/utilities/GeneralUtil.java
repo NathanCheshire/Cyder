@@ -2,25 +2,17 @@
 package com.cyder.utilities;
 
 import com.cyder.exception.FatalException;
-import com.cyder.handler.PhotoViewer;
-import com.cyder.handler.TextEditor;
 import com.cyder.ui.CyderButton;
-import com.cyder.ui.CyderFrame;
-import com.cyder.widgets.MPEGPlayer;
-import javazoom.jl.player.Player;
+import com.cyder.widgets.GenericInform;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.DayOfWeek;
@@ -61,25 +53,25 @@ public class GeneralUtil {
     //public fonts
     public static Font weatherFontSmall = new Font("Segoe UI Black", Font.BOLD, 20);
     public static Font weatherFontBig = new Font("Segoe UI Black", Font.BOLD, 30);
-    public Font loginFont = new Font("Comic Sans MS", Font.BOLD, 30);
-    public Font defaultFontSmall = new Font("tahoma", Font.BOLD, 15);
-    public Font defaultFont = new Font("tahoma", Font.BOLD, 30);
-    public Font tahoma = new Font("tahoma", Font.BOLD, 20);
+    public static Font loginFont = new Font("Comic Sans MS", Font.BOLD, 30);
+    public static Font defaultFontSmall = new Font("tahoma", Font.BOLD, 15);
+    public static Font defaultFont = new Font("tahoma", Font.BOLD, 30);
+    public static Font tahoma = new Font("tahoma", Font.BOLD, 20);
 
     //public colors
     public static Color selectionColor = new Color(204,153,0);
-    public Color regularGreen = new Color(60, 167, 92);
-    public Color regularBlue = new Color(38,168,255);
-    public Color calculatorOrange = new Color(255,140,0);
-    public Color regularRed = new Color(223,85,83);
-    public Color intellijPink = new Color(236,64,122);
-    public Color consoleColor = new Color(39, 40, 34);
-    public Color tooltipBorderColor = new Color(26, 32, 51);
-    public Color tooltipForegroundColor = new Color(85,85,255);
-    public Color tooltipBackgroundColor = new Color(0,0,0);
-    public Color vanila = new Color(252, 251, 227);
-    public Color defaultColor = new Color(252, 251, 227);
-    public Color tttblue = new Color(71, 81, 117);
+    public static Color regularGreen = new Color(60, 167, 92);
+    public static Color regularBlue = new Color(38,168,255);
+    public static Color calculatorOrange = new Color(255,140,0);
+    public static Color regularRed = new Color(223,85,83);
+    public static Color intellijPink = new Color(236,64,122);
+    public static Color consoleColor = new Color(39, 40, 34);
+    public static Color tooltipBorderColor = new Color(26, 32, 51);
+    public static Color tooltipForegroundColor = new Color(85,85,255);
+    public static Color tooltipBackgroundColor = new Color(0,0,0);
+    public static Color vanila = new Color(252, 251, 227);
+    public static Color defaultColor = new Color(252, 251, 227);
+    public static Color tttblue = new Color(71, 81, 117);
     public static Color navy = new Color(26, 32, 51);
 
     //uservars
@@ -99,6 +91,21 @@ public class GeneralUtil {
     public static int CYDER_DOWN = 2;
     public static int CYDER_LEFT = 3;
     private int consoleDirection;
+    //put these in consoleframe
+    public BufferedImage getRotatedImage(String name) {
+        switch(this.consoleDirection) {
+            case 0:
+                return ImageUtil.getBi(name);
+            case 1:
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),90);
+            case 2:
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),180);
+            case 3:
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),-90);
+        }
+
+        return null;
+    }
 
     //boolean vars
     private boolean handledMath;
@@ -117,14 +124,10 @@ public class GeneralUtil {
     private int backgroundX;
     private int backgroundY;
 
-    //static player so only one instance ever exists
-    public static MPEGPlayer CyderPlayer;
-    private static Player player;
-
     //This was the best bodge I ever pulled off
     public File getFile() {
         try {
-            File WhereItIs = new File("src/com/cyder/io/jars/FileChooser.jar");
+            File WhereItIs = new File("src/com/cyder/sys/jars/FileChooser.jar");
             Desktop.getDesktop().open(WhereItIs);
             File f = new File("File.txt");
             f.delete();
@@ -178,7 +181,7 @@ public class GeneralUtil {
     //change to user by user so in user util
     public String getIPKey() {
         try {
-            BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/io/text/keys.txt"));
+            BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/sys/text/keys.txt"));
             String line = "";
 
             while ((line = keyReader.readLine()) != null) {
@@ -199,7 +202,7 @@ public class GeneralUtil {
     //change to user by user so in user util
     public String getWeatherKey() {
         try {
-            BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/io/text/keys.txt"));
+            BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/sys/text/keys.txt"));
             String line = "";
 
             while ((line = keyReader.readLine()) != null) {
@@ -310,33 +313,6 @@ public class GeneralUtil {
         return false;
     }
 
-    //make own class
-    public void inform(String text, String title, int width, int height) {
-        try {
-            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,vanila)));
-            informFrame.setTitle(title);
-
-            JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
-
-            desc.setHorizontalAlignment(JLabel.CENTER);
-            desc.setVerticalAlignment(JLabel.CENTER);
-            ImageUtil iu = new ImageUtil();
-            desc.setForeground(navy);
-            desc.setFont(weatherFontSmall.deriveFont(22f));
-            desc.setBounds(10, 35, width - 20, height - 35 * 2);
-
-            informFrame.getContentPane().add(desc);
-
-            informFrame.setVisible(true);
-            informFrame.setLocationRelativeTo(null);
-            informFrame.setAlwaysOnTop(true);
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
     public int getCurrentDowns() {
         return this.currentDowns;
     }
@@ -431,76 +407,6 @@ public class GeneralUtil {
         return (Month == 4 && Date == 1);
     }
 
-    //widget
-    public void clickMe() {
-        try {
-            CyderFrame clickMeFrame = new CyderFrame(200,100,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
-            clickMeFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
-            clickMeFrame.setTitle("");
-
-            JLabel dismiss = new JLabel("Click Me!");
-            dismiss.setHorizontalAlignment(JLabel.CENTER);
-            dismiss.setVerticalAlignment(JLabel.CENTER);
-            dismiss.setForeground(navy);
-            dismiss.setFont(weatherFontBig.deriveFont(24f));
-            dismiss.setBounds(20, 40, 150, 40);
-            dismiss.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    clickMeFrame.dispose();
-                    clickMe();
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    dismiss.setForeground(regularRed);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    dismiss.setForeground(navy);
-                }
-            });
-
-            clickMeFrame.getContentPane().add(dismiss);
-
-            clickMeFrame.setVisible(true);
-
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
-            Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-            clickMeFrame.setLocation(NumberUtil.randInt(0, (int) (rect.getMaxX() - 200)),NumberUtil.randInt(0,(int) rect.getMaxY() - 200));
-            clickMeFrame.setAlwaysOnTop(true);
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
-    //image utils
-    public BufferedImage resizeImage(int x, int y, File UneditedImage) {
-        BufferedImage ReturnImage = null;
-
-        try {
-            File CurrentConsole = UneditedImage;
-            Image ConsoleImage = ImageIO.read(CurrentConsole);
-            Image TransferImage = ConsoleImage.getScaledInstance(x, y, Image.SCALE_SMOOTH);
-            ReturnImage = new BufferedImage(TransferImage.getWidth(null), TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-            Graphics2D bGr = ReturnImage.createGraphics();
-
-            bGr.drawImage(TransferImage, 0, 0, null);
-            bGr.dispose();
-            return ReturnImage;
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-
-        return ReturnImage;
-    }
-
     //consoleframe
     public void setCurrentBackgroundIndex(int i) {
         this.currentBackgroundIndex = i;
@@ -547,7 +453,7 @@ public class GeneralUtil {
             validBackgroundPaths = dir.listFiles(PNGFilter);
 
             if (validBackgroundPaths.length == 0)
-                validBackgroundPaths = new File[]{new File("src/com/cyder/io/pictures/Bobby.png")};
+                validBackgroundPaths = new File[]{new File("src/com/cyder/sys/pictures/Bobby.png")};
         }
 
         catch (ArrayIndexOutOfBoundsException ex) {
@@ -556,143 +462,9 @@ public class GeneralUtil {
         }
     }
 
-    //io utils
-    public static void openFile(String FilePath) {
-        //use our custom text editor
-        if (FilePath.endsWith(".txt")) {
-            TextEditor te = new TextEditor(FilePath);
-        }
-
-        else if (FilePath.endsWith(".png")) {
-            PhotoViewer pv = new PhotoViewer(new File(FilePath));
-            pv.start();
-        }
-
-        //use our own mp3 player
-        else if (FilePath.endsWith(".mp3")) {
-            CyderPlayer = new MPEGPlayer(new File(FilePath), getUsername(), getUserUUID());
-        }
-
-        //welp just open it outside of the program :(
-        else {
-            Desktop OpenFile = Desktop.getDesktop();
-
-            try {
-                File FileToOpen = new File(FilePath);
-                URI FileURI = FileToOpen.toURI();
-                OpenFile.browse(FileURI);
-            }
-
-            catch (Exception e) {
-                try {
-                    Runtime.getRuntime().exec("explorer.exe /select," + FilePath);
-                }
-
-                catch(Exception ex) {
-                    handle(ex);
-                }
-            }
-        }
-    }
-
     //put in consoleframe class
     public boolean canSwitchBackground() {
         return (validBackgroundPaths.length > currentBackgroundIndex + 1 && validBackgroundPaths.length > 1);
-    }
-
-    //image utils
-    public void resizeImages() {
-        try {
-            for (int i = 0 ; i < getValidBackgroundPaths().length ; i++) {
-                File UneditedImage = getValidBackgroundPaths()[i];
-
-                BufferedImage currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
-
-                setBackgroundX(currentImage.getWidth());
-                setBackgroundY(currentImage.getHeight());
-
-                double aspectRatio = getAspectRatio(currentImage);
-                int imageType = currentImage.getType();
-
-                if (getBackgroundX() > new SystemUtil().getScreenWidth() || getBackgroundY() > new SystemUtil().getScreenHeight()) {
-                    inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too big " +
-                            "(That's what she said ahahahahah hahaha ha ha so funny).","System Action", 700, 200);
-                }
-
-                while (getBackgroundX() > new SystemUtil().getScreenWidth() || getBackgroundY() > new SystemUtil().getScreenHeight()) {
-                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
-
-                    int width = (int) (currentImage.getWidth() / aspectRatio);
-                    int height = (int) (currentImage.getHeight() / aspectRatio);
-
-                    BufferedImage saveImage = resizeImage(currentImage, imageType, width, height);
-
-                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
-
-                    setBackgroundX(saveImage.getWidth());
-                    setBackgroundY(saveImage.getHeight());
-                    getValidBackgroundPaths();
-                }
-
-                if (getBackgroundX() < 600 || getBackgroundY() < 600) {
-                    inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too small.","System Action", 700, 200);
-                }
-
-                while (getBackgroundX() < 600 || getBackgroundY() < 600) {
-                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
-
-                    int width = (int) (currentImage.getWidth() * aspectRatio);
-                    int height = (int) (currentImage.getHeight() * aspectRatio);
-
-                    BufferedImage saveImage = resizeImage(currentImage, imageType, width, height);
-
-                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
-
-                    setBackgroundX(saveImage.getWidth());
-                    setBackgroundY(saveImage.getHeight());
-                    getValidBackgroundPaths();
-                }
-
-                if (NumberUtil.isPrime(getBackgroundX())) {
-                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
-
-                    int width = currentImage.getWidth() + 1;
-                    int height = currentImage.getHeight() + 1;
-
-                    BufferedImage saveImage = resizeImage(currentImage, imageType, width, height);
-
-                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
-
-                    setBackgroundX(saveImage.getWidth());
-                    setBackgroundY(saveImage.getHeight());
-                    getValidBackgroundPaths();
-                }
-            }
-
-            getValidBackgroundPaths();
-        }
-
-        catch (Exception ex) {
-            handle(ex);
-        }
-    }
-
-    //image utils
-    static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
-        BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
-        Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, img_width, img_height, null);
-        g.dispose();
-
-        return resizedImage;
-    }
-
-    //image utils
-    private double getAspectRatio(BufferedImage im) {
-        return ((double) im.getWidth() / (double) im.getHeight());
-    }
-    public int getScreenResolution() {
-        return Toolkit.getDefaultToolkit().getScreenResolution();
     }
 
     //handle class
@@ -731,7 +503,7 @@ public class GeneralUtil {
 
             if (IOUtil.getUserData("SilenceErrors").equals("1"))
                 return;
-            openFile(eFileString);
+            IOUtil.openFile(eFileString);
         }
 
         catch (Exception ex) {
@@ -756,52 +528,6 @@ public class GeneralUtil {
         return (input.toLowerCase().contains("yes") || input.equalsIgnoreCase("y"));
     }
 
-    //static music player widget
-    public void mp3(String FilePath, String user, String uuid) {
-        if (CyderPlayer != null)
-            CyderPlayer.kill();
-
-        stopMusic();
-        CyderPlayer = new MPEGPlayer(new File(FilePath), user, uuid);
-    }
-
-    //static music player widget
-    public void playMusic(String FilePath) {
-        try {
-            stopMusic();
-            FileInputStream FileInputStream = new FileInputStream(FilePath);
-            player = new Player(FileInputStream);
-            Thread MusicThread = new Thread(() -> {
-                try {
-                    player.play();
-                }
-
-                catch (Exception e) {
-                    handle(e);
-                }
-            });
-
-            MusicThread.start();
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
-    //static music player widget
-    public void stopMusic() {
-        try {
-            if (player != null && !player.isComplete()) {
-                player.close();
-            }
-        }
-
-        catch (Exception e) {
-            handle(e);
-        }
-    }
-
     //put in consoleframe class
     public int getConsoleDirection() {
         return this.consoleDirection;
@@ -810,106 +536,80 @@ public class GeneralUtil {
         this.consoleDirection = d;
     }
 
-    //image utils
-    public BufferedImage getBi(File imageFile) {
+    //console frame
+    public void resizeImages() {
         try {
-            return ImageIO.read(imageFile);
-        }
+            for (int i = 0 ; i < getValidBackgroundPaths().length ; i++) {
+                File UneditedImage = getValidBackgroundPaths()[i];
 
-        catch (Exception e) {
-            handle(e);
-        }
+                BufferedImage currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
 
-        return null;
-    }
+                setBackgroundX(currentImage.getWidth());
+                setBackgroundY(currentImage.getHeight());
 
-    //image utils
-    public BufferedImage getBi(String filename) {
-        try {
-            return ImageIO.read(new File(filename));
-        }
+                double aspectRatio = ImageUtil.getAspectRatio(currentImage);
+                int imageType = currentImage.getType();
 
-        catch (Exception e) {
-            handle(e);
-        }
+                if (getBackgroundX() > new SystemUtil().getScreenWidth() || getBackgroundY() > new SystemUtil().getScreenHeight()) {
+                    GenericInform.inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too big " +
+                            "(That's what she said ahahahahah hahaha ha ha so funny).","System Action", 700, 200);
+                }
 
-        return null;
-    }
+                while (getBackgroundX() > new SystemUtil().getScreenWidth() || getBackgroundY() > new SystemUtil().getScreenHeight()) {
+                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
 
-    //image utils
-    public BufferedImage getRotatedImage(String name) {
-        switch(this.consoleDirection) {
-            case 0:
-                return getBi(name);
-            case 1:
-                return rotateImageByDegrees(getBi(name),90);
-            case 2:
-                return rotateImageByDegrees(getBi(name),180);
-            case 3:
-                return rotateImageByDegrees(getBi(name),-90);
-        }
+                    int width = (int) (currentImage.getWidth() / aspectRatio);
+                    int height = (int) (currentImage.getHeight() / aspectRatio);
 
-        return null;
-    }
+                    BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
 
-    //image utils
-    //Used for barrel roll and flip screen hotkeys, credit: MadProgrammer from StackOverflow
-    public BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
-        double rads = Math.toRadians(angle);
+                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
 
-        double sin = Math.abs(Math.sin(rads));
-        double cos = Math.abs(Math.cos(rads));
+                    setBackgroundX(saveImage.getWidth());
+                    setBackgroundY(saveImage.getHeight());
+                    getValidBackgroundPaths();
+                }
 
-        int w = img.getWidth();
-        int h = img.getHeight();
+                if (getBackgroundX() < 600 || getBackgroundY() < 600) {
+                    GenericInform.inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too small.","System Action", 700, 200);
+                }
 
-        int newWidth = (int) Math.floor(w * cos + h * sin);
-        int newHeight = (int) Math.floor(h * cos + w * sin);
+                while (getBackgroundX() < 600 || getBackgroundY() < 600) {
+                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
 
-        BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = rotated.createGraphics();
-        AffineTransform at = new AffineTransform();
-        at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+                    int width = (int) (currentImage.getWidth() * aspectRatio);
+                    int height = (int) (currentImage.getHeight() * aspectRatio);
 
-        at.rotate(rads, w / 2, h / 2);
-        g2d.setTransform(at);
-        g2d.drawImage(img, 0, 0, null);
-        g2d.dispose();
+                    BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
 
-        return rotated;
-    }
+                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
 
-    //io utils
-    public void cleanUpUsers() {
-        File top = new File("src/users");
-        File[] users = top.listFiles();
+                    setBackgroundX(saveImage.getWidth());
+                    setBackgroundY(saveImage.getHeight());
+                    getValidBackgroundPaths();
+                }
 
-        for (File userDir : users) {
-            if (!userDir.isDirectory())
-                return;
+                if (NumberUtil.isPrime(getBackgroundX())) {
+                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
 
-            File[] currentUserFiles = userDir.listFiles();
+                    int width = currentImage.getWidth() + 1;
+                    int height = currentImage.getHeight() + 1;
 
-            if (currentUserFiles.length == 1 && currentUserFiles[0].getName().equalsIgnoreCase("Userdata.txt"))
-                new SystemUtil().deleteFolder(userDir);
-        }
-    }
+                    BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
 
-    //ui utils
-    public int xOffsetForCenterJLabel(int compWidth, String title) {
-        return (int) Math.floor(5 + (compWidth / 2.0)) - (((int) Math.ceil(14 * title.length())) / 2);
-    }
+                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
 
-    //io utils
-    public void wipeErrors() {
-        File topDir = new File("src/users");
-        File[] users = topDir.listFiles();
-
-        for (File f : users) {
-            if (f.isDirectory()) {
-                File throwDir = new File("src/users/" + f.getName() + "/throws");
-                if (throwDir.exists()) new SystemUtil().deleteFolder(throwDir);
+                    setBackgroundX(saveImage.getWidth());
+                    setBackgroundY(saveImage.getHeight());
+                    getValidBackgroundPaths();
+                }
             }
+
+            getValidBackgroundPaths();
+        }
+
+        catch (Exception ex) {
+            handle(ex);
         }
     }
 }

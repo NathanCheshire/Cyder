@@ -4,6 +4,7 @@ import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
 import com.cyder.utilities.GeneralUtil;
+import com.cyder.utilities.IOUtil;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -29,7 +30,7 @@ public class DirectorySearch {
         if (dirFrame != null)
             dirFrame.closeAnimation();
 
-        dirFrame = new CyderFrame(620,470, new ImageIcon("src/com/cyder/io/pictrures/DebugBackground.png"));
+        dirFrame = new CyderFrame(620,470, new ImageIcon("src/com/cyder/sys/pictrures/DebugBackground.png"));
         dirFrame.setTitle(new File(System.getProperty("user.dir")).getName());
 
         dirField = new JTextField(40);
@@ -225,7 +226,7 @@ public class DirectorySearch {
                     }
 
                     else if (ChosenDir.isFile()) {
-                        dirGeneralUtil.openFile(ChosenDir.getAbsolutePath());
+                        IOUtil.openFile(ChosenDir.getAbsolutePath());
                     }
                 }
             }
@@ -278,7 +279,7 @@ public class DirectorySearch {
                 }
 
                 else if (ChosenDir.isFile()) {
-                    dirGeneralUtil.openFile(ChosenDir.getAbsolutePath());
+                    IOUtil.openFile(ChosenDir.getAbsolutePath());
                 }
             }
 
@@ -333,7 +334,7 @@ public class DirectorySearch {
                 }
 
                 else if (ChosenDir.isFile()) {
-                    dirGeneralUtil.openFile(ChosenDir.getAbsolutePath());
+                    IOUtil.openFile(ChosenDir.getAbsolutePath());
                 }
             }
         }

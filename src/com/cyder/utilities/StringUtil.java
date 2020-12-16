@@ -430,7 +430,7 @@ public class StringUtil {
             if (cyderArgs.length == 0)
                 cyderArgs = new String[]{"Started by " + System.getProperty("user.name")};
 
-            File log = new File("src/CyderArgs.log");
+            File log = new File("src/Sys.log");
 
             if (!log.exists())
                 log.createNewFile();
@@ -476,7 +476,7 @@ public class StringUtil {
     public void logToDo(String input) {
         try {
             if (input != null && !input.equals("") && !filterLanguage(input) && input.length() > 10 && !filterLanguage(input)) {
-                BufferedWriter sugWriter = new BufferedWriter(new FileWriter("src/com/cyder/io/text/add.txt", true));
+                BufferedWriter sugWriter = new BufferedWriter(new FileWriter("src/com/cyder/sys/text/add.txt", true));
 
                 sugWriter.write("User " + stringGeneralUtil.getUsername() + " at " + new TimeUtil().weatherTime() + " made the suggestion: ");
                 sugWriter.write(System.getProperty("line.separator"));
@@ -583,7 +583,7 @@ public class StringUtil {
         try {
             filter = filterLeet(filter);
 
-            BufferedReader vReader = new  BufferedReader(new FileReader("src/com/cyder/io/text/v.txt"));
+            BufferedReader vReader = new  BufferedReader(new FileReader("src/com/cyder/sys/text/v.txt"));
             String Line = vReader.readLine();
 
             while((Line != null && !Line.equals("") && Line.length() != 0))  {

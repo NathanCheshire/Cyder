@@ -14,7 +14,7 @@ public class Hasher {
     private GeneralUtil hashGeneralUtil = new GeneralUtil();
 
     public Hasher() {
-        CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         hashFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
         hashFrame.setTitle("Hasher");
 

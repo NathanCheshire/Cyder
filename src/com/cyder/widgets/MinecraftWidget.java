@@ -24,11 +24,11 @@ public class MinecraftWidget {
         if (minecraftFrame != null)
             minecraftFrame.closeAnimation();
 
-        minecraftFrame = new CyderFrame(1263,160, new ImageIcon("src/com/cyder/io/pictures/Minecraft.png"));
+        minecraftFrame = new CyderFrame(1263,160, new ImageIcon("src/com/cyder/sys/pictures/Minecraft.png"));
         minecraftFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
         minecraftFrame.setTitle("Minecraft Widget");
 
-        blockLabel = new JLabel(new ImageIcon("src/com/cyder/io/pictures/Block.png"));
+        blockLabel = new JLabel(new ImageIcon("src/com/cyder/sys/pictures/Block.png"));
         blockLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -37,14 +37,14 @@ public class MinecraftWidget {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ImageIcon BlockIcon = new ImageIcon("src/com/cyder/io/pictures/BlockEnter.gif");
+                ImageIcon BlockIcon = new ImageIcon("src/com/cyder/sys/pictures/BlockEnter.gif");
                 BlockIcon.getImage().flush();
                 blockLabel.setIcon(BlockIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ImageIcon BlockIcon = new ImageIcon("src/com/cyder/io/pictures/BlockExit.gif");
+                ImageIcon BlockIcon = new ImageIcon("src/com/cyder/sys/pictures/BlockExit.gif");
                 BlockIcon.getImage().flush();
                 blockLabel.setIcon(BlockIcon);
             }
@@ -53,7 +53,7 @@ public class MinecraftWidget {
         blockLabel.setBounds(83, 46, 50, 45);
         minecraftFrame.getContentPane().add(blockLabel);
 
-        realmsLabel = new JLabel(new ImageIcon("src/com/cyder/io/pictures/Realms.png"));
+        realmsLabel = new JLabel(new ImageIcon("src/com/cyder/sys/pictures/Realms.png"));
 
         realmsLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -62,14 +62,14 @@ public class MinecraftWidget {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ImageIcon RealmsIcon = new ImageIcon("src/com/cyder/io/pictures/RealmsEnter.gif");
+                ImageIcon RealmsIcon = new ImageIcon("src/com/cyder/sys/pictures/RealmsEnter.gif");
                 RealmsIcon.getImage().flush();
                 realmsLabel.setIcon(RealmsIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ImageIcon RealmsIcon = new ImageIcon("src/com/cyder/io/pictures/RealmsExit.gif");
+                ImageIcon RealmsIcon = new ImageIcon("src/com/cyder/sys/pictures/RealmsExit.gif");
                 RealmsIcon.getImage().flush();
                 realmsLabel.setIcon(RealmsIcon);
             }
@@ -79,7 +79,7 @@ public class MinecraftWidget {
 
         minecraftFrame.getContentPane().add(realmsLabel);
 
-        chestLabel = new JLabel(new ImageIcon("src/com/cyder/io/pictures/Chest.png"));
+        chestLabel = new JLabel(new ImageIcon("src/com/cyder/sys/pictures/Chest.png"));
 
         chestLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -89,14 +89,14 @@ public class MinecraftWidget {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ImageIcon ChestIcon = new ImageIcon("src/com/cyder/io/pictures/ChestEnter.gif");
+                ImageIcon ChestIcon = new ImageIcon("src/com/cyder/sys/pictures/ChestEnter.gif");
                 ChestIcon.getImage().flush();
                 chestLabel.setIcon(ChestIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ImageIcon ChestIcon = new ImageIcon("src/com/cyder/io/pictures/ChestExit.gif");
+                ImageIcon ChestIcon = new ImageIcon("src/com/cyder/sys/pictures/ChestExit.gif");
                 ChestIcon.getImage().flush();
                 chestLabel.setIcon(ChestIcon);
             }
@@ -106,7 +106,7 @@ public class MinecraftWidget {
 
         minecraftFrame.getContentPane().add(chestLabel);
 
-        hamLabel = new JLabel(new ImageIcon("src/com/cyder/io/pictures/Hamburger.png"));
+        hamLabel = new JLabel(new ImageIcon("src/com/cyder/sys/pictures/Hamburger.png"));
 
         hamLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -116,14 +116,14 @@ public class MinecraftWidget {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ImageIcon HamIcon = new ImageIcon("src/com/cyder/io/pictures/HamburgerEnter.gif");
+                ImageIcon HamIcon = new ImageIcon("src/com/cyder/sys/pictures/HamburgerEnter.gif");
                 HamIcon.getImage().flush();
                 hamLabel.setIcon(HamIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ImageIcon HamIcon = new ImageIcon("src/com/cyder/io/pictures/HamburgerExit.gif");
+                ImageIcon HamIcon = new ImageIcon("src/com/cyder/sys/pictures/HamburgerExit.gif");
                 HamIcon.getImage().flush();
                 hamLabel.setIcon(HamIcon);
             }
@@ -139,6 +139,6 @@ public class MinecraftWidget {
 
         minecraftFrame.setLocation((int) (size.getWidth() / 2 - (1263 / 2)), (int) size.getHeight() - 240);
 
-        minecraftFrame.setIconImage(new ImageIcon("src/com/cyder/io/pictures/Block.png").getImage());
+        minecraftFrame.setIconImage(new ImageIcon("src/com/cyder/sys/pictures/Block.png").getImage());
     }
 }

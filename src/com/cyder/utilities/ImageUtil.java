@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
@@ -151,5 +152,100 @@ public class ImageUtil {
         graphics.fillRect ( 0, 0, x, y);
 
         return bi;
+    }
+
+    public static BufferedImage resizeImage(int x, int y, File UneditedImage) {
+        BufferedImage ReturnImage = null;
+
+        try {
+            File CurrentConsole = UneditedImage;
+            Image ConsoleImage = ImageIO.read(CurrentConsole);
+            Image TransferImage = ConsoleImage.getScaledInstance(x, y, Image.SCALE_SMOOTH);
+            ReturnImage = new BufferedImage(TransferImage.getWidth(null), TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D bGr = ReturnImage.createGraphics();
+
+            bGr.drawImage(TransferImage, 0, 0, null);
+            bGr.dispose();
+            return ReturnImage;
+        }
+
+        catch (Exception e) {
+            GeneralUtil.handle(e);
+        }
+
+        return ReturnImage;
+    }
+
+    public BufferedImage getBi(File imageFile) {
+        try {
+            return ImageIO.read(imageFile);
+        }
+
+        catch (Exception e) {
+            GeneralUtil.handle(e);
+        }
+
+        return null;
+    }
+
+    public static BufferedImage getBi(String filename) {
+        try {
+            return ImageIO.read(new File(filename));
+        }
+
+        catch (Exception e) {
+            GeneralUtil.handle(e);
+        }
+
+        return null;
+    }
+
+    //Used for barrel roll and flip screen hotkeys, credit: MadProgrammer from StackOverflow
+    public static BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
+        double rads = Math.toRadians(angle);
+
+        double sin = Math.abs(Math.sin(rads));
+        double cos = Math.abs(Math.cos(rads));
+
+        int w = img.getWidth();
+        int h = img.getHeight();
+
+        int newWidth = (int) Math.floor(w * cos + h * sin);
+        int newHeight = (int) Math.floor(h * cos + w * sin);
+
+        BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = rotated.createGraphics();
+        AffineTransform at = new AffineTransform();
+        at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+
+        at.rotate(rads, w / 2, h / 2);
+        g2d.setTransform(at);
+        g2d.drawImage(img, 0, 0, null);
+        g2d.dispose();
+
+        return rotated;
+    }
+
+    public static int xOffsetForCenterJLabel(int compWidth, String title) {
+        return (int) Math.floor(5 + (compWidth / 2.0)) - (((int) Math.ceil(14 * title.length())) / 2);
+    }
+
+
+
+    static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
+        BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, img_width, img_height, null);
+        g.dispose();
+
+        return resizedImage;
+    }
+
+    static double getAspectRatio(BufferedImage im) {
+        return ((double) im.getWidth() / (double) im.getHeight());
+    }
+
+    public int getScreenResolution() {
+        return Toolkit.getDefaultToolkit().getScreenResolution();
     }
 }

@@ -30,7 +30,7 @@ public class YouTubeThumbnail {
         if (yttnFrame != null)
             yttnFrame.closeAnimation();
 
-        yttnFrame = new CyderFrame(600,250,new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        yttnFrame = new CyderFrame(600,250,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         yttnFrame.setTitle("YouTube Thumbnail");
 
         JLabel VideoID = new JLabel("Enter a valid YouTube video ID");

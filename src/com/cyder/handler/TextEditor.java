@@ -26,7 +26,7 @@ public class TextEditor {
         if (noteEditorFrame != null)
             noteEditorFrame.closeAnimation();
 
-        noteEditorFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/io/pictures/DebugBackground.png"));
+        noteEditorFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
 
         noteEditField = new JTextField(20);
