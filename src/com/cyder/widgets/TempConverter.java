@@ -1,5 +1,7 @@
 package com.cyder.widgets;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
@@ -30,12 +32,12 @@ public class TempConverter {
         temperatureFrame.setTitle("Temperature Converter");
 
         JLabel ValueLabel = new JLabel("Measurement: ");
-        ValueLabel.setFont(tempGeneralUtil.weatherFontSmall);
+        ValueLabel.setFont(CyderFonts.weatherFontSmall);
         startingValue = new JTextField(20);
-        startingValue.setBorder(new LineBorder(tempGeneralUtil.navy,5,false));
-        startingValue.setForeground(tempGeneralUtil.navy);
-        startingValue.setSelectionColor(tempGeneralUtil.selectionColor);
-        startingValue.setFont(tempGeneralUtil.weatherFontSmall);
+        startingValue.setBorder(new LineBorder(CyderColors.navy,5,false));
+        startingValue.setForeground(CyderColors.navy);
+        startingValue.setSelectionColor(CyderColors.selectionColor);
+        startingValue.setFont(CyderFonts.weatherFontSmall);
         ValueLabel.setBounds(60,40, 200, 30);
         temperatureFrame.getContentPane().add(ValueLabel);
         startingValue.setBounds(240,40, 300, 35);
@@ -44,9 +46,9 @@ public class TempConverter {
         oldFahrenheit =  new JRadioButton("Fahrenheit");
         oldCelsius =  new JRadioButton("Celsius");
         oldKelvin = new JRadioButton("Kelvin");
-        oldFahrenheit.setFont(tempGeneralUtil.weatherFontBig);
-        oldCelsius.setFont(tempGeneralUtil.weatherFontBig);
-        oldKelvin.setFont(tempGeneralUtil.weatherFontBig);
+        oldFahrenheit.setFont(CyderFonts.weatherFontBig);
+        oldCelsius.setFont(CyderFonts.weatherFontBig);
+        oldKelvin.setFont(CyderFonts.weatherFontBig);
         radioCurrentValueGroup = new ButtonGroup();
         radioCurrentValueGroup.add(oldFahrenheit);
         radioCurrentValueGroup.add(oldCelsius);
@@ -65,16 +67,16 @@ public class TempConverter {
         temperatureFrame.getContentPane().add(oldKelvin);
 
         JLabel NewValue = new JLabel("-2-");
-        NewValue.setFont(tempGeneralUtil.weatherFontBig.deriveFont(60f));
+        NewValue.setFont(CyderFonts.weatherFontBig.deriveFont(60f));
         NewValue.setBounds(260,150,150,60);
         temperatureFrame.getContentPane().add(NewValue);
 
         newFahrenheit =  new JRadioButton("Fahrenheit");
         newCelsius =  new JRadioButton("Celsius");
         newKelvin = new JRadioButton("Kelvin");
-        newFahrenheit.setFont(tempGeneralUtil.weatherFontBig);
-        newCelsius.setFont(tempGeneralUtil.weatherFontBig);
-        newKelvin.setFont(tempGeneralUtil.weatherFontBig);
+        newFahrenheit.setFont(CyderFonts.weatherFontBig);
+        newCelsius.setFont(CyderFonts.weatherFontBig);
+        newKelvin.setFont(CyderFonts.weatherFontBig);
         radioNewValueGroup = new ButtonGroup();
         radioNewValueGroup.add(newFahrenheit);
         radioNewValueGroup.add(newCelsius);
@@ -93,7 +95,7 @@ public class TempConverter {
         temperatureFrame.getContentPane().add(newKelvin);
 
         CyderButton calculate = new CyderButton("Calculate");
-        calculate.setBorder(new LineBorder(tempGeneralUtil.navy,5,false));
+        calculate.setBorder(new LineBorder(CyderColors.navy,5,false));
 
         calculate.addActionListener(e -> {
             try {
@@ -230,20 +232,20 @@ public class TempConverter {
         });
 
         CyderButton resetValues = new CyderButton("Reset Values");
-        resetValues.setBorder(new LineBorder(tempGeneralUtil.navy,5,false));
-        resetValues.setColors(tempGeneralUtil.regularRed);
-        calculate.setColors(tempGeneralUtil.regularRed);
+        resetValues.setBorder(new LineBorder(CyderColors.navy,5,false));
+        resetValues.setColors(CyderColors.regularRed);
+        calculate.setColors(CyderColors.regularRed);
         resetValues.addActionListener(e -> {
             startingValue.setText("");
             radioCurrentValueGroup.clearSelection();
             radioNewValueGroup.clearSelection();
         });
 
-        calculate.setBackground(tempGeneralUtil.regularRed);
-        calculate.setFont(tempGeneralUtil.weatherFontSmall);
+        calculate.setBackground(CyderColors.regularRed);
+        calculate.setFont(CyderFonts.weatherFontSmall);
         resetValues.setFocusPainted(false);
-        resetValues.setBackground(tempGeneralUtil.regularRed);
-        resetValues.setFont(tempGeneralUtil.weatherFontSmall);
+        resetValues.setBackground(CyderColors.regularRed);
+        resetValues.setFont(CyderFonts.weatherFontSmall);
 
         calculate.setBounds(140,260,150,40);
         resetValues.setBounds(300,260,150,40);

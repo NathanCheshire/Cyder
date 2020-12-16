@@ -1,5 +1,7 @@
 package com.cyder.ui;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.TimeUtil;
 
@@ -45,8 +47,8 @@ public class SpecialDay {
         consoleNotification.setArrow(arrowDir);
 
         JLabel text = new JLabel(htmltext);
-        text.setFont(mainGeneralUtil.weatherFontSmall);
-        text.setForeground(mainGeneralUtil.navy);
+        text.setFont(CyderFonts.weatherFontSmall);
+        text.setForeground(CyderColors.navy);
         text.setBounds(14,10,w * 2,h);
         consoleNotification.add(text);
         consoleNotification.setBounds(parent.getWidth() - (w + 30),30,w * 2,h * 2);

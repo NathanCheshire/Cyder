@@ -1,5 +1,7 @@
 package com.cyder.handler;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.DragLabel;
 import com.cyder.utilities.AnimationUtil;
@@ -65,14 +67,14 @@ public class PhotoViewer {
         ImageIcon size = checkImage(ImageName);
         pictureLabel = new JLabel(size);
         pictureFrame.setContentPane(pictureLabel);
-        pictureLabel.setBorder(new LineBorder(imageGeneralUtil.navy,8,false));
+        pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
 
         dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
         pictureLabel.add(dl);
 
         rename = new JLabel("Rename");
-        rename.setForeground(imageGeneralUtil.vanila);
-        rename.setFont(imageGeneralUtil.weatherFontSmall);
+        rename.setForeground(CyderColors.vanila);
+        rename.setFont(CyderFonts.weatherFontSmall);
         rename.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -89,22 +91,22 @@ public class PhotoViewer {
                 pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
 
                 JTextField renameField = new JTextField(20);
-                renameField.setFont(imageGeneralUtil.weatherFontSmall);
-                renameField.setForeground(imageGeneralUtil.navy);
-                renameField.setBorder(new LineBorder(imageGeneralUtil.navy,5,false));
+                renameField.setFont(CyderFonts.weatherFontSmall);
+                renameField.setForeground(CyderColors.navy);
+                renameField.setBorder(new LineBorder(CyderColors.navy,5,false));
 
                 CyderButton attemptRen = new CyderButton("Rename");
-                attemptRen.setBackground(imageGeneralUtil.regularRed);
-                attemptRen.setColors(imageGeneralUtil.regularRed);
+                attemptRen.setBackground(CyderColors.regularRed);
+                attemptRen.setColors(CyderColors.regularRed);
                 renameField.addActionListener(e1 -> attemptRen.doClick());
 
                 JPanel a = new JPanel();
                 a.add(renameField, SwingConstants.CENTER);
                 pan.add(a);
 
-                attemptRen.setBorder(new LineBorder(imageGeneralUtil.navy,5,false));
-                attemptRen.setFont(imageGeneralUtil.weatherFontSmall);
-                attemptRen.setForeground(imageGeneralUtil.navy);
+                attemptRen.setBorder(new LineBorder(CyderColors.navy,5,false));
+                attemptRen.setFont(CyderFonts.weatherFontSmall);
+                attemptRen.setForeground(CyderColors.navy);
                 attemptRen.addActionListener(e12 -> {
                     String name = renameField.getText();
 
@@ -139,12 +141,12 @@ public class PhotoViewer {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                rename.setForeground(imageGeneralUtil.regularRed);
+                rename.setForeground(CyderColors.regularRed);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                rename.setForeground(imageGeneralUtil.vanila);
+                rename.setForeground(CyderColors.vanila);
             }
         });
 
@@ -242,14 +244,14 @@ public class PhotoViewer {
             ImageIcon size = checkImage(validImages.get(currentIndex));
             pictureLabel = new JLabel(size);
             pictureFrame.setContentPane(pictureLabel);
-            pictureLabel.setBorder(new LineBorder(imageGeneralUtil.navy,8,false));
+            pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
 
             dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
             pictureLabel.add(dl);
 
             rename = new JLabel("Rename");
-            rename.setForeground(imageGeneralUtil.vanila);
-            rename.setFont(imageGeneralUtil.weatherFontSmall);
+            rename.setForeground(CyderColors.vanila);
+            rename.setFont(CyderFonts.weatherFontSmall);
             rename.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -266,22 +268,22 @@ public class PhotoViewer {
                     pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
 
                     JTextField renameField = new JTextField(20);
-                    renameField.setFont(imageGeneralUtil.weatherFontSmall);
-                    renameField.setForeground(imageGeneralUtil.navy);
-                    renameField.setBorder(new LineBorder(imageGeneralUtil.navy,5,false));
+                    renameField.setFont(CyderFonts.weatherFontSmall);
+                    renameField.setForeground(CyderColors.navy);
+                    renameField.setBorder(new LineBorder(CyderColors.navy,5,false));
 
                     CyderButton attemptRen = new CyderButton("Rename");
-                    attemptRen.setBackground(imageGeneralUtil.regularRed);
-                    attemptRen.setColors(imageGeneralUtil.regularRed);
+                    attemptRen.setBackground(CyderColors.regularRed);
+                    attemptRen.setColors(CyderColors.regularRed);
                     renameField.addActionListener(e1 -> attemptRen.doClick());
 
                     JPanel a = new JPanel();
                     a.add(renameField, SwingConstants.CENTER);
                     pan.add(a);
 
-                    attemptRen.setBorder(new LineBorder(imageGeneralUtil.navy,5,false));
-                    attemptRen.setFont(imageGeneralUtil.weatherFontSmall);
-                    attemptRen.setForeground(imageGeneralUtil.navy);
+                    attemptRen.setBorder(new LineBorder(CyderColors.navy,5,false));
+                    attemptRen.setFont(CyderFonts.weatherFontSmall);
+                    attemptRen.setForeground(CyderColors.navy);
                     attemptRen.addActionListener(e12 -> {
                         String name = renameField.getText();
 
@@ -316,12 +318,12 @@ public class PhotoViewer {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    rename.setForeground(imageGeneralUtil.regularRed);
+                    rename.setForeground(CyderColors.regularRed);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    rename.setForeground(imageGeneralUtil.vanila);
+                    rename.setForeground(CyderColors.vanila);
                 }
             });
 
@@ -396,14 +398,14 @@ public class PhotoViewer {
             ImageIcon size = checkImage(validImages.get(currentIndex));
             pictureLabel = new JLabel(size);
             pictureFrame.setContentPane(pictureLabel);
-            pictureLabel.setBorder(new LineBorder(imageGeneralUtil.navy,8,false));
+            pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
 
             dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
             pictureLabel.add(dl);
 
             rename = new JLabel("Rename");
-            rename.setForeground(imageGeneralUtil.vanila);
-            rename.setFont(imageGeneralUtil.weatherFontSmall);
+            rename.setForeground(CyderColors.vanila);
+            rename.setFont(CyderFonts.weatherFontSmall);
             rename.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -420,22 +422,22 @@ public class PhotoViewer {
                     pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
 
                     JTextField renameField = new JTextField(20);
-                    renameField.setFont(imageGeneralUtil.weatherFontSmall);
-                    renameField.setForeground(imageGeneralUtil.navy);
-                    renameField.setBorder(new LineBorder(imageGeneralUtil.navy,5,false));
+                    renameField.setFont(CyderFonts.weatherFontSmall);
+                    renameField.setForeground(CyderColors.navy);
+                    renameField.setBorder(new LineBorder(CyderColors.navy,5,false));
 
                     CyderButton attemptRen = new CyderButton("Rename");
-                    attemptRen.setBackground(imageGeneralUtil.regularRed);
-                    attemptRen.setColors(imageGeneralUtil.regularRed);
+                    attemptRen.setBackground(CyderColors.regularRed);
+                    attemptRen.setColors(CyderColors.regularRed);
                     renameField.addActionListener(e1 -> attemptRen.doClick());
 
                     JPanel a = new JPanel();
                     a.add(renameField, SwingConstants.CENTER);
                     pan.add(a);
 
-                    attemptRen.setBorder(new LineBorder(imageGeneralUtil.navy,5,false));
-                    attemptRen.setFont(imageGeneralUtil.weatherFontSmall);
-                    attemptRen.setForeground(imageGeneralUtil.navy);
+                    attemptRen.setBorder(new LineBorder(CyderColors.navy,5,false));
+                    attemptRen.setFont(CyderFonts.weatherFontSmall);
+                    attemptRen.setForeground(CyderColors.navy);
                     attemptRen.addActionListener(e12 -> {
                         String name = renameField.getText();
 
@@ -470,12 +472,12 @@ public class PhotoViewer {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    rename.setForeground(imageGeneralUtil.regularRed);
+                    rename.setForeground(CyderColors.regularRed);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    rename.setForeground(imageGeneralUtil.vanila);
+                    rename.setForeground(CyderColors.vanila);
                 }
             });
 

@@ -14,72 +14,23 @@ import java.io.*;
 
 public class GeneralUtil {
 
-    //todo enums package
-
-    //static strings used for test cases
-    public static final String HERE = "here";
-
-    public static final String LENGTH_ZERO = "";
-    public static final String LENGTH_ONE = "0";
-    public static final String LENGTH_TWO = "01";
-    public static final String LENGTH_THREE = "012";
-    public static final String LENGTH_FOUR = "0123";
-    public static final String LENGTH_FIVE = "01234";
-    public static final String LENGTH_SIX = "102345";
-    public static final String LENGTH_SEVEN = "0123456";
-    public static final String LENGTH_EIGHT = "01234567";
-    public static final String LENGTH_NINE = "012345678";
-
-    public static final String QUICK_BROWN_FOX = "The quick brown fox jumps over the lazy dog";
-
-    public static final String SUPER_LONG = "pneumonoultramicroscopicsilicovolcanoconiosis," +
-                                             "pneumonoultramicroscopicsilicovolcanoconiosi," +
-                                             "pneumonoultramicroscopicsilicovolcanoconiosis!" +
-                                             "There, I said it!";
-    //integer bounds
-    public static final int INFINITY = Integer.MAX_VALUE;
-    public static final int NEG_INFINITY = Integer.MIN_VALUE;
-
-    //public fonts
-    public static Font weatherFontSmall = new Font("Segoe UI Black", Font.BOLD, 20);
-    public static Font weatherFontBig = new Font("Segoe UI Black", Font.BOLD, 30);
-    public static Font loginFont = new Font("Comic Sans MS", Font.BOLD, 30);
-    public static Font defaultFontSmall = new Font("tahoma", Font.BOLD, 15);
-    public static Font defaultFont = new Font("tahoma", Font.BOLD, 30);
-    public static Font tahoma = new Font("tahoma", Font.BOLD, 20);
-
-    //public colors
-    public static Color selectionColor = new Color(204,153,0);
-    public static Color regularGreen = new Color(60, 167, 92);
-    public static Color regularBlue = new Color(38,168,255);
-    public static Color calculatorOrange = new Color(255,140,0);
-    public static Color regularRed = new Color(223,85,83);
-    public static Color intellijPink = new Color(236,64,122);
-    public static Color consoleColor = new Color(39, 40, 34);
-    public static Color tooltipBorderColor = new Color(26, 32, 51);
-    public static Color tooltipForegroundColor = new Color(85,85,255);
-    public static Color tooltipBackgroundColor = new Color(0,0,0);
-    public static Color vanila = new Color(252, 251, 227);
-    public static Color defaultColor = new Color(252, 251, 227);
-    public static Color tttblue = new Color(71, 81, 117);
-    public static Color navy = new Color(26, 32, 51);
-
     //uservars
-
     private static String userUUID;
     private static String username;
     private static Color usercolor;
     private static Font userfont;
     private static String os;
-    private static int currentBackgroundIndex = 0;
+    private static int currentBackgroundIndex;
     private static File[] validBackgroundPaths;
     private boolean consoleClock;
 
-    //console orientation var
-    public static int CYDER_UP = 0;
-    public static int CYDER_RIGHT = 1;
-    public static int CYDER_DOWN = 2;
-    public static int CYDER_LEFT = 3;
+    //todo enums for stuff like this and make all consistent with directions for same nums, well
+    // won't need nums for enum
+    public static final int CONSOLE_UP = 0;
+    public static final int CONSOLE_RIGHT = 1;
+    public static final int CONSOLE_DOWN = 2;
+    public static final int CONSOLE_LEFT = 3;
+
     private int consoleDirection;
     //put these in consoleframe
     public BufferedImage getRotatedImage(String name) {

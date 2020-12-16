@@ -1,5 +1,7 @@
 package com.cyder.utilities;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -15,12 +17,7 @@ import java.util.*;
 
 public class ImageUtil {
 
-    private GeneralUtil giu;
     private CyderFrame pixelFrame;
-
-    public ImageUtil() {
-        giu = new GeneralUtil();
-    }
 
     public static BufferedImage pixelate(BufferedImage imageToPixelate, int pixelSize) {
         BufferedImage pixelateImage = new BufferedImage(
@@ -106,10 +103,10 @@ public class ImageUtil {
 
             CyderButton approveImage = new CyderButton("Approve Image");
             approveImage.setFocusPainted(false);
-            approveImage.setBackground(giu.regularRed);
-            approveImage.setColors(giu.regularRed);
-            approveImage.setBorder(new LineBorder(giu.navy,3,false));
-            approveImage.setFont(giu.weatherFontSmall);
+            approveImage.setBackground(CyderColors.regularRed);
+            approveImage.setColors(CyderColors.regularRed);
+            approveImage.setBorder(new LineBorder(CyderColors.navy,3,false));
+            approveImage.setFont(CyderFonts.weatherFontSmall);
 
             approveImage.addActionListener(e -> {
                 try {
@@ -126,10 +123,10 @@ public class ImageUtil {
 
             CyderButton rejectImage = new CyderButton("Reject Image");
             rejectImage.setFocusPainted(false);
-            rejectImage.setBackground(giu.regularRed);
-            rejectImage.setBorder(new LineBorder(giu.navy,3,false));
-            rejectImage.setColors(giu.regularRed);
-            rejectImage.setFont(giu.weatherFontSmall);
+            rejectImage.setBackground(CyderColors.regularRed);
+            rejectImage.setBorder(new LineBorder(CyderColors.navy,3,false));
+            rejectImage.setColors(CyderColors.regularRed);
+            rejectImage.setFont(CyderFonts.weatherFontSmall);
             rejectImage.addActionListener(e -> pixelFrame.closeAnimation());
             rejectImage.setSize(pixelFrame.getX(), 20);
             rejectImage.setBounds(20, retImage.getHeight() - 60,retImage.getWidth() - 40, 40);

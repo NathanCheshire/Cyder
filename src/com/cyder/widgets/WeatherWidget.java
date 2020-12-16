@@ -1,5 +1,7 @@
 package com.cyder.widgets;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -87,9 +89,9 @@ public class WeatherWidget {
 
         currentTimeLabel = new JLabel();
 
-        currentTimeLabel.setForeground(weatherGeneralUtil.vanila);
+        currentTimeLabel.setForeground(CyderColors.vanila);
 
-        currentTimeLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        currentTimeLabel.setFont(CyderFonts.weatherFontSmall);
 
         currentTimeLabel.setBounds(16, 50, 600, 30);
 
@@ -99,9 +101,9 @@ public class WeatherWidget {
 
         locationLabel = new JLabel();
 
-        locationLabel.setForeground(weatherGeneralUtil.vanila);
+        locationLabel.setForeground(CyderColors.vanila);
 
-        locationLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        locationLabel.setFont(CyderFonts.weatherFontSmall);
 
         locationLabel.setBounds(16, 85, 480, 30);
 
@@ -113,15 +115,15 @@ public class WeatherWidget {
 
         currentWeatherIconLabel.setBounds(16, 125, 100, 100);
 
-        currentWeatherIconLabel.setBorder(new LineBorder(weatherGeneralUtil.navy,5,false));
+        currentWeatherIconLabel.setBorder(new LineBorder(CyderColors.navy,5,false));
 
         weatherFrame.getContentPane().add(currentWeatherIconLabel);
 
         currentWeatherLabel = new JLabel();
 
-        currentWeatherLabel.setForeground(weatherGeneralUtil.vanila);
+        currentWeatherLabel.setForeground(CyderColors.vanila);
 
-        currentWeatherLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        currentWeatherLabel.setFont(CyderFonts.weatherFontSmall);
 
         currentWeatherLabel.setBounds(16, 255, 400, 30);
 
@@ -131,9 +133,9 @@ public class WeatherWidget {
 
         changeLocationLabel = new JLabel("Change Location");
 
-        changeLocationLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        changeLocationLabel.setFont(CyderFonts.weatherFontSmall);
 
-        changeLocationLabel.setForeground(weatherGeneralUtil.vanila);
+        changeLocationLabel.setForeground(CyderColors.vanila);
 
         changeLocationLabel.setBounds(165, 220,200,30);
 
@@ -158,9 +160,9 @@ public class WeatherWidget {
                                                     "Example: \"New Orleans,LA,US\"<br/>If you don't have a state, don't worry about" +
                                                     " it, I'll figure it out.</html>");
 
-                explenation.setFont(weatherGeneralUtil.weatherFontSmall);
+                explenation.setFont(CyderFonts.weatherFontSmall);
 
-                explenation.setForeground(weatherGeneralUtil.navy);
+                explenation.setForeground(CyderColors.navy);
 
                 JPanel a = new JPanel();
 
@@ -170,15 +172,15 @@ public class WeatherWidget {
 
                 JTextField changeLocField = new JTextField(20);
 
-                changeLocField.setBorder(new LineBorder(weatherGeneralUtil.navy,5,false));
+                changeLocField.setBorder(new LineBorder(CyderColors.navy,5,false));
 
-                changeLocField.setForeground(weatherGeneralUtil.navy);
+                changeLocField.setForeground(CyderColors.navy);
 
-                changeLocField.setFont(weatherGeneralUtil.weatherFontSmall);
+                changeLocField.setFont(CyderFonts.weatherFontSmall);
 
                 CyderButton changeLoc = new CyderButton("Change Location");
 
-                changeLoc.setBorder(new LineBorder(weatherGeneralUtil.navy,5,false));
+                changeLoc.setBorder(new LineBorder(CyderColors.navy,5,false));
 
                 changeLocField.addActionListener(e1 -> changeLoc.doClick());
 
@@ -188,13 +190,13 @@ public class WeatherWidget {
 
                 parent.add(b);
 
-                changeLoc.setFont(weatherGeneralUtil.weatherFontSmall);
+                changeLoc.setFont(CyderFonts.weatherFontSmall);
 
-                changeLoc.setForeground(weatherGeneralUtil.navy);
+                changeLoc.setForeground(CyderColors.navy);
 
-                changeLoc.setColors(weatherGeneralUtil.regularRed);
+                changeLoc.setColors(CyderColors.regularRed);
 
-                changeLoc.setBackground(weatherGeneralUtil.regularRed);
+                changeLoc.setBackground(CyderColors.regularRed);
 
                 changeLoc.addActionListener(e12 -> {
                     try {
@@ -229,12 +231,12 @@ public class WeatherWidget {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                changeLocationLabel.setForeground(weatherGeneralUtil.navy);
+                changeLocationLabel.setForeground(CyderColors.navy);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                changeLocationLabel.setForeground(weatherGeneralUtil.vanila);
+                changeLocationLabel.setForeground(CyderColors.vanila);
             }
         });
 
@@ -242,9 +244,9 @@ public class WeatherWidget {
 
         temperatureLabel = new JLabel();
 
-        temperatureLabel.setForeground(weatherGeneralUtil.vanila);
+        temperatureLabel.setForeground(CyderColors.vanila);
 
-        temperatureLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        temperatureLabel.setFont(CyderFonts.weatherFontSmall);
 
         temperatureLabel.setBounds(16, 300, 300, 30);
 
@@ -254,9 +256,9 @@ public class WeatherWidget {
 
         feelsLikeLabel = new JLabel();
 
-        feelsLikeLabel.setForeground(weatherGeneralUtil.vanila);
+        feelsLikeLabel.setForeground(CyderColors.vanila);
 
-        feelsLikeLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        feelsLikeLabel.setFont(CyderFonts.weatherFontSmall);
 
         feelsLikeLabel.setBounds(16, 345, 200, 30);
 
@@ -266,9 +268,9 @@ public class WeatherWidget {
 
         windSpeedLabel = new JLabel();
 
-        windSpeedLabel.setForeground(weatherGeneralUtil.vanila);
+        windSpeedLabel.setForeground(CyderColors.vanila);
 
-        windSpeedLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        windSpeedLabel.setFont(CyderFonts.weatherFontSmall);
 
         windSpeedLabel.setBounds(16, 390, 300, 30);
 
@@ -278,9 +280,9 @@ public class WeatherWidget {
 
         windDirectionLabel = new JLabel();
 
-        windDirectionLabel.setForeground(weatherGeneralUtil.vanila);
+        windDirectionLabel.setForeground(CyderColors.vanila);
 
-        windDirectionLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        windDirectionLabel.setFont(CyderFonts.weatherFontSmall);
 
         windDirectionLabel.setBounds(16, 430, 400, 30);
 
@@ -290,9 +292,9 @@ public class WeatherWidget {
 
         humidityLabel = new JLabel();
 
-        humidityLabel.setForeground(weatherGeneralUtil.vanila);
+        humidityLabel.setForeground(CyderColors.vanila);
 
-        humidityLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        humidityLabel.setFont(CyderFonts.weatherFontSmall);
 
         humidityLabel.setBounds(16, 470, 300, 30);
 
@@ -302,9 +304,9 @@ public class WeatherWidget {
 
         pressureLabel = new JLabel();
 
-        pressureLabel.setForeground(weatherGeneralUtil.vanila);
+        pressureLabel.setForeground(CyderColors.vanila);
 
-        pressureLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        pressureLabel.setFont(CyderFonts.weatherFontSmall);
 
         pressureLabel.setBounds(16, 510, 300, 30);
 
@@ -314,9 +316,9 @@ public class WeatherWidget {
 
         timezoneLabel = new JLabel();
 
-        timezoneLabel.setForeground(weatherGeneralUtil.vanila);
+        timezoneLabel.setForeground(CyderColors.vanila);
 
-        timezoneLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        timezoneLabel.setFont(CyderFonts.weatherFontSmall);
 
         timezoneLabel.setBounds(16, 550, 400, 30);
 
@@ -326,9 +328,9 @@ public class WeatherWidget {
 
         sunriseLabel = new JLabel();
 
-        sunriseLabel.setForeground(weatherGeneralUtil.vanila);
+        sunriseLabel.setForeground(CyderColors.vanila);
 
-        sunriseLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        sunriseLabel.setFont(CyderFonts.weatherFontSmall);
 
         sunriseLabel.setBounds(150, 187, 125, 30);
 
@@ -338,9 +340,9 @@ public class WeatherWidget {
 
         sunsetLabel = new JLabel();
 
-        sunsetLabel.setForeground(weatherGeneralUtil.vanila);
+        sunsetLabel.setForeground(CyderColors.vanila);
 
-        sunsetLabel.setFont(weatherGeneralUtil.weatherFontSmall);
+        sunsetLabel.setFont(CyderFonts.weatherFontSmall);
 
         sunsetLabel.setBounds(275, 189, 120, 30);
 

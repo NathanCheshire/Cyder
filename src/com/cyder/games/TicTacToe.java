@@ -1,5 +1,7 @@
 package com.cyder.games;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.ui.CyderButton;
@@ -41,27 +43,27 @@ public class TicTacToe {
         tttFrame.setTitle("Tic Tac Toe");
 
         tttLabel = new JLabel();
-        tttLabel.setFont(tttGeneralUtil.weatherFontSmall);
-        tttLabel.setForeground(tttGeneralUtil.navy);
+        tttLabel.setFont(CyderFonts.weatherFontSmall);
+        tttLabel.setForeground(CyderColors.navy);
         tttLabel.setBounds(ImageUtil.xOffsetForCenterJLabel(400,"Tic Tac Toe"),30,
                 ImageUtil.xOffsetForCenterJLabel(400,tttFrame.getTitle()) * 2,30);
         tttFrame.getContentPane().add(tttLabel);
 
         ttt1 = new CyderButton("");
         ttt1.setPreferredSize(new Dimension(60, 60));
-        ttt1.setColors(tttGeneralUtil.vanila);
+        ttt1.setColors(CyderColors.vanila);
         ttt1.setFocusPainted(false);
-        ttt1.setBackground(tttGeneralUtil.vanila);
-        ttt1.setFont(tttGeneralUtil.weatherFontBig);
-        ttt1.setBorder(new LineBorder(tttGeneralUtil.navy,5,false));
+        ttt1.setBackground(CyderColors.vanila);
+        ttt1.setFont(CyderFonts.weatherFontBig);
+        ttt1.setBorder(new LineBorder(CyderColors.navy,5,false));
         ttt1.addActionListener(e -> {
             if (ttt1.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt1.setText("X");
 
-                    ttt1.setForeground(tttGeneralUtil.regularRed);
+                    ttt1.setForeground(CyderColors.regularRed);
 
-                    ttt1.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt1.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -73,9 +75,9 @@ public class TicTacToe {
                 else {
                     ttt1.setText("O");
 
-                    ttt1.setForeground(tttGeneralUtil.tttblue);
+                    ttt1.setForeground(CyderColors.tttblue);
 
-                    ttt1.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt1.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -90,20 +92,20 @@ public class TicTacToe {
         tttFrame.getContentPane().add(ttt1);
 
         ttt2 = new CyderButton("");
-        ttt2.setColors(tttGeneralUtil.vanila);
+        ttt2.setColors(CyderColors.vanila);
         ttt2.setPreferredSize(new Dimension(60, 60));
         ttt2.setFocusPainted(false);
-        ttt2.setBackground(tttGeneralUtil.vanila);
-        ttt2.setFont(tttGeneralUtil.weatherFontBig);
-        ttt2.setBorder(new LineBorder(tttGeneralUtil.navy,5,false));
+        ttt2.setBackground(CyderColors.vanila);
+        ttt2.setFont(CyderFonts.weatherFontBig);
+        ttt2.setBorder(new LineBorder(CyderColors.navy,5,false));
         ttt2.addActionListener(e -> {
             if (ttt2.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt2.setText("X");
 
-                    ttt2.setForeground(tttGeneralUtil.regularRed);
+                    ttt2.setForeground(CyderColors.regularRed);
 
-                    ttt2.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt2.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -115,9 +117,9 @@ public class TicTacToe {
                 else {
                     ttt2.setText("O");
 
-                    ttt2.setForeground(tttGeneralUtil.tttblue);
+                    ttt2.setForeground(CyderColors.tttblue);
 
-                    ttt2.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt2.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -133,26 +135,26 @@ public class TicTacToe {
 
         ttt3 = new CyderButton("");
 
-        ttt3.setColors(tttGeneralUtil.vanila);
+        ttt3.setColors(CyderColors.vanila);
 
         ttt3.setPreferredSize(new Dimension(60, 60));
 
         ttt3.setFocusPainted(false);
 
-        ttt3.setBackground(tttGeneralUtil.vanila);
+        ttt3.setBackground(CyderColors.vanila);
 
-        ttt3.setFont(tttGeneralUtil.weatherFontBig);
+        ttt3.setFont(CyderFonts.weatherFontBig);
 
-        ttt3.setBorder(new LineBorder(tttGeneralUtil.navy,5,false));
+        ttt3.setBorder(new LineBorder(CyderColors.navy,5,false));
 
         ttt3.addActionListener(e -> {
             if (ttt3.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt3.setText("X");
 
-                    ttt3.setForeground(tttGeneralUtil.regularRed);
+                    ttt3.setForeground(CyderColors.regularRed);
 
-                    ttt3.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt3.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -164,9 +166,9 @@ public class TicTacToe {
                 else {
                     ttt3.setText("O");
 
-                    ttt3.setForeground(tttGeneralUtil.tttblue);
+                    ttt3.setForeground(CyderColors.tttblue);
 
-                    ttt3.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt3.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -183,18 +185,18 @@ public class TicTacToe {
         ttt4 = new CyderButton("");
         ttt4.setPreferredSize(new Dimension(60, 60));
         ttt4.setFocusPainted(false);
-        ttt4.setColors(tttGeneralUtil.vanila);
-        ttt4.setBackground(tttGeneralUtil.vanila);
-        ttt4.setBorder(new LineBorder(tttGeneralUtil.navy,5,false));
-        ttt4.setFont(tttGeneralUtil.weatherFontBig);
+        ttt4.setColors(CyderColors.vanila);
+        ttt4.setBackground(CyderColors.vanila);
+        ttt4.setBorder(new LineBorder(CyderColors.navy,5,false));
+        ttt4.setFont(CyderFonts.weatherFontBig);
         ttt4.addActionListener(e -> {
             if (ttt4.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt4.setText("X");
 
-                    ttt4.setForeground(tttGeneralUtil.regularRed);
+                    ttt4.setForeground(CyderColors.regularRed);
 
-                    ttt4.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt4.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -206,9 +208,9 @@ public class TicTacToe {
                 else {
                     ttt4.setText("O");
 
-                    ttt4.setForeground(tttGeneralUtil.tttblue);
+                    ttt4.setForeground(CyderColors.tttblue);
 
-                    ttt4.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt4.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -223,20 +225,20 @@ public class TicTacToe {
         tttFrame.getContentPane().add(ttt4);
 
         ttt5 = new CyderButton("");
-        ttt5.setColors(tttGeneralUtil.vanila);
+        ttt5.setColors(CyderColors.vanila);
         ttt5.setPreferredSize(new Dimension(60, 60));
         ttt5.setFocusPainted(false);
-        ttt5.setBackground(tttGeneralUtil.vanila);
-        ttt5.setBorder(new LineBorder(tttGeneralUtil.navy,5,false));
-        ttt5.setFont(tttGeneralUtil.weatherFontBig);
+        ttt5.setBackground(CyderColors.vanila);
+        ttt5.setBorder(new LineBorder(CyderColors.navy,5,false));
+        ttt5.setFont(CyderFonts.weatherFontBig);
         ttt5.addActionListener(e -> {
             if (ttt5.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt5.setText("X");
 
-                    ttt5.setForeground(tttGeneralUtil.regularRed);
+                    ttt5.setForeground(CyderColors.regularRed);
 
-                    ttt5.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt5.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -248,9 +250,9 @@ public class TicTacToe {
                 else {
                     ttt5.setText("O");
 
-                    ttt5.setForeground(tttGeneralUtil.tttblue);
+                    ttt5.setForeground(CyderColors.tttblue);
 
-                    ttt5.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt5.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -267,18 +269,18 @@ public class TicTacToe {
         ttt6 = new CyderButton("");
         ttt6.setPreferredSize(new Dimension(60, 60));
         ttt6.setFocusPainted(false);
-        ttt6.setBackground(tttGeneralUtil.vanila);
-        ttt6.setColors(tttGeneralUtil.vanila);
-        ttt6.setBorder(new LineBorder(tttGeneralUtil.navy,5,false));
-        ttt6.setFont(tttGeneralUtil.weatherFontBig);
+        ttt6.setBackground(CyderColors.vanila);
+        ttt6.setColors(CyderColors.vanila);
+        ttt6.setBorder(new LineBorder(CyderColors.navy,5,false));
+        ttt6.setFont(CyderFonts.weatherFontBig);
         ttt6.addActionListener(e -> {
             if (ttt6.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt6.setText("X");
 
-                    ttt6.setForeground(tttGeneralUtil.regularRed);
+                    ttt6.setForeground(CyderColors.regularRed);
 
-                    ttt6.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt6.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -290,9 +292,9 @@ public class TicTacToe {
                 else {
                     ttt6.setText("O");
 
-                    ttt6.setForeground(tttGeneralUtil.tttblue);
+                    ttt6.setForeground(CyderColors.tttblue);
 
-                    ttt6.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt6.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -309,18 +311,18 @@ public class TicTacToe {
         ttt7 = new CyderButton("");
         ttt7.setPreferredSize(new Dimension(60, 60));
         ttt7.setFocusPainted(false);
-        ttt7.setColors(tttGeneralUtil.vanila);
-        ttt7.setBackground(tttGeneralUtil.vanila);
-        ttt7.setBorder(new LineBorder(tttGeneralUtil.navy,5,false));
-        ttt7.setFont(tttGeneralUtil.weatherFontBig);
+        ttt7.setColors(CyderColors.vanila);
+        ttt7.setBackground(CyderColors.vanila);
+        ttt7.setBorder(new LineBorder(CyderColors.navy,5,false));
+        ttt7.setFont(CyderFonts.weatherFontBig);
         ttt7.addActionListener(e -> {
             if (ttt7.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt7.setText("X");
 
-                    ttt7.setForeground(tttGeneralUtil.regularRed);
+                    ttt7.setForeground(CyderColors.regularRed);
 
-                    ttt7.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt7.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -332,9 +334,9 @@ public class TicTacToe {
                 else {
                     ttt7.setText("O");
 
-                    ttt7.setForeground(tttGeneralUtil.tttblue);
+                    ttt7.setForeground(CyderColors.tttblue);
 
-                    ttt7.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt7.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -351,18 +353,18 @@ public class TicTacToe {
         ttt8 = new CyderButton("");
         ttt8.setPreferredSize(new Dimension(60, 60));
         ttt8.setFocusPainted(false);
-        ttt8.setBackground(tttGeneralUtil.vanila);
-        ttt8.setColors(tttGeneralUtil.vanila);
-        ttt8.setFont(tttGeneralUtil.weatherFontBig);
-        ttt8.setBorder(new LineBorder(tttGeneralUtil.navy,5,false));
+        ttt8.setBackground(CyderColors.vanila);
+        ttt8.setColors(CyderColors.vanila);
+        ttt8.setFont(CyderFonts.weatherFontBig);
+        ttt8.setBorder(new LineBorder(CyderColors.navy,5,false));
         ttt8.addActionListener(e -> {
             if (ttt8.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt8.setText("X");
 
-                    ttt8.setForeground(tttGeneralUtil.regularRed);
+                    ttt8.setForeground(CyderColors.regularRed);
 
-                    ttt8.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt8.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -374,9 +376,9 @@ public class TicTacToe {
                 else {
                     ttt8.setText("O");
 
-                    ttt8.setForeground(tttGeneralUtil.tttblue);
+                    ttt8.setForeground(CyderColors.tttblue);
 
-                    ttt8.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt8.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -391,20 +393,20 @@ public class TicTacToe {
         tttFrame.getContentPane().add(ttt8);
 
         ttt9 = new CyderButton("");
-        ttt9.setColors(tttGeneralUtil.vanila);
+        ttt9.setColors(CyderColors.vanila);
         ttt9.setPreferredSize(new Dimension(60, 60));
         ttt9.setFocusPainted(false);
-        ttt9.setBackground(tttGeneralUtil.vanila);
-        ttt9.setBorder(new LineBorder(tttGeneralUtil.navy,5,false));
-        ttt9.setFont(tttGeneralUtil.weatherFontBig);
+        ttt9.setBackground(CyderColors.vanila);
+        ttt9.setBorder(new LineBorder(CyderColors.navy,5,false));
+        ttt9.setFont(CyderFonts.weatherFontBig);
         ttt9.addActionListener(e -> {
             if (ttt9.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt9.setText("X");
 
-                    ttt9.setForeground(tttGeneralUtil.regularRed);
+                    ttt9.setForeground(CyderColors.regularRed);
 
-                    ttt9.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt9.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -416,9 +418,9 @@ public class TicTacToe {
                 else {
                     ttt9.setText("O");
 
-                    ttt9.setForeground(tttGeneralUtil.tttblue);
+                    ttt9.setForeground(CyderColors.tttblue);
 
-                    ttt9.setFont(tttGeneralUtil.weatherFontBig);
+                    ttt9.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -434,10 +436,10 @@ public class TicTacToe {
 
         tttReset = new CyderButton("Reset");
         tttReset.setFocusPainted(false);
-        tttReset.setBackground(tttGeneralUtil.regularRed);
-        tttReset.setFont(tttGeneralUtil.weatherFontBig);
-        tttReset.setColors(tttGeneralUtil.regularRed);
-        tttReset.setBorder(new LineBorder(tttGeneralUtil.navy,5,false));
+        tttReset.setBackground(CyderColors.regularRed);
+        tttReset.setFont(CyderFonts.weatherFontBig);
+        tttReset.setColors(CyderColors.regularRed);
+        tttReset.setBorder(new LineBorder(CyderColors.navy,5,false));
         tttReset.addActionListener(e -> TTTBoardReset());
 
         tttReset.setBounds(20, 440, 360, 40);

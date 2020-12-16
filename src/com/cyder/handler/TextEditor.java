@@ -1,5 +1,7 @@
 package com.cyder.handler;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
@@ -32,18 +34,18 @@ public class TextEditor {
 
         noteEditField = new JTextField(20);
         noteEditField.setToolTipText("Change Name");
-        noteEditField.setSelectionColor(textGeneralUtil.selectionColor);
+        noteEditField.setSelectionColor(CyderColors.selectionColor);
         noteEditField.setText(File.getName().replaceFirst(".txt",""));
-        noteEditField.setFont(textGeneralUtil.weatherFontSmall);
-        noteEditField.setForeground(textGeneralUtil.navy);
-        noteEditField.setBorder(new LineBorder(textGeneralUtil.navy,5,false));
+        noteEditField.setFont(CyderFonts.weatherFontSmall);
+        noteEditField.setForeground(CyderColors.navy);
+        noteEditField.setBorder(new LineBorder(CyderColors.navy,5,false));
         noteEditField.setBounds(50,50,600 - 50 - 50, 40);
         noteEditorFrame.getContentPane().add(noteEditField);
 
         noteEditArea = new JTextArea(20, 20);
-        noteEditArea.setSelectedTextColor(textGeneralUtil.selectionColor);
-        noteEditArea.setFont(textGeneralUtil.weatherFontSmall);
-        noteEditArea.setForeground(textGeneralUtil.navy);
+        noteEditArea.setSelectedTextColor(CyderColors.selectionColor);
+        noteEditArea.setFont(CyderFonts.weatherFontSmall);
+        noteEditArea.setForeground(CyderColors.navy);
         noteEditArea.setEditable(true);
         noteEditArea.setAutoscrolls(true);
         noteEditArea.setLineWrap(true);
@@ -54,12 +56,12 @@ public class TextEditor {
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        noteScroll.setThumbColor(textGeneralUtil.regularRed);
+        noteScroll.setThumbColor(CyderColors.regularRed);
         noteScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         noteScroll.getViewport().setBorder(null);
         noteScroll.setViewportBorder(null);
         noteScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(textGeneralUtil.navy,5,false)));
+                new LineBorder(CyderColors.navy,5,false)));
         noteScroll.setBounds(50,120,600 - 50 - 50, 400);
         noteEditorFrame.getContentPane().add(noteScroll);
 
@@ -80,11 +82,11 @@ public class TextEditor {
         }
 
         CyderButton saveNote = new CyderButton("Save & Resign");
-        saveNote.setColors(textGeneralUtil.regularRed);
-        saveNote.setBorder(new LineBorder(textGeneralUtil.navy,5,false));
+        saveNote.setColors(CyderColors.regularRed);
+        saveNote.setBorder(new LineBorder(CyderColors.navy,5,false));
         saveNote.setFocusPainted(false);
-        saveNote.setBackground(textGeneralUtil.regularRed);
-        saveNote.setFont(textGeneralUtil.weatherFontSmall);
+        saveNote.setBackground(CyderColors.regularRed);
+        saveNote.setFont(CyderFonts.weatherFontSmall);
         saveNote.addActionListener(e -> {
             try {
                 BufferedWriter SaveWriter = new BufferedWriter(new FileWriter(File, false));

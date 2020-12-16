@@ -1,5 +1,7 @@
 package com.cyder.widgets;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -44,10 +46,10 @@ public class ImageResizer {
         previewLabel = new JLabel();
 
         CyderButton chooseFile = new CyderButton("Choose Image");
-        chooseFile.setFont(imageGeneralUtil.weatherFontSmall);
-        chooseFile.setForeground(imageGeneralUtil.navy);
-        chooseFile.setBackground(imageGeneralUtil.regularRed);
-        chooseFile.setColors(imageGeneralUtil.regularRed);
+        chooseFile.setFont(CyderFonts.weatherFontSmall);
+        chooseFile.setForeground(CyderColors.navy);
+        chooseFile.setBackground(CyderColors.regularRed);
+        chooseFile.setColors(CyderColors.regularRed);
         chooseFile.addActionListener(e -> {
             try {
                 File temp = IOUtil.getFile();
@@ -58,7 +60,7 @@ public class ImageResizer {
                     //add preview label with picture to frame
                     ImageIcon prevIcon = checkImage(temp);
                     previewLabel.setIcon(prevIcon);
-                    previewLabel.setBorder(new LineBorder(imageGeneralUtil.navy, 3, false));
+                    previewLabel.setBorder(new LineBorder(CyderColors.navy, 3, false));
                     previewLabel.setBounds(400 - prevIcon.getIconWidth() / 2,450 - prevIcon.getIconHeight() / 2,prevIcon.getIconWidth(),prevIcon.getIconHeight());
                     resizeFrame.getContentPane().add(previewLabel);
                     resizeFrame.revalidate();
@@ -80,8 +82,8 @@ public class ImageResizer {
         });
 
         JLabel xdimLabel = new JLabel("x pixels");
-        xdimLabel.setForeground(imageGeneralUtil.navy);
-        xdimLabel.setFont(imageGeneralUtil.weatherFontSmall);
+        xdimLabel.setForeground(CyderColors.navy);
+        xdimLabel.setFont(CyderFonts.weatherFontSmall);
 
         xdimLabel.setBounds(130,40, 100, 40);
         resizeFrame.getContentPane().add(xdimLabel);
@@ -90,17 +92,17 @@ public class ImageResizer {
         resizeFrame.getContentPane().add(chooseFile);
 
         JLabel ydimLabel = new JLabel("y pixels");
-        ydimLabel.setForeground(imageGeneralUtil.navy);
-        ydimLabel.setFont(imageGeneralUtil.weatherFontSmall);
+        ydimLabel.setForeground(CyderColors.navy);
+        ydimLabel.setFont(CyderFonts.weatherFontSmall);
 
         ydimLabel.setBounds(800 - 130 - 90,40, 100, 40);
         resizeFrame.getContentPane().add(ydimLabel);
 
         xdim = new JTextField(5);
-        xdim.setFont(imageGeneralUtil.weatherFontSmall);
-        xdim.setBorder(new LineBorder(imageGeneralUtil.navy,5,false));
-        xdim.setForeground(imageGeneralUtil.navy);
-        xdim.setSelectionColor(imageGeneralUtil.selectionColor);
+        xdim.setFont(CyderFonts.weatherFontSmall);
+        xdim.setBorder(new LineBorder(CyderColors.navy,5,false));
+        xdim.setForeground(CyderColors.navy);
+        xdim.setSelectionColor(CyderColors.selectionColor);
         xdim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
             leftLastEdited = true;
@@ -169,10 +171,10 @@ public class ImageResizer {
         resizeFrame.getContentPane().add(maintainAspectRatioLab);
 
         ydim = new JTextField(5);
-        ydim.setFont(imageGeneralUtil.weatherFontSmall);
-        ydim.setBorder(new LineBorder(imageGeneralUtil.navy,5,false));
-        ydim.setForeground(imageGeneralUtil.navy);
-        ydim.setSelectionColor(imageGeneralUtil.selectionColor);
+        ydim.setFont(CyderFonts.weatherFontSmall);
+        ydim.setBorder(new LineBorder(CyderColors.navy,5,false));
+        ydim.setForeground(CyderColors.navy);
+        ydim.setSelectionColor(CyderColors.selectionColor);
         ydim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
             leftLastEdited = false;
@@ -199,17 +201,17 @@ public class ImageResizer {
         resizeFrame.getContentPane().add(ydim);
 
         JLabel originalImage = new JLabel("Preview Image");
-        originalImage.setFont(imageGeneralUtil.weatherFontSmall);
-        originalImage.setForeground(imageGeneralUtil.navy);
+        originalImage.setFont(CyderFonts.weatherFontSmall);
+        originalImage.setForeground(CyderColors.navy);
 
         originalImage.setBounds(400 - 165 / 2,150, 180, 40);
         resizeFrame.getContentPane().add(originalImage);
 
         CyderButton approve = new CyderButton("Approve Image");
-        approve.setForeground(imageGeneralUtil.navy);
-        approve.setFont(imageGeneralUtil.weatherFontSmall);
-        approve.setBackground(imageGeneralUtil.regularRed);
-        approve.setColors(imageGeneralUtil.regularRed);
+        approve.setForeground(CyderColors.navy);
+        approve.setFont(CyderFonts.weatherFontSmall);
+        approve.setBackground(CyderColors.regularRed);
+        approve.setColors(CyderColors.regularRed);
         approve.setFocusPainted(false);
         approve.addActionListener(e -> {
             if (resizeImage == null) {

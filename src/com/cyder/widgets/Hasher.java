@@ -1,5 +1,7 @@
 package com.cyder.widgets;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
@@ -20,16 +22,16 @@ public class Hasher {
         hashFrame.setTitle("Hasher");
 
         JLabel Instructions = new JLabel("Enter your password to be hashed");
-        Instructions.setForeground(hashGeneralUtil.navy);
-        Instructions.setFont(hashGeneralUtil.weatherFontSmall);
+        Instructions.setForeground(CyderColors.navy);
+        Instructions.setFont(CyderFonts.weatherFontSmall);
 
         Instructions.setBounds(65,40, 400, 30);
         hashFrame.getContentPane().add(Instructions);
 
         hashField = new JPasswordField(15);
-        hashField.setForeground(hashGeneralUtil.navy);
-        hashField.setFont(hashGeneralUtil.weatherFontSmall);
-        hashField.setBorder(new LineBorder(hashGeneralUtil.navy,5,false));
+        hashField.setForeground(CyderColors.navy);
+        hashField.setFont(CyderFonts.weatherFontSmall);
+        hashField.setBorder(new LineBorder(CyderColors.navy,5,false));
         hashField.addActionListener(e -> {
             char[] Hash = hashField.getPassword();
 
@@ -47,10 +49,10 @@ public class Hasher {
         hashFrame.getContentPane().add(hashField);
 
         CyderButton hashButton = new CyderButton("Hash");
-        hashButton.setColors(hashGeneralUtil.regularRed);
-        hashButton.setBackground(hashGeneralUtil.regularRed);
-        hashButton.setBorder(new LineBorder(hashGeneralUtil.navy,5,false));
-        hashButton.setFont(hashGeneralUtil.weatherFontSmall);
+        hashButton.setColors(CyderColors.regularRed);
+        hashButton.setBackground(CyderColors.regularRed);
+        hashButton.setBorder(new LineBorder(CyderColors.navy,5,false));
+        hashButton.setFont(CyderFonts.weatherFontSmall);
         hashButton.addActionListener(e -> {
             String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA(hashField.getPassword()));
             hashFrame.closeAnimation();

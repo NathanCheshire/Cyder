@@ -1,6 +1,7 @@
 package com.cyder.ui;
 
-import com.cyder.utilities.GeneralUtil;
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -36,8 +37,8 @@ public class CyderTextField extends JTextField {
     @Override
     protected void paintComponent(Graphics g) {
         this.setBorder(new LineBorder(new Color(26, 32, 51),5,false));
-        this.setForeground(new GeneralUtil().navy);
-        this.setFont(new GeneralUtil().weatherFontSmall);
+        this.setForeground(CyderColors.navy);
+        this.setFont(CyderFonts.weatherFontSmall);
         this.setBackground(new Color(0,0,0,0));
         super.paintComponent(g);
     }

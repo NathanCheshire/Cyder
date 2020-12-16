@@ -1,5 +1,7 @@
 package com.cyder.widgets;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
@@ -47,15 +49,15 @@ public class Pizza {
         pizzaFrame.setTitle("Pizza");
 
         JLabel CustomerName = new JLabel("Name:");
-        CustomerName.setFont(pizzaGeneralUtil.weatherFontSmall);
-        CustomerName.setForeground(pizzaGeneralUtil.navy);
+        CustomerName.setFont(CyderFonts.weatherFontSmall);
+        CustomerName.setForeground(CyderColors.navy);
         CustomerName.setBounds(40,45,100,30);
         pizzaFrame.getContentPane().add(CustomerName);
 
         nameField = new JTextField(20);
-        nameField.setSelectionColor(pizzaGeneralUtil.selectionColor);
-        nameField.setForeground(pizzaGeneralUtil.navy);
-        nameField.setFont(pizzaGeneralUtil.weatherFontSmall);
+        nameField.setSelectionColor(CyderColors.selectionColor);
+        nameField.setForeground(CyderColors.navy);
+        nameField.setFont(CyderFonts.weatherFontSmall);
         nameField.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
@@ -78,31 +80,31 @@ public class Pizza {
                 }
             }
         });
-        nameField.setBorder(new LineBorder(pizzaGeneralUtil.navy,5,false));
+        nameField.setBorder(new LineBorder(CyderColors.navy,5,false));
         nameField.setBounds(140,40,400,40);
         pizzaFrame.getContentPane().add(nameField);
 
         JLabel pizzaSizeLabel = new JLabel("Size:");
-        pizzaSizeLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
-        pizzaSizeLabel.setForeground(pizzaGeneralUtil.navy);
+        pizzaSizeLabel.setFont(CyderFonts.weatherFontSmall);
+        pizzaSizeLabel.setForeground(CyderColors.navy);
         pizzaSizeLabel.setBounds(40,140,50,30);
         pizzaFrame.getContentPane().add(pizzaSizeLabel);
 
         JLabel smallLabel = new JLabel("Small");
-        smallLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
-        smallLabel.setForeground(pizzaGeneralUtil.navy);
+        smallLabel.setFont(CyderFonts.weatherFontSmall);
+        smallLabel.setForeground(CyderColors.navy);
         smallLabel.setBounds(180,100,100,30);
         pizzaFrame.getContentPane().add(smallLabel);
 
         JLabel mediumLabel = new JLabel("Medium");
-        mediumLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
-        mediumLabel.setForeground(pizzaGeneralUtil.navy);
+        mediumLabel.setFont(CyderFonts.weatherFontSmall);
+        mediumLabel.setForeground(CyderColors.navy);
         mediumLabel.setBounds(285,100,100,30);
         pizzaFrame.getContentPane().add(mediumLabel);
 
         JLabel largeLabel = new JLabel("Large");
-        largeLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
-        largeLabel.setForeground(pizzaGeneralUtil.navy);
+        largeLabel.setFont(CyderFonts.weatherFontSmall);
+        largeLabel.setForeground(CyderColors.navy);
         largeLabel.setBounds(420,100,100,30);
         pizzaFrame.getContentPane().add(largeLabel);
 
@@ -152,33 +154,33 @@ public class Pizza {
         pizzaFrame.getContentPane().add(largePizza);
 
         JLabel crustLabel = new JLabel("Crust Type");
-        crustLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
-        crustLabel.setForeground(pizzaGeneralUtil.navy);
+        crustLabel.setFont(CyderFonts.weatherFontSmall);
+        crustLabel.setForeground(CyderColors.navy);
         crustLabel.setBounds(90,210,130,30);
         pizzaFrame.getContentPane().add(crustLabel);
 
         String[] CrustTypeChoice = {"Thin", "Thick", "Deep Dish", "Classic", "Tavern", "Seasonal"};
         JList crustTopingsJList = new JList(CrustTypeChoice);
         crustTypeList = crustTopingsJList;
-        crustTypeList.setForeground(pizzaGeneralUtil.navy);
-        crustTypeList.setFont(pizzaGeneralUtil.weatherFontSmall);
-        crustTypeList.setSelectionBackground(pizzaGeneralUtil.selectionColor);
+        crustTypeList.setForeground(CyderColors.navy);
+        crustTypeList.setFont(CyderFonts.weatherFontSmall);
+        crustTypeList.setSelectionBackground(CyderColors.selectionColor);
         crustTypeList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         CyderScrollPane crustTopingsListScroll = new CyderScrollPane(crustTypeList,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        crustTopingsListScroll.setThumbColor(pizzaGeneralUtil.regularRed);
+        crustTopingsListScroll.setThumbColor(CyderColors.regularRed);
         crustTopingsListScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         crustTopingsListScroll.getViewport().setBorder(null);
         crustTopingsListScroll.setViewportBorder(null);
-        crustTopingsListScroll.setBorder(new LineBorder(pizzaGeneralUtil.navy,5,false));
+        crustTopingsListScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
         crustTopingsListScroll.setBounds(80,250,160,200);
         pizzaFrame.getContentPane().add(crustTopingsListScroll);
 
         JLabel Topings = new JLabel("Topings");
-        Topings.setFont(pizzaGeneralUtil.weatherFontSmall);
-        Topings.setForeground(pizzaGeneralUtil.navy);
+        Topings.setFont(CyderFonts.weatherFontSmall);
+        Topings.setForeground(CyderColors.navy);
         Topings.setBounds(370,210,130,30);
         pizzaFrame.getContentPane().add(Topings);
 
@@ -187,31 +189,31 @@ public class Pizza {
                 "Olives", "Mushrooms"};
         JList pizzaToppingsJList = new JList(pizzaTopingsStrList);
         pizzaTopingsList = pizzaToppingsJList;
-        pizzaTopingsList.setForeground(pizzaGeneralUtil.navy);
-        pizzaTopingsList.setFont(pizzaGeneralUtil.weatherFontSmall);
-        pizzaTopingsList.setSelectionBackground(pizzaGeneralUtil.selectionColor);
+        pizzaTopingsList.setForeground(CyderColors.navy);
+        pizzaTopingsList.setFont(CyderFonts.weatherFontSmall);
+        pizzaTopingsList.setSelectionBackground(CyderColors.selectionColor);
         pizzaTopingsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         CyderScrollPane PizzaTopingsListScroll = new CyderScrollPane(pizzaTopingsList,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        PizzaTopingsListScroll.setThumbColor(pizzaGeneralUtil.regularRed);
+        PizzaTopingsListScroll.setThumbColor(CyderColors.regularRed);
         PizzaTopingsListScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         PizzaTopingsListScroll.getViewport().setBorder(null);
         PizzaTopingsListScroll.setViewportBorder(null);
-        PizzaTopingsListScroll.setBorder(new LineBorder(pizzaGeneralUtil.navy,5,false));
+        PizzaTopingsListScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
         PizzaTopingsListScroll.setBounds(320,250,600 - 80 - 320,200);
         pizzaFrame.getContentPane().add(PizzaTopingsListScroll);
 
         JLabel Extra = new JLabel("Extras:");
-        Extra.setForeground(pizzaGeneralUtil.navy);
-        Extra.setFont(pizzaGeneralUtil.weatherFontSmall);
+        Extra.setForeground(CyderColors.navy);
+        Extra.setFont(CyderFonts.weatherFontSmall);
         Extra.setBounds(40,510,130,30);
         pizzaFrame.getContentPane().add(Extra);
 
         JLabel breadsticksLabel = new JLabel("Breadsticks");
-        breadsticksLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
-        breadsticksLabel.setForeground(pizzaGeneralUtil.navy);
+        breadsticksLabel.setFont(CyderFonts.weatherFontSmall);
+        breadsticksLabel.setForeground(CyderColors.navy);
         breadsticksLabel.setBounds(130,470,150,30);
         pizzaFrame.getContentPane().add(breadsticksLabel);
 
@@ -232,8 +234,8 @@ public class Pizza {
         pizzaFrame.getContentPane().add(breadSticks);
 
         JLabel saladLabel = new JLabel("Salad");
-        saladLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
-        saladLabel.setForeground(pizzaGeneralUtil.navy);
+        saladLabel.setFont(CyderFonts.weatherFontSmall);
+        saladLabel.setForeground(CyderColors.navy);
         saladLabel.setBounds(310,470,150,30);
         pizzaFrame.getContentPane().add(saladLabel);
 
@@ -254,8 +256,8 @@ public class Pizza {
         pizzaFrame.getContentPane().add(salad);
 
         JLabel sodaLabel = new JLabel("Soda");
-        sodaLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
-        sodaLabel.setForeground(pizzaGeneralUtil.navy);
+        sodaLabel.setFont(CyderFonts.weatherFontSmall);
+        sodaLabel.setForeground(CyderColors.navy);
         sodaLabel.setBounds(445,470,150,30);
         pizzaFrame.getContentPane().add(sodaLabel);
 
@@ -276,36 +278,36 @@ public class Pizza {
         pizzaFrame.getContentPane().add(soda);
 
         JLabel orderCommentsLabel = new JLabel("Order Comments");
-        orderCommentsLabel.setFont(pizzaGeneralUtil.weatherFontSmall);
-        orderCommentsLabel.setForeground(pizzaGeneralUtil.navy);
+        orderCommentsLabel.setFont(CyderFonts.weatherFontSmall);
+        orderCommentsLabel.setForeground(CyderColors.navy);
         orderCommentsLabel.setBounds(210,565,200,30);
         pizzaFrame.getContentPane().add(orderCommentsLabel);
 
         orderComments = new JTextArea(5,20);
-        orderComments.setFont(pizzaGeneralUtil.weatherFontSmall);
+        orderComments.setFont(CyderFonts.weatherFontSmall);
         orderComments.setAutoscrolls(true);
         orderComments.setLineWrap(true);
         orderComments.setWrapStyleWord(true);
-        orderComments.setSelectedTextColor(pizzaGeneralUtil.selectionColor);
+        orderComments.setSelectedTextColor(CyderColors.selectionColor);
         orderComments.setBorder(new LineBorder(new Color(0, 0, 0)));
 
         CyderScrollPane orderCommentsScroll = new CyderScrollPane(orderComments,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        orderCommentsScroll.setThumbColor(pizzaGeneralUtil.regularRed);
+        orderCommentsScroll.setThumbColor(CyderColors.regularRed);
         orderCommentsScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         orderCommentsScroll.getViewport().setBorder(null);
         orderCommentsScroll.setViewportBorder(null);
         orderCommentsScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(pizzaGeneralUtil.navy,5,false)));
+                new LineBorder(CyderColors.navy,5,false)));
         orderCommentsScroll.setPreferredSize(new Dimension(400,200));
         orderCommentsScroll.setBounds(80,600,600 - 160,140);
         pizzaFrame.getContentPane().add(orderCommentsScroll);
 
         CyderButton placeOrder = new CyderButton("Place Order");
-        placeOrder.setFont(pizzaGeneralUtil.weatherFontSmall);
-        placeOrder.setColors(pizzaGeneralUtil.regularRed);
-        placeOrder.setBackground(pizzaGeneralUtil.regularRed);
+        placeOrder.setFont(CyderFonts.weatherFontSmall);
+        placeOrder.setColors(CyderColors.regularRed);
+        placeOrder.setBackground(CyderColors.regularRed);
         placeOrder.addActionListener(e -> {
             if (nameField.getText().length() <= 0)
                 GenericInform.inform("Sorry, but you must enter a name.","", 300, 200);
@@ -375,9 +377,9 @@ public class Pizza {
         pizzaFrame.getContentPane().add(placeOrder);
 
         CyderButton resetPizza = new CyderButton("Reset");
-        resetPizza.setBackground(pizzaGeneralUtil.regularRed);
-        resetPizza.setColors(pizzaGeneralUtil.regularRed);
-        resetPizza.setFont(pizzaGeneralUtil.weatherFontSmall);
+        resetPizza.setBackground(CyderColors.regularRed);
+        resetPizza.setColors(CyderColors.regularRed);
+        resetPizza.setFont(CyderFonts.weatherFontSmall);
         resetPizza.addActionListener(e -> {
             nameField.setText("");
             smallPizza.setIcon(notSelected);

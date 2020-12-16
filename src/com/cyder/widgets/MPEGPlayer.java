@@ -1,5 +1,6 @@
 package com.cyder.widgets;
 
+import com.cyder.Constants.CyderColors;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderSliderUI;
@@ -79,7 +80,7 @@ public class MPEGPlayer {
 
         musicTitleLabel.setFont(new Font("tahoma", Font.BOLD, 18));
 
-        musicTitleLabel.setForeground(musicGeneralUtil.vanila);
+        musicTitleLabel.setForeground(CyderColors.vanila);
 
         musicTitleLabel.setText("No Audio Currently Playing");
 
@@ -89,10 +90,10 @@ public class MPEGPlayer {
 
         CyderSliderUI UI = new CyderSliderUI(musicVolumeSlider);
 
-        UI.setFillColor(musicGeneralUtil.vanila);
-        UI.setOutlineColor(musicGeneralUtil.vanila);
-        UI.setNewValColor(musicGeneralUtil.vanila);
-        UI.setOldValColor(musicGeneralUtil.regularRed);
+        UI.setFillColor(CyderColors.vanila);
+        UI.setOutlineColor(CyderColors.vanila);
+        UI.setNewValColor(CyderColors.vanila);
+        UI.setOldValColor(CyderColors.regularRed);
         UI.setStroke(new BasicStroke(3.0f));
         UI.setSliderShape(CyderSliderUI.CIRCLE);
 
@@ -163,7 +164,7 @@ public class MPEGPlayer {
 
         musicVolumeLabel.setFont(new Font("tahoma", Font.BOLD, 18));
 
-        musicVolumeLabel.setForeground(musicGeneralUtil.vanila);
+        musicVolumeLabel.setForeground(CyderColors.vanila);
 
         musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
 

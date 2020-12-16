@@ -1,15 +1,16 @@
 package com.cyder.widgets;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.ColorUtil;
-import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 
-import static com.cyder.utilities.GeneralUtil.navy;
+import static com.cyder.Constants.CyderColors.navy;
 
 public class ColorConverter {
     public static void colorConverter() {
@@ -17,13 +18,13 @@ public class ColorConverter {
         colorFrame.setTitle("Color Converter");
 
         JLabel hexLabel = new JLabel("HEX:");
-        hexLabel.setFont(GeneralUtil.weatherFontSmall);
+        hexLabel.setFont(CyderFonts.weatherFontSmall);
         hexLabel.setForeground(navy);
         hexLabel.setBounds(30, 110,70, 30);
         colorFrame.getContentPane().add(hexLabel);
 
         JLabel rgbLabel = new JLabel("RGB:");
-        rgbLabel.setFont(GeneralUtil.weatherFontSmall);
+        rgbLabel.setFont(CyderFonts.weatherFontSmall);
         rgbLabel.setForeground(navy);
         rgbLabel.setBounds(30, 180,70,30);
         colorFrame.getContentPane().add(rgbLabel);
@@ -41,9 +42,9 @@ public class ColorConverter {
 
         JTextField hexField = new JTextField(String.format("#%02X%02X%02X", navy.getRed(), navy.getGreen(), navy.getBlue()).replace("#",""));
         hexField.setForeground(navy);
-        hexField.setFont(GeneralUtil.weatherFontBig);
+        hexField.setFont(CyderFonts.weatherFontBig);
         hexField.setBackground(new Color(0,0,0,0));
-        hexField.setSelectionColor(GeneralUtil.selectionColor);
+        hexField.setSelectionColor(CyderColors.selectionColor);
         hexField.setToolTipText("Hex Value");
         hexField.setBorder(new LineBorder(navy,5,false));
         JTextField finalHexField1 = hexField;
@@ -64,9 +65,9 @@ public class ColorConverter {
         colorFrame.getContentPane().add(hexField);
 
         rgbField.setForeground(navy);
-        rgbField.setFont(GeneralUtil.weatherFontBig);
+        rgbField.setFont(CyderFonts.weatherFontBig);
         rgbField.setBackground(new Color(0,0,0,0));
-        rgbField.setSelectionColor(GeneralUtil.selectionColor);
+        rgbField.setSelectionColor(CyderColors.selectionColor);
         rgbField.setToolTipText("RGB Value");
         rgbField.setBorder(new LineBorder(navy,5,false));
         JTextField finalRgbField1 = rgbField;

@@ -1,5 +1,7 @@
 package com.cyder.widgets;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
@@ -34,14 +36,14 @@ public class YouTubeThumbnail {
         yttnFrame.setTitle("YouTube Thumbnail");
 
         JLabel VideoID = new JLabel("Enter a valid YouTube video ID");
-        VideoID.setFont(yttnGeneralUtil.weatherFontBig);
-        VideoID.setForeground(yttnGeneralUtil.navy);
+        VideoID.setFont(CyderFonts.weatherFontBig);
+        VideoID.setForeground(CyderColors.navy);
         VideoID.setBounds(40,40,600,40);
         yttnFrame.getContentPane().add(VideoID);
 
         yttnField = new JTextField(30);
-        yttnField.setSelectionColor(yttnGeneralUtil.selectionColor);
-        yttnField.setBorder(new LineBorder(yttnGeneralUtil.navy,5,false));
+        yttnField.setSelectionColor(CyderColors.selectionColor);
+        yttnField.setBorder(new LineBorder(CyderColors.navy,5,false));
         yttnField.addActionListener(e -> getYTTN.doClick());
         yttnField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -73,17 +75,17 @@ public class YouTubeThumbnail {
             }
         });
 
-        yttnField.setFont(yttnGeneralUtil.weatherFontSmall);
-        yttnField.setBorder(new LineBorder(yttnGeneralUtil.navy,5,false));
+        yttnField.setFont(CyderFonts.weatherFontSmall);
+        yttnField.setBorder(new LineBorder(CyderColors.navy,5,false));
         yttnField.setBounds(150,120,300,40);
         yttnFrame.getContentPane().add(yttnField);
 
         getYTTN = new CyderButton("Get Thumbnail");
-        getYTTN.setBorder(new LineBorder(yttnGeneralUtil.navy,5,false));
-        getYTTN.setColors(yttnGeneralUtil.regularRed);
+        getYTTN.setBorder(new LineBorder(CyderColors.navy,5,false));
+        getYTTN.setColors(CyderColors.regularRed);
         getYTTN.setFocusPainted(false);
-        getYTTN.setBackground(yttnGeneralUtil.regularRed);
-        getYTTN.setFont(yttnGeneralUtil.weatherFontSmall);
+        getYTTN.setBackground(CyderColors.regularRed);
+        getYTTN.setFont(CyderFonts.weatherFontSmall);
         getYTTN.addActionListener(e -> getYTTNAction());
         getYTTN.setBounds(150,170,300,40);
         yttnFrame.getContentPane().add(getYTTN);

@@ -1,5 +1,7 @@
 package com.cyder.ui;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.ImageUtil;
@@ -36,7 +38,7 @@ public class CyderFrame extends JFrame {
         setIconImage(systemUtil.getCyderIcon().getImage());
 
         JLabel parentLabel = new JLabel();
-        parentLabel.setBorder(new LineBorder(fGeneralUtil.navy, 5, false));
+        parentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         parentLabel.setIcon(background);
         setContentPane(parentLabel);
 
@@ -45,8 +47,8 @@ public class CyderFrame extends JFrame {
         parentLabel.add(dl);
 
         titleLabel = new JLabel("");
-        titleLabel.setFont(fGeneralUtil.weatherFontSmall.deriveFont(20f));
-        titleLabel.setForeground(fGeneralUtil.vanila);
+        titleLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
+        titleLabel.setForeground(CyderColors.vanila);
 
         dl.add(titleLabel);
     }
@@ -67,7 +69,7 @@ public class CyderFrame extends JFrame {
         setIconImage(systemUtil.getCyderIcon().getImage());
 
         JLabel parentLabel = new JLabel();
-        parentLabel.setBorder(new LineBorder(fGeneralUtil.navy, 5, false));
+        parentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         parentLabel.setIcon(background);
         setContentPane(parentLabel);
 
@@ -120,8 +122,8 @@ public class CyderFrame extends JFrame {
         frameNotification.setWidth(w);
         frameNotification.setHeight(h);
 
-        text.setFont(fGeneralUtil.weatherFontSmall);
-        text.setForeground(fGeneralUtil.navy);
+        text.setFont(CyderFonts.weatherFontSmall);
+        text.setForeground(CyderColors.navy);
         text.setBounds(14,10,w * 2,h);
         frameNotification.add(text);
 
@@ -140,7 +142,7 @@ public class CyderFrame extends JFrame {
 
     public void inform(String text, String title, int width, int height) {
         try {
-            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,fGeneralUtil.vanila)));
+            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,CyderColors.vanila)));
             informFrame.setTitle(title);
 
             JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
@@ -148,8 +150,8 @@ public class CyderFrame extends JFrame {
             desc.setHorizontalAlignment(JLabel.CENTER);
             desc.setVerticalAlignment(JLabel.CENTER);
             ImageUtil iu = new ImageUtil();
-            desc.setForeground(fGeneralUtil.navy);
-            desc.setFont(fGeneralUtil.weatherFontSmall.deriveFont(22f));
+            desc.setForeground(CyderColors.navy);
+            desc.setFont(CyderFonts.weatherFontSmall.deriveFont(22f));
             desc.setBounds(10, 35, width - 20, height - 35 * 2);
 
             informFrame.getContentPane().add(desc);

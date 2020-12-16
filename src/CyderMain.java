@@ -1,3 +1,5 @@
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
 import com.cyder.games.Hangman;
@@ -37,6 +39,8 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+
+//todo all public static final ints and stuff in enums package classes
 
 //todo make alot of stuff static so you don't need to instantiate a method
 //todo SysData.log for title and such, consolidate with cyder args but push below a ------- line
@@ -239,10 +243,10 @@ public class CyderMain{
 
     private void initUIManager() {
         //this sets up special looking tooltips
-        UIManager.put("ToolTip.background", mainGeneralUtil.tooltipBackgroundColor);
-        UIManager.put("ToolTip.border", new BorderUIResource(BorderFactory.createLineBorder(mainGeneralUtil.tooltipBorderColor,2,true)));
-        UIManager.put("ToolTip.font", mainGeneralUtil.tahoma.deriveFont(22f));
-        UIManager.put("ToolTip.foreground", mainGeneralUtil.tooltipForegroundColor);
+        UIManager.put("ToolTip.background", CyderColors.tooltipBackgroundColor);
+        UIManager.put("ToolTip.border", new BorderUIResource(BorderFactory.createLineBorder(CyderColors.tooltipBorderColor,2,true)));
+        UIManager.put("ToolTip.font", CyderFonts.tahoma.deriveFont(22f));
+        UIManager.put("ToolTip.foreground", CyderColors.tooltipForegroundColor);
     }
 
     private void autoCypher() {
@@ -347,7 +351,7 @@ public class CyderMain{
                 parentLabel.setBounds(0, 0, mainGeneralUtil.getBackgroundX(), mainGeneralUtil.getBackgroundY());
             }
 
-            parentLabel.setBorder(new LineBorder(mainGeneralUtil.navy,8,false));
+            parentLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
             parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
 
             parentPane.add(parentLabel,1,0);
@@ -379,7 +383,7 @@ public class CyderMain{
             outputScroll = new CyderScrollPane(outputArea,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            outputScroll.setThumbColor(mainGeneralUtil.intellijPink);
+            outputScroll.setThumbColor(CyderColors.intellijPink);
             outputScroll.getViewport().setBorder(null);
             outputScroll.getViewport().setOpaque(false);
             outputScroll.setOpaque(false);
@@ -418,22 +422,22 @@ public class CyderMain{
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CYDER_DOWN);
+                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CONSOLE_DOWN);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CYDER_RIGHT);
+                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CONSOLE_RIGHT);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CYDER_UP);
+                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CONSOLE_UP);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CYDER_LEFT);
+                        mainGeneralUtil.setConsoleDirection(mainGeneralUtil.CONSOLE_LEFT);
                         exitFullscreen();
                     }
 
@@ -467,7 +471,7 @@ public class CyderMain{
             });
 
             inputField.setToolTipText("Input Field");
-            inputField.setSelectionColor(mainGeneralUtil.selectionColor);
+            inputField.setSelectionColor(CyderColors.selectionColor);
             inputField.addKeyListener(commandScrolling);
 
             consoleFrame.addWindowListener(consoleEcho);
@@ -486,11 +490,11 @@ public class CyderMain{
                 }
             });
 
-            inputField.setCaretColor(mainGeneralUtil.vanila);
+            inputField.setCaretColor(CyderColors.vanila);
 
             IOUtil.readUserData();
 
-            Font Userfont = new Font(IOUtil.getUserData("Font"),Font.BOLD, 30);
+            Font Userfont = new Font(IOUtil.getUserData("CyderFonts"),Font.BOLD, 30);
             Color Usercolor = ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
 
             mainGeneralUtil.setUsercolor(Usercolor);
@@ -726,8 +730,8 @@ public class CyderMain{
             });
 
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
-            consoleClockLabel.setFont(mainGeneralUtil.weatherFontSmall.deriveFont(20f));
-            consoleClockLabel.setForeground(mainGeneralUtil.vanila);
+            consoleClockLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
+            consoleClockLabel.setForeground(CyderColors.vanila);
             consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
                     2,(consoleClockLabel.getText().length() * 17), 25);
 
@@ -870,8 +874,8 @@ public class CyderMain{
                 menuLabel.setVisible(true);
 
                 JLabel calculatorLabel = new JLabel("Calculator");
-                calculatorLabel.setFont(mainGeneralUtil.weatherFontSmall);
-                calculatorLabel.setForeground(mainGeneralUtil.vanila);
+                calculatorLabel.setFont(CyderFonts.weatherFontSmall);
+                calculatorLabel.setForeground(CyderColors.vanila);
                 calculatorLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -880,12 +884,12 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        calculatorLabel.setForeground(mainGeneralUtil.regularRed);
+                        calculatorLabel.setForeground(CyderColors.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        calculatorLabel.setForeground(mainGeneralUtil.vanila);
+                        calculatorLabel.setForeground(CyderColors.vanila);
                     }
                 });
 
@@ -893,8 +897,8 @@ public class CyderMain{
                 calculatorLabel.setBounds(5,20,150,20);
 
                 JLabel musicLabel = new JLabel("Music");
-                musicLabel.setFont(mainGeneralUtil.weatherFontSmall);
-                musicLabel.setForeground(mainGeneralUtil.vanila);
+                musicLabel.setFont(CyderFonts.weatherFontSmall);
+                musicLabel.setForeground(CyderColors.vanila);
                 musicLabel.setBounds(5,50,150,20);
                 menuLabel.add(musicLabel);
                 musicLabel.addMouseListener(new MouseAdapter() {
@@ -905,18 +909,18 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        musicLabel.setForeground(mainGeneralUtil.regularRed);
+                        musicLabel.setForeground(CyderColors.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        musicLabel.setForeground(mainGeneralUtil.vanila);
+                        musicLabel.setForeground(CyderColors.vanila);
                     }
                 });
 
                 JLabel weatherLabel = new JLabel("Weather");
-                weatherLabel.setFont(mainGeneralUtil.weatherFontSmall);
-                weatherLabel.setForeground(mainGeneralUtil.vanila);
+                weatherLabel.setFont(CyderFonts.weatherFontSmall);
+                weatherLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(weatherLabel);
                 weatherLabel.setBounds(5,80,150,20);
                 weatherLabel.setOpaque(false);
@@ -928,18 +932,18 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        weatherLabel.setForeground(mainGeneralUtil.regularRed);
+                        weatherLabel.setForeground(CyderColors.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        weatherLabel.setForeground(mainGeneralUtil.vanila);
+                        weatherLabel.setForeground(CyderColors.vanila);
                     }
                 });
 
                 JLabel noteLabel = new JLabel("Notes");
-                noteLabel.setFont(mainGeneralUtil.weatherFontSmall);
-                noteLabel.setForeground(mainGeneralUtil.vanila);
+                noteLabel.setFont(CyderFonts.weatherFontSmall);
+                noteLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(noteLabel);
                 noteLabel.setBounds(5,110,150,20);
                 noteLabel.addMouseListener(new MouseAdapter() {
@@ -950,18 +954,18 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        noteLabel.setForeground(mainGeneralUtil.regularRed);
+                        noteLabel.setForeground(CyderColors.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        noteLabel.setForeground(mainGeneralUtil.vanila);
+                        noteLabel.setForeground(CyderColors.vanila);
                     }
                 });
 
                 JLabel editUserLabel = new JLabel("Edit user");
-                editUserLabel.setFont(mainGeneralUtil.weatherFontSmall);
-                editUserLabel.setForeground(mainGeneralUtil.vanila);
+                editUserLabel.setFont(CyderFonts.weatherFontSmall);
+                editUserLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(editUserLabel);
                 editUserLabel.setBounds(5,140,150,20);
                 editUserLabel.addMouseListener(new MouseAdapter() {
@@ -972,18 +976,18 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        editUserLabel.setForeground(mainGeneralUtil.regularRed);
+                        editUserLabel.setForeground(CyderColors.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        editUserLabel.setForeground(mainGeneralUtil.vanila);
+                        editUserLabel.setForeground(CyderColors.vanila);
                     }
                 });
 
                 JLabel temperatureLabel = new JLabel("Temp conv");
-                temperatureLabel.setFont(mainGeneralUtil.weatherFontSmall);
-                temperatureLabel.setForeground(mainGeneralUtil.vanila);
+                temperatureLabel.setFont(CyderFonts.weatherFontSmall);
+                temperatureLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(temperatureLabel);
                 temperatureLabel.setBounds(5,170,150,20);
                 temperatureLabel.addMouseListener(new MouseAdapter() {
@@ -994,18 +998,18 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        temperatureLabel.setForeground(mainGeneralUtil.regularRed);
+                        temperatureLabel.setForeground(CyderColors.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        temperatureLabel.setForeground(mainGeneralUtil.vanila);
+                        temperatureLabel.setForeground(CyderColors.vanila);
                     }
                 });
 
                 JLabel youtubeLabel = new JLabel("YouTube");
-                youtubeLabel.setFont(mainGeneralUtil.weatherFontSmall);
-                youtubeLabel.setForeground(mainGeneralUtil.vanila);
+                youtubeLabel.setFont(CyderFonts.weatherFontSmall);
+                youtubeLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(youtubeLabel);
                 youtubeLabel.setBounds(5,200,150,20);
                 youtubeLabel.addMouseListener(new MouseAdapter() {
@@ -1016,18 +1020,18 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        youtubeLabel.setForeground(mainGeneralUtil.regularRed);
+                        youtubeLabel.setForeground(CyderColors.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        youtubeLabel.setForeground(mainGeneralUtil.vanila);
+                        youtubeLabel.setForeground(CyderColors.vanila);
                     }
                 });
 
                 JLabel twitterLabel = new JLabel("Twitter");
-                twitterLabel.setFont(mainGeneralUtil.weatherFontSmall);
-                twitterLabel.setForeground(mainGeneralUtil.vanila);
+                twitterLabel.setFont(CyderFonts.weatherFontSmall);
+                twitterLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(twitterLabel);
                 twitterLabel.setBounds(5,230,150,20);
                 twitterLabel.addMouseListener(new MouseAdapter() {
@@ -1038,18 +1042,18 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        twitterLabel.setForeground(mainGeneralUtil.regularRed);
+                        twitterLabel.setForeground(CyderColors.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        twitterLabel.setForeground(mainGeneralUtil.vanila);
+                        twitterLabel.setForeground(CyderColors.vanila);
                     }
                 });
 
                 JLabel logoutLabel = new JLabel("Logout");
-                logoutLabel.setFont(mainGeneralUtil.weatherFontSmall);
-                logoutLabel.setForeground(mainGeneralUtil.vanila);
+                logoutLabel.setFont(CyderFonts.weatherFontSmall);
+                logoutLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(logoutLabel);
                 logoutLabel.setBounds(5,255,150,30);
                 logoutLabel.addMouseListener(new MouseAdapter() {
@@ -1060,12 +1064,12 @@ public class CyderMain{
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        logoutLabel.setForeground(mainGeneralUtil.regularRed);
+                        logoutLabel.setForeground(CyderColors.regularRed);
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        logoutLabel.setForeground(mainGeneralUtil.vanila);
+                        logoutLabel.setForeground(CyderColors.vanila);
                     }
                 });
 
@@ -1274,12 +1278,12 @@ public class CyderMain{
         nameField = new JTextField(20);
         nameField.setToolTipText("Username");
         nameField.setBounds(225,400,350,50);
-        nameField.setBackground(mainGeneralUtil.vanila);
-        nameField.setSelectionColor(mainGeneralUtil.selectionColor);
-        nameField.setBorder(new LineBorder(mainGeneralUtil.navy,4,false));
-        nameField.setFont(mainGeneralUtil.weatherFontSmall.deriveFont(30f));
-        nameField.setForeground(mainGeneralUtil.navy);
-        nameField.setCaretColor(mainGeneralUtil.navy);
+        nameField.setBackground(CyderColors.vanila);
+        nameField.setSelectionColor(CyderColors.selectionColor);
+        nameField.setBorder(new LineBorder(CyderColors.navy,4,false));
+        nameField.setFont(CyderFonts.weatherFontSmall.deriveFont(30f));
+        nameField.setForeground(CyderColors.navy);
+        nameField.setCaretColor(CyderColors.navy);
         nameField.addActionListener(e -> nameField.requestFocusInWindow());
         nameField.addKeyListener(new KeyListener() {
             @Override
@@ -1321,12 +1325,12 @@ public class CyderMain{
         pass = new JPasswordField();
         pass.setToolTipText("Password");
         pass.setBounds(225,500,350,50);
-        pass.setBackground(mainGeneralUtil.vanila);
-        pass.setSelectionColor(mainGeneralUtil.selectionColor);
-        pass.setBorder(new LineBorder(mainGeneralUtil.navy,4,false));
-        pass.setFont(mainGeneralUtil.weatherFontBig.deriveFont(40f));
-        pass.setForeground(mainGeneralUtil.navy);
-        pass.setCaretColor(mainGeneralUtil.navy);
+        pass.setBackground(CyderColors.vanila);
+        pass.setSelectionColor(CyderColors.selectionColor);
+        pass.setBorder(new LineBorder(CyderColors.navy,4,false));
+        pass.setFont(CyderFonts.weatherFontBig.deriveFont(40f));
+        pass.setForeground(CyderColors.navy);
+        pass.setCaretColor(CyderColors.navy);
         pass.addActionListener(e -> {
             String Username = nameField.getText().trim();
 
@@ -1357,7 +1361,7 @@ public class CyderMain{
 
         newUserLabel = new JLabel("Don't have an account?", SwingConstants.CENTER);
         newUserLabel.setFont(new Font("tahoma",Font.BOLD,22));
-        newUserLabel.setForeground(mainGeneralUtil.vanila);
+        newUserLabel.setForeground(CyderColors.vanila);
         newUserLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -1367,13 +1371,13 @@ public class CyderMain{
             @Override
             public void mouseEntered(MouseEvent e) {
                 newUserLabel.setText("Create an account!");
-                newUserLabel.setForeground(mainGeneralUtil.regularRed);
+                newUserLabel.setForeground(CyderColors.regularRed);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 newUserLabel.setText("Don't have an account?");
-                newUserLabel.setForeground(mainGeneralUtil.vanila);
+                newUserLabel.setForeground(CyderColors.vanila);
             }
         });
 
@@ -1461,14 +1465,14 @@ public class CyderMain{
         int width = 0;
         int height = 0;
 
-        if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CYDER_UP) {
+        if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CONSOLE_UP) {
             ImageIcon backIcon = new ImageIcon(backFile);
             width = backIcon.getIconWidth();
             height = backIcon.getIconHeight();
             parentLabel.setIcon(backIcon);
         }
 
-        else if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CYDER_DOWN) {
+        else if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CONSOLE_DOWN) {
             ImageIcon backIcon = new ImageIcon(backFile);
             width = backIcon.getIconWidth();
             height = backIcon.getIconHeight();
@@ -1478,7 +1482,7 @@ public class CyderMain{
         else {
             ImageIcon backIcon = new ImageIcon(backFile);
 
-            if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CYDER_LEFT || mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CYDER_RIGHT) {
+            if (mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CONSOLE_LEFT || mainGeneralUtil.getConsoleDirection() == mainGeneralUtil.CONSOLE_RIGHT) {
                 height = backIcon.getIconWidth();
                 width = backIcon.getIconHeight();
             }
@@ -2452,17 +2456,17 @@ public class CyderMain{
             }
 
             else if (hasWord("font") && hasWord("reset")) {
-                inputField.setFont(mainGeneralUtil.defaultFont);
-                outputArea.setFont(mainGeneralUtil.defaultFont);
+                inputField.setFont(CyderFonts.defaultFont);
+                outputArea.setFont(CyderFonts.defaultFont);
                 println("The font has been reset.");
-                IOUtil.writeUserData("Font",outputArea.getFont().getName());
+                IOUtil.writeUserData("CyderFonts",outputArea.getFont().getName());
             }
 
             else if (hasWord("reset") && hasWord("color")) {
-                outputArea.setForeground(mainGeneralUtil.vanila);
-                inputField.setForeground(mainGeneralUtil.vanila);
+                outputArea.setForeground(CyderColors.vanila);
+                inputField.setForeground(CyderColors.vanila);
                 println("The text color has been reset.");
-                IOUtil.writeUserData("Foreground",ColorUtil.rgbtohexString(mainGeneralUtil.defaultColor));
+                IOUtil.writeUserData("Foreground",ColorUtil.rgbtohexString(CyderColors.defaultColor));
             }
 
             else if (eic("top left")) {
@@ -3306,8 +3310,8 @@ public class CyderMain{
         BackgroundsArray = musicBackgroundNameList.toArray(BackgroundsArray);
 
         musicBackgroundSelectionList = new JList(BackgroundsArray);
-        musicBackgroundSelectionList.setFont(mainGeneralUtil.weatherFontSmall);
-        musicBackgroundSelectionList.setForeground(mainGeneralUtil.navy);
+        musicBackgroundSelectionList.setFont(CyderFonts.weatherFontSmall);
+        musicBackgroundSelectionList.setForeground(CyderColors.navy);
         musicBackgroundSelectionList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
             if (evt.getClickCount() == 2 && musicBackgroundSelectionList.getSelectedIndex() != -1) {
@@ -3316,7 +3320,7 @@ public class CyderMain{
             }
         });
 
-        musicBackgroundSelectionList.setSelectionBackground(mainGeneralUtil.selectionColor);
+        musicBackgroundSelectionList.setSelectionBackground(CyderColors.selectionColor);
     }
 
     //Edit user vars
@@ -3347,43 +3351,43 @@ public class CyderMain{
         switchingPanel.setForeground(new Color(255,255,255));
         switchingPanel.setBounds(140,70,720, 500);
         switchingPanel.setOpaque(true);
-        switchingPanel.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        switchingPanel.setBorder(new LineBorder(CyderColors.navy,5,false));
         switchingPanel.setBackground(new Color(255,255,255));
         editUserFrame.getContentPane().add(switchingPanel);
 
         switchToMusicAndBackgrounds();
 
         backwardPanel = new CyderButton("< Prev");
-        backwardPanel.setBackground(mainGeneralUtil.regularRed);
-        backwardPanel.setColors(mainGeneralUtil.regularRed);
-        backwardPanel.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        backwardPanel.setFont(mainGeneralUtil.weatherFontSmall);
+        backwardPanel.setBackground(CyderColors.regularRed);
+        backwardPanel.setColors(CyderColors.regularRed);
+        backwardPanel.setBorder(new LineBorder(CyderColors.navy,5,false));
+        backwardPanel.setFont(CyderFonts.weatherFontSmall);
         backwardPanel.addActionListener(e -> lastEditUser());
         backwardPanel.setBounds(20,380,100,40);
         editUserFrame.getContentPane().add(backwardPanel);
 
         forwardPanel = new CyderButton("Next >");
-        forwardPanel.setBackground(mainGeneralUtil.regularRed);
-        forwardPanel.setColors(mainGeneralUtil.regularRed);
-        forwardPanel.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        forwardPanel.setFont(mainGeneralUtil.weatherFontSmall);
+        forwardPanel.setBackground(CyderColors.regularRed);
+        forwardPanel.setColors(CyderColors.regularRed);
+        forwardPanel.setBorder(new LineBorder(CyderColors.navy,5,false));
+        forwardPanel.setFont(CyderFonts.weatherFontSmall);
         forwardPanel.addActionListener(e -> nextEditUser());
         forwardPanel.setBounds(1000 - 120,380,100,40);
         editUserFrame.getContentPane().add(forwardPanel);
 
         JTextField changeUsernameField = new JTextField(10);
         changeUsernameField.addActionListener(e -> changeUsername.doClick());
-        changeUsernameField.setFont(mainGeneralUtil.weatherFontSmall);
-        changeUsernameField.setSelectionColor(mainGeneralUtil.selectionColor);
-        changeUsernameField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        changeUsernameField.setFont(CyderFonts.weatherFontSmall);
+        changeUsernameField.setSelectionColor(CyderColors.selectionColor);
+        changeUsernameField.setBorder(new LineBorder(CyderColors.navy,5,false));
         changeUsernameField.setBounds(100,700,300,40);
         editUserFrame.getContentPane().add(changeUsernameField);
 
         changeUsername = new CyderButton("Change Username");
-        changeUsername.setBackground(mainGeneralUtil.regularRed);
-        changeUsername.setColors(mainGeneralUtil.regularRed);
-        changeUsername.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        changeUsername.setFont(mainGeneralUtil.weatherFontSmall);
+        changeUsername.setBackground(CyderColors.regularRed);
+        changeUsername.setColors(CyderColors.regularRed);
+        changeUsername.setBorder(new LineBorder(CyderColors.navy,5,false));
+        changeUsername.setFont(CyderFonts.weatherFontSmall);
         changeUsername.addActionListener(e -> {
             String newUsername = changeUsernameField.getText();
             if (!stringUtil.empytStr(newUsername)) {
@@ -3397,10 +3401,10 @@ public class CyderMain{
         editUserFrame.getContentPane().add(changeUsername);
 
         CyderButton deleteUser = new CyderButton("Delete User");
-        deleteUser.setBackground(mainGeneralUtil.regularRed);
-        deleteUser.setColors(mainGeneralUtil.regularRed);
-        deleteUser.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        deleteUser.setFont(mainGeneralUtil.weatherFontSmall);
+        deleteUser.setBackground(CyderColors.regularRed);
+        deleteUser.setColors(CyderColors.regularRed);
+        deleteUser.setBorder(new LineBorder(CyderColors.navy,5,false));
+        deleteUser.setFont(CyderFonts.weatherFontSmall);
         deleteUser.addActionListener(e -> {
             println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
             stringUtil.setUserInputMode(true);
@@ -3412,18 +3416,18 @@ public class CyderMain{
 
         JPasswordField changePasswordField = new JPasswordField(10);
         changePasswordField.addActionListener(e -> changePassword.doClick());
-        changePasswordField.setFont(mainGeneralUtil.weatherFontSmall);
-        changePasswordField.setSelectionColor(mainGeneralUtil.selectionColor);
-        changePasswordField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        changePasswordField.setFont(CyderFonts.weatherFontSmall);
+        changePasswordField.setSelectionColor(CyderColors.selectionColor);
+        changePasswordField.setBorder(new LineBorder(CyderColors.navy,5,false));
         changePasswordField.setToolTipText("New password");
         changePasswordField.setBounds(600,700,300,40);
         editUserFrame.getContentPane().add(changePasswordField);
 
         changePassword = new CyderButton("Change Password");
-        changePassword.setBackground(mainGeneralUtil.regularRed);
-        changePassword.setColors(mainGeneralUtil.regularRed);
-        changePassword.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        changePassword.setFont(mainGeneralUtil.weatherFontSmall);
+        changePassword.setBackground(CyderColors.regularRed);
+        changePassword.setColors(CyderColors.regularRed);
+        changePassword.setBorder(new LineBorder(CyderColors.navy,5,false));
+        changePassword.setFont(CyderFonts.weatherFontSmall);
         changePassword.addActionListener(e -> {
             char[] newPassword = changePasswordField.getPassword();
 
@@ -3505,7 +3509,7 @@ public class CyderMain{
 
     private void switchToMusicAndBackgrounds() {
         JLabel BackgroundLabel = new JLabel("Music & Backgrounds", SwingConstants.CENTER);
-        BackgroundLabel.setFont(mainGeneralUtil.weatherFontBig);
+        BackgroundLabel.setFont(CyderFonts.weatherFontBig);
         BackgroundLabel.setBounds(720 / 2 - 375 / 2,10,375,40);
         switchingPanel.add(BackgroundLabel);
 
@@ -3516,18 +3520,18 @@ public class CyderMain{
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         musicBackgroundScroll.setSize(400, 400);
-        musicBackgroundScroll.setFont(mainGeneralUtil.weatherFontBig);
-        musicBackgroundScroll.setThumbColor(mainGeneralUtil.regularRed);
+        musicBackgroundScroll.setFont(CyderFonts.weatherFontBig);
+        musicBackgroundScroll.setThumbColor(CyderColors.regularRed);
         musicBackgroundSelectionList.setBackground(new Color(255,255,255));
         musicBackgroundScroll.getViewport().setBackground(new Color(0,0,0,0));
         musicBackgroundScroll.setBounds(20,60,680,360);
         switchingPanel.add(musicBackgroundScroll);
 
         addMusicBackground = new CyderButton("Add");
-        addMusicBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        addMusicBackground.setColors(mainGeneralUtil.regularRed);
+        addMusicBackground.setBorder(new LineBorder(CyderColors.navy,5,false));
+        addMusicBackground.setColors(CyderColors.regularRed);
         addMusicBackground.setFocusPainted(false);
-        addMusicBackground.setBackground(mainGeneralUtil.regularRed);
+        addMusicBackground.setBackground(CyderColors.regularRed);
         addMusicBackground.addActionListener(e -> {
             try {
                 File addFile = IOUtil.getFile();
@@ -3562,16 +3566,16 @@ public class CyderMain{
                 ErrorHandler.handle(exc);
             }
         });
-        addMusicBackground.setFont(mainGeneralUtil.weatherFontSmall);
+        addMusicBackground.setFont(CyderFonts.weatherFontSmall);
         addMusicBackground.setBounds(20,440,213,40);
         switchingPanel.add(addMusicBackground);
 
         openMusicBackground = new CyderButton("Open");
-        openMusicBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        openMusicBackground.setColors(mainGeneralUtil.regularRed);
+        openMusicBackground.setBorder(new LineBorder(CyderColors.navy,5,false));
+        openMusicBackground.setColors(CyderColors.regularRed);
         openMusicBackground.setFocusPainted(false);
-        openMusicBackground.setBackground(mainGeneralUtil.regularRed);
-        openMusicBackground.setFont(mainGeneralUtil.weatherFontSmall);
+        openMusicBackground.setBackground(CyderColors.regularRed);
+        openMusicBackground.setFont(CyderFonts.weatherFontSmall);
         openMusicBackground.addActionListener(e -> {
             List<?> ClickedSelectionList = musicBackgroundSelectionList.getSelectedValuesList();
 
@@ -3603,8 +3607,8 @@ public class CyderMain{
         switchingPanel.add(openMusicBackground);
 
         deleteMusicBackground = new CyderButton("Delete");
-        deleteMusicBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        deleteMusicBackground.setColors(mainGeneralUtil.regularRed);
+        deleteMusicBackground.setBorder(new LineBorder(CyderColors.navy,5,false));
+        deleteMusicBackground.setColors(CyderColors.regularRed);
         deleteMusicBackground.addActionListener(e -> {
             if (!musicBackgroundSelectionList.getSelectedValuesList().isEmpty()) {
                 List<?> ClickedSelectionListMusic = musicBackgroundSelectionList.getSelectedValuesList();
@@ -3650,8 +3654,8 @@ public class CyderMain{
                 }
             }
         });
-        deleteMusicBackground.setBackground(mainGeneralUtil.regularRed);
-        deleteMusicBackground.setFont(mainGeneralUtil.weatherFontSmall);
+        deleteMusicBackground.setBackground(CyderColors.regularRed);
+        deleteMusicBackground.setFont(CyderFonts.weatherFontSmall);
         deleteMusicBackground.setBounds(20 + 213 + 20 + 213 + 20,440,213,40);
         switchingPanel.add(deleteMusicBackground);
 
@@ -3659,8 +3663,8 @@ public class CyderMain{
     }
 
     private void switchToFontAndColor() {
-        JLabel TitleLabel = new JLabel("Foreground & Font", SwingConstants.CENTER);
-        TitleLabel.setFont(mainGeneralUtil.weatherFontBig);
+        JLabel TitleLabel = new JLabel("Foreground & CyderFonts", SwingConstants.CENTER);
+        TitleLabel.setFont(CyderFonts.weatherFontBig);
         TitleLabel.setBounds(720 / 2 - 375 / 2,10,375,40);
         switchingPanel.add(TitleLabel);
 
@@ -3668,42 +3672,42 @@ public class CyderMain{
         int colorOffsetY = 100;
 
         JLabel ColorLabel = new JLabel("Text Color");
-        ColorLabel.setFont(mainGeneralUtil.weatherFontBig);
-        ColorLabel.setForeground(mainGeneralUtil.navy);
+        ColorLabel.setFont(CyderFonts.weatherFontBig);
+        ColorLabel.setForeground(CyderColors.navy);
         ColorLabel.setBounds(120 + colorOffsetX, 50 + colorOffsetY,300, 30);
         switchingPanel.add(ColorLabel);
 
         JLabel hexLabel = new JLabel("HEX:");
-        hexLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        hexLabel.setForeground(mainGeneralUtil.navy);
+        hexLabel.setFont(CyderFonts.weatherFontSmall);
+        hexLabel.setForeground(CyderColors.navy);
         hexLabel.setBounds(30 + colorOffsetX, 110 + colorOffsetY,70, 30);
         switchingPanel.add(hexLabel);
 
         JLabel rgbLabel = new JLabel("RGB:");
-        rgbLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        rgbLabel.setForeground(mainGeneralUtil.navy);
+        rgbLabel.setFont(CyderFonts.weatherFontSmall);
+        rgbLabel.setForeground(CyderColors.navy);
         rgbLabel.setBounds(30 + colorOffsetX, 180 + colorOffsetY,70,30);
         switchingPanel.add(rgbLabel);
 
         JTextField colorBlock = new JTextField();
-        colorBlock.setBackground(mainGeneralUtil.navy);
+        colorBlock.setBackground(CyderColors.navy);
         colorBlock.setFocusable(false);
         colorBlock.setCursor(null);
         colorBlock.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground")));
         colorBlock.setToolTipText("Color Preview");
-        colorBlock.setBorder(new LineBorder(mainGeneralUtil.navy, 5, false));
+        colorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         colorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 120);
         switchingPanel.add(colorBlock);
 
-        JTextField rgbField = new JTextField(mainGeneralUtil.navy.getRed() + "," + mainGeneralUtil.navy.getGreen() + "," + mainGeneralUtil.navy.getBlue());
+        JTextField rgbField = new JTextField(CyderColors.navy.getRed() + "," + CyderColors.navy.getGreen() + "," + CyderColors.navy.getBlue());
 
         JTextField hexField = new JTextField(IOUtil.getUserData("Foreground"));
-        hexField.setForeground(mainGeneralUtil.navy);
-        hexField.setFont(mainGeneralUtil.weatherFontBig);
+        hexField.setForeground(CyderColors.navy);
+        hexField.setFont(CyderFonts.weatherFontBig);
         hexField.setBackground(new Color(0,0,0,0));
-        hexField.setSelectionColor(mainGeneralUtil.selectionColor);
+        hexField.setSelectionColor(CyderColors.selectionColor);
         hexField.setToolTipText("Hex Value");
-        hexField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        hexField.setBorder(new LineBorder(CyderColors.navy,5,false));
         JTextField finalHexField1 = hexField;
         JTextField finalRgbField = rgbField;
         hexField.addKeyListener(new KeyAdapter() {
@@ -3721,14 +3725,14 @@ public class CyderMain{
         hexField.setOpaque(false);
         switchingPanel.add(hexField);
 
-        rgbField.setForeground(mainGeneralUtil.navy);
-        rgbField.setFont(mainGeneralUtil.weatherFontBig);
+        rgbField.setForeground(CyderColors.navy);
+        rgbField.setFont(CyderFonts.weatherFontBig);
         rgbField.setBackground(new Color(0,0,0,0));
-        rgbField.setSelectionColor(mainGeneralUtil.selectionColor);
+        rgbField.setSelectionColor(CyderColors.selectionColor);
         rgbField.setToolTipText("RGB Value");
         Color c = ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
         rgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
-        rgbField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        rgbField.setBorder(new LineBorder(CyderColors.navy,5,false));
         JTextField finalRgbField1 = rgbField;
         rgbField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -3748,11 +3752,11 @@ public class CyderMain{
 
         CyderButton applyColor = new CyderButton("Apply Color");
         applyColor.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        applyColor.setColors(mainGeneralUtil.regularRed);
+        applyColor.setColors(CyderColors.regularRed);
         applyColor.setToolTipText("Apply");
-        applyColor.setFont(mainGeneralUtil.weatherFontSmall);
+        applyColor.setFont(CyderFonts.weatherFontSmall);
         applyColor.setFocusPainted(false);
-        applyColor.setBackground(mainGeneralUtil.regularRed);
+        applyColor.setBackground(CyderColors.regularRed);
         applyColor.addActionListener(e -> {
             IOUtil.writeUserData("Foreground",hexField.getText());
 
@@ -3766,33 +3770,33 @@ public class CyderMain{
         applyColor.setBounds(460,420,200,40);
         switchingPanel.add(applyColor);
 
-        JLabel FontLabel = new JLabel("Font");
-        FontLabel.setFont(mainGeneralUtil.weatherFontBig);
-        FontLabel.setForeground(mainGeneralUtil.navy);
+        JLabel FontLabel = new JLabel("CyderFonts");
+        FontLabel.setFont(CyderFonts.weatherFontBig);
+        FontLabel.setForeground(CyderColors.navy);
         FontLabel.setBounds(150, 60,300, 30);
         switchingPanel.add(FontLabel);
 
         String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
         fontList = new JList(Fonts);
-        fontList.setSelectionBackground(mainGeneralUtil.selectionColor);
+        fontList.setSelectionBackground(CyderColors.selectionColor);
         fontList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        fontList.setFont(mainGeneralUtil.weatherFontSmall);
+        fontList.setFont(CyderFonts.weatherFontSmall);
 
         CyderScrollPane FontListScroll = new CyderScrollPane(fontList,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        FontListScroll.setThumbColor(mainGeneralUtil.intellijPink);
-        FontListScroll.setBorder(new LineBorder(mainGeneralUtil.navy,5,true));
+        FontListScroll.setThumbColor(CyderColors.intellijPink);
+        FontListScroll.setBorder(new LineBorder(CyderColors.navy,5,true));
 
-        CyderButton applyFont = new CyderButton("Apply Font");
+        CyderButton applyFont = new CyderButton("Apply CyderFonts");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        applyFont.setColors(mainGeneralUtil.regularRed);
+        applyFont.setColors(CyderColors.regularRed);
         applyFont.setToolTipText("Apply");
-        applyFont.setFont(mainGeneralUtil.weatherFontSmall);
+        applyFont.setFont(CyderFonts.weatherFontSmall);
         applyFont.setFocusPainted(false);
-        applyFont.setBackground(mainGeneralUtil.regularRed);
+        applyFont.setBackground(CyderColors.regularRed);
         applyFont.addActionListener(e -> {
             String FontS = (String) fontList.getSelectedValue();
 
@@ -3800,7 +3804,7 @@ public class CyderMain{
                 Font ApplyFont = new Font(FontS, Font.BOLD, 30);
                 outputArea.setFont(ApplyFont);
                 inputField.setFont(ApplyFont);
-                IOUtil.writeUserData("Font",FontS);
+                IOUtil.writeUserData("CyderFonts",FontS);
                 println("The font \"" + FontS + "\" has been applied.");
             }
         });
@@ -3847,43 +3851,43 @@ public class CyderMain{
 
     private void switchToPreferences() {
         JLabel prefsTitle = new JLabel("Preferences");
-        prefsTitle.setFont(mainGeneralUtil.weatherFontBig);
-        prefsTitle.setForeground(mainGeneralUtil.navy);
+        prefsTitle.setFont(CyderFonts.weatherFontBig);
+        prefsTitle.setForeground(CyderColors.navy);
         prefsTitle.setHorizontalAlignment(JLabel.CENTER);
         prefsTitle.setBounds(720 / 2 - 250 / 2,10,250,30);
         switchingPanel.add(prefsTitle);
 
         JLabel introMusicTitle = new JLabel("Intro Music");
-        introMusicTitle.setFont(mainGeneralUtil.weatherFontSmall);
-        introMusicTitle.setForeground(mainGeneralUtil.navy);
+        introMusicTitle.setFont(CyderFonts.weatherFontSmall);
+        introMusicTitle.setForeground(CyderColors.navy);
         introMusicTitle.setHorizontalAlignment(JLabel.CENTER);
         introMusicTitle.setBounds(20,50,130,25);
         switchingPanel.add(introMusicTitle);
 
         JLabel debugWindowsLabel = new JLabel("Debug");
-        debugWindowsLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        debugWindowsLabel.setForeground(mainGeneralUtil.navy);
+        debugWindowsLabel.setFont(CyderFonts.weatherFontSmall);
+        debugWindowsLabel.setForeground(CyderColors.navy);
         debugWindowsLabel.setHorizontalAlignment(JLabel.CENTER);
         debugWindowsLabel.setBounds(130,50,160,25);
         switchingPanel.add(debugWindowsLabel);
 
         JLabel randomBackgroundLabel = new JLabel("Random Back");
-        randomBackgroundLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        randomBackgroundLabel.setForeground(mainGeneralUtil.navy);
+        randomBackgroundLabel.setFont(CyderFonts.weatherFontSmall);
+        randomBackgroundLabel.setForeground(CyderColors.navy);
         randomBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
         randomBackgroundLabel.setBounds(150 + 120,50,160,25);
         switchingPanel.add(randomBackgroundLabel);
 
         JLabel outputBorderLabel = new JLabel("Out Border");
-        outputBorderLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        outputBorderLabel.setForeground(mainGeneralUtil.navy);
+        outputBorderLabel.setFont(CyderFonts.weatherFontSmall);
+        outputBorderLabel.setForeground(CyderColors.navy);
         outputBorderLabel.setHorizontalAlignment(JLabel.CENTER);
         outputBorderLabel.setBounds(150 + 20 + 10 + 150 + 90,50,160,25);
         switchingPanel.add(outputBorderLabel);
 
         JLabel inputBorderLabel = new JLabel("In Border");
-        inputBorderLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        inputBorderLabel.setForeground(mainGeneralUtil.navy);
+        inputBorderLabel.setFont(CyderFonts.weatherFontSmall);
+        inputBorderLabel.setForeground(CyderColors.navy);
         inputBorderLabel.setHorizontalAlignment(JLabel.CENTER);
         inputBorderLabel.setBounds(150 + 20 + 20 + 150 + 225,50,160,25);
         switchingPanel.add(inputBorderLabel);
@@ -3989,36 +3993,36 @@ public class CyderMain{
         switchingPanel.add(inputBorder);
 
         JLabel hourlyChimesLabel = new JLabel("Hour Chimes");
-        hourlyChimesLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        hourlyChimesLabel.setForeground(mainGeneralUtil.navy);
+        hourlyChimesLabel.setFont(CyderFonts.weatherFontSmall);
+        hourlyChimesLabel.setForeground(CyderColors.navy);
         hourlyChimesLabel.setHorizontalAlignment(JLabel.CENTER);
         hourlyChimesLabel.setBounds(5,210,170,30);
         switchingPanel.add(hourlyChimesLabel);
 
         JLabel silenceLabel = new JLabel("No Errors");
-        silenceLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        silenceLabel.setForeground(mainGeneralUtil.navy);
+        silenceLabel.setFont(CyderFonts.weatherFontSmall);
+        silenceLabel.setForeground(CyderColors.navy);
         silenceLabel.setHorizontalAlignment(JLabel.CENTER);
         silenceLabel.setBounds(150,210,150,30);
         switchingPanel.add(silenceLabel);
 
         JLabel fullscreenLabel = new JLabel("Fullscreen");
-        fullscreenLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        fullscreenLabel.setForeground(mainGeneralUtil.navy);
+        fullscreenLabel.setFont(CyderFonts.weatherFontSmall);
+        fullscreenLabel.setForeground(CyderColors.navy);
         fullscreenLabel.setHorizontalAlignment(JLabel.CENTER);
         fullscreenLabel.setBounds(285,210,170,30);
         switchingPanel.add(fullscreenLabel);
 
         JLabel outputFillLabel = new JLabel("Fill Out");
-        outputFillLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        outputFillLabel.setForeground(mainGeneralUtil.navy);
+        outputFillLabel.setFont(CyderFonts.weatherFontSmall);
+        outputFillLabel.setForeground(CyderColors.navy);
         outputFillLabel.setHorizontalAlignment(JLabel.CENTER);
         outputFillLabel.setBounds(420,210,170,30);
         switchingPanel.add(outputFillLabel);
 
         JLabel inputFillLabel = new JLabel("Fill In");
-        inputFillLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        inputFillLabel.setForeground(mainGeneralUtil.navy);
+        inputFillLabel.setFont(CyderFonts.weatherFontSmall);
+        inputFillLabel.setForeground(CyderColors.navy);
         inputFillLabel.setHorizontalAlignment(JLabel.CENTER);
         inputFillLabel.setBounds(560,210,170,30);
         switchingPanel.add(inputFillLabel);
@@ -4096,15 +4100,15 @@ public class CyderMain{
         switchingPanel.add(inputFill);
 
         JLabel clockLabel = new JLabel("Console Clock");
-        clockLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        clockLabel.setForeground(mainGeneralUtil.navy);
+        clockLabel.setFont(CyderFonts.weatherFontSmall);
+        clockLabel.setForeground(CyderColors.navy);
         clockLabel.setHorizontalAlignment(JLabel.CENTER);
         clockLabel.setBounds(20,380,170,25);
         switchingPanel.add(clockLabel);
 
         JLabel showSecondsLabel = new JLabel("Clock Seconds");
-        showSecondsLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        showSecondsLabel.setForeground(mainGeneralUtil.navy);
+        showSecondsLabel.setFont(CyderFonts.weatherFontSmall);
+        showSecondsLabel.setForeground(CyderColors.navy);
         showSecondsLabel.setHorizontalAlignment(JLabel.CENTER);
         showSecondsLabel.setBounds(220,380,170,25);
         switchingPanel.add(showSecondsLabel);
@@ -4206,30 +4210,30 @@ public class CyderMain{
         });
 
         JLabel hexLabel = new JLabel("Hex Code");
-        hexLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        hexLabel.setForeground(mainGeneralUtil.navy);
+        hexLabel.setFont(CyderFonts.weatherFontSmall);
+        hexLabel.setForeground(CyderColors.navy);
         hexLabel.setHorizontalAlignment(JLabel.CENTER);
         hexLabel.setBounds(434, 380,150, 30);
         switchingPanel.add(hexLabel);
 
         JTextField colorBlock = new JTextField();
-        colorBlock.setBackground(mainGeneralUtil.navy);
+        colorBlock.setBackground(CyderColors.navy);
         colorBlock.setFocusable(false);
         colorBlock.setCursor(null);
         colorBlock.setToolTipText("Color Preview");
         colorBlock.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
-        colorBlock.setBorder(new LineBorder(mainGeneralUtil.navy, 5, false));
+        colorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         colorBlock.setBounds(630, 380, 40, 100);
         switchingPanel.add(colorBlock);
 
-        JTextField hexField = new JTextField(String.format("#%02X%02X%02X", mainGeneralUtil.navy.getRed(), mainGeneralUtil.navy.getGreen(), mainGeneralUtil.navy.getBlue()).replace("#",""));
-        hexField.setForeground(mainGeneralUtil.navy);
+        JTextField hexField = new JTextField(String.format("#%02X%02X%02X", CyderColors.navy.getRed(), CyderColors.navy.getGreen(), CyderColors.navy.getBlue()).replace("#",""));
+        hexField.setForeground(CyderColors.navy);
         hexField.setText(IOUtil.getUserData("Background"));
-        hexField.setFont(mainGeneralUtil.weatherFontSmall);
+        hexField.setFont(CyderFonts.weatherFontSmall);
         hexField.setBackground(new Color(255,255,255));
-        hexField.setSelectionColor(mainGeneralUtil.selectionColor);
+        hexField.setSelectionColor(CyderColors.selectionColor);
         hexField.setToolTipText("Input field and output area fill color if enabled");
-        hexField.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        hexField.setBorder(new LineBorder(CyderColors.navy,5,false));
         hexField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
@@ -4256,15 +4260,15 @@ public class CyderMain{
         createUserFrame.setTitle("Create User");
 
         JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);
-        NameLabel.setFont(mainGeneralUtil.weatherFontSmall);
+        NameLabel.setFont(CyderFonts.weatherFontSmall);
         NameLabel.setBounds(120,30,121,30);
         createUserFrame.getContentPane().add(NameLabel);
 
         newUserName = new JTextField(15);
-        newUserName.setSelectionColor(mainGeneralUtil.selectionColor);
-        newUserName.setFont(mainGeneralUtil.weatherFontSmall);
-        newUserName.setForeground(mainGeneralUtil.navy);
-        newUserName.setFont(mainGeneralUtil.weatherFontSmall);
+        newUserName.setSelectionColor(CyderColors.selectionColor);
+        newUserName.setFont(CyderFonts.weatherFontSmall);
+        newUserName.setForeground(CyderColors.navy);
+        newUserName.setFont(CyderFonts.weatherFontSmall);
         newUserName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
             if (newUserName.getText().length() > 15) {
@@ -4303,13 +4307,13 @@ public class CyderMain{
             }
         });
 
-        newUserName.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        newUserName.setBorder(new LineBorder(CyderColors.navy,5,false));
         newUserName.setBounds(60,70,240,40);
         createUserFrame.getContentPane().add(newUserName);
 
         JLabel passwordLabel = new JLabel("Password: ", SwingConstants.CENTER);
-        passwordLabel.setFont(mainGeneralUtil.weatherFontSmall);
-        passwordLabel.setForeground(mainGeneralUtil.navy);
+        passwordLabel.setFont(CyderFonts.weatherFontSmall);
+        passwordLabel.setForeground(CyderColors.navy);
         passwordLabel.setBounds(60,120,240,30);
         createUserFrame.getContentPane().add(passwordLabel);
 
@@ -4321,25 +4325,25 @@ public class CyderMain{
             public void keyReleased(KeyEvent e) {
             if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
                 matchPasswords.setText("Passwords match");
-                matchPasswords.setForeground(mainGeneralUtil.regularGreen);
+                matchPasswords.setForeground(CyderColors.regularGreen);
             }
 
             else {
                 matchPasswords.setText("Passwords do not match");
-                matchPasswords.setForeground(mainGeneralUtil.regularRed);
+                matchPasswords.setForeground(CyderColors.regularRed);
             }
             }
         });
-        newUserPassword.setFont(mainGeneralUtil.weatherFontSmall);
-        newUserPassword.setForeground(mainGeneralUtil.navy);
-        newUserPassword.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        newUserPassword.setSelectedTextColor(mainGeneralUtil.selectionColor);
+        newUserPassword.setFont(CyderFonts.weatherFontSmall);
+        newUserPassword.setForeground(CyderColors.navy);
+        newUserPassword.setBorder(new LineBorder(CyderColors.navy,5,false));
+        newUserPassword.setSelectedTextColor(CyderColors.selectionColor);
         newUserPassword.setBounds(60,160,240,40);
         createUserFrame.getContentPane().add(newUserPassword);
 
         JLabel passwordLabelConf = new JLabel("Confirm Password: ", SwingConstants.CENTER);
-        passwordLabelConf.setFont(mainGeneralUtil.weatherFontSmall);
-        passwordLabelConf.setForeground(mainGeneralUtil.navy);
+        passwordLabelConf.setFont(CyderFonts.weatherFontSmall);
+        passwordLabelConf.setForeground(CyderColors.navy);
         passwordLabelConf.setBounds(60,210,240,30);
         createUserFrame.getContentPane().add(passwordLabelConf);
 
@@ -4349,33 +4353,33 @@ public class CyderMain{
             public void keyReleased(KeyEvent e) {
             if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
                 matchPasswords.setText("Passwords match");
-                matchPasswords.setForeground(mainGeneralUtil.regularGreen);
+                matchPasswords.setForeground(CyderColors.regularGreen);
             }
 
             else {
                 matchPasswords.setText("Passwords do not match");
-                matchPasswords.setForeground(mainGeneralUtil.regularRed);
+                matchPasswords.setForeground(CyderColors.regularRed);
             }
             }
         });
 
-        newUserPasswordconf.setFont(mainGeneralUtil.weatherFontSmall);
-        newUserPasswordconf.setForeground(mainGeneralUtil.navy);
-        newUserPasswordconf.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        newUserPasswordconf.setSelectedTextColor(mainGeneralUtil.selectionColor);
+        newUserPasswordconf.setFont(CyderFonts.weatherFontSmall);
+        newUserPasswordconf.setForeground(CyderColors.navy);
+        newUserPasswordconf.setBorder(new LineBorder(CyderColors.navy,5,false));
+        newUserPasswordconf.setSelectedTextColor(CyderColors.selectionColor);
         newUserPasswordconf.setBounds(60,250,240,40);
         createUserFrame.getContentPane().add(newUserPasswordconf);
 
-        matchPasswords.setFont(mainGeneralUtil.weatherFontSmall);
-        matchPasswords.setForeground(mainGeneralUtil.regularGreen);
+        matchPasswords.setFont(CyderFonts.weatherFontSmall);
+        matchPasswords.setForeground(CyderColors.regularGreen);
         matchPasswords.setBounds(32,300,300,30);
         createUserFrame.getContentPane().add(matchPasswords);
 
         chooseBackground = new CyderButton("Choose background");
         chooseBackground.setToolTipText("ClickMe me to choose a background");
-        chooseBackground.setFont(mainGeneralUtil.weatherFontSmall);
-        chooseBackground.setBackground(mainGeneralUtil.regularRed);
-        chooseBackground.setColors(mainGeneralUtil.regularRed);
+        chooseBackground.setFont(CyderFonts.weatherFontSmall);
+        chooseBackground.setBackground(CyderColors.regularRed);
+        chooseBackground.setColors(CyderColors.regularRed);
         chooseBackground.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -4418,14 +4422,14 @@ public class CyderMain{
             }
         });
 
-        chooseBackground.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
+        chooseBackground.setBorder(new LineBorder(CyderColors.navy,5,false));
         chooseBackground.setBounds(60,340,240,40);
         createUserFrame.getContentPane().add(chooseBackground);
 
         createNewUser = new CyderButton("Create User");
-        createNewUser.setFont(mainGeneralUtil.weatherFontSmall);
-        createNewUser.setBackground(mainGeneralUtil.regularRed);
-        createNewUser.setColors(mainGeneralUtil.regularRed);
+        createNewUser.setFont(CyderFonts.weatherFontSmall);
+        createNewUser.setBackground(CyderColors.regularRed);
+        createNewUser.setColors(CyderColors.regularRed);
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -4515,7 +4519,7 @@ public class CyderMain{
                     data.add("Name:" + newUserName.getText().trim());
                     data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
 
-                    data.add("Font:tahoma");
+                    data.add("CyderFonts:tahoma");
                     data.add("Foreground:FCFBE3");
                     data.add("Background:FFFFFF");
 
@@ -4567,8 +4571,8 @@ public class CyderMain{
             }
         });
 
-        createNewUser.setBorder(new LineBorder(mainGeneralUtil.navy,5,false));
-        createNewUser.setFont(mainGeneralUtil.weatherFontSmall);
+        createNewUser.setBorder(new LineBorder(CyderColors.navy,5,false));
+        createNewUser.setFont(CyderFonts.weatherFontSmall);
         createNewUser.setBounds(60,390,240,40);
         createUserFrame.getContentPane().add(createNewUser);
 
@@ -4604,12 +4608,12 @@ public class CyderMain{
     }
 
     private void askew() {
-        consoleFrame.setBackground(mainGeneralUtil.navy);
+        consoleFrame.setBackground(CyderColors.navy);
         parentLabel.setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath()),3)));
     }
 
     private void barrelRoll() {
-        consoleFrame.setBackground(mainGeneralUtil.navy);
+        consoleFrame.setBackground(CyderColors.navy);
         mainGeneralUtil.getValidBackgroundPaths();
 
         int originConsoleDIr = mainGeneralUtil.getConsoleDirection();
@@ -4647,7 +4651,7 @@ public class CyderMain{
     private void shutdown() {
         try {
             IOUtil.readUserData();
-            IOUtil.writeUserData("Font",outputArea.getFont().getName());
+            IOUtil.writeUserData("CyderFonts",outputArea.getFont().getName());
             IOUtil.writeUserData("Foreground",ColorUtil.rgbtohexString(outputArea.getForeground()));
 
             IOUtil.deleteTempDir();
@@ -4689,8 +4693,8 @@ public class CyderMain{
 
         JLabel text = new JLabel();
         text.setText(htmltext);
-        text.setFont(mainGeneralUtil.weatherFontSmall);
-        text.setForeground(mainGeneralUtil.navy);
+        text.setFont(CyderFonts.weatherFontSmall);
+        text.setForeground(CyderColors.navy);
         text.setBounds(14,10,w * 2,h);
         consoleNotification.add(text);
         consoleNotification.setBounds(parent.getWidth() / 2 - (w/2),30,w * 2,h * 2);

@@ -1,5 +1,7 @@
 package com.cyder.widgets;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
@@ -14,15 +16,15 @@ import java.awt.event.MouseEvent;
 public class ClickMe {
     public static void clickMe() {
         try {
-            CyderFrame clickMeFrame = new CyderFrame(220,100, new ImageIcon(new ImageUtil().imageFromColor(220,100,GeneralUtil.vanila)));
+            CyderFrame clickMeFrame = new CyderFrame(220,100, new ImageIcon(new ImageUtil().imageFromColor(220,100, CyderColors.vanila)));
             clickMeFrame.setTitlePosition(CyderFrame.CENTER_TITLE);
             clickMeFrame.setTitle("");
 
             JLabel dismiss = new JLabel("ClickMe Me!");
             dismiss.setHorizontalAlignment(JLabel.CENTER);
             dismiss.setVerticalAlignment(JLabel.CENTER);
-            dismiss.setForeground(GeneralUtil.navy);
-            dismiss.setFont(GeneralUtil.weatherFontBig.deriveFont(22f));
+            dismiss.setForeground(CyderColors.navy);
+            dismiss.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
             dismiss.setBounds(30, 40, 150, 40);
             dismiss.addMouseListener(new MouseAdapter() {
                 @Override
@@ -33,12 +35,12 @@ public class ClickMe {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    dismiss.setForeground(GeneralUtil.regularRed);
+                    dismiss.setForeground(CyderColors.regularRed);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    dismiss.setForeground(GeneralUtil.navy);
+                    dismiss.setForeground(CyderColors.navy);
                 }
             });
 

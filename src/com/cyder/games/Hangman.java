@@ -1,5 +1,7 @@
 package com.cyder.games;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -38,8 +40,8 @@ public class Hangman {
         HangmanFrame.setTitle("Hangman");
 
         HangmanLabel = new JLabel("<html>Nathan Was Here</html>",SwingConstants.CENTER);
-        HangmanLabel.setFont(hangmanGeneralUtil.weatherFontSmall.deriveFont(22f));
-        HangmanLabel.setForeground(hangmanGeneralUtil.navy);
+        HangmanLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(22f));
+        HangmanLabel.setForeground(CyderColors.navy);
         HangmanLabel.setBounds(60,60,600,60);
         HangmanFrame.getContentPane().add(HangmanLabel);
 
@@ -49,11 +51,11 @@ public class Hangman {
         HangmanFrame.getContentPane().add(HangmanImageLabel);
 
         letterField = new JTextField(40);
-        letterField.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
+        letterField.setBorder(new LineBorder(CyderColors.navy,5,false));
         letterField.setBackground(Color.WHITE);
-        letterField.setSelectionColor(hangmanGeneralUtil.selectionColor);
-        letterField.setForeground(hangmanGeneralUtil.navy);
-        letterField.setFont(hangmanGeneralUtil.weatherFontSmall);
+        letterField.setSelectionColor(CyderColors.selectionColor);
+        letterField.setForeground(CyderColors.navy);
+        letterField.setFont(CyderFonts.weatherFontSmall);
         letterField.setToolTipText("Enter your letter guess here [A-Z]");
         letterField.addKeyListener(new KeyListener() {
             @Override
@@ -113,11 +115,11 @@ public class Hangman {
 
         HangmanReset = new CyderButton("Reset");
         HangmanReset.setFocusPainted(false);
-        HangmanReset.setBackground(hangmanGeneralUtil.regularRed);
-        HangmanReset.setFont(hangmanGeneralUtil.weatherFontSmall);
+        HangmanReset.setBackground(CyderColors.regularRed);
+        HangmanReset.setFont(CyderFonts.weatherFontSmall);
         HangmanReset.addActionListener(e -> setup());
-        HangmanReset.setBorder(new LineBorder(hangmanGeneralUtil.navy,5,false));
-        HangmanReset.setColors(hangmanGeneralUtil.regularRed);
+        HangmanReset.setBorder(new LineBorder(CyderColors.navy,5,false));
+        HangmanReset.setColors(CyderColors.regularRed);
         HangmanReset.setBounds(80,750,712 - 80 - 80, 40);
         HangmanFrame.getContentPane().add(HangmanReset);
 
@@ -129,7 +131,7 @@ public class Hangman {
     }
 
     private void setup() {
-        HangmanLabel.setFont(hangmanGeneralUtil.weatherFontSmall);
+        HangmanLabel.setFont(CyderFonts.weatherFontSmall);
         HangmanReset.setText("Reset");
 
         letterField.setEnabled(true);
@@ -181,7 +183,7 @@ public class Hangman {
             HangmanLabel.setText(newLabelText);
 
             if (!HangmanLabel.getText().contains("_")) {
-                HangmanLabel.setFont(hangmanGeneralUtil.weatherFontSmall);
+                HangmanLabel.setFont(CyderFonts.weatherFontSmall);
                 HangmanLabel.setText("<html>Good job! You guessed the word \"" + HangmanWord + ".\" Would you like to play again?</html>");
                 letterField.setEnabled(false);
 
@@ -192,7 +194,7 @@ public class Hangman {
         else {
             if (HangmanWrongGuesses == 7) {
                 HangmanImageLabel.setIcon(new ImageIcon("src/com/cyder/sys/pictures/hangman8.png"));
-                HangmanLabel.setFont(hangmanGeneralUtil.weatherFontSmall);
+                HangmanLabel.setFont(CyderFonts.weatherFontSmall);
                 HangmanLabel.setText("<html>Game over! You were unable to guess \"" + HangmanWord + ".\" Would you like to play again?</html>");
 
                 HangmanReset.setText("Play Again");
