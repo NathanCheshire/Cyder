@@ -5,9 +5,7 @@ import com.cyder.handler.ErrorHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.net.InetAddress;
 
 public class SystemUtil {
@@ -40,18 +38,6 @@ public class SystemUtil {
     public ImageIcon getScaledCyderIcon() {return this.scaledCyderIcon;}
 
     public ImageIcon getScaledCyderIconBlink() {return this.scaledCyderIconBlink;}
-
-    public String getCyderVer() {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/Title.txt"))) {
-            return br.readLine();
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-
-        return null;
-    }
 
     public String getWindowsUsername() {
         return System.getProperty("user.name");

@@ -34,11 +34,12 @@ public class SecurityUtil {
         return sb.toString();
     }
 
-    public static boolean compMACAddress(String mac) {
+    public static boolean nathanLenovo() {
+        return compMACAddress(getMACAddress());
+    }
 
-        //todo make this more secure
-        return toHexString(getSHA(mac.toCharArray())).equals
-                ("5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e");
+    public static boolean compMACAddress(String mac) {
+        return toHexString(getSHA(mac.toCharArray())).equals(IOUtil.getSystemData("MMAC"));
     }
 
     public static byte[] getSHA(char[] input) {

@@ -4,16 +4,17 @@ package com.cyder.utilities;
 import com.cyder.enums.ConsoleDirection;
 import com.cyder.exception.FatalException;
 import com.cyder.handler.ErrorHandler;
-import com.cyder.ui.CyderButton;
 import com.cyder.widgets.GenericInform;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FilenameFilter;
 
-import static com.cyder.enums.ConsoleDirection.*;
+import static com.cyder.enums.ConsoleDirection.UP;
 
 public class GeneralUtil {
 
@@ -22,14 +23,14 @@ public class GeneralUtil {
     private static String username;
     private static Color usercolor;
     private static Font userfont;
-    private static String os;
     private static int currentBackgroundIndex;
     private static File[] validBackgroundPaths;
-    private boolean consoleClock;
+    private static boolean consoleClock;
 
-    private ConsoleDirection consoleDirection = UP;
+    private static ConsoleDirection consoleDirection = UP;
+
     //put these in consoleframe
-    public BufferedImage getRotatedImage(String name) {
+    public static BufferedImage getRotatedImage(String name) {
         switch(consoleDirection) {
             case UP:
                 return ImageUtil.getBi(name);
@@ -45,31 +46,20 @@ public class GeneralUtil {
     }
 
     //boolean vars
-    private boolean handledMath;
-    private boolean hideOnClose;
-    private boolean oneMathPrint;
-    private boolean alwaysOnTop;
+    private static boolean handledMath;
+    private static boolean hideOnClose;
+    private static boolean oneMathPrint;
+    private static boolean alwaysOnTop;
 
     //scrolling var
-    private int currentDowns;
-
-    //drawing vars
-    private JFrame pictureFrame;
-    private CyderButton closeDraw;
+    private static int currentDowns;
 
     //backbround vars
-    private int backgroundX;
-    private int backgroundY;
-
-
-
-    //Sys.log with title and other stuff
-    public boolean released() {
-        return false;
-    }
+    private static int backgroundWidth;
+    private static int backgroundHeight;
 
     //io util, put in user data
-    public String getIPKey() {
+    public static String getIPKey() {
         try {
             BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/sys/text/keys.txt"));
             String line = "";
@@ -90,7 +80,7 @@ public class GeneralUtil {
     }
 
     //io util, put in user data
-    public String getWeatherKey() {
+    public static String getWeatherKey() {
         try {
             BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/sys/text/keys.txt"));
             String line = "";
@@ -112,17 +102,17 @@ public class GeneralUtil {
     }
 
     //console frame
-    public int getCurrentDowns() {
-        return this.currentDowns;
+    public static int getCurrentDowns() {
+        return currentDowns;
     }
-    public void setCurrentDowns(int num) {
-        this.currentDowns = num;
+    public static void setCurrentDowns(int num) {
+        currentDowns = num;
     }
-    public boolean getHandledMath() {
-        return this.handledMath;
+    public static boolean getHandledMath() {
+        return handledMath;
     }
-    public void setHandledMath(boolean b) {
-        this.handledMath = b;
+    public static void setHandledMath(boolean b) {
+        handledMath = b;
     }
 
     //user utils
@@ -158,54 +148,47 @@ public class GeneralUtil {
     }
 
     //move to consoleframe
-    public boolean OnLastBackground() {
+    public static boolean onLastBackground() {
         return (validBackgroundPaths.length == currentBackgroundIndex + 1);
     }
-    public File[] getValidBackgroundPaths() {
-        initBackgrounds();
-        return this.validBackgroundPaths;
+
+    public static File[] getBackgrounds() {
+        refreshBackgrounds();
+        return validBackgroundPaths;
     }
 
     //console frame
-    public void setCurrentBackgroundIndex(int i) {
-        this.currentBackgroundIndex = i;
+    public static void setCurrentBackgroundIndex(int i) {
+        currentBackgroundIndex = i;
     }
-    public int getCurrentBackgroundIndex() {
-        return this.currentBackgroundIndex;
+
+    public static int getCurrentBackgroundIndex() {
+        return currentBackgroundIndex;
     }
-    public File getCurrentBackground() {
+
+    public static File getCurrentBackground() {
         return validBackgroundPaths[currentBackgroundIndex];
     }
-    public void getBackgroundSize() {
-        ImageIcon Size = new ImageIcon(getCurrentBackground().toString());
 
-        if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-            backgroundX = new SystemUtil().getScreenWidth();
-            backgroundY = new SystemUtil().getScreenHeight();
-        }
-
-        else {
-            backgroundX = Size.getIconWidth();
-            backgroundY = Size.getIconHeight();
-        }
+    //console frame
+    public static int getBackgroundWidth() {
+        return backgroundWidth;
     }
 
-    //consoleframe
-    public int getBackgroundX() {
-        return this.backgroundX;
+    public static int getBackgroundHeight() {
+        return backgroundHeight;
     }
-    public int getBackgroundY() {
-        return this.backgroundY;
+
+    public static void setBackgroundWidth(int x) {
+        backgroundWidth = x;
     }
-    public void setBackgroundX(int x) {
-        this.backgroundX = x;
-    }
-    public void setBackgroundY(int y) {
-        this.backgroundY = y;
+
+    public static void setBackgroundHeight(int y) {
+        backgroundHeight = y;
     }
 
     //console frame
-    public void initBackgrounds() {
+    public static void refreshBackgrounds() {
         try {
             File dir = new File("src/users/" + getUserUUID() + "/Backgrounds");
             FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
@@ -222,96 +205,99 @@ public class GeneralUtil {
     }
 
     //console frame
-    public boolean canSwitchBackground() {
+    public static boolean canSwitchBackground() {
         return (validBackgroundPaths.length > currentBackgroundIndex + 1 && validBackgroundPaths.length > 1);
     }
 
     //console frame
-    public void setConsoleClock(boolean b) {
-        this.consoleClock = b;
+    public static void setConsoleClock(boolean b) {
+        consoleClock = b;
     }
-    public boolean getConsoleClock() {
-        return this.consoleClock;
+
+    public static boolean getConsoleClock() {
+        return consoleClock;
     }
 
     //console frame
-    public ConsoleDirection getConsoleDirection() {
-        return this.consoleDirection;
+    public static ConsoleDirection getConsoleDirection() {
+        return consoleDirection;
     }
-    public void setConsoleDirection(ConsoleDirection d) {
-        this.consoleDirection = d;
+
+    public static void setConsoleDirection(ConsoleDirection d) {
+        consoleDirection = d;
     }
 
     //console frame
-    public void resizeImages() {
+    public static void resizeUserBackgrounds() {
         try {
-            for (int i = 0 ; i < getValidBackgroundPaths().length ; i++) {
-                File UneditedImage = getValidBackgroundPaths()[i];
+            File[] backgrounds = getBackgrounds();
 
-                BufferedImage currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
+            for (int i = 0; i < backgrounds.length ; i++) {
+                File currentFile = backgrounds[i];
 
-                setBackgroundX(currentImage.getWidth());
-                setBackgroundY(currentImage.getHeight());
+                BufferedImage currentImage = ImageIO.read(currentFile);
+
+                backgroundWidth = currentImage.getWidth();
+                backgroundHeight = currentImage.getHeight();
 
                 double aspectRatio = ImageUtil.getAspectRatio(currentImage);
                 int imageType = currentImage.getType();
 
-                if (getBackgroundX() > new SystemUtil().getScreenWidth() || getBackgroundY() > new SystemUtil().getScreenHeight()) {
-                    GenericInform.inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too big " +
+                if (backgroundWidth > new SystemUtil().getScreenWidth() || backgroundHeight > new SystemUtil().getScreenHeight()) {
+                    GenericInform.inform("Resized the background image \"" + currentFile.getName() + "\" since it was too big " +
                             "(That's what she said ahahahahah hahaha ha ha so funny).","System Action", 700, 200);
                 }
 
-                while (getBackgroundX() > new SystemUtil().getScreenWidth() || getBackgroundY() > new SystemUtil().getScreenHeight()) {
-                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
+                //resizing smaller
+                while (backgroundWidth > new SystemUtil().getScreenWidth() || backgroundHeight > new SystemUtil().getScreenHeight()) {
+                    currentImage = ImageIO.read(currentFile);
 
                     int width = (int) (currentImage.getWidth() / aspectRatio);
                     int height = (int) (currentImage.getHeight() / aspectRatio);
 
                     BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
 
-                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
+                    ImageIO.write(saveImage, "png", currentFile);
 
-                    setBackgroundX(saveImage.getWidth());
-                    setBackgroundY(saveImage.getHeight());
-                    getValidBackgroundPaths();
+                    backgroundWidth = saveImage.getWidth();
+                    backgroundHeight = saveImage.getHeight();
                 }
 
-                if (getBackgroundX() < 600 || getBackgroundY() < 600) {
-                    GenericInform.inform("Resized the background image \"" + getValidBackgroundPaths()[i].getName() + "\" since it was too small.","System Action", 700, 200);
+                if (backgroundWidth < 600 || backgroundHeight < 600) {
+                    GenericInform.inform("Resized the background image \"" + getBackgrounds()[i].getName() + "\" since it was too small.","System Action", 700, 200);
                 }
 
-                while (getBackgroundX() < 600 || getBackgroundY() < 600) {
-                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
+                //resizing bigger
+                while (backgroundWidth < 600 || backgroundHeight < 600) {
+                    currentImage = ImageIO.read(currentFile);
 
                     int width = (int) (currentImage.getWidth() * aspectRatio);
                     int height = (int) (currentImage.getHeight() * aspectRatio);
 
                     BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
 
-                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
+                    ImageIO.write(saveImage, "png", currentFile);
 
-                    setBackgroundX(saveImage.getWidth());
-                    setBackgroundY(saveImage.getHeight());
-                    getValidBackgroundPaths();
+                    backgroundWidth = saveImage.getWidth();
+                    backgroundHeight = saveImage.getHeight();
                 }
 
-                if (NumberUtil.isPrime(getBackgroundX())) {
-                    currentImage = ImageIO.read(new File(getValidBackgroundPaths()[i].toString()));
+                if (NumberUtil.isPrime(backgroundWidth)) {
+                    currentImage = ImageIO.read(currentFile);
 
                     int width = currentImage.getWidth() + 1;
                     int height = currentImage.getHeight() + 1;
 
                     BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
 
-                    ImageIO.write(saveImage, "png", new File(getValidBackgroundPaths()[i].toString()));
+                    ImageIO.write(saveImage, "png", currentFile);
 
-                    setBackgroundX(saveImage.getWidth());
-                    setBackgroundY(saveImage.getHeight());
-                    getValidBackgroundPaths();
+                    backgroundWidth = saveImage.getWidth();
+                    backgroundHeight = saveImage.getHeight();
                 }
             }
 
-            getValidBackgroundPaths();
+            getBackgrounds();
         }
 
         catch (Exception ex) {

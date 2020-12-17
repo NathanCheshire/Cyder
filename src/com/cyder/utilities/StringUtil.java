@@ -4,11 +4,12 @@ import com.cyder.handler.ErrorHandler;
 
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
-import java.io.*;
-import java.text.SimpleDateFormat;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -348,6 +349,7 @@ public class StringUtil {
         bletchThread = new bletchyThread(print,miliDelay);
     }
 
+    //todo move inner class to threads package
     private class bletchyThread  {
         private boolean exit = false;
 
@@ -425,54 +427,6 @@ public class StringUtil {
 
     public void printArr(Object[] arr) {
         for (Object o : arr) println(o);
-    }
-
-    public void logArgs(String[] cyderArgs) {
-        try {
-            if (cyderArgs.length == 0)
-                cyderArgs = new String[]{"Started by " + System.getProperty("user.name")};
-
-            File log = new File("src/Sys.log");
-
-            if (!log.exists())
-                log.createNewFile();
-
-            BufferedReader br = new BufferedReader(new FileReader(log));
-
-            LinkedList<String> lines = new LinkedList<>();
-            String line;
-
-            while ((line = br.readLine()) != null)
-                lines.add(line);
-
-            br.close();
-
-            BufferedWriter bw = new BufferedWriter(new FileWriter(log,false));
-
-            String argsString = "";
-
-            for (int i = 0 ; i < cyderArgs.length ; i++) {
-                if (i != 0)
-                    argsString += ",";
-                argsString += cyderArgs[i];
-            }
-
-            IPUtil ipu = new IPUtil();
-
-            lines.push(new SimpleDateFormat("MM-dd-yy HH:mm:ss").format(new Date()) + " : " + argsString + " in " + ipu.getUserCity() + ", " + ipu.getUserState());
-
-            for (String lin : lines) {
-                bw.write(lin);
-                bw.newLine();
-            }
-
-            bw.flush();
-            bw.close();
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
     }
 
     public void logToDo(String input) {
