@@ -185,9 +185,6 @@ public class CyderMain{
     private NetworkUtil networkUtil;
     private SystemUtil systemUtil;
 
-    //notify test vars
-    private int notificaitonTestWidth;
-    private String notificationTestString;
 
     //boolean for drawing line
     private boolean drawLines = false;
@@ -1982,20 +1979,6 @@ public class CyderMain{
 
                 exitFullscreen();
             }
-
-            else if (desc.equalsIgnoreCase("test notify one")) {
-                notificationTestString = input;
-                inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
-                stringUtil.setUserInputDesc("test notify two");
-                println("Enter notify width in pixels");
-            }
-
-            else if (desc.equalsIgnoreCase("test notify two")) {
-                notificaitonTestWidth = Integer.parseInt(input);
-                notify(notificationTestString, 2000,
-                        ArrowDirection.TOP, VanishDirection.TOP, parentPane, notificaitonTestWidth);
-            }
         }
 
         catch (Exception e) {
@@ -2027,13 +2010,6 @@ public class CyderMain{
                             hasWord("exit") || eic("close"))) && !has("dance"))
             {
                 exit();
-            }
-
-            else if (hasWord("test") && hasWord("notify")) {
-                inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
-                stringUtil.setUserInputDesc("test notify one");
-                println("Enter notify string");
             }
 
             else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
