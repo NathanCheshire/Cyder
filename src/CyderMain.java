@@ -41,16 +41,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo Sys.log data: Version, Released, MMAC:5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e,
-
 //todo locks for reading and writing
 
 //todo enter and exit for notifications
 
 //todo general util goes away
 //todo default val for all enums
-
-//todo SysData.log for title and such, consolidate with cyder args but push below a ------- line
 
 //todo if location isn't found say so and say certain features might not work
 //todo weather will not work if IP cannot find location, happened in captiva florida
@@ -223,7 +219,7 @@ public class CyderMain{
             System.exit(0);
 
         else
-            login(false); //todo eliminate AlreadyOpen via console frame active and not null and such
+            login();
     }
 
     private void initObjects() {
@@ -265,14 +261,13 @@ public class CyderMain{
                     recognize(parts[0], parts[1].toCharArray());
             }
 
-            else {
-                login(false);
-            }
+            else
+                login();
         }
 
         catch (Exception e) {
             ErrorHandler.handle(e);
-            login(false);
+            login();
         }
     }
 
@@ -1243,7 +1238,7 @@ public class CyderMain{
         }
     };
 
-    private void login(boolean AlreadyOpen) {
+    private void login() {
         if (loginFrame != null)
             loginFrame.closeAnimation();
 
@@ -1253,7 +1248,7 @@ public class CyderMain{
         loginFrame.setTitlePosition(TitlePosition.LEFT);
         loginFrame.setTitle(IOUtil.getSystemData("Version"));
 
-        if (!AlreadyOpen)
+        if (consoleFrame == null || !consoleFrame.isActive() || !consoleFrame.isVisible())
             loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         else
@@ -1444,9 +1439,8 @@ public class CyderMain{
                         2000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP, 280);
             }
 
-            else {
-                login(false);
-            }
+            else
+                login();
         }
 
         catch (Exception e) {
@@ -1958,7 +1952,7 @@ public class CyderMain{
                 for(Frame f: frames)
                     f.dispose();
 
-                login(false);
+                login();
             }
 
             else if (desc.equalsIgnoreCase("pixelatebackground")) {
@@ -2807,7 +2801,7 @@ public class CyderMain{
             }
 
             else if (eic("pin") || eic("login")) {
-                login(true);
+                login();
             }
 
             else if ((hasWord("delete") ||
@@ -2900,11 +2894,10 @@ public class CyderMain{
 
             else if (hasWord("logout")) {
                 frameAni.closeAnimation(consoleFrame);
-                login(false);
+                login();
             }
 
             else if (eic("test")) {
-                loginFrame.inform("This is a test to see how long the notifcation thingy can be before getting cut off","Test",500,200);
                 new TestClass(outputArea);
             }
 

@@ -1,5 +1,7 @@
 package com.cyder.handler;
 
+import com.cyder.utilities.InputUtil;
+import com.cyder.utilities.NumberUtil;
 import com.cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -9,14 +11,8 @@ public class TestClass {
 
     public TestClass(JTextPane outputArea) {
         try {
-            su = new StringUtil();
-            su.setOutputArea(outputArea);
-
-            long start = System.currentTimeMillis();
-
-            Thread.sleep((long) (Math.random() * 100));
-
-            su.println("Finished tests in: " + (System.currentTimeMillis() - start) + "ms");
+            String printMe = InputUtil.getInput("Enter a valid number to be converted to binary","Binary Converter",400,250);
+            System.out.println(printMe + " converted to binary equals " + NumberUtil.toBinary(Integer.parseInt(printMe)));
         }
 
         catch (Exception e) {

@@ -81,6 +81,7 @@ public class CyderFrame extends JFrame {
 
     public void setTitlePosition(TitlePosition titlePosition) {
         this.titlePosition = titlePosition;
+        setTitle(this.getTitle());
     }
 
     @Override

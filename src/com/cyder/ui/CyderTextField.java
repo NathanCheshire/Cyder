@@ -4,7 +4,6 @@ import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -36,10 +35,12 @@ public class CyderTextField extends JTextField {
 
     @Override
     protected void paintComponent(Graphics g) {
-        this.setBorder(new LineBorder(new Color(26, 32, 51),5,false));
         this.setForeground(CyderColors.navy);
         this.setFont(CyderFonts.weatherFontSmall);
-        this.setBackground(new Color(0,0,0,0));
+        this.setSelectionColor(CyderColors.selectionColor);
+        this.setBackground(CyderColors.vanila);
+        this.setBorder(BorderFactory.createLineBorder(CyderColors.navy,5,false));
+
         super.paintComponent(g);
     }
 

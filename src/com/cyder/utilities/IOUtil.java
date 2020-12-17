@@ -200,7 +200,6 @@ public class IOUtil {
         return null;
     }
 
-    //todo add below the dashed line of 40 dashes
     public static void logArgs(String[] cyderArgs) {
         try {
             if (cyderArgs.length == 0)
