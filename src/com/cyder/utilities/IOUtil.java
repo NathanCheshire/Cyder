@@ -377,9 +377,8 @@ public class IOUtil {
         }
     }
 
-    //todo copy from this for getinput method
     public static File getFile() {
-        try (BufferedReader waitReader = new BufferedReader(new FileReader("File.txt"))) { //todo move file.txt to tmp dir
+        try {
             Desktop.getDesktop().open(new File("src/com/cyder/sys/jars/FileChooser.jar"));
 
             File f = new File("File.txt");
@@ -391,7 +390,11 @@ public class IOUtil {
 
             Thread.sleep(200);
 
+            BufferedReader waitReader = new BufferedReader(new FileReader("File.txt"));
+
             File chosenFile = new File(waitReader.readLine());
+            waitReader.close();
+
             f.delete();
 
             return (chosenFile.getName().equalsIgnoreCase("null") ? null : chosenFile);

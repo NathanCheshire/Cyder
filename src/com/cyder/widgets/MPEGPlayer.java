@@ -496,6 +496,9 @@ public class MPEGPlayer {
         selectMusicDir.addActionListener(e -> {
             File SelectedFile = IOUtil.getFile();
 
+            if (SelectedFile == null)
+                return;
+
             if (!SelectedFile.toString().endsWith("mp3")) {
                 if (mp3Player == null) {
                     GenericInform.inform("Sorry, " + musicGeneralUtil.getUsername() + ", but that's not an mp3 file.","", 400, 200);

@@ -1,70 +1,59 @@
 package com.cyder.utilities;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
-import com.cyder.enums.TitlePosition;
-import com.cyder.ui.CyderFrame;
+import com.cyder.handler.ErrorHandler;
 
-import javax.swing.*;
-import java.util.LinkedList;
-import java.util.List;
+import java.awt.*;
+import java.io.*;
 
 public class InputUtil {
     public static boolean confirmation(String input) {
         return (input.toLowerCase().contains("yes") || input.equalsIgnoreCase("y"));
     }
 
-    public static String getInput(String message, String title, int width, int height) {
-        return "";
-    }
+    public static String getString(String message) {
+        try {
+            File inputFile = new File("String.txt");
 
-    //this works, make work for above method
-    public static void main(String... args) throws Exception {
-        System.setProperty("sun.java2d.uiScale","1.0");
-        System.out.println(getInt("Test message to enter in any string here for usage in program","Binary Converter"));
-    }
+            inputFile.createNewFile();
+            inputFile.delete();
 
-    private static String getInt(String message, String title) throws Exception {
-        final List<String> holder = new LinkedList<>();
+            File f = new File("InputMessage.txt");
+            f.createNewFile();
 
-        final CyderFrame inputFrame = new CyderFrame(400,200,new ImageIcon(new ImageUtil().imageFromColor(400,200 + 50,CyderColors.vanila)));
-        inputFrame.setTitle(title);
-        inputFrame.setTitlePosition(TitlePosition.CENTER);
+            BufferedWriter br = new BufferedWriter(new FileWriter("InputMessage.txt"));
+            br.write(message);
+            br.flush();
+            br.close();
 
-        JLabel desc = new JLabel("<html><div style='text-align: center;'>" + message + "</div></html>");
+            Desktop.getDesktop().open(new File("src/com/cyder/sys/jars/StringChooser.jar"));
 
-        desc.setHorizontalAlignment(JLabel.CENTER);
-        desc.setVerticalAlignment(JLabel.CENTER);
-        desc.setForeground(CyderColors.navy);
-        desc.setFont(CyderFonts.weatherFontSmall.deriveFont(22f));
-        desc.setBounds(10, 10, 400 - 20, 200 - 35 * 2);
-        inputFrame.getContentPane().add(desc);
+            f = new File("String.txt");
+            f.delete();
 
-        JTextField inputField = new JTextField(40);
-        inputField.setForeground(CyderColors.navy);
-        inputField.setFont(CyderFonts.weatherFontSmall);
-        inputField.setSelectionColor(CyderColors.selectionColor);
-        inputField.setBackground(CyderColors.vanila);
-        inputField.setBounds(40,200 - 35 * 2, 400 - 80, 40);
-        inputField.setBorder(BorderFactory.createLineBorder(CyderColors.navy,5,false));
-        inputFrame.getContentPane().add(inputField);
-
-        inputField.addActionListener(e -> {
-            synchronized (holder) {
-                holder.add(inputField.getText());
-                holder.notify();
+            while (!f.exists()) {
+                Thread.onSpinWait();
             }
-            inputFrame.dispose();
-        });
 
-        inputFrame.setLocationRelativeTo(null);
-        inputFrame.setVisible(true);
+            BufferedReader waitReader = new BufferedReader(new FileReader("String.txt"));
 
-        synchronized (holder) {
-            while (holder.isEmpty())
-                holder.wait();
+            Thread.sleep(200);
 
-            return  holder.remove(0);
+            String chosenString =  waitReader.readLine();
+
+            waitReader.close();
+
+            f.delete();
+
+            if (chosenString == null || chosenString.equals("null"))
+                return "null";
+            else
+                return chosenString;
         }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return null;
     }
 }

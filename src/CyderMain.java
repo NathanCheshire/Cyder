@@ -7,7 +7,6 @@ import com.cyder.games.Hangman;
 import com.cyder.games.TicTacToe;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.handler.PhotoViewer;
-import com.cyder.handler.TestClass;
 import com.cyder.threads.YoutubeThread;
 import com.cyder.ui.*;
 import com.cyder.utilities.*;
@@ -60,8 +59,6 @@ import java.util.concurrent.TimeUnit;
 //todo change background color for console frame so like not navy
 
 //todo some scrolls with borders are not fitted properly
-
-//todo make a getinput method
 
 //todo cyder label
 //todo cyder progress bar
@@ -2874,7 +2871,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                new TestClass(outputArea);
+                println("Recieved input: " + InputUtil.getString("Input test message from this"));
             }
 
             else if (hasWord("duke")) {
