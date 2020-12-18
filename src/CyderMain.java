@@ -40,9 +40,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo locks for reading and writing
+//todo locks for reading and writing to files
 
-//todo enter and exit for notifications
+//todo enter animations for notifications
 
 //todo general util goes away
 //todo default val for all enums
@@ -60,6 +60,8 @@ import java.util.concurrent.TimeUnit;
 
 //todo some scrolls with borders are not fitted properly
 
+//todo start animations usage
+
 //todo cyder label
 //todo cyder progress bar
 
@@ -68,7 +70,7 @@ import java.util.concurrent.TimeUnit;
 
 //todo make it so all you can have is jar and system files and it'll create everything else such as dirs
 
-//todo move file.txt to temp dir, file used for filechooser
+//todo move File.txt, String.txt, and InputMessage.txt to tmp directory
 
 //todo barrel roll and switching console dir doesn't work in full screen
 
@@ -83,8 +85,6 @@ import java.util.concurrent.TimeUnit;
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
 //todo make pixelating pictures it's own widget
-
-//todo utilize start animations after you fix it
 
 //todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
 //todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
@@ -157,10 +157,7 @@ public class CyderMain{
     private CyderButton chooseBackground;
     private File createUserBackground;
 
-    //minecraft class so we can only have one
-    private MinecraftWidget mw;
-
-    //notificaiton
+    //notificaiton remove once extended
     private static Notification consoleNotification;
 
     //pixealte file
@@ -181,7 +178,6 @@ public class CyderMain{
     //network util
     private NetworkUtil networkUtil;
     private SystemUtil systemUtil;
-
 
     //boolean for drawing line
     private boolean drawLines = false;
@@ -336,7 +332,7 @@ public class CyderMain{
             }
 
             else {
-                parentLabel.setIcon(new ImageIcon(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),GeneralUtil.getConsoleDirection())));
                 parentLabel.setBounds(0, 0, mainGeneralUtil.getBackgroundWidth(), mainGeneralUtil.getBackgroundHeight());
             }
 
@@ -1465,7 +1461,7 @@ public class CyderMain{
                 backIcon = new ImageIcon(backFile);
                 width = backIcon.getIconWidth();
                 height = backIcon.getIconHeight();
-                parentLabel.setIcon(new ImageIcon(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),GeneralUtil.getConsoleDirection())));
 
                 break;
             default:
@@ -1476,7 +1472,7 @@ public class CyderMain{
                     width = backIcon.getIconHeight();
                 }
 
-                parentLabel.setIcon(new ImageIcon(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),GeneralUtil.getConsoleDirection())));
 
                 break;
         }
@@ -1989,9 +1985,8 @@ public class CyderMain{
 
             String firstWord = stringUtil.firstWord(operation);
 
-            mainGeneralUtil.setHandledMath(false);
-
-            handleMath(operation);
+            if (handleMath(operation))
+                return;
 
             if (stringUtil.filterLanguage(operation)) {
                 println("Sorry, " + mainGeneralUtil.getUsername() + ", but that language is prohibited.");
@@ -2565,7 +2560,7 @@ public class CyderMain{
             }
 
             else if (hasWord("minecraft")) {
-                mw = new MinecraftWidget();
+                MinecraftWidget mw = new MinecraftWidget();
             }
 
             else if (eic("loop")) {
@@ -2871,7 +2866,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                println("Recieved input: " + InputUtil.getString("Input test message from this"));
+                //todo test console frame
             }
 
             else if (hasWord("duke")) {
@@ -2889,7 +2884,7 @@ public class CyderMain{
                     println("Sorry, " + mainGeneralUtil.getUsername() + ", but you don't have permission to do that.");
             }
 
-            else if (!mainGeneralUtil.getHandledMath()){
+            else {
                 println("Sorry, " + mainGeneralUtil.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");
             }
@@ -2900,7 +2895,7 @@ public class CyderMain{
         }
     }
 
-    private void handleMath(String op) {
+    private boolean handleMath(String op) {
         int firstParen = op.indexOf("(");
         int comma = op.indexOf(",");
         int lastParen = op.indexOf(")");
@@ -2927,57 +2922,57 @@ public class CyderMain{
 
                 if (mathop.equalsIgnoreCase("abs")) {
                     println(Math.abs(param1));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
 
                 else if (mathop.equalsIgnoreCase("ceil")) {
                     println(Math.ceil(param1));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
 
                 else if (mathop.equalsIgnoreCase("floor")) {
                     println(Math.floor(param1));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
 
                 else if (mathop.equalsIgnoreCase("log")) {
                     println(Math.log(param1));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
 
                 else if (mathop.equalsIgnoreCase("log10")) {
                     println(Math.log10(param1));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
 
                 else if (mathop.equalsIgnoreCase("max")) {
                     println(Math.max(param1,param2));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
 
                 else if (mathop.equalsIgnoreCase("min")) {
                     println(Math.min(param1,param2));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
 
                 else if (mathop.equalsIgnoreCase("pow")) {
                     println(Math.pow(param1,param2));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
 
                 else if (mathop.equalsIgnoreCase("round")) {
                     println(Math.round(param1));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
 
                 else if (mathop.equalsIgnoreCase("sqrt")) {
                     println(Math.sqrt(param1));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
 
                 else if (mathop.equalsIgnoreCase("convert2")) {
                     println(NumberUtil.toBinary((int)(param1)));
-                    mainGeneralUtil.setHandledMath(true);
+                    return true;
                 }
             }
         }
@@ -2985,6 +2980,8 @@ public class CyderMain{
         catch(Exception e) {
             ErrorHandler.handle(e);
         }
+
+        return false;
     }
 
     private void printlnImage(String filename) {
@@ -4572,7 +4569,7 @@ public class CyderMain{
 
     private void askew() {
         consoleFrame.setBackground(CyderColors.navy);
-        parentLabel.setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath()),3)));
+        parentLabel.setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath(),GeneralUtil.getConsoleDirection()),3)));
     }
 
     private void barrelRoll() {
@@ -4580,7 +4577,7 @@ public class CyderMain{
         mainGeneralUtil.getBackgrounds();
 
         ConsoleDirection originConsoleDIr = mainGeneralUtil.getConsoleDirection();
-        BufferedImage master = mainGeneralUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath());
+        BufferedImage master = ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath(),GeneralUtil.getConsoleDirection());
 
         Timer timer = null;
         Timer finalTimer = timer;

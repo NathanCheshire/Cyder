@@ -9,12 +9,8 @@ import com.cyder.widgets.GenericInform;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FilenameFilter;
-
-import static com.cyder.enums.ConsoleDirection.UP;
 
 public class GeneralUtil {
 
@@ -27,29 +23,7 @@ public class GeneralUtil {
     private static File[] validBackgroundPaths;
     private static boolean consoleClock;
 
-    private static ConsoleDirection consoleDirection = UP;
-
-    //put these in consoleframe
-    public static BufferedImage getRotatedImage(String name) {
-        switch(consoleDirection) {
-            case UP:
-                return ImageUtil.getBi(name);
-            case RIGHT:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),90);
-            case DOWN:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),180);
-            case LEFT:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),-90);
-        }
-
-        return null;
-    }
-
-    //boolean vars
-    private static boolean handledMath;
-    private static boolean hideOnClose;
-    private static boolean oneMathPrint;
-    private static boolean alwaysOnTop;
+    private static ConsoleDirection consoleDirection = ConsoleDirection.UP;
 
     //scrolling var
     private static int currentDowns;
@@ -58,61 +32,12 @@ public class GeneralUtil {
     private static int backgroundWidth;
     private static int backgroundHeight;
 
-    //io util, put in user data
-    public static String getIPKey() {
-        try {
-            BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/sys/text/keys.txt"));
-            String line = "";
-
-            while ((line = keyReader.readLine()) != null) {
-                String[] parts = line.split(":");
-                if (parts[0].equals("ip")) {
-                    return parts[1];
-                }
-            }
-        }
-
-        catch (Exception ex) {
-            ErrorHandler.handle(ex);
-        }
-
-        return null;
-    }
-
-    //io util, put in user data
-    public static String getWeatherKey() {
-        try {
-            BufferedReader keyReader = new BufferedReader(new FileReader("src/com/cyder/sys/text/keys.txt"));
-            String line = "";
-
-            while ((line = keyReader.readLine()) != null) {
-                String[] parts = line.split(":");
-                if (parts[0].equals("weather")) {
-                    return parts[1];
-                }
-
-            }
-        }
-
-        catch (Exception ex) {
-            ErrorHandler.handle(ex);
-        }
-
-        return null;
-    }
-
     //console frame
     public static int getCurrentDowns() {
         return currentDowns;
     }
     public static void setCurrentDowns(int num) {
         currentDowns = num;
-    }
-    public static boolean getHandledMath() {
-        return handledMath;
-    }
-    public static void setHandledMath(boolean b) {
-        handledMath = b;
     }
 
     //user utils

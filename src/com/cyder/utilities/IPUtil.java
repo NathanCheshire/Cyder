@@ -70,7 +70,7 @@ public class IPUtil {
         generalUtil = new GeneralUtil();
 
         try {
-            String Key = "https://api.ipdata.co/?api-key=" + generalUtil.getIPKey();
+            String Key = "https://api.ipdata.co/?api-key=" + IOUtil.getSystemData("ip");
             URL Querry = new URL(Key);
             BufferedReader BR = new BufferedReader(new InputStreamReader(Querry.openStream()));
             String CurrentLine;

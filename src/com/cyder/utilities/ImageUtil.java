@@ -2,6 +2,7 @@ package com.cyder.utilities;
 
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
+import com.cyder.enums.ConsoleDirection;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -198,6 +199,21 @@ public class ImageUtil {
         return null;
     }
 
+    public static BufferedImage getRotatedImage(String name, ConsoleDirection consoleDirection) {
+        switch(consoleDirection) {
+            case UP:
+                return ImageUtil.getBi(name);
+            case RIGHT:
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),90);
+            case DOWN:
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),180);
+            case LEFT:
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),-90);
+        }
+
+        return null;
+    }
+
     //Used for barrel roll and flip screen hotkeys, credit: MadProgrammer from StackOverflow
     public static BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
         double rads = Math.toRadians(angle);
@@ -227,8 +243,6 @@ public class ImageUtil {
     public static int xOffsetForCenterJLabel(int compWidth, String title) {
         return (int) Math.floor(5 + (compWidth / 2.0)) - (((int) Math.ceil(14 * title.length())) / 2);
     }
-
-
 
     static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
         BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);

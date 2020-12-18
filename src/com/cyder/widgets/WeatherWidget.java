@@ -482,7 +482,7 @@ public class WeatherWidget {
             String OpenString = "";
 
             OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
-                        locationString + "&appid=" + weatherGeneralUtil.getWeatherKey() + "&units=imperial";
+                        locationString + "&appid=" + IOUtil.getSystemData("weather") + "&units=imperial";
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
