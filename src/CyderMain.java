@@ -120,6 +120,10 @@ public class CyderMain{
     private JLabel newUserLabel;
     private JLabel menuLabel;
 
+
+    //todo remove this, for testing currently
+    CyderFrame cf = null;
+
     //Objects for main use
     private GeneralUtil mainGeneralUtil;
     private StringUtil stringUtil;
@@ -479,7 +483,7 @@ public class CyderMain{
 
             IOUtil.readUserData();
 
-            Font Userfont = new Font(IOUtil.getUserData("CyderFonts"),Font.BOLD, 30);
+            Font Userfont = new Font(IOUtil.getUserData("Font"),Font.BOLD, 30);
             Color Usercolor = ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
 
             mainGeneralUtil.setUsercolor(Usercolor);
@@ -1197,34 +1201,34 @@ public class CyderMain{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        try {
-            String originalOp = inputField.getText().trim();
-            String op = originalOp;
+            try {
+                String originalOp = inputField.getText().trim();
+                String op = originalOp;
 
-            if (!stringUtil.empytStr(op)) {
-                if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
-                    operationList.add(op);
+                if (!stringUtil.empytStr(op)) {
+                    if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
+                        operationList.add(op);
+                    }
+
+                    scrollingIndex = operationList.size() - 1;
+                    mainGeneralUtil.setCurrentDowns(0);
+
+                    if (!stringUtil.getUserInputMode()) {
+                        handle(op);
+                    }
+
+                    else if (stringUtil.getUserInputMode()) {
+                        stringUtil.setUserInputMode(false);
+                        handleSecond(op);
+                    }
                 }
 
-                scrollingIndex = operationList.size() - 1;
-                mainGeneralUtil.setCurrentDowns(0);
-
-                if (!stringUtil.getUserInputMode()) {
-                    handle(op);
-                }
-
-                else if (stringUtil.getUserInputMode()) {
-                    stringUtil.setUserInputMode(false);
-                    handleSecond(op);
-                }
+                inputField.setText("");
             }
 
-            inputField.setText("");
-        }
-
-        catch (Exception ex) {
-            ErrorHandler.handle(ex);
-        }
+            catch (Exception ex) {
+                ErrorHandler.handle(ex);
+            }
         }
     };
 
@@ -2418,7 +2422,7 @@ public class CyderMain{
                 inputField.setFont(CyderFonts.defaultFont);
                 outputArea.setFont(CyderFonts.defaultFont);
                 println("The font has been reset.");
-                IOUtil.writeUserData("CyderFonts",outputArea.getFont().getName());
+                IOUtil.writeUserData("Fonts",outputArea.getFont().getName());
             }
 
             else if (hasWord("reset") && hasWord("color")) {
@@ -2863,10 +2867,6 @@ public class CyderMain{
             else if (hasWord("logout")) {
                 frameAni.closeAnimation(consoleFrame);
                 login();
-            }
-
-            else if (eic("test")) {
-                //todo test console frame
             }
 
             else if (hasWord("duke")) {
@@ -4611,7 +4611,7 @@ public class CyderMain{
     private void shutdown() {
         try {
             IOUtil.readUserData();
-            IOUtil.writeUserData("CyderFonts",outputArea.getFont().getName());
+            IOUtil.writeUserData("Fonts",outputArea.getFont().getName());
             IOUtil.writeUserData("Foreground",ColorUtil.rgbtohexString(outputArea.getForeground()));
 
             IOUtil.deleteTempDir();

@@ -98,6 +98,7 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    //todo utilize startDir which is how it enters in a flow animation like fashion
     public void notify(String htmltext, int delay, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir, int width) {
         Notification frameNotification = new Notification();
 
@@ -139,7 +140,12 @@ public class CyderFrame extends JFrame {
         this.getContentPane().add(frameNotification,1,0);
         this.getContentPane().repaint();
 
+        frameNotification.appear(startDir, this.getContentPane());
         frameNotification.vanish(vanishDir, this.getContentPane(), delay);
+    }
+
+    public DragLabel getDragLabel() {
+        return dl;
     }
 
     public void inform(String text, String title, int width, int height) {

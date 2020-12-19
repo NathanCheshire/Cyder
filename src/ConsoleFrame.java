@@ -2,6 +2,8 @@ import com.cyder.enums.ConsoleDirection;
 import com.cyder.enums.Direction;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderFrame;
+import com.cyder.utilities.ColorUtil;
+import com.cyder.utilities.IOUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,8 +18,6 @@ public class ConsoleFrame extends CyderFrame {
     public ConsoleFrame(int width, int height) {
         super(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
     }
 
     private static String UUID;
@@ -31,15 +31,20 @@ public class ConsoleFrame extends CyderFrame {
     }
 
     public static String getUsername() {
-        return null;
+        return IOUtil.getUserData("Name");
     }
 
-    private static Font getUserFont() {
-        return null;
+    public static Font getUserFont() {
+        //todo be able to scale font size
+        return new Font(IOUtil.getUserData("Font"),Font.BOLD, 30);
     }
 
-    private static Color getUserColor() {
-        return null;
+    public static Color getUserColor() {
+        return ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
+    }
+
+    public static Color getUserBackgroundColor() {
+        return ColorUtil.hextorgbColor(IOUtil.getUserData("Background"));
     }
 
     public static void resizeBackgrounds() {
