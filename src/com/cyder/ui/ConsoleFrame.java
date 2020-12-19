@@ -171,4 +171,22 @@ public class ConsoleFrame extends CyderFrame {
     public static void barrelRoll() {
 
     }
+
+    private static int scrollingDowns;
+
+    public static int getScrollingDowns() {
+        return scrollingDowns;
+    }
+
+    public static void setScrollingDowns(int downs) {
+        scrollingDowns = downs;
+    }
+
+    public static void incScrollingDowns() {
+        scrollingDowns += 1;
+    }
+
+    public static void decScrollingDowns() {
+        scrollingDowns -= 1;
+    }
 }

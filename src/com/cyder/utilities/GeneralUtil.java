@@ -1,61 +1,24 @@
 
 package com.cyder.utilities;
 
-import com.cyder.enums.ConsoleDirection;
 import com.cyder.exception.FatalException;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.ConsoleFrame;
 import com.cyder.widgets.GenericInform;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 
 public class GeneralUtil {
 
-    //uservars
-    private static String userUUID;
-    private static String username;
-    private static Color usercolor;
-    private static Font userfont;
     private static int currentBackgroundIndex;
     private static File[] validBackgroundPaths;
-    private static boolean consoleClock;
-
-    private static ConsoleDirection consoleDirection = ConsoleDirection.UP;
-
-    //scrolling var
-    private static int currentDowns;
 
     //backbround vars
     private static int backgroundWidth;
     private static int backgroundHeight;
-
-    //console frame
-    public static int getCurrentDowns() {
-        return currentDowns;
-    }
-    public static void setCurrentDowns(int num) {
-        currentDowns = num;
-    }
-
-    //user utils
-    public static void setUsercolor(Color c) {
-        usercolor = c;
-    }
-    public static Color getUsercolor() {
-        return usercolor;
-    }
-
-    //user utils
-    public static void setUserfont(Font f) {
-        userfont = f;
-    }
-    public static Font getUserfont() {
-        return userfont;
-    }
 
     //move to consoleframe
     public static boolean onLastBackground() {
@@ -117,24 +80,6 @@ public class GeneralUtil {
     //console frame
     public static boolean canSwitchBackground() {
         return (validBackgroundPaths.length > currentBackgroundIndex + 1 && validBackgroundPaths.length > 1);
-    }
-
-    //console frame
-    public static void setConsoleClock(boolean b) {
-        consoleClock = b;
-    }
-
-    public static boolean getConsoleClock() {
-        return consoleClock;
-    }
-
-    //console frame
-    public static ConsoleDirection getConsoleDirection() {
-        return consoleDirection;
-    }
-
-    public static void setConsoleDirection(ConsoleDirection d) {
-        consoleDirection = d;
     }
 
     //console frame

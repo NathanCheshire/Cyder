@@ -333,7 +333,7 @@ public class CyderMain{
             }
 
             else {
-                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),GeneralUtil.getConsoleDirection())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),ConsoleFrame.getConsoleDirection())));
                 parentLabel.setBounds(0, 0, mainGeneralUtil.getBackgroundWidth(), mainGeneralUtil.getBackgroundHeight());
             }
 
@@ -408,22 +408,22 @@ public class CyderMain{
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(ConsoleDirection.DOWN);
+                        ConsoleFrame.setConsoleDirection(ConsoleDirection.DOWN);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(ConsoleDirection.RIGHT);
+                        ConsoleFrame.setConsoleDirection(ConsoleDirection.RIGHT);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(ConsoleDirection.UP);
+                        ConsoleFrame.setConsoleDirection(ConsoleDirection.UP);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        mainGeneralUtil.setConsoleDirection(ConsoleDirection.LEFT);
+                        ConsoleFrame.setConsoleDirection(ConsoleDirection.LEFT);
                         exitFullscreen();
                     }
 
@@ -480,14 +480,11 @@ public class CyderMain{
 
             IOUtil.readUserData();
 
-            Font Userfont = new Font(IOUtil.getUserData("Font"),Font.BOLD, 30);
-            Color Usercolor = ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
+            inputField.setForeground(ConsoleFrame.getUserColor());
+            outputArea.setForeground(ConsoleFrame.getUserColor());
 
-            mainGeneralUtil.setUsercolor(Usercolor);
-            mainGeneralUtil.setUserfont(Userfont);
-
-            inputField.setForeground(Usercolor);
-            outputArea.setForeground(Usercolor);
+            inputField.setFont(ConsoleFrame.getUserFont());
+            outputArea.setFont(ConsoleFrame.getUserFont());
 
             Color fillColor = ColorUtil.hextorgbColor(IOUtil.getUserData("Background"));
 
@@ -501,10 +498,6 @@ public class CyderMain{
 
             if (IOUtil.getUserData("InputFill").equals("1"))
                 inputField.setBackground(fillColor);
-
-
-            inputField.setFont(Userfont);
-            outputArea.setFont(Userfont);
 
             suggestionButton = new JButton("");
             suggestionButton.setToolTipText("Suggestions");
@@ -1118,20 +1111,20 @@ public class CyderMain{
                     }
 
                     if (inputField.getText() == null || inputField.getText().equals("")) {
-                        mainGeneralUtil.setCurrentDowns(0);
+                        ConsoleFrame.setScrollingDowns(0);
                     }
 
                     else if (!Found) {
-                        mainGeneralUtil.setCurrentDowns(0);
+                        ConsoleFrame.setScrollingDowns(0);
                     }
 
                     if (scrollingIndex - 1 >= 0) {
-                        if (mainGeneralUtil.getCurrentDowns() != 0) {
+                        if (ConsoleFrame.getScrollingDowns() != 0) {
                             scrollingIndex = scrollingIndex - 1;
                         }
 
                         inputField.setText(operationList.get(scrollingIndex));
-                        mainGeneralUtil.setCurrentDowns(mainGeneralUtil.getCurrentDowns() + 1);
+                        ConsoleFrame.incScrollingDowns();
                     }
 
                     if (operationList.size() == 1) {
@@ -1208,7 +1201,7 @@ public class CyderMain{
                     }
 
                     scrollingIndex = operationList.size() - 1;
-                    mainGeneralUtil.setCurrentDowns(0);
+                    ConsoleFrame.setScrollingDowns(0);
 
                     if (!stringUtil.getUserInputMode()) {
                         handle(op);
@@ -1449,7 +1442,7 @@ public class CyderMain{
 
         ImageIcon backIcon;
 
-        switch (mainGeneralUtil.getConsoleDirection()) {
+        switch (ConsoleFrame.getConsoleDirection()) {
             case UP:
                 backIcon = new ImageIcon(backFile);
                 width = backIcon.getIconWidth();
@@ -1461,18 +1454,18 @@ public class CyderMain{
                 backIcon = new ImageIcon(backFile);
                 width = backIcon.getIconWidth();
                 height = backIcon.getIconHeight();
-                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),GeneralUtil.getConsoleDirection())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),ConsoleFrame.getConsoleDirection())));
 
                 break;
             default:
                 backIcon = new ImageIcon(backFile);
 
-                if (mainGeneralUtil.getConsoleDirection() == ConsoleDirection.LEFT || mainGeneralUtil.getConsoleDirection() == ConsoleDirection.RIGHT) {
+                if (ConsoleFrame.getConsoleDirection() == ConsoleDirection.LEFT ||ConsoleFrame.getConsoleDirection() == ConsoleDirection.RIGHT) {
                     height = backIcon.getIconWidth();
                     width = backIcon.getIconHeight();
                 }
 
-                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),GeneralUtil.getConsoleDirection())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),ConsoleFrame.getConsoleDirection())));
 
                 break;
         }
@@ -4570,15 +4563,15 @@ public class CyderMain{
 
     private void askew() {
         consoleFrame.setBackground(CyderColors.navy);
-        parentLabel.setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath(),GeneralUtil.getConsoleDirection()),3)));
+        parentLabel.setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath(),ConsoleFrame.getConsoleDirection()),3)));
     }
 
     private void barrelRoll() {
         consoleFrame.setBackground(CyderColors.navy);
         mainGeneralUtil.getBackgrounds();
 
-        ConsoleDirection originConsoleDIr = mainGeneralUtil.getConsoleDirection();
-        BufferedImage master = ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath(),GeneralUtil.getConsoleDirection());
+        ConsoleDirection originConsoleDIr = ConsoleFrame.getConsoleDirection();
+        BufferedImage master = ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath(),ConsoleFrame.getConsoleDirection());
 
         Timer timer = null;
         Timer finalTimer = timer;
