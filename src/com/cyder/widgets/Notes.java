@@ -3,6 +3,7 @@ package com.cyder.widgets;
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
+import com.cyder.ui.ConsoleFrame;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
@@ -45,7 +46,7 @@ public class Notes {
             noteFrame.closeAnimation();
 
         noteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
-        noteFrame.setTitle(noteGeneralUtil.getUsername() + new StringUtil().getApostrophe(noteGeneralUtil.getUsername()) + " notes");
+        noteFrame.setTitle(ConsoleFrame.getUsername() + new StringUtil().getApostrophe(ConsoleFrame.getUsername()) + " notes");
 
         initializeNotesList();
 

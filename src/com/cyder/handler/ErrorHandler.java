@@ -1,5 +1,6 @@
 package com.cyder.handler;
 
+import com.cyder.ui.ConsoleFrame;
 import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.IOUtil;
 import com.cyder.utilities.TimeUtil;
@@ -11,12 +12,12 @@ public class ErrorHandler {
     //handle class
     public static void handle(Exception e) {
         try {
-            File throwsDir = new File("src/users/" + GeneralUtil.getUserUUID() + "/Throws/");
+            File throwsDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Throws/");
 
             if (!throwsDir.exists())
                 throwsDir.mkdir();
 
-            String eFileString = "src/users/" + GeneralUtil.getUserUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
+            String eFileString = "src/users/" + ConsoleFrame.getUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
             File eFile = new File(eFileString);
             eFile.createNewFile();
 

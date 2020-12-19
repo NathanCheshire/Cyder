@@ -4,6 +4,7 @@ package com.cyder.utilities;
 import com.cyder.enums.ConsoleDirection;
 import com.cyder.exception.FatalException;
 import com.cyder.handler.ErrorHandler;
+import com.cyder.ui.ConsoleFrame;
 import com.cyder.widgets.GenericInform;
 
 import javax.imageio.ImageIO;
@@ -38,22 +39,6 @@ public class GeneralUtil {
     }
     public static void setCurrentDowns(int num) {
         currentDowns = num;
-    }
-
-    //user utils
-    public static String getUserUUID() {
-        return userUUID;
-    }
-    public static void setUserUUID(String s) {
-        userUUID = s;
-    }
-
-    //user utils
-    public static void setUsername(String name) {
-        username = name;
-    }
-    public static String getUsername() {
-        return username;
     }
 
     //user utils
@@ -115,7 +100,7 @@ public class GeneralUtil {
     //console frame
     public static void refreshBackgrounds() {
         try {
-            File dir = new File("src/users/" + getUserUUID() + "/Backgrounds");
+            File dir = new File("src/users/" + ConsoleFrame.getUUID() + "/Backgrounds");
             FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
             validBackgroundPaths = dir.listFiles(PNGFilter);
 

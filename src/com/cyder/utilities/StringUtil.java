@@ -1,6 +1,7 @@
 package com.cyder.utilities;
 
 import com.cyder.handler.ErrorHandler;
+import com.cyder.ui.ConsoleFrame;
 
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
@@ -434,7 +435,7 @@ public class StringUtil {
             if (input != null && !input.equals("") && !filterLanguage(input) && input.length() > 10 && !filterLanguage(input)) {
                 BufferedWriter sugWriter = new BufferedWriter(new FileWriter("src/com/cyder/sys/text/add.txt", true));
 
-                sugWriter.write("User " + stringGeneralUtil.getUsername() + " at " + new TimeUtil().weatherTime() + " made the suggestion: ");
+                sugWriter.write("User " + ConsoleFrame.getUsername() + " at " + new TimeUtil().weatherTime() + " made the suggestion: ");
                 sugWriter.write(System.getProperty("line.separator"));
 
                 sugWriter.write(input);

@@ -5,6 +5,7 @@ import com.cyder.enums.ArrowDirection;
 import com.cyder.enums.StartDirection;
 import com.cyder.enums.VanishDirection;
 import com.cyder.handler.ErrorHandler;
+import com.cyder.ui.ConsoleFrame;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderSliderUI;
 import com.cyder.utilities.GeneralUtil;
@@ -51,8 +52,7 @@ public class MPEGPlayer {
     GeneralUtil musicGeneralUtil = new GeneralUtil();
 
     public MPEGPlayer(File StartPlaying, String username, String UUID) {
-        musicGeneralUtil.setUsername(username);
-        musicGeneralUtil.setUserUUID(UUID);
+        ConsoleFrame.setUUID(UUID);
 
         if (musicFrame != null)
             musicFrame.closeAnimation();
@@ -501,7 +501,7 @@ public class MPEGPlayer {
 
             if (!SelectedFile.toString().endsWith("mp3")) {
                 if (mp3Player == null) {
-                    GenericInform.inform("Sorry, " + musicGeneralUtil.getUsername() + ", but that's not an mp3 file.","", 400, 200);
+                    GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.","", 400, 200);
                 }
             }
 
@@ -567,7 +567,7 @@ public class MPEGPlayer {
 
         else {
             try {
-                File[] SelectedFileDir = new File("src/users/" + musicGeneralUtil.getUserUUID() + "/Music/" ).listFiles();
+                File[] SelectedFileDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Music/" ).listFiles();
                 ArrayList<File> ValidFiles = new ArrayList<>();
                 if (SelectedFileDir == null)
                     return;

@@ -4,6 +4,7 @@ import com.cyder.handler.ErrorHandler;
 import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
+import com.cyder.ui.ConsoleFrame;
 import com.cyder.widgets.MPEGPlayer;
 import javazoom.jl.player.Player;
 
@@ -82,7 +83,7 @@ public class IOUtil {
 
     public static void readUserData() {
         userData.clear();
-        String user = GeneralUtil.getUserUUID();
+        String user = ConsoleFrame.getUUID();
 
         if (user == null)
             return;
@@ -127,11 +128,11 @@ public class IOUtil {
     }
 
     public static void writeUserData(String name, String value) {
-        if (GeneralUtil.getUserUUID() == null)
+        if (ConsoleFrame.getUUID() == null)
             return;
 
         try (BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                "src/users/" + GeneralUtil.getUserUUID() + "/Userdata.txt", false))) {
+                "src/users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false))) {
 
 
             for (NST data : userData) {
@@ -308,7 +309,7 @@ public class IOUtil {
 
         //use our own mp3 player
         else if (FilePath.endsWith(".mp3")) {
-            CyderPlayer = new MPEGPlayer(new File(FilePath), GeneralUtil.getUsername(), GeneralUtil.getUserUUID());
+            CyderPlayer = new MPEGPlayer(new File(FilePath), ConsoleFrame.getUsername(), ConsoleFrame.getUUID());
         }
 
         //welp just open it outside of the program :(

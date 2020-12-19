@@ -1,6 +1,7 @@
 package com.cyder.utilities;
 
 import com.cyder.handler.ErrorHandler;
+import com.cyder.ui.ConsoleFrame;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -91,10 +92,10 @@ public class SecurityUtil {
 
     public static boolean checkPassword(String name, String pass) {
         try {
-            File[] users = new File("src/users").listFiles();
+            File[] UUIDs = new File("src/users").listFiles();
             LinkedList<File> userDataFiles = new LinkedList<>();
 
-            for (File f : users) {
+            for (File f : UUIDs) {
                 if (!f.getName().contains("DeprecatedUser")) {
                     userDataFiles.add(new File(f.getAbsolutePath() + "/Userdata.txt"));
                 }
@@ -120,8 +121,7 @@ public class SecurityUtil {
                 }
 
                 if (pass.equals(filepass) && name.equals(filename)) {
-                    GeneralUtil.setUserUUID(users[i].getName());
-                    GeneralUtil.setUsername(name);
+                    ConsoleFrame.setUUID(UUIDs[i].getName());
                     return true;
                 }
             }

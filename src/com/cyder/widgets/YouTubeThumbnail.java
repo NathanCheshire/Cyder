@@ -3,6 +3,7 @@ package com.cyder.widgets;
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.enums.TitlePosition;
+import com.cyder.ui.ConsoleFrame;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.GeneralUtil;
@@ -100,7 +101,7 @@ public class YouTubeThumbnail {
         String YouTubeID = yttnField.getText();
 
         if (YouTubeID.length() < 11)
-            yttnFrame.inform("Sorry, " + yttnGeneralUtil.getUsername() + ", but that's not a valid YouTube video ID.","Invalid", 400, 200);
+            yttnFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not a valid YouTube video ID.","Invalid", 400, 200);
 
         else {
             String YouTubeURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
@@ -133,7 +134,7 @@ public class YouTubeThumbnail {
             }
 
             catch (Exception exc) {
-                yttnFrame.inform("Sorry, " + yttnGeneralUtil.getUsername() + ", but that's not a valid YouTube video ID.","Invalid", 400, 200);
+                yttnFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not a valid YouTube video ID.","Invalid", 400, 200);
             }
         }
     }

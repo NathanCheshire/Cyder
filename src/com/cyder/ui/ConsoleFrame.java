@@ -1,7 +1,8 @@
+package com.cyder.ui;
+
 import com.cyder.enums.ConsoleDirection;
 import com.cyder.enums.Direction;
 import com.cyder.handler.ErrorHandler;
-import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.ColorUtil;
 import com.cyder.utilities.IOUtil;
 
