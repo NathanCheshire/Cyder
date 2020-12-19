@@ -120,10 +120,6 @@ public class CyderMain{
     private JLabel newUserLabel;
     private JLabel menuLabel;
 
-
-    //todo remove this, for testing currently
-    CyderFrame cf = null;
-
     //Objects for main use
     private GeneralUtil mainGeneralUtil;
     private StringUtil stringUtil;
@@ -1240,7 +1236,7 @@ public class CyderMain{
 
         loginFrame = new CyderFrame(800,800,new ImageIcon("src/com/cyder/sys/pictures/login.png"));
         loginFrame.setTitlePosition(TitlePosition.LEFT);
-        loginFrame.setTitle(IOUtil.getSystemData("Version"));
+        loginFrame.setTitle(IOUtil.getSystemData("Version") + " login");
 
         if (consoleFrame == null || !consoleFrame.isActive() || !consoleFrame.isVisible())
             loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -2882,6 +2878,13 @@ public class CyderMain{
 
                 else
                     println("Sorry, " + mainGeneralUtil.getUsername() + ", but you don't have permission to do that.");
+            }
+
+            else if (eic("test")) {
+                CyderFrame cf = new CyderFrame(400,400,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+                cf.setLocationRelativeTo(null);
+                cf.setVisible(true);
+                cf.notify("Test text",3000,ArrowDirection.BOTTOM,150);
             }
 
             else {

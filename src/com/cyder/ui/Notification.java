@@ -239,7 +239,7 @@ public class Notification extends JLabel {
                     case TOP:
                         setBounds(getX(), - getHeight(), getWidth(), getHeight());
                         ca.jLabelYDown(getY(), 30, 10, 4, this);
-                        Thread.sleep(10 * (notificationWidth)/ 4);
+                        Thread.sleep(10 * (getHeight())/ 4);
                         break;
                     case RIGHT:
                         setBounds(parentWidth, getY(),getWidth(),getHeight());
@@ -255,6 +255,12 @@ public class Notification extends JLabel {
                         setBounds(- getWidth(), getY(), getWidth(), getHeight());
                         ca.jLabelXRight(this.getX(), 0, 10, 4, this);
                         Thread.sleep(10 * (notificationWidth)/ 4);
+                        break;
+
+                    case BOTTOM:
+                        setBounds(getX(), parent.getHeight(), getWidth(), getHeight());
+                        ca.jLabelYUp(parent.getHeight(), parent.getHeight() - getHeight() , 10, 4, this);
+                        Thread.sleep(10 * (getHeight())/ 4);
                         break;
                 }
             }

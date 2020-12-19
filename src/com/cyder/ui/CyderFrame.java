@@ -98,8 +98,74 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    //todo utilize startDir which is how it enters in a flow animation like fashion
-    public void notify(String htmltext, int delay, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir, int width) {
+    public void notify(String htmltext, int viewDuration, ArrowDirection direction, int width) {
+        Notification frameNotification = new Notification();
+
+        StartDirection startDir;
+        VanishDirection vanishDir;
+
+        switch (direction) {
+            case LEFT:
+                startDir = StartDirection.LEFT;
+                vanishDir = VanishDirection.LEFT;
+                break;
+            case RIGHT:
+                startDir = StartDirection.RIGHT;
+                vanishDir = VanishDirection.RIGHT;
+                break;
+            case BOTTOM:
+                startDir = StartDirection.BOTTOM;
+                vanishDir = VanishDirection.BOTTOM;
+                break;
+            default:
+                startDir = StartDirection.TOP;
+                vanishDir = VanishDirection.TOP;
+                break;
+        }
+
+        int w = width;
+        int h = 30;
+
+        frameNotification.setArrow(direction);
+
+        JLabel text = new JLabel();
+        text.setText(htmltext);
+
+        int lastIndex = 0;
+
+        while(lastIndex != -1){
+
+            lastIndex = text.getText().indexOf("<br/>",lastIndex);
+
+            if(lastIndex != -1){
+                h += 30;
+                lastIndex += "<br/>".length();
+            }
+        }
+
+        frameNotification.setWidth(w);
+        frameNotification.setHeight(h);
+
+        text.setFont(CyderFonts.weatherFontSmall);
+        text.setForeground(CyderColors.navy);
+        text.setBounds(14,10,w * 2,h);
+        frameNotification.add(text);
+
+        if (startDir == StartDirection.LEFT)
+            frameNotification.setBounds(0,30,w * 2,h * 2);
+        else if (startDir == StartDirection.RIGHT)
+            frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30),32,w * 2,h * 2);
+        else
+            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2),32,w * 2,h * 2);
+
+        this.getContentPane().add(frameNotification,1,0);
+        this.getContentPane().repaint();
+
+        frameNotification.appear(startDir, this.getContentPane());
+        frameNotification.vanish(vanishDir, this.getContentPane(), viewDuration);
+    }
+
+    public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir, int width) {
         Notification frameNotification = new Notification();
 
         int w = width;
@@ -141,7 +207,7 @@ public class CyderFrame extends JFrame {
         this.getContentPane().repaint();
 
         frameNotification.appear(startDir, this.getContentPane());
-        frameNotification.vanish(vanishDir, this.getContentPane(), delay);
+        frameNotification.vanish(vanishDir, this.getContentPane(), viewDuration);
     }
 
     public DragLabel getDragLabel() {
