@@ -244,7 +244,7 @@ public class ImageUtil {
         return (int) Math.floor(5 + (compWidth / 2.0)) - (((int) Math.ceil(14 * title.length())) / 2);
     }
 
-    static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
+    public static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
         BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, img_width, img_height, null);
@@ -253,7 +253,7 @@ public class ImageUtil {
         return resizedImage;
     }
 
-    static double getAspectRatio(BufferedImage im) {
+    public static double getAspectRatio(BufferedImage im) {
         return ((double) im.getWidth() / (double) im.getHeight());
     }
 

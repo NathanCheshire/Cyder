@@ -64,11 +64,7 @@ public class IPUtil {
     private static String lon;
     private static String isp;
 
-    private static GeneralUtil generalUtil;
-
     public IPUtil() {
-        generalUtil = new GeneralUtil();
-
         try {
             String Key = "https://api.ipdata.co/?api-key=" + IOUtil.getSystemData("ip");
             URL Querry = new URL(Key);

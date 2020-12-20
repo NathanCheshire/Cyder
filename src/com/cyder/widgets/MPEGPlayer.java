@@ -8,7 +8,6 @@ import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.ConsoleFrame;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderSliderUI;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.IOUtil;
 import javazoom.jl.player.Player;
 
@@ -48,8 +47,6 @@ public class MPEGPlayer {
     private long songTotalLength;
     private boolean playIcon = true;
     private boolean repeatAudio;
-
-    GeneralUtil musicGeneralUtil = new GeneralUtil();
 
     public MPEGPlayer(File StartPlaying, String username, String UUID) {
         ConsoleFrame.setUUID(UUID);

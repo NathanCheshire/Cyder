@@ -6,7 +6,6 @@ import com.cyder.enums.TitlePosition;
 import com.cyder.ui.ConsoleFrame;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.NetworkUtil;
 
 import javax.imageio.ImageIO;
@@ -27,7 +26,6 @@ public class YouTubeThumbnail {
     private int xMouse;
     private int yMouse;
 
-    private GeneralUtil yttnGeneralUtil = new GeneralUtil();
     private NetworkUtil networkUtil = new NetworkUtil();
 
     public YouTubeThumbnail() {

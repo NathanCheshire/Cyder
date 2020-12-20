@@ -2,7 +2,6 @@ package com.cyder.widgets;
 
 import com.cyder.enums.TitlePosition;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.NetworkUtil;
 import com.cyder.utilities.SystemUtil;
 
@@ -18,7 +17,6 @@ public class MinecraftWidget {
     private JLabel hamLabel;
     private JLabel blockLabel;
 
-    private GeneralUtil mcGeneralUtil = new GeneralUtil();
     private NetworkUtil networkUtil = new NetworkUtil();
 
     public MinecraftWidget() {

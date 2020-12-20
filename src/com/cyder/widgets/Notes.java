@@ -7,7 +7,6 @@ import com.cyder.ui.ConsoleFrame;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -36,8 +35,6 @@ public class Notes {
     private CyderButton openNote;
 
     private String UUID = "";
-
-    private GeneralUtil noteGeneralUtil = new GeneralUtil();
 
     public Notes(String UUID) {
         this.UUID = UUID;

@@ -3,12 +3,13 @@ package com.cyder.ui;
 import com.cyder.enums.ConsoleDirection;
 import com.cyder.enums.Direction;
 import com.cyder.handler.ErrorHandler;
-import com.cyder.utilities.ColorUtil;
-import com.cyder.utilities.IOUtil;
+import com.cyder.utilities.*;
+import com.cyder.widgets.GenericInform;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ public class ConsoleFrame extends CyderFrame {
     public ConsoleFrame(int width, int height) {
         super(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //todo lots more stuff here
     }
 
     private static String UUID;
@@ -35,9 +37,33 @@ public class ConsoleFrame extends CyderFrame {
         return IOUtil.getUserData("Name");
     }
 
+    private static int fontMetric = Font.BOLD;
+
+    public static void setFontBold() {
+        fontMetric = Font.BOLD;
+    }
+
+    public static void setFontItalic() {
+        fontMetric = Font.ITALIC;
+    }
+
+    public static void setFontPlain() {
+        fontMetric = Font.PLAIN;
+    }
+
+    public static void setFontStyle(int combStyle) {
+        //you can do bold and italics with Font.BOLD + Font.ITALIC so this is what this function allows you to do
+        fontMetric = combStyle;
+    }
+
+    private static int fontSize = 30;
+
+    public static void setFontSize(int size) {
+        fontSize = size;
+    }
+
     public static Font getUserFont() {
-        //todo be able to scale font size
-        return new Font(IOUtil.getUserData("Font"),Font.BOLD, 30);
+        return new Font(IOUtil.getUserData("Font"),fontMetric, fontSize);
     }
 
     public static Color getUserColor() {
@@ -49,7 +75,81 @@ public class ConsoleFrame extends CyderFrame {
     }
 
     public static void resizeBackgrounds() {
+        try {
+            LinkedList<File> backgrounds = getBackgrounds();
 
+            for (int i = 0; i < backgrounds.size() ; i++) {
+                File currentFile = backgrounds.get(i);
+
+                BufferedImage currentImage = ImageIO.read(currentFile);
+
+                int backgroundWidth = currentImage.getWidth();
+                int backgroundHeight = currentImage.getHeight();
+
+                double aspectRatio = ImageUtil.getAspectRatio(currentImage);
+                int imageType = currentImage.getType();
+
+                if (backgroundWidth > new SystemUtil().getScreenWidth() || backgroundHeight > new SystemUtil().getScreenHeight()) {
+                    GenericInform.inform("Resized the background image \"" + currentFile.getName() + "\" since it was too big " +
+                            "(That's what she said ahahahahah hahaha ha ha so funny).","System Action", 700, 200);
+                }
+
+                //resizing smaller
+                while (backgroundWidth > new SystemUtil().getScreenWidth() || backgroundHeight > new SystemUtil().getScreenHeight()) {
+                    currentImage = ImageIO.read(currentFile);
+
+                    int width = (int) (currentImage.getWidth() / aspectRatio);
+                    int height = (int) (currentImage.getHeight() / aspectRatio);
+
+                    BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
+
+                    ImageIO.write(saveImage, "png", currentFile);
+
+                    backgroundWidth = saveImage.getWidth();
+                    backgroundHeight = saveImage.getHeight();
+                }
+
+                if (backgroundWidth < 600 || backgroundHeight < 600) {
+                    GenericInform.inform("Resized the background image \"" + getBackgrounds().get(i).getName()
+                            + "\" since it was too small.","System Action", 700, 200);
+                }
+
+                //resizing bigger
+                while (backgroundWidth < 600 || backgroundHeight < 600) {
+                    currentImage = ImageIO.read(currentFile);
+
+                    int width = (int) (currentImage.getWidth() * aspectRatio);
+                    int height = (int) (currentImage.getHeight() * aspectRatio);
+
+                    BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
+
+                    ImageIO.write(saveImage, "png", currentFile);
+
+                    backgroundWidth = saveImage.getWidth();
+                    backgroundHeight = saveImage.getHeight();
+                }
+
+                if (NumberUtil.isPrime(backgroundWidth)) {
+                    currentImage = ImageIO.read(currentFile);
+
+                    int width = currentImage.getWidth() + 1;
+                    int height = currentImage.getHeight() + 1;
+
+                    BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
+
+                    ImageIO.write(saveImage, "png", currentFile);
+
+                    backgroundWidth = saveImage.getWidth();
+                    backgroundHeight = saveImage.getHeight();
+                }
+            }
+
+            initBackgrounds();
+        }
+
+        catch (Exception ex) {
+            ErrorHandler.handle(ex);
+        }
     }
 
     public static void initBackgrounds() {
@@ -59,9 +159,10 @@ public class ConsoleFrame extends CyderFrame {
 
             backgroundFiles = new LinkedList<>(Arrays.asList(dir.listFiles(PNGFilter)));
 
-            if (backgroundFiles.size() == 0)
+            if (backgroundFiles.size() == 0) {
                 backgroundFiles = new LinkedList<>();
                 backgroundFiles.add(new File("src/com/cyder/sys/pictures/Bobby.png"));
+            }
         }
 
         catch (Exception ex) {
@@ -71,12 +172,30 @@ public class ConsoleFrame extends CyderFrame {
 
     private static LinkedList<File> backgroundFiles;
 
-    public static File[] getBackgrounds() {
-        return null;
+    public static LinkedList<File> getBackgrounds() {
+        initBackgrounds();
+        return backgroundFiles;
+    }
+
+    private static int backgroundIndex;
+
+    public static int getBackgroundIndex() {
+        return backgroundIndex;
+    }
+
+    public static void setBackgroundIndex(int i) {
+        backgroundIndex = i;
+    }
+
+    public static void incBackgroundIndex() {
+        backgroundIndex += 1;
+    }
+
+    public static void decBackgroundIndex() {
+        backgroundIndex -= 1;
     }
 
     private static File backgroundFile;
-    private static int backgroundIndex;
 
     public static File getCurrentBackgroundFile() {
         backgroundFile = backgroundFiles.get(backgroundIndex);
@@ -109,24 +228,30 @@ public class ConsoleFrame extends CyderFrame {
         switch (lastSlideDirection) {
             case LEFT:
 
-
+                //todo only slide imageicon
 
                 break;
 
             case RIGHT:
 
-
+                //todo only slide imageicon
 
                 break;
         }
     }
 
     public static int getBackgroundWidth() {
-        return getCurrentBackgroundImageIcon().getIconWidth();
+        if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
+            return (int) SystemUtil.getScreenSize().getWidth();
+        else
+            return getCurrentBackgroundImageIcon().getIconWidth();
     }
 
     public static int getBackgroundHeight() {
-        return getCurrentBackgroundImageIcon().getIconHeight();
+        if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
+            return (int) SystemUtil.getScreenSize().getHeight();
+        else
+            return getCurrentBackgroundImageIcon().getIconHeight();
     }
 
     private static boolean consoleClockEnabled;
@@ -154,14 +279,15 @@ public class ConsoleFrame extends CyderFrame {
         return consoleDir;
     }
 
-    public static void rotateConsole(ConsoleDirection dir) {
-
+    private static void rotateConsole() {
+        //todo if setting console dir is different than old value,
+        // call this method and roll the image that way then set like old way
     }
 
     private static boolean fullscreen = false;
 
     public static void setFullscreen(Boolean enable) {
-
+        fullscreen = enable;
     }
 
     public static boolean isFullscreen() {
@@ -188,5 +314,14 @@ public class ConsoleFrame extends CyderFrame {
 
     public static void decScrollingDowns() {
         scrollingDowns -= 1;
+    }
+
+    public static boolean onLastBackground() {
+        initBackgrounds();
+        return backgroundFiles.size() == backgroundIndex + 1;
+    }
+
+    public static boolean canSwitchBackground() {
+        return backgroundFiles.size() > backgroundIndex + 1;
     }
 }

@@ -5,7 +5,6 @@ import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.widgets.GenericInform;
 
 import javax.swing.*;
@@ -18,7 +17,6 @@ public class TextEditor {
 
     private CyderFrame noteEditorFrame;
     private JTextField noteEditField;
-    private GeneralUtil textGeneralUtil = new GeneralUtil();
     private JTextArea noteEditArea;
 
     public TextEditor(String filePath) {

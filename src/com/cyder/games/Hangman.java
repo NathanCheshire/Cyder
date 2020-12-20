@@ -6,7 +6,6 @@ import com.cyder.enums.TitlePosition;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.NumberUtil;
 import com.cyder.utilities.StringUtil;
 
@@ -20,7 +19,6 @@ import java.io.FileReader;
 
 public class Hangman {
     private CyderFrame HangmanFrame;
-    private GeneralUtil hangmanGeneralUtil;
     private String HangmanWord;
     private CyderButton HangmanReset;
     private JTextField letterField;
@@ -31,8 +29,6 @@ public class Hangman {
     private String chosenLetters = "";
 
     public void startHangman() {
-        hangmanGeneralUtil = new GeneralUtil();
-
         if (HangmanFrame != null)
             HangmanFrame.closeAnimation();
 

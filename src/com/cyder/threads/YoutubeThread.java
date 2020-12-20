@@ -5,7 +5,6 @@ import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.NetworkUtil;
 import com.cyder.utilities.NumberUtil;
 import com.cyder.utilities.StringUtil;
-import com.cyder.utilities.GeneralUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,12 +17,10 @@ public class YoutubeThread {
     private boolean exit = false;
 
     private StringUtil su;
-    private GeneralUtil u;
 
     public YoutubeThread(JTextPane jTextPane) {
         su = new StringUtil();
         su.setOutputArea(jTextPane);
-        u = new GeneralUtil();
 
         new Thread(() -> {
             while (!exit) {

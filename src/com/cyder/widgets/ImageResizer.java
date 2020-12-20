@@ -5,7 +5,6 @@ import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.IOUtil;
 import com.cyder.utilities.SystemUtil;
 
@@ -33,7 +32,6 @@ public class ImageResizer {
     private JLabel previewLabel;
     private JLabel maintainAspectRatioLab;
 
-    private GeneralUtil imageGeneralUtil = new GeneralUtil();
     private File resizeImage;
 
     private boolean leftLastEdited;

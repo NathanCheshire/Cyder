@@ -5,7 +5,6 @@ import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
-import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -20,8 +19,6 @@ import java.util.List;
 public class Pizza {
     ImageIcon selected = new ImageIcon("src/com/cyder/sys/pictures/checkbox1.png");
     ImageIcon notSelected = new ImageIcon("src/com/cyder/sys/pictures/checkbox2.png");
-
-    private GeneralUtil pizzaGeneralUtil = new GeneralUtil();
 
     private CyderFrame pizzaFrame;
     private JTextField nameField;

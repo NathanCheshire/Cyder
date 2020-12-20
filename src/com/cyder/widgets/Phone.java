@@ -4,7 +4,6 @@ import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.IOUtil;
 
 import javax.swing.*;
@@ -13,8 +12,6 @@ import javax.swing.border.LineBorder;
 public class Phone {
     private JLabel numberLabel;
     private String phoneNum;
-
-    private GeneralUtil phoneGeneralUtil = new GeneralUtil();
 
     public Phone() {
         CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));

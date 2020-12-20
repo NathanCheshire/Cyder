@@ -17,16 +17,11 @@ import java.util.regex.Pattern;
 
 public class StringUtil {
     private static JTextPane outputArea;
-    private GeneralUtil stringGeneralUtil;
 
     private boolean userInputMode;
     private String userInputDesc;
 
     private bletchyThread bletchThread;
-
-    public StringUtil() {
-        stringGeneralUtil = new GeneralUtil();
-    }
 
     public boolean getUserInputMode() {
         return this.userInputMode;

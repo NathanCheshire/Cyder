@@ -6,13 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AnimationUtil {
-
-    private GeneralUtil gu;
-
-    public AnimationUtil() {
-        gu = new GeneralUtil();
-    }
-
     public void closeAnimation(JFrame frame) {
         try {
             if (frame != null && frame.isVisible()) {

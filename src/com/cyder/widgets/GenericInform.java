@@ -4,7 +4,6 @@ import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.ImageUtil;
 
 import javax.swing.*;

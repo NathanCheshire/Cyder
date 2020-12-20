@@ -4,7 +4,6 @@ import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.enums.ArrowDirection;
 import com.cyder.enums.VanishDirection;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.TimeUtil;
 
 import javax.swing.*;
@@ -14,10 +13,7 @@ public class SpecialDay {
     private boolean kill = false;
     private JLayeredPane parentPanel;
 
-    private GeneralUtil mainGeneralUtil;
-
     public SpecialDay(JLayeredPane parentPanel) {
-        mainGeneralUtil = new GeneralUtil();
 
         if (!kill) {
             if (TimeUtil.isChristmas())

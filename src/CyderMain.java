@@ -40,6 +40,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo switch backgrounds even if console is flipped a certain direction or full screened
+
+//switching backgrounds and directions is slow and doesn't work in full screen
+
 //todo locks for reading and writing to files
 
 //todo enter animations for notifications
@@ -121,7 +125,6 @@ public class CyderMain{
     private JLabel menuLabel;
 
     //Objects for main use
-    private GeneralUtil mainGeneralUtil;
     private StringUtil stringUtil;
     private CyderAnimation animation;
     private Notes userNotes;
@@ -214,7 +217,6 @@ public class CyderMain{
 
     //todo because of static nature of objects now, should not need to init most of these
     private void initObjects() {
-        mainGeneralUtil = new GeneralUtil();
         animation = new CyderAnimation();
         stringUtil = new StringUtil();
         stringUtil.setOutputArea(outputArea);
@@ -264,10 +266,8 @@ public class CyderMain{
 
     private void console() {
         try{
-            mainGeneralUtil.refreshBackgrounds();
-            mainGeneralUtil.resizeUserBackgrounds();
-            mainGeneralUtil.getBackgrounds();
-            mainGeneralUtil.refreshBackgrounds();
+            ConsoleFrame.resizeBackgrounds();
+            ConsoleFrame.initBackgrounds();
 
             consoleFrame = new JFrame() {
                 @Override
@@ -307,12 +307,7 @@ public class CyderMain{
             consoleFrame.setUndecorated(true);
             consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                mainGeneralUtil.setBackgroundWidth((int) systemUtil.getScreenSize().getWidth());
-                mainGeneralUtil.setBackgroundHeight((int) systemUtil.getScreenSize().getHeight());
-            }
-
-            consoleFrame.setBounds(0, 0, mainGeneralUtil.getBackgroundWidth(), mainGeneralUtil.getBackgroundHeight());
+            consoleFrame.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), ConsoleFrame.getBackgroundHeight());
             consoleFrame.setTitle(IOUtil.getSystemData("Version") + " Cyder [" + ConsoleFrame.getUsername() + "]");
 
             parentPane = new JLayeredPane();
@@ -326,19 +321,17 @@ public class CyderMain{
             parentLabel.setOpaque(false);
 
             if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                parentLabel.setIcon(new ImageIcon(ImageUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(), (int) systemUtil.getScreenSize().getHeight(), mainGeneralUtil.getCurrentBackground())));
-                parentLabel.setBounds(0, 0, mainGeneralUtil.getBackgroundWidth(), mainGeneralUtil.getBackgroundHeight());
-                mainGeneralUtil.setBackgroundWidth((int) systemUtil.getScreenSize().getWidth());
-                mainGeneralUtil.setBackgroundHeight((int) systemUtil.getScreenSize().getHeight());
+                parentLabel.setIcon(new ImageIcon(ImageUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(), (int) systemUtil.getScreenSize().getHeight(), ConsoleFrame.getCurrentBackgroundFile())));
+                parentLabel.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), ConsoleFrame.getBackgroundHeight());
             }
 
             else {
-                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),ConsoleFrame.getConsoleDirection())));
-                parentLabel.setBounds(0, 0, mainGeneralUtil.getBackgroundWidth(), mainGeneralUtil.getBackgroundHeight());
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().toString(),ConsoleFrame.getConsoleDirection())));
+                parentLabel.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), ConsoleFrame.getBackgroundHeight());
             }
 
             parentLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
-            parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
+            parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
 
             parentPane.add(parentLabel,1,0);
 
@@ -360,7 +353,7 @@ public class CyderMain{
 
             outputArea.setEditable(false);
             outputArea.setAutoscrolls(true);
-            outputArea.setBounds(10, 62, mainGeneralUtil.getBackgroundWidth() - 20, mainGeneralUtil.getBackgroundHeight() - 204);
+            outputArea.setBounds(10, 62, ConsoleFrame.getBackgroundWidth() - 20, ConsoleFrame.getBackgroundHeight() - 204);
             outputArea.setFocusable(true);
             outputArea.setSelectionColor(new Color(204,153,0));
             outputArea.setOpaque(false);
@@ -382,7 +375,7 @@ public class CyderMain{
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
             }
 
-            outputScroll.setBounds(10, 62, mainGeneralUtil.getBackgroundWidth() - 20, mainGeneralUtil.getBackgroundHeight() - 204);
+            outputScroll.setBounds(10, 62, ConsoleFrame.getBackgroundWidth() - 20, ConsoleFrame.getBackgroundHeight() - 204);
 
             parentLabel.add(outputScroll);
 
@@ -463,7 +456,7 @@ public class CyderMain{
             consoleFrame.addWindowListener(consoleEcho);
 
             inputField.setBounds(10, 82 + outputArea.getHeight(),
-                    mainGeneralUtil.getBackgroundWidth() - 20, mainGeneralUtil.getBackgroundHeight() - (outputArea.getHeight() + 62 + 40));
+                    ConsoleFrame.getBackgroundWidth() - 20, ConsoleFrame.getBackgroundHeight() - (outputArea.getHeight() + 62 + 40));
             inputField.setOpaque(false);
 
             parentLabel.add(inputField);
@@ -580,7 +573,7 @@ public class CyderMain{
                 }
             });
 
-            minimize.setBounds(mainGeneralUtil.getBackgroundWidth() - 81, 4, 22, 20);
+            minimize.setBounds(ConsoleFrame.getBackgroundWidth() - 81, 4, 22, 20);
 
             ImageIcon mini = new ImageIcon("src/com/cyder/sys/pictures/Minimize1.png");
             minimize.setIcon(mini);
@@ -593,27 +586,27 @@ public class CyderMain{
             alternateBackground = new JButton("");
             alternateBackground.setToolTipText("Alternate Background");
             alternateBackground.addActionListener(e -> {
-                mainGeneralUtil.refreshBackgrounds();
+                ConsoleFrame.initBackgrounds();
 
                 try {
-                    lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(mainGeneralUtil.getCurrentBackground()));
+                    lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
                 }
 
                 catch (IOException ex) {
                     ErrorHandler.handle(ex);
                 }
 
-                if (mainGeneralUtil.canSwitchBackground() && mainGeneralUtil.getBackgrounds().length > 1) {
-                    mainGeneralUtil.setCurrentBackgroundIndex(mainGeneralUtil.getCurrentBackgroundIndex() + 1);
+                if (ConsoleFrame.canSwitchBackground() && ConsoleFrame.getBackgrounds().size() > 1) {
+                    ConsoleFrame.incBackgroundIndex();
                     switchBackground();
                 }
 
-                else if (mainGeneralUtil.onLastBackground() && mainGeneralUtil.getBackgrounds().length > 1) {
-                    mainGeneralUtil.setCurrentBackgroundIndex(0);
+                else if (ConsoleFrame.onLastBackground() && ConsoleFrame.getBackgrounds().size()> 1) {
+                    ConsoleFrame.setBackgroundIndex(0);
                     switchBackground();
                 }
 
-                else if (mainGeneralUtil.getBackgrounds().length == 1) {
+                else if (ConsoleFrame.getBackgrounds().size() == 1) {
                     println("You only have one background image. Would you like to add more? (Enter yes/no)");
                     inputField.requestFocus();
                     stringUtil.setUserInputMode(true);
@@ -645,7 +638,7 @@ public class CyderMain{
                 }
             });
 
-            alternateBackground.setBounds(mainGeneralUtil.getBackgroundWidth() - 54, 4, 22, 20);
+            alternateBackground.setBounds(ConsoleFrame.getBackgroundWidth() - 54, 4, 22, 20);
 
             ImageIcon Size = new ImageIcon("src/com/cyder/sys/pictures/ChangeSize1.png");
             alternateBackground.setIcon(Size);
@@ -673,7 +666,7 @@ public class CyderMain{
                 }
             });
 
-            close.setBounds(mainGeneralUtil.getBackgroundWidth() - 27, 4, 22, 20);
+            close.setBounds(ConsoleFrame.getBackgroundWidth() - 27, 4, 22, 20);
 
             ImageIcon exit = new ImageIcon("src/com/cyder/sys/pictures/Close1.png");
 
@@ -687,7 +680,7 @@ public class CyderMain{
             close.setBorderPainted(false);
 
             consoleDragLabel = new JLabel();
-            consoleDragLabel.setBounds(0,0, mainGeneralUtil.getBackgroundWidth(),30);
+            consoleDragLabel.setBounds(0,0, ConsoleFrame.getBackgroundWidth(),30);
             consoleDragLabel.setOpaque(true);
             consoleDragLabel.setBackground(new Color(26,32,51));
             consoleDragLabel.addMouseMotionListener(new MouseMotionListener() {
@@ -748,18 +741,18 @@ public class CyderMain{
             });
 
             if (IOUtil.getUserData("RandomBackground").equals("1")) {
-                int len = mainGeneralUtil.getBackgrounds().length;
+                int len = ConsoleFrame.getBackgrounds().size();
 
                 if (len <= 1)
                     println("Sorry, " + ConsoleFrame.getUsername() + ", but you only have one background file so there's no random element to be chosen.");
 
                 else if (len > 1) {
                     try {
-                        File[] backgrounds = mainGeneralUtil.getBackgrounds();
+                        LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
 
-                        mainGeneralUtil.setCurrentBackgroundIndex(NumberUtil.randInt(0, (backgrounds.length) - 1));
+                        ConsoleFrame.setBackgroundIndex(NumberUtil.randInt(0, (backgrounds.size()) - 1));
 
-                        String newBackFile = mainGeneralUtil.getCurrentBackground().toString();
+                        String newBackFile = ConsoleFrame.getCurrentBackgroundFile().toString();
 
                         ImageIcon newBack;
                         int tempW = 0;
@@ -796,7 +789,7 @@ public class CyderMain{
 
                         parentLabel.setIcon(newBack);
 
-                        parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
+                        parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
                         consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
                                 2,(consoleClockLabel.getText().length() * 17), 25);
                     }
@@ -820,7 +813,7 @@ public class CyderMain{
 
             consoleClockLabel.setVisible(updateConsoleClock);
 
-            lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(mainGeneralUtil.getCurrentBackground()));
+            lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
 
             if (IOUtil.getUserData("DebugWindows").equals("1")) {
                 StatUtil.systemProperties();
@@ -1431,11 +1424,12 @@ public class CyderMain{
         }
     }
 
+    //todo handle this in ConsoleFrame
     private void exitFullscreen() {
-        mainGeneralUtil.refreshBackgrounds();
-        File[] backgrounds = mainGeneralUtil.getBackgrounds();
-        int index = mainGeneralUtil.getCurrentBackgroundIndex();
-        String backFile = backgrounds[index].toString();
+        ConsoleFrame.initBackgrounds();
+        LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
+        int index = ConsoleFrame.getBackgroundIndex();
+        String backFile = backgrounds.get(index).toString();
 
         int width = 0;
         int height = 0;
@@ -1454,7 +1448,7 @@ public class CyderMain{
                 backIcon = new ImageIcon(backFile);
                 width = backIcon.getIconWidth();
                 height = backIcon.getIconHeight();
-                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),ConsoleFrame.getConsoleDirection())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().toString(),ConsoleFrame.getConsoleDirection())));
 
                 break;
             default:
@@ -1465,7 +1459,7 @@ public class CyderMain{
                     width = backIcon.getIconHeight();
                 }
 
-                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().toString(),ConsoleFrame.getConsoleDirection())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().toString(),ConsoleFrame.getConsoleDirection())));
 
                 break;
         }
@@ -1496,10 +1490,10 @@ public class CyderMain{
     }
 
     private void refreshFullscreen() {
-        mainGeneralUtil.refreshBackgrounds();
-        File[] backgrounds = mainGeneralUtil.getBackgrounds();
-        int index = mainGeneralUtil.getCurrentBackgroundIndex();
-        String backFile = backgrounds[index].toString();
+        ConsoleFrame.initBackgrounds();
+        LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
+        int index = ConsoleFrame.getBackgroundIndex();
+        String backFile = backgrounds.get(index).toString();
 
         ImageIcon backIcon = new ImageIcon(backFile);
 
@@ -1538,12 +1532,12 @@ public class CyderMain{
     private void switchBackground() {
         Thread slideThread = new Thread(() -> {
             try {
-                mainGeneralUtil.refreshBackgrounds();
+                ConsoleFrame.initBackgrounds();
 
-                File[] backgrounds = mainGeneralUtil.getBackgrounds();
-                int oldIndex = (mainGeneralUtil.getCurrentBackgroundIndex() == 0 ? backgrounds.length - 1 : mainGeneralUtil.getCurrentBackgroundIndex() - 1);
-                String oldBackFile = backgrounds[oldIndex].toString();
-                String newBackFile = mainGeneralUtil.getCurrentBackground().toString();
+                LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
+                int oldIndex = (ConsoleFrame.getBackgroundIndex() == 0 ? backgrounds.size() - 1 : ConsoleFrame.getBackgroundIndex() - 1);
+                String oldBackFile = backgrounds.get(oldIndex).toString();
+                String newBackFile = ConsoleFrame.getCurrentBackgroundFile().toString();
 
                 ImageIcon oldBack = new ImageIcon(oldBackFile);
                 BufferedImage newBack = ImageIO.read(new File(newBackFile));
@@ -1619,7 +1613,7 @@ public class CyderMain{
 
                 slidLeft = !slidLeft;
 
-                parentLabel.setToolTipText(mainGeneralUtil.getCurrentBackground().getName().replace(".png", ""));
+                parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
                 consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
                         2,(consoleClockLabel.getText().length() * 17), 25);
             }
@@ -1939,9 +1933,9 @@ public class CyderMain{
             }
 
             else if (desc.equalsIgnoreCase("pixelatebackground")) {
-                BufferedImage img = ImageUtil.pixelate(ImageIO.read(mainGeneralUtil.getCurrentBackground().getAbsoluteFile()), Integer.parseInt(input));
+                BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile().getAbsoluteFile()), Integer.parseInt(input));
 
-                String searchName = mainGeneralUtil.getCurrentBackground().getName().replace(".png", "")
+                String searchName = ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", "")
                         + "_Pixelated_Pixel_Size_" + Integer.parseInt(input) + ".png";
 
                 File saveFile = new File("src/users/" + ConsoleFrame.getUUID() +
@@ -1949,15 +1943,13 @@ public class CyderMain{
 
                 ImageIO.write(img, "png", saveFile);
 
-                mainGeneralUtil.refreshBackgrounds();
+                LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
 
-                File[] backgrounds = mainGeneralUtil.getBackgrounds();
-
-                for (int i = 0 ; i < backgrounds.length ; i++) {
-                    if (backgrounds[i].getName().equals(searchName)) {
-                        parentLabel.setIcon(new ImageIcon(backgrounds[i].toString()));
-                        parentLabel.setToolTipText(backgrounds[i].getName().replace(".png",""));
-                        mainGeneralUtil.setCurrentBackgroundIndex(i);
+                for (int i = 0 ; i < backgrounds.size() ; i++) {
+                    if (backgrounds.get(i).getName().equals(searchName)) {
+                        parentLabel.setIcon(new ImageIcon(backgrounds.get(i).toString()));
+                        parentLabel.setToolTipText(backgrounds.get(i).getName().replace(".png",""));
+                        ConsoleFrame.setBackgroundIndex(i);
                     }
                 }
 
@@ -3580,7 +3572,7 @@ public class CyderMain{
                         }
                     }
 
-                    if (ClickedSelection.equalsIgnoreCase(mainGeneralUtil.getCurrentBackground().getName().replace(".png","")))
+                    if (ClickedSelection.equalsIgnoreCase(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png","")))
                         editUserFrame.inform("Unable to delete the background you are currently using","Error",400,200);
 
                     else {
@@ -3594,20 +3586,19 @@ public class CyderMain{
                         else if (ClickedSelection.endsWith(".png")) {
                             println("Background: " + ClickedSelectionPath.getName().replace(".png","") + " successfully deleted.");
 
-                            File[] paths = mainGeneralUtil.getBackgrounds();
-                            for (int i = 0 ; i < paths.length ; i++) {
-                                if (paths[i].equals(mainGeneralUtil.getCurrentBackground())) {
-                                    mainGeneralUtil.setCurrentBackgroundIndex(i);
+                            LinkedList<File> paths = ConsoleFrame.getBackgrounds();
+                            for (int i = 0 ; i < paths.size() ; i++) {
+                                if (paths.get(i).equals(ConsoleFrame.getCurrentBackgroundFile())) {
+                                    ConsoleFrame.setBackgroundIndex(i);
                                     break;
                                 }
                             }
-
-                            mainGeneralUtil.refreshBackgrounds();
                         }
                     }
                 }
             }
         });
+
         deleteMusicBackground.setBackground(CyderColors.regularRed);
         deleteMusicBackground.setFont(CyderFonts.weatherFontSmall);
         deleteMusicBackground.setBounds(20 + 213 + 20 + 213 + 20,440,213,40);
@@ -4563,15 +4554,15 @@ public class CyderMain{
 
     private void askew() {
         consoleFrame.setBackground(CyderColors.navy);
-        parentLabel.setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath(),ConsoleFrame.getConsoleDirection()),3)));
+        parentLabel.setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().getAbsolutePath(),ConsoleFrame.getConsoleDirection()),3)));
     }
 
     private void barrelRoll() {
         consoleFrame.setBackground(CyderColors.navy);
-        mainGeneralUtil.getBackgrounds();
+        ConsoleFrame.initBackgrounds();
 
         ConsoleDirection originConsoleDIr = ConsoleFrame.getConsoleDirection();
-        BufferedImage master = ImageUtil.getRotatedImage(mainGeneralUtil.getCurrentBackground().getAbsolutePath(),ConsoleFrame.getConsoleDirection());
+        BufferedImage master = ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().getAbsolutePath(),ConsoleFrame.getConsoleDirection());
 
         Timer timer = null;
         Timer finalTimer = timer;

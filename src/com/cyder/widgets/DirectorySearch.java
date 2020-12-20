@@ -5,7 +5,6 @@ import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.IOUtil;
 
 import javax.swing.*;
@@ -17,7 +16,6 @@ import java.io.File;
 import java.util.Stack;
 
 public class DirectorySearch {
-    private GeneralUtil dirGeneralUtil = new GeneralUtil();
     private CyderFrame dirFrame;
     private JTextField dirField;
     private CyderScrollPane dirScroll;

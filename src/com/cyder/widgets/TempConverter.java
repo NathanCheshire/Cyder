@@ -4,7 +4,6 @@ import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -21,8 +20,6 @@ public class TempConverter {
     private JRadioButton newKelvin;
     private ButtonGroup radioNewValueGroup;
     private ButtonGroup radioCurrentValueGroup;
-
-    private GeneralUtil tempGeneralUtil = new GeneralUtil();
 
     public TempConverter() {
         if (temperatureFrame != null)

@@ -5,7 +5,6 @@ import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.DragLabel;
 import com.cyder.utilities.AnimationUtil;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.SystemUtil;
 import com.cyder.widgets.GenericInform;
 
@@ -25,7 +24,6 @@ public class PhotoViewer {
     private File startDir;
     private int currentIndex;
 
-    private GeneralUtil imageGeneralUtil = new GeneralUtil();
     private AnimationUtil fa = new AnimationUtil();
     private SystemUtil su = new SystemUtil();
 

@@ -20,12 +20,10 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeUtil {
 
-    private GeneralUtil timeGeneralUtil;
     private int gmtOffset;
     private IPUtil InternetProtocolUtil;
 
     public TimeUtil() {
-        timeGeneralUtil = new GeneralUtil();
         InternetProtocolUtil = new IPUtil();
 
         initGMTOffset();

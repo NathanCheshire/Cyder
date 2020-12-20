@@ -5,7 +5,6 @@ import com.cyder.Constants.CyderFonts;
 import com.cyder.enums.TitlePosition;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.utilities.SecurityUtil;
 
 import javax.swing.*;
@@ -15,7 +14,6 @@ import java.awt.datatransfer.StringSelection;
 
 public class Hasher {
     private JPasswordField hashField;
-    private GeneralUtil hashGeneralUtil = new GeneralUtil();
 
     public Hasher() {
         CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));

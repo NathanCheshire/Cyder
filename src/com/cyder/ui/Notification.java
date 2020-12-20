@@ -4,15 +4,12 @@ import com.cyder.enums.ArrowDirection;
 import com.cyder.enums.StartDirection;
 import com.cyder.enums.VanishDirection;
 import com.cyder.handler.ErrorHandler;
-import com.cyder.utilities.GeneralUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 public class Notification extends JLabel {
-
-    private GeneralUtil notificationHandler = new GeneralUtil();
 
     private int strokeThickness = 5;
     private int padding = strokeThickness / 2;

@@ -5,7 +5,6 @@ import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.GeneralUtil;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 
 import javax.swing.*;
@@ -14,7 +13,6 @@ import javax.swing.border.LineBorder;
 
 public class Calculator {
     private String calculatorExpression = "";
-    private GeneralUtil calculatorGeneralUtil = new GeneralUtil();
     
     public Calculator() {
         calculatorExpression = "";

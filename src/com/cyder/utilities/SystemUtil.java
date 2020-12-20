@@ -15,7 +15,7 @@ public class SystemUtil {
     private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src/com/cyder/sys/pictures/CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
     private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src/com/cyder/sys/pictures/CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 
-    public Dimension getScreenSize() {
+    public static Dimension getScreenSize() {
         return Toolkit.getDefaultToolkit().getScreenSize();
     }
 

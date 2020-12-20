@@ -4,7 +4,6 @@ import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.enums.TitlePosition;
 import com.cyder.ui.CyderFrame;
-import com.cyder.utilities.GeneralUtil;
 import com.cyder.ui.CyderButton;
 import com.cyder.utilities.ImageUtil;
 
@@ -15,7 +14,6 @@ import java.awt.*;
 public class TicTacToe {
 
     private CyderFrame tttFrame;
-    private GeneralUtil tttGeneralUtil = new GeneralUtil();
 
     private CyderButton ttt9;
     private CyderButton ttt8;

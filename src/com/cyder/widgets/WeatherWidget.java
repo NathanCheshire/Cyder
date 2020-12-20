@@ -76,8 +76,6 @@ public class WeatherWidget {
     private int currentLocationGMTOffset;
     private boolean GMTset;
 
-    private GeneralUtil weatherGeneralUtil = new GeneralUtil();
-
     public WeatherWidget() {
         weatherStats();
 
