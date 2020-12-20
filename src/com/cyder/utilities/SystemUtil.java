@@ -10,8 +10,8 @@ import java.net.InetAddress;
 
 public class SystemUtil {
 
-    private ImageIcon cyderIcon = new ImageIcon("src/com/cyder/sys/pictures/CyderIcon.png");
-    private ImageIcon cyderIconBlink = new ImageIcon("src/com/cyder/sys/pictures/CyderIconBlink.png");
+    private static ImageIcon cyderIcon = new ImageIcon("src/com/cyder/sys/pictures/CyderIcon.png");
+    private static ImageIcon cyderIconBlink = new ImageIcon("src/com/cyder/sys/pictures/CyderIconBlink.png");
     private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src/com/cyder/sys/pictures/CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
     private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("src/com/cyder/sys/pictures/CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 
@@ -27,12 +27,12 @@ public class SystemUtil {
         return this.getScreenSize().height;
     }
 
-    public ImageIcon getCyderIcon() {
-        return this.cyderIcon;
+    public static ImageIcon getCyderIcon() {
+        return cyderIcon;
     }
 
-    public ImageIcon getCyderIconBlink() {
-        return this.cyderIconBlink;
+    public static ImageIcon getCyderIconBlink() {
+        return cyderIconBlink;
     }
 
     public ImageIcon getScaledCyderIcon() {return this.scaledCyderIcon;}
@@ -61,7 +61,7 @@ public class SystemUtil {
     }
 
     //system util
-    public void resetMouse() {
+    public static void resetMouse() {
         try {
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             int centerX = screenSize.width / 2;
@@ -75,7 +75,7 @@ public class SystemUtil {
 
     //todo make methods to run vbs scripts
 
-    public void closeCD(String drive) {
+    public static void closeCD(String drive) {
         String[] vbs = {"Set wmp = CreateObject(\"WMPlayer.OCX\")",
                 "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
                         + drive + "\")",
@@ -85,7 +85,7 @@ public class SystemUtil {
         IOUtil.createAndOpenTmpFile("CDROM-CLOSE",".vbs",vbs);
     }
 
-    public void openCD(String drive) {
+    public static void openCD(String drive) {
         String[] vbs = {"Set wmp = CreateObject(\"WMPlayer.OCX\")",
                 "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
                         + drive + "\")",
@@ -94,7 +94,7 @@ public class SystemUtil {
         IOUtil.createAndOpenTmpFile("CDROM-OPEN",".vbs",vbs);
     }
 
-    public void disco(int iterations) {
+    public static void disco(int iterations) {
         Thread DiscoThread = new Thread(() -> {
             try {
                 boolean Fixed = false;
@@ -157,7 +157,7 @@ public class SystemUtil {
         DiscoThread.start();
     }
 
-    public void deleteFolder(File folder) {
+    public static void deleteFolder(File folder) {
         File[] files = folder.listFiles();
 
         if (files != null) {

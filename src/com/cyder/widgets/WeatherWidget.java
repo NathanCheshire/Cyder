@@ -22,7 +22,6 @@ import java.util.TimeZone;
 
 public class WeatherWidget {
     private JLabel locationLabel;
-    private JFrame changeLocationFrame;
     private JLabel currentWeatherLabel;
     private JLabel changeLocationLabel;
     private JLabel temperatureLabel;
@@ -141,62 +140,35 @@ public class WeatherWidget {
         changeLocationLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                changeLocationFrame = new JFrame();
-
-                changeLocationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+                CyderFrame changeLocationFrame = new CyderFrame(600,310,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
                 changeLocationFrame.setTitle("Change Location");
 
-                changeLocationFrame.setIconImage(new SystemUtil().getCyderIcon().getImage());
 
-                JPanel parent = new JPanel();
-
-                parent.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
-
-                parent.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-                JLabel explenation = new JLabel("<html>Enter your city, state, and country code separated by a comma<br/>" +
-                                                    "Example: \"New Orleans,LA,US\"<br/>If you don't have a state, don't worry about" +
-                                                    " it, I'll figure it out.</html>");
+                JLabel explenation = new JLabel("<html>Enter your city, state, and country code separated by a comma" +
+                        "<br/>Example: <p style=\"font-family:verdana\"><p style=\"color:rgb(45, 100, 220)\">New Orleans,LA,US</p></p></html>");
 
                 explenation.setFont(CyderFonts.weatherFontSmall);
-
                 explenation.setForeground(CyderColors.navy);
-
-                JPanel a = new JPanel();
-
-                a.add(explenation, SwingConstants.CENTER);
-
-                parent.add(a);
+                explenation.setHorizontalAlignment(JLabel.CENTER);
+                explenation.setVerticalAlignment(JLabel.CENTER);
+                explenation.setBounds(40,40,520,170);
+                changeLocationFrame.getContentPane().add(explenation);
 
                 JTextField changeLocField = new JTextField(20);
-
                 changeLocField.setBorder(new LineBorder(CyderColors.navy,5,false));
-
                 changeLocField.setForeground(CyderColors.navy);
-
+                changeLocField.setSelectionColor(CyderColors.selectionColor);
                 changeLocField.setFont(CyderFonts.weatherFontSmall);
+                changeLocField.setBounds(40,200,520,40);
+                changeLocationFrame.getContentPane().add(changeLocField);
 
                 CyderButton changeLoc = new CyderButton("Change Location");
-
                 changeLoc.setBorder(new LineBorder(CyderColors.navy,5,false));
-
                 changeLocField.addActionListener(e1 -> changeLoc.doClick());
-
-                JPanel b = new JPanel();
-
-                b.add(changeLocField, SwingConstants.CENTER);
-
-                parent.add(b);
-
                 changeLoc.setFont(CyderFonts.weatherFontSmall);
-
                 changeLoc.setForeground(CyderColors.navy);
-
                 changeLoc.setColors(CyderColors.regularRed);
-
                 changeLoc.setBackground(CyderColors.regularRed);
-
                 changeLoc.addActionListener(e12 -> {
                     try {
                         locationString = changeLocField.getText();
@@ -213,19 +185,11 @@ public class WeatherWidget {
                     }
                 });
 
-                JPanel c = new JPanel();
-
-                c.add(changeLoc, SwingConstants.CENTER);
-
-                parent.add(c);
-
-                changeLocationFrame.add(parent);
+                changeLoc.setBounds(40,250,520,40);
+                changeLocationFrame.getContentPane().add(changeLoc);
 
                 changeLocationFrame.setVisible(true);
-
-                changeLocationFrame.pack();
-
-                changeLocationFrame.setLocationRelativeTo(null);
+                changeLocationFrame.setLocationRelativeTo(weatherFrame);
             }
 
             @Override

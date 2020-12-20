@@ -18,6 +18,12 @@ import java.util.regex.Pattern;
 public class StringUtil {
     private static JTextPane outputArea;
 
+    public StringUtil() {}
+
+    public StringUtil(JTextPane outputArea) {
+        this.outputArea = outputArea;
+    }
+
     private boolean userInputMode;
     private String userInputDesc;
 

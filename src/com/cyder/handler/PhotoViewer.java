@@ -3,6 +3,7 @@ package com.cyder.handler;
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderFrame;
 import com.cyder.ui.DragLabel;
 import com.cyder.utilities.AnimationUtil;
 import com.cyder.utilities.SystemUtil;
@@ -26,10 +27,9 @@ public class PhotoViewer {
 
     private AnimationUtil fa = new AnimationUtil();
     private SystemUtil su = new SystemUtil();
-
-    private JFrame renameFrame;
     private DragLabel dl;
     private JFrame pictureFrame;
+    private CyderFrame renameFrame;
 
     private JLabel pictureLabel;
 
@@ -76,65 +76,7 @@ public class PhotoViewer {
         rename.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (renameFrame != null)
-                    fa.closeAnimation(renameFrame);
-
-                renameFrame = new JFrame();
-                renameFrame.setResizable(false);
-                renameFrame.setIconImage(su.getCyderIcon().getImage());
-                renameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                renameFrame.setTitle("Rename");
-
-                JPanel pan = new JPanel();
-                pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
-
-                JTextField renameField = new JTextField(20);
-                renameField.setFont(CyderFonts.weatherFontSmall);
-                renameField.setForeground(CyderColors.navy);
-                renameField.setBorder(new LineBorder(CyderColors.navy,5,false));
-
-                CyderButton attemptRen = new CyderButton("Rename");
-                attemptRen.setBackground(CyderColors.regularRed);
-                attemptRen.setColors(CyderColors.regularRed);
-                renameField.addActionListener(e1 -> attemptRen.doClick());
-
-                JPanel a = new JPanel();
-                a.add(renameField, SwingConstants.CENTER);
-                pan.add(a);
-
-                attemptRen.setBorder(new LineBorder(CyderColors.navy,5,false));
-                attemptRen.setFont(CyderFonts.weatherFontSmall);
-                attemptRen.setForeground(CyderColors.navy);
-                attemptRen.addActionListener(e12 -> {
-                    String name = renameField.getText();
-
-                    File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
-                    File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
-                    oldName.renameTo(newName);
-                    GenericInform.inform("Successfully renamed to " + name,"",400,300);
-
-                    initFiles();
-
-                    for (int i = 0 ; i < validImages.size() ; i++) {
-                        if (validImages.get(i).getName().equals(name)) {
-                            currentIndex = i;
-                        }
-                    }
-
-                    pictureFrame.setTitle(name);
-
-                    fa.closeAnimation(renameFrame);
-                });
-
-                JPanel b = new JPanel();
-                b.add(attemptRen, SwingConstants.CENTER);
-                pan.add(b);
-                pan.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-                renameFrame.add(pan);
-                renameFrame.pack();
-                renameFrame.setVisible(true);
-                renameFrame.setLocationRelativeTo(null);
+                rename();
             }
 
             @Override
@@ -253,65 +195,7 @@ public class PhotoViewer {
             rename.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (renameFrame != null)
-                        fa.closeAnimation(renameFrame);
-
-                    renameFrame = new JFrame();
-                    renameFrame.setResizable(false);
-                    renameFrame.setIconImage(su.getCyderIcon().getImage());
-                    renameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    renameFrame.setTitle("Rename");
-
-                    JPanel pan = new JPanel();
-                    pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
-
-                    JTextField renameField = new JTextField(20);
-                    renameField.setFont(CyderFonts.weatherFontSmall);
-                    renameField.setForeground(CyderColors.navy);
-                    renameField.setBorder(new LineBorder(CyderColors.navy,5,false));
-
-                    CyderButton attemptRen = new CyderButton("Rename");
-                    attemptRen.setBackground(CyderColors.regularRed);
-                    attemptRen.setColors(CyderColors.regularRed);
-                    renameField.addActionListener(e1 -> attemptRen.doClick());
-
-                    JPanel a = new JPanel();
-                    a.add(renameField, SwingConstants.CENTER);
-                    pan.add(a);
-
-                    attemptRen.setBorder(new LineBorder(CyderColors.navy,5,false));
-                    attemptRen.setFont(CyderFonts.weatherFontSmall);
-                    attemptRen.setForeground(CyderColors.navy);
-                    attemptRen.addActionListener(e12 -> {
-                        String name = renameField.getText();
-
-                        File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
-                        File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
-                        oldName.renameTo(newName);
-                        GenericInform.inform("Successfully renamed to " + name,"",400,300);
-
-                        initFiles();
-
-                        for (int i = 0 ; i < validImages.size() ; i++) {
-                            if (validImages.get(i).getName().equals(name)) {
-                                currentIndex = i;
-                            }
-                        }
-
-                        pictureFrame.setTitle(name);
-
-                        fa.closeAnimation(renameFrame);
-                    });
-
-                    JPanel b = new JPanel();
-                    b.add(attemptRen, SwingConstants.CENTER);
-                    pan.add(b);
-                    pan.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-                    renameFrame.add(pan);
-                    renameFrame.pack();
-                    renameFrame.setVisible(true);
-                    renameFrame.setLocationRelativeTo(null);
+                    rename();
                 }
 
                 @Override
@@ -407,65 +291,7 @@ public class PhotoViewer {
             rename.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (renameFrame != null)
-                        fa.closeAnimation(renameFrame);
-
-                    renameFrame = new JFrame();
-                    renameFrame.setResizable(false);
-                    renameFrame.setIconImage(su.getCyderIcon().getImage());
-                    renameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    renameFrame.setTitle("Rename");
-
-                    JPanel pan = new JPanel();
-                    pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
-
-                    JTextField renameField = new JTextField(20);
-                    renameField.setFont(CyderFonts.weatherFontSmall);
-                    renameField.setForeground(CyderColors.navy);
-                    renameField.setBorder(new LineBorder(CyderColors.navy,5,false));
-
-                    CyderButton attemptRen = new CyderButton("Rename");
-                    attemptRen.setBackground(CyderColors.regularRed);
-                    attemptRen.setColors(CyderColors.regularRed);
-                    renameField.addActionListener(e1 -> attemptRen.doClick());
-
-                    JPanel a = new JPanel();
-                    a.add(renameField, SwingConstants.CENTER);
-                    pan.add(a);
-
-                    attemptRen.setBorder(new LineBorder(CyderColors.navy,5,false));
-                    attemptRen.setFont(CyderFonts.weatherFontSmall);
-                    attemptRen.setForeground(CyderColors.navy);
-                    attemptRen.addActionListener(e12 -> {
-                        String name = renameField.getText();
-
-                        File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
-                        File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
-                        oldName.renameTo(newName);
-                        GenericInform.inform("Successfully renamed to " + name,"",400,300);
-
-                        initFiles();
-
-                        for (int i = 0 ; i < validImages.size() ; i++) {
-                            if (validImages.get(i).getName().equals(name)) {
-                                currentIndex = i;
-                            }
-                        }
-
-                        pictureFrame.setTitle(name);
-
-                        fa.closeAnimation(renameFrame);
-                    });
-
-                    JPanel b = new JPanel();
-                    b.add(attemptRen, SwingConstants.CENTER);
-                    pan.add(b);
-                    pan.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-                    renameFrame.add(pan);
-                    renameFrame.pack();
-                    renameFrame.setVisible(true);
-                    renameFrame.setLocationRelativeTo(null);
+                   rename();
                 }
 
                 @Override
@@ -575,5 +401,53 @@ public class PhotoViewer {
 
     private double getAspectRatio(ImageIcon im) {
         return ((double) im.getIconWidth() / (double) im.getIconHeight());
+    }
+
+    private void rename() {
+        if (renameFrame != null)
+            fa.closeAnimation(renameFrame);
+
+        renameFrame = new CyderFrame(400,170,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        renameFrame.setTitle("Rename");
+
+        JTextField renameField = new JTextField(20);
+        renameField.setFont(CyderFonts.weatherFontSmall);
+        renameField.setForeground(CyderColors.navy);
+        renameField.setBorder(new LineBorder(CyderColors.navy,5,false));
+        renameField.setBounds(40,40,320,40);
+        renameFrame.getContentPane().add(renameField);
+
+        CyderButton attemptRen = new CyderButton("Rename");
+        attemptRen.setBackground(CyderColors.regularRed);
+        attemptRen.setColors(CyderColors.regularRed);
+        renameField.addActionListener(e1 -> attemptRen.doClick());
+        attemptRen.setBorder(new LineBorder(CyderColors.navy,5,false));
+        attemptRen.setFont(CyderFonts.weatherFontSmall);
+        attemptRen.setForeground(CyderColors.navy);
+        attemptRen.addActionListener(e12 -> {
+            String name = renameField.getText();
+
+            File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
+            File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
+            oldName.renameTo(newName);
+            GenericInform.inform("Successfully renamed to " + name,"",400,300);
+
+            initFiles();
+
+            for (int i = 0 ; i < validImages.size() ; i++) {
+                if (validImages.get(i).getName().equals(name)) {
+                    currentIndex = i;
+                }
+            }
+
+            pictureFrame.setTitle(name);
+
+            fa.closeAnimation(renameFrame);
+        });
+        attemptRen.setBounds(40,100,320,40);
+        renameFrame.getContentPane().add(attemptRen);
+
+        renameFrame.setVisible(true);
+        renameFrame.setLocationRelativeTo(pictureFrame);
     }
 }

@@ -10,7 +10,7 @@ import java.net.URI;
 
 public class NetworkUtil {
 
-    public void internetConnect(String URL) {
+    public static void internetConnect(String URL) {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(new URI(URL));
@@ -19,7 +19,7 @@ public class NetworkUtil {
         }
     }
 
-    public void internetConnect(URI URI) {
+    public static void internetConnect(URI URI) {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(URI);
@@ -93,7 +93,7 @@ public class NetworkUtil {
         return Latency;
     }
 
-    public boolean internetReachable() {
+    public static boolean internetReachable() {
         Process Ping;
 
         try {

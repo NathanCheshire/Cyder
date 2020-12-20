@@ -42,14 +42,11 @@ import java.util.concurrent.TimeUnit;
 
 //todo switch backgrounds even if console is flipped a certain direction or full screened
 
-//switching backgrounds and directions is slow and doesn't work in full screen
+//todo switching backgrounds and directions is slow and doesn't work in full screen
 
 //todo locks for reading and writing to files
 
 //todo enter animations for notifications
-
-//todo general util goes away
-//todo default val for all enums
 
 //todo if location isn't found say so and say certain features might not work
 //todo weather will not work if IP cannot find location, happened in captiva florida
@@ -76,8 +73,6 @@ import java.util.concurrent.TimeUnit;
 
 //todo move File.txt, String.txt, and InputMessage.txt to tmp directory
 
-//todo barrel roll and switching console dir doesn't work in full screen
-
 //todo if a pref keyword doesn't exist in userdata, add it and set to default
 
 //todo be able to set background to a solid color and make that an image and save it
@@ -86,8 +81,13 @@ import java.util.concurrent.TimeUnit;
 // <html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style="color:rgb(252, 251, 227)">fourth with color</p>
 // <p style="font-family:verdana">fifth with font</p></html>
 
+//todo use this for title widths and notificaiton width calculation
+// https://stackoverflow.com/questions/2715118/how-to-change-the-size-of-the-font-of-a-jlabel-to-take-the-maximum-size
+// should be same font size but calculate how the width the label needs to be
+
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
+
 //todo make pixelating pictures it's own widget
 
 //todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
@@ -97,6 +97,10 @@ import java.util.concurrent.TimeUnit;
 //todo you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
 
 //todo allow users to map up to three internet links on the menu, add a bar to sep system from user stuff
+
+//todo set location relative to this for sub components
+
+//todo rename button for user music and backgrounds
 
 public class CyderMain{
     //console vars
@@ -128,7 +132,6 @@ public class CyderMain{
     private StringUtil stringUtil;
     private CyderAnimation animation;
     private Notes userNotes;
-    private TimeUtil timeUtil;
 
     //operation var
     private static ArrayList<String> operationList = new ArrayList<>();
@@ -178,10 +181,6 @@ public class CyderMain{
     //notifications for holidays
     private SpecialDay specialDayNotifier;
 
-    //network util
-    private NetworkUtil networkUtil;
-    private SystemUtil systemUtil;
-
     //boolean for drawing line
     private boolean drawLines = false;
     private boolean linesDrawn = false;
@@ -208,22 +207,16 @@ public class CyderMain{
         if (SecurityUtil.nathanLenovo())
             autoCypher();
 
-        else if (!IOUtil.getSystemData("Released").equals("1"))
-            System.exit(0);
-
-        else
+        else if (IOUtil.getSystemData("Released").equals("1"))
             login();
+        else
+            System.exit(0); //todo make status codes for all system exits in program
     }
-
-    //todo because of static nature of objects now, should not need to init most of these
+    
     private void initObjects() {
         animation = new CyderAnimation();
-        stringUtil = new StringUtil();
-        stringUtil.setOutputArea(outputArea);
-        timeUtil = new TimeUtil();
+        stringUtil = new StringUtil(outputArea);
         frameAni = new AnimationUtil();
-        networkUtil = new NetworkUtil();
-        systemUtil = new SystemUtil();
     }
 
     private void initSystemProperties() {
@@ -321,7 +314,7 @@ public class CyderMain{
             parentLabel.setOpaque(false);
 
             if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                parentLabel.setIcon(new ImageIcon(ImageUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(), (int) systemUtil.getScreenSize().getHeight(), ConsoleFrame.getCurrentBackgroundFile())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(), (int) SystemUtil.getScreenSize().getHeight(), ConsoleFrame.getCurrentBackgroundFile())));
                 parentLabel.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), ConsoleFrame.getBackgroundHeight());
             }
 
@@ -335,7 +328,7 @@ public class CyderMain{
 
             parentPane.add(parentLabel,1,0);
 
-            consoleFrame.setIconImage(systemUtil.getCyderIcon().getImage());
+            consoleFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
 
             outputArea = new JTextPane() {
                 @Override
@@ -718,7 +711,7 @@ public class CyderMain{
                     else
                         consoleClockLabel.setText(TimeUtil.consoleTime());
 
-                consoleClockLabel.setToolTipText(timeUtil.weatherTime());
+                consoleClockLabel.setToolTipText(TimeUtil.weatherTime());
 
             },0, 500, TimeUnit.MILLISECONDS);
 
@@ -759,8 +752,8 @@ public class CyderMain{
                         int tempH = 0;
 
                         if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                            newBack = new ImageIcon(ImageUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(),
-                                    (int) systemUtil.getScreenSize().getHeight(), new File(newBackFile)));
+                            newBack = new ImageIcon(ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
+                                    (int) SystemUtil.getScreenSize().getHeight(), new File(newBackFile)));
                             tempW = newBack.getIconWidth();
                             tempH = newBack.getIconHeight();
                         }
@@ -806,7 +799,7 @@ public class CyderMain{
             frameAni.enterAnimation(consoleFrame);
 
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-                if (!networkUtil.internetReachable())
+                if (!NetworkUtil.internetReachable())
                     notify("Internet connection slow or unavailble",
                             3000, ArrowDirection.TOP, VanishDirection.TOP, parentPane,450);
             },0, 10, TimeUnit.MINUTES);
@@ -985,7 +978,7 @@ public class CyderMain{
                 youtubeLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        networkUtil.internetConnect("https://youtube.com");
+                        NetworkUtil.internetConnect("https://youtube.com");
                     }
 
                     @Override
@@ -1007,7 +1000,7 @@ public class CyderMain{
                 twitterLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        networkUtil.internetConnect("https://twitter.com");
+                        NetworkUtil.internetConnect("https://twitter.com");
                     }
 
                     @Override
@@ -1171,10 +1164,10 @@ public class CyderMain{
                         threadCount++;
 
                 if (threadCount > 0)
-                    consoleFrame.setIconImage(systemUtil.getCyderIconBlink().getImage());
+                    consoleFrame.setIconImage(SystemUtil.getCyderIconBlink().getImage());
 
                 else
-                    consoleFrame.setIconImage(systemUtil.getCyderIcon().getImage());
+                    consoleFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
             }
 
         }, 0, 3, TimeUnit.SECONDS);
@@ -1497,8 +1490,8 @@ public class CyderMain{
 
         ImageIcon backIcon = new ImageIcon(backFile);
 
-        BufferedImage fullimg = ImageUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(),
-                (int) systemUtil.getScreenSize().getHeight(), new File(backFile));
+        BufferedImage fullimg = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
+                (int) SystemUtil.getScreenSize().getHeight(), new File(backFile));
         int fullW = fullimg.getWidth();
         int fullH = fullimg.getHeight();
 
@@ -1547,11 +1540,11 @@ public class CyderMain{
                 int tempH = 0;
                 
                 if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                    oldBack = new ImageIcon(ImageUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(),
-                            (int) systemUtil.getScreenSize().getHeight(),new File(oldBackFile)));
-                    newBack = ImageUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(), (int) systemUtil.getScreenSize().getHeight(),
+                    oldBack = new ImageIcon(ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
+                            (int) SystemUtil.getScreenSize().getHeight(),new File(oldBackFile)));
+                    newBack = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(), (int) SystemUtil.getScreenSize().getHeight(),
                             new File(newBackFile));
-                    temporaryImage = ImageUtil.resizeImage((int) systemUtil.getScreenSize().getWidth(), (int) systemUtil.getScreenSize().getHeight(),
+                    temporaryImage = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(), (int) SystemUtil.getScreenSize().getHeight(),
                             new File(oldBackFile));
                     tempW = temporaryImage.getWidth();
                     tempH = temporaryImage.getHeight();
@@ -1731,7 +1724,7 @@ public class CyderMain{
             if (desc.equalsIgnoreCase("url") && !stringUtil.empytStr(input)) {
                 URI URI = new URI(input);
                 println("Attempting to connect...");
-                networkUtil.internetConnect(URI);
+                NetworkUtil.internetConnect(URI);
             }
 
             else if (desc.equalsIgnoreCase("prime") && input != null && !input.equals("")) {
@@ -1769,19 +1762,19 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("google") && input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ", "+");
                 println("Attempting to connect...");
-                networkUtil.internetConnect("https://www.google.com/search?q=" + input);
+                NetworkUtil.internetConnect("https://www.google.com/search?q=" + input);
             }
 
             else if (desc.equalsIgnoreCase("youtube")&& input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ", "+");
                 println("Attempting to connect...");
-                networkUtil.internetConnect("https://www.youtube.com/results?search_query=" + input);
+                NetworkUtil.internetConnect("https://www.youtube.com/results?search_query=" + input);
             }
 
             else if (desc.equalsIgnoreCase("math") && input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ", "+");
                 println("Attempting to connect...");
-                networkUtil.internetConnect("https://www.wolframalpha.com/input/?i=" + input);
+                NetworkUtil.internetConnect("https://www.wolframalpha.com/input/?i=" + input);
             }
 
             else if (desc.equalsIgnoreCase("binary")) {
@@ -1798,18 +1791,18 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("wiki") && input != null && !input.equals("")) {
                 input = input.replace("'", "").replace(" ","_");
                 println("Attempting to connect...");
-                networkUtil.internetConnect("https://en.wikipedia.org/wiki/" + input);
+                NetworkUtil.internetConnect("https://en.wikipedia.org/wiki/" + input);
             }
 
             else if (desc.equalsIgnoreCase("disco") && input != null && !input.equals("")) {
                 println("I hope you're not the only one at this party.");
-                systemUtil.disco(Integer.parseInt(input));
+                SystemUtil.disco(Integer.parseInt(input));
             }
 
             else if (desc.equalsIgnoreCase("youtube word search") && input != null && !input.equals("")) {
                 String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
                 browse = browse.replace("REPLACE", input).replace(" ", "+");
-                networkUtil.internetConnect(browse);
+                NetworkUtil.internetConnect(browse);
             }
 
             else if (desc.equalsIgnoreCase("random youtube")) {
@@ -1887,7 +1880,7 @@ public class CyderMain{
             else if (desc.equalsIgnoreCase("addbackgrounds")) {
                 if (InputUtil.confirmation(input)) {
                     editUser();
-                    networkUtil.internetConnect("https://images.google.com/");
+                    NetworkUtil.internetConnect("https://images.google.com/");
                 }
 
                 else
@@ -1911,7 +1904,7 @@ public class CyderMain{
                 }
 
                 frameAni.closeAnimation(consoleFrame);
-                systemUtil.deleteFolder(new File("src/users/" + ConsoleFrame.getUUID()));
+                SystemUtil.deleteFolder(new File("src/users/" + ConsoleFrame.getUUID()));
 
                 String dep = SecurityUtil.getDeprecatedUUID();
 
@@ -2142,7 +2135,7 @@ public class CyderMain{
             }
 
             else if (hasWord("reset") && hasWord("mouse")) {
-                systemUtil.resetMouse();
+                SystemUtil.resetMouse();
             }
 
             else if (eic("logoff")) {
@@ -2200,11 +2193,11 @@ public class CyderMain{
             }
 
             else if ((has("graphing") && has("calculator")) || has("desmos") || has("graphing")) {
-                networkUtil.internetConnect("https://www.desmos.com/calculator");
+                NetworkUtil.internetConnect("https://www.desmos.com/calculator");
             }
 
             else if (has("airHeads xtremes") || has("candy")) {
-                networkUtil.internetConnect("http://airheads.com/candy#xtremes");
+                NetworkUtil.internetConnect("http://airheads.com/candy#xtremes");
             }
 
             else if (hasWord("prime")) {
@@ -2229,7 +2222,7 @@ public class CyderMain{
             }
 
             else if (eic("404")) {
-                networkUtil.internetConnect("http://google.com/=");
+                NetworkUtil.internetConnect("http://google.com/=");
             }
 
             else if (hasWord("calculator") && !has("graphing")) {
@@ -2256,7 +2249,7 @@ public class CyderMain{
             }
 
             else if (hasWord("triangle")) {
-                networkUtil.internetConnect("https://www.triangle-calculator.com/");
+                NetworkUtil.internetConnect("https://www.triangle-calculator.com/");
             }
 
             else if (hasWord("why")) {
@@ -2371,7 +2364,7 @@ public class CyderMain{
             else if (firstWord.equalsIgnoreCase("define")) {
                 String Define = operation.toLowerCase().replace("'", "").replace(" ", "+").replace("define", "");
 
-                networkUtil.internetConnect("http://www.dictionary.com/browse/" + Define + "?s=t");
+                NetworkUtil.internetConnect("http://www.dictionary.com/browse/" + Define + "?s=t");
             }
 
             else if (hasWord("wikipedia")) {
@@ -2384,19 +2377,19 @@ public class CyderMain{
             else if (firstWord.equalsIgnoreCase("synonym")) {
                 String Syn = operation.replace("synonym","");
                 Syn = Syn.replace("'", "").replace(" ", "+");
-                networkUtil.internetConnect("http://www.thesaurus.com//browse//" + Syn);
+                NetworkUtil.internetConnect("http://www.thesaurus.com//browse//" + Syn);
             }
 
             else if (hasWord("board")) {
-                networkUtil.internetConnect("http://gameninja.com//games//fly-squirrel-fly.html");
+                NetworkUtil.internetConnect("http://gameninja.com//games//fly-squirrel-fly.html");
             }
 
             else if (hasWord("open cd")) {
-                systemUtil.openCD("D:\\");
+                SystemUtil.openCD("D:\\");
             }
 
             else if (hasWord("close cd")) {
-                systemUtil.closeCD("D:\\");
+                SystemUtil.closeCD("D:\\");
             }
 
             else if (hasWord("font") && hasWord("reset")) {
@@ -2455,11 +2448,11 @@ public class CyderMain{
             }
 
             else if (hasWord("arduino")) {
-                networkUtil.internetConnect("https://www.arduino.cc/");
+                NetworkUtil.internetConnect("https://www.arduino.cc/");
             }
 
             else if (has("rasberry pi")) {
-                networkUtil.internetConnect("https://www.raspberrypi.org/");
+                NetworkUtil.internetConnect("https://www.raspberrypi.org/");
             }
 
             else if (eic("&&")) {
@@ -2541,7 +2534,7 @@ public class CyderMain{
             }
 
             else if (hasWord("vexento")) {
-                networkUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
+                NetworkUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
             }
 
             else if (hasWord("minecraft")) {
@@ -2577,7 +2570,7 @@ public class CyderMain{
             }
 
             else if (hasWord("papers") && hasWord("please")) {
-                networkUtil.internetConnect("http://papersplea.se/");
+                NetworkUtil.internetConnect("http://papersplea.se/");
             }
 
             else if (eic("java")) {
@@ -2589,7 +2582,7 @@ public class CyderMain{
             }
 
             else if (hasWord("coffee")) {
-                networkUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
+                NetworkUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
             }
 
             else if (hasWord("ip")) {
@@ -2631,7 +2624,7 @@ public class CyderMain{
             }
 
             else if (hasWord("donuts")) {
-                networkUtil.internetConnect("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
+                NetworkUtil.internetConnect("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
             }
 
             else if (hasWord("anagram")) {
@@ -2663,11 +2656,11 @@ public class CyderMain{
             }
 
             else if (hasWord("bai")) {
-                networkUtil.internetConnect("http://www.drinkbai.com");
+                NetworkUtil.internetConnect("http://www.drinkbai.com");
             }
 
             else if (has("occam") && hasWord("razor")) {
-                networkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
+                NetworkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
             }
 
             else if (hasWord("cyder") && (has("picture") || has("image"))) {
@@ -2712,7 +2705,7 @@ public class CyderMain{
             }
 
             else if (eic("about:blank")) {
-                networkUtil.internetConnect("about:blank");
+                NetworkUtil.internetConnect("about:blank");
             }
 
             else if (hasWord("weather")) {
@@ -2866,10 +2859,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                CyderFrame cf = new CyderFrame(400,400,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
-                cf.setLocationRelativeTo(null);
-                cf.setVisible(true);
-                cf.notify("Test text",3000,ArrowDirection.BOTTOM,150);
+                //todo test statements here
             }
 
             else {
