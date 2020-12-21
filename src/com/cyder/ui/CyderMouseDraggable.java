@@ -1,11 +1,13 @@
 package com.cyder.ui;
 
+import com.cyder.utilities.IOUtil;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public abstract class CyderMouseDraggable extends MouseAdapter {
 
-    private static boolean movingComponents = false; //todo set if trying to play with comp. locations, put bool in sys file
+    private static boolean movingComponents = IOUtil.getSystemData("UILOC").equals("1");
     private int xOffset;
     private int yOffset;
 

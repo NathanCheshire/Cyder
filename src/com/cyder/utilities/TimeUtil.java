@@ -71,7 +71,7 @@ public class TimeUtil {
         try {
             String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
                     InternetProtocolUtil.getUserCity() + "," + InternetProtocolUtil.getUserState() + "," +
-                    InternetProtocolUtil.getUserCountry() + "&appid=" + IOUtil.getSystemData("weather") + "&units=imperial";
+                    InternetProtocolUtil.getUserCountry() + "&appid=" + IOUtil.getSystemData("Weather") + "&units=imperial";
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));

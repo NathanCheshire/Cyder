@@ -187,6 +187,13 @@ public class ImageUtil {
         return null;
     }
 
+    public static BufferedImage getBi(ImageIcon im) {
+        BufferedImage bi = new BufferedImage(im.getIconWidth(), im.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g = bi.createGraphics();
+        im.paintIcon(null, g, 0,0);
+        return bi;
+    }
+
     public static BufferedImage getBi(String filename) {
         try {
             return ImageIO.read(new File(filename));

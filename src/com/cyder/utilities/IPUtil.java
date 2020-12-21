@@ -66,7 +66,7 @@ public class IPUtil {
 
     public IPUtil() {
         try {
-            String Key = "https://api.ipdata.co/?api-key=" + IOUtil.getSystemData("ip");
+            String Key = "https://api.ipdata.co/?api-key=" + IOUtil.getSystemData("IP");
             URL Querry = new URL(Key);
             BufferedReader BR = new BufferedReader(new InputStreamReader(Querry.openStream()));
             String CurrentLine;

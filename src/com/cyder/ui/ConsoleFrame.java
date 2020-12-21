@@ -294,7 +294,7 @@ public class ConsoleFrame extends CyderFrame {
         return fullscreen;
     }
 
-    public static void barrelRoll() {
+    public void barrelRoll() {
 
     }
 

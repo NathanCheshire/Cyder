@@ -222,11 +222,11 @@ public class Phone {
                 checkForSuicideHotline();
 
                 if (checkForSuicideHotline()) {
-                    IOUtil.playMusic("src/com/cyder/sys/audio/1800.mp3");
+                    IOUtil.playAudio("src/com/cyder/sys/audio/1800.mp3");
                 }
 
                 else if (checkFor223()) {
-                    IOUtil.playMusic("src/com/cyder/sys/audio/223.mp3");
+                    IOUtil.playAudio("src/com/cyder/sys/audio/223.mp3");
                 }
 
                 else {

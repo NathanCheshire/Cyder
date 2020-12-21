@@ -2,10 +2,7 @@ package com.cyder.ui;
 
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
-import com.cyder.enums.ArrowDirection;
-import com.cyder.enums.StartDirection;
-import com.cyder.enums.TitlePosition;
-import com.cyder.enums.VanishDirection;
+import com.cyder.enums.*;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.utilities.ImageUtil;
 import com.cyder.utilities.SystemUtil;
@@ -13,6 +10,8 @@ import com.cyder.utilities.SystemUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class CyderFrame extends JFrame {
@@ -421,5 +420,35 @@ public class CyderFrame extends JFrame {
         });
 
         DanceThread.start();
+    }
+
+    //todo remove barrel rolling from anywhere else
+
+    //todo when setting background for cyderframe, resize image to size first
+    public void barrelRoll() {
+        setBackground(CyderColors.navy);
+
+        ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
+        BufferedImage master = ImageUtil.getBi(masterIcon);
+
+        Timer timer = null;
+        Timer finalTimer = timer;
+        timer = new Timer(10, new ActionListener() {
+            private double angle = 0;
+            private double delta = 2.0;
+
+            BufferedImage rotated;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                angle += delta;
+                if (angle > 360) {
+                    return;
+                }
+                rotated = ImageUtil.rotateImageByDegrees(master, angle);
+                ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
+            }
+        });
+        timer.start();
     }
 }

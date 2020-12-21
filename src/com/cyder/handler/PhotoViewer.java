@@ -403,6 +403,7 @@ public class PhotoViewer {
         return ((double) im.getIconWidth() / (double) im.getIconHeight());
     }
 
+    //todo on rename refresh background of stuff cause then you could delete your current backgorund
     private void rename() {
         if (renameFrame != null)
             fa.closeAnimation(renameFrame);

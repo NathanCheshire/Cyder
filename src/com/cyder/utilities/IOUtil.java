@@ -342,7 +342,7 @@ public class IOUtil {
         CyderPlayer = new MPEGPlayer(new File(FilePath), user, uuid);
     }
 
-    public static void playMusic(String FilePath) {
+    public static void playAudio(String FilePath) {
         try {
             stopMusic();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
