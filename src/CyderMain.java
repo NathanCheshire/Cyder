@@ -2798,10 +2798,18 @@ public class CyderMain{
                 CyderFrame cf = new CyderFrame(500,200, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
                 cf.setTitle("Test Frame");
                 cf.setTitlePosition(TitlePosition.CENTER);
+
+                JProgressBar pb = new JProgressBar();
+                CyderProgressUI ui = new CyderProgressUI();
+                pb.setValue(25);
+                pb.setUI(ui);
+                pb.repaint();
+                pb.setFocusable(false);
+                pb.setBounds(40,80,300,60);
+                cf.getContentPane().add(pb);
+
                 cf.setVisible(true);
                 cf.setLocationRelativeTo(null);
-
-                cf.barrelRoll();
             }
 
             else {
