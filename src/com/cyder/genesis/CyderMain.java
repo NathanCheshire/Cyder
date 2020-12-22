@@ -1,3 +1,5 @@
+package com.cyder.genesis;
+
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.enums.*;
@@ -38,6 +40,8 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+
+//todo move alot of stuff out of main since it's in com/genesis package now
 
 //todo switch backgrounds even if console is flipped a certain direction or full screened
 
@@ -206,7 +210,7 @@ public class CyderMain{
         else if (IOUtil.getSystemData("Released").equals("1"))
             login();
         else
-            System.exit(0); //todo make status codes for all system exits in program
+            System.exit(- 600);
     }
     
     private void initObjects() {
@@ -4530,7 +4534,7 @@ public class CyderMain{
         AnimationUtil.closeAnimation(consoleFrame);
         killAllYoutube();
         stringUtil.killBletchy();
-        System.exit(0);
+        System.exit(25);
     }
 
     private void shutdown() {

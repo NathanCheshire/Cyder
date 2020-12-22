@@ -108,7 +108,7 @@ public class IOUtil {
         systemData.clear();
 
         try (BufferedReader sysReader = new BufferedReader(new FileReader(
-                "src/Sys.log"))){
+                "src/com/cyder/genesis/Sys.ini"))){
 
             String Line;
 
@@ -151,7 +151,7 @@ public class IOUtil {
 
     public static void writeSystemData(String name, String value) {
         try (BufferedWriter sysWriter = new BufferedWriter(new FileWriter(
-                "src/Sys.log", false))) {
+                "src/com/cyder/genesis/Sys.ini", false))) {
 
             for (NST data : systemData) {
                 if (data.getName().equalsIgnoreCase(name))
@@ -206,7 +206,7 @@ public class IOUtil {
             if (cyderArgs.length == 0)
                 cyderArgs = new String[]{"Started by " + System.getProperty("user.name")};
 
-            File log = new File("src/Sys.log");
+            File log = new File("src/com/cyder/genesis/Sys.ini");
 
             if (!log.exists())
                 log.createNewFile();
