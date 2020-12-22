@@ -114,6 +114,9 @@ public class ConsoleFrame extends CyderFrame {
                             + "\" since it was too small.","System Action", 700, 200);
                 }
 
+                if (aspectRatio < 1)
+                    aspectRatio = 1 / aspectRatio;
+
                 //resizing bigger
                 while (backgroundWidth < 600 || backgroundHeight < 600) {
                     currentImage = ImageIO.read(currentFile);

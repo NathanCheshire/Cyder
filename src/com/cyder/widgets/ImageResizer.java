@@ -165,7 +165,7 @@ public class ImageResizer {
             }
         });
 
-        maintainAspectRatioLab.setBounds(400 - 180 / 2,100, 180, 40);
+        maintainAspectRatioLab.setBounds(350,75, 100, 100);
         resizeFrame.getContentPane().add(maintainAspectRatioLab);
 
         ydim = new JTextField(5);

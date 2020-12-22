@@ -41,6 +41,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo make changing background animation no more than one second
+
 //todo move alot of stuff out of main since it's in com/genesis package now
 
 //todo switch backgrounds even if console is flipped a certain direction or full screened
@@ -62,7 +64,9 @@ import java.util.concurrent.TimeUnit;
 
 //todo change background color for console frame so like not navy
 
-//todo some scrolls with borders are not fitted properly
+//todo some scrolls with borders are not fitted properly\
+
+//todo use more system.exit calls to better give detail on why system.exit was called
 
 //todo start animations usage
 
@@ -1958,7 +1962,7 @@ public class CyderMain{
                     !hasWord("synonym") && !hasWord("define"))) {
                 int choice = NumberUtil.randInt(1,6);
 
-                switch(choice) {
+                switch(choice) { //todo make these more unique, look at siri and alexa for help
                     case 1:
                         println("Hello " + ConsoleFrame.getUsername()+ ".");
                         break;
@@ -2798,23 +2802,39 @@ public class CyderMain{
                     println("Sorry, " + ConsoleFrame.getUsername() + ", but you don't have permission to do that.");
             }
 
-            else if (eic("test")) {
-                CyderFrame cf = new CyderFrame(500,200, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
-                cf.setTitle("Test Frame");
-                cf.setTitlePosition(TitlePosition.CENTER);
-
-                JProgressBar pb = new JProgressBar();
-                CyderProgressUI ui = new CyderProgressUI();
-                pb.setValue(25);
-                pb.setUI(ui);
-                pb.repaint();
-                pb.setFocusable(false);
-                pb.setBounds(40,80,300,60);
-                cf.getContentPane().add(pb);
-
-                cf.setVisible(true);
-                cf.setLocationRelativeTo(null);
+            else if (hasWord("debug") && hasWord("windows")) {
+                StatUtil.systemProperties();
+                StatUtil.computerProperties();
+                StatUtil.javaProperties();
+                StatUtil.debugMenu(outputArea);
             }
+
+            else if (hasWord("random") && hasWord("background")) {
+                //todo press alternate background random number of times
+            }
+
+            else if (hasWord("output") && hasWord("border")) {
+
+            }
+
+            else if (hasWord("input") && hasWord("border")) {
+
+            }
+
+            else if ((hasWord("full") && hasWord("screen") || hasWord("fullscreen"))) {
+
+            }
+
+            else if (hasWord("fill") && hasWord("in")) {
+
+            }
+
+            else if (hasWord("fill") && hasWord("out")) {
+
+            }
+
+            //todo high dpi scalling fix? ImAvg doesn't change size when
+            // dragging to different window like this program does
 
             else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +

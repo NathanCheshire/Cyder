@@ -556,7 +556,7 @@ public class MPEGPlayer {
         musicFrame.setAlwaysOnTop(false);
         musicFrame.requestFocus();
 
-        musicFrame.notify("Welcome to FlashPlayer (haha get it?)",2000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP,415);
+        musicFrame.notify("Welcome to FlashPlayer (haha get it?)",3000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP,415);
 
         if (StartPlaying != null && !StartPlaying.getName().equals("")) {
             initMusic(StartPlaying);
