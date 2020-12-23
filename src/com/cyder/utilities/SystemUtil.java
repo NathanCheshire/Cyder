@@ -19,12 +19,12 @@ public class SystemUtil {
         return Toolkit.getDefaultToolkit().getScreenSize();
     }
 
-    public int getScreenWidth() {
-        return this.getScreenSize().width;
+    public static int getScreenWidth() {
+        return getScreenSize().width;
     }
 
-    public int getScreenHeight() {
-        return this.getScreenSize().height;
+    public static int getScreenHeight() {
+        return getScreenSize().height;
     }
 
     public static ImageIcon getCyderIcon() {

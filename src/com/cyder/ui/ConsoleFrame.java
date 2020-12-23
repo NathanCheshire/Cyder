@@ -89,62 +89,40 @@ public class ConsoleFrame extends CyderFrame {
                 double aspectRatio = ImageUtil.getAspectRatio(currentImage);
                 int imageType = currentImage.getType();
 
-                if (backgroundWidth > new SystemUtil().getScreenWidth() || backgroundHeight > new SystemUtil().getScreenHeight()) {
+                if (backgroundWidth > new SystemUtil().getScreenWidth() || backgroundHeight > new SystemUtil().getScreenHeight())
                     GenericInform.inform("Resized the background image \"" + currentFile.getName() + "\" since it was too big " +
                             "(That's what she said ahahahahah hahaha ha ha so funny).","System Action", 700, 200);
-                }
+
+                int screenWidth = SystemUtil.getScreenWidth();
+                int screenHeight = SystemUtil.getScreenHeight();
 
                 //resizing smaller
-                while (backgroundWidth > new SystemUtil().getScreenWidth() || backgroundHeight > new SystemUtil().getScreenHeight()) {
-                    currentImage = ImageIO.read(currentFile);
-
-                    int width = (int) (currentImage.getWidth() / aspectRatio);
-                    int height = (int) (currentImage.getHeight() / aspectRatio);
-
-                    BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
-
-                    ImageIO.write(saveImage, "png", currentFile);
-
-                    backgroundWidth = saveImage.getWidth();
-                    backgroundHeight = saveImage.getHeight();
+                while (backgroundWidth > screenWidth || backgroundHeight > screenHeight) {
+                    backgroundWidth = (int) (currentImage.getWidth() / aspectRatio);
+                    backgroundHeight = (int) (currentImage.getHeight() / aspectRatio);
                 }
 
-                if (backgroundWidth < 600 || backgroundHeight < 600) {
+                if (backgroundWidth < 600 || backgroundHeight < 600)
                     GenericInform.inform("Resized the background image \"" + getBackgrounds().get(i).getName()
                             + "\" since it was too small.","System Action", 700, 200);
-                }
 
                 if (aspectRatio < 1)
                     aspectRatio = 1 / aspectRatio;
 
                 //resizing bigger
-                while (backgroundWidth < 600 || backgroundHeight < 600) {
-                    currentImage = ImageIO.read(currentFile);
-
-                    int width = (int) (currentImage.getWidth() * aspectRatio);
-                    int height = (int) (currentImage.getHeight() * aspectRatio);
-
-                    BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
-
-                    ImageIO.write(saveImage, "png", currentFile);
-
-                    backgroundWidth = saveImage.getWidth();
-                    backgroundHeight = saveImage.getHeight();
+                while (backgroundWidth < 800 || backgroundHeight < 800) {
+                    backgroundWidth = (int) (currentImage.getWidth() * aspectRatio);
+                    backgroundHeight = (int) (currentImage.getHeight() * aspectRatio);
                 }
 
+                //prime checker
                 if (NumberUtil.isPrime(backgroundWidth)) {
-                    currentImage = ImageIO.read(currentFile);
-
-                    int width = currentImage.getWidth() + 1;
-                    int height = currentImage.getHeight() + 1;
-
-                    BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, width, height);
-
-                    ImageIO.write(saveImage, "png", currentFile);
-
-                    backgroundWidth = saveImage.getWidth();
-                    backgroundHeight = saveImage.getHeight();
+                    backgroundWidth = currentImage.getWidth() + ((int) aspectRatio * 5);
+                    backgroundHeight = currentImage.getHeight() + ((int) aspectRatio * 5);
                 }
+
+                BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, backgroundWidth, backgroundHeight);
+                ImageIO.write(saveImage, "png", currentFile);
             }
 
             initBackgrounds();

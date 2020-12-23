@@ -15,7 +15,6 @@ import com.cyder.utilities.*;
 import com.cyder.widgets.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.Timer;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -103,7 +102,7 @@ import java.util.concurrent.TimeUnit;
 //todo make the frame and drag label stay when switching backgrounds and the image be separate (inside of consoleframe class)
 //todo you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
 
-//todo allow users to map up to three internet links on the menu, add a bar to sep system from user stuff
+//todo allow users to rangeMap up to three internet links on the menu, add a bar to sep system from user stuff
 
 //todo set location relative to this for sub components
 
@@ -2745,7 +2744,7 @@ public class CyderMain{
             }
 
             else if (hasWord("barrel") && hasWord("roll")) {
-                barrelRoll();
+                //todo ConsoleFrme.barrelRoll();
             }
 
             else if (hasWord("lines") && hasWord("code")) {
@@ -2833,8 +2832,33 @@ public class CyderMain{
 
             }
 
+            else if (hasWord("test")) {
+                CyderFrame cf = new CyderFrame(500,500, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+                cf.setTitle("Test");
+                cf.setTitlePosition(TitlePosition.CENTER);
+
+                JProgressBar bar = new JProgressBar();
+
+                CyderProgressUI ui = new CyderProgressUI();
+                bar.setUI(ui);
+                ui.setNumFrames(400);
+                bar.setBorder(BorderFactory.createLineBorder(CyderColors.navy,2,true));
+                bar.setValue(90);
+                ui.setDirection(AnimationDirection.LEFT_TO_RIGHT);
+
+                bar.setBounds(20,150,450,60);
+                cf.getContentPane().add(bar);
+
+                cf.setVisible(true);
+                cf.setLocationRelativeTo(null);
+            }
+
             //todo high dpi scalling fix? ImAvg doesn't change size when
             // dragging to different window like this program does
+
+            //todo put spotlight feature inside of here
+
+            //todo put im avg in here and get it completely working
 
             else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
@@ -4519,34 +4543,6 @@ public class CyderMain{
     private void askew() {
         consoleFrame.setBackground(CyderColors.navy);
         parentLabel.setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().getAbsolutePath(),ConsoleFrame.getConsoleDirection()),3)));
-    }
-
-    private void barrelRoll() {
-        consoleFrame.setBackground(CyderColors.navy);
-        ConsoleFrame.initBackgrounds();
-
-        ConsoleDirection originConsoleDIr = ConsoleFrame.getConsoleDirection();
-        BufferedImage master = ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().getAbsolutePath(),ConsoleFrame.getConsoleDirection());
-
-        Timer timer = null;
-        Timer finalTimer = timer;
-        timer = new Timer(10, new ActionListener() {
-            private double angle = 0;
-            private double delta = 2.0;
-
-            BufferedImage rotated;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                angle += delta;
-                if (angle > 360) {
-                    return;
-                }
-                rotated = ImageUtil.rotateImageByDegrees(master, angle);
-                parentLabel.setIcon(new ImageIcon(rotated));
-            }
-        });
-        timer.start();
     }
 
     //exiting method, system.exit will call shutdown hook which wil then call shutdown();

@@ -422,12 +422,6 @@ public class CyderFrame extends JFrame {
         DanceThread.start();
     }
 
-    //todo remove barrel rolling from anywhere else
-
-    //todo put spotlight feature inside of here
-
-    //todo put im avg in here and get it completely working
-
     //todo get cyderprogress bar working
 
     //todo when setting background for cyderframe, resize image to size first
