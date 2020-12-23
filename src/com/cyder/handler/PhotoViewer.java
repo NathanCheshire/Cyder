@@ -2,6 +2,7 @@ package com.cyder.handler;
 
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
+import com.cyder.ui.ConsoleFrame;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.DragLabel;
@@ -403,10 +404,18 @@ public class PhotoViewer {
         return ((double) im.getIconWidth() / (double) im.getIconHeight());
     }
 
-    //todo on rename refresh background of stuff cause then you could delete your current backgorund
     private void rename() {
         if (renameFrame != null)
             fa.closeAnimation(renameFrame);
+
+        File currentRename = new File(validImages.get(currentIndex).getAbsolutePath());
+        File currentBackground = ConsoleFrame.getCurrentBackgroundFile().getAbsoluteFile();
+
+        if (currentRename.getAbsolutePath().equals( currentBackground.getAbsolutePath())) {
+            GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but you're not allowed to" +
+                    " rename the background you are currently using","",400,300);
+            return;
+        }
 
         renameFrame = new CyderFrame(400,170,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         renameFrame.setTitle("Rename");
