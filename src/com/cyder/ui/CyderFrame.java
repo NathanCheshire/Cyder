@@ -422,8 +422,6 @@ public class CyderFrame extends JFrame {
         DanceThread.start();
     }
 
-    //todo get cyderprogress bar working
-
     //todo when setting background for cyderframe, resize image to size first
     public void barrelRoll() {
         setBackground(CyderColors.navy);

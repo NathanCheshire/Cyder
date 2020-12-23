@@ -178,4 +178,19 @@ public class TimeUtil {
         int Date = Checker.get(Calendar.DATE);
         return (Month == 4 && Date == 1);
     }
+
+    public static boolean isEvening() {
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        return hour > 17;
+    }
+
+    public static boolean isMorning() {
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        return hour > 0 && hour < 11;
+    }
+
+    public static boolean isAfterNoon() {
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        return hour > 11 && hour < 17;
+    }
 }

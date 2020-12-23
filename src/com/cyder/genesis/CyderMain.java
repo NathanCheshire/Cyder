@@ -40,7 +40,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo high dpi scalling fix? ImAvg doesn't change size when
+// dragging to different window like this program does
+
+//todo put spotlight feature inside of here
+
+//todo put im avg in here and get it completely working
+
 //todo make changing background animation no more than one second
+
+//todo make changing background directions from all 4
 
 //todo move alot of stuff out of main since it's in com/genesis package now
 
@@ -1959,26 +1968,34 @@ public class CyderMain{
                     && (!hasWord("print") &&  !hasWord("bletchy") && !hasWord("echo") &&
                     !hasWord("youtube") && !hasWord("google") && !hasWord("wikipedia") &&
                     !hasWord("synonym") && !hasWord("define"))) {
-                int choice = NumberUtil.randInt(1,6);
+                int choice = NumberUtil.randInt(1,7);
 
-                switch(choice) { //todo make these more unique, look at siri and alexa for help
+                switch(choice) {
                     case 1:
-                        println("Hello " + ConsoleFrame.getUsername()+ ".");
+                        println("Hello, " + ConsoleFrame.getUsername()+ ".");
                         break;
                     case 2:
-                        println("Hi " + ConsoleFrame.getUsername() + "." );
+                        if (TimeUtil.isEvening())
+                            println("Good evening, " + ConsoleFrame.getUsername() + ". How can I help?");
+                        else if (TimeUtil.isMorning())
+                            println("Good monring, " + ConsoleFrame.getUsername() + ". How can I help?");
+                        else
+                            println("Good afternoon, " + ConsoleFrame.getUsername() + ". How can I help?");
                         break;
                     case 3:
-                        println("What's up " + ConsoleFrame.getUsername() + "?");
+                        println("What's up, " + ConsoleFrame.getUsername() + "?");
                         break;
                     case 4:
                         println("How are you doing, " + ConsoleFrame.getUsername() + "?");
                         break;
                     case 5:
-                        println("Greetings, human " + ConsoleFrame.getUsername() + ".");
+                        println("Greetings, " + ConsoleFrame.getUsername() + ".");
                         break;
                     case 6:
-                        println("Hi, " + ConsoleFrame.getUsername() + ", I'm Cyder.");
+                        println("I'm here....");
+                        break;
+                    case 7:
+                        println("Go ahead...");
                         break;
                 }
             }
@@ -2054,12 +2071,11 @@ public class CyderMain{
             }
 
             else if (has("How old are you") || (hasWord("what") && hasWord("age"))) {
-                stringUtil.setOutputArea(outputArea);
-                stringUtil.bletchy("I am 2^8",false,50);
+                stringUtil.bletchy("As old as my tongue and a little bit older than my teeth, wait...",false,50);
             }
 
             else if (((hasWord("who") || hasWord("what")) && has("you"))) {
-                println("I am Cyder (Acronym pending :P)");
+                println("My name is Cyder. I am a tool built by Nathan Cheshire for programmers/advanced users.");
             }
 
             else if (hasWord("helpful") && hasWord("you")) {
@@ -2073,7 +2089,7 @@ public class CyderMain{
             }
 
 
-            else if (hasWord("phone") || hasWord("dialer") || hasWord(" call")) {
+            else if (hasWord("phone") || hasWord("dialer") || hasWord("call")) {
                 Phone p = new Phone();
             }
 
@@ -2082,10 +2098,10 @@ public class CyderMain{
             }
 
             else if (eic("logoff")) {
-               println("Are you sure you want to log off your computer?\nThis is not Cyder we are talking about (Enter yes/no)");
-                stringUtil.setUserInputDesc("logoff");
+               println("Are you sure you want to log off your computer? This is not Cyder we are talking about (Enter yes/no)");
+               stringUtil.setUserInputDesc("logoff");
                inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
+               stringUtil.setUserInputMode(true);
             }
 
             else if (eic("clc") || eic("cls") || eic("clear") || (hasWord("clear") && hasWord("screen"))) {
@@ -2120,7 +2136,7 @@ public class CyderMain{
                 printImage("src/com/cyder/sys/pictures/msu.png");
             }
 
-            else if (hasWord("toystory")) {
+            else if (has("toy") && has("story")) {
                 IOUtil.playAudio("src/com/cyder/sys/audio/TheClaw.mp3");
             }
 
@@ -2150,14 +2166,14 @@ public class CyderMain{
                 stringUtil.setUserInputMode(true);
             }
 
-            else if (hasWord("youtube") && (!has("word search") && !has("mode") && !has("random") && !has("thumbnail"))) {
+            else if (hasWord("youtube") && (!has("word search") && !has("random") && !has("thumbnail"))) {
                 println("What would you like to search YouTube for?");
                 inputField.requestFocus();
                 stringUtil.setUserInputMode(true);
                 stringUtil.setUserInputDesc("youtube");
             }
 
-            else if ((hasWord("google") && !has("mode") && !has("stupid"))) {
+            else if ((hasWord("google"))) {
                 println("What would you like to Google?");
                 stringUtil.setUserInputDesc("google");
                 inputField.requestFocus();
@@ -2181,7 +2197,7 @@ public class CyderMain{
                 println("");
             }
 
-            else if ((firstWord.equalsIgnoreCase("print") || firstWord.equalsIgnoreCase("println")) && !has("mode")) {
+            else if ((firstWord.equalsIgnoreCase("print") || firstWord.equalsIgnoreCase("println"))) {
                 String[] sentences = operation.split(" ");
 
                 for (int i = 1 ; i < sentences.length ; i++) {
@@ -2832,37 +2848,22 @@ public class CyderMain{
 
             }
 
-            else if (hasWord("test")) {
-                CyderFrame cf = new CyderFrame(500,500, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
-                cf.setTitle("Test");
-                cf.setTitlePosition(TitlePosition.CENTER);
-
-                JProgressBar bar = new JProgressBar();
-
-                CyderProgressUI ui = new CyderProgressUI();
-                bar.setUI(ui);
-                ui.setNumFrames(400);
-                bar.setBorder(BorderFactory.createLineBorder(CyderColors.navy,2,true));
-                bar.setValue(90);
-                ui.setDirection(AnimationDirection.LEFT_TO_RIGHT);
-
-                bar.setBounds(20,150,450,60);
-                cf.getContentPane().add(bar);
-
-                cf.setVisible(true);
-                cf.setLocationRelativeTo(null);
+            else if (hasWord("alex") && hasWord("trebek")) {
+                println("Did you mean who is alex trebek?");
             }
 
-            //todo high dpi scalling fix? ImAvg doesn't change size when
-            // dragging to different window like this program does
+            else if (hasWord("test")) {
+                //todo incorporate progress bars
+            }
 
-            //todo put spotlight feature inside of here
+            else if (hasWord("christmas") && hasWord("Card")) {
 
-            //todo put im avg in here and get it completely working
+            }
 
             else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");
+                //todo start thread to change the icon of it to draw attention to it
             }
         }
 
