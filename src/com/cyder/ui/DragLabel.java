@@ -1,5 +1,6 @@
 package com.cyder.ui;
 
+import com.cyder.Constants.CyderColors;
 import com.cyder.utilities.AnimationUtil;
 
 import javax.swing.*;
@@ -17,8 +18,6 @@ public class DragLabel extends JLabel {
 
     private int xMouse;
     private int yMouse;
-
-    private Color navy = new Color(26, 32, 51);
 
     ImageIcon mini1 = new ImageIcon("src/com/cyder/sys/pictures/minimize1.png");
     ImageIcon mini2 = new ImageIcon("src/com/cyder/sys/pictures/minimize2.png");
@@ -38,16 +37,15 @@ public class DragLabel extends JLabel {
         new JLabel();
         setSize(width,height);
         setOpaque(true);
-        setBackground(navy);
+        setBackground(CyderColors.navy);
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 int x = e.getXOnScreen();
                 int y = e.getYOnScreen();
 
-                if (effectFrame != null && effectFrame.isFocused() && draggingEnabled) {
+                if (effectFrame != null && effectFrame.isFocused() && draggingEnabled)
                     effectFrame.setLocation(x - xMouse, y - yMouse);
-                }
             }
 
             @Override
@@ -60,18 +58,15 @@ public class DragLabel extends JLabel {
         effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowDeiconified(WindowEvent e) {
-            effectFrame.setLocation(restoreX,restoreY);
-            effectFrame.setVisible(true);
-            effectFrame.requestFocus();
+                effectFrame.setLocation(restoreX,restoreY);
+                effectFrame.setVisible(true);
+                effectFrame.requestFocus();
             }
         });
 
         close = new JButton("");
-
         close.setToolTipText("Close");
-
         close.addActionListener(e -> fa.closeAnimation(effectFrame));
-
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -117,6 +112,14 @@ public class DragLabel extends JLabel {
         minimize.setBorderPainted(false);
         minimize.setFocusPainted(false);
         add(minimize);
+    }
+
+    public void setWidth(int width) {
+        super.setSize(width,getHeight());
+        this.width = width;
+        minimize.setBounds(width - 52, 0, 22, 20);
+        close.setBounds(width - 26, 0, 22, 20);
+        revalidate();
     }
 
     public int getRestoreX() {

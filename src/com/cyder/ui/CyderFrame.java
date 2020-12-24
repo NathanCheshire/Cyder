@@ -92,7 +92,6 @@ public class CyderFrame extends JFrame {
 
         if (titlePosition == TitlePosition.CENTER) {
             int halfLen = ((int) Math.ceil(14 * title.length())) / 2;
-
             titleLabel.setBounds((int) Math.floor(5 + (width / 2.0)) - halfLen, 2, halfLen * 4, 25);
         } else {
             titleLabel.setBounds(5, 2, ((int) Math.ceil(16 * title.length())), 25);
@@ -456,15 +455,59 @@ public class CyderFrame extends JFrame {
         //todo askew this frame
     }
 
-    public static void main(String[] args) {
-        System.setProperty("sun.java2d.uiScale","1.0");
-        CyderFrame frame = new CyderFrame(400,400,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
-        ComponentResizer cr = new ComponentResizer();
-        cr.setMinimumSize(new Dimension(200, 200));
-        cr.setMaximumSize(new Dimension(800, 600));
-        cr.registerComponent(frame);
-        cr.setSnapSize(new Dimension(1, 1));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+    @Override
+    public void setBounds(int x, int y, int width, int height) {
+        super.setBounds(x, y, width, height);
+        if (getDragLabel() != null) {
+            getDragLabel().setWidth(width);
+            int halfLen = ((int) Math.ceil(14 * titleLabel.getText().length())) / 2;
+            titleLabel.setBounds((int) Math.floor(5 + (width / 2.0)) - halfLen, 2, halfLen * 4, 25);
+        }
+    }
+
+    private Dimension minimumSize = new Dimension(200, 200);
+    private Dimension maximumDimension = new Dimension(800, 800);
+    private Dimension snapSize = new Dimension(1, 1);
+
+    public void setMinimumSize(Dimension minSize) {
+        this.minimumSize = minSize;
+        cr.setMinimumSize(minimumSize);
+    }
+
+    public void setMaximumSize(Dimension maxSize) {
+        this.maximumDimension = maxSize;
+        cr.setMaximumSize(maximumDimension);
+    }
+
+    public void setSnapSize(Dimension snap) {
+        this.snapSize = snap;
+        cr.setSnapSize(snapSize);
+    }
+
+    public Dimension getMinimumSize() {
+        return minimumSize;
+    }
+
+    public Dimension getMaximumSize() {
+        return maximumDimension;
+    }
+
+    public Dimension getSnapSize() {
+        return snapSize;
+    }
+
+    ComponentResizer cr;
+
+    public void initResizing() {
+        cr = new ComponentResizer();
+        cr.registerComponent(this);
+        cr.setResizing(true);
+        cr.setMinimumSize(getMinimumSize());
+        cr.setMaximumSize(getMaximumSize());
+        cr.setSnapSize(getSnapSize());
+    }
+
+    public void allowResizing(Boolean b) {
+        cr.setResizing(b);
     }
 }

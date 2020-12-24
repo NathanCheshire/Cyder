@@ -2858,13 +2858,47 @@ public class CyderMain{
             }
 
             else if (hasWord("christmas") && hasWord("card")) {
-                //todo if it's christmas, display a card on startup
+                CyderFrame cf = new CyderFrame(600,600, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+                cf.setTitle("Merry Christmas");
+                cf.setTitlePosition(TitlePosition.CENTER);
+
+                cf.setMinimumSize(new Dimension(400,400));
+                cf.setMaximumSize(new Dimension(700,700));
+                cf.setSnapSize(new Dimension(1,1));
+                cf.initResizing();
+                cf.allowResizing(true);
+
+                cf.setLocationRelativeTo(null);
+                cf.setVisible(true);
             }
 
             else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");
-                //todo start thread to change the icon of it to draw attention to it
+
+                new Thread(() -> {
+                    try {
+                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion2.png"));
+                        Thread.sleep(300);
+                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion1.png"));
+                        Thread.sleep(300);
+                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion2.png"));
+                        Thread.sleep(300);
+                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion1.png"));
+                        Thread.sleep(300);
+                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion2.png"));
+                        Thread.sleep(300);
+                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion1.png"));
+                        Thread.sleep(300);
+                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion2.png"));
+                        Thread.sleep(300);
+                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion1.png"));
+                    }
+
+                    catch (Exception e) {
+                        ErrorHandler.handle(e);
+                    }
+                }).start();
             }
         }
 

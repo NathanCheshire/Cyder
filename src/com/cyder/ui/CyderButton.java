@@ -1,5 +1,7 @@
 package com.cyder.ui;
 
+import com.cyder.handler.ErrorHandler;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -70,5 +72,35 @@ public class CyderButton extends JButton {
         this.pressedBackgroundColor = pressedBackgroundColor;
     }
 
+    public void alert() {
+        new Thread(() -> {
+            try {
+                Color c1 = this.getBackground();
+                Color c2 = c1.darker();
 
+                this.setBackground(c1);
+                Thread.sleep(300);
+                this.setBackground(c2);
+                Thread.sleep(300);
+                this.setBackground(c1);
+                Thread.sleep(300);
+                this.setBackground(c2);
+                Thread.sleep(300);
+                this.setBackground(c1);
+                Thread.sleep(300);
+                this.setBackground(c2);
+                Thread.sleep(300);
+                this.setBackground(c1);
+                Thread.sleep(300);
+                this.setBackground(c2);
+                Thread.sleep(300);
+                this.setBackground(c1);
+
+            }
+
+            catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }).start();
+    }
 }

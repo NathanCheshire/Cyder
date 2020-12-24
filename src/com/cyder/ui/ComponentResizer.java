@@ -7,11 +7,11 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
 public class ComponentResizer extends MouseAdapter {
-    private final static Dimension MINIMUM_SIZE = new Dimension(10, 10);
-    private final static Dimension MAXIMUM_SIZE =
+    private final Dimension MINIMUM_SIZE = new Dimension(10, 10);
+    private final Dimension MAXIMUM_SIZE =
             new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
 
-    private static Map<Integer, Integer> cursors = new HashMap<>(); {
+    private Map<Integer, Integer> cursors = new HashMap<>(); {
         cursors.put(1, Cursor.N_RESIZE_CURSOR);
         cursors.put(2, Cursor.W_RESIZE_CURSOR);
         cursors.put(4, Cursor.S_RESIZE_CURSOR);
@@ -205,6 +205,9 @@ public class ComponentResizer extends MouseAdapter {
     }
 
     protected void changeBounds(Component source, int direction, Rectangle bounds, Point pressed, Point current) {
+        if (!resizingAllowed)
+            return;
+
         int x = bounds.x;
         int y = bounds.y;
         int width = bounds.width;
@@ -277,5 +280,15 @@ public class ComponentResizer extends MouseAdapter {
         else {
             return source.getParent().getSize();
         }
+    }
+
+    private boolean resizingAllowed = true;
+
+    public void setResizing(Boolean b) {
+        resizingAllowed = b;
+    }
+
+    public boolean getResizing() {
+        return resizingAllowed;
     }
 }
