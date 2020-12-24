@@ -2644,7 +2644,8 @@ public class CyderMain{
             }
 
             else if (hasWord("fibonacci")) {
-                fib(0,1);
+                for (long i : NumberUtil.fib(0,1,100))
+                    println(i);
             }
 
             else if (hasWord("throw") && hasWord("error")) {
@@ -2829,23 +2830,23 @@ public class CyderMain{
             }
 
             else if (hasWord("output") && hasWord("border")) {
-
+                //todo set output border
             }
 
             else if (hasWord("input") && hasWord("border")) {
-
+                //todo set input border
             }
 
             else if ((hasWord("full") && hasWord("screen") || hasWord("fullscreen"))) {
-
+                //todo enter full screen
             }
 
             else if (hasWord("fill") && hasWord("in")) {
-
+                //todo fill input field
             }
 
             else if (hasWord("fill") && hasWord("out")) {
-
+                //todo fill output area
             }
 
             else if (hasWord("alex") && hasWord("trebek")) {
@@ -2853,11 +2854,11 @@ public class CyderMain{
             }
 
             else if (hasWord("test")) {
-                //todo incorporate progress bars
+                //todo incorporate progress bars into the program
             }
 
-            else if (hasWord("christmas") && hasWord("Card")) {
-
+            else if (hasWord("christmas") && hasWord("card")) {
+                //todo if it's christmas, display a card on startup
             }
 
             else {
@@ -3181,21 +3182,6 @@ public class CyderMain{
             return true;
 
         else return ThisOp.contains(ThisComp + ' ');
-    }
-
-    public void fib(int a, int b) {
-        try {
-            int c = a + b;
-            println(c);
-            if (c < 2147483647/2)
-                fib(b, c);
-            else
-                println("Integer limit reached");
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
     }
 
     private void changeUsername(String newName) {

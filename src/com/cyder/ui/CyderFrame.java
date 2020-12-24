@@ -35,6 +35,7 @@ public class CyderFrame extends JFrame {
 
         setResizable(false);
         setUndecorated(true);
+        setBackground(CyderColors.navy);
         setIconImage(systemUtil.getCyderIcon().getImage());
 
         JLabel parentLabel = new JLabel();
@@ -66,6 +67,7 @@ public class CyderFrame extends JFrame {
 
         setResizable(false);
         setUndecorated(true);
+        setBackground(CyderColors.navy);
         setIconImage(systemUtil.getCyderIcon().getImage());
 
         JLabel parentLabel = new JLabel();
@@ -448,5 +450,9 @@ public class CyderFrame extends JFrame {
             }
         });
         timer.start();
+    }
+
+    public void askew() {
+        //todo askew this frame
     }
 }

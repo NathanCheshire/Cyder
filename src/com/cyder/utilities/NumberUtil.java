@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class NumberUtil {
@@ -55,6 +56,21 @@ public class NumberUtil {
                 Numbers.add(i);
 
         return Numbers.isEmpty();
+    }
+
+    public static LinkedList<Long> fib(long a, long b, int numFibs) {
+        LinkedList<Long> ret = new LinkedList();
+        ret.add(a);
+        for (int i = 1 ; i < numFibs ; i++) {
+            ret.add(b);
+
+            long next = a + b;
+
+            a = b;
+            b = next;
+        }
+
+        return ret;
     }
 
     public static int totalCodeLines(File startDir) {
