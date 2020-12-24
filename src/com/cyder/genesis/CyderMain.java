@@ -1432,7 +1432,7 @@ public class CyderMain{
             default:
                 backIcon = new ImageIcon(backFile);
 
-                if (ConsoleFrame.getConsoleDirection() == ConsoleDirection.LEFT ||ConsoleFrame.getConsoleDirection() == ConsoleDirection.RIGHT) {
+                if (ConsoleFrame.getConsoleDirection() == ConsoleDirection.LEFT || ConsoleFrame.getConsoleDirection() == ConsoleDirection.RIGHT) {
                     height = backIcon.getIconWidth();
                     width = backIcon.getIconHeight();
                 }

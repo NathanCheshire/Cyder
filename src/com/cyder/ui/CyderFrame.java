@@ -455,4 +455,16 @@ public class CyderFrame extends JFrame {
     public void askew() {
         //todo askew this frame
     }
+
+    public static void main(String[] args) {
+        System.setProperty("sun.java2d.uiScale","1.0");
+        CyderFrame frame = new CyderFrame(400,400,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        ComponentResizer cr = new ComponentResizer();
+        cr.setMinimumSize(new Dimension(200, 200));
+        cr.setMaximumSize(new Dimension(800, 600));
+        cr.registerComponent(frame);
+        cr.setSnapSize(new Dimension(1, 1));
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 }
