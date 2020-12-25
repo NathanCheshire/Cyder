@@ -516,12 +516,12 @@ public class CyderFrame extends JFrame {
     }
 
     public void setBackground(ImageIcon icon) {
-        //todo change to same size as current icon
-        contentLabel.setIcon(icon);
+        ImageIcon imageIcon = new ImageIcon(icon.getImage()
+                .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT));
+        contentLabel.setIcon(imageIcon);
 
         //todo be able to resize this background to the size of the frame when resized too
-        // for now resize it to width, height before setting it
 
-        //todo test changing contentpane background with stuff on it
+
     }
 }

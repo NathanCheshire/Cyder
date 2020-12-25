@@ -2857,6 +2857,31 @@ public class CyderMain{
 
             else if (hasWord("test")) {
                 //todo incorporate progress bars into the program
+
+                //todo test changing contentpane background with stuff on it for CyderFrame
+
+                //todo if not enough data in userdata, delete user and inform the user was corrupted
+
+                //todo any inform frame should be resizable
+
+                CyderFrame cf = new CyderFrame(500,500, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+                cf.setTitlePosition(TitlePosition.CENTER);
+                cf.setTitle("Testing Frame");
+                cf.initResizing();
+                cf.setMaximumSize(new Dimension(1200,1200));
+                cf.setMinimumSize(new Dimension(200,200));
+
+                CyderButton cb = new CyderButton("Change Background");
+                cb.setFont(CyderFonts.weatherFontSmall);
+                cb.setForeground(Color.BLACK);
+                cb.setBackground(CyderColors.regularRed);
+                cb.setColors(CyderColors.regularRed);
+                cb.addActionListener(e -> cf.setBackground(new ImageIcon("src/com/cyder/sys/pictures/Login.png")));
+                cb.setBounds(50,50,300, 40);
+                cf.getContentPane().add(cb);
+
+                cf.setVisible(true);
+                cf.setLocationRelativeTo(null);
             }
 
             else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
