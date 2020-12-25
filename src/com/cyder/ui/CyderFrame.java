@@ -520,8 +520,7 @@ public class CyderFrame extends JFrame {
                 .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT));
         contentLabel.setIcon(imageIcon);
 
-        //todo be able to resize this background to the size of the frame when resized too
-
+        //todo test with resizing current background to size everytime size of this is chnaged
 
     }
 }

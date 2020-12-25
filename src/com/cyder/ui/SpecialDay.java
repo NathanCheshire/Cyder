@@ -3,6 +3,7 @@ package com.cyder.ui;
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.enums.ArrowDirection;
+import com.cyder.enums.StartDirection;
 import com.cyder.enums.VanishDirection;
 import com.cyder.utilities.TimeUtil;
 
@@ -14,24 +15,70 @@ public class SpecialDay {
     private JLayeredPane parentPanel;
 
     public SpecialDay(JLayeredPane parentPanel) {
+        this.parentPanel = parentPanel;
 
         if (!kill) {
             if (TimeUtil.isChristmas())
-                //todo notify("Merry Christmas!", 3000, ArrowDirection.TOP,parentPanel, 200);
+                notify("Merry Christmas!", 3000, ArrowDirection.TOP,StartDirection.TOP,VanishDirection.TOP, 200);
 
             if (TimeUtil.isHalloween())
-                //todo notify("Happy Halloween!", 3000, ArrowDirection.TOP, VanishDirection.TOP,parentPanel, 200);
+                notify("Happy Halloween!", 3000, ArrowDirection.TOP,StartDirection.TOP,VanishDirection.TOP, 200);
 
             if (TimeUtil.isIndependenceDay())
-                //todo notify("Happy 4th of July!", 3000, ArrowDirection.TOP, VanishDirection.TOP,parentPanel, 200);
+                notify("Happy 4th of July!", 3000, ArrowDirection.TOP,StartDirection.TOP,VanishDirection.TOP, 200);
 
             if (TimeUtil.isThanksgiving())
-                //todo notify("Happy Thanksgiving!", 3000, ArrowDirection.TOP, VanishDirection.TOP,parentPanel, 230);
+                notify("Happy Thanksgiving!", 3000, ArrowDirection.TOP,StartDirection.TOP,VanishDirection.TOP, 230);
 
             if (TimeUtil.isAprilFoolsDay())
-                //todo notify("Happy April Fools Day!", 3000, ArrowDirection.TOP, VanishDirection.TOP,parentPanel, 250);
+                notify("Happy April Fool Day!", 3000, ArrowDirection.TOP,StartDirection.TOP,VanishDirection.TOP, 250);
 
             kill = true;
         }
+    }
+
+    public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir, int width) {
+        Notification frameNotification = new Notification();
+
+        int w = width;
+        int h = 30;
+
+        frameNotification.setArrow(arrowDir);
+
+        JLabel text = new JLabel();
+        text.setText(htmltext);
+
+        int lastIndex = 0;
+
+        while(lastIndex != -1){
+
+            lastIndex = text.getText().indexOf("<br/>",lastIndex);
+
+            if(lastIndex != -1){
+                h += 30;
+                lastIndex += "<br/>".length();
+            }
+        }
+
+        frameNotification.setWidth(w);
+        frameNotification.setHeight(h);
+
+        text.setFont(CyderFonts.weatherFontSmall);
+        text.setForeground(CyderColors.navy);
+        text.setBounds(14,10,w * 2,h);
+        frameNotification.add(text);
+
+        if (startDir == StartDirection.LEFT)
+            frameNotification.setBounds(0,30,w * 2,h * 2);
+        else if (startDir == StartDirection.RIGHT)
+            frameNotification.setBounds(this.parentPanel.getWidth() - (w + 30),32,w * 2,h * 2);
+        else
+            frameNotification.setBounds(this.parentPanel.getWidth() / 2 - (w / 2),32,w * 2,h * 2);
+
+        this.parentPanel.add(frameNotification,1,0);
+        this.parentPanel.repaint();
+
+        frameNotification.appear(startDir, this.parentPanel);
+        frameNotification.vanish(vanishDir, this.parentPanel, viewDuration);
     }
 }

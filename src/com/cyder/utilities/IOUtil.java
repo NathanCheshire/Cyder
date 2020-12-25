@@ -1,5 +1,6 @@
 package com.cyder.utilities;
 
+import com.cyder.genesis.CyderMain;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
@@ -98,7 +99,6 @@ public class IOUtil {
             while ((Line = dataReader.readLine()) != null) {
                 String[] parts = Line.split(":");
                 userData.add(new NST(parts[0], parts[1]));
-                System.out.println(Line);
             }
         }
 
@@ -136,7 +136,7 @@ public class IOUtil {
 
         try (BufferedWriter userWriter = new BufferedWriter(new FileWriter(
                 "src/users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false))) {
-
+            CyderMain.exitingSem.acquire();
 
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name))
@@ -145,6 +145,8 @@ public class IOUtil {
                 userWriter.write(data.getName() + ":" + data.getData());
                 userWriter.newLine();
             }
+
+            CyderMain.exitingSem.release();
         }
 
         catch (Exception e) {
@@ -155,6 +157,7 @@ public class IOUtil {
     public static void writeSystemData(String name, String value) {
         try (BufferedWriter sysWriter = new BufferedWriter(new FileWriter(
                 "src/com/cyder/genesis/Sys.ini", false))) {
+            CyderMain.exitingSem.acquire();
 
             for (NST data : systemData) {
                 if (data.getName().equalsIgnoreCase(name))
@@ -167,6 +170,8 @@ public class IOUtil {
 
                 sysWriter.newLine();
             }
+
+            CyderMain.exitingSem.release();
         }
 
         catch (Exception e) {
@@ -178,7 +183,7 @@ public class IOUtil {
         readUserData();
 
         if (userData.isEmpty())
-            return null;
+            return null; //todo corrupted user
 
         for (NST data : userData) {
             if (data.getName().equalsIgnoreCase(name)) {
@@ -186,15 +191,14 @@ public class IOUtil {
             }
         }
 
-        System.out.println(name);
-        return null;
+        return null; //todo corrupted user
     }
 
     public static String getSystemData(String name) {
         readSystemData();
 
         if (systemData.isEmpty())
-            return null;
+            return null; //todo corrupted user
 
         for (NST data : systemData) {
             if (data.getName().equalsIgnoreCase(name)) {
@@ -202,7 +206,7 @@ public class IOUtil {
             }
         }
 
-        return null;
+        return null; //todo corrupted user
     }
 
     public static void logArgs(String[] cyderArgs) {

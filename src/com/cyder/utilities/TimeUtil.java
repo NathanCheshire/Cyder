@@ -1,5 +1,6 @@
 package com.cyder.utilities;
 
+import com.cyder.genesis.CyderMain;
 import com.cyder.handler.ErrorHandler;
 
 import javax.swing.*;
@@ -114,7 +115,15 @@ public class TimeUtil {
 
         scheduler.schedule(() -> {
             new AnimationUtil().closeAnimation(consoleFrame);
-            System.exit(0);
+
+            try {
+                CyderMain.exitingSem.acquire();
+                System.exit(0);
+            }
+
+            catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
         }, HowMany, TimeUnit.MILLISECONDS);
     }
 

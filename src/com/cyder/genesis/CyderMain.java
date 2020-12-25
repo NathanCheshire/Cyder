@@ -37,8 +37,11 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+
+//todo number to string rep like python program
 
 //todo high dpi scalling fix? ImAvg doesn't change size when
 // dragging to different window like this program does
@@ -118,6 +121,8 @@ import java.util.concurrent.TimeUnit;
 //todo rename button for user music and backgrounds
 
 public class CyderMain{
+    public static Semaphore exitingSem;
+
     //console vars
     private static JTextPane outputArea;
     private JTextField inputField;
@@ -218,8 +223,14 @@ public class CyderMain{
 
         else if (IOUtil.getSystemData("Released").equals("1"))
             login();
-        else
-            System.exit(- 600);
+        else {
+            try {
+                CyderMain.exitingSem.acquire();
+                System.exit(-600);
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }
     }
     
     private void initObjects() {
@@ -4616,7 +4627,15 @@ public class CyderMain{
         AnimationUtil.closeAnimation(consoleFrame);
         killAllYoutube();
         stringUtil.killBletchy();
-        System.exit(25);
+
+        try {
+            CyderMain.exitingSem.acquire();
+            System.exit(25);
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     private void shutdown() {
