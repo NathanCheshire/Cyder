@@ -27,6 +27,8 @@ public class CyderFrame extends JFrame {
     private DragLabel dl;
     private JLabel titleLabel;
 
+    private JLabel contentLabel;
+
     public CyderFrame(int width, int height, ImageIcon background) {
         this.width = width;
         this.height = height;
@@ -38,14 +40,14 @@ public class CyderFrame extends JFrame {
         setBackground(CyderColors.navy);
         setIconImage(systemUtil.getCyderIcon().getImage());
 
-        JLabel parentLabel = new JLabel();
-        parentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        parentLabel.setIcon(background);
-        setContentPane(parentLabel);
+        contentLabel = new JLabel();
+        contentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        contentLabel.setIcon(background);
+        setContentPane(contentLabel);
 
         dl = new DragLabel(width, 30, this);
         dl.setBounds(0, 0, width, 30);
-        parentLabel.add(dl);
+        contentLabel.add(dl);
 
         titleLabel = new JLabel("");
         titleLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
@@ -423,7 +425,6 @@ public class CyderFrame extends JFrame {
         DanceThread.start();
     }
 
-    //todo when setting background for cyderframe, resize image to size first
     public void barrelRoll() {
         setBackground(CyderColors.navy);
 
@@ -451,8 +452,11 @@ public class CyderFrame extends JFrame {
         timer.start();
     }
 
-    public void askew() {
-        //todo askew this frame
+    public void askew(int degrees) {
+        ((JLabel) (this.getContentPane())).setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(
+                ImageUtil.getRotatedImage(
+                ConsoleFrame.getCurrentBackgroundFile().getAbsolutePath(),
+                ConsoleFrame.getConsoleDirection()),degrees)));
     }
 
     @Override
@@ -509,5 +513,15 @@ public class CyderFrame extends JFrame {
 
     public void allowResizing(Boolean b) {
         cr.setResizing(b);
+    }
+
+    public void setBackground(ImageIcon icon) {
+        //todo change to same size as current icon
+        contentLabel.setIcon(icon);
+
+        //todo be able to resize this background to the size of the frame when resized too
+        // for now resize it to width, height before setting it
+
+        //todo test changing contentpane background with stuff on it
     }
 }

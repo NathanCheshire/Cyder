@@ -2790,12 +2790,11 @@ public class CyderMain{
             }
 
             else if (eic("askew")) {
-                askew();
+                //todo ConsoleFrame.askew(5);
             }
 
             else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
-                Robot rob = new Robot();
-                rob.keyPress(KeyEvent.VK_F17);
+                new Robot().keyPress(KeyEvent.VK_F17);
             }
 
             else if (hasWord("logout")) {
@@ -2819,10 +2818,7 @@ public class CyderMain{
             }
 
             else if (hasWord("debug") && hasWord("windows")) {
-                StatUtil.systemProperties();
-                StatUtil.computerProperties();
-                StatUtil.javaProperties();
-                StatUtil.debugMenu(outputArea);
+                StatUtil.allStats(outputArea);
             }
 
             else if (hasWord("random") && hasWord("background")) {
@@ -2857,19 +2853,8 @@ public class CyderMain{
                 //todo incorporate progress bars into the program
             }
 
-            else if (hasWord("christmas") && hasWord("card")) {
-                CyderFrame cf = new CyderFrame(600,600, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
-                cf.setTitle("Merry Christmas");
-                cf.setTitlePosition(TitlePosition.CENTER);
-
-                cf.setMinimumSize(new Dimension(400,400));
-                cf.setMaximumSize(new Dimension(700,700));
-                cf.setSnapSize(new Dimension(1,1));
-                cf.initResizing();
-                cf.allowResizing(true);
-
-                cf.setLocationRelativeTo(null);
-                cf.setVisible(true);
+            else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
+                Cards.Christmas2020();
             }
 
             else {
@@ -4561,11 +4546,6 @@ public class CyderMain{
             ytt.kill();
     }
 
-    private void askew() {
-        consoleFrame.setBackground(CyderColors.navy);
-        parentLabel.setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().getAbsolutePath(),ConsoleFrame.getConsoleDirection()),3)));
-    }
-
     //exiting method, system.exit will call shutdown hook which wil then call shutdown();
     private void exit() {
         AnimationUtil.closeAnimation(consoleFrame);
@@ -4621,7 +4601,7 @@ public class CyderMain{
         text.setText(htmltext);
         text.setFont(CyderFonts.weatherFontSmall);
         text.setForeground(CyderColors.navy);
-        text.setBounds(14,10,w * 2,h);
+        text.setBounds(14,10,w * 2, h);
         consoleNotification.add(text);
         consoleNotification.setBounds(parent.getWidth() / 2 - (w/2),30,w * 2,h * 2);
         parent.add(consoleNotification,1,0);

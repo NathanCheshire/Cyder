@@ -52,7 +52,9 @@ public class ConsoleFrame extends CyderFrame {
     }
 
     public static void setFontStyle(int combStyle) {
-        //you can do bold and italics with Font.BOLD + Font.ITALIC so this is what this function allows you to do
+        //you can do bold and italics with Font.BOLD + Font.ITALIC
+        // so this is what this function allows you to do
+
         fontMetric = combStyle;
     }
 
@@ -200,7 +202,7 @@ public class ConsoleFrame extends CyderFrame {
         return backgroundImageIcon;
     }
 
-    private static Direction lastSlideDirection = Direction.LEFT;
+    private static Direction lastSlideDirection = Direction.TOP;
 
     public static void switchBackground() {
         if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
@@ -209,14 +211,30 @@ public class ConsoleFrame extends CyderFrame {
         switch (lastSlideDirection) {
             case LEFT:
 
-                //todo only slide imageicon
+                //todo slide top
 
+                lastSlideDirection = Direction.TOP;
+                break;
+
+            case TOP:
+
+                //todo slide right
+
+                lastSlideDirection = Direction.RIGHT;
                 break;
 
             case RIGHT:
 
-                //todo only slide imageicon
+                //todo slide down
 
+                lastSlideDirection = Direction.BOTTOM;
+                break;
+
+            case BOTTOM:
+
+                //todo slide left
+
+                lastSlideDirection = Direction.LEFT;
                 break;
         }
     }

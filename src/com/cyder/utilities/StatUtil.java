@@ -90,6 +90,13 @@ public class StatUtil {
         IOUtil.createAndOpenTmpFile("Computer Properties",".txt", lines);
     }
 
+    public static void allStats(JTextPane outputArea) {
+        debugMenu(outputArea);
+        computerProperties();
+        javaProperties();
+        systemProperties();
+    }
+
     public static void debugMenu(JTextPane outputArea) {
         try {
             DecimalFormat gFormater = new DecimalFormat("##.###");

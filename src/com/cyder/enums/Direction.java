@@ -1,5 +1,5 @@
 package com.cyder.enums;
 
 public enum Direction {
-    LEFT,RIGHT
+    LEFT,RIGHT,TOP,BOTTOM
 }
