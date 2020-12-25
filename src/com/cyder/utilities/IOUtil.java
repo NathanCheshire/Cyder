@@ -81,6 +81,8 @@ public class IOUtil {
         }
     }
 
+    //todo this is fucked, it loops forever and sometimes the stuff isn't saved and
+    // reusltingly the userdata.txt is fucked
     public static void readUserData() {
         userData.clear();
         String user = ConsoleFrame.getUUID();
@@ -96,6 +98,7 @@ public class IOUtil {
             while ((Line = dataReader.readLine()) != null) {
                 String[] parts = Line.split(":");
                 userData.add(new NST(parts[0], parts[1]));
+                System.out.println(Line);
             }
         }
 
@@ -183,6 +186,7 @@ public class IOUtil {
             }
         }
 
+        System.out.println(name);
         return null;
     }
 

@@ -4523,7 +4523,7 @@ public class CyderMain{
                     data.add("Name:" + newUserName.getText().trim());
                     data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
 
-                    data.add("CyderFonts:tahoma");
+                    data.add("Font:tahoma");
                     data.add("Foreground:FCFBE3");
                     data.add("Background:FFFFFF");
 

@@ -54,7 +54,7 @@ public class StringUtil {
                 "mp3",
                 "Home",
                 "note",
-                "CyderFonts",
+                "Font",
                 "Java",
                 "logic",
                 "Pizza",
