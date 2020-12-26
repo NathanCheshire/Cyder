@@ -82,8 +82,6 @@ public class IOUtil {
         }
     }
 
-    //todo this is fucked, it loops forever and sometimes the stuff isn't saved and
-    // reusltingly the userdata.txt is fucked
     public static void readUserData() {
         userData.clear();
         String user = ConsoleFrame.getUUID();
@@ -182,8 +180,10 @@ public class IOUtil {
     public static String getUserData(String name) {
         readUserData();
 
-        if (userData.isEmpty())
-            return null; //todo corrupted user
+        if (userData.isEmpty()) {
+            corruptedUser();
+            return null;
+        }
 
         for (NST data : userData) {
             if (data.getName().equalsIgnoreCase(name)) {
@@ -191,14 +191,17 @@ public class IOUtil {
             }
         }
 
-        return null; //todo corrupted user
+        corruptedUser();
+        return null;
     }
 
     public static String getSystemData(String name) {
         readSystemData();
 
-        if (systemData.isEmpty())
-            return null; //todo corrupted user
+        if (systemData.isEmpty()) {
+            corruptedUser();
+            return null;
+        }
 
         for (NST data : systemData) {
             if (data.getName().equalsIgnoreCase(name)) {
@@ -206,7 +209,8 @@ public class IOUtil {
             }
         }
 
-        return null; //todo corrupted user
+        corruptedUser();
+        return null;
     }
 
     public static void logArgs(String[] cyderArgs) {
@@ -414,5 +418,12 @@ public class IOUtil {
         }
 
         return null;
+    }
+
+    public static void corruptedUser() {
+        //todo inform user of corrupted files
+        // zip backgrounds and music and place in downloads
+        // delete user folder
+        // go to login
     }
 }

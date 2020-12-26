@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Notes {
-    private CyderFrame noteEditorFrame;
+    private static CyderFrame noteEditorFrame;
     private JTextArea noteEditArea;
     private JTextField noteEditField;
     private File currentUserNote;
@@ -34,10 +34,13 @@ public class Notes {
     private List<File> noteList;
     private CyderButton openNote;
 
-    private String UUID = "";
+    private static String UUID = "";
 
-    public Notes(String UUID) {
-        this.UUID = UUID;
+    public Notes() {
+        this.UUID = ConsoleFrame.getUUID();
+
+        if (UUID == null)
+            return;
 
         if (noteFrame != null)
             noteFrame.closeAnimation();

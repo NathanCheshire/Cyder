@@ -44,14 +44,9 @@ import java.util.concurrent.TimeUnit;
 //todo when changing background of dragable cyderframe resize background you were originally given and not the current one
 // so keep a copy of the current original from last setBackground
 
-//todo auto login on first user created doesn't work
-
 //todo incorporate progress bars into the program
 
 //todo test changing contentpane background with stuff on it for CyderFrame
-
-//todo if not enough data in userdata, delete user and inform the user was corrupted, but
-// zip and save backgrounds and music to .zip and save to downloads folder
 
 //todo any inform frame should be resizable
 
@@ -158,7 +153,6 @@ public class CyderMain{
     //Objects for main use
     private StringUtil stringUtil;
     private CyderAnimation animation;
-    private Notes userNotes;
 
     //operation var
     private static ArrayList<String> operationList = new ArrayList<>();
@@ -912,7 +906,7 @@ public class CyderMain{
                 noteLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        userNotes = new Notes(ConsoleFrame.getUUID());
+                         new Notes();
                     }
 
                     @Override
@@ -2546,7 +2540,7 @@ public class CyderMain{
             }
 
             else if (hasWord("note") || hasWord("notes")) {
-                userNotes = new Notes(ConsoleFrame.getUUID());
+                new Notes();
             }
 
             else if ((hasWord("youtube") && hasWord("thumbnail")) || (hasWord("yt") && hasWord("thumb"))) {
@@ -2897,6 +2891,10 @@ public class CyderMain{
 
             else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
                 Cards.Christmas2020();
+            }
+
+            else if (hasWord("number") && hasWord("word")) {
+                NumberUtil.numberToWord();
             }
 
             else {
@@ -4568,7 +4566,7 @@ public class CyderMain{
 
                     createUserFrame.closeAnimation();
 
-                    if (!consoleFrame.isVisible() && loginFrame != null) {
+                    if ((!consoleFrame.isVisible() && loginFrame != null) || (new File("src/users/").length() == 1)) {
                         loginFrame.closeAnimation();
                         recognize(newUserName.getText().trim(),pass);
                     }
@@ -4652,5 +4650,13 @@ public class CyderMain{
         catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    public void checkFiles() {
+        //todo if a certain file is missing, attempt to download it
+    }
+
+    public void downloadFiles() {
+        //download all files from links if secure internet connection
     }
 }

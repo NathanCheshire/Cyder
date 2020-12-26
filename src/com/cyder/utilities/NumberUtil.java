@@ -1,7 +1,15 @@
 package com.cyder.utilities;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
+import com.cyder.enums.TitlePosition;
 import com.cyder.handler.ErrorHandler;
+import com.cyder.ui.CyderButton;
+import com.cyder.ui.CyderFrame;
+import com.cyder.ui.CyderLabel;
+import com.cyder.ui.CyderTextField;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,6 +18,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class NumberUtil {
+    private static CyderFrame numFrame;
+
     public static int randInt(int min, int max) {
         return new Random().nextInt((max - min) + 1) + min;
     }
@@ -101,5 +111,34 @@ public class NumberUtil {
         }
 
         return ret;
+    }
+
+    public static void numberToWord() {
+        if (numFrame != null)
+            numFrame.closeAnimation();
+
+        numFrame = new CyderFrame(600,210, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        numFrame.setTitle("Number To Words");
+        numFrame.setTitlePosition(TitlePosition.CENTER);
+        numFrame.initResizing();
+
+        CyderLabel label = new CyderLabel("Enter any number to be converted into word form");
+        label.setBounds(40,40,600 - 80, 80);
+        numFrame.getContentPane().add(label);
+
+        CyderTextField numField = new CyderTextField(40);
+        numField.setBounds(40,120, 600- 80, 40);
+        numFrame.getContentPane().add(numField);
+
+        CyderButton find = new CyderButton("Find");
+        find.setColors(CyderColors.regularRed);
+        find.setFont(CyderFonts.weatherFontSmall);
+        find.setBackground(CyderColors.regularRed);
+        find.setBounds(40,170, 600- 80, 30);
+        numFrame.getContentPane().add(find);
+
+        numFrame.setVisible(true);
+        numFrame.enterAnimation();
+        numFrame.setLocationRelativeTo(null);
     }
 }
