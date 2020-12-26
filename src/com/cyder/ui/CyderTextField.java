@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class CyderTextField extends JTextField {
-    private int limit;
+    private int limit = 1;
 
     public CyderTextField(int colnum) {
         super(colnum);
@@ -42,6 +42,10 @@ public class CyderTextField extends JTextField {
         this.setBorder(BorderFactory.createLineBorder(CyderColors.navy,5,false));
 
         super.paintComponent(g);
+    }
+
+    public void setRegexMatcher(String regex) {
+        //todo
     }
 
     public void setCharLimit(int limit) {

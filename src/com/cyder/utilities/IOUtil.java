@@ -132,9 +132,10 @@ public class IOUtil {
         if (ConsoleFrame.getUUID() == null)
             return;
 
-        try (BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                "src/users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false))) {
+        try {
             CyderMain.exitingSem.acquire();
+            BufferedWriter userWriter = new BufferedWriter(new FileWriter(
+                    "src/users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false));
 
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name))
@@ -144,6 +145,7 @@ public class IOUtil {
                 userWriter.newLine();
             }
 
+            userWriter.close();
             CyderMain.exitingSem.release();
         }
 
@@ -153,9 +155,10 @@ public class IOUtil {
     }
 
     public static void writeSystemData(String name, String value) {
-        try (BufferedWriter sysWriter = new BufferedWriter(new FileWriter(
-                "src/com/cyder/genesis/Sys.ini", false))) {
+        try {
             CyderMain.exitingSem.acquire();
+            BufferedWriter sysWriter = new BufferedWriter(new FileWriter(
+                    "src/com/cyder/genesis/Sys.ini", false));
 
             for (NST data : systemData) {
                 if (data.getName().equalsIgnoreCase(name))
@@ -169,6 +172,7 @@ public class IOUtil {
                 sysWriter.newLine();
             }
 
+            sysWriter.close();
             CyderMain.exitingSem.release();
         }
 

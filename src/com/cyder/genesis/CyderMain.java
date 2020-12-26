@@ -41,6 +41,10 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo make popup for calculator smaller and resizable
+
+//todo make chat IO logs for each session per user, move Sys.ini start data to user specific stuff within a logs dir though
+
 //todo when changing background of dragable cyderframe resize background you were originally given and not the current one
 // so keep a copy of the current original from last setBackground
 
@@ -4286,9 +4290,9 @@ public class CyderMain{
         newUserName.setFont(CyderFonts.weatherFontSmall);
         newUserName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-            if (newUserName.getText().length() > 15) {
-                evt.consume();
-            }
+                if (newUserName.getText().length() > 15) {
+                    evt.consume();
+                }
             }
         });
 
