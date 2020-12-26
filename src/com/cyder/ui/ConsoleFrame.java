@@ -281,6 +281,8 @@ public class ConsoleFrame extends CyderFrame {
     private static void rotateConsole() {
         //todo if setting console dir is different than old value,
         // call this method and roll the image that way then set like old way
+
+        //todo use this for barrel roll, use this for askew, and ctrl + direction
     }
 
     private static boolean fullscreen = false;

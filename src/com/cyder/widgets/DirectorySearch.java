@@ -339,16 +339,4 @@ public class DirectorySearch {
             }
         }
     };
-
-    private void printStacks() {
-        System.out.println("backwards:");
-        for (int i = backward.size() - 1; i >= 0 ; i--) {
-            System.out.println(backward.get(i));
-        }
-
-        System.out.println("fowards:");
-        for (int i = foward.size() - 1; i >= 0 ; i--) {
-            System.out.println(foward.get(i));
-        }
-    }
 }

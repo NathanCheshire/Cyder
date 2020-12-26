@@ -41,6 +41,20 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo when changing background of dragable cyderframe resize background you were originally given and not the current one
+// so keep a copy of the current original from last setBackground
+
+//todo auto login on first user created doesn't work
+
+//todo incorporate progress bars into the program
+
+//todo test changing contentpane background with stuff on it for CyderFrame
+
+//todo if not enough data in userdata, delete user and inform the user was corrupted, but
+// zip and save backgrounds and music to .zip and save to downloads folder
+
+//todo any inform frame should be resizable
+
 //todo number to string rep like python program
 
 //todo high dpi scalling fix? ImAvg doesn't change size when
@@ -75,23 +89,16 @@ import java.util.concurrent.TimeUnit;
 
 //todo change background color for console frame so like not navy
 
-//todo some scrolls with borders are not fitted properly\
+//todo some scrolls with borders are not fitted properly
 
 //todo use more system.exit calls to better give detail on why system.exit was called
 
 //todo start animations usage
 
-//todo cyder label
-//todo cyder progress bar
-
-//todo make password more secure maybe salt or something?
-//todo double hash sha perhaps to avoid someone just hashing their own password and pasting it in
-
-//todo make it so all you can have is jar and system files and it'll create everything else such as dirs
+//todo make it so all you can have is single jar and code and it'll attempt to download all files from internet and if it can't,
+// inform user and exit
 
 //todo move File.txt, String.txt, and InputMessage.txt to tmp directory
-
-//todo if a pref keyword doesn't exist in userdata, add it and set to default
 
 //todo be able to set background to a solid color and make that an image and save it
 
@@ -118,7 +125,7 @@ import java.util.concurrent.TimeUnit;
 
 //todo set location relative to this for sub components
 
-//todo rename button for user music and backgrounds
+//todo rename button for user music and backgrounds with main 3
 
 public class CyderMain{
     public static Semaphore exitingSem;
@@ -236,6 +243,7 @@ public class CyderMain{
     private void initObjects() {
         animation = new CyderAnimation();
         stringUtil = new StringUtil(outputArea);
+        exitingSem = new Semaphore(1);
     }
 
     private void initSystemProperties() {
@@ -2867,14 +2875,6 @@ public class CyderMain{
             }
 
             else if (hasWord("test")) {
-                //todo incorporate progress bars into the program
-
-                //todo test changing contentpane background with stuff on it for CyderFrame
-
-                //todo if not enough data in userdata, delete user and inform the user was corrupted
-
-                //todo any inform frame should be resizable
-
                 CyderFrame cf = new CyderFrame(500,500, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
                 cf.setTitlePosition(TitlePosition.CENTER);
                 cf.setTitle("Testing Frame");
@@ -3572,6 +3572,8 @@ public class CyderMain{
                 else {
                     editUserFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but you can only add PNGs and MP3s", "Error",400,200);
                 }
+
+                ConsoleFrame.resizeBackgrounds();
             }
 
             catch (Exception exc) {
