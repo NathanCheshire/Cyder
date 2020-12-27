@@ -160,6 +160,9 @@ public class NumberUtil {
     }
 
     private static void toWords(String wordRep) {
+        if (wordRep == null || wordRep.length() == 0)
+            return;
+
         BigInteger num = new BigInteger(wordRep);
         if (num.compareTo(BigInteger.ZERO) == 0) {
             numFrame.notify("Zero you idiot",3000, ArrowDirection.TOP,165);

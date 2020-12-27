@@ -132,13 +132,13 @@ public class CyderMain{
     //console vars
     private static JTextPane outputArea;
     private JTextField inputField;
-    private JFrame consoleFrame;
+    private static JFrame consoleFrame;
     private JButton minimize;
     private JButton close;
     private JLabel consoleClockLabel;
     private boolean updateConsoleClock;
-    private JLabel loginLabel2;
-    private JLabel loginLabel3;
+    private static JLabel loginLabel2;
+    private static JLabel loginLabel3;
     private JLabel parentLabel;
     private JLabel temporaryLabel;
     private JLabel loginDragLabel;
@@ -148,15 +148,15 @@ public class CyderMain{
     private JLayeredPane parentPane;
     private JButton suggestionButton;
     private JButton menuButton;
-    private CyderFrame loginFrame;
-    private JTextField nameField;
-    private JPasswordField pass;
+    private static CyderFrame loginFrame;
+    private static JTextField nameField;
+    private static JPasswordField pass;
     private JLabel newUserLabel;
     private JLabel menuLabel;
 
     //Objects for main use
     private StringUtil stringUtil;
-    private CyderAnimation animation;
+    private static CyderAnimation animation;
 
     //operation var
     private static ArrayList<String> operationList = new ArrayList<>();
@@ -282,7 +282,7 @@ public class CyderMain{
         }
     }
 
-    private void console() {
+    public void console() {
         try{
             ConsoleFrame.resizeBackgrounds();
             ConsoleFrame.initBackgrounds();
@@ -1209,8 +1209,8 @@ public class CyderMain{
         }
     };
 
-    //todo stay here
-    private void login() {
+    //todo protected? Stay here too
+    public void login() {
         if (loginFrame != null)
             loginFrame.closeAnimation();
 
@@ -1625,7 +1625,7 @@ public class CyderMain{
     }
 
     //todo move to consoleFrame
-    private void loginAnimation() {
+    private static void loginAnimation() {
         new Thread() {
             int count = 2;
 
@@ -2718,7 +2718,11 @@ public class CyderMain{
             }
 
             else if (hasWord("dance")) {
-                //todo for all CyderFrames, make them dance, make this action ctrl+c -able
+                Frame[] frames = Frame.getFrames();
+                for(Frame f: frames)
+                    if (f instanceof CyderFrame || f instanceof ConsoleFrame)
+                        ((CyderFrame) (f)).dance();
+                    //todo make dance ctrl-c-able
             }
 
             else if (hasWord("clear") && (

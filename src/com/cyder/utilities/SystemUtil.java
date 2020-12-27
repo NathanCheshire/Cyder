@@ -39,7 +39,7 @@ public class SystemUtil {
 
     public ImageIcon getScaledCyderIconBlink() {return this.scaledCyderIconBlink;}
 
-    public String getWindowsUsername() {
+    public static String getWindowsUsername() {
         return System.getProperty("user.name");
     }
 

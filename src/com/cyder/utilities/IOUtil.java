@@ -6,6 +6,7 @@ import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
 import com.cyder.ui.ConsoleFrame;
+import com.cyder.widgets.GenericInform;
 import com.cyder.widgets.MPEGPlayer;
 import javazoom.jl.player.Player;
 
@@ -425,9 +426,36 @@ public class IOUtil {
     }
 
     public static void corruptedUser() {
-        //todo inform user of corrupted files
-        // zip backgrounds and music and place in downloads
-        // delete user folder
-        // go to login
+        GenericInform.inform("Sorry, " + SystemUtil.getWindowsUsername() +
+                ", but this user was corrupted. Your Pictures and Music have been " +
+                "zipped and saved to your downloads folder, however","Corrupted User",500,250);
+
+        File saveTo = new File("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads");
+        // zip backgrounds and music and place in saveTo
+
+        SystemUtil.deleteFolder(new File("src/users/" + ConsoleFrame.getUUID()));
+
+        String dep = SecurityUtil.getDeprecatedUUID();
+
+        File renamed = new File("src/users/" + dep);
+        while (renamed.exists()) {
+            dep = SecurityUtil.getDeprecatedUUID();
+            renamed = new File("src/users/" + dep);
+        }
+
+        File old = new File("src/users/" + ConsoleFrame.getUUID());
+        old.renameTo(renamed);
+
+        Frame[] frames = Frame.getFrames();
+
+        for(Frame f: frames)
+            f.dispose();
+
+        try {
+            CyderMain.exitingSem.acquire();
+            System.exit(78);
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 }

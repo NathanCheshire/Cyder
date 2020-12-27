@@ -1,3 +1,4 @@
 -600:Not Released
 25:Exit Method
 66:Scheduled Exit
+78:Corrupted User
