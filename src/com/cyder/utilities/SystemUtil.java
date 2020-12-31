@@ -47,7 +47,6 @@ public class SystemUtil {
         return System.getProperty("os.name");
     }
 
-    //system util
     public String getComputerName() {
         String name = null;
 
@@ -60,7 +59,6 @@ public class SystemUtil {
         return name;
     }
 
-    //system util
     public static void resetMouse() {
         try {
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -73,25 +71,23 @@ public class SystemUtil {
         }
     }
 
-    //todo make methods to run vbs scripts
+    public static void runVBS(String[] vbsScript) {
+        IOUtil.createAndOpenTmpFile(SecurityUtil.generateUUID(),".vbs",vbsScript);
+    }
 
     public static void closeCD(String drive) {
-        String[] vbs = {"Set wmp = CreateObject(\"WMPlayer.OCX\")",
+        runVBS(new String[]{"Set wmp = CreateObject(\"WMPlayer.OCX\")",
                 "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
-                        + drive + "\")",
+                + drive + "\")",
                 "cd.Eject",
-                "cd.Eject"};
-
-        IOUtil.createAndOpenTmpFile("CDROM-CLOSE",".vbs",vbs);
+                "cd.Eject"});
     }
 
     public static void openCD(String drive) {
-        String[] vbs = {"Set wmp = CreateObject(\"WMPlayer.OCX\")",
+        runVBS(new String[]{"Set wmp = CreateObject(\"WMPlayer.OCX\")",
                 "Set cd = wmp.cdromCollection.getByDriveSpecifier(\""
-                        + drive + "\")",
-                "cd.Eject"};
-
-        IOUtil.createAndOpenTmpFile("CDROM-OPEN",".vbs",vbs);
+                + drive + "\")",
+                "cd.Eject"});
     }
 
     public static void disco(int iterations) {
