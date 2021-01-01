@@ -1422,7 +1422,7 @@ public class CyderMain{
 
     //todo move to consoleFrame
     private void exitFullscreen() {
-        ConsoleFrame.initBackgrounds();
+        ConsoleFrame.initBackgrounds(); //there was a background error here when I deleted and flipping didn't work
         LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
         int index = ConsoleFrame.getBackgroundIndex();
         String backFile = backgrounds.get(index).toString();
@@ -2556,11 +2556,7 @@ public class CyderMain{
             }
 
             else if (eic("java")) {
-                println("public class main {");
-                println("      public static void main(String[] args) {");
-                println("            System.out.println(\"Hello World!\");");
-                println("      }");
-                println("}");
+                printImage("src/com/cyder/sys/pictures/Duke.png");
             }
 
             else if (hasWord("coffee")) {
@@ -2827,10 +2823,6 @@ public class CyderMain{
             else if (hasWord("logout")) {
                 AnimationUtil.closeAnimation(consoleFrame);
                 login();
-            }
-
-            else if (hasWord("duke")) {
-                printImage("src/com/cyder/sys/pictures/Duke.png");
             }
 
             else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
@@ -4638,6 +4630,7 @@ public class CyderMain{
 
         try {
             CyderMain.exitingSem.acquire();
+            CyderMain.exitingSem.release();
             System.exit(25);
         }
 

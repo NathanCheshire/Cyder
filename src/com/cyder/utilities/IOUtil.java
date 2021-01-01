@@ -115,12 +115,8 @@ public class IOUtil {
             String Line;
 
             while ((Line = sysReader.readLine()) != null) {
-                if (Line.equals("----------------------------------------"))
-                    systemData.add(new NST("sep", "----------------------------------------"));
-                else {
-                    String[] parts = Line.split(":");
-                    systemData.add(new NST(parts[0], parts[1]));
-                }
+                String[] parts = Line.split(":");
+                systemData.add(new NST(parts[0], parts[1]));
             }
         }
 
@@ -135,6 +131,7 @@ public class IOUtil {
 
         try {
             CyderMain.exitingSem.acquire();
+
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
                     "src/users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false));
 
@@ -146,7 +143,7 @@ public class IOUtil {
                 userWriter.newLine();
             }
 
-            userWriter.close();
+            userWriter.flush();
             CyderMain.exitingSem.release();
         }
 
@@ -165,15 +162,12 @@ public class IOUtil {
                 if (data.getName().equalsIgnoreCase(name))
                     data.setData(value);
 
-                if (data.getName().equals("sep"))
-                    sysWriter.write("----------------------------------------");
-                else
-                    sysWriter.write(data.getName() + ":" + data.getData());
+                sysWriter.write(data.getName() + ":" + data.getData());
 
                 sysWriter.newLine();
             }
 
-            sysWriter.close();
+            sysWriter.flush();
             CyderMain.exitingSem.release();
         }
 
@@ -186,7 +180,6 @@ public class IOUtil {
         readUserData();
 
         if (userData.isEmpty()) {
-            corruptedUser();
             return null;
         }
 
@@ -204,7 +197,6 @@ public class IOUtil {
         readSystemData();
 
         if (systemData.isEmpty()) {
-            corruptedUser();
             return null;
         }
 
@@ -214,7 +206,6 @@ public class IOUtil {
             }
         }
 
-        corruptedUser();
         return null;
     }
 
@@ -223,7 +214,7 @@ public class IOUtil {
             if (cyderArgs.length == 0)
                 cyderArgs = new String[]{"Started by " + System.getProperty("user.name")};
 
-            File log = new File("src/com/cyder/genesis/Sys.ini");
+            File log = new File("src/com/cyder/genesis/StartLog.log");
 
             if (!log.exists())
                 log.createNewFile();
@@ -231,25 +222,12 @@ public class IOUtil {
             BufferedReader br = new BufferedReader(new FileReader(log));
 
             LinkedList<String> dates = new LinkedList<>();
-            LinkedList<String> data = new LinkedList<>();
 
             String line;
             boolean section0 = true;
 
-            while ((line = br.readLine()) != null) {
-                if (section0) {
-                    if (!line.equals("----------------------------------------"))
-                        data.add(line);
-                    else {
-                        data.add(line);
-                        section0 = false;
-                    }
-                }
-
-                else {
-                    dates.add(line);
-                }
-            }
+            while ((line = br.readLine()) != null)
+                dates.add(line);
 
             br.close();
 
@@ -265,12 +243,8 @@ public class IOUtil {
 
             IPUtil ipu = new IPUtil();
 
-            dates.push(new SimpleDateFormat("MM-dd-yy HH:mm:ss").format(new Date()) + " : " + argsString + " in " + ipu.getUserCity() + ", " + ipu.getUserState());
-
-            for (String d : data) {
-                bw.write(d);
-                bw.newLine();
-            }
+            dates.push(new SimpleDateFormat("MM-dd-yy HH:mm:ss").format(new Date())
+                    + " : " + argsString + " in " + ipu.getUserCity() + ", " + ipu.getUserState());
 
             for (String lin : dates) {
                 bw.write(lin);
@@ -431,7 +405,8 @@ public class IOUtil {
                 "zipped and saved to your downloads folder, however","Corrupted User",500,250);
 
         File saveTo = new File("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads");
-        // zip backgrounds and music and place in saveTo
+
+        //todo zip everything in user dir except userdata and throws and place in saveTo dir
 
         SystemUtil.deleteFolder(new File("src/users/" + ConsoleFrame.getUUID()));
 

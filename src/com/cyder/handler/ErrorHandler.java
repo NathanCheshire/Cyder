@@ -46,7 +46,7 @@ public class ErrorHandler {
             if (IOUtil.getUserData("SilenceErrors") != null && IOUtil.getUserData("SilenceErrors").equals("0")) {
                 System.out.println("Exception in error logger:\n\n");
                 e.printStackTrace();
-                //ltodo show popup with inform on consoleframe
+                //todo show popup with inform on consoleframe
             }
         }
     }
