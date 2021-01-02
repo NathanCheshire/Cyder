@@ -300,7 +300,7 @@ public class IOUtil {
 
         //use our own mp3 player
         else if (FilePath.endsWith(".mp3")) {
-            CyderPlayer = new MPEGPlayer(new File(FilePath), ConsoleFrame.getUsername(), ConsoleFrame.getUUID());
+            CyderPlayer = new MPEGPlayer(new File(FilePath));
         }
 
         //welp just open it outside of the program :(
@@ -325,12 +325,12 @@ public class IOUtil {
         }
     }
 
-    public static void mp3(String FilePath, String user, String uuid) {
+    public static void mp3(String FilePath) {
         if (CyderPlayer != null)
             CyderPlayer.kill();
 
         stopMusic();
-        CyderPlayer = new MPEGPlayer(new File(FilePath), user, uuid);
+        CyderPlayer = new MPEGPlayer(new File(FilePath));
     }
 
     public static void playAudio(String FilePath) {

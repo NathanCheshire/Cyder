@@ -48,9 +48,7 @@ public class MPEGPlayer {
     private boolean playIcon = true;
     private boolean repeatAudio;
 
-    public MPEGPlayer(File StartPlaying, String username, String UUID) {
-        ConsoleFrame.setUUID(UUID);
-
+    public MPEGPlayer(File StartPlaying) {
         if (musicFrame != null)
             musicFrame.closeAnimation();
 

@@ -1,5 +1,6 @@
 package com.cyder.handler;
 
+import com.cyder.genesis.CyderMain;
 import com.cyder.ui.ConsoleFrame;
 import com.cyder.utilities.IOUtil;
 import com.cyder.utilities.TimeUtil;
@@ -8,7 +9,6 @@ import java.io.*;
 
 public class ErrorHandler {
 
-    //handle class
     public static void handle(Exception e) {
         try {
             File throwsDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Throws/");
@@ -43,10 +43,9 @@ public class ErrorHandler {
         }
 
         catch (Exception ex) {
-            if (IOUtil.getUserData("SilenceErrors") != null && IOUtil.getUserData("SilenceErrors").equals("0")) {
-                System.out.println("Exception in error logger:\n\n");
-                e.printStackTrace();
-                //todo show popup with inform on consoleframe
+            if (CyderMain.consoleFrame != null && CyderMain.consoleFrame.isVisible()) {
+                //todo notify of error
+                //todo inform of error message
             }
         }
     }

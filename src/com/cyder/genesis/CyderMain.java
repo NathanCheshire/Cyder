@@ -132,7 +132,7 @@ public class CyderMain{
     //console vars
     private static JTextPane outputArea;
     private JTextField inputField;
-    private static JFrame consoleFrame;
+    public static JFrame consoleFrame;
     private JButton minimize;
     private JButton close;
     private JLabel consoleClockLabel;
@@ -865,7 +865,7 @@ public class CyderMain{
                 musicLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        IOUtil.mp3("", ConsoleFrame.getUsername(), ConsoleFrame.getUUID());
+                        IOUtil.mp3("");
                     }
 
                     @Override
@@ -1422,7 +1422,7 @@ public class CyderMain{
 
     //todo move to consoleFrame
     private void exitFullscreen() {
-        ConsoleFrame.initBackgrounds(); //there was a background error here when I deleted and flipping didn't work
+        ConsoleFrame.initBackgrounds(); //todo there was a background error here when I deleted and flipping didn't work
         LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
         int index = ConsoleFrame.getBackgroundIndex();
         String backFile = backgrounds.get(index).toString();
@@ -1489,8 +1489,7 @@ public class CyderMain{
     private void refreshFullscreen() {
         ConsoleFrame.initBackgrounds();
         LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
-        int index = ConsoleFrame.getBackgroundIndex();
-        String backFile = backgrounds.get(index).toString();
+        String backFile = backgrounds.get(ConsoleFrame.getBackgroundIndex()).toString();
 
         ImageIcon backIcon = new ImageIcon(backFile);
 
@@ -2630,7 +2629,7 @@ public class CyderMain{
             }
 
             else if (hasWord("mp3") || hasWord("music")) {
-                IOUtil.mp3("", ConsoleFrame.getUsername(), ConsoleFrame.getUUID());
+                IOUtil.mp3("");
             }
 
             else if (hasWord("bai")) {
@@ -2716,17 +2715,16 @@ public class CyderMain{
             else if (hasWord("dance")) {
                 Frame[] frames = Frame.getFrames();
                 for(Frame f: frames)
-                    if (f instanceof CyderFrame || f instanceof ConsoleFrame)
+                    if (f instanceof CyderFrame)
                         ((CyderFrame) (f)).dance();
                     //todo make dance ctrl-c-able
             }
 
-            else if (hasWord("clear") && (
-                    hasWord("operation") || hasWord("command")) &&
-                    hasWord("list")) {
+            else if (hasWord("clear") && (hasWord("operation") ||
+                    hasWord("command")) && hasWord("list")) {
                 operationList.clear();
-                scrollingIndex = 0;
-                println("The operation list has been cleared.");
+                scrollingIndex = 0; //todo log these so really also have a bounds index pair
+                println("Command history reset.");
             }
 
             else if (eic("pin") || eic("login")) {
@@ -2744,8 +2742,7 @@ public class CyderMain{
                 stringUtil.setUserInputDesc("deleteuser");
             }
 
-            else if ((hasWord("create") || hasWord("new")) &&
-                    hasWord("user")) {
+            else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
                 createUser();
             }
 
@@ -3610,7 +3607,7 @@ public class CyderMain{
                     }
 
                     else if (ClickedSelectionPath.getName().endsWith(".mp3")) {
-                        IOUtil.mp3(ClickedSelectionPath.toString(),ConsoleFrame.getUsername(),ConsoleFrame.getUUID());
+                        IOUtil.mp3(ClickedSelectionPath.toString());
                     }
                 }
             }
