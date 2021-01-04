@@ -118,6 +118,7 @@ public class TimeUtil {
 
             try {
                 CyderMain.exitingSem.acquire();
+                CyderMain.exitingSem.release();
                 System.exit(0);
             }
 

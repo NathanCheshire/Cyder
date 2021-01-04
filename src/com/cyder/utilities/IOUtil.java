@@ -401,8 +401,8 @@ public class IOUtil {
 
     public static void corruptedUser() {
         GenericInform.inform("Sorry, " + SystemUtil.getWindowsUsername() +
-                ", but this user was corrupted. Your Pictures and Music have been " +
-                "zipped and saved to your downloads folder, however","Corrupted User",500,250);
+                ", but this user was corrupted. Your files have been " +
+                "zipped and saved to your downloads folder, however","Corrupted User :(",500,250);
 
         File saveTo = new File("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads");
 
@@ -428,6 +428,7 @@ public class IOUtil {
 
         try {
             CyderMain.exitingSem.acquire();
+            CyderMain.exitingSem.release();
             System.exit(78);
         } catch (Exception e) {
             ErrorHandler.handle(e);

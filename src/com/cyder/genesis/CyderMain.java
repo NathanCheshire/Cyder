@@ -231,6 +231,7 @@ public class CyderMain{
         else {
             try {
                 CyderMain.exitingSem.acquire();
+                CyderMain.exitingSem.release();
                 System.exit(-600);
             } catch (Exception e) {
                 ErrorHandler.handle(e);
