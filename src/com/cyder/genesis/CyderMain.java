@@ -2870,6 +2870,7 @@ public class CyderMain{
                 cf.setTitlePosition(TitlePosition.CENTER);
                 cf.setTitle("Testing Frame");
                 cf.initResizing();
+                cf.backgroundRefreshOnResize(true);
                 cf.setMaximumSize(new Dimension(1200,1200));
                 cf.setMinimumSize(new Dimension(200,200));
 
@@ -2890,9 +2891,17 @@ public class CyderMain{
                 Cards.Christmas2020();
             }
 
+            //todo for define, if word not found, open up the word googled
+
             else if (hasWord("number") && hasWord("word")) {
                 NumberUtil.numberToWord();
             }
+
+            else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
+                NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
+            }
+
+
 
             else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +

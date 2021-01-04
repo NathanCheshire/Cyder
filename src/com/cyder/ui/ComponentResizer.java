@@ -247,8 +247,20 @@ public class ComponentResizer extends MouseAdapter {
             height += drag;
         }
 
+        if (source instanceof CyderFrame && backgroundRefreshOnResize)
+            ((CyderFrame) source).refreshBackground();
+
         source.setBounds(x, y, width, height);
         source.validate();
+    }
+
+    private boolean backgroundRefreshOnResize;
+    public boolean getBackgroundRefreshOnResize() {
+        return backgroundRefreshOnResize;
+    }
+
+    public void setBackgroundRefreshOnResize(Boolean b) {
+        backgroundRefreshOnResize = b;
     }
 
     private int getDragDistance(int larger, int smaller, int snapSize) {

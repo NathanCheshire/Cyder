@@ -43,6 +43,7 @@ public class CyderFrame extends JFrame {
         contentLabel = new JLabel();
         contentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         contentLabel.setIcon(background);
+        currentOrigIcon = background;
         setContentPane(contentLabel);
 
         dl = new DragLabel(width, 30, this);
@@ -65,6 +66,7 @@ public class CyderFrame extends JFrame {
         this.width = width;
         this.height = height;
         this.background = new ImageIcon(im);
+        this.currentOrigIcon = this.background;
         setSize(new Dimension(width, height));
 
         setResizable(false);
@@ -502,6 +504,14 @@ public class CyderFrame extends JFrame {
 
     ComponentResizer cr;
 
+    public void setResizing(Boolean b) {
+        cr.setResizing(b);
+    }
+
+    public void setBackgroundResizing(Boolean b) {
+        cr.setBackgroundRefreshOnResize(b);
+    }
+
     public void initResizing() {
         cr = new ComponentResizer();
         cr.registerComponent(this);
@@ -514,13 +524,18 @@ public class CyderFrame extends JFrame {
     public void allowResizing(Boolean b) {
         cr.setResizing(b);
     }
+    public void backgroundRefreshOnResize(Boolean b) {cr.setBackgroundRefreshOnResize(b);}
+
+    ImageIcon currentOrigIcon;
+
+    public void refreshBackground() {
+        contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
+                .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
+    }
 
     public void setBackground(ImageIcon icon) {
-        ImageIcon imageIcon = new ImageIcon(icon.getImage()
-                .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT));
-        contentLabel.setIcon(imageIcon);
-
-        //todo test with resizing current background to size everytime size of this is changed
-
+        currentOrigIcon = icon;
+        contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
+                .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
     }
 }
