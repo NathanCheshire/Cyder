@@ -1404,7 +1404,7 @@ public class CyderMain{
                 }
             }
 
-            else if (loginFrame.isVisible()){
+            else if (loginFrame != null && loginFrame.isVisible()){
                 nameField.setText("");
                 pass.setText("");
                 nameField.requestFocusInWindow();
@@ -1417,7 +1417,7 @@ public class CyderMain{
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ErrorHandler.handle(e); //todo system error handle
         }
     }
 

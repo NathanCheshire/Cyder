@@ -6,16 +6,19 @@ import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
 import com.cyder.ui.ConsoleFrame;
-import com.cyder.widgets.GenericInform;
 import com.cyder.widgets.MPEGPlayer;
 import javazoom.jl.player.Player;
 
 import java.awt.*;
 import java.io.*;
 import java.net.URI;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class IOUtil {
     private static LinkedList<NST> userData = new LinkedList<>();
@@ -89,9 +92,10 @@ public class IOUtil {
 
         if (user == null)
             return;
+        else if (!new File("src/users/" + user + "Userdata.txt").exists())
+            corruptedUser();
 
-        try (BufferedReader dataReader = new BufferedReader(new FileReader(
-                "src/users/" + user + "/Userdata.txt"))){
+        try (BufferedReader dataReader = new BufferedReader(new FileReader("src/users/" + user + "/Userdata.txt"))){
 
             String Line;
 
@@ -179,9 +183,8 @@ public class IOUtil {
     public static String getUserData(String name) {
         readUserData();
 
-        if (userData.isEmpty()) {
+        if (userData.isEmpty())
             return null;
-        }
 
         for (NST data : userData) {
             if (data.getName().equalsIgnoreCase(name)) {
@@ -399,16 +402,27 @@ public class IOUtil {
         return null;
     }
 
+    //todo method broken
     public static void corruptedUser() {
-        GenericInform.inform("Sorry, " + SystemUtil.getWindowsUsername() +
-                ", but this user was corrupted. Your files have been " +
-                "zipped and saved to your downloads folder, however","Corrupted User :(",500,250);
+        File mainZipFile = new File("src/users/" + ConsoleFrame.getUUID());
 
-        File saveTo = new File("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads");
+        for (File f : mainZipFile.listFiles()) {
+            if (f.getName().equals("Userdata.txt") || f.getName().equals("Throws"))
+                SystemUtil.deleteFolder(f);
+        }
 
-        //todo zip everything in user dir except userdata and throws and place in saveTo dir
+        zipFolder(Paths.get("src/users/" + ConsoleFrame.getUUID()));
 
-        SystemUtil.deleteFolder(new File("src/users/" + ConsoleFrame.getUUID()));
+        try {
+            Files.move(Paths.get("src/users/" + ConsoleFrame.getUUID() + ".zip"),
+                    Paths.get("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads/" + ConsoleFrame.getUUID() + ".zip"));
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        SystemUtil.deleteFolder(mainZipFile);
 
         String dep = SecurityUtil.getDeprecatedUUID();
 
@@ -431,6 +445,54 @@ public class IOUtil {
             CyderMain.exitingSem.release();
             System.exit(78);
         } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    public static void zipFolder(Path source) {
+        try {
+            String zipFileName = source.getFileName().toString() + ".zip";
+
+            try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFileName))) {
+                Files.walkFileTree(source, new SimpleFileVisitor<>() {
+
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
+                        if (attributes.isSymbolicLink())
+                            return FileVisitResult.CONTINUE;
+
+                        try (FileInputStream fis = new FileInputStream(file.toFile())) {
+                            Path targetFile = source.relativize(file);
+                            zos.putNextEntry(new ZipEntry(targetFile.toString()));
+
+                            byte[] buffer = new byte[1024];
+                            int len;
+
+                            while ((len = fis.read(buffer)) > 0) {
+                                zos.write(buffer, 0, len);
+                            }
+
+                            zos.closeEntry();
+
+                        }
+
+                        catch (IOException e) {
+                           ErrorHandler.handle(e);
+                        }
+
+                        return FileVisitResult.CONTINUE;
+                    }
+
+                    @Override
+                    public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                        System.err.printf("Unable to zip : %s%n%s%n", file, exc);
+                        return FileVisitResult.CONTINUE;
+                    }
+                });
+            }
+        }
+
+        catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
