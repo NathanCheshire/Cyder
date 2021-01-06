@@ -59,6 +59,7 @@ public class ErrorHandler {
                         "\n\nStack Trace:\n\n" + stackTrack;
 
                 GenericInform.inform(write,"Error trace",600,600);
+                //todo don't have to pass width and height anymore, it should make it a square based on calculations
             }
         }
     }

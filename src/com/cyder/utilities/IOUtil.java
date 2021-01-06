@@ -6,6 +6,7 @@ import com.cyder.handler.PhotoViewer;
 import com.cyder.handler.TextEditor;
 import com.cyder.obj.NST;
 import com.cyder.ui.ConsoleFrame;
+import com.cyder.widgets.GenericInform;
 import com.cyder.widgets.MPEGPlayer;
 import javazoom.jl.player.Player;
 
@@ -93,7 +94,7 @@ public class IOUtil {
         if (user == null)
             return;
 
-        else if (!new File("src/users/" + user + "Userdata.txt").exists())
+        else if (!new File("src/users/" + user + "/Userdata.txt").exists())
             corruptedUser();
 
         try (BufferedReader dataReader = new BufferedReader(new FileReader("src/users/" + user + "/Userdata.txt"))){
@@ -403,7 +404,6 @@ public class IOUtil {
         return null;
     }
 
-    //todo method broken
     public static void corruptedUser() {
         try {
             CyderMain.exitingSem.acquire();
@@ -413,7 +413,9 @@ public class IOUtil {
             for(Frame f : frames)
                 f.dispose();
 
-            //todo confirmation popup to let user know user was corrupted but we're saving what we can
+            GenericInform.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
+                    "Your data has been saved, zipped, and placed in your Downloads folder","Corrupted User",400,200);
+            Thread.sleep(7000);
 
             File mainZipFile = new File("src/users/" + ConsoleFrame.getUUID());
 

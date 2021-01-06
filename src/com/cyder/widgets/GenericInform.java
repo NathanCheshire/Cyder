@@ -14,14 +14,19 @@ public class GenericInform {
             CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height, CyderColors.vanila)));
             informFrame.setTitle(title);
 
-            //todo don't assume html is here, check first and if not, add it
-            JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
+            if (!text.startsWith("<html>"))
+                text = "<html><div style='text-align: center;'>" + text + "</div></html>";
+
+            JLabel desc = new JLabel(text);
 
             desc.setHorizontalAlignment(JLabel.CENTER);
             desc.setVerticalAlignment(JLabel.CENTER);
             ImageUtil iu = new ImageUtil();
             desc.setForeground(CyderColors.navy);
             desc.setFont(CyderFonts.weatherFontSmall.deriveFont(22f));
+
+            //todo figure out width and height based on how much text is here
+
             desc.setBounds(10, 35, width - 20, height - 35 * 2);
 
             informFrame.getContentPane().add(desc);

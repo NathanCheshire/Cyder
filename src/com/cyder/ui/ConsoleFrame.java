@@ -295,10 +295,6 @@ public class ConsoleFrame extends CyderFrame {
         return fullscreen;
     }
 
-    public void barrelRoll() {
-
-    }
-
     private static int scrollingDowns;
 
     public static int getScrollingDowns() {
