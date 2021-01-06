@@ -2902,8 +2902,6 @@ public class CyderMain{
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             }
 
-
-
             else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");
@@ -4484,6 +4482,8 @@ public class CyderMain{
                         line = partReader.readLine();
                     }
 
+                    partReader.close();
+
                     if (alreadyExists) break;
                 }
 
@@ -4631,6 +4631,10 @@ public class CyderMain{
 
     //exiting method, system.exit will call shutdown hook which wil then call shutdown();
     private void exit() {
+        IOUtil.readUserData();
+        IOUtil.writeUserData("Fonts",outputArea.getFont().getName());
+        IOUtil.writeUserData("Foreground",ColorUtil.rgbtohexString(outputArea.getForeground()));
+
         AnimationUtil.closeAnimation(consoleFrame);
         killAllYoutube();
         stringUtil.killBletchy();
@@ -4648,10 +4652,6 @@ public class CyderMain{
 
     private void shutdown() {
         try {
-            IOUtil.readUserData();
-            IOUtil.writeUserData("Fonts",outputArea.getFont().getName());
-            IOUtil.writeUserData("Foreground",ColorUtil.rgbtohexString(outputArea.getForeground()));
-
             IOUtil.deleteTempDir();
         }
 

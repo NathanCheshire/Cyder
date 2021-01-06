@@ -122,8 +122,11 @@ public class SecurityUtil {
 
                 if (pass.equals(filepass) && name.equals(filename)) {
                     ConsoleFrame.setUUID(UUIDs[i].getName());
+                    currentRead.close();
                     return true;
                 }
+
+                currentRead.close();
             }
         }
 

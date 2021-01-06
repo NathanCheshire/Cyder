@@ -92,6 +92,7 @@ public class IOUtil {
 
         if (user == null)
             return;
+
         else if (!new File("src/users/" + user + "Userdata.txt").exists())
             corruptedUser();
 
@@ -147,7 +148,7 @@ public class IOUtil {
                 userWriter.newLine();
             }
 
-            userWriter.flush();
+            userWriter.close();
             CyderMain.exitingSem.release();
         }
 
@@ -404,92 +405,80 @@ public class IOUtil {
 
     //todo method broken
     public static void corruptedUser() {
-        File mainZipFile = new File("src/users/" + ConsoleFrame.getUUID());
-
-        for (File f : mainZipFile.listFiles()) {
-            if (f.getName().equals("Userdata.txt") || f.getName().equals("Throws"))
-                SystemUtil.deleteFolder(f);
-        }
-
-        zipFolder(Paths.get("src/users/" + ConsoleFrame.getUUID()));
-
-        try {
-            Files.move(Paths.get("src/users/" + ConsoleFrame.getUUID() + ".zip"),
-                    Paths.get("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads/" + ConsoleFrame.getUUID() + ".zip"));
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-
-        SystemUtil.deleteFolder(mainZipFile);
-
-        String dep = SecurityUtil.getDeprecatedUUID();
-
-        File renamed = new File("src/users/" + dep);
-        while (renamed.exists()) {
-            dep = SecurityUtil.getDeprecatedUUID();
-            renamed = new File("src/users/" + dep);
-        }
-
-        File old = new File("src/users/" + ConsoleFrame.getUUID());
-        old.renameTo(renamed);
-
-        Frame[] frames = Frame.getFrames();
-
-        for(Frame f: frames)
-            f.dispose();
-
         try {
             CyderMain.exitingSem.acquire();
-            CyderMain.exitingSem.release();
+
+            Frame[] frames = Frame.getFrames();
+
+            for(Frame f : frames)
+                f.dispose();
+
+            //todo confirmation popup to let user know user was corrupted but we're saving what we can
+
+            File mainZipFile = new File("src/users/" + ConsoleFrame.getUUID());
+
+            for (File f : mainZipFile.listFiles()) {
+                if (f.getName().equals("Throws"))
+                    SystemUtil.deleteFolder(f);
+                else if (f.getName().equals("Userdata.txt"))
+                    f.delete();
+            }
+
+            String sourceFile = mainZipFile.getAbsolutePath();
+            FileOutputStream fos = new FileOutputStream("Cyder_Corrupted_Userdata.zip"); //todo include time here before .zip and username if possible
+            ZipOutputStream zipOut = new ZipOutputStream(fos);
+            File fileToZip = new File(sourceFile);
+
+            zipFile(fileToZip, fileToZip.getName(), zipOut);
+            zipOut.close();
+            fos.close();
+
+            SystemUtil.deleteFolder(mainZipFile);
+
+            Files.move(Paths.get("Cyder_Corrupted_Userdata.zip"),
+                   Paths.get("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads/Cyder_Corrupted_Userdata.zip"));
+
             System.exit(78);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            e.printStackTrace();
         }
     }
 
-    public static void zipFolder(Path source) {
+    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
         try {
-            String zipFileName = source.getFileName().toString() + ".zip";
+            if (fileToZip.isHidden())
+                return;
 
-            try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFileName))) {
-                Files.walkFileTree(source, new SimpleFileVisitor<>() {
+            if (fileToZip.isDirectory()) {
+                if (fileName.endsWith("/")) {
+                    zipOut.putNextEntry(new ZipEntry(fileName));
+                    zipOut.closeEntry();
+                }
 
-                    @Override
-                    public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
-                        if (attributes.isSymbolicLink())
-                            return FileVisitResult.CONTINUE;
+                else {
+                    zipOut.putNextEntry(new ZipEntry(fileName + "/"));
+                    zipOut.closeEntry();
+                }
 
-                        try (FileInputStream fis = new FileInputStream(file.toFile())) {
-                            Path targetFile = source.relativize(file);
-                            zos.putNextEntry(new ZipEntry(targetFile.toString()));
+                File[] children = fileToZip.listFiles();
+                for (File childFile : children)
+                    zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
 
-                            byte[] buffer = new byte[1024];
-                            int len;
-
-                            while ((len = fis.read(buffer)) > 0) {
-                                zos.write(buffer, 0, len);
-                            }
-
-                            zos.closeEntry();
-
-                        }
-
-                        catch (IOException e) {
-                           ErrorHandler.handle(e);
-                        }
-
-                        return FileVisitResult.CONTINUE;
-                    }
-
-                    @Override
-                    public FileVisitResult visitFileFailed(Path file, IOException exc) {
-                        System.err.printf("Unable to zip : %s%n%s%n", file, exc);
-                        return FileVisitResult.CONTINUE;
-                    }
-                });
+                return;
             }
+
+            FileInputStream fis = new FileInputStream(fileToZip);
+            ZipEntry zipEntry = new ZipEntry(fileName);
+
+            zipOut.putNextEntry(zipEntry);
+
+            byte[] bytes = new byte[1024];
+            int length;
+
+            while ((length = fis.read(bytes)) >= 0)
+                zipOut.write(bytes, 0, length);
+
+            fis.close();
         }
 
         catch (Exception e) {
