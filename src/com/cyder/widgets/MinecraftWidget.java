@@ -134,7 +134,7 @@ public class MinecraftWidget {
 
         minecraftFrame.setVisible(true);
 
-        Dimension size = new SystemUtil().getScreenSize();
+        Dimension size = SystemUtil.getScreenSize();
 
         minecraftFrame.setLocation((int) (size.getWidth() / 2 - (1263 / 2)), (int) size.getHeight() - 240);
 

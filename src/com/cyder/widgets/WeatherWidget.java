@@ -317,7 +317,7 @@ public class WeatherWidget {
 
         weatherFrame.setLocationRelativeTo(null);
 
-        weatherFrame.setIconImage(new SystemUtil().getCyderIcon().getImage());
+        weatherFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
 
         updateClock = true;
         refreshClock();

@@ -244,7 +244,7 @@ public class ImageResizer {
 
     private ImageIcon checkImage(File im) {
         try {
-            Dimension dim = new SystemUtil().getScreenSize();
+            Dimension dim = SystemUtil.getScreenSize();
             double screenX = dim.getWidth();
             double screenY = dim.getHeight();
 

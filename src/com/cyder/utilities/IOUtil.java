@@ -13,8 +13,8 @@ import javazoom.jl.player.Player;
 import java.awt.*;
 import java.io.*;
 import java.net.URI;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -81,7 +81,7 @@ public class IOUtil {
     public static void deleteTempDir() {
         try {
             File tmpDir = new File("src/tmp");
-            new SystemUtil().deleteFolder(tmpDir);
+            SystemUtil.deleteFolder(tmpDir);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -276,7 +276,7 @@ public class IOUtil {
             File[] currentUserFiles = userDir.listFiles();
 
             if (currentUserFiles.length == 1 && currentUserFiles[0].getName().equalsIgnoreCase("Userdata.txt"))
-                new SystemUtil().deleteFolder(userDir);
+                SystemUtil.deleteFolder(userDir);
         }
     }
 
@@ -287,7 +287,7 @@ public class IOUtil {
         for (File f : users) {
             if (f.isDirectory()) {
                 File throwDir = new File("src/users/" + f.getName() + "/throws");
-                if (throwDir.exists()) new SystemUtil().deleteFolder(throwDir);
+                if (throwDir.exists()) SystemUtil.deleteFolder(throwDir);
             }
         }
     }
@@ -427,7 +427,9 @@ public class IOUtil {
             }
 
             String sourceFile = mainZipFile.getAbsolutePath();
-            FileOutputStream fos = new FileOutputStream("Cyder_Corrupted_Userdata.zip"); //todo include time here before .zip and username if possible
+
+            FileOutputStream fos = new FileOutputStream("Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip");
+
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             File fileToZip = new File(sourceFile);
 

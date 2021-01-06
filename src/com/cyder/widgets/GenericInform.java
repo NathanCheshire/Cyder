@@ -25,7 +25,8 @@ public class GenericInform {
             desc.setForeground(CyderColors.navy);
             desc.setFont(CyderFonts.weatherFontSmall.deriveFont(22f));
 
-            //todo figure out width and height based on how much text is here
+            //todo figure out width and height based on how much text is here,
+            // do this for all informs and notifys and such (figure out rectangle bounds)
 
             desc.setBounds(10, 35, width - 20, height - 35 * 2);
 

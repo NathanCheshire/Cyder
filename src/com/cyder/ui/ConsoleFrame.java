@@ -91,7 +91,7 @@ public class ConsoleFrame extends CyderFrame {
                 double aspectRatio = ImageUtil.getAspectRatio(currentImage);
                 int imageType = currentImage.getType();
 
-                if (backgroundWidth > new SystemUtil().getScreenWidth() || backgroundHeight > new SystemUtil().getScreenHeight())
+                if (backgroundWidth > SystemUtil.getScreenWidth() || backgroundHeight > SystemUtil.getScreenHeight())
                     GenericInform.inform("Resized the background image \"" + currentFile.getName() + "\" since it was too big " +
                             "(That's what she said ahahahahah hahaha ha ha so funny).","System Action", 700, 200);
 

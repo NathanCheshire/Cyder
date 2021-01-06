@@ -56,7 +56,7 @@ public class SystemUtil {
         return System.getProperty("os.name");
     }
 
-    public String getComputerName() {
+    public static String getComputerName() {
         String name = null;
 
         try {

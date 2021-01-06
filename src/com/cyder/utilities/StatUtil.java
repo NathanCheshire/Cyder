@@ -114,7 +114,6 @@ public class StatUtil {
             outputArea.insertIcon(new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
 
             NetworkUtil nu = new NetworkUtil();
-            SystemUtil su = new SystemUtil();
 
             String[] lines = {"Time requested: " + TimeUtil.weatherTime(),
                     "ISP: " + ipu.getIsp(),
@@ -130,8 +129,8 @@ public class StatUtil {
                     "YouTube Reachable: " + nu.siteReachable("https://www.youtube.com"),
                     "Apple Reachable: " + nu.siteReachable("https://www.apple.com"),
                     "Microsoft Reachable: " + nu.siteReachable("https://www.microsoft.com//en-us//"),
-                    "User Name: " + su.getWindowsUsername(),
-                    "Computer Name: " + su.getComputerName(),
+                    "User Name: " + SystemUtil.getWindowsUsername(),
+                    "Computer Name: " + SystemUtil.getComputerName(),
                     "Available Cores: " + Runtime.getRuntime().availableProcessors(),
                     "Available Memory: " + gBytes + " GigaBytes",
                     "Operating System: " + SystemUtil.getOS(),

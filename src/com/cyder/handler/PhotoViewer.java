@@ -27,7 +27,6 @@ public class PhotoViewer {
     private int currentIndex;
 
     private AnimationUtil fa = new AnimationUtil();
-    private SystemUtil su = new SystemUtil();
     private DragLabel dl;
     private JFrame pictureFrame;
     private CyderFrame renameFrame;
@@ -137,7 +136,7 @@ public class PhotoViewer {
         pictureFrame.setSize(size.getIconWidth(),size.getIconHeight());
         pictureFrame.setVisible(true);
         pictureFrame.setLocationRelativeTo(null);
-        pictureFrame.setIconImage(su.getCyderIcon().getImage());
+        pictureFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
     }
 
     private void initFiles() {
@@ -368,7 +367,7 @@ public class PhotoViewer {
     //returns a scaled down imageicon if the image file is too big
     private ImageIcon checkImage(File im) {
         try {
-            Dimension dim = su.getScreenSize();
+            Dimension dim = SystemUtil.getScreenSize();
             double screenX = dim.getWidth();
             double screenY = dim.getHeight();
 
