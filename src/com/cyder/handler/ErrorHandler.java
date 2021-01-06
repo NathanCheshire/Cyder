@@ -4,6 +4,7 @@ import com.cyder.genesis.CyderMain;
 import com.cyder.ui.ConsoleFrame;
 import com.cyder.utilities.IOUtil;
 import com.cyder.utilities.TimeUtil;
+import com.cyder.widgets.GenericInform;
 
 import java.io.*;
 
@@ -44,8 +45,20 @@ public class ErrorHandler {
 
         catch (Exception ex) {
             if (CyderMain.consoleFrame != null && CyderMain.consoleFrame.isVisible()) {
-                //todo notify of error
-                //todo inform of error message
+                //todo uncomment ConsoleFrame.notify(ex.getMessage());
+
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                ex.printStackTrace(pw);
+
+                String stackTrack = sw.toString();
+                int lineNumber = ex.getStackTrace()[0].getLineNumber();
+                Class c = ex.getClass();
+
+                String write = "Error thrown by line: " + lineNumber + " from\n" + c +
+                        "\n\nStack Trace:\n\n" + stackTrack;
+
+                GenericInform.inform(write,"Error trace",600,600);
             }
         }
     }

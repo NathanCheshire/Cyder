@@ -14,6 +14,7 @@ public class GenericInform {
             CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height, CyderColors.vanila)));
             informFrame.setTitle(title);
 
+            //todo don't assume html is here, check first and if not, add it
             JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
 
             desc.setHorizontalAlignment(JLabel.CENTER);

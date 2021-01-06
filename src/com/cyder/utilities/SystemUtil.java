@@ -43,6 +43,15 @@ public class SystemUtil {
         return System.getProperty("user.name");
     }
 
+    /**
+     * @param property the key of the property you want. Ex: user.name
+     * @return returns the system property for the passed requested property if it is valid
+     */
+
+    public static String getSystemProperty(String property) {
+        return System.getProperty(property);
+    }
+
     public static String getOS() {
         return System.getProperty("os.name");
     }
