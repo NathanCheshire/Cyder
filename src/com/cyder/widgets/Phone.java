@@ -230,7 +230,7 @@ public class Phone {
                 }
 
                 else {
-                    GenericInform.inform("Dialing: " + numberLabel.getText(),"", 700, 300);
+                    GenericInform.inform("Dialing: " + numberLabel.getText(),"");
                     phoneNum = "";
                 }
             }

@@ -2867,32 +2867,13 @@ public class CyderMain{
             }
 
             else if (hasWord("test")) {
-                CyderFrame cf = new CyderFrame(500,500, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
-                cf.setTitlePosition(TitlePosition.CENTER);
-                cf.setTitle("Testing Frame");
-                cf.initResizing();
-                cf.backgroundRefreshOnResize(true);
-                cf.setMaximumSize(new Dimension(1200,1200));
-                cf.setMinimumSize(new Dimension(200,200));
-
-                CyderButton cb = new CyderButton("Change Background");
-                cb.setFont(CyderFonts.weatherFontSmall);
-                cb.setForeground(Color.BLACK);
-                cb.setBackground(CyderColors.regularRed);
-                cb.setColors(CyderColors.regularRed);
-                cb.addActionListener(e -> cf.setBackground(new ImageIcon("src/com/cyder/sys/pictures/Login.png")));
-                cb.setBounds(50,50,300, 40);
-                cf.getContentPane().add(cb);
-
-                cf.setVisible(true);
-                cf.setLocationRelativeTo(null);
+                //todo testing conditions here
+                //todo for define, if word not found, open up the word googled
             }
 
             else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
                 Cards.Christmas2020();
             }
-
-            //todo for define, if word not found, open up the word googled
 
             else if (hasWord("number") && hasWord("word")) {
                 NumberUtil.numberToWord();

@@ -307,7 +307,7 @@ public class Pizza {
         placeOrder.setBackground(CyderColors.regularRed);
         placeOrder.addActionListener(e -> {
             if (nameField.getText().length() <= 0)
-                GenericInform.inform("Sorry, but you must enter a name.","", 300, 200);
+                GenericInform.inform("Sorry, but you must enter a name.","");
 
             else {
                 String Name = nameField.getText().substring(0, 1).toUpperCase() + nameField.getText().substring(1) + "<br/>";
@@ -360,13 +360,13 @@ public class Pizza {
                 if (Comments.length() == 0) {
                     GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
                         + "<br/>" + Size + "<br/><br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Topings: " + "<br/><br/>" + TopingsChosen
-                        + "<br/><br/>" + Extras,"Order Summary", 500, 1200);
+                        + "<br/><br/>" + Extras,"Order Summary");
                 }
 
                 else {
                     GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
                         + "<br/>" + Size + "<br/><br/>" + "Crust Type: " + "<br/>" + Crust + "<br/><br/>" + "Topings: " + "<br/>" + TopingsChosen
-                        + "<br/>" + Extras + "<br/><br/>Comments: " + "<br/><br/>" + Comments,"Order Summary", 500, 1200);
+                        + "<br/>" + Extras + "<br/><br/>Comments: " + "<br/><br/>" + Comments,"Order Summary");
                 }
             }
         });

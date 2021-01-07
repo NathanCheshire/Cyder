@@ -132,13 +132,13 @@ public class Calculator {
         calculatorEquals.setFont(CyderFonts.weatherFontBig);
         calculatorEquals.addActionListener(e -> {
             try {
-                 GenericInform.inform("Answer:<br/>" + new DoubleEvaluator().evaluate(calculatorField.getText().trim()), "Result", calculatorFrame.getWidth(),calculatorFrame.getHeight());
+                 GenericInform.inform("Answer:<br/>" + new DoubleEvaluator().evaluate(calculatorField.getText().trim()), "Result");
             }
 
             catch (Exception exc) {
                 GenericInform.inform("Unrecognized expression. Please use multiplication signs after parenthesis and check the exact syntax of your expression for common" +
                         " errors such as missing delimiters.<br/>Note that this calculator does support typing in the Text Field and can handle more complicated" +
-                        "<br/>expressions such as sin, cos, tan, log, ln, floor, etc.","", calculatorFrame.getWidth(), calculatorFrame.getHeight());
+                        "<br/>expressions such as sin, cos, tan, log, ln, floor, etc.","");
                 ErrorHandler.handle(exc);
             }
         });

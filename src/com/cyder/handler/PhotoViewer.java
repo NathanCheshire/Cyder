@@ -412,7 +412,7 @@ public class PhotoViewer {
 
         if (currentRename.getAbsolutePath().equals( currentBackground.getAbsolutePath())) {
             GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but you're not allowed to" +
-                    " rename the background you are currently using","",400,300);
+                    " rename the background you are currently using","");
             return;
         }
 
@@ -439,7 +439,7 @@ public class PhotoViewer {
             File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
             File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
             oldName.renameTo(newName);
-            GenericInform.inform("Successfully renamed to " + name,"",400,300);
+            GenericInform.inform("Successfully renamed to " + name,"");
 
             initFiles();
 

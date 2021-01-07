@@ -89,32 +89,39 @@ public class ConsoleFrame extends CyderFrame {
                 int backgroundHeight = currentImage.getHeight();
 
                 double aspectRatio = ImageUtil.getAspectRatio(currentImage);
+                double incremeter = 1.0;
+
+                if (aspectRatio == 1.0)
+                    incremeter = 1.1;
                 int imageType = currentImage.getType();
 
                 if (backgroundWidth > SystemUtil.getScreenWidth() || backgroundHeight > SystemUtil.getScreenHeight())
                     GenericInform.inform("Resized the background image \"" + currentFile.getName() + "\" since it was too big " +
-                            "(That's what she said ahahahahah hahaha ha ha so funny).","System Action", 700, 200);
+                            "(That's what she said ahahahahah hahaha ha ha so funny).","System Action");
 
                 int screenWidth = SystemUtil.getScreenWidth();
                 int screenHeight = SystemUtil.getScreenHeight();
 
                 //resizing smaller
                 while (backgroundWidth > screenWidth || backgroundHeight > screenHeight) {
-                    backgroundWidth = (int) (currentImage.getWidth() / aspectRatio);
-                    backgroundHeight = (int) (currentImage.getHeight() / aspectRatio);
+                    backgroundWidth = (int) (currentImage.getWidth() / (aspectRatio * incremeter));
+                    backgroundHeight = (int) (currentImage.getHeight() / (aspectRatio * incremeter));
                 }
 
                 if (backgroundWidth < 600 || backgroundHeight < 600)
                     GenericInform.inform("Resized the background image \"" + getBackgrounds().get(i).getName()
-                            + "\" since it was too small.","System Action", 700, 200);
+                            + "\" since it was too small.","System Action");
 
                 if (aspectRatio < 1)
                     aspectRatio = 1 / aspectRatio;
 
+                if (aspectRatio == 1.0)
+                    incremeter = 1.1;
+
                 //resizing bigger
                 while (backgroundWidth < 800 || backgroundHeight < 800) {
-                    backgroundWidth = (int) (currentImage.getWidth() * aspectRatio);
-                    backgroundHeight = (int) (currentImage.getHeight() * aspectRatio);
+                    backgroundWidth = (int) (currentImage.getWidth() * (aspectRatio * incremeter));
+                    backgroundHeight = (int) (currentImage.getHeight() * (aspectRatio * incremeter));
                 }
 
                 //prime checker

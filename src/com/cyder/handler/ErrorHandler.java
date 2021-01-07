@@ -68,7 +68,7 @@ public class ErrorHandler {
                 String write = "Error thrown by line: " + lineNumber + " from\n" + c +
                         "\n\nStack Trace:\n\n" + stackTrack;
 
-                GenericInform.inform(write,"Error trace",600,600);
+                GenericInform.inform(write,"Error trace");
             }
         }
     }

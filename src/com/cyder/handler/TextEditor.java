@@ -96,11 +96,11 @@ public class TextEditor {
                 if (noteEditField.getText().length() > 0) {
                     newName = new File(File.getAbsolutePath().replace(File.getName(),noteEditField.getText() + ".txt"));
                     File.renameTo(newName);
-                    GenericInform.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
+                    GenericInform.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved");
                 }
 
                 else {
-                    GenericInform.inform(File.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
+                    GenericInform.inform(File.getName().replace(".txt", "") + " has been successfully saved","Saved");
                 }
 
                 noteEditorFrame.closeAnimation();

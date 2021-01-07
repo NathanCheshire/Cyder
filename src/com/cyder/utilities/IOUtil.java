@@ -414,7 +414,7 @@ public class IOUtil {
                 f.dispose();
 
             GenericInform.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
-                    "Your data has been saved, zipped, and placed in your Downloads folder","Corrupted User",400,200);
+                    "Your data has been saved, zipped, and placed in your Downloads folder","Corrupted User");
             Thread.sleep(7000);
 
             File mainZipFile = new File("src/users/" + ConsoleFrame.getUUID());

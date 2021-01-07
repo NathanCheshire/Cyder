@@ -37,7 +37,7 @@ public class Hasher {
             if (Hash.length > 0) {
                 String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA(hashField.getPassword()));
                 hashFrame.closeAnimation();
-                GenericInform.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
+                GenericInform.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","");
                 StringSelection selection = new StringSelection(PrintHash);
                 java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 clipboard.setContents(selection, selection);
@@ -55,7 +55,7 @@ public class Hasher {
         hashButton.addActionListener(e -> {
             String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA(hashField.getPassword()));
             hashFrame.closeAnimation();
-            GenericInform.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", 900, 250);
+            GenericInform.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","");
             StringSelection selection = new StringSelection(PrintHash);
             java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(selection, selection);

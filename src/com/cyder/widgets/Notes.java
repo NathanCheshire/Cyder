@@ -327,14 +327,14 @@ public class Notes {
                 if (noteEditField.getText().length() > 0) {
                     newName = new File(File.getAbsolutePath().replace(File.getName(),noteEditField.getText() + ".txt"));
                     File.renameTo(newName);
-                    GenericInform.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
+                    GenericInform.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved");
                     initializeNotesList();
                     noteListScroll.setViewportView(fileSelectionList);
                     noteListScroll.revalidate();
                 }
 
                 else {
-                    GenericInform.inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved","Saved", 400, 200);
+                    GenericInform.inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved","Saved");
                 }
 
                 noteEditorFrame.closeAnimation();

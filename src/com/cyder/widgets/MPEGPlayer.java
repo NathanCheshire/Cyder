@@ -496,7 +496,7 @@ public class MPEGPlayer {
 
             if (!SelectedFile.toString().endsWith("mp3")) {
                 if (mp3Player == null) {
-                    GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.","", 400, 200);
+                    GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.","");
                 }
             }
 
