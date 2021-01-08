@@ -12,6 +12,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class CyderFrame extends JFrame {
@@ -92,12 +94,17 @@ public class CyderFrame extends JFrame {
         super.setTitle(title);
         titleLabel.setText(title);
 
-        if (titlePosition == TitlePosition.CENTER) {
-            int halfLen = ((int) Math.ceil(14 * title.length())) / 2;
-            titleLabel.setBounds((int) Math.floor(5 + (width / 2.0)) - halfLen, 2, halfLen * 4, 25);
-        } else {
-            titleLabel.setBounds(5, 2, ((int) Math.ceil(16 * title.length())), 25);
-        }
+        if (titlePosition == TitlePosition.CENTER)
+            titleLabel.setBounds(getDragLabel().getWidth() / 2 - getTitleWidth(title) / 2, 2, getTitleWidth(title), 25);
+        else
+            titleLabel.setBounds(5, 2, getTitleWidth(title), 25);
+    }
+
+    private int getTitleWidth(String title) {
+        Font usageFont = titleLabel.getFont();
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
+        return (int) (usageFont.getStringBounds(title, frc).getWidth());
     }
 
     public void notify(String htmltext, int viewDuration, ArrowDirection direction, int width) {
@@ -464,8 +471,7 @@ public class CyderFrame extends JFrame {
         super.setBounds(x, y, width, height);
         if (getDragLabel() != null) {
             getDragLabel().setWidth(width);
-            int halfLen = ((int) Math.ceil(14 * titleLabel.getText().length())) / 2;
-            titleLabel.setBounds((int) Math.floor(5 + (width / 2.0)) - halfLen, 2, halfLen * 4, 25);
+            setTitle(getTitle());
         }
     }
 

@@ -269,6 +269,11 @@ public class ConsoleFrame extends CyderFrame {
             //set console clock visible
             //start executor to update console clcok
         }
+
+        else {
+            //set visible false
+            //end executor task if running
+        }
     }
 
     public static boolean isConsoleClockEnabled() {
@@ -289,7 +294,7 @@ public class ConsoleFrame extends CyderFrame {
         //todo if setting console dir is different than old value,
         // call this method and roll the image that way then set like old way
 
-        //todo use this for barrel roll, use this for askew, and ctrl + direction
+        //todo use this for barrel roll, askew, and ctrl + direction
     }
 
     private static boolean fullscreen = false;

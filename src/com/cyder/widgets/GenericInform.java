@@ -2,6 +2,7 @@ package com.cyder.widgets;
 
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
+import com.cyder.enums.TitlePosition;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.ImageUtil;
@@ -15,7 +16,7 @@ import java.awt.geom.AffineTransform;
 public class GenericInform {
     public static void inform(String text, String title) {
         try {
-            //todo use affinetransform for other text like cyderframe titles
+            //todo use affinetransform for other text like cyderframe titles and notification width
 
             //define the font we are using so that if we change it, we don't break the bounds calculation
             Font usageFont = CyderFonts.weatherFontSmall.deriveFont(22f);
@@ -40,6 +41,7 @@ public class GenericInform {
             //obtain cyderframe object of background color
             CyderFrame informFrame = new CyderFrame(width + widthOffset * 2,height + heightOffset * 2,
                     new ImageIcon(new ImageUtil().imageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
+            informFrame.setTitlePosition(TitlePosition.CENTER);
             informFrame.setTitle(title);
 
             //make sure the text can wrap using HTML tags

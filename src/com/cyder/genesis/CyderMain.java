@@ -41,6 +41,12 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo take into account possible secondary/tertiary monitors
+//todo add a device manager like in windows to say what's connected to the PC
+
+//todo comment all files
+//todo log exit codes and times
+
 //todo make popup for calculator smaller and resizable
 
 //todo make chat IO logs for each session per user, move Sys.ini start data to user specific stuff within a logs dir though
@@ -105,24 +111,15 @@ import java.util.concurrent.TimeUnit;
 // <html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style="color:rgb(252, 251, 227)">fourth with color</p>
 // <p style="font-family:verdana">fifth with font</p></html>
 
-//todo use this for title widths and notificaiton width calculation
-// https://stackoverflow.com/questions/2715118/how-to-change-the-size-of-the-font-of-a-jlabel-to-take-the-maximum-size
-// should be same font size but calculate how the width the label needs to be
-
 //todo perlin-noise GUI swap between 2D and 3D and add color range too
 //todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
 
 //todo make pixelating pictures it's own widget
 
-//todo add a systems error dir if no users <- if possibility of no user put here too (see readData() loop)
-//todo add a handle that you can use when unsure if there is a user to avoid looping until stackoverflow
-
 //todo make the frame and drag label stay when switching backgrounds and the image be separate (inside of consoleframe class)
 //todo you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
 
-//todo allow users to rangeMap up to three internet links on the menu, add a bar to sep system from user stuff
-
-//todo set location relative to this for sub components
+//todo allow users to map up to three internet links on the menu, add a bar to sep system from user stuff
 
 //todo rename button for user music and backgrounds with main 3
 
@@ -2867,6 +2864,7 @@ public class CyderMain{
             }
 
             else if (hasWord("test")) {
+                GenericInform.inform("This is a test for the title","Semi long title");
                 //todo testing conditions here
                 //todo for define, if word not found, open up the word googled
             }

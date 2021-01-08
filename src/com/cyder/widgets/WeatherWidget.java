@@ -10,6 +10,7 @@ import com.cyder.utilities.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -313,11 +314,15 @@ public class WeatherWidget {
 
         weatherFrame.getContentPane().add(sunsetLabel, SwingConstants.CENTER);
 
+        //todo change sunrise and sunset icons to actual icons and not the background image
+
         weatherFrame.setVisible(true);
-
         weatherFrame.setLocationRelativeTo(null);
-
-        weatherFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
+        weatherFrame.initResizing();
+        weatherFrame.setSnapSize(new Dimension(1,1));
+        weatherFrame.setMinimumSize(new Dimension(weatherFrame.getWidth(),weatherFrame.getHeight()));
+        weatherFrame.setMaximumSize(new Dimension(weatherFrame.getWidth() + 200, weatherFrame.getHeight() + 200));
+        weatherFrame.setBackgroundResizing(true);
 
         updateClock = true;
         refreshClock();
@@ -353,6 +358,7 @@ public class WeatherWidget {
     private void refreshWeather() {
         Thread WeatherThread = new Thread(() -> {
             try {
+                //todo change to executor
                 while (updateWeather) {
                     Thread.sleep(1800000);
 
