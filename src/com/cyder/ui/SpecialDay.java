@@ -37,6 +37,7 @@ public class SpecialDay {
         }
     }
 
+    //todo this will go away and we will call, ConsoleFrame.notify
     public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir, int width) {
         Notification frameNotification = new Notification();
 

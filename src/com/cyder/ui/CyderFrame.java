@@ -6,6 +6,7 @@ import com.cyder.enums.*;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.utilities.ImageUtil;
 import com.cyder.utilities.SystemUtil;
+import com.cyder.widgets.GenericInform;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -132,13 +133,13 @@ public class CyderFrame extends JFrame {
                 break;
         }
 
-        int w = width;
-        int h = 30;
-
         frameNotification.setArrow(direction);
 
         JLabel text = new JLabel();
         text.setText(htmltext);
+
+        int w = 0;
+        int h = 30;
 
         int lastIndex = 0;
 
@@ -152,10 +153,21 @@ public class CyderFrame extends JFrame {
             }
         }
 
+        Font notificationFont = CyderFonts.weatherFontSmall;
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
+
+        //todo this part might not work, testing required
+        String[] parts = htmltext.split("<br/>");
+
+        for (String part : parts)
+            if ((int) notificationFont.getStringBounds(part, frc).getWidth() > w)
+                w = (int) notificationFont.getStringBounds(part, frc).getWidth();
+
         frameNotification.setWidth(w);
         frameNotification.setHeight(h);
 
-        text.setFont(CyderFonts.weatherFontSmall);
+        text.setFont(notificationFont);
         text.setForeground(CyderColors.navy);
         text.setBounds(14,10,w * 2,h);
         frameNotification.add(text);
@@ -177,7 +189,7 @@ public class CyderFrame extends JFrame {
     public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir, int width) {
         Notification frameNotification = new Notification();
 
-        int w = width;
+        int w = 0;
         int h = 30;
 
         frameNotification.setArrow(arrowDir);
@@ -196,6 +208,17 @@ public class CyderFrame extends JFrame {
                 lastIndex += "<br/>".length();
             }
         }
+
+        Font notificationFont = CyderFonts.weatherFontSmall;
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
+
+        //todo this part might not work, testing required
+        String[] parts = htmltext.split("<br/>");
+
+        for (String part : parts)
+            if ((int) notificationFont.getStringBounds(part, frc).getWidth() > w)
+                w = (int) notificationFont.getStringBounds(part, frc).getWidth();
 
         frameNotification.setWidth(w);
         frameNotification.setHeight(h);
@@ -223,30 +246,9 @@ public class CyderFrame extends JFrame {
         return dl;
     }
 
-    public void inform(String text, String title, int width, int height) {
-        try {
-            CyderFrame informFrame = new CyderFrame(width,height,new ImageIcon(new ImageUtil().imageFromColor(width,height,CyderColors.vanila)));
-            informFrame.setTitle(title);
-
-            JLabel desc = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
-
-            desc.setHorizontalAlignment(JLabel.CENTER);
-            desc.setVerticalAlignment(JLabel.CENTER);
-            ImageUtil iu = new ImageUtil();
-            desc.setForeground(CyderColors.navy);
-            desc.setFont(CyderFonts.weatherFontSmall.deriveFont(22f));
-            desc.setBounds(10, 35, width - 20, height - 35 * 2);
-
-            informFrame.getContentPane().add(desc);
-
-            informFrame.setVisible(true);
-            informFrame.setLocationRelativeTo(this);
-            informFrame.setAlwaysOnTop(true);
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+    public void inform(String text, String title) {
+        //does this set location relative to?
+        GenericInform.informRelative(text,title,this);
     }
 
     public void enterAnimation() {
