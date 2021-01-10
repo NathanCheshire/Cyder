@@ -2864,7 +2864,18 @@ public class CyderMain{
             }
 
             else if (hasWord("test")) {
-                GenericInform.inform("This is a test for the title","Semi long title");
+                CyderFrame testFrame = new CyderFrame(400,400,new ImageIcon("src/com/cyder/sys/pictures/debugbackground.png"));
+                testFrame.setTitle("Test Frame");
+                testFrame.initResizing();
+                testFrame.setSnapSize(new Dimension(1,1));
+                testFrame.setBackgroundResizing(true);
+                testFrame.setVisible(true);
+                testFrame.setLocationRelativeTo(null);
+                testFrame.notify("<html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style=\"color:rgb(252, 251, 227)\">fourth with color</p><p style=\"font-family:verdana\">fifth with font</p></html>",
+                        5000,ArrowDirection.TOP,0);
+
+                //notify does not support
+
                 //todo testing conditions here
                 //todo for define, if word not found, open up the word googled
             }
@@ -3383,7 +3394,7 @@ public class CyderMain{
             String newUsername = changeUsernameField.getText();
             if (!stringUtil.empytStr(newUsername)) {
                 changeUsername(newUsername);
-                editUserFrame.inform("Username successfully changed","", 300, 200);
+                editUserFrame.inform("Username successfully changed","");
                 consoleFrame.setTitle(IOUtil.getSystemData("Version") + " Cyder [" + newUsername + "]");
                 changeUsernameField.setText("");
             }
@@ -3424,13 +3435,13 @@ public class CyderMain{
 
             if (newPassword.length > 4) {
                 changePassword(newPassword);
-                editUserFrame.inform("Password successfully changed","", 300, 200);
+                editUserFrame.inform("Password successfully changed","");
                 changePasswordField.setText("");
             }
 
             else {
                 editUserFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", " +
-                        "but your password must be greater than 4 characters for security reasons.","", 500, 300);
+                        "but your password must be greater than 4 characters for security reasons.","");
                 changePasswordField.setText("");
             }
 
@@ -3552,7 +3563,7 @@ public class CyderMain{
                 }
 
                 else {
-                    editUserFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but you can only add PNGs and MP3s", "Error",400,200);
+                    editUserFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but you can only add PNGs and MP3s", "Error");
                 }
 
                 ConsoleFrame.resizeBackgrounds();
@@ -3623,7 +3634,7 @@ public class CyderMain{
                     }
 
                     if (ClickedSelection.equalsIgnoreCase(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png","")))
-                        editUserFrame.inform("Unable to delete the background you are currently using","Error",400,200);
+                        editUserFrame.inform("Unable to delete the background you are currently using","Error");
 
                     else {
                         ClickedSelectionPath.delete();
@@ -4468,27 +4479,27 @@ public class CyderMain{
 
                 if (stringUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
                         || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
-                    createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","", 400, 300);
+                    createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.","");
                     newUserPassword.setText("");
                     newUserPasswordconf.setText("");
                 }
 
                 else if (alreadyExists) {
-                    createUserFrame.inform("Sorry, but that username is already in use.\nPlease try a different one.", "", 400, 300);
+                    createUserFrame.inform("Sorry, but that username is already in use.\nPlease try a different one.", "");
                     newUserName.setText("");
                     newUserPassword.setText("");
                     newUserPasswordconf.setText("");
                 }
 
                 else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
-                    createUserFrame.inform("Sorry, but your passwords did not match. Please try again.", "",400, 300);
+                    createUserFrame.inform("Sorry, but your passwords did not match. Please try again.", "");
                     newUserPassword.setText("");
                     newUserPasswordconf.setText("");
                 }
 
                 else if (pass.length < 5) {
                     createUserFrame.inform("Sorry, but your password length should be greater than\n"
-                            + "four characters for security reasons. Please add more characters.", "", 400, 300);
+                            + "four characters for security reasons. Please add more characters.", "");
 
                     newUserPassword.setText("");
                     newUserPasswordconf.setText("");
@@ -4496,7 +4507,7 @@ public class CyderMain{
 
                 else {
                     if (createUserBackground == null) {
-                        createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background", 700, 230);
+                        createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background");
                         createUserBackground = new File("src/com/cyder/sys/pictures/bobby.png");
                     }
 
@@ -4548,7 +4559,7 @@ public class CyderMain{
 
                     createUserFrame.closeAnimation();
 
-                    createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", 500, 300);
+                    createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "");
 
                     createUserFrame.closeAnimation();
 

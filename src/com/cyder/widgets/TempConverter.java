@@ -100,13 +100,13 @@ public class TempConverter {
                 double CalculationValue = Double.parseDouble(startingValue.getText());
 
                 if (oldKelvin.isSelected() && CalculationValue <= 0) {
-                    temperatureFrame.inform("Temperatures below absolute zero are imposible.","", 400, 200);
+                    temperatureFrame.inform("Temperatures below absolute zero are imposible.","");
                 }
 
                 else {
                     if (oldFahrenheit.isSelected()) {
                         if (newFahrenheit.isSelected())
-                            temperatureFrame.inform("Get out of here with that. Your value is already in Fahrenheit.","", 400, 200);
+                            temperatureFrame.inform("Get out of here with that. Your value is already in Fahrenheit.","");
 
                         else if (newCelsius.isSelected()) {
                             double CelsiusFromFahrenheit;
@@ -114,7 +114,7 @@ public class TempConverter {
                             CelsiusFromFahrenheit = (CalculationValue - 32.0) / 1.8;
 
                             temperatureFrame.inform( CalculationValue + " Fahrenheit converted to Celsius equals: "
-                                    + tempFormat.format(CelsiusFromFahrenheit),"", 400, 200);
+                                    + tempFormat.format(CelsiusFromFahrenheit),"");
 
                             startingValue.setText("");
 
@@ -129,7 +129,7 @@ public class TempConverter {
 
                             if (KelvinFromFahrenheit >= 0) {
                                 temperatureFrame.inform(CalculationValue + " Fahrenheit converted to Kelvin equals: "
-                                        + tempFormat.format(KelvinFromFahrenheit),"", 400, 200);
+                                        + tempFormat.format(KelvinFromFahrenheit),"");
 
                                 startingValue.setText("");
 
@@ -139,7 +139,7 @@ public class TempConverter {
                             }
 
                             else
-                                temperatureFrame.inform("Temperatures below absolute zero are imposible.","", 400, 200);
+                                temperatureFrame.inform("Temperatures below absolute zero are imposible.","");
                         }
                     }
 
@@ -150,7 +150,7 @@ public class TempConverter {
                             FahrenheitFromCelsius = (CalculationValue *1.8) + 32;
 
                             temperatureFrame.inform(CalculationValue + " Celsius converted to Fahrenheit equals: "
-                                    + tempFormat.format(FahrenheitFromCelsius),"", 400, 200);
+                                    + tempFormat.format(FahrenheitFromCelsius),"");
 
                             startingValue.setText("");
 
@@ -160,7 +160,7 @@ public class TempConverter {
                         }
 
                         else if (newCelsius.isSelected())
-                            temperatureFrame.inform("Get out of here with that. Your value is already in Celsius.","", 400, 200);
+                            temperatureFrame.inform("Get out of here with that. Your value is already in Celsius.","");
 
                         else if (newKelvin.isSelected()) {
                             double KelvinFromCelsius;
@@ -169,7 +169,7 @@ public class TempConverter {
 
                             if (KelvinFromCelsius >= 0) {
                                 temperatureFrame.inform(CalculationValue + " Celsius converted to Kelvin equals: "
-                                        + tempFormat.format(KelvinFromCelsius),"", 400, 200);
+                                        + tempFormat.format(KelvinFromCelsius),"");
 
                                 startingValue.setText("");
 
@@ -179,7 +179,7 @@ public class TempConverter {
                             }
 
                             else
-                                temperatureFrame.inform("Temperatures below absolute zero are imposible.","", 400, 200);
+                                temperatureFrame.inform("Temperatures below absolute zero are imposible.","");
                         }
                     }
 
@@ -190,7 +190,7 @@ public class TempConverter {
                             FahrenheitFromKelvin = CalculationValue * 1.8 - 459.67;
 
                             temperatureFrame.inform(CalculationValue + " Kelvin converted to Fahrenheit equals: "
-                                    + tempFormat.format(FahrenheitFromKelvin),"", 400, 200);
+                                    + tempFormat.format(FahrenheitFromKelvin),"");
 
                             startingValue.setText("");
 
@@ -205,7 +205,7 @@ public class TempConverter {
                             CelsiusFromKelvin = CalculationValue - 273.15;
 
                             temperatureFrame.inform( CalculationValue + " Kelvin converted to Celsius equals: "
-                                    + tempFormat.format(CelsiusFromKelvin),"", 400, 200);
+                                    + tempFormat.format(CelsiusFromKelvin),"");
 
                             startingValue.setText("");
 
@@ -215,16 +215,16 @@ public class TempConverter {
                         }
 
                         else if (newKelvin.isSelected())
-                            temperatureFrame.inform("Get out of here with that. Your value is already in Kelvin","", 400, 200);
+                            temperatureFrame.inform("Get out of here with that. Your value is already in Kelvin","");
                     }
 
                     else
-                        temperatureFrame.inform("Please select your current temperature unit and the one you want to convet to.","", 400, 200);
+                        temperatureFrame.inform("Please select your current temperature unit and the one you want to convet to.","");
                 }
             }
 
             catch (Exception ex) {
-                temperatureFrame.inform("Your value must only contain numbers.","", 400, 200);
+                temperatureFrame.inform("Your value must only contain numbers.","");
             }
         });
 

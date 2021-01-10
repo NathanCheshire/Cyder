@@ -177,7 +177,7 @@ public class WeatherWidget {
                         useCustomLoc = true;
 
                         new AnimationUtil().closeAnimation(changeLocationFrame);
-                        weatherFrame.inform("Attempting to refresh and use the location \"" + locationString + "\" for weather.", "",400, 300);
+                        weatherFrame.inform("Attempting to refresh and use the location \"" + locationString + "\" for weather.", "");
                         refreshWeatherNow();
                     }
 

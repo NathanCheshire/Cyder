@@ -210,7 +210,7 @@ public class NumberUtil {
 
         String neg = negative ? "negative " : "";
 
-        numFrame.inform("<html>" + neg + build.trim() + "</html>","Conversion",600,500);
+        numFrame.inform("<html>" + neg + build.trim() + "</html>","Conversion");
     }
 
     private static String trioToWords(int num) {

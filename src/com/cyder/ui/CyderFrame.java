@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class CyderFrame extends JFrame {
@@ -157,12 +158,14 @@ public class CyderFrame extends JFrame {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
 
-        //todo this part might not work, testing required
         String[] parts = htmltext.split("<br/>");
 
-        for (String part : parts)
-            if ((int) notificationFont.getStringBounds(part, frc).getWidth() > w)
-                w = (int) notificationFont.getStringBounds(part, frc).getWidth();
+        //todo this replace all doesn't exactly work for width and the bottom row of text is slightly cut off
+        for (String part : parts) {
+            Rectangle2D stringBounds = notificationFont.getStringBounds(part.replaceAll("<[^>]+>", ""), frc);
+            if ((int) stringBounds.getWidth() > w)
+                w = (int) stringBounds.getWidth();
+        }
 
         frameNotification.setWidth(w);
         frameNotification.setHeight(h);
@@ -213,12 +216,13 @@ public class CyderFrame extends JFrame {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
 
-        //todo this part might not work, testing required
         String[] parts = htmltext.split("<br/>");
 
-        for (String part : parts)
-            if ((int) notificationFont.getStringBounds(part, frc).getWidth() > w)
-                w = (int) notificationFont.getStringBounds(part, frc).getWidth();
+        for (String part : parts) {
+            Rectangle2D stringBounds = notificationFont.getStringBounds(part.replaceAll("<[^>]+>", ""), frc);
+            if ((int) stringBounds.getWidth() > w)
+                w = (int) stringBounds.getWidth();
+        }
 
         frameNotification.setWidth(w);
         frameNotification.setHeight(h);

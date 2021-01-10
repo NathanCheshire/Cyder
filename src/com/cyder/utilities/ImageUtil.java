@@ -117,7 +117,7 @@ public class ImageUtil {
                 }
 
                 pixelFrame.closeAnimation();
-                pixelFrame.inform("The pixelated image has been saved to your Downloads folder.","Saved", 400, 200);
+                pixelFrame.inform("The pixelated image has been saved to your Downloads folder.","Saved");
             });
             approveImage.setBounds(20, retImage.getHeight() - 100,retImage.getWidth() - 40, 40);
             pixelFrame.getContentPane().add(approveImage);
