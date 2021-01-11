@@ -13,6 +13,7 @@ import com.cyder.threads.YoutubeThread;
 import com.cyder.ui.*;
 import com.cyder.utilities.*;
 import com.cyder.widgets.*;
+import org.jsoup.Jsoup;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -2874,9 +2875,12 @@ public class CyderMain{
                 testFrame.notify("<html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style=\"color:rgb(252, 251, 227)\">fourth with color</p><p style=\"font-family:verdana\">fifth with font</p></html>",
                         5000,ArrowDirection.TOP,0);
 
-                //notify does not support
+                //this works, todo apply to notify and inform
+                String testingText = "<html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style=\"color:rgb(252, 251, 227)\">fourth with color</p><p style=\"font-family:verdana\"><br/>fifth with font</p></html>";
+                String parsedWithBreaks = Jsoup.parse(testingText.replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n");
 
-                //todo testing conditions here
+                System.out.println(parsedWithBreaks);
+
                 //todo for define, if word not found, open up the word googled
             }
 

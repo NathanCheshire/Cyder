@@ -7,6 +7,7 @@ import com.cyder.handler.ErrorHandler;
 import com.cyder.utilities.ImageUtil;
 import com.cyder.utilities.SystemUtil;
 import com.cyder.widgets.GenericInform;
+import org.jsoup.Jsoup;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -160,7 +161,11 @@ public class CyderFrame extends JFrame {
 
         String[] parts = htmltext.split("<br/>");
 
-        //todo this replace all doesn't exactly work for width and the bottom row of text is slightly cut off
+        //todo you need to parse the html to raw text with new lines still
+        // then you can actually figure out which line is longest and thus the min required width
+        // min required width is still the max of the getStringBounds for each part from parts
+
+
         for (String part : parts) {
             Rectangle2D stringBounds = notificationFont.getStringBounds(part.replaceAll("<[^>]+>", ""), frc);
             if ((int) stringBounds.getWidth() > w)
@@ -251,7 +256,6 @@ public class CyderFrame extends JFrame {
     }
 
     public void inform(String text, String title) {
-        //does this set location relative to?
         GenericInform.informRelative(text,title,this);
     }
 
