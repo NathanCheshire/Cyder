@@ -2865,21 +2865,15 @@ public class CyderMain{
             }
 
             else if (hasWord("test")) {
+                /*basic frame for UI testing setup below
+
                 CyderFrame testFrame = new CyderFrame(400,400,new ImageIcon("src/com/cyder/sys/pictures/debugbackground.png"));
                 testFrame.setTitle("Test Frame");
                 testFrame.initResizing();
                 testFrame.setSnapSize(new Dimension(1,1));
                 testFrame.setBackgroundResizing(true);
                 testFrame.setVisible(true);
-                testFrame.setLocationRelativeTo(null);
-                testFrame.notify("<html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style=\"color:rgb(252, 251, 227)\">fourth with color</p><p style=\"font-family:verdana\">fifth with font</p></html>",
-                        5000,ArrowDirection.TOP,0);
-
-                //this works, todo apply to notify and inform
-                String testingText = "<html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style=\"color:rgb(252, 251, 227)\">fourth with color</p><p style=\"font-family:verdana\"><br/>fifth with font</p></html>";
-                String parsedWithBreaks = Jsoup.parse(testingText.replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n");
-
-                System.out.println(parsedWithBreaks);
+                testFrame.setLocationRelativeTo(null); */
 
                 //todo for define, if word not found, open up the word googled
             }
@@ -2902,21 +2896,24 @@ public class CyderMain{
 
                 new Thread(() -> {
                     try {
-                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion2.png"));
+                        ImageIcon img2 = new ImageIcon("src/com/cyder/sys/pictures/suggestion2.png");
+                        ImageIcon img1 = new ImageIcon("src/com/cyder/sys/pictures/suggestion1.png");
+
+                        suggestionButton.setIcon(img2);
                         Thread.sleep(300);
-                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion1.png"));
+                        suggestionButton.setIcon(img1);
                         Thread.sleep(300);
-                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion2.png"));
+                        suggestionButton.setIcon(img2);
                         Thread.sleep(300);
-                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion1.png"));
+                        suggestionButton.setIcon(img1);
                         Thread.sleep(300);
-                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion2.png"));
+                        suggestionButton.setIcon(img2);
                         Thread.sleep(300);
-                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion1.png"));
+                        suggestionButton.setIcon(img1);
                         Thread.sleep(300);
-                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion2.png"));
+                        suggestionButton.setIcon(img2);
                         Thread.sleep(300);
-                        suggestionButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/suggestion1.png"));
+                        suggestionButton.setIcon(img1);
                     }
 
                     catch (Exception e) {
@@ -3264,31 +3261,7 @@ public class CyderMain{
         else return ThisOp.contains(ThisComp + ' ');
     }
 
-    //todo move to ioUtil
-    private void changeUsername(String newName) {
-        try {
-            IOUtil.readUserData();
-            IOUtil.writeUserData("name",newName);
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
-
-    //todo move to ioUtil
-    private void changePassword(char[] newPassword) {
-        try {
-            IOUtil.readUserData();
-            IOUtil.writeUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA(newPassword)));
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
-
-    //todo edit user handler
+    //todo console frame
     public void initMusicBackgroundList() {
         File backgroundDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Backgrounds");
         File musicDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Music");
@@ -3397,7 +3370,7 @@ public class CyderMain{
         changeUsername.addActionListener(e -> {
             String newUsername = changeUsernameField.getText();
             if (!stringUtil.empytStr(newUsername)) {
-                changeUsername(newUsername);
+                IOUtil.changeUsername(newUsername);
                 editUserFrame.inform("Username successfully changed","");
                 consoleFrame.setTitle(IOUtil.getSystemData("Version") + " Cyder [" + newUsername + "]");
                 changeUsernameField.setText("");
@@ -3438,7 +3411,7 @@ public class CyderMain{
             char[] newPassword = changePasswordField.getPassword();
 
             if (newPassword.length > 4) {
-                changePassword(newPassword);
+                IOUtil.changePassword(newPassword);
                 editUserFrame.inform("Password successfully changed","");
                 changePasswordField.setText("");
             }

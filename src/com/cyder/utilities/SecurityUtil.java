@@ -136,4 +136,10 @@ public class SecurityUtil {
 
         return false;
     }
+
+    public static void clearCharArray(char[] arr) {
+        for (char c : arr) {
+            c = '\0';
+        }
+    }
 }

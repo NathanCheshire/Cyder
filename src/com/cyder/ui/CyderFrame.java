@@ -141,8 +141,24 @@ public class CyderFrame extends JFrame {
         text.setText(htmltext);
 
         int w = 0;
-        int h = 30;
 
+        Font notificationFont = CyderFonts.weatherFontSmall;
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
+
+        htmltext = Jsoup.parse(htmltext.replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n");
+        System.out.println(htmltext);
+        String[] parts = htmltext.split("\\r?\\n");
+
+        for (String part : parts) {
+            Rectangle2D stringBounds = notificationFont.getStringBounds(part.replaceAll("<[^>]+>", ""), frc);
+            if ((int) stringBounds.getWidth() > w)
+                w = (int) stringBounds.getWidth();
+        }
+
+
+        int heightIncrement = (int) notificationFont.getStringBounds("string",frc).getHeight();
+        int h = heightIncrement;
         int lastIndex = 0;
 
         while(lastIndex != -1){
@@ -150,26 +166,9 @@ public class CyderFrame extends JFrame {
             lastIndex = text.getText().indexOf("<br/>",lastIndex);
 
             if(lastIndex != -1){
-                h += 30;
+                h += heightIncrement;
                 lastIndex += "<br/>".length();
             }
-        }
-
-        Font notificationFont = CyderFonts.weatherFontSmall;
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-
-        String[] parts = htmltext.split("<br/>");
-
-        //todo you need to parse the html to raw text with new lines still
-        // then you can actually figure out which line is longest and thus the min required width
-        // min required width is still the max of the getStringBounds for each part from parts
-
-
-        for (String part : parts) {
-            Rectangle2D stringBounds = notificationFont.getStringBounds(part.replaceAll("<[^>]+>", ""), frc);
-            if ((int) stringBounds.getWidth() > w)
-                w = (int) stringBounds.getWidth();
         }
 
         frameNotification.setWidth(w);
@@ -197,31 +196,20 @@ public class CyderFrame extends JFrame {
     public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir, int width) {
         Notification frameNotification = new Notification();
 
-        int w = 0;
-        int h = 30;
-
         frameNotification.setArrow(arrowDir);
 
         JLabel text = new JLabel();
         text.setText(htmltext);
 
-        int lastIndex = 0;
-
-        while(lastIndex != -1){
-
-            lastIndex = text.getText().indexOf("<br/>",lastIndex);
-
-            if(lastIndex != -1){
-                h += 30;
-                lastIndex += "<br/>".length();
-            }
-        }
+        int w = 0;
 
         Font notificationFont = CyderFonts.weatherFontSmall;
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
 
-        String[] parts = htmltext.split("<br/>");
+        htmltext = Jsoup.parse(htmltext.replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n");
+        System.out.println(htmltext);
+        String[] parts = htmltext.split("\\r?\\n");
 
         for (String part : parts) {
             Rectangle2D stringBounds = notificationFont.getStringBounds(part.replaceAll("<[^>]+>", ""), frc);
@@ -229,10 +217,24 @@ public class CyderFrame extends JFrame {
                 w = (int) stringBounds.getWidth();
         }
 
+        int heightIncrement = (int) notificationFont.getStringBounds("string",frc).getHeight();
+        int h = heightIncrement;
+        int lastIndex = 0;
+
+        while(lastIndex != -1){
+
+            lastIndex = text.getText().indexOf("<br/>",lastIndex);
+
+            if(lastIndex != -1){
+                h += heightIncrement;
+                lastIndex += "<br/>".length();
+            }
+        }
+
         frameNotification.setWidth(w);
         frameNotification.setHeight(h);
 
-        text.setFont(CyderFonts.weatherFontSmall);
+        text.setFont(notificationFont);
         text.setForeground(CyderColors.navy);
         text.setBounds(14,10,w * 2,h);
         frameNotification.add(text);

@@ -489,4 +489,26 @@ public class IOUtil {
             ErrorHandler.handle(e);
         }
     }
+
+    public static void changeUsername(String newName) {
+        try {
+            readUserData();
+            writeUserData("name",newName);
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    public static void changePassword(char[] newPassword) {
+        try {
+            readUserData();
+            writeUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA(newPassword)));
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
 }
