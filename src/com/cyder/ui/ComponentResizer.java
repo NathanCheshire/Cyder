@@ -112,7 +112,7 @@ public class ComponentResizer extends MouseAdapter {
 
         if (minimum.width  < minimumWidth ||  minimum.height < minimumHeight) {
             String message = "Minimum size cannot be less than drag insets";
-            throw new IllegalArgumentException( message );
+            throw new IllegalArgumentException(message);
         }
     }
 

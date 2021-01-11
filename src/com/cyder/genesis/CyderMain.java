@@ -13,7 +13,6 @@ import com.cyder.threads.YoutubeThread;
 import com.cyder.ui.*;
 import com.cyder.utilities.*;
 import com.cyder.widgets.*;
-import org.jsoup.Jsoup;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -42,8 +41,12 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+//todo for define, if word not found, open up the word googled
+
 //todo take into account possible secondary/tertiary monitors
 //todo add a device manager like in windows to say what's connected to the PC
+
+//todo add method parameter and @return stuff to methods
 
 //todo comment all files
 //todo log exit codes and times
@@ -52,16 +55,9 @@ import java.util.concurrent.TimeUnit;
 
 //todo make chat IO logs for each session per user, move Sys.ini start data to user specific stuff within a logs dir though
 
-//todo when changing background of dragable cyderframe resize background you were originally given and not the current one
-// so keep a copy of the current original from last setBackground
-
 //todo incorporate progress bars into the program
 
-//todo test changing contentpane background with stuff on it for CyderFrame
-
 //todo any inform frame should be resizable
-
-//todo number to string rep like python program
 
 //todo high dpi scalling fix? ImAvg doesn't change size when
 // dragging to different window like this program does
@@ -119,6 +115,9 @@ import java.util.concurrent.TimeUnit;
 
 //todo make the frame and drag label stay when switching backgrounds and the image be separate (inside of consoleframe class)
 //todo you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
+//todo to do this, just have a backgroundLabel that you can slide in and out
+
+//todo change login animation stuff to actual sliding text and not pictures
 
 //todo allow users to map up to three internet links on the menu, add a bar to sep system from user stuff
 
@@ -127,52 +126,51 @@ import java.util.concurrent.TimeUnit;
 public class CyderMain{
     public static Semaphore exitingSem;
 
-    //console vars
-    private static JTextPane outputArea;
-    private JTextField inputField;
-    public static JFrame consoleFrame;
-    private JButton minimize;
-    private JButton close;
-    private JLabel consoleClockLabel;
-    private boolean updateConsoleClock;
-    private static JLabel loginLabel2;
-    private static JLabel loginLabel3;
-    private JLabel parentLabel;
-    private JLabel temporaryLabel;
-    private JLabel loginDragLabel;
-    private CyderScrollPane outputScroll;
-    private JButton alternateBackground;
-    private JLabel consoleDragLabel;
-    private JLayeredPane parentPane;
-    private JButton suggestionButton;
-    private JButton menuButton;
+    private static JTextPane outputArea; //console frame
+    private JTextField inputField; //console frame
+    public static JFrame consoleFrame; //stay in main so only one instance of a ConsoleFrame exists
+    private JButton minimize; //console frame
+    private JButton close; //console frame
+    private JLabel consoleClockLabel; //console frame
+    private boolean updateConsoleClock; //console frame
+    private static JLabel loginLabel2; //stay
+    private static JLabel loginLabel3;//stay
+    private JLabel parentLabel; //console frame
+    private JLabel temporaryLabel; //console frame
+
+    private CyderScrollPane outputScroll; //console frame
+    private JButton alternateBackground; //console frame
+    private JLabel consoleDragLabel; //this will go away
+    private JLayeredPane parentPane; //console frame
+    private JButton suggestionButton; //console frame
+    private JButton menuButton; //console frame
     private static CyderFrame loginFrame;
     private static JTextField nameField;
-    private static JPasswordField pass;
-    private JLabel newUserLabel;
-    private JLabel menuLabel;
+    private static JPasswordField pass; //stay
+    private JLabel newUserLabel; //stay
+    private JLabel menuLabel; //console frame
 
     //Objects for main use
     private StringUtil stringUtil;
     private static CyderAnimation animation;
 
     //operation var
-    private static ArrayList<String> operationList = new ArrayList<>();
-    private static int scrollingIndex;
+    private static ArrayList<String> operationList = new ArrayList<>(); //console frame
+    private static int scrollingIndex; //console frame
 
     //deiconified restore vars
-    private int restoreX;
-    private int restoreY;
+    private int restoreX; //console frame
+    private int restoreY; //console frame
 
     //drag pos vars;
-    private int xMouse;
-    private int yMouse;
+    private int xMouse; //goes away
+    private int yMouse; //goes away
 
     //handler case vars
-    private String operation;
+    private String operation; //handler method, will be public static wherever it is
 
     //anagram one var
-    private String anagram;
+    private String anagram; //string vars like this will be public static for direct access for comparison methods
 
     //create user vars
     private CyderFrame createUserFrame;
@@ -203,7 +201,7 @@ public class CyderMain{
     private boolean linesDrawn = false;
     private Color lineColor = Color.white;
 
-    //call constructor
+
     public static void main(String[] CA) {
         new CyderMain(CA);
     }
@@ -243,19 +241,28 @@ public class CyderMain{
         exitingSem = new Semaphore(1);
     }
 
+    /**
+     * Initializes System.getProperty key/value pairs
+     */
     private void initSystemProperties() {
         //Fix scaling issue for high DPI displays like nathanLenovo which is 2560x1440
         System.setProperty("sun.java2d.uiScale","1.0");
     }
 
+    /**
+     * Initializes UIManager.put key/value pairs
+     */
     private void initUIManager() {
-        //this sets up special looking tooltips
         UIManager.put("ToolTip.background", CyderColors.tooltipBackgroundColor);
         UIManager.put("ToolTip.border", new BorderUIResource(BorderFactory.createLineBorder(CyderColors.tooltipBorderColor,2,true)));
         UIManager.put("ToolTip.font", CyderFonts.tahoma.deriveFont(22f));
         UIManager.put("ToolTip.foreground", CyderColors.tooltipForegroundColor);
     }
 
+    /**
+     * Used for debugging, automatically logs me in if my account exists,
+     * otherwise the program continues as normal
+     */
     private void autoCypher() {
         try {
             File autoCypher = new File("../autocypher.txt");
@@ -281,6 +288,7 @@ public class CyderMain{
         }
     }
 
+    //move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
     public void console() {
         try{
             ConsoleFrame.resizeBackgrounds();
@@ -796,7 +804,6 @@ public class CyderMain{
             //internet checker every 5 minutes
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 //if (!NetworkUtil.internetReachable())
-                    //todo
 //                    notify("Internet connection slow or unavailble",
 //                            3000, ArrowDirection.TOP, VanishDirection.TOP, parentPane,450);
             },0, 5, TimeUnit.MINUTES);
@@ -2874,8 +2881,6 @@ public class CyderMain{
                 testFrame.setBackgroundResizing(true);
                 testFrame.setVisible(true);
                 testFrame.setLocationRelativeTo(null); */
-
-                //todo for define, if word not found, open up the word googled
             }
 
             else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
@@ -2928,7 +2933,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to input handler
+    //handler method
     private boolean handleMath(String op) {
         int firstParen = op.indexOf("(");
         int comma = op.indexOf(",");
@@ -3018,18 +3023,18 @@ public class CyderMain{
         return false;
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void printlnImage(String filename) {
         outputArea.insertIcon(new ImageIcon(filename));
         println("");
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     public static void printImage(String filename) {
         outputArea.insertIcon(new ImageIcon(filename));
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void print(String Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3042,7 +3047,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void print(int Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3055,7 +3060,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void print(double Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3068,7 +3073,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void print(boolean Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3081,7 +3086,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void print(float Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3094,7 +3099,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void print(long Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3107,7 +3112,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void print(char Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3120,7 +3125,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void print(Object Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3133,7 +3138,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void println(String Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3146,7 +3151,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void println(int Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3159,7 +3164,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void println(double Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3172,7 +3177,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void println(boolean Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3185,7 +3190,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void println(float Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3198,7 +3203,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void println(long Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3211,7 +3216,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void println(char Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3224,7 +3229,7 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame
+    //handler method
     private void println(Object Usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -3237,12 +3242,12 @@ public class CyderMain{
         }
     }
 
-    //todo move to ConsoleFrame and refine
+    //handler method
     private boolean eic(String EIC) {
         return operation.equalsIgnoreCase(EIC);
     }
 
-    //todo move to ConsoleFrame and refine
+    //handler method
     private boolean has(String compare) {
         String ThisComp = compare.toLowerCase();
         String ThisOp = operation.toLowerCase();
@@ -3250,7 +3255,7 @@ public class CyderMain{
         return ThisOp.contains(ThisComp);
     }
 
-    //todo move to ConsoleFrame and refine
+    //handler method
     private boolean hasWord(String compare) {
         String ThisComp = compare.toLowerCase();
         String ThisOp = operation.toLowerCase();
@@ -3261,46 +3266,8 @@ public class CyderMain{
         else return ThisOp.contains(ThisComp + ' ');
     }
 
-    //todo console frame
-    public void initMusicBackgroundList() {
-        File backgroundDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Backgrounds");
-        File musicDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Music");
+    //console frame probably-------------------------------------------------------
 
-        musicBackgroundList = new LinkedList<>();
-        musicBackgroundNameList = new LinkedList<>();
-
-        for (File file : backgroundDir.listFiles()) {
-            if (file.getName().endsWith((".png"))) {
-                musicBackgroundList.add(file.getAbsoluteFile());
-                musicBackgroundNameList.add(file.getName().replace(".png", ""));
-            }
-        }
-
-        for (File file : musicDir.listFiles()) {
-            if (file.getName().endsWith((".mp3"))) {
-                musicBackgroundList.add(file.getAbsoluteFile());
-                musicBackgroundNameList.add(file.getName().replace(".mp3", ""));
-            }
-        }
-
-        String[] BackgroundsArray = new String[musicBackgroundNameList.size()];
-        BackgroundsArray = musicBackgroundNameList.toArray(BackgroundsArray);
-
-        musicBackgroundSelectionList = new JList(BackgroundsArray);
-        musicBackgroundSelectionList.setFont(CyderFonts.weatherFontSmall);
-        musicBackgroundSelectionList.setForeground(CyderColors.navy);
-        musicBackgroundSelectionList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-            if (evt.getClickCount() == 2 && musicBackgroundSelectionList.getSelectedIndex() != -1) {
-                openMusicBackground.doClick();
-            }
-            }
-        });
-
-        musicBackgroundSelectionList.setSelectionBackground(CyderColors.selectionColor);
-    }
-
-    //todo edit user handler
     //Edit user vars
     private CyderFrame editUserFrame;
     private CyderScrollPane musicBackgroundScroll;
@@ -3317,7 +3284,6 @@ public class CyderMain{
     private JLabel switchingPanel;
     private int prefsPanelIndex;
 
-    //todo edit user handler
     public void editUser() {
         if (editUserFrame != null)
             editUserFrame.closeAnimation();
@@ -3434,7 +3400,44 @@ public class CyderMain{
         editUserFrame.requestFocus();
     }
 
-    //todo edit user handler
+    public void initMusicBackgroundList() {
+        File backgroundDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Backgrounds");
+        File musicDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Music");
+
+        musicBackgroundList = new LinkedList<>();
+        musicBackgroundNameList = new LinkedList<>();
+
+        for (File file : backgroundDir.listFiles()) {
+            if (file.getName().endsWith((".png"))) {
+                musicBackgroundList.add(file.getAbsoluteFile());
+                musicBackgroundNameList.add(file.getName().replace(".png", ""));
+            }
+        }
+
+        for (File file : musicDir.listFiles()) {
+            if (file.getName().endsWith((".mp3"))) {
+                musicBackgroundList.add(file.getAbsoluteFile());
+                musicBackgroundNameList.add(file.getName().replace(".mp3", ""));
+            }
+        }
+
+        String[] BackgroundsArray = new String[musicBackgroundNameList.size()];
+        BackgroundsArray = musicBackgroundNameList.toArray(BackgroundsArray);
+
+        musicBackgroundSelectionList = new JList(BackgroundsArray);
+        musicBackgroundSelectionList.setFont(CyderFonts.weatherFontSmall);
+        musicBackgroundSelectionList.setForeground(CyderColors.navy);
+        musicBackgroundSelectionList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                if (evt.getClickCount() == 2 && musicBackgroundSelectionList.getSelectedIndex() != -1) {
+                    openMusicBackground.doClick();
+                }
+            }
+        });
+
+        musicBackgroundSelectionList.setSelectionBackground(CyderColors.selectionColor);
+    }
+
     private void nextEditUser() {
         switchingPanel.removeAll();
         switchingPanel.revalidate();
@@ -3461,7 +3464,6 @@ public class CyderMain{
         }
     }
 
-    //todo edit user handler
     private void lastEditUser() {
         switchingPanel.removeAll();
         switchingPanel.revalidate();
@@ -3488,7 +3490,6 @@ public class CyderMain{
         }
     }
 
-    //todo edit user handler
     private void switchToMusicAndBackgrounds() {
         JLabel BackgroundLabel = new JLabel("Music & Backgrounds", SwingConstants.CENTER);
         BackgroundLabel.setFont(CyderFonts.weatherFontBig);
@@ -3645,7 +3646,6 @@ public class CyderMain{
         switchingPanel.revalidate();
     }
 
-    //todo edit user handler
     private void switchToFontAndColor() {
         JLabel TitleLabel = new JLabel("Foreground & Font", SwingConstants.CENTER);
         TitleLabel.setFont(CyderFonts.weatherFontBig);
@@ -3834,7 +3834,7 @@ public class CyderMain{
     ImageIcon selected = new ImageIcon("src/com/cyder/sys/pictures/checkbox1.png");
     ImageIcon notSelected = new ImageIcon("src/com/cyder/sys/pictures/checkbox2.png");
 
-    //todo edit user handler
+    //this edit user stuff should probably be in consoleframe
     private void switchToPreferences() {
         JLabel prefsTitle = new JLabel("Preferences");
         prefsTitle.setFont(CyderFonts.weatherFontBig);
@@ -4236,7 +4236,7 @@ public class CyderMain{
         switchingPanel.revalidate();
     }
 
-    //todo make own widget in genesis
+    //CreateUser class in genesis
     public void createUser() {
         createUserBackground = null;
 
@@ -4564,12 +4564,12 @@ public class CyderMain{
         createNewUser.setBounds(60,390,240,40);
         createUserFrame.getContentPane().add(createNewUser);
 
-        createUserFrame.setLocationRelativeTo(null);
+        createUserFrame.setLocationRelativeTo((loginFrame.isActive() && loginFrame.isVisible()) ? loginFrame : null);
         createUserFrame.setVisible(true);
         newUserName.requestFocus();
     }
 
-    //todo move to ConsoleFrame
+    //console frame
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
             animation.jLabelXLeft(0,-150,10,8, menuLabel);
@@ -4591,6 +4591,7 @@ public class CyderMain{
         }
     }
 
+    //should be in MasterYoutube class
     private void killAllYoutube() {
         for (YoutubeThread ytt : youtubeThreads)
             ytt.kill();
@@ -4617,21 +4618,20 @@ public class CyderMain{
         }
     }
 
+    /**
+     * This is called from the shutdown hook, things imperitive to do
+     * no matter what, before we close, System.exit has already been called here
+     * so you shouldn't do any reading or writing to files or anything with locks/semaphores
+     */
     private void shutdown() {
-        try {
-            IOUtil.deleteTempDir();
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        IOUtil.deleteTempDir();
     }
 
     public void checkFiles() {
         //todo if a certain file is missing, attempt to download it
     }
 
-    public void downloadFiles() {
+    public void downloadFile(String httpString) {
         //download all files from links if secure internet connection
     }
 }

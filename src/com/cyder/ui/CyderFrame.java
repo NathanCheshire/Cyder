@@ -87,6 +87,35 @@ public class CyderFrame extends JFrame {
         parentLabel.add(dl);
     }
 
+    public CyderFrame() {
+        int width = 400, height = 400;
+
+        BufferedImage im = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = im.createGraphics();
+        g.setPaint(new Color(238,238,238));
+        g.fillRect(0,0,1,1);
+
+        this.width = width;
+        this.height = height;
+        this.background = new ImageIcon(im);
+        this.currentOrigIcon = this.background;
+        setSize(new Dimension(width, height));
+
+        setResizable(false);
+        setUndecorated(true);
+        setBackground(CyderColors.navy);
+        setIconImage(SystemUtil.getCyderIcon().getImage());
+
+        JLabel parentLabel = new JLabel();
+        parentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        parentLabel.setIcon(background);
+        setContentPane(parentLabel);
+
+        dl = new DragLabel(width, 30, this);
+        dl.setBounds(0, 0, width, 30);
+        parentLabel.add(dl);
+    }
+
     public void setTitlePosition(TitlePosition titlePosition) {
         this.titlePosition = titlePosition;
         setTitle(this.getTitle());
@@ -553,5 +582,10 @@ public class CyderFrame extends JFrame {
         currentOrigIcon = icon;
         contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
+    }
+
+    @Override
+    public boolean isVisible() {
+        return super.isVisible() && super.isActive() && this != null;
     }
 }

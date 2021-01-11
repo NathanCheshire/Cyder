@@ -14,13 +14,16 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ConsoleFrame extends CyderFrame {
 
-    public ConsoleFrame(int width, int height) {
-        super(width, height);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //todo lots more stuff here
+    //assuming uuid has been set, this will launch the whole of the program
+    // main now is used for user auth then called ConsoleFrame
+    public ConsoleFrame() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //this depends on if loginframe is open or not
+        //opening/closing loginframe should also change this value
     }
 
     private static String UUID;
@@ -51,10 +54,12 @@ public class ConsoleFrame extends CyderFrame {
         fontMetric = Font.PLAIN;
     }
 
+    /** Sets the OutputArea and InputField font for the current user
+     * @param combStyle use Font.BOLD and Font.Italic to set the user
+     *                  font style. You may pass combinations of font
+     *                  styling using the addition operator
+     */
     public static void setFontStyle(int combStyle) {
-        //you can do bold and italics with Font.BOLD + Font.ITALIC
-        // so this is what this function allows you to do
-
         fontMetric = combStyle;
     }
 
@@ -198,7 +203,6 @@ public class ConsoleFrame extends CyderFrame {
     public static ImageIcon getCurrentBackgroundImageIcon() {
         try {
             File f = getCurrentBackgroundFile();
-
             backgroundImageIcon = new ImageIcon(ImageIO.read(f));
         }
 
@@ -214,6 +218,8 @@ public class ConsoleFrame extends CyderFrame {
     public static void switchBackground() {
         if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
             return;
+
+        //if in full screen get full screen version of image
 
         switch (lastSlideDirection) {
             case LEFT:
@@ -267,7 +273,9 @@ public class ConsoleFrame extends CyderFrame {
 
         if (enable) {
             //set console clock visible
-            //start executor to update console clcok
+            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+
+            },0, 1, TimeUnit.SECONDS);
         }
 
         else {
