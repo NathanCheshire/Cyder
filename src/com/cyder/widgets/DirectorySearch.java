@@ -26,6 +26,10 @@ public class DirectorySearch {
     private Stack<String> foward = new Stack<>();
 
     private String rightNow = System.getProperty("user.dir");
+
+    //todo there's a weird glitch that continues the color down
+    //todo the title isn't the proper width since that's broken as a whole right now
+
     public DirectorySearch() {
         if (dirFrame != null)
             dirFrame.closeAnimation();
@@ -164,8 +168,7 @@ public class DirectorySearch {
 
         dirScroll.setForeground(CyderColors.navy);
         dirScroll.setFont(CyderFonts.weatherFontSmall);
-        dirScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(CyderColors.navy,5,false)));
+
         dirScroll.setBounds(10,120,600,470 - 120 - 10);
         dirFrame.getContentPane().add(dirScroll);
 

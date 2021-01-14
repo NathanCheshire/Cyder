@@ -136,9 +136,15 @@ public class Calculator {
             }
 
             catch (Exception exc) {
-                GenericInform.inform("Unrecognized expression. Please use multiplication signs after parenthesis and check the exact syntax of your expression for common" +
-                        " errors such as missing delimiters.<br/>Note that this calculator does support typing in the Text Field and can handle more complicated" +
-                        "<br/>expressions such as sin, cos, tan, log, ln, floor, etc.","");
+                //todo this title doesn't work, figure out why
+                GenericInform.inform("Could not parse expression. " +
+                        "Please use multiplication signs after parenthesis " +
+                        "and check the exact syntax of your expression for common" +
+                        " errors such as missing delimiters. Note that this calculator " +
+                        "does support typing in the" +
+                        " Text Field and can handle more complicated" +
+                        "expressions such as sin, cos, tan, log, ln, floor, etc. " +
+                        "Use \"pi\" for pi.","Exception in parsing");
                 ErrorHandler.handle(exc);
             }
         });

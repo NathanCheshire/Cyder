@@ -288,6 +288,7 @@ public class Pizza {
         orderComments.setSelectedTextColor(CyderColors.selectionColor);
         orderComments.setBorder(new LineBorder(new Color(0, 0, 0)));
 
+        //todo this border on this scrollpane is messed up 
         CyderScrollPane orderCommentsScroll = new CyderScrollPane(orderComments,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

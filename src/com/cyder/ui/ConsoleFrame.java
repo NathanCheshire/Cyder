@@ -215,6 +215,13 @@ public class ConsoleFrame extends CyderFrame {
 
     private static Direction lastSlideDirection = Direction.TOP;
 
+    //todo make the frame and drag label stay when switching backgrounds and the image be separate (inside of consoleframe class)
+    // you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
+    // to do this, just have a backgroundLabel that you can slide in and out
+
+    //todo make changing background animation no more than one second
+    // make it work in full screen too and remtain full screen
+    // make it also retain a flip direction
     public static void switchBackground() {
         if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
             return;

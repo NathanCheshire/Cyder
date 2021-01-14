@@ -41,87 +41,18 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-//todo for define, if word not found, open up the word googled
+/*
+    Commenting etiquette I will follow (attempt to that is)
 
-//todo take into account possible secondary/tertiary monitors
-//todo add a device manager like in windows to say what's connected to the PC
+    -todos shall be placed where I deem them  most logical such as a to-do to fix a
+     certain function shall be placed above that function
 
-//todo add method parameter and @return stuff to methods
+    -helpful comments shall be placed anywhere something is not self explanatory
 
-//todo comment all files
-//todo log exit codes and times
+    -method @params @args @retuns, etc. shall be placed on most methods
 
-//todo make popup for calculator smaller and resizable
-
-//todo make chat IO logs for each session per user, move Sys.ini start data to user specific stuff within a logs dir though
-
-//todo incorporate progress bars into the program
-
-//todo any inform frame should be resizable
-
-//todo high dpi scalling fix? ImAvg doesn't change size when
-// dragging to different window like this program does
-
-//todo put spotlight feature inside of here
-
-//todo put im avg in here and get it completely working
-
-//todo make changing background animation no more than one second
-
-//todo make changing background directions from all 4
-
-//todo move alot of stuff out of main since it's in com/genesis package now
-
-//todo switch backgrounds even if console is flipped a certain direction or full screened
-
-//todo switching backgrounds and directions is slow and doesn't work in full screen
-
-//todo locks for reading and writing to files
-
-//todo enter animations for notifications
-
-//todo if location isn't found say so and say certain features might not work
-//todo weather will not work if IP cannot find location, happened in captiva florida
-
-//todo orange vs blue border for working in background doesnt seem to work
-
-//todo light mode and dark mode (switch vanila and navy for informs)
-
-//todo temporarily toggle prefs for via input field keywords
-
-//todo change background color for console frame so like not navy
-
-//todo some scrolls with borders are not fitted properly
-
-//todo use more system.exit calls to better give detail on why system.exit was called
-
-//todo start animations usage
-
-//todo make it so all you can have is single jar and code and it'll attempt to download all files from internet and if it can't,
-// inform user and exit
-
-//todo move File.txt, String.txt, and InputMessage.txt to tmp directory
-
-//todo be able to set background to a solid color and make that an image and save it
-
-//todo utilize colors, fonts, font weights, and new lines now
-// <html>test<br/><i>second line but italics<i/><br/>third!!<br/><p style="color:rgb(252, 251, 227)">fourth with color</p>
-// <p style="font-family:verdana">fifth with font</p></html>
-
-//todo perlin-noise GUI swap between 2D and 3D and add color range too
-//todo make a widget version of cyder that you can swap between big window and widget version, background is get cropped image
-
-//todo make pixelating pictures it's own widget
-
-//todo make the frame and drag label stay when switching backgrounds and the image be separate (inside of consoleframe class)
-//todo you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
-//todo to do this, just have a backgroundLabel that you can slide in and out
-
-//todo change login animation stuff to actual sliding text and not pictures
-
-//todo allow users to map up to three internet links on the menu, add a bar to sep system from user stuff
-
-//todo rename button for user music and backgrounds with main 3
+    -generic features I plan to implement at some point will go under the to-do section of the readme
+ */
 
 public class CyderMain{
     public static Semaphore exitingSem;
@@ -1150,6 +1081,7 @@ public class CyderMain{
         }
     };
 
+    //todo does this work?
     //sets program icon if background threads are running
     private void backgroundProcessChecker() {
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
@@ -2351,6 +2283,8 @@ public class CyderMain{
             else if (firstWord.equalsIgnoreCase("define")) {
                 String Define = operation.toLowerCase().replace("'", "").replace(" ", "+").replace("define", "");
 
+                //todo if word not found, open up the word in google
+
                 NetworkUtil.internetConnect("http://www.dictionary.com/browse/" + Define + "?s=t");
             }
 
@@ -3498,6 +3432,8 @@ public class CyderMain{
 
         initMusicBackgroundList();
 
+        //todo this border here works, maybe use it to figure out how to fix the messed up ones
+        //todo make cyderscrollpane already have a border so you don't need to worry about this styling
         musicBackgroundSelectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         musicBackgroundScroll = new CyderScrollPane(musicBackgroundSelectionList,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -3642,6 +3578,8 @@ public class CyderMain{
         deleteMusicBackground.setFont(CyderFonts.weatherFontSmall);
         deleteMusicBackground.setBounds(20 + 213 + 20 + 213 + 20,440,213,40);
         switchingPanel.add(deleteMusicBackground);
+
+        //todo rename button next to main three
 
         switchingPanel.revalidate();
     }

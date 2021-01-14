@@ -121,17 +121,22 @@ public class CyderFrame extends JFrame {
         setTitle(this.getTitle());
     }
 
+    //todo aparently the frame is repainted entirely on drag which means settitle is invoked, optimize this
+
     @Override
     public void setTitle(String title) {
         super.setTitle(title);
         titleLabel.setText(title);
 
         if (titlePosition == TitlePosition.CENTER)
-            titleLabel.setBounds(getDragLabel().getWidth() / 2 - getTitleWidth(title) / 2, 2, getTitleWidth(title), 25);
+            titleLabel.setBounds((getDragLabel().getWidth() / 2) - (getTitleWidth(title) / 2), 2, getTitleWidth(title), 25);
         else
             titleLabel.setBounds(5, 2, getTitleWidth(title), 25);
+
+        System.out.println(title + "," + getTitleWidth(title));
     }
 
+    //todo this doesn't work sometimes
     private int getTitleWidth(String title) {
         Font usageFont = titleLabel.getFont();
         AffineTransform affinetransform = new AffineTransform();
@@ -584,8 +589,5 @@ public class CyderFrame extends JFrame {
                 .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
     }
 
-    @Override
-    public boolean isVisible() {
-        return super.isVisible() && super.isActive() && this != null;
-    }
+
 }

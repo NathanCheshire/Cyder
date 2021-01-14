@@ -20,10 +20,10 @@ public class TextEditor {
     private JTextArea noteEditArea;
 
     public TextEditor(String filePath) {
-        openNote(new File(filePath));
+        openTextFile(new File(filePath));
     }
 
-    private void openNote(File File) {
+    private void openTextFile(File File) {
         if (noteEditorFrame != null)
             noteEditorFrame.closeAnimation();
 
@@ -58,7 +58,8 @@ public class TextEditor {
         noteScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         noteScroll.getViewport().setBorder(null);
         noteScroll.setViewportBorder(null);
-        noteScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
+        //todo this border here is messed up
+        noteEditArea.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
                 new LineBorder(CyderColors.navy,5,false)));
         noteScroll.setBounds(50,120,600 - 50 - 50, 400);
         noteEditorFrame.getContentPane().add(noteScroll);
