@@ -27,14 +27,11 @@ public class DirectorySearch {
 
     private String rightNow = System.getProperty("user.dir");
 
-    //todo there's a weird glitch that continues the color down
-    //todo the title isn't the proper width since that's broken as a whole right now
-
     public DirectorySearch() {
         if (dirFrame != null)
             dirFrame.closeAnimation();
 
-        dirFrame = new CyderFrame(620,470, new ImageIcon("src/com/cyder/sys/pictrures/DebugBackground.png"));
+        dirFrame = new CyderFrame(620,470, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
         dirFrame.setTitle(new File(System.getProperty("user.dir")).getName());
 
         dirField = new JTextField(40);
@@ -165,6 +162,11 @@ public class DirectorySearch {
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         dirScroll.setThumbColor(CyderColors.regularRed);
+
+        dirScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
+
+        directoryNameList.setBackground(new Color(255,255,255));
+        dirScroll.getViewport().setBackground(new Color(0,0,0,0));
 
         dirScroll.setForeground(CyderColors.navy);
         dirScroll.setFont(CyderFonts.weatherFontSmall);
