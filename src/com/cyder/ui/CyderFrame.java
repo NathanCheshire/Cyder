@@ -151,10 +151,10 @@ public class CyderFrame extends JFrame {
 
     //todo this doesn't work aparently
     private int getTitleWidth(String title) {
-        Font usageFont = titleLabel.getFont();
+        Font notificationFont = titleLabel.getFont();
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-        return (int) (usageFont.getStringBounds(title, frc).getWidth());
+        return (int) notificationFont.getStringBounds(title,frc).getWidth();
     }
 
     public void notify(String htmltext, int viewDuration, ArrowDirection direction, int width) {
@@ -194,7 +194,7 @@ public class CyderFrame extends JFrame {
         FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
 
         htmltext = Jsoup.parse(htmltext.replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n");
-        System.out.println(htmltext);
+
         String[] parts = htmltext.split("\\r?\\n");
 
         for (String part : parts) {
