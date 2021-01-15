@@ -3432,8 +3432,6 @@ public class CyderMain{
 
         initMusicBackgroundList();
 
-        //todo this border here works, maybe use it to figure out how to fix the messed up ones
-        //todo make cyderscrollpane already have a border so you don't need to worry about this styling
         musicBackgroundSelectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         musicBackgroundScroll = new CyderScrollPane(musicBackgroundSelectionList,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,

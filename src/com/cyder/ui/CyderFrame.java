@@ -121,22 +121,35 @@ public class CyderFrame extends JFrame {
         setTitle(this.getTitle());
     }
 
-    //todo aparently the frame is repainted entirely on drag which means settitle is invoked, optimize this
+    //todo frame is repainted entirely on every drag which means settitle is invoked too, optimize this repainting
+
+    private boolean paintSuperTitle = true;
+
+    public void setPaintSuperTitle(boolean b) {
+        paintSuperTitle = b;
+    }
+
+    public boolean getPaintSuperTitle() {
+        return paintSuperTitle;
+    }
 
     @Override
     public void setTitle(String title) {
-        super.setTitle(title);
+        super.setTitle(paintSuperTitle ? title : "");
+
         titleLabel.setText(title);
 
-        if (titlePosition == TitlePosition.CENTER)
-            titleLabel.setBounds((getDragLabel().getWidth() / 2) - (getTitleWidth(title) / 2), 2, getTitleWidth(title), 25);
-        else
-            titleLabel.setBounds(5, 2, getTitleWidth(title), 25);
+        switch (titlePosition) {
+            case CENTER:
+                titleLabel.setBounds((getDragLabel().getWidth() / 2) - (getTitleWidth(title) / 2), 2, getTitleWidth(title), 25);
+                break;
 
-        System.out.println(title + "," + getTitleWidth(title));
+            default:
+                titleLabel.setBounds(5, 2, getTitleWidth(title), 25);
+        }
     }
 
-    //todo this doesn't work sometimes
+    //todo this doesn't work aparently
     private int getTitleWidth(String title) {
         Font usageFont = titleLabel.getFont();
         AffineTransform affinetransform = new AffineTransform();

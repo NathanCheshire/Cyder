@@ -1,8 +1,10 @@
 package com.cyder.ui;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-
 import java.awt.*;
 
 /*
@@ -19,11 +21,20 @@ public class CyderScrollPane extends JScrollPane {
     private static Color THUMB_COLOR = new Color(120,120,120);
 
     public CyderScrollPane(Component view) {
+        //this should simplify the process of getting a scrollpane up from now on
         this(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        setThumbColor(CyderColors.regularRed);
+        setFont(CyderFonts.weatherFontSmall);
+        setBackground(new Color(255,255,255));
+        getViewport().setBackground(new Color(0,0,0,0));
     }
 
     public CyderScrollPane(int vsbPolicy, int hsbPolicy) {
         this(null, vsbPolicy, hsbPolicy);
+        setThumbColor(CyderColors.regularRed);
+        setFont(CyderFonts.weatherFontSmall);
+        setBackground(new Color(255,255,255));
+        getViewport().setBackground(new Color(0,0,0,0));
     }
 
     public void setScrollBarAlphaRollover(int alpha) {
