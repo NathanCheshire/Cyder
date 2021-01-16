@@ -60,8 +60,6 @@ public class CyderFrame extends JFrame {
         dl.add(titleLabel);
     }
 
-    //todo directory name isn't changed when arrows are pressed
-
     public CyderFrame(int width, int height) {
         BufferedImage im = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
@@ -119,8 +117,43 @@ public class CyderFrame extends JFrame {
     }
 
     public void setTitlePosition(TitlePosition titlePosition) {
+        boolean different = titlePosition != this.titlePosition;
         this.titlePosition = titlePosition;
-        setTitle(this.getTitle());
+        long timeout = 2; //todo calculate this timeout so it's no more than a second no matter how big the window is
+
+        if (different) {
+            if (titlePosition != TitlePosition.CENTER) {
+                new Thread(() -> {
+                    for (int i = (getDragLabel().getWidth() / 2) - (getTitleWidth(titleLabel.getText()) / 2) ; i > 4 ; i--) {
+                        titleLabel.setLocation(i, 2);
+
+                        try {
+                            Thread.sleep(timeout);
+                        }
+
+                        catch (Exception e) {
+                            ErrorHandler.handle(e);
+                        }
+                    }
+                }).start();
+            }
+
+            else {
+                new Thread(() -> {
+                    for (int i = 5 ; i <  (getDragLabel().getWidth() / 2) - (getTitleWidth(titleLabel.getText()) / 2) + 1; i++) {
+                        titleLabel.setLocation(i, 2);
+
+                        try {
+                            Thread.sleep(timeout);
+                        }
+
+                        catch (Exception e) {
+                            ErrorHandler.handle(e);
+                        }
+                    }
+                }).start();
+            }
+        }
     }
 
     //todo frame is repainted entirely on every drag which means settitle is invoked too, optimize this repainting

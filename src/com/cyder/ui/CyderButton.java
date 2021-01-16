@@ -1,5 +1,7 @@
 package com.cyder.ui;
 
+import com.cyder.Constants.CyderColors;
+import com.cyder.Constants.CyderFonts;
 import com.cyder.handler.ErrorHandler;
 
 import javax.swing.*;
@@ -30,6 +32,9 @@ public class CyderButton extends JButton {
                 super.mouseReleased(me);
             }
         });
+        setFont(CyderFonts.weatherFontSmall);
+        setBackground(CyderColors.regularRed);
+        setColors(CyderColors.regularRed);
     }
 
     @Override

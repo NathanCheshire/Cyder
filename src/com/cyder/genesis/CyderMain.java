@@ -2808,11 +2808,22 @@ public class CyderMain{
             else if (hasWord("test")) {
                 //basic frame for UI testing setup below
 
-                CyderFrame testFrame = new CyderFrame(400,400,new ImageIcon("src/com/cyder/sys/pictures/debugbackground.png"));
-                testFrame.setTitle("out");
+                CyderFrame testFrame = new CyderFrame(1000,400,new ImageIcon("src/com/cyder/sys/pictures/debugbackground.png"));
+                testFrame.setTitle("Longer title than before, long long");
                 testFrame.initResizing();
                 testFrame.setSnapSize(new Dimension(1,1));
                 testFrame.setBackgroundResizing(true);
+
+                final TitlePosition[] current = {TitlePosition.CENTER};
+
+                CyderButton alternateTitleButton = new CyderButton("Alternate Title");
+                alternateTitleButton.setBounds(40,40,250,40);
+                alternateTitleButton.addActionListener(e -> {
+                    testFrame.setTitlePosition(current[0]);
+                    current[0] = (current[0] == TitlePosition.CENTER ? TitlePosition.LEFT : TitlePosition.CENTER);
+                });
+                testFrame.getContentPane().add(alternateTitleButton);
+
                 testFrame.setVisible(true);
                 testFrame.setLocationRelativeTo(null);
             }
