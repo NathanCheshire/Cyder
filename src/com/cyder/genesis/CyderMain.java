@@ -2806,15 +2806,15 @@ public class CyderMain{
             }
 
             else if (hasWord("test")) {
-                /*basic frame for UI testing setup below
+                //basic frame for UI testing setup below
 
                 CyderFrame testFrame = new CyderFrame(400,400,new ImageIcon("src/com/cyder/sys/pictures/debugbackground.png"));
-                testFrame.setTitle("Test Frame");
+                testFrame.setTitle("out");
                 testFrame.initResizing();
                 testFrame.setSnapSize(new Dimension(1,1));
                 testFrame.setBackgroundResizing(true);
                 testFrame.setVisible(true);
-                testFrame.setLocationRelativeTo(null); */
+                testFrame.setLocationRelativeTo(null);
             }
 
             else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {

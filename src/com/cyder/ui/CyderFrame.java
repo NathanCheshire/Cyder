@@ -60,6 +60,8 @@ public class CyderFrame extends JFrame {
         dl.add(titleLabel);
     }
 
+    //todo directory name isn't changed when arrows are pressed
+
     public CyderFrame(int width, int height) {
         BufferedImage im = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
@@ -149,12 +151,11 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    //todo this doesn't work aparently
     private int getTitleWidth(String title) {
         Font notificationFont = titleLabel.getFont();
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-        return (int) notificationFont.getStringBounds(title,frc).getWidth();
+        return (int) notificationFont.getStringBounds(title,frc).getWidth() + 10;
     }
 
     public void notify(String htmltext, int viewDuration, ArrowDirection direction, int width) {
