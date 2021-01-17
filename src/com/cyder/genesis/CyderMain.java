@@ -1081,7 +1081,6 @@ public class CyderMain{
         }
     };
 
-    //todo does this work?
     //sets program icon if background threads are running
     private void backgroundProcessChecker() {
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
@@ -1116,34 +1115,34 @@ public class CyderMain{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                String originalOp = inputField.getText().trim();
-                String op = originalOp;
+        try {
+            String originalOp = inputField.getText().trim();
+            String op = originalOp;
 
-                if (!stringUtil.empytStr(op)) {
-                    if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
-                        operationList.add(op);
-                    }
-
-                    scrollingIndex = operationList.size() - 1;
-                    ConsoleFrame.setScrollingDowns(0);
-
-                    if (!stringUtil.getUserInputMode()) {
-                        handle(op);
-                    }
-
-                    else if (stringUtil.getUserInputMode()) {
-                        stringUtil.setUserInputMode(false);
-                        handleSecond(op);
-                    }
+            if (!stringUtil.empytStr(op)) {
+                if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
+                    operationList.add(op);
                 }
 
-                inputField.setText("");
+                scrollingIndex = operationList.size() - 1;
+                ConsoleFrame.setScrollingDowns(0);
+
+                if (!stringUtil.getUserInputMode()) {
+                    handle(op);
+                }
+
+                else if (stringUtil.getUserInputMode()) {
+                    stringUtil.setUserInputMode(false);
+                    handleSecond(op);
+                }
             }
 
-            catch (Exception ex) {
-                ErrorHandler.handle(ex);
-            }
+            inputField.setText("");
+        }
+
+        catch (Exception ex) {
+            ErrorHandler.handle(ex);
+        }
         }
     };
 
@@ -1319,7 +1318,7 @@ public class CyderMain{
 
                 console();
 
-                //this if block needs to be in console
+                //this if block needs to be in console, stuff to do specifically for user on first login
                 if (IOUtil.getUserData("IntroMusic").equals("1")) {
                     LinkedList<String> MusicList = new LinkedList<>();
 
@@ -1360,7 +1359,7 @@ public class CyderMain{
 
     //todo move to consoleFrame
     private void exitFullscreen() {
-        ConsoleFrame.initBackgrounds(); //todo there was a background error here when I deleted and flipping didn't work
+        ConsoleFrame.initBackgrounds(); //todo there was a background error here when I deleted a a background and flipping didn't work
         LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
         int index = ConsoleFrame.getBackgroundIndex();
         String backFile = backgrounds.get(index).toString();
@@ -1633,9 +1632,7 @@ public class CyderMain{
             String desc = stringUtil.getUserInputDesc();
 
             if (desc.equalsIgnoreCase("url") && !stringUtil.empytStr(input)) {
-                URI URI = new URI(input);
-                println("Attempting to connect...");
-                NetworkUtil.internetConnect(URI);
+                NetworkUtil.internetConnect(new URI(input));
             }
 
             else if (desc.equalsIgnoreCase("prime") && input != null && !input.equals("")) {
@@ -1697,12 +1694,6 @@ public class CyderMain{
                 else {
                     println("Your value must only contain numbers.");
                 }
-            }
-
-            else if (desc.equalsIgnoreCase("wiki") && input != null && !input.equals("")) {
-                input = input.replace("'", "").replace(" ","_");
-                println("Attempting to connect...");
-                NetworkUtil.internetConnect("https://en.wikipedia.org/wiki/" + input);
             }
 
             else if (desc.equalsIgnoreCase("disco") && input != null && !input.equals("")) {
@@ -2281,24 +2272,15 @@ public class CyderMain{
             }
 
             else if (firstWord.equalsIgnoreCase("define")) {
-                String Define = operation.toLowerCase().replace("'", "").replace(" ", "+").replace("define", "");
-
-                //todo if word not found, open up the word in google
-
-                NetworkUtil.internetConnect("http://www.dictionary.com/browse/" + Define + "?s=t");
+                //todo parse string and print response here
             }
 
             else if (hasWord("wikipedia")) {
-                println("What would you like to look up on Wikipedia?");
-                stringUtil.setUserInputDesc("wiki");
-                inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
+                //todo parse string and print response here
             }
 
             else if (firstWord.equalsIgnoreCase("synonym")) {
-                String Syn = operation.replace("synonym","");
-                Syn = Syn.replace("'", "").replace(" ", "+");
-                NetworkUtil.internetConnect("http://www.thesaurus.com//browse//" + Syn);
+                //todo parse string and print response here
             }
 
             else if (hasWord("board")) {
@@ -2382,6 +2364,14 @@ public class CyderMain{
 
             else if (eic("||")) {
                 println("&&");
+            }
+
+            else if (eic("&")) {
+                println("|");
+            }
+
+            else if (eic("|")) {
+                println("&");
             }
 
             else if (eic("youtube word search")) {
@@ -2635,8 +2625,8 @@ public class CyderMain{
             }
 
             else if (hasWord("stop") && hasWord("script")) {
-                println("YouTube scripts have been killed.");
                 killAllYoutube();
+                println("YouTube scripts have been killed.");
             }
 
             else if (hasWord("debug") && hasWord("menu")) {
@@ -2663,7 +2653,8 @@ public class CyderMain{
             else if (hasWord("clear") && (hasWord("operation") ||
                     hasWord("command")) && hasWord("list")) {
                 operationList.clear();
-                scrollingIndex = 0; //todo log these so really also have a bounds index pair
+                scrollingIndex = 0;
+                //todo log these so really also have a bounds index pair
                 println("Command history reset.");
             }
 
@@ -2672,9 +2663,9 @@ public class CyderMain{
             }
 
             else if ((hasWord("delete") ||
-                    hasWord("remove")) &&
-                    (hasWord("user") ||
-                            hasWord("account"))) {
+                      hasWord("remove")) &&
+                     (hasWord("user") ||
+                      hasWord("account"))) {
 
                 println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
                 stringUtil.setUserInputMode(true);

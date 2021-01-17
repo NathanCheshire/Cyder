@@ -119,7 +119,7 @@ public class CyderFrame extends JFrame {
     public void setTitlePosition(TitlePosition titlePosition) {
         boolean different = titlePosition != this.titlePosition;
         this.titlePosition = titlePosition;
-        long timeout = 2; //todo calculate this timeout so it's no more than a second no matter how big the window is
+        long timeout = 2;
 
         if (different) {
             if (titlePosition != TitlePosition.CENTER) {
@@ -155,8 +155,6 @@ public class CyderFrame extends JFrame {
             }
         }
     }
-
-    //todo frame is repainted entirely on every drag which means settitle is invoked too, optimize this repainting
 
     private boolean paintSuperTitle = true;
 
