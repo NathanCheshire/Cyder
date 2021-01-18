@@ -41,7 +41,7 @@ public class Pizza {
         if (pizzaFrame != null)
             pizzaFrame.closeAnimation();
 
-        pizzaFrame = new CyderFrame(600,800, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        pizzaFrame = new CyderFrame(600,800, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         pizzaFrame.setTitle("Pizza");
 
         JLabel CustomerName = new JLabel("Name:");

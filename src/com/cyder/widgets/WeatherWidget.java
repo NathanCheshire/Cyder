@@ -141,7 +141,7 @@ public class WeatherWidget {
         changeLocationLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                CyderFrame changeLocationFrame = new CyderFrame(600,310,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+                CyderFrame changeLocationFrame = new CyderFrame(600,310,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
                 changeLocationFrame.setTitle("Change Location");
 
 

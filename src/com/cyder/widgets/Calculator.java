@@ -17,7 +17,7 @@ public class Calculator {
     public Calculator() {
         calculatorExpression = "";
 
-        CyderFrame calculatorFrame = new CyderFrame(600,600,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        CyderFrame calculatorFrame = new CyderFrame(600,600,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         calculatorFrame.setTitle("Calculator");
 
         JTextField calculatorField = new JTextField(20);

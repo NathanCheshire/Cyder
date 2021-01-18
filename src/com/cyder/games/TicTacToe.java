@@ -37,7 +37,7 @@ public class TicTacToe {
         if (tttFrame != null)
             tttFrame.closeAnimation();
 
-        tttFrame = new CyderFrame(400,500, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        tttFrame = new CyderFrame(400,500, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         tttFrame.setTitlePosition(TitlePosition.CENTER);
         tttFrame.setTitle("Tic Tac Toe");
 

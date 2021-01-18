@@ -30,7 +30,7 @@ public class DirectorySearch {
         if (dirFrame != null)
             dirFrame.closeAnimation();
 
-        dirFrame = new CyderFrame(620,470, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        dirFrame = new CyderFrame(620,470, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         dirFrame.setTitle(new File(System.getProperty("user.dir")).getName());
 
         dirField = new JTextField(40);

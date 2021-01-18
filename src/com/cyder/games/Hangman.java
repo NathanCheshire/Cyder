@@ -32,7 +32,7 @@ public class Hangman {
         if (HangmanFrame != null)
             HangmanFrame.closeAnimation();
 
-        HangmanFrame = new CyderFrame(712,812,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        HangmanFrame = new CyderFrame(712,812,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         HangmanFrame.setTitlePosition(TitlePosition.CENTER);
         HangmanFrame.setTitle("Hangman");
 

@@ -16,7 +16,7 @@ public class Hasher {
     private JPasswordField hashField;
 
     public Hasher() {
-        CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         hashFrame.setTitlePosition(TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");
 

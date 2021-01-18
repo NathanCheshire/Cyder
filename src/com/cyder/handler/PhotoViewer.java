@@ -416,7 +416,7 @@ public class PhotoViewer {
             return;
         }
 
-        renameFrame = new CyderFrame(400,170,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        renameFrame = new CyderFrame(400,170,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         renameFrame.setTitle("Rename");
 
         JTextField renameField = new JTextField(20);

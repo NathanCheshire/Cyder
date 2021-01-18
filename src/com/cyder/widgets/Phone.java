@@ -14,7 +14,7 @@ public class Phone {
     private String phoneNum;
 
     public Phone() {
-        CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         phoneFrame.setTitle("Phone");
 
         numberLabel = new JLabel("#");

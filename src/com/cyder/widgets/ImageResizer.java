@@ -36,7 +36,7 @@ public class ImageResizer {
     private boolean maintainAspectRatio = true;
 
     public ImageResizer() {
-        CyderFrame resizeFrame = new CyderFrame(800,800,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        CyderFrame resizeFrame = new CyderFrame(800,800,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         resizeFrame.setTitle("Image Resizer");
 
         previewLabel = new JLabel();

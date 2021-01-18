@@ -2800,7 +2800,7 @@ public class CyderMain{
             else if (hasWord("test")) {
                 //basic frame for UI testing setup below
 
-                CyderFrame testFrame = new CyderFrame(1000,400,new ImageIcon("src/com/cyder/sys/pictures/debugbackground.png"));
+                CyderFrame testFrame = new CyderFrame(1000,400,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
                 testFrame.setTitle("Longer title than before, long long");
                 testFrame.initResizing();
                 testFrame.setSnapSize(new Dimension(1,1));
@@ -3225,7 +3225,7 @@ public class CyderMain{
         if (editUserFrame != null)
             editUserFrame.closeAnimation();
 
-        editUserFrame = new CyderFrame(1000,800,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        editUserFrame = new CyderFrame(1000,800,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         editUserFrame.setTitlePosition(TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
 
@@ -3454,6 +3454,7 @@ public class CyderMain{
         addMusicBackground.setBackground(CyderColors.regularRed);
         addMusicBackground.addActionListener(e -> {
             try {
+                //if this is too small or big, where is it resized and why is it too big?
                 File addFile = IOUtil.getFile();
 
                 if (addFile == null)
@@ -4179,7 +4180,7 @@ public class CyderMain{
         if (createUserFrame != null)
             createUserFrame.closeAnimation();
 
-        createUserFrame = new CyderFrame(356,473,new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        createUserFrame = new CyderFrame(356,473,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         createUserFrame.setTitle("Create User");
 
         JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);
@@ -4421,7 +4422,7 @@ public class CyderMain{
                 else {
                     if (createUserBackground == null) {
                         createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background");
-                        createUserBackground = new File("src/com/cyder/sys/pictures/bobby.png");
+                        createUserBackground = new File("src/com/cyder/sys/pictures/DefaultUserBackground.png");
                     }
 
                     File NewUserFolder = new File("src/users/" + uuid);

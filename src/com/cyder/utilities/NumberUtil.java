@@ -121,7 +121,7 @@ public class NumberUtil {
         if (numFrame != null)
             numFrame.closeAnimation();
 
-        numFrame = new CyderFrame(600,230, new ImageIcon("src/com/cyder/sys/pictures/DebugBackground.png"));
+        numFrame = new CyderFrame(600,230, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
         numFrame.setTitle("Number To Words");
         numFrame.setTitlePosition(TitlePosition.CENTER);
         numFrame.initResizing();

@@ -113,7 +113,7 @@ public class ConsoleFrame extends CyderFrame {
                     backgroundHeight = (int) (currentImage.getHeight() / (aspectRatio * incremeter));
                 }
 
-                if (backgroundWidth < 600 || backgroundHeight < 600)
+                if (backgroundWidth < 600 && backgroundHeight < 600)
                     GenericInform.inform("Resized the background image \"" + getBackgrounds().get(i).getName()
                             + "\" since it was too small.","System Action");
 
@@ -124,7 +124,7 @@ public class ConsoleFrame extends CyderFrame {
                     incremeter = 1.1;
 
                 //resizing bigger
-                while (backgroundWidth < 800 || backgroundHeight < 800) {
+                while (backgroundWidth < 800 && backgroundHeight < 800) {
                     backgroundWidth = (int) (currentImage.getWidth() * (aspectRatio * incremeter));
                     backgroundHeight = (int) (currentImage.getHeight() * (aspectRatio * incremeter));
                 }
@@ -156,7 +156,7 @@ public class ConsoleFrame extends CyderFrame {
 
             if (backgroundFiles.size() == 0) {
                 backgroundFiles = new LinkedList<>();
-                backgroundFiles.add(new File("src/com/cyder/sys/pictures/Bobby.png"));
+                backgroundFiles.add(new File("src/com/cyder/sys/pictures/DefaultUserBackground.png"));
             }
         }
 
