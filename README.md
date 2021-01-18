@@ -17,30 +17,30 @@ Currently you can fork the project or download it I suppose. Running it in an ID
 
 ## TODO
 
-- take into account possible secondary/tertiary monitors and know which one you're on
-- be able to adapt to different screen resolutions and maintain relative size
-- add a device manager so that you can see what's connected to the PC through the program
-- add @return, @param, @args, etc. to most methods
-- comment the code
-- log exit codes at what time and by whom
-- make chat IO logs for each session
-- move start data to user specific and place in a logs dir for the user. You should zip these logs upon completion
-- incorporate CyderProgressUI for ProgressBars wherever it might fit
-- put spotlight inside of the program
-- get ImAvg working and put it inside the program
-- allow users to map up to three internet links and place them on the menu panel
-- allow users to rearrange the menu panel and remember what they do
-- change the login animation to actual sliding JLabels with text and not a sliding image
-- make a perlin noise widget
-- make a Conway's Game of Life widget
-- make pixelating a picture it's own widget
-- add multiple image support (not just PNG)
-- add a light/dark mode toggle
-- be able to change the CyderFrame/ConsolFrame border color from navy to some other color and repaint it. Remmeber this change
-- if your location cannot be found, restrict features that rely on IP data and inform the user of this
-- get start animations working and use them for CyderFrame instanceof objects
-- utilize system.exit more and give more data on why the program was exited
-- be able to download missing files from the internet and if you cannot and you need them, inform the user and exit the program
-- move file.txt, string.txt, and inputmessage.txt to the tmp directory
-- utilze html inside of notifications (line breaks, color, bold, italics, etc.)
-- be able to set the background to a solid color. On doing so, save the background
+- [ ] take into account possible secondary/tertiary monitors and know which one you're on
+- [ ] be able to adapt to different screen resolutions and maintain relative size
+- [ ] add a device manager so that you can see what's connected to the PC through the program
+- [ ] add @return, @param, @args, etc. to most methods
+- [ ] comment the code
+- [ ] log exit codes at what time and by whom
+- [ ] make chat IO logs for each session
+- [ ] move start data to user specific and place in a logs dir for the user. You should zip these logs upon completion
+- [ ] incorporate CyderProgressUI for ProgressBars wherever it might fit
+- [ ] put spotlight inside of the program
+- [ ]  get ImAvg working and put it inside the program
+- [ ]  allow users to map up to three internet links and place them on the menu panel
+- [ ]  allow users to rearrange the menu panel and remember what they do
+- [ ]  change the login animation to actual sliding JLabels with text and not a sliding image
+- [ ]  make a perlin noise widget
+- [ ]  make a Conway's Game of Life widget
+- [ ]  make pixelating a picture it's own widget
+- [ ]  add multiple image support (not just PNG)
+- [ ]  add a light/dark mode toggle
+- [ ]  be able to change the CyderFrame/ConsolFrame border color from navy to some other color and repaint it. Remmeber this change
+- [ ]  if your location cannot be found, restrict features that rely on IP data and inform the user of this
+- [ ]  get start animations working and use them for CyderFrame instanceof objects
+- [ ]  utilize system.exit more and give more data on why the program was exited
+- [ ]  be able to download missing files from the internet and if you cannot and you need them, inform the user and exit the program
+- [ ]  move file.txt, string.txt, and inputmessage.txt to the tmp directory
+- [ ]  utilze html inside of notifications (line breaks, color, bold, italics, etc.)
+- [ ]  be able to set the background to a solid color. On doing so, save the background
