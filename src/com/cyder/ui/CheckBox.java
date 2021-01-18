@@ -1,12 +1,11 @@
 package com.cyder.ui;
 
+import com.cyder.Constants.CyderImages;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 
 public class CheckBox extends JLabel {
-
-    private ImageIcon selected = new ImageIcon("src/com/cyder/sys/pictures/checkbox1.png");
-    private ImageIcon notSelected = new ImageIcon("src/com/cyder/sys/pictures/checkbox2.png");
 
     public CheckBox() {
         this.setSize(100,100);
@@ -26,10 +25,10 @@ public class CheckBox extends JLabel {
     }
 
     public void setSelected() {
-        this.setIcon(selected);
+        this.setIcon(CyderImages.checkboxSelected);
     }
 
     public void setNotSelected() {
-        this.setIcon(notSelected);
+        this.setIcon(CyderImages.checkboxNotSelected);
     }
 }

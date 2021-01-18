@@ -1,7 +1,7 @@
 Name:Nathan
 Password:3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
-Font:tahoma
-Foreground:FCFBE3
+Font:Gill Sans Ultra Bold Condensed
+Foreground:FF78CE
 Background:FFFFFF
 IntroMusic:0
 DebugWindows:0

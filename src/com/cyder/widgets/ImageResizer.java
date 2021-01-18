@@ -2,6 +2,7 @@ package com.cyder.widgets;
 
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
+import com.cyder.Constants.CyderImages;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -20,9 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ImageResizer {
-
-    ImageIcon selected = new ImageIcon("src/com/cyder/sys/pictures/checkbox1.png");
-    ImageIcon notSelected = new ImageIcon("src/com/cyder/sys/pictures/checkbox2.png");
 
     private JTextField xdim;
     private JTextField ydim;
@@ -129,17 +127,17 @@ public class ImageResizer {
         maintainAspectRatioLab = new JLabel();
         maintainAspectRatioLab.setToolTipText("Maintain Aspect Ratio");
         maintainAspectRatioLab.setHorizontalAlignment(JLabel.CENTER);
-        maintainAspectRatioLab.setIcon(selected);
+        maintainAspectRatioLab.setIcon(CyderImages.checkboxSelected);
         maintainAspectRatioLab.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
             if (maintainAspectRatio) {
-                maintainAspectRatioLab.setIcon(notSelected);
+                maintainAspectRatioLab.setIcon(CyderImages.checkboxNotSelected);
                 maintainAspectRatio = !maintainAspectRatio;
             }
 
             else {
-                maintainAspectRatioLab.setIcon(selected);
+                maintainAspectRatioLab.setIcon(CyderImages.checkboxSelected);
                 maintainAspectRatio = !maintainAspectRatio;
 
                 if (leftLastEdited) {
