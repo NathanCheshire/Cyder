@@ -226,7 +226,9 @@ public class ConsoleFrame extends CyderFrame {
         if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
             return;
 
-        //if in full screen get full screen version of image
+        //todo if full screen get dimensions of screen?
+
+        //todo get console orientation and use fullscreen var to get BufferedImage of proper bounds
 
         switch (lastSlideDirection) {
             case LEFT:

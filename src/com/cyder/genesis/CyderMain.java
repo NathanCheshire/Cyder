@@ -1465,7 +1465,7 @@ public class CyderMain{
 
     //todo move to consoleFrame
     private void switchBackground() {
-        Thread slideThread = new Thread(() -> {
+        new Thread(() -> {
             try {
                 ConsoleFrame.initBackgrounds();
 
@@ -1517,17 +1517,34 @@ public class CyderMain{
                 inputField.requestFocus();
 
                 consoleFrame.setLocationRelativeTo(null);
+                //if this is not here it puts it in the top left corner
+                //figure out how to smart align this because the size will change
 
+                //maybe spawn an invisible component that doesnt show up relative to old frame and then set
+                // new frame location relative to it and then dispose the invisible frame
+
+                //based on last slide direction
                 if (slidLeft) {
+                    //reset the jlabel, maybe we don't need to do this but instead can just be like
+                    // .setIcon to change the icon
                     temporaryLabel = new JLabel();
+
+                    //setting proper icons to labels to give animation the effect of sliding
                     parentLabel.setIcon(new ImageIcon(newBack));
                     temporaryLabel.setIcon(new ImageIcon(temporaryImage));
+
+                    //add temporary label
                     parentPane.add(temporaryLabel);
+
+                    //set proper bounds
                     parentLabel.setBounds(-tempW, 0, tempW, tempH);
                     temporaryLabel.setBounds(0, 0 ,tempW, tempH);
 
+                    //refine this method to get delay increment to last for about a second no matter what
+                    // skip for prims
                     int[] parts = AnimationUtil.getDelayIncrement(tempW);
 
+                    //animate the labels
                     animation.jLabelXRight(0, tempW, parts[0], parts[1], temporaryLabel);
                     animation.jLabelXRight(-tempW, 0 ,parts[0], parts[1], parentLabel);
                 }
@@ -1556,12 +1573,10 @@ public class CyderMain{
             catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        });
-
-        slideThread.start();
+        }).start();
     }
 
-    //todo move to consoleFrame
+    //todo move to simple sliding text and not pictures
     private static void loginAnimation() {
         new Thread() {
             int count = 2;
@@ -1621,7 +1636,7 @@ public class CyderMain{
         }.start();
     }
 
-    //todo move to consoleFrame
+    //todo move to input handler
     private void clc() {
         outputArea.setText("");
         inputField.setText("");
