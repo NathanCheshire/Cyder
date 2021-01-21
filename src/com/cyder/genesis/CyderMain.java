@@ -68,7 +68,6 @@ public class CyderMain{
     private static JLabel loginLabel2; //stay
     private static JLabel loginLabel3;//stay
     private JLabel parentLabel; //console frame
-    private JLabel temporaryLabel; //console frame
 
     private CyderScrollPane outputScroll; //console frame
     private JButton alternateBackground; //console frame
@@ -278,9 +277,11 @@ public class CyderMain{
             parentLabel.setOpaque(false);
 
             if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
-                parentLabel.setIcon(new ImageIcon(ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(), (int) SystemUtil.getScreenSize().getHeight(), ConsoleFrame.getCurrentBackgroundFile())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
+                        (int) SystemUtil.getScreenSize().getHeight(), ConsoleFrame.getCurrentBackgroundFile())));
             else
-                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().toString(),ConsoleFrame.getConsoleDirection())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().toString(),
+                        ConsoleFrame.getConsoleDirection())));
 
             parentLabel.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), ConsoleFrame.getBackgroundHeight());
 
@@ -1484,9 +1485,11 @@ public class CyderMain{
                 if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                     oldBack = new ImageIcon(ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
                             (int) SystemUtil.getScreenSize().getHeight(),new File(oldBackFile)));
-                    newBack = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(), (int) SystemUtil.getScreenSize().getHeight(),
+                    newBack = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
+                            (int) SystemUtil.getScreenSize().getHeight(),
                             new File(newBackFile));
-                    temporaryImage = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(), (int) SystemUtil.getScreenSize().getHeight(),
+                    temporaryImage = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
+                            (int) SystemUtil.getScreenSize().getHeight(),
                             new File(oldBackFile));
                     tempW = temporaryImage.getWidth();
                     tempH = temporaryImage.getHeight();
@@ -1516,6 +1519,9 @@ public class CyderMain{
                 consoleFrame.requestFocus();
                 inputField.requestFocus();
 
+                //todo maybe to avoid the white line in the center, merge the two images into a temporary one and slide it
+                // (some will be out of bounds) then when animation is finished, set back to main background
+
                 consoleFrame.setLocationRelativeTo(null);
                 //if this is not here it puts it in the top left corner
                 //figure out how to smart align this because the size will change
@@ -1527,7 +1533,7 @@ public class CyderMain{
                 if (slidLeft) {
                     //reset the jlabel, maybe we don't need to do this but instead can just be like
                     // .setIcon to change the icon
-                    temporaryLabel = new JLabel();
+                    JLabel temporaryLabel = new JLabel();
 
                     //setting proper icons to labels to give animation the effect of sliding
                     parentLabel.setIcon(new ImageIcon(newBack));
@@ -1550,7 +1556,7 @@ public class CyderMain{
                 }
 
                 else {
-                    temporaryLabel = new JLabel();
+                    JLabel temporaryLabel = new JLabel();
                     parentLabel.setIcon(new ImageIcon(newBack));
                     temporaryLabel.setIcon(new ImageIcon(temporaryImage));
                     parentPane.add(temporaryLabel);
@@ -2427,7 +2433,9 @@ public class CyderMain{
                 StatUtil.javaProperties();
             }
 
-            else if ((hasWord("edit") && hasWord ("user")) || (hasWord("font") && !hasWord("reset")) || (hasWord("color") && !hasWord("reset")) || (eic("preferences") || eic("prefs"))) {
+            else if ((hasWord("edit") && hasWord ("user")) ||
+                    (hasWord("font") && !hasWord("reset")) ||
+                    (hasWord("color") && !hasWord("reset")) || (eic("preferences") || eic("prefs"))) {
                 editUser();
             }
 
@@ -4164,7 +4172,8 @@ public class CyderMain{
         colorBlock.setBounds(630, 380, 40, 100);
         switchingPanel.add(colorBlock);
 
-        JTextField hexField = new JTextField(String.format("#%02X%02X%02X", CyderColors.navy.getRed(), CyderColors.navy.getGreen(), CyderColors.navy.getBlue()).replace("#",""));
+        JTextField hexField = new JTextField(String.format("#%02X%02X%02X", CyderColors.navy.getRed(),
+                CyderColors.navy.getGreen(), CyderColors.navy.getBlue()).replace("#",""));
         hexField.setForeground(CyderColors.navy);
         hexField.setText(IOUtil.getUserData("Background"));
         hexField.setFont(CyderFonts.weatherFontSmall);

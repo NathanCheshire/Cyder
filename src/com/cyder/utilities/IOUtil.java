@@ -182,6 +182,7 @@ public class IOUtil {
         }
     }
 
+    //todo return a boolean if one or zero?
     public static String getUserData(String name) {
         readUserData();
 

@@ -226,9 +226,27 @@ public class ConsoleFrame extends CyderFrame {
         if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
             return;
 
-        //todo if full screen get dimensions of screen?
+        int width = 0, height = 0;
 
-        //todo get console orientation and use fullscreen var to get BufferedImage of proper bounds
+        boolean fullscreen = IOUtil.getUserData("FullScreen").equalsIgnoreCase("1");
+        ConsoleDirection direction = getConsoleDirection();
+
+        if (fullscreen) {
+            width = SystemUtil.getScreenWidth();
+            height = SystemUtil.getScreenHeight();
+        }
+
+        else {
+            //set width and height to the dimensions next image
+
+            if (direction == ConsoleDirection.LEFT || direction == ConsoleDirection.RIGHT) {
+                width = width + height;
+                height = width - height;
+                width = width - height;
+            }
+        }
+
+        //todo based on dimensions get background images of those dimensions
 
         switch (lastSlideDirection) {
             case LEFT:
