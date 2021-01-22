@@ -223,59 +223,81 @@ public class ConsoleFrame extends CyderFrame {
     // make it work in full screen too and remtain full screen
     // make it also retain a flip direction
     public static void switchBackground() {
-        if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
-            return;
+        try {
+            if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
+                return;
 
-        int width = 0, height = 0;
+            //todo maybe get next image and get last image methods?
 
-        boolean fullscreen = IOUtil.getUserData("FullScreen").equalsIgnoreCase("1");
-        ConsoleDirection direction = getConsoleDirection();
+            ImageIcon oldBack = getCurrentBackgroundImageIcon();
+            ImageIcon newBack = new ImageIcon(ImageIO.read(getBackgrounds()
+                    .get(getBackgroundIndex() == 0 ? getBackgrounds().size() : getBackgroundIndex() - 1)));
 
-        if (fullscreen) {
-            width = SystemUtil.getScreenWidth();
-            height = SystemUtil.getScreenHeight();
-        }
+            int width = 0; //now assign these as fit
+            int height = 0;
 
-        else {
-            //set width and height to the dimensions next image
 
-            if (direction == ConsoleDirection.LEFT || direction == ConsoleDirection.RIGHT) {
-                width = width + height;
-                height = width - height;
-                width = width - height;
+            boolean fullscreen = IOUtil.getUserData("FullScreen").equalsIgnoreCase("1");
+            ConsoleDirection direction = getConsoleDirection();
+
+            if (fullscreen) {
+                width = SystemUtil.getScreenWidth();
+                height = SystemUtil.getScreenHeight();
+
+                //assign images with dimensions of screen width and height
+            }
+
+            else {
+                //set width and height to the dimensions next image
+
+                if (direction == ConsoleDirection.LEFT || direction == ConsoleDirection.RIGHT) {
+                    width = width + height;
+                    height = width - height;
+                    width = width - height;
+
+                    //get images and rotate -90 or 90 for left or right
+                }
+
+                else {
+                    //get images just like normal
+                }
+            }
+
+            //now we will combine the images horizontally or vertically depending on slide direction
+
+            switch (lastSlideDirection) {
+                case LEFT:
+
+                    //todo slide top
+
+                    lastSlideDirection = Direction.TOP;
+                    break;
+
+                case TOP:
+
+                    //todo slide right
+
+                    lastSlideDirection = Direction.RIGHT;
+                    break;
+
+                case RIGHT:
+
+                    //todo slide down
+
+                    lastSlideDirection = Direction.BOTTOM;
+                    break;
+
+                case BOTTOM:
+
+                    //todo slide left
+
+                    lastSlideDirection = Direction.LEFT;
+                    break;
             }
         }
 
-        //todo based on dimensions get background images of those dimensions
-
-        switch (lastSlideDirection) {
-            case LEFT:
-
-                //todo slide top
-
-                lastSlideDirection = Direction.TOP;
-                break;
-
-            case TOP:
-
-                //todo slide right
-
-                lastSlideDirection = Direction.RIGHT;
-                break;
-
-            case RIGHT:
-
-                //todo slide down
-
-                lastSlideDirection = Direction.BOTTOM;
-                break;
-
-            case BOTTOM:
-
-                //todo slide left
-
-                lastSlideDirection = Direction.LEFT;
-                break;
+        catch (Exception e) {
+            ErrorHandler.handle(e);
         }
     }
 
