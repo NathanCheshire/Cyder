@@ -249,12 +249,22 @@ public class ConsoleFrame extends CyderFrame {
             }
 
             else {
-                if (direction == ConsoleDirection.LEFT || direction == ConsoleDirection.RIGHT) {
+                if (direction == ConsoleDirection.LEFT) {
                     width = width + height;
                     height = width - height;
                     width = width - height;
 
-                    //get images and rotate -90 or 90 for left or right
+                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(oldBack),-90));
+                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(newBack),-90));
+                }
+
+                else if (direction == ConsoleDirection.RIGHT) {
+                    width = width + height;
+                    height = width - height;
+                    width = width - height;
+
+                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(oldBack),90));
+                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(newBack),90));
                 }
             }
 

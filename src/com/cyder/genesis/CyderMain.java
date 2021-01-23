@@ -634,13 +634,15 @@ public class CyderMain{
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
             consoleClockLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
             consoleClockLabel.setForeground(CyderColors.vanila);
-            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
-                    2,(consoleClockLabel.getText().length() * 17), 25);
+            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
+                 CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
+              2,CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
 
             consoleDragLabel.add(consoleClockLabel, SwingConstants.CENTER);
 
             updateConsoleClock = IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
 
+            //make a method to spin off executors
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 if (consoleClockLabel.isVisible())
                     if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1"))
@@ -718,8 +720,9 @@ public class CyderMain{
                         parentLabel.setIcon(newBack);
 
                         parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
-                                2,(consoleClockLabel.getText().length() * 17), 25);
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
+                                        CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
+                                2,CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
                     }
 
                     catch (Exception e) {
@@ -1410,8 +1413,9 @@ public class CyderMain{
         minimize.setBounds(width - 81, 4, 22, 20);
         alternateBackground.setBounds(width - 54, 4, 22, 20);
         close.setBounds(width - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
-                2,(consoleClockLabel.getText().length() * 17), 25);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
+                        CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
+                2,CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1450,8 +1454,9 @@ public class CyderMain{
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
-                2,(consoleClockLabel.getText().length() * 17), 25);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
+                        CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
+                2,CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1572,8 +1577,9 @@ public class CyderMain{
                 slidLeft = !slidLeft;
 
                 parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
-                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - (consoleClockLabel.getText().length() * 13)/2 - 30,
-                        2,(consoleClockLabel.getText().length() * 17), 25);
+                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
+                                CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
+                        2,CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
             }
 
             catch (Exception e) {

@@ -189,6 +189,12 @@ public class CyderFrame extends JFrame {
         return (int) notificationFont.getStringBounds(title,frc).getWidth() + 10;
     }
 
+    public static int getTitleWidth(String title, Font f) {
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
+        return (int) f.getStringBounds(title,frc).getWidth() + 10;
+    }
+
     public void notify(String htmltext, int viewDuration, ArrowDirection direction, int width) {
         Notification frameNotification = new Notification();
 
