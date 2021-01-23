@@ -3,6 +3,8 @@ package com.cyder.utilities;
 import com.cyder.Constants.CyderColors;
 import com.cyder.Constants.CyderFonts;
 import com.cyder.enums.ConsoleDirection;
+import com.cyder.enums.Direction;
+import com.cyder.exception.FatalException;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -266,5 +268,110 @@ public class ImageUtil {
 
     public int getScreenResolution() {
         return Toolkit.getDefaultToolkit().getScreenResolution();
+    }
+
+    public static ImageIcon resizeImage(ImageIcon srcImg, int w, int h){
+        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(srcImg.getImage(), 0, 0, w, h, null);
+        g2.dispose();
+
+        return new ImageIcon(resizedImg);
+    }
+
+    /** the two images must be of the same size
+     *
+     * @param newImage - the new image (image to be placed to the dir[ection] of the old image)
+     * @param oldImage - the old image (image to be placed center)
+     * @param dir - the direction to place the newImage relative to the oldImage
+     * @return - the combined image
+     */
+    public static ImageIcon combineImages(ImageIcon oldImage, ImageIcon newImage, Direction dir) {
+        ImageIcon ret = null;
+
+        if (oldImage.getIconWidth() != newImage.getIconWidth() || oldImage.getIconHeight() != newImage.getIconHeight())
+            return ret;
+
+        try {
+            BufferedImage bi1 = ImageIcon2BufferedImage(oldImage);
+            BufferedImage bi2 = ImageIcon2BufferedImage(newImage);
+
+            int width = 0;
+            int height = 0;
+            BufferedImage combined = null;
+            Graphics2D g2 = null;
+
+            switch (dir) {
+                case LEFT:
+                    width = 2 * newImage.getIconWidth();
+                    height = newImage.getIconHeight();
+
+                    combined = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+                    g2 = combined.createGraphics();
+
+                    g2.drawImage(bi1, null, width / 2, 0);
+                    g2.drawImage(bi2, null, 0, 0);
+                    g2.dispose();
+
+                    break;
+                case RIGHT:
+                    width = 2 * newImage.getIconWidth();
+                    height = newImage.getIconHeight();
+
+                    combined = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+                    g2 = combined.createGraphics();
+
+                    g2.drawImage(bi1, null, 0, 0);
+                    g2.drawImage(bi2, null, width / 2, 0);
+                    g2.dispose();
+
+                    break;
+                case TOP:
+                    width = newImage.getIconWidth();
+                    height = 2 * newImage.getIconHeight();
+
+                    combined = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+                    g2 = combined.createGraphics();
+
+                    g2.drawImage(bi1, null, 0, height / 2);
+                    g2.drawImage(bi2, null, 0, 0);
+                    g2.dispose();
+
+                    break;
+                case BOTTOM:
+                    width = newImage.getIconWidth();
+                    height = 2 * newImage.getIconHeight();
+
+                    combined = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+                    g2 = combined.createGraphics();
+
+                    g2.drawImage(bi1, null, 0, 0);
+                    g2.drawImage(bi2, null, 0, height / 2);
+                    g2.dispose();
+
+                    break;
+                default:
+                    throw new FatalException("Somehow an invalid direction was specified");
+            }
+
+            ret = new ImageIcon(combined);
+
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ret;
+    }
+
+    public static BufferedImage ImageIcon2BufferedImage(ImageIcon icon) {
+        BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g = bi.createGraphics();
+        icon.paintIcon(null, g, 0,0);
+        g.dispose();
+        return bi;
     }
 }

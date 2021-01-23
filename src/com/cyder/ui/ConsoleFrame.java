@@ -233,8 +233,8 @@ public class ConsoleFrame extends CyderFrame {
             ImageIcon newBack = new ImageIcon(ImageIO.read(getBackgrounds()
                     .get(getBackgroundIndex() == 0 ? getBackgrounds().size() : getBackgroundIndex() - 1)));
 
-            int width = 0; //now assign these as fit
-            int height = 0;
+            int width = newBack.getIconWidth();
+            int height = newBack.getIconHeight();
 
 
             boolean fullscreen = IOUtil.getUserData("FullScreen").equalsIgnoreCase("1");
@@ -244,12 +244,11 @@ public class ConsoleFrame extends CyderFrame {
                 width = SystemUtil.getScreenWidth();
                 height = SystemUtil.getScreenHeight();
 
-                //assign images with dimensions of screen width and height
+                oldBack = ImageUtil.resizeImage(oldBack,width,height);
+                newBack = ImageUtil.resizeImage(newBack,width,height);
             }
 
             else {
-                //set width and height to the dimensions next image
-
                 if (direction == ConsoleDirection.LEFT || direction == ConsoleDirection.RIGHT) {
                     width = width + height;
                     height = width - height;
@@ -257,43 +256,43 @@ public class ConsoleFrame extends CyderFrame {
 
                     //get images and rotate -90 or 90 for left or right
                 }
-
-                else {
-                    //get images just like normal
-                }
             }
 
-            //now we will combine the images horizontally or vertically depending on slide direction
+            //make master image to set to background and slide
+            ImageIcon combinedIcon;
 
             switch (lastSlideDirection) {
                 case LEFT:
-
-                    //todo slide top
+                    combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
+                    //todo slide up
 
                     lastSlideDirection = Direction.TOP;
                     break;
 
                 case TOP:
-
+                    combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.LEFT);
                     //todo slide right
 
                     lastSlideDirection = Direction.RIGHT;
                     break;
 
                 case RIGHT:
-
+                    combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.TOP);
                     //todo slide down
 
                     lastSlideDirection = Direction.BOTTOM;
                     break;
 
                 case BOTTOM:
-
+                    combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
                     //todo slide left
 
                     lastSlideDirection = Direction.LEFT;
                     break;
             }
+
+            //now set background to what the current thing is and make sure background index has
+            // been changed properly along with other stuff that needed updating
         }
 
         catch (Exception e) {
