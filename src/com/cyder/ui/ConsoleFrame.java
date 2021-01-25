@@ -268,13 +268,20 @@ public class ConsoleFrame extends CyderFrame {
                 }
             }
 
+            //todo make sure console rotations are impossible in full screen
+
             //make master image to set to background and slide
             ImageIcon combinedIcon;
 
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
-                    //todo slide up
+                    //todo set combined icon for parentLabel or whatever it's called
+                    //todo slide combined icon up height dimensions
+                    //todo set icon to newBack
+                    //todo set tooltip of parentLabel to background name
+                    //todo set consoleClockLabel bounds
+
 
                     lastSlideDirection = Direction.TOP;
                     break;
