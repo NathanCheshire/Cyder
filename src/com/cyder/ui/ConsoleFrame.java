@@ -273,6 +273,11 @@ public class ConsoleFrame extends CyderFrame {
             //make master image to set to background and slide
             ImageIcon combinedIcon;
 
+            //todo make an entire minecraft widget mode thing
+            //minecraft widget will also be able to start minecrarft
+            // will also be able to be given a log file or zipped too and
+            // sort through it for just chat messages and list all players it found
+
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
