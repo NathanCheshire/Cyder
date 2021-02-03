@@ -362,17 +362,16 @@ public class ConsoleFrame extends CyderFrame {
 
     public static void setConsoleDirection(ConsoleDirection conDir) {
         consoleDir = conDir;
+        //todo also refresh direction, do nothing if in full screen of course
     }
 
     public static ConsoleDirection getConsoleDirection() {
         return consoleDir;
     }
 
-    private static void rotateConsole() {
-        //todo if setting console dir is different than old value,
-        // call this method and roll the image that way then set like old way
-
-        //todo use this for barrel roll, askew, and ctrl + direction
+    private static void rotateConsole(int deg) {
+        //todo roll console to deg, image should be centered in middle, however
+        // dont use this for setting console dir though, that should snap in direction
     }
 
     private static boolean fullscreen = false;
