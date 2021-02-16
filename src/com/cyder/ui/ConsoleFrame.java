@@ -278,6 +278,9 @@ public class ConsoleFrame extends CyderFrame {
             // will also be able to be given a log file or zipped too and
             // sort through it for just chat messages and list all players it found
 
+            //todo bug found, on logout, should reset console dir (will be fixed with cyderframe instances holding entire cyder instance essentially)
+            //stop music and basically everything on close, (mp3 music continues)
+
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
@@ -287,6 +290,7 @@ public class ConsoleFrame extends CyderFrame {
                     //todo set tooltip of parentLabel to background name
                     //todo set consoleClockLabel bounds
 
+                    //hey make sure that we have the right image here, just display it right quick to ensure that
 
                     lastSlideDirection = Direction.TOP;
                     break;
