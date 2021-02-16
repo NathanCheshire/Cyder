@@ -44,3 +44,4 @@ Currently you can fork the project or download it I suppose. Running it in an ID
 - [ ]  move file.txt, string.txt, and inputmessage.txt to the tmp directory
 - [ ]  utilze html inside of notifications (line breaks, color, bold, italics, etc.)
 - [ ]  be able to set the background to a solid color. On doing so, save the background
+- [ ]  Algorithms package with euclidian algorithm: Algorithms.euclidian(47,63) should return ints in same order to multiply alpha and beta inputs by to get the gcd
