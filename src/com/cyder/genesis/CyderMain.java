@@ -2826,14 +2826,14 @@ public class CyderMain{
                 println("Did you mean who is alex trebek?");
             }
 
-            else if (hasWord("test")) {
+            else if (hasWord("test") && hasWord("cyderframe title")) {
                 //basic frame for UI testing setup below
-
                 CyderFrame testFrame = new CyderFrame(1000,400,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
                 testFrame.setTitle("Longer title than before, long long");
                 testFrame.initResizing();
                 testFrame.setSnapSize(new Dimension(1,1));
                 testFrame.setBackgroundResizing(true);
+                //end here
 
                 final TitlePosition[] current = {TitlePosition.CENTER};
 
@@ -2847,6 +2847,10 @@ public class CyderMain{
 
                 testFrame.setVisible(true);
                 testFrame.setLocationRelativeTo(null);
+            }
+
+            else if (eic("test")) {
+                ConsoleFrame.switchBackground();
             }
 
             else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {

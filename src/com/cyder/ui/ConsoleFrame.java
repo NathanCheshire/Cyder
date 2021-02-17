@@ -231,11 +231,10 @@ public class ConsoleFrame extends CyderFrame {
 
             ImageIcon oldBack = getCurrentBackgroundImageIcon();
             ImageIcon newBack = new ImageIcon(ImageIO.read(getBackgrounds()
-                    .get(getBackgroundIndex() == 0 ? getBackgrounds().size() : getBackgroundIndex() - 1)));
+                    .get(getBackgroundIndex() == 0 ? getBackgrounds().size() - 1 : getBackgroundIndex() - 1)));
 
             int width = newBack.getIconWidth();
             int height = newBack.getIconHeight();
-
 
             boolean fullscreen = IOUtil.getUserData("FullScreen").equalsIgnoreCase("1");
             ConsoleDirection direction = getConsoleDirection();
@@ -281,9 +280,17 @@ public class ConsoleFrame extends CyderFrame {
             //todo bug found, on logout, should reset console dir (will be fixed with cyderframe instances holding entire cyder instance essentially)
             //stop music and basically everything on close, (mp3 music continues)
 
+            //for debugging rn we are setting the lastSlideDirection to test
+            //todo remove me
+            lastSlideDirection = Direction.LEFT;
+
+            //todo before combining images, we need to make sure they're the same size, duhhhhh
+
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
+                    System.out.println(combinedIcon == null);
+
                     //todo set combined icon for parentLabel or whatever it's called
                     //todo slide combined icon up height dimensions
                     //todo set icon to newBack
@@ -291,6 +298,13 @@ public class ConsoleFrame extends CyderFrame {
                     //todo set consoleClockLabel bounds
 
                     //hey make sure that we have the right image here, just display it right quick to ensure that
+                    CyderFrame testFrame = new CyderFrame(combinedIcon.getIconWidth(),combinedIcon.getIconHeight(),combinedIcon);
+                    testFrame.setTitle("Background test");
+                    testFrame.initResizing();
+                    testFrame.setSnapSize(new Dimension(1,1));
+                    testFrame.setBackgroundResizing(true);
+                    testFrame.setVisible(true);
+                    testFrame.setLocationRelativeTo(null);
 
                     lastSlideDirection = Direction.TOP;
                     break;

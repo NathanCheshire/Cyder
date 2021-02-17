@@ -291,6 +291,8 @@ public class ImageUtil {
     public static ImageIcon combineImages(ImageIcon oldImage, ImageIcon newImage, Direction dir) {
         ImageIcon ret = null;
 
+        System.out.println(oldImage.getIconWidth() + "," + oldImage.getIconHeight() + "," + newImage.getIconWidth() + "," + newImage.getIconHeight());
+
         if (oldImage.getIconWidth() != newImage.getIconWidth() || oldImage.getIconHeight() != newImage.getIconHeight())
             return ret;
 
@@ -357,6 +359,7 @@ public class ImageUtil {
             }
 
             ret = new ImageIcon(combined);
+            System.out.println("here");
 
         }
 
