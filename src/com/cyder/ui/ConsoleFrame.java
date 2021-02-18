@@ -224,21 +224,24 @@ public class ConsoleFrame extends CyderFrame {
     // make it also retain a flip direction
     public static void switchBackground() {
         try {
+            //if we only have one background we can't switch
             if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
                 return;
 
-            //todo maybe get next image and get last image methods?
-
+            //todo replace with get next and get last image function calls
             ImageIcon oldBack = getCurrentBackgroundImageIcon();
             ImageIcon newBack = new ImageIcon(ImageIO.read(getBackgrounds()
                     .get(getBackgroundIndex() == 0 ? getBackgrounds().size() - 1 : getBackgroundIndex() - 1)));
 
+            //get the dimensions which we will flip to, the next image
             int width = newBack.getIconWidth();
             int height = newBack.getIconHeight();
 
+            //are we full screened and are we rotated?
             boolean fullscreen = IOUtil.getUserData("FullScreen").equalsIgnoreCase("1");
             ConsoleDirection direction = getConsoleDirection();
 
+            //if full screen then get full screen images
             if (fullscreen) {
                 width = SystemUtil.getScreenWidth();
                 height = SystemUtil.getScreenHeight();
@@ -247,7 +250,9 @@ public class ConsoleFrame extends CyderFrame {
                 newBack = ImageUtil.resizeImage(newBack,width,height);
             }
 
+            //when switching backgrounds, we ignore rotation if in full screen because it is impossible
             else {
+                //not full screen and oriented left
                 if (direction == ConsoleDirection.LEFT) {
                     width = width + height;
                     height = width - height;
@@ -257,6 +262,7 @@ public class ConsoleFrame extends CyderFrame {
                     newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(newBack),-90));
                 }
 
+                //not full screen and oriented right
                 else if (direction == ConsoleDirection.RIGHT) {
                     width = width + height;
                     height = width - height;
@@ -272,7 +278,8 @@ public class ConsoleFrame extends CyderFrame {
             //make master image to set to background and slide
             ImageIcon combinedIcon;
 
-            //todo make an entire minecraft widget mode thing
+            //todo make an entest
+            // tire minecraft widget mode thing
             //minecraft widget will also be able to start minecrarft
             // will also be able to be given a log file or zipped too and
             // sort through it for just chat messages and list all players it found
@@ -280,16 +287,17 @@ public class ConsoleFrame extends CyderFrame {
             //todo bug found, on logout, should reset console dir (will be fixed with cyderframe instances holding entire cyder instance essentially)
             //stop music and basically everything on close, (mp3 music continues)
 
-            //for debugging rn we are setting the lastSlideDirection to test
-            //todo remove me
+            //todo remove me: for debugging rn we are setting the lastSlideDirection to test
             lastSlideDirection = Direction.LEFT;
 
             //todo before combining images, we need to make sure they're the same size, duhhhhh
+            oldBack = ImageUtil.resizeImage(oldBack,width,height);
+            newBack = ImageUtil.resizeImage(newBack,width,height);
 
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
-                    System.out.println(combinedIcon == null);
+                    //todo slide up
 
                     //todo set combined icon for parentLabel or whatever it's called
                     //todo slide combined icon up height dimensions
