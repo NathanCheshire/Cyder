@@ -281,7 +281,7 @@ public class ImageUtil {
         return new ImageIcon(resizedImg);
     }
 
-    /** the two images must be of the same size
+    /** the two images must be of the same size in order to merge them into one image
      *
      * @param newImage - the new image (image to be placed to the dir[ection] of the old image)
      * @param oldImage - the old image (image to be placed center)
@@ -290,8 +290,6 @@ public class ImageUtil {
      */
     public static ImageIcon combineImages(ImageIcon oldImage, ImageIcon newImage, Direction dir) {
         ImageIcon ret = null;
-
-        System.out.println(oldImage.getIconWidth() + "," + oldImage.getIconHeight() + "," + newImage.getIconWidth() + "," + newImage.getIconHeight());
 
         if (oldImage.getIconWidth() != newImage.getIconWidth() || oldImage.getIconHeight() != newImage.getIconHeight())
             return ret;
@@ -359,7 +357,6 @@ public class ImageUtil {
             }
 
             ret = new ImageIcon(combined);
-            System.out.println("here");
 
         }
 

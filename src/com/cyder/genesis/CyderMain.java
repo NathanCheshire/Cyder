@@ -103,6 +103,9 @@ public class CyderMain{
     //anagram one var
     private String anagram; //string vars like this will be public static for direct access for comparison methods
 
+    /**
+     * create user widget
+     */
     //create user vars
     private CyderFrame createUserFrame;
     private JPasswordField newUserPasswordconf;
@@ -112,21 +115,34 @@ public class CyderMain{
     private CyderButton chooseBackground;
     private File createUserBackground;
 
+    /**
+     * pixelate widget
+     */
     //pixealte file
     private File pixelateFile;
 
+    /**
+     * console frame
+     */
     //font list for prefs
     private JList fontList;
 
     //Linked List of youtube scripts
     private LinkedList<YoutubeThread> youtubeThreads = new LinkedList<>();
 
+    //todo goes away
     //sliding background var
     private boolean slidLeft;
 
+    /**
+     * console frame
+     */
     //notifications for holidays
     private SpecialDay specialDayNotifier;
 
+    /**
+     * console frame
+     */
     //boolean for drawing line
     private boolean drawLines = false;
     private boolean linesDrawn = false;
@@ -165,7 +181,10 @@ public class CyderMain{
             }
         }
     }
-    
+
+    /**
+    *   init objects needed for main's use, most will go away and sem should become const in shared package
+    */
     private void initObjects() {
         animation = new CyderAnimation();
         stringUtil = new StringUtil(outputArea);
@@ -220,6 +239,7 @@ public class CyderMain{
     }
 
     //move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
+    // that's all!
     public void console() {
         try{
             ConsoleFrame.resizeBackgrounds();
@@ -228,36 +248,36 @@ public class CyderMain{
             consoleFrame = new JFrame() {
                 @Override
                 public void paint(Graphics g) {
-                    super.paint(g);
+                super.paint(g);
 
-                    if (drawLines && !linesDrawn) {
-                        Graphics2D g2d = (Graphics2D) g;
+                if (drawLines && !linesDrawn) {
+                    Graphics2D g2d = (Graphics2D) g;
 
-                        g2d.setPaint(lineColor);
-                        g2d.setStroke(new BasicStroke(5));
+                    g2d.setPaint(lineColor);
+                    g2d.setStroke(new BasicStroke(5));
 
-                        g2d.drawLine(consoleFrame.getWidth() / 2 - 3,32,consoleFrame.getWidth() / 2 - 3,consoleFrame.getHeight() - 12);
-                        g2d.drawLine(10, consoleFrame.getHeight() / 2 - 3, consoleFrame.getWidth() - 12, consoleFrame.getHeight() / 2 - 3);
+                    g2d.drawLine(consoleFrame.getWidth() / 2 - 3,32,consoleFrame.getWidth() / 2 - 3,consoleFrame.getHeight() - 12);
+                    g2d.drawLine(10, consoleFrame.getHeight() / 2 - 3, consoleFrame.getWidth() - 12, consoleFrame.getHeight() / 2 - 3);
 
-                        BufferedImage img = null;
+                    BufferedImage img = null;
 
-                        try {
-                            img = ImageIO.read(new File("src/com/cyder/sys/pictures/Neffex.png"));
-                        }
-
-                        catch (Exception e) {
-                            ErrorHandler.handle(e);
-                        }
-
-                        int w = img.getWidth(null);
-                        int h = img.getHeight(null);
-
-                        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-
-                        g2d.drawImage(img, consoleFrame.getWidth() / 2 - w / 2, consoleFrame.getHeight() / 2 - h / 2, null);
-
-                        linesDrawn = true;
+                    try {
+                        img = ImageIO.read(new File("src/com/cyder/sys/pictures/Neffex.png"));
                     }
+
+                    catch (Exception e) {
+                        ErrorHandler.handle(e);
+                    }
+
+                    int w = img.getWidth(null);
+                    int h = img.getHeight(null);
+
+                    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+                    g2d.drawImage(img, consoleFrame.getWidth() / 2 - w / 2, consoleFrame.getHeight() / 2 - h / 2, null);
+
+                    linesDrawn = true;
+                }
                 }
             };
             consoleFrame.setUndecorated(true);

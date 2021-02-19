@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class ConsoleFrame extends CyderFrame {
 
     //assuming uuid has been set, this will launch the whole of the program
-    // main now is used for user auth then called ConsoleFrame
+    // main now is used for user auth then called ConsoleFrame so only one instance of console frame should ever exist
     public ConsoleFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //this depends on if loginframe is open or not
         //opening/closing loginframe should also change this value
@@ -221,7 +221,7 @@ public class ConsoleFrame extends CyderFrame {
 
     //todo make changing background animation no more than one second
     // make it work in full screen too and remtain full screen
-    // make it also retain a flip direction
+    // make it also retain a flip direction when changing
     public static void switchBackground() {
         try {
             //if we only have one background we can't switch
@@ -288,7 +288,7 @@ public class ConsoleFrame extends CyderFrame {
             //stop music and basically everything on close, (mp3 music continues)
 
             //todo remove me: for debugging rn we are setting the lastSlideDirection to test
-            lastSlideDirection = Direction.LEFT;
+            lastSlideDirection = Direction.BOTTOM;
 
             //todo before combining images, we need to make sure they're the same size, duhhhhh
             oldBack = ImageUtil.resizeImage(oldBack,width,height);
@@ -297,43 +297,34 @@ public class ConsoleFrame extends CyderFrame {
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
-                    //todo slide up
+                    //todo slide up so label bounds are 0,height,width,height
 
                     //todo set combined icon for parentLabel or whatever it's called
-                    //todo slide combined icon up height dimensions
+                    //todo slide combined icon up height dimensions jlabel x up by height
                     //todo set icon to newBack
                     //todo set tooltip of parentLabel to background name
-                    //todo set consoleClockLabel bounds
-
-                    //hey make sure that we have the right image here, just display it right quick to ensure that
-                    CyderFrame testFrame = new CyderFrame(combinedIcon.getIconWidth(),combinedIcon.getIconHeight(),combinedIcon);
-                    testFrame.setTitle("Background test");
-                    testFrame.initResizing();
-                    testFrame.setSnapSize(new Dimension(1,1));
-                    testFrame.setBackgroundResizing(true);
-                    testFrame.setVisible(true);
-                    testFrame.setLocationRelativeTo(null);
+                    //todo set consoleClockLabel bounds and other stuff make make a refresh consoleframe method
 
                     lastSlideDirection = Direction.TOP;
                     break;
 
                 case TOP:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.LEFT);
-                    //todo slide right
+                    //todo slide right so label bounds are -width,0,width,height
 
                     lastSlideDirection = Direction.RIGHT;
                     break;
 
                 case RIGHT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.TOP);
-                    //todo slide down
+                    //todo slide down so label bounds are 0,-height,width,height
 
                     lastSlideDirection = Direction.BOTTOM;
                     break;
 
                 case BOTTOM:
-                    combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
-                    //todo slide left
+                    combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.RIGHT);
+                    //todo slide left so label bounds are width,0,width,height
 
                     lastSlideDirection = Direction.LEFT;
                     break;
