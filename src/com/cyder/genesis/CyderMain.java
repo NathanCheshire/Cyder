@@ -56,57 +56,59 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class CyderMain{
+    //todo shared package
     public static Semaphore exitingSem;
+    private LinkedList<YoutubeThread> youtubeThreads = new LinkedList<>();
 
-    private static JTextPane outputArea; //console frame
-    private JTextField inputField; //console frame
-    public static JFrame consoleFrame; //stay in main so only one instance of a ConsoleFrame exists
-    private JButton minimize; //console frame
-    private JButton close; //console frame
-    private JLabel consoleClockLabel; //console frame
-    private boolean updateConsoleClock; //console frame
-    private static JLabel loginLabel2; //stay
-    private static JLabel loginLabel3;//stay
-    private JLabel parentLabel; //console frame
+    //todo console frame
+    private static JTextPane outputArea;
+    private JTextField inputField;
+    //stay in main so only one instance of a ConsoleFrame exists
+    public static JFrame consoleFrame;
+    private JButton minimize;
+    private JButton close;
+    private JLabel consoleClockLabel;
+    private boolean updateConsoleClock;
+    private JLabel parentLabel;
+    private static ArrayList<String> operationList = new ArrayList<>();
+    private static int scrollingIndex;
+    private boolean drawLines = false;
+    private boolean linesDrawn = false;
+    private Color lineColor = Color.white;
+    private JList fontList;
+    private SpecialDay specialDayNotifier;
+    private JLabel menuLabel;
+    private JLayeredPane parentPane;
+    private JButton suggestionButton;
+    private JButton menuButton;
+    private CyderScrollPane outputScroll;
+    private JButton alternateBackground;
 
-    private CyderScrollPane outputScroll; //console frame
-    private JButton alternateBackground; //console frame
-    private JLabel consoleDragLabel; //this will go away
-    private JLayeredPane parentPane; //console frame
-    private JButton suggestionButton; //console frame
-    private JButton menuButton; //console frame
+    //todo login
+    private static JLabel loginLabel2;
+    private static JLabel loginLabel3;
     private static CyderFrame loginFrame;
     private static JTextField nameField;
-    private static JPasswordField pass; //stay
-    private JLabel newUserLabel; //stay
-    private JLabel menuLabel; //console frame
+    private static JPasswordField pass;
+    private JLabel newUserLabel;
 
-    //Objects for main use
+    //todo handler
     private StringUtil stringUtil;
+    private String operation;
+    private String anagram;
+
+    //todo go away
     private static CyderAnimation animation;
-
-    //operation var
-    private static ArrayList<String> operationList = new ArrayList<>(); //console frame
-    private static int scrollingIndex; //console frame
-
-    //deiconified restore vars
-    private int restoreX; //console frame
-    private int restoreY; //console frame
-
-    //drag pos vars;
-    private int xMouse; //goes away
-    private int yMouse; //goes away
-
-    //handler case vars
-    private String operation; //handler method, will be public static wherever it is
-
-    //anagram one var
-    private String anagram; //string vars like this will be public static for direct access for comparison methods
+    private int restoreX;
+    private int restoreY;
+    private int xMouse;
+    private int yMouse;
+    private boolean slidLeft;
+    private JLabel consoleDragLabel;
 
     /**
      * create user widget
      */
-    //create user vars
     private CyderFrame createUserFrame;
     private JPasswordField newUserPasswordconf;
     private JPasswordField newUserPassword;
@@ -118,36 +120,7 @@ public class CyderMain{
     /**
      * pixelate widget
      */
-    //pixealte file
     private File pixelateFile;
-
-    /**
-     * console frame
-     */
-    //font list for prefs
-    private JList fontList;
-
-    //Linked List of youtube scripts
-    private LinkedList<YoutubeThread> youtubeThreads = new LinkedList<>();
-
-    //todo goes away
-    //sliding background var
-    private boolean slidLeft;
-
-    /**
-     * console frame
-     */
-    //notifications for holidays
-    private SpecialDay specialDayNotifier;
-
-    /**
-     * console frame
-     */
-    //boolean for drawing line
-    private boolean drawLines = false;
-    private boolean linesDrawn = false;
-    private Color lineColor = Color.white;
-
 
     public static void main(String[] CA) {
         new CyderMain(CA);
@@ -238,8 +211,9 @@ public class CyderMain{
         }
     }
 
-    //move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
-    // that's all!
+    /**move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
+    that's all!
+    */
     public void console() {
         try{
             ConsoleFrame.resizeBackgrounds();
@@ -263,9 +237,7 @@ public class CyderMain{
 
                     try {
                         img = ImageIO.read(new File("src/com/cyder/sys/pictures/Neffex.png"));
-                    }
-
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         ErrorHandler.handle(e);
                     }
 
@@ -316,8 +288,8 @@ public class CyderMain{
             outputArea.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    minimizeMenu();
-                    inputField.requestFocus();
+                minimizeMenu();
+                inputField.requestFocus();
                 }
             });
 
@@ -330,8 +302,8 @@ public class CyderMain{
             outputArea.setBackground(new Color(0,0,0,0));
 
             outputScroll = new CyderScrollPane(outputArea,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             outputScroll.setThumbColor(CyderColors.intellijPink);
             outputScroll.getViewport().setOpaque(false);
             outputScroll.setOpaque(false);
@@ -357,13 +329,11 @@ public class CyderMain{
             inputField.addKeyListener(new KeyListener() {
                 @Override
                 public void keyPressed(java.awt.event.KeyEvent e) {
-                    if (inputField.getText().length() == 1) {
+                    if (inputField.getText().length() == 1)
                         inputField.setText(inputField.getText().toUpperCase());
-                    }
 
-                    if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
+                    if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                         handle("controlc");
-                    }
 
                     if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
                         ConsoleFrame.setConsoleDirection(ConsoleDirection.DOWN);
@@ -395,9 +365,8 @@ public class CyderMain{
 
                 @Override
                 public void keyReleased(java.awt.event.KeyEvent e) {
-                    if (inputField.getText().length() == 1) {
+                    if (inputField.getText().length() == 1)
                         inputField.setText(inputField.getText().toUpperCase());
-                    }
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
                         drawLines = false;
@@ -408,9 +377,8 @@ public class CyderMain{
 
                 @Override
                 public void keyTyped(java.awt.event.KeyEvent e) {
-                    if (inputField.getText().length() == 1) {
+                    if (inputField.getText().length() == 1)
                         inputField.setText(inputField.getText().toUpperCase());
-                    }
                 }
             });
 
@@ -421,7 +389,8 @@ public class CyderMain{
             consoleFrame.addWindowListener(consoleEcho);
 
             inputField.setBounds(10, 82 + outputArea.getHeight(),
-                    ConsoleFrame.getBackgroundWidth() - 20, ConsoleFrame.getBackgroundHeight() - (outputArea.getHeight() + 62 + 40));
+            ConsoleFrame.getBackgroundWidth() - 20, ConsoleFrame.getBackgroundHeight() -
+                            (outputArea.getHeight() + 62 + 40));
             inputField.setOpaque(false);
 
             parentLabel.add(inputField);
@@ -639,9 +608,8 @@ public class CyderMain{
                     int x = e.getXOnScreen();
                     int y = e.getYOnScreen();
 
-                    if (consoleFrame != null && consoleFrame.isFocused()) {
+                    if (consoleFrame != null && consoleFrame.isFocused())
                         consoleFrame.setLocation(x - xMouse, y - yMouse);
-                    }
                 }
 
                 @Override
@@ -685,8 +653,8 @@ public class CyderMain{
             consoleFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowDeiconified(WindowEvent e) {
-                    updateConsoleClock = true;
-                    consoleFrame.setLocation(restoreX, restoreY);
+                updateConsoleClock = true;
+                consoleFrame.setLocation(restoreX, restoreY);
                 }
             });
 
@@ -759,9 +727,7 @@ public class CyderMain{
 
             //internet checker every 5 minutes
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-                //if (!NetworkUtil.internetReachable())
-//                    notify("Internet connection slow or unavailble",
-//                            3000, ArrowDirection.TOP, VanishDirection.TOP, parentPane,450);
+                //network unreachable notification
             },0, 5, TimeUnit.MINUTES);
 
             consoleClockLabel.setVisible(updateConsoleClock);
