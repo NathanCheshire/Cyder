@@ -3,7 +3,7 @@
 
 ## Background
 
-Cyder started as a way to test my basic java skills and have fun while taking AP Computer Science in 2017. As I continued to grow, work piled up and I had college and internships. Recently, however, I have began to work on it in my free time as a hobby. I know so much more now than when I started and hope to keep adding features for quite some time. Ultimately though, I'll probably call it adequte at best and either move on, or try to recreate it in Flutter probably. 
+Cyder started as a way to test my basic java skills and have fun while taking AP Computer Science in 2017. As I continued to grow, work piled up and I had college and internships. Recently, however, I have began to work on it in my free time as a hobby. I know so much more now than when I started and hope to keep adding features for quite some time. Ultimately though, I'll probably call it adequte at best and either move on, or try to recreate it using C++ and completely platform-independent resources.
 
 The best way I can describe Cyder is a multipurpose tool that launches all of the java projects I have done, are currently working on, or will do. I know certain ways I do things are not great and PLEASE do not comment about me building a java LAF from scratch essentailly and not using JavaFX. I am aware of these (I should hope I know since I'm the developer behind Cyder) and consider it a challenge to not work with modern UI depdencies.
 
@@ -17,16 +17,16 @@ Currently you can fork the project or download it I suppose. Running it in an ID
 
 ## TODO
 
-- [ ] take into account possible secondary/tertiary monitors and know which one you're on
-- [ ] be able to adapt to different screen resolutions and maintain relative size
-- [ ] add a device manager so that you can see what's connected to the PC through the program
-- [ ] add @return, @param, @args, etc. to most methods
-- [ ] comment the code
-- [ ] log exit codes at what time and by whom
-- [ ] make chat IO logs for each session
-- [ ] move start data to user specific and place in a logs dir for the user. You should zip these logs upon completion
-- [ ] incorporate CyderProgressUI for ProgressBars wherever it might fit
-- [ ] put spotlight inside of the program
+- [ ]  take into account possible secondary/tertiary monitors and know which one you're on
+- [ ]  be able to adapt to different screen resolutions and maintain relative size
+- [ ]  add a device manager so that you can see what's connected to the PC through the program
+- [ ]  add @return, @param, @args, etc. to most methods
+- [ ]  comment the code
+- [ ]  log exit codes at what time and by whom
+- [ ]  make chat IO logs for each session
+- [ ]  move start data to user specific and place in a logs dir for the user. You should zip these logs upon completion
+- [ ]  incorporate CyderProgressUI for ProgressBars wherever it might fit
+- [ ]  put spotlight inside of the program
 - [ ]  get ImAvg working and put it inside the program
 - [ ]  allow users to map up to three internet links and place them on the menu panel
 - [ ]  allow users to rearrange the menu panel and remember what they do
@@ -45,3 +45,6 @@ Currently you can fork the project or download it I suppose. Running it in an ID
 - [ ]  utilze html inside of notifications (line breaks, color, bold, italics, etc.)
 - [ ]  be able to set the background to a solid color. On doing so, save the background
 - [ ]  Algorithms package with euclidian algorithm: Algorithms.euclidian(47,63) should return ints in same order to multiply alpha and beta inputs by to get the gcd
+- [ ]  make an entire minecraft widget which can launch minecraft via the offical launcher, lunar client, or any other client provided the user can provide a path to the executable
+- [ ]  allow starting executables to be mapped to links within the menu
+- [ ]  convert all non vector based images to SVGs or other vector based data structures
