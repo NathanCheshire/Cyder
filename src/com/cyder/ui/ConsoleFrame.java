@@ -278,12 +278,6 @@ public class ConsoleFrame extends CyderFrame {
             //make master image to set to background and slide
             ImageIcon combinedIcon;
 
-            //todo make an entest
-            // tire minecraft widget mode thing
-            //minecraft widget will also be able to start minecrarft
-            // will also be able to be given a log file or zipped too and
-            // sort through it for just chat messages and list all players it found
-
             //todo bug found, on logout, should reset console dir (will be fixed with cyderframe instances holding entire cyder instance essentially)
             //stop music and basically everything on close, (mp3 music continues)
 
