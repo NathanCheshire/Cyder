@@ -15,6 +15,10 @@ The name comes from, well, I don't know to be completely transparent. I think it
 
 Currently you can fork the project or download it I suppose. Running it in an IDE like Eclipse or IntelliJ shouldn't be that hard if you know what you're doing. For IntelliJ which is what I use, you might have to import the libraries inside the jars folder (src/com/cyder/sys/jars). Other than that, it should be pretty simple to get it working on your machine. ~~At some point I'll make it a jar that can download all the files and resources it needs from the internet and be independent of an IDE.~~
 
+## Disclaimers
+
+As of 3.2.21, the program is intended for 2560x1440 resolution displays (my main display). I plan to fix this using SVG and other vector based graphics approaches in the future but currently, seeing as this message is still here, the program will look and operating the best using a 2560x1440 display, Windows 10+, and Java 8.
+
 ## TODO
 
 - [ ]  take into account possible secondary/tertiary monitors and know which one you're on
@@ -48,3 +52,4 @@ Currently you can fork the project or download it I suppose. Running it in an ID
 - [ ]  make an entire minecraft widget which can launch minecraft via the offical launcher, lunar client, or any other client provided the user can provide a path to the executable
 - [ ]  allow starting executables to be mapped to links within the menu
 - [ ]  convert all non vector based images to SVGs or other vector based data structures
+- [ ]  if the operating system is OSX, swap the location of the menu and window toggle trio and make it resemble the green, yellow, red dots on OSX
