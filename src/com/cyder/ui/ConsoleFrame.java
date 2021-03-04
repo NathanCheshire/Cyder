@@ -291,7 +291,7 @@ public class ConsoleFrame extends CyderFrame {
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
-                    //todo slide up so label bounds are 0,height,width,height
+                    //todo slide up by height so init bounds are 0,height,width,height
 
                     //todo set combined icon for parentLabel or whatever it's called
                     //todo slide combined icon up height dimensions jlabel x up by height
@@ -304,21 +304,21 @@ public class ConsoleFrame extends CyderFrame {
 
                 case TOP:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.LEFT);
-                    //todo slide right so label bounds are -width,0,width,height
+                    //todo slide right by width so init bounds are -width,0,width,height
 
                     lastSlideDirection = Direction.RIGHT;
                     break;
 
                 case RIGHT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.TOP);
-                    //todo slide down so label bounds are 0,-height,width,height
+                    //todo slide down by height so init bounds are 0,-height,width,height
 
                     lastSlideDirection = Direction.BOTTOM;
                     break;
 
                 case BOTTOM:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.RIGHT);
-                    //todo slide left so label bounds are width,0,width,height
+                    //todo slide left by width so init bounds are width,0,width,height
 
                     lastSlideDirection = Direction.LEFT;
                     break;
