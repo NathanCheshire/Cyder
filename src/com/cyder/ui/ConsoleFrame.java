@@ -222,7 +222,7 @@ public class ConsoleFrame extends CyderFrame {
     //todo make changing background animation no more than one second
     // make it work in full screen too and remtain full screen
     // make it also retain a flip direction when changing
-    public static void switchBackground() {
+    public static void switchBackground(JLabel iconLabel) {
         try {
             //if we only have one background we can't switch
             if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
@@ -291,6 +291,9 @@ public class ConsoleFrame extends CyderFrame {
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
+                    iconLabel.setIcon(combinedIcon);
+                    iconLabel.setBounds(20,height,width,height);
+                    //new CyderAnimation().jLabelYUp(0, -height, 10, 10, iconLabel);
                     //todo slide up by height so init bounds are 0,height,width,height
 
                     //todo set combined icon for parentLabel or whatever it's called
