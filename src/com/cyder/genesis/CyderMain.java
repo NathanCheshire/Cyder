@@ -197,8 +197,10 @@ public class CyderMain{
                 String line = ac.readLine();
                 String[] parts = line.split(":");
 
-                if (parts.length == 2 && !parts[0].equals("") && !parts[1].equals(""))
+                if (parts.length == 2 && !parts[0].equals("") && !parts[1].equals("")) {
+                    ac.close();
                     recognize(parts[0], parts[1].toCharArray());
+                }
             }
 
             else
