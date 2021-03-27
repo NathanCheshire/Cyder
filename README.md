@@ -2,10 +2,7 @@
  By Nathan Cheshire
  
 ## Screenshots
-![A vertical background]()
-![A horizontal background]()
-![The login screen for build soultree]()
-![The console and a small fraction of the available features]()
+TODO
 
 ## Background
 
