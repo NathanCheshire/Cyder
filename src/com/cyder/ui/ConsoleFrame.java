@@ -1,5 +1,6 @@
 package com.cyder.ui;
 
+import com.cyder.annotations.CyderMapping;
 import com.cyder.enums.ConsoleDirection;
 import com.cyder.enums.Direction;
 import com.cyder.handler.ErrorHandler;
@@ -219,10 +220,10 @@ public class ConsoleFrame extends CyderFrame {
     // you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
     // to do this, just have a backgroundLabel that you can slide in and out
 
-    //todo make changing background animation no more than one second
-    // make it work in full screen too and remtain full screen
-    // make it also retain a flip direction when changing
-    public static void switchBackground(JLabel iconLabel) {
+    //todo make changing background animation no more than one second (so redo the method to calculate step)
+    // make it also retain a console orientation when transitioning (both full screen or not full screen)
+    @CyderMapping(message = "consoleFrame")
+    public static void switchBackground() {
         try {
             //if we only have one background we can't switch
             if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
@@ -281,9 +282,6 @@ public class ConsoleFrame extends CyderFrame {
             //todo bug found, on logout, should reset console dir (will be fixed with cyderframe instances holding entire cyder instance essentially)
             //stop music and basically everything on close, (mp3 music continues)
 
-            //todo remove me: for debugging rn we are setting the lastSlideDirection to test
-            lastSlideDirection = Direction.BOTTOM;
-
             //todo before combining images, we need to make sure they're the same size, duhhhhh
             oldBack = ImageUtil.resizeImage(oldBack,width,height);
             newBack = ImageUtil.resizeImage(newBack,width,height);
@@ -291,16 +289,13 @@ public class ConsoleFrame extends CyderFrame {
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
-                    iconLabel.setIcon(combinedIcon);
-                    iconLabel.setBounds(20,height,width,height);
+                    //todo set image bounds
+                    //todo setbackground do this new image
                     //new CyderAnimation().jLabelYUp(0, -height, 10, 10, iconLabel);
                     //todo slide up by height so init bounds are 0,height,width,height
-
-                    //todo set combined icon for parentLabel or whatever it's called
-                    //todo slide combined icon up height dimensions jlabel x up by height
-                    //todo set icon to newBack
+                    //todo set actual icon to background
                     //todo set tooltip of parentLabel to background name
-                    //todo set consoleClockLabel bounds and other stuff make make a refresh consoleframe method
+                    //todo refresh consoleclock bounds
 
                     lastSlideDirection = Direction.TOP;
                     break;

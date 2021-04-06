@@ -2838,7 +2838,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                ConsoleFrame.switchBackground(parentLabel);
+                ConsoleFrame.switchBackground();
             }
 
             else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
