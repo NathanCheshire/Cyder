@@ -2,10 +2,7 @@
  By Nathan Cheshire
  
 ## Screenshots
-![A vertical background]()
-![A horizontal background]()
-![The login screen for build soultree]()
-![The console and a small fraction of the available features]()
+TODO
 
 ## Background
 
@@ -59,3 +56,6 @@ As of 3.2.21, the program is intended for 2560x1440 resolution displays (my main
 - [ ]  allow starting executables to be mapped to links within the menu
 - [ ]  convert all non vector based images to SVGs or other vector based data structures
 - [ ]  if the operating system is OSX, swap the location of the menu and window toggle trio and make it resemble the green, yellow, red dots on OSX
+- [ ]  implement convex hull algorithm
+- [ ]  implement convex hull visualizer
+- [ ]  implement path finding visualizer but also link to pac-man game
