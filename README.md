@@ -21,7 +21,7 @@ Currently you can fork the project or download it I suppose. Running it in an ID
 
 ## Disclaimers
 
-As of 3.2.21, the program is intended for 2560x1440 resolution displays (my main display). I plan to fix this using SVG and other vector based graphics approaches in the future but currently, seeing as this message is still here, the program will look and operating the best using a 2560x1440 display, Windows 10+, and Java 8.
+As of 3.2.21, the program is intended for 2560x1440 resolution displays (my main display). I plan to fix this using SVG and other vector based graphics approaches in the future but currently, seeing as this message is still here, the program will look and operate best using a 2560x1440 display, Windows 10+, and Java 8+.
 
 ## TODO
 
