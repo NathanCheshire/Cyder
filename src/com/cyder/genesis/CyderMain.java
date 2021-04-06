@@ -2838,7 +2838,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                ConsoleFrame.switchBackground();
+                print(InputUtil.getString("Enter any string"));
             }
 
             else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
@@ -4583,7 +4583,12 @@ public class CyderMain{
      * so you shouldn't do any reading or writing to files or anything with locks/semaphores
      */
     private void shutdown() {
+        //delete temp dir
         IOUtil.deleteTempDir();
+        //delete all getter files
+        new File("InputMessage.txt").delete();
+        new File("File.txt").delete();
+        new File("String.txt").delete();
     }
 
     public void checkFiles() {

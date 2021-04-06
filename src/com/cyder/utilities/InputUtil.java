@@ -43,6 +43,7 @@ public class InputUtil {
             waitReader.close();
 
             f.delete();
+            new File("InputMessage.txt").delete();
 
             if (chosenString == null || chosenString.equals("null"))
                 return "null";
