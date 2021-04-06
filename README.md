@@ -2,7 +2,8 @@
  By Nathan Cheshire
  
 ## Screenshots
-TODO
+Desktop full of Cyder Widgets <br/>
+<img src="https://i.imgur.com/ys4xi0E.png" data-canonical-src="https://i.imgur.com/ys4xi0E.png" width="640" height="351" />
 
 ## Background
 
