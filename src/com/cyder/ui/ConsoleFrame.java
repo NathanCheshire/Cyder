@@ -18,7 +18,7 @@ import java.util.LinkedList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class ConsoleFrame extends CyderFrame {
+public final class ConsoleFrame extends CyderFrame {
 
     //assuming uuid has been set, this will launch the whole of the program
     // main now is used for user auth then called ConsoleFrame so only one instance of console frame should ever exist

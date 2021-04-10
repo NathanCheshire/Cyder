@@ -12,11 +12,13 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class Hasher {
     private JPasswordField hashField;
 
     public Hasher() {
-        CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         hashFrame.setTitlePosition(TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");
 

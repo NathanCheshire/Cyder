@@ -18,6 +18,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class YouTubeThumbnail {
     private CyderFrame yttnFrame;
     private CyderButton getYTTN;
@@ -32,7 +34,7 @@ public class YouTubeThumbnail {
         if (yttnFrame != null)
             yttnFrame.closeAnimation();
 
-        yttnFrame = new CyderFrame(600,250,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        yttnFrame = new CyderFrame(600,250,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         yttnFrame.setTitle("YouTube Thumbnail");
 
         JLabel VideoID = new JLabel("Enter a valid YouTube video ID");

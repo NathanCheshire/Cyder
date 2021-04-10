@@ -19,6 +19,8 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class Notes {
     private static CyderFrame noteEditorFrame;
     private JTextArea noteEditArea;
@@ -45,7 +47,7 @@ public class Notes {
         if (noteFrame != null)
             noteFrame.closeAnimation();
 
-        noteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        noteFrame = new CyderFrame(600,625, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         noteFrame.setTitle(ConsoleFrame.getUsername() + new StringUtil().getApostrophe(ConsoleFrame.getUsername()) + " notes");
 
         initializeNotesList();
@@ -144,7 +146,7 @@ public class Notes {
         if (newNoteFrame != null)
             newNoteFrame.closeAnimation();
 
-        newNoteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        newNoteFrame = new CyderFrame(600,625, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         newNoteFrame.setTitle("New note");
 
         JLabel FileNameLabel = new JLabel("Note Title");
@@ -256,7 +258,7 @@ public class Notes {
         if (noteEditorFrame != null)
             noteEditorFrame.closeAnimation();
 
-        noteEditorFrame = newNoteFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        noteEditorFrame = newNoteFrame = new CyderFrame(600,625, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
 
         noteEditField = new JTextField(20);

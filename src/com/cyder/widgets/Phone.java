@@ -9,12 +9,14 @@ import com.cyder.utilities.IOUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class Phone {
     private JLabel numberLabel;
     private String phoneNum;
 
     public Phone() {
-        CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         phoneFrame.setTitle("Phone");
 
         numberLabel = new JLabel("#");

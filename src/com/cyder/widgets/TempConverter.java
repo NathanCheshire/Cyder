@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.text.DecimalFormat;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class TempConverter {
     private CyderFrame temperatureFrame;
     private JTextField startingValue;
@@ -25,7 +27,7 @@ public class TempConverter {
         if (temperatureFrame != null)
             temperatureFrame.closeAnimation();
 
-        temperatureFrame = new CyderFrame(600,320,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        temperatureFrame = new CyderFrame(600,320,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         temperatureFrame.setTitle("Temperature Converter");
 
         JLabel ValueLabel = new JLabel("Measurement: ");

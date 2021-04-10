@@ -11,10 +11,11 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 
 import static com.cyder.Constants.CyderColors.navy;
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class ColorConverter {
     public static void colorConverter() {
-        CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         colorFrame.setTitle("Color Converter");
 
         JLabel hexLabel = new JLabel("HEX:");

@@ -11,6 +11,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class TicTacToe {
 
     private CyderFrame tttFrame;
@@ -37,7 +39,7 @@ public class TicTacToe {
         if (tttFrame != null)
             tttFrame.closeAnimation();
 
-        tttFrame = new CyderFrame(400,500, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        tttFrame = new CyderFrame(400,500, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         tttFrame.setTitlePosition(TitlePosition.CENTER);
         tttFrame.setTitle("Tic Tac Toe");
 

@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class WeatherWidget {
     private JLabel locationLabel;
     private JLabel currentWeatherLabel;
@@ -141,7 +143,7 @@ public class WeatherWidget {
         changeLocationLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                CyderFrame changeLocationFrame = new CyderFrame(600,310,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+                CyderFrame changeLocationFrame = new CyderFrame(600,310,new ImageIcon(DEFAULT_BACKGROUND_PATH));
                 changeLocationFrame.setTitle("Change Location");
 
 

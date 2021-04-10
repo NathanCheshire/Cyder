@@ -14,6 +14,8 @@ import java.awt.event.*;
 import java.io.File;
 import java.util.Stack;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class DirectorySearch {
     private CyderFrame dirFrame;
     private JTextField dirField;
@@ -30,7 +32,7 @@ public class DirectorySearch {
         if (dirFrame != null)
             dirFrame.closeAnimation();
 
-        dirFrame = new CyderFrame(620,470, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        dirFrame = new CyderFrame(620,470, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         dirFrame.setTitle(new File(System.getProperty("user.dir")).getName());
 
         dirField = new JTextField(40);

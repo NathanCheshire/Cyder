@@ -17,6 +17,8 @@ import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class Hangman {
     private CyderFrame HangmanFrame;
     private String HangmanWord;
@@ -32,7 +34,7 @@ public class Hangman {
         if (HangmanFrame != null)
             HangmanFrame.closeAnimation();
 
-        HangmanFrame = new CyderFrame(712,812,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        HangmanFrame = new CyderFrame(712,812,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         HangmanFrame.setTitlePosition(TitlePosition.CENTER);
         HangmanFrame.setTitle("Hangman");
 

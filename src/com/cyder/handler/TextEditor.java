@@ -13,6 +13,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.*;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class TextEditor {
 
     private CyderFrame noteEditorFrame;
@@ -27,7 +29,7 @@ public class TextEditor {
         if (noteEditorFrame != null)
             noteEditorFrame.closeAnimation();
 
-        noteEditorFrame = new CyderFrame(600,625, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        noteEditorFrame = new CyderFrame(600,625, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
 
         noteEditField = new JTextField(20);

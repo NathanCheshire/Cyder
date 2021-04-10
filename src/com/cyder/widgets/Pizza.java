@@ -17,6 +17,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class Pizza {
 
     private CyderFrame pizzaFrame;
@@ -41,7 +43,7 @@ public class Pizza {
         if (pizzaFrame != null)
             pizzaFrame.closeAnimation();
 
-        pizzaFrame = new CyderFrame(600,800, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        pizzaFrame = new CyderFrame(600,800, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         pizzaFrame.setTitle("Pizza");
 
         JLabel CustomerName = new JLabel("Name:");

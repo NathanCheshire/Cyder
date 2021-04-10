@@ -20,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class PhotoViewer {
 
     private LinkedList<File> validImages = new LinkedList<>();
@@ -416,7 +418,7 @@ public class PhotoViewer {
             return;
         }
 
-        renameFrame = new CyderFrame(400,170,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        renameFrame = new CyderFrame(400,170,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         renameFrame.setTitle("Rename");
 
         JTextField renameField = new JTextField(20);

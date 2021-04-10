@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class NumberUtil {
     private static CyderFrame numFrame;
 
@@ -121,7 +123,7 @@ public class NumberUtil {
         if (numFrame != null)
             numFrame.closeAnimation();
 
-        numFrame = new CyderFrame(600,230, new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        numFrame = new CyderFrame(600,230, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         numFrame.setTitle("Number To Words");
         numFrame.setTitlePosition(TitlePosition.CENTER);
         numFrame.initResizing();

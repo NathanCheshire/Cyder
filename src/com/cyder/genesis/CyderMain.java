@@ -42,6 +42,8 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 /*
     Commenting etiquette I will follow (attempt to that is)
 
@@ -1508,11 +1510,7 @@ public class CyderMain{
         }).start();
     }
 
-    //todo move to consoleFrame
-    private void refreshFullscreen() {
-        refreshConsoleFrame();
-    }
-
+    //move to consoleframe
     private void refreshConsoleFrame() {
         ConsoleFrame.initBackgrounds();
         LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
@@ -2652,14 +2650,15 @@ public class CyderMain{
                 for(Frame f: frames)
                     if (f instanceof CyderFrame)
                         ((CyderFrame) (f)).dance();
-                    //todo make dance ctrl-c-able
+                        //todo make dance cancelable by user,
+                        //method to handle ctrl + c actions within each frame
             }
 
             else if (hasWord("clear") && (hasWord("operation") ||
                     hasWord("command")) && hasWord("list")) {
                 operationList.clear();
                 scrollingIndex = 0;
-                //todo log these so really also have a bounds index pair
+                //todo log these in chat log. Tags: [USER], [SYSTEM], [EXCEPTION] (link to exception file)
                 println("Command history reset.");
             }
 
@@ -2803,7 +2802,7 @@ public class CyderMain{
 
             else if (hasWord("test") && hasWord("cyderframe title")) {
                 //basic frame for UI testing setup below
-                CyderFrame testFrame = new CyderFrame(1000,400,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+                CyderFrame testFrame = new CyderFrame(1000,400,new ImageIcon(DEFAULT_BACKGROUND_PATH));
                 testFrame.setTitle("Longer title than before, long long");
                 testFrame.initResizing();
                 testFrame.setSnapSize(new Dimension(1,1));
@@ -3233,7 +3232,7 @@ public class CyderMain{
         if (editUserFrame != null)
             editUserFrame.closeAnimation();
 
-        editUserFrame = new CyderFrame(1000,800,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        editUserFrame = new CyderFrame(1000,800,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         editUserFrame.setTitlePosition(TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
 
@@ -4003,13 +4002,10 @@ public class CyderMain{
             boolean wasSelected = IOUtil.getUserData("FullScreen").equals("1");
                 IOUtil.writeUserData("FullScreen", (wasSelected ? "0" : "1"));
             fullscreen.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-            if (wasSelected) {
+            if (wasSelected)
                 exitFullscreen();
-            }
-
-            else {
-                refreshFullscreen();
-            }
+            else
+                refreshConsoleFrame();
             }
         });
         fullscreen.setBounds(20 + 2 * 100 + 2 * 45, 235,100,100);
@@ -4183,6 +4179,8 @@ public class CyderMain{
         switchingPanel.revalidate();
     }
 
+    //todo convert repeated paths to string contants
+
     //CreateUser class in genesis
     public void createUser() {
         createUserBackground = null;
@@ -4190,7 +4188,7 @@ public class CyderMain{
         if (createUserFrame != null)
             createUserFrame.closeAnimation();
 
-        createUserFrame = new CyderFrame(356,473,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        createUserFrame = new CyderFrame(356,473,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         createUserFrame.setTitle("Create User");
 
         JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);
@@ -4451,6 +4449,7 @@ public class CyderMain{
                     BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
                             "src/users/" + uuid + "/Userdata.txt"));
 
+                    //todo copy from a template here and replace the REPLACE keywords with username and password
                     LinkedList<String> data = new LinkedList<>();
                     data.add("Name:" + newUserName.getText().trim());
                     data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
@@ -4533,7 +4532,6 @@ public class CyderMain{
                 menuLabel.setVisible(false);
                 menuButton.setIcon(new ImageIcon("src/com/cyder/sys/pictures/menuSide1.png"));
             });
-
             waitThread.start();
         }
     }

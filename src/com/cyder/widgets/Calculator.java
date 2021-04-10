@@ -11,13 +11,15 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class Calculator {
     private String calculatorExpression = "";
     
     public Calculator() {
         calculatorExpression = "";
 
-        CyderFrame calculatorFrame = new CyderFrame(600,600,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        CyderFrame calculatorFrame = new CyderFrame(600,600,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         calculatorFrame.setTitle("Calculator");
 
         JTextField calculatorField = new JTextField(20);

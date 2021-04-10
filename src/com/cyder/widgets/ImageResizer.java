@@ -20,6 +20,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+
 public class ImageResizer {
 
     private JTextField xdim;
@@ -36,7 +38,7 @@ public class ImageResizer {
     private boolean maintainAspectRatio = true;
 
     public ImageResizer() {
-        CyderFrame resizeFrame = new CyderFrame(800,800,new ImageIcon("src/com/cyder/sys/pictures/DefaultBackground.png"));
+        CyderFrame resizeFrame = new CyderFrame(800,800,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         resizeFrame.setTitle("Image Resizer");
 
         previewLabel = new JLabel();
