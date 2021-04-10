@@ -290,12 +290,12 @@ public class ConsoleFrame extends CyderFrame {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
                     //todo set image bounds
-                    //todo setbackground do this new image
+                    //todo setbackground tod this new image
                     //new CyderAnimation().jLabelYUp(0, -height, 10, 10, iconLabel);
                     //todo slide up by height so init bounds are 0,height,width,height
                     //todo set actual icon to background
-                    //todo set tooltip of parentLabel to background name
-                    //todo refresh consoleclock bounds
+
+                    //rest all new bounds
 
                     lastSlideDirection = Direction.TOP;
                     break;
@@ -322,8 +322,10 @@ public class ConsoleFrame extends CyderFrame {
                     break;
             }
 
-            //now set background to what the current thing is and make sure background index has
-            // been changed properly along with other stuff that needed updating
+//            parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
+//            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
+//                            CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
+//                    2,CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
         }
 
         catch (Exception e) {
@@ -331,6 +333,9 @@ public class ConsoleFrame extends CyderFrame {
         }
     }
 
+    /**
+     * @return returns the current background with using the current background ImageIcon and whether or not full screen is active
+     */
     public static int getBackgroundWidth() {
         if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
             return (int) SystemUtil.getScreenSize().getWidth();
@@ -338,6 +343,9 @@ public class ConsoleFrame extends CyderFrame {
             return getCurrentBackgroundImageIcon().getIconWidth();
     }
 
+    /**
+     * @return returns the current background height using the current background ImageIcon and whether or not full screen is active
+     */
     public static int getBackgroundHeight() {
         if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
             return (int) SystemUtil.getScreenSize().getHeight();

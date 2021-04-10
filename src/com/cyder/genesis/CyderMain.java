@@ -1417,15 +1417,121 @@ public class CyderMain{
     }
 
     //todo move to consoleFrame
+    private void switchBackground() {
+        new Thread(() -> {
+            try {
+                ConsoleFrame.initBackgrounds();
+
+                LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
+                int oldIndex = (ConsoleFrame.getBackgroundIndex() == 0 ? backgrounds.size() - 1 : ConsoleFrame.getBackgroundIndex() - 1);
+                String oldBackFile = backgrounds.get(oldIndex).toString();
+                String newBackFile = ConsoleFrame.getCurrentBackgroundFile().toString();
+
+                ImageIcon oldBack = new ImageIcon(oldBackFile);
+                BufferedImage newBack = ImageIO.read(new File(newBackFile));
+
+                BufferedImage temporaryImage;
+                int temporaryWidth = 0;
+                int temporaryHeight = 0;
+                
+                if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+                    oldBack = new ImageIcon(ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
+                            (int) SystemUtil.getScreenSize().getHeight(),new File(oldBackFile)));
+                    newBack = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
+                            (int) SystemUtil.getScreenSize().getHeight(),
+                            new File(newBackFile));
+                    temporaryImage = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
+                            (int) SystemUtil.getScreenSize().getHeight(),
+                            new File(oldBackFile));
+                    temporaryWidth = temporaryImage.getWidth();
+                    temporaryHeight = temporaryImage.getHeight();
+                }
+
+                else {
+                    newBack = ImageUtil.resizeImage(newBack.getWidth(), newBack.getHeight(),new File(newBackFile));
+                    temporaryImage = ImageUtil.resizeImage(newBack.getWidth(), newBack.getHeight(), new File(oldBackFile));
+                    temporaryWidth = temporaryImage.getWidth();
+                    temporaryHeight = temporaryImage.getHeight();
+                }
+
+                refreshConsoleFrame();
+
+                consoleFrame.setLocationRelativeTo(null);
+                //set new frame relative to old frame
+                //we need to get bounds and location of old frame, determine it's center
+                //find the center of the new image
+                //and align that center with the old center using math
+
+                //based on last slide direction
+                if (slidLeft) {
+                    JLabel temporaryLabel = new JLabel();
+
+                    //setting proper icons to labels to give animation the effect of sliding
+                    parentLabel.setIcon(new ImageIcon(newBack));
+                    temporaryLabel.setIcon(new ImageIcon(temporaryImage));
+
+                    //add temporary label
+                    parentPane.add(temporaryLabel);
+
+                    //set proper bounds
+                    parentLabel.setBounds(-temporaryWidth, 0, temporaryWidth, temporaryHeight);
+                    temporaryLabel.setBounds(0, 0 ,temporaryWidth, temporaryHeight);
+
+                    int[] parts = AnimationUtil.getDelayIncrement(temporaryWidth);
+
+                    //animate the labels
+                    animation.jLabelXRight(0, temporaryWidth, parts[0], parts[1], temporaryLabel);
+                    animation.jLabelXRight(-temporaryWidth, 0 ,parts[0], parts[1], parentLabel);
+                }
+
+                else {
+                    JLabel temporaryLabel = new JLabel();
+                    parentLabel.setIcon(new ImageIcon(newBack));
+                    temporaryLabel.setIcon(new ImageIcon(temporaryImage));
+                    parentPane.add(temporaryLabel);
+                    parentLabel.setBounds(temporaryWidth, 0, temporaryWidth, temporaryHeight);
+                    temporaryLabel.setBounds(0, 0 ,temporaryWidth, temporaryHeight);
+
+                    int[] parts = AnimationUtil.getDelayIncrement(temporaryWidth);
+
+                    animation.jLabelXLeft(0, -temporaryWidth, parts[0], parts[1], temporaryLabel);
+                    animation.jLabelXLeft(temporaryWidth, 0 ,parts[0], parts[1], parentLabel);
+                }
+
+                //invert scrolling direction for next time
+                slidLeft = !slidLeft;
+            }
+
+            catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }).start();
+    }
+
+    //todo move to consoleFrame
     private void refreshFullscreen() {
+        refreshConsoleFrame();
+    }
+
+    private void refreshConsoleFrame() {
         ConsoleFrame.initBackgrounds();
         LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
         String backFile = backgrounds.get(ConsoleFrame.getBackgroundIndex()).toString();
 
         ImageIcon backIcon = new ImageIcon(backFile);
+        BufferedImage fullimg = null;
 
-        BufferedImage fullimg = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
-                (int) SystemUtil.getScreenSize().getHeight(), new File(backFile));
+        if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+            fullimg = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
+                    (int) SystemUtil.getScreenSize().getHeight(), new File(backFile));
+        } else {
+            try {
+                fullimg = ImageIO.read(new File(backFile));
+            } catch (IOException e) {
+                ErrorHandler.handle(e);
+            }
+        }
+
         int fullW = fullimg.getWidth();
         int fullH = fullimg.getHeight();
 
@@ -1453,127 +1559,8 @@ public class CyderMain{
 
         consoleFrame.setLocationRelativeTo(null);
 
-        editUserFrame.setAlwaysOnTop(true);
-        editUserFrame.setAlwaysOnTop(false);
-    }
-
-    //todo move to consoleFrame
-    private void switchBackground() {
-        new Thread(() -> {
-            try {
-                ConsoleFrame.initBackgrounds();
-
-                LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
-                int oldIndex = (ConsoleFrame.getBackgroundIndex() == 0 ? backgrounds.size() - 1 : ConsoleFrame.getBackgroundIndex() - 1);
-                String oldBackFile = backgrounds.get(oldIndex).toString();
-                String newBackFile = ConsoleFrame.getCurrentBackgroundFile().toString();
-
-                ImageIcon oldBack = new ImageIcon(oldBackFile);
-                BufferedImage newBack = ImageIO.read(new File(newBackFile));
-
-                BufferedImage temporaryImage;
-                int tempW = 0;
-                int tempH = 0;
-                
-                if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                    oldBack = new ImageIcon(ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
-                            (int) SystemUtil.getScreenSize().getHeight(),new File(oldBackFile)));
-                    newBack = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
-                            (int) SystemUtil.getScreenSize().getHeight(),
-                            new File(newBackFile));
-                    temporaryImage = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
-                            (int) SystemUtil.getScreenSize().getHeight(),
-                            new File(oldBackFile));
-                    tempW = temporaryImage.getWidth();
-                    tempH = temporaryImage.getHeight();
-                }
-
-                else {
-                    newBack = ImageUtil.resizeImage(newBack.getWidth(), newBack.getHeight(),new File(newBackFile));
-                    temporaryImage = ImageUtil.resizeImage(newBack.getWidth(), newBack.getHeight(), new File(oldBackFile));
-                    tempW = temporaryImage.getWidth();
-                    tempH = temporaryImage.getHeight();
-                }
-
-                consoleFrame.setBounds(0, 0, tempW, tempH);
-                parentPane.setBounds(0, 0,  tempW, tempH);
-                parentLabel.setBounds(0, 0,  tempW, tempH);
-
-                outputArea.setBounds(0, 0, tempW - 20, tempH - 204);
-                outputScroll.setBounds(10, 62, tempW - 20, tempH - 204);
-                inputField.setBounds(10, 82 + outputArea.getHeight(), tempW - 20, tempH - (outputArea.getHeight() + 62 + 40));
-                consoleDragLabel.setBounds(0,0,tempW,30);
-                minimize.setBounds(tempW - 81, 4, 22, 20);
-                alternateBackground.setBounds(tempW - 54, 4, 22, 20);
-                close.setBounds(tempW - 27, 4, 22, 20);
-
-                consoleFrame.repaint();
-                consoleFrame.setVisible(true);
-                consoleFrame.requestFocus();
-                inputField.requestFocus();
-
-                //todo maybe to avoid the white line in the center, merge the two images into a temporary one and slide it
-                // (some will be out of bounds) then when animation is finished, set back to main background
-
-                consoleFrame.setLocationRelativeTo(null);
-                //if this is not here it puts it in the top left corner
-                //figure out how to smart align this because the size will change
-
-                //maybe spawn an invisible component that doesnt show up relative to old frame and then set
-                // new frame location relative to it and then dispose the invisible frame
-
-                //based on last slide direction
-                if (slidLeft) {
-                    //reset the jlabel, maybe we don't need to do this but instead can just be like
-                    // .setIcon to change the icon
-                    JLabel temporaryLabel = new JLabel();
-
-                    //setting proper icons to labels to give animation the effect of sliding
-                    parentLabel.setIcon(new ImageIcon(newBack));
-                    temporaryLabel.setIcon(new ImageIcon(temporaryImage));
-
-                    //add temporary label
-                    parentPane.add(temporaryLabel);
-
-                    //set proper bounds
-                    parentLabel.setBounds(-tempW, 0, tempW, tempH);
-                    temporaryLabel.setBounds(0, 0 ,tempW, tempH);
-
-                    //refine this method to get delay increment to last for about a second no matter what
-                    // skip for prims
-                    int[] parts = AnimationUtil.getDelayIncrement(tempW);
-
-                    //animate the labels
-                    animation.jLabelXRight(0, tempW, parts[0], parts[1], temporaryLabel);
-                    animation.jLabelXRight(-tempW, 0 ,parts[0], parts[1], parentLabel);
-                }
-
-                else {
-                    JLabel temporaryLabel = new JLabel();
-                    parentLabel.setIcon(new ImageIcon(newBack));
-                    temporaryLabel.setIcon(new ImageIcon(temporaryImage));
-                    parentPane.add(temporaryLabel);
-                    parentLabel.setBounds(tempW, 0, tempW, tempH);
-                    temporaryLabel.setBounds(0, 0 ,tempW, tempH);
-
-                    int[] parts = AnimationUtil.getDelayIncrement(tempW);
-
-                    animation.jLabelXLeft(0, -tempW, parts[0], parts[1], temporaryLabel);
-                    animation.jLabelXLeft(tempW, 0 ,parts[0], parts[1], parentLabel);
-                }
-
-                slidLeft = !slidLeft;
-
-                parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
-                consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
-                                CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
-                        2,CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
-            }
-
-            catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }).start();
+        if (editUserFrame != null)
+            editUserFrame.setAlwaysOnTop(true);
     }
 
     //todo move to simple sliding text and not pictures
@@ -3354,6 +3341,7 @@ public class CyderMain{
         editUserFrame.getContentPane().add(changePassword);
 
         editUserFrame.setLocationRelativeTo(null);
+        editUserFrame.setAlwaysOnTop(true);
         editUserFrame.setVisible(true);
         editUserFrame.requestFocus();
     }
@@ -4595,7 +4583,7 @@ public class CyderMain{
         //todo if a certain file is missing, attempt to download it
     }
 
-    public void downloadFile(String httpString) {
-        //download all files from links if secure internet connection
+    public void downloadFile(String httpString, boolean important) {
+        //todo download httpString file if secure internet connection, if we can't get it and important, exit and inform
     }
 }
