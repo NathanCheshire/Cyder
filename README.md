@@ -60,3 +60,4 @@ As of 3.2.21, the program is intended for 2560x1440 resolution displays (my main
 - [ ]  implement convex hull algorithm
 - [ ]  implement convex hull visualizer
 - [ ]  implement path finding visualizer but also link to pac-man game
+- [ ]  make certain classes final, throw an error inside the constructor if you initialize a class that doens't need to be
