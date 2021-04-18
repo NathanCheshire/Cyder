@@ -22,6 +22,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class IOUtil {
+
+    private IOUtil () {} //private constructor to avoid object creation
+
     private static LinkedList<NST> userData = new LinkedList<>();
     private static LinkedList<NST> systemData = new LinkedList<>();
 
@@ -247,10 +250,8 @@ public class IOUtil {
                 argsString += cyderArgs[i];
             }
 
-            IPUtil ipu = new IPUtil();
-
             dates.push(new SimpleDateFormat("MM-dd-yy HH:mm:ss").format(new Date())
-                    + " : " + argsString + " in " + ipu.getUserCity() + ", " + ipu.getUserState());
+                    + " : " + argsString + " in " + IPUtil.getUserCity() + ", " + IPUtil.getUserState());
 
             for (String lin : dates) {
                 bw.write(lin);

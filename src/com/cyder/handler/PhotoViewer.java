@@ -28,7 +28,6 @@ public class PhotoViewer {
     private File startDir;
     private int currentIndex;
 
-    private AnimationUtil fa = new AnimationUtil();
     private DragLabel dl;
     private JFrame pictureFrame;
     private CyderFrame renameFrame;
@@ -49,7 +48,7 @@ public class PhotoViewer {
         File ImageName = validImages.get(currentIndex);
 
         if (pictureFrame != null)
-            fa.closeAnimation(pictureFrame);
+            AnimationUtil.closeAnimation(pictureFrame);
 
         BufferedImage Image = null;
 
@@ -407,7 +406,7 @@ public class PhotoViewer {
 
     private void rename() {
         if (renameFrame != null)
-            fa.closeAnimation(renameFrame);
+            AnimationUtil.closeAnimation(renameFrame);
 
         File currentRename = new File(validImages.get(currentIndex).getAbsolutePath());
         File currentBackground = ConsoleFrame.getCurrentBackgroundFile().getAbsoluteFile();
@@ -453,7 +452,7 @@ public class PhotoViewer {
 
             pictureFrame.setTitle(name);
 
-            fa.closeAnimation(renameFrame);
+            AnimationUtil.closeAnimation(renameFrame);
         });
         attemptRen.setBounds(40,100,320,40);
         renameFrame.getContentPane().add(attemptRen);

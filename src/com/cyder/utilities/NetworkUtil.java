@@ -10,6 +10,8 @@ import java.net.URI;
 
 public class NetworkUtil {
 
+    private NetworkUtil() {} //private constructor to avoid object creation
+
     public static void internetConnect(String URL) {
         Desktop Internet = Desktop.getDesktop();
         try {
@@ -28,7 +30,7 @@ public class NetworkUtil {
         }
     }
 
-    public boolean siteReachable(String URL) {
+    public static boolean siteReachable(String URL) {
         Process Ping;
 
         try {
@@ -46,7 +48,7 @@ public class NetworkUtil {
         return true;
     }
 
-    public int latency(int timeout) {
+    public static int latency(int timeout) {
         Socket Sock = new Socket();
         SocketAddress Address = new InetSocketAddress("www.google.com", 80);
         long start = System.currentTimeMillis();

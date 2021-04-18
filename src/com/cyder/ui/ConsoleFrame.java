@@ -23,12 +23,48 @@ public final class ConsoleFrame extends CyderFrame {
     //assuming uuid has been set, this will launch the whole of the program
     // main now is used for user auth then called ConsoleFrame so only one instance of console frame should ever exist
     public ConsoleFrame() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //this depends on if loginframe is open or not
-        //opening/closing loginframe should also change this value
+        resizeBackgrounds();
+        initBackgrounds();
+    }
+
+    private boolean drawConsoleLines = false;
+    private boolean consoleLinesDrawn = false;
+    private Color lineColor = Color.white;
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+
+        //todo make a boolean holder class for console frame?
+        if (drawConsoleLines && !consoleLinesDrawn) {
+            Graphics2D g2d = (Graphics2D) g;
+
+            g2d.setPaint(lineColor);
+            g2d.setStroke(new BasicStroke(5));
+
+            g2d.drawLine(getWidth() / 2 - 3,32,getWidth() / 2 - 3,getHeight() - 12);
+            g2d.drawLine(10, getHeight() / 2 - 3, getWidth() - 12, getHeight() / 2 - 3);
+
+            BufferedImage img = null;
+
+            try {
+                img = ImageIO.read(new File("src/com/cyder/sys/pictures/Neffex.png"));
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+
+            int w = img.getWidth(null);
+            int h = img.getHeight(null);
+
+            BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+            g2d.drawImage(img, getWidth() / 2 - w / 2, getHeight() / 2 - h / 2, null);
+
+            consoleLinesDrawn = true;
+        }
     }
 
     private static String UUID;
-
     public static void setUUID(String uuid) {
         UUID = uuid;
     }
@@ -354,7 +390,6 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     private static boolean consoleClockEnabled;
-
     public static void setConsoleClock(Boolean enable) {
         consoleClockEnabled = enable;
 
@@ -376,7 +411,6 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     private static ConsoleDirection consoleDir = ConsoleDirection.UP;
-
     public static void setConsoleDirection(ConsoleDirection conDir) {
         consoleDir = conDir;
         //todo also refresh direction, do nothing if in full screen of course
@@ -392,7 +426,6 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     private static boolean fullscreen = false;
-
     public static void setFullscreen(Boolean enable) {
         fullscreen = enable;
     }
@@ -402,7 +435,6 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     private static int scrollingDowns;
-
     public static int getScrollingDowns() {
         return scrollingDowns;
     }

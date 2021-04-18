@@ -104,31 +104,27 @@ public class StatUtil {
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
 
-            IPUtil ipu = new IPUtil();
-
-            BufferedImage flag = ImageIO.read(new URL(new IPUtil().getUserFlagURL()));
+            BufferedImage flag = ImageIO.read(new URL(IPUtil.getUserFlagURL()));
 
             double x = flag.getWidth();
             double y = flag.getHeight();
 
             outputArea.insertIcon(new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
 
-            NetworkUtil nu = new NetworkUtil();
-
             String[] lines = {"Time requested: " + TimeUtil.weatherTime(),
-                    "ISP: " + ipu.getIsp(),
-                    "IP: " + ipu.getUserIP(),
-                    "Postal Code: " + ipu.getUserPostalCode(),
-                    "City: " + ipu.getUserCity(),
-                    "State: " + ipu.getUserState(),
-                    "Country: " + ipu.getUserCountry() + " (" + ipu.getUserCountryAbr() + ")",
-                    "Latitude: " + ipu.getLat() + " Degrees N",
-                    "Longitude: " + ipu.getLon() + " Degrees W",
-                    "latency: " + nu.latency(10000) + " ms",
-                    "Google Reachable: " + nu.siteReachable("https://www.google.com"),
-                    "YouTube Reachable: " + nu.siteReachable("https://www.youtube.com"),
-                    "Apple Reachable: " + nu.siteReachable("https://www.apple.com"),
-                    "Microsoft Reachable: " + nu.siteReachable("https://www.microsoft.com//en-us//"),
+                    "ISP: " + IPUtil.getIsp(),
+                    "IP: " + IPUtil.getUserIP(),
+                    "Postal Code: " + IPUtil.getUserPostalCode(),
+                    "City: " + IPUtil.getUserCity(),
+                    "State: " + IPUtil.getUserState(),
+                    "Country: " + IPUtil.getUserCountry() + " (" + IPUtil.getUserCountryAbr() + ")",
+                    "Latitude: " + IPUtil.getLat() + " Degrees N",
+                    "Longitude: " + IPUtil.getLon() + " Degrees W",
+                    "latency: " + NetworkUtil.latency(10000) + " ms",
+                    "Google Reachable: " + NetworkUtil.siteReachable("https://www.google.com"),
+                    "YouTube Reachable: " + NetworkUtil.siteReachable("https://www.youtube.com"),
+                    "Apple Reachable: " + NetworkUtil.siteReachable("https://www.apple.com"),
+                    "Microsoft Reachable: " + NetworkUtil.siteReachable("https://www.microsoft.com//en-us//"),
                     "User Name: " + SystemUtil.getWindowsUsername(),
                     "Computer Name: " + SystemUtil.getComputerName(),
                     "Available Cores: " + Runtime.getRuntime().availableProcessors(),

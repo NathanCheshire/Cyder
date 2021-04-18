@@ -178,7 +178,7 @@ public class WeatherWidget {
 
                         useCustomLoc = true;
 
-                        new AnimationUtil().closeAnimation(changeLocationFrame);
+                        AnimationUtil.closeAnimation(changeLocationFrame);
                         weatherFrame.inform("Attempting to refresh and use the location \"" + locationString + "\" for weather.", "");
                         refreshWeatherNow();
                     }
@@ -440,11 +440,9 @@ public class WeatherWidget {
 
     protected void weatherStats() {
         try {
-            IPUtil ipu = new IPUtil();
-
-            userCity = ipu.getUserCity();
-            userState = ipu.getUserState();
-            userCountry = ipu.getUserCountry();
+            userCity = IPUtil.getUserCity();
+            userState = IPUtil.getUserState();
+            userCountry = IPUtil.getUserCountry();
 
             if (!useCustomLoc)
                 locationString = userCity + "," + userState + "," + userCountry;
@@ -464,7 +462,7 @@ public class WeatherWidget {
                         .replace(":", "").replace("\"", "").replace("[", "")
                         .replace("]", "").replace(":", "").split(",");
 
-                Fields = new StringUtil().combineArrays(Fields, LineArray);
+                Fields = StringUtil.combineArrays(Fields, LineArray);
             }
 
             WeatherReader.close();

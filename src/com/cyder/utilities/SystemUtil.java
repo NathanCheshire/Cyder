@@ -10,6 +10,8 @@ import java.net.InetAddress;
 
 public class SystemUtil {
 
+    private SystemUtil () {}
+
     private static ImageIcon cyderIcon = new ImageIcon("src/com/cyder/sys/pictures/CyderIcon.png");
     private static ImageIcon cyderIconBlink = new ImageIcon("src/com/cyder/sys/pictures/CyderIconBlink.png");
     private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("src/com/cyder/sys/pictures/CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));

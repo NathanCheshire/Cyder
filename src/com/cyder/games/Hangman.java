@@ -147,7 +147,7 @@ public class Hangman {
             ErrorHandler.handle(e);
         }
 
-        HangmanLabel.setText("<html>" + new StringUtil().fillString(HangmanWord.length(), " _ ") + "</html>");
+        HangmanLabel.setText("<html>" + StringUtil.fillString(HangmanWord.length(), " _ ") + "</html>");
 
         HangmanImageLabel.setIcon(new ImageIcon("src/com/cyder/sys/pictures/hangman.png"));
 

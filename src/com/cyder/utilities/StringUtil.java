@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class StringUtil {
     private static JTextPane outputArea;
 
-    public StringUtil() {}
+    private StringUtil() {}
 
     public StringUtil(JTextPane outputArea) {
         this.outputArea = outputArea;
@@ -457,7 +457,7 @@ public class StringUtil {
         }
     }
 
-    public String getApostrophe(String name) {
+    public static String getApostrophe(String name) {
         if (name.endsWith("s"))
             return "'";
         else
@@ -468,7 +468,7 @@ public class StringUtil {
         return (s == null ? null: (s == null) || (s.trim().equals("")) || (s.trim().length() == 0));
     }
 
-    public String fillString(int count, String c) {
+    public static String fillString(int count, String c) {
         StringBuilder sb = new StringBuilder(count);
 
         for (int i = 0; i < count; i++) {
@@ -507,7 +507,7 @@ public class StringUtil {
         return m.find() ? m.group() : null;
     }
 
-    public String[] combineArrays(String[] a, String[] b) {
+    public static String[] combineArrays(String[] a, String[] b) {
         int length = a.length + b.length;
         String[] result = new String[length];
         System.arraycopy(a, 0, result, 0, a.length);

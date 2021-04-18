@@ -20,7 +20,9 @@ import java.util.*;
 
 public class ImageUtil {
 
-    private CyderFrame pixelFrame;
+    private ImageUtil() {} //private constructor to avoid object creation
+
+    private static CyderFrame pixelFrame;
 
     public static BufferedImage pixelate(BufferedImage imageToPixelate, int pixelSize) {
         BufferedImage pixelateImage = new BufferedImage(
@@ -93,7 +95,7 @@ public class ImageUtil {
         return new Color(dominantRGB);
     }
 
-    public void pixelate(File path, int pixelSize) {
+    public static void pixelate(File path, int pixelSize) {
         try {
             BufferedImage retImage = ImageUtil.pixelate(ImageIO.read(path), pixelSize);
             String NewName = path.getName().replace(".png", "") + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
@@ -145,7 +147,7 @@ public class ImageUtil {
         }
     }
 
-    public BufferedImage imageFromColor(int x, int y, Color c) {
+    public static BufferedImage imageFromColor(int x, int y, Color c) {
         BufferedImage bi = new BufferedImage(x,y,BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bi.createGraphics();
 

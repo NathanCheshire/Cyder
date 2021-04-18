@@ -28,8 +28,6 @@ public class YouTubeThumbnail {
     private int xMouse;
     private int yMouse;
 
-    private NetworkUtil networkUtil = new NetworkUtil();
-
     public YouTubeThumbnail() {
         if (yttnFrame != null)
             yttnFrame.closeAnimation();
@@ -122,7 +120,7 @@ public class YouTubeThumbnail {
                 PictureLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                    networkUtil.internetConnect("https://www.youtube.com/watch?v=" + YouTubeID);
+                    NetworkUtil.internetConnect("https://www.youtube.com/watch?v=" + YouTubeID);
                     }
                 });
                 PictureLabel.setBounds(0, 0, Thumbnail.getWidth(), Thumbnail.getHeight());

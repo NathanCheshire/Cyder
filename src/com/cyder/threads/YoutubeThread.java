@@ -21,8 +21,7 @@ public class YoutubeThread {
     private StringUtil su;
 
     public YoutubeThread(JTextPane jTextPane) {
-        su = new StringUtil();
-        su.setOutputArea(jTextPane);
+        su = new StringUtil(jTextPane);
 
         new Thread(() -> {
             while (!exit) {
@@ -65,7 +64,7 @@ public class YoutubeThread {
                         pictureLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                new NetworkUtil().internetConnect(video);
+                                NetworkUtil.internetConnect(video);
                             }
                         });
 

@@ -48,7 +48,7 @@ public class Notes {
             noteFrame.closeAnimation();
 
         noteFrame = new CyderFrame(600,625, new ImageIcon(DEFAULT_BACKGROUND_PATH));
-        noteFrame.setTitle(ConsoleFrame.getUsername() + new StringUtil().getApostrophe(ConsoleFrame.getUsername()) + " notes");
+        noteFrame.setTitle(ConsoleFrame.getUsername() + StringUtil.getApostrophe(ConsoleFrame.getUsername()) + " notes");
 
         initializeNotesList();
 

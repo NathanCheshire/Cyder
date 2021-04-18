@@ -15,6 +15,8 @@ import java.util.LinkedList;
 import java.util.UUID;
 
 public class SecurityUtil {
+    private SecurityUtil() {} //private constructor to avoid object creation
+
     public static String getMACAddress() {
         byte[] MAC = null;
 

@@ -97,8 +97,6 @@ public class CyderFrame extends JFrame {
     }
 
     /** returns an instance of a cyderframe which extends JFrame with a width of 400 and a height of 400 and a drag label with minimize and close buttons
-     * @param width - the specified width of the cyder frame
-     * @param height - the specified height of the cyder frame
      */
     public CyderFrame() {
         int width = 400, height = 400;
@@ -130,9 +128,11 @@ public class CyderFrame extends JFrame {
     }
 
     public void setTitlePosition(TitlePosition titlePosition) {
-        boolean different = titlePosition != this.titlePosition;
+        boolean different = titlePosition != this.titlePosition && titlePosition != null && this.titlePosition != null;
         this.titlePosition = titlePosition;
         long timeout = 2;
+
+        //TODO starting an app for the first time, so inital set of the title should not animate it moving
 
         if (different) {
             if (titlePosition != TitlePosition.CENTER) {
@@ -149,9 +149,7 @@ public class CyderFrame extends JFrame {
                         }
                     }
                 }).start();
-            }
-
-            else {
+            } else {
                 new Thread(() -> {
                     for (int i = 5 ; i <  (getDragLabel().getWidth() / 2) - (getTitleWidth(titleLabel.getText()) / 2) + 1; i++) {
                         titleLabel.setLocation(i, 2);

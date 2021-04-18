@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
 public class ClickMe {
     public static void clickMe() {
         try {
-            CyderFrame clickMeFrame = new CyderFrame(220,100, new ImageIcon(new ImageUtil().imageFromColor(220,100, CyderColors.vanila)));
+            CyderFrame clickMeFrame = new CyderFrame(220,100, new ImageIcon(ImageUtil.imageFromColor(220,100, CyderColors.vanila)));
             clickMeFrame.setTitlePosition(TitlePosition.CENTER);
             clickMeFrame.setTitle("");
 

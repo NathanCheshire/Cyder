@@ -24,6 +24,9 @@ import java.util.Random;
 import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class NumberUtil {
+
+    private NumberUtil() {} //private constructor to avoid object creation
+
     private static CyderFrame numFrame;
 
     public static int randInt(int min, int max) {

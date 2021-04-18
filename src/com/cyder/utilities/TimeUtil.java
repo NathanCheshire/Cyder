@@ -22,11 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class TimeUtil {
 
     private int gmtOffset;
-    private IPUtil InternetProtocolUtil;
-
     public TimeUtil() {
-        InternetProtocolUtil = new IPUtil();
-
         initGMTOffset();
     }
 
@@ -71,8 +67,8 @@ public class TimeUtil {
     private void initGMTOffset() {
         try {
             String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
-                    InternetProtocolUtil.getUserCity() + "," + InternetProtocolUtil.getUserState() + "," +
-                    InternetProtocolUtil.getUserCountry() + "&appid=" + IOUtil.getSystemData("Weather") + "&units=imperial";
+                    IPUtil.getUserCity() + "," + IPUtil.getUserState() + "," +
+                    IPUtil.getUserCountry() + "&appid=" + IOUtil.getSystemData("Weather") + "&units=imperial";
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
@@ -84,7 +80,7 @@ public class TimeUtil {
                         .replace(":", "").replace("\"", "").replace("[", "")
                         .replace("]", "").replace(":", "").split(",");
 
-                Fields = new StringUtil().combineArrays(Fields, LineArray);
+                Fields = StringUtil.combineArrays(Fields, LineArray);
             }
 
             WeatherReader.close();
@@ -114,7 +110,7 @@ public class TimeUtil {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
         scheduler.schedule(() -> {
-            new AnimationUtil().closeAnimation(consoleFrame);
+            AnimationUtil.closeAnimation(consoleFrame);
 
             try {
                 CyderMain.exitingSem.acquire();

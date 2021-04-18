@@ -211,9 +211,6 @@ public class CyderMain{
     private JLabel parentLabel;
     private static ArrayList<String> operationList = new ArrayList<>();
     private static int scrollingIndex;
-    private boolean drawConsoleLines = false;
-    private boolean consoleLinesDrawn = false;
-    private Color lineColor = Color.white;
     private JList fontList;
     private SpecialDay specialDayNotifier;
     private JLabel menuLabel;
@@ -233,42 +230,8 @@ public class CyderMain{
             ConsoleFrame.resizeBackgrounds();
             ConsoleFrame.initBackgrounds();
 
-            consoleFrame = new JFrame() {
-                @Override
-                public void paint(Graphics g) {
-                super.paint(g);
-
-                //todo make a boolean holder class for console frame?
-                if (drawConsoleLines && !consoleLinesDrawn) {
-                    Graphics2D g2d = (Graphics2D) g;
-
-                    g2d.setPaint(lineColor);
-                    g2d.setStroke(new BasicStroke(5));
-
-                    g2d.drawLine(consoleFrame.getWidth() / 2 - 3,32,consoleFrame.getWidth() / 2 - 3,consoleFrame.getHeight() - 12);
-                    g2d.drawLine(10, consoleFrame.getHeight() / 2 - 3, consoleFrame.getWidth() - 12, consoleFrame.getHeight() / 2 - 3);
-
-                    BufferedImage img = null;
-
-                    try {
-                        img = ImageIO.read(new File("src/com/cyder/sys/pictures/Neffex.png"));
-                    } catch (Exception e) {
-                        ErrorHandler.handle(e);
-                    }
-
-                    int w = img.getWidth(null);
-                    int h = img.getHeight(null);
-
-                    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-
-                    g2d.drawImage(img, consoleFrame.getWidth() / 2 - w / 2, consoleFrame.getHeight() / 2 - h / 2, null);
-
-                    consoleLinesDrawn = true;
-                }
-                }
-            };
+            consoleFrame = new JFrame();
             consoleFrame.setUndecorated(true);
-            consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             consoleFrame.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), ConsoleFrame.getBackgroundHeight());
             consoleFrame.setTitle(IOUtil.getSystemData("Version") + " Cyder [" + ConsoleFrame.getUsername() + "]");
@@ -371,10 +334,10 @@ public class CyderMain{
                     }
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                        if (!consoleLinesDrawn) {
-                            drawConsoleLines = true;
-                            consoleFrame.repaint();
-                        }
+//                        if (!consoleLinesDrawn) {
+//                            drawConsoleLines = true;
+//                            consoleFrame.repaint();
+//                        }
                     }
                 }
 
@@ -384,9 +347,9 @@ public class CyderMain{
                         inputField.setText(inputField.getText().toUpperCase());
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                        drawConsoleLines = false;
-                        consoleLinesDrawn = false;
-                        consoleFrame.repaint();
+//                        drawConsoleLines = false;
+//                        consoleLinesDrawn = false;
+//                        consoleFrame.repaint();
                     }
                 }
 
@@ -550,7 +513,7 @@ public class CyderMain{
                     ConsoleFrame.initBackgrounds();
 
                     try {
-                        lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
+                        //lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
 
                         if (ConsoleFrame.canSwitchBackground() && ConsoleFrame.getBackgrounds().size() > 1) {
                             ConsoleFrame.incBackgroundIndex();
@@ -747,7 +710,7 @@ public class CyderMain{
 
             consoleClockLabel.setVisible(updateConsoleClock);
 
-            lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
+            //lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
 
             if (IOUtil.getUserData("DebugWindows").equals("1")) {
                 StatUtil.systemProperties();
@@ -1779,7 +1742,7 @@ public class CyderMain{
 
             else if (desc.equalsIgnoreCase("pixelate") && input != null && !input.equals("")) {
                 println("Pixelating " + pixelateFile.getName() + " with a pixel block size of " + input + "...");
-                new ImageUtil().pixelate(pixelateFile, Integer.parseInt(input));
+                 ImageUtil.pixelate(pixelateFile, Integer.parseInt(input));
             }
 
             else if (desc.equalsIgnoreCase("alphabetize")) {
@@ -2601,8 +2564,8 @@ public class CyderMain{
             }
 
             else if (hasWord("location") || (hasWord("where") && hasWord("am") && hasWord("i"))) {
-                println("You are currently in " + new IPUtil().getUserCity() + ", " +
-                        new IPUtil().getUserState() + " and your Internet Service Provider is " + new IPUtil().getIsp());
+                println("You are currently in " + IPUtil.getUserCity() + ", " +
+                        IPUtil.getUserState() + " and your Internet Service Provider is " + IPUtil.getIsp());
             }
 
             else if (hasWord("fibonacci")) {

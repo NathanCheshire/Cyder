@@ -6,6 +6,9 @@ import java.awt.*;
 import java.io.*;
 
 public class InputUtil {
+
+    private InputUtil() {} //private constructor to avoid object creation
+
     public static boolean confirmation(String input) {
         return (input.toLowerCase().contains("yes") || input.equalsIgnoreCase("y"));
     }

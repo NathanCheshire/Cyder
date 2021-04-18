@@ -14,8 +14,6 @@ public class DragLabel extends JLabel {
     private int height;
     private static JFrame effectFrame;
 
-    AnimationUtil fa = new AnimationUtil();
-
     private int xMouse;
     private int yMouse;
 
@@ -66,7 +64,7 @@ public class DragLabel extends JLabel {
 
         close = new JButton("");
         close.setToolTipText("Close");
-        close.addActionListener(e -> fa.closeAnimation(effectFrame));
+        close.addActionListener(e -> AnimationUtil.closeAnimation(effectFrame));
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -91,7 +89,7 @@ public class DragLabel extends JLabel {
         minimize.addActionListener(e -> {
             restoreX = effectFrame.getX();
             restoreY = effectFrame.getY();
-            fa.minimizeAnimation(effectFrame);
+            AnimationUtil.minimizeAnimation(effectFrame);
         });
 
         minimize.addMouseListener(new MouseAdapter() {

@@ -7,6 +7,8 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class AnimationUtil {
+    private AnimationUtil() {} //private constructor to avoid object creation
+
     public static void closeAnimation(JFrame frame) {
         try {
             if (frame != null && frame.isVisible()) {

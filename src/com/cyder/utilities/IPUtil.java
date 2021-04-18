@@ -8,47 +8,60 @@ import java.net.URL;
 
 public class IPUtil {
 
+    private IPUtil() {} //private constructor to avoid object creation
+
     public static String getUserCity() {
+        init();
         return userCity;
     }
 
     public static String getUserState() {
+        init();
         return userState;
     }
 
     public static String getUserCountry() {
+        init();
         return userCountry;
     }
 
     public static String getUserStateAbr() {
+        init();
         return userStateAbr;
     }
 
     public static String getUserCountryAbr() {
+        init();
         return userCountryAbr;
     }
 
     public static String getUserIP() {
+        init();
         return userIP;
     }
 
     public static String getUserPostalCode() {
+        init();
         return userPostalCode;
     }
 
     public static String getUserFlagURL() {
+        init();
         return userFlagURL;
     }
 
     public static String getLat() {
+        init();
         return lat;
     }
 
     public static String getLon() {
+        init();
         return lon;
     }
 
     public static String getIsp() {
+        init();
         return isp;
     }
 
@@ -64,7 +77,7 @@ public class IPUtil {
     private static String lon;
     private static String isp;
 
-    public IPUtil() {
+    private static void init() {
         try {
             String Key = "https://api.ipdata.co/?api-key=" + IOUtil.getSystemData("IP");
             URL Querry = new URL(Key);

@@ -40,7 +40,7 @@ public class GenericInform {
 
             //obtain cyderframe object of background color
             CyderFrame informFrame = new CyderFrame(width + widthOffset * 2,height + heightOffset * 2,
-                    new ImageIcon(new ImageUtil().imageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
+                    new ImageIcon(ImageUtil.imageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
             informFrame.setTitlePosition(TitlePosition.CENTER);
             informFrame.setTitle(title);
 
@@ -53,7 +53,6 @@ public class GenericInform {
 
             desc.setHorizontalAlignment(JLabel.CENTER);
             desc.setVerticalAlignment(JLabel.CENTER);
-            ImageUtil iu = new ImageUtil();
             desc.setForeground(CyderColors.navy);
             desc.setFont(usageFont);
 
@@ -97,7 +96,7 @@ public class GenericInform {
 
             //obtain cyderframe object of background color
             CyderFrame informFrame = new CyderFrame(width + widthOffset * 2,height + heightOffset * 2,
-                    new ImageIcon(new ImageUtil().imageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
+                    new ImageIcon(ImageUtil.imageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
             informFrame.setTitlePosition(TitlePosition.CENTER);
             informFrame.setTitle(title);
 
@@ -110,7 +109,6 @@ public class GenericInform {
 
             desc.setHorizontalAlignment(JLabel.CENTER);
             desc.setVerticalAlignment(JLabel.CENTER);
-            ImageUtil iu = new ImageUtil();
             desc.setForeground(CyderColors.navy);
             desc.setFont(usageFont);
 
