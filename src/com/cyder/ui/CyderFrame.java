@@ -32,6 +32,11 @@ public class CyderFrame extends JFrame {
 
     private JLabel contentLabel;
 
+    /** returns an instance of a cyderframe which extends JFrame with the specified with and height and a drag label with minimize and close buttons
+     * the specified ImageIcon is used for the background (you can enable resizing and rescaling of the image should you choose)
+     * @param width - the specified width of the cyder frame
+     * @param height - the specified height of the cyder frame
+     */
     public CyderFrame(int width, int height, ImageIcon background) {
         this.width = width;
         this.height = height;
@@ -60,6 +65,10 @@ public class CyderFrame extends JFrame {
         dl.add(titleLabel);
     }
 
+    /** returns an instance of a cyderframe which extends JFrame with the specified with and height and a drag label with minimize and close buttons
+     * @param width - the specified width of the cyder frame
+     * @param height - the specified height of the cyder frame
+     */
     public CyderFrame(int width, int height) {
         BufferedImage im = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
@@ -87,6 +96,10 @@ public class CyderFrame extends JFrame {
         parentLabel.add(dl);
     }
 
+    /** returns an instance of a cyderframe which extends JFrame with a width of 400 and a height of 400 and a drag label with minimize and close buttons
+     * @param width - the specified width of the cyder frame
+     * @param height - the specified height of the cyder frame
+     */
     public CyderFrame() {
         int width = 400, height = 400;
 
@@ -376,6 +389,11 @@ public class CyderFrame extends JFrame {
         dl.enableDragging();
     }
 
+    /**
+     * close animation moves the window up until the CyderFrame is off screen. this.dispose() is then invoked
+     * perhaps you might re-write this to override dispose so that closeanimation is always called and you can
+     * simply dispose of a frame like normal
+     */
     public void closeAnimation() {
         if (this == null)
             return;

@@ -1,8 +1,8 @@
 package com.cyder.ui;
 
-import com.cyder.annotations.CyderMapping;
 import com.cyder.enums.ConsoleDirection;
 import com.cyder.enums.Direction;
+import com.cyder.genesis.CyderMain;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.utilities.*;
 import com.cyder.widgets.GenericInform;
@@ -222,7 +222,7 @@ public final class ConsoleFrame extends CyderFrame {
 
     //todo make changing background animation no more than one second (so redo the method to calculate step)
     // make it also retain a console orientation when transitioning (both full screen or not full screen)
-    @CyderMapping(message = "consoleFrame")
+
     public static void switchBackground() {
         try {
             //if we only have one background we can't switch
@@ -426,5 +426,13 @@ public final class ConsoleFrame extends CyderFrame {
 
     public static boolean canSwitchBackground() {
         return backgroundFiles.size() > backgroundIndex + 1;
+    }
+
+    //if there is only one instance of a ConsoleFrame, then we will exit the program on close of this, otherwise, we will dispose
+    //TODO refresh default close operation on ConsoleFrame.refresh()
+    @Override
+    public void setDefaultCloseOperation(int ignored) {
+        super.setDefaultCloseOperation((CyderMain.getConsoleFrameInstances()  == null || CyderMain.getConsoleFrameInstances().length < 2)
+                ? JFrame.EXIT_ON_CLOSE : JFrame.DISPOSE_ON_CLOSE);
     }
 }

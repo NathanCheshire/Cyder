@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
+
+//todo master youtube method to kill all instead of kill all being in a consoleframe's handle method
 public class YoutubeThread {
     private boolean exit = false;
 

@@ -106,6 +106,6 @@ public class CyderButton extends JButton {
             catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        }).start();
+        },this.getName() + " alert thread").start();
     }
 }

@@ -60,33 +60,11 @@ import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 public class CyderMain{
     //todo shared package
     public static Semaphore exitingSem;
+
+    //specific to an instance of a handler method
     private LinkedList<YoutubeThread> youtubeThreads = new LinkedList<>();
 
-    //todo console frame
-    private static JTextPane outputArea;
-    private JTextField inputField;
-    //stay in main so only one instance of a ConsoleFrame exists
-    public static JFrame consoleFrame;
-    private JButton minimize;
-    private JButton close;
-    private JLabel consoleClockLabel;
-    private boolean updateConsoleClock;
-    private JLabel parentLabel;
-    private static ArrayList<String> operationList = new ArrayList<>();
-    private static int scrollingIndex;
-    private boolean drawLines = false;
-    private boolean linesDrawn = false;
-    private Color lineColor = Color.white;
-    private JList fontList;
-    private SpecialDay specialDayNotifier;
-    private JLabel menuLabel;
-    private JLayeredPane parentPane;
-    private JButton suggestionButton;
-    private JButton menuButton;
-    private CyderScrollPane outputScroll;
-    private JButton alternateBackground;
-
-    //todo login
+    //todo login spins off of main of autocypher fails
     private static JLabel loginLabel2;
     private static JLabel loginLabel3;
     private static CyderFrame loginFrame;
@@ -94,7 +72,7 @@ public class CyderMain{
     private static JPasswordField pass;
     private JLabel newUserLabel;
 
-    //todo handler
+    //todo handler which each consoleframe uses
     private StringUtil stringUtil;
     private String operation;
     private String anagram;
@@ -157,8 +135,14 @@ public class CyderMain{
         }
     }
 
+    //TODO track and return lists, ALL console frames should be spun off from main
+    //TODO all login windows should be spawned in from main
+    public static ConsoleFrame[] getConsoleFrameInstances() {
+        return null;
+    }
+
     /**
-    *   init objects needed for main's use, most will go away and sem should become const in shared package
+    * init objects needed for main's use, most will go away and sem should become const in shared package
     */
     private void initObjects() {
         animation = new CyderAnimation();
@@ -215,9 +199,35 @@ public class CyderMain{
         }
     }
 
+    private static JTextPane outputArea;
+    //TODO make a consoleframe text area so that it can be like DOS, no need for sep input and output
+    // also make an output area spawn off it's own handler
+    private JTextField inputField;
+    public static JFrame consoleFrame;
+    private JButton minimize;
+    private JButton close;
+    private JLabel consoleClockLabel;
+    private boolean updateConsoleClock;
+    private JLabel parentLabel;
+    private static ArrayList<String> operationList = new ArrayList<>();
+    private static int scrollingIndex;
+    private boolean drawConsoleLines = false;
+    private boolean consoleLinesDrawn = false;
+    private Color lineColor = Color.white;
+    private JList fontList;
+    private SpecialDay specialDayNotifier;
+    private JLabel menuLabel;
+    private JLayeredPane parentPane;
+    private JButton suggestionButton;
+    private JButton menuButton;
+    private CyderScrollPane outputScroll;
+    private JButton alternateBackground;
+
     /**move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
-    that's all!
+    that's all! possibly add some other methods to change things about the console frame like close operations. etc.
     */
+    //anything that has ConsoleFrame.* can be simplifiied to * after we move this
+    //todo this will become consoleFrame.open()
     public void console() {
         try{
             ConsoleFrame.resizeBackgrounds();
@@ -228,7 +238,8 @@ public class CyderMain{
                 public void paint(Graphics g) {
                 super.paint(g);
 
-                if (drawLines && !linesDrawn) {
+                //todo make a boolean holder class for console frame?
+                if (drawConsoleLines && !consoleLinesDrawn) {
                     Graphics2D g2d = (Graphics2D) g;
 
                     g2d.setPaint(lineColor);
@@ -252,7 +263,7 @@ public class CyderMain{
 
                     g2d.drawImage(img, consoleFrame.getWidth() / 2 - w / 2, consoleFrame.getHeight() / 2 - h / 2, null);
 
-                    linesDrawn = true;
+                    consoleLinesDrawn = true;
                 }
                 }
             };
@@ -360,8 +371,8 @@ public class CyderMain{
                     }
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                        if (!linesDrawn) {
-                            drawLines = true;
+                        if (!consoleLinesDrawn) {
+                            drawConsoleLines = true;
                             consoleFrame.repaint();
                         }
                     }
@@ -373,8 +384,8 @@ public class CyderMain{
                         inputField.setText(inputField.getText().toUpperCase());
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                        drawLines = false;
-                        linesDrawn = false;
+                        drawConsoleLines = false;
+                        consoleLinesDrawn = false;
                         consoleFrame.repaint();
                     }
                 }
@@ -2800,6 +2811,7 @@ public class CyderMain{
                 println("Did you mean who is alex trebek?");
             }
 
+            //TODO make testing easier with a testing widget, when in debug mode, this automatically opens up
             else if (hasWord("test") && hasWord("cyderframe title")) {
                 //basic frame for UI testing setup below
                 CyderFrame testFrame = new CyderFrame(1000,400,new ImageIcon(DEFAULT_BACKGROUND_PATH));
@@ -2824,7 +2836,7 @@ public class CyderMain{
             }
 
             else if (eic("test")) {
-                print(InputUtil.getString("Enter any string"));
+
             }
 
             else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
@@ -2868,7 +2880,7 @@ public class CyderMain{
                     catch (Exception e) {
                         ErrorHandler.handle(e);
                     }
-                }).start();
+                },"suggestionButton flash").start();
             }
         }
 
@@ -4117,23 +4129,23 @@ public class CyderMain{
         inputFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                boolean wasSelected = IOUtil.getUserData("InputFill").equals("1");
-                IOUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
-                inputFill.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
+            boolean wasSelected = IOUtil.getUserData("InputFill").equals("1");
+            IOUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
+            inputFill.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
 
-                if (wasSelected) {
-                    inputField.setBackground(null);
-                    inputField.setOpaque(false);
-                    consoleFrame.revalidate();
-                }
+            if (wasSelected) {
+                inputField.setBackground(null);
+                inputField.setOpaque(false);
+                consoleFrame.revalidate();
+            }
 
-                else {
-                    inputField.setOpaque(true);
-                    inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
-                    inputField.repaint();
-                    inputField.revalidate();
-                    consoleFrame.revalidate();
-                }
+            else {
+                inputField.setOpaque(true);
+                inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+                inputField.repaint();
+                inputField.revalidate();
+                consoleFrame.revalidate();
+            }
             }
         });
 
