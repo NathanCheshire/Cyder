@@ -2775,15 +2775,18 @@ public class CyderMain{
             }
 
             //TODO make testing easier with a testing widget, when in debug mode, this automatically opens up
-            else if (hasWord("test") && hasWord("cyderframe title")) {
+            else if (hasWord("test")) {
                 //basic frame for UI testing setup below
                 CyderFrame testFrame = new CyderFrame(1000,400,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+                testFrame.setTitlePosition(TitlePosition.CENTER);
                 testFrame.setTitle("Longer title than before, long long");
                 testFrame.initResizing();
                 testFrame.setSnapSize(new Dimension(1,1));
                 testFrame.setBackgroundResizing(true);
                 //end here
 
+                //using array cause java memory hacks
+                //now there's the bug of sliding on start AND not sliding if it slid on start the first button press
                 final TitlePosition[] current = {TitlePosition.CENTER};
 
                 CyderButton alternateTitleButton = new CyderButton("Alternate Title");
