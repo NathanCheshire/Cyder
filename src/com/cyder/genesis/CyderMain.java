@@ -2774,7 +2774,6 @@ public class CyderMain{
                 println("Did you mean who is alex trebek?");
             }
 
-            //TODO make testing easier with a testing widget, when in debug mode, this automatically opens up
             else if (hasWord("test")) {
                 //basic frame for UI testing setup below
                 CyderFrame testFrame = new CyderFrame(1000,400,new ImageIcon(DEFAULT_BACKGROUND_PATH));
@@ -2783,7 +2782,8 @@ public class CyderMain{
                 testFrame.initResizing();
                 testFrame.setSnapSize(new Dimension(1,1));
                 testFrame.setBackgroundResizing(true);
-                //end here
+
+                //TODO make testing easier with a testing widget, when in debug mode, this automatically opens up
 
                 //using array cause java memory hacks
                 //now there's the bug of sliding on start AND not sliding if it slid on start the first button press

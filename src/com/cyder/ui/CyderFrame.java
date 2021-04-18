@@ -134,6 +134,10 @@ public class CyderFrame extends JFrame {
 
         //TODO starting an app for the first time, so inital set of the title should not animate it moving
 
+        //we need to figure out how to not animate it moving if we want to start it in the middle and not the left
+        //but if we want to set it after the frame has been visible, then we need to animate it moving
+
+        //if we are setting the title to a different position, then we animate it moving
         if (different) {
             if (titlePosition != TitlePosition.CENTER) {
                 new Thread(() -> {

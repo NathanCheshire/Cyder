@@ -27,6 +27,15 @@ public final class ConsoleFrame extends CyderFrame {
         initBackgrounds();
     }
 
+    @Override
+    public void repaint() {
+        super.repaint();
+
+
+        setDefaultCloseOperation(0);
+        //now reset all the bounds and such
+    }
+
     private boolean drawConsoleLines = false;
     private boolean consoleLinesDrawn = false;
     private Color lineColor = Color.white;
@@ -35,7 +44,6 @@ public final class ConsoleFrame extends CyderFrame {
     public void paint(Graphics g) {
         super.paint(g);
 
-        //todo make a boolean holder class for console frame?
         if (drawConsoleLines && !consoleLinesDrawn) {
             Graphics2D g2d = (Graphics2D) g;
 
@@ -65,6 +73,11 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     private static String UUID;
+
+    /**
+     * @param uuid - the user uuid that we will use to determine our output dir and other
+     *               information specific to this instance of the console frame
+     */
     public static void setUUID(String uuid) {
         UUID = uuid;
     }
@@ -389,9 +402,14 @@ public final class ConsoleFrame extends CyderFrame {
             return getCurrentBackgroundImageIcon().getIconHeight();
     }
 
+    //this is an example of how the new method should look within here, remove all get user data from IOUtil
+    public static String getUserData(String dataName) {
+        return (dataName instanceof String ? dataName : dataName.equals("1") ? "true" : "false");
+    }
+
     private static boolean consoleClockEnabled;
     public static void setConsoleClock(Boolean enable) {
-        consoleClockEnabled = enable;
+        consoleClockEnabled = IOUtil.getUserData("ClockOnConsole").equals("1");
 
         if (enable) {
             //set console clock visible
@@ -423,6 +441,7 @@ public final class ConsoleFrame extends CyderFrame {
     private static void rotateConsole(int deg) {
         //todo roll console to deg, image should be centered in middle, however
         // dont use this for setting console dir though, that should snap in direction
+        // since we are rolling, it should be a smooth transition
     }
 
     private static boolean fullscreen = false;
@@ -460,8 +479,10 @@ public final class ConsoleFrame extends CyderFrame {
         return backgroundFiles.size() > backgroundIndex + 1;
     }
 
-    //if there is only one instance of a ConsoleFrame, then we will exit the program on close of this, otherwise, we will dispose
-    //TODO refresh default close operation on ConsoleFrame.refresh()
+    /**
+     *   if there is only one instance of a ConsoleFrame, then we will exit the program on close of this instance,
+     *   otherwise, we will dispose the frame and continue process execution
+     */
     @Override
     public void setDefaultCloseOperation(int ignored) {
         super.setDefaultCloseOperation((CyderMain.getConsoleFrameInstances()  == null || CyderMain.getConsoleFrameInstances().length < 2)
