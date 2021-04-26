@@ -78,7 +78,6 @@ public class CyderMain{
     private String anagram;
 
     //todo go away
-    private static CyderAnimation animation;
     private int restoreX;
     private int restoreY;
     private int xMouse;
@@ -145,7 +144,6 @@ public class CyderMain{
     * init objects needed for main's use, most will go away and sem should become const in shared package
     */
     private void initObjects() {
-        animation = new CyderAnimation();
         stringUtil = new StringUtil(outputArea);
         exitingSem = new Semaphore(1);
     }
@@ -940,7 +938,7 @@ public class CyderMain{
                     }
                 });
 
-                animation.jLabelXRight(-150,0,10,8, menuLabel);
+                AnimationUtil.jLabelXRight(-150,0,10,8, menuLabel);
             }
 
             else if (menuLabel.isVisible()){
@@ -1456,8 +1454,8 @@ public class CyderMain{
                     int[] parts = AnimationUtil.getDelayIncrement(temporaryWidth);
 
                     //animate the labels
-                    animation.jLabelXRight(0, temporaryWidth, parts[0], parts[1], temporaryLabel);
-                    animation.jLabelXRight(-temporaryWidth, 0 ,parts[0], parts[1], parentLabel);
+                    AnimationUtil.jLabelXRight(0, temporaryWidth, parts[0], parts[1], temporaryLabel);
+                    AnimationUtil.jLabelXRight(-temporaryWidth, 0 ,parts[0], parts[1], parentLabel);
                 }
 
                 else {
@@ -1470,8 +1468,8 @@ public class CyderMain{
 
                     int[] parts = AnimationUtil.getDelayIncrement(temporaryWidth);
 
-                    animation.jLabelXLeft(0, -temporaryWidth, parts[0], parts[1], temporaryLabel);
-                    animation.jLabelXLeft(temporaryWidth, 0 ,parts[0], parts[1], parentLabel);
+                    AnimationUtil .jLabelXLeft(0, -temporaryWidth, parts[0], parts[1], temporaryLabel);
+                    AnimationUtil.jLabelXLeft(temporaryWidth, 0 ,parts[0], parts[1], parentLabel);
                 }
 
                 //invert scrolling direction for next time
@@ -1554,7 +1552,7 @@ public class CyderMain{
                                 
                                 Thread.sleep(scrollDelay);
 
-                                animation.jLabelXLeft(440, 0 ,miliDelay, increment, loginLabel2);
+                                AnimationUtil.jLabelXLeft(440, 0 ,miliDelay, increment, loginLabel2);
 
                                 Thread.sleep(scrollDelay);
 
@@ -1565,8 +1563,8 @@ public class CyderMain{
 
                                 loginLabel2.setBounds(0,0,800,800);
                                 loginLabel3.setBounds(800,0,800,800);
-                                animation.jLabelXLeft(0, -800, miliDelay, increment, loginLabel2);
-                                animation.jLabelXLeft(800, 0 ,miliDelay, increment, loginLabel3);
+                                AnimationUtil.jLabelXLeft(0, -800, miliDelay, increment, loginLabel2);
+                                AnimationUtil.jLabelXLeft(800, 0 ,miliDelay, increment, loginLabel3);
 
                                 Thread.sleep(scrollDelay);
 
@@ -1577,8 +1575,8 @@ public class CyderMain{
 
                                 loginLabel3.setBounds(0,0,800,800);
                                 loginLabel2.setBounds(-800,0,800,800);
-                                animation.jLabelXRight(0, 800, miliDelay, increment, loginLabel3);
-                                animation.jLabelXRight(-800,0,miliDelay,increment, loginLabel2);
+                                AnimationUtil.jLabelXRight(0, 800, miliDelay, increment, loginLabel3);
+                                AnimationUtil.jLabelXRight(-800,0,miliDelay,increment, loginLabel2);
 
                                 Thread.sleep(scrollDelay);
 
@@ -1838,7 +1836,6 @@ public class CyderMain{
     private void handle(String input) {
         try {
             operation = input;
-
             String firstWord = stringUtil.firstWord(operation);
 
             if (handleMath(operation))
@@ -1849,7 +1846,7 @@ public class CyderMain{
                 operation = "";
             }
 
-            else if (stringUtil.isPalindrome(operation.replace(" ", "").toCharArray()) && operation.length() > 3){
+            else if (stringUtil.isPalindrome(operation.replace(" ", "")) && operation.length() > 3){
                 println("Nice palindrome.");
             }
 
@@ -4496,7 +4493,7 @@ public class CyderMain{
     //console frame
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
-            animation.jLabelXLeft(0,-150,10,8, menuLabel);
+            AnimationUtil.jLabelXLeft(0,-150,10,8, menuLabel);
 
             Thread waitThread = new Thread(() -> {
                 try {

@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -485,20 +486,8 @@ public class StringUtil {
         return sentences[0];
     }
 
-    public boolean isPalindrome(char[] Word) {
-        int start = 0;
-        int end = Word.length - 1;
-
-        while (end > start) {
-            if (Word[start] != Word[end]) {
-                return false;
-            }
-
-            start++;
-            end--;
-        }
-
-        return true;
+    public boolean isPalindrome(String word) {
+        return Arrays.equals(word.toLowerCase().toCharArray(), reverseArray(word.toLowerCase().toCharArray()));
     }
 
     public String firstNumber(String Search) {

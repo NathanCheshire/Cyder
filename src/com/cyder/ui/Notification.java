@@ -4,6 +4,7 @@ import com.cyder.enums.ArrowDirection;
 import com.cyder.enums.StartDirection;
 import com.cyder.enums.VanishDirection;
 import com.cyder.handler.ErrorHandler;
+import com.cyder.utilities.AnimationUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -191,24 +192,22 @@ public class Notification extends JLabel {
         new Thread(() -> {
             try {
                 Thread.sleep(delay);
-                CyderAnimation ca = new CyderAnimation();
-
                 switch(vanishDir) {
                     case TOP:
-                        ca.jLabelYUp(this.getY(), - this.getHeight(), 10, 4, this);
+                        AnimationUtil.jLabelYUp(this.getY(), - this.getHeight(), 10, 4, this);
                         Thread.sleep(10 * (this.getHeight() + this.getY())/ 4);
                         break;
                     case BOTTOM:
-                        ca.jLabelYDown(this.getY(), parent.getHeight(), 10, 4, this);
+                        AnimationUtil.jLabelYDown(this.getY(), parent.getHeight(), 10, 4, this);
                         Thread.sleep(10 * (parent.getHeight() - this.getY())/ 4);
                         break;
                     case RIGHT:
-                        ca.jLabelXRight(this.getX(), parent.getWidth(), 10, 4, this);
+                        AnimationUtil.jLabelXRight(this.getX(), parent.getWidth(), 10, 4, this);
                         Thread.sleep(10 * (parent.getWidth() -  this.getX())/ 4);
                         break;
 
                     case LEFT:
-                        ca.jLabelXLeft(this.getX(), - this.getWidth(), 10, 4, this);
+                        AnimationUtil.jLabelXLeft(this.getX(), - this.getWidth(), 10, 4, this);
                         Thread.sleep(10 * (this.getWidth() + this.getX())/ 4);
                         break;
                 }
@@ -225,8 +224,6 @@ public class Notification extends JLabel {
     public void appear(StartDirection startDir, Component parent) {
         new Thread(() -> {
             try {
-                CyderAnimation ca = new CyderAnimation();
-
                 setVisible(true);
 
                 int parentWidth = parent.getWidth();
@@ -235,7 +232,7 @@ public class Notification extends JLabel {
                 switch(startDir) {
                     case TOP:
                         setBounds(getX(), - getHeight(), getWidth(), getHeight());
-                        ca.jLabelYDown(getY(), 30, 10, 4, this);
+                        AnimationUtil.jLabelYDown(getY(), 30, 10, 4, this);
                         Thread.sleep(10 * (getHeight())/ 4);
                         break;
                     case RIGHT:
@@ -250,13 +247,13 @@ public class Notification extends JLabel {
 
                     case LEFT:
                         setBounds(- getWidth(), getY(), getWidth(), getHeight());
-                        ca.jLabelXRight(this.getX(), 0, 10, 4, this);
+                        AnimationUtil.jLabelXRight(this.getX(), 0, 10, 4, this);
                         Thread.sleep(10 * (notificationWidth)/ 4);
                         break;
 
                     case BOTTOM:
                         setBounds(getX(), parent.getHeight(), getWidth(), getHeight());
-                        ca.jLabelYUp(parent.getHeight(), parent.getHeight() - getHeight() , 10, 4, this);
+                        AnimationUtil.jLabelYUp(parent.getHeight(), parent.getHeight() - getHeight() , 10, 4, this);
                         Thread.sleep(10 * (getHeight())/ 4);
                         break;
                 }
