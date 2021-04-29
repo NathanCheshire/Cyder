@@ -1,5 +1,4 @@
 # Cyder - A Programmers Swiss Army Knife
- By Nathan Cheshire
  
 ## Screenshots
 Desktop full of Cyder Widgets <br/>
