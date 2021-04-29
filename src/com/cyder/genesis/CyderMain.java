@@ -44,6 +44,9 @@ import java.util.concurrent.TimeUnit;
 
 import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
+//bug: log in from user as a different user then delete that second user
+// it will use the first user's name and say that it was corrupted
+
 /*
     Commenting etiquette I will follow (attempt to that is)
 
@@ -3829,7 +3832,7 @@ public class CyderMain {
                     } else {
                         if (createUserBackground == null) {
                             createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background");
-                            createUserBackground = new File("src/com/cyder/sys/pictures/DefaultUserBackground.png");
+                            createUserBackground = new File("src/com/cyder/sys/pictures/DefaultBackground.png");
                         }
 
                         File NewUserFolder = new File("src/users/" + uuid);
@@ -3907,7 +3910,11 @@ public class CyderMain {
         createNewUser.setBounds(60, 390, 240, 40);
         createUserFrame.getContentPane().add(createNewUser);
 
-        createUserFrame.setLocationRelativeTo((loginFrame.isActive() && loginFrame.isVisible()) ? loginFrame : null);
+        JFrame relativeFrame = (loginFrame != null && loginFrame.isActive() && loginFrame.isVisible() ?
+                loginFrame : (consoleFrame != null && consoleFrame.isActive() && consoleFrame.isVisible() ?
+                consoleFrame : null));
+
+        createUserFrame.setLocationRelativeTo(relativeFrame);
         createUserFrame.setVisible(true);
         newUserName.requestFocus();
     }

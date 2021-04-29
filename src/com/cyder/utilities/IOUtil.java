@@ -97,6 +97,12 @@ public class IOUtil {
         if (user == null)
             return;
 
+        //i assume an error was thrown here because we attempted to do seomthing after we deleted a user's files
+        // such as close semaphor, we should have a fatal exit feature
+
+        //todo get rid of uuid feature and just use a username but hide the uuid everywhere except in the backend
+        // (i don't want to look at that ugly thing)
+
         else if (!new File("src/users/" + user + "/Userdata.txt").exists())
             corruptedUser();
 
@@ -420,6 +426,8 @@ public class IOUtil {
             Thread.sleep(7000);
 
             File mainZipFile = new File("src/users/" + ConsoleFrame.getUUID());
+
+            //TODO null check here
 
             for (File f : mainZipFile.listFiles()) {
                 if (f.getName().equals("Throws"))

@@ -206,7 +206,7 @@ public final class ConsoleFrame extends CyderFrame {
 
             if (backgroundFiles.size() == 0) {
                 backgroundFiles = new LinkedList<>();
-                backgroundFiles.add(new File("src/com/cyder/sys/pictures/DefaultUserBackground.png"));
+                backgroundFiles.add(new File("src/com/cyder/sys/pictures/DefaultBackground.png"));
             }
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
