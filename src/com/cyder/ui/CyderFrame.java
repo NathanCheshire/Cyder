@@ -32,9 +32,11 @@ public class CyderFrame extends JFrame {
 
     private JLabel contentLabel;
 
-    /** returns an instance of a cyderframe which extends JFrame with the specified with and height and a drag label with minimize and close buttons
+    /**
+     * returns an instance of a cyderframe which extends JFrame with the specified with and height and a drag label with minimize and close buttons
      * the specified ImageIcon is used for the background (you can enable resizing and rescaling of the image should you choose)
-     * @param width - the specified width of the cyder frame
+     *
+     * @param width  - the specified width of the cyder frame
      * @param height - the specified height of the cyder frame
      */
     public CyderFrame(int width, int height, ImageIcon background) {
@@ -65,15 +67,17 @@ public class CyderFrame extends JFrame {
         dl.add(titleLabel);
     }
 
-    /** returns an instance of a cyderframe which extends JFrame with the specified with and height and a drag label with minimize and close buttons
-     * @param width - the specified width of the cyder frame
+    /**
+     * returns an instance of a cyderframe which extends JFrame with the specified with and height and a drag label with minimize and close buttons
+     *
+     * @param width  - the specified width of the cyder frame
      * @param height - the specified height of the cyder frame
      */
     public CyderFrame(int width, int height) {
-        BufferedImage im = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
+        BufferedImage im = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
-        g.setPaint(new Color(238,238,238));
-        g.fillRect(0,0,1,1);
+        g.setPaint(new Color(238, 238, 238));
+        g.fillRect(0, 0, 1, 1);
 
         this.width = width;
         this.height = height;
@@ -96,15 +100,16 @@ public class CyderFrame extends JFrame {
         parentLabel.add(dl);
     }
 
-    /** returns an instance of a cyderframe which extends JFrame with a width of 400 and a height of 400 and a drag label with minimize and close buttons
+    /**
+     * returns an instance of a cyderframe which extends JFrame with a width of 400 and a height of 400 and a drag label with minimize and close buttons
      */
     public CyderFrame() {
         int width = 400, height = 400;
 
-        BufferedImage im = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
+        BufferedImage im = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
-        g.setPaint(new Color(238,238,238));
-        g.fillRect(0,0,1,1);
+        g.setPaint(new Color(238, 238, 238));
+        g.fillRect(0, 0, 1, 1);
 
         this.width = width;
         this.height = height;
@@ -141,28 +146,24 @@ public class CyderFrame extends JFrame {
         if (different) {
             if (titlePosition != TitlePosition.CENTER) {
                 new Thread(() -> {
-                    for (int i = (getDragLabel().getWidth() / 2) - (getTitleWidth(titleLabel.getText()) / 2) ; i > 4 ; i--) {
+                    for (int i = (getDragLabel().getWidth() / 2) - (getTitleWidth(titleLabel.getText()) / 2); i > 4; i--) {
                         titleLabel.setLocation(i, 2);
 
                         try {
                             Thread.sleep(timeout);
-                        }
-
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             ErrorHandler.handle(e);
                         }
                     }
                 }).start();
             } else {
                 new Thread(() -> {
-                    for (int i = 5 ; i <  (getDragLabel().getWidth() / 2) - (getTitleWidth(titleLabel.getText()) / 2) + 1; i++) {
+                    for (int i = 5; i < (getDragLabel().getWidth() / 2) - (getTitleWidth(titleLabel.getText()) / 2) + 1; i++) {
                         titleLabel.setLocation(i, 2);
 
                         try {
                             Thread.sleep(timeout);
-                        }
-
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             ErrorHandler.handle(e);
                         }
                     }
@@ -200,14 +201,14 @@ public class CyderFrame extends JFrame {
     private int getTitleWidth(String title) {
         Font notificationFont = titleLabel.getFont();
         AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-        return (int) notificationFont.getStringBounds(title,frc).getWidth() + 10;
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        return (int) notificationFont.getStringBounds(title, frc).getWidth() + 10;
     }
 
     public static int getTitleWidth(String title, Font f) {
         AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-        return (int) f.getStringBounds(title,frc).getWidth() + 10;
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        return (int) f.getStringBounds(title, frc).getWidth() + 10;
     }
 
     public void notify(String htmltext, int viewDuration, ArrowDirection direction, int width) {
@@ -244,7 +245,7 @@ public class CyderFrame extends JFrame {
 
         Font notificationFont = CyderFonts.weatherFontSmall;
         AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
 
         htmltext = Jsoup.parse(htmltext.replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n");
 
@@ -257,15 +258,15 @@ public class CyderFrame extends JFrame {
         }
 
 
-        int heightIncrement = (int) notificationFont.getStringBounds("string",frc).getHeight();
+        int heightIncrement = (int) notificationFont.getStringBounds("string", frc).getHeight();
         int h = heightIncrement;
         int lastIndex = 0;
 
-        while(lastIndex != -1){
+        while (lastIndex != -1) {
 
-            lastIndex = text.getText().indexOf("<br/>",lastIndex);
+            lastIndex = text.getText().indexOf("<br/>", lastIndex);
 
-            if(lastIndex != -1){
+            if (lastIndex != -1) {
                 h += heightIncrement;
                 lastIndex += "<br/>".length();
             }
@@ -276,17 +277,17 @@ public class CyderFrame extends JFrame {
 
         text.setFont(notificationFont);
         text.setForeground(CyderColors.navy);
-        text.setBounds(14,10,w * 2,h);
+        text.setBounds(14, 10, w * 2, h);
         frameNotification.add(text);
 
         if (startDir == StartDirection.LEFT)
-            frameNotification.setBounds(0,30,w * 2,h * 2);
+            frameNotification.setBounds(0, 30, w * 2, h * 2);
         else if (startDir == StartDirection.RIGHT)
-            frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30),32,w * 2,h * 2);
+            frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30), 32, w * 2, h * 2);
         else
-            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2),32,w * 2,h * 2);
+            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2), 32, w * 2, h * 2);
 
-        this.getContentPane().add(frameNotification,1,0);
+        this.getContentPane().add(frameNotification, 1, 0);
         this.getContentPane().repaint();
 
         frameNotification.appear(startDir, this.getContentPane());
@@ -305,7 +306,7 @@ public class CyderFrame extends JFrame {
 
         Font notificationFont = CyderFonts.weatherFontSmall;
         AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
 
         htmltext = Jsoup.parse(htmltext.replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n");
         System.out.println(htmltext);
@@ -317,15 +318,15 @@ public class CyderFrame extends JFrame {
                 w = (int) stringBounds.getWidth();
         }
 
-        int heightIncrement = (int) notificationFont.getStringBounds("string",frc).getHeight();
+        int heightIncrement = (int) notificationFont.getStringBounds("string", frc).getHeight();
         int h = heightIncrement;
         int lastIndex = 0;
 
-        while(lastIndex != -1){
+        while (lastIndex != -1) {
 
-            lastIndex = text.getText().indexOf("<br/>",lastIndex);
+            lastIndex = text.getText().indexOf("<br/>", lastIndex);
 
-            if(lastIndex != -1){
+            if (lastIndex != -1) {
                 h += heightIncrement;
                 lastIndex += "<br/>".length();
             }
@@ -336,17 +337,17 @@ public class CyderFrame extends JFrame {
 
         text.setFont(notificationFont);
         text.setForeground(CyderColors.navy);
-        text.setBounds(14,10,w * 2,h);
+        text.setBounds(14, 10, w * 2, h);
         frameNotification.add(text);
 
         if (startDir == StartDirection.LEFT)
-            frameNotification.setBounds(0,30,w * 2,h * 2);
+            frameNotification.setBounds(0, 30, w * 2, h * 2);
         else if (startDir == StartDirection.RIGHT)
-            frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30),32,w * 2,h * 2);
+            frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30), 32, w * 2, h * 2);
         else
-            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2),32,w * 2,h * 2);
+            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2), 32, w * 2, h * 2);
 
-        this.getContentPane().add(frameNotification,1,0);
+        this.getContentPane().add(frameNotification, 1, 0);
         this.getContentPane().repaint();
 
         frameNotification.appear(startDir, this.getContentPane());
@@ -358,7 +359,7 @@ public class CyderFrame extends JFrame {
     }
 
     public void inform(String text, String title) {
-        GenericInform.informRelative(text,title,this);
+        GenericInform.informRelative(text, title, this);
     }
 
     public void enterAnimation() {
@@ -375,13 +376,11 @@ public class CyderFrame extends JFrame {
 
         this.setVisible(true);
 
-        for (int i = 0 - this.getHeight() ; i < to ; i+= 15) {
+        for (int i = 0 - this.getHeight(); i < to; i += 15) {
             this.setLocation(this.getX(), i);
             try {
                 Thread.sleep(1);
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
         }
@@ -415,9 +414,7 @@ public class CyderFrame extends JFrame {
 
                 this.dispose();
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -439,9 +436,7 @@ public class CyderFrame extends JFrame {
             }
 
             this.setState(JFrame.ICONIFIED);
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
 
@@ -539,9 +534,7 @@ public class CyderFrame extends JFrame {
                 setLocation(restoreX, restoreY);
                 setAlwaysOnTop(false);
 
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
         });
@@ -579,8 +572,8 @@ public class CyderFrame extends JFrame {
     public void askew(int degrees) {
         ((JLabel) (this.getContentPane())).setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(
                 ImageUtil.getRotatedImage(
-                ConsoleFrame.getCurrentBackgroundFile().getAbsolutePath(),
-                ConsoleFrame.getConsoleDirection()),degrees)));
+                        ConsoleFrame.getCurrentBackgroundFile().getAbsolutePath(),
+                        ConsoleFrame.getConsoleDirection()), degrees)));
     }
 
     @Override
@@ -645,7 +638,10 @@ public class CyderFrame extends JFrame {
     public void allowResizing(Boolean b) {
         cr.setResizing(b);
     }
-    public void backgroundRefreshOnResize(Boolean b) {cr.setBackgroundRefreshOnResize(b);}
+
+    public void backgroundRefreshOnResize(Boolean b) {
+        cr.setBackgroundRefreshOnResize(b);
+    }
 
     ImageIcon currentOrigIcon;
 

@@ -50,7 +50,7 @@ public final class ConsoleFrame extends CyderFrame {
             g2d.setPaint(lineColor);
             g2d.setStroke(new BasicStroke(5));
 
-            g2d.drawLine(getWidth() / 2 - 3,32,getWidth() / 2 - 3,getHeight() - 12);
+            g2d.drawLine(getWidth() / 2 - 3, 32, getWidth() / 2 - 3, getHeight() - 12);
             g2d.drawLine(10, getHeight() / 2 - 3, getWidth() - 12, getHeight() / 2 - 3);
 
             BufferedImage img = null;
@@ -76,7 +76,7 @@ public final class ConsoleFrame extends CyderFrame {
 
     /**
      * @param uuid - the user uuid that we will use to determine our output dir and other
-     *               information specific to this instance of the console frame
+     *             information specific to this instance of the console frame
      */
     public static void setUUID(String uuid) {
         UUID = uuid;
@@ -104,7 +104,9 @@ public final class ConsoleFrame extends CyderFrame {
         fontMetric = Font.PLAIN;
     }
 
-    /** Sets the OutputArea and InputField font for the current user
+    /**
+     * Sets the OutputArea and InputField font for the current user
+     *
      * @param combStyle use Font.BOLD and Font.Italic to set the user
      *                  font style. You may pass combinations of font
      *                  styling using the addition operator
@@ -120,7 +122,7 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     public static Font getUserFont() {
-        return new Font(IOUtil.getUserData("Font"),fontMetric, fontSize);
+        return new Font(IOUtil.getUserData("Font"), fontMetric, fontSize);
     }
 
     public static Color getUserColor() {
@@ -135,7 +137,7 @@ public final class ConsoleFrame extends CyderFrame {
         try {
             LinkedList<File> backgrounds = getBackgrounds();
 
-            for (int i = 0; i < backgrounds.size() ; i++) {
+            for (int i = 0; i < backgrounds.size(); i++) {
                 File currentFile = backgrounds.get(i);
 
                 BufferedImage currentImage = ImageIO.read(currentFile);
@@ -152,7 +154,7 @@ public final class ConsoleFrame extends CyderFrame {
 
                 if (backgroundWidth > SystemUtil.getScreenWidth() || backgroundHeight > SystemUtil.getScreenHeight())
                     GenericInform.inform("Resized the background image \"" + currentFile.getName() + "\" since it was too big " +
-                            "(That's what she said ahahahahah hahaha ha ha so funny).","System Action");
+                            "(That's what she said ahahahahah hahaha ha ha so funny).", "System Action");
 
                 int screenWidth = SystemUtil.getScreenWidth();
                 int screenHeight = SystemUtil.getScreenHeight();
@@ -165,7 +167,7 @@ public final class ConsoleFrame extends CyderFrame {
 
                 if (backgroundWidth < 600 && backgroundHeight < 600)
                     GenericInform.inform("Resized the background image \"" + getBackgrounds().get(i).getName()
-                            + "\" since it was too small.","System Action");
+                            + "\" since it was too small.", "System Action");
 
                 if (aspectRatio < 1)
                     aspectRatio = 1 / aspectRatio;
@@ -190,9 +192,7 @@ public final class ConsoleFrame extends CyderFrame {
             }
 
             initBackgrounds();
-        }
-
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }
     }
@@ -208,9 +208,7 @@ public final class ConsoleFrame extends CyderFrame {
                 backgroundFiles = new LinkedList<>();
                 backgroundFiles.add(new File("src/com/cyder/sys/pictures/DefaultUserBackground.png"));
             }
-        }
-
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }
     }
@@ -254,9 +252,7 @@ public final class ConsoleFrame extends CyderFrame {
         try {
             File f = getCurrentBackgroundFile();
             backgroundImageIcon = new ImageIcon(ImageIO.read(f));
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
 
@@ -296,8 +292,8 @@ public final class ConsoleFrame extends CyderFrame {
                 width = SystemUtil.getScreenWidth();
                 height = SystemUtil.getScreenHeight();
 
-                oldBack = ImageUtil.resizeImage(oldBack,width,height);
-                newBack = ImageUtil.resizeImage(newBack,width,height);
+                oldBack = ImageUtil.resizeImage(oldBack, width, height);
+                newBack = ImageUtil.resizeImage(newBack, width, height);
             }
 
             //when switching backgrounds, we ignore rotation if in full screen because it is impossible
@@ -308,8 +304,8 @@ public final class ConsoleFrame extends CyderFrame {
                     height = width - height;
                     width = width - height;
 
-                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(oldBack),-90));
-                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(newBack),-90));
+                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(oldBack), -90));
+                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(newBack), -90));
                 }
 
                 //not full screen and oriented right
@@ -318,8 +314,8 @@ public final class ConsoleFrame extends CyderFrame {
                     height = width - height;
                     width = width - height;
 
-                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(oldBack),90));
-                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(newBack),90));
+                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(oldBack), 90));
+                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(newBack), 90));
                 }
             }
 
@@ -332,12 +328,12 @@ public final class ConsoleFrame extends CyderFrame {
             //stop music and basically everything on close, (mp3 music continues)
 
             //todo before combining images, we need to make sure they're the same size, duhhhhh
-            oldBack = ImageUtil.resizeImage(oldBack,width,height);
-            newBack = ImageUtil.resizeImage(newBack,width,height);
+            oldBack = ImageUtil.resizeImage(oldBack, width, height);
+            newBack = ImageUtil.resizeImage(newBack, width, height);
 
             switch (lastSlideDirection) {
                 case LEFT:
-                    combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.BOTTOM);
+                    combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.BOTTOM);
                     //todo set image bounds
                     //todo setbackground tod this new image
                     //new CyderAnimation().jLabelYUp(0, -height, 10, 10, iconLabel);
@@ -350,21 +346,21 @@ public final class ConsoleFrame extends CyderFrame {
                     break;
 
                 case TOP:
-                    combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.LEFT);
+                    combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.LEFT);
                     //todo slide right by width so init bounds are -width,0,width,height
 
                     lastSlideDirection = Direction.RIGHT;
                     break;
 
                 case RIGHT:
-                    combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.TOP);
+                    combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.TOP);
                     //todo slide down by height so init bounds are 0,-height,width,height
 
                     lastSlideDirection = Direction.BOTTOM;
                     break;
 
                 case BOTTOM:
-                    combinedIcon = ImageUtil.combineImages(oldBack,newBack, Direction.RIGHT);
+                    combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.RIGHT);
                     //todo slide left by width so init bounds are width,0,width,height
 
                     lastSlideDirection = Direction.LEFT;
@@ -375,9 +371,7 @@ public final class ConsoleFrame extends CyderFrame {
 //            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
 //                            CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
 //                    2,CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -408,6 +402,7 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     private static boolean consoleClockEnabled;
+
     public static void setConsoleClock(Boolean enable) {
         consoleClockEnabled = IOUtil.getUserData("ClockOnConsole").equals("1");
 
@@ -415,10 +410,8 @@ public final class ConsoleFrame extends CyderFrame {
             //set console clock visible
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
 
-            },0, 1, TimeUnit.SECONDS);
-        }
-
-        else {
+            }, 0, 1, TimeUnit.SECONDS);
+        } else {
             //set visible false
             //end executor task if running
         }
@@ -429,6 +422,7 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     private static ConsoleDirection consoleDir = ConsoleDirection.UP;
+
     public static void setConsoleDirection(ConsoleDirection conDir) {
         consoleDir = conDir;
         //todo also refresh direction, do nothing if in full screen of course
@@ -445,6 +439,7 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     private static boolean fullscreen = false;
+
     public static void setFullscreen(Boolean enable) {
         fullscreen = enable;
     }
@@ -454,6 +449,7 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     private static int scrollingDowns;
+
     public static int getScrollingDowns() {
         return scrollingDowns;
     }
@@ -480,12 +476,12 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     /**
-     *   if there is only one instance of a ConsoleFrame, then we will exit the program on close of this instance,
-     *   otherwise, we will dispose the frame and continue process execution
+     * if there is only one instance of a ConsoleFrame, then we will exit the program on close of this instance,
+     * otherwise, we will dispose the frame and continue process execution
      */
     @Override
     public void setDefaultCloseOperation(int ignored) {
-        super.setDefaultCloseOperation((CyderMain.getConsoleFrameInstances()  == null || CyderMain.getConsoleFrameInstances().length < 2)
+        super.setDefaultCloseOperation((CyderMain.getConsoleFrameInstances() == null || CyderMain.getConsoleFrameInstances().length < 2)
                 ? JFrame.EXIT_ON_CLOSE : JFrame.DISPOSE_ON_CLOSE);
     }
 }
