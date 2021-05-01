@@ -1,4 +1,5 @@
 -600:Not Released
+-404:Forced Immediate Exit
 25:Exit Method
 66:Scheduled Exit
 78:Corrupted User

@@ -3102,13 +3102,14 @@ public class CyderMain {
         JTextField finalRgbField1 = rgbField;
         rgbField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                try {
-                    String[] parts = finalRgbField1.getText().split(",");
-                    Color c = new Color(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-                    hexField.setText(ColorUtil.rgbtohexString(c));
-                    colorBlock.setBackground(c);
-                } catch (Exception ignored) {
-                }
+            try {
+                String[] parts = finalRgbField1.getText().split(",");
+                Color c = new Color(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+                hexField.setText(ColorUtil.rgbtohexString(c));
+                colorBlock.setBackground(c);
+            } catch (Exception e) {
+                ErrorHandler.silentHandle(e);
+            }
             }
         });
         rgbField.setBounds(100 + colorOffsetX, 170 + colorOffsetY, 220, 50);
@@ -3857,7 +3858,7 @@ public class CyderMain {
                         data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
 
                         data.add("Font:tahoma");
-                        data.add("Foreground:FCFBE3");
+                        data.add("Foreground:000000");
                         data.add("Background:FFFFFF");
 
                         data.add("IntroMusic:0");
@@ -3926,6 +3927,7 @@ public class CyderMain {
 
             Thread waitThread = new Thread(() -> {
                 try {
+                    //todo make this number dynamic
                     Thread.sleep(186);
                 } catch (Exception ex) {
                     ErrorHandler.handle(ex);

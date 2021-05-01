@@ -12,10 +12,12 @@ public class ErrorHandler {
 
     public static void handle(Exception e) {
         try {
+            //find out whereto log the error
             String user = ConsoleFrame.getUUID();
             File throwsDir = null;
             String eFileString = "";
 
+            //if no user, then put error in system throws folder
             if (user == null) {
                 throwsDir = new File("src/com/cyder/genesis/Throws");
                 eFileString = "src/com/cyder/genesis/Throws/" + TimeUtil.errorTime() + ".error";
@@ -26,12 +28,15 @@ public class ErrorHandler {
                 eFileString = "src/users/" + ConsoleFrame.getUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
             }
 
+            //make the dir if it doesn't exist
             if (!throwsDir.exists())
                 throwsDir.mkdir();
 
+            //make the file we are going to write to
             File eFile = new File(eFileString);
             eFile.createNewFile();
 
+            //obtain a String object of the error and the line number
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
@@ -40,9 +45,11 @@ public class ErrorHandler {
             int lineNumber = e.getStackTrace()[0].getLineNumber();
             Class c = e.getClass();
 
+            //get our master string and write it to the file
             String write = "Error thrown by line: " + lineNumber + " from\n" + c +
                     "\n\nStack Trace:\n\n" + stackTrack;
 
+            //write to file, flush, close
             BufferedWriter errorWriter = new BufferedWriter(new FileWriter(eFileString));
             errorWriter.write(write);
             errorWriter.newLine();
@@ -56,7 +63,10 @@ public class ErrorHandler {
         catch (Exception ex) {
             if (CyderMain.consoleFrame != null && CyderMain.consoleFrame.isVisible()) {
                 //todo uncomment ConsoleFrame.notify(ex.getMessage());
+                //todo make error handling better, don't auto matically open it up, instead do a popup
+                //  and then add click listener on popup (inform) to open the file
 
+                //error was thrown inside of here so we'll just generic inform the user of it
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 ex.printStackTrace(pw);
@@ -70,6 +80,58 @@ public class ErrorHandler {
 
                 GenericInform.inform(write,"Error trace");
             }
+        }
+    }
+
+    public static void silentHandle(Exception e) {
+        try {
+            //find out whereto log the error
+            String user = ConsoleFrame.getUUID();
+            File throwsDir = null;
+            String eFileString = "";
+
+            //if no user, then put error in system throws folder
+            if (user == null) {
+                throwsDir = new File("src/com/cyder/genesis/Throws");
+                eFileString = "src/com/cyder/genesis/Throws/" + TimeUtil.errorTime() + ".error";
+            }
+
+            else {
+                throwsDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Throws");
+                eFileString = "src/users/" + ConsoleFrame.getUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
+            }
+
+            //make the dir if it doesn't exist
+            if (!throwsDir.exists())
+                throwsDir.mkdir();
+
+            //make the file we are going to write to
+            File eFile = new File(eFileString);
+            eFile.createNewFile();
+
+            //obtain a String object of the error and the line number
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+
+            String stackTrack = sw.toString();
+            int lineNumber = e.getStackTrace()[0].getLineNumber();
+            Class c = e.getClass();
+
+            //get our master string and write it to the file
+            String write = "Error thrown by line: " + lineNumber + " from\n" + c +
+                    "\n\nStack Trace:\n\n" + stackTrack;
+
+            //write to file, flush, close
+            BufferedWriter errorWriter = new BufferedWriter(new FileWriter(eFileString));
+            errorWriter.write(write);
+            errorWriter.newLine();
+            errorWriter.flush();
+            errorWriter.close();
+        }
+
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
