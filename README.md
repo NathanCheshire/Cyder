@@ -60,3 +60,5 @@ As of 3.2.21, the program is intended for 2560x1440 resolution displays (my main
 - [ ]  implement convex hull visualizer
 - [ ]  implement path finding visualizer but also link to pac-man game
 - [ ]  make certain classes final, don't let people instantiate the class by making the constructor private like "private Math() {}"
+- [ ]  take and recongize a pastebin link and print the contents to the console
+- [ ]  take and recognize a pastebin uuid and print the contents to the console
