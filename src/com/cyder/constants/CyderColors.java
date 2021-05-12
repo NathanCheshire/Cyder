@@ -1,4 +1,4 @@
-package com.cyder.Constants;
+package com.cyder.constants;
 
 import java.awt.*;
 

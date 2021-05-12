@@ -1,7 +1,7 @@
 package com.cyder.widgets;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
+import com.cyder.constants.CyderColors;
+import com.cyder.constants.CyderFonts;
 import com.cyder.enums.TitlePosition;
 import com.cyder.ui.ConsoleFrame;
 import com.cyder.ui.CyderButton;
@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
-import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static com.cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class YouTubeThumbnail {
     private CyderFrame yttnFrame;

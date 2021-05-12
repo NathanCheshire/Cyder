@@ -1,7 +1,7 @@
 package com.cyder.ui;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
+import com.cyder.constants.CyderColors;
+import com.cyder.constants.CyderFonts;
 import com.cyder.enums.ArrowDirection;
 import com.cyder.enums.StartDirection;
 import com.cyder.enums.VanishDirection;

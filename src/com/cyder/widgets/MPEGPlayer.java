@@ -1,6 +1,6 @@
 package com.cyder.widgets;
 
-import com.cyder.Constants.CyderColors;
+import com.cyder.constants.CyderColors;
 import com.cyder.enums.ArrowDirection;
 import com.cyder.enums.StartDirection;
 import com.cyder.enums.VanishDirection;

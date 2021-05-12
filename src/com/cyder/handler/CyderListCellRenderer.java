@@ -1,6 +1,6 @@
 package com.cyder.handler;
 
-import com.cyder.Constants.CyderColors;
+import com.cyder.constants.CyderColors;
 
 import javax.swing.*;
 import java.awt.*;

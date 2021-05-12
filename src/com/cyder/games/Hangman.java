@@ -1,7 +1,7 @@
 package com.cyder.games;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
+import com.cyder.constants.CyderColors;
+import com.cyder.constants.CyderFonts;
 import com.cyder.enums.TitlePosition;
 import com.cyder.handler.ErrorHandler;
 import com.cyder.ui.CyderButton;
@@ -17,7 +17,7 @@ import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static com.cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class Hangman {
     private CyderFrame HangmanFrame;

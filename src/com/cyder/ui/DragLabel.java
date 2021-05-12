@@ -1,6 +1,6 @@
 package com.cyder.ui;
 
-import com.cyder.Constants.CyderColors;
+import com.cyder.constants.CyderColors;
 import com.cyder.utilities.AnimationUtil;
 
 import javax.swing.*;

@@ -1,7 +1,7 @@
 package com.cyder.handler;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
+import com.cyder.constants.CyderColors;
+import com.cyder.constants.CyderFonts;
 import com.cyder.ui.ConsoleFrame;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -20,7 +20,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 
-import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static com.cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class PhotoViewer {
 

@@ -1,7 +1,7 @@
 package com.cyder.games;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
+import com.cyder.constants.CyderColors;
+import com.cyder.constants.CyderFonts;
 import com.cyder.enums.TitlePosition;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderButton;
@@ -11,7 +11,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static com.cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class TicTacToe {
 

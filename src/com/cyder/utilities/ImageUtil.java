@@ -1,7 +1,7 @@
 package com.cyder.utilities;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
+import com.cyder.constants.CyderColors;
+import com.cyder.constants.CyderFonts;
 import com.cyder.enums.ConsoleDirection;
 import com.cyder.enums.Direction;
 import com.cyder.exception.FatalException;

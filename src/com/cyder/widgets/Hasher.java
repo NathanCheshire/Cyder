@@ -1,7 +1,7 @@
 package com.cyder.widgets;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
+import com.cyder.constants.CyderColors;
+import com.cyder.constants.CyderFonts;
 import com.cyder.enums.TitlePosition;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 
-import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static com.cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class Hasher {
     private JPasswordField hashField;

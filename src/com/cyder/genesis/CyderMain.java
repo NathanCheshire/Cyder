@@ -1,8 +1,8 @@
 package com.cyder.genesis;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
-import com.cyder.Constants.CyderImages;
+import com.cyder.constants.CyderColors;
+import com.cyder.constants.CyderFonts;
+import com.cyder.constants.CyderImages;
 import com.cyder.enums.*;
 import com.cyder.exception.CyderException;
 import com.cyder.exception.FatalException;
@@ -42,7 +42,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static com.cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 //bug: log in from user as a different user then delete that second user
 // it will use the first user's name and say that it was corrupted

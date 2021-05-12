@@ -1,8 +1,8 @@
 package com.cyder.widgets;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
-import com.cyder.Constants.CyderImages;
+import com.cyder.constants.CyderColors;
+import com.cyder.constants.CyderFonts;
+import com.cyder.constants.CyderImages;
 import com.cyder.ui.CyderButton;
 import com.cyder.ui.CyderFrame;
 import com.cyder.ui.CyderScrollPane;
@@ -17,7 +17,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static com.cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class Pizza {
 

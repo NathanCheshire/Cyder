@@ -1,7 +1,7 @@
 package com.cyder.widgets;
 
-import com.cyder.Constants.CyderColors;
-import com.cyder.Constants.CyderFonts;
+import com.cyder.constants.CyderColors;
+import com.cyder.constants.CyderFonts;
 import com.cyder.ui.CyderFrame;
 import com.cyder.utilities.ColorUtil;
 
@@ -10,8 +10,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 
-import static com.cyder.Constants.CyderColors.navy;
-import static com.cyder.Constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static com.cyder.constants.CyderColors.navy;
+import static com.cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class ColorConverter {
     public static void colorConverter() {

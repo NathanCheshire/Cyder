@@ -1,6 +1,6 @@
 package com.cyder.ui;
 
-import com.cyder.Constants.CyderImages;
+import com.cyder.constants.CyderImages;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
