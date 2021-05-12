@@ -56,9 +56,9 @@ As of 3.2.21, the program is intended for 2560x1440 resolution displays (my main
 - [ ]  allow starting executables to be mapped to links within the menu
 - [ ]  convert all non vector based images to SVGs or other vector based data structures
 - [ ]  if the operating system is OSX, swap the location of the menu and window toggle trio and make it resemble the green, yellow, red dots on OSX
-- [ ]  implement convex hull algorithm
-- [ ]  implement convex hull visualizer
+- [ ]  implement convex hull algorithm and visualizer
 - [ ]  implement path finding visualizer but also link to pac-man game
 - [ ]  make certain classes final, don't let people instantiate the class by making the constructor private like "private Math() {}"
-- [ ]  take and recongize a pastebin link and print the contents to the console
-- [ ]  take and recognize a pastebin uuid and print the contents to the console
+- [ ]  take and recongize a pastebin link or UUID and print the contents to the console, should be reading from the RAW paste
+- [ ]  allow once instance of console frame but multiple for dev mode (See Runtime native class)
+- [ ]  make launching and testing easier
