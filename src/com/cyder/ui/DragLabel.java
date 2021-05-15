@@ -42,8 +42,9 @@ public class DragLabel extends JLabel {
                 int x = e.getXOnScreen();
                 int y = e.getYOnScreen();
 
-                if (effectFrame != null && effectFrame.isFocused() && draggingEnabled)
+                if (effectFrame != null && effectFrame.isFocused() && draggingEnabled) {
                     effectFrame.setLocation(x - xMouse, y - yMouse);
+                }
             }
 
             @Override
