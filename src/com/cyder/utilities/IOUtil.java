@@ -98,7 +98,7 @@ public class IOUtil {
             return;
 
         //i assume an error was thrown here because we attempted to do seomthing after we deleted a user's files
-        // such as close semaphor, we should have a fatal exit feature
+        // such as close semaphor, we should have a fatal exit feature such as halt from runtime()
 
         //todo get rid of uuid feature and just use a username but hide the uuid everywhere except in the backend
         // (i don't want to look at that ugly thing)
@@ -412,23 +412,37 @@ public class IOUtil {
         return null;
     }
 
+    //todo this should be somewhere else?
+
+    /**
+     * If a user becomes corrupted for any reason which may be determined any way we choose,
+     * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
+     * zip any user data aside from userdata.txt and the Throws directory
+     *
+     * This could fail if something has already been deleted which is fine since we want to
+     * go to the starting
+     */
     public static void corruptedUser() {
         try {
+            //get the exiting sem to avoid any other threads exiting during this method resulting from context switching
             CyderMain.exitingSem.acquire();
 
+            //close all open frames
             Frame[] frames = Frame.getFrames();
-
             for(Frame f : frames)
                 f.dispose();
 
+            //var for the folder we are zipping, if it's already gone then it really wasn't a corrupted user,
+            // possibly a user deleting their account
+            File mainZipFile = new File("src/users/" + ConsoleFrame.getUUID());
+            if (mainZipFile == null || mainZipFile.listFiles() == null || mainZipFile.listFiles().length == 0)
+                return;
+
+            //confirmed that the user was corrupted so we inform the user
             GenericInform.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
                     "Your data has been saved, zipped, and placed in your Downloads folder","Corrupted User");
-            Thread.sleep(7000);
 
-            File mainZipFile = new File("src/users/" + ConsoleFrame.getUUID());
-
-            //TODO null check here
-
+            //delete the stuff we don't care about
             for (File f : mainZipFile.listFiles()) {
                 if (f.getName().equals("Throws"))
                     SystemUtil.deleteFolder(f);
@@ -436,25 +450,30 @@ public class IOUtil {
                     f.delete();
             }
 
+            //zip the remaining user data
             String sourceFile = mainZipFile.getAbsolutePath();
-
             FileOutputStream fos = new FileOutputStream("Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip");
-
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             File fileToZip = new File(sourceFile);
-
             zipFile(fileToZip, fileToZip.getName(), zipOut);
             zipOut.close();
             fos.close();
 
+            //delete the folder we just zipped since it's a duplicate
             SystemUtil.deleteFolder(mainZipFile);
 
+            //move the zipped folder to downloads
             Files.move(Paths.get("Cyder_Corrupted_Userdata.zip"),
                    Paths.get("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads/Cyder_Corrupted_Userdata.zip"));
 
-            System.exit(78);
+            //release sem
+            CyderMain.exitingSem.release();
+
+            //todo go to login method instead
+            System.exit(25);
         } catch (Exception e) {
             e.printStackTrace();
+            ErrorHandler.silentHandle(e);
         }
     }
 

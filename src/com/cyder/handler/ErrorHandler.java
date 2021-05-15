@@ -10,6 +10,11 @@ import java.io.*;
 
 public class ErrorHandler {
 
+    /**
+     * This method takes an exception, prints it to a string, and then writes that string to
+     * either the user's Throws dir or the system throws dir
+     * @param e the exception we are handling and possibly informing the user of
+     */
     public static void handle(Exception e) {
         try {
             //find out whereto log the error
@@ -56,17 +61,20 @@ public class ErrorHandler {
             errorWriter.flush();
             errorWriter.close();
 
+            //todo don't open immediately, notify from right top and add a listener so that
+            // a click on the inform() will open the file
+
+            //if the user has show errors configured, then we open the file
             if (IOUtil.getUserData("SilenceErrors").equals("0"))
                 IOUtil.openFile(eFileString);
         }
 
+        //uh oh; error was thrown inside of here so we'll just generic inform the user of it
         catch (Exception ex) {
             if (CyderMain.consoleFrame != null && CyderMain.consoleFrame.isVisible()) {
-                //todo uncomment ConsoleFrame.notify(ex.getMessage());
-                //todo make error handling better, don't auto matically open it up, instead do a popup
-                //  and then add click listener on popup (inform) to open the file
+                //todo uncomment me once ConsoleFrame is migrated
+                //ConsoleFrame.notify(ex.getMessage());
 
-                //error was thrown inside of here so we'll just generic inform the user of it
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 ex.printStackTrace(pw);
@@ -83,6 +91,11 @@ public class ErrorHandler {
         }
     }
 
+    /**
+     * This method handles an exception the same way as {@link ErrorHandler#handle(Exception)} (String)}
+     * except it does so without informing the user/developer/etc.
+     * @param e the exception to be silently handled
+     */
     public static void silentHandle(Exception e) {
         try {
             //find out whereto log the error

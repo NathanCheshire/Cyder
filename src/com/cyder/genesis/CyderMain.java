@@ -222,7 +222,7 @@ public class CyderMain {
      * that's all! possibly add some other methods to change things about the console frame like close operations. etc.
      */
     //anything that has ConsoleFrame.* can be simplifiied to * after we move this
-    //todo this will become consoleFrame.open()
+    //todo this will become consoleFrame.show()
     public void console() {
         try {
             ConsoleFrame.resizeBackgrounds();

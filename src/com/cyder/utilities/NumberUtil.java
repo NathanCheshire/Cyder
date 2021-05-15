@@ -25,8 +25,7 @@ import static com.cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class NumberUtil {
 
-    private NumberUtil() {
-    } //private constructor to avoid object creation
+    private NumberUtil() {} //private constructor to avoid object creation
 
     private static CyderFrame numFrame;
 
