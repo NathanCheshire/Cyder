@@ -133,6 +133,7 @@ public final class ConsoleFrame extends CyderFrame {
         return ColorUtil.hextorgbColor(IOUtil.getUserData("Background"));
     }
 
+    //pretty sure this doesn't work still....
     public static void resizeBackgrounds() {
         try {
             LinkedList<File> backgrounds = getBackgrounds();
@@ -161,8 +162,8 @@ public final class ConsoleFrame extends CyderFrame {
 
                 //resizing smaller
                 while (backgroundWidth > screenWidth || backgroundHeight > screenHeight) {
-                    backgroundWidth = (int) (currentImage.getWidth() / (aspectRatio * incremeter));
-                    backgroundHeight = (int) (currentImage.getHeight() / (aspectRatio * incremeter));
+                    backgroundWidth = (int) (backgroundWidth / (aspectRatio * incremeter));
+                    backgroundHeight = (int) (backgroundHeight / (aspectRatio * incremeter));
                 }
 
                 if (backgroundWidth < 600 && backgroundHeight < 600)
@@ -177,8 +178,8 @@ public final class ConsoleFrame extends CyderFrame {
 
                 //resizing bigger
                 while (backgroundWidth < 800 && backgroundHeight < 800) {
-                    backgroundWidth = (int) (currentImage.getWidth() * (aspectRatio * incremeter));
-                    backgroundHeight = (int) (currentImage.getHeight() * (aspectRatio * incremeter));
+                    backgroundWidth = (int) (backgroundWidth * (aspectRatio * incremeter));
+                    backgroundHeight = (int) (backgroundHeight * (aspectRatio * incremeter));
                 }
 
                 //prime checker
@@ -367,10 +368,8 @@ public final class ConsoleFrame extends CyderFrame {
                     break;
             }
 
-//            parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
-//            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
-//                            CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
-//                    2,CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
+            //todo change tooltip for background
+            //todo refresh consoleclock bounds
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

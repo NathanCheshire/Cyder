@@ -53,7 +53,7 @@ import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
     -todos shall be placed where I deem them  most logical such as a to-do to fix a
      certain function shall be placed above that function
 
-    -helpful comments shall be placed anywhere something is not self explanatory
+    -helpful comments shall be placed anywhere if something is not self explanatory
 
     -method @params @args @retuns, etc. shall be placed on most methods
 
@@ -157,6 +157,7 @@ public class CyderMain {
      */
     private void initSystemProperties() {
         //Fix scaling issue for high DPI displays like nathanLenovo which is 2560x1440
+        //todo be able to change this if in debug mode in sys.ini?
         System.setProperty("sun.java2d.uiScale", "1.0");
     }
 
@@ -199,7 +200,7 @@ public class CyderMain {
 
     private static JTextPane outputArea;
     //TODO make a consoleframe text area so that it can be like DOS, no need for sep input and output
-    // also make an output area spawn off it's own handler
+    // also make an output area link to an InputHandler which links to a ContextEngine as well
     private JTextField inputField;
     public static JFrame consoleFrame;
     private JButton minimize;
@@ -223,7 +224,16 @@ public class CyderMain {
      * that's all! possibly add some other methods to change things about the console frame like close operations. etc.
      */
     //anything that has ConsoleFrame.* can be simplifiied to * after we move this
-    //todo this will become consoleFrame.show()
+    //todo this will become consoleFrame.show(), the main setup
+
+    //this extends CyderFrame so we need to override the settitle method since we'll be painting the time
+    // as the center title
+
+    //disable setting title position to left
+
+    //add the menu and suggestion button to the drag label
+
+    //override the action of the close button
     public void console() {
         try {
             ConsoleFrame.resizeBackgrounds();
@@ -333,6 +343,7 @@ public class CyderMain {
                     }
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                        //these booleans were already moved
 //                        if (!consoleLinesDrawn) {
 //                            drawConsoleLines = true;
 //                            consoleFrame.repaint();
@@ -346,6 +357,8 @@ public class CyderMain {
                         inputField.setText(inputField.getText().toUpperCase());
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                        //these booleans were already moved
+
 //                        drawConsoleLines = false;
 //                        consoleLinesDrawn = false;
 //                        consoleFrame.repaint();
@@ -1013,11 +1026,12 @@ public class CyderMain {
     };
 
     //when we first launch this will check for any special days in the special days class
+    // will this work for multiple things on the same day?
     //todo consolidate with console frame in one time run method
     private WindowAdapter consoleEcho = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
-            inputField.requestFocus();
-            specialDayNotifier = new SpecialDay(parentPane);
+        inputField.requestFocus();
+        specialDayNotifier = new SpecialDay(parentPane);
         }
     };
 
@@ -2267,6 +2281,8 @@ public class CyderMain {
                 Thread[] printThreads = new Thread[num];
                 threadGroup.enumerate(printThreads);
 
+                println("Executor services are identified by pool tags\nThreads are identified by the thread tag:\n");
+
                 for (int i = 0; i < num; i++)
                     if (!printThreads[i].isDaemon())
                         println(printThreads[i].getName());
@@ -2275,6 +2291,8 @@ public class CyderMain {
                 int num = threadGroup.activeCount();
                 Thread[] printThreads = new Thread[num];
                 threadGroup.enumerate(printThreads);
+
+                println("Executor services are identified by pool tags\nThreads are identified by the thread tag:\n");
 
                 for (int i = 0; i < num; i++)
                     println(printThreads[i].getName());

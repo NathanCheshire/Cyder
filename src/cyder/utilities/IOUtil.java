@@ -191,7 +191,9 @@ public class IOUtil {
         }
     }
 
-    //todo return a boolean if one or zero?
+    //todo get user binary method to return boolean for easy if statements
+    // throws exception of not 0 or 1
+
     public static String getUserData(String name) {
         readUserData();
 

@@ -92,6 +92,8 @@ public class NumberUtil {
         return ret;
     }
 
+    //todo make method to return overall stats and then a table for file by file
+
     public static int totalJavaLines(File startDir) {
         int ret = 0;
 

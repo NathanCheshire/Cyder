@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
@@ -333,18 +335,12 @@ public class WeatherWidget {
     }
 
     private void refreshClock() {
-        Thread TimeThread = new Thread(() -> {
-            try {
-                while (updateClock) {
-                    Thread.sleep(1000);
-                    currentTimeLabel.setText(weatherTime());
-                }
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
+        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+            if (weatherFrame != null) {
+                currentTimeLabel.setText(weatherTime());
             }
-        });
 
-        TimeThread.start();
+        }, 0, 1, TimeUnit.SECONDS);
     }
 
     public String weatherTime() {
@@ -358,32 +354,24 @@ public class WeatherWidget {
     }
 
     private void refreshWeather() {
-        Thread WeatherThread = new Thread(() -> {
-            try {
-                //todo change to executor
-                while (updateWeather) {
-                    Thread.sleep(1800000);
+        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+            if (weatherFrame != null) {
+                weatherStats();
+                locationLabel.setText(locationString);
 
-                    weatherStats();
-                    locationLabel.setText(locationString);
-
-                    currentWeatherLabel.setText(capsFirst(weatherCondition));
-                    temperatureLabel.setText("Temperature: " + temperature + "F");
-                    feelsLikeLabel.setText("Feels like: " + feelsLike);
-                    windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-                    windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + getWindDirection(windBearing));
-                    humidityLabel.setText("Humidity: " + humidity + "%");
-                    pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
-                    timezoneLabel.setText("Timezone stats: " + getTimezoneLabel());
-                    sunriseLabel.setText(correctedSunTime(sunrise) + "am");
-                    sunsetLabel.setText(correctedSunTime(sunset) + "pm");
-                }
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
+                currentWeatherLabel.setText(capsFirst(weatherCondition));
+                temperatureLabel.setText("Temperature: " + temperature + "F");
+                feelsLikeLabel.setText("Feels like: " + feelsLike);
+                windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
+                windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + getWindDirection(windBearing));
+                humidityLabel.setText("Humidity: " + humidity + "%");
+                pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
+                timezoneLabel.setText("Timezone stats: " + getTimezoneLabel());
+                sunriseLabel.setText(correctedSunTime(sunrise) + "am");
+                sunsetLabel.setText(correctedSunTime(sunset) + "pm");
             }
-        });
 
-        WeatherThread.start();
+        }, 0, 5, TimeUnit.MINUTES);
     }
 
     private void refreshWeatherNow() {
