@@ -1,5 +1,5 @@
 .idea/
-Cyder.iml
-.git
 out/
 Throws/
+*.iml
+*.git
