@@ -20,6 +20,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
@@ -105,12 +107,28 @@ public class NumberUtil {
                 int localRet = 0;
 
                 while ((line = lineReader.readLine()) != null)
-                    localRet++;
+                    if (line.trim().length() > 0)
+                        localRet++;
 
                 return localRet;
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
             }
+        }
+
+        return ret;
+    }
+
+    public static int totalJavaFiles(File startDir) {
+        int ret = 0;
+
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                ret += totalJavaFiles(f);
+        } else if (startDir.getName().endsWith(".java")) {
+            return 1;
         }
 
         return ret;
@@ -130,10 +148,9 @@ public class NumberUtil {
                 String line = "";
                 int localRet = 0;
 
-                while ((line = lineReader.readLine()) != null) {
-                    if (line.startsWith("//") || line.startsWith("/*") || line.endsWith("*\\") || line.startsWith("*") || line.endsWith("*/"))
+                while ((line = lineReader.readLine()) != null)
+                    if (line.trim().length() > 0 && (isComment(line)))
                         localRet++;
-                }
 
                 return localRet;
             } catch (Exception ex) {
@@ -144,22 +161,34 @@ public class NumberUtil {
         return ret;
     }
 
-    public static int totalXMLLines(File startDir) {
+    private static boolean isComment(String line) {
+        Pattern pattern = Pattern.compile("//.*|/\\*((.|\\n)(?!=*/))+\\*/");
+
+        Matcher matcher = pattern.matcher(line);
+        while (matcher.find()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static int totalBlankLines(File startDir) {
         int ret = 0;
 
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
             for (File f : files)
-                ret += totalXMLLines(f);
-        } else if (startDir.getName().endsWith(".fxml")) {
+                ret += totalBlankLines(f);
+        } else if (startDir.getName().endsWith(".java")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 String line = "";
                 int localRet = 0;
 
                 while ((line = lineReader.readLine()) != null)
-                    localRet++;
+                    if (line.trim().length() == 0)
+                        localRet++;
 
                 return localRet;
             } catch (Exception ex) {

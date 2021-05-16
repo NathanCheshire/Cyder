@@ -27,4 +27,6 @@ public class InputHandler {
     //todo music icons
     //todo add music shuffle
     //todo use checkboxes for shuffle and repeat
+
+    //todo toggle chat filter on and off
 }

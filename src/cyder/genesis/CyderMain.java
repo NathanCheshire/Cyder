@@ -2256,12 +2256,11 @@ public class CyderMain {
                 ImageResizer IR = new ImageResizer();
             } else if (hasWord("barrel") && hasWord("roll")) {
                 //todo ConsoleFrme.barrelRoll();
-            } else if (hasWord("lines") && hasWord("code")) {
-                println("Total lines of code: " + NumberUtil.totalJavaLines(new File(System.getProperty("user.dir"))));
-            } else if (hasWord("comments")) {
-                println("Total comments in source code: " + NumberUtil.totalComments(new File(System.getProperty("user.dir"))));
-            } else if (hasWord("xml") && hasWord("lines")) {
-                println("Total fxml lines: " + NumberUtil.totalXMLLines(new File(System.getProperty("user.dir"))));
+            } else if (hasWord("analyze") && hasWord("code")) {
+                println("Lines of code: " + NumberUtil.totalJavaLines(new File(System.getProperty("user.dir"))));
+                println("Number of java files: " + NumberUtil.totalJavaFiles(new File(System.getProperty("user.dir"))));
+                println("Number of comments: " + NumberUtil.totalComments(new File(System.getProperty("user.dir"))));
+                println("Blank lines: " + NumberUtil.totalBlankLines(new File(System.getProperty("user.dir"))));
             } else if (hasWord("threads") && !hasWord("daemon")) {
                 ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                 int num = threadGroup.activeCount();
