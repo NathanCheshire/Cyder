@@ -132,18 +132,22 @@ public class CyderFrame extends JFrame {
         parentLabel.add(dl);
     }
 
+    /**
+     * This method will change the title position to the specified value. If the frame is visible to the user,
+     * we will animate the change via a smooth slide transition
+     * @param titlePosition the position for the title to be: left, center
+     */
     public void setTitlePosition(TitlePosition titlePosition) {
-        boolean different = titlePosition != this.titlePosition && titlePosition != null && this.titlePosition != null;
+        if (titlePosition == null || this.titlePosition == null)
+            return;
+
+        System.out.println(titlePosition + "," + this.titlePosition);
+
+        boolean different = titlePosition != this.titlePosition;
         this.titlePosition = titlePosition;
         long timeout = 2;
 
-        //TODO starting an app for the first time, so inital set of the title should not animate it moving
-
-        //we need to figure out how to not animate it moving if we want to start it in the middle and not the left
-        //but if we want to set it after the frame has been visible, then we need to animate it moving
-
-        //if we are setting the title to a different position, then we animate it moving
-        if (different) {
+        if (different && isVisible()) {
             if (titlePosition != TitlePosition.CENTER) {
                 new Thread(() -> {
                     for (int i = (getDragLabel().getWidth() / 2) - (getTitleWidth(titleLabel.getText()) / 2); i > 4; i--) {
@@ -170,6 +174,10 @@ public class CyderFrame extends JFrame {
                 }).start();
             }
         }
+    }
+
+    public TitlePosition getTitlePosition() {
+        return this.titlePosition;
     }
 
     private boolean paintSuperTitle = true;

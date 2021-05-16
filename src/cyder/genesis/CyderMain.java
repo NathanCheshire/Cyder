@@ -2310,31 +2310,25 @@ public class CyderMain {
                 println("Did you mean who is alex trebek?");
             } else if (hasWord("test")) {
                 //basic frame for UI testing setup below
-                CyderFrame testFrame = new CyderFrame(1000, 400, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+                CyderFrame testFrame = new CyderFrame(500, 200, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+                testFrame.setTitle("My Frame Title");
                 testFrame.setTitlePosition(TitlePosition.CENTER);
-                testFrame.setTitle("Longer title than before, long long");
                 testFrame.initResizing();
                 testFrame.setSnapSize(new Dimension(1, 1));
                 testFrame.setBackgroundResizing(true);
 
-                //TODO make testing easier with a testing widget, when in debug mode, this automatically opens up
-
-                //using array cause java memory hacks
-                //now there's the bug of sliding on start AND not sliding if it slid on start the first button press
-                final TitlePosition[] current = {TitlePosition.CENTER};
+                final TitlePosition[] current = {testFrame.getTitlePosition()};
 
                 CyderButton alternateTitleButton = new CyderButton("Alternate Title");
                 alternateTitleButton.setBounds(40, 40, 250, 40);
                 alternateTitleButton.addActionListener(e -> {
-                    testFrame.setTitlePosition(current[0]);
                     current[0] = (current[0] == TitlePosition.CENTER ? TitlePosition.LEFT : TitlePosition.CENTER);
+                    testFrame.setTitlePosition(current[0]);
                 });
                 testFrame.getContentPane().add(alternateTitleButton);
 
                 testFrame.setVisible(true);
                 testFrame.setLocationRelativeTo(null);
-            } else if (eic("test")) {
-
             } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
                 Cards.Christmas2020();
             } else if (hasWord("number") && hasWord("word")) {

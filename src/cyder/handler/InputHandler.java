@@ -29,4 +29,10 @@ public class InputHandler {
     //todo use checkboxes for shuffle and repeat
 
     //todo toggle chat filter on and off
+
+    //todo change vanila color, kind of ugly ngl
+
+    //todo remove all jbuttons and replace with cyderbuttons that you can
+
+    //TODO make testing easier with a testing widget, when in debug mode, this automatically opens up
 }
