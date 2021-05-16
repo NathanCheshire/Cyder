@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.constants.CyderColors;
+import cyder.constants.CyderImages;
 import cyder.enums.ArrowDirection;
 import cyder.enums.StartDirection;
 import cyder.enums.VanishDirection;
@@ -71,11 +72,11 @@ public class MPEGPlayer {
             }
         });
 
-        ImageIcon mini1 = new ImageIcon("src/cyder//sys/pictures/minimize1.png");
-        ImageIcon mini2 = new ImageIcon("src/cyder//sys/pictures/minimize2.png");
+        ImageIcon minimizeIcon = CyderImages.minimizeIcon;
+        ImageIcon minimizeIconHover = CyderImages.minimizeIconHover;
 
-        ImageIcon close1 = new ImageIcon("src/cyder//sys/pictures/Close1.png");
-        ImageIcon close2 = new ImageIcon("src/cyder//sys/pictures/Close2.png");
+        ImageIcon closeIcon = CyderImages.closeIcon;
+        ImageIcon closeIconHover = CyderImages.closeIconHover;
 
         musicTitleLabel = new JLabel("", SwingConstants.CENTER);
 
@@ -561,7 +562,7 @@ public class MPEGPlayer {
         musicFrame.setAlwaysOnTop(false);
         musicFrame.requestFocus();
 
-        musicFrame.notify("Welcome to FlashPlayer (haha get it?)",3000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP,415);
+        musicFrame.notify("Welcome to FlashPlayer (haha get it?)",3000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP);
 
         //if not null then we call initMusi
         if (StartPlaying != null && !StartPlaying.getName().equals("")) {

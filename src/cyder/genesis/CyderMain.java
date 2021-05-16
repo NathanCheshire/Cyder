@@ -475,19 +475,19 @@ public class CyderMain {
             minimize.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    minimize.setIcon(new ImageIcon("src/cyder//sys/pictures/Minimize2.png"));
+                    minimize.setIcon(CyderImages.minimizeIconHover);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    minimize.setIcon(new ImageIcon("src/cyder//sys/pictures/Minimize1.png"));
+                    minimize.setIcon(CyderImages.minimizeIcon);
                 }
             });
 
             minimize.setBounds(ConsoleFrame.getBackgroundWidth() - 81, 4, 22, 20);
 
-            ImageIcon mini = new ImageIcon("src/cyder//sys/pictures/Minimize1.png");
-            minimize.setIcon(mini);
+            ImageIcon minimizeIcon = CyderImages.minimizeIcon;
+            minimize.setIcon(minimizeIcon);
             parentLabel.add(minimize);
             minimize.setFocusPainted(false);
             minimize.setOpaque(false);
@@ -547,12 +547,12 @@ public class CyderMain {
             close.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    close.setIcon(new ImageIcon("src/cyder//sys/pictures/Close2.png"));
+                    close.setIcon(CyderImages.closeIconHover);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    close.setIcon(new ImageIcon("src/cyder//sys/pictures/Close1.png"));
+                    close.setIcon(CyderImages.closeIcon);
                 }
 
                 @Override
@@ -562,7 +562,7 @@ public class CyderMain {
             });
 
             close.setBounds(ConsoleFrame.getBackgroundWidth() - 27, 4, 22, 20);
-            close.setIcon(new ImageIcon("src/cyder//sys/pictures/Close1.png"));
+            close.setIcon(CyderImages.closeIcon);
             parentLabel.add(close);
             close.setFocusPainted(false);
             close.setOpaque(false);
@@ -572,7 +572,7 @@ public class CyderMain {
             consoleDragLabel = new JLabel();
             consoleDragLabel.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), 30);
             consoleDragLabel.setOpaque(true);
-            consoleDragLabel.setBackground(new Color(26, 32, 51));
+            consoleDragLabel.setBackground(CyderColors.navy);
             consoleDragLabel.addMouseMotionListener(new MouseMotionListener() {
                 @Override
                 public void mouseDragged(MouseEvent e) {
@@ -1237,7 +1237,7 @@ public class CyderMain {
 
         if (directories != null && directories.length == 0)
             loginFrame.notify("<html><b>" + System.getProperty("user.name") + ":<br/>There are no users<br/>please create one</b></html>",
-                    4000, ArrowDirection.TOP, 250);
+                    4000, ArrowDirection.TOP);
     }
 
     //todo stay here
@@ -1279,7 +1279,7 @@ public class CyderMain {
                 pass.setText("");
                 nameField.requestFocusInWindow();
                 loginFrame.notify("Could not recognize user",
-                        2000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP, 280);
+                        2000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP);
             } else
                 login();
         } catch (Exception e) {

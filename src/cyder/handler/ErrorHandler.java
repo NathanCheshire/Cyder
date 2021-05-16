@@ -51,7 +51,7 @@ public class ErrorHandler {
             Class c = e.getClass();
 
             //get our master string and write it to the file
-            String write = "Error thrown by line: " + lineNumber + " from\n" + c +
+            String write = e.getMessage() + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
                     "\n\nStack Trace:\n\n" + stackTrack;
 
             //write to file, flush, close
@@ -83,7 +83,7 @@ public class ErrorHandler {
                 int lineNumber = ex.getStackTrace()[0].getLineNumber();
                 Class c = ex.getClass();
 
-                String write = "Error thrown by line: " + lineNumber + " from\n" + c +
+                String write = ex.getMessage() + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
                         "\n\nStack Trace:\n\n" + stackTrack;
 
                 GenericInform.inform(write,"Error trace");
@@ -132,7 +132,7 @@ public class ErrorHandler {
             Class c = e.getClass();
 
             //get our master string and write it to the file
-            String write = "Error thrown by line: " + lineNumber + " from\n" + c +
+            String write = e.getMessage() + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
                     "\n\nStack Trace:\n\n" + stackTrack;
 
             //write to file, flush, close

@@ -176,12 +176,14 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    //getter for title position
     public TitlePosition getTitlePosition() {
         return this.titlePosition;
     }
 
-    private boolean paintSuperTitle = true;
+    //getter and setter for paint windowed title
 
+    private boolean paintSuperTitle = true;
     public void setPaintSuperTitle(boolean b) {
         paintSuperTitle = b;
     }
@@ -190,6 +192,8 @@ public class CyderFrame extends JFrame {
         return paintSuperTitle;
     }
 
+    //override since we paint it on the window no matter what in whatever position we want
+    //but also paint the windowed title if paintSuperTitle
     @Override
     public void setTitle(String title) {
         super.setTitle(paintSuperTitle ? title : "");
@@ -206,6 +210,7 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    //using default (notification font) to determine the width and add 10 due to a bug
     private int getTitleWidth(String title) {
         Font notificationFont = titleLabel.getFont();
         AffineTransform affinetransform = new AffineTransform();
@@ -213,13 +218,23 @@ public class CyderFrame extends JFrame {
         return (int) notificationFont.getStringBounds(title, frc).getWidth() + 10;
     }
 
+    //using any font to determine the width and add 10 due to a bug
     public static int getTitleWidth(String title, Font f) {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) f.getStringBounds(title, frc).getWidth() + 10;
     }
 
-    public void notify(String htmltext, int viewDuration, ArrowDirection direction, int width) {
+    /**
+     * This method is to be used for a quick notify. view direction is five seconds
+     * @param htmlText - the text you want to notify on the callilng from
+     */
+    public void notify(String htmlText) {
+        notify(htmlText, 5000, ArrowDirection.TOP);
+    }
+
+    //notify method given text, duration, and direction (arrow direction determines start and vanish dir so a simplified method here)
+    public void notify(String htmltext, int viewDuration, ArrowDirection direction) {
         Notification frameNotification = new Notification();
 
         StartDirection startDir;
@@ -271,7 +286,6 @@ public class CyderFrame extends JFrame {
         int lastIndex = 0;
 
         while (lastIndex != -1) {
-
             lastIndex = text.getText().indexOf("<br/>", lastIndex);
 
             if (lastIndex != -1) {
@@ -302,7 +316,13 @@ public class CyderFrame extends JFrame {
         frameNotification.vanish(vanishDir, this.getContentPane(), viewDuration);
     }
 
-    public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir, int width) {
+    //full control over notify method
+    //html text - the text you want to display
+    //view duration - timeout before notification fades away
+    //arrowdir - where the arrow should go on the notification
+    //startdir - where the notification should enter from
+    //vanishdir - where the notification should exit
+    public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir) {
         Notification frameNotification = new Notification();
 
         frameNotification.setArrow(arrowDir);
@@ -361,14 +381,17 @@ public class CyderFrame extends JFrame {
         frameNotification.vanish(vanishDir, this.getContentPane(), viewDuration);
     }
 
+    //getter for drag label, needed for window resizing
     public DragLabel getDragLabel() {
         return dl;
     }
 
+    //inform window relative to this
     public void inform(String text, String title) {
         GenericInform.informRelative(text, title, this);
     }
 
+    //enter animation for this frame
     public void enterAnimation() {
         if (this == null)
             return;
@@ -426,6 +449,7 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    //minimize animation for this
     public void minimizeAnimation() {
         if (this == null)
             return;
@@ -450,6 +474,7 @@ public class CyderFrame extends JFrame {
         dl.enableDragging();
     }
 
+    //disable moving of the window
     public void setRelocatable(boolean relocatable) {
         if (relocatable)
             dl.enableDragging();
@@ -457,6 +482,7 @@ public class CyderFrame extends JFrame {
             dl.disableDragging();
     }
 
+    //move around the screen border
     public void dance() {
         Thread DanceThread = new Thread(() -> {
             try {
@@ -549,6 +575,7 @@ public class CyderFrame extends JFrame {
         DanceThread.start();
     }
 
+    //transform content pane in a barrel roll like fashion
     public void barrelRoll() {
         setBackground(CyderColors.navy);
 
@@ -576,6 +603,7 @@ public class CyderFrame extends JFrame {
         timer.start();
     }
 
+    //similar to googling "askew"
     public void askew(int degrees) {
         ((JLabel) (this.getContentPane())).setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(
                 ImageUtil.getRotatedImage(
@@ -583,6 +611,7 @@ public class CyderFrame extends JFrame {
                         ConsoleFrame.getConsoleDirection()), degrees)));
     }
 
+    //override since we also need to change drag label's bounds
     @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
@@ -592,8 +621,10 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    //getters and setters for min size, max size, and snap size
+
     private Dimension minimumSize = new Dimension(200, 200);
-    private Dimension maximumDimension = new Dimension(800, 800);
+    private Dimension maximumSize = new Dimension(800, 800);
     private Dimension snapSize = new Dimension(1, 1);
 
     public void setMinimumSize(Dimension minSize) {
@@ -602,8 +633,8 @@ public class CyderFrame extends JFrame {
     }
 
     public void setMaximumSize(Dimension maxSize) {
-        this.maximumDimension = maxSize;
-        cr.setMaximumSize(maximumDimension);
+        this.maximumSize = maxSize;
+        cr.setMaximumSize(maximumSize);
     }
 
     public void setSnapSize(Dimension snap) {
@@ -616,7 +647,7 @@ public class CyderFrame extends JFrame {
     }
 
     public Dimension getMaximumSize() {
-        return maximumDimension;
+        return maximumSize;
     }
 
     public Dimension getSnapSize() {
@@ -633,6 +664,7 @@ public class CyderFrame extends JFrame {
         cr.setBackgroundRefreshOnResize(b);
     }
 
+    //setup for resizing the window, generallythis is the order to follow
     public void initResizing() {
         cr = new ComponentResizer();
         cr.registerComponent(this);
@@ -642,26 +674,28 @@ public class CyderFrame extends JFrame {
         cr.setSnapSize(getSnapSize());
     }
 
+    //disable or enable window resizing
     public void allowResizing(Boolean b) {
         cr.setResizing(b);
     }
 
+    //should we resize the background when we resize the window or just keep it in the same place?
     public void backgroundRefreshOnResize(Boolean b) {
         cr.setBackgroundRefreshOnResize(b);
     }
 
     ImageIcon currentOrigIcon;
 
+    //refreshing will cause the background image to scale to the width and height of this
     public void refreshBackground() {
         contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
     }
 
+    //changing the background will cause the background image to scale to the width and height of this
     public void setBackground(ImageIcon icon) {
         currentOrigIcon = icon;
         contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
     }
-
-
 }

@@ -247,7 +247,7 @@ public class NumberUtil {
 
         BigInteger num = new BigInteger(wordRep);
         if (num.compareTo(BigInteger.ZERO) == 0) {
-            numFrame.notify("Zero you idiot", 3000, ArrowDirection.TOP, 165);
+            numFrame.notify("Zero you idiot", 3000, ArrowDirection.TOP);
             return;
         }
 

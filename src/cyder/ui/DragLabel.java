@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.constants.CyderColors;
+import cyder.constants.CyderImages;
 import cyder.utilities.AnimationUtil;
 
 import javax.swing.*;
@@ -17,11 +18,11 @@ public class DragLabel extends JLabel {
     private int xMouse;
     private int yMouse;
 
-    ImageIcon mini1 = new ImageIcon("src/cyder//sys/pictures/minimize1.png");
-    ImageIcon mini2 = new ImageIcon("src/cyder//sys/pictures/minimize2.png");
+    ImageIcon minimizeIcon = CyderImages.minimizeIcon;
+    ImageIcon minimizeIconHover = CyderImages.minimizeIconHover;
 
-    ImageIcon close1 = new ImageIcon("src/cyder//sys/pictures/Close1.png");
-    ImageIcon close2 = new ImageIcon("src/cyder//sys/pictures/Close2.png");
+    ImageIcon closeIcon = CyderImages.closeIcon;
+    ImageIcon closeIconHover = CyderImages.closeIconHover;
 
     private JButton close;
     private JButton minimize;
@@ -69,17 +70,17 @@ public class DragLabel extends JLabel {
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                close.setIcon(close2);
+                close.setIcon(closeIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                close.setIcon(close1);
+                close.setIcon(closeIcon);
             }
         });
 
         close.setBounds(width - 26, 0, 22, 20);
-        close.setIcon(close1);
+        close.setIcon(closeIcon);
         close.setContentAreaFilled(false);
         close.setBorderPainted(false);
         close.setFocusPainted(false);
@@ -96,17 +97,17 @@ public class DragLabel extends JLabel {
         minimize.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                minimize.setIcon(mini2);
+                minimize.setIcon(minimizeIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                minimize.setIcon(mini1);
+                minimize.setIcon(minimizeIcon);
             }
         });
 
         minimize.setBounds(width - 52, 0, 22, 20);
-        minimize.setIcon(mini1);
+        minimize.setIcon(minimizeIcon);
         minimize.setContentAreaFilled(false);
         minimize.setBorderPainted(false);
         minimize.setFocusPainted(false);
