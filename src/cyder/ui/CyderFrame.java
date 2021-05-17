@@ -141,8 +141,6 @@ public class CyderFrame extends JFrame {
         if (titlePosition == null || this.titlePosition == null)
             return;
 
-        System.out.println(titlePosition + "," + this.titlePosition);
-
         boolean different = titlePosition != this.titlePosition;
         this.titlePosition = titlePosition;
         long timeout = 2;

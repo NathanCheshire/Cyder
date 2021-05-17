@@ -147,7 +147,7 @@ public class Calculator {
                         " Text Field and can handle more complicated" +
                         "expressions such as sin, cos, tan, log, ln, floor, etc. " +
                         "Use \"pi\" for pi.","Exception in parsing");
-                ErrorHandler.handle(exc);
+                ErrorHandler.silentHandle(exc);
             }
         });
         calculatorField.addActionListener(e -> calculatorEquals.doClick());

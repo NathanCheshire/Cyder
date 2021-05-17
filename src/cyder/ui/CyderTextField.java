@@ -6,23 +6,13 @@ import cyder.constants.CyderFonts;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 public class CyderTextField extends JTextField {
     private int limit = 1;
 
     public CyderTextField(int colnum) {
         super(colnum);
-        this.addMouseListener(new CyderMouseDraggable() {
-            @Override
-            public void mousePressed(MouseEvent me) {
-                super.mousePressed(me);
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent me) {
-                super.mouseReleased(me);
-            }
-        });
 
         this.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {

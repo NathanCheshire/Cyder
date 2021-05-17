@@ -3,11 +3,14 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handler.ErrorHandler;
+import cyder.utilities.IOUtil;
+import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 public class CyderButton extends JButton {
 
@@ -21,17 +24,9 @@ public class CyderButton extends JButton {
     public CyderButton(String text) {
         super(text);
         super.setContentAreaFilled(false);
-        this.addMouseListener(new CyderMouseDraggable() {
-            @Override
-            public void mousePressed(MouseEvent me) {
-                super.mousePressed(me);
-            }
 
-            @Override
-            public void mouseReleased(MouseEvent me) {
-                super.mouseReleased(me);
-            }
-        });
+        addMouseMotionListener(new CyderDragableComponent());
+
         setFont(CyderFonts.weatherFontSmall);
         setBackground(CyderColors.regularRed);
         setColors(CyderColors.regularRed);
