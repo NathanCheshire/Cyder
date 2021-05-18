@@ -31,6 +31,8 @@ public class MPEGPlayer {
     private ScrollLabel musicScroll;
     private CyderFrame musicFrame;
     private JSlider musicVolumeSlider;
+
+    private boolean shuffleAudio;
     private boolean musicStopped;
 
     private JButton lastMusic;
@@ -39,6 +41,7 @@ public class MPEGPlayer {
     private JButton loopMusic;
     private JButton selectMusicDir;
     private JButton playPauseMusic;
+    private JButton shuffleMusic;
 
     private JLabel musicTitleLabel;
     private JLabel musicVolumeLabel;
@@ -53,10 +56,11 @@ public class MPEGPlayer {
     private boolean loopAudio;
 
     //todo exceptions are thrown left and right from JLayer resulting from a loop bug somewhere in this file
-
-    //todo change buttons to smaller icons
-
-    //todo add add shuffle button
+    //todo bug when changing volume, set init volume
+    //todo error resuming music, tries to start at beggining
+    //todo audio doesnt go to next audio when current ends
+    //todo custom thumb icon flash head and then make flash player smaller overall
+    //todo implement shuffle feature
 
     /**
      * This constructor takes an mp3 file to immediately start playing when FlashPlayer loads
@@ -159,11 +163,11 @@ public class MPEGPlayer {
         playPauseMusic.addActionListener(e -> {
             if (mp3Player != null) {
                 if (!playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/play.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/play.png"));
                     playPauseMusic.setToolTipText("play");
                     playIcon = true;
                 } else {
-                    playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/Pause.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/Pause.png"));
                     playPauseMusic.setToolTipText("Pause");
                     playIcon = false;
                 }
@@ -209,24 +213,24 @@ public class MPEGPlayer {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/PlayHover.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/PlayHover.png"));
                 } else {
-                    playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/PauseHover.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/PauseHover.png"));
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/play.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/play.png"));
                 } else {
-                    playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/Pause.png"));
+                    playPauseMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/Pause.png"));
                 }
             }
         });
 
-        playPauseMusic.setBounds(121, 263, 75, 75);
-        ImageIcon Play = new ImageIcon("src/cyder//sys/pictures/play.png");
+        playPauseMusic.setBounds(121, 263, 30, 30);
+        ImageIcon Play = new ImageIcon("src/cyder/sys/pictures/play.png");
         playPauseMusic.setIcon(Play);
         musicFrame.getContentPane().add(playPauseMusic);
         playPauseMusic.setFocusPainted(false);
@@ -257,18 +261,18 @@ public class MPEGPlayer {
         lastMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                lastMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/SkipBackHover.png"));
+                lastMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/SkipBackHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                lastMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/SkipBack.png"));
+                lastMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/SkipBack.png"));
             }
         });
 
-        lastMusic.setBounds(121, 363, 75, 75);
+        lastMusic.setBounds(50, 363, 30, 30);
 
-        ImageIcon Last = new ImageIcon("src/cyder//sys/pictures/SkipBack.png");
+        ImageIcon Last = new ImageIcon("src/cyder/sys/pictures/SkipBack.png");
         lastMusic.setIcon(Last);
         musicFrame.getContentPane().add(lastMusic);
         lastMusic.setFocusPainted(false);
@@ -299,18 +303,18 @@ public class MPEGPlayer {
         nextMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                nextMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/SkipHover.png"));
+                nextMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/SkipHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                nextMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/Skip.png"));
+                nextMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/Skip.png"));
             }
         });
 
-        nextMusic.setBounds(121, 463, 75, 75);
+        nextMusic.setBounds(121, 363, 30, 30);
 
-        ImageIcon Next = new ImageIcon("src/cyder//sys/pictures/Skip.png");
+        ImageIcon Next = new ImageIcon("src/cyder/sys/pictures/Skip.png");
         nextMusic.setIcon(Next);
         musicFrame.getContentPane().add(nextMusic);
         nextMusic.setFocusPainted(false);
@@ -322,11 +326,11 @@ public class MPEGPlayer {
         loopMusic.setToolTipText("Loop Audio");
         loopMusic.addActionListener(e -> {
             if (!loopAudio) {
-                loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/Repeat.png"));
+                loopMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/Repeat.png"));
                 loopMusic.setToolTipText("Loop Audio");
                 loopAudio = true;
             } else {
-                loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/NoRepeat.png"));
+                loopMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/RepeatHover.png"));
                 loopMusic.setToolTipText("Loop Audio");
                 loopAudio = false;
             }
@@ -336,24 +340,24 @@ public class MPEGPlayer {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (loopAudio) {
-                    loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/RepeatHover.png"));
+                    loopMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/Repeat.png"));
                 } else {
-                    loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/NoRepeatHover.png"));
+                    loopMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/RepeatHover.png"));
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (loopAudio) {
-                    loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/Repeat.png"));
+                    loopMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/RepeatHover.png"));
                 } else {
-                    loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/NoRepeat.png"));
+                    loopMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/Repeat.png"));
                 }
             }
         });
 
-        loopMusic.setBounds(50, 363, 76, 76);
-        ImageIcon Loop = new ImageIcon("src/cyder//sys/pictures/NoRepeat.png");
+        loopMusic.setBounds(121, 463, 30, 30);
+        ImageIcon Loop = new ImageIcon("src/cyder/sys/pictures/Repeat.png");
         loopMusic.setIcon(Loop);
         musicFrame.getContentPane().add(loopMusic);
         loopMusic.setFocusPainted(false);
@@ -395,7 +399,7 @@ public class MPEGPlayer {
             }
         });
 
-        stopMusic.setBounds(50, 263, 75, 75);
+        stopMusic.setBounds(50, 263, 30, 30);
         ImageIcon Stop = new ImageIcon("src/cyder//sys/pictures/Stop.png");
         stopMusic.setIcon(Stop);
         musicFrame.getContentPane().add(stopMusic);
@@ -449,10 +453,50 @@ public class MPEGPlayer {
             }
         });
 
-        selectMusicDir.setBounds(50, 463, 75, 75);
+        selectMusicDir.setBounds(50, 463, 30, 30);
         ImageIcon File = new ImageIcon("src/cyder//sys/pictures/SelectFile.png");
         selectMusicDir.setIcon(File);
         musicFrame.getContentPane().add(selectMusicDir);
+
+        shuffleMusic = new JButton("");
+        shuffleMusic.setToolTipText("Shuffle");
+        shuffleMusic.addActionListener(e -> {
+            if (!shuffleAudio) { //!shuffle music
+                shuffleMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/Shuffle.png"));
+                shuffleAudio = true;
+            } else {
+                shuffleMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/ShuffleHover.png"));
+                shuffleAudio = false;
+            }
+        });
+
+        shuffleMusic.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (shuffleAudio) {
+                    shuffleMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/Shuffle.png"));
+                } else {
+                    shuffleMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/ShuffleHover.png"));
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (shuffleAudio) {
+                    shuffleMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/ShuffleHover.png"));
+                } else {
+                    shuffleMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/Shuffle.png"));
+                }
+            }
+        });
+
+        shuffleMusic.setBounds(192, 463, 30, 30);
+        shuffleMusic.setIcon(new ImageIcon("src/cyder/sys/pictures/Shuffle.png"));
+        musicFrame.getContentPane().add(shuffleMusic);
+        shuffleMusic.setFocusPainted(false);
+        shuffleMusic.setOpaque(false);
+        shuffleMusic.setContentAreaFilled(false);
+        shuffleMusic.setBorderPainted(false);
 
         selectMusicDir.setFocusPainted(false);
         selectMusicDir.setOpaque(false);
