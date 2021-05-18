@@ -122,7 +122,7 @@ public class SecurityUtil {
                     Line = currentRead.readLine();
                 }
 
-                if (pass.equals(filepass) && name.equals(filename)) {
+                if (pass.equals(filepass) && name.equalsIgnoreCase(filename)) {
                     ConsoleFrame.setUUID(UUIDs[i].getName());
                     currentRead.close();
                     return true;

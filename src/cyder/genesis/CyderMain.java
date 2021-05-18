@@ -68,12 +68,11 @@ public class CyderMain {
     private LinkedList<YoutubeThread> youtubeThreads = new LinkedList<>();
 
     //todo login spins off of main of autocypher fails
-    private static JLabel loginLabel2;
-    private static JLabel loginLabel3;
     private static CyderFrame loginFrame;
-    private static JTextField nameField;
-    private static JPasswordField pass;
-    private JLabel newUserLabel;
+    private static JPasswordField loginField;
+    private static int loginMode;
+    private String username;
+    private char[] password;
 
     //todo handler which each consoleframe uses
     private StringUtil stringUtil;
@@ -157,7 +156,7 @@ public class CyderMain {
      */
     private void initSystemProperties() {
         //Fix scaling issue for high DPI displays like nathanLenovo which is 2560x1440
-        //todo be able to change this if in debug mode in sys.ini?
+        //todo be able to change this if in debug loginMode in sys.ini?
         System.setProperty("sun.java2d.uiScale", "1.0");
     }
 
@@ -1098,14 +1097,17 @@ public class CyderMain {
 
     //todo protected? Stay here too
     public void login() {
+        loginMode = 0;
+
         if (loginFrame != null)
             loginFrame.closeAnimation();
 
         IOUtil.cleanUpUsers();
 
-        loginFrame = new CyderFrame(800, 800, new ImageIcon("src/cyder//sys/pictures/login.png"));
+        loginFrame = new CyderFrame(400, 400, new ImageIcon("src/cyder//sys/pictures/login.png"));
         loginFrame.setTitlePosition(TitlePosition.LEFT);
         loginFrame.setTitle(IOUtil.getSystemData("Version") + " login");
+        loginFrame.setBackground(new Color(21,23,24));
 
         if (consoleFrame == null || !consoleFrame.isActive() || !consoleFrame.isVisible())
             loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1113,133 +1115,106 @@ public class CyderMain {
         else
             loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        loginLabel2 = new JLabel();
-        loginLabel2.setIcon(new ImageIcon("src/cyder//sys/pictures/Login2.png"));
-        loginLabel2.setBounds(800, 0, 800, 800);
+        JTextArea loginArea = new JTextArea();
+        loginArea.setBounds(20, 340, 360, 40);
+        loginArea.setBackground(new Color(21,23,24));
+        loginArea.setBorder(null);
+        loginArea.setFocusable(false);
+        loginArea.setFont(new Font("Agency FB",Font.BOLD, 30));
+        loginArea.setForeground(new Color(85,181,219));
+        loginArea.setCaretColor(new Color(85,181,219));
+        loginFrame.getContentPane().add(loginArea);
 
-        loginFrame.getContentPane().add(loginLabel2);
+        //todo spin off loginArea animation
+        //todo make login like apple shell, scrolling words become fast typing text (make a function next to bletchy)
+        // that repeats in the upper left,
 
-        loginLabel3 = new JLabel();
-        loginLabel3.setIcon(new ImageIcon("src/cyder//sys/pictures/Login3.png"));
-        loginLabel3.setBounds(800, 0, 800, 800);
+        //todo print this on loop with timout of 5s using typing emulator function:
+        /*
+         *  Cyder version: 5.17.21
+         *  Type "h" for a list of valid commands
+         *  Build: Soultree
+         *  Description: A programmer's swiss army knife
+         *  Author: Nathan Cheshire
+         *  Design OS: Windows 10+
+         *  Design JVM: 8+
+         *  Date: CURRENT DATE
+         *  Time: CURRENT TIME
+         */
 
-        loginFrame.getContentPane().add(loginLabel3);
 
-        loginAnimation();
-
-        nameField = new JTextField(20);
-        nameField.setToolTipText("Username");
-        nameField.setBounds(225, 400, 350, 50);
-        nameField.setBackground(CyderColors.vanila);
-        nameField.setSelectionColor(CyderColors.selectionColor);
-        nameField.setBorder(new LineBorder(CyderColors.navy, 4, false));
-        nameField.setFont(CyderFonts.weatherFontSmall.deriveFont(30f));
-        nameField.setForeground(CyderColors.navy);
-        nameField.setCaretColor(CyderColors.navy);
-        nameField.addActionListener(e -> nameField.requestFocusInWindow());
-        nameField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyPressed(java.awt.event.KeyEvent e) {
-                if (nameField.getText().length() == 1) {
-                    nameField.setText(nameField.getText().toUpperCase());
-                }
-            }
-
-            @Override
-            public void keyReleased(java.awt.event.KeyEvent e) {
-                if (nameField.getText().length() == 1) {
-                    nameField.setText(nameField.getText().toUpperCase());
-                }
-            }
-
-            @Override
-            public void keyTyped(java.awt.event.KeyEvent e) {
-                if (nameField.getText().length() == 1) {
-                    nameField.setText(nameField.getText().toUpperCase());
-                }
-            }
-        });
-
-        nameField.addKeyListener(new java.awt.event.KeyAdapter() {
+        loginField = new JPasswordField(20);
+        loginField.setEchoChar((char)0);
+        loginField.setBounds(20, 340, 360, 40);
+        loginField.setBackground(new Color(21,23,24));
+        loginField.setBorder(null);
+        loginField.setSelectionColor(CyderColors.selectionColor);
+        loginField.setFont(new Font("Agency FB",Font.BOLD, 30));
+        loginField.setForeground(new Color(85,181,219));
+        loginField.setCaretColor(new Color(85,181,219));
+        loginField.addActionListener(e -> loginField.requestFocusInWindow());
+        loginField.addKeyListener(new KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                if (nameField.getText().length() > 20) {
-                    evt.consume();
-                }
+                if (evt.getKeyChar() == '\n') {
+                    char[] input = loginField.getPassword();
+                    switch (loginMode) {
+                        case 0:
+                            if (Arrays.equals(input,"create".toCharArray())) {
+                                createUser();
+                                loginField.setText("");
+                                loginMode = 0;
+                            } else if (Arrays.equals(input,"login".toCharArray())) {
+                                loginField.setText("");
+                                //print "Awaiting Username"
+                                loginMode = 1;
+                            } else if (Arrays.equals(input,"login admin".toCharArray())) {
+                                loginField.setText("");
+                                //print "Feature not yet implemented"
+                                loginMode = 0;
+                            } else if (Arrays.equals(input,"quit".toCharArray())) {
+                                loginFrame.closeAnimation();
+                            } else if (Arrays.equals(input,"h".toCharArray())) {
+                                loginField.setText("");
+                                //print "Valid commands: create, login, login admin, quit, h"
+                            }
 
-                if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
-                    pass.requestFocus();
+                            break;
+                        case 1:
+                            username = new String(input);
+                            loginMode = 2;
+                            loginField.setEchoChar('*');
+                            loginField.setText("");
+                            //print "Awaiting Passowrd"
+                            break;
+
+                        case 2:
+                            password = input;
+                            loginField.setText("");
+                            recognize(username,password);
+
+                            if (password != null)
+                                for (char c: password)
+                                    c = '\0';
+
+                            loginMode = 0;
+                            break;
+
+                        default:
+                            try {
+                                throw new FatalException("Error resulting from login shell");
+                            } catch (FatalException e) {
+                                ErrorHandler.handle(e);
+                            }
+                    }
                 }
             }
         });
 
-        loginFrame.getContentPane().add(nameField);
-
-        pass = new JPasswordField();
-        pass.setToolTipText("Password");
-        pass.setBounds(225, 500, 350, 50);
-        pass.setBackground(CyderColors.vanila);
-        pass.setSelectionColor(CyderColors.selectionColor);
-        pass.setBorder(new LineBorder(CyderColors.navy, 4, false));
-        pass.setFont(CyderFonts.weatherFontBig.deriveFont(40f));
-        pass.setForeground(CyderColors.navy);
-        pass.setCaretColor(CyderColors.navy);
-        pass.addActionListener(e -> {
-            String Username = nameField.getText().trim();
-
-            if (!stringUtil.empytStr(Username)) {
-                Username = Username.substring(0, 1).toUpperCase() + Username.substring(1);
-
-                char[] Password = pass.getPassword();
-
-                if (!stringUtil.empytStr(Username)) {
-                    recognize(Username, Password);
-                }
-
-                for (char c : Password) {
-                    c = '\0';
-                }
-            }
-        });
-
-        pass.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                if (pass.getPassword().length > 30) {
-                    evt.consume();
-                }
-            }
-        });
-
-        loginFrame.getContentPane().add(pass);
-
-        newUserLabel = new JLabel("Don't have an account?", SwingConstants.CENTER);
-        newUserLabel.setFont(new Font("tahoma", Font.BOLD, 22));
-        newUserLabel.setForeground(CyderColors.vanila);
-        newUserLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                createUser();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                newUserLabel.setText("Create an account!");
-                newUserLabel.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                newUserLabel.setText("Don't have an account?");
-                newUserLabel.setForeground(CyderColors.vanila);
-            }
-        });
-
-        newUserLabel.setBounds(265, 650, 270, 35);
-
-        loginFrame.getContentPane().add(newUserLabel);
+        loginFrame.getContentPane().add(loginField);
 
         loginFrame.addWindowListener(new WindowAdapter() {
             public void windowOpened(WindowEvent e) {
-                nameField.requestFocus();
+                loginField.requestFocus();
             }
         });
 
@@ -1250,11 +1225,11 @@ public class CyderMain {
         loginFrame.enterAnimation();
 
         if (directories != null && directories.length == 0)
-            loginFrame.notify("<html><b>" + System.getProperty("user.name") + ":<br/>There are no users<br/>please create one</b></html>",
+            loginFrame.notify("<html><b>" + System.getProperty("user.name")
+                            + ":<br/>There are no users<br/>please create one</b></html>",
                     4000, ArrowDirection.TOP);
     }
 
-    //todo stay here
     private void recognize(String Username, char[] Password) {
         try {
             if (SecurityUtil.checkPassword(Username, SecurityUtil.toHexString(SecurityUtil.getSHA(Password)))) {
@@ -1289,9 +1264,13 @@ public class CyderMain {
                         IOUtil.playAudio("src/cyder//sys/audio/Suprise.mp3");
                 }
             } else if (loginFrame != null && loginFrame.isVisible()) {
-                nameField.setText("");
-                pass.setText("");
-                nameField.requestFocusInWindow();
+                loginField.setText("");
+
+                for (char c: password)
+                    c = '\0';
+                username = "";
+
+                loginField.requestFocusInWindow();
                 loginFrame.notify("Could not recognize user",
                         2000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP);
             } else
@@ -1502,64 +1481,6 @@ public class CyderMain {
 
         if (editUserFrame != null)
             editUserFrame.setAlwaysOnTop(true);
-    }
-
-    //todo move to simple sliding text and not pictures
-    private static void loginAnimation() {
-        new Thread() {
-            int count = 2;
-
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        long scrollDelay = 4000;
-                        int miliDelay = 1;
-                        int increment = 2;
-
-                        switch (count) {
-                            case 0:
-                                loginLabel2.setBounds(800, 0, 800, 800);
-
-                                Thread.sleep(scrollDelay);
-
-                                AnimationUtil.jLabelXLeft(440, 0, miliDelay, increment, loginLabel2);
-
-                                Thread.sleep(scrollDelay);
-
-                                count = 1;
-                                break;
-                            case 1:
-                                Thread.sleep(scrollDelay);
-
-                                loginLabel2.setBounds(0, 0, 800, 800);
-                                loginLabel3.setBounds(800, 0, 800, 800);
-                                AnimationUtil.jLabelXLeft(0, -800, miliDelay, increment, loginLabel2);
-                                AnimationUtil.jLabelXLeft(800, 0, miliDelay, increment, loginLabel3);
-
-                                Thread.sleep(scrollDelay);
-
-                                count = 2;
-                                break;
-                            case 2:
-                                Thread.sleep(scrollDelay);
-
-                                loginLabel3.setBounds(0, 0, 800, 800);
-                                loginLabel2.setBounds(-800, 0, 800, 800);
-                                AnimationUtil.jLabelXRight(0, 800, miliDelay, increment, loginLabel3);
-                                AnimationUtil.jLabelXRight(-800, 0, miliDelay, increment, loginLabel2);
-
-                                Thread.sleep(scrollDelay);
-
-                                count = 1;
-                                break;
-                        }
-                    }
-                } catch (Exception e) {
-                    ErrorHandler.handle(e);
-                }
-            }
-        }.start();
     }
 
     //todo move to input handler
