@@ -31,13 +31,15 @@ public class MPEGPlayer {
     private ScrollLabel musicScroll;
     private CyderFrame musicFrame;
     private JSlider musicVolumeSlider;
-    private JButton selectMusicDir;
-    private JButton playPauseMusic;
     private boolean musicStopped;
+
     private JButton lastMusic;
     private JButton nextMusic;
     private JButton stopMusic;
     private JButton loopMusic;
+    private JButton selectMusicDir;
+    private JButton playPauseMusic;
+
     private JLabel musicTitleLabel;
     private JLabel musicVolumeLabel;
     private int currentMusicIndex;
@@ -50,8 +52,11 @@ public class MPEGPlayer {
     private boolean playIcon = true;
     private boolean loopAudio;
 
-    //todo loop is broken if we skip to a new mp3 file
-    //todo change buttons to cyderbuttons with special icons
+    //todo exceptions are thrown left and right from JLayer resulting from a loop bug somewhere in this file
+
+    //todo change buttons to smaller icons
+
+    //todo add add shuffle button
 
     /**
      * This constructor takes an mp3 file to immediately start playing when FlashPlayer loads
@@ -61,7 +66,7 @@ public class MPEGPlayer {
         if (musicFrame != null)
             musicFrame.closeAnimation();
 
-        musicFrame = new CyderFrame(1000,563,new ImageIcon("src/cyder//sys/pictures/mp3.png"));
+        musicFrame = new CyderFrame(1000,563,new ImageIcon("src/cyder/sys/pictures/mp3.png"));
         musicFrame.setTitle("Flash Player");
 
         musicFrame.addWindowListener(new WindowAdapter() {
@@ -79,23 +84,15 @@ public class MPEGPlayer {
         ImageIcon closeIconHover = CyderImages.closeIconHover;
 
         musicTitleLabel = new JLabel("", SwingConstants.CENTER);
-
         musicTitleLabel.setBounds(310, 38, 400, 30);
-
         musicTitleLabel.setToolTipText("Currently Playing");
-
         musicTitleLabel.setFont(new Font("tahoma", Font.BOLD, 18));
-
         musicTitleLabel.setForeground(CyderColors.vanila);
-
         musicTitleLabel.setText("No Audio Currently Playing");
-
         musicFrame.getContentPane().add(musicTitleLabel);
 
         musicVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
-
         CyderSliderUI UI = new CyderSliderUI(musicVolumeSlider);
-
         UI.setFillColor(CyderColors.vanila);
         UI.setOutlineColor(CyderColors.vanila);
         UI.setNewValColor(CyderColors.vanila);
@@ -103,27 +100,16 @@ public class MPEGPlayer {
         UI.setStroke(new BasicStroke(3.0f));
 
         musicVolumeSlider.setUI(UI);
-
         musicVolumeSlider.setBounds(352, 499, 385, 63);
-
         musicVolumeSlider.setMinimum(0);
-
         musicVolumeSlider.setMaximum(100);
-
         musicVolumeSlider.setMajorTickSpacing(5);
-
         musicVolumeSlider.setMinorTickSpacing(1);
-
         musicVolumeSlider.setPaintTicks(false);
-
         musicVolumeSlider.setPaintLabels(false);
-
         musicVolumeSlider.setVisible(true);
-
         musicVolumeSlider.setValue(50);
-
         musicVolumeSlider.setFont(new Font("HeadPlane", Font.BOLD, 18));
-
         musicVolumeSlider.addChangeListener(e -> {
             Port.Info Source = Port.Info.SPEAKER;
             Port.Info Headphones = Port.Info.HEADPHONE;
@@ -149,47 +135,34 @@ public class MPEGPlayer {
                     musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
                 }
             } catch (LineUnavailableException ex) {
+                musicFrame.notify(ex.getMessage());
                 ErrorHandler.handle(ex);
             }
         });
 
         musicVolumeSlider.setOpaque(false);
-
         musicVolumeSlider.setToolTipText("Volume");
-
         musicVolumeSlider.setFocusable(false);
-
         musicVolumeSlider.repaint();
-
         musicFrame.getContentPane().add(musicVolumeSlider);
 
         musicVolumeLabel = new JLabel("", SwingConstants.CENTER);
-
         musicVolumeLabel.setBounds(250, 499, 100, 60);
-
         musicVolumeLabel.setToolTipText("");
-
         musicVolumeLabel.setFont(new Font("tahoma", Font.BOLD, 18));
-
         musicVolumeLabel.setForeground(CyderColors.vanila);
-
         musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
-
         musicFrame.getContentPane().add(musicVolumeLabel);
 
         playPauseMusic = new JButton("");
-
         playPauseMusic.setToolTipText("play");
-
         playPauseMusic.addActionListener(e -> {
             if (mp3Player != null) {
                 if (!playIcon) {
                     playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/play.png"));
                     playPauseMusic.setToolTipText("play");
                     playIcon = true;
-                }
-
-                else {
+                } else {
                     playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/Pause.png"));
                     playPauseMusic.setToolTipText("Pause");
                     playIcon = false;
@@ -199,6 +172,7 @@ public class MPEGPlayer {
                     try {
                         pauseLocation = fis.available();
                     } catch (Exception exc) {
+                        musicFrame.notify(exc.getMessage());
                         ErrorHandler.handle(exc);
                     }
 
@@ -218,13 +192,13 @@ public class MPEGPlayer {
                         else {
                             if (songTotalLength - pauseLocation <= 0)
                                 fis.skip(0);
-
                             else
                                 fis.skip(songTotalLength - pauseLocation - 14000);
                         }
 
                         resumeMusic();
                     } catch (Exception ex) {
+                        musicFrame.notify(ex.getMessage());
                         ErrorHandler.handle(ex);
                     }
                 }
@@ -236,9 +210,7 @@ public class MPEGPlayer {
             public void mouseEntered(MouseEvent e) {
                 if (playIcon) {
                     playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/PlayHover.png"));
-                }
-
-                else {
+                } else {
                     playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/PauseHover.png"));
                 }
             }
@@ -247,38 +219,24 @@ public class MPEGPlayer {
             public void mouseExited(MouseEvent e) {
                 if (playIcon) {
                     playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/play.png"));
-                }
-
-                else
-                {
+                } else {
                     playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/Pause.png"));
                 }
             }
         });
 
         playPauseMusic.setBounds(121, 263, 75, 75);
-
         ImageIcon Play = new ImageIcon("src/cyder//sys/pictures/play.png");
-
         playPauseMusic.setIcon(Play);
-
         musicFrame.getContentPane().add(playPauseMusic);
-
         playPauseMusic.setFocusPainted(false);
-
         playPauseMusic.setOpaque(false);
-
         playPauseMusic.setContentAreaFilled(false);
-
         playPauseMusic.setBorderPainted(false);
 
         lastMusic = new JButton("");
-
         lastMusic.setToolTipText("Last Audio");
-
         lastMusic.addActionListener(e -> {
-            loopAudio = false;
-
             if (mp3Player != null) {
                 if (currentMusicIndex - 1 >= 0) {
                     currentMusicIndex -= 1;
@@ -286,9 +244,7 @@ public class MPEGPlayer {
                     mp3Player = null;
                     stopScrolling();
                     play(musicFiles[currentMusicIndex]);
-                }
-
-                else if (currentMusicIndex == 0) {
+                } else if (currentMusicIndex == 0) {
                     currentMusicIndex = musicFiles.length - 1;
                     mp3Player.close();
                     mp3Player = null;
@@ -313,26 +269,16 @@ public class MPEGPlayer {
         lastMusic.setBounds(121, 363, 75, 75);
 
         ImageIcon Last = new ImageIcon("src/cyder//sys/pictures/SkipBack.png");
-
         lastMusic.setIcon(Last);
-
         musicFrame.getContentPane().add(lastMusic);
-
         lastMusic.setFocusPainted(false);
-
         lastMusic.setOpaque(false);
-
         lastMusic.setContentAreaFilled(false);
-
         lastMusic.setBorderPainted(false);
 
         nextMusic = new JButton("");
-
         nextMusic.setToolTipText("Next Audio");
-
         nextMusic.addActionListener(e -> {
-            loopAudio = false;
-
             if (mp3Player != null) {
                 if (currentMusicIndex + 1 <= musicFiles.length - 1) {
                     currentMusicIndex += 1;
@@ -340,9 +286,7 @@ public class MPEGPlayer {
                     mp3Player = null;
                     stopScrolling();
                     play(musicFiles[currentMusicIndex]);
-                }
-
-                else if (currentMusicIndex + 1 == musicFiles.length) {
+                } else if (currentMusicIndex + 1 == musicFiles.length) {
                     currentMusicIndex = 0;
                     mp3Player.close();
                     mp3Player = null;
@@ -367,31 +311,21 @@ public class MPEGPlayer {
         nextMusic.setBounds(121, 463, 75, 75);
 
         ImageIcon Next = new ImageIcon("src/cyder//sys/pictures/Skip.png");
-
         nextMusic.setIcon(Next);
-
         musicFrame.getContentPane().add(nextMusic);
-
         nextMusic.setFocusPainted(false);
-
         nextMusic.setOpaque(false);
-
         nextMusic.setContentAreaFilled(false);
-
         nextMusic.setBorderPainted(false);
 
         loopMusic = new JButton("");
-
         loopMusic.setToolTipText("Loop Audio");
-
         loopMusic.addActionListener(e -> {
             if (!loopAudio) {
                 loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/Repeat.png"));
                 loopMusic.setToolTipText("Loop Audio");
                 loopAudio = true;
-            }
-
-            else {
+            } else {
                 loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/NoRepeat.png"));
                 loopMusic.setToolTipText("Loop Audio");
                 loopAudio = false;
@@ -401,54 +335,39 @@ public class MPEGPlayer {
         loopMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (loopAudio)
-                {
+                if (loopAudio) {
                     loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/RepeatHover.png"));
-                }
-
-                else
-                {
+                } else {
                     loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/NoRepeatHover.png"));
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (loopAudio)
-                {
+                if (loopAudio) {
                     loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/Repeat.png"));
-                }
-
-                else
-                {
+                } else {
                     loopMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/NoRepeat.png"));
                 }
             }
         });
 
         loopMusic.setBounds(50, 363, 76, 76);
-
         ImageIcon Loop = new ImageIcon("src/cyder//sys/pictures/NoRepeat.png");
-
         loopMusic.setIcon(Loop);
-
         musicFrame.getContentPane().add(loopMusic);
-
         loopMusic.setFocusPainted(false);
-
         loopMusic.setOpaque(false);
-
         loopMusic.setContentAreaFilled(false);
-
         loopMusic.setBorderPainted(false);
 
         stopMusic = new JButton("");
-
         stopMusic.setToolTipText("Stop");
-
         stopMusic.addActionListener(e -> {
             if (mp3Player != null) {
                 mp3Player.close();
+                loopAudio = false;
+
 
                 musicTitleLabel.setText("No audio currently playing");
                 playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/play.png"));
@@ -477,25 +396,16 @@ public class MPEGPlayer {
         });
 
         stopMusic.setBounds(50, 263, 75, 75);
-
         ImageIcon Stop = new ImageIcon("src/cyder//sys/pictures/Stop.png");
-
         stopMusic.setIcon(Stop);
-
         musicFrame.getContentPane().add(stopMusic);
-
         stopMusic.setFocusPainted(false);
-
         stopMusic.setOpaque(false);
-
         stopMusic.setContentAreaFilled(false);
-
         stopMusic.setBorderPainted(false);
 
         selectMusicDir = new JButton("");
-
         selectMusicDir.setToolTipText("Open File");
-
         selectMusicDir.addActionListener(e -> {
             File SelectedFile = IOUtil.getFile();
 
@@ -503,9 +413,8 @@ public class MPEGPlayer {
                 return;
 
             if (!SelectedFile.toString().endsWith("mp3")) {
-                if (mp3Player == null) {
+                if (mp3Player == null)
                     GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.","");
-                }
             }
 
             else {
@@ -541,19 +450,13 @@ public class MPEGPlayer {
         });
 
         selectMusicDir.setBounds(50, 463, 75, 75);
-
         ImageIcon File = new ImageIcon("src/cyder//sys/pictures/SelectFile.png");
-
         selectMusicDir.setIcon(File);
-
         musicFrame.getContentPane().add(selectMusicDir);
 
         selectMusicDir.setFocusPainted(false);
-
         selectMusicDir.setOpaque(false);
-
         selectMusicDir.setContentAreaFilled(false);
-
         selectMusicDir.setBorderPainted(false);
 
         musicFrame.setLocationRelativeTo(null);
@@ -565,15 +468,13 @@ public class MPEGPlayer {
         musicFrame.notify("Welcome to FlashPlayer (haha get it?)",3000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP);
 
         //if not null then we call initMusi
-        if (StartPlaying != null && !StartPlaying.getName().equals("")) {
+        if (StartPlaying != null && !StartPlaying.getName().equals(""))
             initMusic(StartPlaying);
-        }
 
         else {
             try {
                 //search the user's music dir for valid music and play the first one if it exists
-                // this is because StartPlaying was not passed in
-
+                //this is because a starting file was not passed in
                 File[] userMusicDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Music/" ).listFiles();
                 ArrayList<File> validFiles = new ArrayList<>();
                 if (userMusicDir == null)
@@ -591,12 +492,12 @@ public class MPEGPlayer {
 
                 musicFiles = validFiles.toArray(new File[validFiles.size()]);
 
-                if (musicFiles.length != 0) {
+                if (musicFiles.length != 0)
                     play(musicFiles[currentMusicIndex]);
-                }
             }
 
             catch (Exception e) {
+                musicFrame.notify(e.getMessage());
                 ErrorHandler.handle(e);
             }
         }
@@ -646,9 +547,8 @@ public class MPEGPlayer {
             mp3Player = new Player(bis);
             songTotalLength = fis.available();
             startScrolling();
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
+            musicFrame.notify(e.getMessage());
             ErrorHandler.handle(e);
         }
 
@@ -661,16 +561,14 @@ public class MPEGPlayer {
                 playIcon = false;
                 mp3Player.play();
 
-                if (loopAudio) {
+                if (loopAudio)
                     play(musicFiles[currentMusicIndex]);
-                }
 
                 playPauseMusic.setIcon(new ImageIcon("src/cyder//sys/pictures/play.png"));
                 playPauseMusic.setToolTipText("play");
                 playIcon = true;
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
+                musicFrame.notify(e.getMessage());
                 ErrorHandler.handle(e);
             }
         },"Flash Player[" + musicFiles[currentMusicIndex].toString() + "]").start();
@@ -682,10 +580,10 @@ public class MPEGPlayer {
         new Thread(() -> {
             try {
                 mp3Player.play();
-                if (loopAudio) {
+                if (loopAudio)
                     play(musicFiles[currentMusicIndex]);
-                }
             } catch (Exception e) {
+                musicFrame.notify(e.getMessage());
                 ErrorHandler.handle(e);
             }
         }).start();
@@ -751,17 +649,15 @@ public class MPEGPlayer {
                         }
 
                         catch (Exception e) {
+                            musicFrame.notify(e.getMessage());
                             ErrorHandler.handle(e);
                         }
                     }).start();
-                }
-
-                else {
+                } else {
                     effectLabel.setText(title);
                 }
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
+                musicFrame.notify(e.getMessage());
                 ErrorHandler.handle(e);
             }
         }

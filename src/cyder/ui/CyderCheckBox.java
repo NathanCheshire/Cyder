@@ -33,9 +33,7 @@ public class CyderCheckBox extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //all clicks are registered no matter how fast but it doesn't update fast enough?
                 selected = !selected;
-                System.out.println(selected);
                 repaint();
             }
 
