@@ -86,7 +86,7 @@ public class Weather {
         if (weatherFrame != null)
             weatherFrame.closeAnimation();
 
-        weatherFrame = new CyderFrame(500,600,new ImageIcon("src/cyder//sys/pictures/Weather.png"));
+        weatherFrame = new CyderFrame(500,600,new ImageIcon("src/cyder/sys/pictures/Weather.png"));
         weatherFrame.setTitlePosition(TitlePosition.CENTER);
         weatherFrame.setTitle("Weather");
 
@@ -423,7 +423,7 @@ public class Weather {
 
         hour += (Integer.parseInt(gmtOffset) / 3600 - (currentLocationGMTOffset / 60 / 60));
 
-        return hour + ":" + minute;
+        return hour + ":" + (minute < 10 ? "0" + minute : minute);
     }
 
     protected void weatherStats() {

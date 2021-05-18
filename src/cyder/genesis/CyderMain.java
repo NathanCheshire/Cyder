@@ -31,11 +31,13 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -428,18 +430,18 @@ public class CyderMain {
             suggestionButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("src/cyder//sys/pictures/suggestion2.png"));
+                    suggestionButton.setIcon(new ImageIcon("src/cyder/sys/pictures/suggestion2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("src/cyder//sys/pictures/suggestion1.png"));
+                    suggestionButton.setIcon(new ImageIcon("src/cyder/sys/pictures/suggestion1.png"));
                 }
             });
 
             suggestionButton.setBounds(32, 4, 22, 22);
 
-            ImageIcon DebugIcon = new ImageIcon("src/cyder//sys/pictures/suggestion1.png");
+            ImageIcon DebugIcon = new ImageIcon("src/cyder/sys/pictures/suggestion1.png");
 
             suggestionButton.setIcon(DebugIcon);
 
@@ -461,7 +463,7 @@ public class CyderMain {
 
             menuButton.setBounds(4, 4, 22, 22);
 
-            ImageIcon MenuIcon = new ImageIcon("src/cyder//sys/pictures/menuSide1.png");
+            ImageIcon MenuIcon = new ImageIcon("src/cyder/sys/pictures/menuSide1.png");
 
             menuButton.setIcon(MenuIcon);
 
@@ -511,12 +513,12 @@ public class CyderMain {
             alternateBackground.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("src/cyder//sys/pictures/ChangeSize2.png"));
+                    alternateBackground.setIcon(new ImageIcon("src/cyder/sys/pictures/ChangeSize2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("src/cyder//sys/pictures/ChangeSize1.png"));
+                    alternateBackground.setIcon(new ImageIcon("src/cyder/sys/pictures/ChangeSize1.png"));
                 }
 
                 @Override
@@ -524,6 +526,7 @@ public class CyderMain {
                     ConsoleFrame.initBackgrounds();
 
                     try {
+                        //todo uncomment
                         //lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
 
                         if (ConsoleFrame.canSwitchBackground() && ConsoleFrame.getBackgrounds().size() > 1) {
@@ -1068,35 +1071,87 @@ public class CyderMain {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                String originalOp = inputField.getText().trim();
-                String op = originalOp;
+        try {
+            String originalOp = inputField.getText().trim();
+            String op = originalOp;
 
-                if (!stringUtil.empytStr(op)) {
-                    if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
-                        operationList.add(op);
-                    }
-
-                    scrollingIndex = operationList.size() - 1;
-                    ConsoleFrame.setScrollingDowns(0);
-
-                    if (!stringUtil.getUserInputMode()) {
-                        handle(op);
-                    } else if (stringUtil.getUserInputMode()) {
-                        stringUtil.setUserInputMode(false);
-                        handleSecond(op);
-                    }
+            if (!stringUtil.empytStr(op)) {
+                if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
+                    operationList.add(op);
                 }
 
-                inputField.setText("");
-            } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                scrollingIndex = operationList.size() - 1;
+                ConsoleFrame.setScrollingDowns(0);
+
+                if (!stringUtil.getUserInputMode()) {
+                    handle(op);
+                } else if (stringUtil.getUserInputMode()) {
+                    stringUtil.setUserInputMode(false);
+                    handleSecond(op);
+                }
             }
+
+            inputField.setText("");
+        } catch (Exception ex) {
+            ErrorHandler.handle(ex);
+        }
         }
     };
 
-    //todo protected? Stay here too
-    public void login() {
+    //todo if we add to an empty queue, it won't get printed
+
+    private void typingPrint(String print, JTextPane refArea) {
+        try {
+            StyledDocument document = (StyledDocument) refArea.getDocument();
+            document.insertString(document.getLength(), print, null);
+            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    private LinkedList<String> printingList = new LinkedList<>();
+
+    private void typing(JTextPane refArea) {
+        SimpleDateFormat versionFormatter = new SimpleDateFormat("MM.dd.yy");
+        printingList.add("Cyder version: " + versionFormatter.format(new Date()) + "\n");
+        printingList.add("Type \"h\" for a list of valid commands\n");
+        printingList.add("Build: Soultree\n");
+        printingList.add("Author: Nathan Cheshire\n");
+        printingList.add("Design OS: Windows 10+\n");
+        printingList.add("Design JVM: 8+\n");
+        printingList.add("Description: A programmer's swiss army knife\n");
+
+        int charTimeout = 40;
+        int lineTimeout = 1800;
+
+        try {
+            new Thread(() -> {
+                try {
+                    while (!printingList.isEmpty()) {
+                        String line = printingList.removeFirst();
+
+                        for (char c : line.toCharArray()) {
+                            typingPrint(String.valueOf(c), refArea);
+                            Thread.sleep(charTimeout);
+                        }
+
+                        Thread.sleep(lineTimeout);
+                    }
+                }
+
+                catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+            },"login animation").start();
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    protected final void login() {
         loginMode = 0;
 
         if (loginFrame != null)
@@ -1104,7 +1159,7 @@ public class CyderMain {
 
         IOUtil.cleanUpUsers();
 
-        loginFrame = new CyderFrame(400, 400, new ImageIcon("src/cyder//sys/pictures/login.png"));
+        loginFrame = new CyderFrame(400, 400, new ImageIcon("src/cyder/sys/pictures/login.png"));
         loginFrame.setTitlePosition(TitlePosition.LEFT);
         loginFrame.setTitle(IOUtil.getSystemData("Version") + " login");
         loginFrame.setBackground(new Color(21,23,24));
@@ -1115,33 +1170,27 @@ public class CyderMain {
         else
             loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JTextArea loginArea = new JTextArea();
-        loginArea.setBounds(20, 340, 360, 40);
+        JTextPane loginArea = new JTextPane();
+        loginArea.setBounds(20, 40, 360, 280);
         loginArea.setBackground(new Color(21,23,24));
         loginArea.setBorder(null);
         loginArea.setFocusable(false);
-        loginArea.setFont(new Font("Agency FB",Font.BOLD, 30));
+        loginArea.setFont(new Font("Agency FB",Font.BOLD, 26));
         loginArea.setForeground(new Color(85,181,219));
         loginArea.setCaretColor(new Color(85,181,219));
-        loginFrame.getContentPane().add(loginArea);
 
-        //todo spin off loginArea animation
-        //todo make login like apple shell, scrolling words become fast typing text (make a function next to bletchy)
-        // that repeats in the upper left,
+        CyderScrollPane loginScroll = new CyderScrollPane(loginArea,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        loginScroll.setThumbColor(CyderColors.intellijPink);
+        loginScroll.setBounds(20, 40, 360, 280);
+        loginScroll.getViewport().setOpaque(false);
+        loginScroll.setOpaque(false);
+        loginScroll.setBorder(null);
 
-        //todo print this on loop with timout of 5s using typing emulator function:
-        /*
-         *  Cyder version: 5.17.21
-         *  Type "h" for a list of valid commands
-         *  Build: Soultree
-         *  Description: A programmer's swiss army knife
-         *  Author: Nathan Cheshire
-         *  Design OS: Windows 10+
-         *  Design JVM: 8+
-         *  Date: CURRENT DATE
-         *  Time: CURRENT TIME
-         */
+        loginFrame.getContentPane().add(loginScroll);
 
+        typing(loginArea);
 
         loginField = new JPasswordField(20);
         loginField.setEchoChar((char)0);
@@ -1149,64 +1198,74 @@ public class CyderMain {
         loginField.setBackground(new Color(21,23,24));
         loginField.setBorder(null);
         loginField.setSelectionColor(CyderColors.selectionColor);
-        loginField.setFont(new Font("Agency FB",Font.BOLD, 30));
+        loginField.setFont(new Font("Agency FB",Font.BOLD, 26));
         loginField.setForeground(new Color(85,181,219));
         loginField.setCaretColor(new Color(85,181,219));
         loginField.addActionListener(e -> loginField.requestFocusInWindow());
         loginField.addKeyListener(new KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                if (evt.getKeyChar() == '\n') {
-                    char[] input = loginField.getPassword();
-                    switch (loginMode) {
-                        case 0:
+            if (evt.getKeyChar() == '\n') {
+                char[] input = loginField.getPassword();
+                switch (loginMode) {
+                    case 0:
+                        try {
                             if (Arrays.equals(input,"create".toCharArray())) {
                                 createUser();
                                 loginField.setText("");
                                 loginMode = 0;
                             } else if (Arrays.equals(input,"login".toCharArray())) {
                                 loginField.setText("");
-                                //print "Awaiting Username"
+                                printingList.addFirst("Awaiting Username\n");
                                 loginMode = 1;
                             } else if (Arrays.equals(input,"login admin".toCharArray())) {
                                 loginField.setText("");
-                                //print "Feature not yet implemented"
+                                printingList.addFirst("Feature not yet implemented\n");
                                 loginMode = 0;
                             } else if (Arrays.equals(input,"quit".toCharArray())) {
                                 loginFrame.closeAnimation();
                             } else if (Arrays.equals(input,"h".toCharArray())) {
                                 loginField.setText("");
-                                //print "Valid commands: create, login, login admin, quit, h"
+                                printingList.addFirst("Valid commands: create, login, login admin, quit, h\n");
                             }
+                        } catch (Exception e) {
+                            ErrorHandler.handle(e);
+                        }
 
-                            break;
-                        case 1:
-                            username = new String(input);
-                            loginMode = 2;
-                            loginField.setEchoChar('*');
-                            loginField.setText("");
-                            //print "Awaiting Passowrd"
-                            break;
+                        break;
+                    case 1:
+                        username = new String(input);
+                        loginMode = 2;
+                        loginField.setEchoChar('*');
+                        loginField.setText("");
+                        StyledDocument document = (StyledDocument) loginArea.getDocument();
+                        try {
+                            printingList.addFirst("Awaiting Password\n");
+                        } catch (Exception e) {
+                            ErrorHandler.handle(e);
+                        }
+                        outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                        break;
 
-                        case 2:
-                            password = input;
-                            loginField.setText("");
-                            recognize(username,password);
+                    case 2:
+                        password = input;
+                        loginField.setText("");
+                        recognize(username,password);
 
-                            if (password != null)
-                                for (char c: password)
-                                    c = '\0';
+                        if (password != null)
+                            for (char c: password)
+                                c = '\0';
 
-                            loginMode = 0;
-                            break;
+                        loginMode = 0;
+                        break;
 
-                        default:
-                            try {
-                                throw new FatalException("Error resulting from login shell");
-                            } catch (FatalException e) {
-                                ErrorHandler.handle(e);
-                            }
-                    }
+                    default:
+                        try {
+                            throw new FatalException("Error resulting from login shell");
+                        } catch (FatalException e) {
+                            ErrorHandler.handle(e);
+                        }
                 }
+            }
             }
         });
 
@@ -1273,6 +1332,7 @@ public class CyderMain {
                 loginField.requestFocusInWindow();
                 loginFrame.notify("Could not recognize user",
                         2000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP);
+                loginField.setEchoChar((char)0);
             } else
                 login();
         } catch (Exception e) {

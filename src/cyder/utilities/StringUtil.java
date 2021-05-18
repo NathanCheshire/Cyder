@@ -21,6 +21,7 @@ public class StringUtil {
 
     private StringUtil() {}
 
+    //todo link this to a handler
     public StringUtil(JTextPane outputArea) {
         this.outputArea = outputArea;
     }
