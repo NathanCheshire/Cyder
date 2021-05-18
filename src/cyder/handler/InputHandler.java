@@ -4,11 +4,11 @@ public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
     // and direct the resulting flow and output
 
+    //todo work on proper exit conditions for ALL threads
+
     //todo make menu smaller and font whatever you have for nathan user right now: Agency FB
 
-    //todo put a dollar before where you enter text
-    //todo combine text area and input field into one
-    //todo startup routine
+    //todo make input field like the input field for login
 
     //todo if cyder hasn't started in a while, say welcome back $username, did you miss me?
     // or some variation of that
@@ -33,4 +33,8 @@ public class InputHandler {
     //TODO all icons for ConsoleFrame should be drawn on the spot and not use a png in files
 
     //todo if trying to copy text in outputarea, it escapes instead, fix
+
+    //todo start log got reset somehow, probably from error being thrown while re-writing
+    // change to adding new lines to bottom instead
+    //todo hide location if not relased (in debug mode)
 }

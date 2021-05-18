@@ -1328,17 +1328,18 @@ public class CyderMain {
         if (directories != null && directories.length == 0)
             printingList.addFirst("No users found; please type \"create\"");
 
-        //todo autocypher stopped working
         //todo fix priority queue with two parts when one is empty you can continue with the login text
-        //todo work on proper exit conditions for ALL threads
 
         typing(loginArea);
     }
 
     private void recognize(String Username, char[] Password) {
-        loginField.setEchoChar((char)0);
-        loginField.setText(bashString);
         try {
+            if (loginFrame != null) {
+                loginField.setEchoChar((char)0);
+                loginField.setText(bashString);
+            }
+
             if (SecurityUtil.checkPassword(Username, SecurityUtil.toHexString(SecurityUtil.getSHA(Password)))) {
                 IOUtil.readUserData();
                 doLoginAnimations = false;
