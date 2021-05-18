@@ -61,7 +61,7 @@ public class CyderFrame extends JFrame {
         contentLabel.add(dl);
 
         titleLabel = new JLabel("");
-        titleLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
+        titleLabel.setFont(new Font("Agency FB",Font.BOLD,22));
         titleLabel.setForeground(CyderColors.vanila);
 
         dl.add(titleLabel);
@@ -98,6 +98,12 @@ public class CyderFrame extends JFrame {
         dl = new DragLabel(width, 30, this);
         dl.setBounds(0, 0, width, 30);
         parentLabel.add(dl);
+
+        titleLabel = new JLabel("");
+        titleLabel.setFont(new Font("Agency FB",Font.BOLD,22));
+        titleLabel.setForeground(CyderColors.vanila);
+
+        dl.add(titleLabel);
     }
 
     /**
@@ -130,6 +136,12 @@ public class CyderFrame extends JFrame {
         dl = new DragLabel(width, 30, this);
         dl.setBounds(0, 0, width, 30);
         parentLabel.add(dl);
+
+        titleLabel = new JLabel("");
+        titleLabel.setFont(new Font("Agency FB",Font.BOLD,22));
+        titleLabel.setForeground(CyderColors.vanila);
+
+        dl.add(titleLabel);
     }
 
     /**
@@ -148,7 +160,7 @@ public class CyderFrame extends JFrame {
         if (different && isVisible()) {
             if (titlePosition != TitlePosition.CENTER) {
                 new Thread(() -> {
-                    for (int i = (getDragLabel().getWidth() / 2) - (getTitleWidth(titleLabel.getText()) / 2); i > 4; i--) {
+                    for (int i = (getDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i > 4; i--) {
                         titleLabel.setLocation(i, 2);
 
                         try {
@@ -160,7 +172,7 @@ public class CyderFrame extends JFrame {
                 }).start();
             } else {
                 new Thread(() -> {
-                    for (int i = 5; i < (getDragLabel().getWidth() / 2) - (getTitleWidth(titleLabel.getText()) / 2) + 1; i++) {
+                    for (int i = 5; i < (getDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2) + 1; i++) {
                         titleLabel.setLocation(i, 2);
 
                         try {
@@ -200,16 +212,16 @@ public class CyderFrame extends JFrame {
 
         switch (titlePosition) {
             case CENTER:
-                titleLabel.setBounds((getDragLabel().getWidth() / 2) - (getTitleWidth(title) / 2), 2, getTitleWidth(title), 25);
+                titleLabel.setBounds((getDragLabel().getWidth() / 2) - (getMinWidth(title) / 2), 2, getMinWidth(title), 25);
                 break;
 
             default:
-                titleLabel.setBounds(5, 2, getTitleWidth(title), 25);
+                titleLabel.setBounds(5, 2, getMinWidth(title), 25);
         }
     }
 
     //using default (notification font) to determine the width and add 10 due to a bug
-    private int getTitleWidth(String title) {
+    private int getMinWidth(String title) {
         Font notificationFont = titleLabel.getFont();
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
@@ -217,10 +229,16 @@ public class CyderFrame extends JFrame {
     }
 
     //using any font to determine the width and add 10 due to a bug
-    public static int getTitleWidth(String title, Font f) {
+    public static int getMinWidth(String title, Font f) {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) f.getStringBounds(title, frc).getWidth() + 10;
+    }
+
+    public static int getMinHeight(String title, Font f) {
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        return (int) f.getStringBounds(title, frc).getHeight() + 10;
     }
 
     /**

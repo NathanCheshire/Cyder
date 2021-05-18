@@ -296,6 +296,7 @@ public class CyderMain {
             outputScroll.setThumbColor(CyderColors.intellijPink);
             outputScroll.getViewport().setOpaque(false);
             outputScroll.setOpaque(false);
+            outputScroll.setFocusable(true);
 
             if (IOUtil.getUserData("OutputBorder").equalsIgnoreCase("1"))
                 outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
@@ -610,8 +611,8 @@ public class CyderMain {
             consoleClockLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
             consoleClockLabel.setForeground(CyderColors.vanila);
             consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
-                            CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
-                    2, CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
+                            CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
+                    2, CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
 
             consoleDragLabel.add(consoleClockLabel, SwingConstants.CENTER);
 
@@ -694,8 +695,8 @@ public class CyderMain {
 
                         parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
                         consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
-                                        CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
-                                2, CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
+                                        CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
+                                2, CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
                     }
@@ -738,11 +739,12 @@ public class CyderMain {
 
                 parentPane.add(menuLabel, 1, 0);
 
-                menuLabel.setBounds(-150, 30, 130, 290);
+                Font menuFont = CyderFonts.defaultFontSmall;
+                int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!",menuFont);
                 menuLabel.setVisible(true);
 
                 JLabel calculatorLabel = new JLabel("Calculator");
-                calculatorLabel.setFont(CyderFonts.weatherFontSmall);
+                calculatorLabel.setFont(menuFont);
                 calculatorLabel.setForeground(CyderColors.vanila);
                 calculatorLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -762,12 +764,12 @@ public class CyderMain {
                 });
 
                 menuLabel.add(calculatorLabel);
-                calculatorLabel.setBounds(5, 20, 150, 20);
+                calculatorLabel.setBounds(5, 20, 150, fontHeight);
 
                 JLabel musicLabel = new JLabel("Music");
-                musicLabel.setFont(CyderFonts.weatherFontSmall);
+                musicLabel.setFont(menuFont);
                 musicLabel.setForeground(CyderColors.vanila);
-                musicLabel.setBounds(5, 50, 150, 20);
+                musicLabel.setBounds(5, 50, 150, fontHeight);
                 menuLabel.add(musicLabel);
                 musicLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -787,10 +789,10 @@ public class CyderMain {
                 });
 
                 JLabel weatherLabel = new JLabel("Weather");
-                weatherLabel.setFont(CyderFonts.weatherFontSmall);
+                weatherLabel.setFont(menuFont);
                 weatherLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(weatherLabel);
-                weatherLabel.setBounds(5, 80, 150, 20);
+                weatherLabel.setBounds(5, 80, 150, fontHeight);
                 weatherLabel.setOpaque(false);
                 weatherLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -810,10 +812,10 @@ public class CyderMain {
                 });
 
                 JLabel noteLabel = new JLabel("Notes");
-                noteLabel.setFont(CyderFonts.weatherFontSmall);
+                noteLabel.setFont(menuFont);
                 noteLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(noteLabel);
-                noteLabel.setBounds(5, 110, 150, 20);
+                noteLabel.setBounds(5, 110, 150, fontHeight);
                 noteLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -832,10 +834,10 @@ public class CyderMain {
                 });
 
                 JLabel editUserLabel = new JLabel("Edit user");
-                editUserLabel.setFont(CyderFonts.weatherFontSmall);
+                editUserLabel.setFont(menuFont);
                 editUserLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(editUserLabel);
-                editUserLabel.setBounds(5, 140, 150, 20);
+                editUserLabel.setBounds(5, 140, 150, fontHeight);
                 editUserLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -854,10 +856,10 @@ public class CyderMain {
                 });
 
                 JLabel temperatureLabel = new JLabel("Temp conv");
-                temperatureLabel.setFont(CyderFonts.weatherFontSmall);
+                temperatureLabel.setFont(menuFont);
                 temperatureLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(temperatureLabel);
-                temperatureLabel.setBounds(5, 170, 150, 20);
+                temperatureLabel.setBounds(5, 170, 150, fontHeight);
                 temperatureLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -876,10 +878,10 @@ public class CyderMain {
                 });
 
                 JLabel youtubeLabel = new JLabel("YouTube");
-                youtubeLabel.setFont(CyderFonts.weatherFontSmall);
+                youtubeLabel.setFont(menuFont);
                 youtubeLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(youtubeLabel);
-                youtubeLabel.setBounds(5, 200, 150, 20);
+                youtubeLabel.setBounds(5, 200, 150, fontHeight);
                 youtubeLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -898,10 +900,10 @@ public class CyderMain {
                 });
 
                 JLabel twitterLabel = new JLabel("Twitter");
-                twitterLabel.setFont(CyderFonts.weatherFontSmall);
+                twitterLabel.setFont(menuFont);
                 twitterLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(twitterLabel);
-                twitterLabel.setBounds(5, 230, 150, 20);
+                twitterLabel.setBounds(5, 230, 150, fontHeight);
                 twitterLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -920,10 +922,10 @@ public class CyderMain {
                 });
 
                 JLabel logoutLabel = new JLabel("Logout");
-                logoutLabel.setFont(CyderFonts.weatherFontSmall);
+                logoutLabel.setFont(menuFont);
                 logoutLabel.setForeground(CyderColors.vanila);
                 menuLabel.add(logoutLabel);
-                logoutLabel.setBounds(5, 255, 150, 30);
+                logoutLabel.setBounds(5, 255, 150, fontHeight);
                 logoutLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -940,6 +942,11 @@ public class CyderMain {
                         logoutLabel.setForeground(CyderColors.vanila);
                     }
                 });
+
+                //add more after this such as user mapped actions
+
+                menuLabel.setBounds(-150, 30, CyderFrame.getMinWidth("TEMP CONV",menuFont),
+                        fontHeight * (menuLabel.getComponentCount() - 1));
 
                 AnimationUtil.jLabelXRight(-150, 0, 10, 8, menuLabel);
             } else if (menuLabel.isVisible()) {
@@ -1029,8 +1036,8 @@ public class CyderMain {
     };
 
     //when we first launch this will check for any special days in the special days class
-    // will this work for multiple things on the same day?
-    //todo consolidate with console frame in one time run method
+    //will this work for multiple things on the same day?
+    //consolidate with console frame in one time run method
     private WindowAdapter consoleEcho = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
         inputField.requestFocus();
@@ -1067,7 +1074,7 @@ public class CyderMain {
         }, 0, 3, TimeUnit.SECONDS);
     }
 
-    //todo move to consoleFrame
+    //console frame
     private Action inputFieldAction = new AbstractAction() {
 
         @Override
@@ -1110,8 +1117,9 @@ public class CyderMain {
     }
 
     private LinkedList<String> printingList = new LinkedList<>();
+    private LinkedList<String> priorityPrintingList = new LinkedList<>();
 
-    private void typing(JTextPane refArea) {
+    private void loginTypingAnimation(JTextPane refArea) {
         printingList.clear();
         SimpleDateFormat versionFormatter = new SimpleDateFormat("MM.dd.yy");
         printingList.add("Cyder version: " + versionFormatter.format(new Date()) + "\n");
@@ -1127,8 +1135,15 @@ public class CyderMain {
 
         new Thread(() -> {
             try {
-                while (doLoginAnimations && loginFrame != null) {
-                    if (printingList.size() > 0) {
+                while (doLoginAnimations && loginFrame != null)  {
+                    if (priorityPrintingList.size() > 0) {
+                        String line = priorityPrintingList.removeFirst();
+
+                        for (char c : line.toCharArray()) {
+                            typingPrint(String.valueOf(c), refArea);
+                            Thread.sleep(charTimeout);
+                        }
+                    } else if (printingList.size() > 0) {
                         String line = printingList.removeFirst();
 
                         for (char c : line.toCharArray()) {
@@ -1248,20 +1263,20 @@ public class CyderMain {
                                     loginMode = 0;
                                 } else if (Arrays.equals(input,"login".toCharArray())) {
                                     loginField.setText(bashString);
-                                    printingList.addFirst("Awaiting Username...\n");
+                                    priorityPrintingList.add("Awaiting Username...\n");
                                     loginMode = 1;
                                 } else if (Arrays.equals(input,"login admin".toCharArray())) {
                                     loginField.setText(bashString);
-                                    printingList.addFirst("Feature not yet implemented\n");
+                                    priorityPrintingList.add("Feature not yet implemented\n");
                                     loginMode = 0;
                                 } else if (Arrays.equals(input,"quit".toCharArray())) {
                                     loginFrame.closeAnimation();
                                 } else if (Arrays.equals(input,"h".toCharArray())) {
                                     loginField.setText(bashString);
-                                    printingList.addFirst("Valid commands: create, login, login admin, quit, h\n");
+                                    priorityPrintingList.add("Valid commands: create, login, login admin, quit, h\n");
                                 } else {
                                     loginField.setText(bashString);
-                                    printingList.addFirst("Unknown command; See \"h\" for help\n");
+                                    priorityPrintingList.add("Unknown command; See \"h\" for help\n");
                                 }
                             } catch (Exception e) {
                                 ErrorHandler.handle(e);
@@ -1273,7 +1288,7 @@ public class CyderMain {
                             loginMode = 2;
                             loginField.setEchoChar('*');
                             loginField.setText("");
-                            printingList.addFirst("Awaiting Password...\n");
+                            priorityPrintingList.add("Awaiting Password...\n");
 
                             break;
 
@@ -1289,7 +1304,7 @@ public class CyderMain {
                             }
 
                             recognize(username,input);
-                            printingList.addFirst("Could not recognize user\n");
+                            priorityPrintingList.add("Could not recognize user\n");
 
                             if (input != null)
                                 for (char c: input)
@@ -1326,11 +1341,9 @@ public class CyderMain {
         loginFrame.enterAnimation();
 
         if (directories != null && directories.length == 0)
-            printingList.addFirst("No users found; please type \"create\"");
+            priorityPrintingList.add("No users found; please type \"create\"");
 
-        //todo fix priority queue with two parts when one is empty you can continue with the login text
-
-        typing(loginArea);
+        loginTypingAnimation(loginArea);
     }
 
     private void recognize(String Username, char[] Password) {
@@ -1440,8 +1453,8 @@ public class CyderMain {
         alternateBackground.setBounds(width - 54, 4, 22, 20);
         close.setBounds(width - 27, 4, 22, 20);
         consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
-                        CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
-                2, CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
+                        CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
+                2, CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -1577,8 +1590,8 @@ public class CyderMain {
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
         consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
-                        CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
-                2, CyderFrame.getTitleWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
+                        CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
+                2, CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -2191,7 +2204,7 @@ public class CyderMain {
                 inputField.requestFocus();
                 stringUtil.setUserInputMode(true);
 
-            } else if (eic("controlc")) {
+            } else if (eic("controlc") && !outputArea.isFocusOwner()) {
                 stringUtil.setUserInputMode(false);
                 killAllYoutube();
                 stringUtil.killBletchy();
