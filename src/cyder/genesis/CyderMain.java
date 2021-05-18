@@ -792,7 +792,7 @@ public class CyderMain {
                 weatherLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        WeatherWidget ww = new WeatherWidget();
+                        Weather ww = new Weather();
                     }
 
                     @Override
@@ -2105,7 +2105,7 @@ public class CyderMain {
             } else if (hasWord("vexento")) {
                 NetworkUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
             } else if (hasWord("minecraft")) {
-                MinecraftWidget mw = new MinecraftWidget();
+                Minecraft mw = new Minecraft();
             } else if (eic("loop")) {
                 println("ErrorHandler.handle(\"loop\");");
             } else if (hasWord("cyder") && has("dir")) {
@@ -2205,7 +2205,7 @@ public class CyderMain {
             } else if (eic("about:blank")) {
                 NetworkUtil.internetConnect("about:blank");
             } else if (hasWord("weather")) {
-                WeatherWidget ww = new WeatherWidget();
+                Weather ww = new Weather();
             } else if (eic("hide")) {
                 minimize.doClick();
             } else if (hasWord("stop") && hasWord("script")) {

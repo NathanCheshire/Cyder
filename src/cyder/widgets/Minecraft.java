@@ -10,14 +10,14 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MinecraftWidget {
+public class Minecraft {
     private CyderFrame minecraftFrame;
     private JLabel realmsLabel;
     private JLabel chestLabel;
     private JLabel hamLabel;
     private JLabel blockLabel;
 
-    public MinecraftWidget() {
+    public Minecraft() {
         if (minecraftFrame != null)
             minecraftFrame.closeAnimation();
 

@@ -3,10 +3,14 @@ package cyder.widgets;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderCheckBox;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 
 import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
@@ -14,81 +18,151 @@ import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 public class TempConverter {
     private CyderFrame temperatureFrame;
     private JTextField startingValue;
-    private JRadioButton oldFahrenheit;
-    private JRadioButton newFahrenheit;
-    private JRadioButton oldCelsius;
-    private JRadioButton newCelsius;
-    private JRadioButton oldKelvin;
-    private JRadioButton newKelvin;
-    private ButtonGroup radioNewValueGroup;
-    private ButtonGroup radioCurrentValueGroup;
+
+    private CyderCheckBox oldFahrenheit;
+    private CyderCheckBox newFahrenheit;
+    private CyderCheckBox oldCelsius;
+    private CyderCheckBox newCelsius;
+    private CyderCheckBox oldKelvin;
+    private CyderCheckBox newKelvin;
 
     public TempConverter() {
         if (temperatureFrame != null)
             temperatureFrame.closeAnimation();
 
-        temperatureFrame = new CyderFrame(600,320,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        temperatureFrame = new CyderFrame(600,340,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         temperatureFrame.setTitle("Temperature Converter");
 
         JLabel ValueLabel = new JLabel("Measurement: ");
         ValueLabel.setFont(CyderFonts.weatherFontSmall);
+        
         startingValue = new JTextField(20);
         startingValue.setBorder(new LineBorder(CyderColors.navy,5,false));
         startingValue.setForeground(CyderColors.navy);
         startingValue.setSelectionColor(CyderColors.selectionColor);
         startingValue.setFont(CyderFonts.weatherFontSmall);
+        
         ValueLabel.setBounds(60,40, 200, 30);
+        
         temperatureFrame.getContentPane().add(ValueLabel);
         startingValue.setBounds(240,40, 300, 35);
         temperatureFrame.getContentPane().add(startingValue);
 
-        oldFahrenheit =  new JRadioButton("Fahrenheit");
-        oldCelsius =  new JRadioButton("Celsius");
-        oldKelvin = new JRadioButton("Kelvin");
-        oldFahrenheit.setFont(CyderFonts.weatherFontBig);
-        oldCelsius.setFont(CyderFonts.weatherFontBig);
-        oldKelvin.setFont(CyderFonts.weatherFontBig);
-        radioCurrentValueGroup = new ButtonGroup();
-        radioCurrentValueGroup.add(oldFahrenheit);
-        radioCurrentValueGroup.add(oldCelsius);
-        radioCurrentValueGroup.add(oldKelvin);
-        oldFahrenheit.setBounds(80,100,300,30);
-        oldCelsius.setBounds(80,150,200,30);
-        oldKelvin.setBounds(80,200,200,30);
-        oldFahrenheit.setOpaque(false);
-        oldCelsius.setOpaque(false);
-        oldKelvin.setOpaque(false);
-        oldFahrenheit.setFocusPainted(false);
-        oldCelsius.setFocusPainted(false);
-        oldKelvin.setFocusPainted(false);
+        oldFahrenheit =  new CyderCheckBox();
+        oldCelsius =  new CyderCheckBox();
+        oldKelvin = new CyderCheckBox();
+
+        JLabel oldFahrenheitLabel = new JLabel("Fahrenheit");
+        oldFahrenheitLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        oldFahrenheitLabel.setForeground(CyderColors.navy);
+        oldFahrenheitLabel.setBounds(140,110,250,30);
+        temperatureFrame.getContentPane().add(oldFahrenheitLabel);
+
+        JLabel oldCelsiusLabel = new JLabel("Celsius");
+        oldCelsiusLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        oldCelsiusLabel.setForeground(CyderColors.navy);
+        oldCelsiusLabel.setBounds(140,170,250,30);
+        temperatureFrame.getContentPane().add(oldCelsiusLabel);
+
+        JLabel oldKelvinLabel = new JLabel("Fahrenheit");
+        oldKelvinLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        oldKelvinLabel.setForeground(CyderColors.navy);
+        oldKelvinLabel.setBounds(140,230,250,30);
+        temperatureFrame.getContentPane().add(oldKelvinLabel);
+        
+        oldFahrenheit.setBounds(80,100,50,50);
+        oldCelsius.setBounds(80,160,50,50);
+        oldKelvin.setBounds(80,220,50,50);
+        
+        oldFahrenheit.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                oldCelsius.setNotSelected();
+                oldKelvin.setNotSelected();
+            }
+        });
+
+        oldCelsius.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                oldFahrenheit.setNotSelected();
+                oldKelvin.setNotSelected();
+            }
+        });
+
+        oldKelvin.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                oldCelsius.setNotSelected();
+                oldFahrenheit.setNotSelected();
+            }
+        });
+        
         temperatureFrame.getContentPane().add(oldFahrenheit);
         temperatureFrame.getContentPane().add(oldCelsius);
         temperatureFrame.getContentPane().add(oldKelvin);
 
         JLabel NewValue = new JLabel("-2-");
-        NewValue.setFont(CyderFonts.weatherFontBig.deriveFont(60f));
+        NewValue.setFont(CyderFonts.weatherFontBig.deriveFont(45f));
         NewValue.setBounds(260,150,150,60);
         temperatureFrame.getContentPane().add(NewValue);
 
-        newFahrenheit =  new JRadioButton("Fahrenheit");
-        newCelsius =  new JRadioButton("Celsius");
-        newKelvin = new JRadioButton("Kelvin");
-        newFahrenheit.setFont(CyderFonts.weatherFontBig);
-        newCelsius.setFont(CyderFonts.weatherFontBig);
-        newKelvin.setFont(CyderFonts.weatherFontBig);
-        radioNewValueGroup = new ButtonGroup();
-        radioNewValueGroup.add(newFahrenheit);
-        radioNewValueGroup.add(newCelsius);
-        radioNewValueGroup.add(newKelvin);
-        newFahrenheit.setBounds(370,100,300,30);
-        newCelsius.setBounds(370,150,200,30);
-        newKelvin.setBounds(370,200,200,30);
-        newFahrenheit.setOpaque(false);
-        newCelsius.setOpaque(false);
-        newKelvin.setOpaque(false);
-        newFahrenheit.setFocusPainted(false);
-        newCelsius.setFocusPainted(false);
-        newKelvin.setFocusPainted(false);
+        newFahrenheit =  new CyderCheckBox();
+        newCelsius =  new CyderCheckBox();
+        newKelvin = new CyderCheckBox();
+
+        JLabel newFahrenheitLabel = new JLabel("Fahrenheit");
+        newFahrenheitLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        newFahrenheitLabel.setForeground(CyderColors.navy);
+        newFahrenheitLabel.setBounds(430,110,250,30);
+        temperatureFrame.getContentPane().add(newFahrenheitLabel);
+
+        JLabel newCelsiusLabel = new JLabel("Celsius");
+        newCelsiusLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        newCelsiusLabel.setForeground(CyderColors.navy);
+        newCelsiusLabel.setBounds(430,170,250,30);
+        temperatureFrame.getContentPane().add(newCelsiusLabel);
+
+        JLabel newKelvinLabel = new JLabel("Fahrenheit");
+        newKelvinLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        newKelvinLabel.setForeground(CyderColors.navy);
+        newKelvinLabel.setBounds(430,230,250,30);
+        temperatureFrame.getContentPane().add(newKelvinLabel);
+        
+        newFahrenheit.setBounds(370,100,50,50);
+        newCelsius.setBounds(370,160,50,50);
+        newKelvin.setBounds(370,220,50,50);
+
+        newFahrenheit.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                newCelsius.setNotSelected();
+                newKelvin.setNotSelected();
+            }
+        });
+
+        newCelsius.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                newFahrenheit.setNotSelected();
+                newKelvin.setNotSelected();
+            }
+        });
+
+        newKelvin.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                newCelsius.setNotSelected();
+                newFahrenheit.setNotSelected();
+            }
+        });
+        
         temperatureFrame.getContentPane().add(newFahrenheit);
         temperatureFrame.getContentPane().add(newCelsius);
         temperatureFrame.getContentPane().add(newKelvin);
@@ -98,7 +172,7 @@ public class TempConverter {
 
         calculate.addActionListener(e -> {
             try {
-                DecimalFormat tempFormat = new DecimalFormat(".####");
+                DecimalFormat tempFormat = new DecimalFormat("#.####");
                 double CalculationValue = Double.parseDouble(startingValue.getText());
 
                 if (oldKelvin.isSelected() && CalculationValue <= 0) {
@@ -119,10 +193,6 @@ public class TempConverter {
                                     + tempFormat.format(CelsiusFromFahrenheit),"");
 
                             startingValue.setText("");
-
-                            radioCurrentValueGroup.clearSelection();
-
-                            radioNewValueGroup.clearSelection();
                         }
 
                         else if (newKelvin.isSelected()) {
@@ -135,12 +205,7 @@ public class TempConverter {
 
                                 startingValue.setText("");
 
-                                radioCurrentValueGroup.clearSelection();
-
-                                radioNewValueGroup.clearSelection();
-                            }
-
-                            else
+                            } else
                                 temperatureFrame.inform("Temperatures below absolute zero are imposible.","");
                         }
                     }
@@ -155,10 +220,6 @@ public class TempConverter {
                                     + tempFormat.format(FahrenheitFromCelsius),"");
 
                             startingValue.setText("");
-
-                            radioCurrentValueGroup.clearSelection();
-
-                            radioNewValueGroup.clearSelection();
                         }
 
                         else if (newCelsius.isSelected())
@@ -174,10 +235,6 @@ public class TempConverter {
                                         + tempFormat.format(KelvinFromCelsius),"");
 
                                 startingValue.setText("");
-
-                                radioCurrentValueGroup.clearSelection();
-
-                                radioNewValueGroup.clearSelection();
                             }
 
                             else
@@ -195,10 +252,6 @@ public class TempConverter {
                                     + tempFormat.format(FahrenheitFromKelvin),"");
 
                             startingValue.setText("");
-
-                            radioCurrentValueGroup.clearSelection();
-
-                            radioNewValueGroup.clearSelection();
                         }
 
                         else if (newCelsius.isSelected()) {
@@ -210,10 +263,6 @@ public class TempConverter {
                                     + tempFormat.format(CelsiusFromKelvin),"");
 
                             startingValue.setText("");
-
-                            radioCurrentValueGroup.clearSelection();
-
-                            radioNewValueGroup.clearSelection();
                         }
 
                         else if (newKelvin.isSelected())
@@ -236,8 +285,12 @@ public class TempConverter {
         calculate.setColors(CyderColors.regularRed);
         resetValues.addActionListener(e -> {
             startingValue.setText("");
-            radioCurrentValueGroup.clearSelection();
-            radioNewValueGroup.clearSelection();
+            oldCelsius.setNotSelected();
+            oldFahrenheit.setNotSelected();
+            oldKelvin.setNotSelected();
+            newCelsius.setNotSelected();
+            newFahrenheit.setNotSelected();
+            newKelvin.setNotSelected();
         });
 
         calculate.setBackground(CyderColors.regularRed);
@@ -246,8 +299,8 @@ public class TempConverter {
         resetValues.setBackground(CyderColors.regularRed);
         resetValues.setFont(CyderFonts.weatherFontSmall);
 
-        calculate.setBounds(140,260,150,40);
-        resetValues.setBounds(300,260,150,40);
+        calculate.setBounds(140,280,150,40);
+        resetValues.setBounds(300,280,150,40);
 
         temperatureFrame.getContentPane().add(calculate);
         temperatureFrame.getContentPane().add(resetValues);

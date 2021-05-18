@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
-public class WeatherWidget {
+public class Weather {
     private JLabel locationLabel;
     private JLabel currentWeatherLabel;
     private JLabel changeLocationLabel;
@@ -80,7 +80,7 @@ public class WeatherWidget {
     private int currentLocationGMTOffset;
     private boolean GMTset;
 
-    public WeatherWidget() {
+    public Weather() {
         weatherStats();
 
         if (weatherFrame != null)
