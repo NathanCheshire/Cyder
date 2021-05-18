@@ -12,7 +12,7 @@ The best way I can describe Cyder is a multipurpose tool that launches all of th
 
 tl;dr for how to describe it, it's a version of Amazon's Alexa that does similar but not identical tasks that you might need done on a PC.
 
-The name comes from, well, I don't know to be completely transparent. I think it's cool naming builds after different kinds of cider like apple, Ace, White Star, or Soultree in this case. "The mispelling" is on purpose, I assure you. While I am an idiot, I chose this name because someones online I go by the alias of Cypher (when I don't go by Natche which is a combination of my first and last name). Combining Cypher and Cider you get the (IMHO) very cool name Cyder.
+The name comes from, well, I don't know to be completely transparent. I think it's cool naming builds after different kinds of cider like apple, Ace, White Star, or Soultree in this case. The "mispelling" of cider is on purpose I assure you. While I am sometimes a mindless fool, I chose this name because someones online I go by the alias of Cypher (when I don't go by Natche which is a combination of my first and last name). Combining Cypher and Cider you get the (IMHO with absolutely no bias) very cool name Cyder.
 
 ## Usage
 
@@ -20,7 +20,7 @@ Currently you can fork the project or download it I suppose. Running it in an ID
 
 ## Disclaimers
 
-As of 3.2.21, the program is intended for 2560x1440 resolution displays (my main display). I plan to fix this using SVG and other vector based graphics approaches in the future but currently, seeing as this message is still here, the program will look and operate best using a 2560x1440 display, Windows 10+, and Java 8+.
+As of 5.18.21, the program is intended for 2560x1440 resolution displays (my main display). I plan to fix this using SVG and other vector based graphics approaches in the future but currently, seeing as this message is still here, the program will look and operate best using a 2560x1440 display, Windows 10+, and Java 8+.
 
 ## TODO
 
