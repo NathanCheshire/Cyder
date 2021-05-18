@@ -17,17 +17,20 @@ public class InputHandler {
 
     //todo rick and morty references
 
-    //todo temp converter needs to use new checkboxes after you make the better check boxes
-    //todo new checkboxes should be small boxes with x, way smaller
     //todo redo pref check section to allow for more prefs added easily
 
     //todo toggle chat filter on and off
 
     //todo change vanila color, kind of ugly ngl
+    //todo change font for cyder frame title to Agency FB
 
     //todo remove all jbuttons and replace with cyderbuttons that you can
 
     //TODO make testing easier with a testing widget, when in debug mode, this automatically opens up
 
     //todo move fill and outline color in prefs to "Foreground & Font", change to "Colors & Fonts"
+
+    //TODO all icons for ConsoleFrame should be drawn on the spot and not use a png in files
+
+    //todo if trying to copy text in outputarea, it escapes instead, fix
 }
