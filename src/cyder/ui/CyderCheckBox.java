@@ -1,16 +1,14 @@
 package cyder.ui;
 
 import cyder.constants.CyderColors;
-import cyder.constants.CyderImages;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.GeneralPath;
 
-public class CyderCheckBox extends JLabel {
+public class CyderCheckBox extends JToggleButton {
 
     private boolean selected = false;
 
@@ -47,6 +45,8 @@ public class CyderCheckBox extends JLabel {
                 //togle color
             }
         });
+
+        setBorder(null);
         repaint();
     }
 
