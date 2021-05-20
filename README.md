@@ -2,7 +2,7 @@
  
 ## Screenshots
 Desktop full of Cyder Widgets <br/>
-<img src="https://i.imgur.com/ys4xi0E.png" data-canonical-src="https://i.imgur.com/ys4xi0E.png" width="640" height="351" />
+<img src="https://i.imgur.com/4hEv3kG.png" data-canonical-src="https://i.imgur.com/4hEv3kG.png" width="800" height="440" />
 
 ## Background
 
