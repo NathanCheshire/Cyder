@@ -4,13 +4,13 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.obj.NBT;
 import cyder.ui.CyderCheckBox;
+import cyder.ui.CyderLabel;
 import cyder.ui.CyderScrollPane;
 
 import javax.swing.*;
-import java.awt.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
+import java.awt.*;
 
 public class PreferencesTable {
     public static void main(String[] args) {
@@ -41,6 +41,7 @@ public class PreferencesTable {
             table.setFocusable(true);
 
             CyderScrollPane scrollPane = new CyderScrollPane(table);
+            scrollPane.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 5));
             frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
             frame.setLocationRelativeTo(null);
         }
@@ -82,19 +83,14 @@ public class PreferencesTable {
 
             JPanel labelPanel = new JPanel();
             labelPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-            JLabel lblNewLabel = new JLabel(v.getName());
-            lblNewLabel.setForeground(CyderColors.navy);
-            lblNewLabel.setFont(CyderFonts.defaultFontSmall);
-            labelPanel.add(lblNewLabel);
+            CyderLabel label = new CyderLabel(v.getName());
+            labelPanel.add(label);
             add(labelPanel);
 
             //I think it's actually there but it just doesn't show
 
-            JPanel boxPanel = new JPanel();
-            boxPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-            CyderCheckBox chckbxSomeValue = new CyderCheckBox();
-            chckbxSomeValue.repaint();
-
+            JPanel boxPanel = new JPanel(new FlowLayout());
+            CyderCheckBox chckbxSomeValue = new CyderCheckBox(v.getData());
             boxPanel.add(chckbxSomeValue);
             add(boxPanel);
             repaint();

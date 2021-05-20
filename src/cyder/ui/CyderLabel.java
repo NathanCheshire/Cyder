@@ -17,7 +17,7 @@ public class CyderLabel extends JLabel {
     public CyderLabel(String text) {
         setText(text);
         setForeground(CyderColors.navy);
-        setFont(CyderFonts.weatherFontSmall);
+        setFont(CyderFonts.defaultFontSmall);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
     }
