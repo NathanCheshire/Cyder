@@ -2833,6 +2833,7 @@ public class CyderMain {
         editUserFrame.setLocationRelativeTo(null);
         editUserFrame.setVisible(true);
         editUserFrame.requestFocus();
+        editUserFrame.setAlwaysOnTop(true);
     }
 
     public void initMusicBackgroundList() {
@@ -3308,16 +3309,15 @@ public class CyderMain {
     }
 
     //ignoreing first two: name, password
-    private final String[] prefIDS = {"font","foreground","background","intromusic",
+    private final String[] prefIDS = {"intromusic",
             "debugwindows","randombackground","outputborder","inputborder","hourlychimes","silenceerrors",
             "fullscreen","outputfill","inputfill","clockonconsole","showseconds"};
 
-    private final String[] prefNames = {"Font","Foreground","Background","Intro Music",
+    private final String[] prefNames = {"Intro Music",
             "Debug Windows","Random Background","Output Border","Input Border","Hourly Chimes","Silence Errors",
             "Fullscreen","Output Fill","Input Fill","Clock On Console","Show Seconds"};
 
-    private final String[] prefToolTips = {"Output and input area font","Output and input area text color",
-            "Output and input area fill color","Play intro music on start",
+    private final String[] prefToolTips = {"Play intro music on start",
             "Show debug menus on startup","Choose a random background on startup",
             "Draw a border around the output area","Draw a border around the input area",
             "Chime every hour","Don't open errors externally",
@@ -3330,205 +3330,123 @@ public class CyderMain {
     //todo toggle chat filter pref
     //todo toggle for menu animation slide up or left
 
+    //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
+
     private void switchToPreferences() {
         //switchingpanel is a label
-        JPanel boxPanel = new JPanel();
-        boxPanel.setLayout(new BoxLayout(boxPanel,BoxLayout.Y_AXIS));
-        boxPanel.setBounds(0,0,720,500);
+        JPanel preferencePanel = new JPanel();
+        preferencePanel.setLayout(new BoxLayout(preferencePanel,BoxLayout.Y_AXIS));
+        preferencePanel.setBounds(0,0,720,500);
 
         CyderLabel prefsTitle = new CyderLabel("Preferences");
-        boxPanel.add(prefsTitle);
+        prefsTitle.setFont(CyderFonts.weatherFontBig);
+        preferencePanel.add(prefsTitle);
 
         for (int i = 0 ; i < prefIDS.length ; i++) {
-            CyderLabel cl = new CyderLabel(prefNames[i].toUpperCase());
-            cl.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            boxPanel.add(cl);
+            CyderLabel preferenceLabel = new CyderLabel(prefNames[i]);
+            preferenceLabel.setForeground(IOUtil.getUserData(prefIDS[i]).equals("1") ? CyderColors.regularRed : CyderColors.navy);
+            preferenceLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
+            preferenceLabel.setToolTipText(prefToolTips[i]);
+            preferenceLabel.setFont(CyderFonts.defaultFontSmall);
+            preferencePanel.add(preferenceLabel);
 
-            CyderButton jb = new CyderButton(IOUtil.getUserData(prefIDS[i]).equals("1") ? "True" : "False");
-            jb.setMargin(new Insets(20,10,20,10));
-            jb.setToolTipText(prefToolTips[i]);
-            boxPanel.add(jb);
+            int localIndex = i;
+
+            preferenceLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    boolean wasSelected = IOUtil.getUserData((prefIDS[localIndex])).equalsIgnoreCase("1");
+                    IOUtil.writeUserData(prefIDS[localIndex], wasSelected ? "0" : "1");
+
+                    preferenceLabel.setForeground(
+                            wasSelected ? CyderColors.navy : CyderColors.regularRed);
+
+                    refreshPrefs();
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    preferenceLabel.setForeground(
+                            IOUtil.getUserData(prefIDS[localIndex]).equalsIgnoreCase("1") ?
+                                    CyderColors.navy : CyderColors.regularRed);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    preferenceLabel.setForeground(
+                            IOUtil.getUserData(prefIDS[localIndex]).equalsIgnoreCase("0") ?
+                                    CyderColors.navy : CyderColors.regularRed);
+                }
+            });
         }
 
-        CyderScrollPane scrollPane = new CyderScrollPane(boxPanel);
-        scrollPane.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 5));
-        scrollPane.setBounds(0,0,720,500);
-        switchingPanel.add(scrollPane);
-
-
-
-
-        JButton introMusic = new JButton("False");
-        introMusic.setToolTipText("Play intro music on start");
-        if (IOUtil.getUserData("IntroMusic").equals("1"))
-            introMusic.setText("True");
-        introMusic.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            IOUtil.writeUserData("IntroMusic", (introMusic.getText().equalsIgnoreCase("True") ? "1" : "0"));
-            }
-        });
-        //todo copy this for preference toggles
-        //todo call updater method inside of mouse listener after writing user data to do actions based on new values
-
-
-
-
-        //special cases
-        JLabel outputBorder = new JLabel();
-        outputBorder.setToolTipText("Draw a border around the output area");
-        outputBorder.setHorizontalAlignment(JLabel.CENTER);
-        outputBorder.setSize(100, 100);
-        outputBorder.setIcon((IOUtil.getUserData("OutputBorder").equals("1") ? CyderImages.checkboxSelected : CyderImages.checkboxNotSelected));
-        outputBorder.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("OutputBorder").equals("1");
-            IOUtil.writeUserData("OutputBorder", (wasSelected ? "0" : "1"));
-            outputBorder.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-            if (wasSelected) {
-                outputScroll.setBorder(BorderFactory.createEmptyBorder());
-            } else {
-                outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
-            }
-
-            consoleFrame.revalidate();
-            }
-        });
-
-
-        JLabel inputBorder = new JLabel();
-        inputBorder.setToolTipText("Draw a border around the input field");
-        inputBorder.setHorizontalAlignment(JLabel.CENTER);
-        inputBorder.setSize(100, 100);
-        inputBorder.setIcon((IOUtil.getUserData("InputBorder").equals("1") ? CyderImages.checkboxSelected : CyderImages.checkboxNotSelected));
-        inputBorder.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("InputBorder").equals("1");
-            IOUtil.writeUserData("InputBorder", (wasSelected ? "0" : "1"));
-            inputBorder.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-
-            if (wasSelected) {
-                inputField.setBorder(BorderFactory.createEmptyBorder());
-            } else {
-                inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
-            }
-
-            consoleFrame.revalidate();
-            }
-        });
-
-
-        JLabel fullscreen = new JLabel();
-        fullscreen.setToolTipText("Toggle between fullscreen (Extremely Experimental)");
-        fullscreen.setHorizontalAlignment(JLabel.CENTER);
-        fullscreen.setSize(100, 100);
-        fullscreen.setIcon((IOUtil.getUserData("FullScreen").equals("1") ? CyderImages.checkboxSelected : CyderImages.checkboxNotSelected));
-        fullscreen.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("FullScreen").equals("1");
-            IOUtil.writeUserData("FullScreen", (wasSelected ? "0" : "1"));
-            fullscreen.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-            if (wasSelected)
-                exitFullscreen();
-            else
-                refreshConsoleFrame();
-            }
-        });
-
-
-
-        JLabel clockOnConsole = new JLabel();
-        clockOnConsole.setToolTipText("Show clock at top of main window");
-        clockOnConsole.setHorizontalAlignment(JLabel.CENTER);
-        clockOnConsole.setSize(100, 100);
-        clockOnConsole.setIcon((IOUtil.getUserData("ClockOnConsole").equals("1") ? CyderImages.checkboxSelected : CyderImages.checkboxNotSelected));
-        clockOnConsole.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("ClockOnConsole").equals("1");
-            IOUtil.writeUserData("ClockOnConsole", (wasSelected ? "0" : "1"));
-            clockOnConsole.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-            consoleClockLabel.setVisible(!wasSelected);
-
-            if (consoleClockLabel.isVisible())
-                updateConsoleClock = true;
-
-            consoleFrame.revalidate();
-
-            if (consoleClockLabel.isVisible()) {
-                if (IOUtil.getUserData("ShowSeconds").equals("1"))
-                    consoleClockLabel.setText(TimeUtil.consoleSecondTime());
-                else
-                    consoleClockLabel.setText(TimeUtil.consoleTime());
-            }
-            }
-        });
-
-        JLabel showSeconds = new JLabel();
-        showSeconds.setToolTipText("Show seconds on console clock");
-        showSeconds.setHorizontalAlignment(JLabel.CENTER);
-        showSeconds.setSize(100, 100);
-        showSeconds.setIcon((IOUtil.getUserData("ShowSeconds").equals("1") ? CyderImages.checkboxSelected : CyderImages.checkboxNotSelected));
-        showSeconds.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("ShowSeconds").equals("1");
-            IOUtil.writeUserData("ShowSeconds", (wasSelected ? "0" : "1"));
-            showSeconds.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-
-            if (wasSelected)
-                consoleClockLabel.setText(TimeUtil.consoleTime());
-            else
-                consoleClockLabel.setText(TimeUtil.consoleSecondTime());
-            }
-        });
-
-//        outputFill.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseReleased(MouseEvent e) {
-//            boolean wasSelected = IOUtil.getUserData("OutputFill").equals("1");
-//            IOUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
-//            outputFill.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-//
-//            if (wasSelected) {
-//                outputArea.setBackground(null);
-//                outputArea.setOpaque(false);
-//                consoleFrame.revalidate();
-//            } else {
-//                outputArea.setOpaque(true);
-//                outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
-//                outputArea.repaint();
-//                outputArea.revalidate();
-//                consoleFrame.revalidate();
-//            }
-//            }
-//        });
-
-//        inputFill.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseReleased(MouseEvent e) {
-//            boolean wasSelected = IOUtil.getUserData("InputFill").equals("1");
-//            IOUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
-//            inputFill.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-//
-//            if (wasSelected) {
-//                inputField.setBackground(null);
-//                inputField.setOpaque(false);
-//                consoleFrame.revalidate();
-//            } else {
-//                inputField.setOpaque(true);
-//                inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
-//                inputField.repaint();
-//                inputField.revalidate();
-//                consoleFrame.revalidate();
-//            }
-//            }
-//        });
+        CyderScrollPane preferenceScroll = new CyderScrollPane(preferencePanel);
+        preferenceScroll.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 5));
+        preferenceScroll.setBounds(0,0,720,500);
+        switchingPanel.add(preferenceScroll, SwingConstants.CENTER);
 
         switchingPanel.revalidate();
+    }
+
+    public void refreshPrefs() {
+        if (IOUtil.getUserData("OutputBorder").equals("0"))
+            outputScroll.setBorder(BorderFactory.createEmptyBorder());
+        else
+            outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
+
+        if (IOUtil.getUserData("InputBorder").equals("0"))
+            inputField.setBorder(BorderFactory.createEmptyBorder());
+        else
+            inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
+
+        if (IOUtil.getUserData("FullScreen").equals("0"))
+            exitFullscreen();
+        else
+            refreshConsoleFrame();
+
+        consoleClockLabel.setVisible(IOUtil.getUserData("ClockOnConsole").equals("1"));
+
+        if (consoleClockLabel.isVisible())
+            updateConsoleClock = true;
+
+        if (consoleClockLabel.isVisible()) {
+            if (IOUtil.getUserData("ShowSeconds").equals("1"))
+                consoleClockLabel.setText(TimeUtil.consoleSecondTime());
+            else
+                consoleClockLabel.setText(TimeUtil.consoleTime());
+        }
+
+        if (IOUtil.getUserData("ShowSeconds").equals("0"))
+            consoleClockLabel.setText(TimeUtil.consoleTime());
+        else
+            consoleClockLabel.setText(TimeUtil.consoleSecondTime());
+
+        if (IOUtil.getUserData("OutputFill").equals("0")) {
+            outputArea.setBackground(null);
+            outputArea.setOpaque(false);
+            consoleFrame.revalidate();
+        } else {
+            outputArea.setOpaque(true);
+            outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+            outputArea.repaint();
+            outputArea.revalidate();
+            consoleFrame.revalidate();
+        }
+
+        if (IOUtil.getUserData("InputFill").equals("0")) {
+            inputField.setBackground(null);
+            inputField.setOpaque(false);
+            consoleFrame.revalidate();
+        } else {
+            inputField.setOpaque(true);
+            inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+            inputField.repaint();
+            inputField.revalidate();
+            consoleFrame.revalidate();
+        }
+
+
+        consoleFrame.revalidate();
     }
 
     //todo convert repeated paths to string contants
