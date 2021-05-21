@@ -192,7 +192,7 @@ public class IOUtil {
     }
 
     //todo get user binary method to return boolean for easy if statements
-    // throws exception of not 0 or 1
+    // throws exception if not 0 or 1
 
     public static String getUserData(String name) {
         readUserData();
@@ -206,7 +206,9 @@ public class IOUtil {
             }
         }
 
-        corruptedUser();
+        //todo if a preference doesn't exist it's auto correcupted? rethink this
+        //corruptedUser();
+
         return null;
     }
 

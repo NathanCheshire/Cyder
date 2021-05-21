@@ -3,7 +3,8 @@ package cyder.genesis;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderImages;
-import cyder.enums.*;
+import cyder.enums.ConsoleDirection;
+import cyder.enums.TitlePosition;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
 import cyder.games.Hangman;
@@ -37,13 +38,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
-import java.util.LinkedList;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
@@ -1600,9 +1599,6 @@ public class CyderMain {
         inputField.requestFocus();
 
         consoleFrame.setLocationRelativeTo(null);
-
-        if (editUserFrame != null)
-            editUserFrame.setAlwaysOnTop(true);
     }
 
     //todo move to input handler
@@ -2835,7 +2831,6 @@ public class CyderMain {
         editUserFrame.getContentPane().add(changePassword);
 
         editUserFrame.setLocationRelativeTo(null);
-        editUserFrame.setAlwaysOnTop(true);
         editUserFrame.setVisible(true);
         editUserFrame.requestFocus();
     }
@@ -3312,98 +3307,74 @@ public class CyderMain {
         switchingPanel.revalidate();
     }
 
-    //todo edit user widget
-    //todo use this class for labels and then CyderCheckBox for boxes
-    class prefLabel extends JLabel {
-        prefLabel(String content) {
-            setFont(CyderFonts.weatherFontBig);
-            setForeground(CyderColors.navy);
-            setHorizontalAlignment(JLabel.CENTER);
-        }
-    }
+    //ignoreing first two: name, password
+    private final String[] prefIDS = {"font","foreground","background","intromusic",
+            "debugwindows","randombackground","outputborder","inputborder","hourlychimes","silenceerrors",
+            "fullscreen","outputfill","inputfill","clockonconsole","showseconds"};
 
-    //todo make scrollable table of description and checkboxes here
+    private final String[] prefNames = {"Font","Foreground","Background","Intro Music",
+            "Debug Windows","Random Background","Output Border","Input Border","Hourly Chimes","Silence Errors",
+            "Fullscreen","Output Fill","Input Fill","Clock On Console","Show Seconds"};
+
+    private final String[] prefToolTips = {"Output and input area font","Output and input area text color",
+            "Output and input area fill color","Play intro music on start",
+            "Show debug menus on startup","Choose a random background on startup",
+            "Draw a border around the output area","Draw a border around the input area",
+            "Chime every hour","Don't open errors externally",
+            "Fullscreen cyder (Extremely experimental)","Fill the output area with the color specified in the \"Fonts & Colors\" panel",
+            "Fill the input area with the color specified in the \"Fonts & Colors\" panel",
+            "Show a clock at the top of the console","Show seconds on the console clock if enabled"};
+
+
+    //todo utilize this for creating user
+    //todo toggle chat filter pref
+    //todo toggle for menu animation slide up or left
+
     private void switchToPreferences() {
+        //switchingpanel is a label
+        JPanel boxPanel = new JPanel();
+        boxPanel.setLayout(new BoxLayout(boxPanel,BoxLayout.Y_AXIS));
+        boxPanel.setBounds(0,0,720,500);
 
-        //example for lambda functions, you could pass this now
-        Function<Integer, Integer> addTwo = a -> {
-            a++;
-            a++;
-            return a;
-        };
+        CyderLabel prefsTitle = new CyderLabel("Preferences");
+        boxPanel.add(prefsTitle);
 
-        JLabel prefsTitle = new JLabel("Preferences");
-        prefsTitle.setFont(CyderFonts.weatherFontBig);
-        prefsTitle.setForeground(CyderColors.navy);
-        prefsTitle.setHorizontalAlignment(JLabel.CENTER);
-        prefsTitle.setBounds(720 / 2 - 250 / 2, 10, 250, 30);
-        switchingPanel.add(prefsTitle);
+        for (int i = 0 ; i < prefIDS.length ; i++) {
+            CyderLabel cl = new CyderLabel(prefNames[i].toUpperCase());
+            cl.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            boxPanel.add(cl);
+
+            CyderButton jb = new CyderButton(IOUtil.getUserData(prefIDS[i]).equals("1") ? "True" : "False");
+            jb.setMargin(new Insets(20,10,20,10));
+            jb.setToolTipText(prefToolTips[i]);
+            boxPanel.add(jb);
+        }
+
+        CyderScrollPane scrollPane = new CyderScrollPane(boxPanel);
+        scrollPane.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 5));
+        scrollPane.setBounds(0,0,720,500);
+        switchingPanel.add(scrollPane);
 
 
 
-        JLabel introMusicTitle = new JLabel("Intro Music");
-        switchingPanel.add(introMusicTitle);
 
-        JLabel debugWindowsLabel = new JLabel("Debug");
-        switchingPanel.add(debugWindowsLabel);
-
-        JLabel randomBackgroundLabel = new JLabel("Random Back");
-        switchingPanel.add(randomBackgroundLabel);
-
-        JLabel outputBorderLabel = new JLabel("Out Border");
-        switchingPanel.add(outputBorderLabel);
-
-        JLabel inputBorderLabel = new JLabel("In Border");
-        switchingPanel.add(inputBorderLabel);
-
-        //todo copy this for all checkboxes and put in 2 column table
-
-        CyderCheckBox introMusic = new CyderCheckBox();
+        JButton introMusic = new JButton("False");
         introMusic.setToolTipText("Play intro music on start");
         if (IOUtil.getUserData("IntroMusic").equals("1"))
-            introMusic.setSelected();
-
+            introMusic.setText("True");
         introMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            super.mouseClicked(e);
-            IOUtil.writeUserData("IntroMusic", (introMusic.isSelected() ? "1" : "0"));
+            IOUtil.writeUserData("IntroMusic", (introMusic.getText().equalsIgnoreCase("True") ? "1" : "0"));
             }
         });
-
-        introMusic.setBounds(20, 80, 50, 50);
-        switchingPanel.add(introMusic);
-
-        JLabel debugWindows = new JLabel();
-        debugWindows.setToolTipText("Show debug windows on start");
-        debugWindows.setHorizontalAlignment(JLabel.CENTER);
-        debugWindows.setSize(100, 100);
-        debugWindows.setIcon((IOUtil.getUserData("DebugWindows").equals("1") ? CyderImages.checkboxSelected : CyderImages.checkboxNotSelected));
-        debugWindows.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("DebugWindows").equals("1");
-            IOUtil.writeUserData("DebugWindows", (wasSelected ? "0" : "1"));
-            debugWindows.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-            }
-        });
+        //todo copy this for preference toggles
+        //todo call updater method inside of mouse listener after writing user data to do actions based on new values
 
 
-        JLabel randBackgroundLabel = new JLabel();
-        randBackgroundLabel.setToolTipText("Choose a random background on start");
-        randBackgroundLabel.setHorizontalAlignment(JLabel.CENTER);
-        randBackgroundLabel.setSize(100, 100);
-        randBackgroundLabel.setIcon((IOUtil.getUserData("RandomBackground").equals("1") ? CyderImages.checkboxSelected : CyderImages.checkboxNotSelected));
-        randBackgroundLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("RandomBackground").equals("1");
-            IOUtil.writeUserData("RandomBackground", (wasSelected ? "0" : "1"));
-            randBackgroundLabel.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-            }
-        });
 
 
+        //special cases
         JLabel outputBorder = new JLabel();
         outputBorder.setToolTipText("Draw a border around the output area");
         outputBorder.setHorizontalAlignment(JLabel.CENTER);
@@ -3449,51 +3420,6 @@ public class CyderMain {
         });
 
 
-        JLabel hourlyChimesLabel = new JLabel("Hour Chimes");
-        switchingPanel.add(hourlyChimesLabel);
-
-        JLabel silenceLabel = new JLabel("No Errors");
-        switchingPanel.add(silenceLabel);
-
-        JLabel fullscreenLabel = new JLabel("Fullscreen");
-        switchingPanel.add(fullscreenLabel);
-
-        JLabel outputFillLabel = new JLabel("Fill Out");
-        switchingPanel.add(outputFillLabel);
-
-        JLabel inputFillLabel = new JLabel("Fill In");
-        switchingPanel.add(inputFillLabel);
-
-        JLabel hourlyChimes = new JLabel();
-        hourlyChimes.setToolTipText("Chime every hour");
-        hourlyChimes.setHorizontalAlignment(JLabel.CENTER);
-        hourlyChimes.setSize(100, 100);
-        hourlyChimes.setIcon((IOUtil.getUserData("HourlyChimes").equals("1") ? CyderImages.checkboxSelected : CyderImages.checkboxNotSelected));
-        hourlyChimes.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("HourlyChimes").equals("1");
-            IOUtil.writeUserData("HourlyChimes", (wasSelected ? "0" : "1"));
-            hourlyChimes.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-            }
-        });
-
-
-        JLabel silenceErrors = new JLabel();
-        silenceErrors.setToolTipText("Hide errors that occur");
-        silenceErrors.setHorizontalAlignment(JLabel.CENTER);
-        silenceErrors.setSize(100, 100);
-        silenceErrors.setIcon((IOUtil.getUserData("SilenceErrors").equals("1") ? CyderImages.checkboxSelected : CyderImages.checkboxNotSelected));
-        silenceErrors.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("SilenceErrors").equals("1");
-            IOUtil.writeUserData("SilenceErrors", (wasSelected ? "0" : "1"));
-            silenceErrors.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-            }
-
-        });
-
         JLabel fullscreen = new JLabel();
         fullscreen.setToolTipText("Toggle between fullscreen (Extremely Experimental)");
         fullscreen.setHorizontalAlignment(JLabel.CENTER);
@@ -3512,17 +3438,7 @@ public class CyderMain {
             }
         });
 
-        JLabel outputFill = new JLabel();
-        switchingPanel.add(outputFill);
 
-        JLabel inputFill = new JLabel();
-        switchingPanel.add(inputFill);
-
-        JLabel clockLabel = new JLabel("Console Clock");
-        switchingPanel.add(clockLabel);
-
-        JLabel showSecondsLabel = new JLabel("Clock Seconds");
-        switchingPanel.add(showSecondsLabel);
 
         JLabel clockOnConsole = new JLabel();
         clockOnConsole.setToolTipText("Show clock at top of main window");
@@ -3570,47 +3486,47 @@ public class CyderMain {
             }
         });
 
-        outputFill.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("OutputFill").equals("1");
-            IOUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
-            outputFill.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
+//        outputFill.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseReleased(MouseEvent e) {
+//            boolean wasSelected = IOUtil.getUserData("OutputFill").equals("1");
+//            IOUtil.writeUserData("OutputFill", (wasSelected ? "0" : "1"));
+//            outputFill.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
+//
+//            if (wasSelected) {
+//                outputArea.setBackground(null);
+//                outputArea.setOpaque(false);
+//                consoleFrame.revalidate();
+//            } else {
+//                outputArea.setOpaque(true);
+//                outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+//                outputArea.repaint();
+//                outputArea.revalidate();
+//                consoleFrame.revalidate();
+//            }
+//            }
+//        });
 
-            if (wasSelected) {
-                outputArea.setBackground(null);
-                outputArea.setOpaque(false);
-                consoleFrame.revalidate();
-            } else {
-                outputArea.setOpaque(true);
-                outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
-                outputArea.repaint();
-                outputArea.revalidate();
-                consoleFrame.revalidate();
-            }
-            }
-        });
-
-        inputFill.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            boolean wasSelected = IOUtil.getUserData("InputFill").equals("1");
-            IOUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
-            inputFill.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
-
-            if (wasSelected) {
-                inputField.setBackground(null);
-                inputField.setOpaque(false);
-                consoleFrame.revalidate();
-            } else {
-                inputField.setOpaque(true);
-                inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
-                inputField.repaint();
-                inputField.revalidate();
-                consoleFrame.revalidate();
-            }
-            }
-        });
+//        inputFill.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseReleased(MouseEvent e) {
+//            boolean wasSelected = IOUtil.getUserData("InputFill").equals("1");
+//            IOUtil.writeUserData("InputFill", (wasSelected ? "0" : "1"));
+//            inputFill.setIcon((wasSelected ? CyderImages.checkboxNotSelected : CyderImages.checkboxSelected));
+//
+//            if (wasSelected) {
+//                inputField.setBackground(null);
+//                inputField.setOpaque(false);
+//                consoleFrame.revalidate();
+//            } else {
+//                inputField.setOpaque(true);
+//                inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+//                inputField.repaint();
+//                inputField.revalidate();
+//                consoleFrame.revalidate();
+//            }
+//            }
+//        });
 
         switchingPanel.revalidate();
     }
