@@ -36,9 +36,11 @@ public class CyderFrame extends JFrame {
     private Color backgroundColor = CyderColors.vanila;
 
     private JLabel contentLabel;
+    private JLayeredPane contentPane;
 
     /**
-     * returns an instance of a cyderframe which extends JFrame with the specified with and height and a drag label with minimize and close buttons
+     * returns an instance of a cyderframe which extends JFrame with the specified width and height
+     * and a drag label with minimize and close buttons
      * the specified ImageIcon is used for the background (you can enable resizing and rescaling of the image should you choose)
      *
      * @param width  - the specified width of the cyder frame
@@ -61,6 +63,11 @@ public class CyderFrame extends JFrame {
         currentOrigIcon = background;
         setContentPane(contentLabel);
 
+        //todo contentpane should be layered
+        // bottom layer is content label and everything on it
+        // middle layer is notification
+        // top layer is drag label
+
         dl = new DragLabel(width, 30, this);
         dl.setBounds(0, 0, width, 30);
         contentLabel.add(dl);
@@ -73,80 +80,22 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * returns an instance of a cyderframe which extends JFrame with the specified with and height and a drag label with minimize and close buttons
+     * returns an instance of a cyderframe which extends JFrame with the specified width and height
+     * and a drag label with minimize and close buttons
      *
      * @param width  - the specified width of the cyder frame
      * @param height - the specified height of the cyder frame
      */
     public CyderFrame(int width, int height) {
-        BufferedImage im = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = im.createGraphics();
-        g.setPaint(backgroundColor);
-        g.fillRect(0, 0, 1, 1);
-
-        this.width = width;
-        this.height = height;
-        this.background = new ImageIcon(im);
-        this.currentOrigIcon = this.background;
-        setSize(new Dimension(width, height));
-
-        setResizable(false);
-        setUndecorated(true);
-        setBackground(CyderColors.navy);
-        setIconImage(SystemUtil.getCyderIcon().getImage());
-
-        JLabel parentLabel = new JLabel();
-        parentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        parentLabel.setIcon(background);
-        setContentPane(parentLabel);
-
-        dl = new DragLabel(width, 30, this);
-        dl.setBounds(0, 0, width, 30);
-        parentLabel.add(dl);
-
-        titleLabel = new JLabel("");
-        titleLabel.setFont(new Font("Agency FB",Font.BOLD,22));
-        titleLabel.setForeground(CyderColors.vanila);
-
-        dl.add(titleLabel);
+        this(width,height, ImageUtil.imageIconFromColor(CyderColors.vanila));
     }
 
     /**
-     * returns an instance of a cyderframe which extends JFrame with a width of 400 and a height of 400 and a drag label with minimize and close buttons
+     * returns an instance of a cyderframe which extends JFrame with
+     * a width of 400 and a height of 400 and a drag label with minimize and close buttons
      */
     public CyderFrame() {
-        int width = 400, height = 400;
-
-        BufferedImage im = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = im.createGraphics();
-        g.setPaint(backgroundColor);
-        g.fillRect(0, 0, 1, 1);
-
-        this.width = width;
-        this.height = height;
-        this.background = new ImageIcon(im);
-        this.currentOrigIcon = this.background;
-        setSize(new Dimension(width, height));
-
-        setResizable(false);
-        setUndecorated(true);
-        setBackground(CyderColors.navy);
-        setIconImage(SystemUtil.getCyderIcon().getImage());
-
-        JLabel parentLabel = new JLabel();
-        parentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        parentLabel.setIcon(background);
-        setContentPane(parentLabel);
-
-        dl = new DragLabel(width, 30, this);
-        dl.setBounds(0, 0, width, 30);
-        parentLabel.add(dl);
-
-        titleLabel = new JLabel("");
-        titleLabel.setFont(new Font("Agency FB",Font.BOLD,22));
-        titleLabel.setForeground(CyderColors.vanila);
-
-        dl.add(titleLabel);
+        this(400,400);
     }
 
     /**
@@ -190,6 +139,7 @@ public class CyderFrame extends JFrame {
             }
         }
     }
+
 
     //getter for title position
     public TitlePosition getTitlePosition() {
@@ -298,10 +248,6 @@ public class CyderFrame extends JFrame {
      * @param vanishDir - the exit direction of the notification
      */
     public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir) {
-        //todo the notification is behind the text field? so many issues with notifications, fix these
-
-        //todo notification arrow is fine, just the notification isn't actually put in the middle of the frame
-
         //todo height and width calculations are a bodge, make them better
         //todo anywhere there's an affine transform for bound caluclations, fix this, try using the method ot get a rectangle2D
 
@@ -313,6 +259,7 @@ public class CyderFrame extends JFrame {
 
         //create text label to go on top of notification label
         JLabel text = new JLabel();
+        //use html so that it can line break when we need it to
         text.setText("<html>" + htmltext + "</html>");
 
         //start of font width and height calculation
@@ -332,11 +279,8 @@ public class CyderFrame extends JFrame {
         int h = heightIncrement;
         int lastIndex = 0;
 
-        //while the width is greater than the frame width, take away from width and give equal space to height
-        //accomplished by keeping equal area due to the properly of rectangles
+        //rectangle to keep needed text area consistent
         int area = h * w;
-
-        System.out.println(w * 1.25 + "," + h + "," + this.getContentPane().getWidth());
 
         while (w * 1.25 > this.getContentPane().getWidth()) {
             //decrease width by 25% and increase height accordingly to keep area constant

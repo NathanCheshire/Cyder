@@ -2372,7 +2372,6 @@ public class CyderMain {
                 testFrame.initResizing();
                 testFrame.allowResizing(true);
                 testFrame.setTitle("Test Frame");
-                testFrame.setBackground(CyderColors.vanila);
                 testFrame.setTitlePosition(TitlePosition.CENTER);
                 testFrame.allowResizing(true);
                 testFrame.setVisible(true);

@@ -147,14 +147,22 @@ public class ImageUtil {
         }
     }
 
-    public static BufferedImage imageFromColor(int x, int y, Color c) {
-        BufferedImage bi = new BufferedImage(x,y,BufferedImage.TYPE_INT_RGB);
+    public static BufferedImage bufferedImageFromColor(int width, int height, Color c) {
+        BufferedImage bi = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bi.createGraphics();
 
         graphics.setPaint(c);
-        graphics.fillRect ( 0, 0, x, y);
+        graphics.fillRect ( 0, 0, width, height);
 
         return bi;
+    }
+
+    public static ImageIcon imageIconFromColor(Color c) {
+        BufferedImage im = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = im.createGraphics();
+        g.setPaint(c);
+        g.fillRect(0, 0, 1, 1);
+        return new ImageIcon(im);
     }
 
     public static BufferedImage resizeImage(int x, int y, File UneditedImage) {

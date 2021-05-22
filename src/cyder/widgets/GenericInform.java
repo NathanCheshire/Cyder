@@ -40,7 +40,7 @@ public class GenericInform {
 
             //obtain cyderframe object of background color
             CyderFrame informFrame = new CyderFrame(width + widthOffset * 2,height + heightOffset * 2,
-                    new ImageIcon(ImageUtil.imageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
+                    new ImageIcon(ImageUtil.bufferedImageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
             informFrame.setTitlePosition(TitlePosition.CENTER);
             informFrame.setTitle(title);
 
@@ -96,7 +96,7 @@ public class GenericInform {
 
             //obtain cyderframe object of background color
             CyderFrame informFrame = new CyderFrame(width + widthOffset * 2,height + heightOffset * 2,
-                    new ImageIcon(ImageUtil.imageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
+                    new ImageIcon(ImageUtil.bufferedImageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
             informFrame.setTitlePosition(TitlePosition.CENTER);
             informFrame.setTitle(title);
 
