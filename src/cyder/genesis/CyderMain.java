@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderImages;
+import cyder.enums.ArrowDirection;
 import cyder.enums.ConsoleDirection;
 import cyder.enums.TitlePosition;
 import cyder.exception.CyderException;
@@ -2376,7 +2377,8 @@ public class CyderMain {
                 testFrame.allowResizing(true);
                 testFrame.setVisible(true);
                 testFrame.setLocationRelativeTo(null);
-                testFrame.notify("<html><b>This is a long string of text that should over flow the frame question mark?</b></html>");
+                testFrame.notify("This is a long string this is a super long string this is a super long string"
+                        , 5000, ArrowDirection.TOP);
             } else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");

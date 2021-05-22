@@ -6,23 +6,17 @@ public class InputHandler {
 
     //todo work on proper exit conditions for ALL threads
 
-    //todo make input field like the input field for login
+    //todo make input field like the input field for login (actually a password field with the natche@cyder~$)
 
     //todo if cyder hasn't started in a while, say welcome back $username, did you miss me?
     // or some variation of that
-
-    //todo look into hault method from Runtime class
 
     //todo rick and morty references
 
     //todo redo pref check section to allow for more prefs added easily
     //todo toggle chat filter on and off
 
-    //todo change vanila color, kind of ugly ngl, not as vanilla, a nicer white perhaps
-
     //TODO make testing easier with a testing widget, when in debug mode, this automatically opens up
-
-    //todo move fill and outline color in prefs to "Foreground & Font", change to "Colors & Fonts"
 
     //TODO all icons for ConsoleFrame should be drawn on the spot and not use a png in files
 
@@ -34,12 +28,14 @@ public class InputHandler {
 
     //todo at end of if statements before saying unrecognized input, try parsing it as a mathematical expression
 
-    //bug: log in from user as a different user then delete that second user
-    // it will use the first user's name and say that it was corrupted
+    //todo fix bug: log in as different user when already logged in as nathan and then delete this new account you logged into
+    // will say the first user was corrupted and say sorry + "first user name"
 
     //todo corrupted user is disabled until I think of a better check so it rarely fires
 
     //todo do away with user throws
     //todo make chat logs to replace throws and suggestions and general log like miencraft, store in
     // same dir as src and call logs
+
+    //todo if multiple prefs in same userdata file, delete the later ones and keep the first value
 }

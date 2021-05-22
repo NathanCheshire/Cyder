@@ -2,12 +2,16 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.enums.*;
+import cyder.enums.ArrowDirection;
+import cyder.enums.StartDirection;
+import cyder.enums.TitlePosition;
+import cyder.enums.VanishDirection;
 import cyder.handler.ErrorHandler;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.SystemUtil;
 import cyder.widgets.GenericInform;
 import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -16,7 +20,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class CyderFrame extends JFrame {
@@ -285,8 +288,6 @@ public class CyderFrame extends JFrame {
         notify(htmltext, viewDuration, direction, startDir, vanishDir);
     }
 
-
-
     /**
      * Full control over the notification function of a {@link CyderFrame}.
      * See {@link CyderFrame#notify(String, int, ArrowDirection)} for a simpler notify function
@@ -298,50 +299,57 @@ public class CyderFrame extends JFrame {
      */
     public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir) {
         //todo the notification is behind the text field? so many issues with notifications, fix these
-        //todo what if the notification width is too big
-        //todo notification arrow isn't painted in the middle
 
+        //todo notification arrow is fine, just the notification isn't actually put in the middle of the frame
+
+        //todo height and width calculations are a bodge, make them better
+        //todo anywhere there's an affine transform for bound caluclations, fix this, try using the method ot get a rectangle2D
+
+        //init notification object
         Notification frameNotification = new Notification();
 
+        //set the arrow direction
         frameNotification.setArrow(arrowDir);
 
+        //create text label to go on top of notification label
         JLabel text = new JLabel();
-        text.setText(htmltext);
+        text.setText("<html>" + htmltext + "</html>");
 
+        //start of font width and height calculation
         int w = 0;
-
         Font notificationFont = CyderFonts.weatherFontSmall;
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
 
-        htmltext = Jsoup.parse(htmltext.replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n");
-        String[] parts = htmltext.split("\\r?\\n");
+        //parse away all html
+        String parsedHTML = Jsoup.clean(htmltext, Whitelist.none());
 
-        for (String part : parts) {
-            Rectangle2D stringBounds = notificationFont.getStringBounds(part.replaceAll("<[^>]+>", ""), frc);
-            if ((int) stringBounds.getWidth() > w)
-                w = (int) stringBounds.getWidth();
-        }
+        //get overall width
+        w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 10;
 
-        int heightIncrement = (int) notificationFont.getStringBounds("string", frc).getHeight();
+        //figure out the height of a single line and set that as the height increment
+        int heightIncrement = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight() + 10;
         int h = heightIncrement;
         int lastIndex = 0;
 
-        while (lastIndex != -1) {
-            lastIndex = text.getText().indexOf("<br/>", lastIndex);
+        //while the width is greater than the frame width, take away from width and give equal space to height
+        //accomplished by keeping equal area due to the properly of rectangles
+        int area = h * w;
 
-            if (lastIndex != -1) {
-                h += heightIncrement;
-                lastIndex += "<br/>".length();
-            }
+        System.out.println(w * 1.25 + "," + h + "," + this.getContentPane().getWidth());
+
+        while (w * 1.25 > this.getContentPane().getWidth()) {
+            //decrease width by 25% and increase height accordingly to keep area constant
+            h += heightIncrement;
+            w = area / h;
         }
 
         frameNotification.setWidth(w);
         frameNotification.setHeight(h);
+        text.setBounds(14,10,w + 14,h + 10);
 
         text.setFont(notificationFont);
         text.setForeground(CyderColors.navy);
-        text.setBounds(14, 10, w * 2, h);
         frameNotification.add(text);
 
         if (startDir == StartDirection.LEFT)
@@ -349,7 +357,7 @@ public class CyderFrame extends JFrame {
         else if (startDir == StartDirection.RIGHT)
             frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30), 32, w * 2, h * 2);
         else
-            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2), 32, w * 2, h * 2);
+            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2) - 14, 32, w * 2, h * 2);
 
         this.getContentPane().add(frameNotification, 1, 0);
         this.getContentPane().repaint();
