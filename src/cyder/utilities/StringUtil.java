@@ -5,10 +5,8 @@ import cyder.ui.ConsoleFrame;
 
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,7 +19,8 @@ public class StringUtil {
 
     private StringUtil() {}
 
-    //todo link this to a handler
+    //todo links to input handler
+
     public StringUtil(JTextPane outputArea) {
         this.outputArea = outputArea;
     }
@@ -34,9 +33,11 @@ public class StringUtil {
     public boolean getUserInputMode() {
         return this.userInputMode;
     }
+
     public void setUserInputMode(boolean b) {
         this.userInputMode = b;
     }
+
     public String getUserInputDesc() {
         return this.userInputDesc;
     }
@@ -299,12 +300,12 @@ public class StringUtil {
         }
     }
 
-    public char[] reverseArray(char[] Array) {
+    public static char[] reverseArray(char[] Array) {
         String reverse = new StringBuilder(new String(Array)).reverse().toString();
         return reverse.toCharArray();
     }
 
-    public boolean startsWith(String op, String comp) {
+    public static boolean startsWith(String op, String comp) {
         char[] opA = op.toLowerCase().toCharArray();
 
         char[] compA = comp.toLowerCase().toCharArray();
@@ -326,7 +327,7 @@ public class StringUtil {
         return false;
     }
 
-    public boolean endsWith(String op, String comp) {
+    public static boolean endsWith(String op, String comp) {
         char[] opA = reverseArray(op.toLowerCase().toCharArray());
         char[] compA = reverseArray(comp.toLowerCase().toCharArray());
 
@@ -394,7 +395,7 @@ public class StringUtil {
             bletchThread.kill();
     }
 
-    public String[] bletchy(String decodeString, boolean useNumbers) {
+    public static String[] bletchy(String decodeString, boolean useNumbers) {
         LinkedList<String> retList = new LinkedList<>();
 
         decodeString = decodeString.toLowerCase();
@@ -433,10 +434,15 @@ public class StringUtil {
         for (Object o : arr) println(o);
     }
 
-    public void logToDo(String input) {
+    public void logSuggestion(String input) {
         try {
             if (input != null && !input.equals("") && !filterLanguage(input) && input.length() > 10 && !filterLanguage(input)) {
-                BufferedWriter sugWriter = new BufferedWriter(new FileWriter("src/cyder//sys/text/add.txt", true));
+                File suggestionsFile = new File("sys/text/suggestions.txt");
+
+                if (!suggestionsFile.exists())
+                    suggestionsFile.mkdir();
+
+                BufferedWriter sugWriter = new BufferedWriter(new FileWriter(suggestionsFile, true));
 
                 sugWriter.write("User " + ConsoleFrame.getUsername() + " at " + new TimeUtil().weatherTime() + " made the suggestion: ");
                 sugWriter.write(System.getProperty("line.separator"));
@@ -466,7 +472,7 @@ public class StringUtil {
             return "'s";
     }
 
-    public boolean empytStr(String s) {
+    public static boolean empytStr(String s) {
         return (s == null ? null: (s == null) || (s.trim().equals("")) || (s.trim().length() == 0));
     }
 
@@ -480,18 +486,16 @@ public class StringUtil {
         return sb.toString();
     }
 
-    //todo make a regex matcher
-
-    public String firstWord(String Word) {
+    public static String firstWord(String Word) {
         String[] sentences = Word.split(" ");
         return sentences[0];
     }
 
-    public boolean isPalindrome(String word) {
+    public static boolean isPalindrome(String word) {
         return Arrays.equals(word.toLowerCase().toCharArray(), reverseArray(word.toLowerCase().toCharArray()));
     }
 
-    public String firstNumber(String Search) {
+    public static String firstNumber(String Search) {
         Pattern Pat = Pattern.compile("\\d+");
         Matcher m = Pat.matcher(Search);
         return m.find() ? m.group() : null;
@@ -505,7 +509,7 @@ public class StringUtil {
         return result;
     }
 
-    public String capsFirst(String Word) {
+    public static String capsFirst(String Word) {
         StringBuilder SB = new StringBuilder(Word.length());
         String[] Words = Word.split(" ");
 
@@ -516,7 +520,7 @@ public class StringUtil {
         return SB.toString();
     }
 
-    public String filterLeet(String filter) {
+    public static String filterLeet(String filter) {
         return filter.replace("!","i").replace("3","e")
                 .replace("4","a").replace("@","a")
                 .replace("5","s").replace("7","t")
@@ -525,20 +529,35 @@ public class StringUtil {
                 .replace("$","s").replace("1","i");
     }
 
-    public boolean filterLanguage(String filter) {
-        filter = filter.toLowerCase();
+    public static boolean hasWord(String userInput, String blockedWord) {
+        userInput.toLowerCase();
+        blockedWord.toLowerCase();
 
+        if (blockedWord.equals(userInput) ||
+                blockedWord.contains(' ' + userInput + ' ') ||
+                blockedWord.contains(' ' + userInput) ||
+                blockedWord.contains(userInput + ' '))
+            return true;
+
+        else return blockedWord.contains(userInput + ' ');
+    }
+
+    public static boolean filterLanguage(String userInput) {
         try {
-            filter = filterLeet(filter);
+            BufferedReader vReader = new  BufferedReader(new FileReader("sys/text/v.txt"));
+            String blockedWord = vReader.readLine();
+            userInput = filterLeet(userInput.toLowerCase());
 
-            BufferedReader vReader = new  BufferedReader(new FileReader("src/cyder//sys/text/v.txt"));
-            String Line = vReader.readLine();
-
-            while((Line != null && !Line.equals("") && Line.length() != 0))  {
-                if (filter.contains(Line))
+            while(blockedWord != null)  {
+                if (hasWord(userInput, blockedWord)) {
+                    vReader.close();
                     return true;
-                Line = vReader.readLine();
+                }
+
+                blockedWord = vReader.readLine();
             }
+
+            vReader.close();
         }
 
         catch (Exception ex) {
@@ -548,5 +567,12 @@ public class StringUtil {
         return false;
     }
 
+    public static String firstCharToLowerCase(String str) {
+        if (str == null || str.length() == 0)
+            return "";
 
+        if(str.length() == 1)
+            return str.toLowerCase();
+        else return str.substring(0, 1).toLowerCase() + str.substring(1);
+    }
 }

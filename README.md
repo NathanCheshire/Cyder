@@ -16,7 +16,7 @@ The name comes from, well, I don't know to be completely transparent. I think it
 
 ## Usage
 
-Currently you can fork the project or download it I suppose. Running it in an IDE like Eclipse or IntelliJ shouldn't be that hard if you know what you're doing. For IntelliJ which is what I use, you might have to import the libraries inside the jars folder (src/cyder//sys/jars). Other than that, it should be pretty simple to get it working on your machine. ~~At some point I'll make it a jar that can download all the files and resources it needs from the internet and be independent of an IDE.~~
+Currently you can fork the project or download it I suppose. Running it in an IDE like Eclipse or IntelliJ shouldn't be that hard if you know what you're doing. For IntelliJ which is what I use, you might have to import the libraries inside the jars folder (sys/jars). Other than that, it should be pretty simple to get it working on your machine. ~~At some point I'll make it a jar that can download all the files and resources it needs from the internet and be independent of an IDE.~~
 
 ## Disclaimers
 

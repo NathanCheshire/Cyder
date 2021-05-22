@@ -103,10 +103,10 @@ public class IOUtil {
         //todo get rid of uuid feature and just use a username but hide the uuid everywhere except in the backend
         // (i don't want to look at that ugly thing)
 
-        else if (!new File("src/users/" + user + "/Userdata.txt").exists())
+        else if (!new File("users/" + user + "/Userdata.txt").exists())
             corruptedUser();
 
-        try (BufferedReader dataReader = new BufferedReader(new FileReader("src/users/" + user + "/Userdata.txt"))){
+        try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))){
 
             String Line;
 
@@ -125,7 +125,7 @@ public class IOUtil {
         systemData.clear();
 
         try (BufferedReader sysReader = new BufferedReader(new FileReader(
-                "src/cyder//genesis/Sys.ini"))){
+                "Sys.ini"))){
 
             String Line;
 
@@ -148,7 +148,7 @@ public class IOUtil {
             CyderMain.exitingSem.acquire();
 
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "src/users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false));
+                    "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false));
 
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name))
@@ -171,7 +171,7 @@ public class IOUtil {
         try {
             CyderMain.exitingSem.acquire();
             BufferedWriter sysWriter = new BufferedWriter(new FileWriter(
-                    "src/cyder//genesis/Sys.ini", false));
+                    "Sys.ini", false));
 
             for (NST data : systemData) {
                 if (data.getName().equalsIgnoreCase(name))
@@ -233,7 +233,7 @@ public class IOUtil {
             if (cyderArgs.length == 0)
                 cyderArgs = new String[]{"Started by " + System.getProperty("user.name")};
 
-            File log = new File("src/cyder//genesis/StartLog.log");
+            File log = new File("StartLog.log");
 
             if (!log.exists())
                 log.createNewFile();
@@ -278,7 +278,7 @@ public class IOUtil {
     }
 
     public static void cleanUpUsers() {
-        File top = new File("src/users");
+        File top = new File("users");
         File[] users = top.listFiles();
 
         for (File userDir : users) {
@@ -293,15 +293,18 @@ public class IOUtil {
     }
 
     public static void wipeErrors() {
-        File topDir = new File("src/users");
+        File topDir = new File("users");
         File[] users = topDir.listFiles();
 
         for (File f : users) {
             if (f.isDirectory()) {
-                File throwDir = new File("src/users/" + f.getName() + "/throws");
+                File throwDir = new File("users/" + f.getName() + "/throws");
                 if (throwDir.exists()) SystemUtil.deleteFolder(throwDir);
             }
         }
+
+        File throwsFolder = new File("throws");
+        SystemUtil.deleteFolder(throwsFolder);
     }
 
     public static void openFile(String FilePath) {
@@ -388,7 +391,7 @@ public class IOUtil {
 
     public static File getFile() {
         try {
-            Desktop.getDesktop().open(new File("src/cyder//sys/jars/FileChooser.jar"));
+            Desktop.getDesktop().open(new File("sys/jars/FileChooser.jar"));
 
             File f = new File("File.txt");
             f.delete();
@@ -438,7 +441,7 @@ public class IOUtil {
 
             //var for the folder we are zipping, if it's already gone then it really wasn't a corrupted user,
             // possibly a user deleting their account
-            File mainZipFile = new File("src/users/" + ConsoleFrame.getUUID());
+            File mainZipFile = new File("users/" + ConsoleFrame.getUUID());
             if (mainZipFile == null || mainZipFile.listFiles() == null || mainZipFile.listFiles().length == 0)
                 return;
 

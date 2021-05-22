@@ -200,7 +200,7 @@ public class Notes {
         submitNewNote.addActionListener(e -> {
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(new FileWriter(
-                        "src/users/" + UUID + "/Notes/" + newNoteField.getText() + ".txt",true));
+                        "users/" + UUID + "/Notes/" + newNoteField.getText() + ".txt",true));
                 newNoteArea.write(NoteWriter);
                 NoteWriter.close();
             }
@@ -225,7 +225,7 @@ public class Notes {
     }
 
     private void initializeNotesList() {
-        File dir = new File("src/users/" + UUID + "/Notes");
+        File dir = new File("users/" + UUID + "/Notes");
         noteList = new LinkedList<>();
         noteNameList = new LinkedList<>();
 

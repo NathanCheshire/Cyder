@@ -94,7 +94,7 @@ public class SecurityUtil {
 
     public static boolean checkPassword(String name, String pass) {
         try {
-            File[] UUIDs = new File("src/users").listFiles();
+            File[] UUIDs = new File("users").listFiles();
             LinkedList<File> userDataFiles = new LinkedList<>();
 
             for (File f : UUIDs) {

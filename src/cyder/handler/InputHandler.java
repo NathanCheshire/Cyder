@@ -33,4 +33,13 @@ public class InputHandler {
     //todo logout should end all executors and threads so only thing happening is login frame
 
     //todo at end of if statements before saying unrecognized input, try parsing it as a mathematical expression
+
+    //bug: log in from user as a different user then delete that second user
+    // it will use the first user's name and say that it was corrupted
+
+    //todo corrupted user is disabled until I think of a better check so it rarely fires
+
+    //todo do away with user throws
+    //todo make chat logs to replace throws and suggestions and general log like miencraft, store in
+    // same dir as src and call logs
 }

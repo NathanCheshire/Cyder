@@ -15,7 +15,7 @@ public class Cards {
         if (cf != null)
             cf.closeAnimation();
 
-        cf = new CyderFrame(498,490, new ImageIcon("src/cyder//sys/pictures/Santa.gif"));
+        cf = new CyderFrame(498,490, new ImageIcon("sys/pictures/Santa.gif"));
         cf.setTitle("Merry Christmas!");
         cf.setTitlePosition(TitlePosition.CENTER);
 

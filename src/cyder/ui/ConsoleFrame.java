@@ -56,7 +56,7 @@ public final class ConsoleFrame extends CyderFrame {
             BufferedImage img = null;
 
             try {
-                img = ImageIO.read(new File("src/cyder//sys/pictures/Neffex.png"));
+                img = ImageIO.read(new File("sys/pictures/Neffex.png"));
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
@@ -200,14 +200,14 @@ public final class ConsoleFrame extends CyderFrame {
 
     public static void initBackgrounds() {
         try {
-            File dir = new File("src/users/" + getUUID() + "/Backgrounds");
+            File dir = new File("users/" + getUUID() + "/Backgrounds");
             FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
 
             backgroundFiles = new LinkedList<>(Arrays.asList(dir.listFiles(PNGFilter)));
 
             if (backgroundFiles.size() == 0) {
                 backgroundFiles = new LinkedList<>();
-                backgroundFiles.add(new File("src/cyder//sys/pictures/DefaultBackground.png"));
+                backgroundFiles.add(new File("sys/pictures/DefaultBackground.png"));
             }
         } catch (Exception ex) {
             ErrorHandler.handle(ex);

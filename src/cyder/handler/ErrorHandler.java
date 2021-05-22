@@ -24,13 +24,13 @@ public class ErrorHandler {
 
             //if no user, then put error in system throws folder
             if (user == null) {
-                throwsDir = new File("src/cyder//genesis/Throws");
-                eFileString = "src/cyder//genesis/Throws/" + TimeUtil.errorTime() + ".error";
+                throwsDir = new File("throws");
+                eFileString = "throws/" + TimeUtil.errorTime() + ".error";
             }
 
             else {
-                throwsDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Throws");
-                eFileString = "src/users/" + ConsoleFrame.getUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
+                throwsDir = new File("users/" + ConsoleFrame.getUUID() + "/Throws");
+                eFileString = "users/" + ConsoleFrame.getUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
             }
 
             //make the dir if it doesn't exist
@@ -51,7 +51,8 @@ public class ErrorHandler {
             Class c = e.getClass();
 
             //get our master string and write it to the file
-            String write = e.getMessage() + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
+            String message = e.getMessage();
+            String write = message == null ? "" : message + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
                     "\n\nStack Trace:\n\n" + stackTrack;
 
             //write to file, flush, close
@@ -105,13 +106,13 @@ public class ErrorHandler {
 
             //if no user, then put error in system throws folder
             if (user == null) {
-                throwsDir = new File("src/cyder//genesis/Throws");
-                eFileString = "src/cyder//genesis/Throws/" + TimeUtil.errorTime() + ".error";
+                throwsDir = new File("throws");
+                eFileString = "throws/" + TimeUtil.errorTime() + ".error";
             }
 
             else {
-                throwsDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Throws");
-                eFileString = "src/users/" + ConsoleFrame.getUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
+                throwsDir = new File("users/" + ConsoleFrame.getUUID() + "/Throws");
+                eFileString = "users/" + ConsoleFrame.getUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
             }
 
             //make the dir if it doesn't exist
@@ -131,8 +132,9 @@ public class ErrorHandler {
             int lineNumber = e.getStackTrace()[0].getLineNumber();
             Class c = e.getClass();
 
-            //get our master string and write it to the file
-            String write = e.getMessage() + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
+            //get our master string and write it to the
+            String message = e.getMessage();
+            String write = message == null ? "" : message + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
                     "\n\nStack Trace:\n\n" + stackTrack;
 
             //write to file, flush, close

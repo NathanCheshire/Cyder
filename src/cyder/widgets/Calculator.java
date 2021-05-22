@@ -135,10 +135,7 @@ public class Calculator {
         calculatorEquals.addActionListener(e -> {
             try {
                  GenericInform.inform("Answer:<br/>" + new DoubleEvaluator().evaluate(calculatorField.getText().trim()), "Result");
-            }
-
-            catch (Exception exc) {
-                //todo this title doesn't work, figure out why
+            } catch (Exception exc) {
                 GenericInform.inform("Could not parse expression. " +
                         "Please use multiplication signs after parenthesis " +
                         "and check the exact syntax of your expression for common" +

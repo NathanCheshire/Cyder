@@ -1,5 +1,6 @@
 package cyder.genesis;
 
+import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderImages;
@@ -46,22 +47,6 @@ import java.util.concurrent.TimeUnit;
 
 import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
-//bug: log in from user as a different user then delete that second user
-// it will use the first user's name and say that it was corrupted
-
-/*
-    Commenting etiquette I will follow (attempt to that is)
-
-    -todos shall be placed where I deem them  most logical such as a to-do to fix a
-     certain function shall be placed above that function
-
-    -helpful comments shall be placed anywhere if something is not self explanatory
-
-    -method @params @args @retuns, etc. shall be placed on most methods
-
-    -generic features I plan to implement at some point will go under the to-do section of the readme
- */
-
 public class CyderMain {
     //todo shared package
     public static Semaphore exitingSem;
@@ -106,7 +91,7 @@ public class CyderMain {
      */
     private File pixelateFile;
 
-    public static void main(String[] CA) {
+    public static void main(String[] CA)  {
         new CyderMain(CA);
     }
 
@@ -180,7 +165,7 @@ public class CyderMain {
     private void autoCypher() {
         try {
             File autoCypher = new File("../autocypher.txt");
-            File Users = new File("src/users/");
+            File Users = new File("users/");
 
             if (autoCypher.exists() && Users.listFiles().length != 0) {
                 BufferedReader ac = new BufferedReader(new FileReader(autoCypher));
@@ -396,7 +381,8 @@ public class CyderMain {
                 }
             });
 
-            inputField.setCaretColor(CyderColors.vanila);
+            inputField.setCaretColor(ConsoleFrame.getUserColor());
+            inputField.setCaret(new CyderCaret(ConsoleFrame.getUserColor()));
 
             IOUtil.readUserData();
 
@@ -432,18 +418,18 @@ public class CyderMain {
             suggestionButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("src/cyder/sys/pictures/suggestion2.png"));
+                    suggestionButton.setIcon(new ImageIcon("sys/pictures/suggestion2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("src/cyder/sys/pictures/suggestion1.png"));
+                    suggestionButton.setIcon(new ImageIcon("sys/pictures/suggestion1.png"));
                 }
             });
 
             suggestionButton.setBounds(32, 4, 22, 22);
 
-            ImageIcon DebugIcon = new ImageIcon("src/cyder/sys/pictures/suggestion1.png");
+            ImageIcon DebugIcon = new ImageIcon("sys/pictures/suggestion1.png");
 
             suggestionButton.setIcon(DebugIcon);
 
@@ -465,7 +451,7 @@ public class CyderMain {
 
             menuButton.setBounds(4, 4, 22, 22);
 
-            ImageIcon MenuIcon = new ImageIcon("src/cyder/sys/pictures/menuSide1.png");
+            ImageIcon MenuIcon = new ImageIcon("sys/pictures/menuSide1.png");
 
             menuButton.setIcon(MenuIcon);
 
@@ -515,12 +501,12 @@ public class CyderMain {
             alternateBackground.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("src/cyder/sys/pictures/ChangeSize2.png"));
+                    alternateBackground.setIcon(new ImageIcon("sys/pictures/ChangeSize2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("src/cyder/sys/pictures/ChangeSize1.png"));
+                    alternateBackground.setIcon(new ImageIcon("sys/pictures/ChangeSize1.png"));
                 }
 
                 @Override
@@ -552,7 +538,7 @@ public class CyderMain {
             });
 
             alternateBackground.setBounds(ConsoleFrame.getBackgroundWidth() - 54, 4, 22, 20);
-            alternateBackground.setIcon(new ImageIcon("src/cyder//sys/pictures/ChangeSize1.png"));
+            alternateBackground.setIcon(new ImageIcon("sys/pictures/ChangeSize1.png"));
             parentLabel.add(alternateBackground);
             alternateBackground.setFocusPainted(false);
             alternateBackground.setOpaque(false);
@@ -632,7 +618,7 @@ public class CyderMain {
 
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
-                    IOUtil.playAudio("src/cyder//sys/audio/chime.mp3");
+                    IOUtil.playAudio("sys/audio/chime.mp3");
 
             }, 3600 - LocalDateTime.now().getSecond() - LocalDateTime.now().getMinute() * 60, 3600, TimeUnit.SECONDS);
 
@@ -731,7 +717,7 @@ public class CyderMain {
         @Override
         public void mouseReleased(MouseEvent e) {
             if (!menuLabel.isVisible()) {
-                menuButton.setIcon(new ImageIcon("src/cyder//sys/pictures/menu2.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/menu2.png"));
 
                 menuLabel = new JLabel("");
                 menuLabel.setOpaque(true);
@@ -957,18 +943,18 @@ public class CyderMain {
         @Override
         public void mouseEntered(MouseEvent e) {
             if (menuLabel.isVisible()) {
-                menuButton.setIcon(new ImageIcon("src/cyder//sys/pictures/menu2.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/menu2.png"));
             } else {
-                menuButton.setIcon(new ImageIcon("src/cyder//sys/pictures/menuSide2.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/menuSide2.png"));
             }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             if (menuLabel.isVisible()) {
-                menuButton.setIcon(new ImageIcon("src/cyder//sys/pictures/menu1.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/menu1.png"));
             } else {
-                menuButton.setIcon(new ImageIcon("src/cyder//sys/pictures/menuSide1.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/menuSide1.png"));
             }
         }
     };
@@ -1023,7 +1009,7 @@ public class CyderMain {
                             int seventeen = (i - 61427);
 
                             if (seventeen == 17)
-                                IOUtil.playAudio("src/cyder//sys/audio/f17.mp3");
+                                IOUtil.playAudio("sys/audio/f17.mp3");
                             else
                                 println("Interesting F" + (i - 61427) + " key");
                         }
@@ -1186,7 +1172,7 @@ public class CyderMain {
 
         IOUtil.cleanUpUsers();
 
-        loginFrame = new CyderFrame(600, 400, new ImageIcon("src/cyder/sys/pictures/login.png"));
+        loginFrame = new CyderFrame(600, 400, new ImageIcon("sys/pictures/login.png"));
         loginFrame.setTitlePosition(TitlePosition.LEFT);
         loginFrame.setTitle(IOUtil.getSystemData("Version") + " login");
         loginFrame.setBackground(new Color(21,23,24));
@@ -1334,7 +1320,7 @@ public class CyderMain {
             }
         });
 
-        File Users = new File("src/users/");
+        File Users = new File("users/");
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
 
         loginFrame.setVisible(true);
@@ -1369,7 +1355,7 @@ public class CyderMain {
                 if (IOUtil.getUserData("IntroMusic").equals("1")) {
                     LinkedList<String> MusicList = new LinkedList<>();
 
-                    File UserMusicDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Music");
+                    File UserMusicDir = new File("users/" + ConsoleFrame.getUUID() + "/Music");
 
                     String[] FileNames = UserMusicDir.list();
 
@@ -1380,10 +1366,10 @@ public class CyderMain {
 
                     if (!MusicList.isEmpty())
                         IOUtil.playAudio(
-                                "src/users/" + ConsoleFrame.getUUID() + "/Music/" +
+                                "users/" + ConsoleFrame.getUUID() + "/Music/" +
                                         (FileNames[NumberUtil.randInt(0, FileNames.length - 1)]));
                     else
-                        IOUtil.playAudio("src/cyder//sys/audio/Suprise.mp3");
+                        IOUtil.playAudio("sys/audio/Suprise.mp3");
                         //todo change me
                 }
             } else if (loginFrame != null && loginFrame.isVisible()) {
@@ -1713,7 +1699,7 @@ public class CyderMain {
                 Arrays.sort(Sorted);
                 println("\"" + input + "\" alphabetically organized is \"" + new String(Sorted) + "\".");
             } else if (desc.equalsIgnoreCase("suggestion")) {
-                stringUtil.logToDo(input);
+                stringUtil.logSuggestion(input);
             } else if (desc.equalsIgnoreCase("addbackgrounds")) {
                 if (InputUtil.confirmation(input)) {
                     editUser();
@@ -1733,17 +1719,17 @@ public class CyderMain {
                 }
 
                 AnimationUtil.closeAnimation(consoleFrame);
-                SystemUtil.deleteFolder(new File("src/users/" + ConsoleFrame.getUUID()));
+                SystemUtil.deleteFolder(new File("users/" + ConsoleFrame.getUUID()));
 
                 String dep = SecurityUtil.getDeprecatedUUID();
 
-                File renamed = new File("src/users/" + dep);
+                File renamed = new File("users/" + dep);
                 while (renamed.exists()) {
                     dep = SecurityUtil.getDeprecatedUUID();
-                    renamed = new File("src/users/" + dep);
+                    renamed = new File("users/" + dep);
                 }
 
-                File old = new File("src/users/" + ConsoleFrame.getUUID());
+                File old = new File("users/" + ConsoleFrame.getUUID());
                 old.renameTo(renamed);
 
                 Frame[] frames = Frame.getFrames();
@@ -1758,7 +1744,7 @@ public class CyderMain {
                 String searchName = ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", "")
                         + "_Pixelated_Pixel_Size_" + Integer.parseInt(input) + ".png";
 
-                File saveFile = new File("src/users/" + ConsoleFrame.getUUID() +
+                File saveFile = new File("users/" + ConsoleFrame.getUUID() +
                         "/Backgrounds/" + searchName);
 
                 ImageIO.write(img, "png", saveFile);
@@ -1790,7 +1776,10 @@ public class CyderMain {
             if (handleMath(operation))
                 return;
 
-            if (stringUtil.filterLanguage(operation)) {
+            if (evaluateExpression(operation))
+                return;
+
+            if (StringUtil.filterLanguage(operation)) {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but that language is prohibited.");
                 operation = "";
             } else if (stringUtil.isPalindrome(operation.replace(" ", "")) && operation.length() > 3) {
@@ -1925,9 +1914,9 @@ public class CyderMain {
             } else if (hasWord("siri") || hasWord("jarvis") || hasWord("alexa")) {
                 println("Whata bunch of losers.");
             } else if ((hasWord("mississippi") && hasWord("state") && hasWord("university")) || eic("msu")) {
-                printImage("src/cyder//sys/pictures/msu.png");
+                printImage("sys/pictures/msu.png");
             } else if (has("toy") && has("story")) {
-                IOUtil.playAudio("src/cyder//sys/audio/TheClaw.mp3");
+                IOUtil.playAudio("sys/audio/TheClaw.mp3");
             } else if (has("stop") && has("music")) {
                 IOUtil.stopMusic();
             } else if (hasWord("reset") && hasWord("clipboard")) {
@@ -1999,18 +1988,18 @@ public class CyderMain {
                 inputField.requestFocus();
                 stringUtil.setUserInputMode(true);
             } else if (eic("nathan")) {
-                printlnImage("src/cyder//sys/pictures/me.png");
+                printlnImage("sys/pictures/me.png");
             } else if ((eic("error") || eic("errors")) && !hasWord("throw")) {
-                File WhereItIs = new File("src/users/" + ConsoleFrame.getUUID() + "/Throws/");
+                File WhereItIs = new File("users/" + ConsoleFrame.getUUID() + "/Throws/");
                 Desktop.getDesktop().open(WhereItIs);
             } else if (eic("help")) {
                 stringUtil.help(outputArea);
             } else if (hasWord("light") && hasWord("saber")) {
-                IOUtil.playAudio("src/cyder//sys/audio/Lightsaber.mp3");
+                IOUtil.playAudio("sys/audio/Lightsaber.mp3");
             } else if (hasWord("xbox")) {
-                IOUtil.playAudio("src/cyder//sys/audio/xbox.mp3");
+                IOUtil.playAudio("sys/audio/xbox.mp3");
             } else if (has("star") && has("trek")) {
-                IOUtil.playAudio("src/cyder//sys/audio/StarTrek.mp3");
+                IOUtil.playAudio("sys/audio/StarTrek.mp3");
             } else if (eic("cmd") || (hasWord("command") && hasWord("prompt"))) {
                 File WhereItIs = new File("c:\\Windows\\System32\\cmd.exe");
                 Desktop.getDesktop().open(WhereItIs);
@@ -2024,7 +2013,7 @@ public class CyderMain {
                             + "outrageous fortune, or to take arms against a sea of troubles and by opposing end them.");
                 }
             } else if (hasWord("windows")) {
-                IOUtil.playAudio("src/cyder//sys/audio/windows.mp3");
+                IOUtil.playAudio("sys/audio/windows.mp3");
             } else if (hasWord("binary")) {
                 println("Enter a decimal number to be converted to binary.");
                 inputField.requestFocus();
@@ -2129,7 +2118,7 @@ public class CyderMain {
                 println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + ConsoleFrame.getUsername() + " started talking to Cyder."
                         + " It was at this moment that Cyder knew its day had been ruined.");
             } else if (eic("hey")) {
-                IOUtil.playAudio("src/cyder//sys/audio/heyya.mp3");
+                IOUtil.playAudio("sys/audio/heyya.mp3");
             } else if (eic("panic")) {
                 exit();
             } else if (hasWord("hash") || hasWord("hashser")) {
@@ -2163,17 +2152,17 @@ public class CyderMain {
             } else if (hasWord("papers") && hasWord("please")) {
                 NetworkUtil.internetConnect("http://papersplea.se/");
             } else if (eic("java")) {
-                printImage("src/cyder//sys/pictures/Duke.png");
+                printImage("sys/pictures/Duke.png");
             } else if (hasWord("coffee")) {
                 NetworkUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
             } else if (hasWord("ip")) {
                 println(InetAddress.getLocalHost().getHostAddress());
             } else if (hasWord("html") || hasWord("html5")) {
-                consoleFrame.setIconImage(new ImageIcon("src/cyder//sys/pictures/html5.png").getImage());
-                printlnImage("src/cyder//sys/pictures/html5.png");
+                consoleFrame.setIconImage(new ImageIcon("sys/pictures/html5.png").getImage());
+                printlnImage("sys/pictures/html5.png");
             } else if (hasWord("css")) {
-                consoleFrame.setIconImage(new ImageIcon("src/cyder//sys/pictures/css.png").getImage());
-                printlnImage("src/cyder//sys/pictures/css.png");
+                consoleFrame.setIconImage(new ImageIcon("sys/pictures/css.png").getImage());
+                printlnImage("sys/pictures/css.png");
             } else if (hasWord("computer") && hasWord("properties")) {
                 println("This may take a second, since this feature counts your PC's free memory");
                 StatUtil.computerProperties();
@@ -2218,7 +2207,7 @@ public class CyderMain {
                 NetworkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
             } else if (hasWord("cyder") && (has("picture") || has("image"))) {
                 if (SecurityUtil.compMACAddress(SecurityUtil.getMACAddress())) {
-                    IOUtil.openFile("src/cyder//sys/pictures");
+                    IOUtil.openFile("sys/pictures");
                 } else {
                     println("Sorry, " + ConsoleFrame.getUsername() + ", but you do not have permission to access that.");
                 }
@@ -2301,9 +2290,9 @@ public class CyderMain {
 
                 println("");
             } else if (eic("logic")) {
-                IOUtil.playAudio("src/cyder//sys/audio/commando.mp3");
+                IOUtil.playAudio("sys/audio/commando.mp3");
             } else if (eic("1-800-273-8255") || eic("18002738255")) {
-                IOUtil.playAudio("src/cyder//sys/audio/1800.mp3");
+                IOUtil.playAudio("sys/audio/1800.mp3");
             } else if (hasWord("resize") && (hasWord("image") || hasWord("picture"))) {
                 ImageResizer IR = new ImageResizer();
             } else if (hasWord("barrel") && hasWord("roll")) {
@@ -2363,28 +2352,7 @@ public class CyderMain {
             } else if (hasWord("fill") && hasWord("out")) {
                 //todo fill output area
             } else if (hasWord("alex") && hasWord("trebek")) {
-                println("Did you mean who is alex trebek?");
-            } else if (hasWord("test")) {
-                //basic frame for UI testing setup below
-                CyderFrame testFrame = new CyderFrame(500, 200, new ImageIcon(DEFAULT_BACKGROUND_PATH));
-                testFrame.setTitle("My Frame Title");
-                testFrame.setTitlePosition(TitlePosition.CENTER);
-                testFrame.initResizing();
-                testFrame.setSnapSize(new Dimension(1, 1));
-                testFrame.setBackgroundResizing(true);
-
-                final TitlePosition[] current = {testFrame.getTitlePosition()};
-
-                CyderButton alternateTitleButton = new CyderButton("Alternate Title");
-                alternateTitleButton.setBounds(40, 40, 250, 40);
-                alternateTitleButton.addActionListener(e -> {
-                    current[0] = (current[0] == TitlePosition.CENTER ? TitlePosition.LEFT : TitlePosition.CENTER);
-                    testFrame.setTitlePosition(current[0]);
-                });
-                testFrame.getContentPane().add(alternateTitleButton);
-
-                testFrame.setVisible(true);
-                testFrame.setLocationRelativeTo(null);
+                println("Do you mean who is alex trebek?");
             } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
                 Cards.Christmas2020();
             } else if (hasWord("number") && hasWord("word")) {
@@ -2397,8 +2365,8 @@ public class CyderMain {
 
                 new Thread(() -> {
                     try {
-                        ImageIcon img2 = new ImageIcon("src/cyder//sys/pictures/suggestion2.png");
-                        ImageIcon img1 = new ImageIcon("src/cyder//sys/pictures/suggestion1.png");
+                        ImageIcon img2 = new ImageIcon("sys/pictures/suggestion2.png");
+                        ImageIcon img1 = new ImageIcon("sys/pictures/suggestion1.png");
 
                         suggestionButton.setIcon(img2);
                         Thread.sleep(300);
@@ -2425,11 +2393,21 @@ public class CyderMain {
         }
     }
 
-    //handler method
-    private boolean handleMath(String op) {
-        int firstParen = op.indexOf("(");
-        int comma = op.indexOf(",");
-        int lastParen = op.indexOf(")");
+    //input handler
+    private boolean evaluateExpression(String userInput) {
+        try {
+            println(new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(userInput.trim())));
+            return true;
+        } catch (Exception ignored) {}
+
+        return false;
+    }
+
+    //input handler
+    private boolean handleMath(String userInput) {
+        int firstParen = userInput.indexOf("(");
+        int comma = userInput.indexOf(",");
+        int lastParen = userInput.indexOf(")");
 
         String mathop;
         double param1 = 0.0;
@@ -2437,16 +2415,16 @@ public class CyderMain {
 
         try {
             if (firstParen != -1) {
-                mathop = op.substring(0, firstParen);
+                mathop = userInput.substring(0, firstParen);
 
                 if (comma != -1) {
-                    param1 = Double.parseDouble(op.substring(firstParen + 1, comma));
+                    param1 = Double.parseDouble(userInput.substring(firstParen + 1, comma));
 
                     if (lastParen != -1) {
-                        param2 = Double.parseDouble(op.substring(comma + 1, lastParen));
+                        param2 = Double.parseDouble(userInput.substring(comma + 1, lastParen));
                     }
                 } else if (lastParen != -1) {
-                    param1 = Double.parseDouble(op.substring(firstParen + 1, lastParen));
+                    param1 = Double.parseDouble(userInput.substring(firstParen + 1, lastParen));
                 }
 
                 if (mathop.equalsIgnoreCase("abs")) {
@@ -2485,7 +2463,7 @@ public class CyderMain {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ErrorHandler.silentHandle(e);
         }
 
         return false;
@@ -2836,8 +2814,8 @@ public class CyderMain {
     }
 
     public void initMusicBackgroundList() {
-        File backgroundDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Backgrounds");
-        File musicDir = new File("src/users/" + ConsoleFrame.getUUID() + "/Music");
+        File backgroundDir = new File("users/" + ConsoleFrame.getUUID() + "/Backgrounds");
+        File musicDir = new File("users/" + ConsoleFrame.getUUID() + "/Music");
 
         musicBackgroundList = new LinkedList<>();
         musicBackgroundNameList = new LinkedList<>();
@@ -2961,13 +2939,13 @@ public class CyderMain {
                 Path copyPath = new File(addFile.getAbsolutePath()).toPath();
 
                 if (addFile != null && addFile.getName().endsWith(".png")) {
-                    File Destination = new File("src/users/" + ConsoleFrame.getUUID() + "/Backgrounds/" + addFile.getName());
+                    File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Backgrounds/" + addFile.getName());
                     Files.copy(copyPath, Destination.toPath());
                     initMusicBackgroundList();
                     musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
                     musicBackgroundScroll.revalidate();
                 } else if (addFile != null && addFile.getName().endsWith(".mp3")) {
-                    File Destination = new File("src/users/" + ConsoleFrame.getUUID() + "/Music/" + addFile.getName());
+                    File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Music/" + addFile.getName());
                     Files.copy(copyPath, Destination.toPath());
                     initMusicBackgroundList();
                     musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
@@ -3626,18 +3604,18 @@ public class CyderMain {
             public void mouseReleased(MouseEvent e) {
                 try {
                     String uuid = SecurityUtil.generateUUID();
-                    File folder = new File("src/users/" + uuid);
+                    File folder = new File("users/" + uuid);
 
                     while (folder.exists()) {
                         uuid = SecurityUtil.generateUUID();
-                        folder = new File("src/users/" + uuid);
+                        folder = new File("users/" + uuid);
                     }
 
                     char[] pass = newUserPassword.getPassword();
                     char[] passconf = newUserPasswordconf.getPassword();
 
                     boolean alreadyExists = false;
-                    File[] files = new File("src/users").listFiles();
+                    File[] files = new File("users").listFiles();
 
                     for (File f : files) {
                         File data = new File(f.getAbsolutePath() + "/Userdata.txt");
@@ -3681,13 +3659,13 @@ public class CyderMain {
                     } else {
                         if (createUserBackground == null) {
                             createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background");
-                            createUserBackground = new File("src/cyder//sys/pictures/DefaultBackground.png");
+                            createUserBackground = new File("sys/pictures/DefaultBackground.png");
                         }
 
-                        File NewUserFolder = new File("src/users/" + uuid);
-                        File backgrounds = new File("src/users/" + uuid + "/Backgrounds");
-                        File music = new File("src/users/" + uuid + "/Music");
-                        File notes = new File("src/users/" + uuid + "/Notes");
+                        File NewUserFolder = new File("users/" + uuid);
+                        File backgrounds = new File("users/" + uuid + "/Backgrounds");
+                        File music = new File("users/" + uuid + "/Music");
+                        File notes = new File("users/" + uuid + "/Notes");
 
                         NewUserFolder.mkdirs();
                         backgrounds.mkdir();
@@ -3695,10 +3673,10 @@ public class CyderMain {
                         notes.mkdir();
 
                         ImageIO.write(ImageIO.read(createUserBackground), "png",
-                                new File("src/users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
+                                new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
 
                         BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
-                                "src/users/" + uuid + "/Userdata.txt"));
+                                "users/" + uuid + "/Userdata.txt"));
 
                         //todo copy from a template here and replace the REPLACE keywords with username and password
                         LinkedList<String> data = new LinkedList<>();
@@ -3737,7 +3715,7 @@ public class CyderMain {
 
                         createUserFrame.closeAnimation();
 
-                        if ((!consoleFrame.isVisible() && loginFrame != null) || (new File("src/users/").length() == 1)) {
+                        if ((!consoleFrame.isVisible() && loginFrame != null) || (new File("users/").length() == 1)) {
                             loginFrame.closeAnimation();
                             recognize(newUserName.getText().trim(), pass);
                         }
@@ -3782,7 +3760,7 @@ public class CyderMain {
                 }
 
                 menuLabel.setVisible(false);
-                menuButton.setIcon(new ImageIcon("src/cyder//sys/pictures/menuSide1.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/menuSide1.png"));
             });
             waitThread.start();
         }

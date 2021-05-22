@@ -28,7 +28,7 @@ public class InputUtil {
             br.flush();
             br.close();
 
-            Desktop.getDesktop().open(new File("src/cyder//sys/jars/StringChooser.jar"));
+            Desktop.getDesktop().open(new File("sys/jars/StringChooser.jar"));
 
             f = new File("String.txt");
             f.delete();
