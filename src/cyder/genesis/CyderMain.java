@@ -1191,7 +1191,7 @@ public class CyderMain {
         loginArea.setEditable(false);
         loginArea.setFont(new Font("Agency FB",Font.BOLD, 26));
         loginArea.setForeground(new Color(85,181,219));
-        loginArea.setCaretColor(new Color(85,181,219));
+        loginArea.setCaretColor(loginArea.getForeground());
 
         CyderScrollPane loginScroll = new CyderScrollPane(loginArea,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
@@ -1211,6 +1211,7 @@ public class CyderMain {
         loginField.setBounds(20, 340, 560, 40);
         loginField.setBackground(new Color(21,23,24));
         loginField.setBorder(null);
+        loginField.setCaret(new CyderCaret(loginArea.getForeground()));
         loginField.setSelectionColor(CyderColors.selectionColor);
         loginField.setFont(new Font("Agency FB",Font.BOLD, 26));
         loginField.setForeground(new Color(85,181,219));
@@ -1945,7 +1946,7 @@ public class CyderMain {
                 stringUtil.setUserInputMode(true);
             } else if (eic("404")) {
                 NetworkUtil.internetConnect("http://google.com/=");
-            } else if (hasWord("calculator") && !has("graphing")) {
+            } else if ((hasWord("calculator") || hasWord("calc")) && !has("graphing")) {
                 Calculator c = new Calculator();
             } else if (firstWord.equalsIgnoreCase("echo")) {
                 String[] sentences = operation.split(" ");
@@ -2328,7 +2329,13 @@ public class CyderMain {
             } else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
                 new Robot().keyPress(KeyEvent.VK_F17);
             } else if (hasWord("logout")) {
-                AnimationUtil.closeAnimation(consoleFrame);
+                for (Frame f : Frame.getFrames()) {
+                    if (f instanceof CyderFrame)
+                        ((CyderFrame) f).closeAnimation();
+                    else
+                        f.dispose();
+                }
+
                 login();
             } else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
                 if (SecurityUtil.compMACAddress(SecurityUtil.getMACAddress())) {
@@ -2359,6 +2366,17 @@ public class CyderMain {
                 NumberUtil.numberToWord();
             } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
+            } else if (eic("test")) {
+                CyderFrame testFrame = new CyderFrame(400,400);
+                testFrame.initResizing();
+                testFrame.allowResizing(true);
+                testFrame.setTitle("Test Frame");
+                testFrame.setBackground(CyderColors.vanila);
+                testFrame.setTitlePosition(TitlePosition.CENTER);
+                testFrame.allowResizing(true);
+                testFrame.setVisible(true);
+                testFrame.setLocationRelativeTo(null);
+                testFrame.notify("<html><b>This is a long string of text that should over flow the frame question mark?</b></html>");
             } else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");

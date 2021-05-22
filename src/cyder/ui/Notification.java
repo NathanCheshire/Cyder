@@ -188,6 +188,12 @@ public class Notification extends JLabel {
         }
     }
 
+    /**
+     * This method to be used in combination with an already visible notification.
+     * @param vanishDir - the direction to exit to.
+     * @param parent - the component the notification is on. Used for bounds calculations.
+     * @param delay - the delay before vanish.
+     */
     public void vanish(VanishDirection vanishDir, Component parent, int delay) {
         new Thread(() -> {
             try {
@@ -221,6 +227,11 @@ public class Notification extends JLabel {
         }).start();
     }
 
+    /**
+     * This method to be used with an already initialized component.
+     * @param startDir - the direction for the notification to enter from.
+     * @param parent - the component the notification is placed on. Used for bounds calculations.
+     */
     public void appear(StartDirection startDir, Component parent) {
         new Thread(() -> {
             try {

@@ -1,15 +1,16 @@
 package cyder.widgets;
 
+import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
-import com.fathzer.soft.javaluator.DoubleEvaluator;
+import cyder.ui.CyderTextField;
 
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
+import java.awt.*;
 
 import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
@@ -22,15 +23,13 @@ public class Calculator {
         CyderFrame calculatorFrame = new CyderFrame(600,600,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         calculatorFrame.setTitle("Calculator");
 
-        JTextField calculatorField = new JTextField(20);
+        CyderTextField calculatorField = new CyderTextField(20);
+        calculatorField.setBackground(Color.WHITE);
+        calculatorField.setCharLimit(Integer.MAX_VALUE);
         calculatorField.setSelectionColor(CyderColors.selectionColor);
-        calculatorField.setToolTipText("(rad not deg)");
-        calculatorField.setOpaque(false);
-        calculatorField.setText("");
-        calculatorField.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(CyderColors.navy,5,false)));
-        calculatorField.setFont(CyderFonts.weatherFontBig);
-        calculatorField.setBounds(10,30,580,60);
+        calculatorField.setToolTipText("Use radians and not degree for any trig functions");
+        calculatorField.setFont(CyderFonts.weatherFontSmall.deriveFont(26));
+        calculatorField.setBounds(100,40,380,50);
         calculatorFrame.getContentPane().add(calculatorField);
 
         CyderButton calculatorAdd = new CyderButton("+");
@@ -134,16 +133,16 @@ public class Calculator {
         calculatorEquals.setFont(CyderFonts.weatherFontBig);
         calculatorEquals.addActionListener(e -> {
             try {
-                 GenericInform.inform("Answer:<br/>" + new DoubleEvaluator().evaluate(calculatorField.getText().trim()), "Result");
+                 calculatorFrame.notify(String.valueOf(new DoubleEvaluator().evaluate(calculatorField.getText().trim())));
             } catch (Exception exc) {
-                GenericInform.inform("Could not parse expression. " +
+                calculatorFrame.notify("<html>Could not parse expression. " +
                         "Please use multiplication signs after parenthesis " +
                         "and check the exact syntax of your expression for common" +
                         " errors such as missing delimiters. Note that this calculator " +
                         "does support typing in the" +
                         " Text Field and can handle more complicated" +
                         "expressions such as sin, cos, tan, log, ln, floor, etc. " +
-                        "Use \"pi\" for pi.","Exception in parsing");
+                        "Use \"pi\" for pi.</html>");
                 ErrorHandler.silentHandle(exc);
             }
         });

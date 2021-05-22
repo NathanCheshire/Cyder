@@ -185,7 +185,7 @@ public class NumberUtil {
         numFrame.getContentPane().add(label);
 
         CyderTextField numField = new CyderTextField(40);
-        numField.setCharLimit(68);
+        numField.setCharLimit(69);
         numField.setBounds(40, 120, 600 - 80, 40);
         numFrame.getContentPane().add(numField);
 

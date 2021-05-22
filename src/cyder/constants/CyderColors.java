@@ -13,8 +13,8 @@ public class CyderColors {
     public static final Color tooltipBorderColor = new Color(26, 32, 51);
     public static final Color tooltipForegroundColor = new Color(85,85,255);
     public static final Color tooltipBackgroundColor = new Color(0,0,0);
-    public static final Color vanila = new Color(252, 251, 227);
-    public static final Color defaultColor = new Color(252, 251, 227);
+    public static final Color vanila = new Color(252, 252, 252);
+    public static final Color defaultColor = new Color(252, 252, 252);
     public static final Color tttblue = new Color(71, 81, 117);
     public static final Color navy = new Color(26, 32, 51);
 }

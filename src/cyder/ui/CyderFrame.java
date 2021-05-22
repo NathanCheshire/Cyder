@@ -30,6 +30,8 @@ public class CyderFrame extends JFrame {
     private DragLabel dl;
     private JLabel titleLabel;
 
+    private Color backgroundColor = CyderColors.vanila;
+
     private JLabel contentLabel;
 
     /**
@@ -47,7 +49,7 @@ public class CyderFrame extends JFrame {
 
         setResizable(false);
         setUndecorated(true);
-        setBackground(CyderColors.navy);
+        setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
         contentLabel = new JLabel();
@@ -76,7 +78,7 @@ public class CyderFrame extends JFrame {
     public CyderFrame(int width, int height) {
         BufferedImage im = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
-        g.setPaint(new Color(238, 238, 238));
+        g.setPaint(backgroundColor);
         g.fillRect(0, 0, 1, 1);
 
         this.width = width;
@@ -114,7 +116,7 @@ public class CyderFrame extends JFrame {
 
         BufferedImage im = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
-        g.setPaint(new Color(238, 238, 238));
+        g.setPaint(backgroundColor);
         g.fillRect(0, 0, 1, 1);
 
         this.width = width;
@@ -249,7 +251,12 @@ public class CyderFrame extends JFrame {
         notify(htmlText, 5000, ArrowDirection.TOP);
     }
 
-    //notify method given text, duration, and direction (arrow direction determines start and vanish dir so a simplified method here)
+    /**
+     * This method is to be used for a more controled notify. You may choose the duration and the arrow direction
+     * @param htmltext - the text you want to display (may include HTML tags)
+     * @param viewDuration - time in ms that the notification should stay on screen
+     * @param direction - the enter and vanish direction for the notification
+     */
     public void notify(String htmltext, int viewDuration, ArrowDirection direction) {
         Notification frameNotification = new Notification();
 
@@ -275,70 +282,25 @@ public class CyderFrame extends JFrame {
                 break;
         }
 
-        frameNotification.setArrow(direction);
-
-        JLabel text = new JLabel();
-        text.setText(htmltext);
-
-        int w = 0;
-
-        Font notificationFont = CyderFonts.weatherFontSmall;
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-
-        htmltext = Jsoup.parse(htmltext.replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n");
-
-        String[] parts = htmltext.split("\\r?\\n");
-
-        for (String part : parts) {
-            Rectangle2D stringBounds = notificationFont.getStringBounds(part.replaceAll("<[^>]+>", ""), frc);
-            if ((int) stringBounds.getWidth() > w)
-                w = (int) stringBounds.getWidth();
-        }
-
-
-        int heightIncrement = (int) notificationFont.getStringBounds("string", frc).getHeight();
-        int h = heightIncrement;
-        int lastIndex = 0;
-
-        while (lastIndex != -1) {
-            lastIndex = text.getText().indexOf("<br/>", lastIndex);
-
-            if (lastIndex != -1) {
-                h += heightIncrement;
-                lastIndex += "<br/>".length();
-            }
-        }
-
-        frameNotification.setWidth(w);
-        frameNotification.setHeight(h);
-
-        text.setFont(notificationFont);
-        text.setForeground(CyderColors.navy);
-        text.setBounds(14, 10, w * 2, h);
-        frameNotification.add(text);
-
-        if (startDir == StartDirection.LEFT)
-            frameNotification.setBounds(0, 30, w * 2, h * 2);
-        else if (startDir == StartDirection.RIGHT)
-            frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30), 32, w * 2, h * 2);
-        else
-            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2), 32, w * 2, h * 2);
-
-        this.getContentPane().add(frameNotification, 1, 0);
-        this.getContentPane().repaint();
-
-        frameNotification.appear(startDir, this.getContentPane());
-        frameNotification.vanish(vanishDir, this.getContentPane(), viewDuration);
+        notify(htmltext, viewDuration, direction, startDir, vanishDir);
     }
 
-    //full control over notify method
-    //html text - the text you want to display
-    //view duration - timeout before notification fades away
-    //arrowdir - where the arrow should go on the notification
-    //startdir - where the notification should enter from
-    //vanishdir - where the notification should exit
+
+
+    /**
+     * Full control over the notification function of a {@link CyderFrame}.
+     * See {@link CyderFrame#notify(String, int, ArrowDirection)} for a simpler notify function
+     * @param htmltext - the text you want to display (may include HTML tags)
+     * @param viewDuration - the time in ms the notification should be visible for
+     * @param arrowDir - the direction of the arrow on the notification
+     * @param startDir - the enter direction of the notification
+     * @param vanishDir - the exit direction of the notification
+     */
     public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir) {
+        //todo the notification is behind the text field? so many issues with notifications, fix these
+        //todo what if the notification width is too big
+        //todo notification arrow isn't painted in the middle
+
         Notification frameNotification = new Notification();
 
         frameNotification.setArrow(arrowDir);
@@ -366,7 +328,6 @@ public class CyderFrame extends JFrame {
         int lastIndex = 0;
 
         while (lastIndex != -1) {
-
             lastIndex = text.getText().indexOf("<br/>", lastIndex);
 
             if (lastIndex != -1) {
@@ -465,7 +426,10 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    //minimize animation for this
+    /**
+     * Moves the window down until it is off screen before setting the state to ICONIFIED.
+     * The original position of the frame will be remembered and set when the window is deiconified.
+     */
     public void minimizeAnimation() {
         if (this == null)
             return;
@@ -490,7 +454,10 @@ public class CyderFrame extends JFrame {
         dl.enableDragging();
     }
 
-    //disable moving of the window
+    /**
+     * Allow or disable moving the window.
+     * @param relocatable - the boolean value determining if the window may be repositioned
+     */
     public void setRelocatable(boolean relocatable) {
         if (relocatable)
             dl.enableDragging();
@@ -498,7 +465,9 @@ public class CyderFrame extends JFrame {
             dl.disableDragging();
     }
 
-    //move around the screen border
+    /**
+     * moves the frame around the user's monitor before returning to the initial location.
+     */
     public void dance() {
         Thread DanceThread = new Thread(() -> {
             try {
@@ -591,7 +560,9 @@ public class CyderFrame extends JFrame {
         DanceThread.start();
     }
 
-    //transform content pane in a barrel roll like fashion
+    /**
+     * transforms the content pane by an incremental angle of 2 degrees emulating Google's barrel roll easter egg
+     */
     public void barrelRoll() {
         setBackground(CyderColors.navy);
 
@@ -627,10 +598,13 @@ public class CyderFrame extends JFrame {
                         ConsoleFrame.getConsoleDirection()), degrees)));
     }
 
-    //override since we also need to change drag label's bounds
+    /**
+     * Sets the frame bounds and also changes the underlying drag label's bounds which is why this method is overridden.
+     */
     @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
+
         if (getDragLabel() != null) {
             getDragLabel().setWidth(width);
             setTitle(getTitle());
@@ -672,15 +646,14 @@ public class CyderFrame extends JFrame {
 
     ComponentResizer cr;
 
-    public void setResizing(Boolean b) {
-        cr.setResizing(b);
-    }
-
     public void setBackgroundResizing(Boolean b) {
         cr.setBackgroundRefreshOnResize(b);
     }
 
-    //setup for resizing the window, generallythis is the order to follow
+    /**
+     * This method should be called first when attempting to allow resizing of a frame.
+     * Procedural calls: init component resizer, set resizing to true, set min, max, and snap sizes to default.
+     */
     public void initResizing() {
         cr = new ComponentResizer();
         cr.registerComponent(this);
@@ -713,5 +686,17 @@ public class CyderFrame extends JFrame {
         currentOrigIcon = icon;
         contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
+    }
+
+    @Override
+    public void setBackground(Color c) {
+        super.setBackground(c);
+        backgroundColor = c;
+        this.repaint();
+    }
+
+    @Override
+    public Color getBackground() {
+        return this.backgroundColor;
     }
 }

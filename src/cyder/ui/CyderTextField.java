@@ -5,18 +5,19 @@ import cyder.constants.CyderFonts;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CyderTextField extends JTextField {
-    private int limit = 1;
+    private int limit = 10;
+    private Color backgroundColor = CyderColors.vanila;
 
     public CyderTextField(int colnum) {
         super(colnum);
 
-        this.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-            if (getText().length() > limit) {
+        this.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent evt) {
+            if (getText().length() >= limit) {
                 evt.consume();
             }
             }
@@ -24,11 +25,22 @@ public class CyderTextField extends JTextField {
     }
 
     @Override
+    public void setBackground(Color newBackgroundColor) {
+        super.setBackground(newBackgroundColor);
+        backgroundColor = newBackgroundColor;
+    }
+
+    @Override
+    public Color getBackground() {
+        return backgroundColor;
+    }
+
+    @Override
     protected void paintComponent(Graphics g) {
         this.setForeground(CyderColors.navy);
         this.setFont(CyderFonts.weatherFontSmall);
         this.setSelectionColor(CyderColors.selectionColor);
-        this.setBackground(CyderColors.vanila);
+        this.setBackground(backgroundColor);
         this.setBorder(BorderFactory.createLineBorder(CyderColors.navy,5,false));
 
         super.paintComponent(g);

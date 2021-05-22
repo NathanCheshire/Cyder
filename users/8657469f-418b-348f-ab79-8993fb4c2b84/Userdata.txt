@@ -14,7 +14,7 @@ FullScreen:0
 OutputFill:0
 InputFill:0
 ClockOnConsole:1
-ShowSeconds:1
+ShowSeconds:0
 Name:Nathan
 Password:3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
 Font:Agency FB
@@ -31,4 +31,4 @@ FullScreen:0
 OutputFill:0
 InputFill:0
 ClockOnConsole:1
-ShowSeconds:1
+ShowSeconds:0
