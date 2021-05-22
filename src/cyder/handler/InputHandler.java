@@ -29,4 +29,8 @@ public class InputHandler {
     //todo start log got reset somehow, probably from error being thrown while re-writing
     // change to adding new lines to bottom instead
     //todo hide location if not relased (in debug mode)
+
+    //todo logout should end all executors and threads so only thing happening is login frame
+
+    //todo at end of if statements before saying unrecognized input, try parsing it as a mathematical expression
 }

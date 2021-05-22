@@ -35,38 +35,6 @@ public class NumberUtil {
         return new Random().nextInt((max - min) + 1) + min;
     }
 
-    public static String toBinary(int value) {
-        String bin;
-
-        if (value > 0) {
-            int colExp = 0;
-            int val = value;
-
-            while (Math.pow(2, colExp) <= value) {
-                colExp = colExp + 1;
-            }
-
-            bin = "";
-
-            do {
-                colExp--;
-                int columnWeight = (int) Math.pow(2, colExp);
-
-                if (columnWeight <= val) {
-                    bin += "1";
-                    val -= columnWeight;
-                } else
-                    bin += "0";
-            }
-
-            while (colExp > 0);
-
-            return bin;
-        }
-
-        return "NaN";
-    }
-
     public static boolean isPrime(int num) {
         ArrayList<Integer> Numbers = new ArrayList<>();
 

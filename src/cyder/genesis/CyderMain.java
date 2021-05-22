@@ -1607,7 +1607,7 @@ public class CyderMain {
         inputField.setText("");
     }
 
-    //todo move to input handler
+    //input handler
     private void handleSecond(String input) {
         try {
             String desc = stringUtil.getUserInputDesc();
@@ -1652,8 +1652,7 @@ public class CyderMain {
                 NetworkUtil.internetConnect("https://www.wolframalpha.com/input/?i=" + input);
             } else if (desc.equalsIgnoreCase("binary")) {
                 if (input.matches("[0-9]+") && !stringUtil.empytStr(input)) {
-                    String Print = NumberUtil.toBinary(Integer.parseInt(input));
-                    println(input + " converted to binary equals: " + Print);
+                    println(input + " converted to binary equals: " + Integer.toBinaryString(Integer.parseInt(input)));
                 } else {
                     println("Your value must only contain numbers.");
                 }
@@ -2481,7 +2480,7 @@ public class CyderMain {
                     println(Math.sqrt(param1));
                     return true;
                 } else if (mathop.equalsIgnoreCase("convert2")) {
-                    println(NumberUtil.toBinary((int) (param1)));
+                    println(Integer.toBinaryString((int) (param1)));
                     return true;
                 }
             }
