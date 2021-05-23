@@ -19,9 +19,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public final class ConsoleFrame extends CyderFrame {
-
-    //assuming uuid has been set, this will launch the whole of the program
-    // main now is used for user auth then called ConsoleFrame so only one instance of console frame should ever exist
+    /**
+     * assuming uuid has been set, this will launch the whole of the program
+     * main now is used for user auth then calls ConsoleFrame so under current program structure,
+     * only one instance of console frame should ever exist
+     */
     public ConsoleFrame() {
         resizeBackgrounds();
         initBackgrounds();
@@ -31,15 +33,17 @@ public final class ConsoleFrame extends CyderFrame {
     public void repaint() {
         super.repaint();
 
-
-        setDefaultCloseOperation(0);
-        //now reset all the bounds and such
+        //todo reset all bounds of console elements and take into account possible
+        // fullscreen set and rotation set
     }
 
     private boolean drawConsoleLines = false;
     private boolean consoleLinesDrawn = false;
+
+    //todo this shouldn't always be white now should it? make white or black depending on background image
     private Color lineColor = Color.white;
 
+    //Allow for debug lines to be drawn and neffex
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -75,6 +79,8 @@ public final class ConsoleFrame extends CyderFrame {
     private static String UUID;
 
     /**
+     * Set the UUID for this Cyder session. Everything else relies on this being set and not null.
+     * Once set, a one time check is performed to fix any possibly corrupted userdata.
      * @param uuid - the user uuid that we will use to determine our output dir and other
      *             information specific to this instance of the console frame
      */
@@ -106,7 +112,7 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     /**
-     * Sets the OutputArea and InputField font for the current user
+     * Sets the OutputArea and InputField font style for the current user
      *
      * @param combStyle use Font.BOLD and Font.Italic to set the user
      *                  font style. You may pass combinations of font
@@ -118,81 +124,96 @@ public final class ConsoleFrame extends CyderFrame {
 
     private static int fontSize = 30;
 
+    /**
+     * Sets the font size for the user to be used when {@link ConsoleFrame#getUserFont()} is called.
+     * @param size - the size of the font
+     */
     public static void setFontSize(int size) {
         fontSize = size;
     }
 
+    /**
+     * Get the desired user font in combination with the set font metric and font size.
+     * @return - the font to use for the input and output areas
+     */
     public static Font getUserFont() {
         return new Font(IOUtil.getUserData("Font"), fontMetric, fontSize);
     }
 
-    public static Color getUserColor() {
+    /**
+     * Get the user's foreground color from Userdata.txt.
+     * @return - a Color object representing the chosen foreground
+     */
+    public static Color getUserForegroundColor() {
         return ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
     }
 
+    /**
+     * Get the user's background color from Userdata.txt
+     * @return - a Color object representing the chosen background
+     */
     public static Color getUserBackgroundColor() {
         return ColorUtil.hextorgbColor(IOUtil.getUserData("Background"));
     }
 
-    //pretty sure this doesn't work still....
+    /**
+     * Takes into account the dpi scaling value and checks all the backgrounds in the user's
+     * directory against the current monitors resolution. If any width or height of a background file
+     * exceeds the monitor's width or height. We resize until it doesn't. We also check to make sure the background
+     * is at least 600px by 600px.
+     */
     public static void resizeBackgrounds() {
         try {
             LinkedList<File> backgrounds = getBackgrounds();
 
             for (int i = 0; i < backgrounds.size(); i++) {
                 File currentFile = backgrounds.get(i);
-
                 BufferedImage currentImage = ImageIO.read(currentFile);
-
                 int backgroundWidth = currentImage.getWidth();
                 int backgroundHeight = currentImage.getHeight();
-
-                double aspectRatio = ImageUtil.getAspectRatio(currentImage);
-                double incremeter = 1.0;
-
-                if (aspectRatio == 1.0)
-                    incremeter = 1.1;
-                int imageType = currentImage.getType();
-
-                if (backgroundWidth > SystemUtil.getScreenWidth() || backgroundHeight > SystemUtil.getScreenHeight())
-                    GenericInform.inform("Resized the background image \"" + currentFile.getName() + "\" since it was too big " +
-                            "(That's what she said ahahahahah hahaha ha ha so funny).", "System Action");
-
                 int screenWidth = SystemUtil.getScreenWidth();
                 int screenHeight = SystemUtil.getScreenHeight();
+                double aspectRatio = ImageUtil.getAspectRatio(currentImage);
+                int imageType = currentImage.getType();
 
-                //resizing smaller
+                //inform the user we are changing the size of the image.
+                if (backgroundWidth > SystemUtil.getScreenWidth() || backgroundHeight > SystemUtil.getScreenHeight())
+                    GenericInform.inform("Resized the background image \"" + currentFile.getName() + "\" since it was too big.",
+                            "System Action");
+
+                //while the image dimensions are greater than the screen dimensions,
+                // divide the image dimensions by the the aspect ratio if it will result in a smaller number
+                // if it won't then we divide by 1/aspectRatio which will result in a smaller number if the first did not
                 while (backgroundWidth > screenWidth || backgroundHeight > screenHeight) {
-                    backgroundWidth = (int) (backgroundWidth / (aspectRatio * incremeter));
-                    backgroundHeight = (int) (backgroundHeight / (aspectRatio * incremeter));
+                    backgroundWidth = (int) (backgroundWidth / ((aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio)));
+                    backgroundHeight = (int) (backgroundHeight / ((aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio)));
                 }
 
+                //inform the user we are changing the size of the image
                 if (backgroundWidth < 600 && backgroundHeight < 600)
                     GenericInform.inform("Resized the background image \"" + getBackgrounds().get(i).getName()
                             + "\" since it was too small.", "System Action");
 
-                if (aspectRatio < 1)
-                    aspectRatio = 1 / aspectRatio;
-
-                if (aspectRatio == 1.0)
-                    incremeter = 1.1;
-
-                //resizing bigger
+                //while the image dimensions are less than 800x800, multiply the image dimensions by the
+                // aspect ratio if it will result in a bigger number, if it won't, multiply it by 1.0 / aspectRatio
+                // which will result in a number greater than 1.0 if the first option failed.
                 while (backgroundWidth < 800 && backgroundHeight < 800) {
-                    backgroundWidth = (int) (backgroundWidth * (aspectRatio * incremeter));
-                    backgroundHeight = (int) (backgroundHeight * (aspectRatio * incremeter));
+                    backgroundWidth = (int) (backgroundWidth * (aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio));
+                    backgroundHeight = (int) (backgroundHeight * (aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio));
                 }
 
-                //prime checker
+                //if the background width is a prime number then do some math
                 if (NumberUtil.isPrime(backgroundWidth)) {
                     backgroundWidth = currentImage.getWidth() + ((int) aspectRatio * 5);
                     backgroundHeight = currentImage.getHeight() + ((int) aspectRatio * 5);
                 }
 
+                //save the modified image
                 BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, backgroundWidth, backgroundHeight);
                 ImageIO.write(saveImage, "png", currentFile);
             }
 
+            //reinit backgrounds after resizing all backgrounds that needed fixing
             initBackgrounds();
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
@@ -425,7 +446,7 @@ public final class ConsoleFrame extends CyderFrame {
 
     public static void setConsoleDirection(ConsoleDirection conDir) {
         consoleDir = conDir;
-        //todo also refresh direction, do nothing if in full screen of course
+        //todo repaint
     }
 
     public static ConsoleDirection getConsoleDirection() {
@@ -440,8 +461,9 @@ public final class ConsoleFrame extends CyderFrame {
 
     private static boolean fullscreen = false;
 
-    public static void setFullscreen(Boolean enable) {
+    public void setFullscreen(Boolean enable) {
         fullscreen = enable;
+        repaint();
     }
 
     public static boolean isFullscreen() {
@@ -476,8 +498,11 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     /**
-     * if there is only one instance of a ConsoleFrame, then we will exit the program on close of this instance,
-     * otherwise, we will dispose the frame and continue process execution
+     * Ff there is only one instance of a ConsoleFrame, then we will exit the program on close of this instance,
+     * otherwise, we will dispose the frame and continue process execution.
+     *
+     * Currently as of 5.23.21 the system only supports 1 instance of ConsoleFrame at a time since we can only handle
+     * one user at time due to the nature of certain variables requiring the static modifier.
      */
     @Override
     public void setDefaultCloseOperation(int ignored) {

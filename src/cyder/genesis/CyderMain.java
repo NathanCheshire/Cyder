@@ -4,8 +4,6 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderImages;
-import cyder.constants.CyderStrings;
-import cyder.enums.ArrowDirection;
 import cyder.enums.ConsoleDirection;
 import cyder.enums.TitlePosition;
 import cyder.exception.CyderException;
@@ -383,13 +381,13 @@ public class CyderMain {
                 }
             });
 
-            inputField.setCaretColor(ConsoleFrame.getUserColor());
-            inputField.setCaret(new CyderCaret(ConsoleFrame.getUserColor()));
+            inputField.setCaretColor(ConsoleFrame.getUserForegroundColor());
+            inputField.setCaret(new CyderCaret(ConsoleFrame.getUserForegroundColor()));
 
             IOUtil.readUserData();
 
-            inputField.setForeground(ConsoleFrame.getUserColor());
-            outputArea.setForeground(ConsoleFrame.getUserColor());
+            inputField.setForeground(ConsoleFrame.getUserForegroundColor());
+            outputArea.setForeground(ConsoleFrame.getUserForegroundColor());
 
             inputField.setFont(ConsoleFrame.getUserFont());
             outputArea.setFont(ConsoleFrame.getUserFont());
