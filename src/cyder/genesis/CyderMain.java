@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderImages;
+import cyder.constants.CyderStrings;
 import cyder.enums.ArrowDirection;
 import cyder.enums.ConsoleDirection;
 import cyder.enums.TitlePosition;
@@ -2368,16 +2369,7 @@ public class CyderMain {
             } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             } else if (eic("test")) {
-                CyderFrame testFrame = new CyderFrame(400,400);
-                testFrame.initResizing();
-                testFrame.allowResizing(true);
-                testFrame.setTitle("Test Frame");
-                testFrame.setTitlePosition(TitlePosition.CENTER);
-                testFrame.allowResizing(true);
-                testFrame.setVisible(true);
-                testFrame.setLocationRelativeTo(null);
-                testFrame.notify("This is a long string this is a super long string this is a super long string"
-                        , 5000, ArrowDirection.TOP);
+                ImageUtil.drawImageIcon(new ImageIcon(DEFAULT_BACKGROUND_PATH));
             } else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");

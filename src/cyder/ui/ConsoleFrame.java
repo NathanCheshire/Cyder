@@ -80,6 +80,7 @@ public final class ConsoleFrame extends CyderFrame {
      */
     public static void setUUID(String uuid) {
         UUID = uuid;
+        IOUtil.fixUserData();
     }
 
     public static String getUUID() {

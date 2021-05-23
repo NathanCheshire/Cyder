@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
-//todo inform frames should all be resizable just in case
 
 public class GenericInform {
     public static void inform(String text, String title) {
@@ -22,16 +21,18 @@ public class GenericInform {
             Font usageFont = CyderFonts.weatherFontSmall.deriveFont(22f);
 
             //affine transform preserves lines and parallelism but not necessarily distance and angles
-            // from this we figure out the width and height we need for our text
             AffineTransform affinetransform = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-            int width = (int)(usageFont.getStringBounds(text, frc).getWidth());
-            int height = (int)(usageFont.getStringBounds(text, frc).getHeight());
+            int width = (int)(usageFont.getStringBounds(text, frc).getWidth()) + 10;
+            int height = (int)(usageFont.getStringBounds(text, frc).getHeight()) + 10;
+            int heightIncrement = height;
+
+            int area = width * height;
 
             //if calculated width is greater than half of the screen width, take away half and add it to the bottom
             while (width > SystemUtil.getScreenWidth() * 0.50) {
-                width /= 2;
-                height *= 2;
+                height += heightIncrement;
+                width = area / height;
             }
 
             //offset variables to ensure text does not cover window bounds or dragLabel
@@ -78,16 +79,18 @@ public class GenericInform {
             Font usageFont = CyderFonts.weatherFontSmall.deriveFont(22f);
 
             //affine transform preserves lines and parallelism but not necessarily distance and angles
-            // from this we figure out the width and height we need for our text
             AffineTransform affinetransform = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-            int width = (int)(usageFont.getStringBounds(text, frc).getWidth());
-            int height = (int)(usageFont.getStringBounds(text, frc).getHeight());
+            int width = (int)(usageFont.getStringBounds(text, frc).getWidth()) + 10;
+            int height = (int)(usageFont.getStringBounds(text, frc).getHeight()) + 10;
+            int heightIncrement = height;
+
+            int area = width * height;
 
             //if calculated width is greater than half of the screen width, take away half and add it to the bottom
             while (width > SystemUtil.getScreenWidth() * 0.50) {
-                width /= 2;
-                height *= 2;
+                height += heightIncrement;
+                width = area / height;
             }
 
             //offset variables to ensure text does not cover window bounds or dragLabel

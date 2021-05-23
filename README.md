@@ -62,3 +62,4 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [ ]  take and recongize a pastebin link or UUID and print the contents to the console, should be reading from the RAW paste
 - [ ]  allow once instance of console frame but multiple for dev mode (See Runtime native class)
 - [ ]  make launching and testing easier
+- [ ]  make a music lab using lines that correspond to notes; inspired by Wintergatan Marble Machine

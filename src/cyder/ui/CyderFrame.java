@@ -36,7 +36,6 @@ public class CyderFrame extends JFrame {
     private Color backgroundColor = CyderColors.vanila;
 
     private JLabel contentLabel;
-    private JLayeredPane contentPane;
 
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
@@ -61,12 +60,8 @@ public class CyderFrame extends JFrame {
         contentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         contentLabel.setIcon(background);
         currentOrigIcon = background;
-        setContentPane(contentLabel);
 
-        //todo contentpane should be layered
-        // bottom layer is content label and everything on it
-        // middle layer is notification
-        // top layer is drag label
+        setContentPane(contentLabel);
 
         dl = new DragLabel(width, 30, this);
         dl.setBounds(0, 0, width, 30);
@@ -303,7 +298,7 @@ public class CyderFrame extends JFrame {
         else
             frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2) - 14, 32, w * 2, h * 2);
 
-        this.getContentPane().add(frameNotification, 1, 0);
+        contentLabel.add(frameNotification);
         this.getContentPane().repaint();
 
         frameNotification.appear(startDir, this.getContentPane());

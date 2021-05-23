@@ -16,6 +16,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.zip.ZipEntry;
@@ -97,13 +98,7 @@ public class IOUtil {
         if (user == null)
             return;
 
-        //i assume an error was thrown here because we attempted to do seomthing after we deleted a user's files
-        // such as close semaphor, we should have a fatal exit feature such as halt from runtime()
-
-        //todo get rid of uuid feature and just use a username but hide the uuid everywhere except in the backend
-        // (i don't want to look at that ugly thing)
-
-        else if (!new File("users/" + user + "/Userdata.txt").exists())
+        if (!new File("users/" + user + "/Userdata.txt").exists())
             corruptedUser();
 
         try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))){
@@ -117,6 +112,68 @@ public class IOUtil {
         }
 
         catch(Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    /**
+     * This method removes any repeated user data. Any repeated keys are thrown away and the first occurences are kept.
+     */
+    public static void fixUserData() {
+        String user = ConsoleFrame.getUUID();
+        if (user == null)
+            return;
+
+        if (!new File("users/" + user + "/Userdata.txt").exists())
+            corruptedUser();
+
+        try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))) {
+            CyderMain.exitingSem.acquire();
+            String line;
+            ArrayList<NST> data = new ArrayList<>();
+
+            while ((line = dataReader.readLine()) != null) {
+                if (!line.contains(":"))
+                    corruptedUser();
+
+                String[] parts = line.split(":");
+
+                if (parts.length != 2)
+                    corruptedUser();
+
+                data.add(new NST(parts[0], parts[1]));
+            }
+
+            ArrayList<NST> reWriteData = new ArrayList<>();
+
+            for (NST datum : data) {
+                String currentName = datum.getName();
+                boolean alreadyHas = false;
+
+                for (NST reWriteDatum : reWriteData) {
+                    if (reWriteDatum.getName().equals(currentName)) {
+                        alreadyHas = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyHas)
+                    reWriteData.add(datum);
+            }
+
+            BufferedWriter userWriter = new BufferedWriter(new FileWriter(
+                    "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false));
+
+            for (NST currentData : reWriteData) {
+                userWriter.write(currentData.getName() + ":" + currentData.getData());
+                userWriter.newLine();
+            }
+
+            userWriter.close();
+
+            CyderMain.exitingSem.release();
+
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -191,9 +248,6 @@ public class IOUtil {
         }
     }
 
-    //todo get user binary method to return boolean for easy if statements
-    // throws exception if not 0 or 1
-
     public static String getUserData(String name) {
         readUserData();
 
@@ -206,7 +260,7 @@ public class IOUtil {
             }
         }
 
-        //todo if a preference doesn't exist it's auto correcupted? rethink this
+        //todo if some data doesn't exist it's auto correcupted? rethink this
         //corruptedUser();
 
         return null;

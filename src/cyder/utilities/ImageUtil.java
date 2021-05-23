@@ -4,6 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.enums.ConsoleDirection;
 import cyder.enums.Direction;
+import cyder.enums.TitlePosition;
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
@@ -261,6 +262,20 @@ public class ImageUtil {
 
     public static int xOffsetForCenterJLabel(int compWidth, String title) {
         return (int) Math.floor(5 + (compWidth / 2.0)) - (((int) Math.ceil(14 * title.length())) / 2);
+    }
+
+    public static void drawBufferedImage(BufferedImage bi) {
+        CyderFrame frame = new CyderFrame(bi.getWidth(), bi.getHeight(), new ImageIcon(bi));
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public static void drawImageIcon(ImageIcon icon) {
+        CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight(), icon);
+        frame.setTitle(icon.getDescription());
+        frame.setTitlePosition(TitlePosition.CENTER);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     public static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {

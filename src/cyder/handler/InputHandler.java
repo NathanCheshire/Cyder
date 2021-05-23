@@ -4,6 +4,8 @@ public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
     // and direct the resulting flow and output
 
+    //todo write user data error, writes too many
+
     //todo work on proper exit conditions for ALL threads
 
     //todo make input field like the input field for login (actually a password field with the natche@cyder~$)
@@ -38,4 +40,6 @@ public class InputHandler {
     // same dir as src and call logs
 
     //todo if multiple prefs in same userdata file, delete the later ones and keep the first value
+
+    //todo I don't want to see a UUID, minimize usage of it
 }
