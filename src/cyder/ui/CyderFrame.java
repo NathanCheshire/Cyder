@@ -25,7 +25,6 @@ import java.awt.image.BufferedImage;
 public class CyderFrame extends JFrame {
 
     private TitlePosition titlePosition = TitlePosition.LEFT;
-
     private int width;
     private int height;
 
@@ -37,6 +36,7 @@ public class CyderFrame extends JFrame {
     private JLabel contentLabel;
 
     private Color backgroundColor = CyderColors.vanila;
+
 
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height

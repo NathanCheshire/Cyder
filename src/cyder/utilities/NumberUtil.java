@@ -132,14 +132,10 @@ public class NumberUtil {
     }
 
     private static boolean isComment(String line) {
-        Pattern pattern = Pattern.compile("//.*|/\\*((.|\\n)(?!=*/))+\\*/");
-
-        Matcher matcher = pattern.matcher(line);
-        while (matcher.find()) {
-            return true;
-        }
-
-        return false;
+        return line.trim().startsWith("//") ||
+                line.trim().startsWith("/*") ||
+                line.trim().startsWith("*") ||
+                line.trim().endsWith("*/") || line.matches("//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/");
     }
 
     public static int totalBlankLines(File startDir) {

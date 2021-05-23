@@ -2299,10 +2299,14 @@ public class CyderMain {
             } else if (hasWord("barrel") && hasWord("roll")) {
                 //todo ConsoleFrme.barrelRoll();
             } else if (hasWord("analyze") && hasWord("code")) {
-                println("Lines of code: " + NumberUtil.totalJavaLines(new File(System.getProperty("user.dir"))));
-                println("Number of java files: " + NumberUtil.totalJavaFiles(new File(System.getProperty("user.dir"))));
-                println("Number of comments: " + NumberUtil.totalComments(new File(System.getProperty("user.dir"))));
-                println("Blank lines: " + NumberUtil.totalBlankLines(new File(System.getProperty("user.dir"))));
+                //todo refine this, make a total section and then a file by file section
+
+                println("Lines of code: " + NumberUtil.totalJavaLines(new File("src")));
+                println("Number of java files: " + NumberUtil.totalJavaFiles(new File("src")));
+                println("Number of comments: " + NumberUtil.totalComments(new File("src")));
+                println("Blank lines: " + NumberUtil.totalBlankLines(new File("src")));
+                println("Total: " + (NumberUtil.totalBlankLines(new File("src"))
+                        + NumberUtil.totalJavaLines(new File("src"))));
             } else if (hasWord("threads") && !hasWord("daemon")) {
                 ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                 int num = threadGroup.activeCount();
@@ -2367,7 +2371,10 @@ public class CyderMain {
             } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             } else if (eic("test")) {
-                ImageUtil.drawImageIcon(new ImageIcon(DEFAULT_BACKGROUND_PATH));
+                //todo make a test cyder frame to try and get the layering to work with
+                // popups, drag label, and components added to content pane
+
+
             } else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");
