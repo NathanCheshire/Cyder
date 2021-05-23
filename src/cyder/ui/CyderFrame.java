@@ -30,12 +30,13 @@ public class CyderFrame extends JFrame {
     private int height;
 
     private ImageIcon background;
+
     private DragLabel dl;
+
     private JLabel titleLabel;
+    private JLabel contentLabel;
 
     private Color backgroundColor = CyderColors.vanila;
-
-    private JLabel contentLabel;
 
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
@@ -44,6 +45,9 @@ public class CyderFrame extends JFrame {
      *
      * @param width  - the specified width of the cyder frame
      * @param height - the specified height of the cyder frame
+     * @param background - the specified background image. You can choose to leave the image in the same place upon
+     *                   frame resizing events or you can configure the frame instance to rescale the original background
+     *                   image to fit to the new frame dimensions.
      */
     public CyderFrame(int width, int height, ImageIcon background) {
         this.width = width;
@@ -136,24 +140,38 @@ public class CyderFrame extends JFrame {
     }
 
 
-    //getter for title position
+    /**
+     * Getter for the title position
+     * @return - position representing the title position
+     */
     public TitlePosition getTitlePosition() {
         return this.titlePosition;
     }
 
-    //getter and setter for paint windowed title
 
     private boolean paintSuperTitle = true;
-    public void setPaintSuperTitle(boolean b) {
-        paintSuperTitle = b;
+
+    /**
+     * Determines whether or not to paint the windowed title. The CyderFrame label title is always painted.
+     * @param enable - boolean variable of your chosen value for paintSuperTitle
+     */
+    public void setPaintSuperTitle(boolean enable) {
+        paintSuperTitle = enable;
     }
 
+    /**
+     * Returns the value of paintSuperTitle which determines whether ot not the windowed title is painted.
+     * @return - boolean describing the value of paintSuperTitle
+     */
     public boolean getPaintSuperTitle() {
         return paintSuperTitle;
     }
 
-    //override since we paint it on the window no matter what in whatever position we want
-    //but also paint the windowed title if paintSuperTitle
+    /**
+     * Set the title of the label painted on the drag label of the CyderFrame instance. You can also configure the instance
+     * to paint the windowed title as well.
+     * @param title - the String representing the chosen CyderFrame title
+     */
     @Override
     public void setTitle(String title) {
         super.setTitle(paintSuperTitle ? title : "");
@@ -170,7 +188,11 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    //using default (notification font) to determine the width and add 10 due to a bug
+    /**
+     * Returns the minimum width required for the given String using the font of the title label.
+     * @param title - the text you want to determine the width of
+     * @return - an interger value determining the minimum width of a string of text (10 is added to avoid ... bug)
+     */
     private int getMinWidth(String title) {
         Font notificationFont = titleLabel.getFont();
         AffineTransform affinetransform = new AffineTransform();
@@ -178,13 +200,22 @@ public class CyderFrame extends JFrame {
         return (int) notificationFont.getStringBounds(title, frc).getWidth() + 10;
     }
 
-    //using any font to determine the width and add 10 due to a bug
+    /**
+     * Returns the minimum width required for the given String using the given font.
+     * @param title - the text you want to determine the width of
+     * @return - an interger value determining the minimum width of a string of text (10 is added to avoid ... bug)
+     */
     public static int getMinWidth(String title, Font f) {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) f.getStringBounds(title, frc).getWidth() + 10;
     }
 
+    /**
+     * Returns the minimum height required for the given String using the given font.
+     * @param title - the text you want to determine the height of
+     * @return - an interger value determining the minimum height of a string of text (10 is added to avoid ... bug)
+     */
     public static int getMinHeight(String title, Font f) {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
@@ -305,17 +336,26 @@ public class CyderFrame extends JFrame {
         frameNotification.vanish(vanishDir, this.getContentPane(), viewDuration);
     }
 
-    //getter for drag label, needed for window resizing
+    /**
+     * Getter for the drag label associated with this CyderFrame instance. Used for frame resizing.
+     * @return - The associated DragLabel
+     */
     public DragLabel getDragLabel() {
         return dl;
     }
 
-    //inform window relative to this
+    /**
+     * Pops open a window relative to this with the provided text
+     * @param text - the String you wish to display
+     * @param title - The title of the CyderFrame which will be opened to display the text
+     */
     public void inform(String text, String title) {
         GenericInform.informRelative(text, title, this);
     }
 
-    //enter animation for this frame
+    /**
+     * Animates the window from offscreen top to the center of the screen.
+     */
     public void enterAnimation() {
         if (this == null)
             return;
@@ -345,9 +385,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * close animation moves the window up until the CyderFrame is off screen. this.dispose() is then invoked
+     * Close animation moves the window up until the CyderFrame is off screen. this.dispose() is then invoked
      * perhaps you might re-write this to override dispose so that closeanimation is always called and you can
-     * simply dispose of a frame like normal
+     * simply dispose of a frame like normal.
      */
     public void closeAnimation() {
         if (this == null)
@@ -564,37 +604,62 @@ public class CyderFrame extends JFrame {
     private Dimension maximumSize = new Dimension(800, 800);
     private Dimension snapSize = new Dimension(1, 1);
 
+    /**
+     * Sets the minimum window size if resizing is allowed.
+     * @param minSize - the Dimension of the minimum allowed size
+     */
     public void setMinimumSize(Dimension minSize) {
         this.minimumSize = minSize;
         cr.setMinimumSize(minimumSize);
     }
 
+    /**
+     * Sets the maximum window size if resizing is allowed.
+     * @param maxSize - the Dimension of the minimum allowed size
+     */
     public void setMaximumSize(Dimension maxSize) {
         this.maximumSize = maxSize;
         cr.setMaximumSize(maximumSize);
     }
 
+    /**
+     * Sets the snap size for the window if resizing is allowed.
+     * @param snap - the dimension of the snap size
+     */
     public void setSnapSize(Dimension snap) {
         this.snapSize = snap;
         cr.setSnapSize(snapSize);
     }
 
+    /**
+     * @return - the minimum window size if resizing is allowed
+     */
     public Dimension getMinimumSize() {
         return minimumSize;
     }
 
+    /**
+     * @return - the maximum window size if resizing is allowed
+     */
     public Dimension getMaximumSize() {
         return maximumSize;
     }
 
+    /**
+     * @return - the snap size for the window if resizing is allowed
+     */
     public Dimension getSnapSize() {
         return snapSize;
     }
 
     ComponentResizer cr;
 
-    public void setBackgroundResizing(Boolean b) {
-        cr.setBackgroundRefreshOnResize(b);
+    /**
+     * Choose to allow/disable background image reisizing if window resizing is allowed.
+     * @param allowed - the value determining background resizing
+     */
+    public void setBackgroundResizing(Boolean allowed) {
+        cr.setBackgroundRefreshOnResize(allowed);
     }
 
     /**
@@ -610,38 +675,48 @@ public class CyderFrame extends JFrame {
         cr.setSnapSize(getSnapSize());
     }
 
-    //disable or enable window resizing
-    public void allowResizing(Boolean b) {
-        cr.setResizing(b);
-    }
-
-    //should we resize the background when we resize the window or just keep it in the same place?
-    public void backgroundRefreshOnResize(Boolean b) {
-        cr.setBackgroundRefreshOnResize(b);
+    /**
+     * @param allow - sets/disables resizing of the frame.
+     */
+    public void allowResizing(Boolean allow) {
+        cr.setResizing(allow);
     }
 
     ImageIcon currentOrigIcon;
 
-    //refreshing will cause the background image to scale to the width and height of this
+    /**
+     * Refresh the background in the event of a frame size change or background image change.
+     */
     public void refreshBackground() {
         contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
     }
 
-    //changing the background will cause the background image to scale to the width and height of this
+    /**
+     * Set the background to a new icon and refresh the frame.
+     * @param icon - the ImageIcon you want the frame background to be
+     */
     public void setBackground(ImageIcon icon) {
         currentOrigIcon = icon;
         contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
     }
 
+    /**
+     * Sets the background color of the Frame's content pane.
+     * @param background - the Color object value of the content pane's desired background
+     */
     @Override
-    public void setBackground(Color c) {
-        super.setBackground(c);
-        backgroundColor = c;
+    public void setBackground(Color background) {
+        super.setBackground(background);
+        backgroundColor = background;
         this.repaint();
     }
 
+    /**
+     * Returns the background color of the contentPane.
+     * @return - Color object of the background color
+     */
     @Override
     public Color getBackground() {
         return this.backgroundColor;
