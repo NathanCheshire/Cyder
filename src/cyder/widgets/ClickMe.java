@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.enums.TitlePosition;
+
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.utilities.ImageUtil;
@@ -17,7 +17,7 @@ public class ClickMe {
     public static void clickMe() {
         try {
             CyderFrame clickMeFrame = new CyderFrame(220,100, new ImageIcon(ImageUtil.bufferedImageFromColor(220,100, CyderColors.vanila)));
-            clickMeFrame.setTitlePosition(TitlePosition.CENTER);
+            clickMeFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
             clickMeFrame.setTitle("");
 
             JLabel dismiss = new JLabel("ClickMe Me!");

@@ -3,7 +3,6 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
-import cyder.enums.TitlePosition;
 import cyder.handler.ErrorHandler;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.SystemUtil;
@@ -21,6 +20,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class CyderFrame extends JFrame {
+
+    public enum TitlePosition {
+        LEFT,
+        CENTER,
+        MEDIUM
+    }
 
     private TitlePosition titlePosition = TitlePosition.LEFT;
     private int width;
@@ -109,7 +114,7 @@ public class CyderFrame extends JFrame {
         long timeout = 2;
 
         if (different && isVisible()) {
-            if (titlePosition != TitlePosition.CENTER) {
+            if (titlePosition != CyderFrame.TitlePosition.CENTER) {
                 new Thread(() -> {
                     for (int i = (getDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i > 4; i--) {
                         titleLabel.setLocation(i, 2);
@@ -317,8 +322,7 @@ public class CyderFrame extends JFrame {
         //now we have min width and height for string bounds, no more no less than this
 
         //set the text bounds to the proper x,y and the calculated width and height
-        //todo getters for bounds offsets due to notification curvature
-        text.setBounds(14,16,w,h);
+        text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
 
         currentNotification.setWidth(w);
         currentNotification.setHeight(h);
@@ -328,20 +332,23 @@ public class CyderFrame extends JFrame {
         currentNotification.add(text);
 
         if (startDir == Direction.LEFT)
-            currentNotification.setLocation(0, 30);
+            currentNotification.setLocation(0, dl.getHeight());
         else if (startDir == Direction.RIGHT)
-            currentNotification.setLocation(this.getContentPane().getWidth() - (w + 30), 32);
+            currentNotification.setLocation(getContentPane().getWidth() - (w + 30), dl.getHeight());
         else if (startDir == Direction.BOTTOM)
-            currentNotification.setLocation(this.getContentPane().getWidth() / 2 - (w / 2) - 14,
-                    this.getContentPane().getWidth() - h);
+            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
+                    getContentPane().getHeight() - h - dl.getHeight());
         else
-            currentNotification.setLocation(this.getContentPane().getWidth() / 2 - (w / 2) - 14, 32);
+            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextYOffset(),
+                    dl.getHeight());
 
         contentLabel.add(currentNotification);
-        this.getContentPane().repaint();
+        getContentPane().repaint();
 
-        currentNotification.appear(startDir, this.getContentPane());
-        currentNotification.vanish(vanishDir, this.getContentPane(), viewDuration);
+        //todo fix these and add a stay on screen until dismissed method after start locations are working
+        // (click notification to dismiss, tooltip should say click to dismiss if persist is active (add this param))
+        //currentNotification.appear(startDir, getContentPane());
+        //currentNotification.vanish(vanishDir, getContentPane(), viewDuration);
     }
 
     /**

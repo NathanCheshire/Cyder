@@ -2,7 +2,7 @@ package cyder.games;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.enums.TitlePosition;
+
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -35,7 +35,7 @@ public class Hangman {
             HangmanFrame.closeAnimation();
 
         HangmanFrame = new CyderFrame(712,812,new ImageIcon(DEFAULT_BACKGROUND_PATH));
-        HangmanFrame.setTitlePosition(TitlePosition.CENTER);
+        HangmanFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         HangmanFrame.setTitle("Hangman");
 
         HangmanLabel = new JLabel("<html>Nathan Was Here</html>",SwingConstants.CENTER);

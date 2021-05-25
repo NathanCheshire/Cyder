@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.enums.TitlePosition;
+
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -87,7 +87,7 @@ public class Weather {
             weatherFrame.closeAnimation();
 
         weatherFrame = new CyderFrame(500,600,new ImageIcon("sys/pictures/Weather.png"));
-        weatherFrame.setTitlePosition(TitlePosition.CENTER);
+        weatherFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         weatherFrame.setTitle("Weather");
 
         currentTimeLabel = new JLabel();

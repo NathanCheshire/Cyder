@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
-import cyder.enums.TitlePosition;
+
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
 import cyder.games.Hangman;
@@ -1173,7 +1173,7 @@ public class CyderMain {
         IOUtil.cleanUpUsers();
 
         loginFrame = new CyderFrame(600, 400, new ImageIcon("sys/pictures/login.png"));
-        loginFrame.setTitlePosition(TitlePosition.LEFT);
+        loginFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         loginFrame.setTitle(IOUtil.getSystemData("Version") + " login");
         loginFrame.setBackground(new Color(21,23,24));
 
@@ -2383,17 +2383,16 @@ public class CyderMain {
 
                 CyderFrame notificationLengthTestFrame = new CyderFrame(600,600, new ImageIcon(DEFAULT_BACKGROUND_PATH));
                 notificationLengthTestFrame.setLocationRelativeTo(null);
-                notificationLengthTestFrame.setTitlePosition(TitlePosition.CENTER);
+                notificationLengthTestFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
                 notificationLengthTestFrame.setPaintSuperTitle(false);
                 notificationLengthTestFrame.setTitle("Notification test");
                 notificationLengthTestFrame.setVisible(true);
                 notificationLengthTestFrame.notify(
                         "i've got a bunch of coconuts there they are all sitting in a row " +
-                                "i've got a bunch of coconuts there they are all sitting in a row " +
                                 "i've got a bunch of coconuts there they are all sitting in a row "
-                        , 5000, Direction.TOP);
-                //todo timeout should start after moving animation is complete
-                //todo consolidate different direction enums, move title position to cyderframe
+                        , 5000, Direction.BOTTOM);
+
+                //todo timeout should start after moving animation is complete                //todo determine how long the timeout should be based on the word count, always at least 5 seconds on screen
 
             } else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
@@ -2739,7 +2738,7 @@ public class CyderMain {
             editUserFrame.closeAnimation();
 
         editUserFrame = new CyderFrame(1000, 800, new ImageIcon(DEFAULT_BACKGROUND_PATH));
-        editUserFrame.setTitlePosition(TitlePosition.LEFT);
+        editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
 
         switchingPanel = new JLabel();

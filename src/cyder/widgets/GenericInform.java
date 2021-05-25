@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.enums.TitlePosition;
+
 import cyder.handler.ErrorHandler;
 import cyder.utilities.ImageUtil;
 import cyder.ui.CyderFrame;
@@ -42,7 +42,7 @@ public class GenericInform {
             //obtain cyderframe object of background color
             CyderFrame informFrame = new CyderFrame(width + widthOffset * 2,height + heightOffset * 2,
                     new ImageIcon(ImageUtil.bufferedImageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
-            informFrame.setTitlePosition(TitlePosition.CENTER);
+            informFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
             informFrame.setTitle(title);
 
             //make sure the text can wrap using HTML tags
@@ -100,7 +100,7 @@ public class GenericInform {
             //obtain cyderframe object of background color
             CyderFrame informFrame = new CyderFrame(width + widthOffset * 2,height + heightOffset * 2,
                     new ImageIcon(ImageUtil.bufferedImageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
-            informFrame.setTitlePosition(TitlePosition.CENTER);
+            informFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
             informFrame.setTitle(title);
 
             //make sure the text can wrap using HTML tags

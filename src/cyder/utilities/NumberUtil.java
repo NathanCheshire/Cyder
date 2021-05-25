@@ -3,7 +3,7 @@ package cyder.utilities;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
-import cyder.enums.TitlePosition;
+
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -60,7 +60,7 @@ public class NumberUtil {
 
         numFrame = new CyderFrame(600, 230, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         numFrame.setTitle("Number To Words");
-        numFrame.setTitlePosition(TitlePosition.CENTER);
+        numFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         numFrame.initResizing();
 
         CyderLabel label = new CyderLabel("<html>Enter any number to be converted into word form<html/>");

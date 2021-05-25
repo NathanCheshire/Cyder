@@ -3,7 +3,7 @@ package cyder.utilities;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
-import cyder.enums.TitlePosition;
+
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
@@ -272,7 +272,7 @@ public class ImageUtil {
     public static void drawImageIcon(ImageIcon icon) {
         CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight(), icon);
         frame.setTitle(icon.getDescription());
-        frame.setTitlePosition(TitlePosition.CENTER);
+        frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

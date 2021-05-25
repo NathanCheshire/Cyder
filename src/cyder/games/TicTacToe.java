@@ -2,7 +2,7 @@ package cyder.games;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.enums.TitlePosition;
+
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderButton;
 import cyder.utilities.ImageUtil;
@@ -40,7 +40,7 @@ public class TicTacToe {
             tttFrame.closeAnimation();
 
         tttFrame = new CyderFrame(400,500, new ImageIcon(DEFAULT_BACKGROUND_PATH));
-        tttFrame.setTitlePosition(TitlePosition.CENTER);
+        tttFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         tttFrame.setTitle("Tic Tac Toe");
 
         tttLabel = new JLabel();

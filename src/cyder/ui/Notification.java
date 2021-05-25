@@ -2,7 +2,6 @@ package cyder.ui;
 
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
-import cyder.utilities.AnimationUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +14,14 @@ public class Notification extends JLabel {
     private int width = 300;
     private int height = 300;
     private Direction ArrowType = Direction.TOP;
+
+    public int getTextXOffset() {
+        return 14; //offset from 0,0
+    }
+
+    public int getTextYOffset() {
+        return 16; //offset from 0,0
+    }
 
     public void setArrowSize(int arrowSize) {
         this.arrowSize = arrowSize;
@@ -180,8 +187,44 @@ public class Notification extends JLabel {
         }
     }
 
-    //todo fix vanish and appear methods, completely broken
-    //todo fix bounds calculation for text
+    /**
+     * This method to be used with an already initialized component. Expected that the component's starting
+     * location is already set.
+     * @param startDir - the direction for the notification to enter from.
+     * @param parent - the component the notification is placed on. Used for bounds calculations.
+     */
+    public void appear(Direction startDir, Component parent) {
+        new Thread(() -> {
+            try {
+                setVisible(true);
+
+                switch(startDir) {
+                    case TOP:
+                        //todo implement me
+
+                    case RIGHT:
+                        //todo implement me
+                        break;
+
+                    case LEFT:
+                        //todo implement me
+                        break;
+
+                    case BOTTOM:
+                        //todo implement me
+                        break;
+                }
+            }
+
+            catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }).start();
+    }
+
+    public void kill() {
+        this.setVisible(false);
+    }
 
     /**
      * This method to be used in combination with an already visible notification.
@@ -195,20 +238,16 @@ public class Notification extends JLabel {
                 Thread.sleep(delay);
                 switch(vanishDir) {
                     case TOP:
-                        AnimationUtil.jLabelYUp(this.getY(), - this.getHeight(), 10, 4, this);
-                        Thread.sleep(10 * (this.getHeight() + this.getY())/ 4);
+                        //todo implement me
                         break;
                     case BOTTOM:
-                        AnimationUtil.jLabelYDown(this.getY(), parent.getHeight(), 10, 4, this);
-                        Thread.sleep(10 * (parent.getHeight() - this.getY())/ 4);
+                        //todo implement me
                         break;
                     case RIGHT:
-                        AnimationUtil.jLabelXRight(this.getX(), parent.getWidth(), 10, 4, this);
-                        Thread.sleep(10 * (parent.getWidth() -  this.getX())/ 4);
+                        //todo implement me
                         break;
                     case LEFT:
-                        AnimationUtil.jLabelXLeft(this.getX(), - this.getWidth(), 10, 4, this);
-                        Thread.sleep(10 * (this.getWidth() + this.getX())/ 4);
+                        //todo implement me
                         break;
                 }
 
@@ -219,62 +258,5 @@ public class Notification extends JLabel {
                ErrorHandler.handle(e);
             }
         }).start();
-    }
-
-    /**
-     * This method to be used with an already initialized component.
-     * @param startDir - the direction for the notification to enter from.
-     * @param parent - the component the notification is placed on. Used for bounds calculations.
-     */
-    public void appear(Direction startDir, Component parent) {
-        new Thread(() -> {
-            try {
-                setVisible(true);
-
-                int parentWidth = parent.getWidth();
-                int notificationWidth = getWidth() / 2;
-
-                switch(startDir) {
-                    case TOP:
-                        setBounds(getX(), - getHeight(), getWidth(), getHeight());
-                        AnimationUtil.jLabelYDown(getY(), 30, 10, 4, this);
-                        Thread.sleep(10 * (getHeight())/ 4);
-                        break;
-                    case RIGHT:
-                        setBounds(parentWidth, getY(),getWidth(),getHeight());
-
-                        for (int i = parentWidth ; i > parentWidth - notificationWidth - 35 ; i -= 4) {
-                            setBounds(i,getY(),getWidth(),getHeight());
-                            Thread.sleep(10);
-                        }
-
-                        break;
-
-                    case LEFT:
-                        setBounds(- getWidth(), getY(), getWidth(), getHeight());
-                        AnimationUtil.jLabelXRight(this.getX(), 0, 10, 4, this);
-                        Thread.sleep(10 * (notificationWidth)/ 4);
-                        break;
-
-                    case BOTTOM:
-                        setBounds(getX(), parent.getHeight(),getWidth(),getHeight());
-
-                        for (int i = parent.getHeight() ; i > parent.getHeight() - getHeight()/2 - 15 ; i -= 4) {
-                            setBounds(getX(),i,getWidth(),getHeight());
-                            Thread.sleep(10);
-                        }
-
-                        break;
-                }
-            }
-
-            catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }).start();
-    }
-
-    public void kill() {
-        this.setVisible(false);
     }
 }

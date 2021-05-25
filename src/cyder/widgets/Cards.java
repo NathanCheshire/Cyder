@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.enums.TitlePosition;
+
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class Cards {
 
         cf = new CyderFrame(498,490, new ImageIcon("sys/pictures/Santa.gif"));
         cf.setTitle("Merry Christmas!");
-        cf.setTitlePosition(TitlePosition.CENTER);
+        cf.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
         cf.initResizing();
         cf.setMinimumSize(new Dimension(498,490));

@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.enums.TitlePosition;
+
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.utilities.SecurityUtil;
@@ -19,7 +19,7 @@ public class Hasher {
 
     public Hasher() {
         CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon(DEFAULT_BACKGROUND_PATH));
-        hashFrame.setTitlePosition(TitlePosition.CENTER);
+        hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");
 
         JLabel Instructions = new JLabel("Enter your password to be hashed");

@@ -2,7 +2,6 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.enums.TitlePosition;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -112,7 +111,7 @@ public class YouTubeThumbnail {
                 BufferedImage Thumbnail = ImageIO.read(url);
 
                 CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(), Thumbnail.getHeight(), new ImageIcon(Thumbnail));
-                thumbnailFrame.setTitlePosition(TitlePosition.CENTER);
+                thumbnailFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
                 thumbnailFrame.setTitle(YouTubeID);
 
                 JLabel PictureLabel = new JLabel();

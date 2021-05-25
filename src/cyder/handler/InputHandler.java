@@ -41,4 +41,6 @@ public class InputHandler {
 
     //todo trying to open weather.png from dir search bugs out, maybe resize error in photo viewer
     // fix this anyway by using a gradient and drawing most icons you have in pictures
+
+    //todo fix up animation util
 }
