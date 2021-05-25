@@ -302,15 +302,17 @@ public class CyderFrame extends JFrame {
         w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 10;
 
         //get height of a line and set it as height increment too
-        int h = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight();
+        int h = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight() + 6;
         FontMetrics metrics = getGraphics().getFontMetrics();
-        h += metrics.getAscent();
 
         //if too much width, take half away and add back in height
         while (w > 0.9 * getWidth()) {
             w /= 2;
-            h = h * 2 + metrics.getDescent();
+            h = h * 2; // padding?
         }
+
+        //add in end of line
+        h += metrics.getDescent();
 
         //now we have min width and height for string bounds, no more no less than this
 

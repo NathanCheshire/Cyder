@@ -2390,7 +2390,6 @@ public class CyderMain {
                 notificationLengthTestFrame.notify(
                         "i've got a bunch of coconuts there they are all sitting in a row " +
                                 "i've got a bunch of coconuts there they are all sitting in a row " +
-                                "i've got a bunch of coconuts there they are all sitting in a row " +
                                 "i've got a bunch of coconuts there they are all sitting in a row "
                         , 5000, Direction.TOP);
                 //todo timeout should start after moving animation is complete

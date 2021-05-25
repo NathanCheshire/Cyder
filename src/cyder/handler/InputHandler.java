@@ -38,4 +38,7 @@ public class InputHandler {
     // same dir as src and call logs
 
     //todo I don't want to see a UUID, minimize usage of it
+
+    //todo trying to open weather.png from dir search bugs out, maybe resize error in photo viewer
+    // fix this anyway by using a gradient and drawing most icons you have in pictures
 }
