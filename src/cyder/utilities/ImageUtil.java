@@ -1,8 +1,7 @@
 package cyder.utilities;
 
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.enums.ConsoleDirection;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
 import cyder.enums.TitlePosition;
 import cyder.exception.FatalException;
@@ -219,13 +218,13 @@ public class ImageUtil {
         return null;
     }
 
-    public static BufferedImage getRotatedImage(String name, ConsoleDirection consoleDirection) {
+    public static BufferedImage getRotatedImage(String name, Direction consoleDirection) {
         switch(consoleDirection) {
-            case UP:
+            case TOP:
                 return ImageUtil.getBi(name);
             case RIGHT:
                 return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),90);
-            case DOWN:
+            case BOTTOM:
                 return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),180);
             case LEFT:
                 return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),-90);

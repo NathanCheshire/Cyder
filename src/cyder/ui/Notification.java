@@ -1,8 +1,6 @@
 package cyder.ui;
 
-import cyder.enums.ArrowDirection;
-import cyder.enums.StartDirection;
-import cyder.enums.VanishDirection;
+import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.utilities.AnimationUtil;
 
@@ -12,30 +10,14 @@ import java.awt.geom.GeneralPath;
 
 public class Notification extends JLabel {
 
-    private int strokeThickness = 5;
-    private int padding = strokeThickness / 2;
     private int arrowSize = 6;
-    private int radius = 10;
-
-    private int timeout;
-
     private Color fillColor = new Color(236,64,122);
-
     private int width = 300;
     private int height = 300;
-
-    private ArrowDirection ArrowType = ArrowDirection.TOP;
-
-    public void setStrokeThickness(int strokeThickness) {
-        this.strokeThickness = strokeThickness;
-    }
+    private Direction ArrowType = Direction.TOP;
 
     public void setArrowSize(int arrowSize) {
         this.arrowSize = arrowSize;
-    }
-
-    public void setRadius(int radius) {
-        this.radius = radius;
     }
 
     public void setFillColor(Color c) {
@@ -50,8 +32,18 @@ public class Notification extends JLabel {
         this.height = h;
     }
 
-    public void setArrow(ArrowDirection type) {
+    public void setArrow(Direction type) {
         this.ArrowType = type;
+    }
+
+    @Override
+    public int getWidth() {
+        return this.width + 14 * 2;
+    }
+
+    @Override
+    public int getHeight() {
+        return this.height + 16 * 2;
     }
 
     @Override
@@ -188,13 +180,16 @@ public class Notification extends JLabel {
         }
     }
 
+    //todo fix vanish and appear methods, completely broken
+    //todo fix bounds calculation for text
+
     /**
      * This method to be used in combination with an already visible notification.
      * @param vanishDir - the direction to exit to.
      * @param parent - the component the notification is on. Used for bounds calculations.
      * @param delay - the delay before vanish.
      */
-    public void vanish(VanishDirection vanishDir, Component parent, int delay) {
+    public void vanish(Direction vanishDir, Component parent, int delay) {
         new Thread(() -> {
             try {
                 Thread.sleep(delay);
@@ -211,7 +206,6 @@ public class Notification extends JLabel {
                         AnimationUtil.jLabelXRight(this.getX(), parent.getWidth(), 10, 4, this);
                         Thread.sleep(10 * (parent.getWidth() -  this.getX())/ 4);
                         break;
-
                     case LEFT:
                         AnimationUtil.jLabelXLeft(this.getX(), - this.getWidth(), 10, 4, this);
                         Thread.sleep(10 * (this.getWidth() + this.getX())/ 4);
@@ -232,7 +226,7 @@ public class Notification extends JLabel {
      * @param startDir - the direction for the notification to enter from.
      * @param parent - the component the notification is placed on. Used for bounds calculations.
      */
-    public void appear(StartDirection startDir, Component parent) {
+    public void appear(Direction startDir, Component parent) {
         new Thread(() -> {
             try {
                 setVisible(true);
@@ -263,9 +257,13 @@ public class Notification extends JLabel {
                         break;
 
                     case BOTTOM:
-                        setBounds(getX(), parent.getHeight(), getWidth(), getHeight());
-                        AnimationUtil.jLabelYUp(parent.getHeight(), parent.getHeight() - getHeight() , 10, 4, this);
-                        Thread.sleep(10 * (getHeight())/ 4);
+                        setBounds(getX(), parent.getHeight(),getWidth(),getHeight());
+
+                        for (int i = parent.getHeight() ; i > parent.getHeight() - getHeight()/2 - 15 ; i -= 4) {
+                            setBounds(getX(),i,getWidth(),getHeight());
+                            Thread.sleep(10);
+                        }
+
                         break;
                 }
             }

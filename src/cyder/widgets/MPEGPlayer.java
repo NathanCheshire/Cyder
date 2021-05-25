@@ -1,10 +1,8 @@
 package cyder.widgets;
 
-import cyder.constants.CyderColors;
-import cyder.constants.CyderImages;
-import cyder.enums.ArrowDirection;
-import cyder.enums.StartDirection;
-import cyder.enums.VanishDirection;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderImages;
+import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -509,7 +507,7 @@ public class MPEGPlayer {
         musicFrame.setAlwaysOnTop(false);
         musicFrame.requestFocus();
 
-        musicFrame.notify("Welcome to FlashPlayer (haha get it?)",3000, ArrowDirection.TOP, StartDirection.TOP, VanishDirection.TOP);
+        musicFrame.notify("Welcome to FlashPlayer (haha get it?)",3000, Direction.TOP, Direction.TOP, Direction.TOP);
 
         //if not null then we call initMusi
         if (StartPlaying != null && !StartPlaying.getName().equals(""))

@@ -1,7 +1,7 @@
 package cyder.widgets;
 
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
@@ -9,7 +9,7 @@ import cyder.utilities.IOUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class Phone {
     private JLabel numberLabel;

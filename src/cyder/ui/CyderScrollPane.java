@@ -1,7 +1,7 @@
 package cyder.ui;
 
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;

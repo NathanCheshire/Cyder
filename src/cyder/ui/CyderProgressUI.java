@@ -1,6 +1,6 @@
 package cyder.ui;
 
-import cyder.constants.CyderColors;
+import cyder.consts.CyderColors;
 import cyder.enums.AnimationDirection;
 
 import javax.swing.*;
@@ -10,8 +10,6 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 
-//I adapted code from this guy on stackoverflow for this program and removed a bunch of comments
-/*@author https://github.com/I82Much*/
 public class CyderProgressUI extends BasicProgressBarUI {
 
     private int numFrames = 100;

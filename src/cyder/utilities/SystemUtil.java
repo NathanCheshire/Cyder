@@ -5,8 +5,11 @@ import cyder.handler.ErrorHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 public class SystemUtil {
 
@@ -180,5 +183,32 @@ public class SystemUtil {
         }
 
         folder.delete();
+    }
+
+    /**
+     * Returns a list of all files contained within the startDir and sub directories
+     * that have the specified extension
+     * @param startDir - the starting directory
+     * @param extension - the specified extension. Ex. ".java"
+     * @return - an ArrayList of all files with the given extension found within the startDir and
+     * sub directories
+     */
+    public static ArrayList<File> getFiles(File startDir, String extension) {
+        //init return set
+        ArrayList<File> ret = new ArrayList<>();
+
+        //should be directory but test anyway
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                ret.addAll(getFiles(f, extension));
+
+            //if it's a file with the proper extension, return it
+        } else if (startDir.getName().endsWith(extension)) {
+            ret.add(startDir);
+        }
+
+        return ret;
     }
 }

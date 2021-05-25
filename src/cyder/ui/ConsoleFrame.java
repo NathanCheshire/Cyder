@@ -1,6 +1,5 @@
 package cyder.ui;
 
-import cyder.enums.ConsoleDirection;
 import cyder.enums.Direction;
 import cyder.genesis.CyderMain;
 import cyder.handler.ErrorHandler;
@@ -308,7 +307,7 @@ public final class ConsoleFrame extends CyderFrame {
 
             //are we full screened and are we rotated?
             boolean fullscreen = IOUtil.getUserData("FullScreen").equalsIgnoreCase("1");
-            ConsoleDirection direction = getConsoleDirection();
+            Direction direction = getConsoleDirection();
 
             //if full screen then get full screen images
             if (fullscreen) {
@@ -322,7 +321,7 @@ public final class ConsoleFrame extends CyderFrame {
             //when switching backgrounds, we ignore rotation if in full screen because it is impossible
             else {
                 //not full screen and oriented left
-                if (direction == ConsoleDirection.LEFT) {
+                if (direction == Direction.LEFT) {
                     width = width + height;
                     height = width - height;
                     width = width - height;
@@ -332,7 +331,7 @@ public final class ConsoleFrame extends CyderFrame {
                 }
 
                 //not full screen and oriented right
-                else if (direction == ConsoleDirection.RIGHT) {
+                else if (direction == Direction.RIGHT) {
                     width = width + height;
                     height = width - height;
                     width = width - height;
@@ -442,14 +441,14 @@ public final class ConsoleFrame extends CyderFrame {
         return consoleClockEnabled;
     }
 
-    private static ConsoleDirection consoleDir = ConsoleDirection.UP;
+    private static Direction consoleDir = Direction.TOP;
 
-    public static void setConsoleDirection(ConsoleDirection conDir) {
+    public static void setConsoleDirection(Direction conDir) {
         consoleDir = conDir;
         //todo repaint
     }
 
-    public static ConsoleDirection getConsoleDirection() {
+    public static Direction getConsoleDirection() {
         return consoleDir;
     }
 

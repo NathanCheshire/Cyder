@@ -1,10 +1,10 @@
 package cyder.genesis;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderImages;
-import cyder.enums.ConsoleDirection;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
+import cyder.enums.Direction;
 import cyder.enums.TitlePosition;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -45,7 +45,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class CyderMain {
     //todo shared package
@@ -311,22 +311,22 @@ public class CyderMain {
                         handle("controlc");
 
                     if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.setConsoleDirection(ConsoleDirection.DOWN);
+                        ConsoleFrame.setConsoleDirection(Direction.BOTTOM);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.setConsoleDirection(ConsoleDirection.RIGHT);
+                        ConsoleFrame.setConsoleDirection(Direction.RIGHT);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.setConsoleDirection(ConsoleDirection.UP);
+                        ConsoleFrame.setConsoleDirection(Direction.TOP);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.setConsoleDirection(ConsoleDirection.LEFT);
+                        ConsoleFrame.setConsoleDirection(Direction.LEFT);
                         exitFullscreen();
                     }
 
@@ -1401,14 +1401,14 @@ public class CyderMain {
         ImageIcon backIcon;
 
         switch (ConsoleFrame.getConsoleDirection()) {
-            case UP:
+            case TOP:
                 backIcon = new ImageIcon(backFile);
                 width = backIcon.getIconWidth();
                 height = backIcon.getIconHeight();
                 parentLabel.setIcon(backIcon);
 
                 break;
-            case DOWN:
+            case BOTTOM:
                 backIcon = new ImageIcon(backFile);
                 width = backIcon.getIconWidth();
                 height = backIcon.getIconHeight();
@@ -1418,7 +1418,7 @@ public class CyderMain {
             default:
                 backIcon = new ImageIcon(backFile);
 
-                if (ConsoleFrame.getConsoleDirection() == ConsoleDirection.LEFT || ConsoleFrame.getConsoleDirection() == ConsoleDirection.RIGHT) {
+                if (ConsoleFrame.getConsoleDirection() == Direction.LEFT || ConsoleFrame.getConsoleDirection() == Direction.RIGHT) {
                     height = backIcon.getIconWidth();
                     width = backIcon.getIconHeight();
                 }
@@ -2299,14 +2299,21 @@ public class CyderMain {
             } else if (hasWord("barrel") && hasWord("roll")) {
                 //todo ConsoleFrme.barrelRoll();
             } else if (hasWord("analyze") && hasWord("code")) {
-                //todo refine this, make a total section and then a file by file section
+                //file by file
+                println(StatUtil.fileByFileAnalyze(new File("src")));
+                //overview
+                println("Lines of code: " +
+                        StatUtil.totalJavaLines(new File("src")));
+                println("Number of java files: " +
+                        StatUtil.totalJavaFiles(new File("src")));
+                println("Number of comments: " +
+                        StatUtil.totalComments(new File("src")));
+                println("Blank lines: " +
+                        StatUtil.totalBlankLines(new File("src")));
+                println("Total: " +
+                        (StatUtil.totalBlankLines(new File("src"))
+                        + StatUtil.totalJavaLines(new File("src"))));
 
-                println("Lines of code: " + NumberUtil.totalJavaLines(new File("src")));
-                println("Number of java files: " + NumberUtil.totalJavaFiles(new File("src")));
-                println("Number of comments: " + NumberUtil.totalComments(new File("src")));
-                println("Blank lines: " + NumberUtil.totalBlankLines(new File("src")));
-                println("Total: " + (NumberUtil.totalBlankLines(new File("src"))
-                        + NumberUtil.totalJavaLines(new File("src"))));
             } else if (hasWord("threads") && !hasWord("daemon")) {
                 ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                 int num = threadGroup.activeCount();
@@ -2374,6 +2381,20 @@ public class CyderMain {
                 //todo make a test cyder frame to try and get the layering to work with
                 // popups, drag label, and components added to content pane
 
+                CyderFrame notificationLengthTestFrame = new CyderFrame(600,600, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+                notificationLengthTestFrame.setLocationRelativeTo(null);
+                notificationLengthTestFrame.setTitlePosition(TitlePosition.CENTER);
+                notificationLengthTestFrame.setPaintSuperTitle(false);
+                notificationLengthTestFrame.setTitle("Notification test");
+                notificationLengthTestFrame.setVisible(true);
+                notificationLengthTestFrame.notify(
+                        "i've got a bunch of coconuts there they are all sitting in a row " +
+                                "i've got a bunch of coconuts there they are all sitting in a row " +
+                                "i've got a bunch of coconuts there they are all sitting in a row " +
+                                "i've got a bunch of coconuts there they are all sitting in a row "
+                        , 5000, Direction.TOP);
+                //todo timeout should start after moving animation is complete
+                //todo consolidate different direction enums, move title position to cyderframe
 
             } else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +

@@ -1,10 +1,9 @@
 package cyder.utilities;
 
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.enums.ArrowDirection;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
+import cyder.enums.Direction;
 import cyder.enums.TitlePosition;
-import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -13,17 +12,12 @@ import cyder.ui.CyderTextField;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class NumberUtil {
 
@@ -55,111 +49,6 @@ public class NumberUtil {
 
             a = b;
             b = next;
-        }
-
-        return ret;
-    }
-
-    //todo make method to return overall stats and then a table for file by file
-
-    public static int totalJavaLines(File startDir) {
-        int ret = 0;
-
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
-
-            for (File f : files)
-                ret += totalJavaLines(f);
-        } else if (startDir.getName().endsWith(".java")) {
-            try {
-                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line = "";
-                int localRet = 0;
-
-                while ((line = lineReader.readLine()) != null)
-                    if (line.trim().length() > 0)
-                        localRet++;
-
-                return localRet;
-            } catch (Exception ex) {
-                ErrorHandler.handle(ex);
-            }
-        }
-
-        return ret;
-    }
-
-    public static int totalJavaFiles(File startDir) {
-        int ret = 0;
-
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
-
-            for (File f : files)
-                ret += totalJavaFiles(f);
-        } else if (startDir.getName().endsWith(".java")) {
-            return 1;
-        }
-
-        return ret;
-    }
-
-    public static int totalComments(File startDir) {
-        int ret = 0;
-
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
-
-            for (File f : files)
-                ret += totalComments(f);
-        } else if (startDir.getName().endsWith(".java")) {
-            try {
-                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line = "";
-                int localRet = 0;
-
-                while ((line = lineReader.readLine()) != null)
-                    if (line.trim().length() > 0 && (isComment(line)))
-                        localRet++;
-
-                return localRet;
-            } catch (Exception ex) {
-                ErrorHandler.handle(ex);
-            }
-        }
-
-        return ret;
-    }
-
-    private static boolean isComment(String line) {
-        return line.trim().startsWith("//") ||
-                line.trim().startsWith("/*") ||
-                line.trim().startsWith("*") ||
-                line.trim().endsWith("*/") || line.matches("//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/");
-    }
-
-    public static int totalBlankLines(File startDir) {
-        int ret = 0;
-
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
-
-            for (File f : files)
-                ret += totalBlankLines(f);
-        } else if (startDir.getName().endsWith(".java")) {
-            try {
-                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line = "";
-                int localRet = 0;
-
-                while ((line = lineReader.readLine()) != null)
-                    if (line.trim().length() == 0)
-                        localRet++;
-
-                return localRet;
-            } catch (Exception ex) {
-                ErrorHandler.handle(ex);
-            }
         }
 
         return ret;
@@ -213,7 +102,7 @@ public class NumberUtil {
 
         BigInteger num = new BigInteger(wordRep);
         if (num.compareTo(BigInteger.ZERO) == 0) {
-            numFrame.notify("Zero you idiot", 3000, ArrowDirection.TOP);
+            numFrame.notify("Zero you idiot", 3000, Direction.TOP);
             return;
         }
 

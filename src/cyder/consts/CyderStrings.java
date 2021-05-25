@@ -1,4 +1,4 @@
-package cyder.constants;
+package cyder.consts;
 
 public class CyderStrings {
     public static final String HERE = "here";

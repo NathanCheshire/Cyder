@@ -1,11 +1,9 @@
 package cyder.ui;
 
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.enums.ArrowDirection;
-import cyder.enums.StartDirection;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
+import cyder.enums.Direction;
 import cyder.enums.TitlePosition;
-import cyder.enums.VanishDirection;
 import cyder.handler.ErrorHandler;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.SystemUtil;
@@ -227,7 +225,7 @@ public class CyderFrame extends JFrame {
      * @param htmlText - the text you want to notify on the callilng from
      */
     public void notify(String htmlText) {
-        notify(htmlText, 5000, ArrowDirection.TOP);
+        notify(htmlText, 5000, Direction.TOP);
     }
 
     /**
@@ -236,52 +234,55 @@ public class CyderFrame extends JFrame {
      * @param viewDuration - time in ms that the notification should stay on screen
      * @param direction - the enter and vanish direction for the notification
      */
-    public void notify(String htmltext, int viewDuration, ArrowDirection direction) {
+    public void notify(String htmltext, int viewDuration, Direction direction) {
         Notification frameNotification = new Notification();
 
-        StartDirection startDir;
-        VanishDirection vanishDir;
+        Direction startDir;
+        Direction vanishDir;
 
         switch (direction) {
             case LEFT:
-                startDir = StartDirection.LEFT;
-                vanishDir = VanishDirection.LEFT;
+                startDir = Direction.LEFT;
+                vanishDir = Direction.LEFT;
                 break;
             case RIGHT:
-                startDir = StartDirection.RIGHT;
-                vanishDir = VanishDirection.RIGHT;
+                startDir = Direction.RIGHT;
+                vanishDir = Direction.RIGHT;
                 break;
             case BOTTOM:
-                startDir = StartDirection.BOTTOM;
-                vanishDir = VanishDirection.BOTTOM;
+                startDir = Direction.BOTTOM;
+                vanishDir = Direction.BOTTOM;
                 break;
             default:
-                startDir = StartDirection.TOP;
-                vanishDir = VanishDirection.TOP;
+                startDir = Direction.TOP;
+                vanishDir = Direction.TOP;
                 break;
         }
 
         notify(htmltext, viewDuration, direction, startDir, vanishDir);
     }
 
+    private Notification currentNotification;
+    //todo get current and set bounds on resize events
+    public Notification getCurrentNotification() {
+        return currentNotification;
+    }
+
     /**
      * Full control over the notification function of a {@link CyderFrame}.
-     * See {@link CyderFrame#notify(String, int, ArrowDirection)} for a simpler notify function
+     * See {@link CyderFrame#notify(String, int, Direction)} for a simpler notify function
      * @param htmltext - the text you want to display (may include HTML tags)
      * @param viewDuration - the time in ms the notification should be visible for
      * @param arrowDir - the direction of the arrow on the notification
      * @param startDir - the enter direction of the notification
      * @param vanishDir - the exit direction of the notification
      */
-    public void notify(String htmltext, int viewDuration, ArrowDirection arrowDir, StartDirection startDir, VanishDirection vanishDir) {
-        //todo height and width calculations are a bodge, make them better
-        //todo anywhere there's an affine transform for bound caluclations, fix this, try using the method ot get a rectangle2D
-
+    public void notify(String htmltext, int viewDuration, Direction arrowDir, Direction startDir, Direction vanishDir) {
         //init notification object
-        Notification frameNotification = new Notification();
+        currentNotification = new Notification();
 
         //set the arrow direction
-        frameNotification.setArrow(arrowDir);
+        currentNotification.setArrow(arrowDir);
 
         //create text label to go on top of notification label
         JLabel text = new JLabel();
@@ -292,48 +293,53 @@ public class CyderFrame extends JFrame {
         int w = 0;
         Font notificationFont = CyderFonts.weatherFontSmall;
         AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
 
-        //parse away all html
+        //parse away html
         String parsedHTML = Jsoup.clean(htmltext, Whitelist.none());
 
-        //get overall width
+        //get minimum width for whole parsed string
         w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 10;
 
-        //figure out the height of a single line and set that as the height increment
-        int heightIncrement = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight() + 10;
-        int h = heightIncrement;
-        int lastIndex = 0;
+        //get height of a line and set it as height increment too
+        int h = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight();
+        FontMetrics metrics = getGraphics().getFontMetrics();
+        h += metrics.getAscent();
 
-        //rectangle to keep needed text area consistent
-        int area = h * w;
-
-        while (w * 1.25 > this.getContentPane().getWidth()) {
-            //decrease width by 25% and increase height accordingly to keep area constant
-            h += heightIncrement;
-            w = area / h;
+        //if too much width, take half away and add back in height
+        while (w > 0.9 * getWidth()) {
+            w /= 2;
+            h = h * 2 + metrics.getDescent();
         }
 
-        frameNotification.setWidth(w);
-        frameNotification.setHeight(h);
-        text.setBounds(14,10,w + 14,h + 10);
+        //now we have min width and height for string bounds, no more no less than this
+
+        //set the text bounds to the proper x,y and the calculated width and height
+        //todo getters for bounds offsets due to notification curvature
+        text.setBounds(14,16,w,h);
+
+        currentNotification.setWidth(w);
+        currentNotification.setHeight(h);
 
         text.setFont(notificationFont);
         text.setForeground(CyderColors.navy);
-        frameNotification.add(text);
+        currentNotification.add(text);
 
-        if (startDir == StartDirection.LEFT)
-            frameNotification.setBounds(0, 30, w * 2, h * 2);
-        else if (startDir == StartDirection.RIGHT)
-            frameNotification.setBounds(this.getContentPane().getWidth() - (w + 30), 32, w * 2, h * 2);
+        if (startDir == Direction.LEFT)
+            currentNotification.setLocation(0, 30);
+        else if (startDir == Direction.RIGHT)
+            currentNotification.setLocation(this.getContentPane().getWidth() - (w + 30), 32);
+        else if (startDir == Direction.BOTTOM)
+            currentNotification.setLocation(this.getContentPane().getWidth() / 2 - (w / 2) - 14,
+                    this.getContentPane().getWidth() - h);
         else
-            frameNotification.setBounds(this.getContentPane().getWidth() / 2 - (w / 2) - 14, 32, w * 2, h * 2);
+            currentNotification.setLocation(this.getContentPane().getWidth() / 2 - (w / 2) - 14, 32);
 
-        contentLabel.add(frameNotification);
+        contentLabel.add(currentNotification);
         this.getContentPane().repaint();
 
-        frameNotification.appear(startDir, this.getContentPane());
-        frameNotification.vanish(vanishDir, this.getContentPane(), viewDuration);
+        currentNotification.appear(startDir, this.getContentPane());
+        currentNotification.vanish(vanishDir, this.getContentPane(), viewDuration);
     }
 
     /**
@@ -596,9 +602,9 @@ public class CyderFrame extends JFrame {
             getDragLabel().setWidth(width);
             setTitle(getTitle());
         }
-    }
 
-    //getters and setters for min size, max size, and snap size
+        //todo move any notification on screen
+    }
 
     private Dimension minimumSize = new Dimension(200, 200);
     private Dimension maximumSize = new Dimension(800, 800);

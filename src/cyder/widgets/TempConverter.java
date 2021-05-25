@@ -1,7 +1,7 @@
 package cyder.widgets;
 
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCheckBox;
 import cyder.ui.CyderFrame;
@@ -10,10 +10,9 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 
-import static cyder.constants.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class TempConverter {
     private CyderFrame temperatureFrame;

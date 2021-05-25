@@ -1,4 +1,4 @@
-package cyder.constants;
+package cyder.consts;
 
 import java.awt.*;
 

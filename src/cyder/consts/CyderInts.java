@@ -1,4 +1,4 @@
-package cyder.constants;
+package cyder.consts;
 
 public class CyderInts {
     public static final int INFINITY = Integer.MAX_VALUE;

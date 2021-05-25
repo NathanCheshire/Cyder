@@ -1,6 +1,6 @@
 package cyder.handler;
 
-import cyder.constants.CyderColors;
+import cyder.consts.CyderColors;
 
 import javax.swing.*;
 import java.awt.*;

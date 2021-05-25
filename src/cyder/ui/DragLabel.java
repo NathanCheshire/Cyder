@@ -1,7 +1,7 @@
 package cyder.ui;
 
-import cyder.constants.CyderColors;
-import cyder.constants.CyderImages;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderImages;
 import cyder.utilities.AnimationUtil;
 
 import javax.swing.*;

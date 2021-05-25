@@ -5,7 +5,9 @@ import cyder.handler.ErrorHandler;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
@@ -144,5 +146,121 @@ public class StatUtil {
         catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    public static String fileByFileAnalyze(File startDir) {
+        String ret = "Numbers in order represent: code lines, comment lines, and blank lines respectively\n";
+
+        ArrayList<File> javaFiles = SystemUtil.getFiles(startDir, ".java");
+
+        for (File f : javaFiles) {
+            ret += f.getName().replace(".java","")+ ": " + totalJavaLines(f) + ","
+                    + totalComments(f) + "," + totalBlankLines(f) + "\n";
+        }
+
+        return ret;
+    }
+
+    public static int totalJavaLines(File startDir) {
+        int ret = 0;
+
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                ret += totalJavaLines(f);
+        } else if (startDir.getName().endsWith(".java")) {
+            try {
+                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
+                String line = "";
+                int localRet = 0;
+
+                while ((line = lineReader.readLine()) != null)
+                    if (line.trim().length() > 0)
+                        localRet++;
+
+                return localRet;
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
+            }
+        }
+
+        return ret;
+    }
+
+    public static int totalJavaFiles(File startDir) {
+        int ret = 0;
+
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                ret += totalJavaFiles(f);
+        } else if (startDir.getName().endsWith(".java")) {
+            return 1;
+        }
+
+        return ret;
+    }
+
+    public static int totalComments(File startDir) {
+        int ret = 0;
+
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                ret += totalComments(f);
+        } else if (startDir.getName().endsWith(".java")) {
+            try {
+                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
+                String line = "";
+                int localRet = 0;
+
+                while ((line = lineReader.readLine()) != null)
+                    if (line.trim().length() > 0 && (isComment(line)))
+                        localRet++;
+
+                return localRet;
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
+            }
+        }
+
+        return ret;
+    }
+
+    private static boolean isComment(String line) {
+        return line.trim().startsWith("//") ||
+                line.trim().startsWith("/*") ||
+                line.trim().startsWith("*") ||
+                line.trim().endsWith("*/") || line.matches("//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/");
+    }
+
+    public static int totalBlankLines(File startDir) {
+        int ret = 0;
+
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                ret += totalBlankLines(f);
+        } else if (startDir.getName().endsWith(".java")) {
+            try {
+                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
+                String line = "";
+                int localRet = 0;
+
+                while ((line = lineReader.readLine()) != null)
+                    if (line.trim().length() == 0)
+                        localRet++;
+
+                return localRet;
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
+            }
+        }
+
+        return ret;
     }
 }
