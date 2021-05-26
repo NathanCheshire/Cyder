@@ -155,4 +155,8 @@ public class DragLabel extends JLabel {
     public boolean isDraggingEnabled() {
         return draggingEnabled;
     }
+
+    public static int getDefaultHeight() {
+        return 30;
+    }
 }

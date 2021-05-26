@@ -1859,10 +1859,6 @@ public class CyderMain {
             } else if (has("paint")) {
                 String param = "C:/Windows/system32/mspaint.exe";
                 Runtime.getRuntime().exec(param);
-            } else if (eic("pi")) {
-                println(Math.PI);
-            } else if (hasWord("euler") || eic("e")) {
-                println("Leonhard Euler's number is " + Math.E);
             } else if (hasWord("scrub")) {
                 stringUtil.setOutputArea(outputArea);
                 stringUtil.bletchy("No you!", false, 50);
@@ -2379,12 +2375,13 @@ public class CyderMain {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             } else if (eic("test")) {
                 //todo make a test cyder frame to try and get the layering to work with
+
                 // popups, drag label, and components added to content pane
 
                 CyderFrame notificationLengthTestFrame = new CyderFrame(600,600, new ImageIcon(DEFAULT_BACKGROUND_PATH));
                 notificationLengthTestFrame.setLocationRelativeTo(null);
                 notificationLengthTestFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-                notificationLengthTestFrame.setPaintSuperTitle(false);
+                notificationLengthTestFrame.setPaintSuperTitle(true);
                 notificationLengthTestFrame.setTitle("Notification test");
                 notificationLengthTestFrame.setVisible(true);
                 notificationLengthTestFrame.notify(
@@ -2392,7 +2389,10 @@ public class CyderMain {
                                 "i've got a bunch of coconuts there they are all sitting in a row "
                         , 5000, Direction.BOTTOM);
 
-                //todo timeout should start after moving animation is complete                //todo determine how long the timeout should be based on the word count, always at least 5 seconds on screen
+                //todo timeout should start after moving animation is complete
+
+                //todo determine how long the timeout should be based on the word count,
+                // always at least 5 seconds on screen
 
             } else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
@@ -2400,24 +2400,15 @@ public class CyderMain {
 
                 new Thread(() -> {
                     try {
-                        ImageIcon img2 = new ImageIcon("sys/pictures/suggestion2.png");
-                        ImageIcon img1 = new ImageIcon("sys/pictures/suggestion1.png");
+                        ImageIcon blinkIcon = new ImageIcon("sys/pictures/suggestion2.png");
+                        ImageIcon regularIcon = new ImageIcon("sys/pictures/suggestion1.png");
 
-                        suggestionButton.setIcon(img2);
-                        Thread.sleep(300);
-                        suggestionButton.setIcon(img1);
-                        Thread.sleep(300);
-                        suggestionButton.setIcon(img2);
-                        Thread.sleep(300);
-                        suggestionButton.setIcon(img1);
-                        Thread.sleep(300);
-                        suggestionButton.setIcon(img2);
-                        Thread.sleep(300);
-                        suggestionButton.setIcon(img1);
-                        Thread.sleep(300);
-                        suggestionButton.setIcon(img2);
-                        Thread.sleep(300);
-                        suggestionButton.setIcon(img1);
+                        for (int i = 0 ; i < 4 ; i++) {
+                            suggestionButton.setIcon(blinkIcon);
+                            Thread.sleep(300);
+                            suggestionButton.setIcon(regularIcon);
+                            Thread.sleep(300);
+                        }
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
                     }

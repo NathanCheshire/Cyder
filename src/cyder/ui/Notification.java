@@ -27,6 +27,10 @@ public class Notification extends JLabel {
         this.arrowSize = arrowSize;
     }
 
+    public int getArrowSize() {
+        return this.arrowSize;
+    }
+
     public void setFillColor(Color c) {
         this.fillColor = c;
     }
@@ -45,12 +49,12 @@ public class Notification extends JLabel {
 
     @Override
     public int getWidth() {
-        return this.width + 14 * 2;
+        return this.width + 14 * 2 + ((ArrowType == Direction.LEFT || ArrowType == Direction.RIGHT) ? arrowSize : 0);
     }
 
     @Override
     public int getHeight() {
-        return this.height + 16 * 2;
+        return this.height + 16 * 2 + ((ArrowType == Direction.BOTTOM || ArrowType == Direction.TOP) ? arrowSize : 0);
     }
 
     @Override
@@ -200,18 +204,35 @@ public class Notification extends JLabel {
 
                 switch(startDir) {
                     case TOP:
-                        //todo implement me
+                        for (int i = getY() ; i < DragLabel.getDefaultHeight() ; i += 4) {
+                            setBounds(getX(), i, getWidth(), getHeight());
+                            Thread.sleep(10);
+                        }
+
+                        break;
 
                     case RIGHT:
-                        //todo implement me
+                        for (int i = getX() ; i > parent.getWidth() - this.getWidth() + 5 ; i -= 4) {
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(10);
+                        }
+
                         break;
 
                     case LEFT:
-                        //todo implement me
+                        for (int i = getX() ; i < 5 ; i += 4) {
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(10);
+                        }
+
                         break;
 
                     case BOTTOM:
-                        //todo implement me
+                        for (int i = getY() ; i > parent.getHeight() - this.getHeight() + 5 ; i -= 4) {
+                            setBounds(getX(), i, getWidth(), getHeight());
+                            Thread.sleep(10);
+                        }
+
                         break;
                 }
             }
@@ -222,7 +243,9 @@ public class Notification extends JLabel {
         }).start();
     }
 
+
     public void kill() {
+        //todo add boolean toggle too to stop any loops in threads
         this.setVisible(false);
     }
 
@@ -235,19 +258,38 @@ public class Notification extends JLabel {
     public void vanish(Direction vanishDir, Component parent, int delay) {
         new Thread(() -> {
             try {
-                Thread.sleep(delay);
+                Thread.sleep(delay); //make sure this starts only after the component is fully visible
                 switch(vanishDir) {
                     case TOP:
-                        //todo implement me
+                        for (int i = getY() ; i > - getHeight() ; i -= 4) {
+                            setBounds(getX(), i, getWidth(), getHeight());
+                            Thread.sleep(10);
+                        }
+
                         break;
+
                     case BOTTOM:
-                        //todo implement me
+                        for (int i = getY() ; i < parent.getHeight() - 5 ; i += 4) {
+                            setBounds(getX(), i, getWidth(), getHeight());
+                            Thread.sleep(10);
+                        }
+
                         break;
+
                     case RIGHT:
-                        //todo implement me
+                        for (int i = getX() ; i < parent.getWidth() - 5 ; i += 4) {
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(10);
+                        }
+
                         break;
+
                     case LEFT:
-                        //todo implement me
+                        for (int i = getX() ; i > -getWidth() + 5 ; i -= 4) {
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(10);
+                        }
+
                         break;
                 }
 

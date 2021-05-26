@@ -15,6 +15,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -63,6 +65,7 @@ public class CyderFrame extends JFrame {
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
+        //todo border needs to have higher layering priority than notification
         contentLabel = new JLabel();
         contentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         contentLabel.setIcon(background);
@@ -268,7 +271,7 @@ public class CyderFrame extends JFrame {
     }
 
     private Notification currentNotification;
-    //todo get current and set bounds on resize events
+    //todo get current and set bounds on resize events if not null, set to null after vanish is complete
     public Notification getCurrentNotification() {
         return currentNotification;
     }
@@ -318,11 +321,21 @@ public class CyderFrame extends JFrame {
 
         //add in end of line
         h += metrics.getDescent();
-
         //now we have min width and height for string bounds, no more no less than this
 
         //set the text bounds to the proper x,y and the calculated width and height
         text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+
+        //tooltip to let the user know they can dismiss the notification before it slides away
+        text.setToolTipText("Click to dismiss");
+        //todo these are broken
+        //action listener to dismiss
+        currentNotification.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                currentNotification.setVisible(false);
+            }
+        });
 
         currentNotification.setWidth(w);
         currentNotification.setHeight(h);
@@ -332,23 +345,21 @@ public class CyderFrame extends JFrame {
         currentNotification.add(text);
 
         if (startDir == Direction.LEFT)
-            currentNotification.setLocation(0, dl.getHeight());
+            currentNotification.setLocation(-currentNotification.getWidth() + 5, dl.getHeight());
         else if (startDir == Direction.RIGHT)
-            currentNotification.setLocation(getContentPane().getWidth() - (w + 30), dl.getHeight());
+            currentNotification.setLocation(getContentPane().getWidth() - 5, dl.getHeight());
         else if (startDir == Direction.BOTTOM)
             currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
-                    getContentPane().getHeight() - h - dl.getHeight());
+                    getHeight());
         else
             currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextYOffset(),
-                    dl.getHeight());
+                    DragLabel.getDefaultHeight() - currentNotification.getHeight());
 
         contentLabel.add(currentNotification);
         getContentPane().repaint();
 
-        //todo fix these and add a stay on screen until dismissed method after start locations are working
-        // (click notification to dismiss, tooltip should say click to dismiss if persist is active (add this param))
-        //currentNotification.appear(startDir, getContentPane());
-        //currentNotification.vanish(vanishDir, getContentPane(), viewDuration);
+        currentNotification.appear(startDir, getContentPane());
+        currentNotification.vanish(vanishDir, getContentPane(), viewDuration);
     }
 
     /**
