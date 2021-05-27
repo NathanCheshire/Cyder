@@ -15,6 +15,7 @@ import java.io.*;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -282,29 +283,17 @@ public class IOUtil {
         return null;
     }
 
+    /**
+     * Logs any possible command line arguments passed in to Cyder upon starting.
+     * Appends the start date along with some information to StartLog.log
+     * @param cyderArgs - command line arguments passed in
+     */
     public static void logArgs(String[] cyderArgs) {
         try {
-            if (cyderArgs.length == 0)
-                cyderArgs = new String[]{"Started by " + System.getProperty("user.name")};
-
             File log = new File("StartLog.log");
 
             if (!log.exists())
                 log.createNewFile();
-
-            BufferedReader br = new BufferedReader(new FileReader(log));
-
-            LinkedList<String> dates = new LinkedList<>();
-
-            String line;
-            boolean section0 = true;
-
-            while ((line = br.readLine()) != null)
-                dates.add(line);
-
-            br.close();
-
-            BufferedWriter bw = new BufferedWriter(new FileWriter(log,false));
 
             String argsString = "";
 
@@ -314,16 +303,17 @@ public class IOUtil {
                 argsString += cyderArgs[i];
             }
 
-            dates.push(new SimpleDateFormat("MM-dd-yy HH:mm:ss").format(new Date())
-                    + " : " + argsString + " in " + IPUtil.getUserCity() + ", " + IPUtil.getUserState());
+            String append = new SimpleDateFormat("MM-dd-yy HH:mm:ss").format(new Date())
+                    + " : " + "Started by " + System.getProperty("user.name") + " in "
+                    + (SecurityUtil.nathanLenovo() ? "[LOCATION NOT AVAILABLE]" :
+                    (IPUtil.getUserCity() + ", " + IPUtil.getUserState())) + System.getProperty("line.separator");
 
-            for (String lin : dates) {
-                bw.write(lin);
-                bw.newLine();
+            if (argsString.trim().length() > 0) {
+                append += "; args: " + argsString;
             }
 
-            bw.flush();
-            bw.close();
+            Files.write(Paths.get("StartLog.log"), append.getBytes(), StandardOpenOption.APPEND);
+
         }
 
         catch (Exception e) {
