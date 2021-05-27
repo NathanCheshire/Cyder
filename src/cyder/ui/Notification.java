@@ -14,6 +14,11 @@ public class Notification extends JLabel {
     private int width = 300;
     private int height = 300;
     private Direction ArrowType = Direction.TOP;
+    private boolean killed;
+
+    public Notification() {
+        killed = false;
+    }
 
     public int getTextXOffset() {
         return 14; //offset from 0,0
@@ -47,14 +52,33 @@ public class Notification extends JLabel {
         this.ArrowType = type;
     }
 
+    public Direction getArrow() {
+        return this.ArrowType;
+    }
+
+    /**
+     * Custom width getter since this is a custom paint component.
+     * @return - the width plus the x-offset of 14 twice for both sides with the arrow size
+     * added in if the arrow is on the left or right.
+     */
     @Override
     public int getWidth() {
-        return this.width + 14 * 2 + ((ArrowType == Direction.LEFT || ArrowType == Direction.RIGHT) ? arrowSize : 0);
+        return this.width + getTextXOffset() * 2 + ((ArrowType == Direction.LEFT || ArrowType == Direction.RIGHT) ? arrowSize : 0);
+    }
+
+    /**
+     * Custom height getter since this is a custom paint component.
+     * @return - the height plus the y-offset of 16 twice for both sides with the arrow size
+     * added in if the arrow is on the top or bottom.
+     */
+    @Override
+    public int getHeight() {
+        return this.height + getTextYOffset() * 2 + ((ArrowType == Direction.BOTTOM || ArrowType == Direction.TOP) ? arrowSize : 0);
     }
 
     @Override
-    public int getHeight() {
-        return this.height + 16 * 2 + ((ArrowType == Direction.BOTTOM || ArrowType == Direction.TOP) ? arrowSize : 0);
+    public void setToolTipText(String text) {
+        super.setToolTipText(text);
     }
 
     @Override
@@ -197,7 +221,7 @@ public class Notification extends JLabel {
      * @param startDir - the direction for the notification to enter from.
      * @param parent - the component the notification is placed on. Used for bounds calculations.
      */
-    public void appear(Direction startDir, Component parent) {
+    public void appear(Direction startDir, Component parent, int delay) {
         new Thread(() -> {
             try {
                 setVisible(true);
@@ -205,6 +229,9 @@ public class Notification extends JLabel {
                 switch(startDir) {
                     case TOP:
                         for (int i = getY() ; i < DragLabel.getDefaultHeight() ; i += 4) {
+                            if (killed)
+                                break;
+
                             setBounds(getX(), i, getWidth(), getHeight());
                             Thread.sleep(10);
                         }
@@ -213,6 +240,9 @@ public class Notification extends JLabel {
 
                     case RIGHT:
                         for (int i = getX() ; i > parent.getWidth() - this.getWidth() + 5 ; i -= 4) {
+                            if (killed)
+                                break;
+
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(10);
                         }
@@ -221,6 +251,9 @@ public class Notification extends JLabel {
 
                     case LEFT:
                         for (int i = getX() ; i < 5 ; i += 4) {
+                            if (killed)
+                                break;
+
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(10);
                         }
@@ -229,12 +262,18 @@ public class Notification extends JLabel {
 
                     case BOTTOM:
                         for (int i = getY() ; i > parent.getHeight() - this.getHeight() + 5 ; i -= 4) {
+                            if (killed)
+                                break;
+
                             setBounds(getX(), i, getWidth(), getHeight());
                             Thread.sleep(10);
                         }
 
                         break;
                 }
+
+                //now that it's visible, call vanish with the proper delay
+                this.vanish(startDir, parent, delay);
             }
 
             catch (Exception e) {
@@ -243,9 +282,13 @@ public class Notification extends JLabel {
         }).start();
     }
 
-
+    /**
+     * Kill any notification by stopping all animation threads and setting this visibility to false.
+     * Must re-initialize notification object using constructor; you shouldn't make a killed notification
+     * visible again via {@link Component#setVisible(boolean)}.
+     */
     public void kill() {
-        //todo add boolean toggle too to stop any loops in threads
+        killed = true;
         this.setVisible(false);
     }
 
@@ -255,13 +298,16 @@ public class Notification extends JLabel {
      * @param parent - the component the notification is on. Used for bounds calculations.
      * @param delay - the delay before vanish.
      */
-    public void vanish(Direction vanishDir, Component parent, int delay) {
+    private void vanish(Direction vanishDir, Component parent, int delay) {
         new Thread(() -> {
             try {
-                Thread.sleep(delay); //make sure this starts only after the component is fully visible
+                Thread.sleep(delay);
                 switch(vanishDir) {
                     case TOP:
                         for (int i = getY() ; i > - getHeight() ; i -= 4) {
+                            if (killed)
+                                break;
+
                             setBounds(getX(), i, getWidth(), getHeight());
                             Thread.sleep(10);
                         }
@@ -270,6 +316,9 @@ public class Notification extends JLabel {
 
                     case BOTTOM:
                         for (int i = getY() ; i < parent.getHeight() - 5 ; i += 4) {
+                            if (killed)
+                                break;
+
                             setBounds(getX(), i, getWidth(), getHeight());
                             Thread.sleep(10);
                         }
@@ -278,6 +327,9 @@ public class Notification extends JLabel {
 
                     case RIGHT:
                         for (int i = getX() ; i < parent.getWidth() - 5 ; i += 4) {
+                            if (killed)
+                                break;
+
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(10);
                         }
@@ -286,6 +338,9 @@ public class Notification extends JLabel {
 
                     case LEFT:
                         for (int i = getX() ; i > -getWidth() + 5 ; i -= 4) {
+                            if (killed)
+                                break;
+
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(10);
                         }

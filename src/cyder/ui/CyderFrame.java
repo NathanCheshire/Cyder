@@ -5,6 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
 import cyder.widgets.GenericInform;
 import org.jsoup.Jsoup;
@@ -20,6 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 
 public class CyderFrame extends JFrame {
 
@@ -42,6 +44,7 @@ public class CyderFrame extends JFrame {
 
     private Color backgroundColor = CyderColors.vanila;
 
+    private LinkedList<Notification> notificationList = new LinkedList<>();
 
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
@@ -82,6 +85,26 @@ public class CyderFrame extends JFrame {
         titleLabel.setForeground(CyderColors.vanila);
 
         dl.add(titleLabel);
+
+        new Thread(() -> {
+            try {
+                while (this != null)  {
+                    if (notificationList.size() > 0) {
+                        //todo get current notificaiton and show
+                        // you'll need to add more information to notification class
+                        // as well as take some code from notify and place here since some
+                        // calculations need to be done immediately before calling appear
+                    }
+
+                    //wait 500 before queueing next notification
+                    Thread.sleep(500);
+                }
+            }
+
+            catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        },this.getTitle() + " CyderFrame notification queue checker").start();
     }
 
     /**
@@ -271,16 +294,20 @@ public class CyderFrame extends JFrame {
     }
 
     private Notification currentNotification;
-    //todo get current and set bounds on resize events if not null, set to null after vanish is complete
+
     public Notification getCurrentNotification() {
         return currentNotification;
     }
+
+    //todo notification queue system
+    // simply notify calls more ocmplex calls more complex so commandeer here
 
     /**
      * Full control over the notification function of a {@link CyderFrame}.
      * See {@link CyderFrame#notify(String, int, Direction)} for a simpler notify function
      * @param htmltext - the text you want to display (may include HTML tags)
-     * @param viewDuration - the time in ms the notification should be visible for
+     * @param viewDuration - the time in ms the notification should be visible for. Pass in 0
+     *                    to be auto calculated based on word count
      * @param arrowDir - the direction of the arrow on the notification
      * @param startDir - the enter direction of the notification
      * @param vanishDir - the exit direction of the notification
@@ -326,23 +353,23 @@ public class CyderFrame extends JFrame {
         //set the text bounds to the proper x,y and the calculated width and height
         text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
 
-        //tooltip to let the user know they can dismiss the notification before it slides away
-        text.setToolTipText("Click to dismiss");
-        //todo these are broken
-        //action listener to dismiss
-        currentNotification.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                currentNotification.setVisible(false);
-            }
-        });
-
         currentNotification.setWidth(w);
         currentNotification.setHeight(h);
 
         text.setFont(notificationFont);
         text.setForeground(CyderColors.navy);
         currentNotification.add(text);
+
+        JLabel disposeLabel = new JLabel();
+        disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+        disposeLabel.setToolTipText("Click to dismiss");
+        disposeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                currentNotification.kill();
+            }
+        });
+        currentNotification.add(disposeLabel);
 
         if (startDir == Direction.LEFT)
             currentNotification.setLocation(-currentNotification.getWidth() + 5, dl.getHeight());
@@ -358,8 +385,10 @@ public class CyderFrame extends JFrame {
         contentLabel.add(currentNotification);
         getContentPane().repaint();
 
-        currentNotification.appear(startDir, getContentPane());
-        currentNotification.vanish(vanishDir, getContentPane(), viewDuration);
+        //duration is always 300ms per word unless less than 5 seconds
+        int duration = 300 * StringUtil.countWords(parsedHTML);
+        duration = duration < 5000 ? 5000 : duration;
+        currentNotification.appear(startDir, getContentPane(), viewDuration == 0 ? duration : viewDuration);
     }
 
     /**
@@ -603,7 +632,10 @@ public class CyderFrame extends JFrame {
         timer.start();
     }
 
-    //similar to googling "askew"
+    /**
+     * Rotates the currently content pane by the specified degrees from the top left corner.
+     * @param degrees - the degrees to be rotated by; 360deg = 0deg.
+     */
     public void askew(int degrees) {
         ((JLabel) (this.getContentPane())).setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(
                 ImageUtil.getRotatedImage(
@@ -623,7 +655,29 @@ public class CyderFrame extends JFrame {
             setTitle(getTitle());
         }
 
-        //todo move any notification on screen
+        if (getCurrentNotification() != null)
+            switch (getCurrentNotification().getArrow()) {
+                case TOP:
+                    currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
+                            currentNotification.getY());
+                    break;
+
+                case RIGHT:
+                    currentNotification.setLocation(getWidth() - currentNotification.getWidth() + 5,
+                            currentNotification.getY());
+
+                    break;
+
+                case LEFT:
+                    currentNotification.setLocation(5, currentNotification.getY());
+
+                    break;
+
+                case BOTTOM:
+                    currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
+                            currentNotification.getY());
+                    break;
+            }
     }
 
     private Dimension minimumSize = new Dimension(200, 200);

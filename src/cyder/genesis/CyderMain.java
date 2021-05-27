@@ -2375,7 +2375,6 @@ public class CyderMain {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             } else if (eic("test")) {
                 //todo make a test cyder frame to try and get the layering to work with
-
                 // popups, drag label, and components added to content pane
 
                 CyderFrame notificationLengthTestFrame = new CyderFrame(600,600, new ImageIcon(DEFAULT_BACKGROUND_PATH));
@@ -2383,16 +2382,12 @@ public class CyderMain {
                 notificationLengthTestFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
                 notificationLengthTestFrame.setPaintSuperTitle(true);
                 notificationLengthTestFrame.setTitle("Notification test");
+                notificationLengthTestFrame.initResizing();
+                notificationLengthTestFrame.setResizable(true);
                 notificationLengthTestFrame.setVisible(true);
                 notificationLengthTestFrame.notify(
-                        "i've got a bunch of coconuts there they are all sitting in a row " +
-                                "i've got a bunch of coconuts there they are all sitting in a row "
-                        , 5000, Direction.BOTTOM);
-
-                //todo timeout should start after moving animation is complete
-
-                //todo determine how long the timeout should be based on the word count,
-                // always at least 5 seconds on screen
+                        "i've got a bunch of coconuts there they are all sitting in a row "
+                        , 0, Direction.LEFT);
 
             } else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +

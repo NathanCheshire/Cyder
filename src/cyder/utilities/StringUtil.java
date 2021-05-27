@@ -6,7 +6,6 @@ import cyder.ui.ConsoleFrame;
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
 import java.io.*;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -574,5 +573,9 @@ public class StringUtil {
         if(str.length() == 1)
             return str.toLowerCase();
         else return str.substring(0, 1).toLowerCase() + str.substring(1);
+    }
+
+    public static int countWords(String str) {
+        return (str == null || str.isEmpty()) ? 0 : str.split("\\s+").length;
     }
 }
