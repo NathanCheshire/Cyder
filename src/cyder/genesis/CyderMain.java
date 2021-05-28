@@ -91,10 +91,18 @@ public class CyderMain {
      */
     private File pixelateFile;
 
+    /**
+     * start the best program ever made
+     * @param CA - the arguments passed in
+     */
     public static void main(String[] CA)  {
         new CyderMain(CA);
     }
 
+    /**
+     * Shouldn't be entered but once
+     * @param CA - Arguments that we are going to log
+     */
     private CyderMain(String[] CA) {
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown, "exit-hook"));
 
@@ -127,6 +135,7 @@ public class CyderMain {
     //TODO track and return lists, ALL console frames should be spun off from main
     //TODO all login windows should be spawned in from main
     //todo if not released, there should only ever be one instance
+    // current structure will only allow for one frame to be active at any time
     public static ConsoleFrame[] getConsoleFrameInstances() {
         return null;
     }
@@ -186,6 +195,7 @@ public class CyderMain {
     }
 
     private static JTextPane outputArea;
+
     //TODO make a consoleframe text area so that it can be like DOS, no need for sep input and output
     // also make an output area link to an InputHandler which links to a ContextEngine as well
     private JTextField inputField;
@@ -2385,9 +2395,10 @@ public class CyderMain {
                 notificationLengthTestFrame.initResizing();
                 notificationLengthTestFrame.setResizable(true);
                 notificationLengthTestFrame.setVisible(true);
-                notificationLengthTestFrame.notify(
-                        "i've got a bunch of coconuts there they are all sitting in a row "
-                        , 0, Direction.LEFT);
+                notificationLengthTestFrame.notify("Good afternoon!", 0, Direction.LEFT);
+                notificationLengthTestFrame.notify("My name is Russel", 0, Direction.RIGHT);
+                notificationLengthTestFrame.notify("And I am a wilderness explorer from Tribe 54",
+                        0, Direction.TOP);
 
             } else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +

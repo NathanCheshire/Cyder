@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.enums.Direction;
+import cyder.exception.FatalException;
 import cyder.genesis.CyderMain;
 import cyder.handler.ErrorHandler;
 import cyder.utilities.*;
@@ -73,6 +74,14 @@ public final class ConsoleFrame extends CyderFrame {
 
             consoleLinesDrawn = true;
         }
+    }
+
+    @Override
+    public void setTitlePosition(TitlePosition position) {
+        if (position == TitlePosition.LEFT)
+            ErrorHandler.handle(new FatalException("Left title position now allowed for ConsoleFrame"));
+        else
+            super.setTitlePosition(position);
     }
 
     private static String UUID;

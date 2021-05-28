@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
+import cyder.obj.Gluster;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -28,7 +29,12 @@ public class CyderFrame extends JFrame {
     public enum TitlePosition {
         LEFT,
         CENTER,
-        MEDIUM
+        RIGHT,
+    }
+
+    public enum ButtonPosition {
+        LEFT,
+        RIGHT,
     }
 
     private TitlePosition titlePosition = TitlePosition.LEFT;
@@ -44,7 +50,7 @@ public class CyderFrame extends JFrame {
 
     private Color backgroundColor = CyderColors.vanila;
 
-    private LinkedList<Notification> notificationList = new LinkedList<>();
+    private LinkedList<Gluster> notificationList = new LinkedList<>();
 
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
@@ -90,13 +96,125 @@ public class CyderFrame extends JFrame {
             try {
                 while (this != null)  {
                     if (notificationList.size() > 0) {
-                        //todo get current notificaiton and show
-                        // you'll need to add more information to notification class
-                        // as well as take some code from notify and place here since some
-                        // calculations need to be done immediately before calling appear
+                        Gluster currentGluster = notificationList.poll();
+
+                        //init notification object
+                        currentNotification = new Notification();
+
+                        //set the arrow direction
+                        currentNotification.setArrow(currentGluster.getArrowDir());
+
+                        //create text label to go on top of notification label
+                        JLabel text = new JLabel();
+                        //use html so that it can line break when we need it to
+                        text.setText("<html>" + currentGluster.getHtmlText() + "</html>");
+
+                        //start of font width and height calculation
+                        int w = 0;
+                        Font notificationFont = CyderFonts.weatherFontSmall;
+                        AffineTransform affinetransform = new AffineTransform();
+                        FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
+
+                        //parse away html
+                        String parsedHTML = Jsoup.clean(currentGluster.getHtmlText(), Whitelist.none());
+
+                        //get minimum width for whole parsed string
+                        w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 10;
+
+                        //get height of a line and set it as height increment too
+                        int h = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight() + 6;
+                        FontMetrics metrics = getGraphics().getFontMetrics();
+
+                        //if too much width, take half away and add back in height
+                        while (w > 0.9 * getWidth()) {
+                            w /= 2;
+                            h = h * 2;
+                        }
+
+                        //add in end of line
+                        h += metrics.getDescent();
+                        //now we have min width and height for string bounds, no more no less than this
+
+                        //set the text bounds to the proper x,y and the calculated width and height
+                        text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+
+                        currentNotification.setWidth(w);
+                        currentNotification.setHeight(h);
+
+                        text.setFont(notificationFont);
+                        text.setForeground(CyderColors.navy);
+                        currentNotification.add(text);
+
+                        JLabel disposeLabel = new JLabel();
+                        disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+                        disposeLabel.setToolTipText("Click to dismiss");
+                        disposeLabel.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                currentNotification.kill();
+                            }
+                        });
+                        currentNotification.add(disposeLabel);
+
+                        if (currentGluster.getStartDir() == Direction.LEFT)
+                            currentNotification.setLocation(-currentNotification.getWidth() + 5, dl.getHeight());
+                        else if (currentGluster.getStartDir() == Direction.RIGHT)
+                            currentNotification.setLocation(getContentPane().getWidth() - 5, dl.getHeight());
+                        else if (currentGluster.getStartDir() == Direction.BOTTOM)
+                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
+                                    getHeight());
+                        else
+                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextYOffset(),
+                                    DragLabel.getDefaultHeight() - currentNotification.getHeight());
+
+                        contentLabel.add(currentNotification);
+                        getContentPane().repaint();
+
+                        //duration is always 300ms per word unless less than 5 seconds
+                        int duration = 300 * StringUtil.countWords(parsedHTML);
+                        duration = duration < 5000 ? 5000 : duration;
+                        duration = currentGluster.getDuration() == 0 ?
+                                duration : currentGluster.getDuration();
+                        currentNotification.appear(currentGluster.getStartDir(), currentGluster.getVanishDir(),
+                                getContentPane(), duration);
+
+                        int enterTime = 0;
+                        int exitTime = 0;
+
+                        switch (currentGluster.getStartDir()) {
+                            case BOTTOM:
+                                enterTime = (getHeight() - currentNotification.getHeight() + 5) * 4;
+                                break;
+                            case TOP:
+                                enterTime = DragLabel.getDefaultHeight() * 4;
+                                break;
+                            case LEFT:
+                                enterTime = (currentNotification.getWidth() + 5) * 4;
+                                break;
+                            case RIGHT:
+                                enterTime = (currentNotification.getHeight() + 5) * 4;
+                                break;
+                        }
+
+                        switch (currentGluster.getVanishDir()) {
+                            case BOTTOM:
+                                exitTime = (getHeight() - currentNotification.getHeight() + 5) * 4;
+                                break;
+                            case TOP:
+                                exitTime = DragLabel.getDefaultHeight() * 4;
+                                break;
+                            case LEFT:
+                                exitTime = (currentNotification.getWidth() + 5) * 4;
+                                break;
+                            case RIGHT:
+                                exitTime = (currentNotification.getHeight() + 5) * 4;
+                                break;
+                        }
+
+                        Thread.sleep(duration + enterTime + exitTime);
                     }
 
-                    //wait 500 before queueing next notification
+                    //wait 500ms
                     Thread.sleep(500);
                 }
             }
@@ -299,9 +417,6 @@ public class CyderFrame extends JFrame {
         return currentNotification;
     }
 
-    //todo notification queue system
-    // simply notify calls more ocmplex calls more complex so commandeer here
-
     /**
      * Full control over the notification function of a {@link CyderFrame}.
      * See {@link CyderFrame#notify(String, int, Direction)} for a simpler notify function
@@ -313,82 +428,8 @@ public class CyderFrame extends JFrame {
      * @param vanishDir - the exit direction of the notification
      */
     public void notify(String htmltext, int viewDuration, Direction arrowDir, Direction startDir, Direction vanishDir) {
-        //init notification object
-        currentNotification = new Notification();
-
-        //set the arrow direction
-        currentNotification.setArrow(arrowDir);
-
-        //create text label to go on top of notification label
-        JLabel text = new JLabel();
-        //use html so that it can line break when we need it to
-        text.setText("<html>" + htmltext + "</html>");
-
-        //start of font width and height calculation
-        int w = 0;
-        Font notificationFont = CyderFonts.weatherFontSmall;
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
-
-        //parse away html
-        String parsedHTML = Jsoup.clean(htmltext, Whitelist.none());
-
-        //get minimum width for whole parsed string
-        w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 10;
-
-        //get height of a line and set it as height increment too
-        int h = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight() + 6;
-        FontMetrics metrics = getGraphics().getFontMetrics();
-
-        //if too much width, take half away and add back in height
-        while (w > 0.9 * getWidth()) {
-            w /= 2;
-            h = h * 2; // padding?
-        }
-
-        //add in end of line
-        h += metrics.getDescent();
-        //now we have min width and height for string bounds, no more no less than this
-
-        //set the text bounds to the proper x,y and the calculated width and height
-        text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
-
-        currentNotification.setWidth(w);
-        currentNotification.setHeight(h);
-
-        text.setFont(notificationFont);
-        text.setForeground(CyderColors.navy);
-        currentNotification.add(text);
-
-        JLabel disposeLabel = new JLabel();
-        disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
-        disposeLabel.setToolTipText("Click to dismiss");
-        disposeLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                currentNotification.kill();
-            }
-        });
-        currentNotification.add(disposeLabel);
-
-        if (startDir == Direction.LEFT)
-            currentNotification.setLocation(-currentNotification.getWidth() + 5, dl.getHeight());
-        else if (startDir == Direction.RIGHT)
-            currentNotification.setLocation(getContentPane().getWidth() - 5, dl.getHeight());
-        else if (startDir == Direction.BOTTOM)
-            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
-                    getHeight());
-        else
-            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextYOffset(),
-                    DragLabel.getDefaultHeight() - currentNotification.getHeight());
-
-        contentLabel.add(currentNotification);
-        getContentPane().repaint();
-
-        //duration is always 300ms per word unless less than 5 seconds
-        int duration = 300 * StringUtil.countWords(parsedHTML);
-        duration = duration < 5000 ? 5000 : duration;
-        currentNotification.appear(startDir, getContentPane(), viewDuration == 0 ? duration : viewDuration);
+        //make a gluster and add to queue, queue will automatically process any notifications so no further actions needed
+        notificationList.add(new Gluster(htmltext, viewDuration, arrowDir, startDir, vanishDir));
     }
 
     /**
