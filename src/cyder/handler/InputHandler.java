@@ -43,4 +43,6 @@ public class InputHandler {
     // fix this anyway by using a gradient and drawing most icons you have in pictures
 
     //todo fix up animation util
+
+    //todo killed boolean for ALL objects with threads to end their threads when disposed? Copy from ConsoleFrame.dispose()
 }

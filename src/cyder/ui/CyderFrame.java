@@ -24,6 +24,15 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
+//todo layering for compoents as follows:
+//  layer 0: the content label
+//  layer 1: the components on the content label all share the same priority
+//  layer 2: notifications
+//  layer 3: the drag label and the frame border
+
+//override get content pane for already in place widgets to return the label
+//add a get actual content pane method to return the actual one?
+
 public class CyderFrame extends JFrame {
 
     public enum TitlePosition {
@@ -40,6 +49,8 @@ public class CyderFrame extends JFrame {
     private TitlePosition titlePosition = TitlePosition.LEFT;
     private int width;
     private int height;
+
+    private boolean threadsKilled;
 
     private ImageIcon background;
 
@@ -74,7 +85,6 @@ public class CyderFrame extends JFrame {
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
-        //todo border needs to have higher layering priority than notification
         contentLabel = new JLabel();
         contentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         contentLabel.setIcon(background);
@@ -92,9 +102,11 @@ public class CyderFrame extends JFrame {
 
         dl.add(titleLabel);
 
+        this.threadsKilled = false;
+
         new Thread(() -> {
             try {
-                while (this != null)  {
+                while (this != null && !threadsKilled)  {
                     if (notificationList.size() > 0) {
                         Gluster currentGluster = notificationList.poll();
 
@@ -509,6 +521,12 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    @Override
+    public void dispose() {
+        killThreads();
+        super.dispose();
+    }
+
     /**
      * Moves the window down until it is off screen before setting the state to ICONIFIED.
      * The original position of the frame will be remembered and set when the window is deiconified.
@@ -841,5 +859,23 @@ public class CyderFrame extends JFrame {
     @Override
     public Color getBackground() {
         return this.backgroundColor;
+    }
+
+    @Override
+    public String toString() {
+        return "title: " + this.getTitle() + "[" + this.getTitlePosition() + ",(" +
+                this.getX() + "," + this.getY() + "," + this.getWidth() + "x" + this.getHeight() + ")]";
+    }
+
+    /**
+     *  Kills all threads associated with this CyderFrame instance. An irreversible action. This
+     *  method is actomatically called when {@link CyderFrame#closeAnimation()} or {@link CyderFrame#dispose()} is invokekd.
+     */
+    public void killThreads() {
+        this.threadsKilled = true;
+    }
+
+    public boolean threadsKilled() {
+        return this.threadsKilled;
     }
 }
