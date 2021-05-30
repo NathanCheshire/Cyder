@@ -32,6 +32,7 @@ public class InputHandler {
     // will say the first user was corrupted and say sorry + "first user name"
 
     //todo corrupted user is disabled until I think of a better check so it rarely fires
+    // don't corrupt user anymore, just throw an exception saying we couldn't find data "x" so that we can debug it better
 
     //todo do away with user throws
     //todo make chat logs to replace throws and suggestions and general log like miencraft, store in
@@ -42,7 +43,7 @@ public class InputHandler {
     //todo trying to open weather.png from dir search bugs out, maybe resize error in photo viewer
     // fix this anyway by using a gradient and drawing most icons you have in pictures
 
-    //todo fix up animation util
+    //todo fix up animation util (remove and use local loop)
 
     //todo killed boolean for ALL objects with threads to end their threads when disposed? Copy from ConsoleFrame.dispose()
 }

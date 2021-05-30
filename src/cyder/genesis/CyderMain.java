@@ -2384,21 +2384,10 @@ public class CyderMain {
             } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             } else if (eic("test")) {
-                //todo make a test cyder frame to try and get the layering to work with
-                // popups, drag label, and components added to content pane
-
-                CyderFrame notificationLengthTestFrame = new CyderFrame(600,600, new ImageIcon(DEFAULT_BACKGROUND_PATH));
-                notificationLengthTestFrame.setLocationRelativeTo(null);
-                notificationLengthTestFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-                notificationLengthTestFrame.setPaintSuperTitle(true);
-                notificationLengthTestFrame.setTitle("Notification test");
-                notificationLengthTestFrame.initResizing();
-                notificationLengthTestFrame.setResizable(true);
-                notificationLengthTestFrame.setVisible(true);
-                notificationLengthTestFrame.notify("Good afternoon!", 0, Direction.LEFT);
-                notificationLengthTestFrame.notify("My name is Russel", 0, Direction.RIGHT);
-                notificationLengthTestFrame.notify("And I am a wilderness explorer from Tribe 54",
-                        0, Direction.TOP);
+                for (int i = 0 ; i <= 1000 ; i++) {
+                    int[] arr = AnimationUtil.getDelayIncrement(i);
+                    System.out.println(i + " = width, " + arr[0] + " = delay, " + arr[1] + " = inc");
+                }
 
             } else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +

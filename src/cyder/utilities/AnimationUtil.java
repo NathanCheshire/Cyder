@@ -408,36 +408,39 @@ public class AnimationUtil {
             })).start();
     }
 
-    //TODO redo this method for the new console frame
+    /**
+     * This method takes in a width and outputs the increment and delay to obtain a near 1s animation time
+     * Used purely for console background switching animations.
+     * @param width - the width of which want to find an increment for
+     * @return an array representing the delay in ms followed by the width increment
+     */
     public static int[] getDelayIncrement(int width) {
+        int[] ret = new int[2];
+        //assign ret[0] to delay
+        //assign ret[1] to inc
+
         try {
-            LinkedList<Integer> divisibles = new LinkedList<>();
+            double animationLen = 1000; //ideally we want the animation to last 1000ms
+            double increment = animationLen / width; //delay must be an int so if this is less than 1, problem
 
-            for (int i = 1; i <= width / 2; i++) {
-                if (width % i == 0)
-                    divisibles.add(i);
+            if (width < 1000) {
+                //increment will be 1 and delay will be at least 1 if not greater
+                int localInc = 1;
+                ret[1] = 1;
+
+                ret[0] = (int) Math.ceil(animationLen / width);
+
+            } else if (width > 1000) {
+                //todo logic here
+            } else {
+                //width is 1000 and our delay is 1000 which resulted in 1 here. Thus we return the ideal array
+                ret[0] = (ret[1] = 1);
             }
 
-            int desired = 10;
-            int distance = Math.abs(divisibles.get(0) - desired);
-            int index = 0;
-
-            for (int i = 1; i < divisibles.size(); i++) {
-                int curDist = Math.abs(divisibles.get(i) - desired);
-
-                if (curDist < distance) {
-                    index = i;
-
-                    distance = curDist;
-                }
-            }
-
-            int inc = divisibles.get(index);
-            return new int[]{1, inc};
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
 
-        return null;
+        return ret;
     }
 }
