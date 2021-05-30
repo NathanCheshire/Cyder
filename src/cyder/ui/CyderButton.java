@@ -76,24 +76,12 @@ public class CyderButton extends JButton {
                 Color c1 = this.getBackground();
                 Color c2 = c1.darker();
 
-                this.setBackground(c1);
-                Thread.sleep(300);
-                this.setBackground(c2);
-                Thread.sleep(300);
-                this.setBackground(c1);
-                Thread.sleep(300);
-                this.setBackground(c2);
-                Thread.sleep(300);
-                this.setBackground(c1);
-                Thread.sleep(300);
-                this.setBackground(c2);
-                Thread.sleep(300);
-                this.setBackground(c1);
-                Thread.sleep(300);
-                this.setBackground(c2);
-                Thread.sleep(300);
-                this.setBackground(c1);
-
+                for (int i = 0 ; i < 8 ; i++) {
+                    this.setBackground(c2);
+                    Thread.sleep(300);
+                    this.setBackground(c1);
+                    Thread.sleep(300);
+                }
             }
 
             catch (Exception e) {

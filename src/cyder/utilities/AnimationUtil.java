@@ -1,6 +1,8 @@
 package cyder.utilities;
 
+import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
+import cyder.ui.ConsoleFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -420,18 +422,27 @@ public class AnimationUtil {
         //assign ret[1] to inc
 
         try {
+            //width below 400 now allowed
+            if (width < 600)
+                throw new FatalException("Background dimensions below 600x600 " +
+                        "are not allowed and shouln't be possible; allow me to fix that");
+            ConsoleFrame.resizeBackgrounds();
+
             double animationLen = 1000; //ideally we want the animation to last 1000ms
             double increment = animationLen / width; //delay must be an int so if this is less than 1, problem
 
             if (width < 1000) {
                 //increment will be 1 and delay will be at least 1 if not greater
-                int localInc = 1;
                 ret[1] = 1;
-
-                ret[0] = (int) Math.ceil(animationLen / width);
+                ret[0] = (int) Math.round(animationLen / width);
 
             } else if (width > 1000) {
-                //todo logic here
+                //delay is 1ms, minimum in ms delay
+                ret[0] = 1;
+                //increment will be 1 from 1001 to 1499
+                //increment will be 2 from 1500 to 2000
+                //increment will be 3 from 2001 to 2499
+                ret[1] = (int) Math.round(width / animationLen);
             } else {
                 //width is 1000 and our delay is 1000 which resulted in 1 here. Thus we return the ideal array
                 ret[0] = (ret[1] = 1);

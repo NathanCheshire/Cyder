@@ -2384,7 +2384,7 @@ public class CyderMain {
             } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             } else if (eic("test")) {
-                for (int i = 0 ; i <= 1000 ; i++) {
+                for (int i = 0 ; i <= 2000 ; i++) {
                     int[] arr = AnimationUtil.getDelayIncrement(i);
                     System.out.println(i + " = width, " + arr[0] + " = delay, " + arr[1] + " = inc");
                 }
