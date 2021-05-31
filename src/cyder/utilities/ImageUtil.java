@@ -218,6 +218,15 @@ public class ImageUtil {
         return null;
     }
 
+    /**
+     * Returns the current console frame background accounting for set rotate direction. For example, if the direction
+     * is left this method will return a left rotated image use {@link cyder.ui.ConsoleFrame#getCurrentBackgroundImageIcon}
+     * to get the image without possible rotations applied. geThis method is used to set the console background when the background
+     * is altered or updated.
+     * @param name - the path to the file
+     * @param consoleDirection - the cardinal direction of rotation
+     * @return - the rotated image
+     */
     public static BufferedImage getRotatedImage(String name, Direction consoleDirection) {
         switch(consoleDirection) {
             case TOP:

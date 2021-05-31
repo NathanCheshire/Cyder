@@ -641,6 +641,15 @@ public class CyderMain {
                     consoleFrame.setLocation(restoreX, restoreY);
                 }
             });
+            //these will go away since cyderframe has them
+            consoleFrame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowDeiconified(WindowEvent e) {
+                    updateConsoleClock = false;
+                    restoreX = consoleFrame.getX();
+                    restoreY = consoleFrame.getY();
+                }
+            });
 
             if (IOUtil.getUserData("RandomBackground").equals("1")) {
                 int len = ConsoleFrame.getBackgrounds().size();
@@ -1052,6 +1061,7 @@ public class CyderMain {
 
                 int threadCount = 0;
 
+                //todo name all threads and executors so if anything contains "pool" or "thread" then we knkow it's busy
                 for (int i = 0; i < num; i++)
                     if (!printThreads[i].isDaemon() &&
                             !printThreads[i].getName().contains("pool") &&
@@ -2352,7 +2362,7 @@ public class CyderMain {
                     else
                         f.dispose();
                 }
-
+                consoleFrame = null;
                 login();
             } else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
                 if (SecurityUtil.compMACAddress(SecurityUtil.getMACAddress())) {
@@ -2384,12 +2394,39 @@ public class CyderMain {
             } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             } else if (eic("test")) {
-                for (int i = 0 ; i <= 2000 ; i++) {
-                    int[] arr = AnimationUtil.getDelayIncrement(i);
-                    System.out.println(i + " = width, " + arr[0] + " = delay, " + arr[1] + " = inc");
-                }
+                //todo bottom of notifies are a bit too small, add in 5 pixels to height or so
+                CyderFrame testFrame = new CyderFrame(800,800, ConsoleFrame.getCurrentBackgroundImageIcon());
+                testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+                testFrame.setTitle("Test frame");
+                testFrame.initResizing();
+                testFrame.setMaximumSize(new Dimension(1280,1280));
+                testFrame.setResizable(true);
+                testFrame.setLocationRelativeTo(consoleFrame);
+                testFrame.setVisible(true);
+                testFrame.askew(45);
 
-            } else {
+                //todo be able to set a cyderframe easily to the current background of consoleframe
+
+                //todo make a QuickFrame object that does all of the above stuff really quick,
+                // simple extension of CyderFrame for testing use mainly
+
+                //todo shouldn't see any background color of navy using this rotate from center
+
+                //todo for any Frame if it's the last one, System.exit and use a new custom code
+
+                //todo preference slider like from thin maxtrix, slide from left to right and change colors for on and reverse for off
+
+            } else if (eic("frames")) {
+                Frame[] frames = Frame.getFrames();
+                for (Frame f : frames)
+                    if (f instanceof CyderFrame) {
+                        println(f.getTitle());
+                    } else {
+                        println(f.getTitle());
+                    }
+            }
+
+            else {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");
 

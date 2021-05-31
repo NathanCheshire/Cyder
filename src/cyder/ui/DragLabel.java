@@ -64,9 +64,24 @@ public class DragLabel extends JLabel {
             }
         });
 
+        effectFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowIconified(WindowEvent e) {
+                restoreX = effectFrame.getX();
+                restoreY = effectFrame.getY();
+            }
+        });
+
         close = new JButton("");
         close.setToolTipText("Close");
-        close.addActionListener(e -> AnimationUtil.closeAnimation(effectFrame));
+        close.addActionListener(e -> {
+            if (effectFrame instanceof CyderFrame) {
+                ((CyderFrame) effectFrame).closeAnimation();
+            } else {
+                //dispose is called by this
+                AnimationUtil.closeAnimation(effectFrame);
+            }
+        });
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {

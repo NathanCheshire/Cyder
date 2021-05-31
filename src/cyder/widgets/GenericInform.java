@@ -101,6 +101,7 @@ public class GenericInform {
             CyderFrame informFrame = new CyderFrame(width + widthOffset * 2,height + heightOffset * 2,
                     new ImageIcon(ImageUtil.bufferedImageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
             informFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+            informFrame.setBackground(CyderColors.vanila);
             informFrame.setTitle(title);
 
             //make sure the text can wrap using HTML tags

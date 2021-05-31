@@ -181,7 +181,7 @@ public class Weather {
                         useCustomLoc = true;
 
                         AnimationUtil.closeAnimation(changeLocationFrame);
-                        weatherFrame.inform("Attempting to refresh and use the location \"" + locationString + "\" for weather.", "");
+                        weatherFrame.inform("Attempting to refresh weather stats for location \"" + locationString + "\"", "Weather Update");
                         refreshWeatherNow();
                     }
 

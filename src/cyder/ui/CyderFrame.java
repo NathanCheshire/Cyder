@@ -59,7 +59,7 @@ public class CyderFrame extends JFrame {
     private JLabel titleLabel;
     private JLabel contentLabel;
 
-    private Color backgroundColor = CyderColors.vanila;
+    private Color backgroundColor = CyderColors.navy;
 
     private LinkedList<Gluster> notificationList = new LinkedList<>();
 
@@ -234,7 +234,7 @@ public class CyderFrame extends JFrame {
             catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        },this.getTitle() + " CyderFrame notification queue checker").start();
+        },this + " CyderFrame notification queue checker").start();
     }
 
     /**
@@ -524,6 +524,16 @@ public class CyderFrame extends JFrame {
     @Override
     public void dispose() {
         killThreads();
+
+        //todo this doesn't work since consoleframe doesn't really dispose
+        Frame[] frames = Frame.getFrames();
+
+        for (Frame f : frames)
+            System.out.println(f.getTitle()); //will it work when consoleframe truly extends cyderframe?
+
+        if (frames.length < 2)
+            System.exit(120);
+
         super.dispose();
     }
 
@@ -696,10 +706,27 @@ public class CyderFrame extends JFrame {
      * @param degrees - the degrees to be rotated by; 360deg = 0deg.
      */
     public void askew(int degrees) {
-        ((JLabel) (this.getContentPane())).setIcon(new ImageIcon(ImageUtil.rotateImageByDegrees(
-                ImageUtil.getRotatedImage(
-                        ConsoleFrame.getCurrentBackgroundFile().getAbsolutePath(),
-                        ConsoleFrame.getConsoleDirection()), degrees)));
+        ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
+        BufferedImage master = ImageUtil.getBi(masterIcon);
+        BufferedImage rotated = ImageUtil.rotateImageByDegrees(master, degrees);
+        ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
+    }
+
+
+    /**
+     * Rotates the background of the content pane about the center.
+     * See {@link CyderFrame#askew(int)} to rotate the content pane about the top left.
+     * @param degrees - the degrees to rotate by. Follow polar coordinate rules for figuring out
+     *                equivalent angles
+     */
+    public void rotateFromCenter(int degrees) {
+
+        Graphics2D g2d = (Graphics2D) this.getGraphics();
+        g2d.translate(this.getWidth() / 2, this.getHeight() / 2);
+        g2d.rotate(degrees);
+        BufferedImage image = ImageUtil.ImageIcon2BufferedImage((ImageIcon)((JLabel) this.getContentPane()).getIcon());
+        g2d.translate(-image.getWidth(this) / 2, -image.getHeight(this) / 2);
+        this.setBackground(new ImageIcon(image));
     }
 
     /**
