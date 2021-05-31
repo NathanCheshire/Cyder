@@ -525,13 +525,15 @@ public class CyderFrame extends JFrame {
     public void dispose() {
         killThreads();
 
-        //todo this doesn't work since consoleframe doesn't really dispose
         Frame[] frames = Frame.getFrames();
+        int validCount = 0;
 
         for (Frame f : frames)
-            System.out.println(f.getTitle()); //will it work when consoleframe truly extends cyderframe?
-
-        if (frames.length < 2)
+            if (f.isValid())
+                validCount++;
+        //todo fixed issue but we need to make sure console frame CAN dispose properly if we want it to in the future
+        //if this is the only frame that we are trying to dispose
+        if (validCount < 2)
             System.exit(120);
 
         super.dispose();

@@ -238,6 +238,8 @@ public class CyderMain {
 
             consoleFrame = new JFrame();
             consoleFrame.setUndecorated(true);
+            //this doesn't really do much since we don't call consoleFrame.dispose typicallyf
+            consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             consoleFrame.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), ConsoleFrame.getBackgroundHeight());
             consoleFrame.setTitle(IOUtil.getSystemData("Version") + " Cyder [" + ConsoleFrame.getUsername() + "]");
@@ -949,6 +951,7 @@ public class CyderMain {
                 });
 
                 //add more after this such as user mapped actions
+                //todo use a loop to make this easy to add new ones too
 
                 menuLabel.setBounds(-150, 30, CyderFrame.getMinWidth("TEMP CONV",menuFont),
                         fontHeight * (menuLabel.getComponentCount() - 1));
@@ -3830,7 +3833,10 @@ public class CyderMain {
             ytt.kill();
     }
 
-    //exiting method, system.exit will call shutdown hook which wil then call shutdown();
+    /**
+     * Exiting method, stuff that you should do before exiting should go here. Stuff fatal to program exeuction, however,
+     * should be placed in {@link CyderMain#shutdown()} which is what the shutdown hook calls
+     */
     private void exit() {
         IOUtil.readUserData();
         IOUtil.writeUserData("Fonts", outputArea.getFont().getName());
@@ -3842,7 +3848,7 @@ public class CyderMain {
 
         try {
             CyderMain.exitingSem.acquire();
-            CyderMain.exitingSem.release();
+            //we never release exiting sem since we are expecting to exit the program
             System.exit(25);
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -3858,16 +3864,9 @@ public class CyderMain {
         //delete temp dir
         IOUtil.deleteTempDir();
         //delete all getter files
+        //todo move these to tmp dir
         new File("InputMessage.txt").delete();
         new File("File.txt").delete();
         new File("String.txt").delete();
-    }
-
-    public void checkFiles() {
-        //todo if a certain file is missing, attempt to download it
-    }
-
-    public void downloadFile(String httpString, boolean important) {
-        //todo download httpString file if secure internet connection, if we can't get it and important, exit and inform
     }
 }
