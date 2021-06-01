@@ -525,16 +525,8 @@ public class CyderFrame extends JFrame {
     public void dispose() {
         killThreads();
 
-        Frame[] frames = Frame.getFrames();
-        int validCount = 0;
-
-        for (Frame f : frames)
-            if (f.isValid())
-                validCount++;
-        //todo fixed issue but we need to make sure console frame CAN dispose properly if we want it to in the future
-        //if this is the only frame that we are trying to dispose
-        if (validCount < 2)
-            System.exit(120);
+        //TODO if this is the last frame
+            //System.exit(120);
 
         super.dispose();
     }
@@ -582,88 +574,81 @@ public class CyderFrame extends JFrame {
      * moves the frame around the user's monitor before returning to the initial location.
      */
     public void dance() {
+        int delay = 10;
         Thread DanceThread = new Thread(() -> {
             try {
-                int delay = 10;
+                boolean wasEnabled = false;
+
+                if (dl.isDraggingEnabled()) {
+                    dl.disableDragging();
+                    wasEnabled = true;
+                }
 
                 setAlwaysOnTop(true);
-                setLocationRelativeTo(null);
+                int restoreX = this.getX();
+                int restoreY = this.getY();
 
-                Point point = getLocationOnScreen();
+                //if out of bounds, bring just in bounds
+                if (restoreY < 0)
+                    setLocation(restoreX, 0);
+                else if (restoreY > SystemUtil.getScreenHeight())
+                    setLocation(restoreX, SystemUtil.getScreenHeight() - this.getHeight());
+                if (restoreX < 0)
+                    setLocation(0, restoreY);
+                else if (restoreX > SystemUtil.getScreenWidth())
+                    setLocation(SystemUtil.getScreenWidth() - this.getWidth(), restoreY);
 
-                int x = (int) point.getX();
-                int y = (int) point.getY();
-
-                int restoreX = x;
-                int restoreY = y;
-
-                for (int i = y; i <= (-getHeight()); i += 10) {
+                //moves frame up to top of screen
+                for (int y = getY() ; y >= 0 ; y -= 10) {
                     Thread.sleep(delay);
-                    setLocation(x, i);
+                    setLocation(this.getX(), y);
                 }
 
-                setLocation(SystemUtil.getScreenWidth() / 2 - getWidth() / 2, SystemUtil.getScreenHeight() - getHeight());
-                point = getLocationOnScreen();
-                x = (int) point.getX();
-                y = (int) point.getY();
-
-                for (int i = x; i <= (SystemUtil.getScreenWidth() - getWidth()); i += 10) {
+                //move from right to left
+                for (int x = getX() ; x >= 0 ; x -= 10) {
                     Thread.sleep(delay);
-                    setLocation(i, y);
+                    setLocation(x, this.getY());
                 }
 
-                setLocation(SystemUtil.getScreenWidth() - getWidth(), SystemUtil.getScreenHeight() - getHeight());
-                point = getLocationOnScreen();
-                x = (int) point.getX();
-                y = (int) point.getY();
-
-                for (int i = y; i >= -10; i -= 10) {
+                //move from top to bottom
+                for (int y = getY() ; y <= SystemUtil.getScreenHeight() - this.getHeight() ; y += 10) {
                     Thread.sleep(delay);
-                    setLocation(x, i);
+                    setLocation(this.getX(), y);
                 }
 
-                setLocation(SystemUtil.getScreenWidth() - getWidth(), 0);
-                point = getLocationOnScreen();
-                x = (int) point.getX();
-                y = (int) point.getY();
-
-                for (int i = x; i >= 10; i -= 10) {
+                //move from left to right
+                for (int x = getX() ; x <= SystemUtil.getScreenWidth() - this.getWidth() ; x += 10) {
                     Thread.sleep(delay);
-                    setLocation(i, y);
+                    setLocation(x, this.getY());
                 }
 
-                setLocation(0, 0);
-                point = getLocationOnScreen();
-                x = (int) point.getX();
-                y = (int) point.getY();
-
-                for (int i = y; i <= (SystemUtil.getScreenHeight() - getHeight()); i += 10) {
+                //move from bottom to top
+                for (int y = getY() ; y > 0 ; y -= 10) {
                     Thread.sleep(delay);
-                    setLocation(x, i);
+                    setLocation(this.getX(), y);
                 }
 
-                setLocation(0, SystemUtil.getScreenHeight() - getHeight());
-                point = getLocationOnScreen();
-                x = (int) point.getX();
-                y = (int) point.getY();
-
-                for (int i = x; i <= (SystemUtil.getScreenWidth() / 2 - getWidth() / 2); i += 10) {
+                //move from top to restoreX
+                for (int x = getX() ; x >= restoreX ; x -= 10) {
                     Thread.sleep(delay);
-                    setLocation(i, y);
+                    setLocation(x, this.getY());
                 }
 
-                setLocation(SystemUtil.getScreenWidth() / 2 - getWidth() / 2, SystemUtil.getScreenHeight() - getHeight());
-                int acc = getY();
-                x = getX();
+                setLocation(restoreX, this.getY());
 
-                while (getY() >= (SystemUtil.getScreenHeight() / 2 - getHeight() / 2)) {
+                //move from top to restoreY
+                for (int y = getY() ; y <= restoreY ; y += 10) {
                     Thread.sleep(delay);
-                    acc -= 10;
-                    setLocation(x, acc);
+                    setLocation(this.getX(), y);
                 }
 
                 setLocation(restoreX, restoreY);
+
+                setLocation(restoreX, restoreY);
                 setAlwaysOnTop(false);
+
+                if (wasEnabled)
+                    dl.enableDragging();
 
             } catch (Exception e) {
                 ErrorHandler.handle(e);

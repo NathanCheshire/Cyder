@@ -2406,7 +2406,14 @@ public class CyderMain {
                 testFrame.setResizable(true);
                 testFrame.setLocationRelativeTo(consoleFrame);
                 testFrame.setVisible(true);
-                testFrame.askew(45);
+
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(3000);
+                        testFrame.dance();
+                    } catch (Exception ignored) {}
+                }).start();
+
 
                 //todo be able to set a cyderframe easily to the current background of consoleframe
 
