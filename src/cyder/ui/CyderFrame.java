@@ -63,6 +63,9 @@ public class CyderFrame extends JFrame {
 
     private LinkedList<Gluster> notificationList = new LinkedList<>();
 
+    //used for rotating the background image (if there is one) about the center
+    private int theta = 0;
+
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
      * and a drag label with minimize and close buttons
@@ -85,7 +88,18 @@ public class CyderFrame extends JFrame {
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
-        contentLabel = new JLabel();
+        //okay so now do two content labels, contentlabel should have a background label
+        contentLabel = new JLabel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.translate(this.getWidth() / 2, this.getHeight() / 2);
+                g2d.rotate(theta);
+                g2d.translate(-background.getIconWidth() / 2, -background.getIconHeight() / 2);
+                g2d.drawImage(ImageUtil.getBi(background), 0, 0, null);
+            }
+        };
         contentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         contentLabel.setIcon(background);
         currentOrigIcon = background;
@@ -524,11 +538,17 @@ public class CyderFrame extends JFrame {
     @Override
     public void dispose() {
         killThreads();
-
-        //TODO if this is the last frame
-            //System.exit(120);
-
         super.dispose();
+
+        Frame[] frames = Frame.getFrames();
+        int validFrames = 0;
+
+        for (Frame f : frames)
+            if (f.isShowing())
+                validFrames++;
+
+        if (validFrames < 1)
+            System.exit(120);
     }
 
     /**
@@ -699,7 +719,6 @@ public class CyderFrame extends JFrame {
         ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
     }
 
-
     /**
      * Rotates the background of the content pane about the center.
      * See {@link CyderFrame#askew(int)} to rotate the content pane about the top left.
@@ -707,13 +726,8 @@ public class CyderFrame extends JFrame {
      *                equivalent angles
      */
     public void rotateFromCenter(int degrees) {
-
-        Graphics2D g2d = (Graphics2D) this.getGraphics();
-        g2d.translate(this.getWidth() / 2, this.getHeight() / 2);
-        g2d.rotate(degrees);
-        BufferedImage image = ImageUtil.ImageIcon2BufferedImage((ImageIcon)((JLabel) this.getContentPane()).getIcon());
-        g2d.translate(-image.getWidth(this) / 2, -image.getHeight(this) / 2);
-        this.setBackground(new ImageIcon(image));
+        theta = degrees;
+        repaint();
     }
 
     /**
