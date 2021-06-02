@@ -63,9 +63,6 @@ public class CyderFrame extends JFrame {
 
     private LinkedList<Gluster> notificationList = new LinkedList<>();
 
-    //used for rotating the background image (if there is one) about the center
-    private int theta = 0;
-
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
      * and a drag label with minimize and close buttons
@@ -88,21 +85,9 @@ public class CyderFrame extends JFrame {
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
-        //okay so now do two content labels, contentlabel should have a background label
-        contentLabel = new JLabel() {
-            @Override
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.translate(this.getWidth() / 2, this.getHeight() / 2);
-                g2d.rotate(theta);
-                g2d.translate(-background.getIconWidth() / 2, -background.getIconHeight() / 2);
-                g2d.drawImage(ImageUtil.getBi(background), 0, 0, null);
-            }
-        };
+        contentLabel = new JLabel();
         contentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         contentLabel.setIcon(background);
-        currentOrigIcon = background;
 
         setContentPane(contentLabel);
 
@@ -250,6 +235,11 @@ public class CyderFrame extends JFrame {
             }
         },this + " CyderFrame notification queue checker").start();
     }
+
+    //todo rotate the background label which we will place on the contentlabel,
+    // then we'll place components on the backgroundlabel?
+    // some kind of similar trick could be used for layering between
+    // components, notifications, drag label and borders, etc.
 
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
@@ -726,8 +716,21 @@ public class CyderFrame extends JFrame {
      *                equivalent angles
      */
     public void rotateFromCenter(int degrees) {
-        theta = degrees;
-        repaint();
+        //get our current imageicon
+        ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
+        //rotate the imageicon
+        BufferedImage rotated = ImageUtil.rotateImageByDegrees(ImageUtil.getBi(masterIcon), degrees);
+        //init a buffered image with the necessary dimensions
+        BufferedImage paddedBi = new BufferedImage((int) (rotated.getWidth() * 1.5), (int) (rotated.getHeight() * 1.5), BufferedImage.TYPE_INT_RGB);
+        //create graphics for the image
+        Graphics g = paddedBi.createGraphics();
+        g.setColor(CyderColors.navy);
+        g.fillRect(0,0,(int) (rotated.getWidth() * 1.5), (int) (rotated.getHeight() * 1.5));
+
+        //draw our rotated image on the padded image
+        g.drawImage(rotated, rotated.getWidth() / 2, rotated.getHeight() / 2, null);
+
+        ((JLabel) getContentPane()).setIcon(new ImageIcon(paddedBi));
     }
 
     /**

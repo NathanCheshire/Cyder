@@ -40,7 +40,6 @@ public final class ConsoleFrame extends CyderFrame {
     private boolean drawConsoleLines = false;
     private boolean consoleLinesDrawn = false;
 
-    //todo this shouldn't always be white now should it? make white or black depending on background image
     private Color lineColor = Color.white;
 
     //Allow for debug lines to be drawn and neffex
