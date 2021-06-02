@@ -420,8 +420,8 @@ public class CyderMain {
             suggestionButton = new JButton("");
             suggestionButton.setToolTipText("Suggestions");
             suggestionButton.addActionListener(e -> {
-                println("What feature would you like to suggestion? (Please include as much detail as possible such as what" +
-                        "key words you should type and how it should be responded to and any options you think might be necessary)");
+                println("What feature would you like to suggest? (Please include as much detail as possible such as how " +
+                        "the feature should be triggered and how the program should responded; be detailed)");
                 stringUtil.setUserInputDesc("suggestion");
                 stringUtil.setUserInputMode(true);
                 inputField.requestFocus();
@@ -2397,7 +2397,7 @@ public class CyderMain {
             } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             } else if (eic("test")) {
-                //todo bottom of notifies are a bit too small, add in 5 pixels to height or so
+                //todo bottom of notifies are a bit too small, add in 5 pixels to bottom of notifications
                 CyderFrame testFrame = new CyderFrame(800,800, ConsoleFrame.getCurrentBackgroundImageIcon());
                 testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
                 testFrame.setTitle("Test frame");
@@ -2406,7 +2406,9 @@ public class CyderMain {
                 testFrame.setResizable(true);
                 testFrame.setVisible(true);
                 testFrame.setLocationRelativeTo(consoleFrame);
-                testFrame.rotateFromCenter(20);
+                testFrame.notify("test string test string test" +
+                        " stesjfksjflaksdjfl jasdf kasdjf kjsadf jaskldjf l" +
+                        "asdfjaklsjdfkajskfjalksdjf sjfkasjdfjasjfasjfsjd fjasdf akasjdf kjaskl jflkasdjf lkjasdlf ");
 
                 //todo be able to set a cyderframe easily to the current background of consoleframe
 
