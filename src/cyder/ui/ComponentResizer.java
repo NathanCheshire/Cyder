@@ -259,7 +259,7 @@ public class ComponentResizer extends MouseAdapter {
         return backgroundRefreshOnResize;
     }
 
-    public void setBackgroundRefreshOnResize(Boolean b) {
+    public void enableBackgroundResize(Boolean b) {
         backgroundRefreshOnResize = b;
     }
 

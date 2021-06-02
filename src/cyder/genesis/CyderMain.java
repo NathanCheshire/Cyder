@@ -2397,30 +2397,9 @@ public class CyderMain {
             } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             } else if (eic("test")) {
-                //todo bottom of notifies are a bit too small, add in 5 pixels to bottom of notifications
-                CyderFrame testFrame = new CyderFrame(800,800, ConsoleFrame.getCurrentBackgroundImageIcon());
-                testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-                testFrame.setTitle("Test frame");
-                testFrame.initResizing();
-                testFrame.setMaximumSize(new Dimension(1280,1280));
-                testFrame.setResizable(true);
-                testFrame.setVisible(true);
-                testFrame.setLocationRelativeTo(consoleFrame);
-                testFrame.notify("test string test string test" +
-                        " stesjfksjflaksdjfl jasdf kasdjf kjsadf jaskldjf l" +
-                        "asdfjaklsjdfkajskfjalksdjf sjfkasjdfjasjfasjfsjd fjasdf akasjdf kjaskl jflkasdjf lkjasdlf ");
+                CyderFrame.testFrame();
 
-                //todo be able to set a cyderframe easily to the current background of consoleframe
-
-                //todo make a QuickFrame object that does all of the above stuff really quick,
-                // simple extension of CyderFrame for testing use mainly
-
-                //todo shouldn't see any background color of navy using this rotate from center
-
-                //todo for any Frame if it's the last one, System.exit and use a new custom code
-
-                //todo preference slider like from thin maxtrix, slide from left to right and change colors for on and reverse for off
-
+                //todo preference slider like from ThinMatrix's games, slide from left to right and change colors for on and reverse for off
             } else if (eic("frames")) {
                 Frame[] frames = Frame.getFrames();
                 for (Frame f : frames)
