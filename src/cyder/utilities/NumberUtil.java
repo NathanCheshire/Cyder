@@ -61,7 +61,7 @@ public class NumberUtil {
         numFrame = new CyderFrame(600, 230, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         numFrame.setTitle("Number To Words");
         numFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        numFrame.initResizing();
+        numFrame.initializeBackgroundResizing();
 
         CyderLabel label = new CyderLabel("<html>Enter any number to be converted into word form<html/>");
         label.setHorizontalAlignment(JLabel.CENTER);

@@ -52,7 +52,7 @@ public class StringUtil {
         this.outputArea = outputArea;
 
         String[] Helps = {
-                "askew",
+                "rotateBackground",
                 "mp3",
                 "Home",
                 "note",

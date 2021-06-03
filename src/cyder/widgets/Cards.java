@@ -19,12 +19,12 @@ public class Cards {
         cf.setTitle("Merry Christmas!");
         cf.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
-        cf.initResizing();
+        cf.initializeBackgroundResizing();
         cf.setMinimumSize(new Dimension(498,490));
         cf.setMaximumSize(new Dimension(498 * 2,498 * 2));
         cf.setSnapSize(new Dimension(1,1));
         cf.setBackground(CyderColors.vanila);
-        cf.allowResizing(true);
+        cf.setFrameResizing(true);
 
         JLabel cardLabel = new JLabel("<html>Dear Mom and Dad,<br/>" +
                 "Thank yall so much for everything yall do for me and espcially " +

@@ -10,14 +10,14 @@ import java.awt.*;
  */
 public class TestFrame extends CyderFrame {
 
-    private CyderFrame testFrame;
+    public CyderFrame testFrame;
 
     public TestFrame() {
         testFrame = new CyderFrame(600,600, new ImageIcon(CyderStrings.DEFAULT_BACKGROUND_PATH));
         testFrame.setTitle("Test Frame");
         testFrame.setTitlePosition(TitlePosition.CENTER);
         testFrame.stealConsoleBackground();
-        testFrame.initResizing();
+        testFrame.initializeBackgroundResizing();
         testFrame.setResizable(true);
         testFrame.setMinimumSize(new Dimension(200,200));
         testFrame.setMaximumSize(new Dimension(1000, 1000));
@@ -25,4 +25,5 @@ public class TestFrame extends CyderFrame {
         testFrame.setLocationRelativeTo(null);
         testFrame.setVisible(true);
     }
+
 }

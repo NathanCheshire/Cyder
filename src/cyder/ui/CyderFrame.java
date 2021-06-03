@@ -323,7 +323,7 @@ public class CyderFrame extends JFrame {
      *
      * @param enable - boolean variable of your chosen value for paintSuperTitle
      */
-    public void setPaintSuperTitle(boolean enable) {
+    public void paintSuperTitle(boolean enable) {
         paintSuperTitle = enable;
     }
 
@@ -719,7 +719,7 @@ public class CyderFrame extends JFrame {
      *
      * @param degrees - the degrees to be rotated by; 360deg = 0deg.
      */
-    public void askew(int degrees) {
+    public void rotateBackground(int degrees) {
         ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
         BufferedImage master = ImageUtil.getBi(masterIcon);
         BufferedImage rotated = ImageUtil.rotateImageByDegrees(master, degrees);
@@ -729,12 +729,12 @@ public class CyderFrame extends JFrame {
     /**
      * Attempts to rotate the background about the center using trigonometry.
      * This method is mostly a joke and shouldn't be called seriously.
-     * See {@link CyderFrame#askew(int)} to rotate the content pane about the top left.
+     * See {@link CyderFrame#rotateBackground(int)} to rotate the content pane about the top left.
      *
      * @param degrees - the degrees to rotate by. Follow polar coordinate rules for figuring out
      *                equivalent angles
      */
-    public void rotateFromCenter(int degrees) {
+    public void rotateBackgroundFromCenter(int degrees) {
         //get our current imageicon
         ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
         //rotate the imageicon
@@ -862,7 +862,7 @@ public class CyderFrame extends JFrame {
      *
      * @param allowed - the value determining background resizing
      */
-    public void enableBackgroundResizing(Boolean allowed) {
+    public void setBackgroundResizing(Boolean allowed) {
         cr.enableBackgroundResize(allowed);
     }
 
@@ -870,7 +870,7 @@ public class CyderFrame extends JFrame {
      * This method should be called first when attempting to allow resizing of a frame.
      * Procedural calls: init component resizer, set resizing to true, set min, max, and snap sizes to default.
      */
-    public void initResizing() {
+    public void initializeBackgroundResizing() {
         cr = new ComponentResizer();
         cr.registerComponent(this);
         cr.setResizing(true);
@@ -882,7 +882,7 @@ public class CyderFrame extends JFrame {
     /**
      * @param allow - sets/disables resizing of the frame.
      */
-    public void allowResizing(Boolean allow) {
+    public void setFrameResizing(Boolean allow) {
         cr.setResizing(allow);
     }
 

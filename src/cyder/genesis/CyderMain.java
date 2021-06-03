@@ -1607,8 +1607,6 @@ public class CyderMain {
         consoleFrame.setVisible(true);
         consoleFrame.requestFocus();
         inputField.requestFocus();
-
-        consoleFrame.setLocationRelativeTo(null);
     }
 
     //todo move to input handler
@@ -2354,8 +2352,8 @@ public class CyderMain {
 
                 for (int i = 0; i < num; i++)
                     println(printThreads[i].getName());
-            } else if (eic("askew")) {
-                //todo ConsoleFrame.askew(5);
+            } else if (eic("rotateBackground")) {
+                //todo ConsoleFrame.rotateBackground(5);
             } else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
                 new Robot().keyPress(KeyEvent.VK_F17);
             } else if (hasWord("logout")) {
@@ -2407,8 +2405,11 @@ public class CyderMain {
                 //todo fipping console resets output area position
 
                 TestFrame tf = new TestFrame();
+                CyderButton button = new CyderButton("Test Button");
+                button.setBounds(40,40,140,40);
+                tf.testFrame.add(button);
 
-            } else if (eic("frames")) {
+            } else if (hasWord("frame") && has("title")) {
                 Frame[] frames = Frame.getFrames();
                 for (Frame f : frames)
                     if (f instanceof CyderFrame) {
@@ -3154,12 +3155,11 @@ public class CyderMain {
         JTextField finalRgbField = rgbField;
         hexField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                try {
-                    Color c = ColorUtil.hextorgbColor(finalHexField1.getText());
-                    finalRgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
-                    colorBlock.setBackground(c);
-                } catch (Exception ignored) {
-                }
+            try {
+                Color c = ColorUtil.hextorgbColor(finalHexField1.getText());
+                finalRgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
+                colorBlock.setBackground(c);
+            } catch (Exception ignored) {}
             }
         });
         hexField.setBounds(100 + colorOffsetX, 100 + colorOffsetY, 220, 50);
@@ -3415,6 +3415,8 @@ public class CyderMain {
         switchingPanel.revalidate();
     }
 
+    //todo individual functions to pass specifically singular pref change
+    //todo sort out bug where console frame flashes and position is set to null
     public void refreshPrefs() {
         if (IOUtil.getUserData("OutputBorder").equals("0"))
             outputScroll.setBorder(BorderFactory.createEmptyBorder());
@@ -3426,9 +3428,9 @@ public class CyderMain {
         else
             inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
 
-        if (IOUtil.getUserData("FullScreen").equals("0"))
+        if (IOUtil.getUserData("FullScreen").equals("0") && ConsoleFrame.isFullscreen())
             exitFullscreen();
-        else
+        else if (IOUtil.getUserData("FullScreen").equals("1"))
             refreshConsoleFrame();
 
         consoleClockLabel.setVisible(IOUtil.getUserData("ClockOnConsole").equals("1"));
@@ -3451,29 +3453,24 @@ public class CyderMain {
         if (IOUtil.getUserData("OutputFill").equals("0")) {
             outputArea.setBackground(null);
             outputArea.setOpaque(false);
-            consoleFrame.revalidate();
         } else {
             outputArea.setOpaque(true);
             outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
             outputArea.repaint();
             outputArea.revalidate();
-            consoleFrame.revalidate();
         }
 
         if (IOUtil.getUserData("InputFill").equals("0")) {
             inputField.setBackground(null);
             inputField.setOpaque(false);
-            consoleFrame.revalidate();
         } else {
             inputField.setOpaque(true);
             inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
             inputField.repaint();
             inputField.revalidate();
-            consoleFrame.revalidate();
         }
 
-
-        consoleFrame.revalidate();
+        consoleFrame.repaint();
     }
 
     //todo convert repeated paths to string contants
@@ -3652,133 +3649,133 @@ public class CyderMain {
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                try {
-                    String uuid = SecurityUtil.generateUUID();
-                    File folder = new File("users/" + uuid);
+            try {
+                String uuid = SecurityUtil.generateUUID();
+                File folder = new File("users/" + uuid);
 
-                    while (folder.exists()) {
-                        uuid = SecurityUtil.generateUUID();
-                        folder = new File("users/" + uuid);
-                    }
-
-                    char[] pass = newUserPassword.getPassword();
-                    char[] passconf = newUserPasswordconf.getPassword();
-
-                    boolean alreadyExists = false;
-                    File[] files = new File("users").listFiles();
-
-                    for (File f : files) {
-                        File data = new File(f.getAbsolutePath() + "/Userdata.txt");
-                        BufferedReader partReader = new BufferedReader(new FileReader(data));
-                        String line = partReader.readLine();
-                        while (line != null) {
-                            String[] parts = line.split(":");
-                            if (parts[0].equalsIgnoreCase("Name") && parts[1].equalsIgnoreCase(newUserName.getText().trim())) {
-                                alreadyExists = true;
-                                break;
-                            }
-
-                            line = partReader.readLine();
-                        }
-
-                        partReader.close();
-
-                        if (alreadyExists) break;
-                    }
-
-                    if (stringUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
-                            || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
-                        createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.", "");
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    } else if (alreadyExists) {
-                        createUserFrame.inform("Sorry, but that username is already in use.\nPlease try a different one.", "");
-                        newUserName.setText("");
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    } else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
-                        createUserFrame.inform("Sorry, but your passwords did not match. Please try again.", "");
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    } else if (pass.length < 5) {
-                        createUserFrame.inform("Sorry, but your password length should be greater than\n"
-                                + "four characters for security reasons. Please add more characters.", "");
-
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    } else {
-                        if (createUserBackground == null) {
-                            createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background");
-                            createUserBackground = new File("sys/pictures/DefaultBackground.png");
-                        }
-
-                        File NewUserFolder = new File("users/" + uuid);
-                        File backgrounds = new File("users/" + uuid + "/Backgrounds");
-                        File music = new File("users/" + uuid + "/Music");
-                        File notes = new File("users/" + uuid + "/Notes");
-
-                        NewUserFolder.mkdirs();
-                        backgrounds.mkdir();
-                        music.mkdir();
-                        notes.mkdir();
-
-                        ImageIO.write(ImageIO.read(createUserBackground), "png",
-                                new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
-
-                        BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
-                                "users/" + uuid + "/Userdata.txt"));
-
-                        //todo copy from a template here and replace the REPLACE keywords with username and password
-                        LinkedList<String> data = new LinkedList<>();
-                        data.add("Name:" + newUserName.getText().trim());
-                        data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
-
-                        data.add("Font:tahoma");
-                        data.add("Foreground:000000");
-                        data.add("Background:FFFFFF");
-
-                        data.add("IntroMusic:0");
-                        data.add("DebugWindows:0");
-                        data.add("RandomBackground:0");
-                        data.add("OutputBorder:0");
-                        data.add("InputBorder:0");
-
-                        data.add("HourlyChimes:1");
-                        data.add("SilenceErrors:1");
-                        data.add("FullScreen:0");
-                        data.add("OutputFill:0");
-                        data.add("InputFill:0");
-
-                        data.add("ClockOnConsole:1");
-                        data.add("ShowSeconds:1");
-
-                        for (String d : data) {
-                            newUserWriter.write(d);
-                            newUserWriter.newLine();
-                        }
-
-                        newUserWriter.close();
-
-                        createUserFrame.closeAnimation();
-
-                        createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "");
-
-                        createUserFrame.closeAnimation();
-
-                        if ((!consoleFrame.isVisible() && loginFrame != null) || (new File("users/").length() == 1)) {
-                            loginFrame.closeAnimation();
-                            recognize(newUserName.getText().trim(), pass);
-                        }
-                    }
-
-                    for (char c : pass)
-                        c = '\0';
-
-                    for (char c : passconf)
-                        c = '\0';
-                } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
+                while (folder.exists()) {
+                    uuid = SecurityUtil.generateUUID();
+                    folder = new File("users/" + uuid);
                 }
+
+                char[] pass = newUserPassword.getPassword();
+                char[] passconf = newUserPasswordconf.getPassword();
+
+                boolean alreadyExists = false;
+                File[] files = new File("users").listFiles();
+
+                for (File f : files) {
+                    File data = new File(f.getAbsolutePath() + "/Userdata.txt");
+                    BufferedReader partReader = new BufferedReader(new FileReader(data));
+                    String line = partReader.readLine();
+                    while (line != null) {
+                        String[] parts = line.split(":");
+                        if (parts[0].equalsIgnoreCase("Name") && parts[1].equalsIgnoreCase(newUserName.getText().trim())) {
+                            alreadyExists = true;
+                            break;
+                        }
+
+                        line = partReader.readLine();
+                    }
+
+                    partReader.close();
+
+                    if (alreadyExists) break;
+                }
+
+                if (stringUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
+                        || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
+                    createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.", "");
+                    newUserPassword.setText("");
+                    newUserPasswordconf.setText("");
+                } else if (alreadyExists) {
+                    createUserFrame.inform("Sorry, but that username is already in use.\nPlease try a different one.", "");
+                    newUserName.setText("");
+                    newUserPassword.setText("");
+                    newUserPasswordconf.setText("");
+                } else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
+                    createUserFrame.inform("Sorry, but your passwords did not match. Please try again.", "");
+                    newUserPassword.setText("");
+                    newUserPasswordconf.setText("");
+                } else if (pass.length < 5) {
+                    createUserFrame.inform("Sorry, but your password length should be greater than\n"
+                            + "four characters for security reasons. Please add more characters.", "");
+
+                    newUserPassword.setText("");
+                    newUserPasswordconf.setText("");
+                } else {
+                    if (createUserBackground == null) {
+                        createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background");
+                        createUserBackground = new File("sys/pictures/DefaultBackground.png");
+                    }
+
+                    File NewUserFolder = new File("users/" + uuid);
+                    File backgrounds = new File("users/" + uuid + "/Backgrounds");
+                    File music = new File("users/" + uuid + "/Music");
+                    File notes = new File("users/" + uuid + "/Notes");
+
+                    NewUserFolder.mkdirs();
+                    backgrounds.mkdir();
+                    music.mkdir();
+                    notes.mkdir();
+
+                    ImageIO.write(ImageIO.read(createUserBackground), "png",
+                            new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
+
+                    BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
+                            "users/" + uuid + "/Userdata.txt"));
+
+                    //todo copy from a template here and replace the REPLACE keywords with username and password
+                    LinkedList<String> data = new LinkedList<>();
+                    data.add("Name:" + newUserName.getText().trim());
+                    data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
+
+                    data.add("Font:tahoma");
+                    data.add("Foreground:000000");
+                    data.add("Background:FFFFFF");
+
+                    data.add("IntroMusic:0");
+                    data.add("DebugWindows:0");
+                    data.add("RandomBackground:0");
+                    data.add("OutputBorder:0");
+                    data.add("InputBorder:0");
+
+                    data.add("HourlyChimes:1");
+                    data.add("SilenceErrors:1");
+                    data.add("FullScreen:0");
+                    data.add("OutputFill:0");
+                    data.add("InputFill:0");
+
+                    data.add("ClockOnConsole:1");
+                    data.add("ShowSeconds:1");
+
+                    for (String d : data) {
+                        newUserWriter.write(d);
+                        newUserWriter.newLine();
+                    }
+
+                    newUserWriter.close();
+
+                    createUserFrame.closeAnimation();
+
+                    createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "");
+
+                    createUserFrame.closeAnimation();
+
+                    if ((!consoleFrame.isVisible() && loginFrame != null) || (new File("users/").length() == 1)) {
+                        loginFrame.closeAnimation();
+                        recognize(newUserName.getText().trim(), pass);
+                    }
+                }
+
+                for (char c : pass)
+                    c = '\0';
+
+                for (char c : passconf)
+                    c = '\0';
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
+            }
             }
         });
 
