@@ -262,27 +262,6 @@ public class CyderFrame extends JFrame {
         this(400, 400);
     }
 
-    private static CyderFrame testFrame;
-    //todo getter and setter for this, resizing is broken
-    public static void testFrame() {
-        testFrame = new CyderFrame(800,800, ConsoleFrame.getCurrentBackgroundImageIcon());
-
-        testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        testFrame.setTitle("CyderTestFrame");
-
-        testFrame.initResizing();
-        testFrame.setSnapSize(new Dimension(1,1));
-        testFrame.setMinimumSize(new Dimension(128, 128));
-        testFrame.setMaximumSize(new Dimension(1280,1280));
-        testFrame.setResizable(true);
-        testFrame.setVisible(true);
-
-        testFrame.enableBackgroundResizing(true);
-        //call method to set it to only refresh on resizing event finish
-
-        testFrame.setLocationRelativeTo(null);
-    }
-
     /**
      * This method will change the title position to the specified value. If the frame is visible to the user,
      * we will animate the change via a smooth slide transition
@@ -913,8 +892,12 @@ public class CyderFrame extends JFrame {
      * Refresh the background in the event of a frame size change or background image change.
      */
     public void refreshBackground() {
-        contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
-                .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
+        try {
+            contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
+                    .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     /**
@@ -923,9 +906,13 @@ public class CyderFrame extends JFrame {
      * @param icon - the ImageIcon you want the frame background to be
      */
     public void setBackground(ImageIcon icon) {
-        currentOrigIcon = icon;
-        contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
-                .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
+        try {
+            currentOrigIcon = icon;
+            contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
+                    .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     /**
@@ -968,9 +955,19 @@ public class CyderFrame extends JFrame {
         return this.threadsKilled;
     }
 
+    /**
+     * Set the background of {@code this} to the current ConsoleFrame background.
+     * Note: the background is not updated when the ConsoleFrame background is, I have plans
+     *  to add a method to enable this
+     */
     public void stealConsoleBackground() {
+        if (ConsoleFrame.getCurrentBackgroundImageIcon() == null)
+            return;
+
         currentOrigIcon = ConsoleFrame.getCurrentBackgroundImageIcon();
+
+        System.out.println(contentLabel.getWidth() + "," + contentLabel.getHeight());
         contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
-                .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
+                .getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT)));
     }
 }

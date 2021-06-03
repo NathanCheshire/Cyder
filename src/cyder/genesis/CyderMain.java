@@ -2397,9 +2397,17 @@ public class CyderMain {
             } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
             } else if (eic("test")) {
-                CyderFrame.testFrame();
-
                 //todo preference slider like from ThinMatrix's games, slide from left to right and change colors for on and reverse for off
+                //todo be able to copy from outupt area without canceling using ctrl + c, check if selected text or not
+
+                //todo preference refresh moves console frame and flashes window
+
+                //todo photoviewer needs more consistnet window size and it moves the window to center every time, keep relative
+
+                //todo fipping console resets output area position
+
+                TestFrame tf = new TestFrame();
+
             } else if (eic("frames")) {
                 Frame[] frames = Frame.getFrames();
                 for (Frame f : frames)

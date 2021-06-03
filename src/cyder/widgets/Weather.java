@@ -319,14 +319,10 @@ public class Weather {
         weatherFrame.getContentPane().add(sunsetLabel, SwingConstants.CENTER);
 
         //todo change sunrise and sunset icons to actual icons and not the background image
+        //todo change background to gradient and make resizable
 
         weatherFrame.setVisible(true);
         weatherFrame.setLocationRelativeTo(null);
-        weatherFrame.initResizing();
-        weatherFrame.setSnapSize(new Dimension(1,1));
-        weatherFrame.setMinimumSize(new Dimension(weatherFrame.getWidth(),weatherFrame.getHeight()));
-        weatherFrame.setMaximumSize(new Dimension(weatherFrame.getWidth() + 200, weatherFrame.getHeight() + 200));
-        weatherFrame.enableBackgroundResizing(true);
 
         updateClock = true;
         refreshClock();
