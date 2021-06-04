@@ -545,15 +545,17 @@ public class CyderFrame extends JFrame {
         killThreads();
         super.dispose();
 
-        Frame[] frames = Frame.getFrames();
-        int validFrames = 0;
-
-        for (Frame f : frames)
-            if (f.isShowing())
-                validFrames++;
-
-        if (validFrames < 1)
-            System.exit(120);
+        //todo commented since logging in as another user from one user makes the user not load
+        // figure out new logic for this such as an executor to check for frames every 5 or so seconds
+//        Frame[] frames = Frame.getFrames();
+//        int validFrames = 0;
+//
+//        for (Frame f : frames)
+//            if (f.isShowing())
+//                validFrames++;
+//
+//        if (validFrames < 1)
+//            System.exit(120);
     }
 
     /**

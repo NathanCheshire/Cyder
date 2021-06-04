@@ -128,6 +128,25 @@ public class IOUtil {
         if (!new File("users/" + user + "/Userdata.txt").exists())
             corruptedUser();
 
+        //check for any preferences that might have been added to Cyder that this user doesn't have
+        // we can just append this to the end of the datafile since if there are duplicates, only the first
+        // value will be kept
+
+        try (BufferedWriter userWriter = new BufferedWriter(new FileWriter(
+                "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", true))) {
+            CyderMain.exitingSem.acquire();
+
+            for (int i = 0 ;  i < CyderMain.createUserIDPairs.length / 2 ; i++) {
+                userWriter.write(CyderMain.createUserIDPairs[2 * i] + ":" + CyderMain.createUserIDPairs[2 * i + 1]);
+                userWriter.newLine();
+            }
+
+            CyderMain.exitingSem.release();
+
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
         try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))) {
             CyderMain.exitingSem.acquire();
             String line;
@@ -177,6 +196,8 @@ public class IOUtil {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+
+
     }
 
     public static void readSystemData() {

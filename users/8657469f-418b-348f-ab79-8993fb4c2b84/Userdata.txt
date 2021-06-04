@@ -15,3 +15,5 @@ OutputFill:0
 InputFill:0
 ClockOnConsole:1
 ShowSeconds:1
+FilterChat:0
+MenuDirection:1

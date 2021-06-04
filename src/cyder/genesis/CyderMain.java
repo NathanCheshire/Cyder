@@ -3335,27 +3335,44 @@ public class CyderMain {
         switchingPanel.revalidate();
     }
 
+    //todo preference object in an attempt to consolidate all these arrays
     //ignoreing first two: name, password
     private final String[] prefIDS = {"intromusic",
             "debugwindows","randombackground","outputborder","inputborder","hourlychimes","silenceerrors",
-            "fullscreen","outputfill","inputfill","clockonconsole","showseconds"};
+            "fullscreen","outputfill","inputfill","clockonconsole","showseconds","filterchat","menudirection"};
 
     private final String[] prefNames = {"Intro Music",
             "Debug Windows","Random Background","Output Border","Input Border","Hourly Chimes","Silence Errors",
-            "Fullscreen","Output Fill","Input Fill","Clock On Console","Show Seconds"};
+            "Fullscreen","Output Fill","Input Fill","Clock On Console","Show Seconds", "Filter Chat","Menu Minimize Direction"};
 
     private final String[] prefToolTips = {"Play intro music on start",
             "Show debug menus on startup","Choose a random background on startup",
             "Draw a border around the output area","Draw a border around the input area",
             "Chime every hour","Don't open errors externally",
-            "Fullscreen cyder (Extremely experimental)","Fill the output area with the color specified in the \"Fonts & Colors\" panel",
+            "Fullscreen cyder (Extremely experimental)","Fill the output area with the color " +
+            "specified in the \"Fonts & Colors\" panel",
             "Fill the input area with the color specified in the \"Fonts & Colors\" panel",
-            "Show a clock at the top of the console","Show seconds on the console clock if enabled"};
+            "Show a clock at the top of the console","Show seconds on the console clock if enabled",
+            "Filter foul language","Console Menu Minimize Direction"};
 
-
-    //todo utilize this for creating user
-    //todo toggle chat filter pref
-    //todo toggle for menu animation slide up or left
+    //todo if something here doesn't exist in a user, add it in, do this in fix user method
+    public static final String[] createUserIDPairs = {"Font","tahoma",
+            "Foreground","000000",
+            "Background","FFFFFF",
+            "IntroMusic","0",
+            "DebugWindows","0",
+            "RandomBackground","0",
+            "OutputBorder","0",
+            "InputBorder", "0",
+            "HourlyChimes","1",
+            "SilenceErrors","1",
+            "FullScreen","0",
+            "OutputFill","0",
+            "InputFill","0",
+            "ClockOnConsole","1",
+            "ShowSeconds","1",
+            "FilterChat","1", //implement
+            "MenuDirection","1"}; //implement
 
     //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
 
@@ -3415,41 +3432,45 @@ public class CyderMain {
         switchingPanel.revalidate();
     }
 
-    //todo individual functions to pass specifically singular pref change
-    //todo sort out bug where console frame flashes and position is set to null
     public void refreshPrefs() {
-        if (IOUtil.getUserData("OutputBorder").equals("0"))
+        //output border
+        if (IOUtil.getUserData("OutputBorder").equals("0")) {
             outputScroll.setBorder(BorderFactory.createEmptyBorder());
-        else
+        } else {
             outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
+        }
 
-        if (IOUtil.getUserData("InputBorder").equals("0"))
+        //input border
+        if (IOUtil.getUserData("InputBorder").equals("0")) {
             inputField.setBorder(BorderFactory.createEmptyBorder());
-        else
+        } else {
             inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
+        }
 
-        if (IOUtil.getUserData("FullScreen").equals("0") && ConsoleFrame.isFullscreen())
+        //full screen
+        if (IOUtil.getUserData("FullScreen").equals("0") && ConsoleFrame.isFullscreen()) {
             exitFullscreen();
-        else if (IOUtil.getUserData("FullScreen").equals("1"))
+        } else if (IOUtil.getUserData("FullScreen").equals("1")) {
             refreshConsoleFrame();
+        }
 
-        consoleClockLabel.setVisible(IOUtil.getUserData("ClockOnConsole").equals("1"));
-
-        if (consoleClockLabel.isVisible())
+        //console clock
+        if (IOUtil.getUserData("ClockOnConsole").equals("1")) {
+            consoleClockLabel.setVisible(true);
             updateConsoleClock = true;
 
-        if (consoleClockLabel.isVisible()) {
+            //show seconds
             if (IOUtil.getUserData("ShowSeconds").equals("1"))
                 consoleClockLabel.setText(TimeUtil.consoleSecondTime());
             else
                 consoleClockLabel.setText(TimeUtil.consoleTime());
+
+        } else {
+            consoleClockLabel.setVisible(false);
+            updateConsoleClock = false;
         }
 
-        if (IOUtil.getUserData("ShowSeconds").equals("0"))
-            consoleClockLabel.setText(TimeUtil.consoleTime());
-        else
-            consoleClockLabel.setText(TimeUtil.consoleSecondTime());
-
+        //output color fill
         if (IOUtil.getUserData("OutputFill").equals("0")) {
             outputArea.setBackground(null);
             outputArea.setOpaque(false);
@@ -3460,6 +3481,7 @@ public class CyderMain {
             outputArea.revalidate();
         }
 
+        //input color fill
         if (IOUtil.getUserData("InputFill").equals("0")) {
             inputField.setBackground(null);
             inputField.setOpaque(false);
@@ -3472,8 +3494,6 @@ public class CyderMain {
 
         consoleFrame.repaint();
     }
-
-    //todo convert repeated paths to string contants
 
     //CreateUser class in genesis
     public void createUser() {
@@ -3497,9 +3517,9 @@ public class CyderMain {
         newUserName.setFont(CyderFonts.weatherFontSmall);
         newUserName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-            if (newUserName.getText().length() > 15) {
-                evt.consume();
-            }
+                if (newUserName.getText().length() > 15) {
+                    evt.consume();
+                }
             }
         });
 
@@ -3649,133 +3669,116 @@ public class CyderMain {
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            try {
-                String uuid = SecurityUtil.generateUUID();
-                File folder = new File("users/" + uuid);
+                try {
+                    String uuid = SecurityUtil.generateUUID();
+                    File folder = new File("users/" + uuid);
 
-                while (folder.exists()) {
-                    uuid = SecurityUtil.generateUUID();
-                    folder = new File("users/" + uuid);
-                }
+                    while (folder.exists()) {
+                        uuid = SecurityUtil.generateUUID();
+                        folder = new File("users/" + uuid);
+                    }
 
-                char[] pass = newUserPassword.getPassword();
-                char[] passconf = newUserPasswordconf.getPassword();
+                    char[] pass = newUserPassword.getPassword();
+                    char[] passconf = newUserPasswordconf.getPassword();
 
-                boolean alreadyExists = false;
-                File[] files = new File("users").listFiles();
+                    boolean alreadyExists = false;
+                    File[] files = new File("users").listFiles();
 
-                for (File f : files) {
-                    File data = new File(f.getAbsolutePath() + "/Userdata.txt");
-                    BufferedReader partReader = new BufferedReader(new FileReader(data));
-                    String line = partReader.readLine();
-                    while (line != null) {
-                        String[] parts = line.split(":");
-                        if (parts[0].equalsIgnoreCase("Name") && parts[1].equalsIgnoreCase(newUserName.getText().trim())) {
-                            alreadyExists = true;
-                            break;
+                    for (File f : files) {
+                        File data = new File(f.getAbsolutePath() + "/Userdata.txt");
+                        BufferedReader partReader = new BufferedReader(new FileReader(data));
+                        String line = partReader.readLine();
+                        while (line != null) {
+                            String[] parts = line.split(":");
+                            if (parts[0].equalsIgnoreCase("Name") && parts[1].equalsIgnoreCase(newUserName.getText().trim())) {
+                                alreadyExists = true;
+                                break;
+                            }
+
+                            line = partReader.readLine();
                         }
 
-                        line = partReader.readLine();
+                        partReader.close();
+
+                        if (alreadyExists) break;
                     }
 
-                    partReader.close();
+                    if (stringUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
+                            || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
+                        createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.", "");
+                        newUserPassword.setText("");
+                        newUserPasswordconf.setText("");
+                    } else if (alreadyExists) {
+                        createUserFrame.inform("Sorry, but that username is already in use.\nPlease try a different one.", "");
+                        newUserName.setText("");
+                        newUserPassword.setText("");
+                        newUserPasswordconf.setText("");
+                    } else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
+                        createUserFrame.inform("Sorry, but your passwords did not match. Please try again.", "");
+                        newUserPassword.setText("");
+                        newUserPasswordconf.setText("");
+                    } else if (pass.length < 5) {
+                        createUserFrame.inform("Sorry, but your password length should be greater than\n"
+                                + "four characters for security reasons. Please add more characters.", "");
 
-                    if (alreadyExists) break;
+                        newUserPassword.setText("");
+                        newUserPasswordconf.setText("");
+                    } else {
+                        if (createUserBackground == null) {
+                            createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background");
+                            createUserBackground = new File("sys/pictures/DefaultBackground.png");
+                        }
+
+                        File NewUserFolder = new File("users/" + uuid);
+                        File backgrounds = new File("users/" + uuid + "/Backgrounds");
+                        File music = new File("users/" + uuid + "/Music");
+                        File notes = new File("users/" + uuid + "/Notes");
+
+                        NewUserFolder.mkdirs();
+                        backgrounds.mkdir();
+                        music.mkdir();
+                        notes.mkdir();
+
+                        ImageIO.write(ImageIO.read(createUserBackground), "png",
+                                new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
+
+                        BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
+                                "users/" + uuid + "/Userdata.txt"));
+
+                        LinkedList<String> data = new LinkedList<>();
+                        data.add("Name:" + newUserName.getText().trim());
+                        data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
+
+                        for (int i = 0 ; i < createUserIDPairs.length / 2 ; i++) {
+                            data.add(createUserIDPairs[2 * i] + ":" + createUserIDPairs[2 * i + 1]);
+                        }
+
+                        for (String d : data) {
+                            newUserWriter.write(d);
+                            newUserWriter.newLine();
+                        }
+
+                        newUserWriter.close();
+
+                        createUserFrame.closeAnimation();
+                        createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "");
+                        createUserFrame.closeAnimation();
+
+                        if ((!consoleFrame.isVisible() && loginFrame != null) || (new File("users/").length() == 1)) {
+                            loginFrame.closeAnimation();
+                            recognize(newUserName.getText().trim(), pass);
+                        }
+                    }
+
+                    for (char c : pass)
+                        c = '\0';
+
+                    for (char c : passconf)
+                        c = '\0';
+
+                } catch (Exception ex) {
+                    ErrorHandler.handle(ex);
                 }
-
-                if (stringUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
-                        || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
-                    createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.", "");
-                    newUserPassword.setText("");
-                    newUserPasswordconf.setText("");
-                } else if (alreadyExists) {
-                    createUserFrame.inform("Sorry, but that username is already in use.\nPlease try a different one.", "");
-                    newUserName.setText("");
-                    newUserPassword.setText("");
-                    newUserPasswordconf.setText("");
-                } else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
-                    createUserFrame.inform("Sorry, but your passwords did not match. Please try again.", "");
-                    newUserPassword.setText("");
-                    newUserPasswordconf.setText("");
-                } else if (pass.length < 5) {
-                    createUserFrame.inform("Sorry, but your password length should be greater than\n"
-                            + "four characters for security reasons. Please add more characters.", "");
-
-                    newUserPassword.setText("");
-                    newUserPasswordconf.setText("");
-                } else {
-                    if (createUserBackground == null) {
-                        createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background");
-                        createUserBackground = new File("sys/pictures/DefaultBackground.png");
-                    }
-
-                    File NewUserFolder = new File("users/" + uuid);
-                    File backgrounds = new File("users/" + uuid + "/Backgrounds");
-                    File music = new File("users/" + uuid + "/Music");
-                    File notes = new File("users/" + uuid + "/Notes");
-
-                    NewUserFolder.mkdirs();
-                    backgrounds.mkdir();
-                    music.mkdir();
-                    notes.mkdir();
-
-                    ImageIO.write(ImageIO.read(createUserBackground), "png",
-                            new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
-
-                    BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
-                            "users/" + uuid + "/Userdata.txt"));
-
-                    //todo copy from a template here and replace the REPLACE keywords with username and password
-                    LinkedList<String> data = new LinkedList<>();
-                    data.add("Name:" + newUserName.getText().trim());
-                    data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
-
-                    data.add("Font:tahoma");
-                    data.add("Foreground:000000");
-                    data.add("Background:FFFFFF");
-
-                    data.add("IntroMusic:0");
-                    data.add("DebugWindows:0");
-                    data.add("RandomBackground:0");
-                    data.add("OutputBorder:0");
-                    data.add("InputBorder:0");
-
-                    data.add("HourlyChimes:1");
-                    data.add("SilenceErrors:1");
-                    data.add("FullScreen:0");
-                    data.add("OutputFill:0");
-                    data.add("InputFill:0");
-
-                    data.add("ClockOnConsole:1");
-                    data.add("ShowSeconds:1");
-
-                    for (String d : data) {
-                        newUserWriter.write(d);
-                        newUserWriter.newLine();
-                    }
-
-                    newUserWriter.close();
-
-                    createUserFrame.closeAnimation();
-
-                    createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "");
-
-                    createUserFrame.closeAnimation();
-
-                    if ((!consoleFrame.isVisible() && loginFrame != null) || (new File("users/").length() == 1)) {
-                        loginFrame.closeAnimation();
-                        recognize(newUserName.getText().trim(), pass);
-                    }
-                }
-
-                for (char c : pass)
-                    c = '\0';
-
-                for (char c : passconf)
-                    c = '\0';
-            } catch (Exception ex) {
-                ErrorHandler.handle(ex);
-            }
             }
         });
 
@@ -3800,7 +3803,8 @@ public class CyderMain {
 
             Thread waitThread = new Thread(() -> {
                 try {
-                    //todo make this number dynamic
+                    //todo make this number dynamic and calculate based on if the menu minmizes
+                    // up or left
                     Thread.sleep(186);
                 } catch (Exception ex) {
                     ErrorHandler.handle(ex);
@@ -3824,6 +3828,7 @@ public class CyderMain {
      * should be placed in {@link CyderMain#shutdown()} which is what the shutdown hook calls
      */
     private void exit() {
+        //save data and do operatings that require system IO
         IOUtil.readUserData();
         IOUtil.writeUserData("Fonts", outputArea.getFont().getName());
         IOUtil.writeUserData("Foreground", ColorUtil.rgbtohexString(outputArea.getForeground()));
@@ -3849,8 +3854,9 @@ public class CyderMain {
     private void shutdown() {
         //delete temp dir
         IOUtil.deleteTempDir();
+
         //delete all getter files
-        //todo move these to tmp dir
+        //todo move these to tmp dir itself
         new File("InputMessage.txt").delete();
         new File("File.txt").delete();
         new File("String.txt").delete();
