@@ -136,8 +136,11 @@ public class IOUtil {
                 "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", true))) {
             CyderMain.exitingSem.acquire();
 
-            for (int i = 0 ;  i < CyderMain.createUserIDPairs.length / 2 ; i++) {
-                userWriter.write(CyderMain.createUserIDPairs[2 * i] + ":" + CyderMain.createUserIDPairs[2 * i + 1]);
+            //always just add a newline to the front to be safe
+            userWriter.newLine();
+
+            for (int i = 0 ;  i < CyderMain.prefs.size() ; i++) {
+                userWriter.write(CyderMain.prefs.get(i).getID() + ":" + CyderMain.prefs.get(i).getDefaultValue());
                 userWriter.newLine();
             }
 
@@ -153,7 +156,9 @@ public class IOUtil {
             ArrayList<NST> data = new ArrayList<>();
 
             while ((line = dataReader.readLine()) != null) {
-                if (!line.contains(":"))
+                long count = line.chars().filter(charaizard -> charaizard == ':').count(); //charizard, rawr
+
+                if (count != 1)
                     corruptedUser();
 
                 String[] parts = line.split(":");
@@ -171,7 +176,7 @@ public class IOUtil {
                 boolean alreadyHas = false;
 
                 for (NST reWriteDatum : reWriteData) {
-                    if (reWriteDatum.getName().equals(currentName)) {
+                    if (reWriteDatum.getName().equalsIgnoreCase(currentName)) {
                         alreadyHas = true;
                         break;
                     }

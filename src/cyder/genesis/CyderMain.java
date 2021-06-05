@@ -12,6 +12,7 @@ import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
+import cyder.obj.Preference;
 import cyder.threads.YoutubeThread;
 import cyder.ui.*;
 import cyder.utilities.*;
@@ -3335,44 +3336,60 @@ public class CyderMain {
         switchingPanel.revalidate();
     }
 
-    //todo preference object in an attempt to consolidate all these arrays
-    //ignoreing first two: name, password
-    private final String[] prefIDS = {"intromusic",
-            "debugwindows","randombackground","outputborder","inputborder","hourlychimes","silenceerrors",
-            "fullscreen","outputfill","inputfill","clockonconsole","showseconds","filterchat","menudirection"};
+    //todo do without init method?
+    public static LinkedList<Preference> prefs = initPreferencesList();
+    private static LinkedList<Preference> initPreferencesList() {
+        LinkedList<Preference> ret = new LinkedList<>();
 
-    private final String[] prefNames = {"Intro Music",
-            "Debug Windows","Random Background","Output Border","Input Border","Hourly Chimes","Silence Errors",
-            "Fullscreen","Output Fill","Input Fill","Clock On Console","Show Seconds", "Filter Chat","Menu Minimize Direction"};
+        ret.add(new Preference("font","IGNORE","IGNORE","tahoma"));
+        ret.add(new Preference("foreground","IGNORE","IGNORE","000000"));
+        ret.add(new Preference("background","IGNORE","IGNORE","FFFFFF"));
 
-    private final String[] prefToolTips = {"Play intro music on start",
-            "Show debug menus on startup","Choose a random background on startup",
-            "Draw a border around the output area","Draw a border around the input area",
-            "Chime every hour","Don't open errors externally",
-            "Fullscreen cyder (Extremely experimental)","Fill the output area with the color " +
-            "specified in the \"Fonts & Colors\" panel",
-            "Fill the input area with the color specified in the \"Fonts & Colors\" panel",
-            "Show a clock at the top of the console","Show seconds on the console clock if enabled",
-            "Filter foul language","Console Menu Minimize Direction"};
+        ret.add(new Preference("intromusic",
+                "Intro Music","" +
+                "Play intro music on start","0"));
+        ret.add(new Preference("debugwindows",
+                "Debug Windows",
+                "Show debug menus on startup","0"));
+        ret.add(new Preference("randombackground",
+                "Random Background",
+                "Choose a random background on startup","0"));
+        ret.add(new Preference("outputborder",
+                "Output Border",
+                "Draw a border around the output area","0"));
+        ret.add(new Preference("inputborder",
+                "Input Border",
+                "Draw a border around the input area","0"));
+        ret.add(new Preference("hourlychimes",
+                "Hourly Chimes",
+                "Chime every hour","1"));
+        ret.add(new Preference("silenceerrors",
+                "Silence Errors",
+                "Don't open errors externally","1"));
+        ret.add(new Preference("fullscreen",
+                "Fullscreen",
+                "Fullscreen cyder (Extremely experimental)","0"));
+        ret.add(new Preference("outputfill",
+                "Output Fill",
+                "Fill the output area with the color specified in the \"Fonts & Colors\" panel","0"));
+        ret.add(new Preference("inputfill",
+                "Input Fill",
+                "Fill the input area with the color specified in the \"Fonts & Colors\" panel","0"));
+        ret.add(new Preference("clockonconsole",
+                "Clock On Console",
+                "Show a clock at the top of the console","1"));
+        ret.add(new Preference("showseconds",
+                "Show Seconds",
+                "Show seconds on the console clock if enabled","1"));
+        ret.add(new Preference("filterchat",
+                "Filter Chat",
+                "Filter foul language","1"));
+        ret.add(new Preference("menudirection",
+                "Menu Minimize Direction",
+                "Console Menu Minimize Direction","1"));
 
-    //todo if something here doesn't exist in a user, add it in, do this in fix user method
-    public static final String[] createUserIDPairs = {"Font","tahoma",
-            "Foreground","000000",
-            "Background","FFFFFF",
-            "IntroMusic","0",
-            "DebugWindows","0",
-            "RandomBackground","0",
-            "OutputBorder","0",
-            "InputBorder", "0",
-            "HourlyChimes","1",
-            "SilenceErrors","1",
-            "FullScreen","0",
-            "OutputFill","0",
-            "InputFill","0",
-            "ClockOnConsole","1",
-            "ShowSeconds","1",
-            "FilterChat","1", //implement
-            "MenuDirection","1"}; //implement
+        return ret;
+    }
 
     //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
 
@@ -3386,11 +3403,14 @@ public class CyderMain {
         prefsTitle.setFont(CyderFonts.weatherFontBig);
         preferencePanel.add(prefsTitle);
 
-        for (int i = 0 ; i < prefIDS.length ; i++) {
-            CyderLabel preferenceLabel = new CyderLabel(prefNames[i]);
-            preferenceLabel.setForeground(IOUtil.getUserData(prefIDS[i]).equals("1") ? CyderColors.regularRed : CyderColors.navy);
+        for (int i = 0 ; i < prefs.size() ; i++) {
+            if (prefs.get(i).getTooltip().equals("IGNORE"))
+                continue;
+
+            CyderLabel preferenceLabel = new CyderLabel(prefs.get(i).getDisplayName());
+            preferenceLabel.setForeground(IOUtil.getUserData(prefs.get(i).getID()).equals("1") ? CyderColors.regularRed : CyderColors.navy);
             preferenceLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
-            preferenceLabel.setToolTipText(prefToolTips[i]);
+            preferenceLabel.setToolTipText(prefs.get(i).getTooltip());
             preferenceLabel.setFont(CyderFonts.defaultFontSmall);
             preferencePanel.add(preferenceLabel);
 
@@ -3399,8 +3419,8 @@ public class CyderMain {
             preferenceLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    boolean wasSelected = IOUtil.getUserData((prefIDS[localIndex])).equalsIgnoreCase("1");
-                    IOUtil.writeUserData(prefIDS[localIndex], wasSelected ? "0" : "1");
+                    boolean wasSelected = IOUtil.getUserData((prefs.get(localIndex).getID())).equalsIgnoreCase("1");
+                    IOUtil.writeUserData(prefs.get(localIndex).getID(), wasSelected ? "0" : "1");
 
                     preferenceLabel.setForeground(
                             wasSelected ? CyderColors.navy : CyderColors.regularRed);
@@ -3411,14 +3431,14 @@ public class CyderMain {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     preferenceLabel.setForeground(
-                            IOUtil.getUserData(prefIDS[localIndex]).equalsIgnoreCase("1") ?
+                            IOUtil.getUserData(prefs.get(localIndex).getID()).equalsIgnoreCase("1") ?
                                     CyderColors.navy : CyderColors.regularRed);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
                     preferenceLabel.setForeground(
-                            IOUtil.getUserData(prefIDS[localIndex]).equalsIgnoreCase("0") ?
+                            IOUtil.getUserData(prefs.get(localIndex).getID()).equalsIgnoreCase("0") ?
                                     CyderColors.navy : CyderColors.regularRed);
                 }
             });
@@ -3749,8 +3769,10 @@ public class CyderMain {
                         data.add("Name:" + newUserName.getText().trim());
                         data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
 
-                        for (int i = 0 ; i < createUserIDPairs.length / 2 ; i++) {
-                            data.add(createUserIDPairs[2 * i] + ":" + createUserIDPairs[2 * i + 1]);
+                        for (Preference pref : prefs) {
+                            if (pref.getTooltip().equals("IGNORE"))
+                                continue;
+                            data.add(pref.getID() + ":" + pref.getDefaultValue());
                         }
 
                         for (String d : data) {
