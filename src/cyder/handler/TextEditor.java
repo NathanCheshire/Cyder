@@ -120,4 +120,9 @@ public class TextEditor {
         noteEditArea.requestFocus();
         noteEditorFrame.setLocationRelativeTo(null);
     }
+
+    @Override
+    public String toString() {
+        return "TextEditor object, hash=" + this.hashCode();
+    }
 }

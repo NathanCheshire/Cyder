@@ -1,5 +1,8 @@
 package cyder.algorithoms;
 
+import cyder.utilities.IOUtil;
+import cyder.utilities.TimeUtil;
+
 public class GroupTheory {
     private GroupTheory() {} //no instantiation
 
@@ -33,5 +36,17 @@ public class GroupTheory {
 
     public static int[] bezoutConstants() {
         return null; //https://planetcalc.com/8586/
+    }
+
+    //Precise method, which guarantees v = v1 when t = 1.
+    // This method is monotonic only when v0 * v1 < 0.
+    // Lerping between same values might not produce the same value
+    public static float lerp(float v0, float v1, float t) {
+        return (1 - t) * v0 + t * v1;
+    }
+
+    @Override
+    public String toString() {
+        return "GroupTheory object, hash=" + this.hashCode();
     }
 }

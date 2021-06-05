@@ -174,4 +174,9 @@ public class DragLabel extends JLabel {
     public static int getDefaultHeight() {
         return 30;
     }
+
+    @Override
+    public String toString() {
+        return "DragLabel object, hash=" + this.hashCode();
+    }
 }

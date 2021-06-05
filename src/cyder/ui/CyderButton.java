@@ -21,7 +21,7 @@ public class CyderButton extends JButton {
         super(text);
         super.setContentAreaFilled(false);
 
-        addMouseMotionListener(new CyderDragableComponent());
+        addMouseMotionListener(new CyderDraggableComponent());
 
         setFont(CyderFonts.weatherFontSmall);
         setBackground(CyderColors.regularRed);
@@ -88,5 +88,10 @@ public class CyderButton extends JButton {
                 ErrorHandler.handle(e);
             }
         },this.getName() + " alert thread").start();
+    }
+
+    @Override
+    public String toString() {
+        return "CyderButton object, hash=" + this.hashCode();
     }
 }

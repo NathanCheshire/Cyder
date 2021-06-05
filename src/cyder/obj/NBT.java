@@ -47,4 +47,12 @@ public class NBT {
     public boolean getData() {
         return this.data;
     }
+
+    @Override
+    public String toString() {
+        return "NBT object (" +
+                this.getName() + "," +
+                this.getData() +
+                "), hash=" + this.hashCode();
+    }
 }

@@ -617,4 +617,9 @@ public class IOUtil {
             ErrorHandler.handle(e);
         }
     }
+
+    @Override
+    public String toString() {
+        return "IOUtil object, hash=" + this.hashCode();
+    }
 }

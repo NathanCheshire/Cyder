@@ -192,4 +192,9 @@ public class CyderScrollPane extends JScrollPane {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "CyderScrollPane object, hash=" + this.hashCode();
+    }
 }

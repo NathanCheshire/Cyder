@@ -44,4 +44,14 @@ public class Preference {
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
     }
+
+    @Override
+    public String toString() {
+        return "Preference object: (" +
+                this.getID() + "," +
+                this.getDisplayName() + "," +
+                this.getTooltip() + "," +
+                this.defaultValue +
+                "), hash=" + this.hashCode();
+    }
 }

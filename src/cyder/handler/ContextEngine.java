@@ -1,6 +1,9 @@
 package cyder.handler;
 
 public class ContextEngine {
+
+    private InputHandler handler;
+
     //todo context engine that links with inputhandler
     // you can add more links and hooks to inputhandler
 
@@ -9,4 +12,9 @@ public class ContextEngine {
 
     //todo basically if we're going to say we don't know what the input was, check some conditions such as
     // the last stuff entered, the date, the time, the weather, etc.
+
+    @Override
+    public String toString() {
+        return "ContextEngine object, handler=" + handler.toString() + ", hash=" + this.hashCode();
+    }
 }

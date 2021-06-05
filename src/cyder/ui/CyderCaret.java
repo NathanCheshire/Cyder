@@ -67,4 +67,8 @@ public class CyderCaret extends DefaultCaret {
         }
     }
 
+    @Override
+    public String toString() {
+        return "CyderCaret object, hash=" + this.hashCode();
+    }
 }

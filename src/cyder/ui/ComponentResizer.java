@@ -303,4 +303,9 @@ public class ComponentResizer extends MouseAdapter {
     public boolean getResizing() {
         return resizingAllowed;
     }
+
+    @Override
+    public String toString() {
+        return "Component Resizer object, hash=" + this.hashCode();
+    }
 }

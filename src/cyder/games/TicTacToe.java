@@ -535,4 +535,9 @@ public class TicTacToe {
                 !ttt5.getText().isEmpty() && !ttt6.getText().isEmpty() &&
                 !ttt7.getText().isEmpty() && !ttt8.getText().isEmpty() && !ttt9.getText().isEmpty();
     }
+
+    @Override
+    public String toString() {
+        return "TicTacToe object, hash=" + this.hashCode();
+    }
 }

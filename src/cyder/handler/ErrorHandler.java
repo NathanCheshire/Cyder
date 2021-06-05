@@ -149,4 +149,9 @@ public class ErrorHandler {
             ex.printStackTrace();
         }
     }
+
+    @Override
+    public String toString() {
+        return "ErrorHandler object, hash=" + this.hashCode();
+    }
 }

@@ -86,4 +86,9 @@ public class YoutubeThread {
     public void kill() {
         this.exit = true;
     }
+
+    @Override
+    public String toString() {
+        return "YouTube Thread object, hash=" + this.hashCode();
+    }
 }

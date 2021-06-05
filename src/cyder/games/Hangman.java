@@ -208,4 +208,8 @@ public class Hangman {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Hangman object, hash=" + this.hashCode();
+    }
 }

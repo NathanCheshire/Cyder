@@ -60,4 +60,9 @@ public class CyderTextField extends JTextField {
     public int getCharLimit() {
         return this.limit;
     }
+
+    @Override
+    public String toString() {
+        return "CyderTextField object, hash=" + this.hashCode();
+    }
 }

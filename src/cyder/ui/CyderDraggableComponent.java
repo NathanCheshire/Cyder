@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
-public class CyderDragableComponent implements MouseMotionListener {
+public class CyderDraggableComponent implements MouseMotionListener {
     int xMouse;
     int yMouse;
 
@@ -28,5 +28,10 @@ public class CyderDragableComponent implements MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
         xMouse = e.getX();
         yMouse = e.getY();
+    }
+
+    @Override
+    public String toString() {
+        return "CyderDraggableComponent object, hash=" + this.hashCode();
     }
 }

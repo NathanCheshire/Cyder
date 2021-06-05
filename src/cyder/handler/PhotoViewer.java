@@ -460,4 +460,9 @@ public class PhotoViewer {
         renameFrame.setVisible(true);
         renameFrame.setLocationRelativeTo(pictureFrame);
     }
+
+    @Override
+    public String toString() {
+        return "PhotoViewer object, hash=" + this.hashCode();
+    }
 }

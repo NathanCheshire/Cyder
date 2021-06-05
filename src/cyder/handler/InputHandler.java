@@ -46,4 +46,9 @@ public class InputHandler {
     //todo fix up animation util (remove and use local loop)
 
     //todo killed boolean for ALL objects with threads to end their threads when disposed? Copy from ConsoleFrame.dispose()
+
+    @Override
+    public String toString() {
+        return "InputHandler object (I guess this is just the todo field though... *sad pony noises*), hash=" + this.hashCode();
+    }
 }

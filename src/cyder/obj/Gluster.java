@@ -64,4 +64,15 @@ public class Gluster {
     public Direction getVanishDir() {
         return vanishDir;
     }
+
+    @Override
+    public String toString() {
+        return "Gluster object: (" +
+                this.getHtmlText() + "," +
+                this.getDuration() + "," +
+                this.getArrowDir() + "," +
+                this.getStartDir() + "," +
+                this.getVanishDir() + "," +
+                "), hash=" + this.hashCode();
+    }
 }

@@ -119,4 +119,9 @@ public class CyderProgressUI extends BasicProgressBarUI {
     public static double linearInterpolate(double value1, double value2, double amt) {
         return ((value2 - value1) * amt) + value1;
     }
+
+    @Override
+    public String toString() {
+        return "CyderProgressUI object, hash=" + this.hashCode();
+    }
 }

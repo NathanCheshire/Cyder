@@ -42,4 +42,12 @@ public class NST {
     public String getData() {
         return this.data;
     }
+
+    @Override
+    public String toString() {
+        return "NST object (" +
+                this.getName() + "," +
+                this.getData() +
+                "), hash=" + this.hashCode();
+    }
 }

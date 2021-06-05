@@ -6,4 +6,9 @@ public class FatalException extends Exception{
     public FatalException(String s) {
         super(s);
     }
+
+    @Override
+    public String toString() {
+        return "FatalException object, hash=" + this.hashCode();
+    }
 }

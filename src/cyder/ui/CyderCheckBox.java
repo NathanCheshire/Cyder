@@ -61,7 +61,7 @@ public class CyderCheckBox extends JCheckBox {
     }
 
     public CyderCheckBox() {
-        addMouseMotionListener(new CyderDragableComponent());
+        addMouseMotionListener(new CyderDraggableComponent());
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -93,7 +93,7 @@ public class CyderCheckBox extends JCheckBox {
     }
 
     public CyderCheckBox(boolean initalValue) {
-        addMouseMotionListener(new CyderDragableComponent());
+        addMouseMotionListener(new CyderDraggableComponent());
         selected = initalValue;
         repaint();
     }
@@ -131,5 +131,10 @@ public class CyderCheckBox extends JCheckBox {
         graphics2D.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         graphics2D.drawLine(5, 5, sideLength - 5, sideLength - 5);
         graphics2D.drawLine(sideLength - 5, 5, 5, sideLength - 5);
+    }
+
+    @Override
+    public String toString() {
+        return "CyderCheckBox object, hash=" + this.hashCode();
     }
 }

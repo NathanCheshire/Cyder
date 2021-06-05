@@ -26,4 +26,8 @@ public class TestFrame extends CyderFrame {
         testFrame.setVisible(true);
     }
 
+    @Override
+    public String toString() {
+        return "TestFrame object, hash=" + this.hashCode();
+    }
 }

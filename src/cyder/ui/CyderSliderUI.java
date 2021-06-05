@@ -278,4 +278,9 @@ public class CyderSliderUI extends BasicSliderUI {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "CyderSliderUI object, hash=" + this.hashCode();
+    }
 }

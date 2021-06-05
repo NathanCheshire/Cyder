@@ -356,4 +356,12 @@ public class Notification extends JLabel {
             }
         }).start();
     }
+
+    @Override
+    public String toString() {
+        return "Notificaiton object: (" +
+                this.getX() + "," + this.getY() + "," +
+                this.getWidth() + "x" + this.getHeight()
+                + "), hash=" + this.hashCode();
+    }
 }
