@@ -117,8 +117,6 @@ public class IOUtil {
         }
     }
 
-    //todo corrupted user broken
-    //todo start up is broken
     //todo corrupted user inform is broken since cyderframe is broken from background color i guess
 
     /**
