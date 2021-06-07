@@ -117,21 +117,27 @@ public class IOUtil {
         }
     }
 
+    //todo corrupted user broken
+    //todo start up is broken
+    //todo corrupted user inform is broken since cyderframe is broken from background color i guess
+
     /**
      * This method removes any repeated user data. Any repeated keys are thrown away and the first occurences are kept.
      */
     public static void fixUserData() {
+        //get user var for later use
         String user = ConsoleFrame.getUUID();
+
+        //return if no user, shouldn't be possible anyway
         if (user == null)
             return;
 
+        //if the data file is gone then we're screwed
         if (!new File("users/" + user + "/Userdata.txt").exists())
             corruptedUser();
 
-        //check for any preferences that might have been added to Cyder that this user doesn't have
-        // we can just append this to the end of the datafile since if there are duplicates, only the first
-        // value will be kept
-
+        //try with resources to write all the default pairs in case some are missing, only the first pairs will be saved
+        // so any that we already have will be kept and any duplicates will be removed
         try (BufferedWriter userWriter = new BufferedWriter(new FileWriter(
                 "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", true))) {
             CyderMain.exitingSem.acquire();
@@ -139,6 +145,7 @@ public class IOUtil {
             //always just add a newline to the front to be safe
             userWriter.newLine();
 
+            //write default pairs
             for (int i = 0 ;  i < CyderMain.prefs.size() ; i++) {
                 userWriter.write(CyderMain.prefs.get(i).getID() + ":" + CyderMain.prefs.get(i).getDefaultValue());
                 userWriter.newLine();
@@ -148,33 +155,47 @@ public class IOUtil {
 
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            CyderMain.exitingSem.release();
         }
 
+        //try with resources reading all user data
         try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))) {
             CyderMain.exitingSem.acquire();
             String line;
             ArrayList<NST> data = new ArrayList<>();
 
+            //read all data from in
             while ((line = dataReader.readLine()) != null) {
+                //skip for blank lines
+                if (line.trim().length() == 0)
+                    continue;
+
                 long count = line.chars().filter(charaizard -> charaizard == ':').count(); //charizard, rawr
 
-                if (count != 1)
+                //if more than one colon on a line, screwed
+                if (count != 1 && line.trim().length() != 0)
                     corruptedUser();
 
                 String[] parts = line.split(":");
 
+                //if not two parts, then screwed
                 if (parts.length != 2)
                     corruptedUser();
 
+                //we're good so form a NST object and place in data list
                 data.add(new NST(parts[0], parts[1]));
             }
 
+            //list to hold only the first data pairs
             ArrayList<NST> reWriteData = new ArrayList<>();
 
+            //loop through all data
             for (NST datum : data) {
                 String currentName = datum.getName();
                 boolean alreadyHas = false;
 
+                //if the current name is already in the rewrite data, skip it
                 for (NST reWriteDatum : reWriteData) {
                     if (reWriteDatum.getName().equalsIgnoreCase(currentName)) {
                         alreadyHas = true;
@@ -186,6 +207,7 @@ public class IOUtil {
                     reWriteData.add(datum);
             }
 
+            //write the data we want to keep
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
                     "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false));
 
@@ -200,8 +222,9 @@ public class IOUtil {
 
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            CyderMain.exitingSem.release();
         }
-
 
     }
 
@@ -529,7 +552,7 @@ public class IOUtil {
 
             //zip the remaining user data
             String sourceFile = mainZipFile.getAbsolutePath();
-            FileOutputStream fos = new FileOutputStream("Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip");
+            FileOutputStream fos = new FileOutputStream("src/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip");
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             File fileToZip = new File(sourceFile);
             zipFile(fileToZip, fileToZip.getName(), zipOut);
@@ -540,7 +563,7 @@ public class IOUtil {
             SystemUtil.deleteFolder(mainZipFile);
 
             //move the zipped folder to downloads
-            Files.move(Paths.get("Cyder_Corrupted_Userdata.zip"),
+            Files.move(Paths.get("src/Cyder_Corrupted_Userdata.zip"),
                    Paths.get("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads/Cyder_Corrupted_Userdata.zip"));
 
             //release sem

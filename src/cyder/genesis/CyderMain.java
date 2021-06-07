@@ -2398,9 +2398,6 @@ public class CyderMain {
             } else if (eic("test")) {
                 //todo preference slider like from ThinMatrix's games, slide from left to right and change colors for on and reverse for off
                 //todo be able to copy from outupt area without canceling using ctrl + c, check if selected text or not
-
-                //todo preference refresh moves console frame and flashes window
-
                 //todo photoviewer needs more consistnet window size and it moves the window to center every time, keep relative
 
                 //todo fipping console resets output area position
@@ -2408,6 +2405,12 @@ public class CyderMain {
                 TestFrame tf = new TestFrame();
                 CyderButton button = new CyderButton("Test Button");
                 button.setBounds(40,40,140,40);
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        IOUtil.corruptedUser();
+                    }
+                });
                 tf.testFrame.add(button);
 
             } else if (hasWord("frame") && has("title")) {
