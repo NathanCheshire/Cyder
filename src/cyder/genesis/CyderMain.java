@@ -620,11 +620,19 @@ public class CyderMain {
             //make a method to spin off executors
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 if (consoleClockLabel.isVisible())
-                    if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1"))
-                        consoleClockLabel.setText(TimeUtil.consoleSecondTime());
-                    else
-                        consoleClockLabel.setText(TimeUtil.consoleTime());
-
+                    if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
+                        String time = TimeUtil.consoleSecondTime();
+                        int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont()) + 10;
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 2, w, h);
+                        consoleClockLabel.setText(time);
+                    } else {
+                        String time = TimeUtil.consoleTime();
+                        int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont()) + 10;
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 2, w, h);
+                        consoleClockLabel.setText(time);
+                    }
             }, 0, 500, TimeUnit.MILLISECONDS);
 
             consoleClockLabel.setVisible(updateConsoleClock);
@@ -2402,14 +2410,13 @@ public class CyderMain {
 
                 //todo fipping console resets output area position
 
+                //todo adding a background with the same name throws error
+
                 TestFrame tf = new TestFrame();
                 CyderButton button = new CyderButton("Test Button");
-                button.setBounds(40,40,140,40);
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        IOUtil.corruptedUser();
-                    }
+                button.setBounds(tf.testFrame.getWidth() / 2 - 70,tf.testFrame.getHeight() / 2 - 20,140,40);
+                button.addActionListener(e -> {
+
                 });
                 tf.testFrame.add(button);
 
@@ -3204,11 +3211,12 @@ public class CyderMain {
         applyColor.setBackground(CyderColors.regularRed);
         applyColor.addActionListener(e -> {
             IOUtil.writeUserData("Foreground", hexField.getText());
-
             Color updateC = ColorUtil.hextorgbColor(hexField.getText());
 
             outputArea.setForeground(updateC);
             inputField.setForeground(updateC);
+            inputField.setCaretColor(updateC);
+            inputField.setCaret(new CyderCaret(updateC));
 
             println("The Color [" + updateC.getRed() + "," + updateC.getGreen() + "," + updateC.getBlue() + "] has been applied.");
         });
@@ -3482,11 +3490,20 @@ public class CyderMain {
             consoleClockLabel.setVisible(true);
             updateConsoleClock = true;
 
-            //show seconds
-            if (IOUtil.getUserData("ShowSeconds").equals("1"))
-                consoleClockLabel.setText(TimeUtil.consoleSecondTime());
-            else
-                consoleClockLabel.setText(TimeUtil.consoleTime());
+            if (consoleClockLabel.isVisible())
+                if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
+                    String time = TimeUtil.consoleSecondTime();
+                    int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                    int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont()) + 10;
+                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 2, w, h);
+                    consoleClockLabel.setText(time);
+                } else {
+                    String time = TimeUtil.consoleTime();
+                    int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                    int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont()) + 10;
+                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 2, w, h);
+                    consoleClockLabel.setText(time);
+                }
 
         } else {
             consoleClockLabel.setVisible(false);

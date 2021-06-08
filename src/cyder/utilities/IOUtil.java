@@ -117,8 +117,6 @@ public class IOUtil {
         }
     }
 
-    //todo corrupted user inform is broken since cyderframe is broken from background color i guess
-
     /**
      * This method removes any repeated user data. Any repeated keys are thrown away and the first occurences are kept.
      */

@@ -44,6 +44,7 @@ public class GenericInform {
                     new ImageIcon(ImageUtil.bufferedImageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
             informFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
             informFrame.setTitle(title);
+            informFrame.setBackground(CyderColors.vanila);
 
             //make sure the text can wrap using HTML tags
             if (!text.startsWith("<html>"))
