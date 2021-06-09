@@ -609,10 +609,6 @@ public class CyderMain {
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
             consoleClockLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
             consoleClockLabel.setForeground(CyderColors.vanila);
-            consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
-                            CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
-                    2, CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
-
             consoleDragLabel.add(consoleClockLabel, SwingConstants.CENTER);
 
             updateConsoleClock = IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
@@ -965,7 +961,7 @@ public class CyderMain {
                 menuLabel.setBounds(-150, 30, CyderFrame.getMinWidth("TEMP CONV",menuFont),
                         fontHeight * (menuLabel.getComponentCount() - 1));
 
-                AnimationUtil.jLabelXRight(-150, 0, 10, 8, menuLabel);
+                AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
             } else if (menuLabel.isVisible()) {
                 minimizeMenu();
             }
@@ -1548,8 +1544,8 @@ public class CyderMain {
                     int[] parts = AnimationUtil.getDelayIncrement(temporaryWidth);
 
                     //animate the labels
-                    AnimationUtil.jLabelXRight(0, temporaryWidth, parts[0], parts[1], temporaryLabel);
-                    AnimationUtil.jLabelXRight(-temporaryWidth, 0, parts[0], parts[1], parentLabel);
+                    AnimationUtil.componentRight(0, temporaryWidth, parts[0], parts[1], temporaryLabel);
+                    AnimationUtil.componentRight(-temporaryWidth, 0, parts[0], parts[1], parentLabel);
                 } else {
                     JLabel temporaryLabel = new JLabel();
                     parentLabel.setIcon(new ImageIcon(newBack));
@@ -1560,8 +1556,8 @@ public class CyderMain {
 
                     int[] parts = AnimationUtil.getDelayIncrement(temporaryWidth);
 
-                    AnimationUtil.jLabelXLeft(0, -temporaryWidth, parts[0], parts[1], temporaryLabel);
-                    AnimationUtil.jLabelXLeft(temporaryWidth, 0, parts[0], parts[1], parentLabel);
+                    AnimationUtil.componentLeft(0, -temporaryWidth, parts[0], parts[1], temporaryLabel);
+                    AnimationUtil.componentLeft(temporaryWidth, 0, parts[0], parts[1], parentLabel);
                 }
 
                 //invert scrolling direction for next time
@@ -3841,7 +3837,7 @@ public class CyderMain {
     //console frame
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
-            AnimationUtil.jLabelXLeft(0, -150, 10, 8, menuLabel);
+            AnimationUtil.componentLeft(0, -150, 10, 8, menuLabel);
 
             Thread waitThread = new Thread(() -> {
                 try {

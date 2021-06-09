@@ -280,6 +280,9 @@ public class CyderFrame extends JFrame {
             if (titlePosition != CyderFrame.TitlePosition.CENTER) {
                 new Thread(() -> {
                     for (int i = (getDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i > 4; i--) {
+                        if (this.threadsKilled)
+                            break;
+
                         titleLabel.setLocation(i, 2);
 
                         try {
@@ -292,6 +295,9 @@ public class CyderFrame extends JFrame {
             } else {
                 new Thread(() -> {
                     for (int i = 5; i < (getDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2) + 1; i++) {
+                        if (this.threadsKilled)
+                            break;
+
                         titleLabel.setLocation(i, 2);
 
                         try {
@@ -628,36 +634,48 @@ public class CyderFrame extends JFrame {
 
                 //moves frame up to top of screen
                 for (int y = getY(); y >= 0; y -= 10) {
+                    if (this.threadsKilled)
+                        break;
                     Thread.sleep(delay);
                     setLocation(this.getX(), y);
                 }
 
                 //move from right to left
                 for (int x = getX(); x >= 0; x -= 10) {
+                    if (this.threadsKilled)
+                        break;
                     Thread.sleep(delay);
                     setLocation(x, this.getY());
                 }
 
                 //move from top to bottom
                 for (int y = getY(); y <= SystemUtil.getScreenHeight() - this.getHeight(); y += 10) {
+                    if (this.threadsKilled)
+                        break;
                     Thread.sleep(delay);
                     setLocation(this.getX(), y);
                 }
 
                 //move from left to right
                 for (int x = getX(); x <= SystemUtil.getScreenWidth() - this.getWidth(); x += 10) {
+                    if (this.threadsKilled)
+                        break;
                     Thread.sleep(delay);
                     setLocation(x, this.getY());
                 }
 
                 //move from bottom to top
                 for (int y = getY(); y > 0; y -= 10) {
+                    if (this.threadsKilled)
+                        break;
                     Thread.sleep(delay);
                     setLocation(this.getX(), y);
                 }
 
                 //move from top to restoreX
                 for (int x = getX(); x >= restoreX; x -= 10) {
+                    if (this.threadsKilled)
+                        break;
                     Thread.sleep(delay);
                     setLocation(x, this.getY());
                 }
@@ -666,6 +684,8 @@ public class CyderFrame extends JFrame {
 
                 //move from top to restoreY
                 for (int y = getY(); y <= restoreY; y += 10) {
+                    if (this.threadsKilled)
+                        break;
                     Thread.sleep(delay);
                     setLocation(this.getX(), y);
                 }

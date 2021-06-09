@@ -12,6 +12,7 @@ public class CyderButton extends JButton {
 
     private Color hoverBackgroundColor;
     private Color pressedBackgroundColor;
+    private boolean threadsKilled = false;
 
     public CyderButton() {
         this(null);
@@ -81,6 +82,11 @@ public class CyderButton extends JButton {
                     Thread.sleep(300);
                     this.setBackground(c1);
                     Thread.sleep(300);
+
+                    if (this.getParent() == null) {
+                        killThreads();
+                        return;
+                    }
                 }
             }
 
@@ -88,6 +94,10 @@ public class CyderButton extends JButton {
                 ErrorHandler.handle(e);
             }
         },this.getName() + " alert thread").start();
+    }
+
+    public void killThreads() {
+        threadsKilled = true;
     }
 
     @Override
