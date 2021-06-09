@@ -992,4 +992,12 @@ public class CyderFrame extends JFrame {
         contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT)));
     }
+
+    //overridden so we can set the drag label's restore point
+    @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        dl.setRestoreX(this.getX());
+        dl.setRestoreY(this.getY());
+    }
 }

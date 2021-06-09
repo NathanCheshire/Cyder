@@ -191,6 +191,7 @@ public class AnimationUtil {
      * @param jLabel - the jlabel to animate
      * @deprecated use {@link AnimationUtil#componentUp(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jLabelYUp(final int start, final int stop, final int delay, final int increment, final JLabel jLabel) {
         componentUp(start, stop, delay, increment, jLabel);
     }
@@ -204,6 +205,7 @@ public class AnimationUtil {
      * @param jLabel - the jlabel to animate
      * @deprecated use {@link AnimationUtil#componentDown(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jLabelYDown(final int start, final int stop, final int delay, final int increment, final JLabel jLabel) {
        componentDown(start, stop, delay, increment, jLabel);
     }
@@ -217,6 +219,7 @@ public class AnimationUtil {
      * @param jLabel - the jlabel to animate
      * @deprecated use {@link AnimationUtil#componentLeft(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jLabelXLeft(final int start, final int stop, final int delay, final int increment, final JLabel jLabel) {
         componentLeft(start,stop,delay,increment, jLabel);
     }
@@ -230,6 +233,7 @@ public class AnimationUtil {
      * @param jLabel - the jlabel to animate
      * @deprecated use {@link AnimationUtil#componentRight(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jLabelXRight(final int start, final int stop, final int delay, final int increment, final JLabel jLabel) {
         componentRight(start,stop,delay,increment,jLabel);
     }
@@ -243,6 +247,7 @@ public class AnimationUtil {
      * @param jTextField - the jtextfield to animate
      * @deprecated use {@link AnimationUtil#componentUp(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jTextFieldYUp(final int start, final int stop, final int delay, final int increment, final JTextField jTextField) {
         componentUp(start,stop,delay,increment,jTextField);
     }
@@ -256,6 +261,7 @@ public class AnimationUtil {
      * @param jTextField - the jtextfield to animate
      * @deprecated use {@link AnimationUtil#componentDown(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jTextFieldYDown(final int start, final int stop, final int delay, final int increment, final JTextField jTextField) {
         componentDown(start,stop,delay,increment,jTextField);
     }
@@ -269,6 +275,7 @@ public class AnimationUtil {
      * @param jTextField - the jtextfield to animate
      * @deprecated use {@link AnimationUtil#componentLeft(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jTextFieldXLeft(final int start, final int stop, final int delay, final int increment, final JTextField jTextField) {
         componentLeft(start,stop,delay,increment,jTextField);
     }
@@ -282,6 +289,7 @@ public class AnimationUtil {
      * @param jTextField - the jtextfield to animate
      * @deprecated use {@link AnimationUtil#componentRight(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jTextFieldXRight(final int start, final int stop, final int delay, final int increment, final JTextField jTextField) {
         componentRight(start,stop,delay,increment,jTextField);
     }
@@ -295,6 +303,7 @@ public class AnimationUtil {
      * @param jButton - the button to animate
      * @deprecated use {@link AnimationUtil#componentUp(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jButtonYUp(final int start, final int stop, final int delay, final int increment, final JButton jButton) {
         componentUp(start,stop,delay,increment,jButton);
     }
@@ -308,6 +317,7 @@ public class AnimationUtil {
      * @param jButton - the button to animate
      * @deprecated use {@link AnimationUtil#componentDown(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jButtonYDown(final int start, final int stop, final int delay, final int increment, final JButton jButton) {
         componentDown(start,stop,delay,increment,jButton);
     }
@@ -321,6 +331,7 @@ public class AnimationUtil {
      * @param jButton - the button to animate
      * @deprecated use {@link AnimationUtil#componentLeft(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jButtonXLeft(final int start, final int stop, final int delay, final int increment, final JButton jButton) {
         componentLeft(start,stop,delay,increment,jButton);
     }
@@ -334,6 +345,7 @@ public class AnimationUtil {
      * @param jButton - the button to animate
      * @deprecated use {@link AnimationUtil#componentRight(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jButtonXRight(final int start, final int stop, final int delay, final int increment, final JButton jButton) {
         componentRight(start,stop,delay,increment,jButton);
     }
@@ -347,6 +359,7 @@ public class AnimationUtil {
      * @param jPasswordField - the passwordfield to animate
      * @deprecated use {@link AnimationUtil#componentUp(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jPasswordFieldYUp(final int start, final int stop, final int delay, final int increment, final JPasswordField jPasswordField) {
         componentUp(start,stop,delay,increment,jPasswordField);
     }
@@ -360,6 +373,7 @@ public class AnimationUtil {
      * @param jPasswordField - the passwordfield to animate
      * @deprecated use {@link AnimationUtil#componentDown(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jPasswordFieldYDown(final int start, final int stop, final int delay, final int increment, final JPasswordField jPasswordField) {
        componentDown(start,stop,delay,increment,jPasswordField);
     }
@@ -373,6 +387,7 @@ public class AnimationUtil {
      * @param jPasswordField - the passwordfield to animate
      * @deprecated use {@link AnimationUtil#componentLeft(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jPasswordFieldXLeft(final int start, final int stop, final int delay, final int increment, final JPasswordField jPasswordField) {
         componentLeft(start,stop,delay,increment, jPasswordField);
     }
@@ -386,6 +401,7 @@ public class AnimationUtil {
      * @param jPasswordField - the passwordfield to animate
      * @deprecated use {@link AnimationUtil#componentRight(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jPasswordFieldXRight(final int start, final int stop, final int delay, final int increment, final JPasswordField jPasswordField) {
         componentRight(start,stop,delay,increment,jPasswordField);
     }
@@ -399,6 +415,7 @@ public class AnimationUtil {
      * @param jScrollPane - the jScrollPane to animate
      * @deprecated use {@link AnimationUtil#componentUp(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jTextAreaYUp(final int start, final int stop, final int delay, final int increment, final JScrollPane jScrollPane) {
         componentUp(start,stop,delay,increment,jScrollPane);
     }
@@ -412,6 +429,7 @@ public class AnimationUtil {
      * @param jScrollPane - the jScrollPane to animate
      * @deprecated use {@link AnimationUtil#componentDown(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jTextAreaYDown(final int start, final int stop, final int delay, final int increment, final JScrollPane jScrollPane) {
         componentDown(start,stop,delay,increment, jScrollPane);
     }
@@ -425,6 +443,7 @@ public class AnimationUtil {
      * @param jScrollPane - the jScrollPane to animate
      * @deprecated use {@link AnimationUtil#componentLeft(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jTextAreaXLeft(final int start, final int stop, final int delay, final int increment, final JScrollPane jScrollPane) {
         componentLeft(start,stop,delay,increment,jScrollPane);
     }
@@ -438,6 +457,7 @@ public class AnimationUtil {
      * @param jScrollPane - the jScrollPane to animate
      * @deprecated use {@link AnimationUtil#componentRight(int, int, int, int, Component)}
      */
+    @Deprecated
     public static void jTextAreaXRight(final int start, final int stop, final int delay, final int increment, final JScrollPane jScrollPane) {
         componentRight(start,stop,delay,increment,jScrollPane);
     }

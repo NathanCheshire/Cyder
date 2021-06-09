@@ -45,6 +45,8 @@ public class DragLabel extends JLabel {
 
                 if (effectFrame != null && effectFrame.isFocused() && draggingEnabled) {
                     effectFrame.setLocation(x - xMouse, y - yMouse);
+                    restoreX = effectFrame.getX();
+                    restoreY = effectFrame.getY();
                 }
             }
 
@@ -143,6 +145,14 @@ public class DragLabel extends JLabel {
 
     public int getRestoreY() {
         return this.restoreY;
+    }
+
+    public void setRestoreX(int x) {
+       this.restoreX = x;
+    }
+
+    public void setRestoreY(int y) {
+        this.restoreY = y;
     }
 
     public int getWidth() {

@@ -619,14 +619,14 @@ public class CyderMain {
                     if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
                         String time = TimeUtil.consoleSecondTime();
                         int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont()) + 10;
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 2, w, h);
+                        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
                         consoleClockLabel.setText(time);
                     } else {
                         String time = TimeUtil.consoleTime();
                         int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont()) + 10;
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 2, w, h);
+                        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
                         consoleClockLabel.setText(time);
                     }
             }, 0, 500, TimeUnit.MILLISECONDS);
@@ -706,9 +706,12 @@ public class CyderMain {
                         parentLabel.setIcon(newBack);
 
                         parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
-                                        CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
-                                2, CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
+
+                        String time = TimeUtil.consoleTime();
+                        int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
+                        consoleClockLabel.setText(time);
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
                     }
@@ -1467,16 +1470,19 @@ public class CyderMain {
         minimize.setBounds(width - 81, 4, 22, 20);
         alternateBackground.setBounds(width - 54, 4, 22, 20);
         close.setBounds(width - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
-                        CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
-                2, CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
+
+        String time = TimeUtil.consoleTime();
+        int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
+        consoleClockLabel.setText(time);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
         consoleFrame.requestFocus();
         inputField.requestFocus();
 
-        consoleFrame.setLocationRelativeTo(null);
+        //todo setlocationrelativeto itself but the center of itself
 
         if (editUserFrame != null && editUserFrame.isVisible())
             editUserFrame.requestFocus();
@@ -1520,7 +1526,7 @@ public class CyderMain {
 
                 refreshConsoleFrame();
 
-                consoleFrame.setLocationRelativeTo(null);
+                //todo set consoleframe location relative to it's old position
                 //set new frame relative to old frame
                 //we need to get bounds and location of old frame, determine it's center
                 //find the center of the new image
@@ -1604,9 +1610,12 @@ public class CyderMain {
         minimize.setBounds(fullW - 81, 4, 22, 20);
         alternateBackground.setBounds(fullW - 54, 4, 22, 20);
         close.setBounds(fullW - 27, 4, 22, 20);
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 -
-                        CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) / 2 - 13,
-                2, CyderFrame.getMinWidth(consoleClockLabel.getText(), consoleClockLabel.getFont()) + 26, 25);
+
+        String time = TimeUtil.consoleTime();
+        int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
+        consoleClockLabel.setText(time);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -3490,14 +3499,14 @@ public class CyderMain {
                 if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
                     String time = TimeUtil.consoleSecondTime();
                     int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                    int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont()) + 10;
-                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 2, w, h);
+                    int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
                     consoleClockLabel.setText(time);
                 } else {
                     String time = TimeUtil.consoleTime();
                     int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                    int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont()) + 10;
-                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 2, w, h);
+                    int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
                     consoleClockLabel.setText(time);
                 }
 
@@ -3550,7 +3559,8 @@ public class CyderMain {
         newUserName.setSelectionColor(CyderColors.selectionColor);
         newUserName.setFont(CyderFonts.weatherFontSmall);
         newUserName.setForeground(CyderColors.navy);
-        newUserName.setFont(CyderFonts.weatherFontSmall);
+        newUserName.setCaretColor(CyderColors.navy);
+        newUserName.setCaret(new CyderCaret(CyderColors.navy));
         newUserName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 if (newUserName.getText().length() > 15) {
@@ -3605,20 +3615,23 @@ public class CyderMain {
         newUserPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
-                    matchPasswords.setText("Passwords match");
-                    matchPasswords.setForeground(CyderColors.regularGreen);
-                } else {
-                    matchPasswords.setText("Passwords do not match");
-                    matchPasswords.setForeground(CyderColors.regularRed);
-                }
+            if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
+                matchPasswords.setText("Passwords match");
+                matchPasswords.setForeground(CyderColors.regularGreen);
+            } else {
+                matchPasswords.setText("Passwords do not match");
+                matchPasswords.setForeground(CyderColors.regularRed);
+            }
             }
         });
-        newUserPassword.setFont(CyderFonts.weatherFontSmall);
-        newUserPassword.setForeground(CyderColors.navy);
         newUserPassword.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        newUserPassword.setSelectedTextColor(CyderColors.selectionColor);
         newUserPassword.setBounds(60, 160, 240, 40);
+        newUserPassword.setSelectionColor(CyderColors.selectionColor);
+        newUserPassword.setFont(new Font("Agency FB",Font.BOLD, 20));
+        newUserPassword.setForeground(CyderColors.navy);
+        newUserPassword.setCaretColor(CyderColors.navy);
+        newUserPassword.setCaret(new CyderCaret(CyderColors.navy));
+
         createUserFrame.getContentPane().add(newUserPassword);
 
         JLabel passwordLabelConf = new JLabel("Confirm Password: ", SwingConstants.CENTER);
@@ -3631,20 +3644,22 @@ public class CyderMain {
         newUserPasswordconf.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
-                    matchPasswords.setText("Passwords match");
-                    matchPasswords.setForeground(CyderColors.regularGreen);
-                } else {
-                    matchPasswords.setText("Passwords do not match");
-                    matchPasswords.setForeground(CyderColors.regularRed);
-                }
+            if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
+                matchPasswords.setText("Passwords match");
+                matchPasswords.setForeground(CyderColors.regularGreen);
+            } else {
+                matchPasswords.setText("Passwords do not match");
+                matchPasswords.setForeground(CyderColors.regularRed);
+            }
             }
         });
 
-        newUserPasswordconf.setFont(CyderFonts.weatherFontSmall);
-        newUserPasswordconf.setForeground(CyderColors.navy);
         newUserPasswordconf.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        newUserPasswordconf.setSelectedTextColor(CyderColors.selectionColor);
+        newUserPasswordconf.setSelectionColor(CyderColors.selectionColor);
+        newUserPasswordconf.setFont(new Font("Agency FB",Font.BOLD, 20));
+        newUserPasswordconf.setForeground(CyderColors.navy);
+        newUserPasswordconf.setCaretColor(CyderColors.navy);
+        newUserPasswordconf.setCaret(new CyderCaret(CyderColors.navy));
         newUserPasswordconf.setBounds(60, 250, 240, 40);
         createUserFrame.getContentPane().add(newUserPasswordconf);
 

@@ -47,6 +47,13 @@ public class InputHandler {
 
     //todo killed boolean for ALL objects with threads to end their threads when disposed? Copy from ConsoleFrame.dispose()
 
+    //todo pixelating background resets consoleFrame to center
+    //todo console switching is too slow
+
+    //todo restoreX and restoreY should be initialized to h/2 - consoleframeheight/2 and smae for width
+    // also change it on frame location set
+    //todo do this for CyderFrame too, will need to play with DragLabel getters and setters
+
     @Override
     public String toString() {
         return "InputHandler object (I guess this is just the todo field though... *sad pony noises*), hash=" + this.hashCode();
