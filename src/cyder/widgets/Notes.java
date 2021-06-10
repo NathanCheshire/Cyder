@@ -3,10 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.handler.ErrorHandler;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderScrollPane;
+import cyder.ui.*;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -156,10 +153,12 @@ public class Notes {
         newNoteFrame.getContentPane().add(FileNameLabel);
 
         newNoteField = new JTextField(30);
-        newNoteField.setFont(CyderFonts.weatherFontSmall);
-        newNoteField.setForeground(CyderColors.navy);
         newNoteField.setBorder(new LineBorder(CyderColors.navy,5,false));
         newNoteField.setSelectionColor(CyderColors.selectionColor);
+        newNoteField.setFont(CyderFonts.weatherFontSmall);
+        newNoteField.setForeground(CyderColors.navy);
+        newNoteField.setCaretColor(CyderColors.navy);
+        newNoteField.setCaret(new CyderCaret(CyderColors.navy));
         newNoteField.setBounds(150,80,300,40);
         newNoteFrame.getContentPane().add(newNoteField);
 
@@ -264,9 +263,11 @@ public class Notes {
         noteEditField = new JTextField(20);
         noteEditField.setToolTipText("Change Name");
         noteEditField.setSelectionColor(CyderColors.selectionColor);
-        noteEditField.setText(File.getName().replaceFirst(".txt",""));
         noteEditField.setFont(CyderFonts.weatherFontSmall);
         noteEditField.setForeground(CyderColors.navy);
+        noteEditField.setCaretColor(CyderColors.navy);
+        noteEditField.setCaret(new CyderCaret(CyderColors.navy));
+        noteEditField.setText(File.getName().replaceFirst(".txt",""));
         noteEditField.setBorder(new LineBorder(CyderColors.navy,5,false));
         noteEditField.setBounds(50,50,600 - 50 - 50, 40);
         noteEditorFrame.getContentPane().add(noteEditField);

@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.utilities.NetworkUtil;
 
@@ -41,7 +42,6 @@ public class YouTubeThumbnail {
         yttnFrame.getContentPane().add(VideoID);
 
         yttnField = new JTextField(30);
-        yttnField.setSelectionColor(CyderColors.selectionColor);
         yttnField.setBorder(new LineBorder(CyderColors.navy,5,false));
         yttnField.addActionListener(e -> getYTTN.doClick());
         yttnField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -74,10 +74,11 @@ public class YouTubeThumbnail {
             }
         });
 
+        yttnField.setSelectionColor(CyderColors.selectionColor);
         yttnField.setFont(CyderFonts.weatherFontSmall);
-        yttnField.setBorder(new LineBorder(CyderColors.navy,5,false));
-        yttnField.setBounds(150,120,300,40);
-        yttnFrame.getContentPane().add(yttnField);
+        yttnField.setForeground(CyderColors.navy);
+        yttnField.setCaretColor(CyderColors.navy);
+        yttnField.setCaret(new CyderCaret(CyderColors.navy));
 
         getYTTN = new CyderButton("Get Thumbnail");
         getYTTN.setBorder(new LineBorder(CyderColors.navy,5,false));

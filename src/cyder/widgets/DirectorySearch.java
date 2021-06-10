@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.IOUtil;
@@ -37,9 +38,11 @@ public class DirectorySearch {
 
         dirField = new JTextField(40);
         dirField.setSelectionColor(CyderColors.selectionColor);
-        dirField.setText(System.getProperty("user.dir"));
         dirField.setFont(CyderFonts.weatherFontSmall);
         dirField.setForeground(CyderColors.navy);
+        dirField.setCaretColor(CyderColors.navy);
+        dirField.setCaret(new CyderCaret(CyderColors.navy));
+        dirField.setText(System.getProperty("user.dir"));
         dirField.addActionListener(directoryFieldListener);
         dirField.setBorder(new LineBorder(CyderColors.navy,5,false));
         dirField.setBounds(15 + 40 + 15,60,620 - 160,40);

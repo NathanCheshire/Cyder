@@ -2,15 +2,17 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
-import cyder.utilities.*;
+import cyder.utilities.AnimationUtil;
+import cyder.utilities.IOUtil;
+import cyder.utilities.IPUtil;
+import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -86,7 +88,7 @@ public class Weather {
         if (weatherFrame != null)
             weatherFrame.closeAnimation();
 
-        weatherFrame = new CyderFrame(500,600,new ImageIcon("sys/pictures/Weather.png"));
+        weatherFrame = new CyderFrame(500,600,new ImageIcon("sys/pictures/weather/Weather.png"));
         weatherFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         weatherFrame.setTitle("Weather");
 
@@ -114,7 +116,7 @@ public class Weather {
 
         weatherFrame.getContentPane().add(locationLabel, SwingConstants.CENTER);
 
-        JLabel currentWeatherIconLabel = new JLabel(new ImageIcon("sys/pictures/" + weatherIcon + ".png"));
+        JLabel currentWeatherIconLabel = new JLabel(new ImageIcon("sys/pictures/weather/" + weatherIcon + ".png"));
 
         currentWeatherIconLabel.setBounds(16, 125, 100, 100);
 
@@ -161,9 +163,11 @@ public class Weather {
 
                 JTextField changeLocField = new JTextField(20);
                 changeLocField.setBorder(new LineBorder(CyderColors.navy,5,false));
-                changeLocField.setForeground(CyderColors.navy);
                 changeLocField.setSelectionColor(CyderColors.selectionColor);
                 changeLocField.setFont(CyderFonts.weatherFontSmall);
+                changeLocField.setForeground(CyderColors.navy);
+                changeLocField.setCaretColor(CyderColors.navy);
+                changeLocField.setCaret(new CyderCaret(CyderColors.navy));
                 changeLocField.setBounds(40,200,520,40);
                 changeLocationFrame.getContentPane().add(changeLocField);
 

@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderCaret;
 import cyder.ui.CyderCheckBox;
 import cyder.ui.CyderFrame;
 
@@ -37,9 +38,11 @@ public class TempConverter {
         
         startingValue = new JTextField(20);
         startingValue.setBorder(new LineBorder(CyderColors.navy,5,false));
-        startingValue.setForeground(CyderColors.navy);
         startingValue.setSelectionColor(CyderColors.selectionColor);
         startingValue.setFont(CyderFonts.weatherFontSmall);
+        startingValue.setForeground(CyderColors.navy);
+        startingValue.setCaretColor(CyderColors.navy);
+        startingValue.setCaret(new CyderCaret(CyderColors.navy));
         
         ValueLabel.setBounds(60,40, 200, 30);
         

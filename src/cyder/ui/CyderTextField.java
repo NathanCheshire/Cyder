@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 public class CyderTextField extends JTextField {
     private int limit = 10;
     private Color backgroundColor = CyderColors.vanila;
+    private String regex = null;
 
     public CyderTextField(int colnum) {
         super(colnum);
@@ -19,9 +20,17 @@ public class CyderTextField extends JTextField {
             public void keyTyped(KeyEvent evt) {
             if (getText().length() >= limit) {
                 evt.consume();
+            } else if ((regex != null || regex.length() != 0) && !getText().matches(regex)) {
+                evt.consume();
             }
             }
         });
+
+        this.setSelectionColor(CyderColors.selectionColor);
+        this.setFont(CyderFonts.weatherFontSmall);
+        this.setForeground(CyderColors.navy);
+        this.setCaretColor(CyderColors.navy);
+        this.setCaret(new CyderCaret(CyderColors.navy));
     }
 
     @Override
@@ -47,7 +56,15 @@ public class CyderTextField extends JTextField {
     }
 
     public void setRegexMatcher(String regex) {
-        //todo
+        this.regex = regex;
+    }
+
+    public void removeRegexMatcher() {
+        this.regex = null;
+    }
+
+    public String getRegexMatcher() {
+        return regex;
     }
 
     public void setCharLimit(int limit) {

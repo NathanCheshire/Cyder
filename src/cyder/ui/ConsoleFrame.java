@@ -59,7 +59,7 @@ public final class ConsoleFrame extends CyderFrame {
             BufferedImage img = null;
 
             try {
-                img = ImageIO.read(new File("sys/pictures/Neffex.png"));
+                img = ImageIO.read(new File("sys/pictures/print/Neffex.png"));
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
@@ -236,7 +236,7 @@ public final class ConsoleFrame extends CyderFrame {
 
             if (backgroundFiles.size() == 0) {
                 backgroundFiles = new LinkedList<>();
-                backgroundFiles.add(new File("sys/pictures/DefaultBackground.png"));
+                backgroundFiles.add(new File("sys/pictures/defaults/DefaultBackground.png"));
             }
         } catch (Exception ex) {
             ErrorHandler.handle(ex);

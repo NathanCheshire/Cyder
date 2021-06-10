@@ -68,7 +68,7 @@ public class MPEGPlayer {
         if (musicFrame != null)
             musicFrame.closeAnimation();
 
-        musicFrame = new CyderFrame(1000,563,new ImageIcon("sys/pictures/mp3.png"));
+        musicFrame = new CyderFrame(1000,563,new ImageIcon("sys/pictures/music/mp3.png"));
         musicFrame.setTitle("Flash Player");
 
         musicFrame.addWindowListener(new WindowAdapter() {
@@ -161,11 +161,11 @@ public class MPEGPlayer {
         playPauseMusic.addActionListener(e -> {
             if (mp3Player != null) {
                 if (!playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/play.png"));
+                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/play.png"));
                     playPauseMusic.setToolTipText("play");
                     playIcon = true;
                 } else {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/Pause.png"));
+                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
                     playPauseMusic.setToolTipText("Pause");
                     playIcon = false;
                 }
@@ -211,24 +211,24 @@ public class MPEGPlayer {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/PlayHover.png"));
+                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/PlayHover.png"));
                 } else {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/PauseHover.png"));
+                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/PauseHover.png"));
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/play.png"));
+                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/play.png"));
                 } else {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/Pause.png"));
+                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
                 }
             }
         });
 
         playPauseMusic.setBounds(121, 263, 30, 30);
-        ImageIcon Play = new ImageIcon("sys/pictures/play.png");
+        ImageIcon Play = new ImageIcon("sys/pictures/music/play.png");
         playPauseMusic.setIcon(Play);
         musicFrame.getContentPane().add(playPauseMusic);
         playPauseMusic.setFocusPainted(false);
@@ -259,18 +259,18 @@ public class MPEGPlayer {
         lastMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                lastMusic.setIcon(new ImageIcon("sys/pictures/SkipBackHover.png"));
+                lastMusic.setIcon(new ImageIcon("sys/pictures/music/SkipBackHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                lastMusic.setIcon(new ImageIcon("sys/pictures/SkipBack.png"));
+                lastMusic.setIcon(new ImageIcon("sys/pictures/music/SkipBack.png"));
             }
         });
 
         lastMusic.setBounds(50, 363, 30, 30);
 
-        ImageIcon Last = new ImageIcon("sys/pictures/SkipBack.png");
+        ImageIcon Last = new ImageIcon("sys/pictures/music/SkipBack.png");
         lastMusic.setIcon(Last);
         musicFrame.getContentPane().add(lastMusic);
         lastMusic.setFocusPainted(false);
@@ -301,18 +301,18 @@ public class MPEGPlayer {
         nextMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                nextMusic.setIcon(new ImageIcon("sys/pictures/SkipHover.png"));
+                nextMusic.setIcon(new ImageIcon("sys/pictures/music/SkipHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                nextMusic.setIcon(new ImageIcon("sys/pictures/Skip.png"));
+                nextMusic.setIcon(new ImageIcon("sys/pictures/music/Skip.png"));
             }
         });
 
         nextMusic.setBounds(121, 363, 30, 30);
 
-        ImageIcon Next = new ImageIcon("sys/pictures/Skip.png");
+        ImageIcon Next = new ImageIcon("sys/pictures/music/Skip.png");
         nextMusic.setIcon(Next);
         musicFrame.getContentPane().add(nextMusic);
         nextMusic.setFocusPainted(false);
@@ -324,11 +324,11 @@ public class MPEGPlayer {
         loopMusic.setToolTipText("Loop Audio");
         loopMusic.addActionListener(e -> {
             if (!loopAudio) {
-                loopMusic.setIcon(new ImageIcon("sys/pictures/Repeat.png"));
+                loopMusic.setIcon(new ImageIcon("sys/pictures/music/Repeat.png"));
                 loopMusic.setToolTipText("Loop Audio");
                 loopAudio = true;
             } else {
-                loopMusic.setIcon(new ImageIcon("sys/pictures/RepeatHover.png"));
+                loopMusic.setIcon(new ImageIcon("sys/pictures/music/RepeatHover.png"));
                 loopMusic.setToolTipText("Loop Audio");
                 loopAudio = false;
             }
@@ -338,24 +338,24 @@ public class MPEGPlayer {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (loopAudio) {
-                    loopMusic.setIcon(new ImageIcon("sys/pictures/Repeat.png"));
+                    loopMusic.setIcon(new ImageIcon("sys/pictures/music/Repeat.png"));
                 } else {
-                    loopMusic.setIcon(new ImageIcon("sys/pictures/RepeatHover.png"));
+                    loopMusic.setIcon(new ImageIcon("sys/pictures/music/RepeatHover.png"));
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (loopAudio) {
-                    loopMusic.setIcon(new ImageIcon("sys/pictures/RepeatHover.png"));
+                    loopMusic.setIcon(new ImageIcon("sys/pictures/music/RepeatHover.png"));
                 } else {
-                    loopMusic.setIcon(new ImageIcon("sys/pictures/Repeat.png"));
+                    loopMusic.setIcon(new ImageIcon("sys/pictures/music/Repeat.png"));
                 }
             }
         });
 
         loopMusic.setBounds(121, 463, 30, 30);
-        ImageIcon Loop = new ImageIcon("sys/pictures/Repeat.png");
+        ImageIcon Loop = new ImageIcon("sys/pictures/music/Repeat.png");
         loopMusic.setIcon(Loop);
         musicFrame.getContentPane().add(loopMusic);
         loopMusic.setFocusPainted(false);
@@ -372,7 +372,7 @@ public class MPEGPlayer {
 
 
                 musicTitleLabel.setText("No audio currently playing");
-                playPauseMusic.setIcon(new ImageIcon("sys/pictures/play.png"));
+                playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/play.png"));
                 playPauseMusic.setToolTipText("play");
 
                 musicStopped = true;
@@ -388,17 +388,17 @@ public class MPEGPlayer {
         stopMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                stopMusic.setIcon(new ImageIcon("sys/pictures/StopHover.png"));
+                stopMusic.setIcon(new ImageIcon("sys/pictures/music/StopHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                stopMusic.setIcon(new ImageIcon("sys/pictures/Stop.png"));
+                stopMusic.setIcon(new ImageIcon("sys/pictures/music/Stop.png"));
             }
         });
 
         stopMusic.setBounds(50, 263, 30, 30);
-        ImageIcon Stop = new ImageIcon("sys/pictures/Stop.png");
+        ImageIcon Stop = new ImageIcon("sys/pictures/music/Stop.png");
         stopMusic.setIcon(Stop);
         musicFrame.getContentPane().add(stopMusic);
         stopMusic.setFocusPainted(false);
@@ -442,17 +442,17 @@ public class MPEGPlayer {
         selectMusicDir.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                selectMusicDir.setIcon(new ImageIcon("sys/pictures/SelectFileHover.png"));
+                selectMusicDir.setIcon(new ImageIcon("sys/pictures/music/SelectFileHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                selectMusicDir.setIcon(new ImageIcon("sys/pictures/SelectFile.png"));
+                selectMusicDir.setIcon(new ImageIcon("sys/pictures/music/SelectFile.png"));
             }
         });
 
         selectMusicDir.setBounds(50, 463, 30, 30);
-        ImageIcon File = new ImageIcon("sys/pictures/SelectFile.png");
+        ImageIcon File = new ImageIcon("sys/pictures/music/SelectFile.png");
         selectMusicDir.setIcon(File);
         musicFrame.getContentPane().add(selectMusicDir);
 
@@ -460,10 +460,10 @@ public class MPEGPlayer {
         shuffleMusic.setToolTipText("Shuffle");
         shuffleMusic.addActionListener(e -> {
             if (!shuffleAudio) { //!shuffle music
-                shuffleMusic.setIcon(new ImageIcon("sys/pictures/Shuffle.png"));
+                shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/Shuffle.png"));
                 shuffleAudio = true;
             } else {
-                shuffleMusic.setIcon(new ImageIcon("sys/pictures/ShuffleHover.png"));
+                shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/ShuffleHover.png"));
                 shuffleAudio = false;
             }
         });
@@ -472,24 +472,24 @@ public class MPEGPlayer {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (shuffleAudio) {
-                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/Shuffle.png"));
+                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/Shuffle.png"));
                 } else {
-                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/ShuffleHover.png"));
+                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/ShuffleHover.png"));
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (shuffleAudio) {
-                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/ShuffleHover.png"));
+                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/ShuffleHover.png"));
                 } else {
-                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/Shuffle.png"));
+                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/Shuffle.png"));
                 }
             }
         });
 
         shuffleMusic.setBounds(192, 463, 30, 30);
-        shuffleMusic.setIcon(new ImageIcon("sys/pictures/Shuffle.png"));
+        shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/Shuffle.png"));
         musicFrame.getContentPane().add(shuffleMusic);
         shuffleMusic.setFocusPainted(false);
         shuffleMusic.setOpaque(false);
@@ -597,7 +597,7 @@ public class MPEGPlayer {
         //playing thread to handle play/pause icons
         new Thread(() -> {
             try {
-                playPauseMusic.setIcon(new ImageIcon("sys/pictures/Pause.png"));
+                playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
                 playPauseMusic.setToolTipText("Pause");
 
                 playIcon = false;
@@ -606,7 +606,7 @@ public class MPEGPlayer {
                 if (loopAudio)
                     play(musicFiles[currentMusicIndex]);
 
-                playPauseMusic.setIcon(new ImageIcon("sys/pictures/play.png"));
+                playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/play.png"));
                 playPauseMusic.setToolTipText("play");
                 playIcon = true;
             } catch (Exception e) {

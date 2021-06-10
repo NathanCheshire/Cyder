@@ -2,9 +2,10 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderCaret;
+import cyder.ui.CyderCheckBox;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SystemUtil;
@@ -30,7 +31,7 @@ public class ImageResizer {
     private double aspectRatio;
 
     private JLabel previewLabel;
-    private JLabel maintainAspectRatioLab;
+    private CyderCheckBox maintainAspectRatioLab;
 
     private File resizeImage;
 
@@ -97,10 +98,12 @@ public class ImageResizer {
         resizeFrame.getContentPane().add(ydimLabel);
 
         xdim = new JTextField(5);
-        xdim.setFont(CyderFonts.weatherFontSmall);
-        xdim.setBorder(new LineBorder(CyderColors.navy,5,false));
-        xdim.setForeground(CyderColors.navy);
         xdim.setSelectionColor(CyderColors.selectionColor);
+        xdim.setFont(CyderFonts.weatherFontSmall);
+        xdim.setForeground(CyderColors.navy);
+        xdim.setCaretColor(CyderColors.navy);
+        xdim.setCaret(new CyderCaret(CyderColors.navy));
+        xdim.setBorder(new LineBorder(CyderColors.navy,5,false));
         xdim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
             leftLastEdited = true;
@@ -126,53 +129,47 @@ public class ImageResizer {
         xdim.setBounds(125,100, 100, 40);
         resizeFrame.getContentPane().add(xdim);
 
-        maintainAspectRatioLab = new JLabel();
+        maintainAspectRatioLab = new CyderCheckBox();
         maintainAspectRatioLab.setToolTipText("Maintain Aspect Ratio");
-        maintainAspectRatioLab.setHorizontalAlignment(JLabel.CENTER);
-        maintainAspectRatioLab.setIcon(CyderImages.checkboxSelected);
         maintainAspectRatioLab.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            if (maintainAspectRatio) {
-                maintainAspectRatioLab.setIcon(CyderImages.checkboxNotSelected);
-                maintainAspectRatio = !maintainAspectRatio;
-            }
-
-            else {
-                maintainAspectRatioLab.setIcon(CyderImages.checkboxSelected);
                 maintainAspectRatio = !maintainAspectRatio;
 
-                if (leftLastEdited) {
-                    if (xdim.getText().length() > 0) {
-                        ydim.setText(Math.round(Integer.parseInt(xdim.getText()) * 1.0 / aspectRatio) + "");
+                if (maintainAspectRatio) {
+                    if (leftLastEdited) {
+                        if (xdim.getText().length() > 0) {
+                            ydim.setText(Math.round(Integer.parseInt(xdim.getText()) * 1.0 / aspectRatio) + "");
+                        }
+
+                        else {
+                            ydim.setText("");
+                        }
                     }
 
                     else {
-                        ydim.setText("");
+                        if (ydim.getText().length() > 0) {
+                            xdim.setText(Math.round(Integer.parseInt(ydim.getText()) * aspectRatio) + "");
+                        }
+
+                        else {
+                            xdim.setText("");
+                        }
                     }
                 }
-
-                else {
-                    if (ydim.getText().length() > 0) {
-                        xdim.setText(Math.round(Integer.parseInt(ydim.getText()) * aspectRatio) + "");
-                    }
-
-                    else {
-                        xdim.setText("");
-                    }
-                }
-            }
             }
         });
 
-        maintainAspectRatioLab.setBounds(350,75, 100, 100);
+        maintainAspectRatioLab.setBounds(375,90, 50, 50);
         resizeFrame.getContentPane().add(maintainAspectRatioLab);
 
         ydim = new JTextField(5);
-        ydim.setFont(CyderFonts.weatherFontSmall);
-        ydim.setBorder(new LineBorder(CyderColors.navy,5,false));
-        ydim.setForeground(CyderColors.navy);
         ydim.setSelectionColor(CyderColors.selectionColor);
+        ydim.setFont(CyderFonts.weatherFontSmall);
+        ydim.setForeground(CyderColors.navy);
+        ydim.setCaretColor(CyderColors.navy);
+        ydim.setCaret(new CyderCaret(CyderColors.navy));
+        ydim.setBorder(new LineBorder(CyderColors.navy,5,false));
         ydim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
             leftLastEdited = false;

@@ -5,6 +5,7 @@ import cyder.consts.CyderFonts;
 
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
@@ -45,16 +46,17 @@ public class Hangman {
         HangmanFrame.getContentPane().add(HangmanLabel);
 
         HangmanImageLabel = new JLabel();
-        HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman.png"));
+        HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman/hangman.png"));
         HangmanImageLabel.setBounds(100,50,712,712);
         HangmanFrame.getContentPane().add(HangmanImageLabel);
 
         letterField = new JTextField(40);
         letterField.setBorder(new LineBorder(CyderColors.navy,5,false));
-        letterField.setBackground(Color.WHITE);
         letterField.setSelectionColor(CyderColors.selectionColor);
-        letterField.setForeground(CyderColors.navy);
         letterField.setFont(CyderFonts.weatherFontSmall);
+        letterField.setForeground(CyderColors.navy);
+        letterField.setCaretColor(CyderColors.navy);
+        letterField.setCaret(new CyderCaret(CyderColors.navy));
         letterField.setToolTipText("Enter your letter guess here [A-Z]");
         letterField.addKeyListener(new KeyListener() {
             @Override
@@ -149,7 +151,7 @@ public class Hangman {
 
         HangmanLabel.setText("<html>" + StringUtil.fillString(HangmanWord.length(), " _ ") + "</html>");
 
-        HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman.png"));
+        HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman/hangman.png"));
 
         HangmanWrongGuesses = 0;
     }
@@ -192,7 +194,7 @@ public class Hangman {
 
         else {
             if (HangmanWrongGuesses == 7) {
-                HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman8.png"));
+                HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman/hangman8.png"));
                 HangmanLabel.setFont(CyderFonts.weatherFontSmall);
                 HangmanLabel.setText("<html>Game over! You were unable to guess \"" + HangmanWord + ".\" Would you like to play again?</html>");
 
@@ -203,7 +205,7 @@ public class Hangman {
 
             else {
                 HangmanWrongGuesses++;
-                HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman" + HangmanWrongGuesses + ".png"));
+                HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman/hangman" + HangmanWrongGuesses + ".png"));
             }
         }
     }

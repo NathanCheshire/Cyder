@@ -431,18 +431,18 @@ public class CyderMain {
             suggestionButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("sys/pictures/suggestion2.png"));
+                    suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("sys/pictures/suggestion1.png"));
+                    suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion1.png"));
                 }
             });
 
             suggestionButton.setBounds(32, 4, 22, 22);
 
-            ImageIcon DebugIcon = new ImageIcon("sys/pictures/suggestion1.png");
+            ImageIcon DebugIcon = new ImageIcon("sys/pictures/icons/suggestion1.png");
 
             suggestionButton.setIcon(DebugIcon);
 
@@ -464,7 +464,7 @@ public class CyderMain {
 
             menuButton.setBounds(4, 4, 22, 22);
 
-            ImageIcon MenuIcon = new ImageIcon("sys/pictures/menuSide1.png");
+            ImageIcon MenuIcon = new ImageIcon("sys/pictures/icons/menuSide1.png");
 
             menuButton.setIcon(MenuIcon);
 
@@ -514,12 +514,12 @@ public class CyderMain {
             alternateBackground.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("sys/pictures/ChangeSize2.png"));
+                    alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("sys/pictures/ChangeSize1.png"));
+                    alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
                 }
 
                 @Override
@@ -551,7 +551,7 @@ public class CyderMain {
             });
 
             alternateBackground.setBounds(ConsoleFrame.getBackgroundWidth() - 54, 4, 22, 20);
-            alternateBackground.setIcon(new ImageIcon("sys/pictures/ChangeSize1.png"));
+            alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
             parentLabel.add(alternateBackground);
             alternateBackground.setFocusPainted(false);
             alternateBackground.setOpaque(false);
@@ -620,13 +620,13 @@ public class CyderMain {
                         String time = TimeUtil.consoleSecondTime();
                         int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                         int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, -5, w, h);
                         consoleClockLabel.setText(time);
                     } else {
                         String time = TimeUtil.consoleTime();
                         int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                         int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, -5, w, h);
                         consoleClockLabel.setText(time);
                     }
             }, 0, 500, TimeUnit.MILLISECONDS);
@@ -710,7 +710,7 @@ public class CyderMain {
                         String time = TimeUtil.consoleTime();
                         int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                         int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
+                        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, -5, w, h);
                         consoleClockLabel.setText(time);
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
@@ -737,6 +737,10 @@ public class CyderMain {
                 StatUtil.javaProperties();
                 StatUtil.debugMenu(outputArea);
             }
+
+            //stay but maybe relocate? auto test in debug mode
+            if (SecurityUtil.nathanLenovo())
+                test();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -746,7 +750,7 @@ public class CyderMain {
         @Override
         public void mouseReleased(MouseEvent e) {
             if (!menuLabel.isVisible()) {
-                menuButton.setIcon(new ImageIcon("sys/pictures/menu2.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
 
                 menuLabel = new JLabel("");
                 menuLabel.setOpaque(true);
@@ -973,18 +977,18 @@ public class CyderMain {
         @Override
         public void mouseEntered(MouseEvent e) {
             if (menuLabel.isVisible()) {
-                menuButton.setIcon(new ImageIcon("sys/pictures/menu2.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
             } else {
-                menuButton.setIcon(new ImageIcon("sys/pictures/menuSide2.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide2.png"));
             }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             if (menuLabel.isVisible()) {
-                menuButton.setIcon(new ImageIcon("sys/pictures/menu1.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
             } else {
-                menuButton.setIcon(new ImageIcon("sys/pictures/menuSide1.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
             }
         }
     };
@@ -1203,7 +1207,7 @@ public class CyderMain {
 
         IOUtil.cleanUpUsers();
 
-        loginFrame = new CyderFrame(600, 400, new ImageIcon("sys/pictures/login.png"));
+        loginFrame = new CyderFrame(600, 400);
         loginFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         loginFrame.setTitle(IOUtil.getSystemData("Version") + " login");
         loginFrame.setBackground(new Color(21,23,24));
@@ -1474,7 +1478,7 @@ public class CyderMain {
         String time = TimeUtil.consoleTime();
         int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
         int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, -5, w, h);
         consoleClockLabel.setText(time);
 
         consoleFrame.repaint();
@@ -1614,7 +1618,7 @@ public class CyderMain {
         String time = TimeUtil.consoleTime();
         int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
         int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
+        consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, -5, w, h);
         consoleClockLabel.setText(time);
 
         consoleFrame.repaint();
@@ -1946,7 +1950,7 @@ public class CyderMain {
             } else if (hasWord("siri") || hasWord("jarvis") || hasWord("alexa")) {
                 println("Whata bunch of losers.");
             } else if ((hasWord("mississippi") && hasWord("state") && hasWord("university")) || eic("msu")) {
-                printImage("sys/pictures/msu.png");
+                printImage("sys/pictures/print/msu.png");
             } else if (has("toy") && has("story")) {
                 IOUtil.playAudio("sys/audio/TheClaw.mp3");
             } else if (has("stop") && has("music")) {
@@ -2020,7 +2024,7 @@ public class CyderMain {
                 inputField.requestFocus();
                 stringUtil.setUserInputMode(true);
             } else if (eic("nathan")) {
-                printlnImage("sys/pictures/me.png");
+                printlnImage("sys/pictures/print/me.png");
             } else if ((eic("error") || eic("errors")) && !hasWord("throw")) {
                 File WhereItIs = new File("users/" + ConsoleFrame.getUUID() + "/Throws/");
                 Desktop.getDesktop().open(WhereItIs);
@@ -2184,17 +2188,17 @@ public class CyderMain {
             } else if (hasWord("papers") && hasWord("please")) {
                 NetworkUtil.internetConnect("http://papersplea.se/");
             } else if (eic("java")) {
-                printImage("sys/pictures/Duke.png");
+                printImage("sys/pictures/print/Duke.png");
             } else if (hasWord("coffee")) {
                 NetworkUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
             } else if (hasWord("ip")) {
                 println(InetAddress.getLocalHost().getHostAddress());
             } else if (hasWord("html") || hasWord("html5")) {
-                consoleFrame.setIconImage(new ImageIcon("sys/pictures/html5.png").getImage());
-                printlnImage("sys/pictures/html5.png");
+                consoleFrame.setIconImage(new ImageIcon("sys/pictures/print/html5.png").getImage());
+                printlnImage("sys/pictures/print/html5.png");
             } else if (hasWord("css")) {
-                consoleFrame.setIconImage(new ImageIcon("sys/pictures/css.png").getImage());
-                printlnImage("sys/pictures/css.png");
+                consoleFrame.setIconImage(new ImageIcon("sys/pictures/print/css.png").getImage());
+                printlnImage("sys/pictures/print/css.png");
             } else if (hasWord("computer") && hasWord("properties")) {
                 println("This may take a second, since this feature counts your PC's free memory");
                 StatUtil.computerProperties();
@@ -2380,9 +2384,8 @@ public class CyderMain {
                 consoleFrame = null;
                 login();
             } else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
-                if (SecurityUtil.compMACAddress(SecurityUtil.getMACAddress())) {
+                if (SecurityUtil.nathanLenovo()) {
                     IOUtil.wipeErrors();
-
                     println("Deleted all user erorrs");
                 } else
                     println("Sorry, " + ConsoleFrame.getUsername() + ", but you don't have permission to do that.");
@@ -2390,17 +2393,11 @@ public class CyderMain {
                 StatUtil.allStats(outputArea);
             } else if (hasWord("random") && hasWord("background")) {
                 //todo press alternate background random number of times
-            } else if (hasWord("output") && hasWord("border")) {
-                //todo set output border
-            } else if (hasWord("input") && hasWord("border")) {
-                //todo set input border
-            } else if ((hasWord("full") && hasWord("screen") || hasWord("fullscreen"))) {
-                //todo enter full screen
-            } else if (hasWord("fill") && hasWord("in")) {
-                //todo fill input field
-            } else if (hasWord("fill") && hasWord("out")) {
-                //todo fill output area
-            } else if (hasWord("alex") && hasWord("trebek")) {
+            }
+
+            //todo toggle preferences by typing in keywords, write to user data too
+
+            else if (hasWord("alex") && hasWord("trebek")) {
                 println("Do you mean who is alex trebek?");
             } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
                 Cards.Christmas2020();
@@ -2408,22 +2405,11 @@ public class CyderMain {
                 NumberUtil.numberToWord();
             } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
+            } else if (hasWord("rick") && hasWord("morty")) {
+                println("Turned myself into a pickle morty! Boom! Big reveal; I'm a pickle!");
+                NetworkUtil.internetConnect("https://www.youtube.com/watch?v=s_1lP4CBKOg");
             } else if (eic("test")) {
-                //todo preference slider like from ThinMatrix's games, slide from left to right and change colors for on and reverse for off
-                //todo be able to copy from outupt area without canceling using ctrl + c, check if selected text or not
-                //todo photoviewer needs more consistnet window size and it moves the window to center every time, keep relative
-
-                //todo fipping console resets output area position
-
-                //todo adding a background with the same name throws error
-
-                TestFrame tf = new TestFrame();
-                CyderButton button = new CyderButton("Test Button");
-                button.setBounds(tf.testFrame.getWidth() / 2 - 70,tf.testFrame.getHeight() / 2 - 20,140,40);
-                button.addActionListener(e -> {
-
-                });
-                tf.testFrame.add(button);
+               test();
 
             } else if (hasWord("frame") && has("title")) {
                 Frame[] frames = Frame.getFrames();
@@ -2436,13 +2422,15 @@ public class CyderMain {
             }
 
             else {
+                //try context engine here first
+
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
                         " You can make a suggestion by clicking the \"Suggest something\" button.");
 
                 new Thread(() -> {
                     try {
-                        ImageIcon blinkIcon = new ImageIcon("sys/pictures/suggestion2.png");
-                        ImageIcon regularIcon = new ImageIcon("sys/pictures/suggestion1.png");
+                        ImageIcon blinkIcon = new ImageIcon("sys/pictures/icons/suggestion2.png");
+                        ImageIcon regularIcon = new ImageIcon("sys/pictures/icons/suggestion1.png");
 
                         for (int i = 0 ; i < 4 ; i++) {
                             suggestionButton.setIcon(blinkIcon);
@@ -2534,6 +2522,16 @@ public class CyderMain {
         }
 
         return false;
+    }
+
+    private void test() {
+        TestFrame tf = new TestFrame();
+        CyderButton button = new CyderButton("Test Button");
+        button.setBounds(tf.testFrame.getWidth() / 2 - 70,tf.testFrame.getHeight() / 2 - 20,140,40);
+        button.addActionListener(e -> {
+            //actions here
+        });
+        tf.testFrame.add(button);
     }
 
     //handler method
@@ -3161,10 +3159,11 @@ public class CyderMain {
         JTextField rgbField = new JTextField(CyderColors.navy.getRed() + "," + CyderColors.navy.getGreen() + "," + CyderColors.navy.getBlue());
 
         JTextField hexField = new JTextField(IOUtil.getUserData("Foreground"));
-        hexField.setForeground(CyderColors.navy);
-        hexField.setFont(CyderFonts.weatherFontBig);
-        hexField.setBackground(new Color(0, 0, 0, 0));
         hexField.setSelectionColor(CyderColors.selectionColor);
+        hexField.setFont(CyderFonts.weatherFontBig);
+        hexField.setForeground(CyderColors.navy);
+        hexField.setCaretColor(CyderColors.navy);
+        hexField.setCaret(new CyderCaret(CyderColors.navy));
         hexField.setToolTipText("Hex Value");
         hexField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         JTextField finalHexField1 = hexField;
@@ -3182,10 +3181,11 @@ public class CyderMain {
         hexField.setOpaque(false);
         switchingPanel.add(hexField);
 
-        rgbField.setForeground(CyderColors.navy);
-        rgbField.setFont(CyderFonts.weatherFontBig);
-        rgbField.setBackground(new Color(0, 0, 0, 0));
         rgbField.setSelectionColor(CyderColors.selectionColor);
+        rgbField.setFont(CyderFonts.weatherFontBig);
+        rgbField.setForeground(CyderColors.navy);
+        rgbField.setCaretColor(CyderColors.navy);
+        rgbField.setCaret(new CyderCaret(CyderColors.navy));
         rgbField.setToolTipText("RGB Value");
         Color c = ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
         rgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
@@ -3253,11 +3253,12 @@ public class CyderMain {
         JTextField hexFieldFill = new JTextField(String.format("#%02X%02X%02X", CyderColors.navy.getRed(),
                 CyderColors.navy.getGreen(), CyderColors.navy.getBlue()).replace("#", ""));
 
-        hexFieldFill.setForeground(CyderColors.navy);
         hexFieldFill.setText(IOUtil.getUserData("Background"));
-        hexFieldFill.setFont(CyderFonts.weatherFontSmall);
-        hexFieldFill.setBackground(new Color(255, 255, 255));
         hexFieldFill.setSelectionColor(CyderColors.selectionColor);
+        hexFieldFill.setFont(CyderFonts.weatherFontBig);
+        hexFieldFill.setForeground(CyderColors.navy);
+        hexFieldFill.setCaretColor(CyderColors.navy);
+        hexFieldFill.setCaret(new CyderCaret(CyderColors.navy));
         hexFieldFill.setToolTipText("Input field and output area fill color if enabled");
         hexFieldFill.setBorder(new LineBorder(CyderColors.navy, 5, false));
         hexFieldFill.addKeyListener(new KeyAdapter() {
@@ -3500,13 +3501,13 @@ public class CyderMain {
                     String time = TimeUtil.consoleSecondTime();
                     int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                     int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
+                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, -5, w, h);
                     consoleClockLabel.setText(time);
                 } else {
                     String time = TimeUtil.consoleTime();
                     int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                     int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, 0, w, h);
+                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, -5, w, h);
                     consoleClockLabel.setText(time);
                 }
 
@@ -3777,7 +3778,7 @@ public class CyderMain {
                     } else {
                         if (createUserBackground == null) {
                             createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background");
-                            createUserBackground = new File("sys/pictures/DefaultBackground.png");
+                            createUserBackground = new File("sys/pictures/defaults/DefaultBackground.png");
                         }
 
                         File NewUserFolder = new File("users/" + uuid);
@@ -3864,7 +3865,7 @@ public class CyderMain {
                 }
 
                 menuLabel.setVisible(false);
-                menuButton.setIcon(new ImageIcon("sys/pictures/menuSide1.png"));
+                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
             });
             waitThread.start();
         }

@@ -2,10 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderScrollPane;
+import cyder.ui.*;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -23,18 +20,18 @@ public class Pizza {
 
     private CyderFrame pizzaFrame;
     private JTextField nameField;
-    private JLabel smallPizza;
-    private JLabel mediumPizza;
-    private JLabel largePizza;
+    private CyderCheckBox smallPizza;
+    private CyderCheckBox mediumPizza;
+    private CyderCheckBox largePizza;
 
     private JList<String> pizzaTopingsList;
     private JList<String> crustTypeList;
 
     private JTextArea orderComments;
 
-    private JLabel breadSticks;
-    private JLabel salad;
-    private JLabel soda;
+    private CyderCheckBox breadSticks;
+    private CyderCheckBox salad;
+    private CyderCheckBox soda;
 
     private CyderButton placeOrder;
     private CyderButton resetValues;
@@ -54,8 +51,10 @@ public class Pizza {
 
         nameField = new JTextField(20);
         nameField.setSelectionColor(CyderColors.selectionColor);
-        nameField.setForeground(CyderColors.navy);
         nameField.setFont(CyderFonts.weatherFontSmall);
+        nameField.setForeground(CyderColors.navy);
+        nameField.setCaretColor(CyderColors.navy);
+        nameField.setCaret(new CyderCaret(CyderColors.navy));
         nameField.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
@@ -106,49 +105,43 @@ public class Pizza {
         largeLabel.setBounds(420,100,100,30);
         pizzaFrame.getContentPane().add(largeLabel);
 
-        smallPizza = new JLabel();
+        smallPizza = new CyderCheckBox();
         smallPizza.setHorizontalAlignment(JLabel.CENTER);
-        smallPizza.setSize(100,100);
-        smallPizza.setIcon(CyderImages.checkboxNotSelected);
+        smallPizza.setNotSelected();
         smallPizza.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                smallPizza.setIcon(CyderImages.checkboxSelected);
-                mediumPizza.setIcon(CyderImages.checkboxNotSelected);
-                largePizza.setIcon(CyderImages.checkboxNotSelected);
+                mediumPizza.setNotSelected();
+                largePizza.setNotSelected();
             }
         });
-        smallPizza.setBounds(160,110,100,100);
+        smallPizza.setBounds(185,135,50,50);
         pizzaFrame.getContentPane().add(smallPizza);
 
-        mediumPizza = new JLabel();
+        mediumPizza = new CyderCheckBox();
         mediumPizza.setHorizontalAlignment(JLabel.CENTER);
-        mediumPizza.setSize(100,100);
-        mediumPizza.setIcon(CyderImages.checkboxSelected);
+        mediumPizza.setSelected();
         mediumPizza.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                smallPizza.setIcon(CyderImages.checkboxNotSelected);
-                mediumPizza.setIcon(CyderImages.checkboxSelected);
-                largePizza.setIcon(CyderImages.checkboxNotSelected);
+                smallPizza.setNotSelected();
+                largePizza.setNotSelected();
             }
         });
-        mediumPizza.setBounds(280,110,100,100);
+        mediumPizza.setBounds(305,135,50,50);
         pizzaFrame.getContentPane().add(mediumPizza);
 
-        largePizza = new JLabel();
+        largePizza = new CyderCheckBox();
         largePizza.setHorizontalAlignment(JLabel.CENTER);
-        largePizza.setSize(100,100);
-        largePizza.setIcon(CyderImages.checkboxNotSelected);
+        largePizza.setNotSelected();
         largePizza.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                smallPizza.setIcon(CyderImages.checkboxNotSelected);
-                mediumPizza.setIcon(CyderImages.checkboxNotSelected);
-                largePizza.setIcon(CyderImages.checkboxSelected);
+                smallPizza.setNotSelected();
+                mediumPizza.setNotSelected();
             }
         });
-        largePizza.setBounds(400,110,100,100);
+        largePizza.setBounds(425,135,50,50);
         pizzaFrame.getContentPane().add(largePizza);
 
         JLabel crustLabel = new JLabel("Crust Type");
@@ -215,20 +208,10 @@ public class Pizza {
         breadsticksLabel.setBounds(130,470,150,30);
         pizzaFrame.getContentPane().add(breadsticksLabel);
 
-        breadSticks = new JLabel();
+        breadSticks = new CyderCheckBox();
         breadSticks.setHorizontalAlignment(JLabel.CENTER);
-        breadSticks.setSize(100,100);
-        breadSticks.setIcon(CyderImages.checkboxNotSelected);
-        breadSticks.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (breadSticks.getIcon() == CyderImages.checkboxSelected)
-                    breadSticks.setIcon(CyderImages.checkboxNotSelected);
-                else
-                    breadSticks.setIcon(CyderImages.checkboxSelected);
-            }
-        });
-        breadSticks.setBounds(140,480,100,100);
+        breadSticks.setNotSelected();
+        breadSticks.setBounds(165,505,50,50);
         pizzaFrame.getContentPane().add(breadSticks);
 
         JLabel saladLabel = new JLabel("Salad");
@@ -237,20 +220,10 @@ public class Pizza {
         saladLabel.setBounds(310,470,150,30);
         pizzaFrame.getContentPane().add(saladLabel);
 
-        salad = new JLabel();
+        salad = new CyderCheckBox();
         salad.setHorizontalAlignment(JLabel.CENTER);
-        salad.setSize(100,100);
-        salad.setIcon(CyderImages.checkboxNotSelected);
-        salad.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (salad.getIcon() == CyderImages.checkboxSelected)
-                    salad.setIcon(CyderImages.checkboxNotSelected);
-                else
-                    salad.setIcon(CyderImages.checkboxSelected);
-            }
-        });
-        salad.setBounds(290,480,100,100);
+        salad.setNotSelected();
+        salad.setBounds(315,505,50,50);
         pizzaFrame.getContentPane().add(salad);
 
         JLabel sodaLabel = new JLabel("Soda");
@@ -259,20 +232,10 @@ public class Pizza {
         sodaLabel.setBounds(445,470,150,30);
         pizzaFrame.getContentPane().add(sodaLabel);
 
-        soda = new JLabel();
+        soda = new CyderCheckBox();
         soda.setHorizontalAlignment(JLabel.CENTER);
-        soda.setSize(100,100);
-        soda.setIcon(CyderImages.checkboxNotSelected);
-        soda.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (soda.getIcon() == CyderImages.checkboxSelected)
-                    soda.setIcon(CyderImages.checkboxNotSelected);
-                else
-                    soda.setIcon(CyderImages.checkboxSelected);
-            }
-        });
-        soda.setBounds(420,480,100,100);
+        soda.setNotSelected();
+        soda.setBounds(445,505,50,50);
         pizzaFrame.getContentPane().add(soda);
 
         JLabel orderCommentsLabel = new JLabel("Order Comments");
@@ -315,10 +278,10 @@ public class Pizza {
                 String Name = nameField.getText().substring(0, 1).toUpperCase() + nameField.getText().substring(1) + "<br/>";
                 String Size;
 
-                if (smallPizza.getIcon() == CyderImages.checkboxSelected)
+                if (smallPizza.isSelected())
                     Size = "small<br/>";
 
-                else if (mediumPizza.getIcon() == CyderImages.checkboxSelected)
+                else if (mediumPizza.isSelected())
                     Size = "medium<br/>";
 
                 else
@@ -342,13 +305,13 @@ public class Pizza {
 
                 String Extras = "";
 
-                if (breadSticks.getIcon() == CyderImages.checkboxSelected)
+                if (breadSticks.isSelected())
                     Extras += "Breadsticks<br/>";
 
-                if (salad.getIcon() == CyderImages.checkboxSelected)
+                if (salad.isSelected())
                     Extras += "Salad<br/>";
 
-                if (soda.getIcon() == CyderImages.checkboxSelected)
+                if (soda.isSelected())
                     Extras += "Soda<br/>";
 
                 String Comments = orderComments.getText().trim();
@@ -381,14 +344,14 @@ public class Pizza {
         resetPizza.setFont(CyderFonts.weatherFontSmall);
         resetPizza.addActionListener(e -> {
             nameField.setText("");
-            smallPizza.setIcon(CyderImages.checkboxNotSelected);
-            mediumPizza.setIcon(CyderImages.checkboxSelected);
-            largePizza.setIcon(CyderImages.checkboxNotSelected);
+            smallPizza.setNotSelected();
+            mediumPizza.setNotSelected();
+            largePizza.setNotSelected();
             crustTypeList.clearSelection();
             pizzaTopingsList.clearSelection();
-            breadSticks.setIcon(CyderImages.checkboxNotSelected);
-            salad.setIcon(CyderImages.checkboxNotSelected);
-            soda.setIcon(CyderImages.checkboxNotSelected);
+            breadSticks.setNotSelected();
+            salad.setNotSelected();
+            soda.setNotSelected();
             orderComments.setText("");
 
         });
