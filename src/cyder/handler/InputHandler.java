@@ -7,6 +7,12 @@ public class InputHandler {
     //todo be able to set super title and regular title differnetly and get/set each different
     // window title should only be for display
 
+    //todo disable dragging on background switching
+
+    //todo background image changing doesn't move just the background
+
+    //todo do background images change on alternate background event? look in file explorer
+
     //todo save coordinates when entering fullscreen to set to when exit if occurs in this session
 
     //todo invalid weather location throws error
@@ -30,7 +36,6 @@ public class InputHandler {
     //todo fix bug: log in as different user when already logged in as nathan and then delete this new account you logged into
     // will say the first user was corrupted and say sorry + "first user name"
 
-    //todo do away with user throws
     //todo make chat logs to replace throws and suggestions and general log like miencraft, store in
     // same dir as src and call logs
 

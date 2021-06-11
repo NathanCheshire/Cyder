@@ -382,16 +382,6 @@ public class IOUtil {
     }
 
     public static void wipeErrors() {
-        File topDir = new File("users");
-        File[] users = topDir.listFiles();
-
-        for (File f : users) {
-            if (f.isDirectory()) {
-                File throwDir = new File("users/" + f.getName() + "/throws");
-                if (throwDir.exists()) SystemUtil.deleteFolder(throwDir);
-            }
-        }
-
         File throwsFolder = new File("throws");
         SystemUtil.deleteFolder(throwsFolder);
     }

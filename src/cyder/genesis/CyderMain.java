@@ -1618,7 +1618,6 @@ public class CyderMain {
 
         parentLabel.setIcon(new ImageIcon(fullimg));
 
-        consoleFrame.setBounds(0, 0, fullW, fullH);
         parentPane.setBounds(0, 0, fullW, fullH);
         parentLabel.setBounds(0, 0, fullW, fullH);
 
@@ -2034,9 +2033,6 @@ public class CyderMain {
                 stringUtil.setUserInputMode(true);
             } else if (eic("nathan")) {
                 printlnImage("sys/pictures/print/me.png");
-            } else if ((eic("error") || eic("errors")) && !hasWord("throw")) {
-                File WhereItIs = new File("users/" + ConsoleFrame.getUUID() + "/Throws/");
-                Desktop.getDesktop().open(WhereItIs);
             } else if (eic("help")) {
                 stringUtil.help(outputArea);
             } else if (hasWord("light") && hasWord("saber")) {

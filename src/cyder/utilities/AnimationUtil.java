@@ -480,10 +480,10 @@ public class AnimationUtil {
                         "are not allowed and shouln't be possible; allow me to fix that");
             ConsoleFrame.resizeBackgrounds();
 
-            double animationLen = 1000; //ideally we want the animation to last 1000ms
+            double animationLen = 500; //ideally we want the animation to last 1000ms
             double increment = animationLen / width; //delay must be an int so if this is less than 1, problem
 
-            if (width < 1000) {
+            if (width < 500) {
                 //increment will be 1 and delay will be at least 1 if not greater
                 ret[1] = 1;
                 ret[0] = (int) Math.round(animationLen / width);
@@ -504,6 +504,6 @@ public class AnimationUtil {
             ErrorHandler.handle(e);
         }
 
-        return ret;
+        return new int[]{1, 10};
     }
 }

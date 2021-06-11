@@ -1,11 +1,18 @@
 package cyder.handler;
 
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 import cyder.genesis.CyderMain;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
+import cyder.utilities.SystemUtil;
 import cyder.utilities.TimeUtil;
 import cyder.widgets.GenericInform;
 
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 
 public class ErrorHandler {
@@ -22,16 +29,8 @@ public class ErrorHandler {
             File throwsDir = null;
             String eFileString = "";
 
-            //if no user, then put error in system throws folder
-            if (user == null) {
-                throwsDir = new File("throws");
-                eFileString = "throws/" + TimeUtil.errorTime() + ".error";
-            }
-
-            else {
-                throwsDir = new File("users/" + ConsoleFrame.getUUID() + "/Throws");
-                eFileString = "users/" + ConsoleFrame.getUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
-            }
+            throwsDir = new File("throws");
+            eFileString = "throws/" + TimeUtil.errorTime() + ".error";
 
             //make the dir if it doesn't exist
             if (!throwsDir.exists())
@@ -62,12 +61,49 @@ public class ErrorHandler {
             errorWriter.flush();
             errorWriter.close();
 
-            //todo don't open immediately, notify from right top and add a listener so that
-            // a click on the inform() will open the file
-
             //if the user has show errors configured, then we open the file
-            if (IOUtil.getUserData("SilenceErrors").equals("0"))
-                IOUtil.openFile(eFileString);
+            if (IOUtil.getUserData("SilenceErrors").equals("0")) {
+                //todo make this more dynamic
+                CyderFrame errorFrame = new CyderFrame();
+                errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+                errorFrame.setTitle(message);
+                errorFrame.setBackground(CyderColors.vanila);
+
+                JLabel label = new JLabel("<html>" + write.substring(0,500) + "...</html>");
+                label.setForeground(CyderColors.navy);
+                label.setFont(CyderFonts.defaultFontSmall);
+                label.setHorizontalAlignment(JLabel.CENTER);
+                label.setVerticalAlignment(JLabel.CENTER);
+                label.setToolTipText("Click to open error file");
+                errorFrame.add(label);
+
+                int w = CyderFrame.getMinWidth(message, CyderFonts.defaultFontSmall) * 2;
+                errorFrame.setBounds(SystemUtil.getScreenWidth() - w,
+                        SystemUtil.getScreenHeight() - errorFrame.getHeight(), w, errorFrame.getHeight());
+
+                label.setBounds(30,30, w - 20, errorFrame.getHeight() - 50);
+                String finalEFileString = eFileString;
+                label.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        IOUtil.openFile(finalEFileString);
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        label.setForeground(CyderColors.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        label.setForeground(CyderColors.navy);
+                    }
+                });
+
+                errorFrame.setLocation(SystemUtil.getScreenWidth() - errorFrame.getWidth(),
+                        SystemUtil.getScreenHeight() - errorFrame.getHeight());
+                errorFrame.setVisible(true);
+            }
         }
 
         //uh oh; error was thrown inside of here so we'll just generic inform the user of it
@@ -104,16 +140,8 @@ public class ErrorHandler {
             File throwsDir = null;
             String eFileString = "";
 
-            //if no user, then put error in system throws folder
-            if (user == null) {
-                throwsDir = new File("throws");
-                eFileString = "throws/" + TimeUtil.errorTime() + ".error";
-            }
-
-            else {
-                throwsDir = new File("users/" + ConsoleFrame.getUUID() + "/Throws");
-                eFileString = "users/" + ConsoleFrame.getUUID() + "/Throws/" + TimeUtil.errorTime() + ".error";
-            }
+            throwsDir = new File("throws");
+            eFileString = "throws/" + TimeUtil.errorTime() + ".error";
 
             //make the dir if it doesn't exist
             if (!throwsDir.exists())
