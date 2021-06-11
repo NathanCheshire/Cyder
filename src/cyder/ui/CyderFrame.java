@@ -988,7 +988,6 @@ public class CyderFrame extends JFrame {
 
         currentOrigIcon = ConsoleFrame.getCurrentBackgroundImageIcon();
 
-        System.out.println(contentLabel.getWidth() + "," + contentLabel.getHeight());
         contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT)));
     }

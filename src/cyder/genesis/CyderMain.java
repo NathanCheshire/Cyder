@@ -345,10 +345,10 @@ public class CyderMain {
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
                         //these booleans were already moved
-//                        if (!consoleLinesDrawn) {
-//                            drawConsoleLines = true;
-//                            consoleFrame.repaint();
-//                        }
+                          //if (!consoleLinesDrawn) {
+                              //drawConsoleLines = true;
+                              //consoleFrame.repaint();
+                         //}
                     }
                 }
 
@@ -359,10 +359,9 @@ public class CyderMain {
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
                         //these booleans were already moved
-
-//                        drawConsoleLines = false;
-//                        consoleLinesDrawn = false;
-//                        consoleFrame.repaint();
+                        //drawConsoleLines = false;
+                        //consoleLinesDrawn = false;
+                        //consoleFrame.repaint();
                     }
                 }
 
@@ -370,6 +369,18 @@ public class CyderMain {
                 public void keyTyped(java.awt.event.KeyEvent e) {
                     if (inputField.getText().length() == 1)
                         inputField.setText(inputField.getText().toUpperCase());
+                }
+            });
+
+            inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
+                    InputEvent.ALT_DOWN_MASK), "alternateBackground");
+
+            inputField.getActionMap().put("alternateBackground", new AbstractAction() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.exit(-404);
                 }
             });
 
@@ -1425,6 +1436,10 @@ public class CyderMain {
 
     //todo move to consoleFrame
     private void exitFullscreen() {
+        //if it was called when it shouldn't have been, return
+        if (consoleFrame.getWidth() != SystemUtil.getScreenWidth() && consoleFrame.getWidth() != SystemUtil.getScreenHeight())
+            return;
+
         ConsoleFrame.initBackgrounds(); //todo there was a background error here when I deleted a a background and flipping didn't work
         LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
         int index = ConsoleFrame.getBackgroundIndex();
@@ -1812,12 +1827,6 @@ public class CyderMain {
         try {
             operation = input;
             String firstWord = stringUtil.firstWord(operation);
-
-            if (handleMath(operation))
-                return;
-
-            if (evaluateExpression(operation))
-                return;
 
             if (StringUtil.filterLanguage(operation)) {
                 println("Sorry, " + ConsoleFrame.getUsername() + ", but that language is prohibited.");
@@ -2395,8 +2404,6 @@ public class CyderMain {
                 //todo press alternate background random number of times
             }
 
-            //todo toggle preferences by typing in keywords, write to user data too
-
             else if (hasWord("alex") && hasWord("trebek")) {
                 println("Do you mean who is alex trebek?");
             } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
@@ -2421,31 +2428,67 @@ public class CyderMain {
                     }
             }
 
+            //attempts at undefined input
             else {
                 //try context engine here first
 
-                println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
-                        " You can make a suggestion by clicking the \"Suggest something\" button.");
+                if (handleMath(operation))
+                    return;
 
-                new Thread(() -> {
-                    try {
-                        ImageIcon blinkIcon = new ImageIcon("sys/pictures/icons/suggestion2.png");
-                        ImageIcon regularIcon = new ImageIcon("sys/pictures/icons/suggestion1.png");
+                if (evaluateExpression(operation))
+                    return;
 
-                        for (int i = 0 ; i < 4 ; i++) {
-                            suggestionButton.setIcon(blinkIcon);
-                            Thread.sleep(300);
-                            suggestionButton.setIcon(regularIcon);
-                            Thread.sleep(300);
-                        }
-                    } catch (Exception e) {
-                        ErrorHandler.handle(e);
-                    }
-                }, "suggestionButton flash").start();
+                if (preferenceCheck(operation))
+                    return;
+
+                unknownInput();
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    private boolean preferenceCheck(String op) {
+        for (Preference pref : prefs) {
+            if (op.toLowerCase().contains(pref.getID().toLowerCase())) {
+                if (op.contains("1") || op.toLowerCase().contains("true")) {
+                    IOUtil.writeUserData(pref.getID(), "1");
+                    System.out.println("set to true");
+                } else if (op.contains("0") || op.toLowerCase().contains("false")) {
+                    IOUtil.writeUserData(pref.getID(), "0");
+                    System.out.println("set to false");
+                } else {
+                    IOUtil.writeUserData(pref.getID(), (IOUtil.getUserData(pref.getID()).equals("1") ? "0" : "1"));
+                    System.out.println("toggle");
+                }
+
+                refreshPrefs();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void unknownInput() {
+        println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
+                " You can make a suggestion by clicking the \"Suggest something\" button.");
+
+        new Thread(() -> {
+            try {
+                ImageIcon blinkIcon = new ImageIcon("sys/pictures/icons/suggestion2.png");
+                ImageIcon regularIcon = new ImageIcon("sys/pictures/icons/suggestion1.png");
+
+                for (int i = 0 ; i < 4 ; i++) {
+                    suggestionButton.setIcon(blinkIcon);
+                    Thread.sleep(300);
+                    suggestionButton.setIcon(regularIcon);
+                    Thread.sleep(300);
+                }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "suggestionButton flash").start();
     }
 
     //input handler
@@ -2525,13 +2568,13 @@ public class CyderMain {
     }
 
     private void test() {
-        TestFrame tf = new TestFrame();
-        CyderButton button = new CyderButton("Test Button");
-        button.setBounds(tf.testFrame.getWidth() / 2 - 70,tf.testFrame.getHeight() / 2 - 20,140,40);
-        button.addActionListener(e -> {
-            //actions here
-        });
-        tf.testFrame.add(button);
+//        TestFrame tf = new TestFrame();
+//        CyderButton button = new CyderButton("Test Button");
+//        button.setBounds(tf.testFrame.getWidth() / 2 - 70,tf.testFrame.getHeight() / 2 - 20,140,40);
+//        button.addActionListener(e -> {
+//            //actions here
+//        });
+//        tf.testFrame.add(button);
     }
 
     //handler method
@@ -3485,7 +3528,7 @@ public class CyderMain {
         }
 
         //full screen
-        if (IOUtil.getUserData("FullScreen").equals("0") && ConsoleFrame.isFullscreen()) {
+        if (IOUtil.getUserData("FullScreen").equals("0")) {
             exitFullscreen();
         } else if (IOUtil.getUserData("FullScreen").equals("1")) {
             refreshConsoleFrame();

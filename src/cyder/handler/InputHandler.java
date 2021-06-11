@@ -4,6 +4,10 @@ public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
     // and direct the resulting flow and output
 
+    //todo be able to set super title and regular title differnetly and get/set each different
+    // window title should only be for display
+
+    //todo save coordinates when entering fullscreen to set to when exit if occurs in this session
 
     //todo invalid weather location throws error
 
@@ -14,10 +18,10 @@ public class InputHandler {
     //todo if cyder hasn't started in a while, say welcome back $username, did you miss me?
     // or some variation of that
 
-    //todo fix preferences panel with slides
-    //todo toggle preferences though console keyl words
+    //todo fix preferences panel with CyderSliders
 
-    //todo chat filter filters too much
+    //todo control an alt + f4 with a key mask so that the exit code is 25 and the program properly closes
+    // alt + f4 should be forced immediate exit?
 
     //TODO all icons for ConsoleFrame should be drawn on the spot and not use a png in files
 
