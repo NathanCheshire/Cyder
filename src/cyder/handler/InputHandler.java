@@ -7,8 +7,6 @@ public class InputHandler {
     //todo be able to set super title and regular title differnetly and get/set each different
     // window title should only be for display
 
-    //todo disable dragging on background switching
-
     //todo background image changing doesn't move just the background
 
     //todo do background images change on alternate background event? look in file explorer
@@ -53,8 +51,6 @@ public class InputHandler {
     // also change it on frame location set
     //todo do this for CyderFrame too, will need to play with DragLabel getters and setters
 
-    //todo hangman is broken
-
     //todo convert user data to bin data
 
     //todo preference slider like from ThinMatrix's games, slide from left to right and change colors for on and reverse for off
@@ -64,8 +60,6 @@ public class InputHandler {
     //todo photoviewer needs more consistnet window size and it moves the window to center every time, keep relative
 
     //todo fipping console resets output area position
-
-    //todo adding a background with the same name throws error
 
     @Override
     public String toString() {

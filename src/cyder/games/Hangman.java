@@ -75,7 +75,7 @@ public class Hangman {
 
                 else {
                     letterField.setText("");
-                    LetterChosen(code);
+                    letterChosen(code);
                 }
             }
 
@@ -91,7 +91,7 @@ public class Hangman {
 
                 else {
                     letterField.setText("");
-                    LetterChosen(code);
+                    letterChosen(code);
                 }
             }
 
@@ -107,7 +107,7 @@ public class Hangman {
 
                 else {
                     letterField.setText("");
-                    LetterChosen(code);
+                    letterChosen(code);
                 }
             }
         });
@@ -141,7 +141,7 @@ public class Hangman {
 
         try (BufferedReader br = new BufferedReader(new FileReader("sys/text/hangman.csv"))) {
             String[] doc = br.readLine().split(",");
-            HangmanWord = doc[NumberUtil.randInt(0, doc.length - 1)].toLowerCase();
+            HangmanWord = doc[NumberUtil.randInt(0, doc.length - 1)].toLowerCase().trim();
 
         }
 
@@ -156,7 +156,7 @@ public class Hangman {
         HangmanWrongGuesses = 0;
     }
 
-    private void LetterChosen(char letter) {
+    private void letterChosen(char letter) {
         if (chosenLetters.contains(String.valueOf(letter)))
             return;
 
@@ -177,7 +177,7 @@ public class Hangman {
 
             for (int i = 0 ; i < compArr.length ; i++) {
                 newLabelText += compArr[i];
-                if (i != compArr.length - 1 && i != 0)
+                if (i != compArr.length - 1)
                     newLabelText += " ";
             }
 
@@ -185,7 +185,7 @@ public class Hangman {
 
             if (!HangmanLabel.getText().contains("_")) {
                 HangmanLabel.setFont(CyderFonts.weatherFontSmall);
-                HangmanLabel.setText("<html>Good job! You guessed the word \"" + HangmanWord + ".\" Would you like to play again?</html>");
+                HangmanLabel.setText("<html>Good job! You guessed the word \"" + HangmanWord + "\" Would you like to play again?</html>");
                 letterField.setEnabled(false);
 
                 HangmanReset.setText("Play Again");
@@ -196,7 +196,7 @@ public class Hangman {
             if (HangmanWrongGuesses == 7) {
                 HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman/hangman8.png"));
                 HangmanLabel.setFont(CyderFonts.weatherFontSmall);
-                HangmanLabel.setText("<html>Game over! You were unable to guess \"" + HangmanWord + ".\" Would you like to play again?</html>");
+                HangmanLabel.setText("<html>Game over! You were unable to guess \"" + HangmanWord + "\" Would you like to play again?</html>");
 
                 HangmanReset.setText("Play Again");
 

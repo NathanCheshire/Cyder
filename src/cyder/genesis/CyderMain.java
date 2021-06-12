@@ -373,9 +373,9 @@ public class CyderMain {
             });
 
             inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
-                    InputEvent.ALT_DOWN_MASK), "alternateBackground");
+                    InputEvent.ALT_DOWN_MASK), "forcedexit");
 
-            inputField.getActionMap().put("alternateBackground", new AbstractAction() {
+            inputField.getActionMap().put("forcedexit", new AbstractAction() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -1569,8 +1569,10 @@ public class CyderMain {
                     int[] parts = AnimationUtil.getDelayIncrement(temporaryWidth);
 
                     //animate the labels
+                    //disable dragging
                     AnimationUtil.componentRight(0, temporaryWidth, parts[0], parts[1], temporaryLabel);
                     AnimationUtil.componentRight(-temporaryWidth, 0, parts[0], parts[1], parentLabel);
+                    //enable dragging
                 } else {
                     JLabel temporaryLabel = new JLabel();
                     parentLabel.setIcon(new ImageIcon(newBack));
@@ -3039,6 +3041,12 @@ public class CyderMain {
 
                 if (addFile == null)
                     return;
+
+                for (File f : ConsoleFrame.getBackgrounds()) {
+                    if (addFile.getName().equals(f.getName()))
+                        editUserFrame.notify("Cannot add a background with the same name as a current one");
+                        return;
+                }
 
                 Path copyPath = new File(addFile.getAbsolutePath()).toPath();
 
