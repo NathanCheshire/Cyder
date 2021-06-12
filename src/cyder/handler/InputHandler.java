@@ -4,6 +4,10 @@ public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
     // and direct the resulting flow and output
 
+
+    //todo setting to fullscreen breaks lol, I assume since refreshConsoleframe isn't setting consoleframe bounds anyomore,
+    // put it back in
+
     //todo be able to set super title and regular title differnetly and get/set each different
     // window title should only be for display
 
@@ -13,8 +17,6 @@ public class InputHandler {
 
     //todo save coordinates when entering fullscreen to set to when exit if occurs in this session
 
-    //todo invalid weather location throws error
-
     //todo work on proper exit conditions for ALL threads
 
     //todo make input field like the input field for login (actually a password field with the natche@cyder~$)
@@ -23,11 +25,6 @@ public class InputHandler {
     // or some variation of that
 
     //todo fix preferences panel with CyderSliders
-
-    //todo control an alt + f4 with a key mask so that the exit code is 25 and the program properly closes
-    // alt + f4 should be forced immediate exit?
-
-    //TODO all icons for ConsoleFrame should be drawn on the spot and not use a png in files
 
     //todo logout should end all executors and threads so only thing happening is login frame
 
@@ -43,13 +40,6 @@ public class InputHandler {
     // fix this anyway by using a gradient and drawing most icons you have in pictures
 
     //todo killed boolean for ALL objects with threads to end their threads when disposed? Copy from ConsoleFrame.dispose()
-
-    //todo pixelating background resets consoleFrame to center
-    //todo console switching is too slow
-
-    //todo restoreX and restoreY should be initialized to h/2 - consoleframeheight/2 and same for width
-    // also change it on frame location set
-    //todo do this for CyderFrame too, will need to play with DragLabel getters and setters
 
     //todo convert user data to bin data
 

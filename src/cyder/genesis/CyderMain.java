@@ -34,6 +34,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.DosFileAttributes;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -2566,13 +2567,26 @@ public class CyderMain {
     }
 
     private void test() {
-//        TestFrame tf = new TestFrame();
-//        CyderButton button = new CyderButton("Test Button");
-//        button.setBounds(tf.testFrame.getWidth() / 2 - 70,tf.testFrame.getHeight() / 2 - 20,140,40);
-//        button.addActionListener(e -> {
-//            //actions here
-//        });
-//        tf.testFrame.add(button);
+        int[] pngSignature = {137, 80, 78, 71, 13, 10, 26, 10};
+        try  {
+            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream("sys/Elon.png"));
+            int[] headerBytes = new int[8];
+
+            boolean isPNG = true;
+
+            for (int i = 0; i < 8; i++) {
+                headerBytes[i] = inputStream.read();
+                if (headerBytes[i] != pngSignature[i]) {
+                    isPNG = false;
+                    break;
+                }
+            }
+
+            System.out.println("Is PNG file? " + isPNG);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     //handler method

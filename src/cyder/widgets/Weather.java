@@ -16,6 +16,7 @@ import javax.swing.border.LineBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -54,6 +55,7 @@ public class Weather {
     private String windBearing;
 
     private String locationString;
+    private String oldLocation;
 
     private String userCity;
     private String userState;
@@ -180,6 +182,7 @@ public class Weather {
                 changeLoc.setBackground(CyderColors.regularRed);
                 changeLoc.addActionListener(e12 -> {
                     try {
+                        oldLocation = locationString;
                         locationString = changeLocField.getText();
 
                         useCustomLoc = true;
@@ -187,9 +190,7 @@ public class Weather {
                         AnimationUtil.closeAnimation(changeLocationFrame);
                         weatherFrame.inform("Attempting to refresh weather stats for location \"" + locationString + "\"", "Weather Update");
                         refreshWeatherNow();
-                    }
-
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         ErrorHandler.handle(ex);
                     }
                 });
@@ -513,9 +514,12 @@ public class Weather {
             if (Time.getTime() > SunsetTime.getTime()) {
                 weatherIcon = weatherIcon.replace("d", "n");
             }
-        }
-
-        catch (Exception e) {
+        } catch (FileNotFoundException ignored) {
+            weatherFrame.notify("Sorry, but that location is invalid");
+            locationString = oldLocation;
+            useCustomLoc = false;
+            refreshWeatherNow();
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }

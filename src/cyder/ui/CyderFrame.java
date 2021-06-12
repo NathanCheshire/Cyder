@@ -95,6 +95,8 @@ public class CyderFrame extends JFrame {
 
         dl = new DragLabel(width, 30, this);
         dl.setBounds(0, 0, width, 30);
+        dl.setRestoreX(SystemUtil.getScreenWidth() / 2 - this.getWidth() / 2);
+        dl.setRestoreY(SystemUtil.getScreenHeight() / 2 - this.getHeight() / 2);
         contentLabel.add(dl);
 
         titleLabel = new JLabel("");
