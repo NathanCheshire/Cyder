@@ -5,7 +5,6 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
-
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
 import cyder.games.Hangman;
@@ -34,6 +33,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.DosFileAttributes;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -2566,8 +2566,50 @@ public class CyderMain {
         return false;
     }
 
+    private void writeData(DataOutputStream dos, Object data) throws IOException {
+        if (data instanceof String)
+            dos.writeUTF((String) data);
+        else if (data instanceof Integer)
+            dos.writeInt((Integer) data);
+    }
+
     private void test() {
+        boolean done = false;
+
+        try {
+            FileOutputStream fout = new FileOutputStream("src/cyder/genesis/userdata.dat");
+            DataOutputStream dout = new DataOutputStream(fout);
+
+            writeData(dout,"little");
+            writeData(dout, 0);
+            writeData(dout,"big");
+            writeData(dout, 48000);
+
+            fout.close();
+            dout.close();
+
+            FileInputStream fis = new FileInputStream("src/cyder/genesis/userdata.dat");
+            DataInputStream dis = new DataInputStream(fis);
+
+            println(dis.readUTF());
+            println(dis.readInt());
+            println(dis.readUTF());
+            println(dis.readInt());
+
+            fis.close();
+            dis.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        done = true;
+
+        if (done)
+            return;
+
         int[] pngSignature = {137, 80, 78, 71, 13, 10, 26, 10};
+        Path fTest = Paths.get("sys/Elon.png");
         try  {
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream("sys/Elon.png"));
             int[] headerBytes = new int[8];
@@ -2587,6 +2629,38 @@ public class CyderMain {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
+        //legacy dos attributes
+        try {
+            DosFileAttributes attr =
+                    Files.readAttributes(fTest, DosFileAttributes.class);
+            System.out.println("isReadOnly is " + attr.isReadOnly());
+            System.out.println("isHidden is " + attr.isHidden());
+            System.out.println("isArchive is " + attr.isArchive());
+            System.out.println("isSystem is " + attr.isSystem());
+        } catch (Exception x) {
+            System.err.println("DOS file" +
+                    " attributes not supported:" + x);
+        }
+
+        //basic file attributes
+
+        BasicFileAttributes attr = null;
+        try {
+            attr = Files.readAttributes(fTest, BasicFileAttributes.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("creationTime: " + attr.creationTime());
+        System.out.println("lastAccessTime: " + attr.lastAccessTime());
+        System.out.println("lastModifiedTime: " + attr.lastModifiedTime());
+
+        System.out.println("isDirectory: " + attr.isDirectory());
+        System.out.println("isOther: " + attr.isOther());
+        System.out.println("isRegularFile: " + attr.isRegularFile());
+        System.out.println("isSymbolicLink: " + attr.isSymbolicLink());
+        System.out.println("size: " + attr.size());
     }
 
     //handler method

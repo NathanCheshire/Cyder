@@ -4,6 +4,7 @@ public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
     // and direct the resulting flow and output
 
+    //todo error popups are too big
 
     //todo setting to fullscreen breaks lol, I assume since refreshConsoleframe isn't setting consoleframe bounds anyomore,
     // put it back in
