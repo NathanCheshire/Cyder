@@ -63,3 +63,8 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [ ]  allow once instance of console frame but multiple for dev mode (See Runtime native class)
 - [ ]  make launching and testing easier
 - [ ]  make a music lab using lines that correspond to notes; inspired by Wintergatan Marble Machine
+- [ ]  add work with binary files (read/write to/from bin files)
+- [ ]  determine common files even without extension based on meta data binary reader
+- [ ]  bin dump function
+- [ ]  hex dump function
+- [ ]  ncview functionality
