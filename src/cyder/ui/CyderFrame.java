@@ -963,8 +963,8 @@ public class CyderFrame extends JFrame {
 
     @Override
     public String toString() {
-        return "title: " + this.getTitle() + "[" + this.getTitlePosition() + ",(" +
-                this.getX() + "," + this.getY() + "," + this.getWidth() + "x" + this.getHeight() + ")]";
+        return "title: " + titleLabel.getText() + "[" + this.getTitlePosition() + "],(" +
+                this.getX() + "," + this.getY() + "," + this.getWidth() + "x" + this.getHeight() + ")";
     }
 
     /**

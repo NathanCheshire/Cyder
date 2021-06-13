@@ -6,6 +6,12 @@ public class InputHandler {
 
 
 
+    //todo bin dump should dump user's binary data to console and ide console
+    //todo hex dump should dump user's binary data in hex format to console and ide console
+
+    //todo refactor so that no reading or writing to userdata.bin occurs except from the official read and write functions
+    // this is for binary purposes so will have to refactor the fixuserdata method
+
     //todo refine unicode to use in more places, make it not reset output area
     //todo make bletchy have mandarin and random unicode chars if toggled on
 

@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderSignatures;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -2571,23 +2572,31 @@ public class CyderMain {
     }
 
     private void test() {
-        int[] pngSignature = {137, 80, 78, 71, 13, 10, 26, 10};
-        Path fTest = Paths.get("sys/Elon.png");
+        File signatureFile = IOUtil.getFile();
         try  {
-            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream("sys/Elon.png"));
+            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(signatureFile));
             int[] headerBytes = new int[8];
 
             boolean isPNG = true;
+            boolean isJPG = true;
 
             for (int i = 0; i < 8; i++) {
                 headerBytes[i] = inputStream.read();
-                if (headerBytes[i] != pngSignature[i]) {
+                if (headerBytes[i] != CyderSignatures.pngSignature[i]) {
                     isPNG = false;
-                    break;
+                }
+            }
+
+            for (int i = 0; i < 3; i++) {
+                headerBytes[i] = inputStream.read();
+                if (headerBytes[i] != CyderSignatures.jpgSiignature[i]) {
+                    isJPG = false;
                 }
             }
 
             System.out.println("Is PNG file? " + isPNG);
+            System.out.println("Is JPG file? " + isJPG);
+            System.out.println(Arrays.toString(headerBytes));
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -2596,7 +2605,7 @@ public class CyderMain {
         //legacy dos attributes
         try {
             DosFileAttributes attr =
-                    Files.readAttributes(fTest, DosFileAttributes.class);
+                    Files.readAttributes(Paths.get(signatureFile.getPath()), DosFileAttributes.class);
             System.out.println("isReadOnly is " + attr.isReadOnly());
             System.out.println("isHidden is " + attr.isHidden());
             System.out.println("isArchive is " + attr.isArchive());
@@ -2610,7 +2619,7 @@ public class CyderMain {
 
         BasicFileAttributes attr = null;
         try {
-            attr = Files.readAttributes(fTest, BasicFileAttributes.class);
+            attr = Files.readAttributes(Paths.get(signatureFile.getPath()), BasicFileAttributes.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
