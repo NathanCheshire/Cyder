@@ -92,10 +92,43 @@ public class SecurityUtil {
         return null;
     }
 
-    //todo change this to getting userdata "password"
+    public static boolean newCheckPassword(String name, String pass) {
+        try {
+            //delete possible corrupted users
+            IOUtil.cleanUpUsers();
+
+            //get all users
+            File[] UUIDs = new File("users").listFiles();
+            LinkedList<File> userBins = new LinkedList<>();
+
+            //get all valid users
+            for (File user : UUIDs) {
+                userBins.add(new File(user.getAbsolutePath() + "/userdata.bin"));
+            }
+
+            //loop through all users and extract the name and password fields
+            for (int i = 0 ; i < userBins.size() ; i++) {
+                String binUsername = IOUtil.extractUserData(userBins.get(i), "username");
+                String binPassword = IOUtil.extractUserData(userBins.get(i), "password");
+
+                //if it's the one we're looking for, set consoel UUID, free resources, and return true
+                if (pass.equals(binPassword) && name.equalsIgnoreCase(binUsername)) {
+                    ConsoleFrame.setUUID(UUIDs[i].getName());
+                    return true;
+                }
+            }
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return false;
+    }
+
     public static boolean checkPassword(String name, String pass) {
         try {
-            //delete possible artifacts left
+            //delete possible corrupted users
             IOUtil.cleanUpUsers();
 
             //get all users
@@ -103,8 +136,8 @@ public class SecurityUtil {
             LinkedList<File> userDataFiles = new LinkedList<>();
 
             //get all valid users
-            for (File f : UUIDs) {
-                userDataFiles.add(new File(f.getAbsolutePath() + "/Userdata.txt")); //change to bin
+            for (File user : UUIDs) {
+                userDataFiles.add(new File(user.getAbsolutePath() + "/Userdata.txt")); //change to bin
             }
 
             //loop through all users and extract the name and password fields

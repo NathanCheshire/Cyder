@@ -2,7 +2,6 @@ package cyder.ui;
 
 import cyder.enums.Direction;
 import cyder.exception.FatalException;
-import cyder.genesis.CyderMain;
 import cyder.handler.ErrorHandler;
 import cyder.utilities.*;
 import cyder.widgets.GenericInform;
@@ -502,18 +501,5 @@ public final class ConsoleFrame extends CyderFrame {
 
     public static boolean canSwitchBackground() {
         return backgroundFiles.size() > backgroundIndex + 1;
-    }
-
-    /**
-     * Ff there is only one instance of a ConsoleFrame, then we will exit the program on close of this instance,
-     * otherwise, we will dispose the frame and continue process execution.
-     *
-     * Currently as of 5.23.21 the system only supports 1 instance of ConsoleFrame at a time since we can only handle
-     * one user at time due to the nature of certain variables requiring the static modifier.
-     */
-    @Override
-    public void setDefaultCloseOperation(int ignored) {
-        super.setDefaultCloseOperation((CyderMain.getConsoleFrameInstances() == null || CyderMain.getConsoleFrameInstances().length < 2)
-                ? JFrame.EXIT_ON_CLOSE : JFrame.DISPOSE_ON_CLOSE);
     }
 }

@@ -128,14 +128,6 @@ public class CyderMain {
         }
     }
 
-    //TODO track and return lists, ALL console frames should be spun off from main
-    //TODO all login windows should be spawned in from main
-    //todo if not released, there should only ever be one instance
-    // current structure will only allow for one frame to be active at any time
-    public static ConsoleFrame[] getConsoleFrameInstances() {
-        return null;
-    }
-
     /**
      * init objects needed for main's use, most will go away and sem should become const in shared package
      */
