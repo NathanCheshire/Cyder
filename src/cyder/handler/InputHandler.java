@@ -5,6 +5,8 @@ public class InputHandler {
     // and direct the resulting flow and output
 
 
+    //todo remove all imports of CyderMain, this should ultimately only spin off console frame/login on startup and not be
+    // used for anyting else
 
     //todo bin dump should dump user's binary data to console and ide console
     //todo hex dump should dump user's binary data in hex format to console and ide console

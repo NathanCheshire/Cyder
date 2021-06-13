@@ -1,6 +1,6 @@
 package cyder.utilities;
 
-import cyder.genesis.CyderMain;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 
 import javax.swing.*;
@@ -113,8 +113,8 @@ public class TimeUtil {
             AnimationUtil.closeAnimation(consoleFrame);
 
             try {
-                CyderMain.exitingSem.acquire();
-                CyderMain.exitingSem.release();
+                GenesisShare.getExitingSem().acquire();
+                GenesisShare.getExitingSem().release();
                 System.exit(0);
             }
 

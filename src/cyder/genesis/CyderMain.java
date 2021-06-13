@@ -4,7 +4,6 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.consts.CyderSignatures;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -34,8 +33,6 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.DosFileAttributes;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -44,16 +41,12 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class CyderMain {
-    //todo shared package
-    public static Semaphore exitingSem;
-
     //specific to an instance of a handler method
     private LinkedList<YoutubeThread> youtubeThreads = new LinkedList<>();
 
@@ -126,8 +119,8 @@ public class CyderMain {
             login();
         else {
             try {
-                CyderMain.exitingSem.acquire();
-                CyderMain.exitingSem.release();
+                GenesisShare.getExitingSem().acquire();
+                GenesisShare.getExitingSem().release();
                 System.exit(-600);
             } catch (Exception e) {
                 ErrorHandler.handle(e);
@@ -148,7 +141,6 @@ public class CyderMain {
      */
     private void initObjects() {
         stringUtil = new StringUtil(outputArea);
-        exitingSem = new Semaphore(1);
     }
 
     /**
@@ -2568,76 +2560,7 @@ public class CyderMain {
     }
 
     private void test() {
-        try {
-            System.out.println(IOUtil.extractUserData(new File("src/cyder/genesis/userdata.bin"), "Name"));
-        } catch (FatalException e) {
-            e.printStackTrace();
-        }
-
-        if (true)
-            return;
-
-        File signatureFile = IOUtil.getFile();
-        try  {
-            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(signatureFile));
-            int[] headerBytes = new int[8];
-
-            boolean isPNG = true;
-            boolean isJPG = true;
-
-            for (int i = 0; i < 8; i++) {
-                headerBytes[i] = inputStream.read();
-                if (headerBytes[i] != CyderSignatures.pngSignature[i]) {
-                    isPNG = false;
-                }
-            }
-
-            for (int i = 0; i < 3; i++) {
-                headerBytes[i] = inputStream.read();
-                if (headerBytes[i] != CyderSignatures.jpgSiignature[i]) {
-                    isJPG = false;
-                }
-            }
-
-            System.out.println("Is PNG file? " + isPNG);
-            System.out.println("Is JPG file? " + isJPG);
-            System.out.println(Arrays.toString(headerBytes));
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        //legacy dos attributes
-        try {
-            DosFileAttributes attr =
-                    Files.readAttributes(Paths.get(signatureFile.getPath()), DosFileAttributes.class);
-            System.out.println("isReadOnly is " + attr.isReadOnly());
-            System.out.println("isHidden is " + attr.isHidden());
-            System.out.println("isArchive is " + attr.isArchive());
-            System.out.println("isSystem is " + attr.isSystem());
-        } catch (Exception x) {
-            System.err.println("DOS file" +
-                    " attributes not supported:" + x);
-        }
-
-        //basic file attributes
-
-        BasicFileAttributes attr = null;
-        try {
-            attr = Files.readAttributes(Paths.get(signatureFile.getPath()), BasicFileAttributes.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("creationTime: " + attr.creationTime());
-        System.out.println("lastAccessTime: " + attr.lastAccessTime());
-        System.out.println("lastModifiedTime: " + attr.lastModifiedTime());
-
-        System.out.println("isDirectory: " + attr.isDirectory());
-        System.out.println("isOther: " + attr.isOther());
-        System.out.println("isRegularFile: " + attr.isRegularFile());
-        System.out.println("isSymbolicLink: " + attr.isSymbolicLink());
-        System.out.println("size: " + attr.size());
+        //System.out.println(IOUtil.extractUserData(new File("src/cyder/genesis/userdata.bin"), "Name"));
     }
 
     //handler method
@@ -3978,7 +3901,7 @@ public class CyderMain {
         stringUtil.killBletchy();
 
         try {
-            CyderMain.exitingSem.acquire();
+            GenesisShare.getExitingSem().acquire();
             //we never release exiting sem since we are expecting to exit the program
             System.exit(25);
         } catch (Exception e) {

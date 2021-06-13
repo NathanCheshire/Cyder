@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.exception.FatalException;
 import cyder.genesis.CyderMain;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
 import cyder.handler.TextEditor;
@@ -20,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.DosFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -181,8 +183,8 @@ public class IOUtil {
 
             for (String stringByte : stringBytes) {
                 sb.append(new String(
-                        new BigInteger(stringByte, 2).toByteArray(),
-                        StandardCharsets.UTF_8
+                    new BigInteger(stringByte, 2).toByteArray(),
+                    StandardCharsets.UTF_8
                 ));
             }
 
@@ -213,7 +215,7 @@ public class IOUtil {
             return;
 
         try {
-            CyderMain.exitingSem.acquire();
+            GenesisShare.getExitingSem().acquire();
 
             BufferedWriter fos = new BufferedWriter(new FileWriter("src/cyder/genesis/userdata.bin"));
             Charset UTF_8 = Charset.forName("UTF-8");
@@ -244,7 +246,7 @@ public class IOUtil {
             fos.flush();
             fos.close();
 
-            CyderMain.exitingSem.release();
+            GenesisShare.getExitingSem().release();
         }
 
         catch (Exception e) {
@@ -273,7 +275,7 @@ public class IOUtil {
         // so any that we already have will be kept and any duplicates will be removed
         try (BufferedWriter userWriter = new BufferedWriter(new FileWriter(
                 "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", true))) {
-            CyderMain.exitingSem.acquire();
+            GenesisShare.getExitingSem().acquire();
 
             //always just add a newline to the front to be safe
             userWriter.newLine();
@@ -284,17 +286,17 @@ public class IOUtil {
                 userWriter.newLine();
             }
 
-            CyderMain.exitingSem.release();
+            GenesisShare.getExitingSem().release();
 
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
-            CyderMain.exitingSem.release();
+            GenesisShare.getExitingSem().release();
         }
 
         //try with resources reading all user data
         try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))) {
-            CyderMain.exitingSem.acquire();
+            GenesisShare.getExitingSem().acquire();
             String line;
             ArrayList<NST> data = new ArrayList<>();
 
@@ -351,12 +353,12 @@ public class IOUtil {
 
             userWriter.close();
 
-            CyderMain.exitingSem.release();
+            GenesisShare.getExitingSem().release();
 
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
-            CyderMain.exitingSem.release();
+            GenesisShare.getExitingSem().release();
         }
 
     }
@@ -385,7 +387,7 @@ public class IOUtil {
             return;
 
         try {
-            CyderMain.exitingSem.acquire();
+            GenesisShare.getExitingSem().acquire();
 
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
                     "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false));
@@ -399,7 +401,7 @@ public class IOUtil {
             }
 
             userWriter.close();
-            CyderMain.exitingSem.release();
+            GenesisShare.getExitingSem().release();
         }
 
         catch (Exception e) {
@@ -409,7 +411,7 @@ public class IOUtil {
 
     public static void writeSystemData(String name, String value) {
         try {
-            CyderMain.exitingSem.acquire();
+            GenesisShare.getExitingSem().acquire();
             BufferedWriter sysWriter = new BufferedWriter(new FileWriter(
                     "Sys.ini", false));
 
@@ -423,7 +425,7 @@ public class IOUtil {
             }
 
             sysWriter.flush();
-            CyderMain.exitingSem.release();
+            GenesisShare.getExitingSem().release();
         }
 
         catch (Exception e) {
@@ -644,7 +646,7 @@ public class IOUtil {
     public static void corruptedUser() {
         try {
             //get the exiting sem to avoid any other threads exiting during this method resulting from context switching
-            CyderMain.exitingSem.acquire();
+            GenesisShare.getExitingSem().acquire();
 
             //close all open frames
             Frame[] frames = Frame.getFrames();
@@ -684,7 +686,7 @@ public class IOUtil {
                    Paths.get("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads/Cyder_Corrupted_Userdata.zip"));
 
             //release sem
-            CyderMain.exitingSem.release();
+            GenesisShare.getExitingSem().release();
 
             //todo go to login method instead
             System.exit(25);
@@ -761,5 +763,38 @@ public class IOUtil {
     @Override
     public String toString() {
         return "IOUtil object, hash=" + this.hashCode();
+    }
+
+    public static String[] getDOSAttributes(File file) {
+        String[] ret = new String[10];
+
+        try {
+            DosFileAttributes attr = Files.readAttributes(Paths.get(file.getPath()), DosFileAttributes.class);
+            ret[0] = String.valueOf(attr.isArchive());
+            ret[1] = String.valueOf(attr.isHidden());
+            ret[2] = String.valueOf(attr.isReadOnly());
+            ret[3] = String.valueOf(attr.isSystem());
+            ret[4] = String.valueOf(attr.creationTime());
+            ret[5] = String.valueOf(attr.isDirectory());
+            ret[6] = String.valueOf(attr.isOther());
+            ret[7] = String.valueOf(attr.isSymbolicLink());
+            ret[8] = String.valueOf(attr.lastAccessTime());
+            ret[9] = String.valueOf(attr.lastModifiedTime());
+        } catch (IOException e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ret;
+    }
+
+    public static long getFileSize(File f) {
+        long ret = 0;
+        try {
+            ret = Files.readAttributes(Paths.get(f.getPath()),DosFileAttributes.class).size();
+        } catch (IOException e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ret;
     }
 }

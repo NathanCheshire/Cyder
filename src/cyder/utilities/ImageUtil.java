@@ -3,7 +3,6 @@ package cyder.utilities;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
-
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
@@ -15,8 +14,12 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.File;
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ImageUtil {
 
@@ -45,6 +48,15 @@ public class ImageUtil {
         return pixelateImage;
     }
 
+    /**
+     * Crops the specified bufferedImage to the new bounds and returns a new buffered image
+     * @param image - the buffered image to crop
+     * @param startx - the starting x pixel within the image
+     * @param starty - the starting y pixel within the image
+     * @param width - the width of the new image
+     * @param height - the height of the new image
+     * @return - the requested cropped image
+     */
     public static BufferedImage getCroppedImage(BufferedImage image, int startx, int starty, int width, int height) {
         if (startx < 0)
             startx = 0;
@@ -406,5 +418,26 @@ public class ImageUtil {
         icon.paintIcon(null, g, 0,0);
         g.dispose();
         return bi;
+    }
+
+    //todo test this
+    public static boolean checkFileSignature(File checkFile, int[] signature) {
+        boolean ret = true;
+
+        try  {
+            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(checkFile));
+            int[] headerBytes = new int[signature.length];
+
+            for (int i = 0; i < signature.length; i++) {
+                headerBytes[i] = inputStream.read();
+                if (headerBytes[i] != signature[i]) {
+                    ret = false;
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return ret;
     }
 }
