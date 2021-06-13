@@ -12,7 +12,10 @@ import javazoom.jl.player.Player;
 
 import java.awt.*;
 import java.io.*;
+import java.math.BigInteger;
 import java.net.URI;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -116,6 +119,97 @@ public class IOUtil {
             ErrorHandler.handle(e);
         }
     }
+
+    /**
+     * Function to replace the old readUserData to read the current user's data into the userData NST array
+     * Binary reading will replace string reading for security purposes even though it complicates the program flow
+     */
+    private static void newReadUserData() {
+        try {
+            userData.clear();
+
+            if (!new File("users/" + ConsoleFrame.getUUID() + "/userdata.bin").exists())
+                corruptedUser();
+
+            BufferedReader fis = new BufferedReader(new FileReader("users/" + ConsoleFrame.getUUID() + "/userdata.bin"));
+            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
+            StringBuilder sb = new StringBuilder();
+
+            for (String stringByte : stringBytes) {
+                sb.append(new String(
+                        new BigInteger(stringByte, 2).toByteArray(),
+                        StandardCharsets.UTF_8
+                ));
+            }
+
+            fis.close();
+            String lines[] = sb.toString().split("\\r?\\n");
+
+            for (String line : lines) {
+                if (!line.contains(":"))
+                    corruptedUser();
+
+                String parts[] = line.split(":");
+                userData.add(new NST(parts[0], parts[1]));
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    /**
+     * Function to replace the old writeUserData to overwrite targetID's value in usersdata.bin with the passed in value
+     * Binary writing will replace string writing for security purposes even though it complicates the program flow
+     */
+    private static void newWriteUserDat(String targetID, String value) {
+        if (ConsoleFrame.getUUID() == null)
+            return;
+
+        try {
+            CyderMain.exitingSem.acquire();
+
+            BufferedWriter fos = new BufferedWriter(new FileWriter("src/cyder/genesis/userdata.bin"));
+            Charset UTF_8 = Charset.forName("UTF-8");
+
+            readUserData();
+            StringBuilder sb = new StringBuilder();
+
+            for (NST data : userData) {
+                if (data.getName().equalsIgnoreCase(targetID))
+                    data.setData(value);
+
+                sb.append(data.getName());
+                sb.append(":");
+                sb.append(data.getData());
+                sb.append("\n");
+            }
+
+            byte[] bytes = sb.toString().getBytes(UTF_8);
+
+            //writing bytes of bytes, change any before here
+            for (byte b : bytes) {
+                int result = b & 0xff;
+                String resultWithPadZero = String.format("%8s", Integer.toBinaryString(result))
+                        .replace(" ", "0");
+                fos.write(resultWithPadZero);
+            }
+
+            fos.flush();
+            fos.close();
+
+            CyderMain.exitingSem.release();
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+
+
+
+
+
 
     /**
      * This method removes any repeated user data. Any repeated keys are thrown away and the first occurences are kept.
@@ -305,9 +399,6 @@ public class IOUtil {
                 return data.getData();
             }
         }
-
-        //todo if some data doesn't exist it's auto correcupted? rethink this
-        //corruptedUser();
 
         return null;
     }

@@ -2570,67 +2570,7 @@ public class CyderMain {
         return false;
     }
 
-    private static void readUserData() {
-        try {
-            //userData.clear();
-            //if userdata doesn't exist, corrupted user
-            BufferedReader fis = new BufferedReader(new FileReader("users/" + ConsoleFrame.getUUID() + "/userdata.bin"));
-            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
-            StringBuilder sb = new StringBuilder();
-
-            for (String stringByte : stringBytes) {
-                sb.append(new String(
-                        new BigInteger(stringByte, 2).toByteArray(),
-                        StandardCharsets.UTF_8
-                ));
-            }
-
-            fis.close();
-            String lines[] = sb.toString().split("\\r?\\n");
-
-            for (String line : lines) {
-                //if no colon, corrupted user
-                String parts[] = line.split(":");
-                //userData.add(new NST(parts[0], parts[1]));
-            }
-                System.out.println();
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
-
-    private static void writeUserData(String targetID, String value) {
-        //find targetID replace data with value and write all back to file
-    }
-
     private void test() {
-        boolean done = false;
-
-        try {
-            BufferedWriter fos = new BufferedWriter(new FileWriter("src/cyder/genesis/userdata.bin"));
-            Charset UTF_8 = Charset.forName("UTF-8");
-            String text =
-                    "foreground:000000\nbackground:000000";
-            byte[] bytes = text.getBytes(UTF_8);
-
-            for (byte b : bytes) {
-                int result = b & 0xff;
-                String resultWithPadZero = String.format("%8s", Integer.toBinaryString(result))
-                        .replace(" ", "0");
-                fos.write(resultWithPadZero);
-            }
-
-            fos.flush();
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        done = true;
-
-        if (done)
-            return;
-
         int[] pngSignature = {137, 80, 78, 71, 13, 10, 26, 10};
         Path fTest = Paths.get("sys/Elon.png");
         try  {
