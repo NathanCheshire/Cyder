@@ -148,7 +148,7 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     /**
-     * Get the user's foreground color from Userdata.txt.
+     * Get the user's foreground color from Userdata
      * @return - a Color object representing the chosen foreground
      */
     public static Color getUserForegroundColor() {
@@ -156,7 +156,7 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     /**
-     * Get the user's background color from Userdata.txt
+     * Get the user's background color from Userdata
      * @return - a Color object representing the chosen background
      */
     public static Color getUserBackgroundColor() {

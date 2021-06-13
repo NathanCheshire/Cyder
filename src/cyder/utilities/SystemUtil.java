@@ -5,9 +5,7 @@ import cyder.handler.ErrorHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.net.InetAddress;
 import java.util.ArrayList;
 

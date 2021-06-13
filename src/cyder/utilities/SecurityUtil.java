@@ -92,24 +92,30 @@ public class SecurityUtil {
         return null;
     }
 
+    //todo change this to getting userdata "password"
     public static boolean checkPassword(String name, String pass) {
         try {
+            //delete possible artifacts left
+            IOUtil.cleanUpUsers();
+
+            //get all users
             File[] UUIDs = new File("users").listFiles();
             LinkedList<File> userDataFiles = new LinkedList<>();
 
+            //get all valid users
             for (File f : UUIDs) {
-                if (!f.getName().contains("DeprecatedUser")) {
-                    userDataFiles.add(new File(f.getAbsolutePath() + "/Userdata.txt"));
-                }
+                userDataFiles.add(new File(f.getAbsolutePath() + "/Userdata.txt")); //change to bin
             }
 
+            //loop through all users and extract the name and password fields
             for (int i = 0 ; i < userDataFiles.size() ; i++) {
+                //init objects
                 BufferedReader currentRead = new BufferedReader(new FileReader(userDataFiles.get(i)));
-
                 String filename = null;
                 String filepass = null;
                 String Line = currentRead.readLine();
 
+                //loop through current file and find name and pass
                 while (Line != null) {
                     String[] parts = Line.split(":");
 
@@ -122,6 +128,7 @@ public class SecurityUtil {
                     Line = currentRead.readLine();
                 }
 
+                //if it's the one we're looking for, set consoel UUID, free resources, and return true
                 if (pass.equals(filepass) && name.equalsIgnoreCase(filename)) {
                     ConsoleFrame.setUUID(UUIDs[i].getName());
                     currentRead.close();

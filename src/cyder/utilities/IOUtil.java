@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.exception.FatalException;
 import cyder.genesis.CyderMain;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
@@ -124,7 +125,7 @@ public class IOUtil {
      * Function to replace the old readUserData to read the current user's data into the userData NST array
      * Binary reading will replace string reading for security purposes even though it complicates the program flow
      */
-    private static void newReadUserData() {
+    public static void newReadUserData() {
         try {
             userData.clear();
 
@@ -158,10 +159,56 @@ public class IOUtil {
     }
 
     /**
+     * Used to obtain data from any binary file that is stored using Common Cyder Data Format
+     * @param userDataBin - the .bin file to read
+     * @param dataKey - the identifier of the data to be obtained
+     * @return - the data associated with dataKey
+     * @throws FatalException - if file DNE or file is a non-binary
+     */
+    public static String extractUserData(File userDataBin, String dataKey) throws FatalException {
+        if (!userDataBin.exists())
+            throw new FatalException("Userdata.bin does not exist");
+        else if (!userDataBin.getName().endsWith(".bin")) {
+            throw new FatalException("Userdata is not a binary");
+        }
+
+        String ret = null;
+
+        try {
+            BufferedReader fis = new BufferedReader(new FileReader(userDataBin));
+            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
+            StringBuilder sb = new StringBuilder();
+
+            for (String stringByte : stringBytes) {
+                sb.append(new String(
+                        new BigInteger(stringByte, 2).toByteArray(),
+                        StandardCharsets.UTF_8
+                ));
+            }
+
+            fis.close();
+            String lines[] = sb.toString().split("\\r?\\n");
+
+            for (String line : lines) {
+                String parts[] = line.split(":");
+
+                if (parts[0].equalsIgnoreCase(dataKey)) {
+                    ret = parts[1];
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ret;
+    }
+
+    /**
      * Function to replace the old writeUserData to overwrite targetID's value in usersdata.bin with the passed in value
      * Binary writing will replace string writing for security purposes even though it complicates the program flow
      */
-    private static void newWriteUserDat(String targetID, String value) {
+    public static void newWriteUserData(String targetID, String value) {
         if (ConsoleFrame.getUUID() == null)
             return;
 
@@ -387,6 +434,7 @@ public class IOUtil {
     public static String getUserData(String name) {
         readUserData();
 
+        //todo shouldn't this be a problem?
         if (userData.isEmpty())
             return null;
 
@@ -454,17 +502,15 @@ public class IOUtil {
     }
 
     public static void cleanUpUsers() {
-        File top = new File("users");
-        File[] users = top.listFiles();
+        File[] UUIDs = new File("users").listFiles();
 
-        for (File userDir : users) {
-            if (!userDir.isDirectory())
+        for (File user : UUIDs) {
+            if (!user.isDirectory())
                 return;
 
-            File[] currentUserFiles = userDir.listFiles();
-
-            if (currentUserFiles.length == 1 && currentUserFiles[0].getName().equalsIgnoreCase("Userdata.txt"))
-                SystemUtil.deleteFolder(userDir);
+            if (user.getName().contains("DeprecatedUser") || (user.isDirectory() && user.listFiles().length < 2)) {
+                SystemUtil.deleteFolder(user);
+            }
         }
     }
 
@@ -590,7 +636,7 @@ public class IOUtil {
     /**
      * If a user becomes corrupted for any reason which may be determined any way we choose,
      * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
-     * zip any user data aside from userdata.txt and the Throws directory
+     * zip any user data aside from userdata.bin and the Throws directory
      *
      * This could fail if something has already been deleted which is fine since we want to
      * go to the starting
@@ -617,9 +663,7 @@ public class IOUtil {
 
             //delete the stuff we don't care about
             for (File f : mainZipFile.listFiles()) {
-                if (f.getName().equals("Throws"))
-                    SystemUtil.deleteFolder(f);
-                else if (f.getName().equals("Userdata.txt"))
+               if (f.getName().equals("userdata.bin"))
                     f.delete();
             }
 

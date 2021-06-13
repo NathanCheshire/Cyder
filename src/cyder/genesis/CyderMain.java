@@ -12,7 +12,6 @@ import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
-import cyder.obj.NST;
 import cyder.obj.Preference;
 import cyder.threads.YoutubeThread;
 import cyder.ui.*;
@@ -30,11 +29,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -2434,7 +2430,7 @@ public class CyderMain {
 
             //attempts at undefined input
             else {
-                //try context engine here first
+                //try context engine here
 
                 if (handleMath(operation))
                     return;
@@ -2572,6 +2568,15 @@ public class CyderMain {
     }
 
     private void test() {
+        try {
+            System.out.println(IOUtil.extractUserData(new File("src/cyder/genesis/userdata.bin"), "Name"));
+        } catch (FatalException e) {
+            e.printStackTrace();
+        }
+
+        if (true)
+            return;
+
         File signatureFile = IOUtil.getFile();
         try  {
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(signatureFile));
@@ -3840,36 +3845,9 @@ public class CyderMain {
                     char[] pass = newUserPassword.getPassword();
                     char[] passconf = newUserPasswordconf.getPassword();
 
-                    boolean alreadyExists = false;
-                    File[] files = new File("users").listFiles();
-
-                    for (File f : files) {
-                        File data = new File(f.getAbsolutePath() + "/Userdata.txt");
-                        BufferedReader partReader = new BufferedReader(new FileReader(data));
-                        String line = partReader.readLine();
-                        while (line != null) {
-                            String[] parts = line.split(":");
-                            if (parts[0].equalsIgnoreCase("Name") && parts[1].equalsIgnoreCase(newUserName.getText().trim())) {
-                                alreadyExists = true;
-                                break;
-                            }
-
-                            line = partReader.readLine();
-                        }
-
-                        partReader.close();
-
-                        if (alreadyExists) break;
-                    }
-
                     if (stringUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
                             || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
                         createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.", "");
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    } else if (alreadyExists) {
-                        createUserFrame.inform("Sorry, but that username is already in use.\nPlease try a different one.", "");
-                        newUserName.setText("");
                         newUserPassword.setText("");
                         newUserPasswordconf.setText("");
                     } else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
@@ -3901,6 +3879,7 @@ public class CyderMain {
                         ImageIO.write(ImageIO.read(createUserBackground), "png",
                                 new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
 
+                        //todo this needs to use binary writing
                         BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
                                 "users/" + uuid + "/Userdata.txt"));
 
