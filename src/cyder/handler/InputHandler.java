@@ -4,6 +4,11 @@ public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
     // and direct the resulting flow and output
 
+
+
+    //todo refine unicode to use in more places, make it not reset output area
+    //todo make bletchy have mandarin and random unicode chars if toggled on
+
     //todo error popups are too big
 
     //todo setting to fullscreen breaks lol, I assume since refreshConsoleframe isn't setting consoleframe bounds anyomore,

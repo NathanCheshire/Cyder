@@ -11,6 +11,7 @@ import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
+import cyder.obj.NST;
 import cyder.obj.Preference;
 import cyder.threads.YoutubeThread;
 import cyder.ui.*;
@@ -28,8 +29,11 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.URI;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -2566,39 +2570,58 @@ public class CyderMain {
         return false;
     }
 
-    private void writeData(DataOutputStream dos, Object data) throws IOException {
-        if (data instanceof String)
-            dos.writeUTF((String) data);
-        else if (data instanceof Integer)
-            dos.writeInt((Integer) data);
+    private static void readUserData() {
+        try {
+            //userData.clear();
+            //if userdata doesn't exist, corrupted user
+            BufferedReader fis = new BufferedReader(new FileReader("users/" + ConsoleFrame.getUUID() + "/userdata.bin"));
+            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
+            StringBuilder sb = new StringBuilder();
+
+            for (String stringByte : stringBytes) {
+                sb.append(new String(
+                        new BigInteger(stringByte, 2).toByteArray(),
+                        StandardCharsets.UTF_8
+                ));
+            }
+
+            fis.close();
+            String lines[] = sb.toString().split("\\r?\\n");
+
+            for (String line : lines) {
+                //if no colon, corrupted user
+                String parts[] = line.split(":");
+                //userData.add(new NST(parts[0], parts[1]));
+            }
+                System.out.println();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    private static void writeUserData(String targetID, String value) {
+        //find targetID replace data with value and write all back to file
     }
 
     private void test() {
         boolean done = false;
 
         try {
-            FileOutputStream fout = new FileOutputStream("src/cyder/genesis/userdata.dat");
-            DataOutputStream dout = new DataOutputStream(fout);
+            BufferedWriter fos = new BufferedWriter(new FileWriter("src/cyder/genesis/userdata.bin"));
+            Charset UTF_8 = Charset.forName("UTF-8");
+            String text =
+                    "foreground:000000\nbackground:000000";
+            byte[] bytes = text.getBytes(UTF_8);
 
-            writeData(dout,"little");
-            writeData(dout, 0);
-            writeData(dout,"big");
-            writeData(dout, 48000);
+            for (byte b : bytes) {
+                int result = b & 0xff;
+                String resultWithPadZero = String.format("%8s", Integer.toBinaryString(result))
+                        .replace(" ", "0");
+                fos.write(resultWithPadZero);
+            }
 
-            fout.close();
-            dout.close();
-
-            FileInputStream fis = new FileInputStream("src/cyder/genesis/userdata.dat");
-            DataInputStream dis = new DataInputStream(fis);
-
-            println(dis.readUTF());
-            println(dis.readInt());
-            println(dis.readUTF());
-            println(dis.readInt());
-
-            fis.close();
-            dis.close();
-
+            fos.flush();
+            fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
