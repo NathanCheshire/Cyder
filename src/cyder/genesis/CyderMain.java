@@ -47,6 +47,7 @@ import java.util.concurrent.TimeUnit;
 import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class CyderMain {
+
     //specific to an instance of a handler method
     private LinkedList<YoutubeThread> youtubeThreads = new LinkedList<>();
 
@@ -70,6 +71,9 @@ public class CyderMain {
     private int yMouse;
     private boolean slidLeft;
     private JLabel consoleDragLabel;
+
+    //todo consoelframe
+    private boolean backgroundProcessCheckerStarted = false;
 
     /**
      * create user widget
@@ -102,19 +106,18 @@ public class CyderMain {
     private CyderMain(String[] CA) {
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown, "exit-hook"));
 
-        initObjects();
-        initSystemProperties();
-        initUIManager();
+        initObjects(); //go away
+        initSystemProperties(); //keep
+        initUIManager(); //keep
 
-        IOUtil.cleanUpUsers();
+        IOUtil.cleanUsers();
         IOUtil.deleteTempDir();
         IOUtil.logArgs(CA);
 
-        backgroundProcessChecker();
+        startBackgroundProcessChecker();
 
         if (SecurityUtil.nathanLenovo())
             autoCypher();
-
         else if (IOUtil.getSystemData("Released").equals("1"))
             login();
         else {
@@ -132,6 +135,7 @@ public class CyderMain {
      * init objects needed for main's use, most will go away and sem should become const in shared package
      */
     private void initObjects() {
+        //goes away since consoleframe will have it's own util and outputarea obviously
         stringUtil = new StringUtil(outputArea);
     }
 
@@ -1063,7 +1067,12 @@ public class CyderMain {
     };
 
     //sets program icon if background threads are running
-    private void backgroundProcessChecker() {
+    private void startBackgroundProcessChecker() {
+        if (backgroundProcessCheckerStarted)
+            return;
+
+        backgroundProcessCheckerStarted = true;
+
         Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
             if (consoleFrame != null) {
                 ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
@@ -1202,7 +1211,7 @@ public class CyderMain {
         if (loginFrame != null)
             loginFrame.closeAnimation();
 
-        IOUtil.cleanUpUsers();
+        IOUtil.cleanUsers();
 
         loginFrame = new CyderFrame(600, 400);
         loginFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
@@ -2552,7 +2561,12 @@ public class CyderMain {
     }
 
     private void test() {
-        //System.out.println(IOUtil.extractUserData(new File("src/cyder/genesis/userdata.bin"), "Name"));
+        try {
+            IOUtil.legacyDataToBinary(new File("src/cyder/genesis/userdata.txt"));
+            System.out.println(IOUtil.extractUserData(new File("src/cyder/genesis/userdata.bin"), "password"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //handler method

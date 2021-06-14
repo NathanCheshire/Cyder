@@ -218,7 +218,6 @@ public class IOUtil {
             GenesisShare.getExitingSem().acquire();
 
             BufferedWriter fos = new BufferedWriter(new FileWriter("src/cyder/genesis/userdata.bin"));
-            Charset UTF_8 = Charset.forName("UTF-8");
 
             readUserData();
             StringBuilder sb = new StringBuilder();
@@ -233,7 +232,7 @@ public class IOUtil {
                 sb.append("\n");
             }
 
-            byte[] bytes = sb.toString().getBytes(UTF_8);
+            byte[] bytes = sb.toString().getBytes(Charset.forName("UTF-8"));
 
             //writing bytes of bytes, change any before here
             for (byte b : bytes) {
@@ -253,8 +252,6 @@ public class IOUtil {
             ErrorHandler.handle(e);
         }
     }
-
-
 
     /**
      * This method removes any repeated user data. Any repeated keys are thrown away and the first occurences are kept.
@@ -436,9 +433,8 @@ public class IOUtil {
     public static String getUserData(String name) {
         readUserData();
 
-        //todo shouldn't this be a problem?
         if (userData.isEmpty())
-            return null;
+            ErrorHandler.handle(new FatalException("Attempting to access empty user data after calling read"));
 
         for (NST data : userData) {
             if (data.getName().equalsIgnoreCase(name)) {
@@ -452,9 +448,8 @@ public class IOUtil {
     public static String getSystemData(String name) {
         readSystemData();
 
-        if (systemData.isEmpty()) {
-            return null;
-        }
+        if (systemData.isEmpty())
+            ErrorHandler.handle(new FatalException("Attempting to access empty system data after calling read"));
 
         for (NST data : systemData) {
             if (data.getName().equalsIgnoreCase(name)) {
@@ -503,14 +498,14 @@ public class IOUtil {
         }
     }
 
-    public static void cleanUpUsers() {
+    public static void cleanUsers() {
         File[] UUIDs = new File("users").listFiles();
 
         for (File user : UUIDs) {
             if (!user.isDirectory())
                 return;
 
-            if (user.getName().contains("DeprecatedUser") || (user.isDirectory() && user.listFiles().length < 2)) {
+            if (user.getName().contains("VoidUser") || (user.isDirectory() && user.listFiles().length < 2)) {
                 SystemUtil.deleteFolder(user);
             }
         }
@@ -796,5 +791,59 @@ public class IOUtil {
         }
 
         return ret;
+    }
+
+    public static void legacyDataToBinary(File userDataTxt) throws FatalException, IOException, InterruptedException {
+        if (!userDataTxt.isFile())
+            throw new FatalException("Given file is not a file");
+        else if (!userDataTxt.getName().endsWith(".txt"))
+            throw new FatalException("Given file is not a legacy user data file");
+        else if (!userDataTxt.exists())
+            throw new FatalException("Given file does not exist");
+
+        GenesisShare.getExitingSem().acquire();
+
+        BufferedReader legacyReader = new BufferedReader(new FileReader(userDataTxt));
+        LinkedList<NST> legacyData = new LinkedList<>();
+        String line = null;
+
+        while ((line = legacyReader.readLine()) != null) {
+            if (!line.contains(":"))
+                throw new FatalException("Legacy data not formatting properly");
+
+            String[] parts = line.split(":");
+
+            if (parts.length != 2)
+                throw new FatalException("Legacy data has more or less than 2 parts");
+
+            legacyData.add(new NST(parts[0], parts[1]));
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (NST data : legacyData) {
+            sb.append(data.getName());
+            sb.append(":");
+            sb.append(data.getData());
+            sb.append("\n");
+        }
+
+        File binaryUserData = new File(userDataTxt.getParentFile(), "userdata.bin");
+        binaryUserData.createNewFile();
+
+        byte[] bytes = sb.toString().getBytes(Charset.forName("UTF-8"));
+        BufferedWriter fos = new BufferedWriter(new FileWriter(binaryUserData));
+
+        for (byte b : bytes) {
+            int result = b & 0xff;
+            String resultWithPadZero = String.format("%8s", Integer.toBinaryString(result))
+                    .replace(" ", "0");
+            fos.write(resultWithPadZero);
+        }
+
+        fos.flush();
+        fos.close();
+
+        GenesisShare.getExitingSem().release();
     }
 }

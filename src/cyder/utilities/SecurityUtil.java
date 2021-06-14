@@ -95,7 +95,7 @@ public class SecurityUtil {
     public static boolean newCheckPassword(String name, String pass) {
         try {
             //delete possible corrupted users
-            IOUtil.cleanUpUsers();
+            IOUtil.cleanUsers();
 
             //get all users
             File[] UUIDs = new File("users").listFiles();
@@ -129,7 +129,7 @@ public class SecurityUtil {
     public static boolean checkPassword(String name, String pass) {
         try {
             //delete possible corrupted users
-            IOUtil.cleanUpUsers();
+            IOUtil.cleanUsers();
 
             //get all users
             File[] UUIDs = new File("users").listFiles();
