@@ -5,14 +5,17 @@ import cyder.consts.CyderFonts;
 import cyder.genesis.CyderMain;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderLabel;
+import cyder.ui.DragLabel;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SystemUtil;
 import cyder.utilities.TimeUtil;
-import cyder.widgets.GenericInform;
 
-import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.io.*;
 
 public class ErrorHandler {
@@ -63,58 +66,21 @@ public class ErrorHandler {
 
             //if the user has show errors configured, then we open the file
             if (IOUtil.getUserData("SilenceErrors").equals("0")) {
-                //todo make this more dynamic
-                CyderFrame errorFrame = new CyderFrame();
-                errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-                errorFrame.setTitle(message);
-                errorFrame.setBackground(CyderColors.vanila);
-
-                JLabel label = new JLabel("<html>" + write.substring(0,500) + "...</html>");
-                label.setForeground(CyderColors.navy);
-                label.setFont(CyderFonts.defaultFontSmall);
-                label.setHorizontalAlignment(JLabel.CENTER);
-                label.setVerticalAlignment(JLabel.CENTER);
-                label.setToolTipText("Click to open error file");
-                errorFrame.add(label);
-
-                int w = CyderFrame.getMinWidth(message, CyderFonts.defaultFontSmall) * 2;
-                errorFrame.setBounds(SystemUtil.getScreenWidth() - w,
-                        SystemUtil.getScreenHeight() - errorFrame.getHeight(), w, errorFrame.getHeight());
-
-                label.setBounds(30,30, w - 20, errorFrame.getHeight() - 50);
-                String finalEFileString = eFileString;
-                label.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        IOUtil.openFile(finalEFileString);
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        label.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        label.setForeground(CyderColors.navy);
-                    }
-                });
-
-                errorFrame.setLocation(SystemUtil.getScreenWidth() - errorFrame.getWidth(),
-                        SystemUtil.getScreenHeight() - errorFrame.getHeight());
-                errorFrame.setVisible(true);
+                windowedError(message, write, eFileString);
             }
         }
 
         //uh oh; error was thrown inside of here so we'll just generic inform the user of it
         catch (Exception ex) {
             if (CyderMain.consoleFrame != null && CyderMain.consoleFrame.isVisible()) {
-                //todo uncomment me once ConsoleFrame is migrated
+                //todo uncomment me once ConsoleFrame migration is complete
                 //ConsoleFrame.notify(ex.getMessage());
 
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
+
                 ex.printStackTrace(pw);
+                ex.printStackTrace();
 
                 String stackTrack = sw.toString();
                 int lineNumber = ex.getStackTrace()[0].getLineNumber();
@@ -123,7 +89,7 @@ public class ErrorHandler {
                 String write = ex.getMessage() + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
                         "\n\nStack Trace:\n\n" + stackTrack;
 
-                GenericInform.inform(write,"Error trace");
+                windowedError(ex.getMessage(), write, null);
             }
         }
     }
@@ -181,5 +147,27 @@ public class ErrorHandler {
     @Override
     public String toString() {
         return "ErrorHandler object, hash=" + this.hashCode();
+    }
+
+    private static void windowedError(String title, String message, String errorFilePath) {
+        CyderFrame errorFrame = new CyderFrame();
+        errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+        errorFrame.setTitle(title);
+        errorFrame.initializeBackgroundResizing();
+        errorFrame.setResizable(true);
+        errorFrame.setMaximumSize(new Dimension(800,800));
+        errorFrame.setBackground(CyderColors.vanila);
+
+        String displayText = message.substring(0,message.length() > 500 ? 500 : message.length());
+        int w = 0;
+        int h = 0;
+
+        //calculate text bounds needed and set label bounds
+        //add label to error frame and set error frame bounds
+        //test with multiple error types
+
+        errorFrame.setBounds(SystemUtil.getScreenWidth() - w,
+                SystemUtil.getScreenHeight() - errorFrame.getHeight(), w + 2 * 5, h + 30 + 2 * 5);
+        errorFrame.setVisible(true);
     }
 }

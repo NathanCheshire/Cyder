@@ -5,8 +5,6 @@ public class InputHandler {
     // and direct the resulting flow and output
 
 
-    //todo remove all imports of CyderMain, this should ultimately only spin off console frame/login on startup and not be
-    // used for anyting else
 
     //todo bin dump should dump user's binary data to console and ide console
     //todo hex dump should dump user's binary data in hex format to console and ide console
@@ -14,10 +12,7 @@ public class InputHandler {
     //todo refactor so that no reading or writing to userdata.bin occurs except from the official read and write functions
     // this is for binary purposes so will have to refactor the fixuserdata method
 
-    //todo refine unicode to use in more places, make it not reset output area
-    //todo make bletchy have mandarin and random unicode chars if toggled on
-
-    //todo error popups are too big
+    //todo make bletchy have mandarin and random unicode chars if toggled on, make it not reset output area
 
     //todo setting to fullscreen breaks lol, I assume since refreshConsoleframe isn't setting consoleframe bounds anyomore,
     // put it back in
@@ -54,8 +49,6 @@ public class InputHandler {
     // fix this anyway by using a gradient and drawing most icons you have in pictures
 
     //todo killed boolean for ALL objects with threads to end their threads when disposed? Copy from ConsoleFrame.dispose()
-
-    //todo convert user data to bin data
 
     //todo preference slider like from ThinMatrix's games, slide from left to right and change colors for on and reverse for off
 

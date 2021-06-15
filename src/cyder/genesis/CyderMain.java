@@ -2442,7 +2442,7 @@ public class CyderMain {
     }
 
     private boolean preferenceCheck(String op) {
-        for (Preference pref : prefs) {
+        for (Preference pref : GenesisShare.getPrefs()) {
             if (op.toLowerCase().contains(pref.getID().toLowerCase())) {
                 if (op.contains("1") || op.toLowerCase().contains("true")) {
                     IOUtil.writeUserData(pref.getID(), "1");
@@ -2562,7 +2562,9 @@ public class CyderMain {
 
     private void test() {
         try {
-           //test new write user data
+           //test new fix user data to ensure working
+
+            ErrorHandler.handle(new Exception("fuck u"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -3393,61 +3395,6 @@ public class CyderMain {
         switchingPanel.revalidate();
     }
 
-    //todo do without init method?
-    public static LinkedList<Preference> prefs = initPreferencesList();
-    private static LinkedList<Preference> initPreferencesList() {
-        LinkedList<Preference> ret = new LinkedList<>();
-
-        ret.add(new Preference("font","IGNORE","IGNORE","tahoma"));
-        ret.add(new Preference("foreground","IGNORE","IGNORE","000000"));
-        ret.add(new Preference("background","IGNORE","IGNORE","FFFFFF"));
-
-        ret.add(new Preference("intromusic",
-                "Intro Music","" +
-                "Play intro music on start","0"));
-        ret.add(new Preference("debugwindows",
-                "Debug Windows",
-                "Show debug menus on startup","0"));
-        ret.add(new Preference("randombackground",
-                "Random Background",
-                "Choose a random background on startup","0"));
-        ret.add(new Preference("outputborder",
-                "Output Border",
-                "Draw a border around the output area","0"));
-        ret.add(new Preference("inputborder",
-                "Input Border",
-                "Draw a border around the input area","0"));
-        ret.add(new Preference("hourlychimes",
-                "Hourly Chimes",
-                "Chime every hour","1"));
-        ret.add(new Preference("silenceerrors",
-                "Silence Errors",
-                "Don't open errors externally","1"));
-        ret.add(new Preference("fullscreen",
-                "Fullscreen",
-                "Fullscreen cyder (Extremely experimental)","0"));
-        ret.add(new Preference("outputfill",
-                "Output Fill",
-                "Fill the output area with the color specified in the \"Fonts & Colors\" panel","0"));
-        ret.add(new Preference("inputfill",
-                "Input Fill",
-                "Fill the input area with the color specified in the \"Fonts & Colors\" panel","0"));
-        ret.add(new Preference("clockonconsole",
-                "Clock On Console",
-                "Show a clock at the top of the console","1"));
-        ret.add(new Preference("showseconds",
-                "Show Seconds",
-                "Show seconds on the console clock if enabled","1"));
-        ret.add(new Preference("filterchat",
-                "Filter Chat",
-                "Filter foul language","1"));
-        ret.add(new Preference("menudirection",
-                "Menu Minimize Direction",
-                "Console Menu Minimize Direction","1"));
-
-        return ret;
-    }
-
     //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
 
     private void switchToPreferences() {
@@ -3460,14 +3407,14 @@ public class CyderMain {
         prefsTitle.setFont(CyderFonts.weatherFontBig);
         preferencePanel.add(prefsTitle);
 
-        for (int i = 0 ; i < prefs.size() ; i++) {
-            if (prefs.get(i).getTooltip().equals("IGNORE"))
+        for (int i = 0 ; i < GenesisShare.getPrefs().size() ; i++) {
+            if (GenesisShare.getPrefs().get(i).getTooltip().equals("IGNORE"))
                 continue;
 
-            CyderLabel preferenceLabel = new CyderLabel(prefs.get(i).getDisplayName());
-            preferenceLabel.setForeground(IOUtil.getUserData(prefs.get(i).getID()).equals("1") ? CyderColors.regularRed : CyderColors.navy);
+            CyderLabel preferenceLabel = new CyderLabel(GenesisShare.getPrefs().get(i).getDisplayName());
+            preferenceLabel.setForeground(IOUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? CyderColors.regularRed : CyderColors.navy);
             preferenceLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
-            preferenceLabel.setToolTipText(prefs.get(i).getTooltip());
+            preferenceLabel.setToolTipText(GenesisShare.getPrefs().get(i).getTooltip());
             preferenceLabel.setFont(CyderFonts.defaultFontSmall);
             preferencePanel.add(preferenceLabel);
 
@@ -3476,8 +3423,8 @@ public class CyderMain {
             preferenceLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    boolean wasSelected = IOUtil.getUserData((prefs.get(localIndex).getID())).equalsIgnoreCase("1");
-                    IOUtil.writeUserData(prefs.get(localIndex).getID(), wasSelected ? "0" : "1");
+                    boolean wasSelected = IOUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
+                    IOUtil.writeUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
 
                     preferenceLabel.setForeground(
                             wasSelected ? CyderColors.navy : CyderColors.regularRed);
@@ -3488,14 +3435,14 @@ public class CyderMain {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     preferenceLabel.setForeground(
-                            IOUtil.getUserData(prefs.get(localIndex).getID()).equalsIgnoreCase("1") ?
+                            IOUtil.getUserData(GenesisShare.getPrefs().get(localIndex).getID()).equalsIgnoreCase("1") ?
                                     CyderColors.navy : CyderColors.regularRed);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
                     preferenceLabel.setForeground(
-                            IOUtil.getUserData(prefs.get(localIndex).getID()).equalsIgnoreCase("0") ?
+                            IOUtil.getUserData(GenesisShare.getPrefs().get(localIndex).getID()).equalsIgnoreCase("0") ?
                                     CyderColors.navy : CyderColors.regularRed);
                 }
             });
@@ -3815,7 +3762,7 @@ public class CyderMain {
                         data.add("Name:" + newUserName.getText().trim());
                         data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
 
-                        for (Preference pref : prefs) {
+                        for (Preference pref : GenesisShare.getPrefs()) {
                             if (pref.getTooltip().equals("IGNORE"))
                                 continue;
                             data.add(pref.getID() + ":" + pref.getDefaultValue());

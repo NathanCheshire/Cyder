@@ -1,7 +1,6 @@
 package cyder.utilities;
 
 import cyder.exception.FatalException;
-import cyder.genesis.CyderMain;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
@@ -304,7 +303,7 @@ public class IOUtil {
             GenesisShare.getExitingSem().release();
         }
 
-        for (Preference pref : CyderMain.prefs) {
+        for (Preference pref : GenesisShare.getPrefs()) {
             data.add(new NST(pref.getID(), pref.getDefaultValue()));
         }
 
@@ -382,8 +381,8 @@ public class IOUtil {
             userWriter.newLine();
 
             //write default pairs
-            for (int i = 0 ;  i < CyderMain.prefs.size() ; i++) {
-                userWriter.write(CyderMain.prefs.get(i).getID() + ":" + CyderMain.prefs.get(i).getDefaultValue());
+            for (int i = 0 ;  i < GenesisShare.getPrefs().size() ; i++) {
+                userWriter.write(GenesisShare.getPrefs().get(i).getID() + ":" + GenesisShare.getPrefs().get(i).getDefaultValue());
                 userWriter.newLine();
             }
 
