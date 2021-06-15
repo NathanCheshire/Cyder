@@ -7,6 +7,7 @@ import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
 import cyder.handler.TextEditor;
 import cyder.obj.NST;
+import cyder.obj.Preference;
 import cyder.ui.ConsoleFrame;
 import cyder.widgets.GenericInform;
 import cyder.widgets.MPEGPlayer;
@@ -161,7 +162,7 @@ public class IOUtil {
     }
 
     /**
-     * Used to obtain data from any binary file that is stored using Common Cyder Data Format
+     * Used to obtain data from any binary file (not just the current user) that is stored using Common Cyder Data Format
      * @param userDataBin - the .bin file to read
      * @param dataKey - the identifier of the data to be obtained
      * @return - the data associated with dataKey
@@ -253,8 +254,111 @@ public class IOUtil {
         }
     }
 
+    public static void newFixUserData() {
+        //get user var for later use
+        String user = ConsoleFrame.getUUID();
+
+        //return if no user, shouldn't be possible anyway
+        if (user == null)
+            return;
+
+        File dataFile = new File("users/" + user + "/userdata.bin");
+
+        //if the data file is gone then we're screwed
+        if (!dataFile.exists())
+            corruptedUser();
+
+        ArrayList<NST> data = new ArrayList<>();
+
+        try {
+            GenesisShare.getExitingSem().acquire();
+
+            BufferedReader fis = new BufferedReader(new FileReader(dataFile));
+            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
+            StringBuilder sb = new StringBuilder();
+
+            for (String stringByte : stringBytes) {
+                sb.append(new String(
+                        new BigInteger(stringByte, 2).toByteArray(),
+                        StandardCharsets.UTF_8
+                ));
+            }
+
+            fis.close();
+            String lines[] = sb.toString().split("\\r?\\n");
+
+            for (String line : lines) {
+                if (!line.contains(":"))
+                    corruptedUser();
+
+                String parts[] = line.split(":");
+
+                if (parts.length != 2)
+                    corruptedUser();
+
+                data.add(new NST(parts[0], parts[1]));
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
+        }
+
+        for (Preference pref : CyderMain.prefs) {
+            data.add(new NST(pref.getID(), pref.getDefaultValue()));
+        }
+
+        ArrayList<NST> reWriteData = new ArrayList<>();
+
+        for (NST datum : data) {
+            String currentName = datum.getName();
+            boolean alreadyHas = false;
+
+            for (NST reWriteDatum : reWriteData) {
+                if (reWriteDatum.getName().equalsIgnoreCase(currentName)) {
+                    alreadyHas = true;
+                    break;
+                }
+            }
+
+            if (!alreadyHas)
+                reWriteData.add(datum);
+        }
+
+        try {
+            GenesisShare.getExitingSem().acquire();
+            BufferedWriter fos = new BufferedWriter(new FileWriter(dataFile));
+            StringBuilder sb = new StringBuilder();
+
+            for (NST redata : reWriteData) {
+                sb.append(redata.getName());
+                sb.append(":");
+                sb.append(redata.getData());
+                sb.append("\n");
+            }
+
+            byte[] bytes = sb.toString().getBytes(Charset.forName("UTF-8"));
+
+            //writing bytes of bytes, change any before here
+            for (byte b : bytes) {
+                int result = b & 0xff;
+                String resultWithPadZero = String.format("%8s", Integer.toBinaryString(result))
+                        .replace(" ", "0");
+                fos.write(resultWithPadZero);
+            }
+
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
+        }
+    }
+
     /**
      * This method removes any repeated user data. Any repeated keys are thrown away and the first occurences are kept.
+     * If any keys are missing, the default ones necessary for the program to function properly are inserted.
      */
     public static void fixUserData() {
         //get user var for later use
@@ -357,7 +461,6 @@ public class IOUtil {
         } finally {
             GenesisShare.getExitingSem().release();
         }
-
     }
 
     public static void readSystemData() {
@@ -628,8 +731,6 @@ public class IOUtil {
         return null;
     }
 
-    //todo this should be somewhere else?
-
     /**
      * If a user becomes corrupted for any reason which may be determined any way we choose,
      * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
@@ -683,7 +784,7 @@ public class IOUtil {
             //release sem
             GenesisShare.getExitingSem().release();
 
-            //todo go to login method instead
+            //todo go to login method instead (essentially restart program)
             System.exit(25);
         } catch (Exception e) {
             e.printStackTrace();

@@ -26,6 +26,8 @@ public final class ConsoleFrame extends CyderFrame {
     public ConsoleFrame() {
         resizeBackgrounds();
         initBackgrounds();
+
+        //everything else here, calling constructor should make it open up and program start working
     }
 
     @Override
@@ -50,10 +52,13 @@ public final class ConsoleFrame extends CyderFrame {
             Graphics2D g2d = (Graphics2D) g;
 
             g2d.setPaint(lineColor);
-            g2d.setStroke(new BasicStroke(5));
+            int strokeThickness = 5;
+            g2d.setStroke(new BasicStroke(strokeThickness));
 
-            g2d.drawLine(getWidth() / 2 - 3, 32, getWidth() / 2 - 3, getHeight() - 12);
-            g2d.drawLine(10, getHeight() / 2 - 3, getWidth() - 12, getHeight() / 2 - 3);
+            g2d.drawLine(getWidth() / 2 - strokeThickness / 2, DragLabel.getDefaultHeight(),
+                    getWidth() / 2 - strokeThickness / 2, getHeight() - 5);
+            g2d.drawLine(5, getHeight() / 2 - strokeThickness / 2, getWidth() - 10,
+                    getHeight() / 2 - strokeThickness / 2);
 
             BufferedImage img = null;
 

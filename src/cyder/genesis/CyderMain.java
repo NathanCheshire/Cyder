@@ -2562,8 +2562,7 @@ public class CyderMain {
 
     private void test() {
         try {
-            IOUtil.legacyDataToBinary(new File("src/cyder/genesis/userdata.txt"));
-            System.out.println(IOUtil.extractUserData(new File("src/cyder/genesis/userdata.bin"), "password"));
+           //test new write user data
         } catch (Exception e) {
             e.printStackTrace();
         }
