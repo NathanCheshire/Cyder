@@ -5,17 +5,14 @@ import cyder.consts.CyderFonts;
 import cyder.genesis.CyderMain;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
-import cyder.ui.DragLabel;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SystemUtil;
 import cyder.utilities.TimeUtil;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 import java.io.*;
 
 public class ErrorHandler {
@@ -73,8 +70,7 @@ public class ErrorHandler {
         //uh oh; error was thrown inside of here so we'll just generic inform the user of it
         catch (Exception ex) {
             if (CyderMain.consoleFrame != null && CyderMain.consoleFrame.isVisible()) {
-                //todo uncomment me once ConsoleFrame migration is complete
-                //ConsoleFrame.notify(ex.getMessage());
+                //todo ConsoleFrame.notify(ex.getMessage());
 
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
@@ -150,24 +146,69 @@ public class ErrorHandler {
     }
 
     private static void windowedError(String title, String message, String errorFilePath) {
+        //setup frame
         CyderFrame errorFrame = new CyderFrame();
         errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         errorFrame.setTitle(title);
         errorFrame.initializeBackgroundResizing();
         errorFrame.setResizable(true);
-        errorFrame.setMaximumSize(new Dimension(800,800));
+        errorFrame.setMaximumSize(new Dimension(800,800)); //this isn't working!!????
         errorFrame.setBackground(CyderColors.vanila);
+        errorFrame.setMaximumSize(new Dimension(1000, 1000));
+        errorFrame.setMinimumSize(new Dimension(200, 200));
 
+        //bounds calculation for centered text
         String displayText = message.substring(0,message.length() > 500 ? 500 : message.length());
-        int w = 0;
-        int h = 0;
+        displayText = "<html><div style='text-align: center;'>" + displayText + "</div></html>";
+        int w = CyderFrame.getMinWidth(displayText, CyderFonts.defaultFontSmall) + 10; //extra 10 to be safe
+        int h = CyderFrame.getMinHeight(displayText, CyderFonts.defaultFontSmall) + 2; //1 pixel for top and bottom
+        int heightIncrement = h;
 
-        //calculate text bounds needed and set label bounds
-        //add label to error frame and set error frame bounds
-        //test with multiple error types
+        //move dimensions from width to height if needed
+        while (w > SystemUtil.getScreenWidth() / 2) {
+            w /= 2;
+            h += heightIncrement;
+        }
 
-        errorFrame.setBounds(SystemUtil.getScreenWidth() - w,
-                SystemUtil.getScreenHeight() - errorFrame.getHeight(), w + 2 * 5, h + 30 + 2 * 5);
+        h += heightIncrement;
+
+        //label setup
+        JLabel displayLabel = new JLabel(displayText);
+        displayLabel.setForeground(CyderColors.navy);
+        displayLabel.setFont(CyderFonts.defaultFontSmall);
+        displayLabel.setHorizontalAlignment(JLabel.CENTER);
+        displayLabel.setVerticalAlignment(JLabel.CENTER);
+        displayLabel.setSize(w, h);
+        displayLabel.setLocation(5, 35);
+        errorFrame.add(displayLabel);
+        displayLabel.setToolTipText(errorFilePath == null ? "Error stack trace" : "Click to open error file");
+
+        //mouse listener to open file on click
+        displayLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                errorFrame.closeAnimation();
+                IOUtil.openFile(errorFilePath);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                displayLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                displayLabel.setForeground(CyderColors.navy);
+            }
+        });
+
+        //window needs to be bigger than the label
+        int windowWidth = w + 2 * 5;
+        int windowHeight = h + 5 + 35;
+
+        errorFrame.setBounds(SystemUtil.getScreenWidth() - windowWidth,
+                SystemUtil.getScreenHeight() - windowHeight, windowWidth, windowHeight);
         errorFrame.setVisible(true);
+        errorFrame.setAlwaysOnTop(true);
     }
 }

@@ -532,6 +532,21 @@ public class IOUtil {
         }
     }
 
+    public static String newGetUserData(String name) {
+        newReadUserData();
+
+        if (userData.isEmpty())
+            ErrorHandler.handle(new FatalException("Attempting to access empty user data after calling read"));
+
+        for (NST data : userData) {
+            if (data.getName().equalsIgnoreCase(name)) {
+                return data.getData();
+            }
+        }
+
+        return null;
+    }
+
     public static String getUserData(String name) {
         readUserData();
 
@@ -700,6 +715,7 @@ public class IOUtil {
         }
     }
 
+    //todo redo this using different tricks but same program
     public static File getFile() {
         try {
             Desktop.getDesktop().open(new File("sys/jars/FileChooser.jar"));
@@ -748,8 +764,7 @@ public class IOUtil {
             for(Frame f : frames)
                 f.dispose();
 
-            //var for the folder we are zipping, if it's already gone then it really wasn't a corrupted user,
-            // possibly a user deleting their account
+            //if it's already gone then it really wasn't a corrupted user, possibly a user deleting their account
             File mainZipFile = new File("users/" + ConsoleFrame.getUUID());
             if (mainZipFile == null || mainZipFile.listFiles() == null || mainZipFile.listFiles().length == 0)
                 return;
@@ -760,7 +775,8 @@ public class IOUtil {
 
             //delete the stuff we don't care about
             for (File f : mainZipFile.listFiles()) {
-               if (f.getName().equals("userdata.bin"))
+               if (f.getName().equalsIgnoreCase("userdata.bin")
+                       || f.getName().equalsIgnoreCase("userdata.txt"))
                     f.delete();
             }
 

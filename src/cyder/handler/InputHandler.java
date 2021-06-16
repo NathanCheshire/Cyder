@@ -6,6 +6,9 @@ public class InputHandler {
 
 
 
+    //todo use displayText = "<html><div style='text-align: center;'>" + displayText + "</div></html>";
+    // to center text for components throughout.
+
     //todo bin dump should dump user's binary data to console and ide console
     //todo hex dump should dump user's binary data in hex format to console and ide console
 
