@@ -578,4 +578,20 @@ public class StringUtil {
     public static int countWords(String str) {
         return (str == null || str.isEmpty()) ? 0 : str.split("\\s+").length;
     }
+
+    public static String getFilename(String file) {
+        return file.replaceAll("\\.([^.]+)$", "");
+    }
+
+    public static String getExtension(String file) {
+        return file.replace(getFilename(file), "");
+    }
+
+    public static String getFilename(File file) {
+        return file.getName().replaceAll("\\.([^.]+)$", "");
+    }
+
+    public static String getExtension(File file) {
+        return file.getName().replace(getFilename(file), "");
+    }
 }

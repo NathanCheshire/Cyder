@@ -12,6 +12,4 @@ public class CyderSignatures {
     public static final int[] rarSignature = {0x52, 0x61, 0x72, 0x21, 0x1A, 0x07, 0x00};
     public static final int[] exeSignature = {0x5A, 0x4D};
     public static final int[] javaClassSignature = {0xCA, 0xFE, 0xBA, 0xBE};
-
-    //todo add and test common file extensions
 }

@@ -2562,9 +2562,7 @@ public class CyderMain {
 
     private void test() {
         try {
-           //test new fix user data to ensure working
 
-            ErrorHandler.handle(new Exception("fuck u"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2789,7 +2787,8 @@ public class CyderMain {
     private CyderButton addMusicBackground;
     private CyderButton openMusicBackground;
     private CyderButton deleteMusicBackground;
-    private JList<?> musicBackgroundSelectionList;
+    private CyderButton renameMusicBackground;
+    private JList<?> componentsList;
     private List<String> musicBackgroundNameList;
     private List<File> musicBackgroundList;
     private CyderButton changeUsername;
@@ -2911,7 +2910,6 @@ public class CyderMain {
         editUserFrame.setLocationRelativeTo(null);
         editUserFrame.setVisible(true);
         editUserFrame.requestFocus();
-        editUserFrame.setAlwaysOnTop(true);
     }
 
     public void initMusicBackgroundList() {
@@ -2938,18 +2936,18 @@ public class CyderMain {
         String[] BackgroundsArray = new String[musicBackgroundNameList.size()];
         BackgroundsArray = musicBackgroundNameList.toArray(BackgroundsArray);
 
-        musicBackgroundSelectionList = new JList(BackgroundsArray);
-        musicBackgroundSelectionList.setFont(CyderFonts.weatherFontSmall);
-        musicBackgroundSelectionList.setForeground(CyderColors.navy);
-        musicBackgroundSelectionList.addMouseListener(new MouseAdapter() {
+        componentsList = new JList(BackgroundsArray);
+        componentsList.setFont(CyderFonts.weatherFontSmall);
+        componentsList.setForeground(CyderColors.navy);
+        componentsList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                if (evt.getClickCount() == 2 && musicBackgroundSelectionList.getSelectedIndex() != -1) {
+                if (evt.getClickCount() == 2 && componentsList.getSelectedIndex() != -1) {
                     openMusicBackground.doClick();
                 }
             }
         });
 
-        musicBackgroundSelectionList.setSelectionBackground(CyderColors.selectionColor);
+        componentsList.setSelectionBackground(CyderColors.selectionColor);
     }
 
     private void nextEditUser() {
@@ -3012,14 +3010,14 @@ public class CyderMain {
 
         initMusicBackgroundList();
 
-        musicBackgroundSelectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        musicBackgroundScroll = new CyderScrollPane(musicBackgroundSelectionList,
+        componentsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        musicBackgroundScroll = new CyderScrollPane(componentsList,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         musicBackgroundScroll.setSize(400, 400);
         musicBackgroundScroll.setFont(CyderFonts.weatherFontBig);
         musicBackgroundScroll.setThumbColor(CyderColors.regularRed);
-        musicBackgroundSelectionList.setBackground(new Color(255, 255, 255));
+        componentsList.setBackground(new Color(255, 255, 255));
         musicBackgroundScroll.getViewport().setBackground(new Color(0, 0, 0, 0));
         musicBackgroundScroll.setBounds(20, 60, 680, 360);
         switchingPanel.add(musicBackgroundScroll);
@@ -3049,13 +3047,13 @@ public class CyderMain {
                     File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Backgrounds/" + addFile.getName());
                     Files.copy(copyPath, Destination.toPath());
                     initMusicBackgroundList();
-                    musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
+                    musicBackgroundScroll.setViewportView(componentsList);
                     musicBackgroundScroll.revalidate();
                 } else if (addFile != null && addFile.getName().endsWith(".mp3")) {
                     File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Music/" + addFile.getName());
                     Files.copy(copyPath, Destination.toPath());
                     initMusicBackgroundList();
-                    musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
+                    musicBackgroundScroll.setViewportView(componentsList);
                     musicBackgroundScroll.revalidate();
                 } else {
                     editUserFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but you can only add PNGs and MP3s", "Error");
@@ -3067,7 +3065,7 @@ public class CyderMain {
             }
         });
         addMusicBackground.setFont(CyderFonts.weatherFontSmall);
-        addMusicBackground.setBounds(20, 440, 213, 40);
+        addMusicBackground.setBounds(20, 440, 155, 40);
         switchingPanel.add(addMusicBackground);
 
         openMusicBackground = new CyderButton("Open");
@@ -3077,10 +3075,10 @@ public class CyderMain {
         openMusicBackground.setBackground(CyderColors.regularRed);
         openMusicBackground.setFont(CyderFonts.weatherFontSmall);
         openMusicBackground.addActionListener(e -> {
-            List<?> ClickedSelectionList = musicBackgroundSelectionList.getSelectedValuesList();
+            List<?> clickedSelectionList = componentsList.getSelectedValuesList();
 
-            if (!ClickedSelectionList.isEmpty()) {
-                String ClickedSelection = ClickedSelectionList.get(0).toString();
+            if (!clickedSelectionList.isEmpty()) {
+                String ClickedSelection = clickedSelectionList.get(0).toString();
 
                 File ClickedSelectionPath = null;
 
@@ -3101,15 +3099,69 @@ public class CyderMain {
                 }
             }
         });
-        openMusicBackground.setBounds(20 + 213 + 20, 440, 213, 40);
+        openMusicBackground.setBounds(20 + 155 + 20, 440, 155, 40);
         switchingPanel.add(openMusicBackground);
+
+        renameMusicBackground = new CyderButton("Rename");
+        renameMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        renameMusicBackground.setColors(CyderColors.regularRed);
+        renameMusicBackground.addActionListener(e -> {
+            try {
+                if (!componentsList.getSelectedValuesList().isEmpty()) {
+                    List clickedSelections = componentsList.getSelectedValuesList();
+                    File selectedFile = null;
+
+                    if (!clickedSelections.isEmpty()) {
+                        String clickedSelection = clickedSelections.get(0).toString();
+
+                        for (int i = 0; i < musicBackgroundNameList.size(); i++) {
+                            if (clickedSelection.equals(musicBackgroundNameList.get(i))) {
+                                selectedFile = musicBackgroundList.get(i);
+                                break;
+                            }
+                        }
+
+                        String oldname = StringUtil.getFilename(selectedFile);
+                        String extension = StringUtil.getExtension(selectedFile);
+                        String newname = InputUtil.getString("Enter new filename");
+
+                        if (oldname.equals(newname))
+                            return;
+
+                        File renameTo = new File(selectedFile.getParent() + "/" + newname + extension);
+
+                        if (renameTo.exists())
+                            throw new java.io.IOException("file exists");
+
+                        boolean success = selectedFile.renameTo(renameTo);
+
+                        if (!success) {
+                            throw new FatalException("File was not renamed");
+                        } else {
+                            println(selectedFile.getName() + " was successfully renamed to " + renameTo.getName());
+                        }
+
+                        musicBackgroundScroll.setViewportView(componentsList);
+                        musicBackgroundScroll.revalidate();
+                        consoleFrame.toFront();
+                    }
+                }
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
+            }
+        });
+
+        renameMusicBackground.setBackground(CyderColors.regularRed);
+        renameMusicBackground.setFont(CyderFonts.weatherFontSmall);
+        renameMusicBackground.setBounds(20 + 155 + 20 + 155 + 20, 440, 155, 40);
+        switchingPanel.add(renameMusicBackground);
 
         deleteMusicBackground = new CyderButton("Delete");
         deleteMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
         deleteMusicBackground.setColors(CyderColors.regularRed);
         deleteMusicBackground.addActionListener(e -> {
-            if (!musicBackgroundSelectionList.getSelectedValuesList().isEmpty()) {
-                List<?> ClickedSelectionListMusic = musicBackgroundSelectionList.getSelectedValuesList();
+            if (!componentsList.getSelectedValuesList().isEmpty()) {
+                List<?> ClickedSelectionListMusic = componentsList.getSelectedValuesList();
 
                 File ClickedSelectionPath = null;
 
@@ -3130,7 +3182,7 @@ public class CyderMain {
                     else {
                         ClickedSelectionPath.delete();
                         initMusicBackgroundList();
-                        musicBackgroundScroll.setViewportView(musicBackgroundSelectionList);
+                        musicBackgroundScroll.setViewportView(componentsList);
                         musicBackgroundScroll.revalidate();
 
                         if (ClickedSelection.endsWith(".mp3"))
@@ -3153,10 +3205,8 @@ public class CyderMain {
 
         deleteMusicBackground.setBackground(CyderColors.regularRed);
         deleteMusicBackground.setFont(CyderFonts.weatherFontSmall);
-        deleteMusicBackground.setBounds(20 + 213 + 20 + 213 + 20, 440, 213, 40);
+        deleteMusicBackground.setBounds(20 + 155 + 20 + 155 + 20 + 155 + 20, 440, 155, 40);
         switchingPanel.add(deleteMusicBackground);
-
-        //todo add a button to rename the selected content in the row with open, delete, and add
 
         switchingPanel.revalidate();
     }

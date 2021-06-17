@@ -5,15 +5,27 @@ public class InputHandler {
     // and direct the resulting flow and output
 
 
+    //todo redo inputgetter to be able to configure it, write configuration stuff to sys.ini
+    // such as title, message, colors, etc. so more configurable,
+    // search parent of parent all files for sys.ini and cydericon.png
+    //todo copy Rename for photo viewer
+    //todo be able to set tooltip of field too
+
+    //todo photoviewer tooltip for whole iamge should be title of image
+    //todo photoviewer doesn't check for no name
+
+    //todo test signatures against files and make a widget for this
+
+    //todo file space for overall program when cypherlenovo, deletes folder if not cypherlenovo
+    // todo userfile space too, (be able to point to files with a -f option via command line args such as)
+    // todo hexdump userdata.bin
+    // todo bindump userdata.bin
 
     //todo use displayText = "<html><div style='text-align: center;'>" + displayText + "</div></html>";
     // to center text for components throughout.
 
     //todo bin dump should dump user's binary data to console and ide console
     //todo hex dump should dump user's binary data in hex format to console and ide console
-
-    //todo refactor so that no reading or writing to userdata.bin occurs except from the official read and write functions
-    // this is for binary purposes so will have to refactor the fixuserdata method
 
     //todo make bletchy have mandarin and random unicode chars if toggled on, make it not reset output area
 
