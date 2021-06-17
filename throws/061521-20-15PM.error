@@ -1,0 +1,14 @@
+fuck u
+class java.lang.Exception
+Error thrown by line: 2567
+
+Stack Trace:
+
+java.lang.Exception: fuck u
+	at cyder.genesis.CyderMain.test(CyderMain.java:2567)
+	at cyder.genesis.CyderMain.console(CyderMain.java:744)
+	at cyder.genesis.CyderMain.recognize(CyderMain.java:1394)
+	at cyder.genesis.CyderMain.autoCypher(CyderMain.java:178)
+	at cyder.genesis.CyderMain.<init>(CyderMain.java:120)
+	at cyder.genesis.CyderMain.main(CyderMain.java:99)
+
