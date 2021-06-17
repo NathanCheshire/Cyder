@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -740,8 +741,9 @@ public class CyderMain {
             }
 
             //stay but maybe relocate? auto test in debug mode
-            if (SecurityUtil.nathanLenovo())
-                test();
+            if (SecurityUtil.nathanLenovo()) {
+                //test();
+            }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -2562,6 +2564,19 @@ public class CyderMain {
 
     private void test() {
         try {
+
+            new Thread(() -> {
+                try {
+                    GetterUtil GetterUtil = new GetterUtil();
+                    GetterUtil.setButtonText("Button text");
+                    GetterUtil.setFrameTitle("random title");
+                    GetterUtil.setTooltipText("tooltip here");
+                    println(GetterUtil.getString());
+                    GetterUtil.clear();
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+            }, "Get").start();
 
         } catch (Exception e) {
             e.printStackTrace();
