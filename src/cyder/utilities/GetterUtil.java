@@ -14,14 +14,18 @@ import javax.swing.border.LineBorder;
 import java.io.File;
 
 public class GetterUtil {
-    private String frameTitle;
-    private String tooltipText;
-    private String buttonText;
-    private String returnString = null;
+    private static String frameTitle;
+    private static String tooltipText;
+    private static String buttonText;
+    private static String returnString = null;
 
     public GetterUtil() {}
 
-    public String getString() {
+    public static String getString(String title, String tooltip, String button) {
+        frameTitle = title;
+        tooltipText = tooltip;
+        buttonText = button;
+
         new Thread(() -> {
             try {
                 File currentBackground = ConsoleFrame.getCurrentBackgroundFile().getAbsoluteFile();
@@ -69,35 +73,37 @@ public class GetterUtil {
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         } finally {
-            return returnString;
+            String ret = returnString;
+            clear();
+            return ret;
         }
     }
 
-    public void setFrameTitle(String title) {
+    public static void setFrameTitle(String title) {
         frameTitle = title;
     }
 
-    public void setTooltipText(String text) {
+    public static void setTooltipText(String text) {
         tooltipText = text;
     }
 
-    public void setButtonText(String text) {
+    public static void setButtonText(String text) {
         buttonText = text;
     }
 
-    public String getFrameTitle() {
+    public static String getFrameTitle() {
         return frameTitle;
     }
 
-    public String getTooltipText() {
+    public static String getTooltipText() {
         return tooltipText;
     }
 
-    public String getButtonText() {
+    public static String getButtonText() {
         return buttonText;
     }
 
-    public void clear() {
+    public static void clear() {
         returnString = null;
         frameTitle = null;
         tooltipText = null;

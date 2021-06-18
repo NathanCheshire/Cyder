@@ -2564,15 +2564,11 @@ public class CyderMain {
 
     private void test() {
         try {
-
+            //need to surround the getter with a thread like so and then do the operation
             new Thread(() -> {
                 try {
-                    GetterUtil GetterUtil = new GetterUtil();
-                    GetterUtil.setButtonText("Button text");
-                    GetterUtil.setFrameTitle("random title");
-                    GetterUtil.setTooltipText("tooltip here");
-                    println(GetterUtil.getString());
-                    GetterUtil.clear();
+                    //operation
+                    println(GetterUtil.getString("Input Getter","Enter any string","Submit"));
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
