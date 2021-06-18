@@ -24,13 +24,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
+
 //todo layering for compoents as follows:
 //  layer 0: the content label
 //  layer 1: the components on the content label all share the same priority
 //  layer 2: notifications
 //  layer 3: the drag label and the frame border
-
-//todo better method names
 
 //override get content pane for already in place widgets to return the label
 //add a get actual content pane method to return the actual one?

@@ -231,6 +231,8 @@ public final class ConsoleFrame extends CyderFrame {
         }
     }
 
+    private static LinkedList<File> backgroundFiles;
+
     public static void initBackgrounds() {
         try {
             File dir = new File("users/" + getUUID() + "/Backgrounds");
@@ -246,8 +248,6 @@ public final class ConsoleFrame extends CyderFrame {
             ErrorHandler.handle(ex);
         }
     }
-
-    private static LinkedList<File> backgroundFiles;
 
     public static LinkedList<File> getBackgrounds() {
         initBackgrounds();

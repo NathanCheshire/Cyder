@@ -12,7 +12,7 @@ import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
 import cyder.obj.Preference;
-import cyder.threads.YoutubeThread;
+import cyder.threads.MasterYoutube;
 import cyder.ui.*;
 import cyder.utilities.*;
 import cyder.widgets.*;
@@ -47,9 +47,8 @@ import java.util.concurrent.TimeUnit;
 import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class CyderMain {
-
-    //specific to an instance of a handler method
-    private LinkedList<YoutubeThread> youtubeThreads = new LinkedList<>();
+    //todo input handler
+    private MasterYoutube my = new MasterYoutube(outputArea);
 
     //todo login spins off of main of autocypher fails
     private CyderFrame loginFrame;
@@ -188,7 +187,6 @@ public class CyderMain {
     private static JTextPane outputArea;
 
     //TODO make a consoleframe text area so that it can be like DOS, no need for sep input and output
-    // also make an output area link to an InputHandler which links to a ContextEngine as well
     private JTextField inputField;
     public static JFrame consoleFrame;
     private JButton minimize;
@@ -211,8 +209,6 @@ public class CyderMain {
      * move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
      * that's all! possibly add some other methods to change things about the console frame like close operations. etc.
      */
-    //anything that has ConsoleFrame.* can be simplifiied to * after we move this
-    //todo this will become consoleFrame.show(), the main setup
 
     //this extends CyderFrame so we need to override the settitle method since we'll be painting the time
     // as the center title
@@ -221,7 +217,8 @@ public class CyderMain {
 
     //add the menu and suggestion button to the drag label
 
-    //override the action of the close button
+    //override the action of the close button, make a getter for drag label's close button and be able
+    // to set any action for any button on drag label
     public void console() {
         try {
             ConsoleFrame.resizeBackgrounds();
@@ -1083,7 +1080,10 @@ public class CyderMain {
 
                 int threadCount = 0;
 
-                //todo name all threads and executors so if anything contains "pool" or "thread" then we knkow it's busy
+                //todo name all threads and executors so if anything contains
+                // "pool" or "thread" then we knkow it's busy
+
+                //todo redo this
                 for (int i = 0; i < num; i++)
                     if (!printThreads[i].isDaemon() &&
                             !printThreads[i].getName().contains("pool") &&
@@ -1102,39 +1102,39 @@ public class CyderMain {
         }, 0, 3, TimeUnit.SECONDS);
     }
 
-    //console frame
+    //Consolidate with console frame
     private Action inputFieldAction = new AbstractAction() {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-        try {
-            String originalOp = inputField.getText().trim();
-            String op = originalOp;
+            try {
+                String originalOp = inputField.getText().trim();
+                String op = originalOp;
 
-            if (!stringUtil.empytStr(op)) {
-                if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
-                    operationList.add(op);
+                if (!stringUtil.empytStr(op)) {
+                    if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
+                        operationList.add(op);
+                    }
+
+                    scrollingIndex = operationList.size() - 1;
+                    ConsoleFrame.setScrollingDowns(0);
+
+                    if (!stringUtil.getUserInputMode()) {
+                        handle(op);
+                    } else if (stringUtil.getUserInputMode()) {
+                        stringUtil.setUserInputMode(false);
+                        handleSecond(op);
+                    }
                 }
 
-                scrollingIndex = operationList.size() - 1;
-                ConsoleFrame.setScrollingDowns(0);
-
-                if (!stringUtil.getUserInputMode()) {
-                    handle(op);
-                } else if (stringUtil.getUserInputMode()) {
-                    stringUtil.setUserInputMode(false);
-                    handleSecond(op);
-                }
+                inputField.setText("");
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
             }
-
-            inputField.setText("");
-        } catch (Exception ex) {
-            ErrorHandler.handle(ex);
-        }
         }
     };
 
-    private void typingPrint(String print, JTextPane refArea) {
+    //login widget (called by main)
+    private void loginPrint(String print, JTextPane refArea) {
         try {
             StyledDocument document = (StyledDocument) refArea.getDocument();
             document.insertString(document.getLength(), print, null);
@@ -1147,6 +1147,7 @@ public class CyderMain {
     private LinkedList<String> printingList = new LinkedList<>();
     private LinkedList<String> priorityPrintingList = new LinkedList<>();
 
+    //login widget
     private void loginTypingAnimation(JTextPane refArea) {
         printingList.clear();
         SimpleDateFormat versionFormatter = new SimpleDateFormat("MM.dd.yy");
@@ -1168,14 +1169,14 @@ public class CyderMain {
                         String line = priorityPrintingList.removeFirst();
 
                         for (char c : line.toCharArray()) {
-                            typingPrint(String.valueOf(c), refArea);
+                            loginPrint(String.valueOf(c), refArea);
                             Thread.sleep(charTimeout);
                         }
                     } else if (printingList.size() > 0) {
                         String line = printingList.removeFirst();
 
                         for (char c : line.toCharArray()) {
-                            typingPrint(String.valueOf(c), refArea);
+                            loginPrint(String.valueOf(c), refArea);
                             Thread.sleep(charTimeout);
                         }
                     }
@@ -1205,6 +1206,7 @@ public class CyderMain {
         },"login caret position updater").start();
     }
 
+    //login widget
     protected final void login() {
         doLoginAnimations = true;
         loginMode = 0;
@@ -1375,6 +1377,7 @@ public class CyderMain {
         loginTypingAnimation(loginArea);
     }
 
+    //login widget
     private void recognize(String Username, char[] Password) {
         try {
             if (loginFrame != null) {
@@ -1412,7 +1415,7 @@ public class CyderMain {
                                 "users/" + ConsoleFrame.getUUID() + "/Music/" +
                                         (FileNames[NumberUtil.randInt(0, FileNames.length - 1)]));
                     else
-                        IOUtil.playAudio("sys/audio/Suprise.mp3");
+                        IOUtil.playAudio("sys/audio/Ride.mp3");
                         //todo change me
                 }
             } else if (loginFrame != null && loginFrame.isVisible()) {
@@ -1430,13 +1433,13 @@ public class CyderMain {
         }
     }
 
-    //todo move to consoleFrame
+    //consoleFrame
     private void exitFullscreen() {
         //if it was called when it shouldn't have been, return
         if (consoleFrame.getWidth() != SystemUtil.getScreenWidth() && consoleFrame.getWidth() != SystemUtil.getScreenHeight())
             return;
 
-        ConsoleFrame.initBackgrounds(); //todo there was a background error here when I deleted a a background and flipping didn't work
+        ConsoleFrame.initBackgrounds();
         LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
         int index = ConsoleFrame.getBackgroundIndex();
         String backFile = backgrounds.get(index).toString();
@@ -1703,16 +1706,10 @@ public class CyderMain {
                 NetworkUtil.internetConnect(browse);
             } else if (desc.equalsIgnoreCase("random youtube")) {
                 try {
-                    int threads = Integer.parseInt(input);
-
-                    //todo
-//                    notify("The" + (threads > 1 ? " scripts have " : " script has ") + "started. At any point, type \"stop script\"",
-//                            4000, ArrowDirection.TOP, VanishDirection.TOP, parentPane, (threads > 1 ? 620 : 610));
-
-                    for (int i = 0; i < threads; i++) {
-                        YoutubeThread current = new YoutubeThread(outputArea);
-                        youtubeThreads.add(current);
-                    }
+                    //notify("The" + (threads > 1 ? " scripts have " : " script has ") + "started. At any point, type \"stop script\"",
+                    //4000, ArrowDirection.TOP, VanishDirection.TOP, parentPane, (threads > 1 ? 620 : 610));
+                    my = new MasterYoutube(outputArea);
+                    my.start(Integer.parseInt(input));
                 } catch (NumberFormatException e) {
                     println("Invalid input for number of threads to start.");
                 } catch (Exception e) {
@@ -1753,19 +1750,19 @@ public class CyderMain {
             } else if (desc.equalsIgnoreCase("suggestion")) {
                 stringUtil.logSuggestion(input);
             } else if (desc.equalsIgnoreCase("addbackgrounds")) {
-                if (InputUtil.confirmation(input)) {
+                if (StringUtil.isConfirmation(input)) {
                     editUser();
                     NetworkUtil.internetConnect("https://images.google.com/");
                 } else
                     println("Okay nevermind then");
             } else if (desc.equalsIgnoreCase("logoff")) {
-                if (InputUtil.confirmation(input)) {
+                if (StringUtil.isConfirmation(input)) {
                     String shutdownCmd = "shutdown -l";
                     Runtime.getRuntime().exec(shutdownCmd);
                 } else
                     println("Okay nevermind then");
             } else if (desc.equalsIgnoreCase("deleteuser")) {
-                if (!InputUtil.confirmation(input)) {
+                if (!StringUtil.isConfirmation(input)) {
                     println("User " + ConsoleFrame.getUsername() + " was not removed.");
                     return;
                 }
@@ -2112,8 +2109,8 @@ public class CyderMain {
             } else if (eic("middle") || eic("center")) {
                 consoleFrame.setLocationRelativeTo(null);
             } else if (hasWord("random") && hasWord("youtube")) {
-                killAllYoutube();
-                println("How many isntances of the script do you want to start?");
+                my.killAllYoutube();
+                println("How many instances of the script do you want to start?");
                 inputField.requestFocus();
                 stringUtil.setUserInputMode(true);
                 stringUtil.setUserInputDesc("random youtube");
@@ -2230,7 +2227,7 @@ public class CyderMain {
 
             } else if (eic("controlc") && !outputArea.isFocusOwner()) {
                 stringUtil.setUserInputMode(false);
-                killAllYoutube();
+                my.killAllYoutube();
                 stringUtil.killBletchy();
                 println("Escaped");
             } else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
@@ -2275,7 +2272,7 @@ public class CyderMain {
             } else if (eic("hide")) {
                 minimize.doClick();
             } else if (hasWord("stop") && hasWord("script")) {
-                killAllYoutube();
+                my.killAllYoutube();
                 println("YouTube scripts have been killed.");
             } else if (hasWord("debug") && hasWord("menu")) {
                 StatUtil.debugMenu(outputArea);
@@ -2438,7 +2435,8 @@ public class CyderMain {
                 unknownInput();
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            e.printStackTrace();
+            //ErrorHandler.handle(e);
         }
     }
 
@@ -2563,14 +2561,15 @@ public class CyderMain {
 
     private void test() {
         try {
+            //todo add this stucture to the java doc for GetterUtil
             new Thread(() -> {
                 try {
-                    println(GetterUtil.getString("Input Getter","Enter any string","Submit"));
+                    String input = GetterUtil.getString("Input Getter","Enter any string","Submit");
+                    //other operations after
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
             }, "Wait thread for getterUtil").start();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -3113,7 +3112,7 @@ public class CyderMain {
         renameMusicBackground = new CyderButton("Rename");
         renameMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
         renameMusicBackground.setColors(CyderColors.regularRed);
-        renameMusicBackground.addActionListener(e -> {
+        renameMusicBackground.addActionListener(e -> new Thread(() -> {
             try {
                 if (!componentsList.getSelectedValuesList().isEmpty()) {
                     List clickedSelections = componentsList.getSelectedValuesList();
@@ -3131,7 +3130,7 @@ public class CyderMain {
 
                         String oldname = StringUtil.getFilename(selectedFile);
                         String extension = StringUtil.getExtension(selectedFile);
-                        String newname = InputUtil.getString("Enter new filename");
+                        String newname = GetterUtil.getString("Rename","Enter any valid file name","Submit");
 
                         if (oldname.equals(newname))
                             return;
@@ -3139,7 +3138,7 @@ public class CyderMain {
                         File renameTo = new File(selectedFile.getParent() + "/" + newname + extension);
 
                         if (renameTo.exists())
-                            throw new java.io.IOException("file exists");
+                            throw new IOException("file exists");
 
                         boolean success = selectedFile.renameTo(renameTo);
 
@@ -3157,7 +3156,7 @@ public class CyderMain {
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
             }
-        });
+        }, "Wait thread for getterUtil").start());
 
         renameMusicBackground.setBackground(CyderColors.regularRed);
         renameMusicBackground.setFont(CyderFonts.weatherFontSmall);
@@ -3890,12 +3889,6 @@ public class CyderMain {
         }
     }
 
-    //should be in MasterYoutube class
-    private void killAllYoutube() {
-        for (YoutubeThread ytt : youtubeThreads)
-            ytt.kill();
-    }
-
     /**
      * Exiting method, stuff that you should do before exiting should go here. Stuff fatal to program exeuction, however,
      * should be placed in {@link CyderMain#shutdown()} which is what the shutdown hook calls
@@ -3907,7 +3900,7 @@ public class CyderMain {
         IOUtil.writeUserData("Foreground", ColorUtil.rgbtohexString(outputArea.getForeground()));
 
         AnimationUtil.closeAnimation(consoleFrame);
-        killAllYoutube();
+        my.killAllYoutube();
         stringUtil.killBletchy();
 
         try {

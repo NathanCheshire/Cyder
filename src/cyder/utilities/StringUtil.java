@@ -18,7 +18,7 @@ public class StringUtil {
 
     private StringUtil() {}
 
-    //todo links to input handler
+    //todo input handler has a link to one of these
 
     public StringUtil(JTextPane outputArea) {
         this.outputArea = outputArea;
@@ -593,5 +593,9 @@ public class StringUtil {
 
     public static String getExtension(File file) {
         return file.getName().replace(getFilename(file), "");
+    }
+
+    public static boolean isConfirmation(String input) {
+        return (input.toLowerCase().contains("yes") || input.equalsIgnoreCase("y"));
     }
 }
