@@ -64,7 +64,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        }, "Get input thread (not the spin wait one lol)").start();
+        }, "getString thread").start();
 
         try {
             while (returnString == null) {

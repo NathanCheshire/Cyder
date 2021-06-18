@@ -4,15 +4,7 @@ public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
     // and direct the resulting flow and output
 
-
-    //todo redo inputgetter to be able to configure it, write configuration stuff to sys.ini
-    // such as title, message, colors, etc. so more configurable,
-    // search parent of parent all files for sys.ini and cydericon.png
-    //todo copy Rename for photo viewer
-    //todo be able to set tooltip of field too
-
-    //todo photoviewer tooltip for whole iamge should be title of image
-    //todo photoviewer doesn't check for no name
+    //todo scrollbar on dir messes up when selecting, same with prefs, fix by making not opqeue or not fading away?
 
     //todo test signatures against files and make a widget for this
 

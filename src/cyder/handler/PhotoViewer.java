@@ -20,7 +20,6 @@ import java.util.LinkedList;
 import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class PhotoViewer {
-
     private LinkedList<File> validImages = new LinkedList<>();
     private File startDir;
     private int currentIndex;
@@ -31,10 +30,15 @@ public class PhotoViewer {
 
     private JLabel pictureLabel;
 
+    //frame buttons at top
     private JLabel nextImage;
     private JLabel lastImage;
     private JLabel rename;
 
+    private int oldCenterX;
+    private int oldCenterY;
+
+    //start instance
     public PhotoViewer(File startDir) {
         this.startDir = startDir;
     }
@@ -56,6 +60,7 @@ public class PhotoViewer {
         }
 
         pictureFrame = new JFrame();
+        pictureFrame.setBackground(CyderColors.navy);
         pictureFrame.setUndecorated(true);
         pictureFrame.setTitle(ImageName.getName().replace(".png", ""));
         pictureFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -63,12 +68,14 @@ public class PhotoViewer {
         ImageIcon size = checkImage(ImageName);
         pictureLabel = new JLabel(size);
         pictureFrame.setContentPane(pictureLabel);
+        pictureLabel.setToolTipText(validImages.get(currentIndex).getName());
         pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
 
         dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
         pictureLabel.add(dl);
 
         rename = new JLabel("Rename");
+        rename.setToolTipText("Rename image");
         rename.setForeground(CyderColors.vanila);
         rename.setFont(CyderFonts.weatherFontSmall);
         rename.addMouseListener(new MouseAdapter() {
@@ -109,6 +116,7 @@ public class PhotoViewer {
             }
         });
         nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
+        nextImage.setToolTipText("Next image");
         dl.add(nextImage);
 
         lastImage = new JLabel(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
@@ -129,6 +137,7 @@ public class PhotoViewer {
             }
         });
         lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
+        lastImage.setToolTipText("Last image");
         dl.add(lastImage);
 
         pictureFrame.setSize(size.getIconWidth(),size.getIconHeight());
@@ -170,6 +179,9 @@ public class PhotoViewer {
     }
 
     private void scrollFoward() {
+        oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
+        oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
+
         try {
             if (currentIndex + 1 < validImages.size()) {
                 currentIndex += 1;
@@ -181,6 +193,7 @@ public class PhotoViewer {
 
             ImageIcon size = checkImage(validImages.get(currentIndex));
             pictureLabel = new JLabel(size);
+            pictureLabel.setToolTipText(validImages.get(currentIndex).getName());
             pictureFrame.setContentPane(pictureLabel);
             pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
 
@@ -188,6 +201,7 @@ public class PhotoViewer {
             pictureLabel.add(dl);
 
             rename = new JLabel("Rename");
+            rename.setToolTipText("Rename image");
             rename.setForeground(CyderColors.vanila);
             rename.setFont(CyderFonts.weatherFontSmall);
             rename.addMouseListener(new MouseAdapter() {
@@ -228,6 +242,7 @@ public class PhotoViewer {
                 }
             });
             nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
+            nextImage.setToolTipText("Next image");
             dl.add(nextImage);
 
             lastImage = new JLabel(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
@@ -248,6 +263,7 @@ public class PhotoViewer {
                 }
             });
             lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
+            lastImage.setToolTipText("Last image");
             dl.add(lastImage);
 
             pictureLabel.setSize(size.getIconWidth(), size.getIconHeight());
@@ -257,7 +273,8 @@ public class PhotoViewer {
             pictureFrame.setSize(size.getIconWidth(), size.getIconHeight());
             pictureFrame.revalidate();
             pictureFrame.setTitle(validImages.get(currentIndex).getName().replace(".png", ""));
-            pictureFrame.setLocationRelativeTo(null);
+            pictureFrame.setLocation(oldCenterX - pictureFrame.getWidth() / 2,
+                    oldCenterY - pictureFrame.getHeight() / 2);
         }
 
         catch (Exception e) {
@@ -266,6 +283,9 @@ public class PhotoViewer {
     }
 
     private void scrollBack() {
+        oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
+        oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
+
         try {
             if (currentIndex - 1 >= 0) {
                 currentIndex--;
@@ -277,6 +297,7 @@ public class PhotoViewer {
 
             ImageIcon size = checkImage(validImages.get(currentIndex));
             pictureLabel = new JLabel(size);
+            pictureLabel.setToolTipText(validImages.get(currentIndex).getName());
             pictureFrame.setContentPane(pictureLabel);
             pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
 
@@ -284,6 +305,7 @@ public class PhotoViewer {
             pictureLabel.add(dl);
 
             rename = new JLabel("Rename");
+            rename.setToolTipText("Rename image");
             rename.setForeground(CyderColors.vanila);
             rename.setFont(CyderFonts.weatherFontSmall);
             rename.addMouseListener(new MouseAdapter() {
@@ -324,6 +346,7 @@ public class PhotoViewer {
                 }
             });
             nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
+            nextImage.setToolTipText("Next image");
             dl.add(nextImage);
 
             lastImage = new JLabel(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
@@ -344,6 +367,7 @@ public class PhotoViewer {
                 }
             });
             lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
+            lastImage.setToolTipText("Last image");
             dl.add(lastImage);
 
             pictureLabel.setSize(size.getIconWidth(), size.getIconHeight());
@@ -353,7 +377,8 @@ public class PhotoViewer {
             pictureFrame.setSize(size.getIconWidth(), size.getIconHeight());
             pictureFrame.revalidate();
             pictureFrame.setTitle(validImages.get(currentIndex).getName().replace(".png", ""));
-            pictureFrame.setLocationRelativeTo(null);
+            pictureFrame.setLocation(oldCenterX - pictureFrame.getWidth() / 2,
+                    oldCenterY - pictureFrame.getHeight() / 2);
         }
 
         catch (Exception e) {
@@ -365,29 +390,20 @@ public class PhotoViewer {
     //returns a scaled down imageicon if the image file is too big
     private ImageIcon checkImage(File im) {
         try {
-            Dimension dim = SystemUtil.getScreenSize();
-            double screenX = dim.getWidth();
-            double screenY = dim.getHeight();
-
-            double aspectRatio = getAspectRatio(new ImageIcon(ImageIO.read(im)));
-            aspectRatio = (aspectRatio == 1.0 ? 2.0 : aspectRatio);
             ImageIcon originalIcon = new ImageIcon(ImageIO.read(im));
             BufferedImage bi = ImageIO.read(im);
-
             int width = originalIcon.getIconWidth();
             int height = originalIcon.getIconHeight();
 
-            while (width > screenX || height > screenY) {
-                width = (int) (width / aspectRatio);
-                height = (int) (height / aspectRatio);
+            if (width > height) {
+                int scaledHeight = 800 * height / width;
+                return new ImageIcon(bi.getScaledInstance(800, scaledHeight, Image.SCALE_SMOOTH));
+            } else if (height > width) {
+                int scaledWidth = 800 * width / height;
+                return new ImageIcon(bi.getScaledInstance(scaledWidth, 800, Image.SCALE_SMOOTH));
+            } else {
+                return new ImageIcon(bi.getScaledInstance(800, 800, Image.SCALE_SMOOTH));
             }
-
-            while (width  < 600 || height  < 600) {
-                width = (int) (width * aspectRatio);
-                height = (int) (height * aspectRatio);
-            }
-
-            return new ImageIcon(bi.getScaledInstance(width, height, Image.SCALE_SMOOTH));
         }
 
         catch (Exception e) {
@@ -437,6 +453,9 @@ public class PhotoViewer {
         attemptRen.addActionListener(e12 -> {
             String name = renameField.getText();
 
+            if (name == null || name.length()  == 0)
+                return;
+
             File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
             File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
             oldName.renameTo(newName);
@@ -451,7 +470,6 @@ public class PhotoViewer {
             }
 
             pictureFrame.setTitle(name);
-
             AnimationUtil.closeAnimation(renameFrame);
         });
         attemptRen.setBounds(40,100,320,40);

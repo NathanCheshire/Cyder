@@ -4,7 +4,6 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -2564,15 +2563,13 @@ public class CyderMain {
 
     private void test() {
         try {
-            //need to surround the getter with a thread like so and then do the operation
             new Thread(() -> {
                 try {
-                    //operation
                     println(GetterUtil.getString("Input Getter","Enter any string","Submit"));
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
-            }, "Get").start();
+            }, "Wait thread for getterUtil").start();
 
         } catch (Exception e) {
             e.printStackTrace();
