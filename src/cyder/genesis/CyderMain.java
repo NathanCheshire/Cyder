@@ -2565,6 +2565,7 @@ public class CyderMain {
             new Thread(() -> {
                 try {
                     String input = GetterUtil.getString("Input Getter","Enter any string","Submit");
+                    println(input);
                     //other operations after
                 } catch (Exception e) {
                     ErrorHandler.handle(e);

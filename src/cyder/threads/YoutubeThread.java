@@ -12,75 +12,74 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.LinkedList;
 
-
-//todo master youtube method to kill all instead of kill all being in a consoleframe's handle method
 public class YoutubeThread {
     private boolean exit = false;
 
     private StringUtil su;
+    public static final LinkedList<Character> urlChars = makeURLChars();
+
+    public static LinkedList makeURLChars() {
+        LinkedList<Character> ret = new LinkedList<>(Arrays.asList('0', '1', '2',
+                '3', '4', '5', '6', '7', '8', '9', '-', '_', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+                'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'));
+
+        for (int i = 11 ; i < 37 ; i++) {
+            ret.add(Character.toUpperCase(ret.get(i)));
+        }
+
+        return ret;
+    }
 
     public YoutubeThread(JTextPane jTextPane) {
         su = new StringUtil(jTextPane);
 
         new Thread(() -> {
-            while (!exit) {
-                String Start;
-                String UUID;
+            String Start = "https://www.youtube.com/watch?v=";
+            String thumbnailURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
 
-                char[] ValidChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-                        'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-                        'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2',
-                        '3', '4', '5', '6', '7', '8', '9', '-', '_'};
+            while (true) {
+                try {
+                    String UUID = "";
+                    StringBuilder UUIDBuilder = new StringBuilder(UUID);
 
-                for (int j = 1; j < Integer.MAX_VALUE; j++) {
-                    try {
-                        if (exit)
-                            break;
+                    //don't do random, sequentially build up to and save place when canceled
+                    for (int i = 0; i < 11; i++)
+                        UUIDBuilder.append(urlChars.get(NumberUtil.randInt(0, 63)));
 
-                        Start = "https://www.youtube.com/watch?v=";
-                        UUID = "";
-                        StringBuilder UUIDBuilder = new StringBuilder(UUID);
+                    UUID = UUIDBuilder.toString();
+                    su.println("Checked UUID: " + UUID);
+                    Start = Start + UUID;
 
-                        for (int i = 1; i < 12; i++)
-                            UUIDBuilder.append(ValidChars[NumberUtil.randInt(0, 63)]);
+                    BufferedImage Thumbnail = ImageIO.read(new URL(thumbnailURL.replace("REPLACE", UUID)));
+                    su.println("YouTube script found valid video with UUID: " + UUID);
 
-                        UUID = UUIDBuilder.toString();
-                        su.println("Checked UUID: " + UUID);
-                        Start = Start + UUID;
-                        String YouTubeURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
+                    CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(), Thumbnail.getHeight(), new ImageIcon(Thumbnail));
+                    thumbnailFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+                    thumbnailFrame.setTitle(UUID);
 
-                        BufferedImage Thumbnail = ImageIO.read(new URL(YouTubeURL.replace("REPLACE", UUID)));
-                        su.println("YouTube script found valid video with UUID: " + UUID);
+                    JLabel pictureLabel = new JLabel();
+                    pictureLabel.setToolTipText("Open video " + UUID);
+                    String video = Start + UUID;
+                    pictureLabel.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            NetworkUtil.internetConnect(video);
+                        }
+                    });
 
-                        CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(),Thumbnail.getHeight(),new ImageIcon(Thumbnail));
-                        thumbnailFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-                        thumbnailFrame.setTitle(UUID);
+                    pictureLabel.setBounds(0, 0, thumbnailFrame.getWidth(), thumbnailFrame.getHeight());
+                    thumbnailFrame.getContentPane().add(pictureLabel);
 
-                        JLabel pictureLabel = new JLabel();
-                        pictureLabel.setToolTipText("Open video " + UUID);
-                        String video = "https://www.youtube.com/watch?v=" + UUID;
-                        pictureLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                NetworkUtil.internetConnect(video);
-                            }
-                        });
+                    thumbnailFrame.setVisible(true);
+                    thumbnailFrame.setLocationRelativeTo(null);
 
-                        pictureLabel.setBounds(0,0,thumbnailFrame.getWidth(),thumbnailFrame.getHeight());
-                        thumbnailFrame.getContentPane().add(pictureLabel);
-
-                        thumbnailFrame.setVisible(true);
-                        thumbnailFrame.setLocationRelativeTo(null);
-
-                        return;
-                    }
-
-                    catch (Exception ignored) {}
-                }
+                    this.kill();
+                } catch (Exception ignored) {}
             }
-        }).start();
+        },"Random youtube thread #i").start();
     }
 
     public void kill() {

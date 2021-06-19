@@ -10,6 +10,8 @@ public class InputHandler {
 
     //todo scrollbar on dir messes up when selecting, same with prefs, fix by making not opqeue or not fading away?
 
+    //todo get rid of filechooser.jar now since stringchooser.jar is gone
+
     //todo test signatures against files and make a widget for this
 
     //todo file space for overall program when cypherlenovo, deletes folder if not cypherlenovo
