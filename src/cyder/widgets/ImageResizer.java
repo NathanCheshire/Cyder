@@ -8,7 +8,6 @@ import cyder.ui.CyderCaret;
 import cyder.ui.CyderCheckBox;
 import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
-import cyder.utilities.IOUtil;
 import cyder.utilities.SystemUtil;
 
 import javax.imageio.ImageIO;
@@ -162,6 +161,7 @@ public class ImageResizer {
         });
 
         maintainAspectRatioLab.setBounds(375,90, 50, 50);
+        maintainAspectRatioLab.setSelected();
         resizeFrame.getContentPane().add(maintainAspectRatioLab);
 
         ydim = new JTextField(5);

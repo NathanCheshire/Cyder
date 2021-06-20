@@ -1620,6 +1620,12 @@ public class CyderMain {
         parentPane.setBounds(0, 0, fullW, fullH);
         parentLabel.setBounds(0, 0, fullW, fullH);
 
+        int oldCenterX = consoleFrame.getX() + consoleFrame.getWidth() / 2;
+        int oldCenterY = consoleFrame.getY() + consoleFrame.getHeight() / 2;
+
+        consoleFrame.setBounds(0, 0, fullW, fullH);
+        consoleFrame.setLocation(oldCenterX - consoleFrame.getWidth() / 2, oldCenterY - consoleFrame.getHeight() / 2);
+
         outputArea.setBounds(0, 0, fullW - 20, fullH - 204);
         outputScroll.setBounds(10, 62, fullW - 20, fullH - 204);
         inputField.setBounds(10, 82 + outputArea.getHeight(), fullW - 20, fullH - (outputArea.getHeight() + 62 + 40));
@@ -2380,9 +2386,7 @@ public class CyderMain {
                 StatUtil.allStats(outputArea);
             } else if (hasWord("random") && hasWord("background")) {
                 //todo press alternate background random number of times
-            }
-
-            else if (hasWord("alex") && hasWord("trebek")) {
+            } else if (hasWord("alex") && hasWord("trebek")) {
                 println("Do you mean who is alex trebek?");
             } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
                 Cards.Christmas2020();
