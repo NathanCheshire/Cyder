@@ -1925,7 +1925,7 @@ public class CyderMain {
                 stringUtil.setUserInputDesc("logoff");
                 inputField.requestFocus();
                 stringUtil.setUserInputMode(true);
-            } else if (eic("clc") || eic("cls") || eic("clear") || (hasWord("clear") && hasWord("screen"))) {
+            } else if (eic("clc") || eic("cls") || eic("clearString") || (hasWord("clearString") && hasWord("screen"))) {
                 clc();
             } else if (eic("no")) {
                 println("Yes");
@@ -2192,7 +2192,7 @@ public class CyderMain {
             } else if (hasWord("system") && hasWord("properties")) {
                 StatUtil.systemProperties();
             } else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
-                pixelateFile = IOUtil.getFile();
+                pixelateFile = new GetterUtil().getFile("Choose file to pixelate");
 
                 if (!pixelateFile.getName().endsWith(".png")) {
                     println("Sorry, " + ConsoleFrame.getUsername() + ", but this feature only supports PNG images");
@@ -2275,7 +2275,7 @@ public class CyderMain {
                         ((CyderFrame) (f)).dance();
                 //todo make dance cancelable by user,
                 //method to handle ctrl + c actions within each frame
-            } else if (hasWord("clear") && (hasWord("operation") ||
+            } else if (hasWord("clearString") && (hasWord("operation") ||
                     hasWord("command")) && hasWord("list")) {
                 operationList.clear();
                 scrollingIndex = 0;
@@ -2370,7 +2370,7 @@ public class CyderMain {
                 }
                 consoleFrame = null;
                 login();
-            } else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
+            } else if ((hasWord("wipe") || hasWord("clearString") || hasWord("delete")) && has("error")) {
                 if (SecurityUtil.nathanLenovo()) {
                     IOUtil.wipeErrors();
                     println("Deleted all user erorrs");
@@ -2547,20 +2547,18 @@ public class CyderMain {
     }
 
     private void test() {
-        try {
-            //todo add this stucture to the java doc for GetterUtil
-            new Thread(() -> {
-                try {
-                    String input = GetterUtil.getString("Input Getter","Enter any string","Submit");
-                    println(input);
-                    //other operations after
-                } catch (Exception e) {
-                    ErrorHandler.handle(e);
-                }
-            }, "Wait thread for getterUtil").start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+
+        new Thread(() -> {
+            try {
+                File input = new GetterUtil().getFile("Choose the new user's background file");
+                //other operations using input
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "wait thread for GetterUtil().getFile()").start();
+
+
     }
 
     //handler method
@@ -3025,7 +3023,7 @@ public class CyderMain {
         addMusicBackground.addActionListener(e -> {
             try {
                 //if this is too small or big, where is it resized and why is it too big?
-                File addFile = IOUtil.getFile();
+                File addFile = new GetterUtil().getFile("Choose file to add");
 
                 if (addFile == null)
                     return;
@@ -3118,7 +3116,7 @@ public class CyderMain {
 
                         String oldname = StringUtil.getFilename(selectedFile);
                         String extension = StringUtil.getExtension(selectedFile);
-                        String newname = GetterUtil.getString("Rename","Enter any valid file name","Submit");
+                        String newname = new GetterUtil().getString("Rename","Enter any valid file name","Submit");
 
                         if (oldname.equals(newname))
                             return;
@@ -3710,7 +3708,7 @@ public class CyderMain {
             @Override
             public void mouseReleased(MouseEvent e) {
                 try {
-                    File temp = IOUtil.getFile();
+                    File temp = new GetterUtil().getFile("Choose new user's background file");
                     if (temp != null) {
                         createUserBackground = temp;
                     }

@@ -7,6 +7,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderCheckBox;
 import cyder.ui.CyderFrame;
+import cyder.utilities.GetterUtil;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SystemUtil;
 
@@ -51,7 +52,7 @@ public class ImageResizer {
         chooseFile.setColors(CyderColors.regularRed);
         chooseFile.addActionListener(e -> {
             try {
-                File temp = IOUtil.getFile();
+                File temp = new GetterUtil().getFile("Choose file to resize");
 
                 if (temp != null && temp.getName().endsWith(".png")) {
                     resizeImage = temp;

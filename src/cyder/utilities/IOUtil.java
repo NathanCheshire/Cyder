@@ -715,37 +715,6 @@ public class IOUtil {
         }
     }
 
-    //todo redo this using different tricks but same program
-    public static File getFile() {
-        try {
-            Desktop.getDesktop().open(new File("sys/jars/FileChooser.jar"));
-
-            File f = new File("File.txt");
-            f.delete();
-
-            while (!f.exists()) {
-                Thread.onSpinWait();
-            }
-
-            Thread.sleep(200);
-
-            BufferedReader waitReader = new BufferedReader(new FileReader("File.txt"));
-
-            File chosenFile = new File(waitReader.readLine());
-            waitReader.close();
-
-            f.delete();
-
-            return (chosenFile.getName().equalsIgnoreCase("null") ? null : chosenFile);
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-
-        return null;
-    }
-
     /**
      * If a user becomes corrupted for any reason which may be determined any way we choose,
      * this method will aquire the exiting semaphore, dispose of all frames, and attempt to

@@ -11,20 +11,17 @@ public class InputHandler {
 
 
 
-
     //todo user logs and throws should eventually be converted to binary data so that you can only access it through the program
 
     //todo does enter animation work?
 
     //todo add reading and writing calls to/from userdata to the log
-
-    //todo what's the weird white pixel in login?
-
     //todo suggestion will be in a log summary for a log, logs stored in logs dir
 
-    //todo scrollbar on dir messes up when selecting, same with prefs, fix by making not opqeue or not fading away?
+    //todo show full file name for user files scroll and refresh the scroll on button events
+    //todo don't move console frame to front and print renamed, use pref frame notification
 
-    //todo get rid of filechooser.jar now since stringchooser.jar is gone
+    //todo scrollbar on dir messes up when selecting, same with prefs, fix by making not opqeue or not fading away?
 
     //todo test signatures against files and make a widget for this
 

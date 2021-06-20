@@ -7,7 +7,7 @@ import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderSliderUI;
-import cyder.utilities.IOUtil;
+import cyder.utilities.GetterUtil;
 import javazoom.jl.player.Player;
 
 import javax.sound.sampled.AudioSystem;
@@ -408,36 +408,40 @@ public class MPEGPlayer {
 
         selectMusicDir = new JButton("");
         selectMusicDir.setToolTipText("Open File");
-        selectMusicDir.addActionListener(e -> {
-            File SelectedFile = IOUtil.getFile();
+        selectMusicDir.addActionListener(e -> new Thread(() -> {
+            try {
+                File SelectedFile = new GetterUtil().getFile("Choose any mp3 file to play");
 
-            if (SelectedFile == null)
-                return;
+                if (SelectedFile == null)
+                    return;
 
-            if (!SelectedFile.toString().endsWith("mp3")) {
-                if (mp3Player == null)
-                    GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.","");
-            }
-
-            else {
-                File[] SelectedFileDir = SelectedFile.getParentFile().listFiles();
-                ArrayList<File> ValidFiles = new ArrayList<>();
-                for (int i = 0; i < (SelectedFileDir != null ? SelectedFileDir.length : 0); i++) {
-                    if (SelectedFileDir[i].toString().endsWith(".mp3")) {
-                        ValidFiles.add(SelectedFileDir[i]);
-                    }
+                if (!SelectedFile.toString().endsWith("mp3")) {
+                    if (mp3Player == null)
+                        GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.","");
                 }
 
-                for (int j = 0 ; j < ValidFiles.size() ; j++) {
-                    if (ValidFiles.get(j).equals(SelectedFile)) {
-                        currentMusicIndex = j;
+                else {
+                    File[] SelectedFileDir = SelectedFile.getParentFile().listFiles();
+                    ArrayList<File> ValidFiles = new ArrayList<>();
+                    for (int i = 0; i < (SelectedFileDir != null ? SelectedFileDir.length : 0); i++) {
+                        if (SelectedFileDir[i].toString().endsWith(".mp3")) {
+                            ValidFiles.add(SelectedFileDir[i]);
+                        }
                     }
-                }
 
-                musicFiles = ValidFiles.toArray(new File[ValidFiles.size()]);
-                play(musicFiles[currentMusicIndex]);
+                    for (int j = 0 ; j < ValidFiles.size() ; j++) {
+                        if (ValidFiles.get(j).equals(SelectedFile)) {
+                            currentMusicIndex = j;
+                        }
+                    }
+
+                    musicFiles = ValidFiles.toArray(new File[ValidFiles.size()]);
+                    play(musicFiles[currentMusicIndex]);
+                }
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
             }
-        });
+        }, "wait thread for GetterUtil().getFile()").start());
 
         selectMusicDir.addMouseListener(new MouseAdapter() {
             @Override
