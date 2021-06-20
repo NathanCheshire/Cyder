@@ -1,0 +1,16 @@
+begin 0, end 2, length 1
+class java.lang.StringIndexOutOfBoundsException
+Error thrown by line: 3116
+
+Stack Trace:
+
+java.lang.StringIndexOutOfBoundsException: begin 0, end 2, length 1
+	at java.base/java.lang.String.checkBoundsBeginEnd(String.java:3116)
+	at java.base/java.lang.String.substring(String.java:1885)
+	at cyder.utilities.ColorUtil.hextorgbColor(ColorUtil.java:9)
+	at cyder.genesis.CyderMain.console(CyderMain.java:406)
+	at cyder.genesis.CyderMain.recognize(CyderMain.java:1398)
+	at cyder.genesis.CyderMain.autoCypher(CyderMain.java:177)
+	at cyder.genesis.CyderMain.<init>(CyderMain.java:119)
+	at cyder.genesis.CyderMain.main(CyderMain.java:98)
+

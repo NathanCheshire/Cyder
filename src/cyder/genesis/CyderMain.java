@@ -1,9 +1,7 @@
 package cyder.genesis;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.*;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -1207,7 +1205,7 @@ public class CyderMain {
     }
 
     //login widget
-    protected final void login() {
+    public void login() {
         doLoginAnimations = true;
         loginMode = 0;
 
@@ -1263,96 +1261,96 @@ public class CyderMain {
         loginField.addActionListener(e -> loginField.requestFocusInWindow());
         loginField.addKeyListener(new KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                if (evt.getKeyChar() == KeyEvent.VK_BACK_SPACE && loginMode != 2) {
-                    if (loginField.getPassword().length < bashString.toCharArray().length) {
-                        evt.consume();
-                        loginField.setText(bashString);
+            if (evt.getKeyChar() == KeyEvent.VK_BACK_SPACE && loginMode != 2) {
+                if (loginField.getPassword().length < bashString.toCharArray().length) {
+                    evt.consume();
+                    loginField.setText(bashString);
+                }
+            }
+
+            else if (evt.getKeyChar() == '\n') {
+                char[] input = loginField.getPassword();
+
+                if (loginMode != 2) {
+                    char[] newInput = new char[input.length - bashString.toCharArray().length];
+
+                    //copy input to new input with offset
+                    if (input.length - bashString.length() >= 0) {
+                        System.arraycopy(input, bashString.length(), newInput, 0,
+                                input.length - bashString.length());
                     }
+
+                    input = newInput.clone();
                 }
 
-                else if (evt.getKeyChar() == '\n') {
-                    char[] input = loginField.getPassword();
-
-                    if (loginMode != 2) {
-                        char[] newInput = new char[input.length - bashString.toCharArray().length];
-
-                        //copy input to new input with offset
-                        if (input.length - bashString.length() >= 0) {
-                            System.arraycopy(input, bashString.length(), newInput, 0,
-                                    input.length - bashString.length());
+                switch (loginMode) {
+                    case 0:
+                        try {
+                            if (Arrays.equals(input,"create".toCharArray())) {
+                                createUser();
+                                loginField.setText(bashString);
+                                loginMode = 0;
+                            } else if (Arrays.equals(input,"login".toCharArray())) {
+                                loginField.setText(bashString);
+                                priorityPrintingList.add("Awaiting Username...\n");
+                                loginMode = 1;
+                            } else if (Arrays.equals(input,"login admin".toCharArray())) {
+                                loginField.setText(bashString);
+                                priorityPrintingList.add("Feature not yet implemented\n");
+                                loginMode = 0;
+                            } else if (Arrays.equals(input,"quit".toCharArray())) {
+                                loginFrame.closeAnimation();
+                            } else if (Arrays.equals(input,"h".toCharArray())) {
+                                loginField.setText(bashString);
+                                priorityPrintingList.add("Valid commands: create, login, login admin, quit, h\n");
+                            } else {
+                                loginField.setText(bashString);
+                                priorityPrintingList.add("Unknown command; See \"h\" for help\n");
+                            }
+                        } catch (Exception e) {
+                            ErrorHandler.handle(e);
                         }
 
-                        input = newInput.clone();
-                    }
+                        break;
+                    case 1:
+                        username = new String(input);
+                        loginMode = 2;
+                        loginField.setEchoChar('*');
+                        loginField.setText("");
+                        priorityPrintingList.add("Awaiting Password...\n");
 
-                    switch (loginMode) {
-                        case 0:
-                            try {
-                                if (Arrays.equals(input,"create".toCharArray())) {
-                                    createUser();
-                                    loginField.setText(bashString);
-                                    loginMode = 0;
-                                } else if (Arrays.equals(input,"login".toCharArray())) {
-                                    loginField.setText(bashString);
-                                    priorityPrintingList.add("Awaiting Username...\n");
-                                    loginMode = 1;
-                                } else if (Arrays.equals(input,"login admin".toCharArray())) {
-                                    loginField.setText(bashString);
-                                    priorityPrintingList.add("Feature not yet implemented\n");
-                                    loginMode = 0;
-                                } else if (Arrays.equals(input,"quit".toCharArray())) {
-                                    loginFrame.closeAnimation();
-                                } else if (Arrays.equals(input,"h".toCharArray())) {
-                                    loginField.setText(bashString);
-                                    priorityPrintingList.add("Valid commands: create, login, login admin, quit, h\n");
-                                } else {
-                                    loginField.setText(bashString);
-                                    priorityPrintingList.add("Unknown command; See \"h\" for help\n");
-                                }
-                            } catch (Exception e) {
-                                ErrorHandler.handle(e);
-                            }
+                        break;
 
-                            break;
-                        case 1:
-                            username = new String(input);
-                            loginMode = 2;
-                            loginField.setEchoChar('*');
-                            loginField.setText("");
-                            priorityPrintingList.add("Awaiting Password...\n");
+                    case 2:
+                        loginField.setEchoChar((char)0);
 
-                            break;
+                        try {
+                            Robot rob = new Robot();
+                            rob.keyPress(KeyEvent.VK_BACK_SPACE);
+                            rob.keyRelease(KeyEvent.VK_BACK_SPACE);
+                        } catch (Exception e) {
+                            ErrorHandler.handle(e);
+                        }
 
-                        case 2:
-                            loginField.setEchoChar((char)0);
+                        recognize(username,input);
+                        priorityPrintingList.add("Could not recognize user\n");
 
-                            try {
-                                Robot rob = new Robot();
-                                rob.keyPress(KeyEvent.VK_BACK_SPACE);
-                                rob.keyRelease(KeyEvent.VK_BACK_SPACE);
-                            } catch (Exception e) {
-                                ErrorHandler.handle(e);
-                            }
+                        if (input != null)
+                            for (char c: input)
+                                c = '\0';
 
-                            recognize(username,input);
-                            priorityPrintingList.add("Could not recognize user\n");
+                        loginMode = 0;
+                        break;
 
-                            if (input != null)
-                                for (char c: input)
-                                    c = '\0';
-
-                            loginMode = 0;
-                            break;
-
-                        default:
-                            loginField.setText(bashString);
-                            try {
-                                throw new FatalException("Error resulting from login shell");
-                            } catch (FatalException e) {
-                                ErrorHandler.handle(e);
-                            }
-                    }
+                    default:
+                        loginField.setText(bashString);
+                        try {
+                            throw new FatalException("Error resulting from login shell");
+                        } catch (FatalException e) {
+                            ErrorHandler.handle(e);
+                        }
                 }
+            }
             }
         });
 

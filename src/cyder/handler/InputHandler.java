@@ -6,9 +6,17 @@ import javax.swing.*;
 
 public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
-    // and direct the resulting flow and output, has: context engine, string util, etc. link between these and consoleframe
+    // and direct the resulting flow and output
+    //todo console frame (has-a) input handler (has-a) string util and context engine
+
+
+
+
+    //todo user logs and throws should eventually be converted to binary data so that you can only access it through the program
 
     //todo does enter animation work?
+
+    //todo add reading and writing calls to/from userdata to the log
 
     //todo what's the weird white pixel in login?
 

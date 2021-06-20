@@ -252,7 +252,7 @@ public class CyderFrame extends JFrame {
      * @param height - the specified height of the cyder frame
      */
     public CyderFrame(int width, int height) {
-        this(width, height, ImageUtil.imageIconFromColor(CyderColors.vanila));
+        this(width, height, new ImageIcon(""));
     }
 
     /**
