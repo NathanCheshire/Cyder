@@ -14,27 +14,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.LinkedList;
 
 public class YoutubeThread {
     private boolean exit = false;
 
     private StringUtil su;
     private String UUID;
-    public static final LinkedList<Character> urlChars = makeURLChars();
+    public static final char[] validChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+            'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+            'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2',
+            '3', '4', '5', '6', '7', '8', '9', '-', '_'};
 
-    public static LinkedList makeURLChars() {
-        LinkedList<Character> ret = new LinkedList<>(Arrays.asList('0', '1', '2',
-                '3', '4', '5', '6', '7', '8', '9', '-', '_', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-                'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'));
 
-        for (int i = 11 ; i < 37 ; i++) {
-            ret.add(Character.toUpperCase(ret.get(i)));
-        }
-
-        return ret;
-    }
 
     public YoutubeThread(JTextPane jTextPane) {
         //todo will be passed a inputhandler which we will call inputHandler.getStringUtil().println(String);
@@ -54,7 +46,7 @@ public class YoutubeThread {
                 ErrorHandler.handle(e);
             }
 
-            while (true) {
+            while (!exit) {
                 try {
                     if (UUID == null)
                         throw new Exception("UUID is null");
@@ -91,7 +83,7 @@ public class YoutubeThread {
                 } catch (Exception ignored) {
                     //invalid UUID so we ingnore and increment the UUID here to ensure we checked it
                     try {
-                        UUID = String.valueOf(incrementUUID(UUID.toCharArray(), 11));
+                        UUID = String.valueOf(incrementUUID(UUID.toCharArray(), 10));
                     } catch (FatalException e) {
                         ErrorHandler.handle(e);
                     }
@@ -100,7 +92,7 @@ public class YoutubeThread {
         },"Random youtube thread").start();
     }
 
-    private char[] incrementUUID(char[] uuid,int pos) throws FatalException {
+    private char[] incrementUUID(char[] uuid, int pos) throws FatalException {
         //init ret array
         char[] ret = uuid.clone();
 
@@ -108,7 +100,7 @@ public class YoutubeThread {
         char charac = uuid[pos];
 
         //is it equal to the last in the master list of chars?
-        if (charac == urlChars.get(urlChars.size() - 1)) {
+        if (charac == validChars[validChars.length - 1]) {
             //use recursion to add to next column
             if (pos - 1 < 0)
                 throw new FatalException("YouTube thread overflow");
@@ -116,18 +108,39 @@ public class YoutubeThread {
                 ret = incrementUUID(uuid, pos - 1);
         } else { //otherwise we just add to it and return
             //find the char's position in the master list of chars
-            int index = urlChars.indexOf(charac);
+            int index = findIndex(validChars, charac);
             //add to index
             index++;
             //set charac equal to new char
-            charac = urlChars.get(index);
+            charac = validChars[index];
             //sub in charac in array
             char[] cp = uuid.clone();
             cp[pos] = charac;
+
+            //if rolling to new column, reset this column
+            if (pos + 1 <= 10)
+                cp[pos + 1] = validChars[0];
+
             ret = cp;
         }
 
         return ret;
+    }
+
+    private int findIndex(char arr[], char c) {
+        if (arr == null)
+            return -1;
+
+        int i = 0;
+
+        while (i < arr.length)
+            if (arr[i] == c) {
+                return i;
+            } else {
+                i = i + 1;
+            }
+
+        return -1;
     }
 
     /**

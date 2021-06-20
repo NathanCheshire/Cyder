@@ -8,6 +8,10 @@ public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
     // and direct the resulting flow and output, has: context engine, string util, etc. link between these and consoleframe
 
+    //todo does enter animation work?
+
+    //todo what's the weird white pixel in login?
+
     //todo suggestion will be in a log summary for a log, logs stored in logs dir
 
     //todo scrollbar on dir messes up when selecting, same with prefs, fix by making not opqeue or not fading away?
