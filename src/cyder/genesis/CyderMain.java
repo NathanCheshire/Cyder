@@ -1925,7 +1925,7 @@ public class CyderMain {
                 stringUtil.setUserInputDesc("logoff");
                 inputField.requestFocus();
                 stringUtil.setUserInputMode(true);
-            } else if (eic("clc") || eic("cls") || eic("clearString") || (hasWord("clearString") && hasWord("screen"))) {
+            } else if (eic("clc") || eic("cls") || eic("clear") || (hasWord("clear") && hasWord("screen"))) {
                 clc();
             } else if (eic("no")) {
                 println("Yes");
@@ -2275,7 +2275,7 @@ public class CyderMain {
                         ((CyderFrame) (f)).dance();
                 //todo make dance cancelable by user,
                 //method to handle ctrl + c actions within each frame
-            } else if (hasWord("clearString") && (hasWord("operation") ||
+            } else if (hasWord("clear") && (hasWord("operation") ||
                     hasWord("command")) && hasWord("list")) {
                 operationList.clear();
                 scrollingIndex = 0;
@@ -2370,7 +2370,7 @@ public class CyderMain {
                 }
                 consoleFrame = null;
                 login();
-            } else if ((hasWord("wipe") || hasWord("clearString") || hasWord("delete")) && has("error")) {
+            } else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
                 if (SecurityUtil.nathanLenovo()) {
                     IOUtil.wipeErrors();
                     println("Deleted all user erorrs");
@@ -2547,17 +2547,6 @@ public class CyderMain {
     }
 
     private void test() {
-
-
-        new Thread(() -> {
-            try {
-                File input = new GetterUtil().getFile("Choose the new user's background file");
-                //other operations using input
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }, "wait thread for GetterUtil().getFile()").start();
-
 
     }
 
@@ -3025,13 +3014,16 @@ public class CyderMain {
                 //if this is too small or big, where is it resized and why is it too big?
                 File addFile = new GetterUtil().getFile("Choose file to add");
 
+                System.out.println(addFile);
+
                 if (addFile == null)
                     return;
 
                 for (File f : ConsoleFrame.getBackgrounds()) {
-                    if (addFile.getName().equals(f.getName()))
+                    if (addFile.getName().equals(f.getName())) {
                         editUserFrame.notify("Cannot add a background with the same name as a current one");
                         return;
+                    }
                 }
 
                 Path copyPath = new File(addFile.getAbsolutePath()).toPath();
@@ -3042,6 +3034,7 @@ public class CyderMain {
                     initMusicBackgroundList();
                     musicBackgroundScroll.setViewportView(componentsList);
                     musicBackgroundScroll.revalidate();
+                    musicBackgroundScroll.repaint();
                 } else if (addFile != null && addFile.getName().endsWith(".mp3")) {
                     File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Music/" + addFile.getName());
                     Files.copy(copyPath, Destination.toPath());
@@ -3131,12 +3124,13 @@ public class CyderMain {
                         if (!success) {
                             throw new FatalException("File was not renamed");
                         } else {
-                            println(selectedFile.getName() + " was successfully renamed to " + renameTo.getName());
+                            editUserFrame.notify(selectedFile.getName() +
+                                    " was successfully renamed to " + renameTo.getName());
                         }
 
+                        initMusicBackgroundList();
                         musicBackgroundScroll.setViewportView(componentsList);
                         musicBackgroundScroll.revalidate();
-                        consoleFrame.toFront();
                     }
                 }
             } catch (Exception ex) {
