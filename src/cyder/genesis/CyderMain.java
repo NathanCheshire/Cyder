@@ -2018,7 +2018,8 @@ public class CyderMain {
             } else if (eic("nathan")) {
                 printlnImage("sys/pictures/print/me.png");
             } else if (eic("help")) {
-                stringUtil.help(outputArea);
+                stringUtil.setOutputArea(outputArea);
+                stringUtil.help();
             } else if (hasWord("light") && hasWord("saber")) {
                 IOUtil.playAudio("sys/audio/Lightsaber.mp3");
             } else if (hasWord("xbox")) {

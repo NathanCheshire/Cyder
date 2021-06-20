@@ -13,86 +13,68 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//a StringUtil method should always be connected to an inputhandler if instantiated
 public class StringUtil {
     private static JTextPane outputArea;
 
-    private StringUtil() {}
+    private StringUtil() {} //no instantiation without jtextpane object
 
-    //todo input handler has a link to one of these
-
+    //StringUtil can only be instantiated if a valid JTextPane is provided
     public StringUtil(JTextPane outputArea) {
         this.outputArea = outputArea;
     }
 
     private boolean userInputMode;
     private String userInputDesc;
-
     private bletchyThread bletchThread;
 
+    /**
+     * Getter for this instance's input mode
+     * @return - the value of user input mode
+     */
     public boolean getUserInputMode() {
         return this.userInputMode;
     }
 
+    /**
+     * Set the value of secondary input mode
+     * @param b - the value of input mode
+     */
     public void setUserInputMode(boolean b) {
         this.userInputMode = b;
     }
 
+    /**
+     * Returns the expected secondary input description
+     * @return - the input description
+     */
     public String getUserInputDesc() {
         return this.userInputDesc;
     }
+
+    /**
+     * Sets this instance's secondary input description
+     * @param s - the description of the input we expect to receive next
+     */
     public void setUserInputDesc(String s) {
         this.userInputDesc = s;
     }
 
+    /**
+     * Sets the output area for this instance of StringUtil.
+     * @param jTextPane - the JTextPane which we will append to when needed
+     */
     public void setOutputArea(JTextPane jTextPane) {
         this.outputArea = jTextPane;
     }
 
-    public void help(JTextPane outputArea) {
-        this.outputArea = outputArea;
+    /**
+     * Prints a suggestion as to what the user should do
+     */
+    public void help() {
 
         String[] Helps = {
-                "rotateBackground",
-                "mp3",
-                "Home",
-                "note",
-                "Font",
-                "Java",
-                "logic",
-                "Pizza",
-                "Color",
-                "Music",
-                "dance",
-                "logout",
-                "Mathsh",
-                "Binary",
-                "Hasher",
-                "Coffee",
-                "Donuts",
-                "threads",
-                "weather",
-                "Vexento",
-                "Youtube",
-                "Weather",
-                "hangman",
-                "edit user",
-                "long word",
-                "rgb to hex",
-                "barrel roll",
-                "Preferences",
-                "Tic Tac Toe",
-                "Delete User",
-                "resize image",
-                "Create a User",
-                "Papers Please",
-                "System Sounds",
-                "youtube script",
-                "Tell me a story",
-                "Directory Search",
-                "Youtube Thumbnail",
-                "System Properties",
-                "Pixelate a Picture",
-                "YouTube Word Search",
+                "Nathan forgot to finish this; tell him to fill out this list"
         };
 
         ArrayList<Integer> UniqueIndexes = new ArrayList<>();
@@ -299,17 +281,28 @@ public class StringUtil {
         }
     }
 
+    /**
+     * Reverses the given array
+     * @param Array - the array to reverse
+     * @return - the reversed array
+     */
     public static char[] reverseArray(char[] Array) {
         String reverse = new StringBuilder(new String(Array)).reverse().toString();
         return reverse.toCharArray();
     }
 
-    public static boolean startsWith(String op, String comp) {
-        char[] opA = op.toLowerCase().toCharArray();
+    /**
+     * Determines if the provided string starts with the provided prefix
+     * @param string - the string to see if it starts with the given prefix
+     * @param prefix - the prefix to search the array for
+     * @return - the boolean result of the comparison
+     */
+    public static boolean startsWith(String string, String prefix) {
+        char[] opA = string.toLowerCase().toCharArray();
 
-        char[] compA = comp.toLowerCase().toCharArray();
+        char[] compA = prefix.toLowerCase().toCharArray();
 
-        for (int i = 0 ; i < comp.length() ; i++) {
+        for (int i = 0 ; i < prefix.length() ; i++) {
             if (Math.min(compA.length, opA.length) >= i) {
                 return false;
             }
@@ -326,11 +319,17 @@ public class StringUtil {
         return false;
     }
 
-    public static boolean endsWith(String op, String comp) {
-        char[] opA = reverseArray(op.toLowerCase().toCharArray());
-        char[] compA = reverseArray(comp.toLowerCase().toCharArray());
+    /**
+     * Determines if the provided string ends with the provided suffix
+     * @param string - the string to to see if it ends with the given suffix
+     * @param suffix - the suffix to search the array for
+     * @return - the boolean result of the comparison
+     */
+    public static boolean endsWith(String string, String suffix) {
+        char[] opA = reverseArray(string.toLowerCase().toCharArray());
+        char[] compA = reverseArray(suffix.toLowerCase().toCharArray());
 
-        for (int i = 0 ; i < comp.length() ; i++) {
+        for (int i = 0 ; i < suffix.length() ; i++) {
             if (Math.min(opA.length, compA.length) >= i) {
                 return false;
             }
@@ -347,9 +346,9 @@ public class StringUtil {
         return false;
     }
 
+    //master bletchy method
     public void bletchy(String decodeString, boolean useNumbers, int miliDelay) {
         String[] print = bletchy(decodeString,useNumbers);
-
         bletchThread = new bletchyThread(print,miliDelay);
     }
 
@@ -429,10 +428,16 @@ public class StringUtil {
         return retList.toArray(new String[0]);
     }
 
+    /**
+     * Prints the object array to {@link this} object's connected output area
+     * @param arr - the array of objects to print
+     */
     public void printArr(Object[] arr) {
-        for (Object o : arr) println(o);
+        for (Object o : arr)
+            println(o);
     }
 
+    //todo this will be written in logs so held in memory until proper closing
     public void logSuggestion(String input) {
         try {
             if (input != null && !input.equals("") && !filterLanguage(input) && input.length() > 10 && !filterLanguage(input)) {
@@ -464,6 +469,12 @@ public class StringUtil {
         }
     }
 
+    /**
+     * Determines the proper english grammer when attempting to use possession on a string that typically
+     * represents a noun.
+     * @param name - the proper name of the noun
+     * @return - the string to be appended to the proper noun ('s or simply ')
+     */
     public static String getApostrophe(String name) {
         if (name.endsWith("s"))
             return "'";
@@ -471,10 +482,21 @@ public class StringUtil {
             return "'s";
     }
 
+    /**
+     * Determines if the given string is empty
+     * @param s - the string to compare for emptiness (self.Soul() usually returns true)
+     * @return - the boolean result of the comparison
+     */
     public static boolean empytStr(String s) {
         return (s == null ? null: (s == null) || (s.trim().equals("")) || (s.trim().length() == 0));
     }
 
+    /**
+     * Fills a string with the provided character to result in a string of the specified length
+     * @param count - the length of the resultant string
+     * @param c - the character to fill the string with
+     * @return - the resultant filled array
+     */
     public static String fillString(int count, String c) {
         StringBuilder sb = new StringBuilder(count);
 
@@ -485,21 +507,42 @@ public class StringUtil {
         return sb.toString();
     }
 
-    public static String firstWord(String Word) {
-        String[] sentences = Word.split(" ");
+    /**
+     * Finds the first word in a given string.
+     * @param sentence - the string to search for
+     * @return - the resultant first word found
+     */
+    public static String firstWord(String sentence) {
+        String[] sentences = sentence.split(" ");
         return sentences[0];
     }
 
+    /**
+     * Determines if a word is palindrome (spelled the same forward and backwards like ogopogo and racecar).
+     * @param word - the word to check
+     * @return - the result of the comparison
+     */
     public static boolean isPalindrome(String word) {
         return Arrays.equals(word.toLowerCase().toCharArray(), reverseArray(word.toLowerCase().toCharArray()));
     }
 
-    public static String firstNumber(String Search) {
+    /**
+     * Uses a regex to find the first occurence of a digit and follows until no more digits.
+     * @param search - the string to search for digits in
+     * @return - the reusltant number found, if any
+     */
+    public static String firstNumber(String search) {
         Pattern Pat = Pattern.compile("\\d+");
-        Matcher m = Pat.matcher(Search);
+        Matcher m = Pat.matcher(search);
         return m.find() ? m.group() : null;
     }
 
+    /**
+     * Concatinates two arrays together.
+     * @param a - the first array
+     * @param b - the second array
+     * @return - the resultant array
+     */
     public static String[] combineArrays(String[] a, String[] b) {
         int length = a.length + b.length;
         String[] result = new String[length];
@@ -508,39 +551,125 @@ public class StringUtil {
         return result;
     }
 
-    public static String capsFirst(String Word) {
-        StringBuilder SB = new StringBuilder(Word.length());
-        String[] Words = Word.split(" ");
+    /**
+     * Converts the first character in a string to the capital version of it if it is a standard latin letter
+     * @param word - the word to capitalize the first letter of
+     * @return - the resultant wtring
+     */
+    public static String capsFirst(String word) {
+        StringBuilder SB = new StringBuilder(word.length());
+        String[] Words = word.split(" ");
 
-        for (String word : Words) {
-            SB.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
+        for (String wordy : Words) {
+            SB.append(Character.toUpperCase(wordy.charAt(0))).append(wordy.substring(1)).append(" ");
         }
 
         return SB.toString();
     }
 
+
+    /**
+     * Filters out simple leet speech from the provided string.
+     * @param filter - the word to filter leet out of
+     * @return - the resultant string after filtering
+     */
     public static String filterLeet(String filter) {
-        return filter.replace("!","i").replace("3","e")
-                .replace("4","a").replace("@","a")
-                .replace("5","s").replace("7","t")
-                .replace("0","o").replace("9","g")
-                .replace("%", "i").replace("#","h")
-                .replace("$","s").replace("1","i");
+        if (filter == null || filter.length() == 0)
+            return null;
+
+        //split at spaces and run leet in each of those
+        String[] words = filter.split(" ");
+
+        if (words.length == 0)
+            return filter;
+
+        StringBuilder sb = new StringBuilder();
+
+        for (String word : words) {
+            sb.append(wordLeet(word)).append(" ");
+        }
+
+        return sb.toString().trim();
     }
 
-    public static boolean hasWord(String userInput, String blockedWord) {
+    /**
+     * Inner filtering of leet speach for words specifically, this is the main driver method that does the magic.
+     * @param word - the word to filter leet out of.
+     * @return - the word having leet removed to the best of our abilities
+     */
+    private static String wordLeet(String word) {
+        char[] chars = word.toLowerCase().toCharArray();
+
+        for (int i = 0 ; i < chars.length ; i++) {
+            char c = chars[i];
+
+            //someone pls make this better and PR a method for this, make it work for permutations
+            //from this table: https://cleanspeak.com/images/blog/leet-wiki-table.png
+
+            if (c == '4' || c == '@' || c == '^' || c == 'z') 
+                chars[i] = 'a';
+            else if (c == '8' || c == '6') 
+                chars[i] = 'b';
+            else if (c == '(' || c == '<' || c == '{')
+                chars[i] = 'c';
+            else if (c == '3' || c == '&')
+                chars[i] = 'e';
+            else if (c == '}')
+                chars[i] = 'f';
+            else if ( c == '9')
+                chars[i] = 'g';
+            else if (c == '#')
+                chars[i] = 'h';
+            else if (c == '1' || c == '!' || c == '|')
+                chars[i] = 'i';
+            else if (c == ']')
+                chars[i] = 'j';
+            else if (c == '7')
+                chars[i] = 'l';
+            else if (c == '~')
+                chars[i] = 'n';
+            else if (c == '0')
+                chars[i] = 'o';
+            else if (c == '?' || c == 'q')
+                chars[i] = 'p';
+            else if (c == '2')
+                chars[i] = 'r';
+            else if (c == '$' || c == '5')
+                chars[i] = 's';
+            else if (c == '+')
+                chars[i] = 't';
+            else if (c == '*')
+                chars[i] = 'x';
+            else if (c == '%')
+                chars[i] = 'z';
+            
+        }
+
+        return String.valueOf(chars);
+    }
+
+    /**
+     * Tests whether or not the provided string has the provided word inside of it.
+     * @param userInput - the master string to search through
+     * @param word - the word to search the master string for
+     * @return - a boolean depicting whether or not the given string contains the test word
+     */
+    public static boolean hasWord(String userInput, String word) {
         userInput.toLowerCase();
-        blockedWord.toLowerCase();
+        word.toLowerCase();
 
-        if (blockedWord.equals(userInput) ||
-                blockedWord.contains(' ' + userInput + ' ') ||
-                blockedWord.contains(' ' + userInput) ||
-                blockedWord.contains(userInput + ' '))
-            return true;
-
-        else return blockedWord.contains(userInput + ' ');
+        return  word.equals(userInput) ||
+                word.contains(' ' + userInput + ' ') ||
+                word.contains(' ' + userInput) ||
+                word.contains(userInput + ' ') ||
+                word.contains(userInput + ' ');
     }
 
+    /**
+     * Tests a given string to see if it contains any blocked words contained in the v.txt system file
+     * @param userInput - the provided string to test against
+     * @return - a boolean describing whether or not the filter was triggered by the input
+     */
     public static boolean filterLanguage(String userInput) {
         try {
             BufferedReader vReader = new  BufferedReader(new FileReader("sys/text/v.txt"));
@@ -566,6 +695,11 @@ public class StringUtil {
         return false;
     }
 
+    /**
+     * Provides the exact string object but with the first character converted to lowercase.
+     * @param str - the string to convert the first character to lowercase
+     * @return - the resultant string
+     */
     public static String firstCharToLowerCase(String str) {
         if (str == null || str.length() == 0)
             return "";
@@ -575,27 +709,69 @@ public class StringUtil {
         else return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
+    /**
+     * Count the number of words of the provided string.
+     * @param str - the string ot count the words of
+     * @return - the word count of the requested string
+     */
     public static int countWords(String str) {
         return (str == null || str.isEmpty()) ? 0 : str.split("\\s+").length;
     }
 
+    /**
+     * Uses a regex to get the file name of the provided file, does not return the period.
+     * @param file - the file of which to return the name of (this does not include the
+     *             extension; use {@link File#getName()} )} to get the full filename + extension)
+     * @return - the file name requested
+     */
     public static String getFilename(String file) {
         return file.replaceAll("\\.([^.]+)$", "");
     }
 
+    /**
+     * Uses a regex to get the file extension of the provided file, returns the period too.
+     * @param file - the name of the file of which to return the extension of
+     * @return - the file extension requested
+     */
     public static String getExtension(String file) {
         return file.replace(getFilename(file), "");
     }
 
+    /**
+     * Uses a regex to get the file name of the provided file, does not return the period.
+     * @param file - the name of the file of which to return the name of (this does not include the
+     *             extension; use {@link File#getName()})} to get the full filename + extension)
+     * @return - the file name requested
+     */
     public static String getFilename(File file) {
         return file.getName().replaceAll("\\.([^.]+)$", "");
     }
 
+    /**
+     * Uses a regex to get the file extension of the provided file, returns the period too.
+     * @param file - the file of which to return the extension of
+     * @return - the file extension requested
+     */
     public static String getExtension(File file) {
         return file.getName().replace(getFilename(file), "");
     }
 
+    /**
+     * Determines if a string is confirming a question or denying it
+     * @param input - the input string to check for verifcation key words
+     * @return - the boolean result of the confirmation
+     */
     public static boolean isConfirmation(String input) {
-        return (input.toLowerCase().contains("yes") || input.equalsIgnoreCase("y"));
+        return (input.equalsIgnoreCase("yes") ||
+                input.equalsIgnoreCase("y") ||
+                input.equalsIgnoreCase("sure") ||
+                input.equalsIgnoreCase("i guess") ||
+                input.equalsIgnoreCase("why not") ||
+                input.equalsIgnoreCase("mhmm") ||
+                input.equalsIgnoreCase("mhm") ||
+                input.equalsIgnoreCase("k") ||
+                input.equalsIgnoreCase("ok") ||
+                input .equalsIgnoreCase("okay") ||
+                input.contains("go"));
     }
 }

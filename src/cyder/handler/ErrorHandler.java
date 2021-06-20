@@ -149,7 +149,7 @@ public class ErrorHandler {
         //setup frame
         CyderFrame errorFrame = new CyderFrame();
         errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        errorFrame.setTitle(title);
+        errorFrame.setTitle(title.length() == 0 ? "Null error message" : title);
         errorFrame.initializeBackgroundResizing();
         errorFrame.setResizable(true);
         errorFrame.setMaximumSize(new Dimension(800,800)); //this isn't working!!????
