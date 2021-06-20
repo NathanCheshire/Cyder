@@ -1,9 +1,11 @@
 package cyder.threads;
 
 
+import cyder.exception.FatalException;
+import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
+import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;
-import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
 
 import javax.imageio.ImageIO;
@@ -19,6 +21,7 @@ public class YoutubeThread {
     private boolean exit = false;
 
     private StringUtil su;
+    private String UUID;
     public static final LinkedList<Character> urlChars = makeURLChars();
 
     public static LinkedList makeURLChars() {
@@ -34,22 +37,30 @@ public class YoutubeThread {
     }
 
     public YoutubeThread(JTextPane jTextPane) {
+        //todo will be passed a inputhandler which we will call inputHandler.getStringUtil().println(String);
         su = new StringUtil(jTextPane);
 
         new Thread(() -> {
             String Start = "https://www.youtube.com/watch?v=";
             String thumbnailURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
+            UUID = IOUtil.getSystemData("YTT");
+
+            try {
+                if (UUID.length() != 11)
+                    throw new FatalException("Youtube Thread UUID not length 11");
+                else if (UUID.length() == 0 || UUID == null)
+                    throw new FatalException("Youtube Thread UUID length 0 or null");
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
 
             while (true) {
                 try {
-                    String UUID = "";
-                    StringBuilder UUIDBuilder = new StringBuilder(UUID);
+                    if (UUID == null)
+                        throw new Exception("UUID is null");
+                    else if (UUID.length() != 11)
+                        throw new Exception("UUID length is not 11");
 
-                    //don't do random, sequentially build up to and save place when canceled
-                    for (int i = 0; i < 11; i++)
-                        UUIDBuilder.append(urlChars.get(NumberUtil.randInt(0, 63)));
-
-                    UUID = UUIDBuilder.toString();
                     su.println("Checked UUID: " + UUID);
                     Start = Start + UUID;
 
@@ -77,13 +88,54 @@ public class YoutubeThread {
                     thumbnailFrame.setLocationRelativeTo(null);
 
                     this.kill();
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                    //invalid UUID so we ingnore and increment the UUID here to ensure we checked it
+                    try {
+                        UUID = String.valueOf(incrementUUID(UUID.toCharArray(), 11));
+                    } catch (FatalException e) {
+                        ErrorHandler.handle(e);
+                    }
+                }
             }
-        },"Random youtube thread #i").start();
+        },"Random youtube thread").start();
     }
 
+    private char[] incrementUUID(char[] uuid,int pos) throws FatalException {
+        //init ret array
+        char[] ret = uuid.clone();
+
+        //get the character at the position we ant
+        char charac = uuid[pos];
+
+        //is it equal to the last in the master list of chars?
+        if (charac == urlChars.get(urlChars.size() - 1)) {
+            //use recursion to add to next column
+            if (pos - 1 < 0)
+                throw new FatalException("YouTube thread overflow");
+            else
+                ret = incrementUUID(uuid, pos - 1);
+        } else { //otherwise we just add to it and return
+            //find the char's position in the master list of chars
+            int index = urlChars.indexOf(charac);
+            //add to index
+            index++;
+            //set charac equal to new char
+            charac = urlChars.get(index);
+            //sub in charac in array
+            char[] cp = uuid.clone();
+            cp[pos] = charac;
+            ret = cp;
+        }
+
+        return ret;
+    }
+
+    /**
+     * Kills the YouTube thread and writes the last checked UUID to system data
+     */
     public void kill() {
         this.exit = true;
+        IOUtil.writeSystemData("YTT",UUID);
     }
 
     @Override

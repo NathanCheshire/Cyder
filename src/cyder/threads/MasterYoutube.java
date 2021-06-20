@@ -6,10 +6,9 @@ import java.util.LinkedList;
 public class MasterYoutube {
     private JTextPane outputArea;
 
-    //todo random youtube should start from 0 and go through all permutations and remember where it's been
-    // so when killed save where we are and pickup from there after, in this sense, we need further math,
-    // to figure out how to split up threads such as start, start + 1, start + 2, and inc of 3 for each in the case
-    // of 3 threads for example
+    //todo this class still exists in the event we want to allow multithreading once again with random youtube
+    // that will be hard to figure out due to the nature of threads, context switching, and just the general way
+    // processors and operating systems work D:
 
     //should be associated with an input handler
     public MasterYoutube(JTextPane outputArea) {
@@ -24,6 +23,7 @@ public class MasterYoutube {
             ytt.kill();
     }
 
+    //this will always be 1 as of right now
     public void start(int number) {
         for (int i = 0; i < number; i++) {
             YoutubeThread current = new YoutubeThread(outputArea);

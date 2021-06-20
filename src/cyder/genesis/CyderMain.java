@@ -1704,17 +1704,6 @@ public class CyderMain {
                 String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
                 browse = browse.replace("REPLACE", input).replace(" ", "+");
                 NetworkUtil.internetConnect(browse);
-            } else if (desc.equalsIgnoreCase("random youtube")) {
-                try {
-                    //notify("The" + (threads > 1 ? " scripts have " : " script has ") + "started. At any point, type \"stop script\"",
-                    //4000, ArrowDirection.TOP, VanishDirection.TOP, parentPane, (threads > 1 ? 620 : 610));
-                    my = new MasterYoutube(outputArea);
-                    my.start(Integer.parseInt(input));
-                } catch (NumberFormatException e) {
-                    println("Invalid input for number of threads to start.");
-                } catch (Exception e) {
-                    ErrorHandler.handle(e);
-                }
             } else if (desc.equalsIgnoreCase("anagram1")) {
                 println("Enter your second word");
                 anagram = input;
@@ -2110,10 +2099,9 @@ public class CyderMain {
                 consoleFrame.setLocationRelativeTo(null);
             } else if (hasWord("random") && hasWord("youtube")) {
                 my.killAllYoutube();
-                println("How many instances of the script do you want to start?");
-                inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
-                stringUtil.setUserInputDesc("random youtube");
+                //todo inform user how to cancel youtube threads
+                my = new MasterYoutube(outputArea);
+                my.start(1);
             } else if (hasWord("arduino")) {
                 NetworkUtil.internetConnect("https://www.arduino.cc/");
             } else if (has("rasberry pi")) {
