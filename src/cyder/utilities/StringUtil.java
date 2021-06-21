@@ -4,18 +4,19 @@ import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Element;
 import javax.swing.text.StyledDocument;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 //a StringUtil method should always be connected to an inputhandler if instantiated
 public class StringUtil {
-    private static JTextPane outputArea;
+    private static JTextPane outputArea = null;
 
     private StringUtil() {} //no instantiation without jtextpane object
 
@@ -24,9 +25,16 @@ public class StringUtil {
         this.outputArea = outputArea;
     }
 
+    /**
+     * Standard getter for this object's possible JTextPane
+     * @return - The resultant output area if one is connected
+     */
+    public static JTextPane getOutputArea() {
+        return outputArea;
+    }
+
     private boolean userInputMode;
     private String userInputDesc;
-    private bletchyThread bletchThread;
 
     /**
      * Getter for this instance's input mode
@@ -87,6 +95,56 @@ public class StringUtil {
 
         for (int i = 0; i < 10; i++)
             println(Helps[UniqueIndexes.get(i)]);
+    }
+
+    //todo test
+    public void removeLastChars(int n) {
+        try {
+            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            document.remove(document.getLength() - 1 - n,document.getLength() - 1);
+            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    //todo test
+    public void removeFirstChars(int n) {
+        try {
+            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            document.remove(0, n);
+            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    //todo test
+    public void removeFirstLine() {
+        try {
+            Element root = outputArea.getDocument().getDefaultRootElement();
+            Element first = root.getElement(0);
+            outputArea.getDocument().remove(first.getStartOffset(), first.getEndOffset());
+            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+        } catch (BadLocationException e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    //todo test
+    public void removeLastLine() {
+        try {
+            Element root = outputArea.getDocument().getDefaultRootElement();
+            Element first = root.getElement(root.getElementCount() - 1);
+            outputArea.getDocument().remove(first.getStartOffset(), first.getEndOffset());
+            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+        } catch (BadLocationException e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     public void print(String Usage) {
@@ -346,88 +404,6 @@ public class StringUtil {
         return false;
     }
 
-    //master bletchy method
-    public void bletchy(String decodeString, boolean useNumbers, int miliDelay) {
-        String[] print = bletchy(decodeString,useNumbers);
-        bletchThread = new bletchyThread(print,miliDelay);
-    }
-
-    //todo move inner class to threads package
-    private class bletchyThread  {
-        private boolean exit = false;
-
-        bletchyThread(String[] print, int miliDelay) {
-            new Thread(() -> {
-                for (int i = 1 ; i < print.length ; i++) {
-                    if (exit) {
-                        println("Escaped");
-                        return;
-                    }
-
-                    println(print[i]);
-
-                    try {
-                        Thread.sleep(miliDelay);
-                    }
-
-                    catch (Exception e) {
-                        ErrorHandler.handle(e);
-                    }
-
-                    outputArea.setText("");
-                }
-
-                println(print[print.length - 1].toUpperCase());
-
-                this.kill();
-            }).start();
-        }
-
-        public void kill() {
-            this.exit = true;
-        }
-    }
-
-    public void killBletchy() {
-        if (bletchThread != null)
-            bletchThread.kill();
-    }
-
-    public static String[] bletchy(String decodeString, boolean useNumbers) {
-        LinkedList<String> retList = new LinkedList<>();
-
-        decodeString = decodeString.toLowerCase();
-        decodeString = decodeString.replaceFirst("(?:bletchy)+", "").trim();
-        final String s = decodeString;
-
-        int len = s.length();
-
-        char[] alphas = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-        char[] alphaNumeric = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-                '0','1','2','3','4','5','6','7','8','9'};
-
-        if (useNumbers)
-            alphas = alphaNumeric;
-
-        int iterationsPerChar = 7;
-
-        for (int i = 1 ; i < len ; i++) {
-            for (int j = 0 ; j < iterationsPerChar ; j++) {
-
-                String current = "";
-
-                for (int k = 0 ; k <= len ; k++)
-                    current += alphas[NumberUtil.randInt(0,alphas.length - 1)];
-
-                retList.add((s.substring(0,i) + current.substring(i, len)).toUpperCase());
-            }
-        }
-
-        retList.add(s.toUpperCase());
-
-        return retList.toArray(new String[0]);
-    }
-
     /**
      * Prints the object array to {@link this} object's connected output area
      * @param arr - the array of objects to print
@@ -535,6 +511,18 @@ public class StringUtil {
         Pattern Pat = Pattern.compile("\\d+");
         Matcher m = Pat.matcher(search);
         return m.find() ? m.group() : null;
+    }
+
+    /**
+     * Matches a given string with the provided regex and returns the result.
+     * @param search - the string to use the regex on
+     * @param regex - the regex to compare to the given string
+     * @return - the resultant match of the string to the regex
+     */
+    public static String match(String search, String regex) {
+        Pattern pat = Pattern.compile(regex);
+        Matcher match = pat.matcher(search);
+        return match.find() ? match.group() : null;
     }
 
     /**

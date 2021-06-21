@@ -10,6 +10,7 @@ import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
 import cyder.obj.Preference;
+import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.*;
 import cyder.utilities.*;
@@ -47,6 +48,7 @@ import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 public class CyderMain {
     //todo input handler
     private MasterYoutube my = new MasterYoutube(outputArea);
+    private BletchyThread bl = new BletchyThread(outputArea);
 
     //todo login spins off of main of autocypher fails
     private CyderFrame loginFrame;
@@ -1835,7 +1837,7 @@ public class CyderMain {
                         f.setLocation(x, y);
             } else if (hasWord("bletchy")) {
                 stringUtil.setOutputArea(outputArea);
-                stringUtil.bletchy(operation, false, 50);
+                bl.bletchy(operation, false, 50, true);
             } else if ((hasWord("flip") && hasWord("coin")) || (hasWord("heads") && hasWord("tails"))) {
                 if (Math.random() <= 0.0001) {
                     println("You're not going to beleive this, but it landed on its side.");
@@ -1896,7 +1898,7 @@ public class CyderMain {
                 Runtime.getRuntime().exec(param);
             } else if (hasWord("scrub")) {
                 stringUtil.setOutputArea(outputArea);
-                stringUtil.bletchy("No you!", false, 50);
+                bl.bletchy("No you!", false, 50, true);
             } else if (eic("break;")) {
                 println("Thankfully I am over my infinite while loop days.");
             } else if (hasWord("url")) {
@@ -1913,7 +1915,7 @@ public class CyderMain {
             } else if (hasWord("how") && hasWord("day")) {
                 println("I was having fun until you started asking me questions.");
             } else if (has("How old are you") || (hasWord("what") && hasWord("age"))) {
-                stringUtil.bletchy("As old as my tongue and a little bit older than my teeth, wait...", false, 50);
+                bl.bletchy("As old as my tongue and a little bit older than my teeth, wait...", false, 50, true);
             } else if (((hasWord("who") || hasWord("what")) && has("you"))) {
                 println("My name is Cyder. I am a tool built by Nathan Cheshire for programmers/advanced users.");
             } else if (hasWord("helpful") && hasWord("you")) {
@@ -2221,7 +2223,7 @@ public class CyderMain {
             } else if (eic("controlc") && !outputArea.isFocusOwner()) {
                 stringUtil.setUserInputMode(false);
                 my.killAllYoutube();
-                stringUtil.killBletchy();
+                bl.killBletchy();
                 println("Escaped");
             } else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
                 println("Enter your word to be alphabetically rearranged");
@@ -2408,6 +2410,8 @@ public class CyderMain {
                     } else {
                         println(f.getTitle());
                     }
+            } else if (has("Father") && hasWord("day") && has("2021")) {
+                Cards.FathersDay2021();
             }
 
             //attempts at undefined input
@@ -3885,7 +3889,7 @@ public class CyderMain {
 
         AnimationUtil.closeAnimation(consoleFrame);
         my.killAllYoutube();
-        stringUtil.killBletchy();
+        bl.killBletchy();
 
         try {
             GenesisShare.getExitingSem().acquire();

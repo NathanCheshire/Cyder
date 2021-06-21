@@ -10,6 +10,11 @@ public class InputHandler {
     //todo console frame (has-a) input handler (has-a) string util and context engine
 
 
+    //todo file chooser frames dispose after getting file?
+
+    //todo rounded window corners possibility?
+
+    //todo update readme after addressing mp3 widget errors
 
     //todo user logs and throws should eventually be converted to binary data so that you can only access it through the program
 
