@@ -13,9 +13,6 @@ public class BletchyThread {
     private JTextPane outputArea;
     private StringUtil su;
 
-    //todo don't reset su's outputarea when using bletchy
-    // use the recently added methods after testing, with new lines too, in stringutil to accomlish this?
-
     /**
      * Class instantiation requires a JTextPane so that we may use a StringUtil to append to the profvided JTextPane
      * @param outputArea - the JTextPane belonging to a ConsoleFrame to print to
@@ -59,7 +56,7 @@ public class BletchyThread {
                         ErrorHandler.handle(e);
                     }
 
-                    su.getOutputArea().setText("");
+                    su.removeLastLine();
                 }
 
                 su.println(print[print.length - 1].toUpperCase());

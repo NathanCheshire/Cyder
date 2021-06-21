@@ -1,7 +1,9 @@
 package cyder.genesis;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import cyder.consts.*;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -1948,7 +1950,7 @@ public class CyderMain {
             } else if (hasWord("siri") || hasWord("jarvis") || hasWord("alexa")) {
                 println("Whata bunch of losers.");
             } else if ((hasWord("mississippi") && hasWord("state") && hasWord("university")) || eic("msu")) {
-                printImage("sys/pictures/print/msu.png");
+                printlnImage("sys/pictures/print/msu.png");
             } else if (has("toy") && has("story")) {
                 IOUtil.playAudio("sys/audio/TheClaw.mp3");
             } else if (has("stop") && has("music")) {
@@ -2183,7 +2185,7 @@ public class CyderMain {
             } else if (hasWord("papers") && hasWord("please")) {
                 NetworkUtil.internetConnect("http://papersplea.se/");
             } else if (eic("java")) {
-                printImage("sys/pictures/print/Duke.png");
+                printlnImage("sys/pictures/print/Duke.png");
             } else if (hasWord("coffee")) {
                 NetworkUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
             } else if (hasWord("ip")) {
@@ -2412,6 +2414,10 @@ public class CyderMain {
                     }
             } else if (has("Father") && hasWord("day") && has("2021")) {
                 Cards.FathersDay2021();
+            } else if (has("textfield")) {
+                CyderTextField ctf = new CyderTextField(20);
+                ctf.setSize(new Dimension(200,40));
+                new StringUtil(outputArea).printlnComponent(ctf, "testTextField","testTextField");
             }
 
             //attempts at undefined input
@@ -2555,7 +2561,8 @@ public class CyderMain {
     }
 
     private void test() {
-
+        StringUtil su = new StringUtil(outputArea);
+        su.removeLastLine();
     }
 
     //handler method

@@ -11,18 +11,48 @@ import java.awt.event.KeyEvent;
 public class CyderTextField extends JTextField {
     private int limit = 10;
     private Color backgroundColor = CyderColors.vanila;
-    private String regex = null;
+    private String regex;
 
-    public CyderTextField(int colnum) {
-        super(colnum);
+    public CyderTextField(int charLimit) {
+        super(charLimit);
+        this.limit = charLimit;
+        regex = null;
 
         this.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent evt) {
-            if (getText().length() >= limit) {
-                evt.consume();
-            } else if ((regex != null || regex.length() != 0) && !getText().matches(regex)) {
-                evt.consume();
+                if (getText().length() > limit) {
+                    setText(getText().substring(0,getText().length() - 1));
+                    Toolkit.getDefaultToolkit().beep();
+                } else if (regex != null && regex.length() != 0 && getText() != null && getText().length() > 0 ) {
+                    if (!getText().matches(regex)) {
+                        setText(getText().substring(0,getText().length() - 1));
+                        Toolkit.getDefaultToolkit().beep();
+                    }
+                }
             }
+
+            public void keyPressed(KeyEvent evt) {
+                if (getText().length() > limit) {
+                    setText(getText().substring(0,getText().length() - 1));
+                    Toolkit.getDefaultToolkit().beep();
+                } else if (regex != null && regex.length() != 0 && getText() != null && getText().length() > 0 ) {
+                    if (!getText().matches(regex)) {
+                        setText(getText().substring(0,getText().length() - 1));
+                        Toolkit.getDefaultToolkit().beep();
+                    }
+                }
+            }
+
+            public void keyReleased(KeyEvent evt) {
+                if (getText().length() > limit) {
+                    setText(getText().substring(0,getText().length() - 1));
+                    Toolkit.getDefaultToolkit().beep();
+                } else if (regex != null && regex.length() != 0 && getText() != null && getText().length() > 0 ) {
+                    if (!getText().matches(regex)) {
+                        setText(getText().substring(0,getText().length() - 1));
+                        Toolkit.getDefaultToolkit().beep();
+                    }
+                }
             }
         });
 

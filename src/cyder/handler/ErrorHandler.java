@@ -147,6 +147,9 @@ public class ErrorHandler {
 
     private static void windowedError(String title, String message, String errorFilePath) {
         //setup frame
+        if (title == null)
+            title = "";
+
         CyderFrame errorFrame = new CyderFrame();
         errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         errorFrame.setTitle(title.length() == 0 ? "Null error message" : title);

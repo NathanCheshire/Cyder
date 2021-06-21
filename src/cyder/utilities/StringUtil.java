@@ -4,13 +4,11 @@ import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Element;
-import javax.swing.text.StyledDocument;
+import javax.swing.text.*;
+import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,50 +78,13 @@ public class StringUtil {
      * Prints a suggestion as to what the user should do
      */
     public void help() {
-
-        String[] Helps = {
-                "Nathan forgot to finish this; tell him to fill out this list"
+        String[] helpTips = {
+            "Nathan forgot to finish this; tell him to fill out this list"
         };
 
-        ArrayList<Integer> UniqueIndexes = new ArrayList<>();
-
-        for (int i = 0; i < Helps.length; i++)
-            UniqueIndexes.add(i);
-
-        Collections.shuffle(UniqueIndexes);
-        println("Try typing:");
-
-        for (int i = 0; i < 10; i++)
-            println(Helps[UniqueIndexes.get(i)]);
+        println("Try typing: " + helpTips[0]);
     }
 
-    //todo test
-    public void removeLastChars(int n) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.remove(document.getLength() - 1 - n,document.getLength() - 1);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
-
-    //todo test
-    public void removeFirstChars(int n) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.remove(0, n);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
-
-    //todo test
     public void removeFirstLine() {
         try {
             Element root = outputArea.getDocument().getDefaultRootElement();
@@ -135,14 +96,39 @@ public class StringUtil {
         }
     }
 
-    //todo test
     public void removeLastLine() {
         try {
-            Element root = outputArea.getDocument().getDefaultRootElement();
-            Element first = root.getElement(root.getElementCount() - 1);
-            outputArea.getDocument().remove(first.getStartOffset(), first.getEndOffset());
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (BadLocationException e) {
+            LinkedList<Element> elements = new LinkedList<>();
+            ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
+            Element element;
+            while ((element = iterator.next()) != null) {
+                elements.add(element);
+            }
+
+            for (int i = 0; i < elements.size() ; i++) {
+                if (elements.get(i).getElementCount() == 0) {
+                    outputArea.getStyledDocument().remove(elements.get(i).getStartOffset(),
+                            elements.get(i).getEndOffset() - elements.get(i).getStartOffset());
+                }
+            }
+
+
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+    }
+
+    public void printlnComponent(Component c, String nm, String str) {
+        try {
+            //setup style for sheet
+            Style cs = outputArea.getStyledDocument().addStyle(nm, null);
+            //add component using the nm identifier
+            StyleConstants.setComponent(cs, c);
+            //add style with component to styled document using str identifier
+            outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), str, cs);
+            //new line
+            println("");
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
