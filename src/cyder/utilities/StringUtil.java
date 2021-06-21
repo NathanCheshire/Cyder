@@ -96,6 +96,35 @@ public class StringUtil {
         }
     }
 
+    private static final String ELEM = AbstractDocument.ElementNameAttribute;
+    private static final String ICON = StyleConstants.IconElementName;
+    private static final String COMP = StyleConstants.ComponentElementName;
+
+    /**
+     * Prints the contents of the linked JTextPane in raw text format.
+     * A tree builder will be implemented in the future if needed to better visualize how components,
+     *  icons, text, etc. is stored in the object.
+     */
+    public void printElements() {
+        ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
+        Element element;
+        while ((element = iterator.next()) != null) {
+            System.out.println(element);
+            AttributeSet as = element.getAttributes();
+            if (as.containsAttribute(ELEM, ICON)) {
+                System.out.println(StyleConstants.getIcon(as).getClass());
+            }
+            if (as.containsAttribute(ELEM, COMP)) {
+                System.out.println(StyleConstants.getComponent(as).getClass());
+            }
+        }
+    }
+
+
+    /**
+     * Removes the last line from the linked JTextPane. This could be anything: a newline character (\n),
+     *  a component such as JTextField or JButton, an icon, or anything else that might be added to a JTextPane.
+     */
     public void removeLastLine() {
         try {
             LinkedList<Element> elements = new LinkedList<>();
@@ -105,16 +134,31 @@ public class StringUtil {
                 elements.add(element);
             }
 
-            for (int i = 0; i < elements.size() ; i++) {
-                if (elements.get(i).getElementCount() == 0) {
-                    outputArea.getStyledDocument().remove(elements.get(i).getStartOffset(),
-                            elements.get(i).getEndOffset() - elements.get(i).getStartOffset());
+            int leafs = 0;
+
+            for (Element value : elements)
+                if (value.getElementCount() == 0)
+                    leafs++;
+
+
+            //remove the nth - 1 leaf, so if there are 4 more 3
+            int passedLeafs = 0;
+
+            for (Element value : elements) {
+                //its a leaf
+                if (value.getElementCount() == 0) {
+                    if (passedLeafs + 2 != leafs) {
+                        passedLeafs++;
+                        continue;
+                    }
+
+                    outputArea.getStyledDocument().remove(value.getStartOffset(),
+                            value.getEndOffset() - value.getStartOffset());
                 }
             }
-
-
-        } catch (Exception e) {
-           e.printStackTrace();
+        } catch (BadLocationException ignored) {}
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
