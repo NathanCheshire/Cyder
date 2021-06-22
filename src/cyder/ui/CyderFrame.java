@@ -491,21 +491,16 @@ public class CyderFrame extends JFrame {
      * Animates the window from offscreen top to the center of the screen.
      */
     public void enterAnimation() {
-        if (this == null)
-            return;
+        setVisible(false);
+        setLocationRelativeTo(null);
 
-        dl.disableDragging();
+        int to = getY();
+        setLocation(getX(), 0 - getHeight());
 
-        this.setVisible(false);
-        this.setLocationRelativeTo(null);
+        setVisible(true);
 
-        int to = this.getY();
-        this.setLocation(this.getX(), 0 - this.getHeight());
-
-        this.setVisible(true);
-
-        for (int i = 0 - this.getHeight(); i < to; i += 15) {
-            this.setLocation(this.getX(), i);
+        for (int i = 0 - getHeight(); i < to / 2; i += 15) {
+            setLocation(getX(), i);
             try {
                 Thread.sleep(1);
             } catch (Exception e) {
@@ -513,9 +508,7 @@ public class CyderFrame extends JFrame {
             }
         }
 
-        this.setLocationRelativeTo(null);
-
-        dl.enableDragging();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -991,13 +984,5 @@ public class CyderFrame extends JFrame {
 
         contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT)));
-    }
-
-    //overridden so we can set the drag label's restore point
-    @Override
-    public void setVisible(boolean visible) {
-        super.setVisible(visible);
-        dl.setRestoreX(this.getX());
-        dl.setRestoreY(this.getY());
     }
 }

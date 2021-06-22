@@ -2865,9 +2865,7 @@ public class CyderMain {
         changePassword.setBounds(600, 750, 300, 40);
         editUserFrame.getContentPane().add(changePassword);
 
-        editUserFrame.setLocationRelativeTo(null);
-        editUserFrame.setVisible(true);
-        editUserFrame.requestFocus();
+        editUserFrame.enterAnimation();
     }
 
     public void initMusicBackgroundList() {

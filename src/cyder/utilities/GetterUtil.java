@@ -181,7 +181,7 @@ public class GetterUtil {
                 frame.add(fxPanel);
                 frame.setVisible(true);
 
-                Platform.runLater(() -> ret.set(innerGetFile(fxPanel, title)));
+                Platform.runLater(() -> ret.set(innerGetFile(fxPanel, title, frame)));
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
@@ -198,7 +198,7 @@ public class GetterUtil {
         }
     }
 
-    private File innerGetFile(JFXPanel fxPanel, String title) {
+    private File innerGetFile(JFXPanel fxPanel, String title, CyderFrame frame) {
         try {
             Stage primaryStage = new Stage();
             HBox root = new HBox();
@@ -217,6 +217,7 @@ public class GetterUtil {
 
         File ret = returnFile;
         clearFile();
+        frame.setVisible(false);
         return ret;
     }
 

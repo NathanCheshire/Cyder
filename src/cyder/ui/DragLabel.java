@@ -9,8 +9,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class DragLabel extends JLabel {
-    private int restoreX;
-    private int restoreY;
+    private int restoreX = Integer.MAX_VALUE;
+    private int restoreY = Integer.MAX_VALUE;
     private int width;
     private int height;
     private static JFrame effectFrame;
@@ -69,8 +69,10 @@ public class DragLabel extends JLabel {
         effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowIconified(WindowEvent e) {
-                restoreX = effectFrame.getX();
-                restoreY = effectFrame.getY();
+                if (restoreX == Integer.MAX_VALUE) {
+                    restoreX = effectFrame.getX();
+                    restoreY = effectFrame.getY();
+                }
             }
         });
 

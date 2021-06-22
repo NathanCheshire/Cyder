@@ -120,6 +120,13 @@ public class StringUtil {
         }
     }
 
+    /**
+     * Removes the last "thing" addeed to the JTextPane whether it's a component,
+     *  icon, or string of multi-llined text.
+     *
+     *  In more detail, this method figures out what it'll be removing and then determines how many calls
+     *   are needed to {@link StringUtil#removeLastLine()}
+     */
     public void removeLast() {
         boolean removeTwoLines = false;
 
@@ -145,8 +152,6 @@ public class StringUtil {
                     continue;
                 }
 
-                System.out.println(value);
-
                 if (value.toString().toLowerCase().contains("icon") || value.toString().toLowerCase().contains("component")) {
                     removeTwoLines = true;
                 }
@@ -160,6 +165,10 @@ public class StringUtil {
         removeLastLine();
     }
 
+    /**
+     * Removes the last line added to the linked JTextPane. This could appear to remove nothing,
+     *  but really be removing just a newline (line break) character.
+     */
     public void removeLastLine() {
         try {
             LinkedList<Element> elements = new LinkedList<>();
@@ -194,6 +203,13 @@ public class StringUtil {
         }
     }
 
+    /**
+     * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
+     *  modifiers, etc. have been set before printing the component.
+     * @param c - the component to append to the pane
+     * @param nm - the name identifier for the style
+     * @param str - the string identifier for the underlying insert string call
+     */
     public void printComponent(Component c, String nm, String str) {
         try {
             //setup style for sheet
@@ -207,6 +223,14 @@ public class StringUtil {
         }
     }
 
+    /**
+     * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
+     *  modifiers, etc. have been set before printing the component. Following the component print,
+     *  a new line is appended to the pane.
+     * @param c - the component to append to the pane
+     * @param nm - the name identifier for the style
+     * @param str - the string identifier for the underlying insert string call
+     */
     public void printlnComponent(Component c, String nm, String str) {
         try {
             printComponent(c, nm, str);
