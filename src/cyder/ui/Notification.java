@@ -279,7 +279,7 @@ public class Notification extends JLabel {
             catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        }).start();
+        },"notification appear animation").start();
     }
 
     /**
@@ -354,7 +354,7 @@ public class Notification extends JLabel {
             catch (Exception e) {
                ErrorHandler.handle(e);
             }
-        }).start();
+        },"notification vanish animater").start();
     }
 
     @Override

@@ -62,7 +62,7 @@ public class BletchyThread {
                 su.println(print[print.length - 1].toUpperCase());
 
                 this.kill();
-            }).start();
+            },"bletchy printing thread").start();
         }
 
         public void kill() {

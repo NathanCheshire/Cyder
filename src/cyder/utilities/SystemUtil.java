@@ -160,7 +160,7 @@ public class SystemUtil {
             catch (Exception ex) {
                 ErrorHandler.handle(ex);
             }
-        });
+        },"keyboard disco thread");
 
         DiscoThread.start();
     }

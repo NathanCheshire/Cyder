@@ -39,8 +39,6 @@ public class InputHandler {
 
     //todo background image changing doesn't move just the background
 
-    //todo work on proper exit conditions for ALL threads
-
     //todo make input field like the input field for login (actually a password field with the natche@cyder~$)
 
     //todo if cyder hasn't started in a while, say welcome back $username, did you miss me?
@@ -55,13 +53,12 @@ public class InputHandler {
 
     //todo I don't want to see a UUID, minimize usage of it
 
-    //todo trying to open weather.png from dir search bugs out, maybe resize error in photo viewer
-    // fix this anyway by using a gradient and drawing most icons you have in pictures
+    //todo use gradient for weather.png and use sunrise and sunseticons
 
-    //todo killed boolean for ALL objects with threads to end their threads when disposed? Copy from ConsoleFrame.dispose()
-    //todo cyder should only use busy icon for the frames that are busy
-    //todo busy should be defined if there is a named thread or named executor service so ALL custom pool and threads
-    // should be named
+    //todo work on proper exit conditions for ALL threads
+    //todo killed threads for classes that it would make sense for
+
+    //todo redo threads, deamon threads
 
     //todo flipping console is broken
     //todo fipping console resets output area position

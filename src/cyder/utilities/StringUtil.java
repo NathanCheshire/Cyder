@@ -856,4 +856,24 @@ public class StringUtil {
                 input .equalsIgnoreCase("okay") ||
                 input.contains("go"));
     }
+
+    public void printDaemonThreads() {
+        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+        int num = threadGroup.activeCount();
+        Thread[] printThreads = new Thread[num];
+        threadGroup.enumerate(printThreads);
+        for (int i = 0; i < num; i++)
+            println(printThreads[i].getName());
+    }
+
+    public void printThreads() {
+        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+        int num = threadGroup.activeCount();
+        Thread[] printThreads = new Thread[num];
+        threadGroup.enumerate(printThreads);
+
+        for (int i = 0; i < num; i++)
+            if (!printThreads[i].isDaemon())
+                println(printThreads[i].getName());
+    }
 }

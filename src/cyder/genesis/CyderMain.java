@@ -966,8 +966,10 @@ public class CyderMain {
                     }
                 });
 
-                //add more after this such as user mapped actions
-                //todo use a loop to make this easy to add new ones too
+                //todo add more menu options: (exit)
+                // make mappable ones that are saved (open link just for now)
+                //todo truncate any text at 9 chars
+                //todo make current length the max and anymore need to be scrollable via cyder scroll
 
                 menuLabel.setBounds(-150, 30, CyderFrame.getMinWidth("TEMP CONV",menuFont),
                         fontHeight * (menuLabel.getComponentCount() - 1));
@@ -1003,13 +1005,17 @@ public class CyderMain {
             int code = event.getKeyCode();
 
             try {
+                //command scrolling
                 if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
+                    //scroll to previous commands
                     if (code == KeyEvent.VK_DOWN) {
                         if (scrollingIndex + 1 < operationList.size()) {
                             scrollingIndex = scrollingIndex + 1;
                             inputField.setText(operationList.get(scrollingIndex));
                         }
-                    } else if (code == KeyEvent.VK_UP) {
+                    }
+                    //scroll to subsequent command if exist
+                    else if (code == KeyEvent.VK_UP) {
                         boolean Found = false;
 
                         for (int i = 0; i < operationList.size(); i++) {
@@ -1042,6 +1048,7 @@ public class CyderMain {
                         }
                     }
 
+                    //f17 easter egg and other acknowlegement of other function keys
                     for (int i = 61440; i < 61452; i++) {
                         if (code == i) {
                             int seventeen = (i - 61427);
@@ -1085,10 +1092,8 @@ public class CyderMain {
 
                 int threadCount = 0;
 
-                //todo name all threads and executors so if anything contains
-                // "pool" or "thread" then we knkow it's busy
+                //todo redo method, name all executor services
 
-                //todo redo this
                 for (int i = 0; i < num; i++)
                     if (!printThreads[i].isDaemon() &&
                             !printThreads[i].getName().contains("pool") &&
@@ -1123,6 +1128,7 @@ public class CyderMain {
                     scrollingIndex = operationList.size() - 1;
                     ConsoleFrame.setScrollingDowns(0);
 
+                    //calls to linked inputhandler
                     if (!stringUtil.getUserInputMode()) {
                         handle(op);
                     } else if (stringUtil.getUserInputMode()) {
@@ -1193,7 +1199,7 @@ public class CyderMain {
             catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        },"login animation").start();
+        },"login printing animation").start();
         new Thread(() -> {
             try {
                 while (doLoginAnimations && loginFrame != null) {
@@ -1596,7 +1602,7 @@ public class CyderMain {
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        }).start();
+        },"switching background animater").start();
     }
 
     //move to consoleframe
@@ -2361,26 +2367,9 @@ public class CyderMain {
                         + StatUtil.totalJavaLines(new File("src"))));
 
             } else if (hasWord("threads") && !hasWord("daemon")) {
-                ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-                int num = threadGroup.activeCount();
-                Thread[] printThreads = new Thread[num];
-                threadGroup.enumerate(printThreads);
-
-                println("Executor services are identified by pool tags\nThreads are identified by the thread tag:\n");
-
-                for (int i = 0; i < num; i++)
-                    if (!printThreads[i].isDaemon())
-                        println(printThreads[i].getName());
+               new StringUtil(outputArea).printThreads();
             } else if (hasWord("threads") && hasWord("daemon")) {
-                ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-                int num = threadGroup.activeCount();
-                Thread[] printThreads = new Thread[num];
-                threadGroup.enumerate(printThreads);
-
-                println("Executor services are identified by pool tags\nThreads are identified by the thread tag:\n");
-
-                for (int i = 0; i < num; i++)
-                    println(printThreads[i].getName());
+                new StringUtil(outputArea).printDaemonThreads();
             } else if (eic("rotateBackground")) {
                 //todo ConsoleFrame.rotateBackground(5);
             } else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
@@ -3878,7 +3867,7 @@ public class CyderMain {
 
                 menuLabel.setVisible(false);
                 menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
-            });
+            },"minimize menu thread");
             waitThread.start();
         }
     }

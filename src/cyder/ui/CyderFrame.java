@@ -21,7 +21,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
@@ -237,7 +236,7 @@ public class CyderFrame extends JFrame {
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        }, this + " CyderFrame notification queue checker").start();
+        }, this + " notification queue checker").start();
     }
 
     //todo rotate the background label which we will place on the contentlabel,
@@ -293,7 +292,7 @@ public class CyderFrame extends JFrame {
                             ErrorHandler.handle(e);
                         }
                     }
-                }).start();
+                },"title position animater").start();
             } else {
                 new Thread(() -> {
                     for (int i = 5; i < (getDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2) + 1; i++) {
@@ -308,15 +307,13 @@ public class CyderFrame extends JFrame {
                             ErrorHandler.handle(e);
                         }
                     }
-                }).start();
+                },"title position animater").start();
             }
         }
     }
 
-
     /**
      * Getter for the title position
-     *
      * @return - position representing the title position
      */
     public TitlePosition getTitlePosition() {
@@ -380,11 +377,6 @@ public class CyderFrame extends JFrame {
                     titleLabel.setBounds(5, 2, getMinWidth(title), 25);
             }
         }
-    }
-
-    @Override
-    public String getTitle() {
-        return super.getTitle();
     }
 
     /**
@@ -717,7 +709,7 @@ public class CyderFrame extends JFrame {
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        });
+        },"dance thread");
 
         DanceThread.start();
     }
@@ -976,7 +968,7 @@ public class CyderFrame extends JFrame {
 
     @Override
     public String toString() {
-        return "title: " + titleLabel.getText() + "[" + this.getTitlePosition() + "],(" +
+        return "[" + this.getTitlePosition() + "],(" +
                 this.getX() + "," + this.getY() + "," + this.getWidth() + "x" + this.getHeight() + ")";
     }
 

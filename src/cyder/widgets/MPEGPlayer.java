@@ -632,7 +632,7 @@ public class MPEGPlayer {
                 musicFrame.notify(e.getMessage());
                 ErrorHandler.handle(e);
             }
-        }).start();
+        },"mp3 title scroll animater").start();
     }
 
     //private class to handle the scrolling title label
@@ -698,7 +698,7 @@ public class MPEGPlayer {
                             musicFrame.notify(e.getMessage());
                             ErrorHandler.handle(e);
                         }
-                    }).start();
+                    },"scrolling label thread").start();
                 } else {
                     effectLabel.setText(title);
                 }

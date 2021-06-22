@@ -692,7 +692,7 @@ public class IOUtil {
                 catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
-            });
+            },"mp3 audio thread");
 
             MusicThread.start();
         }

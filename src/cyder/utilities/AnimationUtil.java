@@ -3,6 +3,7 @@ package cyder.utilities;
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,10 @@ public class AnimationUtil {
      * @param frame - the frame object to close
      */
     public static void closeAnimation(Frame frame) {
+        if (frame instanceof CyderFrame) {
+            ((CyderFrame) frame).getDragLabel().disableDragging();
+        }
+
         try {
             if (frame != null && frame.isVisible()) {
                 Point point = frame.getLocationOnScreen();
@@ -33,6 +38,10 @@ public class AnimationUtil {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+
+        if (frame instanceof CyderFrame) {
+            ((CyderFrame) frame).getDragLabel().enableDragging();
+        }
     }
 
     /**
@@ -41,6 +50,10 @@ public class AnimationUtil {
      * @param frame - the frame object to minimize and iconify
      */
     public static void minimizeAnimation(JFrame frame) {
+        if (frame instanceof CyderFrame) {
+            ((CyderFrame) frame).getDragLabel().disableDragging();
+        }
+
         Point point = frame.getLocationOnScreen();
         int x = (int) point.getX();
         int y = (int) point.getY();
@@ -54,6 +67,10 @@ public class AnimationUtil {
             frame.setState(JFrame.ICONIFIED);
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        }
+
+        if (frame instanceof CyderFrame) {
+            ((CyderFrame) frame).getDragLabel().enableDragging();
         }
     }
 
@@ -104,7 +121,7 @@ public class AnimationUtil {
                     }
                 }
                 comp.setLocation(comp.getX(), stop);
-            })).start();
+            },"component up thread")).start();
     }
 
     /**
@@ -129,7 +146,7 @@ public class AnimationUtil {
                     }
                 }
                 comp.setLocation(comp.getX(), stop);
-            })).start();
+            },"component down thread")).start();
     }
 
     /**
@@ -154,7 +171,7 @@ public class AnimationUtil {
                     }
                 }
                 comp.setLocation(stop, comp.getY());
-            })).start();
+            },"component left thread")).start();
     }
 
     /**
@@ -179,7 +196,7 @@ public class AnimationUtil {
                     }
                 }
                 comp.setLocation(stop, comp.getY());
-            })).start();
+            },"component right thread")).start();
     }
 
     /**
