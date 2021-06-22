@@ -21,6 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
@@ -322,12 +323,28 @@ public class CyderFrame extends JFrame {
         return this.titlePosition;
     }
 
+    private boolean paintWindowTitle = true;
+
+    /**
+     * Determines whether or not to paint the default windows title. The CyderFrame label title is always painted.
+     * @param enable - boolean variable of your chosen value for paintWindowTitle
+     */
+    public void setPaintWindowTitle(boolean enable) {
+        paintWindowTitle = enable;
+    }
+
+    /**
+     * Returns the value of paintWindowTitle which determines whether ot not the windows title is painted.
+     * @return - boolean describing the value of paintWindowTitle
+     */
+    public boolean getPaintWindowTitle() {
+        return paintWindowTitle;
+    }
 
     private boolean paintSuperTitle = true;
 
     /**
      * Determines whether or not to paint the windowed title. The CyderFrame label title is always painted.
-     *
      * @param enable - boolean variable of your chosen value for paintSuperTitle
      */
     public void paintSuperTitle(boolean enable) {
@@ -336,7 +353,6 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the value of paintSuperTitle which determines whether ot not the windowed title is painted.
-     *
      * @return - boolean describing the value of paintSuperTitle
      */
     public boolean getPaintSuperTitle() {
@@ -346,23 +362,29 @@ public class CyderFrame extends JFrame {
     /**
      * Set the title of the label painted on the drag label of the CyderFrame instance. You can also configure the instance
      * to paint the windowed title as well.
-     *
      * @param title - the String representing the chosen CyderFrame title
      */
     @Override
     public void setTitle(String title) {
         super.setTitle(paintSuperTitle ? title : "");
 
-        titleLabel.setText(title);
+        if (paintWindowTitle) {
+            titleLabel.setText(title);
 
-        switch (titlePosition) {
-            case CENTER:
-                titleLabel.setBounds((getDragLabel().getWidth() / 2) - (getMinWidth(title) / 2), 2, getMinWidth(title), 25);
-                break;
+            switch (titlePosition) {
+                case CENTER:
+                    titleLabel.setBounds((getDragLabel().getWidth() / 2) - (getMinWidth(title) / 2), 2, getMinWidth(title), 25);
+                    break;
 
-            default:
-                titleLabel.setBounds(5, 2, getMinWidth(title), 25);
+                default:
+                    titleLabel.setBounds(5, 2, getMinWidth(title), 25);
+            }
         }
+    }
+
+    @Override
+    public String getTitle() {
+        return super.getTitle();
     }
 
     /**
@@ -945,7 +967,6 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the background color of the contentPane.
-     *
      * @return - Color object of the background color
      */
     @Override

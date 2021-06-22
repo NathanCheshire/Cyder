@@ -72,6 +72,8 @@ public class CyderMain {
     private int yMouse;
     private boolean slidLeft;
     private JLabel consoleDragLabel;
+    private int consoleFrameRestoreX;
+    private int consoleFrameRestoreY;
 
     //todo consoelframe
     private boolean backgroundProcessCheckerStarted = false;
@@ -1502,13 +1504,12 @@ public class CyderMain {
         consoleFrame.requestFocus();
         inputField.requestFocus();
 
-        //todo setlocationrelativeto itself but the center of itself
+        consoleFrame.setLocation(consoleFrameRestoreX - consoleFrame.getWidth() / 2, consoleFrameRestoreY - consoleFrame.getHeight() / 2);
 
         if (editUserFrame != null && editUserFrame.isVisible())
             editUserFrame.requestFocus();
     }
 
-    //todo move to consoleFrame
     private void switchBackground() {
         new Thread(() -> {
             try {
@@ -1598,6 +1599,14 @@ public class CyderMain {
 
     //move to consoleframe
     private void refreshConsoleFrame() {
+        //if going into fullscreen just now, get the relative restore point
+        if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1") &&
+                consoleFrame.getWidth() != SystemUtil.getScreenWidth() &&
+                consoleFrame.getHeight() != SystemUtil.getScreenHeight()) {
+            consoleFrameRestoreX = consoleFrame.getX() + consoleFrame.getWidth() / 2;
+            consoleFrameRestoreY = consoleFrame.getY() + consoleFrame.getHeight() / 2;
+        }
+
         ConsoleFrame.initBackgrounds();
         LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
         String backFile = backgrounds.get(ConsoleFrame.getBackgroundIndex()).toString();
@@ -1643,6 +1652,9 @@ public class CyderMain {
         int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
         consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, -5, w, h);
         consoleClockLabel.setText(time);
+
+        if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
+            consoleFrame.setLocationRelativeTo(null);
 
         consoleFrame.repaint();
         consoleFrame.setVisible(true);
@@ -2446,13 +2458,10 @@ public class CyderMain {
             if (op.toLowerCase().contains(pref.getID().toLowerCase())) {
                 if (op.contains("1") || op.toLowerCase().contains("true")) {
                     IOUtil.writeUserData(pref.getID(), "1");
-                    System.out.println("set to true");
                 } else if (op.contains("0") || op.toLowerCase().contains("false")) {
                     IOUtil.writeUserData(pref.getID(), "0");
-                    System.out.println("set to false");
                 } else {
                     IOUtil.writeUserData(pref.getID(), (IOUtil.getUserData(pref.getID()).equals("1") ? "0" : "1"));
-                    System.out.println("toggle");
                 }
 
                 refreshPrefs();
