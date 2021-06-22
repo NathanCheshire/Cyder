@@ -616,7 +616,8 @@ public class CyderMain {
 
             updateConsoleClock = IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
 
-            //make a method to spin off executors
+            //todo make a method to spin off executors
+            //console clock updater
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 if (consoleClockLabel.isVisible())
                     if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
@@ -636,6 +637,7 @@ public class CyderMain {
 
             consoleClockLabel.setVisible(updateConsoleClock);
 
+            //hourly chime player
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
                     IOUtil.playAudio("sys/audio/chime.mp3");
@@ -647,17 +649,17 @@ public class CyderMain {
             consoleFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowDeiconified(WindowEvent e) {
-                    updateConsoleClock = true;
-                    consoleFrame.setLocation(restoreX, restoreY);
+                updateConsoleClock = true;
+                consoleFrame.setLocation(restoreX, restoreY);
                 }
             });
-            //these will go away since cyderframe has them
+
             consoleFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowDeiconified(WindowEvent e) {
-                    updateConsoleClock = false;
-                    restoreX = consoleFrame.getX();
-                    restoreY = consoleFrame.getY();
+                updateConsoleClock = false;
+                restoreX = consoleFrame.getX();
+                restoreY = consoleFrame.getY();
                 }
             });
 
@@ -731,6 +733,20 @@ public class CyderMain {
             }, 0, 5, TimeUnit.MINUTES);
 
             consoleClockLabel.setVisible(updateConsoleClock);
+
+            //close program checker
+            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+                Frame[] frames = Frame.getFrames();
+                int validFrames = 0;
+
+                for (Frame f : frames)
+                    if (f.isShowing())
+                        validFrames++;
+
+                if (validFrames < 1)
+                    System.exit(120);
+            }, 10, 5, TimeUnit.SECONDS);
+
 
             //lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
 

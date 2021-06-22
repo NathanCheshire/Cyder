@@ -4,6 +4,7 @@ import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 
+
 public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
     // and direct the resulting flow and output
@@ -11,6 +12,10 @@ public class InputHandler {
 
 
 
+
+
+
+    //todo when starting youtube thread, calculate how long until it finishes (lol) and notify on frame
 
     //todo make enter-animation work and utilize
 

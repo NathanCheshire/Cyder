@@ -408,7 +408,7 @@ public class CyderFrame extends JFrame {
                             disposeLabel.addMouseListener(new MouseAdapter() {
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
-                                    currentNotification.kill();
+                                currentNotification.kill();
                                 }
                             });
                             currentNotification.add(disposeLabel);
@@ -558,17 +558,8 @@ public class CyderFrame extends JFrame {
         killThreads();
         super.dispose();
 
-        //todo commented since logging in as another user from one user makes the user not load
-        // figure out new logic for this such as an executor to check for frames every 5 or so seconds
-//        Frame[] frames = Frame.getFrames();
-//        int validFrames = 0;
-//
-//        for (Frame f : frames)
-//            if (f.isShowing())
-//                validFrames++;
-//
-//        if (validFrames < 1)
-//            System.exit(120);
+        if (currentNotification != null)
+            currentNotification.kill();
     }
 
     /**
