@@ -231,30 +231,29 @@ public class ImageUtil {
     }
 
     /**
-     * Returns the current console frame background accounting for set rotate direction. For example, if the direction
-     * is left this method will return a left rotated image use {@link cyder.ui.ConsoleFrame#getCurrentBackgroundImageIcon}
-     * to get the image without possible rotations applied. geThis method is used to set the console background when the background
+     * Returns the passed background file accounting for set rotate direction. For example, if the direction
+     * is left this method will return a left rotated image. Use {@link cyder.ui.ConsoleFrame#getCurrentBackgroundImageIcon}
+     * to get the image without possible rotations applied. This method is used to set the console background when the background
      * is altered or updated.
-     * @param name - the path to the file
+     * @param bufferedImage - the path to the file
      * @param consoleDirection - the cardinal direction of rotation
      * @return - the rotated image
      */
-    public static BufferedImage getRotatedImage(String name, Direction consoleDirection) {
+    public static BufferedImage getRotatedImage(String bufferedImage, Direction consoleDirection) {
         switch(consoleDirection) {
             case TOP:
-                return ImageUtil.getBi(name);
+                return ImageUtil.getBi(bufferedImage);
             case RIGHT:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),90);
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(bufferedImage),90);
             case BOTTOM:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),180);
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(bufferedImage),180);
             case LEFT:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(name),-90);
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(bufferedImage),-90);
         }
 
         return null;
     }
 
-    //Used for barrel roll and flip screen hotkeys, credit: MadProgrammer from StackOverflow
     public static BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
         double rads = Math.toRadians(angle);
 

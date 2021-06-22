@@ -75,8 +75,11 @@ public class CyderMain {
     private int consoleFrameRestoreX;
     private int consoleFrameRestoreY;
 
-    //todo consoelframe
+    //todo consoleframe
     private boolean backgroundProcessCheckerStarted = false;
+    private boolean drawConsoleLines = false;
+    private boolean consoleLinesDrawn = false;
+    private Color lineColor = Color.white;
 
     /**
      * create user widget
@@ -228,7 +231,46 @@ public class CyderMain {
             ConsoleFrame.resizeBackgrounds();
             ConsoleFrame.initBackgrounds();
 
-            consoleFrame = new JFrame();
+            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
+
+            consoleFrame = new JFrame() {
+                @Override
+                public void paint(Graphics g) {
+                    super.paint(g);
+
+                    if (drawConsoleLines && !consoleLinesDrawn) {
+                        Graphics2D g2d = (Graphics2D) g;
+
+                        BufferedImage img = null;
+                        int w = 0;
+                        int h = 0;
+
+                        try {
+                            img = ImageUtil.resizeImage(25,25,ConsoleFrame.getCurrentBackgroundFile());
+                            w = img.getWidth(null);
+                            h = img.getHeight(null);
+
+                        } catch (Exception e) {
+                            ErrorHandler.handle(e);
+                        }
+
+                        g2d.setPaint(lineColor);
+                        int strokeThickness = 4;
+                        g2d.setStroke(new BasicStroke(strokeThickness));
+
+                        g2d.drawLine(getWidth() / 2 - strokeThickness / 2, 0,
+                                getWidth() / 2 - strokeThickness / 2, getHeight());
+                        g2d.drawLine(0, getHeight() / 2 - strokeThickness / 2, getWidth(),
+                                getHeight() / 2 - strokeThickness / 2);
+
+                        if (img != null)
+                            g2d.drawImage(img, getWidth() / 2 - w / 2, getHeight() / 2 - h / 2, null);
+
+                        consoleLinesDrawn = true;
+                    }
+                }
+            };
+
             consoleFrame.setUndecorated(true);
             //this doesn't really do much since we don't call consoleFrame.dispose typicallyf
             consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -334,14 +376,6 @@ public class CyderMain {
                         ConsoleFrame.setConsoleDirection(Direction.LEFT);
                         exitFullscreen();
                     }
-
-                    if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                        //these booleans were already moved
-                          //if (!consoleLinesDrawn) {
-                              //drawConsoleLines = true;
-                              //consoleFrame.repaint();
-                         //}
-                    }
                 }
 
                 @Override
@@ -350,10 +384,14 @@ public class CyderMain {
                         inputField.setText(inputField.getText().toUpperCase());
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                        //these booleans were already moved
-                        //drawConsoleLines = false;
-                        //consoleLinesDrawn = false;
-                        //consoleFrame.repaint();
+                        if (!consoleLinesDrawn) {
+                            drawConsoleLines = true;
+                            consoleFrame.repaint();
+                        } else {
+                            drawConsoleLines = false;
+                            consoleLinesDrawn = false;
+                            consoleFrame.repaint();
+                        }
                     }
                 }
 

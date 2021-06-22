@@ -38,47 +38,6 @@ public final class ConsoleFrame extends CyderFrame {
         // fullscreen set and rotation set
     }
 
-    private boolean drawConsoleLines = false;
-    private boolean consoleLinesDrawn = false;
-
-    private Color lineColor = Color.white;
-
-    //Allow for debug lines to be drawn and neffex
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        if (drawConsoleLines && !consoleLinesDrawn) {
-            Graphics2D g2d = (Graphics2D) g;
-
-            g2d.setPaint(lineColor);
-            int strokeThickness = 5;
-            g2d.setStroke(new BasicStroke(strokeThickness));
-
-            g2d.drawLine(getWidth() / 2 - strokeThickness / 2, DragLabel.getDefaultHeight(),
-                    getWidth() / 2 - strokeThickness / 2, getHeight() - 5);
-            g2d.drawLine(5, getHeight() / 2 - strokeThickness / 2, getWidth() - 10,
-                    getHeight() / 2 - strokeThickness / 2);
-
-            BufferedImage img = null;
-
-            try {
-                img = ImageIO.read(new File("sys/pictures/print/Neffex.png"));
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-
-            int w = img.getWidth(null);
-            int h = img.getHeight(null);
-
-            BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-
-            g2d.drawImage(img, getWidth() / 2 - w / 2, getHeight() / 2 - h / 2, null);
-
-            consoleLinesDrawn = true;
-        }
-    }
-
     @Override
     public void setTitlePosition(TitlePosition position) {
         if (position == TitlePosition.LEFT)
