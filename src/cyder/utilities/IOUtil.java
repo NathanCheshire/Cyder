@@ -931,4 +931,53 @@ public class IOUtil {
 
         GenesisShare.getExitingSem().release();
     }
+
+    public static String getBinaryString(File f) throws FatalException{
+        if (!f.exists())
+            throw new FatalException("bin does not exist");
+        else if (!f.getName().endsWith(".bin")) {
+            throw new FatalException("bin is not a binary");
+        }
+
+        String ret = null;
+
+        try {
+            BufferedReader fis = new BufferedReader(new FileReader(f));
+            String stringBytes = fis.readLine();
+            fis.close();
+            ret = stringBytes;
+
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ret;
+    }
+
+    public static String getHexString(File f) throws FatalException {
+        if (!f.exists())
+            throw new FatalException("bin does not exist");
+        else if (!f.getName().endsWith(".bin")) {
+            throw new FatalException("bin is not a binary");
+        }
+
+        String ret = null;
+
+        try {
+            BufferedReader fis = new BufferedReader(new FileReader(f));
+            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
+            StringBuilder sb = new StringBuilder();
+
+            for (String stringByte : stringBytes) {
+                sb.append(Integer.toString(Integer.parseInt(stringByte,2),16));
+            }
+
+            fis.close();
+            ret = sb.toString();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ret;
+    }
 }

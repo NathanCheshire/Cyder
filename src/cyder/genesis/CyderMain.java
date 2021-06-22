@@ -1504,7 +1504,8 @@ public class CyderMain {
         consoleFrame.requestFocus();
         inputField.requestFocus();
 
-        consoleFrame.setLocation(consoleFrameRestoreX - consoleFrame.getWidth() / 2, consoleFrameRestoreY - consoleFrame.getHeight() / 2);
+        consoleFrame.setLocation(consoleFrameRestoreX - consoleFrame.getWidth() / 2,
+                consoleFrameRestoreY - consoleFrame.getHeight() / 2);
 
         if (editUserFrame != null && editUserFrame.isVisible())
             editUserFrame.requestFocus();
@@ -2060,7 +2061,7 @@ public class CyderMain {
                 }
             } else if (hasWord("windows")) {
                 IOUtil.playAudio("sys/audio/windows.mp3");
-            } else if (hasWord("binary")) {
+            } else if (hasWord("binary") && !has("dump")) {
                 println("Enter a decimal number to be converted to binary.");
                 inputField.requestFocus();
                 stringUtil.setUserInputMode(true);
@@ -2426,10 +2427,42 @@ public class CyderMain {
                     }
             } else if (has("Father") && hasWord("day") && has("2021")) {
                 Cards.FathersDay2021();
-            } else if (has("textfield")) {
-                CyderTextField ctf = new CyderTextField(20);
-                ctf.setSize(new Dimension(200,40));
-                new StringUtil(outputArea).printlnComponent(ctf, "testTextField","testTextField");
+            } else if (hasWord("bindump")) {
+                if (has("-f")) {
+                    String[] parts = operation.split("-f");
+
+                    if (parts.length != 2) {
+                        println("Too much/too little args");
+                    } else {
+                        File f = new File(parts[1].trim());
+
+                        if (f.exists()) {
+                            println("0b" + IOUtil.getBinaryString(f));
+                        } else {
+                            println("File: " + parts[1].trim() + " does not exist.");
+                        }
+                    }
+                } else {
+                    println("bindump usage: bindump -f /path/to/binary/file");
+                }
+            } else if (hasWord("hexdump")) {
+                if (has("-f")) {
+                    String[] parts = operation.split("-f");
+
+                    if (parts.length != 2) {
+                        println("Too much/too little args");
+                    } else {
+                        File f = new File(parts[1].trim());
+
+                        if (f.exists()) {
+                            println("0x" + IOUtil.getHexString(f).toUpperCase());
+                        } else {
+                            println("File: " + parts[1].trim() + " does not exist.");
+                        }
+                    }
+                } else {
+                    println("hexdump usage: hexdump -f /path/to/binary/file");
+                }
             }
 
             //attempts at undefined input
@@ -2448,8 +2481,7 @@ public class CyderMain {
                 unknownInput();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            //ErrorHandler.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
