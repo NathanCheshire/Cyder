@@ -105,144 +105,7 @@ public class CyderFrame extends JFrame {
         dl.add(titleLabel);
 
         this.threadsKilled = false;
-
-        new Thread(() -> {
-            try {
-                while (this != null && !threadsKilled) {
-                    if (notificationList.size() > 0) {
-                        Gluster currentGluster = notificationList.poll();
-
-                        //init notification object
-                        currentNotification = new Notification();
-
-                        //set the arrow direction
-                        currentNotification.setArrow(currentGluster.getArrowDir());
-
-                        //create text label to go on top of notification label
-                        JLabel text = new JLabel();
-                        //use html so that it can line break when we need it to
-                        text.setText("<html>" + currentGluster.getHtmlText() + "</html>");
-
-                        //start of font width and height calculation
-                        int w = 0;
-                        Font notificationFont = CyderFonts.weatherFontSmall;
-                        AffineTransform affinetransform = new AffineTransform();
-                        FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
-
-                        //parse away html
-                        String parsedHTML = Jsoup.clean(currentGluster.getHtmlText(), Whitelist.none());
-
-                        //get minimum width for whole parsed string
-                        w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 10;
-
-                        //get height of a line and set it as height increment too
-                        int h = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight();
-                        FontMetrics metrics = getGraphics().getFontMetrics();
-
-                        //if too much width, take half away and add back in height
-                        while (w > 0.9 * getWidth()) {
-                            w /= 2;
-                            h = h * 2;
-                            h += metrics.getAscent();
-                        }
-
-                        if (h != (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight())
-                            h -= metrics.getAscent();
-
-                        //now we have min width and height for string bounds, no more no less than this
-
-                        //set the text bounds to the proper x,y and the calculated width and height
-                        text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
-
-                        currentNotification.setWidth(w);
-                        currentNotification.setHeight(h);
-
-                        text.setFont(notificationFont);
-                        text.setForeground(CyderColors.navy);
-                        currentNotification.add(text);
-
-                        JLabel disposeLabel = new JLabel();
-                        disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
-                        disposeLabel.setToolTipText("Click to dismiss");
-                        disposeLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                currentNotification.kill();
-                            }
-                        });
-                        currentNotification.add(disposeLabel);
-
-                        if (currentGluster.getStartDir() == Direction.LEFT)
-                            currentNotification.setLocation(-currentNotification.getWidth() + 5, dl.getHeight());
-                        else if (currentGluster.getStartDir() == Direction.RIGHT)
-                            currentNotification.setLocation(getContentPane().getWidth() - 5, dl.getHeight());
-                        else if (currentGluster.getStartDir() == Direction.BOTTOM)
-                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
-                                    getHeight());
-                        else
-                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextYOffset(),
-                                    DragLabel.getDefaultHeight() - currentNotification.getHeight());
-
-                        contentLabel.add(currentNotification);
-                        getContentPane().repaint();
-
-                        //duration is always 300ms per word unless less than 5 seconds
-                        int duration = 300 * StringUtil.countWords(parsedHTML);
-                        duration = duration < 5000 ? 5000 : duration;
-                        duration = currentGluster.getDuration() == 0 ?
-                                duration : currentGluster.getDuration();
-                        currentNotification.appear(currentGluster.getStartDir(), currentGluster.getVanishDir(),
-                                getContentPane(), duration);
-
-                        int enterTime = 0;
-                        int exitTime = 0;
-
-                        switch (currentGluster.getStartDir()) {
-                            case BOTTOM:
-                                enterTime = (getHeight() - currentNotification.getHeight() + 5) * 4;
-                                break;
-                            case TOP:
-                                enterTime = DragLabel.getDefaultHeight() * 4;
-                                break;
-                            case LEFT:
-                                enterTime = (currentNotification.getWidth() + 5) * 4;
-                                break;
-                            case RIGHT:
-                                enterTime = (currentNotification.getHeight() + 5) * 4;
-                                break;
-                        }
-
-                        switch (currentGluster.getVanishDir()) {
-                            case BOTTOM:
-                                exitTime = (getHeight() - currentNotification.getHeight() + 5) * 4;
-                                break;
-                            case TOP:
-                                exitTime = DragLabel.getDefaultHeight() * 4;
-                                break;
-                            case LEFT:
-                                exitTime = (currentNotification.getWidth() + 5) * 4;
-                                break;
-                            case RIGHT:
-                                exitTime = (currentNotification.getHeight() + 5) * 4;
-                                break;
-                        }
-
-                        Thread.sleep(duration + enterTime + exitTime);
-                    }
-
-                    //wait 500ms
-                    Thread.sleep(500);
-                }
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }, this + " notification queue checker").start();
     }
-
-    //todo rotate the background label which we will place on the contentlabel,
-    // then we'll place components on the backgroundlabel?
-    // some kind of similar trick could be used for layering between
-    // components, notifications, drag label and borders, etc.
 
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
@@ -281,7 +144,7 @@ public class CyderFrame extends JFrame {
             if (titlePosition != CyderFrame.TitlePosition.CENTER) {
                 new Thread(() -> {
                     for (int i = (getDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i > 4; i--) {
-                        if (this.threadsKilled)
+                        if (this.control_c_threads)
                             break;
 
                         titleLabel.setLocation(i, 2);
@@ -296,7 +159,7 @@ public class CyderFrame extends JFrame {
             } else {
                 new Thread(() -> {
                     for (int i = 5; i < (getDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2) + 1; i++) {
-                        if (this.threadsKilled)
+                        if (this.control_c_threads)
                             break;
 
                         titleLabel.setLocation(i, 2);
@@ -461,6 +324,7 @@ public class CyderFrame extends JFrame {
     }
 
     private Notification currentNotification;
+    private boolean notificationCheckerStarted = false;
 
     public Notification getCurrentNotification() {
         return currentNotification;
@@ -480,6 +344,141 @@ public class CyderFrame extends JFrame {
     public void notify(String htmltext, int viewDuration, Direction arrowDir, Direction startDir, Direction vanishDir) {
         //make a gluster and add to queue, queue will automatically process any notifications so no further actions needed
         notificationList.add(new Gluster(htmltext, viewDuration, arrowDir, startDir, vanishDir));
+
+        if (!notificationCheckerStarted) {
+            notificationCheckerStarted = true;
+
+            new Thread(() -> {
+                try {
+                    while (this != null && !threadsKilled) {
+                        if (notificationList.size() > 0) {
+                            Gluster currentGluster = notificationList.poll();
+
+                            //init notification object
+                            currentNotification = new Notification();
+
+                            //set the arrow direction
+                            currentNotification.setArrow(currentGluster.getArrowDir());
+
+                            //create text label to go on top of notification label
+                            JLabel text = new JLabel();
+                            //use html so that it can line break when we need it to
+                            text.setText("<html>" + currentGluster.getHtmlText() + "</html>");
+
+                            //start of font width and height calculation
+                            int w = 0;
+                            Font notificationFont = CyderFonts.weatherFontSmall;
+                            AffineTransform affinetransform = new AffineTransform();
+                            FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
+
+                            //parse away html
+                            String parsedHTML = Jsoup.clean(currentGluster.getHtmlText(), Whitelist.none());
+
+                            //get minimum width for whole parsed string
+                            w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 10;
+
+                            //get height of a line and set it as height increment too
+                            int h = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight();
+                            FontMetrics metrics = getGraphics().getFontMetrics();
+
+                            //if too much width, take half away and add back in height
+                            while (w > 0.9 * getWidth()) {
+                                w /= 2;
+                                h = h * 2;
+                                h += metrics.getAscent();
+                            }
+
+                            //now we have min width and height for string bounds, no more no less than this
+                            if (h != (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight())
+                                h -= metrics.getAscent();
+
+                            //set the text bounds to the proper x,y and the calculated width and height
+                            text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+
+                            currentNotification.setWidth(w);
+                            currentNotification.setHeight(h);
+
+                            text.setFont(notificationFont);
+                            text.setForeground(CyderColors.navy);
+                            currentNotification.add(text);
+
+                            JLabel disposeLabel = new JLabel();
+                            disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+                            disposeLabel.setToolTipText("Click to dismiss");
+                            disposeLabel.addMouseListener(new MouseAdapter() {
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+                                    currentNotification.kill();
+                                }
+                            });
+                            currentNotification.add(disposeLabel);
+
+                            if (currentGluster.getStartDir() == Direction.LEFT)
+                                currentNotification.setLocation(-currentNotification.getWidth() + 5, dl.getHeight());
+                            else if (currentGluster.getStartDir() == Direction.RIGHT)
+                                currentNotification.setLocation(getContentPane().getWidth() - 5, dl.getHeight());
+                            else if (currentGluster.getStartDir() == Direction.BOTTOM)
+                                currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
+                                        getHeight());
+                            else
+                                currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextYOffset(),
+                                        DragLabel.getDefaultHeight() - currentNotification.getHeight());
+
+                            contentLabel.add(currentNotification);
+                            getContentPane().repaint();
+
+                            //duration is always 300ms per word unless less than 5 seconds
+                            int duration = 300 * StringUtil.countWords(parsedHTML);
+                            duration = duration < 5000 ? 5000 : duration;
+                            duration = currentGluster.getDuration() == 0 ?
+                                    duration : currentGluster.getDuration();
+                            currentNotification.appear(currentGluster.getStartDir(), currentGluster.getVanishDir(),
+                                    getContentPane(), duration);
+
+                            int enterTime = 0;
+                            int exitTime = 0;
+
+                            switch (currentGluster.getStartDir()) {
+                                case BOTTOM:
+                                    enterTime = (getHeight() - currentNotification.getHeight() + 5) * 4;
+                                    break;
+                                case TOP:
+                                    enterTime = DragLabel.getDefaultHeight() * 4;
+                                    break;
+                                case LEFT:
+                                    enterTime = (currentNotification.getWidth() + 5) * 4;
+                                    break;
+                                case RIGHT:
+                                    enterTime = (currentNotification.getHeight() + 5) * 4;
+                                    break;
+                            }
+
+                            switch (currentGluster.getVanishDir()) {
+                                case BOTTOM:
+                                    exitTime = (getHeight() - currentNotification.getHeight() + 5) * 4;
+                                    break;
+                                case TOP:
+                                    exitTime = DragLabel.getDefaultHeight() * 4;
+                                    break;
+                                case LEFT:
+                                    exitTime = (currentNotification.getWidth() + 5) * 4;
+                                    break;
+                                case RIGHT:
+                                    exitTime = (currentNotification.getHeight() + 5) * 4;
+                                    break;
+                            }
+
+                            Thread.sleep(duration + enterTime + exitTime);
+                        }
+
+                        //wait 500ms
+                        Thread.sleep(500);
+                    }
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+            }, this + " notification queue checker").start();
+        }
     }
 
     /**
@@ -612,6 +611,17 @@ public class CyderFrame extends JFrame {
             dl.disableDragging();
     }
 
+    //used for a ctrl + c even to stop dancing or anything else we might want to stop
+    private boolean control_c_threads = false;
+
+    public void setControl_c_threads(boolean b) {
+        this.control_c_threads = b;
+    }
+
+    public boolean getControl_c_threads() {
+        return this.control_c_threads;
+    }
+
     /**
      * moves the frame around the user's monitor before returning to the initial location.
      */
@@ -642,7 +652,7 @@ public class CyderFrame extends JFrame {
 
                 //moves frame up to top of screen
                 for (int y = getY(); y >= 0; y -= 10) {
-                    if (this.threadsKilled)
+                    if (this.control_c_threads)
                         break;
                     Thread.sleep(delay);
                     setLocation(this.getX(), y);
@@ -650,7 +660,7 @@ public class CyderFrame extends JFrame {
 
                 //move from right to left
                 for (int x = getX(); x >= 0; x -= 10) {
-                    if (this.threadsKilled)
+                    if (this.control_c_threads)
                         break;
                     Thread.sleep(delay);
                     setLocation(x, this.getY());
@@ -658,7 +668,7 @@ public class CyderFrame extends JFrame {
 
                 //move from top to bottom
                 for (int y = getY(); y <= SystemUtil.getScreenHeight() - this.getHeight(); y += 10) {
-                    if (this.threadsKilled)
+                    if (this.control_c_threads)
                         break;
                     Thread.sleep(delay);
                     setLocation(this.getX(), y);
@@ -666,7 +676,7 @@ public class CyderFrame extends JFrame {
 
                 //move from left to right
                 for (int x = getX(); x <= SystemUtil.getScreenWidth() - this.getWidth(); x += 10) {
-                    if (this.threadsKilled)
+                    if (this.control_c_threads)
                         break;
                     Thread.sleep(delay);
                     setLocation(x, this.getY());
@@ -674,7 +684,7 @@ public class CyderFrame extends JFrame {
 
                 //move from bottom to top
                 for (int y = getY(); y > 0; y -= 10) {
-                    if (this.threadsKilled)
+                    if (this.control_c_threads)
                         break;
                     Thread.sleep(delay);
                     setLocation(this.getX(), y);
@@ -682,7 +692,7 @@ public class CyderFrame extends JFrame {
 
                 //move from top to restoreX
                 for (int x = getX(); x >= restoreX; x -= 10) {
-                    if (this.threadsKilled)
+                    if (this.control_c_threads)
                         break;
                     Thread.sleep(delay);
                     setLocation(x, this.getY());
@@ -692,7 +702,7 @@ public class CyderFrame extends JFrame {
 
                 //move from top to restoreY
                 for (int y = getY(); y <= restoreY; y += 10) {
-                    if (this.threadsKilled)
+                    if (this.control_c_threads)
                         break;
                     Thread.sleep(delay);
                     setLocation(this.getX(), y);
@@ -709,7 +719,7 @@ public class CyderFrame extends JFrame {
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        },"dance thread");
+        },this + " [dance thread]");
 
         DanceThread.start();
     }
@@ -968,7 +978,8 @@ public class CyderFrame extends JFrame {
 
     @Override
     public String toString() {
-        return "[" + this.getTitlePosition() + "],(" +
+        String title = titleLabel.getText() == null || titleLabel.getText().length() == 0 ? super.getTitle() : titleLabel.getText();
+        return "Name: " + title + "[" + this.getTitlePosition() + "],(" +
                 this.getX() + "," + this.getY() + "," + this.getWidth() + "x" + this.getHeight() + ")";
     }
 
@@ -977,6 +988,7 @@ public class CyderFrame extends JFrame {
      * method is actomatically called when {@link CyderFrame#closeAnimation()} or {@link CyderFrame#dispose()} is invokekd.
      */
     public void killThreads() {
+        this.control_c_threads = true;
         this.threadsKilled = true;
     }
 
