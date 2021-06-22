@@ -2,10 +2,8 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
-import cyder.utilities.ImageUtil;
 import cyder.utilities.NumberUtil;
 
 import javax.swing.*;
@@ -16,11 +14,12 @@ import java.awt.event.MouseEvent;
 public class ClickMe {
     public static void clickMe() {
         try {
-            CyderFrame clickMeFrame = new CyderFrame(220,100, new ImageIcon(ImageUtil.bufferedImageFromColor(220,100, CyderColors.vanila)));
+            CyderFrame clickMeFrame = new CyderFrame(220,100);
             clickMeFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-            clickMeFrame.setTitle("");
+            clickMeFrame.setTitle("Click Me");
+            clickMeFrame.setBackground(CyderColors.vanila);
 
-            JLabel dismiss = new JLabel("ClickMe Me!");
+            JLabel dismiss = new JLabel("Click Me!");
             dismiss.setHorizontalAlignment(JLabel.CENTER);
             dismiss.setVerticalAlignment(JLabel.CENTER);
             dismiss.setForeground(CyderColors.navy);

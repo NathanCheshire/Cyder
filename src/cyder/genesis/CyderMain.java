@@ -267,11 +267,12 @@ public class CyderMain {
                 @Override
                 public void focusGained(FocusEvent e) {
                     minimizeMenu();
-                    inputField.requestFocus();
                 }
             });
 
             outputArea.setEditable(false);
+            outputArea.setCaretColor(ConsoleFrame.getUserForegroundColor());
+            outputArea.setCaret(new CyderCaret(ConsoleFrame.getUserForegroundColor()));
             outputArea.setAutoscrolls(true);
             outputArea.setBounds(10, 62, ConsoleFrame.getBackgroundWidth() - 20, ConsoleFrame.getBackgroundHeight() - 204);
             outputArea.setFocusable(true);
@@ -2602,8 +2603,6 @@ public class CyderMain {
     }
 
     private void test() {
-        StringUtil su = new StringUtil(outputArea);
-        su.removeLast();
 
     }
 

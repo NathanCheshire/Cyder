@@ -24,23 +24,18 @@ public class InputHandler {
     //todo add reading and writing calls to/from userdata to the log
     //todo suggestion will be in a log summary for a log, logs stored in logs dir
 
-    //todo show full file name for user files scroll
+    //todo show full file name for user files scroll "music/EpicDubstep.mp3"
 
     //todo scrollbar on dir messes up when selecting element fix by making not opqeue or not fading away?
 
     //todo test signatures against files and make a widget for this
 
     //todo file space for overall program when cypherlenovo, deletes folder if not cypherlenovo
-    // todo userfile space too, (be able to point to files with a -f option via command line args such as)
 
-    // todo hexdump -f userdata.bin
-    // todo bindump -f userdata.bin
+    //todo userfiles aside from music and backgrounds called files
 
     //todo use displayText = "<html><div style='text-align: center;'>" + displayText + "</div></html>";
-    // to center text for components throughout.
-
-    //todo be able to set super title and regular title differnetly and get/set each different
-    // window title should only be for display
+    // in Jlabels
 
     //todo background image changing doesn't move just the background
 
@@ -67,8 +62,6 @@ public class InputHandler {
     //todo cyder should only use busy icon for the frames that are busy
     //todo busy should be defined if there is a named thread or named executor service so ALL custom pool and threads
     // should be named
-
-    //todo be able to copy from outupt area without canceling using ctrl + c, check if selected text or not
 
     //todo flipping console is broken
     //todo fipping console resets output area position
