@@ -85,7 +85,7 @@ public class StringUtil {
         println("Try typing: " + helpTips[0]);
     }
 
-    public void removeFirstLine() {
+    public void removeFirst() {
         try {
             Element root = outputArea.getDocument().getDefaultRootElement();
             Element first = root.getElement(0);
@@ -120,11 +120,46 @@ public class StringUtil {
         }
     }
 
+    public void removeLast() {
+        boolean removeTwoLines = false;
 
-    /**
-     * Removes the last line from the linked JTextPane. This could be anything: a newline character (\n),
-     *  a component such as JTextField or JButton, an icon, or anything else that might be added to a JTextPane.
-     */
+        LinkedList<Element> elements = new LinkedList<>();
+        ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
+        Element element;
+        while ((element = iterator.next()) != null) {
+            elements.add(element);
+        }
+
+        int leafs = 0;
+
+        for (Element value : elements)
+            if (value.getElementCount() == 0)
+                leafs++;
+
+        int passedLeafs = 0;
+
+        for (Element value : elements) {
+            if (value.getElementCount() == 0) {
+                if (passedLeafs + 3 != leafs) {
+                    passedLeafs++;
+                    continue;
+                }
+
+                System.out.println(value);
+
+                if (value.toString().toLowerCase().contains("icon") || value.toString().toLowerCase().contains("component")) {
+                    removeTwoLines = true;
+                }
+            }
+        }
+
+        if (removeTwoLines) {
+            removeLastLine();
+        }
+
+        removeLastLine();
+    }
+
     public void removeLastLine() {
         try {
             LinkedList<Element> elements = new LinkedList<>();
@@ -140,12 +175,9 @@ public class StringUtil {
                 if (value.getElementCount() == 0)
                     leafs++;
 
-
-            //remove the nth - 1 leaf, so if there are 4 more 3
             int passedLeafs = 0;
 
             for (Element value : elements) {
-                //its a leaf
                 if (value.getElementCount() == 0) {
                     if (passedLeafs + 2 != leafs) {
                         passedLeafs++;
@@ -162,7 +194,7 @@ public class StringUtil {
         }
     }
 
-    public void printlnComponent(Component c, String nm, String str) {
+    public void printComponent(Component c, String nm, String str) {
         try {
             //setup style for sheet
             Style cs = outputArea.getStyledDocument().addStyle(nm, null);
@@ -170,6 +202,14 @@ public class StringUtil {
             StyleConstants.setComponent(cs, c);
             //add style with component to styled document using str identifier
             outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), str, cs);
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    public void printlnComponent(Component c, String nm, String str) {
+        try {
+            printComponent(c, nm, str);
             //new line
             println("");
         } catch (Exception e) {

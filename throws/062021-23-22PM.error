@@ -7,7 +7,7 @@ Stack Trace:
 javax.swing.text.BadLocationException: Invalid remove
 	at java.desktop/javax.swing.text.AbstractDocument.handleRemove(AbstractDocument.java:611)
 	at java.desktop/javax.swing.text.AbstractDocument.remove(AbstractDocument.java:596)
-	at cyder.utilities.StringUtil.removeFirstLine(StringUtil.java:118)
+	at removeFirst(StringUtil.java:118)
 	at cyder.genesis.CyderMain.test(CyderMain.java:2560)
 	at cyder.genesis.CyderMain.handle(CyderMain.java:2403)
 	at cyder.genesis.CyderMain.access$200(CyderMain.java:48)

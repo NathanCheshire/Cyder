@@ -2562,7 +2562,8 @@ public class CyderMain {
 
     private void test() {
         StringUtil su = new StringUtil(outputArea);
-        su.removeLastLine();
+        su.removeLast();
+
     }
 
     //handler method
@@ -2577,10 +2578,10 @@ public class CyderMain {
     }
 
     //handler method
-    private void print(String Usage) {
+    private void print(String usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Usage, null);
+            document.insertString(document.getLength(), usage, null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -2588,10 +2589,10 @@ public class CyderMain {
     }
 
     //handler method
-    private void print(int Usage) {
+    private void print(int usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Integer.toString(Usage), null);
+            document.insertString(document.getLength(), Integer.toString(usage), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -2599,10 +2600,10 @@ public class CyderMain {
     }
 
     //handler method
-    private void print(double Usage) {
+    private void print(double usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Double.toString(Usage), null);
+            document.insertString(document.getLength(), Double.toString(usage), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -2610,10 +2611,10 @@ public class CyderMain {
     }
 
     //handler method
-    private void print(boolean Usage) {
+    private void print(boolean usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Boolean.toString(Usage), null);
+            document.insertString(document.getLength(), Boolean.toString(usage), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -2621,10 +2622,10 @@ public class CyderMain {
     }
 
     //handler method
-    private void print(float Usage) {
+    private void print(float usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Float.toString(Usage), null);
+            document.insertString(document.getLength(), Float.toString(usage), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -2632,10 +2633,10 @@ public class CyderMain {
     }
 
     //handler method
-    private void print(long Usage) {
+    private void print(long usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Long.toString(Usage), null);
+            document.insertString(document.getLength(), Long.toString(usage), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -2643,10 +2644,10 @@ public class CyderMain {
     }
 
     //handler method
-    private void print(char Usage) {
+    private void print(char usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), String.valueOf(Usage), null);
+            document.insertString(document.getLength(), String.valueOf(usage), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -2654,10 +2655,10 @@ public class CyderMain {
     }
 
     //handler method
-    private void print(Object Usage) {
+    private void print(Object usage) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Usage.toString(), null);
+            document.insertString(document.getLength(), usage.toString(), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -2665,91 +2666,51 @@ public class CyderMain {
     }
 
     //handler method
-    private void println(String Usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+    private void println(String usage) {
+        print(usage);
+        print("\n");
     }
 
     //handler method
-    private void println(int Usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+    private void println(int usage) {
+        print(usage);
+        print("\n");
     }
 
     //handler method
-    private void println(double Usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+    private void println(double usage) {
+        print(usage);
+        print("\n");
     }
 
     //handler method
-    private void println(boolean Usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+    private void println(boolean usage) {
+        print(usage);
+        print("\n");
     }
 
     //handler method
-    private void println(float Usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+    private void println(float usage) {
+        print(usage);
+        print("\n");
     }
 
     //handler method
-    private void println(long Usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+    private void println(long usage) {
+        print(usage);
+        print("\n");
     }
 
     //handler method
-    private void println(char Usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+    private void println(char usage) {
+        print(usage);
+        print("\n");
     }
 
     //handler method
-    private void println(Object Usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Usage.toString() + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+    private void println(Object usage) {
+        print(usage);
+        print("\n");
     }
 
     //handler method
