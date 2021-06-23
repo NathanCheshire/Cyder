@@ -37,7 +37,7 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [ ]  get ImAvg working and put it inside the program
 - [ ]  allow users to map up to three internet links and place them on the menu panel
 - [ ]  allow users to rearrange the menu panel and remember what they do
-- [ ]  change the login animation to actual sliding JLabels with text and not a sliding image
+- [x]  change the login animation to actual sliding JLabels with text and not a sliding image
 - [ ]  make a perlin noise widget
 - [ ]  make a Conway's Game of Life widget
 - [ ]  make pixelating a picture it's own widget
@@ -46,9 +46,9 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [ ]  be able to change the CyderFrame/ConsolFrame border color from navy to some other color and repaint it. Remmeber this change
 - [ ]  if your location cannot be found, restrict features that rely on IP data and inform the user of this
 - [ ]  get start animations working and use them for CyderFrame instanceof objects
-- [ ]  utilize system.exit more and give more data on why the program was exited
+- [x]  utilize system.exit more and give more data on why the program was exited
 - [ ]  be able to download missing files from the internet and if you cannot and you need them, inform the user and exit the program
-- [ ]  move file.txt, string.txt, and inputmessage.txt to the tmp directory
+- [x]  move file.txt, string.txt, and inputmessage.txt to the tmp directory (removed in 6.22.21)
 - [ ]  utilze html inside of notifications (line breaks, color, bold, italics, etc.)
 - [ ]  be able to set the background to a solid color. On doing so, save the background
 - [ ]  Algorithms package with euclidian algorithm: Algorithms.euclidian(47,63) should return ints in same order to multiply alpha and beta inputs by to get the gcd
@@ -58,13 +58,13 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [ ]  if the operating system is OSX, swap the location of the menu and window toggle trio and make it resemble the green, yellow, red dots on OSX
 - [ ]  implement convex hull algorithm and visualizer
 - [ ]  implement path finding visualizer but also link to pac-man game
-- [ ]  make certain classes final, don't let people instantiate the class by making the constructor private like "private Math() {}"
+- [x]  make certain classes final, don't let people instantiate the class by making the constructor private like "private Math() {}"
 - [ ]  take and recongize a pastebin link or UUID and print the contents to the console, should be reading from the RAW paste
 - [ ]  allow once instance of console frame but multiple for dev mode (See Runtime native class)
-- [ ]  make launching and testing easier
+- [x]  make launching and testing easier
 - [ ]  make a music lab using lines that correspond to notes; inspired by Wintergatan Marble Machine
-- [ ]  add work with binary files (read/write to/from bin files)
+- [x]  add work with binary files (read/write to/from bin files)
 - [ ]  determine common files even without extension based on meta data binary reader
-- [ ]  bin dump function
-- [ ]  hex dump function
+- [x]  bin dump function
+- [x]  hex dump function
 - [ ]  ncview functionality
