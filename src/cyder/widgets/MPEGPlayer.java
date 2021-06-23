@@ -83,12 +83,6 @@ public class MPEGPlayer {
             }
         });
 
-        ImageIcon minimizeIcon = CyderImages.minimizeIcon;
-        ImageIcon minimizeIconHover = CyderImages.minimizeIconHover;
-
-        ImageIcon closeIcon = CyderImages.closeIcon;
-        ImageIcon closeIconHover = CyderImages.closeIconHover;
-
         musicTitleLabel = new JLabel("", SwingConstants.CENTER);
         musicTitleLabel.setBounds(310, 38, 400, 30);
         musicTitleLabel.setToolTipText("Currently Playing");

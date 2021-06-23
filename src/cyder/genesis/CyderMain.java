@@ -797,7 +797,7 @@ public class CyderMain {
 
             //stay but maybe relocate? auto test in debug mode
             if (SecurityUtil.nathanLenovo()) {
-                //test();
+                test();
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -2647,7 +2647,7 @@ public class CyderMain {
     }
 
     private void test() {
-        TestFrame tf = new TestFrame();
+        AudioPlayer ap = new AudioPlayer(null);
     }
 
     //handler method

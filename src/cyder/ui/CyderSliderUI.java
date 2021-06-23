@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 public class CyderSliderUI extends BasicSliderUI {
 
     private BasicStroke stroke = new BasicStroke(3.0f);
+    private BasicStroke thumbStroke = new BasicStroke(3.0f);
 
     private Color oldValColor;
     private Color newValColor;
@@ -45,6 +46,10 @@ public class CyderSliderUI extends BasicSliderUI {
 
     public void setStroke(BasicStroke s) {
         this.stroke = s;
+    }
+
+    public void setThumbStroke(BasicStroke s) {
+        this.thumbStroke = s;
     }
 
     public CyderSliderUI(JSlider b) {
@@ -138,7 +143,8 @@ public class CyderSliderUI extends BasicSliderUI {
             int cy = (trackBounds.height / 2) - 2;
             g2d.translate(trackBounds.x, trackBounds.y + cy);
             g2d.setColor(oldValColor);
-            g2d.drawLine(lowerX - trackBounds.x, 2, upperX - trackBounds.x, 2);
+            //-10 is so that we can't see the line change in the middle if it's hollow
+            g2d.drawLine(lowerX - trackBounds.x, 2, upperX - trackBounds.x - 10, 2);
             g2d.translate(-trackBounds.x, -(trackBounds.y + cy));
         }
         g2d.setStroke(old);
@@ -146,7 +152,6 @@ public class CyderSliderUI extends BasicSliderUI {
 
     @Override
     public void paintThumb(Graphics g) {
-
         Graphics2D g2d = (Graphics2D) g;
 
         if (sliderShape == SliderShape.CIRCLE) {
@@ -183,7 +188,7 @@ public class CyderSliderUI extends BasicSliderUI {
         } else if (sliderShape == SliderShape.HOLLOW_CIRCLE) {
             g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setStroke(new BasicStroke(4));
+            g2d.setStroke(thumbStroke);
             Rectangle t = thumbRect;
             g2d.setColor(fillColor);
             g2d.drawOval(t.x - 5, t.y, 20, 20);
