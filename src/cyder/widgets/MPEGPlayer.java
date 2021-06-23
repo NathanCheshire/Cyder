@@ -8,6 +8,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderSliderUI;
 import cyder.utilities.GetterUtil;
+import cyder.utilities.StringUtil;
 import javazoom.jl.player.Player;
 
 import javax.sound.sampled.AudioSystem;
@@ -43,7 +44,7 @@ public class MPEGPlayer {
 
     private JLabel musicTitleLabel;
     private int currentMusicIndex;
-    private File[] musicFiles;
+    private File[] musicFiles; //conv to linked list
     private Player mp3Player;
     private BufferedInputStream bis;
     private FileInputStream fis;
@@ -70,9 +71,9 @@ public class MPEGPlayer {
         if (musicFrame != null)
             musicFrame.closeAnimation();
 
-        musicFrame = new CyderFrame(1000,563,new ImageIcon("sys/pictures/music/mp3.png"));
+        musicFrame = new CyderFrame(1000,563);
+        musicFrame.setBackground(new Color(8,23,52));
         musicFrame.setTitle("Flash Player");
-
         musicFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -93,7 +94,7 @@ public class MPEGPlayer {
         musicTitleLabel.setToolTipText("Currently Playing");
         musicTitleLabel.setFont(new Font("tahoma", Font.BOLD, 18));
         musicTitleLabel.setForeground(CyderColors.vanila);
-        musicTitleLabel.setText("No Audio Currently Playing");
+        musicTitleLabel.setText("No Audio Playing");
         musicFrame.getContentPane().add(musicTitleLabel);
 
         musicVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
@@ -113,26 +114,26 @@ public class MPEGPlayer {
         musicVolumeSlider.setVisible(true);
         musicVolumeSlider.setValue(50);
         musicVolumeSlider.addChangeListener(e -> {
-            Port.Info Source = Port.Info.SPEAKER;
-            Port.Info Headphones = Port.Info.HEADPHONE;
+            Port.Info speaker = Port.Info.SPEAKER;
+            Port.Info headphone = Port.Info.HEADPHONE;
 
             try {
-                if (AudioSystem.isLineSupported(Source)) {
-                    Port outline = (Port) AudioSystem.getLine(Source);
+                if (AudioSystem.isLineSupported(speaker)) {
+                    Port outline = (Port) AudioSystem.getLine(speaker);
                     outline.open();
 
-                    FloatControl VolumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
+                    FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
 
-                    VolumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
+                    volumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
                 }
 
-                if (AudioSystem.isLineSupported(Headphones)) {
-                    Port outline = (Port) AudioSystem.getLine(Headphones);
+                if (AudioSystem.isLineSupported(headphone)) {
+                    Port outline = (Port) AudioSystem.getLine(headphone);
                     outline.open();
 
-                    FloatControl VolumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
+                    FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
 
-                    VolumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
+                    volumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
                 }
             } catch (LineUnavailableException ex) {
                 ErrorHandler.handle(ex);
@@ -197,20 +198,12 @@ public class MPEGPlayer {
         playPauseMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/PlayHover.png"));
-                } else {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/PauseHover.png"));
-                }
+                playPauseMusic.setIcon(new ImageIcon(playIcon ? "sys/pictures/music/PlayHover.png" : "sys/pictures/music/PauseHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/play.png"));
-                } else {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-                }
+                playPauseMusic.setIcon(new ImageIcon(playIcon ? "sys/pictures/music/play.png" : "sys/pictures/music/Pause.png"));
             }
         });
 
@@ -224,7 +217,7 @@ public class MPEGPlayer {
         playPauseMusic.setBorderPainted(false);
 
         lastMusic = new JButton("");
-        lastMusic.setToolTipText("Last Audio");
+        lastMusic.setToolTipText("Last Audio"); //change to previous
         lastMusic.addActionListener(e -> {
             if (mp3Player != null) {
                 if (currentMusicIndex - 1 >= 0) {
@@ -266,7 +259,7 @@ public class MPEGPlayer {
         lastMusic.setBorderPainted(false);
 
         nextMusic = new JButton("");
-        nextMusic.setToolTipText("Next Audio");
+        nextMusic.setToolTipText("Next Audio"); //change to skip
         nextMusic.addActionListener(e -> {
             if (mp3Player != null) {
                 if (currentMusicIndex + 1 <= musicFiles.length - 1) {
@@ -310,34 +303,20 @@ public class MPEGPlayer {
         loopMusic = new JButton("");
         loopMusic.setToolTipText("Loop Audio");
         loopMusic.addActionListener(e -> {
-            if (!loopAudio) {
-                loopMusic.setIcon(new ImageIcon("sys/pictures/music/Repeat.png"));
-                loopMusic.setToolTipText("Loop Audio");
-                loopAudio = true;
-            } else {
-                loopMusic.setIcon(new ImageIcon("sys/pictures/music/RepeatHover.png"));
-                loopMusic.setToolTipText("Loop Audio");
-                loopAudio = false;
-            }
+            loopMusic.setIcon(new ImageIcon(loopAudio ? "sys/pictures/music/RepeatHover.png" : "sys/pictures/music/Repeat.png"));
+            loopMusic.setToolTipText("Loop Audio");
+            loopAudio = !loopAudio;
         });
 
         loopMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (loopAudio) {
-                    loopMusic.setIcon(new ImageIcon("sys/pictures/music/Repeat.png"));
-                } else {
-                    loopMusic.setIcon(new ImageIcon("sys/pictures/music/RepeatHover.png"));
-                }
+                loopMusic.setIcon(new ImageIcon(loopAudio ? "sys/pictures/music/Repeat.png" : "sys/pictures/music/RepeatHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (loopAudio) {
-                    loopMusic.setIcon(new ImageIcon("sys/pictures/music/RepeatHover.png"));
-                } else {
-                    loopMusic.setIcon(new ImageIcon("sys/pictures/music/Repeat.png"));
-                }
+                loopMusic.setIcon(new ImageIcon(loopAudio ? "sys/pictures/music/RepeatHover.png" : "sys/pictures/music/Repeat.png"));
             }
         });
 
@@ -358,7 +337,7 @@ public class MPEGPlayer {
                 loopAudio = false;
 
 
-                musicTitleLabel.setText("No audio currently playing");
+                musicTitleLabel.setText("No Audio Playing");
                 playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/play.png"));
                 playPauseMusic.setToolTipText("play");
 
@@ -397,32 +376,27 @@ public class MPEGPlayer {
         selectMusicDir.setToolTipText("Open File");
         selectMusicDir.addActionListener(e -> new Thread(() -> {
             try {
-                File SelectedFile = new GetterUtil().getFile("Choose any mp3 file to play");
-
-                if (SelectedFile == null)
-                    return;
-
-                if (!SelectedFile.toString().endsWith("mp3")) {
+                File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to play");
+                if (!selectedChildFile.toString().endsWith("mp3")) {
                     if (mp3Player == null)
-                        GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.","");
+                        musicFrame.notify("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.");
                 }
 
-                else {
-                    File[] SelectedFileDir = SelectedFile.getParentFile().listFiles();
-                    ArrayList<File> ValidFiles = new ArrayList<>();
-                    for (int i = 0; i < (SelectedFileDir != null ? SelectedFileDir.length : 0); i++) {
-                        if (SelectedFileDir[i].toString().endsWith(".mp3")) {
-                            ValidFiles.add(SelectedFileDir[i]);
-                        }
+                else if (selectedChildFile != null){
+                    File[] neighboringFiles = selectedChildFile.getParentFile().listFiles();
+                    ArrayList<File> validFiles = new ArrayList<>();
+
+                    for (int i = 0; i < (neighboringFiles != null ? neighboringFiles.length : 0); i++) {
+                        if (StringUtil.getExtension(neighboringFiles[i]).equals(".mp3"))
+                            validFiles.add(neighboringFiles[i]);
                     }
 
-                    for (int j = 0 ; j < ValidFiles.size() ; j++) {
-                        if (ValidFiles.get(j).equals(SelectedFile)) {
+                    for (int j = 0 ; j < validFiles.size() ; j++) {
+                        if (validFiles.get(j).equals(selectedChildFile))
                             currentMusicIndex = j;
-                        }
                     }
 
-                    musicFiles = ValidFiles.toArray(new File[ValidFiles.size()]);
+                    musicFiles = validFiles.toArray(new File[validFiles.size()]);
                     play(musicFiles[currentMusicIndex]);
                 }
             } catch (Exception ex) {
@@ -462,20 +436,12 @@ public class MPEGPlayer {
         shuffleMusic.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (shuffleAudio) {
-                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/Shuffle.png"));
-                } else {
-                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/ShuffleHover.png"));
-                }
+                shuffleMusic.setIcon(new ImageIcon(shuffleAudio ? "sys/pictures/music/Shuffle.png" : "sys/pictures/music/ShuffleHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (shuffleAudio) {
-                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/ShuffleHover.png"));
-                } else {
-                    shuffleMusic.setIcon(new ImageIcon("sys/pictures/music/Shuffle.png"));
-                }
+                shuffleMusic.setIcon(new ImageIcon(shuffleAudio ? "sys/pictures/music/ShuffleHover.png" : "sys/pictures/music/Shuffle.png"));
             }
         });
 
@@ -498,7 +464,7 @@ public class MPEGPlayer {
         musicFrame.setAlwaysOnTop(false);
         musicFrame.requestFocus();
 
-        //if not null then we call initMusi
+        //if not null then we call initMusic
         if (StartPlaying != null && !StartPlaying.getName().equals(""))
             initMusic(StartPlaying);
 
@@ -640,8 +606,8 @@ public class MPEGPlayer {
 
                     new Thread(() -> {
                         try {
-                            while (true) {
-                                String localTitle = musicFiles[currentMusicIndex].getName().replace(".mp3","");
+                            while (scroll) {
+                                String localTitle = StringUtil.getFilename(musicFiles[currentMusicIndex]);
                                 int localLen = localTitle.length();
                                 effectLabel.setText(localTitle.substring(0,26));
 
@@ -692,7 +658,7 @@ public class MPEGPlayer {
 
         public void kill() {
             scroll = false;
-            effectLabel.setText("No Audio Currently Playing");
+            effectLabel.setText("No Audio Playing");
         }
     }
 
