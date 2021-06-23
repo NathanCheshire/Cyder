@@ -1,5 +1,5 @@
 package cyder.enums;
 
 public enum SliderShape {
-    CIRCLE,RECT
+    CIRCLE,RECT,ICON,HOLLOW_CIRCLE
 }

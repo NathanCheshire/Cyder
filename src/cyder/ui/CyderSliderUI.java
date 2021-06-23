@@ -1,12 +1,14 @@
 package cyder.ui;
 
 import cyder.enums.SliderShape;
+import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 public class CyderSliderUI extends BasicSliderUI {
 
@@ -152,9 +154,9 @@ public class CyderSliderUI extends BasicSliderUI {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             Rectangle t = thumbRect;
             g2d.setColor(fillColor);
-            g2d.fillOval(t.x, t.y, 25, 25);
+            g2d.fillOval(t.x - 5, t.y, 20, 20);
             g2d.dispose();
-        } else {
+        } else if (sliderShape == SliderShape.RECT){
             Rectangle knobBounds = thumbRect;
             int w = knobBounds.width;
             int h = knobBounds.height;
@@ -169,7 +171,30 @@ public class CyderSliderUI extends BasicSliderUI {
             g2d.setColor(outlineColor);
             g2d.draw(thumbShape);
             g2d.dispose();
+        } else if (sliderShape == SliderShape.ICON){
+            Rectangle knobBounds = thumbRect;
+            int w = knobBounds.width;
+            int h = knobBounds.height;
+            g2d.translate(knobBounds.x - 25, knobBounds.y - 25);
+
+            BufferedImage resized = ImageUtil.resizeImage(customThumb,BufferedImage.TYPE_INT_RGB,25,25);
+            g2d.drawImage(resized, 25, 25, null);
+            g2d.dispose();
+        } else if (sliderShape == SliderShape.HOLLOW_CIRCLE) {
+            g2d = (Graphics2D) g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setStroke(new BasicStroke(4));
+            Rectangle t = thumbRect;
+            g2d.setColor(fillColor);
+            g2d.drawOval(t.x - 5, t.y, 20, 20);
+            g2d.dispose();
         }
+    }
+
+    private BufferedImage customThumb = null;
+
+    public void setCustomThumb(BufferedImage customThumb) {
+        this.customThumb = customThumb;
     }
 
     public class RangeTrackListener extends TrackListener {

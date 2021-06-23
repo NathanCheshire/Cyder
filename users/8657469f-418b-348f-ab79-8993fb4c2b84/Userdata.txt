@@ -3,7 +3,7 @@ Password:3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
 Font:Agency FB
 Foreground:000000
 Background:ff03a45
-IntroMusic:1
+IntroMusic:0
 DebugWindows:0
 RandomBackground:0
 OutputBorder:0

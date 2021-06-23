@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
+import cyder.enums.SliderShape;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -41,7 +42,6 @@ public class MPEGPlayer {
     private JButton shuffleMusic;
 
     private JLabel musicTitleLabel;
-    private JLabel musicVolumeLabel;
     private int currentMusicIndex;
     private File[] musicFiles;
     private Player mp3Player;
@@ -52,15 +52,15 @@ public class MPEGPlayer {
     private boolean playIcon = true;
     private boolean loopAudio;
 
-    //todo bug when changing volume, set init volume since apears to not actually be set
     //todo error resuming music, tries to start at beggining
     //todo audio doesnt go to next audio when current ends
-    //todo custom thumb icon
     //todo audio progress slider
     //todo add to drag label at specific index a window button like from console to make mini player with just
     // buttons and sliders (drag label still ofc since still a cyderframe)
     //todo implement shuffle feature
     //todo skipping after a song is on repeat and starts playing again made scrolling label glitch out
+
+    //todo feed a youtube video and stream audio from (using ffmpeg) and get thumbnail and use as album art
 
     /**
      * This constructor takes an mp3 file to immediately start playing when FlashPlayer loads
@@ -78,6 +78,7 @@ public class MPEGPlayer {
             public void windowClosed(WindowEvent e) {
             if (mp3Player != null)
                 mp3Player.close();
+            stopScrolling();
             }
         });
 
@@ -97,23 +98,20 @@ public class MPEGPlayer {
 
         musicVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
         CyderSliderUI UI = new CyderSliderUI(musicVolumeSlider);
+        UI.setSliderShape(SliderShape.HOLLOW_CIRCLE);
         UI.setFillColor(CyderColors.vanila);
         UI.setOutlineColor(CyderColors.vanila);
         UI.setNewValColor(CyderColors.vanila);
         UI.setOldValColor(CyderColors.regularRed);
-        UI.setStroke(new BasicStroke(3.0f));
-
+        UI.setStroke(new BasicStroke(2.0f));
         musicVolumeSlider.setUI(UI);
         musicVolumeSlider.setBounds(352, 499, 385, 63);
         musicVolumeSlider.setMinimum(0);
         musicVolumeSlider.setMaximum(100);
-        musicVolumeSlider.setMajorTickSpacing(5);
-        musicVolumeSlider.setMinorTickSpacing(1);
         musicVolumeSlider.setPaintTicks(false);
         musicVolumeSlider.setPaintLabels(false);
         musicVolumeSlider.setVisible(true);
         musicVolumeSlider.setValue(50);
-        musicVolumeSlider.setFont(new Font("HeadPlane", Font.BOLD, 18));
         musicVolumeSlider.addChangeListener(e -> {
             Port.Info Source = Port.Info.SPEAKER;
             Port.Info Headphones = Port.Info.HEADPHONE;
@@ -126,7 +124,6 @@ public class MPEGPlayer {
                     FloatControl VolumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
 
                     VolumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
-                    musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
                 }
 
                 if (AudioSystem.isLineSupported(Headphones)) {
@@ -136,7 +133,6 @@ public class MPEGPlayer {
                     FloatControl VolumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
 
                     VolumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
-                    musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
                 }
             } catch (LineUnavailableException ex) {
                 ErrorHandler.handle(ex);
@@ -148,14 +144,6 @@ public class MPEGPlayer {
         musicVolumeSlider.setFocusable(false);
         musicVolumeSlider.repaint();
         musicFrame.getContentPane().add(musicVolumeSlider);
-
-        musicVolumeLabel = new JLabel("", SwingConstants.CENTER);
-        musicVolumeLabel.setBounds(250, 499, 100, 60);
-        musicVolumeLabel.setToolTipText("");
-        musicVolumeLabel.setFont(new Font("tahoma", Font.BOLD, 18));
-        musicVolumeLabel.setForeground(CyderColors.vanila);
-        musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
-        musicFrame.getContentPane().add(musicVolumeLabel);
 
         playPauseMusic = new JButton("");
         playPauseMusic.setToolTipText("play");
@@ -571,6 +559,7 @@ public class MPEGPlayer {
     public void kill() {
         if (mp3Player != null)
             this.mp3Player.close();
+        stopScrolling();
         musicFrame.closeAnimation();
     }
 
@@ -592,6 +581,8 @@ public class MPEGPlayer {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+
+        musicVolumeSlider.setValue(musicVolumeSlider.getValue());
 
         //playing thread to handle play/pause icons
         new Thread(() -> {
