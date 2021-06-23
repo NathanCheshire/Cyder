@@ -54,18 +54,14 @@ public class InputHandler {
     //todo implement preferences sliders and use them combined with cyderlabels in a jtextpane for user prefs
 
     //todo logout should end all executors and threads so only thing happening is login frame
+    // all exeuctors should be spun once when logged in so inside of init console frame
+    // all threads that continue should be able to be found and killed when logging out
 
     //todo fix bug: log in as different user when already logged in as nathan and then delete this new account you logged into
     // will say the first user was corrupted and say sorry + "first user name"
 
-    //todo I don't want to see a UUID, minimize usage of it
-
     //todo use gradient for weather.png and use sunrise and sunseticons
-
-    //todo work on proper exit conditions for ALL threads
-    //todo killed threads for classes that it would make sense for
-
-    //todo redo threads, deamon threads
+    //todo load weather stats in separate thread so window pops up quickly
 
     //todo flipping console is broken
     //todo fipping console resets output area position

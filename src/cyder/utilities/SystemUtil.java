@@ -102,29 +102,31 @@ public class SystemUtil {
                 "cd.Eject"});
     }
 
+    private static boolean threadsKilled = false;
+
+    public static void killThreads() {
+        threadsKilled = true;
+    }
+
+    //I think this is made for my keybaord? Logictech gpro? see if you can figure out the keyboard and drivers?
     public static void disco(int iterations) {
         Thread DiscoThread = new Thread(() -> {
             try {
+                Robot Rob = new Robot();
                 boolean Fixed = false;
-                boolean NumOn = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_NUM_LOCK);
                 boolean CapsOn = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
                 boolean ScrollOn = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_SCROLL_LOCK);
 
                 for (int i = 1; i < iterations ; i++) {
-                    Robot Rob = new Robot();
+                    if (threadsKilled)
+                        return;
 
                     if (!Fixed) {
-                        Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, false);
                         Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, false);
                         Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_SCROLL_LOCK, false);
 
                         Fixed = true;
                     }
-
-                    Rob.keyPress(KeyEvent.VK_NUM_LOCK);
-                    Rob.keyRelease(KeyEvent.VK_NUM_LOCK);
-
-                    Thread.sleep(170);
 
                     Rob.keyPress(KeyEvent.VK_CAPS_LOCK);
                     Rob.keyRelease(KeyEvent.VK_CAPS_LOCK);
@@ -133,11 +135,6 @@ public class SystemUtil {
 
                     Rob.keyPress(KeyEvent.VK_SCROLL_LOCK);
                     Rob.keyRelease(KeyEvent.VK_SCROLL_LOCK);
-
-                    Thread.sleep(170);
-
-                    Rob.keyPress(KeyEvent.VK_NUM_LOCK);
-                    Rob.keyRelease(KeyEvent.VK_NUM_LOCK);
 
                     Thread.sleep(170);
 
@@ -152,9 +149,10 @@ public class SystemUtil {
                     Thread.sleep(170);
                 }
 
-                Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_NUM_LOCK, NumOn);
                 Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, CapsOn);
                 Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_SCROLL_LOCK, ScrollOn);
+
+                threadsKilled = false;
             }
 
             catch (Exception ex) {

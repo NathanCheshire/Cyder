@@ -79,6 +79,7 @@ public class CyderFrame extends JFrame {
         this.width = width;
         this.height = height;
         this.background = background;
+        currentOrigIcon = background;
         setSize(new Dimension(width, height));
 
         setResizable(false);
@@ -619,97 +620,98 @@ public class CyderFrame extends JFrame {
     public void dance() {
         int delay = 10;
         Thread DanceThread = new Thread(() -> {
-            try {
-                boolean wasEnabled = false;
+            boolean wasEnabled = false;
 
-                if (dl.isDraggingEnabled()) {
-                    dl.disableDragging();
-                    wasEnabled = true;
-                }
-
-                setAlwaysOnTop(true);
-                int restoreX = this.getX();
-                int restoreY = this.getY();
-
-                //if out of bounds, bring just in bounds
-                if (restoreY < 0)
-                    setLocation(restoreX, 0);
-                else if (restoreY > SystemUtil.getScreenHeight())
-                    setLocation(restoreX, SystemUtil.getScreenHeight() - this.getHeight());
-                if (restoreX < 0)
-                    setLocation(0, restoreY);
-                else if (restoreX > SystemUtil.getScreenWidth())
-                    setLocation(SystemUtil.getScreenWidth() - this.getWidth(), restoreY);
-
-                //moves frame up to top of screen
-                for (int y = getY(); y >= 0; y -= 10) {
-                    if (this.control_c_threads)
-                        break;
-                    Thread.sleep(delay);
-                    setLocation(this.getX(), y);
-                }
-
-                //move from right to left
-                for (int x = getX(); x >= 0; x -= 10) {
-                    if (this.control_c_threads)
-                        break;
-                    Thread.sleep(delay);
-                    setLocation(x, this.getY());
-                }
-
-                //move from top to bottom
-                for (int y = getY(); y <= SystemUtil.getScreenHeight() - this.getHeight(); y += 10) {
-                    if (this.control_c_threads)
-                        break;
-                    Thread.sleep(delay);
-                    setLocation(this.getX(), y);
-                }
-
-                //move from left to right
-                for (int x = getX(); x <= SystemUtil.getScreenWidth() - this.getWidth(); x += 10) {
-                    if (this.control_c_threads)
-                        break;
-                    Thread.sleep(delay);
-                    setLocation(x, this.getY());
-                }
-
-                //move from bottom to top
-                for (int y = getY(); y > 0; y -= 10) {
-                    if (this.control_c_threads)
-                        break;
-                    Thread.sleep(delay);
-                    setLocation(this.getX(), y);
-                }
-
-                //move from top to restoreX
-                for (int x = getX(); x >= restoreX; x -= 10) {
-                    if (this.control_c_threads)
-                        break;
-                    Thread.sleep(delay);
-                    setLocation(x, this.getY());
-                }
-
-                setLocation(restoreX, this.getY());
-
-                //move from top to restoreY
-                for (int y = getY(); y <= restoreY; y += 10) {
-                    if (this.control_c_threads)
-                        break;
-                    Thread.sleep(delay);
-                    setLocation(this.getX(), y);
-                }
-
-                setLocation(restoreX, restoreY);
-
-                setLocation(restoreX, restoreY);
-                setAlwaysOnTop(false);
-
-                if (wasEnabled)
-                    dl.enableDragging();
-
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
+            if (dl.isDraggingEnabled()) {
+                dl.disableDragging();
+                wasEnabled = true;
             }
+
+            setAlwaysOnTop(true);
+            int restoreX = this.getX();
+            int restoreY = this.getY();
+
+            control_c_exit:
+                try {
+                    //if out of bounds, bring just in bounds
+                    if (restoreY < 0)
+                        setLocation(restoreX, 0);
+                    else if (restoreY > SystemUtil.getScreenHeight())
+                        setLocation(restoreX, SystemUtil.getScreenHeight() - this.getHeight());
+                    if (restoreX < 0)
+                        setLocation(0, restoreY);
+                    else if (restoreX > SystemUtil.getScreenWidth())
+                        setLocation(SystemUtil.getScreenWidth() - this.getWidth(), restoreY);
+
+                    //moves frame up to top of screen
+                    for (int y = getY(); y >= 0; y -= 10) {
+                        if (this.control_c_threads)
+                            break control_c_exit;
+                        Thread.sleep(delay);
+                        setLocation(this.getX(), y);
+                    }
+
+                    //move from right to left
+                    for (int x = getX(); x >= 0; x -= 10) {
+                        if (this.control_c_threads)
+                            break control_c_exit;
+                        Thread.sleep(delay);
+                        setLocation(x, this.getY());
+                    }
+
+                    //move from top to bottom
+                    for (int y = getY(); y <= SystemUtil.getScreenHeight() - this.getHeight(); y += 10) {
+                        if (this.control_c_threads)
+                            break control_c_exit;
+                        Thread.sleep(delay);
+                        setLocation(this.getX(), y);
+                    }
+
+                    //move from left to right
+                    for (int x = getX(); x <= SystemUtil.getScreenWidth() - this.getWidth(); x += 10) {
+                        if (this.control_c_threads)
+                            break control_c_exit;
+                        Thread.sleep(delay);
+                        setLocation(x, this.getY());
+                    }
+
+                    //move from bottom to top
+                    for (int y = getY(); y > 0; y -= 10) {
+                        if (this.control_c_threads)
+                            break control_c_exit;
+                        Thread.sleep(delay);
+                        setLocation(this.getX(), y);
+                    }
+
+                    //move from top to restoreX
+                    for (int x = getX(); x >= restoreX; x -= 10) {
+                        if (this.control_c_threads)
+                            break control_c_exit;
+                        Thread.sleep(delay);
+                        setLocation(x, this.getY());
+                    }
+
+                    setLocation(restoreX, this.getY());
+
+                    //move from top to restoreY
+                    for (int y = getY(); y <= restoreY; y += 10) {
+                        if (this.control_c_threads)
+                            break control_c_exit;
+                        Thread.sleep(delay);
+                        setLocation(this.getX(), y);
+                    }
+
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+
+            setLocation(restoreX, restoreY);
+
+            setLocation(restoreX, restoreY);
+            setAlwaysOnTop(false);
+
+            if (wasEnabled)
+                dl.enableDragging();
         },this + " [dance thread]");
 
         DanceThread.start();
@@ -890,7 +892,6 @@ public class CyderFrame extends JFrame {
 
     /**
      * Choose to allow/disable background image reisizing if window resizing is allowed.
-     *
      * @param allowed - the value determining background resizing
      */
     public void setBackgroundResizing(Boolean allowed) {

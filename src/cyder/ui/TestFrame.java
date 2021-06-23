@@ -18,6 +18,7 @@ public class TestFrame extends CyderFrame {
         testFrame.setTitlePosition(TitlePosition.CENTER);
         testFrame.stealConsoleBackground();
         testFrame.initializeBackgroundResizing();
+        testFrame.setBackgroundResizing(true);
         testFrame.setResizable(true);
         testFrame.setMinimumSize(new Dimension(200,200));
         testFrame.setMaximumSize(new Dimension(1000, 1000));

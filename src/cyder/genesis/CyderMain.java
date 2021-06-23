@@ -2300,6 +2300,7 @@ public class CyderMain {
                 stringUtil.setUserInputMode(false);
                 my.killAllYoutube();
                 bl.killBletchy();
+                SystemUtil.killThreads();
                 println("Escaped");
             } else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
                 println("Enter your word to be alphabetically rearranged");
@@ -2646,7 +2647,7 @@ public class CyderMain {
     }
 
     private void test() {
-
+        TestFrame tf = new TestFrame();
     }
 
     //handler method

@@ -1,0 +1,12 @@
+begin 0, end 26, length 19
+class java.lang.StringIndexOutOfBoundsException
+Error thrown by line: 3116
+
+Stack Trace:
+
+java.lang.StringIndexOutOfBoundsException: begin 0, end 26, length 19
+	at java.base/java.lang.String.checkBoundsBeginEnd(String.java:3116)
+	at java.base/java.lang.String.substring(String.java:1885)
+	at cyder.widgets.MPEGPlayer$ScrollLabel.lambda$new$0(MPEGPlayer.java:662)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+

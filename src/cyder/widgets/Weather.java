@@ -6,13 +6,11 @@ import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
-import cyder.utilities.AnimationUtil;
-import cyder.utilities.IOUtil;
-import cyder.utilities.IPUtil;
-import cyder.utilities.StringUtil;
+import cyder.utilities.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -90,62 +88,58 @@ public class Weather {
         if (weatherFrame != null)
             weatherFrame.closeAnimation();
 
-        weatherFrame = new CyderFrame(500,600,new ImageIcon("sys/pictures/weather/Weather.png"));
+        weatherFrame = new CyderFrame(500,600, new ImageIcon(
+                ImageUtil.getImageGradient(500, 600,
+                        new Color(205,119,130),
+                        new Color(38,21,75),
+                        new Color(89,85,161))));
         weatherFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         weatherFrame.setTitle("Weather");
+        weatherFrame.initializeBackgroundResizing();
+        weatherFrame.setBackgroundResizing(true);
+        weatherFrame.setResizable(true);
+        weatherFrame.setMinimumSize(new Dimension(200,200));
+        weatherFrame.setMaximumSize(new Dimension(1000, 1000));
+        weatherFrame.setSnapSize(new Dimension(1,1));
 
         currentTimeLabel = new JLabel();
-
         currentTimeLabel.setForeground(CyderColors.vanila);
-
         currentTimeLabel.setFont(CyderFonts.weatherFontSmall);
-
         currentTimeLabel.setBounds(16, 50, 600, 30);
-
         currentTimeLabel.setText(weatherTime());
-
         weatherFrame.getContentPane().add(currentTimeLabel, SwingConstants.CENTER);
 
         locationLabel = new JLabel();
-
         locationLabel.setForeground(CyderColors.vanila);
-
         locationLabel.setFont(CyderFonts.weatherFontSmall);
-
         locationLabel.setBounds(16, 85, 480, 30);
-
         locationLabel.setText(locationString);
-
         weatherFrame.getContentPane().add(locationLabel, SwingConstants.CENTER);
 
         JLabel currentWeatherIconLabel = new JLabel(new ImageIcon("sys/pictures/weather/" + weatherIcon + ".png"));
-
         currentWeatherIconLabel.setBounds(16, 125, 100, 100);
-
         currentWeatherIconLabel.setBorder(new LineBorder(CyderColors.navy,5,false));
-
         weatherFrame.getContentPane().add(currentWeatherIconLabel);
 
+        JLabel sunriseLabel = new JLabel(new ImageIcon("sys/pictures/weather/sunrise.png"));
+        sunriseLabel.setBounds(159, 136, 55, 48);
+        weatherFrame.getContentPane().add(sunriseLabel);
+
+        JLabel sunsetLabel = new JLabel(new ImageIcon("sys/pictures/weather/sunset.png"));
+        sunsetLabel.setBounds(274, 136, 55, 48);
+        weatherFrame.getContentPane().add(sunsetLabel);
+
         currentWeatherLabel = new JLabel();
-
         currentWeatherLabel.setForeground(CyderColors.vanila);
-
         currentWeatherLabel.setFont(CyderFonts.weatherFontSmall);
-
         currentWeatherLabel.setBounds(16, 255, 400, 30);
-
         currentWeatherLabel.setText(capsFirst(weatherCondition));
-
         weatherFrame.getContentPane().add(currentWeatherLabel);
 
         changeLocationLabel = new JLabel("Change Location");
-
         changeLocationLabel.setFont(CyderFonts.weatherFontSmall);
-
         changeLocationLabel.setForeground(CyderColors.vanila);
-
         changeLocationLabel.setBounds(165, 220,200,30);
-
         changeLocationLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -212,119 +206,70 @@ public class Weather {
                 changeLocationLabel.setForeground(CyderColors.vanila);
             }
         });
-
         weatherFrame.getContentPane().add(changeLocationLabel);
 
         temperatureLabel = new JLabel();
-
         temperatureLabel.setForeground(CyderColors.vanila);
-
         temperatureLabel.setFont(CyderFonts.weatherFontSmall);
-
         temperatureLabel.setBounds(16, 300, 300, 30);
-
         temperatureLabel.setText("Temperature: " + temperature + "F");
-
         weatherFrame.getContentPane().add(temperatureLabel);
 
         feelsLikeLabel = new JLabel();
-
         feelsLikeLabel.setForeground(CyderColors.vanila);
-
         feelsLikeLabel.setFont(CyderFonts.weatherFontSmall);
-
         feelsLikeLabel.setBounds(16, 345, 200, 30);
-
         feelsLikeLabel.setText("Feels like: " + feelsLike + "F");
-
         weatherFrame.getContentPane().add(feelsLikeLabel);
 
         windSpeedLabel = new JLabel();
-
         windSpeedLabel.setForeground(CyderColors.vanila);
-
         windSpeedLabel.setFont(CyderFonts.weatherFontSmall);
-
         windSpeedLabel.setBounds(16, 390, 300, 30);
-
         windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-
         weatherFrame.getContentPane().add(windSpeedLabel);
 
         windDirectionLabel = new JLabel();
-
         windDirectionLabel.setForeground(CyderColors.vanila);
-
         windDirectionLabel.setFont(CyderFonts.weatherFontSmall);
-
         windDirectionLabel.setBounds(16, 430, 400, 30);
-
         windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + getWindDirection(windBearing));
-
         weatherFrame.getContentPane().add(windDirectionLabel);
 
         humidityLabel = new JLabel();
-
         humidityLabel.setForeground(CyderColors.vanila);
-
         humidityLabel.setFont(CyderFonts.weatherFontSmall);
-
         humidityLabel.setBounds(16, 470, 300, 30);
-
         humidityLabel.setText("Humidity: " + humidity + "%");
-
         weatherFrame.getContentPane().add(humidityLabel, SwingConstants.CENTER);
 
         pressureLabel = new JLabel();
-
         pressureLabel.setForeground(CyderColors.vanila);
-
         pressureLabel.setFont(CyderFonts.weatherFontSmall);
-
         pressureLabel.setBounds(16, 510, 300, 30);
-
         pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
-
         weatherFrame.getContentPane().add(pressureLabel, SwingConstants.CENTER);
 
         timezoneLabel = new JLabel();
-
         timezoneLabel.setForeground(CyderColors.vanila);
-
         timezoneLabel.setFont(CyderFonts.weatherFontSmall);
-
         timezoneLabel.setBounds(16, 550, 400, 30);
-
         timezoneLabel.setText("Timezone stats: " + getTimezoneLabel());
-
         weatherFrame.getContentPane().add(timezoneLabel, SwingConstants.CENTER);
 
         sunriseLabel = new JLabel();
-
         sunriseLabel.setForeground(CyderColors.vanila);
-
         sunriseLabel.setFont(CyderFonts.weatherFontSmall);
-
         sunriseLabel.setBounds(150, 187, 125, 30);
-
         sunriseLabel.setText(sunrise + "am");
-
         weatherFrame.getContentPane().add(sunriseLabel, SwingConstants.CENTER);
 
         sunsetLabel = new JLabel();
-
         sunsetLabel.setForeground(CyderColors.vanila);
-
         sunsetLabel.setFont(CyderFonts.weatherFontSmall);
-
         sunsetLabel.setBounds(275, 189, 120, 30);
-
         sunsetLabel.setText(sunset + "pm");
-
         weatherFrame.getContentPane().add(sunsetLabel, SwingConstants.CENTER);
-
-        //todo change sunrise and sunset icons to actual icons and not the background image
-        //todo change background to gradient and make resizable
 
         weatherFrame.setVisible(true);
         weatherFrame.setLocationRelativeTo(null);

@@ -439,4 +439,21 @@ public class ImageUtil {
 
         return ret;
     }
+
+    public static BufferedImage getImageGradient(int width, int height, Color shadeColor, Color primaryRight, Color primaryLeft) {
+        BufferedImage ret = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = ret.createGraphics();
+
+        GradientPaint primary = new GradientPaint(0f, 0f, primaryLeft, height, 0f, primaryRight);
+        GradientPaint shade = new GradientPaint(0f, 0f,
+                new Color(shadeColor.getRed(), shadeColor.getGreen(), shadeColor.getBlue(), 0), 0f, 600, shadeColor);
+        g2.setPaint(primary);
+        g2.fillRect(0, 0, width, height);
+        g2.setPaint(shade);
+        g2.fillRect(0, 0, width, height);
+
+        g2.dispose();
+
+        return ret;
+    }
 }

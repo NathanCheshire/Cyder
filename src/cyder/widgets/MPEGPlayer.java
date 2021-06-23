@@ -2,7 +2,6 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
-import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -53,12 +52,15 @@ public class MPEGPlayer {
     private boolean playIcon = true;
     private boolean loopAudio;
 
-    //todo exceptions are thrown left and right from JLayer resulting from a loop bug somewhere in this file
-    //todo bug when changing volume, set init volume
+    //todo bug when changing volume, set init volume since apears to not actually be set
     //todo error resuming music, tries to start at beggining
     //todo audio doesnt go to next audio when current ends
-    //todo custom thumb icon flash head and then make flash player smaller overall
+    //todo custom thumb icon
+    //todo audio progress slider
+    //todo add to drag label at specific index a window button like from console to make mini player with just
+    // buttons and sliders (drag label still ofc since still a cyderframe)
     //todo implement shuffle feature
+    //todo skipping after a song is on repeat and starts playing again made scrolling label glitch out
 
     /**
      * This constructor takes an mp3 file to immediately start playing when FlashPlayer loads
@@ -137,7 +139,6 @@ public class MPEGPlayer {
                     musicVolumeLabel.setText(musicVolumeSlider.getValue() + "%");
                 }
             } catch (LineUnavailableException ex) {
-                musicFrame.notify(ex.getMessage());
                 ErrorHandler.handle(ex);
             }
         });
@@ -174,7 +175,6 @@ public class MPEGPlayer {
                     try {
                         pauseLocation = fis.available();
                     } catch (Exception exc) {
-                        musicFrame.notify(exc.getMessage());
                         ErrorHandler.handle(exc);
                     }
 
@@ -200,7 +200,6 @@ public class MPEGPlayer {
 
                         resumeMusic();
                     } catch (Exception ex) {
-                        musicFrame.notify(ex.getMessage());
                         ErrorHandler.handle(ex);
                     }
                 }
@@ -511,8 +510,6 @@ public class MPEGPlayer {
         musicFrame.setAlwaysOnTop(false);
         musicFrame.requestFocus();
 
-        musicFrame.notify("Welcome to FlashPlayer (haha get it?)",3000, Direction.TOP, Direction.TOP, Direction.TOP);
-
         //if not null then we call initMusi
         if (StartPlaying != null && !StartPlaying.getName().equals(""))
             initMusic(StartPlaying);
@@ -543,7 +540,6 @@ public class MPEGPlayer {
             }
 
             catch (Exception e) {
-                musicFrame.notify(e.getMessage());
                 ErrorHandler.handle(e);
             }
         }
@@ -594,7 +590,6 @@ public class MPEGPlayer {
             songTotalLength = fis.available();
             startScrolling();
         } catch (Exception e) {
-            musicFrame.notify(e.getMessage());
             ErrorHandler.handle(e);
         }
 
@@ -614,10 +609,9 @@ public class MPEGPlayer {
                 playPauseMusic.setToolTipText("play");
                 playIcon = true;
             } catch (Exception e) {
-                musicFrame.notify(e.getMessage());
                 ErrorHandler.handle(e);
             }
-        },"Flash Player[" + musicFiles[currentMusicIndex].toString() + "]").start();
+        },"Flash Player Music Thread[" + musicFiles[currentMusicIndex].toString() + "]").start();
     }
 
     //after pause, resume music method
@@ -629,10 +623,9 @@ public class MPEGPlayer {
                 if (loopAudio)
                     play(musicFiles[currentMusicIndex]);
             } catch (Exception e) {
-                musicFrame.notify(e.getMessage());
                 ErrorHandler.handle(e);
             }
-        },"mp3 title scroll animater").start();
+        },"Flash Player Music Thread[" + musicFiles[currentMusicIndex].toString() + "]").start();
     }
 
     //private class to handle the scrolling title label
@@ -695,15 +688,13 @@ public class MPEGPlayer {
                         }
 
                         catch (Exception e) {
-                            musicFrame.notify(e.getMessage());
                             ErrorHandler.handle(e);
                         }
-                    },"scrolling label thread").start();
+                    },"Flash Player scrolling title thread[" + musicFiles[currentMusicIndex].toString() + "]").start();
                 } else {
                     effectLabel.setText(title);
                 }
             } catch (Exception e) {
-                musicFrame.notify(e.getMessage());
                 ErrorHandler.handle(e);
             }
         }

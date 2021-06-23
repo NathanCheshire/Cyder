@@ -24,7 +24,7 @@ public class ErrorHandler {
      */
     public static void handle(Exception e) {
         try {
-            //find out whereto log the error
+            //find out where to log the error
             String user = ConsoleFrame.getUUID();
             File throwsDir = null;
             String eFileString = "";
@@ -70,7 +70,7 @@ public class ErrorHandler {
         //uh oh; error was thrown inside of here so we'll just generic inform the user of it
         catch (Exception ex) {
             if (CyderMain.consoleFrame != null && CyderMain.consoleFrame.isVisible()) {
-                //todo ConsoleFrame.notify(ex.getMessage());
+                ex.printStackTrace();
 
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
@@ -146,9 +146,10 @@ public class ErrorHandler {
     }
 
     private static void windowedError(String title, String message, String errorFilePath) {
-        //setup frame
-        if (title == null)
-            title = "";
+        if (title == null || title.length() == 0 || message == null || message.length() == 0) {
+            System.out.println("Windowed error was passed null");
+            return;
+        }
 
         CyderFrame errorFrame = new CyderFrame();
         errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
