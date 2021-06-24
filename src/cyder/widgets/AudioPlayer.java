@@ -25,12 +25,12 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.LinkedList;
 
 public class AudioPlayer {
 
     //ui components
+    private ScrollLabel musicScroll;
     private JLabel musicTitleLabel;
     private CyderFrame musicFrame;
     private JSlider musicVolumeSlider;
@@ -167,6 +167,7 @@ public class AudioPlayer {
         previousMusicButton.addActionListener(e -> {
             try {
                 kill();
+                musicTitleLabel.setText("No Audio Playing");
 
                 if (musicIndex - 1 > 0) {
                     musicIndex--;
@@ -203,7 +204,15 @@ public class AudioPlayer {
 
         stopMusicButton = new JButton("");
         stopMusicButton.setToolTipText("Stop");
-        stopMusicButton.addActionListener(e -> kill());
+        stopMusicButton.addActionListener(e -> {
+            try {
+                kill();
+                musicTitleLabel.setText("");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                ErrorHandler.handle(ex);
+            }
+        });
 
         stopMusicButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -230,11 +239,14 @@ public class AudioPlayer {
         playPauseMusicButton.addActionListener(e -> {
             try {
                 if (player != null) {
-                    this.stopScrolling();
+                    if (musicScroll != null) {
+                        musicScroll.kill();
+                        musicScroll = null;
+                    }
                     player.close();
                     player = null;
                     //null ptr below line when trying to resume
-                    pauseLocation = totalLength - fis.available();
+                    pauseLocation = totalLength - fis.available(); //nullptr on paused saying stream closed
                     bis = null;
                     fis = null;
                 } else {
@@ -242,7 +254,7 @@ public class AudioPlayer {
                     bis = new BufferedInputStream(fis);
                     player = new Player(bis);
                     totalLength = fis.available();
-                    startScrolling();
+                    musicScroll = new ScrollLabel(musicTitleLabel);
                     play(pauseLocation);
                     pauseLocation = 0;
                 }
@@ -277,6 +289,7 @@ public class AudioPlayer {
         nextMusicButton.addActionListener(e -> {
             try {
                 kill();
+                musicTitleLabel.setText("");
 
                 if (musicIndex + 1 < musicFiles.size()) {
                     musicIndex++;
@@ -499,7 +512,8 @@ public class AudioPlayer {
      * Ends any and all threads having to do with this object to free up resources. Resets variables.
      */
     public void kill() {
-        this.stopScrolling();
+        musicScroll.kill();
+        musicScroll = null;
         if (player != null) {
             player.close();
             player = null;
@@ -558,99 +572,103 @@ public class AudioPlayer {
                 playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/play.png"));
                 playPauseMusicButton.setToolTipText("play");
                 player = null;
-                stopScrolling();
+                musicScroll.kill();
+                musicScroll = null;
             } catch (Exception e) {
                 e.printStackTrace();
                 ErrorHandler.handle(e);
             }
         },"Flash Player Music Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
 
-//        new Thread( () -> {
-//            for (;;) {
-//                try {
-//                    int loc = (int) (fis.available()/totalLength * audioLocationSlider.getMaximum());
-//                    audioLocationSlider.setValue(loc);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-
-        startScrolling();
-    }
-
-    boolean scroll = true;
-
-    /**
-     * End scrolling of the current scrolling label. This method exits the inner thread to free up resources.
-     * To start scrolling again, this method will need to be called again to reinstantiate the label text.
-     */
-    public void stopScrolling() {
-        this.scroll = false;
-    }
-
-    /**
-     * Start scrolling if needed based off of the current audio file playing
-     */
-    public void startScrolling() {
-        try {
-            int maxLen = 30;
-            int charScrollDelay = 200;
-
-            if (StringUtil.getFilename(musicFiles.get(musicIndex)).length() > maxLen) {
-                scroll = true;
-
-                new Thread(() -> {
-                    try {
-                        while (scroll) {
-                            String localTitle = StringUtil.getFilename(musicFiles.get(musicIndex));
-                            int localLen = localTitle.length();
-                            musicTitleLabel.setText(localTitle.substring(0,26));
-
-                            if (!scroll)
-                                return;
-
-                            Thread.sleep(2000);
-
-                            for (int i = 0 ; i <= localLen - 26; i++) {
-                                if (!scroll)
-                                    return;
-
-                                musicTitleLabel.setText(localTitle.substring(i, i + 26));
-
-                                if (!scroll)
-                                    return;
-
-                                Thread.sleep(charScrollDelay);
-                            }
-
-                            Thread.sleep(2000);
-
-                            for (int i = localLen - 26 ; i >= 0 ; i--) {
-                                if (!scroll)
-                                    return;
-
-                                musicTitleLabel.setText(localTitle.substring(i, i + 26));
-
-                                if (!scroll)
-                                    return;
-
-                                Thread.sleep(charScrollDelay);
-                            }
-                        }
-                    }
-
-                    catch (Exception e) {
-                        e.printStackTrace();
-                        ErrorHandler.handle(e);
-                    }
-                },"Flash Player scrolling title thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
-            } else {
-                musicTitleLabel.setText(StringUtil.getFilename(musicFiles.get(musicIndex)));
+        new Thread( () -> {
+            for (;;) {
+                try {
+                    System.out.println(totalLength + "," + fis.available());
+                    System.out.println((totalLength - fis.available())/totalLength);
+                    Thread.sleep(500);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            ErrorHandler.handle(e);
+        },"Flash Player Progress Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
+
+        musicScroll = new ScrollLabel(musicTitleLabel);
+    }
+
+    private class ScrollLabel {
+        private JLabel effectLabel;
+        boolean scroll;
+
+        ScrollLabel(JLabel effectLabel) {
+            scroll = true;
+            this.effectLabel = effectLabel;
+
+            try {
+                int maxLen = 30;
+                int charScrollDelay = 200;
+
+                if (StringUtil.getFilename(musicFiles.get(musicIndex)).length() > maxLen) {
+                    scroll = true;
+
+                    new Thread(() -> {
+                        try {
+                            OUTER:
+                                while (scroll) {
+                                    String localTitle = StringUtil.getFilename(musicFiles.get(musicIndex));
+                                    System.out.println(localTitle);
+                                    int localLen = localTitle.length();
+                                    musicTitleLabel.setText(localTitle.substring(0,26));
+
+                                    if (!scroll)
+                                        break;
+
+                                    Thread.sleep(2000);
+
+                                    for (int i = 0 ; i <= localLen - 26; i++) {
+                                        if (!scroll)
+                                            break OUTER;
+
+                                        musicTitleLabel.setText(localTitle.substring(i, i + 26));
+
+                                        if (!scroll)
+                                            break OUTER;
+
+                                        Thread.sleep(charScrollDelay);
+                                    }
+
+                                    Thread.sleep(2000);
+
+                                    for (int i = localLen - 26 ; i >= 0 ; i--) {
+                                        if (!scroll)
+                                            break OUTER;
+
+                                        musicTitleLabel.setText(localTitle.substring(i, i + 26));
+
+                                        if (!scroll)
+                                            break OUTER;
+
+                                        Thread.sleep(charScrollDelay);
+                                    }
+                                }
+                        }
+
+                        catch (Exception e) {
+                            e.printStackTrace();
+                            ErrorHandler.handle(e);
+                        }
+                    },"Flash Player scrolling title thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
+                } else {
+                    musicTitleLabel.setText(StringUtil.getFilename(musicFiles.get(musicIndex)));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                ErrorHandler.handle(e);
+            }
+        }
+
+        public void kill() {
+            System.out.println("Kill me");
+            this.scroll = false;
         }
     }
 }

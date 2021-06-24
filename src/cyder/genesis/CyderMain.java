@@ -2649,7 +2649,7 @@ public class CyderMain {
     }
 
     private void test() {
-        AudioPlayer ap = new AudioPlayer(null);
+        AudioPlayer ap = new AudioPlayer(new File("C:/Users/Nathan/Music/Music/Timeflies Tuesday - Paranoid.mp3"));
     }
 
     //handler method
