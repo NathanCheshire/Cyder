@@ -2303,6 +2303,7 @@ public class CyderMain {
                 my.killAllYoutube();
                 bl.killBletchy();
                 SystemUtil.killThreads();
+                IOUtil.stopMusic();
                 println("Escaped");
             } else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
                 println("Enter your word to be alphabetically rearranged");
