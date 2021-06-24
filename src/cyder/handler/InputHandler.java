@@ -14,6 +14,7 @@ public class InputHandler {
 
 
 
+    //todo youtube thumbnail broken
 
     //todo when starting youtube thread, calculate how long until it finishes (lol) and notify on frame
 

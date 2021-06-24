@@ -128,6 +128,7 @@ public class CyderSliderUI extends BasicSliderUI {
         return new Rectangle2D.Double(0, 0, width, height);
     }
 
+
     @Override
     public void paintTrack(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -144,7 +145,8 @@ public class CyderSliderUI extends BasicSliderUI {
             g2d.translate(trackBounds.x, trackBounds.y + cy);
             g2d.setColor(oldValColor);
             //-10 is so that we can't see the line change in the middle if it's hollow
-            g2d.drawLine(lowerX - trackBounds.x, 2, upperX - trackBounds.x - 10, 2);
+            g2d.drawLine(lowerX - trackBounds.x, 2, upperX - trackBounds.x -
+                    (sliderShape == SliderShape.HOLLOW_CIRCLE ? 10 : 0), 2);
             g2d.translate(-trackBounds.x, -(trackBounds.y + cy));
         }
         g2d.setStroke(old);
@@ -193,6 +195,8 @@ public class CyderSliderUI extends BasicSliderUI {
             g2d.setColor(fillColor);
             g2d.drawOval(t.x - 5, t.y, 20, 20);
             g2d.dispose();
+        } else if (sliderShape == SliderShape.NONE) {
+            //no paint
         }
     }
 

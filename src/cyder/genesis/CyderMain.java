@@ -162,6 +162,8 @@ public class CyderMain {
         UIManager.put("ToolTip.border", new BorderUIResource(BorderFactory.createLineBorder(CyderColors.tooltipBorderColor, 2, true)));
         UIManager.put("ToolTip.font", CyderFonts.tahoma.deriveFont(22f));
         UIManager.put("ToolTip.foreground", CyderColors.tooltipForegroundColor);
+
+        UIManager.put("Slider.onlyLeftMouseButtonDrag", Boolean.TRUE);
     }
 
     /**

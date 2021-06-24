@@ -7,11 +7,16 @@ import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderSliderUI;
+import cyder.utilities.GetterUtil;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.Port;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -22,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class AudioPlayer {
@@ -58,12 +64,11 @@ public class AudioPlayer {
 
     //todo on pause: pauseLocation = totalLength - fis.available();
     //todo on resume: pass in pauseLocation
-    //todo on stop: plauselocation = 0, reset other stuff
 
     //todo pinned mode will set always on top to true
     //todo change size button will get rid of title and sliders and resize
 
-    //todo smaller button needs to end scrolling label/start and set all component bounds and to visible or not
+    //todo "smaller" button needs to end scrolling label/start and set all component bounds and to visible or not
 
     public AudioPlayer(File startPlaying) {
         if (musicFrame != null)
@@ -99,8 +104,21 @@ public class AudioPlayer {
         selectMusicDirButton.setBorderPainted(false);
         selectMusicDirButton.setToolTipText("Select audio");
         selectMusicDirButton.addActionListener(e -> new Thread(() -> {
-
-        }));
+            try {
+                File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to play");
+                if (selectedChildFile != null) {
+                    if (!selectedChildFile.toString().endsWith("mp3")) {
+                        musicFrame.notify("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.");
+                    } else if (selectedChildFile != null){
+                        refreshMusic(selectedChildFile);
+                        play(0);
+                    }
+                }
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
+                ex.printStackTrace();
+            }
+        }, "wait thread for GetterUtil().getFile()").start());
 
         selectMusicDirButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -150,7 +168,20 @@ public class AudioPlayer {
         previousMusicButton = new JButton("");
         previousMusicButton.setToolTipText("Previous audio");
         previousMusicButton.addActionListener(e -> {
+            try {
+                kill();
 
+                if (musicIndex - 1 > 0) {
+                    musicIndex--;
+                    play(0);
+                } else {
+                    musicIndex = musicFiles.size() - 1;
+                    play(0);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                ErrorHandler.handle(ex);
+            }
         });
 
         previousMusicButton.addMouseListener(new MouseAdapter() {
@@ -175,9 +206,7 @@ public class AudioPlayer {
 
         stopMusicButton = new JButton("");
         stopMusicButton.setToolTipText("Stop");
-        stopMusicButton.addActionListener(e -> {
-
-        });
+        stopMusicButton.addActionListener(e -> kill());
 
         stopMusicButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -202,7 +231,27 @@ public class AudioPlayer {
         playPauseMusicButton = new JButton("");
         playPauseMusicButton.setToolTipText("play");
         playPauseMusicButton.addActionListener(e -> {
-
+            try {
+                if (player != null) {
+                    this.stopScrolling();
+                    player.close();
+                    player = null;
+                    pauseLocation = totalLength - fis.available();
+                    bis = null;
+                    fis = null;
+                } else {
+                    fis = new FileInputStream(musicFiles.get(musicIndex));
+                    bis = new BufferedInputStream(fis);
+                    player = new Player(bis);
+                    totalLength = fis.available();
+                    startScrolling();
+                    play(pauseLocation);
+                    pauseLocation = 0;
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                ErrorHandler.handle(ex);
+            }
         });
 
         playPauseMusicButton.addMouseListener(new MouseAdapter() {
@@ -228,7 +277,20 @@ public class AudioPlayer {
         nextMusicButton = new JButton("");
         nextMusicButton.setToolTipText("Next Audio"); //change to skip
         nextMusicButton.addActionListener(e -> {
+            try {
+                kill();
 
+                if (musicIndex + 1 < musicFiles.size()) {
+                    musicIndex++;
+                    play(0);
+                } else {
+                    musicIndex = 0;
+                    play(0);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                ErrorHandler.handle(ex);
+            }
         });
 
         nextMusicButton.addMouseListener(new MouseAdapter() {
@@ -301,7 +363,31 @@ public class AudioPlayer {
         musicVolumeSlider.setVisible(true);
         musicVolumeSlider.setValue(50);
         musicVolumeSlider.addChangeListener(e -> {
+            Port.Info speaker = Port.Info.SPEAKER;
+            Port.Info headphone = Port.Info.HEADPHONE;
 
+            try {
+                if (AudioSystem.isLineSupported(speaker)) {
+                    Port outline = (Port) AudioSystem.getLine(speaker);
+                    outline.open();
+
+                    FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
+
+                    volumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
+                }
+
+                if (AudioSystem.isLineSupported(headphone)) {
+                    Port outline = (Port) AudioSystem.getLine(headphone);
+                    outline.open();
+
+                    FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
+
+                    volumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
+                }
+            } catch (LineUnavailableException ex) {
+                ex.printStackTrace();
+                ErrorHandler.handle(ex);
+            }
         });
         musicVolumeSlider.setOpaque(false);
         musicVolumeSlider.setToolTipText("Volume");
@@ -309,10 +395,10 @@ public class AudioPlayer {
         musicVolumeSlider.repaint();
         musicFrame.getContentPane().add(musicVolumeSlider);
 
-        audioLocationSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+        audioLocationSlider = new JSlider(JSlider.HORIZONTAL, 0, 10000, 0);
         CyderSliderUI UI2 = new CyderSliderUI(audioLocationSlider);
         UI2.setThumbStroke(new BasicStroke(2.0f));
-        UI2.setSliderShape(SliderShape.HOLLOW_CIRCLE);
+        UI2.setSliderShape(SliderShape.NONE);
         UI2.setFillColor(CyderColors.vanila);
         UI2.setOutlineColor(CyderColors.vanila);
         UI2.setNewValColor(CyderColors.vanila);
@@ -321,13 +407,16 @@ public class AudioPlayer {
         audioLocationSlider.setUI(UI2);
         audioLocationSlider.setBounds(55, 185, 385, 30);
         audioLocationSlider.setMinimum(0);
-        audioLocationSlider.setMaximum(100);
+        audioLocationSlider.setMaximum(10000);
         audioLocationSlider.setPaintTicks(false);
         audioLocationSlider.setPaintLabels(false);
         audioLocationSlider.setVisible(true);
-        audioLocationSlider.setValue(50);
+        audioLocationSlider.setValue(0);
         audioLocationSlider.addChangeListener(e -> {
-
+            System.out.println(audioLocationSlider.getValue());
+            //todo update me
+            //kill
+            //play at new location
         });
         audioLocationSlider.setOpaque(false);
         audioLocationSlider.setToolTipText("Song location");
@@ -343,6 +432,7 @@ public class AudioPlayer {
             try {
                 refreshMusic(startPlaying);
             } catch (FatalException e) {
+                e.printStackTrace();
                 ErrorHandler.handle(e);
             }
         }
@@ -369,6 +459,7 @@ public class AudioPlayer {
             }
 
             catch (Exception e) {
+                e.printStackTrace();
                 ErrorHandler.handle(e);
             }
         }
@@ -419,7 +510,8 @@ public class AudioPlayer {
             pauseLocation = 0;
             totalLength = 0;
         }
-        musicFrame.closeAnimation();
+        musicTitleLabel.setText("No Audio Playing");
+        audioLocationSlider.setValue(0);
     }
 
     /**
@@ -427,40 +519,34 @@ public class AudioPlayer {
      * @param start - the start location of the audio file; pass 0 to start at the beginning
      */
     public void play(long start) throws FatalException, IOException, JavaLayerException {
-        if (start < 0)
-            throw new FatalException("Starting posiotion less than 0");
-
-        musicVolumeSlider.setValue(musicVolumeSlider.getValue());
-
-        if (player != null) {
-            player.close();
-            player = null;
-        } else {
-            fis = new FileInputStream(musicFiles.get(musicIndex));
-            bis = new BufferedInputStream(fis);
-            player = new Player(bis);
-            totalLength = fis.available();
-        }
-
-        playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-        playPauseMusicButton.setToolTipText("Pause");
-
-        try {
-            startScrolling();
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-
         //Thread to play music, if we call kill it will free up the resources and this thread will end
         new Thread(() -> {
             try {
-                if (start != 0) {
-                    if (start < totalLength) {
-                        fis.skip(start);
-                    } else {
-                        fis.skip(0);
-                    }
+                if (start < 0)
+                    throw new FatalException("Starting posiotion less than 0");
+
+                musicVolumeSlider.setValue(musicVolumeSlider.getValue());
+
+                if (player != null) {
+                    player.close();
+                    player = null;
                 }
+
+                fis = new FileInputStream(musicFiles.get(musicIndex));
+                bis = new BufferedInputStream(fis);
+                player = new Player(bis);
+                totalLength = fis.available();
+
+                playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+                playPauseMusicButton.setToolTipText("Pause");
+
+//                if (start != 0) {
+//                    if (start < totalLength) {
+//                        fis.skip(start);
+//                    } else {
+//                        fis.skip(0);
+//                    }
+//                }
 
                 player.play();
 
@@ -481,6 +567,7 @@ public class AudioPlayer {
                 player = null;
                 stopScrolling();
             } catch (Exception e) {
+                e.printStackTrace();
                 ErrorHandler.handle(e);
             }
         },"Flash Player Music Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
@@ -550,6 +637,7 @@ public class AudioPlayer {
                     }
 
                     catch (Exception e) {
+                        e.printStackTrace();
                         ErrorHandler.handle(e);
                     }
                 },"Flash Player scrolling title thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
@@ -557,6 +645,7 @@ public class AudioPlayer {
                 musicTitleLabel.setText(StringUtil.getFilename(musicFiles.get(musicIndex)));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             ErrorHandler.handle(e);
         }
     }
