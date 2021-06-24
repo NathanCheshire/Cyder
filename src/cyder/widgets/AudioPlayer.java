@@ -10,7 +10,6 @@ import cyder.ui.CyderSliderUI;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
-import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
 import javax.sound.sampled.AudioSystem;
@@ -27,7 +26,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class AudioPlayer {
@@ -62,8 +60,7 @@ public class AudioPlayer {
     private long pauseLocation;
     private long totalLength;
 
-    //todo on pause: pauseLocation = totalLength - fis.available();
-    //todo on resume: pass in pauseLocation
+    //todo scrolling label thread doesn't end is where the glitching comes from
 
     //todo pinned mode will set always on top to true
     //todo change size button will get rid of title and sliders and resize
@@ -236,6 +233,7 @@ public class AudioPlayer {
                     this.stopScrolling();
                     player.close();
                     player = null;
+                    //null ptr below line when trying to resume
                     pauseLocation = totalLength - fis.available();
                     bis = null;
                     fis = null;
@@ -505,11 +503,11 @@ public class AudioPlayer {
         if (player != null) {
             player.close();
             player = null;
-            bis = null;
-            fis = null;
-            pauseLocation = 0;
-            totalLength = 0;
         }
+        bis = null;
+        fis = null;
+        pauseLocation = 0;
+        totalLength = 0;
         musicTitleLabel.setText("No Audio Playing");
         audioLocationSlider.setValue(0);
     }
@@ -518,7 +516,7 @@ public class AudioPlayer {
      * Starts/resumes playing of the current audio file
      * @param start - the start location of the audio file; pass 0 to start at the beginning
      */
-    public void play(long start) throws FatalException, IOException, JavaLayerException {
+    public void play(long start) {
         //Thread to play music, if we call kill it will free up the resources and this thread will end
         new Thread(() -> {
             try {
@@ -540,26 +538,21 @@ public class AudioPlayer {
                 playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
                 playPauseMusicButton.setToolTipText("Pause");
 
-//                if (start != 0) {
-//                    if (start < totalLength) {
-//                        fis.skip(start);
-//                    } else {
-//                        fis.skip(0);
-//                    }
-//                }
+                if (start != 0) {
+                    if (start < totalLength) {
+                        fis.skip(start);
+                    } else {
+                        fis.skip(0);
+                    }
+                }
 
-                player.play();
+                player.play(); //null fucking ptr left and right
 
                 if (repeatAudio) {
                     play(0);
                 } else if (shuffleAudio) {
                     musicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
                     play(0);
-                } else {
-                    if (musicIndex + 1 < musicFiles.size()) {
-                        musicIndex++;
-                        play(0);
-                    }
                 }
 
                 playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/play.png"));
@@ -571,6 +564,17 @@ public class AudioPlayer {
                 ErrorHandler.handle(e);
             }
         },"Flash Player Music Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
+
+//        new Thread( () -> {
+//            for (;;) {
+//                try {
+//                    int loc = (int) (fis.available()/totalLength * audioLocationSlider.getMaximum());
+//                    audioLocationSlider.setValue(loc);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
 
         startScrolling();
     }

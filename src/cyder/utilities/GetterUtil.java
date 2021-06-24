@@ -218,7 +218,6 @@ public class GetterUtil {
         File ret = returnFile;
         clearFile();
         frame.setVisible(false);
-        frame.dispose();
         return ret;
     }
 

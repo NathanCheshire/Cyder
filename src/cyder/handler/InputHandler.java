@@ -13,6 +13,9 @@ public class InputHandler {
 
 
 
+    //todo file getter proper javafx application thread go away while still being able to use filechooser again?
+
+    //todo on startup, look through error files, if there is nothing in one, delete it
 
     //todo youtube thumbnail broken
 
