@@ -31,7 +31,8 @@ import java.util.zip.ZipOutputStream;
 
 public class IOUtil {
 
-    private IOUtil () {} //private constructor to avoid object creation
+    private IOUtil() {
+    } //private constructor to avoid object creation
 
     private static LinkedList<NST> userData = new LinkedList<>();
     private static LinkedList<NST> systemData = new LinkedList<>();
@@ -46,14 +47,10 @@ public class IOUtil {
             File FileToOpen = new File(filePath);
             URI FileURI = FileToOpen.toURI();
             OpenFile.browse(FileURI);
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             try {
                 Runtime.getRuntime().exec("explorer.exe /select," + filePath);
-            }
-
-            catch(Exception ex) {
+            } catch (Exception ex) {
                 ErrorHandler.handle(ex);
             }
         }
@@ -73,7 +70,7 @@ public class IOUtil {
 
             BufferedWriter tmpFileWriter = new BufferedWriter(new FileWriter(tmpFile));
 
-            for (String line: lines) {
+            for (String line : lines) {
                 tmpFileWriter.write(line);
                 tmpFileWriter.newLine();
             }
@@ -82,9 +79,7 @@ public class IOUtil {
             tmpFileWriter.close();
 
             openFileOutsideProgram(tmpFile.getAbsolutePath());
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -108,7 +103,7 @@ public class IOUtil {
         if (!new File("users/" + user + "/Userdata.txt").exists())
             corruptedUser();
 
-        try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))){
+        try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))) {
 
             String Line;
 
@@ -116,9 +111,7 @@ public class IOUtil {
                 String[] parts = Line.split(":");
                 userData.add(new NST(parts[0], parts[1]));
             }
-        }
-
-        catch(Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -162,8 +155,9 @@ public class IOUtil {
 
     /**
      * Used to obtain data from any binary file (not just the current user) that is stored using Common Cyder Data Format
+     *
      * @param userDataBin - the .bin file to read
-     * @param dataKey - the identifier of the data to be obtained
+     * @param dataKey     - the identifier of the data to be obtained
      * @return - the data associated with dataKey
      * @throws FatalException - if file DNE or file is a non-binary
      */
@@ -183,8 +177,8 @@ public class IOUtil {
 
             for (String stringByte : stringBytes) {
                 sb.append(new String(
-                    new BigInteger(stringByte, 2).toByteArray(),
-                    StandardCharsets.UTF_8
+                        new BigInteger(stringByte, 2).toByteArray(),
+                        StandardCharsets.UTF_8
                 ));
             }
 
@@ -246,9 +240,7 @@ public class IOUtil {
             fos.close();
 
             GenesisShare.getExitingSem().release();
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -381,7 +373,7 @@ public class IOUtil {
             userWriter.newLine();
 
             //write default pairs
-            for (int i = 0 ;  i < GenesisShare.getPrefs().size() ; i++) {
+            for (int i = 0; i < GenesisShare.getPrefs().size(); i++) {
                 userWriter.write(GenesisShare.getPrefs().get(i).getID() + ":" + GenesisShare.getPrefs().get(i).getDefaultValue());
                 userWriter.newLine();
             }
@@ -466,7 +458,7 @@ public class IOUtil {
         systemData.clear();
 
         try (BufferedReader sysReader = new BufferedReader(new FileReader(
-                "Sys.ini"))){
+                "Sys.ini"))) {
 
             String Line;
 
@@ -474,9 +466,7 @@ public class IOUtil {
                 String[] parts = Line.split(":");
                 systemData.add(new NST(parts[0], parts[1]));
             }
-        }
-
-        catch(Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -501,10 +491,8 @@ public class IOUtil {
 
             userWriter.close();
             GenesisShare.getExitingSem().release();
-        }
-
-        catch (Exception e) {
-           ErrorHandler.handle(e);
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
         }
     }
 
@@ -525,9 +513,7 @@ public class IOUtil {
 
             sysWriter.flush();
             GenesisShare.getExitingSem().release();
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -580,6 +566,7 @@ public class IOUtil {
     /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
      * Appends the start date along with some information to StartLog.ini
+     *
      * @param cyderArgs - command line arguments passed in
      */
     public static void logArgs(String[] cyderArgs) {
@@ -591,7 +578,7 @@ public class IOUtil {
 
             String argsString = "";
 
-            for (int i = 0 ; i < cyderArgs.length ; i++) {
+            for (int i = 0; i < cyderArgs.length; i++) {
                 if (i != 0)
                     argsString += ",";
                 argsString += cyderArgs[i];
@@ -608,9 +595,7 @@ public class IOUtil {
 
             Files.write(Paths.get("StartLog.ini"), append.getBytes(), StandardOpenOption.APPEND);
 
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -637,9 +622,7 @@ public class IOUtil {
         //use our custom text editor
         if (FilePath.endsWith(".txt")) {
             TextEditor te = new TextEditor(FilePath);
-        }
-
-        else if (FilePath.endsWith(".png")) {
+        } else if (FilePath.endsWith(".png")) {
             PhotoViewer pv = new PhotoViewer(new File(FilePath));
             pv.start();
         }
@@ -657,14 +640,10 @@ public class IOUtil {
                 File FileToOpen = new File(FilePath);
                 URI FileURI = FileToOpen.toURI();
                 OpenFile.browse(FileURI);
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 try {
                     Runtime.getRuntime().exec("explorer.exe /select," + FilePath);
-                }
-
-                catch(Exception ex) {
+                } catch (Exception ex) {
                     ErrorHandler.handle(ex);
                 }
             }
@@ -687,17 +666,13 @@ public class IOUtil {
             Thread MusicThread = new Thread(() -> {
                 try {
                     player.play();
-                }
-
-                catch (Exception e) {
+                } catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
-            },"mp3 audio thread");
+            }, "mp3 audio thread");
 
             MusicThread.start();
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -708,9 +683,7 @@ public class IOUtil {
             if (player != null && !player.isComplete()) {
                 player.close();
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -719,7 +692,7 @@ public class IOUtil {
      * If a user becomes corrupted for any reason which may be determined any way we choose,
      * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
      * zip any user data aside from userdata.bin and the Throws directory
-     *
+     * <p>
      * This could fail if something has already been deleted which is fine since we want to
      * go to the starting
      */
@@ -730,7 +703,7 @@ public class IOUtil {
 
             //close all open frames
             Frame[] frames = Frame.getFrames();
-            for(Frame f : frames)
+            for (Frame f : frames)
                 f.dispose();
 
             //if it's already gone then it really wasn't a corrupted user, possibly a user deleting their account
@@ -740,12 +713,12 @@ public class IOUtil {
 
             //confirmed that the user was corrupted so we inform the user
             GenericInform.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
-                    "Your data has been saved, zipped, and placed in your Downloads folder","Corrupted User");
+                    "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User");
 
             //delete the stuff we don't care about
             for (File f : mainZipFile.listFiles()) {
-               if (f.getName().equalsIgnoreCase("userdata.bin")
-                       || f.getName().equalsIgnoreCase("userdata.txt"))
+                if (f.getName().equalsIgnoreCase("userdata.bin")
+                        || f.getName().equalsIgnoreCase("userdata.txt"))
                     f.delete();
             }
 
@@ -763,7 +736,7 @@ public class IOUtil {
 
             //move the zipped folder to downloads
             Files.move(Paths.get("src/Cyder_Corrupted_Userdata.zip"),
-                   Paths.get("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads/Cyder_Corrupted_Userdata.zip"));
+                    Paths.get("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads/Cyder_Corrupted_Userdata.zip"));
 
             //release sem
             GenesisShare.getExitingSem().release();
@@ -785,9 +758,7 @@ public class IOUtil {
                 if (fileName.endsWith("/")) {
                     zipOut.putNextEntry(new ZipEntry(fileName));
                     zipOut.closeEntry();
-                }
-
-                else {
+                } else {
                     zipOut.putNextEntry(new ZipEntry(fileName + "/"));
                     zipOut.closeEntry();
                 }
@@ -811,9 +782,7 @@ public class IOUtil {
                 zipOut.write(bytes, 0, length);
 
             fis.close();
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -821,10 +790,8 @@ public class IOUtil {
     public static void changeUsername(String newName) {
         try {
             readUserData();
-            writeUserData("name",newName);
-        }
-
-        catch (Exception e) {
+            writeUserData("name", newName);
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -833,9 +800,7 @@ public class IOUtil {
         try {
             readUserData();
             writeUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA(newPassword)));
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -870,7 +835,7 @@ public class IOUtil {
     public static long getFileSize(File f) {
         long ret = 0;
         try {
-            ret = Files.readAttributes(Paths.get(f.getPath()),DosFileAttributes.class).size();
+            ret = Files.readAttributes(Paths.get(f.getPath()), DosFileAttributes.class).size();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         }
@@ -932,7 +897,7 @@ public class IOUtil {
         GenesisShare.getExitingSem().release();
     }
 
-    public static String getBinaryString(File f) throws FatalException{
+    public static String getBinaryString(File f) throws FatalException {
         if (!f.exists())
             throw new FatalException("bin does not exist");
         else if (!f.getName().endsWith(".bin")) {
@@ -969,7 +934,7 @@ public class IOUtil {
             StringBuilder sb = new StringBuilder();
 
             for (String stringByte : stringBytes) {
-                sb.append(Integer.toString(Integer.parseInt(stringByte,2),16));
+                sb.append(Integer.toString(Integer.parseInt(stringByte, 2), 16));
             }
 
             fis.close();
@@ -979,5 +944,30 @@ public class IOUtil {
         }
 
         return ret;
+    }
+
+    public static void cleanErrors() {
+        File throwsDir = new File("throws");
+
+        if (throwsDir.exists()) {
+            File[] errorFiles = throwsDir.listFiles();
+
+            for (File f : errorFiles) {
+                try (FileInputStream fis = new FileInputStream(f)) {
+                    if (StringUtil.getExtension(f).equals(".error")) {
+                        byte[] data = new byte[(int) f.length()];
+                        fis.read(data);
+                        String contents = new String(data, StandardCharsets.UTF_8);
+                        fis.close();
+
+                        if (contents.trim().length() == 0) {
+                            f.delete();
+                        }
+                    }
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+            }
+        }
     }
 }

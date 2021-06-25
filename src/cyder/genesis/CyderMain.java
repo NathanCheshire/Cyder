@@ -52,7 +52,7 @@ public class CyderMain {
     private MasterYoutube my = new MasterYoutube(outputArea);
     private BletchyThread bl = new BletchyThread(outputArea);
 
-    //todo login spins off of main of autocypher fails
+    //todo login spins off of main if autocypher fails
     private CyderFrame loginFrame;
     private JPasswordField loginField;
     private boolean doLoginAnimations;
@@ -119,6 +119,7 @@ public class CyderMain {
         IOUtil.cleanUsers();
         IOUtil.deleteTempDir();
         IOUtil.logArgs(CA);
+        IOUtil.cleanErrors();
 
         startBackgroundProcessChecker();
 
