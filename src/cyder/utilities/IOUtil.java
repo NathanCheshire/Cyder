@@ -579,12 +579,12 @@ public class IOUtil {
 
     /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
-     * Appends the start date along with some information to StartLog.log
+     * Appends the start date along with some information to StartLog.ini
      * @param cyderArgs - command line arguments passed in
      */
     public static void logArgs(String[] cyderArgs) {
         try {
-            File log = new File("StartLog.log");
+            File log = new File("StartLog.ini");
 
             if (!log.exists())
                 log.createNewFile();
@@ -606,7 +606,7 @@ public class IOUtil {
                 append += "; args: " + argsString;
             }
 
-            Files.write(Paths.get("StartLog.log"), append.getBytes(), StandardOpenOption.APPEND);
+            Files.write(Paths.get("StartLog.ini"), append.getBytes(), StandardOpenOption.APPEND);
 
         }
 
