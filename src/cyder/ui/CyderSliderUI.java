@@ -168,8 +168,10 @@ public class CyderSliderUI extends BasicSliderUI {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             Rectangle t = thumbRect;
             g2d.setColor(fillColor);
-            //todo figure out offset b ased on thumbDiameter
-            g2d.fillOval(t.x + 4, t.y + 6, thumbDiameter / 2, thumbDiameter / 2);
+            double xOffset = getXOffset(20);
+            double yOffset = getYOffset(20);
+            g2d.fillOval((int) (t.x + xOffset), (int) (t.y + yOffset),
+                    thumbDiameter / 2, thumbDiameter / 2);
             g2d.dispose();
         } else if (sliderShape == SliderShape.RECT){
             Rectangle knobBounds = thumbRect;
@@ -324,5 +326,14 @@ public class CyderSliderUI extends BasicSliderUI {
     @Override
     public String toString() {
         return "CyderSliderUI object, hash=" + this.hashCode();
+    }
+
+    //todo fix these offsets without using least squares
+    private double getXOffset(int d) {
+        return -0.07358 * d + 1.925;
+    }
+
+    private double getYOffset(int d) {
+        return -0.2566 * d + 10.02;
     }
 }

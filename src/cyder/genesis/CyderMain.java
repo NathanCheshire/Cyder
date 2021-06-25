@@ -308,10 +308,15 @@ public class CyderMain {
             consoleFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
 
             outputArea = new JTextPane();
-            outputArea.addFocusListener(new FocusAdapter() {
+            outputArea.addFocusListener(new FocusListener() {
                 @Override
                 public void focusGained(FocusEvent e) {
                     minimizeMenu();
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    inputField.requestFocusInWindow();
                 }
             });
 

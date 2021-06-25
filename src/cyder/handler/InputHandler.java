@@ -26,8 +26,6 @@ public class InputHandler {
     // setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
     // make rounded border for frames and make sure drag label components aren't too close to edge
 
-    //todo update readme after addressing all mp3 widget errors, see issue
-
     //todo user logs and throws should eventually be converted to binary data so that you can only access it through the program
     //todo add reading and writing calls to/from userdata to the log
     //todo suggestion will be in a log summary for a log, logs stored in logs dir
@@ -46,8 +44,6 @@ public class InputHandler {
     // in Jlabels
 
     //todo background image changing doesn't move just the background
-
-    //todo after consoleFrame as a whole loses focus and gains again, move focus to input field
 
     //todo make input field like the input field for login (actually a password field with the natche@cyder~$)
 

@@ -312,7 +312,7 @@ public class AudioPlayer {
         CyderSliderUI UI = new CyderSliderUI(musicVolumeSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
         UI.setSliderShape(SliderShape.CIRCLE);
-        UI.setThumbDiameter(20);
+        UI.setThumbDiameter(25);
         UI.setFillColor(CyderColors.vanila);
         UI.setOutlineColor(CyderColors.vanila);
         UI.setNewValColor(CyderColors.vanila);
