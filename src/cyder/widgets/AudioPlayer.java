@@ -78,7 +78,7 @@ public class AudioPlayer {
         @Override
         public void windowClosed(WindowEvent e) {
             if (player != null)
-                kill();
+                stopMusic();
             }
         });
         musicFrame.initializeBackgroundResizing();
@@ -108,7 +108,7 @@ public class AudioPlayer {
                         musicFrame.notify("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.");
                     } else if (selectedChildFile != null){
                         refreshMusic(selectedChildFile);
-                        play(0);
+                        play();
                     }
                 }
             } catch (Exception ex) {
@@ -166,15 +166,19 @@ public class AudioPlayer {
         previousMusicButton.setToolTipText("Previous audio");
         previousMusicButton.addActionListener(e -> {
             try {
-                kill();
-                musicTitleLabel.setText("No Audio Playing");
+                stopMusic();
 
-                if (musicIndex - 1 > 0) {
-                    musicIndex--;
-                    play(0);
+                if (shuffleAudio) {
+                    musicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
+                    play();
                 } else {
-                    musicIndex = musicFiles.size() - 1;
-                    play(0);
+                    if (musicIndex - 1 > 0) {
+                        musicIndex--;
+                        play();
+                    } else {
+                        musicIndex = musicFiles.size() - 1;
+                        play();
+                    }
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -206,7 +210,7 @@ public class AudioPlayer {
         stopMusicButton.setToolTipText("Stop");
         stopMusicButton.addActionListener(e -> {
             try {
-                kill();
+                stopMusic();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 ErrorHandler.handle(ex);
@@ -249,7 +253,9 @@ public class AudioPlayer {
                     bis = new BufferedInputStream(fis);
                     player = new Player(bis);
                     totalLength = fis.available();
-                    play(pauseLocation - 15000 >= 0 ? pauseLocation - 15000 : 0);
+
+                    //resuming: pauseLocation - 15000 >= 0 ? pauseLocation - 15000 : 0
+                    resumeMusic(3845);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -281,14 +287,18 @@ public class AudioPlayer {
         nextMusicButton.setToolTipText("Next Audio"); //change to skip
         nextMusicButton.addActionListener(e -> {
             try {
-                kill(); //nullptr exception from here
-
-                if (musicIndex + 1 < musicFiles.size()) {
-                    musicIndex++;
-                    play(0);
+                stopMusic();
+                if (shuffleAudio) {
+                    musicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
+                    play();
                 } else {
-                    musicIndex = 0;
-                    play(0);
+                    if (musicIndex + 1 < musicFiles.size()) {
+                        musicIndex++;
+                        play();
+                    } else {
+                        musicIndex = 0;
+                        play();
+                    }
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -432,7 +442,7 @@ public class AudioPlayer {
         if (startPlaying != null && StringUtil.getExtension(startPlaying).equals(".mp3")) {
             try {
                 refreshMusic(startPlaying);
-                play(0);
+                play();
             } catch (FatalException e) {
                 e.printStackTrace();
                 ErrorHandler.handle(e);
@@ -455,7 +465,7 @@ public class AudioPlayer {
                         refreshMusic(f);
                 }
 
-                play(0);
+                play();
             }
 
             catch (Exception e) {
@@ -499,8 +509,8 @@ public class AudioPlayer {
 
     /**
      * Ends any and all threads having to do with this object to free up resources. Resets variables.
-     */ //todo nullchecks, this should kill everything in preparation to either be stopped for ever, or resumed from a start
-    public void kill() {
+     */
+    public void stopMusic() {
         if (musicScroll != null) {
             musicScroll.kill();
             musicScroll = null;
@@ -520,34 +530,43 @@ public class AudioPlayer {
     }
 
     /**
-     * Starts/resumes playing of the current audio file
-     * @param start - the start location of the audio file; pass 0 to start at the beginning
+     * Resumes playing after being paused
+     * @param startPosition - the position of the song to start at
      */
-    public void play(long start) {
-        //Thread to play music, if we call kill it will free up the resources and this thread will end
+    public void resumeMusic(long startPosition) {
+
+    }
+
+    public void previousMusic() {
+
+    }
+
+    public void nextMusic() {
+
+    }
+
+    /**
+     * Starts playing the audio of the current audio file from the beginning.
+     */
+    public void play() {
+        //Thread to play music, if we call stopMusic it will free up the resources and this thread will end
         new Thread(() -> {
             try {
                 if (player != null) {
-                    kill(); //maybe not the move here?
+                    stopMusic(); //maybe not the move here?
                 }
 
                 fis = new FileInputStream(musicFiles.get(musicIndex));
                 bis = new BufferedInputStream(fis);
                 player = new Player(bis);
-                totalLength = fis.available();
+                totalLength = fis.available(); //nullptr? HOW THE FUCK
 
                 playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
                 playPauseMusicButton.setToolTipText("Pause");
                 musicTitleLabel.setText(StringUtil.getFilename(musicFiles.get(musicIndex)));
 
                 //todo skipping has a wier derror where it plays the first part anyway
-                if (start != 0) {
-                    if (start < totalLength) {
-                        fis.skip(start); //before ?
-                    } else {
-                        fis.skip(0);
-                    }
-                }
+
 
                 //todo volume still doesn't work: refreshvolume and pass something weird
                 musicVolumeSlider.setValue(musicVolumeSlider.getValue());
@@ -556,13 +575,13 @@ public class AudioPlayer {
                 // if a song just ends? we want to reset stuff but not if pause or stop or play or next or last is pressed
                 musicScroll = new ScrollLabel(musicTitleLabel);
 
-                player.play();
+                player.play(); //index out of bounds?
 
                 if (repeatAudio) {
-                    play(0);
+                    play();
                 } else if (shuffleAudio) {
                     musicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
-                    play(0);
+                    play();
                 }
 
                 playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/play.png"));
@@ -582,7 +601,6 @@ public class AudioPlayer {
         },"Flash Player Music Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
 
         new Thread( () -> {
-            boolean songFinished = false;
             while (player != null && fis != null) {
                 try {
                     //todo what about when song finishes, how to end this?
@@ -600,6 +618,9 @@ public class AudioPlayer {
         },"Flash Player Progress Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
     }
 
+    /**
+     * Class used to make the scrolling song label if a song's title is too long to fit on the frame
+     */
     private class ScrollLabel {
         private JLabel effectLabel;
         boolean scroll;
