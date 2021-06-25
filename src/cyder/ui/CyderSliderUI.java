@@ -19,8 +19,17 @@ public class CyderSliderUI extends BasicSliderUI {
     private Color newValColor;
     private Color fillColor;
     private Color outlineColor;
+    private int thumbDiameter = 10;
 
     private SliderShape sliderShape = SliderShape.RECT;
+
+    public void setThumbDiameter(int radius) {
+        this.thumbDiameter = radius;
+    }
+
+    public int getThumbDiameter() {
+        return this.thumbDiameter;
+    }
 
     public void setSliderShape(SliderShape shape) {
         this.sliderShape = shape;
@@ -69,7 +78,6 @@ public class CyderSliderUI extends BasicSliderUI {
     protected TrackListener createTrackListener(JSlider slider) {
         return new RangeTrackListener();
     }
-
 
     @Override
     protected void calculateThumbLocation() {
@@ -128,7 +136,6 @@ public class CyderSliderUI extends BasicSliderUI {
         return new Rectangle2D.Double(0, 0, width, height);
     }
 
-
     @Override
     public void paintTrack(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -161,7 +168,8 @@ public class CyderSliderUI extends BasicSliderUI {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             Rectangle t = thumbRect;
             g2d.setColor(fillColor);
-            g2d.fillOval(t.x - 5, t.y, 20, 20);
+            //todo figure out offset b ased on thumbDiameter
+            g2d.fillOval(t.x + 4, t.y + 6, thumbDiameter / 2, thumbDiameter / 2);
             g2d.dispose();
         } else if (sliderShape == SliderShape.RECT){
             Rectangle knobBounds = thumbRect;

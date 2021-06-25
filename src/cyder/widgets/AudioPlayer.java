@@ -8,6 +8,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderSliderUI;
 import cyder.utilities.GetterUtil;
+import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
 import javazoom.jl.player.Player;
 
@@ -310,7 +311,8 @@ public class AudioPlayer {
         musicVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         CyderSliderUI UI = new CyderSliderUI(musicVolumeSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
-        UI.setSliderShape(SliderShape.HOLLOW_CIRCLE);
+        UI.setSliderShape(SliderShape.CIRCLE);
+        UI.setThumbDiameter(20);
         UI.setFillColor(CyderColors.vanila);
         UI.setOutlineColor(CyderColors.vanila);
         UI.setNewValColor(CyderColors.vanila);
@@ -457,23 +459,50 @@ public class AudioPlayer {
 
     public void stopAudio() {
        try {
+           if (musicScroll != null)
+               musicScroll.kill();
+           musicScroll = null;
 
+           if (player != null)
+               player.close();
+           player = null;
+           bis = null;
+           fis = null;
+
+           pauseLocation = 0;
+           totalLength = 0;
+
+           musicTitleLabel.setText("No Audio Playing");
+           audioLocationSlider.setValue(0);
+
+           playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+
+           refreshAudio();
        } catch (Exception e) {
            ErrorHandler.handle(e);
        }
     }
 
-    public void resumeAudio(long startPosition) {
-        try {
-
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
-
     public void previousAudio() {
         try {
+            stopAudio();
 
+            if (shuffleAudio) {
+                int newMusicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
+                while (newMusicIndex == musicIndex)
+                    newMusicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
+
+                musicIndex = newMusicIndex;
+
+            } else {
+                if (musicIndex - 1 > -1) {
+                    musicIndex--;
+                } else {
+                    musicIndex = musicFiles.size() - 1;
+                }
+            }
+
+            //todo however you're going to start up audio threads, scrolling label, and audio location thread
         } catch (Exception ex) {
             ex.printStackTrace();
             ErrorHandler.handle(ex);
@@ -482,7 +511,24 @@ public class AudioPlayer {
 
     public void nextAudio() {
         try {
+            stopAudio();
 
+            if (shuffleAudio) {
+                int newMusicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
+                while (newMusicIndex == musicIndex)
+                    newMusicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
+
+                musicIndex = newMusicIndex;
+
+            } else {
+                if (musicIndex + 1 < musicFiles.size()) {
+                    musicIndex++;
+                } else {
+                    musicIndex = 0;
+                }
+            }
+
+            //todo however you're going to start up audio threads, scrolling label, and audio location thread
         } catch (Exception ex) {
             ex.printStackTrace();
             ErrorHandler.handle(ex);
@@ -490,6 +536,8 @@ public class AudioPlayer {
     }
 
     public void kill() {
+        stopAudio();
+
         if (player != null)
             this.player.close();
 
@@ -506,6 +554,8 @@ public class AudioPlayer {
      * Starts playing the audio of the current audio file from the beginning.
      */
     public void startAudio() {
+        //thread should play the current song at the current index from location 0
+        // and continue playing with next song which could be a random or a repeat
         new Thread(() -> {
             try {
 
@@ -514,9 +564,13 @@ public class AudioPlayer {
             }
         },"Flash Player Music Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
 
+        //Basically this thread is always going as long as player is not null
         new Thread( () -> {
             while (player != null) {
                 try {
+                    if (totalLength == 0 || fis == null)
+                        return;
+
                     double place = ((double) (totalLength - fis.available()) /
                             (double) totalLength) * audioLocationSlider.getMaximum();
                     audioLocationSlider.setValue((int) place);
@@ -526,6 +580,14 @@ public class AudioPlayer {
                 }
             }
         },"Flash Player Progress Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
+    }
+
+    public void resumeAudio(long startPosition) {
+        try {
+
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     /**
