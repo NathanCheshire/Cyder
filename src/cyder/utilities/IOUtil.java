@@ -8,8 +8,8 @@ import cyder.handler.TextEditor;
 import cyder.obj.NST;
 import cyder.obj.Preference;
 import cyder.ui.ConsoleFrame;
+import cyder.widgets.AudioPlayer;
 import cyder.widgets.GenericInform;
-import cyder.widgets.MPEGPlayer;
 import javazoom.jl.player.Player;
 
 import java.awt.*;
@@ -36,7 +36,7 @@ public class IOUtil {
     private static LinkedList<NST> userData = new LinkedList<>();
     private static LinkedList<NST> systemData = new LinkedList<>();
 
-    private static MPEGPlayer CyderPlayer;
+    private static AudioPlayer CyderPlayer;
     private static Player player;
 
     public static void openFileOutsideProgram(String filePath) {
@@ -646,7 +646,7 @@ public class IOUtil {
 
         //use our own mp3 player
         else if (FilePath.endsWith(".mp3")) {
-            CyderPlayer = new MPEGPlayer(new File(FilePath));
+            CyderPlayer = new AudioPlayer(new File(FilePath));
         }
 
         //welp just open it outside of the program :(
@@ -676,7 +676,7 @@ public class IOUtil {
             CyderPlayer.kill();
 
         stopMusic();
-        CyderPlayer = new MPEGPlayer(new File(FilePath));
+        CyderPlayer = new AudioPlayer(new File(FilePath));
     }
 
     public static void playAudio(String FilePath) {

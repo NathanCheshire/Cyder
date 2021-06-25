@@ -32,13 +32,14 @@ public class YouTubeThumbnail {
         if (yttnFrame != null)
             yttnFrame.closeAnimation();
 
-        yttnFrame = new CyderFrame(600,250,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        yttnFrame = new CyderFrame(600,225,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         yttnFrame.setTitle("YouTube Thumbnail");
+        yttnFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
 
-        JLabel VideoID = new JLabel("Enter a valid YouTube video ID");
+        JLabel VideoID = new JLabel("Enter a valid YouTube UUID");
         VideoID.setFont(CyderFonts.weatherFontBig);
         VideoID.setForeground(CyderColors.navy);
-        VideoID.setBounds(40,40,600,40);
+        VideoID.setBounds(70,40,520,40);
         yttnFrame.getContentPane().add(VideoID);
 
         yttnField = new JTextField(30);
@@ -59,16 +60,16 @@ public class YouTubeThumbnail {
                     '3','4','5','6','7','8','9','-','_'};
 
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                boolean InArray = false;
+                boolean inArr = false;
 
                 for (char c : ValidChars) {
                     if (c == evt.getKeyChar()) {
-                        InArray = true;
+                        inArr = true;
                         break;
                     }
                 }
 
-                if (!InArray) {
+                if (!inArr) {
                     evt.consume();
                 }
             }
@@ -79,6 +80,8 @@ public class YouTubeThumbnail {
         yttnField.setForeground(CyderColors.navy);
         yttnField.setCaretColor(CyderColors.navy);
         yttnField.setCaret(new CyderCaret(CyderColors.navy));
+        yttnField.setBounds(40,90, 520,40);
+        yttnFrame.getContentPane().add(yttnField);
 
         getYTTN = new CyderButton("Get Thumbnail");
         getYTTN.setBorder(new LineBorder(CyderColors.navy,5,false));
@@ -87,7 +90,7 @@ public class YouTubeThumbnail {
         getYTTN.setBackground(CyderColors.regularRed);
         getYTTN.setFont(CyderFonts.weatherFontSmall);
         getYTTN.addActionListener(e -> getYTTNAction());
-        getYTTN.setBounds(150,170,300,40);
+        getYTTN.setBounds(150,150,300,40);
         yttnFrame.getContentPane().add(getYTTN);
 
         yttnFrame.setLocationRelativeTo(null);

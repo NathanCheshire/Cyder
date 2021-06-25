@@ -11,13 +11,12 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
+    //todo youtube thumbnail be able to say add to backgrounds
 
-
-    //todo file getter proper javafx application thread go away while still being able to use filechooser again?
+    //todo implement cyder frame adding buttons to specific indexes for drag label and refresh
+    //todo implement right title for cyder frame and then swap buttons to other side
 
     //todo on startup, look through error files, if there is nothing in one, delete it
-
-    //todo youtube thumbnail broken
 
     //todo when starting youtube thread, calculate how long until it finishes (lol) and notify on frame
 

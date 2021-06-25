@@ -489,6 +489,19 @@ public class AudioPlayer {
         }
     }
 
+    public void kill() {
+        if (player != null)
+            this.player.close();
+
+        if (musicScroll != null)
+            musicScroll.kill();
+
+        player = null;
+        musicScroll = null;
+
+        musicFrame.closeAnimation();
+    }
+
     /**
      * Starts playing the audio of the current audio file from the beginning.
      */
