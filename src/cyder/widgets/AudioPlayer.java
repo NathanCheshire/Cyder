@@ -46,6 +46,8 @@ public class AudioPlayer {
     //audio booleans
     private boolean shuffleAudio;
     private boolean repeatAudio;
+    private boolean miniPlayer;
+    private boolean pinned;
 
     //music list
     private int musicIndex;
@@ -59,13 +61,6 @@ public class AudioPlayer {
     //resuming/audio stat vars
     private long pauseLocation;
     private long totalLength;
-
-    //todo scrolling label thread doesn't end is where the glitching comes from
-
-    //todo pinned mode will set always on top to true
-    //todo change size button will get rid of title and sliders and resize
-
-    //todo "smaller" button needs to end scrolling label/start and set all component bounds and to visible or not
 
     public AudioPlayer(File startPlaying) {
         if (musicFrame != null)
@@ -85,6 +80,37 @@ public class AudioPlayer {
         musicFrame.setResizable(true);
         musicFrame.setMinimumSize(new Dimension(500, 155));
         musicFrame.setMaximumSize(new Dimension(500, 225));
+
+        JButton changeSize = new JButton("");
+        changeSize.setToolTipText("Toggle Miniplayer");
+        changeSize.addActionListener(e -> {
+           if (!miniPlayer) {
+               enterMiniPlayer();
+               miniPlayer = !miniPlayer;
+           } else {
+               exitMiniPlayer();
+               miniPlayer = !miniPlayer;
+           }
+        });
+        changeSize.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                changeSize.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize2.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                changeSize.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
+            }
+        });
+
+        changeSize.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
+        changeSize.setContentAreaFilled(false);
+        changeSize.setBorderPainted(false);
+        changeSize.setFocusPainted(false);
+        musicFrame.getDragLabel().addButton(changeSize, 1);
+
+        //todo add pinned at index 1
 
         musicTitleLabel = new JLabel("", SwingConstants.CENTER);
         musicTitleLabel.setBounds(50, 40, 400, 30);
@@ -568,7 +594,7 @@ public class AudioPlayer {
         new Thread( () -> {
             while (player != null) {
                 try {
-                    if (totalLength == 0 || fis == null)
+                    if (totalLength == 0 || fis == null || !audioLocationSlider.isVisible())
                         return;
 
                     double place = ((double) (totalLength - fis.available()) /
@@ -666,5 +692,67 @@ public class AudioPlayer {
         public void kill() {
             this.scroll = false;
         }
+    }
+
+    public void setMiniPlayer(boolean b) {
+        this.miniPlayer = b;
+    }
+
+    public boolean getMiniPlayer() {
+        return this.miniPlayer;
+    }
+
+    public void setPinned(boolean b) {
+        this.pinned = b;
+        if (this.pinned)
+            musicFrame.setAlwaysOnTop(true);
+        else
+            musicFrame.setAlwaysOnTop(false);
+    }
+
+    public boolean getPinned(boolean b) {
+        return this.pinned;
+    }
+
+    public void enterMiniPlayer() {
+        if (musicScroll != null)
+            musicScroll.kill();
+        musicScroll = null;
+
+        audioLocationSlider.setVisible(false);
+        musicVolumeSlider.setVisible(false);
+        musicTitleLabel.setVisible(false);
+
+        musicFrame.setSize(500,100);
+        musicFrame.setMinimumSize(new Dimension(500, 100));
+        musicFrame.setMaximumSize(new Dimension(500, 100));
+
+        selectMusicDirButton.setLocation(selectMusicDirButton.getX(), 50);
+        loopMusicButton.setLocation(loopMusicButton.getX(), 50);
+        previousMusicButton.setLocation(previousMusicButton.getX(), 50);
+        stopMusicButton.setLocation(stopMusicButton.getX(), 50);
+        playPauseMusicButton.setLocation(playPauseMusicButton.getX(), 50);
+        nextMusicButton.setLocation(nextMusicButton.getX(), 50);
+        shuffleMusicButton.setLocation(shuffleMusicButton.getX(), 50);
+    }
+
+    public void exitMiniPlayer() {
+        //todo start scroll however you're doing that
+
+        audioLocationSlider.setVisible(true);
+        musicVolumeSlider.setVisible(true);
+        musicTitleLabel.setVisible(true);
+
+        musicFrame.setSize(500,225);
+        musicFrame.setMinimumSize(new Dimension(500, 155));
+        musicFrame.setMaximumSize(new Dimension(500, 225));
+
+        selectMusicDirButton.setLocation(selectMusicDirButton.getX(), 105);
+        loopMusicButton.setLocation(loopMusicButton.getX(), 105);
+        previousMusicButton.setLocation(previousMusicButton.getX(), 105);
+        stopMusicButton.setLocation(stopMusicButton.getX(), 105);
+        playPauseMusicButton.setLocation(playPauseMusicButton.getX(), 105);
+        nextMusicButton.setLocation(nextMusicButton.getX(), 105);
+        shuffleMusicButton.setLocation(shuffleMusicButton.getX(), 105);
     }
 }
