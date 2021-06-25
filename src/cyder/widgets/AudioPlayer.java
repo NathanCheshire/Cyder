@@ -8,7 +8,6 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderSliderUI;
 import cyder.utilities.GetterUtil;
-import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
 import javazoom.jl.player.Player;
 
@@ -78,7 +77,7 @@ public class AudioPlayer {
         @Override
         public void windowClosed(WindowEvent e) {
             if (player != null)
-                stopMusic();
+                stopAudio();
             }
         });
         musicFrame.initializeBackgroundResizing();
@@ -102,13 +101,13 @@ public class AudioPlayer {
         selectMusicDirButton.setToolTipText("Select audio");
         selectMusicDirButton.addActionListener(e -> new Thread(() -> {
             try {
-                File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to play");
+                File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to startAudio");
                 if (selectedChildFile != null) {
                     if (!selectedChildFile.toString().endsWith("mp3")) {
                         musicFrame.notify("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.");
                     } else if (selectedChildFile != null){
-                        refreshMusic(selectedChildFile);
-                        play();
+                        refreshAudioFiles(selectedChildFile);
+                        startAudio();
                     }
                 }
             } catch (Exception ex) {
@@ -164,27 +163,7 @@ public class AudioPlayer {
 
         previousMusicButton = new JButton("");
         previousMusicButton.setToolTipText("Previous audio");
-        previousMusicButton.addActionListener(e -> {
-            try {
-                stopMusic();
-
-                if (shuffleAudio) {
-                    musicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
-                    play();
-                } else {
-                    if (musicIndex - 1 > 0) {
-                        musicIndex--;
-                        play();
-                    } else {
-                        musicIndex = musicFiles.size() - 1;
-                        play();
-                    }
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                ErrorHandler.handle(ex);
-            }
-        });
+        previousMusicButton.addActionListener(e -> previousAudio());
 
         previousMusicButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -210,7 +189,7 @@ public class AudioPlayer {
         stopMusicButton.setToolTipText("Stop");
         stopMusicButton.addActionListener(e -> {
             try {
-                stopMusic();
+                stopAudio();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 ErrorHandler.handle(ex);
@@ -238,24 +217,13 @@ public class AudioPlayer {
         stopMusicButton.setBorderPainted(false);
 
         playPauseMusicButton = new JButton("");
-        playPauseMusicButton.setToolTipText("play");
+        playPauseMusicButton.setToolTipText("startAudio");
         playPauseMusicButton.addActionListener(e -> {
             try {
                 if (player != null) {
-                    pauseLocation = totalLength - fis.available(); //nullptr on paused saying stream closed
-                    System.out.println(pauseLocation);
-                    player.close();
-                    player = null;
-                    bis = null;
-                    fis = null;
+                    pauseAudio();
                 } else {
-                    fis = new FileInputStream(musicFiles.get(musicIndex));
-                    bis = new BufferedInputStream(fis);
-                    player = new Player(bis);
-                    totalLength = fis.available();
-
-                    //resuming: pauseLocation - 15000 >= 0 ? pauseLocation - 15000 : 0
-                    resumeMusic(3845);
+                    resumeAudio(pauseLocation);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -271,12 +239,12 @@ public class AudioPlayer {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                playPauseMusicButton.setIcon(new ImageIcon(player == null ? "sys/pictures/music/play.png" : "sys/pictures/music/Pause.png"));
+                playPauseMusicButton.setIcon(new ImageIcon(player == null ? "sys/pictures/music/Play.png" : "sys/pictures/music/Pause.png"));
             }
         });
 
         playPauseMusicButton.setBounds(295, 105, 30, 30);
-        playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/play.png"));
+        playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
         musicFrame.getContentPane().add(playPauseMusicButton);
         playPauseMusicButton.setFocusPainted(false);
         playPauseMusicButton.setOpaque(false);
@@ -284,27 +252,8 @@ public class AudioPlayer {
         playPauseMusicButton.setBorderPainted(false);
 
         nextMusicButton = new JButton("");
-        nextMusicButton.setToolTipText("Next Audio"); //change to skip
-        nextMusicButton.addActionListener(e -> {
-            try {
-                stopMusic();
-                if (shuffleAudio) {
-                    musicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
-                    play();
-                } else {
-                    if (musicIndex + 1 < musicFiles.size()) {
-                        musicIndex++;
-                        play();
-                    } else {
-                        musicIndex = 0;
-                        play();
-                    }
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                ErrorHandler.handle(ex);
-            }
-        });
+        nextMusicButton.setToolTipText("Next Audio");
+        nextMusicButton.addActionListener(e -> nextAudio());
 
         nextMusicButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -375,34 +324,7 @@ public class AudioPlayer {
         musicVolumeSlider.setPaintLabels(false);
         musicVolumeSlider.setVisible(true);
         musicVolumeSlider.setValue(50);
-        musicVolumeSlider.addChangeListener(e -> {
-            //todo refresh volume method
-            Port.Info speaker = Port.Info.SPEAKER;
-            Port.Info headphone = Port.Info.HEADPHONE;
-
-            try {
-                if (AudioSystem.isLineSupported(speaker)) {
-                    Port outline = (Port) AudioSystem.getLine(speaker);
-                    outline.open();
-
-                    FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
-
-                    volumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
-                }
-
-                if (AudioSystem.isLineSupported(headphone)) {
-                    Port outline = (Port) AudioSystem.getLine(headphone);
-                    outline.open();
-
-                    FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
-
-                    volumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
-                }
-            } catch (LineUnavailableException ex) {
-                ex.printStackTrace();
-                ErrorHandler.handle(ex);
-            }
-        });
+        musicVolumeSlider.addChangeListener(e -> refreshAudio());
         musicVolumeSlider.setOpaque(false);
         musicVolumeSlider.setToolTipText("Volume");
         musicVolumeSlider.setFocusable(false);
@@ -426,11 +348,8 @@ public class AudioPlayer {
         audioLocationSlider.setPaintLabels(false);
         audioLocationSlider.setVisible(true);
         audioLocationSlider.setValue(0);
-        audioLocationSlider.addChangeListener(e -> {
-            //todo implement me
-        });
         audioLocationSlider.setOpaque(false);
-        audioLocationSlider.setToolTipText("Song location");
+        audioLocationSlider.setToolTipText("Song Location");
         audioLocationSlider.setFocusable(false);
         audioLocationSlider.repaint();
         musicFrame.getContentPane().add(audioLocationSlider);
@@ -441,8 +360,8 @@ public class AudioPlayer {
 
         if (startPlaying != null && StringUtil.getExtension(startPlaying).equals(".mp3")) {
             try {
-                refreshMusic(startPlaying);
-                play();
+                refreshAudioFiles(startPlaying);
+                startAudio();
             } catch (FatalException e) {
                 e.printStackTrace();
                 ErrorHandler.handle(e);
@@ -462,10 +381,10 @@ public class AudioPlayer {
 
                 for (File f : userFiles) {
                     if (StringUtil.getExtension(f).equals(".mp3"))
-                        refreshMusic(f);
+                        refreshAudioFiles(f);
                 }
 
-                play();
+                startAudio();
             }
 
             catch (Exception e) {
@@ -475,12 +394,33 @@ public class AudioPlayer {
         }
     }
 
+    public void refreshAudio() {
+        try {
+            if (AudioSystem.isLineSupported(Port.Info.SPEAKER)) {
+                Port outline = (Port) AudioSystem.getLine(Port.Info.SPEAKER);
+                outline.open();
+                FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
+                volumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
+            }
+
+            if (AudioSystem.isLineSupported(Port.Info.HEADPHONE)) {
+                Port outline = (Port) AudioSystem.getLine(Port.Info.HEADPHONE);
+                outline.open();
+                FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
+                volumeControl.setValue((float) (musicVolumeSlider.getValue() * 0.01));
+            }
+        } catch (LineUnavailableException ex) {
+            ex.printStackTrace();
+            ErrorHandler.handle(ex);
+        }
+    }
+
     /**
      * Refreshes the music list and the music index incase files were added to the directory.
      * When starting pass the file that the user selected using the select music directory button.
      * On refresh, you may pass null and the program will infer where to look based on the current musicFile dir.
      */
-    public void refreshMusic(File chosenFile) throws FatalException {
+    public void refreshAudioFiles(File chosenFile) throws FatalException {
         if (musicFiles == null)
             musicFiles = new LinkedList<>();
 
@@ -507,106 +447,63 @@ public class AudioPlayer {
             musicFiles = null;
     }
 
-    /**
-     * Ends any and all threads having to do with this object to free up resources. Resets variables.
-     */
-    public void stopMusic() {
-        if (musicScroll != null) {
-            musicScroll.kill();
-            musicScroll = null;
+    public void pauseAudio() {
+        try {
+
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
         }
+    }
 
-        if (player != null) {
-            player.close();
-            player = null;
+    public void stopAudio() {
+       try {
+
+       } catch (Exception e) {
+           ErrorHandler.handle(e);
+       }
+    }
+
+    public void resumeAudio(long startPosition) {
+        try {
+
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
         }
-
-        bis = null;
-        fis = null;
-        pauseLocation = 0;
-        totalLength = 0;
-        musicTitleLabel.setText("No Audio Playing");
-        audioLocationSlider.setValue(0);
     }
 
-    /**
-     * Resumes playing after being paused
-     * @param startPosition - the position of the song to start at
-     */
-    public void resumeMusic(long startPosition) {
+    public void previousAudio() {
+        try {
 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            ErrorHandler.handle(ex);
+        }
     }
 
-    public void previousMusic() {
+    public void nextAudio() {
+        try {
 
-    }
-
-    public void nextMusic() {
-
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            ErrorHandler.handle(ex);
+        }
     }
 
     /**
      * Starts playing the audio of the current audio file from the beginning.
      */
-    public void play() {
-        //Thread to play music, if we call stopMusic it will free up the resources and this thread will end
+    public void startAudio() {
         new Thread(() -> {
             try {
-                if (player != null) {
-                    stopMusic(); //maybe not the move here?
-                }
 
-                fis = new FileInputStream(musicFiles.get(musicIndex));
-                bis = new BufferedInputStream(fis);
-                player = new Player(bis);
-                totalLength = fis.available(); //nullptr? HOW THE FUCK
-
-                playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-                playPauseMusicButton.setToolTipText("Pause");
-                musicTitleLabel.setText(StringUtil.getFilename(musicFiles.get(musicIndex)));
-
-                //todo skipping has a wier derror where it plays the first part anyway
-
-
-                //todo volume still doesn't work: refreshvolume and pass something weird
-                musicVolumeSlider.setValue(musicVolumeSlider.getValue());
-
-                //todo don't do this here, lots of stuff here shouldn't be done here since what
-                // if a song just ends? we want to reset stuff but not if pause or stop or play or next or last is pressed
-                musicScroll = new ScrollLabel(musicTitleLabel);
-
-                player.play(); //index out of bounds?
-
-                if (repeatAudio) {
-                    play();
-                } else if (shuffleAudio) {
-                    musicIndex = NumberUtil.randInt(0, musicFiles.size() - 1);
-                    play();
-                }
-
-                playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/play.png"));
-                playPauseMusicButton.setToolTipText("play");
-
-                if (player != null) {
-                    player.close();
-                    player = null;
-                }
-
-                bis = null;
-                fis = null;
             } catch (Exception e) {
-                e.printStackTrace();
                 ErrorHandler.handle(e);
             }
         },"Flash Player Music Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
 
         new Thread( () -> {
-            while (player != null && fis != null) {
+            while (player != null) {
                 try {
-                    //todo what about when song finishes, how to end this?
-                    //todo what about user dragging location around?
-                    //todo what about auto play for next song?
-
                     double place = ((double) (totalLength - fis.available()) /
                             (double) totalLength) * audioLocationSlider.getMaximum();
                     audioLocationSlider.setValue((int) place);

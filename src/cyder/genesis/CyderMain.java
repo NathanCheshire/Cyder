@@ -1154,7 +1154,8 @@ public class CyderMain {
                     if (!printThreads[i].isDaemon() &&
                             !printThreads[i].getName().contains("pool") &&
                             !printThreads[i].getName().contains("AWT-EventQueue-0") &&
-                            !printThreads[i].getName().contains("DestroyJavaVM"))
+                            !printThreads[i].getName().contains("DestroyJavaVM") &&
+                            !printThreads[i].getName().contains("JavaFX Application Thread"))
 
                         threadCount++;
 

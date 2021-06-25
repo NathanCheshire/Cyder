@@ -180,7 +180,7 @@ public class GetterUtil {
                 final JFXPanel fxPanel = new JFXPanel();
                 frame.add(fxPanel);
                 frame.setVisible(true);
-
+                Platform.setImplicitExit(false);
                 Platform.runLater(() -> ret.set(innerGetFile(fxPanel, title, frame)));
             } catch (Exception e) {
                 ErrorHandler.handle(e);
@@ -194,7 +194,7 @@ public class GetterUtil {
             ErrorHandler.handle(ex);
         } finally {
             clearString();
-            return ret.get();
+            return ret.get().getName().equals("NULL") ? null : ret.get();
         }
     }
 
@@ -211,13 +211,16 @@ public class GetterUtil {
             fc.setTitle(title);
             returnFile = fc.showOpenDialog(primaryStage);
 
+            if (returnFile == null)
+                returnFile = new File("NULL");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         File ret = returnFile;
         clearFile();
-        frame.setVisible(false);
+        frame.dispose();
         return ret;
     }
 

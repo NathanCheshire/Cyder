@@ -141,12 +141,12 @@ public class MPEGPlayer {
         musicFrame.getContentPane().add(musicVolumeSlider);
 
         playPauseMusic = new JButton("");
-        playPauseMusic.setToolTipText("play");
+        playPauseMusic.setToolTipText("startAudio");
         playPauseMusic.addActionListener(e -> {
             if (mp3Player != null) {
                 if (!playIcon) {
-                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/play.png"));
-                    playPauseMusic.setToolTipText("play");
+                    playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/startAudio.png"));
+                    playPauseMusic.setToolTipText("startAudio");
                     playIcon = true;
                 } else {
                     playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
@@ -197,12 +197,12 @@ public class MPEGPlayer {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                playPauseMusic.setIcon(new ImageIcon(playIcon ? "sys/pictures/music/play.png" : "sys/pictures/music/Pause.png"));
+                playPauseMusic.setIcon(new ImageIcon(playIcon ? "sys/pictures/music/startAudio.png" : "sys/pictures/music/Pause.png"));
             }
         });
 
         playPauseMusic.setBounds(121, 263, 30, 30);
-        ImageIcon Play = new ImageIcon("sys/pictures/music/play.png");
+        ImageIcon Play = new ImageIcon("sys/pictures/music/startAudio.png");
         playPauseMusic.setIcon(Play);
         musicFrame.getContentPane().add(playPauseMusic);
         playPauseMusic.setFocusPainted(false);
@@ -332,8 +332,8 @@ public class MPEGPlayer {
 
 
                 musicTitleLabel.setText("No Audio Playing");
-                playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/play.png"));
-                playPauseMusic.setToolTipText("play");
+                playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/startAudio.png"));
+                playPauseMusic.setToolTipText("startAudio");
 
                 musicStopped = true;
                 playIcon = true;
@@ -370,7 +370,7 @@ public class MPEGPlayer {
         selectMusicDir.setToolTipText("Open File");
         selectMusicDir.addActionListener(e -> new Thread(() -> {
             try {
-                File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to play");
+                File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to startAudio");
                 if (!selectedChildFile.toString().endsWith("mp3")) {
                     if (mp3Player == null)
                         musicFrame.notify("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.");
@@ -464,7 +464,7 @@ public class MPEGPlayer {
 
         else {
             try {
-                //search the user's music dir for valid music and play the first one if it exists
+                //search the user's music dir for valid music and startAudio the first one if it exists
                 //this is because a starting file was not passed in
                 File[] userMusicDir = new File("users/" + ConsoleFrame.getUUID() + "/Music/" ).listFiles();
                 ArrayList<File> validFiles = new ArrayList<>();
@@ -523,7 +523,7 @@ public class MPEGPlayer {
         musicFrame.closeAnimation();
     }
 
-    //main play method
+    //main startAudio method
     private void play(File path) {
         try {
             //close if something is playing
@@ -544,7 +544,7 @@ public class MPEGPlayer {
 
         musicVolumeSlider.setValue(musicVolumeSlider.getValue());
 
-        //playing thread to handle play/pause icons
+        //playing thread to handle startAudio/pause icons
         new Thread(() -> {
             try {
                 playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
@@ -556,8 +556,8 @@ public class MPEGPlayer {
                 if (loopAudio)
                     play(musicFiles[currentMusicIndex]);
 
-                playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/play.png"));
-                playPauseMusic.setToolTipText("play");
+                playPauseMusic.setIcon(new ImageIcon("sys/pictures/music/startAudio.png"));
+                playPauseMusic.setToolTipText("startAudio");
                 playIcon = true;
             } catch (Exception e) {
                 ErrorHandler.handle(e);
