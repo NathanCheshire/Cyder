@@ -8,10 +8,12 @@ import cyder.handler.TextEditor;
 import cyder.obj.NST;
 import cyder.obj.Preference;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderButton;
 import cyder.widgets.AudioPlayer;
 import cyder.widgets.GenericInform;
 import javazoom.jl.player.Player;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.math.BigInteger;
@@ -658,7 +660,7 @@ public class IOUtil {
         CyderPlayer = new AudioPlayer(new File(FilePath));
     }
 
-    public static void playAudio(String FilePath) {
+    public static void playAudio(String FilePath, JTextPane appendButtonPane) {
         try {
             stopMusic();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
@@ -672,6 +674,11 @@ public class IOUtil {
             }, "mp3 audio thread");
 
             MusicThread.start();
+
+            CyderButton stopMusicButton = new CyderButton("Stop Audio");
+            stopMusicButton.addActionListener((e) -> IOUtil.stopMusic());
+            StringUtil su = new StringUtil(appendButtonPane);
+            su.printlnComponent(stopMusicButton,"button","button");
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

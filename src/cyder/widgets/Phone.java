@@ -15,7 +15,7 @@ public class Phone {
     private JLabel numberLabel;
     private String phoneNum;
 
-    public Phone() {
+    public Phone(JTextPane outputArea) {
         CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon(DEFAULT_BACKGROUND_PATH));
         phoneFrame.setTitle("Phone");
 
@@ -224,11 +224,11 @@ public class Phone {
                 checkForSuicideHotline();
 
                 if (checkForSuicideHotline()) {
-                    IOUtil.playAudio("sys/audio/1800.mp3");
+                    IOUtil.playAudio("sys/audio/1800.mp3", outputArea);
                 }
 
                 else if (checkFor223()) {
-                    IOUtil.playAudio("sys/audio/223.mp3");
+                    IOUtil.playAudio("sys/audio/223.mp3", outputArea);
                 }
 
                 else {

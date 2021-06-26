@@ -27,7 +27,6 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.InetAddress;
@@ -687,7 +686,7 @@ public class CyderMain {
             //hourly chime player
             Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
                 if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
-                    IOUtil.playAudio("sys/audio/chime.mp3");
+                    IOUtil.playAudio("sys/audio/chime.mp3", outputArea);
 
             }, 3600 - LocalDateTime.now().getSecond() - LocalDateTime.now().getMinute() * 60, 3600, TimeUnit.SECONDS);
 
@@ -1117,7 +1116,7 @@ public class CyderMain {
                             int seventeen = (i - 61427);
 
                             if (seventeen == 17)
-                                IOUtil.playAudio("sys/audio/f17.mp3");
+                                IOUtil.playAudio("sys/audio/f17.mp3", outputArea);
                             else
                                 println("Interesting F" + (i - 61427) + " key");
                         }
@@ -1488,10 +1487,9 @@ public class CyderMain {
                     if (!MusicList.isEmpty())
                         IOUtil.playAudio(
                                 "users/" + ConsoleFrame.getUUID() + "/Music/" +
-                                        (FileNames[NumberUtil.randInt(0, FileNames.length - 1)]));
+                                        (FileNames[NumberUtil.randInt(0, FileNames.length - 1)]), outputArea);
                     else
-                        IOUtil.playAudio("sys/audio/Ride.mp3");
-                        //todo change me
+                        IOUtil.playAudio("sys/audio/Ride.mp3", outputArea);
                 }
             } else if (loginFrame != null && loginFrame.isVisible()) {
                 loginField.setText("");
@@ -2011,7 +2009,7 @@ public class CyderMain {
                         + "from the Semitic kap, the symbol for an open hand. It is this very hand which "
                         + "will be slapping you in the face for saying 'k' to me.");
             } else if (hasWord("phone") || hasWord("dialer") || hasWord("call")) {
-                Phone p = new Phone();
+                Phone p = new Phone(outputArea);
             } else if (hasWord("reset") && hasWord("mouse")) {
                 SystemUtil.resetMouse();
             } else if (eic("logoff")) {
@@ -2036,7 +2034,7 @@ public class CyderMain {
             } else if ((hasWord("mississippi") && hasWord("state") && hasWord("university")) || eic("msu")) {
                 printlnImage("sys/pictures/print/msu.png");
             } else if (has("toy") && has("story")) {
-                IOUtil.playAudio("sys/audio/TheClaw.mp3");
+                IOUtil.playAudio("sys/audio/TheClaw.mp3",outputArea);
             } else if (has("stop") && has("music")) {
                 IOUtil.stopMusic();
             } else if (hasWord("reset") && hasWord("clipboard")) {
@@ -2113,11 +2111,11 @@ public class CyderMain {
                 stringUtil.setOutputArea(outputArea);
                 stringUtil.help();
             } else if (hasWord("light") && hasWord("saber")) {
-                IOUtil.playAudio("sys/audio/Lightsaber.mp3");
+                IOUtil.playAudio("sys/audio/Lightsaber.mp3",outputArea);
             } else if (hasWord("xbox")) {
-                IOUtil.playAudio("sys/audio/xbox.mp3");
+                IOUtil.playAudio("sys/audio/xbox.mp3",outputArea);
             } else if (has("star") && has("trek")) {
-                IOUtil.playAudio("sys/audio/StarTrek.mp3");
+                IOUtil.playAudio("sys/audio/StarTrek.mp3",outputArea);
             } else if (eic("cmd") || (hasWord("command") && hasWord("prompt"))) {
                 File WhereItIs = new File("c:\\Windows\\System32\\cmd.exe");
                 Desktop.getDesktop().open(WhereItIs);
@@ -2131,7 +2129,7 @@ public class CyderMain {
                             + "outrageous fortune, or to take arms against a sea of troubles and by opposing end them.");
                 }
             } else if (hasWord("windows")) {
-                IOUtil.playAudio("sys/audio/windows.mp3");
+                IOUtil.playAudio("sys/audio/windows.mp3",outputArea);
             } else if (hasWord("binary") && !has("dump")) {
                 println("Enter a decimal number to be converted to binary.");
                 inputField.requestFocus();
@@ -2235,7 +2233,7 @@ public class CyderMain {
                 println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + ConsoleFrame.getUsername() + " started talking to Cyder."
                         + " It was at this moment that Cyder knew its day had been ruined.");
             } else if (eic("hey")) {
-                IOUtil.playAudio("sys/audio/heyya.mp3");
+                IOUtil.playAudio("sys/audio/heyya.mp3",outputArea);
             } else if (eic("panic")) {
                 exit();
             } else if (hasWord("hash") || hasWord("hashser")) {
@@ -2409,9 +2407,9 @@ public class CyderMain {
 
                 println("");
             } else if (eic("logic")) {
-                IOUtil.playAudio("sys/audio/commando.mp3");
+                IOUtil.playAudio("sys/audio/commando.mp3",outputArea);
             } else if (eic("1-800-273-8255") || eic("18002738255")) {
-                IOUtil.playAudio("sys/audio/1800.mp3");
+                IOUtil.playAudio("sys/audio/1800.mp3",outputArea);
             } else if (hasWord("resize") && (hasWord("image") || hasWord("picture"))) {
                 ImageResizer IR = new ImageResizer();
             } else if (hasWord("barrel") && hasWord("roll")) {
@@ -2658,67 +2656,7 @@ public class CyderMain {
     }
 
     private void test() {
-        CyderFrame tf = new CyderFrame();
-        tf.setBackground(Color.WHITE);
-        tf.setTitlePosition(CyderFrame.TitlePosition.LEFT);
-        tf.setTitle("Test Frame");
 
-        CyderTextField calculatorField = new CyderTextField(20) {
-        public JToolTip createToolTip () {
-            JToolTip tip = new JToolTip() {
-                @Override
-                public void paint(Graphics g) {
-                    String text = "some";//getComponent().getToolTipText();
-
-                    if (text != null && text.trim().length() > 0) {
-                        // set the parent to not be opaque
-                        Component parent = this.getParent();
-                        if (parent != null) {
-                            if (parent instanceof JComponent) {
-                                JComponent jparent = (JComponent) parent;
-                                if (jparent.isOpaque()) {
-                                    jparent.setOpaque(false);
-                                }
-                            }
-                        }
-
-                        // create a round rectangle
-                        Shape round = new RoundRectangle2D.Float(4, 4, this.getWidth() - 1 - 8, this.getHeight() - 1 - 8, 8, 8);
-
-                        // draw the background
-                        Graphics2D g2 = (Graphics2D) g.create();
-                        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                        g2.setColor(getBackground());
-                        g2.fill(round);
-
-                        // draw the text
-                        int cHeight = 20;
-                        FontMetrics fm = g2.getFontMetrics();
-                        g2.setColor(getForeground());
-                        if (cHeight > getHeight())
-                            g2.drawString(text, 10, (getHeight() + fm.getAscent()) / 2);
-                        else
-                            g2.drawString(text, 10, (cHeight + fm.getAscent()) / 2);
-
-                        g2.dispose();
-                    }
-                }
-            };
-            tip.setOpaque(false);
-            tip.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 2, true));
-            return tip;
-        }};
-        calculatorField.setToolTipText("Stupid");
-
-        calculatorField.setBackground(Color.black);
-        calculatorField.setCharLimit(Integer.MAX_VALUE);
-        calculatorField.setSelectionColor(CyderColors.selectionColor);
-        calculatorField.setFont(CyderFonts.weatherFontSmall.deriveFont(26));
-        calculatorField.setBounds(40, 40, 200, 30);
-        tf.getContentPane().add(calculatorField);
-
-        tf.setVisible(true);
-        tf.setLocationRelativeTo(null);
     }
 
     //handler method

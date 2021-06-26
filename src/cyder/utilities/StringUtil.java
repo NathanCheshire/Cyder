@@ -759,9 +759,13 @@ public class StringUtil {
             userInput = filterLeet(userInput.toLowerCase());
 
             while(blockedWord != null)  {
-                if (hasWord(userInput, blockedWord)) {
-                    vReader.close();
-                    return true;
+                String[] words = userInput.split("\\s+");
+
+                for (String word : words) {
+                    if (word.toLowerCase().contains(blockedWord.toLowerCase())) {
+                        vReader.close();
+                        return true;
+                    }
                 }
 
                 blockedWord = vReader.readLine();
