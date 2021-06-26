@@ -523,8 +523,8 @@ public class AudioPlayer {
             bis = null;
             fis = null;
 
-            playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-            playPauseMusicButton.setToolTipText("Pause");
+            playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+            playPauseMusicButton.setToolTipText("Play");
         } catch (Exception e) {
             e.printStackTrace();
             ErrorHandler.handle(e);
@@ -714,8 +714,8 @@ public class AudioPlayer {
 
     public void resumeAudio(long startPosition) {
         lastAction = LastAction.RESUME;
-        //todo last thing to implement after everything else has been implemented and tested
-        // should be same as above except resuming at specific byte
+
+
     }
 
     private class AudioLocation {
