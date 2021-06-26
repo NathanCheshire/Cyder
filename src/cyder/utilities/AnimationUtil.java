@@ -110,14 +110,12 @@ public class AnimationUtil {
     public static void componentUp(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getY() == start)
             (new Thread(() -> {
-                while (comp.getY() > stop) {
-                    for (int i = start; i >= stop; i -= increment) {
-                        try {
-                            Thread.sleep(delay);
-                            comp.setLocation(comp.getX(), i);
-                        } catch (InterruptedException e) {
-                            ErrorHandler.handle(e);
-                        }
+                for (int i = start; i >= stop; i -= increment) {
+                    try {
+                        Thread.sleep(delay);
+                        comp.setLocation(comp.getX(), i);
+                    } catch (InterruptedException e) {
+                        ErrorHandler.handle(e);
                     }
                 }
                 comp.setLocation(comp.getX(), stop);
@@ -135,14 +133,12 @@ public class AnimationUtil {
     public static void componentDown(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getY() == start)
             (new Thread(() -> {
-                while (comp.getY() <= start) {
-                    for (int i = start; i <= stop; i += increment) {
-                        try {
-                            Thread.sleep(delay);
-                            comp.setLocation(comp.getX(), i);
-                        } catch (InterruptedException e) {
-                            ErrorHandler.handle(e);
-                        }
+                for (int i = start; i <= stop; i += increment) {
+                    try {
+                        Thread.sleep(delay);
+                        comp.setLocation(comp.getX(), i);
+                    } catch (InterruptedException e) {
+                        ErrorHandler.handle(e);
                     }
                 }
                 comp.setLocation(comp.getX(), stop);
@@ -159,19 +155,17 @@ public class AnimationUtil {
      */
     public static void componentLeft(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getX() == start)
-            (new Thread(() -> {
-                while (comp.getX() > stop) {
-                    for (int i = start; i >= stop; i -= increment) {
-                        try {
-                            Thread.sleep(delay);
-                            comp.setLocation(i, comp.getY());
-                        } catch (InterruptedException e) {
-                            ErrorHandler.handle(e);
-                        }
+            new Thread(() -> {
+                for (int i = start; i >= stop; i -= increment) {
+                    try {
+                        Thread.sleep(delay);
+                        comp.setLocation(i, comp.getY());
+                    } catch (InterruptedException e) {
+                        ErrorHandler.handle(e);
                     }
                 }
                 comp.setLocation(stop, comp.getY());
-            },"component left thread")).start();
+            },"component left thread").start();
     }
 
     /**
@@ -185,14 +179,12 @@ public class AnimationUtil {
     public static void componentRight(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getX() == start)
             (new Thread(() -> {
-                while (comp.getX() <= start) {
-                    for (int i = start; i <= stop; i += increment) {
-                        try {
-                            Thread.sleep(delay);
-                            comp.setLocation(i, comp.getY());
-                        } catch (InterruptedException e) {
-                            ErrorHandler.handle(e);
-                        }
+                for (int i = start; i <= stop; i += increment) {
+                    try {
+                        Thread.sleep(delay);
+                        comp.setLocation(i, comp.getY());
+                    } catch (InterruptedException e) {
+                        ErrorHandler.handle(e);
                     }
                 }
                 comp.setLocation(stop, comp.getY());

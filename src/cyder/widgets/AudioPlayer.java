@@ -724,6 +724,7 @@ public class AudioPlayer {
                         audioIndex++;
                         startAudio();
                     } else {
+                        //loop back around to the beginning
                         audioIndex = 0;
                         startAudio();
                     }
@@ -809,6 +810,7 @@ public class AudioPlayer {
                             audioIndex++;
                             startAudio();
                         } else {
+                            //loop back around to the beginning
                             audioIndex = 0;
                             startAudio();
                         }

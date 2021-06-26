@@ -45,6 +45,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class CyderMain {
@@ -663,9 +664,8 @@ public class CyderMain {
 
             updateConsoleClock = IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
 
-            //todo make a method to spin off executors
-            //console clock updater
-            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+            Executors.newSingleThreadScheduledExecutor(
+                    new CyderThreadFactory("ConsoleClock Updater")).scheduleAtFixedRate(() -> {
                 if (consoleClockLabel.isVisible())
                     if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
                         String time = TimeUtil.consoleSecondTime();
@@ -684,11 +684,10 @@ public class CyderMain {
 
             consoleClockLabel.setVisible(updateConsoleClock);
 
-            //hourly chime player
-            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+            Executors.newSingleThreadScheduledExecutor(
+                    new CyderThreadFactory("Hourly Chime Checker")).scheduleAtFixedRate(() -> {
                 if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
                     IOUtil.playAudio("sys/audio/chime.mp3", outputArea);
-
             }, 3600 - LocalDateTime.now().getSecond() - LocalDateTime.now().getMinute() * 60, 3600, SECONDS);
 
             parentLabel.add(consoleDragLabel);
@@ -774,14 +773,17 @@ public class CyderMain {
             //will be removed
             AnimationUtil.enterAnimation(consoleFrame);
 
-            //internet checker every 5 minutes
-            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-                //network unreachable notification
-            }, 0, 5, TimeUnit.MINUTES);
+            //network connection checker
+            Executors.newSingleThreadScheduledExecutor(
+                    new CyderThreadFactory("Stable Network Connection Checker")).scheduleAtFixedRate(() -> {
+                if (!NetworkUtil.internetReachable()) {
+                    println("Sorry, " + ConsoleFrame.getUsername() + ", but I had trouble connecting to the internet.\n" +
+                            "As a result, some features may not work properly.");
+                }
+            }, 0, 5, MINUTES);
+
 
             consoleClockLabel.setVisible(updateConsoleClock);
-
-
 
             //final frame disposed checker
             Executors.newSingleThreadScheduledExecutor(
@@ -796,8 +798,6 @@ public class CyderMain {
                 if (validFrames < 1)
                     System.exit(120);
             }, 10, 5, SECONDS);
-
-
 
 
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
@@ -818,6 +818,8 @@ public class CyderMain {
         }
     }
 
+    //todo redo this making it easy to add labels that map to doing specific actions
+    // make it scroll if it's greater than 9 items and cut off label text at > 9 chars
     private MouseAdapter consoleMenu = new MouseAdapter() {
         @Override
         public void mouseReleased(MouseEvent e) {
@@ -826,7 +828,7 @@ public class CyderMain {
 
                 menuLabel = new JLabel("");
                 menuLabel.setOpaque(true);
-                menuLabel.setBackground(new Color(26, 32, 51));
+                menuLabel.setBackground(CyderColors.navy);
 
                 parentPane.add(menuLabel, 1, 0);
 
@@ -1034,14 +1036,33 @@ public class CyderMain {
                     }
                 });
 
-                //todo add more menu options: (exit)
-                // make mappable ones that are saved (open link just for now)
-                //todo truncate any text at 9 chars
-                //todo make current length the max and anymore need to be scrollable via cyder scroll
+                JLabel exitLabel = new JLabel("Exit");
+                exitLabel.setFont(menuFont);
+                exitLabel.setForeground(CyderColors.vanila);
+                menuLabel.add(exitLabel);
+                exitLabel.setBounds(5, 280, 150, fontHeight);
+                exitLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        handle("quit");
+                    }
 
-                menuLabel.setBounds(-150, 30, CyderFrame.getMinWidth("TEMP CONV",menuFont),
-                        fontHeight * (menuLabel.getComponentCount() - 1));
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        exitLabel.setForeground(CyderColors.regularRed);
+                    }
 
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        exitLabel.setForeground(CyderColors.vanila);
+                    }
+                });
+
+                //todo: make mappable ones that are saved (open link just for now)
+
+                //proper offsets, width and height will not change; if needed a scroll bar will be added
+                menuLabel.setBounds(-150, DragLabel.getDefaultHeight(), CyderFrame.getMinWidth("TEMP CONV",menuFont),
+                        fontHeight * 8);
                 AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
             } else if (menuLabel.isVisible()) {
                 minimizeMenu();
@@ -1151,33 +1172,32 @@ public class CyderMain {
 
         backgroundProcessCheckerStarted = true;
 
-        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+        Executors.newSingleThreadScheduledExecutor(
+                new CyderThreadFactory("Cyder Busy Checker")).scheduleAtFixedRate(() -> {
             if (consoleFrame != null) {
                 ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                 int num = threadGroup.activeCount();
                 Thread[] printThreads = new Thread[num];
                 threadGroup.enumerate(printThreads);
 
-                int threadCount = 0;
-
-                //todo redo method, name all executor services
+                LinkedList<String> ignoreNames = new LinkedList<>();
+                ignoreNames.add("Cyder Busy Checker");
+                ignoreNames.add("AWT-EventQueue-0");
+                ignoreNames.add("ConsoleClock Updater");
+                ignoreNames.add("Hourly Chime Checker");
+                ignoreNames.add("Stable Network Connection Checker");
+                ignoreNames.add("Final Frame Disposed Checker");
+                ignoreNames.add("DestroyJavaVM");
+                ignoreNames.add("JavaFX Application Thread");
 
                 for (int i = 0; i < num; i++)
-                    if (!printThreads[i].isDaemon() &&
-                            !printThreads[i].getName().contains("pool") &&
-                            !printThreads[i].getName().contains("AWT-EventQueue-0") &&
-                            !printThreads[i].getName().contains("DestroyJavaVM") &&
-                            !printThreads[i].getName().contains("JavaFX Application Thread"))
+                    if (!printThreads[i].isDaemon() && !ignoreNames.contains(printThreads[i].getName())) {
+                        consoleFrame.setIconImage(SystemUtil.getCyderIconBlink().getImage());
+                        return;
+                    }
 
-                        threadCount++;
-
-                if (threadCount > 0)
-                    consoleFrame.setIconImage(SystemUtil.getCyderIconBlink().getImage());
-
-                else
-                    consoleFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
+                consoleFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
             }
-
         }, 0, 3, SECONDS);
     }
 

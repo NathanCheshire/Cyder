@@ -8,7 +8,7 @@ public class CyderThreadFactory implements ThreadFactory {
         this.name = name;
     }
 
-    private String name = "Un-named service";
+    private String name = "Void name service";
     public void setName(String name) {
         this.name = name;
     }

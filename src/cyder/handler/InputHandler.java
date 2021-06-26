@@ -11,14 +11,10 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
-    //todo custom tooltips like from dopamine, rounded corners with noticable border at least
-
     //todo youtube thumbnail be able to say add to backgrounds
 
-    //todo implement cyder frame adding buttons to specific indexes for drag label and refresh
+    //todo test adding and removing buttons from drag label
     //todo implement right title for cyder frame and then swap buttons to other side
-
-    //todo on startup, look through error files, if there is nothing in one, delete it
 
     //todo when starting youtube thread, calculate how long until it finishes (lol) and notify on frame
 
@@ -52,7 +48,7 @@ public class InputHandler {
     //todo if cyder hasn't started in a while, say welcome back $username, did you miss me?
     // or some variation of that (last start/exit time in userdata)
 
-    //todo implement preferences sliders and use them combined with cyderlabels in a jtextpane for user prefs
+    //todo implement flip flop UI component
 
     //todo logout should end all executors and threads so only thing happening is login frame
     // all exeuctors should be spun once when logged in so inside of init console frame
@@ -61,7 +57,6 @@ public class InputHandler {
     //todo fix bug: log in as different user when already logged in as nathan and then delete this new account you logged into
     // will say the first user was corrupted and say sorry + "first user name"
 
-    //todo use gradient for weather.png and use sunrise and sunseticons
     //todo load weather stats in separate thread so window pops up quickly
 
     //todo flipping console is broken
