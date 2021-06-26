@@ -7,7 +7,6 @@ import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.IOUtil;
-import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -163,7 +162,12 @@ public class DirectorySearch {
         directoryNameList.setForeground(CyderColors.navy);
         directoryNameList.addMouseListener(directoryListener);
         directoryNameList.addKeyListener(directoryKeyListener);
-        directoryNameList.setBounds(10,120,200,470 - 120 - 10);
+        directoryNameList.setBounds(10,120,580,340);
+
+        directoryList.setMinimumSize(new Dimension(500, 340));
+        directoryList.setMaximumSize(new Dimension(500, 340));
+        directoryNameList.setMinimumSize(new Dimension(500, 340));
+        directoryNameList.setMaximumSize(new Dimension(500, 340));
 
         dirScroll = new CyderScrollPane(directoryNameList,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -180,7 +184,7 @@ public class DirectorySearch {
         dirScroll.setForeground(CyderColors.navy);
         dirScroll.setFont(CyderFonts.weatherFontSmall);
 
-        dirScroll.setBounds(10,120,600,470 - 120 - 10);
+        dirScroll.setBounds(10,120,600,340);
         dirFrame.getContentPane().add(dirScroll);
 
         dirFrame.setLocationRelativeTo(null);

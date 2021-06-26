@@ -19,8 +19,6 @@ public class InputHandler {
     //todo test adding and removing buttons from drag label
     //todo implement right title for cyder frame and then swap buttons to other side
 
-    //todo when starting youtube thread, calculate how long until it finishes (lol) and notify on frame
-
     //todo make enter-animation work and utilize
 
     //todo boolean for rounded corners

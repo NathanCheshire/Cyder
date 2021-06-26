@@ -44,7 +44,12 @@ public class YoutubeThread {
                 ErrorHandler.handle(e);
             }
 
+            long accTime = 0;
+            int runs = 0;
+
             while (!exit) {
+                long start = System.currentTimeMillis();
+
                 try {
                     if (UUID == null)
                         throw new Exception("UUID is null");
@@ -88,6 +93,40 @@ public class YoutubeThread {
                         ErrorHandler.handle(e);
                     }
                 }
+
+                if (runs <= 10) {
+                    long time = System.currentTimeMillis() - start;
+                    accTime += time;
+                    runs++;
+
+                    if (runs == 10) {
+                        //accTime is avg time, this is what we will divide the remaining UUIDs by
+                        accTime /= 10;
+                        //array to work backwards through
+                        char[] uuidArr = UUID.toCharArray();
+
+                        //subtract completed UUIDS from this
+                        double totalUUIDs = Math.pow(64,11);
+                        double completedUUIDs = 0;
+
+                        for (int i = 10 ; i >= 0 ; i--) {
+                            int weight = Math.abs(i - 10);
+                            char currentDigit = uuidArr[i];
+
+                            for (int j = 0 ; j < 64 ; j++) {
+                                if (validChars[j] == currentDigit) {
+                                    System.out.println(currentDigit + " is at index: " + j + " and weight of: " + weight);
+                                    completedUUIDs += j * Math.pow(64, weight);
+                                    break;
+                                }
+                            }
+                        }
+
+                        double msTimeLeft = (totalUUIDs - completedUUIDs) / 200;
+                        //TODO Ccalculate time left and notify user using console frame
+                    }
+                }
+
             }
         },"Random youtube thread").start();
     }
