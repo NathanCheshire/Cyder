@@ -165,6 +165,12 @@ public class StringUtil {
         removeLastLine();
     }
 
+    public String getLastTextLine() {
+        String text = outputArea.getText();
+        String[] lines = text.split("\n");
+        return lines[lines.length - 1];
+    }
+
     /**
      * Removes the last line added to the linked JTextPane. This could appear to remove nothing,
      *  but really be removing just a newline (line break) character.

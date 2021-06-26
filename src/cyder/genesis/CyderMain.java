@@ -13,6 +13,7 @@ import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
+import cyder.threads.CyderThreadFactory;
 import cyder.threads.MasterYoutube;
 import cyder.ui.*;
 import cyder.utilities.*;
@@ -41,11 +42,10 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class CyderMain {
     //todo input handler
@@ -197,6 +197,7 @@ public class CyderMain {
     private static JTextPane outputArea;
 
     //TODO make a consoleframe text area so that it can be like DOS, no need for sep input and output
+
     private JTextField inputField;
     public static JFrame consoleFrame;
     private JButton minimize;
@@ -688,7 +689,7 @@ public class CyderMain {
                 if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
                     IOUtil.playAudio("sys/audio/chime.mp3", outputArea);
 
-            }, 3600 - LocalDateTime.now().getSecond() - LocalDateTime.now().getMinute() * 60, 3600, TimeUnit.SECONDS);
+            }, 3600 - LocalDateTime.now().getSecond() - LocalDateTime.now().getMinute() * 60, 3600, SECONDS);
 
             parentLabel.add(consoleDragLabel);
 
@@ -780,8 +781,11 @@ public class CyderMain {
 
             consoleClockLabel.setVisible(updateConsoleClock);
 
-            //close program checker
-            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+
+
+            //final frame disposed checker
+            Executors.newSingleThreadScheduledExecutor(
+                    new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
                 Frame[] frames = Frame.getFrames();
                 int validFrames = 0;
 
@@ -791,10 +795,12 @@ public class CyderMain {
 
                 if (validFrames < 1)
                     System.exit(120);
-            }, 10, 5, TimeUnit.SECONDS);
+            }, 10, 5, SECONDS);
 
 
-            //lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
+
+
+            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
 
             if (IOUtil.getUserData("DebugWindows").equals("1")) {
                 StatUtil.systemProperties();
@@ -1172,7 +1178,7 @@ public class CyderMain {
                     consoleFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
             }
 
-        }, 0, 3, TimeUnit.SECONDS);
+        }, 0, 3, SECONDS);
     }
 
     //Consolidate with console frame

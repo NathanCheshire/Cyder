@@ -51,6 +51,8 @@ public class YoutubeThread {
                     else if (UUID.length() != 11)
                         throw new Exception("UUID length is not 11");
 
+                    if (su.getLastTextLine().contains("Checked UUID: "))
+                        su.removeLastLine();
                     su.println("Checked UUID: " + UUID);
                     Start = Start + UUID;
 

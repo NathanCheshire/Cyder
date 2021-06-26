@@ -18,12 +18,20 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public final class ConsoleFrame extends CyderFrame {
+
+    //todo this should be like runtime method. ConsoleFrame.getConsoleFrame().setUUID(); and stuff like that
+
+    //the one and only console frame method
+    private ConsoleFrame onlyConsoleFrame = new ConsoleFrame();
+
+    private ConsoleFrame() {} //no instantiation this way
+
     /**
      * assuming uuid has been set, this will launch the whole of the program
      * main now is used for user auth then calls ConsoleFrame so under current program structure,
      * only one instance of console frame should ever exist
      */
-    public ConsoleFrame() {
+    private ConsoleFrame(String UUID) {
         resizeBackgrounds();
         initBackgrounds();
 
