@@ -29,6 +29,12 @@ import java.util.LinkedList;
 
 public class AudioPlayer {
 
+    private enum LastAction {
+        SKIP,PAUSE,STOP,RESUME,PLAY
+    }
+
+    private LastAction lastAction;
+
     //ui components
     private ScrollLabel musicScroll;
     private AudioLocation audioLocation;
@@ -404,7 +410,7 @@ public class AudioPlayer {
         audioLocationSlider.setVisible(true);
         audioLocationSlider.setValue(0);
         audioLocationSlider.setOpaque(false);
-        audioLocationSlider.setToolTipText("Song Location");
+        audioLocationSlider.setToolTipText("Audio Location");
         audioLocationSlider.setFocusable(false);
         audioLocationSlider.repaint();
         musicFrame.getContentPane().add(audioLocationSlider);
@@ -503,6 +509,7 @@ public class AudioPlayer {
     }
 
     public void pauseAudio() {
+        lastAction = LastAction.PAUSE;
         try {
             if (audioLocation != null)
                 audioLocation.kill();
@@ -525,6 +532,7 @@ public class AudioPlayer {
     }
 
     public void stopAudio() {
+        lastAction = LastAction.STOP;
        try {
            if (musicScroll != null)
                musicScroll.kill();
@@ -558,6 +566,7 @@ public class AudioPlayer {
     }
 
     public void previousAudio() {
+        lastAction = LastAction.SKIP;
         try {
             stopAudio();
 
@@ -584,6 +593,7 @@ public class AudioPlayer {
     }
 
     public void nextAudio() {
+        lastAction = LastAction.SKIP;
         try {
             stopAudio();
 
@@ -630,12 +640,7 @@ public class AudioPlayer {
         musicFrame.closeAnimation();
     }
 
-    /**
-     * Starts playing the audio of the current audio file from the beginning.
-     */
     public void startAudio() {
-        //thread should play the current song at the current index from location 0
-        // and continue playing with next song which could be a random or a repeat
         new Thread(() -> {
             try {
                 refreshAudio();
@@ -667,16 +672,38 @@ public class AudioPlayer {
                 playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
                 playPauseMusicButton.setToolTipText("Pause");
 
+                lastAction = LastAction.PLAY;
+
                 player.play();
 
                 if (audioLocation != null)
                     audioLocation.kill();
                 audioLocation = null;
 
-                //music was paused, stopped, or skipped to previous or last
-                // account for all possibililties
+                if (lastAction == LastAction.PAUSE || lastAction == LastAction.STOP) {
+                    //paused/stopped for a reason so do nothing as of now
+                } else {
+                    stopAudio();
+                    refreshAudioFiles(null);
+                    refreshAudio();
 
-                //todo maybe an enum for last action?
+                    if (repeatAudio) {
+                        startAudio();
+                    } else if (shuffleAudio) {
+                        int newIndex = NumberUtil.randInt(0,musicFiles.size() - 1);
+                        while (newIndex == musicIndex)
+                            newIndex = NumberUtil.randInt(0,musicFiles.size() - 1);
+
+                        musicIndex = newIndex;
+                        startAudio();
+                    } else if (musicIndex + 1 < musicFiles.size()) {
+                        musicIndex++;
+                        startAudio();
+                    } else {
+                        musicIndex = 0;
+                        startAudio();
+                    }
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -686,6 +713,7 @@ public class AudioPlayer {
     }
 
     public void resumeAudio(long startPosition) {
+        lastAction = LastAction.RESUME;
         //todo last thing to implement after everything else has been implemented and tested
         // should be same as above except resuming at specific byte
     }
