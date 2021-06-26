@@ -511,17 +511,11 @@ public class AudioPlayer {
     public void pauseAudio() {
         lastAction = LastAction.PAUSE;
         try {
-            if (audioLocation != null)
-                audioLocation.kill();
-            audioLocation = null;
-
             pauseLocation = totalLength - fis.available() - 14000;
 
             if (player != null)
                 player.close();
             player = null;
-            bis = null;
-            fis = null;
 
             playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
             playPauseMusicButton.setToolTipText("Play");
@@ -659,8 +653,12 @@ public class AudioPlayer {
                     audioLocation.kill();
                 audioLocation = null;
 
-                player = new Player(bis);
-                totalLength = fis.available();
+                //these occasionally throws NullPtrExep if the user spams buttons so we'll ignore that
+                try {
+                    player = new Player(bis);
+                    totalLength = fis.available();
+                } catch (Exception ignored) {}
+
                 pauseLocation = 0;
 
                 if (!miniPlayer) {
@@ -713,9 +711,85 @@ public class AudioPlayer {
     }
 
     public void resumeAudio(long startPosition) {
-        lastAction = LastAction.RESUME;
+        if (lastAction == LastAction.STOP) {
+            startAudio();
+        } else if (lastAction == LastAction.PAUSE) {
+            lastAction = LastAction.RESUME;
+            new Thread(() -> {
+                try {
+                    refreshAudio();
+                    fis = new FileInputStream(musicFiles.get(musicIndex));
+                    bis = new BufferedInputStream(fis);
 
+                    if (player != null)
+                        player.close();
+                    player = null;
 
+                    if (musicScroll != null)
+                        musicScroll.kill();
+                    musicScroll = null;
+
+                    if (audioLocation != null)
+                        audioLocation.kill();
+                    audioLocation = null;
+
+                    //these occasionally throws NullPtrExep if the user spams buttons so we'll ignore that
+                    try {
+                        player = new Player(bis);
+                        totalLength = fis.available();
+                    } catch (Exception ignored) {}
+
+                    pauseLocation = 0;
+
+                    if (!miniPlayer) {
+                        musicTitleLabel.setText(StringUtil.getFilename(musicFiles.get(musicIndex)));
+                        musicScroll = new ScrollLabel(musicTitleLabel);
+                        audioLocation = new AudioLocation(audioLocationSlider);
+                    }
+
+                    playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+                    playPauseMusicButton.setToolTipText("Pause");
+
+                    lastAction = LastAction.PLAY;
+
+                    fis.skip(startPosition);
+                    player.play();
+
+                    if (audioLocation != null)
+                        audioLocation.kill();
+                    audioLocation = null;
+
+                    if (lastAction == LastAction.PAUSE || lastAction == LastAction.STOP) {
+                        //paused/stopped for a reason so do nothing as of now
+                    } else {
+                        stopAudio();
+                        refreshAudioFiles(null);
+                        refreshAudio();
+
+                        if (repeatAudio) {
+                            startAudio();
+                        } else if (shuffleAudio) {
+                            int newIndex = NumberUtil.randInt(0,musicFiles.size() - 1);
+                            while (newIndex == musicIndex)
+                                newIndex = NumberUtil.randInt(0,musicFiles.size() - 1);
+
+                            musicIndex = newIndex;
+                            startAudio();
+                        } else if (musicIndex + 1 < musicFiles.size()) {
+                            musicIndex++;
+                            startAudio();
+                        } else {
+                            musicIndex = 0;
+                            startAudio();
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ErrorHandler.handle(e);
+                }
+            },"Flash Player Music Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
+        }
     }
 
     private class AudioLocation {

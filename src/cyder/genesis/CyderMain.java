@@ -2657,7 +2657,7 @@ public class CyderMain {
     }
 
     private void test() {
-        AudioPlayer ap = new AudioPlayer(new File("C:/Users/Nathan/Music/Music/Timeflies Tuesday - Paranoid.mp3"));
+        AudioPlayer ap = new AudioPlayer(new File("C:/Users/Nathan/Music/Music/Funk Bros intro panthurr - i love u..mp3"));
     }
 
     //handler method

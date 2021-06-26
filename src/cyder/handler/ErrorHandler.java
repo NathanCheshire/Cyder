@@ -63,6 +63,8 @@ public class ErrorHandler {
 
             //if the user has show errors configured, then we open the file
             if (IOUtil.getUserData("SilenceErrors").equals("0")) {
+                System.out.println("\nOriginal error:\n");
+                e.printStackTrace();
                 windowedError(message, write, eFileString);
             }
         }

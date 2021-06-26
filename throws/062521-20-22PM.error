@@ -1,0 +1,13 @@
+in
+class java.lang.NullPointerException
+Error thrown by line: -1
+
+Stack Trace:
+
+java.lang.NullPointerException: in
+	at javazoom.jl.decoder.Bitstream.<init>(Unknown Source)
+	at javazoom.jl.player.Player.<init>(Unknown Source)
+	at javazoom.jl.player.Player.<init>(Unknown Source)
+	at cyder.widgets.AudioPlayer.lambda$startAudio$11(AudioPlayer.java:662)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+

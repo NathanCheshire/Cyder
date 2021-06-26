@@ -11,6 +11,8 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
+    //todo custom tooltips like from dopamine, rounded corners with noticable border at least
+
     //todo youtube thumbnail be able to say add to backgrounds
 
     //todo implement cyder frame adding buttons to specific indexes for drag label and refresh
