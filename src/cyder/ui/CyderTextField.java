@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -56,11 +57,15 @@ public class CyderTextField extends JTextField {
             }
         });
 
+
+        this.setBackground(backgroundColor);
         this.setSelectionColor(CyderColors.selectionColor);
         this.setFont(CyderFonts.weatherFontSmall);
         this.setForeground(CyderColors.navy);
         this.setCaretColor(CyderColors.navy);
         this.setCaret(new CyderCaret(CyderColors.navy));
+        this.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        this.setOpaque(false);
     }
 
     @Override
@@ -72,17 +77,6 @@ public class CyderTextField extends JTextField {
     @Override
     public Color getBackground() {
         return backgroundColor;
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        this.setForeground(CyderColors.navy);
-        this.setFont(CyderFonts.weatherFontSmall);
-        this.setSelectionColor(CyderColors.selectionColor);
-        this.setBackground(backgroundColor);
-        this.setBorder(BorderFactory.createLineBorder(CyderColors.navy,5,false));
-
-        super.paintComponent(g);
     }
 
     public void setRegexMatcher(String regex) {

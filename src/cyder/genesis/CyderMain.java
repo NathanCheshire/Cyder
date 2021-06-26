@@ -27,6 +27,7 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.InetAddress;
@@ -2657,7 +2658,67 @@ public class CyderMain {
     }
 
     private void test() {
-        AudioPlayer ap = new AudioPlayer(new File("C:/Users/Nathan/Music/Music/Funk Bros intro panthurr - i love u..mp3"));
+        CyderFrame tf = new CyderFrame();
+        tf.setBackground(Color.WHITE);
+        tf.setTitlePosition(CyderFrame.TitlePosition.LEFT);
+        tf.setTitle("Test Frame");
+
+        CyderTextField calculatorField = new CyderTextField(20) {
+        public JToolTip createToolTip () {
+            JToolTip tip = new JToolTip() {
+                @Override
+                public void paint(Graphics g) {
+                    String text = "some";//getComponent().getToolTipText();
+
+                    if (text != null && text.trim().length() > 0) {
+                        // set the parent to not be opaque
+                        Component parent = this.getParent();
+                        if (parent != null) {
+                            if (parent instanceof JComponent) {
+                                JComponent jparent = (JComponent) parent;
+                                if (jparent.isOpaque()) {
+                                    jparent.setOpaque(false);
+                                }
+                            }
+                        }
+
+                        // create a round rectangle
+                        Shape round = new RoundRectangle2D.Float(4, 4, this.getWidth() - 1 - 8, this.getHeight() - 1 - 8, 8, 8);
+
+                        // draw the background
+                        Graphics2D g2 = (Graphics2D) g.create();
+                        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                        g2.setColor(getBackground());
+                        g2.fill(round);
+
+                        // draw the text
+                        int cHeight = 20;
+                        FontMetrics fm = g2.getFontMetrics();
+                        g2.setColor(getForeground());
+                        if (cHeight > getHeight())
+                            g2.drawString(text, 10, (getHeight() + fm.getAscent()) / 2);
+                        else
+                            g2.drawString(text, 10, (cHeight + fm.getAscent()) / 2);
+
+                        g2.dispose();
+                    }
+                }
+            };
+            tip.setOpaque(false);
+            tip.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 2, true));
+            return tip;
+        }};
+        calculatorField.setToolTipText("Stupid");
+
+        calculatorField.setBackground(Color.black);
+        calculatorField.setCharLimit(Integer.MAX_VALUE);
+        calculatorField.setSelectionColor(CyderColors.selectionColor);
+        calculatorField.setFont(CyderFonts.weatherFontSmall.deriveFont(26));
+        calculatorField.setBounds(40, 40, 200, 30);
+        tf.getContentPane().add(calculatorField);
+
+        tf.setVisible(true);
+        tf.setLocationRelativeTo(null);
     }
 
     //handler method
