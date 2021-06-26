@@ -11,6 +11,9 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
+
+    //todo boolean to make IOUtil.playAudio not show stop audio button like for chimes
+
     //todo youtube thumbnail be able to say add to backgrounds
 
     //todo test adding and removing buttons from drag label

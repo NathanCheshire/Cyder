@@ -829,12 +829,17 @@ public class CyderMain {
                 menuLabel = new JLabel("");
                 menuLabel.setOpaque(true);
                 menuLabel.setBackground(CyderColors.navy);
-
                 parentPane.add(menuLabel, 1, 0);
 
                 Font menuFont = CyderFonts.defaultFontSmall;
                 int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!",menuFont);
                 menuLabel.setVisible(true);
+
+                int height = 280;
+
+                JPanel menuPanel = new JPanel();
+                menuPanel.setLayout(new BoxLayout(menuPanel,BoxLayout.Y_AXIS));
+                menuPanel.setBounds(7,10,150, height);
 
                 JLabel calculatorLabel = new JLabel("Calculator");
                 calculatorLabel.setFont(menuFont);
@@ -855,15 +860,14 @@ public class CyderMain {
                         calculatorLabel.setForeground(CyderColors.vanila);
                     }
                 });
-
-                menuLabel.add(calculatorLabel);
+                menuPanel.add(calculatorLabel);
                 calculatorLabel.setBounds(5, 20, 150, fontHeight);
 
                 JLabel musicLabel = new JLabel("Music");
                 musicLabel.setFont(menuFont);
                 musicLabel.setForeground(CyderColors.vanila);
                 musicLabel.setBounds(5, 50, 150, fontHeight);
-                menuLabel.add(musicLabel);
+                menuPanel.add(musicLabel);
                 musicLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -884,7 +888,7 @@ public class CyderMain {
                 JLabel weatherLabel = new JLabel("Weather");
                 weatherLabel.setFont(menuFont);
                 weatherLabel.setForeground(CyderColors.vanila);
-                menuLabel.add(weatherLabel);
+                menuPanel.add(weatherLabel);
                 weatherLabel.setBounds(5, 80, 150, fontHeight);
                 weatherLabel.setOpaque(false);
                 weatherLabel.addMouseListener(new MouseAdapter() {
@@ -907,7 +911,7 @@ public class CyderMain {
                 JLabel noteLabel = new JLabel("Notes");
                 noteLabel.setFont(menuFont);
                 noteLabel.setForeground(CyderColors.vanila);
-                menuLabel.add(noteLabel);
+                menuPanel.add(noteLabel);
                 noteLabel.setBounds(5, 110, 150, fontHeight);
                 noteLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -929,7 +933,7 @@ public class CyderMain {
                 JLabel editUserLabel = new JLabel("Edit user");
                 editUserLabel.setFont(menuFont);
                 editUserLabel.setForeground(CyderColors.vanila);
-                menuLabel.add(editUserLabel);
+                menuPanel.add(editUserLabel);
                 editUserLabel.setBounds(5, 140, 150, fontHeight);
                 editUserLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -951,7 +955,7 @@ public class CyderMain {
                 JLabel temperatureLabel = new JLabel("Temp conv");
                 temperatureLabel.setFont(menuFont);
                 temperatureLabel.setForeground(CyderColors.vanila);
-                menuLabel.add(temperatureLabel);
+                menuPanel.add(temperatureLabel);
                 temperatureLabel.setBounds(5, 170, 150, fontHeight);
                 temperatureLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -973,7 +977,7 @@ public class CyderMain {
                 JLabel youtubeLabel = new JLabel("YouTube");
                 youtubeLabel.setFont(menuFont);
                 youtubeLabel.setForeground(CyderColors.vanila);
-                menuLabel.add(youtubeLabel);
+                menuPanel.add(youtubeLabel);
                 youtubeLabel.setBounds(5, 200, 150, fontHeight);
                 youtubeLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -995,7 +999,7 @@ public class CyderMain {
                 JLabel twitterLabel = new JLabel("Twitter");
                 twitterLabel.setFont(menuFont);
                 twitterLabel.setForeground(CyderColors.vanila);
-                menuLabel.add(twitterLabel);
+                menuPanel.add(twitterLabel);
                 twitterLabel.setBounds(5, 230, 150, fontHeight);
                 twitterLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -1017,7 +1021,7 @@ public class CyderMain {
                 JLabel logoutLabel = new JLabel("Logout");
                 logoutLabel.setFont(menuFont);
                 logoutLabel.setForeground(CyderColors.vanila);
-                menuLabel.add(logoutLabel);
+                menuPanel.add(logoutLabel);
                 logoutLabel.setBounds(5, 255, 150, fontHeight);
                 logoutLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -1039,7 +1043,7 @@ public class CyderMain {
                 JLabel exitLabel = new JLabel("Exit");
                 exitLabel.setFont(menuFont);
                 exitLabel.setForeground(CyderColors.vanila);
-                menuLabel.add(exitLabel);
+                menuPanel.add(exitLabel);
                 exitLabel.setBounds(5, 280, 150, fontHeight);
                 exitLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -1058,11 +1062,44 @@ public class CyderMain {
                     }
                 });
 
+                //todo prims algorithm copy from PacManAI
+                JLabel Prim = new JLabel("Prim");
+                Prim.setFont(menuFont);
+                Prim.setForeground(CyderColors.vanila);
+                menuPanel.add(Prim);
+                Prim.setBounds(5, 305, 150, fontHeight);
+                Prim.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        handle("Prim");
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        Prim.setForeground(CyderColors.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        Prim.setForeground(CyderColors.vanila);
+                    }
+                });
+
+                menuPanel.setBounds(7,10,90, height);
+                menuPanel.setBackground(CyderColors.navy);
+                CyderScrollPane menuScroll = new CyderScrollPane(menuPanel);
+                menuScroll.setThumbSize(5);
+                menuScroll.setBackground(CyderColors.navy);
+                menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+                menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); //as needed
+                menuScroll.setBounds(7,10,95, height);
+                menuLabel.add(menuScroll);
+
                 //todo: make mappable ones that are saved (open link just for now)
 
                 //proper offsets, width and height will not change; if needed a scroll bar will be added
-                menuLabel.setBounds(-150, DragLabel.getDefaultHeight(), CyderFrame.getMinWidth("TEMP CONV",menuFont),
-                        fontHeight * 8);
+                menuLabel.setBounds(-150, DragLabel.getDefaultHeight(),
+                        CyderFrame.getMinWidth("TEMP CONV",menuFont) + 10, fontHeight * 8);
                 AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
             } else if (menuLabel.isVisible()) {
                 minimizeMenu();
