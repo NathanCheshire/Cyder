@@ -7,6 +7,7 @@ import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.IOUtil;
+import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -161,8 +162,9 @@ public class DirectorySearch {
         directoryNameList.setSelectionBackground(CyderColors.selectionColor);
         directoryNameList.setForeground(CyderColors.navy);
         directoryNameList.addMouseListener(directoryListener);
+        directoryNameList.addKeyListener(directoryKeyListener);
+        directoryNameList.setBounds(10,120,200,470 - 120 - 10);
 
-        directoryNameList.addKeyListener(directoryEnterListener);
         dirScroll = new CyderScrollPane(directoryNameList,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -170,9 +172,10 @@ public class DirectorySearch {
         dirScroll.setThumbColor(CyderColors.regularRed);
 
         dirScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
+        dirScroll.addKeyListener(directoryKeyListener);
 
         directoryNameList.setBackground(new Color(255,255,255));
-        dirScroll.getViewport().setBackground(new Color(0,0,0,0));
+        dirScroll.getViewport().setBackground(new Color(255,255,255));
 
         dirScroll.setForeground(CyderColors.navy);
         dirScroll.setFont(CyderFonts.weatherFontSmall);
@@ -185,62 +188,82 @@ public class DirectorySearch {
         dirField.requestFocus();
     }
 
+    private KeyListener directoryKeyListener = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            if (e.getKeyCode() != KeyEvent.VK_ENTER);
+                e.consume();
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() != KeyEvent.VK_ENTER);
+            e.consume();
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() != KeyEvent.VK_ENTER);
+            e.consume();
+        }
+    };
+
     private MouseListener directoryListener = new MouseAdapter() {
         public void mouseClicked(MouseEvent mouseEvent) {
-        JList theList = (JList) mouseEvent.getSource();
+            JList theList = (JList) mouseEvent.getSource();
 
-        if (mouseEvent.getClickCount() == 2) {
-            int index = theList.locationToIndex(mouseEvent.getPoint());
+            if (mouseEvent.getClickCount() == 2) {
+                int index = theList.locationToIndex(mouseEvent.getPoint());
 
-            if (index >= 0) {
-                File ChosenDir = (File) directoryList.getModel().getElementAt(index);
+                if (index >= 0) {
+                    File ChosenDir = (File) directoryList.getModel().getElementAt(index);
 
-                if (ChosenDir.isDirectory()) {
-                    if (!foward.isEmpty() && !foward.peek().equals(rightNow))
-                        foward.clear();
+                    if (ChosenDir.isDirectory()) {
+                        if (!foward.isEmpty() && !foward.peek().equals(rightNow))
+                            foward.clear();
 
-                    if (!backward.isEmpty() && !backward.peek().equals(rightNow) && !foward.isEmpty() && !foward.peek().equals(rightNow))
-                        backward.push(rightNow);
-                    else if (backward.isEmpty());
-                        backward.push(rightNow);
+                        if (!backward.isEmpty() && !backward.peek().equals(rightNow) && !foward.isEmpty() && !foward.peek().equals(rightNow))
+                            backward.push(rightNow);
+                        else if (backward.isEmpty());
+                            backward.push(rightNow);
 
-                    rightNow = ChosenDir.toString();
+                        rightNow = ChosenDir.toString();
 
-                    dirField.setText(ChosenDir.toString());
+                        dirField.setText(ChosenDir.toString());
 
-                    directoryList = new JList(ChosenDir.listFiles());
+                        directoryList = new JList(ChosenDir.listFiles());
 
-                    File[] Files = ChosenDir.listFiles();
-                    String[] Names = new String[Files.length];
+                        File[] Files = ChosenDir.listFiles();
+                        String[] Names = new String[Files.length];
 
-                    for (int i = 0 ; i < Files.length ; i++) {
-                        Names[i] = Files[i].getName();
+                        for (int i = 0 ; i < Files.length ; i++) {
+                            Names[i] = Files[i].getName();
+                        }
+
+                        directoryNameList = new JList(Names);
+
+                        directoryNameList.setFont(CyderFonts.weatherFontSmall);
+                        directoryNameList.setForeground(CyderColors.navy);
+                        directoryNameList.setSelectionBackground(CyderColors.selectionColor);
+
+                        directoryNameList.addMouseListener(directoryListener);
+                        directoryNameList.addKeyListener(directoryEnterListener);
+
+                        dirScroll.setViewportView(directoryNameList);
+                        dirScroll.revalidate();
+                        dirScroll.repaint();
+
+                        dirFrame.setTitle(ChosenDir.getName());
+
+                        dirFrame.revalidate();
+                        dirFrame.repaint();
                     }
 
-                    directoryNameList = new JList(Names);
-
-                    directoryNameList.setFont(CyderFonts.weatherFontSmall);
-                    directoryNameList.setForeground(CyderColors.navy);
-                    directoryNameList.setSelectionBackground(CyderColors.selectionColor);
-
-                    directoryNameList.addMouseListener(directoryListener);
-                    directoryNameList.addKeyListener(directoryEnterListener);
-
-                    dirScroll.setViewportView(directoryNameList);
-                    dirScroll.revalidate();
-                    dirScroll.repaint();
-
-                    dirFrame.setTitle(ChosenDir.getName());
-
-                    dirFrame.revalidate();
-                    dirFrame.repaint();
-                }
-
-                else if (ChosenDir.isFile()) {
-                    IOUtil.openFile(ChosenDir.getAbsolutePath());
+                    else if (ChosenDir.isFile()) {
+                        IOUtil.openFile(ChosenDir.getAbsolutePath());
+                    }
                 }
             }
-        }
         }
     };
 
@@ -301,9 +324,18 @@ public class DirectorySearch {
         }
     };
 
-    private KeyListener directoryEnterListener = new KeyAdapter() {
+    private KeyListener directoryEnterListener = new KeyListener() {
         @Override
-        public void keyPressed(java.awt.event.KeyEvent e) {
+        public void keyTyped(KeyEvent e) {
+            if (e.getKeyCode() != KeyEvent.VK_ENTER);
+                e.consume();
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() != KeyEvent.VK_ENTER);
+                e.consume();
+
             int index = directoryNameList.getSelectedIndex();
 
             if (index >= 0) {
@@ -316,7 +348,7 @@ public class DirectorySearch {
                     if (!backward.isEmpty() && !backward.peek().equals(rightNow) && !foward.isEmpty() && !foward.peek().equals(rightNow))
                         backward.push(rightNow);
                     else if (backward.isEmpty());
-                        backward.push(rightNow);
+                    backward.push(rightNow);
 
                     rightNow = ChosenDir.toString();
 
@@ -349,6 +381,12 @@ public class DirectorySearch {
                     IOUtil.openFile(ChosenDir.getAbsolutePath());
                 }
             }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() != KeyEvent.VK_ENTER);
+                e.consume();
         }
     };
 }

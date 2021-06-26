@@ -835,11 +835,10 @@ public class CyderMain {
                 int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!",menuFont);
                 menuLabel.setVisible(true);
 
-                int height = 280;
-
                 JPanel menuPanel = new JPanel();
                 menuPanel.setLayout(new BoxLayout(menuPanel,BoxLayout.Y_AXIS));
-                menuPanel.setBounds(7,10,150, height);
+                menuPanel.setBounds(7,10,90, 280);
+                menuPanel.setBackground(CyderColors.navy);
 
                 JLabel calculatorLabel = new JLabel("Calculator");
                 calculatorLabel.setFont(menuFont);
@@ -1018,6 +1017,9 @@ public class CyderMain {
                     }
                 });
 
+                //todo: make mappable ones that are saved (open link just for now)
+                // add those here before exit, exit should be last
+
                 JLabel logoutLabel = new JLabel("Logout");
                 logoutLabel.setFont(menuFont);
                 logoutLabel.setForeground(CyderColors.vanila);
@@ -1062,40 +1064,13 @@ public class CyderMain {
                     }
                 });
 
-                //todo prims algorithm copy from PacManAI
-                JLabel Prim = new JLabel("Prim");
-                Prim.setFont(menuFont);
-                Prim.setForeground(CyderColors.vanila);
-                menuPanel.add(Prim);
-                Prim.setBounds(5, 305, 150, fontHeight);
-                Prim.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        handle("Prim");
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        Prim.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        Prim.setForeground(CyderColors.vanila);
-                    }
-                });
-
-                menuPanel.setBounds(7,10,90, height);
-                menuPanel.setBackground(CyderColors.navy);
                 CyderScrollPane menuScroll = new CyderScrollPane(menuPanel);
                 menuScroll.setThumbSize(5);
                 menuScroll.setBackground(CyderColors.navy);
                 menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-                menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); //as needed
-                menuScroll.setBounds(7,10,95, height);
+                menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+                menuScroll.setBounds(7,10,95, 280);
                 menuLabel.add(menuScroll);
-
-                //todo: make mappable ones that are saved (open link just for now)
 
                 //proper offsets, width and height will not change; if needed a scroll bar will be added
                 menuLabel.setBounds(-150, DragLabel.getDefaultHeight(),
