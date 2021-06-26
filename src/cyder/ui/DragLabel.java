@@ -176,7 +176,6 @@ public class DragLabel extends JLabel {
         JButton close = new JButton("");
         close.setToolTipText("Close");
         close.addActionListener(e -> {
-            System.out.println("Close: " + effectFrame);
             if (effectFrame instanceof CyderFrame) {
                 ((CyderFrame) effectFrame).closeAnimation();
             } else {

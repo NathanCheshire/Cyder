@@ -3082,8 +3082,6 @@ public class CyderMain {
                 //if this is too small or big, where is it resized and why is it too big?
                 File addFile = new GetterUtil().getFile("Choose file to add");
 
-                System.out.println(addFile);
-
                 if (addFile == null)
                     return;
 

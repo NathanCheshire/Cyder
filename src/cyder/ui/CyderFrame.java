@@ -788,7 +788,6 @@ public class CyderFrame extends JFrame {
         int yoff = Math.abs((y0 - x0 * sin - y0 * cos)) - masterIcon.getIconHeight() / 2;
         xoff /= 2;
         yoff /= 2;
-        System.out.println(xoff + "," + yoff);
 
         //draw our rotated image on the padded image
         g.drawImage(rotated, -xoff, -yoff, null);
