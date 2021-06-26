@@ -245,7 +245,7 @@ public class DragLabel extends JLabel {
         int addWidth = width - 26;
 
         for (int i = buttonsList.size() - 1 ; i >= 0 ; i--) {
-            buttonsList.get(i).setBounds(addWidth, 0, 22, 25);
+            buttonsList.get(i).setBounds(addWidth, 0, 22, 28);
             add(buttonsList.get(i));
             addWidth -= 26;
         }

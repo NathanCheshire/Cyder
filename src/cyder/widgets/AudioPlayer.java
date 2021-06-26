@@ -31,6 +31,7 @@ public class AudioPlayer {
 
     //ui components
     private ScrollLabel musicScroll;
+    private AudioLocation audioLocation;
     private JLabel musicTitleLabel;
     private CyderFrame musicFrame;
     private JSlider musicVolumeSlider;
@@ -110,7 +111,33 @@ public class AudioPlayer {
         changeSize.setFocusPainted(false);
         musicFrame.getDragLabel().addButton(changeSize, 1);
 
-        //todo add pinned at index 1
+        JButton pinButton = new JButton("");
+        pinButton.setToolTipText("Pin window");
+        pinButton.addActionListener(e -> {
+            pinned = !pinned;
+            setPinned(pinned);
+            if (pinned)
+                pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin2.png"));
+            else
+                pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin.png"));
+        });
+        pinButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                pinButton.setIcon(new ImageIcon(pinned ? "sys/pictures/icons/pin.png" : "sys/pictures/icons/pin2.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                pinButton.setIcon(new ImageIcon(pinned ? "sys/pictures/icons/pin2.png" : "sys/pictures/icons/pin.png"));
+            }
+        });
+
+        pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin.png"));
+        pinButton.setContentAreaFilled(false);
+        pinButton.setBorderPainted(false);
+        pinButton.setFocusPainted(false);
+        musicFrame.getDragLabel().addButton(pinButton, 1);
 
         musicTitleLabel = new JLabel("", SwingConstants.CENTER);
         musicTitleLabel.setBounds(50, 40, 400, 30);
@@ -163,7 +190,7 @@ public class AudioPlayer {
         loopMusicButton = new JButton("");
         loopMusicButton.setToolTipText("Loop audio");
         loopMusicButton.addActionListener(e -> {
-            loopMusicButton.setIcon(new ImageIcon(repeatAudio ? "sys/pictures/music/RepeatHover.png" : "sys/pictures/music/Repeat.png"));
+            loopMusicButton.setIcon(new ImageIcon(repeatAudio ? "sys/pictures/music/Repeat.png" : "sys/pictures/music/RepeatHover.png"));
             loopMusicButton.setToolTipText("Loop Audio");
             repeatAudio = !repeatAudio;
         });
@@ -244,7 +271,7 @@ public class AudioPlayer {
         stopMusicButton.setBorderPainted(false);
 
         playPauseMusicButton = new JButton("");
-        playPauseMusicButton.setToolTipText("startAudio");
+        playPauseMusicButton.setToolTipText("Play");
         playPauseMusicButton.addActionListener(e -> {
             try {
                 if (player != null) {
@@ -351,7 +378,7 @@ public class AudioPlayer {
         musicVolumeSlider.setPaintTicks(false);
         musicVolumeSlider.setPaintLabels(false);
         musicVolumeSlider.setVisible(true);
-        musicVolumeSlider.setValue(50);
+        musicVolumeSlider.setValue(15);
         musicVolumeSlider.addChangeListener(e -> refreshAudio());
         musicVolumeSlider.setOpaque(false);
         musicVolumeSlider.setToolTipText("Volume");
@@ -477,8 +504,22 @@ public class AudioPlayer {
 
     public void pauseAudio() {
         try {
+            if (audioLocation != null)
+                audioLocation.kill();
+            audioLocation = null;
 
+            pauseLocation = totalLength - fis.available() - 14000;
+
+            if (player != null)
+                player.close();
+            player = null;
+            bis = null;
+            fis = null;
+
+            playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+            playPauseMusicButton.setToolTipText("Pause");
         } catch (Exception e) {
+            e.printStackTrace();
             ErrorHandler.handle(e);
         }
     }
@@ -488,6 +529,11 @@ public class AudioPlayer {
            if (musicScroll != null)
                musicScroll.kill();
            musicScroll = null;
+
+           if (audioLocation != null)
+               audioLocation.kill();
+           audioLocation = null;
+           audioLocationSlider.setValue(0);
 
            if (player != null)
                player.close();
@@ -502,9 +548,11 @@ public class AudioPlayer {
            audioLocationSlider.setValue(0);
 
            playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+           playPauseMusicButton.setToolTipText("Play");
 
            refreshAudio();
        } catch (Exception e) {
+           e.printStackTrace();
            ErrorHandler.handle(e);
        }
     }
@@ -528,7 +576,7 @@ public class AudioPlayer {
                 }
             }
 
-            //todo however you're going to start up audio threads, scrolling label, and audio location thread
+            startAudio();
         } catch (Exception ex) {
             ex.printStackTrace();
             ErrorHandler.handle(ex);
@@ -554,7 +602,7 @@ public class AudioPlayer {
                 }
             }
 
-            //todo however you're going to start up audio threads, scrolling label, and audio location thread
+            startAudio();
         } catch (Exception ex) {
             ex.printStackTrace();
             ErrorHandler.handle(ex);
@@ -570,8 +618,14 @@ public class AudioPlayer {
         if (musicScroll != null)
             musicScroll.kill();
 
+        if (audioLocation != null)
+            audioLocation.kill();
+
         player = null;
         musicScroll = null;
+        audioLocation = null;
+
+        audioLocationSlider.setValue(0);
 
         musicFrame.closeAnimation();
     }
@@ -584,35 +638,90 @@ public class AudioPlayer {
         // and continue playing with next song which could be a random or a repeat
         new Thread(() -> {
             try {
+                refreshAudio();
+                fis = new FileInputStream(musicFiles.get(musicIndex));
+                bis = new BufferedInputStream(fis);
+
+                if (player != null)
+                    player.close();
+                player = null;
+
+                if (musicScroll != null)
+                    musicScroll.kill();
+                musicScroll = null;
+
+                if (audioLocation != null)
+                    audioLocation.kill();
+                audioLocation = null;
+
+                player = new Player(bis);
+                totalLength = fis.available();
+                pauseLocation = 0;
+
+                if (!miniPlayer) {
+                    musicTitleLabel.setText(StringUtil.getFilename(musicFiles.get(musicIndex)));
+                    musicScroll = new ScrollLabel(musicTitleLabel);
+                    audioLocation = new AudioLocation(audioLocationSlider);
+                }
+
+                playPauseMusicButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+                playPauseMusicButton.setToolTipText("Pause");
+
+                player.play();
+
+                if (audioLocation != null)
+                    audioLocation.kill();
+                audioLocation = null;
+
+                //music was paused, stopped, or skipped to previous or last
+                // account for all possibililties
+
+                //todo maybe an enum for last action?
 
             } catch (Exception e) {
+                e.printStackTrace();
                 ErrorHandler.handle(e);
             }
         },"Flash Player Music Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
-
-        //Basically this thread is always going as long as player is not null
-        new Thread( () -> {
-            while (player != null) {
-                try {
-                    if (totalLength == 0 || fis == null || !audioLocationSlider.isVisible())
-                        return;
-
-                    double place = ((double) (totalLength - fis.available()) /
-                            (double) totalLength) * audioLocationSlider.getMaximum();
-                    audioLocationSlider.setValue((int) place);
-                    Thread.sleep(250);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        },"Flash Player Progress Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
     }
 
     public void resumeAudio(long startPosition) {
-        try {
+        //todo last thing to implement after everything else has been implemented and tested
+        // should be same as above except resuming at specific byte
+    }
 
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
+    private class AudioLocation {
+        private JSlider effectSlider;
+        boolean update;
+
+        AudioLocation(JSlider effectSlider) {
+            this.effectSlider = effectSlider;
+            update = true;
+
+            try {
+                new Thread( () -> {
+                    while (update) {
+                        try {
+                            if (totalLength == 0 || fis == null || !audioLocationSlider.isVisible())
+                                return;
+
+                            double place = ((double) (totalLength - fis.available()) /
+                                    (double) totalLength) * audioLocationSlider.getMaximum();
+                            audioLocationSlider.setValue((int) place);
+                            Thread.sleep(250);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },"Flash Player Progress Thread[" + StringUtil.getFilename(musicFiles.get(musicIndex)) + "]").start();
+            } catch (Exception e) {
+                e.printStackTrace();
+                ErrorHandler.handle(e);
+            }
+        }
+
+        public void kill() {
+            update = false;
         }
     }
 
@@ -719,6 +828,10 @@ public class AudioPlayer {
             musicScroll.kill();
         musicScroll = null;
 
+        if (audioLocation != null)
+            audioLocation.kill();
+        audioLocation = null;
+
         audioLocationSlider.setVisible(false);
         musicVolumeSlider.setVisible(false);
         musicTitleLabel.setVisible(false);
@@ -737,7 +850,9 @@ public class AudioPlayer {
     }
 
     public void exitMiniPlayer() {
-        //todo start scroll however you're doing that
+        musicTitleLabel.setText(StringUtil.getFilename(musicFiles.get(musicIndex)));
+        musicScroll = new ScrollLabel(musicTitleLabel);
+        audioLocation = new AudioLocation(audioLocationSlider);
 
         audioLocationSlider.setVisible(true);
         musicVolumeSlider.setVisible(true);
