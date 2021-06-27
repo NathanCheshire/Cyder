@@ -2701,8 +2701,12 @@ public class CyderMain {
         testFrame.initializeBackgroundResizing();
         testFrame.setResizable(true);
 
-        CyderSwitch cs = new CyderSwitch(400,100);
-        cs.setBounds(100,100,400,400);
+        //todo setting bounds doesn't work
+
+        CyderSwitch cs = new CyderSwitch(400,80);
+        cs.setSwitchState(CyderSwitch.state.OFF);
+        cs.getSwitchButton().addActionListener(e -> System.out.println(cs.getSwitchState()));
+        cs.setBounds(100,100,cs.getWidth(),cs.getHeight());
         testFrame.getContentPane().add(cs);
 
         testFrame.setVisible(true);
@@ -3564,10 +3568,38 @@ public class CyderMain {
         menuPanel.add(prefsTitle);
         yOff += 60;
 
-        //todo more components following same center format finding component width and such
+        for (int i = 0 ; i < GenesisShare.getPrefs().size() ; i++) {
+            if (GenesisShare.getPrefs().get(i).getTooltip().equals("IGNORE"))
+                continue;
+
+            CyderLabel preferenceLabel = new CyderLabel(GenesisShare.getPrefs().get(i).getDisplayName());
+            preferenceLabel.setForeground(CyderColors.navy);
+            preferenceLabel.setBorder(BorderFactory.createEmptyBorder(20,0,20,0));
+            preferenceLabel.setToolTipText(GenesisShare.getPrefs().get(i).getTooltip());
+            preferenceLabel.setFont(CyderFonts.defaultFontSmall);
+            preferenceLabel.setBounds(720 - (CyderFrame.getMinWidth(GenesisShare.getPrefs().get(i).getDisplayName(),
+                    CyderFonts.weatherFontBig))/2, yOff,
+                    CyderFrame.getMinWidth(GenesisShare.getPrefs().get(i).getDisplayName(),CyderFonts.weatherFontBig), 30);
+            menuPanel.add(preferenceLabel);
+
+            yOff += 100; //todo not enough?
+
+            int localIndex = i;
+
+            CyderSwitch cs = new CyderSwitch(720,60);
+            cs.setSwitchState(CyderSwitch.state.OFF);
+            cs.getSwitchButton().addActionListener(e -> {
+                boolean wasSelected = IOUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
+                IOUtil.writeUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
+                refreshPrefs();
+            });
+            cs.setBounds(0, yOff,cs.getWidth(),cs.getHeight());
+            menuPanel.add(cs);
+
+            yOff += 100; //todo not enough?
+        }
 
         CyderScrollPane menuScroll = new CyderScrollPane(menuPanel);
-        menuScroll.setThumbSize(5);
         menuScroll.setBackground(CyderColors.navy);
         menuScroll.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 5));
         menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
