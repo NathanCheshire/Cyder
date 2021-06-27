@@ -2694,7 +2694,19 @@ public class CyderMain {
     }
 
     private void test() {
+        CyderFrame testFrame = new CyderFrame(600,600);
+        testFrame.setBackground(Color.white);
+        testFrame.setTitle("Test Frame");
+        testFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
+        testFrame.initializeBackgroundResizing();
+        testFrame.setResizable(true);
 
+        CyderSwitch cs = new CyderSwitch(400,100);
+        cs.setBounds(100,100,400,400);
+        testFrame.getContentPane().add(cs);
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(null);
     }
 
     //handler method
@@ -3538,6 +3550,35 @@ public class CyderMain {
     //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
 
     private void switchToPreferences() {
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new BoxLayout(menuPanel,BoxLayout.Y_AXIS));
+        menuPanel.setBounds(0,0,720,500);
+        menuPanel.setBackground(Color.white);
+
+        int yOff = 40;
+
+        CyderLabel prefsTitle = new CyderLabel("Preferences");
+        prefsTitle.setFont(CyderFonts.weatherFontBig);
+        prefsTitle.setBounds(720 - (CyderFrame.getMinWidth("Preferences",CyderFonts.weatherFontBig))/2, yOff,
+                CyderFrame.getMinWidth("Preferences",CyderFonts.weatherFontBig), 30);
+        menuPanel.add(prefsTitle);
+        yOff += 60;
+
+        //todo more components following same center format finding component width and such
+
+        CyderScrollPane menuScroll = new CyderScrollPane(menuPanel);
+        menuScroll.setThumbSize(5);
+        menuScroll.setBackground(CyderColors.navy);
+        menuScroll.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 5));
+        menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        menuScroll.setBounds(0,0,720,500);
+        switchingPanel.add(menuScroll);
+
+        switchingPanel.revalidate();
+    }
+
+    private void switchToPreferencesOld() {
         //switchingpanel is a label
         JPanel preferencePanel = new JPanel();
         preferencePanel.setLayout(new BoxLayout(preferencePanel,BoxLayout.Y_AXIS));
