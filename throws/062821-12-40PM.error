@@ -8,7 +8,7 @@ java.lang.NumberFormatException: For input string: "NaN"
 	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
 	at java.base/java.lang.Integer.parseInt(Integer.java:652)
 	at java.base/java.lang.Integer.parseInt(Integer.java:770)
-	at cyder.widgets.Weather.weatherTime(Weather.java:300)
+	at getWeatherTime(Weather.java:300)
 	at cyder.widgets.Weather.lambda$refreshClock$0(Weather.java:288)
 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
 	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305)

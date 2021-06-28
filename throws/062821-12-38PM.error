@@ -8,7 +8,7 @@ java.lang.NumberFormatException: For input string: "NaN"
 	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
 	at java.base/java.lang.Integer.parseInt(Integer.java:652)
 	at java.base/java.lang.Integer.parseInt(Integer.java:770)
-	at cyder.widgets.Weather.weatherTime(Weather.java:297)
+	at getWeatherTime(Weather.java:297)
 	at cyder.widgets.Weather.<init>(Weather.java:111)
 	at cyder.genesis.CyderMain.handle(CyderMain.java:2456)
 	at cyder.genesis.CyderMain.access$500(CyderMain.java:55)

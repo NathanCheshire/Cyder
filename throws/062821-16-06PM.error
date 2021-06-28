@@ -1,17 +1,18 @@
-null
+For input string: "Loaing..."
 class java.lang.NumberFormatException
-Error thrown by line: 614
+Error thrown by line: 2054
 
 Stack Trace:
 
-java.lang.NumberFormatException: null
-	at java.base/java.lang.Integer.parseInt(Integer.java:614)
-	at java.base/java.lang.Integer.parseInt(Integer.java:770)
-	at getWeatherTime(Weather.java:292)
-	at cyder.widgets.Weather.<init>(Weather.java:106)
-	at cyder.genesis.CyderMain.handle(CyderMain.java:2343)
-	at cyder.genesis.CyderMain.access$500(CyderMain.java:50)
-	at cyder.genesis.CyderMain$16.actionPerformed(CyderMain.java:1187)
+java.lang.NumberFormatException: For input string: "Loaing..."
+	at java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2054)
+	at java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+	at java.base/java.lang.Double.parseDouble(Double.java:543)
+	at cyder.widgets.Weather.getWindDirection(Weather.java:486)
+	at cyder.widgets.Weather.<init>(Weather.java:240)
+	at cyder.genesis.CyderMain.handle(CyderMain.java:2456)
+	at cyder.genesis.CyderMain.access$500(CyderMain.java:55)
+	at cyder.genesis.CyderMain$28.actionPerformed(CyderMain.java:1297)
 	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
 	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
 	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
