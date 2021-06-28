@@ -231,6 +231,43 @@ public class StringUtil {
 
     /**
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
+     *  modifiers, etc. have been set before printing the component.
+     * @param c - the component to append to the pane
+     */
+    public void printComponent(Component c) {
+        try {
+            //get custom UUID for this component
+            String componentUUID = SecurityUtil.generateUUID();
+            //setup style for sheet
+            Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
+            //add component using the nm identifier
+            StyleConstants.setComponent(cs, c);
+            //add style with component to styled document using str identifier
+            outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    /**
+     * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
+     *  modifiers, etc. have been set before printing the component. Following the component print,
+     *  a new line is appended to the pane.
+     * @param c - the component to append to the pane
+     */
+    public void printlnComponent(Component c) {
+        try {
+            String componentUUID = SecurityUtil.generateUUID();
+            printComponent(c, componentUUID, componentUUID);
+            //new line
+            println("");
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    /**
+     * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
      *  modifiers, etc. have been set before printing the component. Following the component print,
      *  a new line is appended to the pane.
      * @param c - the component to append to the pane

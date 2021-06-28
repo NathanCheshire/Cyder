@@ -25,6 +25,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.BorderUIResource;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -2695,7 +2697,12 @@ public class CyderMain {
     }
 
     private void test() {
-
+        println("Some test text");
+        new StringUtil(outputArea).printlnComponent(new CyderButton("Test Button"),"test","test");
+        StyledDocument doc = outputArea.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
     }
 
     //handler method
