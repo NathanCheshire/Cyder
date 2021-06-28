@@ -21,6 +21,7 @@ import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.BorderUIResource;
@@ -2694,23 +2695,7 @@ public class CyderMain {
     }
 
     private void test() {
-        CyderFrame testFrame = new CyderFrame(600,600);
-        testFrame.setBackground(Color.white);
-        testFrame.setTitle("Test Frame");
-        testFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
-        testFrame.initializeBackgroundResizing();
-        testFrame.setResizable(true);
 
-        //todo setting bounds doesn't work
-
-        CyderSwitch cs = new CyderSwitch(400,80);
-        cs.setSwitchState(CyderSwitch.state.OFF);
-        cs.getSwitchButton().addActionListener(e -> System.out.println(cs.getSwitchState()));
-        cs.setBounds(100,100,cs.getWidth(),cs.getHeight());
-        testFrame.getContentPane().add(cs);
-
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(null);
     }
 
     //handler method
@@ -2900,7 +2885,7 @@ public class CyderMain {
     private CyderButton changePassword;
     private CyderButton forwardPanel;
     private CyderButton backwardPanel;
-    private JLabel switchingPanel;
+    private JLabel switchingLabel;
     private int prefsPanelIndex;
 
     public void editUser() {
@@ -2911,13 +2896,13 @@ public class CyderMain {
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
 
-        switchingPanel = new JLabel();
-        switchingPanel.setForeground(new Color(255, 255, 255));
-        switchingPanel.setBounds(140, 70, 720, 500);
-        switchingPanel.setOpaque(true);
-        switchingPanel.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        switchingPanel.setBackground(new Color(255, 255, 255));
-        editUserFrame.getContentPane().add(switchingPanel);
+        switchingLabel = new JLabel();
+        switchingLabel.setForeground(new Color(255, 255, 255));
+        switchingLabel.setBounds(140, 70, 720, 500);
+        switchingLabel.setOpaque(true);
+        switchingLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        switchingLabel.setBackground(new Color(255, 255, 255));
+        editUserFrame.getContentPane().add(switchingLabel);
 
         switchToMusicAndBackgrounds();
 
@@ -3054,9 +3039,9 @@ public class CyderMain {
     }
 
     private void nextEditUser() {
-        switchingPanel.removeAll();
-        switchingPanel.revalidate();
-        switchingPanel.repaint();
+        switchingLabel.removeAll();
+        switchingLabel.revalidate();
+        switchingLabel.repaint();
         editUserFrame.revalidate();
         editUserFrame.repaint();
 
@@ -3080,9 +3065,9 @@ public class CyderMain {
     }
 
     private void lastEditUser() {
-        switchingPanel.removeAll();
-        switchingPanel.revalidate();
-        switchingPanel.repaint();
+        switchingLabel.removeAll();
+        switchingLabel.revalidate();
+        switchingLabel.repaint();
         editUserFrame.revalidate();
         editUserFrame.repaint();
 
@@ -3109,7 +3094,7 @@ public class CyderMain {
         JLabel BackgroundLabel = new JLabel("Music & Backgrounds", SwingConstants.CENTER);
         BackgroundLabel.setFont(CyderFonts.weatherFontBig);
         BackgroundLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
-        switchingPanel.add(BackgroundLabel);
+        switchingLabel.add(BackgroundLabel);
 
         initMusicBackgroundList();
 
@@ -3123,7 +3108,7 @@ public class CyderMain {
         componentsList.setBackground(new Color(255, 255, 255));
         musicBackgroundScroll.getViewport().setBackground(new Color(0, 0, 0, 0));
         musicBackgroundScroll.setBounds(20, 60, 680, 360);
-        switchingPanel.add(musicBackgroundScroll);
+        switchingLabel.add(musicBackgroundScroll);
 
         addMusicBackground = new CyderButton("Add");
         addMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -3171,7 +3156,7 @@ public class CyderMain {
         });
         addMusicBackground.setFont(CyderFonts.weatherFontSmall);
         addMusicBackground.setBounds(20, 440, 155, 40);
-        switchingPanel.add(addMusicBackground);
+        switchingLabel.add(addMusicBackground);
 
         openMusicBackground = new CyderButton("Open");
         openMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -3205,7 +3190,7 @@ public class CyderMain {
             }
         });
         openMusicBackground.setBounds(20 + 155 + 20, 440, 155, 40);
-        switchingPanel.add(openMusicBackground);
+        switchingLabel.add(openMusicBackground);
 
         renameMusicBackground = new CyderButton("Rename");
         renameMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -3260,7 +3245,7 @@ public class CyderMain {
         renameMusicBackground.setBackground(CyderColors.regularRed);
         renameMusicBackground.setFont(CyderFonts.weatherFontSmall);
         renameMusicBackground.setBounds(20 + 155 + 20 + 155 + 20, 440, 155, 40);
-        switchingPanel.add(renameMusicBackground);
+        switchingLabel.add(renameMusicBackground);
 
         deleteMusicBackground = new CyderButton("Delete");
         deleteMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -3312,16 +3297,16 @@ public class CyderMain {
         deleteMusicBackground.setBackground(CyderColors.regularRed);
         deleteMusicBackground.setFont(CyderFonts.weatherFontSmall);
         deleteMusicBackground.setBounds(20 + 155 + 20 + 155 + 20 + 155 + 20, 440, 155, 40);
-        switchingPanel.add(deleteMusicBackground);
+        switchingLabel.add(deleteMusicBackground);
 
-        switchingPanel.revalidate();
+        switchingLabel.revalidate();
     }
 
     private void switchToFontAndColor() {
         JLabel TitleLabel = new JLabel("Colors & Font", SwingConstants.CENTER);
         TitleLabel.setFont(CyderFonts.weatherFontBig);
         TitleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
-        switchingPanel.add(TitleLabel);
+        switchingLabel.add(TitleLabel);
 
         int colorOffsetX = 340;
         int colorOffsetY = 10;
@@ -3330,19 +3315,19 @@ public class CyderMain {
         ColorLabel.setFont(CyderFonts.weatherFontBig);
         ColorLabel.setForeground(CyderColors.navy);
         ColorLabel.setBounds(120 + colorOffsetX, 50 + colorOffsetY, 300, 30);
-        switchingPanel.add(ColorLabel);
+        switchingLabel.add(ColorLabel);
 
         JLabel hexLabel = new JLabel("HEX:");
         hexLabel.setFont(CyderFonts.weatherFontSmall);
         hexLabel.setForeground(CyderColors.navy);
         hexLabel.setBounds(30 + colorOffsetX, 110 + colorOffsetY, 70, 30);
-        switchingPanel.add(hexLabel);
+        switchingLabel.add(hexLabel);
 
         JLabel rgbLabel = new JLabel("RGB:");
         rgbLabel.setFont(CyderFonts.weatherFontSmall);
         rgbLabel.setForeground(CyderColors.navy);
         rgbLabel.setBounds(30 + colorOffsetX, 180 + colorOffsetY, 70, 30);
-        switchingPanel.add(rgbLabel);
+        switchingLabel.add(rgbLabel);
 
         JTextField colorBlock = new JTextField();
         colorBlock.setBackground(CyderColors.navy);
@@ -3352,7 +3337,7 @@ public class CyderMain {
         colorBlock.setToolTipText("Color Preview");
         colorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         colorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 120);
-        switchingPanel.add(colorBlock);
+        switchingLabel.add(colorBlock);
 
         JTextField rgbField = new JTextField(CyderColors.navy.getRed() + "," + CyderColors.navy.getGreen() + "," + CyderColors.navy.getBlue());
 
@@ -3377,7 +3362,7 @@ public class CyderMain {
         });
         hexField.setBounds(100 + colorOffsetX, 100 + colorOffsetY, 220, 50);
         hexField.setOpaque(false);
-        switchingPanel.add(hexField);
+        switchingLabel.add(hexField);
 
         rgbField.setSelectionColor(CyderColors.selectionColor);
         rgbField.setFont(CyderFonts.weatherFontBig);
@@ -3403,7 +3388,7 @@ public class CyderMain {
         });
         rgbField.setBounds(100 + colorOffsetX, 170 + colorOffsetY, 220, 50);
         rgbField.setOpaque(false);
-        switchingPanel.add(rgbField);
+        switchingLabel.add(rgbField);
 
         CyderButton applyColor = new CyderButton("Apply Color");
         applyColor.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -3424,19 +3409,19 @@ public class CyderMain {
             println("The Color [" + updateC.getRed() + "," + updateC.getGreen() + "," + updateC.getBlue() + "] has been applied.");
         });
         applyColor.setBounds(450, 240 + colorOffsetY, 200, 40);
-        switchingPanel.add(applyColor);
+        switchingLabel.add(applyColor);
 
         JLabel FillLabel = new JLabel("Fill Color");
         FillLabel.setFont(CyderFonts.weatherFontBig);
         FillLabel.setForeground(CyderColors.navy);
         FillLabel.setBounds(120 + colorOffsetX, 330 + colorOffsetY, 300, 30);
-        switchingPanel.add(FillLabel);
+        switchingLabel.add(FillLabel);
 
         JLabel hexLabelFill = new JLabel("HEX:");
         hexLabelFill.setFont(CyderFonts.weatherFontSmall);
         hexLabelFill.setForeground(CyderColors.navy);
         hexLabelFill.setBounds(30 + colorOffsetX, 390 + colorOffsetY, 70, 30);
-        switchingPanel.add(hexLabelFill);
+        switchingLabel.add(hexLabelFill);
 
         JTextField colorBlockFill = new JTextField();
         colorBlockFill.setBackground(CyderColors.navy);
@@ -3446,7 +3431,7 @@ public class CyderMain {
         colorBlockFill.setToolTipText("Color Preview");
         colorBlockFill.setBorder(new LineBorder(CyderColors.navy, 5, false));
         colorBlockFill.setBounds(330 + colorOffsetX, 340 + colorOffsetY, 40, 120);
-        switchingPanel.add(colorBlockFill);
+        switchingLabel.add(colorBlockFill);
 
         JTextField hexFieldFill = new JTextField(String.format("#%02X%02X%02X", CyderColors.navy.getRed(),
                 CyderColors.navy.getGreen(), CyderColors.navy.getBlue()).replace("#", ""));
@@ -3472,13 +3457,13 @@ public class CyderMain {
         });
         hexFieldFill.setBounds(100 + colorOffsetX, 380 + colorOffsetY, 220, 50);
         hexFieldFill.setOpaque(false);
-        switchingPanel.add(hexFieldFill);
+        switchingLabel.add(hexFieldFill);
 
         JLabel FontLabel = new JLabel("Fonts");
         FontLabel.setFont(new Font(IOUtil.getUserData("Font"),Font.BOLD, 30));
         FontLabel.setForeground(CyderColors.navy);
         FontLabel.setBounds(150, 60, 300, 30);
-        switchingPanel.add(FontLabel);
+        switchingLabel.add(FontLabel);
 
         String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
@@ -3518,99 +3503,47 @@ public class CyderMain {
             }
         });
         applyFont.setBounds(100, 420, 200, 40);
-        switchingPanel.add(applyFont);
+        switchingLabel.add(applyFont);
 
         fontList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    applyFont.doClick();
-                } else {
-                    try {
-                        FontLabel.setFont(new Font(fontList.getSelectedValue().toString(), Font.BOLD, 30));
-                    } catch (Exception ex) {
-                        ErrorHandler.handle(ex);
-                    }
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                applyFont.doClick();
+            } else {
+                try {
+                    FontLabel.setFont(new Font(fontList.getSelectedValue().toString(), Font.BOLD, 30));
+                } catch (Exception ex) {
+                    ErrorHandler.handle(ex);
                 }
+            }
             }
         });
 
         fontList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                JList t = (JList) e.getSource();
-                int index = t.locationToIndex(e.getPoint());
+            JList t = (JList) e.getSource();
+            int index = t.locationToIndex(e.getPoint());
 
-                FontLabel.setFont(new Font(t.getModel().getElementAt(index).toString(), Font.BOLD, 30));
+            FontLabel.setFont(new Font(t.getModel().getElementAt(index).toString(), Font.BOLD, 30));
             }
         });
 
         FontListScroll.setBounds(50, 100, 300, 300);
-        switchingPanel.add(FontListScroll, Component.CENTER_ALIGNMENT);
+        switchingLabel.add(FontListScroll, Component.CENTER_ALIGNMENT);
 
-        switchingPanel.revalidate();
+        switchingLabel.revalidate();
     }
 
     //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
 
-    private void switchToPreferences() {
-        JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new BoxLayout(menuPanel,BoxLayout.Y_AXIS));
-        menuPanel.setBounds(0,0,720,500);
-        menuPanel.setBackground(Color.white);
-
-        int yOff = 40;
-
-        CyderLabel prefsTitle = new CyderLabel("Preferences");
-        prefsTitle.setFont(CyderFonts.weatherFontBig);
-        prefsTitle.setBounds(720 - (CyderFrame.getMinWidth("Preferences",CyderFonts.weatherFontBig))/2, yOff,
-                CyderFrame.getMinWidth("Preferences",CyderFonts.weatherFontBig), 30);
-        menuPanel.add(prefsTitle);
-        yOff += 60;
-
-        for (int i = 0 ; i < GenesisShare.getPrefs().size() ; i++) {
-            if (GenesisShare.getPrefs().get(i).getTooltip().equals("IGNORE"))
-                continue;
-
-            CyderLabel preferenceLabel = new CyderLabel(GenesisShare.getPrefs().get(i).getDisplayName());
-            preferenceLabel.setForeground(CyderColors.navy);
-            preferenceLabel.setBorder(BorderFactory.createEmptyBorder(20,0,20,0));
-            preferenceLabel.setToolTipText(GenesisShare.getPrefs().get(i).getTooltip());
-            preferenceLabel.setFont(CyderFonts.defaultFontSmall);
-            preferenceLabel.setBounds(720 - (CyderFrame.getMinWidth(GenesisShare.getPrefs().get(i).getDisplayName(),
-                    CyderFonts.weatherFontBig))/2, yOff,
-                    CyderFrame.getMinWidth(GenesisShare.getPrefs().get(i).getDisplayName(),CyderFonts.weatherFontBig), 30);
-            menuPanel.add(preferenceLabel);
-
-            yOff += 100; //todo not enough?
-
-            int localIndex = i;
-
-            CyderSwitch cs = new CyderSwitch(720,60);
-            cs.setSwitchState(CyderSwitch.state.OFF);
-            cs.getSwitchButton().addActionListener(e -> {
-                boolean wasSelected = IOUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
-                IOUtil.writeUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
-                refreshPrefs();
-            });
-            cs.setBounds(0, yOff,cs.getWidth(),cs.getHeight());
-            menuPanel.add(cs);
-
-            yOff += 100; //todo not enough?
-        }
-
-        CyderScrollPane menuScroll = new CyderScrollPane(menuPanel);
-        menuScroll.setBackground(CyderColors.navy);
-        menuScroll.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 5));
-        menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        menuScroll.setBounds(0,0,720,500);
-        switchingPanel.add(menuScroll);
-
-        switchingPanel.revalidate();
+    private void switchToPreferencesNew() {
+        //TODO test outputArea to see if you can click a button there that is centered,
+        // if so, then copy that functionlaity here for new preferences check
     }
 
-    private void switchToPreferencesOld() {
+    private void switchToPreferences() {
         //switchingpanel is a label
         JPanel preferencePanel = new JPanel();
         preferencePanel.setLayout(new BoxLayout(preferencePanel,BoxLayout.Y_AXIS));
@@ -3662,11 +3595,12 @@ public class CyderMain {
         }
 
         CyderScrollPane preferenceScroll = new CyderScrollPane(preferencePanel);
+        preferenceScroll.setThumbColor(CyderColors.intellijPink);
         preferenceScroll.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 5));
         preferenceScroll.setBounds(0,0,720,500);
-        switchingPanel.add(preferenceScroll, SwingConstants.CENTER);
+        switchingLabel.add(preferenceScroll, SwingConstants.CENTER);
 
-        switchingPanel.revalidate();
+        switchingLabel.revalidate();
     }
 
     public void refreshPrefs() {

@@ -7,6 +7,7 @@ import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;
 import cyder.utilities.StringUtil;
+import cyder.widgets.GenericInform;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -115,15 +116,17 @@ public class YoutubeThread {
 
                             for (int j = 0 ; j < 64 ; j++) {
                                 if (validChars[j] == currentDigit) {
-                                    System.out.println(currentDigit + " is at index: " + j + " and weight of: " + weight);
                                     completedUUIDs += j * Math.pow(64, weight);
                                     break;
                                 }
                             }
                         }
 
-                        double msTimeLeft = (totalUUIDs - completedUUIDs) / 200;
-                        //TODO Ccalculate time left and notify user using console frame
+                        int avgMsPerCheck = 200; //we could make this actually calculate but...
+                        double msTimeLeft = (totalUUIDs - completedUUIDs) / avgMsPerCheck;
+                        GenericInform.informRelative("Time left: " + msTimeLeft +
+                                        ".\n Replace this with consoleFrame.notify() when migration is complete",
+                                "YouTube Thread est. time remaining", null);
                     }
                 }
 

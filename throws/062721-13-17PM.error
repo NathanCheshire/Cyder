@@ -1,0 +1,14 @@
+Attempting to access empty user data after calling read
+class cyder.exception.FatalException
+Error thrown by line: 542
+
+Stack Trace:
+
+FatalException object, hash=896644936
+	at cyder.utilities.IOUtil.getUserData(IOUtil.java:542)
+	at cyder.genesis.CyderMain.console(CyderMain.java:806)
+	at cyder.genesis.CyderMain.recognize(CyderMain.java:1511)
+	at cyder.genesis.CyderMain.autoCypher(CyderMain.java:189)
+	at cyder.genesis.CyderMain.<init>(CyderMain.java:129)
+	at cyder.genesis.CyderMain.main(CyderMain.java:107)
+
