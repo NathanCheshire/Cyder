@@ -1207,9 +1207,7 @@ public class CyderMain {
                     //f17 easter egg and other acknowlegement of other function keys
                     for (int i = 61440; i < 61452; i++) {
                         if (code == i) {
-                            int seventeen = (i - 61427);
-
-                            if (seventeen == 17)
+                            if (i - 61427 == 17)
                                 IOUtil.playAudio("sys/audio/f17.mp3", outputArea);
                             else
                                 println("Interesting F" + (i - 61427) + " key");
@@ -2749,31 +2747,8 @@ public class CyderMain {
     }
 
     private void test() {
-        //TODO test CyderSwitch rigorously
-
-        //this works for components, why not slider?
-        CyderLabel cl = new CyderLabel("Test Label");
-        cl.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                cl.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                cl.setForeground(CyderColors.navy);
-            }
-        });
-
-        new StringUtil(outputArea).printlnComponent(cl,"test2","test2");
-        new StringUtil(outputArea).printlnComponent(new CyderButton("Test Button"),"test","test");
-        StyledDocument doc = outputArea.getStyledDocument();
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        //TODO test CyderSwitch
     }
-
-
 
     //get rid of these methods and just use a string util -----------------------------
 
@@ -3617,79 +3592,90 @@ public class CyderMain {
 
     //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
 
-    private void switchToPreferencesNew() {
-        //TODO test outputArea to see if you can click a button there that is centered,
-        // if so, then copy that functionlaity here for new preferences
-        println("Some test text");
-
-
-
-
-        //after everything is on pane, use this to center it
-        new StringUtil(outputArea).printlnComponent(new CyderButton("Test Button"),"test","test");
-        StyledDocument doc = outputArea.getStyledDocument();
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
-    }
-
     private void switchToPreferences() {
-        //switchingpanel is a label
-        JPanel preferencePanel = new JPanel();
-        preferencePanel.setLayout(new BoxLayout(preferencePanel,BoxLayout.Y_AXIS));
-        preferencePanel.setBounds(0,0,720,500);
+        JTextPane preferencePane = new JTextPane();
+        preferencePane.setEditable(false);
+        preferencePane.setAutoscrolls(false);
+        preferencePane.setBounds(0, 0, 720, 500);
+        preferencePane.setFocusable(true);
+        preferencePane.setOpaque(false);
+        preferencePane.setBackground(Color.white);
 
+        //adding components
+        StringUtil printingUtil = new StringUtil(preferencePane);
+
+        //print pairs here
         CyderLabel prefsTitle = new CyderLabel("Preferences");
         prefsTitle.setFont(CyderFonts.weatherFontBig);
-        preferencePanel.add(prefsTitle);
+        printingUtil.printlnComponent(prefsTitle);
 
         for (int i = 0 ; i < GenesisShare.getPrefs().size() ; i++) {
             if (GenesisShare.getPrefs().get(i).getTooltip().equals("IGNORE"))
                 continue;
 
-            CyderLabel preferenceLabel = new CyderLabel(GenesisShare.getPrefs().get(i).getDisplayName());
-            preferenceLabel.setForeground(IOUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? CyderColors.regularRed : CyderColors.navy);
-            preferenceLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
-            preferenceLabel.setToolTipText(GenesisShare.getPrefs().get(i).getTooltip());
-            preferenceLabel.setFont(CyderFonts.defaultFontSmall);
-            preferencePanel.add(preferenceLabel);
-
             int localIndex = i;
 
-            preferenceLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    boolean wasSelected = IOUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
-                    IOUtil.writeUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
+            CyderLabel preferenceLabel = new CyderLabel(GenesisShare.getPrefs().get(i).getDisplayName());
+            preferenceLabel.setForeground(CyderColors.navy);
+            preferenceLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
+            preferenceLabel.setFont(CyderFonts.defaultFontSmall);
+            printingUtil.printlnComponent(preferenceLabel);
 
-                    preferenceLabel.setForeground(
-                            wasSelected ? CyderColors.navy : CyderColors.regularRed);
-
-                    refreshPrefs();
-                }
-
+            CyderButton preferenceButton = new CyderButton(
+                    IOUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? "      On      " :
+                            "      Off      ");
+            preferenceButton.setBackground(IOUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? CyderColors.regularRed : CyderColors.vanila);
+            preferenceButton.setToolTipText(GenesisShare.getPrefs().get(i).getTooltip());
+            preferenceButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    preferenceLabel.setForeground(
+                    preferenceButton.setBackground(
                             IOUtil.getUserData(GenesisShare.getPrefs().get(localIndex).getID()).equalsIgnoreCase("1") ?
-                                    CyderColors.navy : CyderColors.regularRed);
+                                    CyderColors.vanila : CyderColors.regularRed);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    preferenceLabel.setForeground(
-                            IOUtil.getUserData(GenesisShare.getPrefs().get(localIndex).getID()).equalsIgnoreCase("0") ?
-                                    CyderColors.navy : CyderColors.regularRed);
+                    preferenceButton.setBackground(
+                            IOUtil.getUserData(GenesisShare.getPrefs().get(localIndex).getID()).equalsIgnoreCase("1") ?
+                                    CyderColors.regularRed : CyderColors.vanila);
                 }
             });
+
+            preferenceButton.addActionListener(e -> {
+                boolean wasSelected = IOUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
+                IOUtil.writeUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
+
+                preferenceButton.setBackground(wasSelected ? CyderColors.vanila : CyderColors.regularRed);
+                preferenceButton.setText(wasSelected ? "      Off      " : "      On      ");
+
+                refreshPrefs();
+            });
+
+            printingUtil.printlnComponent(preferenceButton);
         }
 
-        CyderScrollPane preferenceScroll = new CyderScrollPane(preferencePanel);
+        CyderScrollPane preferenceScroll = new CyderScrollPane(preferencePane);
+        preferenceScroll.setThumbSize(7);
+        preferenceScroll.getViewport().setOpaque(false);
+        preferenceScroll.setFocusable(true);
+        preferenceScroll.setOpaque(false);
         preferenceScroll.setThumbColor(CyderColors.intellijPink);
-        preferenceScroll.setBorder(BorderFactory.createLineBorder(CyderColors.navy, 5));
-        preferenceScroll.setBounds(0,0,720,500);
-        switchingLabel.add(preferenceScroll, SwingConstants.CENTER);
+        preferenceScroll.setBackground(Color.white);
+        preferenceScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        preferenceScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        preferenceScroll.setBounds(6, 5, 708, 490);
 
+        //after everything is on pane, use this to center it
+        StyledDocument doc = preferencePane.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
+        //set menu location to top
+        preferencePane.setCaretPosition(0);
+
+        switchingLabel.add(preferenceScroll);
         switchingLabel.revalidate();
     }
 

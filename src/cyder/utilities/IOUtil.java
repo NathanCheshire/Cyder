@@ -538,6 +538,7 @@ public class IOUtil {
     public static String getUserData(String name) {
         readUserData();
 
+        //errors are thrown here somehow? how? they don't actually mean anything
         if (userData.isEmpty())
             ErrorHandler.handle(new FatalException("Attempting to access empty user data after calling read"));
 

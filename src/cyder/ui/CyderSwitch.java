@@ -92,6 +92,12 @@ public class CyderSwitch extends JLabel {
         repaint();
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        setSize(this.width, this.height);
+    }
+
     private ActionListener defaultAction = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -116,11 +122,11 @@ public class CyderSwitch extends JLabel {
     };
 
     public int getWidth() {
-        return width;
+        return this.width;
     }
 
     public int getHeight() {
-        return height;
+        return this.height;
     }
 
     public Color getBackgroundColor() {

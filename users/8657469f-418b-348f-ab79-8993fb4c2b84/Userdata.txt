@@ -14,6 +14,6 @@ FullScreen:0
 OutputFill:0
 InputFill:0
 ClockOnConsole:1
-ShowSeconds:0
+ShowSeconds:1
 filterchat:1
 menudirection:0
