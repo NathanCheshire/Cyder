@@ -2747,7 +2747,7 @@ public class CyderMain {
     }
 
     private void test() {
-        //TODO test CyderSwitch
+        //TODO test CyderSwitch and make printable so we can use in preferences
     }
 
     //get rid of these methods and just use a string util -----------------------------
@@ -3624,29 +3624,13 @@ public class CyderMain {
             CyderButton preferenceButton = new CyderButton(
                     IOUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? "      On      " :
                             "      Off      ");
-            preferenceButton.setBackground(IOUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? CyderColors.regularRed : CyderColors.vanila);
+            preferenceButton.setColors(IOUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? CyderColors.regularGreen : CyderColors.regularRed);
             preferenceButton.setToolTipText(GenesisShare.getPrefs().get(i).getTooltip());
-            preferenceButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    preferenceButton.setBackground(
-                            IOUtil.getUserData(GenesisShare.getPrefs().get(localIndex).getID()).equalsIgnoreCase("1") ?
-                                    CyderColors.vanila : CyderColors.regularRed);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    preferenceButton.setBackground(
-                            IOUtil.getUserData(GenesisShare.getPrefs().get(localIndex).getID()).equalsIgnoreCase("1") ?
-                                    CyderColors.regularRed : CyderColors.vanila);
-                }
-            });
-
             preferenceButton.addActionListener(e -> {
                 boolean wasSelected = IOUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
                 IOUtil.writeUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
 
-                preferenceButton.setBackground(wasSelected ? CyderColors.vanila : CyderColors.regularRed);
+                preferenceButton.setColors(wasSelected ? CyderColors.regularRed : CyderColors.regularGreen);
                 preferenceButton.setText(wasSelected ? "      Off      " : "      On      ");
 
                 refreshPrefs();

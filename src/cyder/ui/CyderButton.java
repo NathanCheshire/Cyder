@@ -53,6 +53,7 @@ public class CyderButton extends JButton {
     public void setColors(Color c) {
         this.pressedBackgroundColor = c.darker().darker();
         this.hoverBackgroundColor = c.darker();
+        this.setBackground(c);
     }
 
     public Color getHoverBackgroundColor() {
