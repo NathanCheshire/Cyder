@@ -691,7 +691,7 @@ public class CyderMain {
             Executors.newSingleThreadScheduledExecutor(
                     new CyderThreadFactory("Hourly Chime Checker")).scheduleAtFixedRate(() -> {
                 if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
-                    IOUtil.playAudio("sys/audio/chime.mp3", outputArea);
+                    IOUtil.playAudio("sys/audio/chime.mp3", outputArea, false);
             }, 3600 - LocalDateTime.now().getSecond() - LocalDateTime.now().getMinute() * 60, 3600, SECONDS);
 
             parentLabel.add(consoleDragLabel);
@@ -2283,7 +2283,7 @@ public class CyderMain {
                 consoleFrame.setLocationRelativeTo(null);
             } else if (hasWord("random") && hasWord("youtube")) {
                 my.killAllYoutube();
-                //todo inform user how to cancel youtube threads
+                println("Type \"Stop Threads\" or press ctrl + c to stop the YouTube thread.");
                 my = new MasterYoutube(outputArea);
                 my.start(1);
             } else if (hasWord("arduino")) {
@@ -2474,7 +2474,7 @@ public class CyderMain {
                     hasWord("command")) && hasWord("list")) {
                 operationList.clear();
                 scrollingIndex = 0;
-                //todo log these in chat log. Tags: [USER], [SYSTEM], [EXCEPTION] (link to exception file)
+                //todo log when user clears operation list in logfile
                 println("Command history reset.");
             } else if (eic("pin") || eic("login")) {
                 login();
@@ -2516,9 +2516,6 @@ public class CyderMain {
             } else if (hasWord("barrel") && hasWord("roll")) {
                 //todo ConsoleFrme.barrelRoll();
             } else if (hasWord("analyze") && hasWord("code")) {
-                //file by file
-                println(StatUtil.fileByFileAnalyze(new File("src")));
-                //overview
                 println("Lines of code: " +
                         StatUtil.totalJavaLines(new File("src")));
                 println("Number of java files: " +
@@ -2556,8 +2553,6 @@ public class CyderMain {
                     println("Sorry, " + ConsoleFrame.getUsername() + ", but you don't have permission to do that.");
             } else if (hasWord("debug") && hasWord("windows")) {
                 StatUtil.allStats(outputArea);
-            } else if (hasWord("random") && hasWord("background")) {
-                //todo press alternate background random number of times
             } else if (hasWord("alex") && hasWord("trebek")) {
                 println("Do you mean who is alex trebek?");
             } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {

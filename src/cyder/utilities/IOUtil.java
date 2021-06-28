@@ -661,7 +661,7 @@ public class IOUtil {
         CyderPlayer = new AudioPlayer(new File(FilePath));
     }
 
-    public static void playAudio(String FilePath, JTextPane appendButtonPane) {
+    public static void playAudio(String FilePath, JTextPane appendButtonPane, boolean showStopButton) {
         try {
             stopMusic();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
@@ -676,13 +676,19 @@ public class IOUtil {
 
             MusicThread.start();
 
-            CyderButton stopMusicButton = new CyderButton("Stop Audio");
-            stopMusicButton.addActionListener((e) -> IOUtil.stopMusic());
-            StringUtil su = new StringUtil(appendButtonPane);
-            su.printlnComponent(stopMusicButton,"button","button");
+            if (showStopButton) {
+                CyderButton stopMusicButton = new CyderButton("Stop Audio");
+                stopMusicButton.addActionListener((e) -> IOUtil.stopMusic());
+                StringUtil su = new StringUtil(appendButtonPane);
+                su.printlnComponent(stopMusicButton,"button","button");
+            }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    public static void playAudio(String FilePath, JTextPane appendButtonPane) {
+        playAudio(FilePath, appendButtonPane, true);
     }
 
     //static music player widget

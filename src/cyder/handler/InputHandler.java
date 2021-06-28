@@ -21,17 +21,19 @@ public class InputHandler {
 
     //todo make enter-animation work and utilize
 
-    //todo boolean for rounded corners
+    //todo boolean for rounded corners for program as a whole
     // setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
     // make rounded border for frames and make sure drag label components aren't too close to edge
+    // make sure refreshing works still with everything added to drag label
 
     //todo user logs and throws should eventually be converted to binary data so that you can only access it through the program
     //todo add reading and writing calls to/from userdata to the log
     //todo suggestion will be in a log summary for a log, logs stored in logs dir
+    //todo log these in chat log. Tags: [USER], [SYSTEM], [EXCEPTION] (link to exception file)
 
     //todo show full file name for user files scroll "music/EpicDubstep.mp3"
 
-    //todo scrollbar on dir messes up when selecting element fix by making not opqeue or not fading away?
+    //todo scrollbar on dir messes up still, figure out a fix
 
     //todo test signatures against files and make a widget for this
 

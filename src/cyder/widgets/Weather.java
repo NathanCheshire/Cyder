@@ -42,33 +42,33 @@ public class Weather {
     private JLabel sunriseLabel;
     private JLabel timezoneLabel;
 
-    private String sunrise;
-    private String sunset;
-    private String weatherIcon;
-    private String weatherCondition;
-    private String windSpeed;
-    private String visibility;
-    private String temperature;
-    private String humidity;
-    private String pressure;
-    private String feelsLike;
-    private String windBearing;
+    private String sunrise = "Loaing...";
+    private String sunset = "Loaing...";
+    private String weatherIcon = "01d.png";
+    private String weatherCondition = "Loaing...";
+    private String windSpeed = "Loaing...";
+    private String visibility = "Loaing...";
+    private String temperature = "Loaing...";
+    private String humidity = "Loaing...";
+    private String pressure = "Loaing...";
+    private String feelsLike = "Loaing...";
+    private String windBearing = "Loaing...";
 
-    private String locationString;
-    private String oldLocation;
+    private String locationString = "Loaing...";
+    private String oldLocation = "Loaing...";
 
-    private String userCity;
-    private String userState;
-    private String userStateAbr;
-    private String isp;
-    private String lat;
-    private String lon;
-    private String userCountry;
-    private String userCountryAbr;
-    private String userIP;
-    private String userPostalCode;
-    private String userFlagURL;
-    private String gmtOffset;
+    private String userCity = "Loaing...";
+    private String userState = "Loaing...";
+    private String userStateAbr = "Loaing...";
+    private String isp = "Loaing...";
+    private String lat = "Loaing...";
+    private String lon = "Loaing...";
+    private String userCountry = "Loaing...";
+    private String userCountryAbr = "Loaing...";
+    private String userIP = "Loaing...";
+    private String userPostalCode = "Loaing...";
+    private String userFlagURL = "Loaing...";
+    private String gmtOffset = "Loaing...";
 
     private JButton closeWeather;
     private JButton minimizeWeather;
@@ -376,100 +376,106 @@ public class Weather {
     }
 
     protected void weatherStats() {
-        try {
-            userCity = IPUtil.getUserCity();
-            userState = IPUtil.getUserState();
-            userCountry = IPUtil.getUserCountry();
+        //todo this is in a thread now
+        // make sure everything is initialized to "loading..." or some form like that
+        // when done loading, set to proper conditions
 
-            if (!useCustomLoc)
-                locationString = userCity + "," + userState + "," + userCountry;
+        new Thread(() -> {
+            try {
+                userCity = IPUtil.getUserCity();
+                userState = IPUtil.getUserState();
+                userCountry = IPUtil.getUserCountry();
 
-            String OpenString = "";
+                if (!useCustomLoc)
+                    locationString = userCity + "," + userState + "," + userCountry;
 
-            OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                String OpenString = "";
+
+                OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
                         locationString + "&appid=" + IOUtil.getSystemData("Weather") + "&units=imperial";
 
-            URL URL = new URL(OpenString);
-            BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
-            String[] Fields = {"", ""};
-            String Line;
+                URL URL = new URL(OpenString);
+                BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
+                String[] Fields = {"", ""};
+                String Line;
 
-            while ((Line = WeatherReader.readLine()) != null) {
-                String[] LineArray = Line.replace("{", "").replace("}", "")
-                        .replace(":", "").replace("\"", "").replace("[", "")
-                        .replace("]", "").replace(":", "").split(",");
+                while ((Line = WeatherReader.readLine()) != null) {
+                    String[] LineArray = Line.replace("{", "").replace("}", "")
+                            .replace(":", "").replace("\"", "").replace("[", "")
+                            .replace("]", "").replace(":", "").split(",");
 
-                Fields = StringUtil.combineArrays(Fields, LineArray);
+                    Fields = StringUtil.combineArrays(Fields, LineArray);
+                }
+
+                WeatherReader.close();
+
+                for (String field : Fields) {
+                    if (field.contains("sunrise")) {
+                        sunrise = field.replaceAll("[^\\d.]", "");
+                    }
+                    else if (field.contains("sunset")) {
+                        sunset = field.replaceAll("[^\\d.]", "");
+                    }
+                    else if (field.contains("icon")) {
+                        weatherIcon = field.replace("icon", "");
+                    }
+                    else if (field.contains("speed")) {
+                        windSpeed = field.replaceAll("[^\\d.]", "");
+                    }
+                    else if (field.contains("deg")) {
+                        windBearing = field.replaceAll("[^\\d.]", "");
+                    }
+                    else if (field.contains("description")) {
+                        weatherCondition = field.replace("description", "");
+                    }
+                    else if (field.contains("visibility")) {
+                        visibility = field.replaceAll("[^\\d.]", "");
+                    }
+                    else if (field.contains("feels_like")) {
+                        feelsLike = field.replaceAll("[^\\d.]", "");
+                    }
+                    else if (field.contains("pressure")) {
+                        pressure = field.replaceAll("[^\\d.]", "");
+                        pressure = pressure.substring(0, Math.min(pressure.length(), 4));
+                    }
+                    else if (field.contains("humidity")) {
+                        humidity = field.replaceAll("[^\\d.]", "");
+                    }
+                    else if (field.contains("temp")) {
+                        temperature = field.replaceAll("[^\\d.]", "");
+                    }
+                    else if (field.contains("timezone")) {
+                        gmtOffset = field.replaceAll("[^0-9\\-]", "");
+                    }
+                }
+
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
+
+                Date SunriseTime = new Date((long) Integer.parseInt(sunrise) * 1000);
+                sunrise = dateFormatter.format(SunriseTime);
+
+                Date SunsetTime = new Date((long) Integer.parseInt(sunset) * 1000);
+                sunset = dateFormatter.format(SunsetTime);
+
+                if (!GMTset) {
+                    currentLocationGMTOffset = Integer.parseInt(gmtOffset);
+                    GMTset = true;
+                }
+
+                Date Time = new Date();
+
+                if (Time.getTime() > SunsetTime.getTime()) {
+                    weatherIcon = weatherIcon.replace("d", "n");
+                }
+            } catch (FileNotFoundException ignored) {
+                weatherFrame.notify("Sorry, but that location is invalid");
+                locationString = oldLocation;
+                useCustomLoc = false;
+                refreshWeatherNow();
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
             }
-
-            WeatherReader.close();
-
-            for (String field : Fields) {
-                if (field.contains("sunrise")) {
-                    sunrise = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("sunset")) {
-                    sunset = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("icon")) {
-                    weatherIcon = field.replace("icon", "");
-                }
-                else if (field.contains("speed")) {
-                    windSpeed = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("deg")) {
-                    windBearing = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("description")) {
-                    weatherCondition = field.replace("description", "");
-                }
-                else if (field.contains("visibility")) {
-                    visibility = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("feels_like")) {
-                    feelsLike = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("pressure")) {
-                    pressure = field.replaceAll("[^\\d.]", "");
-                    pressure = pressure.substring(0, Math.min(pressure.length(), 4));
-                }
-                else if (field.contains("humidity")) {
-                    humidity = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("temp")) {
-                    temperature = field.replaceAll("[^\\d.]", "");
-                }
-                else if (field.contains("timezone")) {
-                    gmtOffset = field.replaceAll("[^0-9\\-]", "");
-                }
-            }
-
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
-
-            Date SunriseTime = new Date((long) Integer.parseInt(sunrise) * 1000);
-            sunrise = dateFormatter.format(SunriseTime);
-
-            Date SunsetTime = new Date((long) Integer.parseInt(sunset) * 1000);
-            sunset = dateFormatter.format(SunsetTime);
-
-            if (!GMTset) {
-                currentLocationGMTOffset = Integer.parseInt(gmtOffset);
-                GMTset = true;
-            }
-
-            Date Time = new Date();
-
-            if (Time.getTime() > SunsetTime.getTime()) {
-                weatherIcon = weatherIcon.replace("d", "n");
-            }
-        } catch (FileNotFoundException ignored) {
-            weatherFrame.notify("Sorry, but that location is invalid");
-            locationString = oldLocation;
-            useCustomLoc = false;
-            refreshWeatherNow();
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        },"Weather Stats Updater");
     }
 
     public String getWindDirection(String wb) {
