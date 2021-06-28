@@ -21,6 +21,9 @@ public class InputHandler {
 
     //todo make enter-animation work and utilize
 
+    //todo update threads method for cyderframes that is set to false on dispose
+    // so on frame dispose threads/executors will exit upon next iteration check
+
     //todo boolean for rounded corners for program as a whole
     // setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
     // make rounded border for frames and make sure drag label components aren't too close to edge

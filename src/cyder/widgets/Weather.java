@@ -71,9 +71,8 @@ public class Weather {
 
     private CyderFrame weatherFrame;
 
-    private boolean updateWeather;
-    private boolean updateClock;
     private boolean useCustomLoc;
+    private boolean update;
 
     private int timeOffset;
     private int currentLocationGMTOffset;
@@ -89,7 +88,13 @@ public class Weather {
                 ImageUtil.getImageGradient(500, 600,
                         new Color(205,119,130),
                         new Color(38,21,75),
-                        new Color(89,85,161))));
+                        new Color(89,85,161)))) {
+            @Override
+            public void dispose() {
+                update = false;
+                super.dispose();
+            }
+        };
         weatherFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         weatherFrame.setTitle("Weather");
         weatherFrame.initializeBackgroundResizing();
@@ -272,24 +277,30 @@ public class Weather {
         weatherFrame.setVisible(true);
         weatherFrame.setLocationRelativeTo(null);
 
-        updateClock = true;
-        updateWeather = true;
+        update = true;
 
         new Thread(() -> {
             try {
-                while (weatherFrame != null) {
-                    Thread.sleep(1000 * 60 * 5);
-                    repullWeatherStats();
-                }
+                EXIT:
+                    for(;;) {
+                        for (int i = 0 ; i < 60 * 5 ; i++) {
+                            if (!update)
+                                break EXIT;
+                            Thread.sleep(60 * 5);
+                        }
+                        repullWeatherStats();
+                    }
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        },"Weather stats Updater").start();
+        },"Weather Stats Updater").start();
 
         new Thread(() -> {
             try {
-                while (weatherFrame != null) {
-                    Thread.sleep(1000 );
+                for (;;) {
+                    if (!update)
+                        break;
+                    Thread.sleep(1000);
                     currentTimeLabel.setText(getWeatherTime());
                 }
             } catch (Exception e) {
