@@ -407,9 +407,7 @@ public final class ConsoleFrame extends CyderFrame {
 
         if (enable) {
             //set console clock visible
-            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-
-            }, 0, 1, TimeUnit.SECONDS);
+            //start up executor
         } else {
             //set visible false
             //end executor task if running

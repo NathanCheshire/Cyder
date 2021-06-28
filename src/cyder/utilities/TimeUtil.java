@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
+import cyder.threads.CyderThreadFactory;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -16,7 +17,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class TimeUtil {
@@ -106,22 +106,20 @@ public class TimeUtil {
         CloseCalendar.set(Calendar.SECOND, 0);
         CloseCalendar.set(Calendar.MILLISECOND, 0);
 
-        long HowMany = (CloseCalendar.getTimeInMillis() - System.currentTimeMillis());
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
-        scheduler.schedule(() -> {
+        Executors.newSingleThreadScheduledExecutor(
+                new CyderThreadFactory("Scheduled Close Waiter [hour=" + Hour + ", minute=" + Minute + "]")).schedule(() -> {
             AnimationUtil.closeAnimation(consoleFrame);
 
             try {
                 GenesisShare.getExitingSem().acquire();
                 GenesisShare.getExitingSem().release();
-                System.exit(0);
+                System.exit(66);
             }
 
             catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        }, HowMany, TimeUnit.MILLISECONDS);
+        }, (CloseCalendar.getTimeInMillis() - System.currentTimeMillis()), TimeUnit.MILLISECONDS);
     }
 
     public static String errorTime() {

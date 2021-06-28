@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.handler.ErrorHandler;
+import cyder.threads.CyderThreadFactory;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
@@ -22,9 +23,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Weather {
     private JLabel locationLabel;
@@ -281,12 +283,13 @@ public class Weather {
     }
 
     private void refreshClock() {
-        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+        Executors.newSingleThreadScheduledExecutor(
+                new CyderThreadFactory("Weather Clock Updater")).scheduleAtFixedRate(() -> {
             if (weatherFrame != null) {
                 currentTimeLabel.setText(weatherTime());
             }
 
-        }, 0, 1, TimeUnit.SECONDS);
+        }, 0, 1, SECONDS);
     }
 
     public String weatherTime() {
@@ -300,7 +303,8 @@ public class Weather {
     }
 
     private void refreshWeather() {
-        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+        Executors.newSingleThreadScheduledExecutor(
+                new CyderThreadFactory("Weather Stats Updater")).scheduleAtFixedRate(() -> {
             if (weatherFrame != null) {
                 weatherStats();
                 locationLabel.setText(locationString);
@@ -316,8 +320,7 @@ public class Weather {
                 sunriseLabel.setText(correctedSunTime(sunrise) + "am");
                 sunsetLabel.setText(correctedSunTime(sunset) + "pm");
             }
-
-        }, 0, 5, TimeUnit.MINUTES);
+        }, 0, 5, MINUTES);
     }
 
     private void refreshWeatherNow() {

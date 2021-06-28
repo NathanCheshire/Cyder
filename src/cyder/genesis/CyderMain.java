@@ -219,6 +219,7 @@ public class CyderMain {
     private JButton menuButton;
     private CyderScrollPane outputScroll;
     private JButton alternateBackground;
+    private boolean menuGenerated;
 
     /**
      * move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
@@ -821,295 +822,304 @@ public class CyderMain {
         }
     }
 
+    private void generateConsoleMenu() {
+        Font menuFont = CyderFonts.defaultFontSmall;
+        int menuHeight = 250;
+        int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
+
+        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
+
+        menuLabel = new JLabel("");
+        menuLabel.setBounds(-150, DragLabel.getDefaultHeight(),
+                CyderFrame.getMinWidth("TEMP CONV", menuFont) + 10, menuHeight);
+        menuLabel.setOpaque(true);
+        menuLabel.setBackground(CyderColors.navy);
+        menuLabel.setVisible(true);
+        parentPane.add(menuLabel, 1, 0);
+
+        Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
+
+        JTextPane menuPane = new JTextPane();
+        menuPane.setEditable(false);
+        menuPane.setAutoscrolls(false);
+        menuPane.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight);
+        menuPane.setFocusable(true);
+        menuPane.setOpaque(false);
+        menuPane.setBackground(CyderColors.navy);
+
+        //adding components
+        StringUtil printingUtil = new StringUtil(menuPane);
+
+        JLabel calculatorLabel = new JLabel("Calculator");
+        calculatorLabel.setFont(menuFont);
+        calculatorLabel.setForeground(CyderColors.vanila);
+        calculatorLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Calculator c = new Calculator();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                calculatorLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                calculatorLabel.setForeground(CyderColors.vanila);
+            }
+        });
+        printingUtil.printlnComponent(calculatorLabel);
+
+        JLabel musicLabel = new JLabel("Music");
+        musicLabel.setFont(menuFont);
+        musicLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(musicLabel);
+        musicLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                IOUtil.mp3("");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                musicLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                musicLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel weatherLabel = new JLabel("Weather");
+        weatherLabel.setFont(menuFont);
+        weatherLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(weatherLabel);
+        weatherLabel.setOpaque(false);
+        weatherLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Weather ww = new Weather();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                weatherLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                weatherLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel noteLabel = new JLabel("Notes");
+        noteLabel.setFont(menuFont);
+        noteLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(noteLabel);
+        noteLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Notes();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                noteLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                noteLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel editUserLabel = new JLabel("Edit user");
+        editUserLabel.setFont(menuFont);
+        editUserLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(editUserLabel);
+        editUserLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                editUser();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                editUserLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                editUserLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel temperatureLabel = new JLabel("Temp conv");
+        temperatureLabel.setFont(menuFont);
+        temperatureLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(temperatureLabel);
+        temperatureLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                TempConverter tc = new TempConverter();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                temperatureLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                temperatureLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel youtubeLabel = new JLabel("YouTube");
+        youtubeLabel.setFont(menuFont);
+        youtubeLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(youtubeLabel);
+        youtubeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NetworkUtil.internetConnect("https://youtube.com");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                youtubeLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                youtubeLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel twitterLabel = new JLabel("Twitter");
+        twitterLabel.setFont(menuFont);
+        twitterLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(twitterLabel);
+        twitterLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NetworkUtil.internetConnect("https://twitter.com");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                twitterLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                twitterLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel sepLabel = new JLabel("SEPARATOR") {
+            @Override
+            public void paintComponent(Graphics g) {
+                //draw 5 high line 150 width across
+                g.setColor(getForeground());
+                g.fillRect(0, 7, 150, 5);
+                g.dispose();
+            }
+        };
+        sepLabel.setForeground(CyderColors.vanila);
+        sepLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Thread(() -> {
+                    try {
+                        for (int i = 0; i < 10; i++) {
+                            sepLabel.setForeground(CyderColors.regularRed);
+                            Thread.sleep(100);
+                            sepLabel.setForeground(CyderColors.vanila);
+                            Thread.sleep(100);
+                        }
+                    } catch (Exception ex) {
+                        ErrorHandler.handle(ex);
+                    }
+                }, "Menu Line Disco Easter Egg").start();
+            }
+        });
+        printingUtil.printlnComponent(sepLabel);
+
+        JLabel logoutLabel = new JLabel("Logout");
+        logoutLabel.setFont(menuFont);
+        logoutLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(logoutLabel);
+        logoutLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handle("logout");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                logoutLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                logoutLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel exitLabel = new JLabel("Exit");
+        exitLabel.setFont(menuFont);
+        exitLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(exitLabel);
+        exitLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handle("quit");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exitLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exitLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        //add sep here if mapped labels
+        //add mapped ones here: if title len greater than 9 items and cut off label text at > 9 chars
+
+        CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
+        menuScroll.setThumbSize(5);
+        menuScroll.getViewport().setOpaque(false);
+        menuScroll.setFocusable(true);
+        menuScroll.setOpaque(false);
+        menuScroll.setThumbColor(CyderColors.intellijPink);
+        menuScroll.setBackground(CyderColors.navy);
+        menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        menuScroll.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight);
+        menuLabel.add(menuScroll);
+
+        //set menu location to top
+        menuPane.setCaretPosition(0);
+
+        menuGenerated = true;
+    }
+
     private MouseAdapter consoleMenu = new MouseAdapter() {
         @Override
         public void mouseReleased(MouseEvent e) {
             if (!menuLabel.isVisible()) {
-                Font menuFont = CyderFonts.defaultFontSmall;
-                int menuHeight = 250;
-                int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
+                if (!menuGenerated)
+                    generateConsoleMenu();
 
-                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
-
-                menuLabel = new JLabel("");
-                menuLabel.setBounds(-150, DragLabel.getDefaultHeight(),
-                        CyderFrame.getMinWidth("TEMP CONV", menuFont) + 10, menuHeight);
-                menuLabel.setOpaque(true);
-                menuLabel.setBackground(CyderColors.navy);
+                menuLabel.setLocation(-150,DragLabel.getDefaultHeight());
                 menuLabel.setVisible(true);
-                parentPane.add(menuLabel, 1, 0);
-
-                Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
-
-                JTextPane menuPane = new JTextPane();
-                menuPane.setEditable(false);
-                menuPane.setAutoscrolls(false);
-                menuPane.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight);
-                menuPane.setFocusable(true);
-                menuPane.setOpaque(false);
-                menuPane.setBackground(CyderColors.navy);
-
-                //adding components
-                StringUtil printingUtil = new StringUtil(menuPane);
-
-                JLabel calculatorLabel = new JLabel("Calculator");
-                calculatorLabel.setFont(menuFont);
-                calculatorLabel.setForeground(CyderColors.vanila);
-                calculatorLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        Calculator c = new Calculator();
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        calculatorLabel.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        calculatorLabel.setForeground(CyderColors.vanila);
-                    }
-                });
-                printingUtil.printlnComponent(calculatorLabel);
-
-                JLabel musicLabel = new JLabel("Music");
-                musicLabel.setFont(menuFont);
-                musicLabel.setForeground(CyderColors.vanila);
-                printingUtil.printlnComponent(musicLabel);
-                musicLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        IOUtil.mp3("");
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        musicLabel.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        musicLabel.setForeground(CyderColors.vanila);
-                    }
-                });
-
-                JLabel weatherLabel = new JLabel("Weather");
-                weatherLabel.setFont(menuFont);
-                weatherLabel.setForeground(CyderColors.vanila);
-                printingUtil.printlnComponent(weatherLabel);
-                weatherLabel.setOpaque(false);
-                weatherLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        Weather ww = new Weather();
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        weatherLabel.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        weatherLabel.setForeground(CyderColors.vanila);
-                    }
-                });
-
-                JLabel noteLabel = new JLabel("Notes");
-                noteLabel.setFont(menuFont);
-                noteLabel.setForeground(CyderColors.vanila);
-                printingUtil.printlnComponent(noteLabel);
-                noteLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        new Notes();
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        noteLabel.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        noteLabel.setForeground(CyderColors.vanila);
-                    }
-                });
-
-                JLabel editUserLabel = new JLabel("Edit user");
-                editUserLabel.setFont(menuFont);
-                editUserLabel.setForeground(CyderColors.vanila);
-                printingUtil.printlnComponent(editUserLabel);
-                editUserLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        editUser();
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        editUserLabel.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        editUserLabel.setForeground(CyderColors.vanila);
-                    }
-                });
-
-                JLabel temperatureLabel = new JLabel("Temp conv");
-                temperatureLabel.setFont(menuFont);
-                temperatureLabel.setForeground(CyderColors.vanila);
-                printingUtil.printlnComponent(temperatureLabel);
-                temperatureLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        TempConverter tc = new TempConverter();
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        temperatureLabel.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        temperatureLabel.setForeground(CyderColors.vanila);
-                    }
-                });
-
-                JLabel youtubeLabel = new JLabel("YouTube");
-                youtubeLabel.setFont(menuFont);
-                youtubeLabel.setForeground(CyderColors.vanila);
-                printingUtil.printlnComponent(youtubeLabel);
-                youtubeLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        NetworkUtil.internetConnect("https://youtube.com");
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        youtubeLabel.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        youtubeLabel.setForeground(CyderColors.vanila);
-                    }
-                });
-
-                JLabel twitterLabel = new JLabel("Twitter");
-                twitterLabel.setFont(menuFont);
-                twitterLabel.setForeground(CyderColors.vanila);
-                printingUtil.printlnComponent(twitterLabel);
-                twitterLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        NetworkUtil.internetConnect("https://twitter.com");
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        twitterLabel.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        twitterLabel.setForeground(CyderColors.vanila);
-                    }
-                });
-
-                JLabel sepLabel = new JLabel("SEPARATOR") {
-                    @Override
-                    public void paintComponent(Graphics g) {
-                        //draw 5 high line 150 width across
-                        g.setColor(getForeground());
-                        g.fillRect(0, 7, 150, 5);
-                        g.dispose();
-                    }
-                };
-                sepLabel.setForeground(CyderColors.vanila);
-                sepLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        new Thread(() -> {
-                            try {
-                                for (int i = 0; i < 10; i++) {
-                                    sepLabel.setForeground(CyderColors.regularRed);
-                                    Thread.sleep(100);
-                                    sepLabel.setForeground(CyderColors.vanila);
-                                    Thread.sleep(100);
-                                }
-                            } catch (Exception ex) {
-                                ErrorHandler.handle(ex);
-                            }
-                        }, "Menu Line Disco Easter Egg").start();
-                    }
-                });
-                printingUtil.printlnComponent(sepLabel);
-
-                JLabel logoutLabel = new JLabel("Logout");
-                logoutLabel.setFont(menuFont);
-                logoutLabel.setForeground(CyderColors.vanila);
-                printingUtil.printlnComponent(logoutLabel);
-                logoutLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        handle("logout");
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        logoutLabel.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        logoutLabel.setForeground(CyderColors.vanila);
-                    }
-                });
-
-                JLabel exitLabel = new JLabel("Exit");
-                exitLabel.setFont(menuFont);
-                exitLabel.setForeground(CyderColors.vanila);
-                printingUtil.printlnComponent(exitLabel);
-                exitLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        handle("quit");
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        exitLabel.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        exitLabel.setForeground(CyderColors.vanila);
-                    }
-                });
-
-                //add sep here if mapped labels
-                //add mapped ones here: if title len greater than 9 items and cut off label text at > 9 chars
-
-                CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
-                menuScroll.setThumbSize(5);
-                menuScroll.getViewport().setOpaque(false);
-                menuScroll.setFocusable(true);
-                menuScroll.setOpaque(false);
-                menuScroll.setThumbColor(CyderColors.intellijPink);
-                menuScroll.setBackground(CyderColors.navy);
-                menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-                menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-                menuScroll.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight);
-                menuLabel.add(menuScroll);
-
-                //set menu location to top
-                menuPane.setCaretPosition(0);
-
                 AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
             } else {
                 minimizeMenu();
@@ -2002,14 +2012,18 @@ public class CyderMain {
                             hasWord("exit") || eic("close"))) && !has("dance")) {
                 exit();
             } else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
-                Frame[] frames = Frame.getFrames();
+                for (Frame f : Frame.getFrames()) {
+                    if (f.getState() == Frame.ICONIFIED) {
+                        f.setState(Frame.NORMAL);
 
-                int x = consoleFrame.getX();
-                int y = consoleFrame.getY();
+                        if (f instanceof CyderFrame) {
+                            ((CyderFrame) f).getDragLabel().setRestoreX(consoleFrame.getX());
+                            ((CyderFrame) f).getDragLabel().setRestoreY(consoleFrame.getY());
+                        }
+                    }
 
-                for (Frame f : frames)
-                    if (f.isVisible())
-                        f.setLocation(x, y);
+                    f.setLocation(consoleFrame.getX(), consoleFrame.getY());
+                }
             } else if (hasWord("bletchy")) {
                 stringUtil.setOutputArea(outputArea);
                 bl.bletchy(operation, false, 50, true);
@@ -2259,24 +2273,12 @@ public class CyderMain {
             } else if (eic("top left")) {
                 consoleFrame.setLocation(0, 0);
             } else if (eic("top right")) {
-                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
-                Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-                int X = (int) rect.getMaxX() - consoleFrame.getWidth();
-                consoleFrame.setLocation(X, 0);
+                consoleFrame.setLocation(SystemUtil.getScreenWidth() - consoleFrame.getWidth(), 0);
             } else if (eic("bottom left")) {
-                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
-                Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-                int Y = (int) rect.getMaxY() - consoleFrame.getHeight();
-                consoleFrame.setLocation(0, Y);
+                consoleFrame.setLocation(0, SystemUtil.getScreenHeight() - consoleFrame.getHeight());
             } else if (eic("bottom right")) {
-                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
-                Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-                int X = (int) rect.getMaxX();
-                int Y = (int) rect.getMaxY();
-                consoleFrame.setLocation(X - consoleFrame.getWidth(), Y - consoleFrame.getHeight());
+                consoleFrame.setLocation(SystemUtil.getScreenWidth() - consoleFrame.getWidth(),
+                        SystemUtil.getScreenHeight() - consoleFrame.getHeight());
             } else if (eic("middle") || eic("center")) {
                 consoleFrame.setLocationRelativeTo(null);
             } else if (hasWord("random") && hasWord("youtube")) {
@@ -2396,11 +2398,22 @@ public class CyderMain {
                 stringUtil.setUserInputMode(true);
 
             } else if (eic("controlc") && !outputArea.isFocusOwner()) {
+                //exit user input mode if in it
                 stringUtil.setUserInputMode(false);
+                //kill youtube threads
                 my.killAllYoutube();
+                //kill bletchy threads
                 bl.killBletchy();
+                //kill system threads
                 SystemUtil.killThreads();
+                //stop music
                 IOUtil.stopMusic();
+                //cancel dancing threads
+                for (Frame f : Frame.getFrames()) {
+                    if (f instanceof CyderFrame)
+                        ((CyderFrame) (f)).setControl_c_threads(true);
+                }
+                //inform user we escaped
                 println("Escaped");
             } else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
                 println("Enter your word to be alphabetically rearranged");
@@ -2453,13 +2466,10 @@ public class CyderMain {
                 Hanger.startHangman();
             } else if (hasWord("rgb") || hasWord("hex") || (hasWord("color") && hasWord("converter"))) {
                 ColorConverter.colorConverter();
-            } else if (hasWord("danc    e")) {
-                Frame[] frames = Frame.getFrames();
-                for (Frame f : frames)
+            } else if (hasWord("dance")) {
+                for (Frame f : Frame.getFrames())
                     if (f instanceof CyderFrame)
                         ((CyderFrame) (f)).dance();
-                //todo make dance cancelable by user,
-                //method to handle ctrl + c actions within each frame
             } else if (hasWord("clear") && (hasWord("operation") ||
                     hasWord("command")) && hasWord("list")) {
                 operationList.clear();
