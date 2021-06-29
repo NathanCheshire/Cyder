@@ -380,18 +380,10 @@ public class CyderFrame extends JFrame {
 
                             //get height of a line and set it as height increment too
                             int h = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight();
+                            int heightInc = h;
                             FontMetrics metrics = getGraphics().getFontMetrics();
 
-                            //if too much width, take half away and add back in height
-                            while (w > 0.5 * getWidth()) {
-                                w /= 2;
-                                h = h * 2;
-                                h += metrics.getAscent();
-                            }
-
-                            //now we have min width and height for string bounds, no more no less than this
-                            if (h != (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight())
-                                h -= metrics.getAscent();
+                            //TODO move height to width if needed
 
                             //set the text bounds to the proper x,y and the calculated width and height
                             text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
@@ -441,39 +433,40 @@ public class CyderFrame extends JFrame {
 
                             switch (currentGluster.getStartDir()) {
                                 case BOTTOM:
-                                    enterTime = (getHeight() - currentNotification.getHeight() + 5) * 4;
+                                    enterTime = (getHeight() - currentNotification.getHeight() + 5) * Notification.getIncrement();
                                     break;
                                 case TOP:
-                                    enterTime = DragLabel.getDefaultHeight() * 4;
+                                    enterTime = DragLabel.getDefaultHeight() * Notification.getIncrement();
                                     break;
                                 case LEFT:
-                                    enterTime = (currentNotification.getWidth() + 5) * 4;
+                                    enterTime = 5 * Notification.getIncrement();
                                     break;
                                 case RIGHT:
-                                    enterTime = (currentNotification.getHeight() + 5) * 4;
+                                    enterTime = (currentNotification.getWidth() + 5) * Notification.getIncrement();
                                     break;
                             }
 
                             switch (currentGluster.getVanishDir()) {
                                 case BOTTOM:
-                                    exitTime = (getHeight() - currentNotification.getHeight() + 5) * 4;
+                                    exitTime = (getHeight() - currentNotification.getHeight() + 5) * Notification.getIncrement();
                                     break;
                                 case TOP:
-                                    exitTime = DragLabel.getDefaultHeight() * 4;
+                                    exitTime = DragLabel.getDefaultHeight() * Notification.getIncrement();
                                     break;
                                 case LEFT:
-                                    exitTime = (currentNotification.getWidth() + 5) * 4;
+                                    exitTime = 5 * Notification.getIncrement();
                                     break;
                                 case RIGHT:
-                                    exitTime = (currentNotification.getHeight() + 5) * 4;
+                                    exitTime = (currentNotification.getWidth() + 5) * Notification.getIncrement();
                                     break;
                             }
 
-                            Thread.sleep(duration + enterTime + exitTime);
-                        }
+                            //todo not long enough, calculate entertime and exit time better OR, have the notification vanish
+                            // send a signal back here to poll the next one
 
-                        //wait 500ms
-                        Thread.sleep(500);
+                            //sleep the enter time, duration, exit time, and an extra 500ms
+                            Thread.sleep(enterTime + duration + exitTime + 500);
+                        }
                     }
                 } catch (Exception e) {
                     ErrorHandler.handle(e);

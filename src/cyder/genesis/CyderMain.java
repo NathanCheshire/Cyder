@@ -2753,6 +2753,18 @@ public class CyderMain {
 
     private void test() {
         //todo cyderframe notification size still not working
+        CyderFrame testFrame = new CyderFrame(400,400);
+        testFrame.setBackground(CyderColors.vanila);
+        testFrame.setTitle("Test Frame");
+        testFrame.initializeBackgroundResizing();
+        testFrame.setResizable(true);
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(null);
+
+        testFrame.notify("Hello my name is russel and I am a wilderness explorer.");
+        testFrame.notify("And i am a wilderness");
+        testFrame.notify("exlorer from tribe 54, wood lodge 12, are you in need of any assistance today sir?");
     }
 
     //get rid of these methods and just use a string util -----------------------------
