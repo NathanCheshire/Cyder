@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -2752,19 +2753,28 @@ public class CyderMain {
     }
 
     private void test() {
-        //todo cyderframe notification size still not working
-        CyderFrame testFrame = new CyderFrame(400,400);
+        CyderFrame testFrame = new CyderFrame(600,400);
         testFrame.setBackground(CyderColors.vanila);
         testFrame.setTitle("Test Frame");
         testFrame.initializeBackgroundResizing();
         testFrame.setResizable(true);
 
+        CyderButton cb = new CyderButton("Button");
+        cb.setBounds(250,100,100,40);
+        testFrame.getContentPane().add(cb);
+
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(null);
 
-        testFrame.notify("Hello my name is russel and I am a wilderness explorer.");
+        testFrame.notify("This is just another test string that's twice as long");
+        testFrame.notify("H");
         testFrame.notify("And i am a wilderness");
-        testFrame.notify("exlorer from tribe 54, wood lodge 12, are you in need of any assistance today sir?");
+        testFrame.notify(CyderStrings.QUICK_BROWN_FOX + "\n" +
+                CyderStrings.QUICK_BROWN_FOX + "\n" +
+                CyderStrings.QUICK_BROWN_FOX + "\n" +
+                CyderStrings.QUICK_BROWN_FOX + "\n" +
+                CyderStrings.QUICK_BROWN_FOX + "\n" +
+                CyderStrings.QUICK_BROWN_FOX + "\n");
     }
 
     //get rid of these methods and just use a string util -----------------------------

@@ -376,16 +376,24 @@ public class CyderFrame extends JFrame {
                             String parsedHTML = Jsoup.clean(currentGluster.getHtmlText(), Whitelist.none());
 
                             //get minimum width for whole parsed string
-                            w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 10;
+                            w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 5;
 
                             //get height of a line and set it as height increment too
                             int h = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight();
                             int heightInc = h;
                             FontMetrics metrics = getGraphics().getFontMetrics();
 
-                            //TODO move height to width if needed
+                            while (w > 0.9 * this.width) {
+                                int area = w * h;
+                                w /= 2;
+                                h = area / w;
+                            }
 
-                            //set the text bounds to the proper x,y and the calculated width and height
+                            if (h != heightInc)
+                                h += heightInc + metrics.getAscent();
+
+                            //set the text bounds to the proper x,y and theest
+                            // calculated width and height
                             text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
 
                             currentNotification.setWidth(w);
