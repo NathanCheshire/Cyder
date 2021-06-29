@@ -13,7 +13,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,16 +22,6 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
-
-
-//todo layering for compoents as follows:
-//  layer 0: the content label
-//  layer 1: the components on the content label all share the same priority
-//  layer 2: notifications
-//  layer 3: the drag label and the frame border
-
-//override get content pane for already in place widgets to return the label
-//add a get actual content pane method to return the actual one?
 
 public class CyderFrame extends JFrame {
 
@@ -88,9 +77,7 @@ public class CyderFrame extends JFrame {
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
         contentLabel = new JLabel();
-        contentLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         contentLabel.setIcon(background);
-
         setContentPane(contentLabel);
 
         dl = new DragLabel(width, 30, this);
@@ -98,6 +85,24 @@ public class CyderFrame extends JFrame {
         dl.setRestoreX(SystemUtil.getScreenWidth() / 2 - this.getWidth() / 2);
         dl.setRestoreY(SystemUtil.getScreenHeight() / 2 - this.getHeight() / 2);
         contentLabel.add(dl);
+
+        //todo it would be great to enable dragging on all of these
+        //todo now just make sure notifications are put over components but not over the drag labels
+
+        DragLabel leftDrag = new DragLabel(5, height - DragLabel.getDefaultHeight(), this);
+        leftDrag.setBounds(0, DragLabel.getDefaultHeight(), 5, height);
+        leftDrag.disableDragging();
+        contentLabel.add(leftDrag);
+
+        DragLabel rightDrag = new DragLabel(5, height - DragLabel.getDefaultHeight(), this);
+        rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), width, height);
+        rightDrag.disableDragging();
+        contentLabel.add(rightDrag);
+
+        DragLabel bottomDrag = new DragLabel(width, 5, this);
+        bottomDrag.setBounds(0, height - 5, width, height);
+        bottomDrag.disableDragging();
+        contentLabel.add(bottomDrag);
 
         titleLabel = new JLabel("");
         titleLabel.setFont(new Font("Agency FB", Font.BOLD, 22));

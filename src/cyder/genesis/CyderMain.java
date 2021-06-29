@@ -2766,7 +2766,7 @@ public class CyderMain {
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(null);
 
-        testFrame.notify("This is just another test string that's twice as long");
+        testFrame.notify("This is just another test string that's twice as long", 5000, Direction.BOTTOM);
         testFrame.notify("H");
         testFrame.notify("And i am a wilderness");
         testFrame.notify(CyderStrings.QUICK_BROWN_FOX + "\n" +
