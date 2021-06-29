@@ -4,7 +4,6 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -2008,9 +2007,8 @@ public class CyderMain {
                 operation = "";
             } else if (stringUtil.isPalindrome(operation.replace(" ", "")) && operation.length() > 3) {
                 println("Nice palindrome.");
-            } else if (((hasWord("quit") && !hasWord("db")) ||
-                    (eic("leave") || (hasWord("stop") && !hasWord("music") && !hasWord("script") && !hasWord("scripts")) ||
-                            hasWord("exit") || eic("close"))) && !has("dance")) {
+            } else if ((eic("quit") || eic("exit") || eic("leave") || eic("close")) &&
+                    (!has("music") && !has("dance") && !has("script"))) {
                 exit();
             } else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
                 for (Frame f : Frame.getFrames()) {
@@ -2357,7 +2355,8 @@ public class CyderMain {
             } else if (hasWord("note") || hasWord("notes")) {
                 new Notes();
             } else if ((hasWord("youtube") && hasWord("thumbnail")) || (hasWord("yt") && hasWord("thumb"))) {
-                YouTubeThumbnail yttn = new YouTubeThumbnail();
+                new YouTubeThumbnail();
+                new ThumbnailStealer();
             } else if (hasWord("papers") && hasWord("please")) {
                 NetworkUtil.internetConnect("http://papersplea.se/");
             } else if (eic("java")) {
@@ -2457,7 +2456,7 @@ public class CyderMain {
                 Weather ww = new Weather();
             } else if (eic("hide")) {
                 minimize.doClick();
-            } else if (hasWord("stop") && hasWord("script")) {
+            } else if (hasWord("stop") && has("script")) {
                 my.killAllYoutube();
                 println("YouTube scripts have been killed.");
             } else if (hasWord("debug") && hasWord("menu")) {
@@ -2753,24 +2752,7 @@ public class CyderMain {
     }
 
     private void test() {
-        //TODO test CyderSwitch and make printable so we can use in preferences
-
-        CyderFrame testFrame = new CyderFrame(400,400);
-        testFrame.setBackground(CyderColors.vanila);
-        testFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
-        testFrame.setTitle("FlipFlop");
-
-        CyderSwitch cs = new CyderSwitch(300,100);
-        cs.getSwitchButton().addActionListener(e -> System.out.println(cs.getState()));
-        cs.setState(CyderSwitch.State.INDETERMINITE);
-        cs.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        cs.setLocation(50,200);
-        cs.setButtonPercent(50);
-        cs.setAnimationDelay(5);
-        testFrame.add(cs);
-
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(consoleFrame);
+        //todo cyderframe notification size still not working
     }
 
     //get rid of these methods and just use a string util -----------------------------

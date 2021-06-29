@@ -383,7 +383,7 @@ public class CyderFrame extends JFrame {
                             FontMetrics metrics = getGraphics().getFontMetrics();
 
                             //if too much width, take half away and add back in height
-                            while (w > 0.9 * getWidth()) {
+                            while (w > 0.5 * getWidth()) {
                                 w /= 2;
                                 h = h * 2;
                                 h += metrics.getAscent();

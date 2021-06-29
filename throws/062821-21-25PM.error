@@ -1,0 +1,20 @@
+adding container's parent to itself
+class java.lang.IllegalArgumentException
+Error thrown by line: 497
+
+Stack Trace:
+
+java.lang.IllegalArgumentException: adding container's parent to itself
+	at java.desktop/java.awt.Container.checkAddToSelf(Container.java:497)
+	at java.desktop/java.awt.Container.addImpl(Container.java:1110)
+	at java.desktop/java.awt.Container.add(Container.java:1025)
+	at java.desktop/javax.swing.JFrame.addImpl(JFrame.java:553)
+	at java.desktop/java.awt.Container.add(Container.java:432)
+	at cyder.widgets.ThumbnailStealer.<init>(ThumbnailStealer.java:29)
+	at cyder.genesis.CyderMain.test(CyderMain.java:2756)
+	at cyder.genesis.CyderMain.console(CyderMain.java:819)
+	at cyder.genesis.CyderMain.recognize(CyderMain.java:1574)
+	at cyder.genesis.CyderMain.autoCypher(CyderMain.java:192)
+	at cyder.genesis.CyderMain.<init>(CyderMain.java:133)
+	at cyder.genesis.CyderMain.main(CyderMain.java:111)
+
