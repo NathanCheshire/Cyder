@@ -149,9 +149,8 @@ public class Weather {
                 changeLocationFrame.setBackground(CyderColors.vanila);
                 changeLocationFrame.setTitle("Change Location");
 
-
-                JLabel explenation = new JLabel("<html>Enter your city, state, and country code separated by a comma" +
-                        "<br/>Example: <p style=\"font-family:verdana\"><p style=\"color:rgb(45, 100, 220)\">New Orleans,LA,US</p></p></html>");
+                JLabel explenation = new JLabel("<html><div style='text-align: center;'>Enter your city, state, and country code separated by a comma" +
+                        "<br/>Example: <p style=\"font-family:verdana\"><p style=\"color:rgb(45, 100, 220)\">New Orleans,LA,US</p></p></div></html>");
 
                 explenation.setFont(CyderFonts.weatherFontSmall);
                 explenation.setForeground(CyderColors.navy);

@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -2753,6 +2754,23 @@ public class CyderMain {
 
     private void test() {
         //TODO test CyderSwitch and make printable so we can use in preferences
+
+        CyderFrame testFrame = new CyderFrame(400,400);
+        testFrame.setBackground(CyderColors.vanila);
+        testFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
+        testFrame.setTitle("FlipFlop");
+
+        CyderSwitch cs = new CyderSwitch(300,100);
+        cs.getSwitchButton().addActionListener(e -> System.out.println(cs.getState()));
+        cs.setState(CyderSwitch.State.INDETERMINITE);
+        cs.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        cs.setLocation(50,200);
+        cs.setButtonPercent(50);
+        cs.setAnimationDelay(5);
+        testFrame.add(cs);
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(consoleFrame);
     }
 
     //get rid of these methods and just use a string util -----------------------------

@@ -12,7 +12,8 @@ public class InputHandler {
 
 
 
-    //todo boolean to make IOUtil.playAudio not show stop audio button like for chimes
+
+    //todo color converter fields like rest of the new ones, add these properties to cyder textfield
 
     //todo youtube thumbnail be able to say add to backgrounds
 
@@ -44,9 +45,6 @@ public class InputHandler {
 
     //todo userfiles aside from music and backgrounds called files
 
-    //todo use displayText = "<html><div style='text-align: center;'>" + displayText + "</div></html>";
-    // in Jlabels
-
     //todo background image changing doesn't move just the background
 
     //todo make input field like the input field for login (actually a password field with the natche@cyder~$)
@@ -62,8 +60,6 @@ public class InputHandler {
 
     //todo fix bug: log in as different user when already logged in as nathan and then delete this new account you logged into
     // will say the first user was corrupted and say sorry + "first user name"
-
-    //todo load weather stats in separate thread so window pops up quickly
 
     //todo flipping console is broken
     //todo fipping console resets output area position

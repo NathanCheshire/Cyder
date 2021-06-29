@@ -1,0 +1,16 @@
+/ by zero
+class java.lang.ArithmeticException
+Error thrown by line: 42
+
+Stack Trace:
+
+java.lang.ArithmeticException: / by zero
+	at cyder.ui.CyderSwitch.<init>(CyderSwitch.java:42)
+	at cyder.ui.CyderSwitch.<init>(CyderSwitch.java:48)
+	at cyder.genesis.CyderMain.test(CyderMain.java:2763)
+	at cyder.genesis.CyderMain.console(CyderMain.java:819)
+	at cyder.genesis.CyderMain.recognize(CyderMain.java:1574)
+	at cyder.genesis.CyderMain.autoCypher(CyderMain.java:192)
+	at cyder.genesis.CyderMain.<init>(CyderMain.java:133)
+	at cyder.genesis.CyderMain.main(CyderMain.java:111)
+
