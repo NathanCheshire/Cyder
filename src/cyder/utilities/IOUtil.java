@@ -540,8 +540,6 @@ public class IOUtil {
     public static String getUserData(String name) {
         readUserData();
 
-        System.out.println("Name: " + name + "\n" + "Userdata size: " + userData.size());
-
         if (userData.isEmpty())
             ErrorHandler.handle(new FatalException("Attempting to access empty user data after calling read"));
 
@@ -729,7 +727,7 @@ public class IOUtil {
                 return;
 
             //confirmed that the user was corrupted so we inform the user
-            GenericInform.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
+            GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but your user was corrupted. " +
                     "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User");
 
             //delete the stuff we don't care about
@@ -765,6 +763,8 @@ public class IOUtil {
             ErrorHandler.silentHandle(e);
         }
     }
+    //^
+    //todo does this actually log work?
 
     private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
         try {

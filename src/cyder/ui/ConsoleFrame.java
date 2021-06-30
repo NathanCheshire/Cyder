@@ -72,7 +72,11 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     public static String getUsername() {
-        return IOUtil.getUserData("Name");
+        String name = IOUtil.getUserData("Name");
+        if (name == null || name.trim().length() < 1)
+            return "Name Not Found";
+        else
+            return name;
     }
 
     private static int fontMetric = Font.BOLD;

@@ -10,13 +10,6 @@ public class InputHandler {
     // and direct the resulting flow and output
     // console frame (has-a) input handler (has-a) string util and context engine
 
-
-
-
-    /*
-    this line here doesn't count as a comment in code analyzer, fix
-     */
-
     //todo close animation seems slower?
 
     //todo test adding and removing buttons from drag label
@@ -39,9 +32,10 @@ public class InputHandler {
 
     //todo scrollbar on dir messes up still, figure out a fix
 
-    //todo test signatures against files and make a widget for this
+    //todo check signatures for correctness and against actual files
+    //todo file signature widget
 
-    //todo userfiles aside from music and backgrounds called files
+    //todo pixelate image widget
 
     //todo background image changing doesn't move just the background
 
@@ -50,9 +44,6 @@ public class InputHandler {
     //todo logout should end all executors and threads so only thing happening is login frame
     // all exeuctors should be spun once when logged in so inside of init console frame
     // all threads that continue should be able to be found and killed when logging out
-
-    //todo fix bug: log in as different user when already logged in as nathan and then delete this new account you logged into
-    // will say the first user was corrupted and say sorry + "first user name"
 
     //todo flipping console is broken
     //todo fipping console resets output area position

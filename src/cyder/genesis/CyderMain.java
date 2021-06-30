@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -819,9 +820,7 @@ public class CyderMain {
                 test();
             }
 
-            long time = System.currentTimeMillis() -
-                    Long.parseLong(IOUtil.getUserData("laststart"));
-            println(TimeUtil.milisToFormattedString(time));
+            long time = System.currentTimeMillis() - Long.parseLong(IOUtil.getUserData("laststart"));
             IOUtil.writeUserData("laststart",System.currentTimeMillis() + "");
 
             if (TimeUtil.milisToDays(time) > 1) {
@@ -2767,30 +2766,29 @@ public class CyderMain {
     }
 
     private void test() {
-        editUser();
-//        CyderFrame testFrame = new CyderFrame(600,400);
-//        testFrame.setBackground(CyderColors.vanila);
-//        testFrame.setTitle("Test Frame");
-//        testFrame.initializeResizing();
-//        testFrame.setResizable(true);
-//
-//        CyderButton cb = new CyderButton("Button");
-//        cb.addActionListener(e -> {
-//            testFrame.notify("This is just another test string that's twice as long", 5000, Direction.BOTTOM);
-//            testFrame.notify("H");
-//            testFrame.notify("And i am a wilderness");
-//            testFrame.notify(CyderStrings.QUICK_BROWN_FOX + "\n" +
-//                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-//                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-//                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-//                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-//                    CyderStrings.QUICK_BROWN_FOX + "\n");
-//        });
-//        cb.setBounds(250,100,100,40);
-//        testFrame.getContentPane().add(cb);
-//
-//        testFrame.setVisible(true);
-//        testFrame.setLocationRelativeTo(null);
+        CyderFrame testFrame = new CyderFrame(600,400);
+        testFrame.setBackground(CyderColors.vanila);
+        testFrame.setTitle("Test Frame");
+        testFrame.initializeResizing();
+        testFrame.setResizable(true);
+
+        CyderButton cb = new CyderButton("Button");
+        cb.addActionListener(e -> {
+            testFrame.notify("This is just another test string that's twice as long", 5000, Direction.BOTTOM);
+            testFrame.notify("H");
+            testFrame.notify("And i am a wilderness");
+            testFrame.notify(CyderStrings.QUICK_BROWN_FOX + "\n" +
+                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+                    CyderStrings.QUICK_BROWN_FOX + "\n");
+        });
+        cb.setBounds(250,100,100,40);
+        testFrame.getContentPane().add(cb);
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(null);
     }
 
     //get rid of these methods and just use a string util -----------------------------

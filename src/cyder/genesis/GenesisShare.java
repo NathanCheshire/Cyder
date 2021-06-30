@@ -23,7 +23,6 @@ public class GenesisShare {
 
     private static LinkedList<Preference> initPreferencesList() {
         LinkedList<Preference> ret = new LinkedList<>();
-
         ret.add(new Preference("font","IGNORE","IGNORE","tahoma"));
         ret.add(new Preference("foreground","IGNORE","IGNORE","000000"));
         ret.add(new Preference("background","IGNORE","IGNORE","FFFFFF"));

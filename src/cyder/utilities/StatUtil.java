@@ -217,9 +217,20 @@ public class StatUtil {
                 String line = "";
                 int localRet = 0;
 
-                while ((line = lineReader.readLine()) != null)
-                    if (line.trim().length() > 0 && (isComment(line)))
+                boolean blockComment = false;
+
+                while ((line = lineReader.readLine()) != null) {
+                    if (line.trim().startsWith("/*")) {
+                        blockComment = true;
+                    } else if (line.trim().endsWith("*/")) {
+                        blockComment = false;
+                    }
+
+                    if (blockComment)
                         localRet++;
+                    else if (line.trim().length() > 0 && (isComment(line)))
+                        localRet++;
+                }
 
                 return localRet;
             } catch (Exception ex) {
