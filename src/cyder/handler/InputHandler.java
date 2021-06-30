@@ -15,8 +15,6 @@ public class InputHandler {
     this line here doesn't count as a comment in code analyzer, fix
      */
 
-    //todo color converter fields like rest of the new ones, add these properties to cyder textfield
-
     //todo getter util for string doesn't work unless you use thread so that it doesn't hang, fix
 
     //todo test adding and removing buttons from drag label
@@ -43,18 +41,11 @@ public class InputHandler {
 
     //todo test signatures against files and make a widget for this
 
-    //todo file space for overall program when cypherlenovo, deletes folder if not cypherlenovo
-
     //todo userfiles aside from music and backgrounds called files
 
     //todo background image changing doesn't move just the background
 
     //todo make input field like the input field for login (actually a password field with the natche@cyder~$)
-
-    //todo if cyder hasn't started in a while, say welcome back $username, did you miss me?
-    // or some variation of that (last start/exit time in userdata)
-
-    //todo implement flip flop UI component
 
     //todo logout should end all executors and threads so only thing happening is login frame
     // all exeuctors should be spun once when logged in so inside of init console frame

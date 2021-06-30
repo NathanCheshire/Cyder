@@ -126,14 +126,15 @@ public class CyderMain {
         IOUtil.deleteTempDir();
         IOUtil.logArgs(CA);
         IOUtil.cleanErrors();
+        IOUtil.cleanSandbox();
 
         startBackgroundProcessChecker();
 
-        if (SecurityUtil.nathanLenovo())
+        if (SecurityUtil.nathanLenovo()) {
             autoCypher();
-        else if (IOUtil.getSystemData("Released").equals("1"))
+        } else if (IOUtil.getSystemData("Released").equals("1")) {
             login();
-        else {
+        } else {
             try {
                 GenesisShare.getExitingSem().acquire();
                 GenesisShare.getExitingSem().release();
@@ -452,8 +453,6 @@ public class CyderMain {
 
             inputField.setCaretColor(ConsoleFrame.getUserForegroundColor());
             inputField.setCaret(new CyderCaret(ConsoleFrame.getUserForegroundColor()));
-
-            IOUtil.readUserData();
 
             inputField.setForeground(ConsoleFrame.getUserForegroundColor());
             outputArea.setForeground(ConsoleFrame.getUserForegroundColor());
@@ -790,6 +789,8 @@ public class CyderMain {
 
             consoleClockLabel.setVisible(updateConsoleClock);
 
+            //todo executors should be started once from main and not from console() method
+
             //final frame disposed checker
             Executors.newSingleThreadScheduledExecutor(
                     new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
@@ -817,6 +818,21 @@ public class CyderMain {
             //stay but maybe relocate? auto test in debug mode
             if (SecurityUtil.nathanLenovo()) {
                 test();
+            }
+
+            //todo make a method and put it somewhere
+            double timeSinceLastStart = System.currentTimeMillis() - Long.parseLong(IOUtil.getUserData("laststart"));
+            double seconds = timeSinceLastStart/1000;
+            double minutes = seconds / 60;
+            double hours = minutes / 60;
+            double days = hours / 24;
+            System.out.println("Times since last start:\nDays: " + days + "\nHours: " + hours +
+                    "\nMinutes: " + minutes + "\nSeconds: " + seconds);
+            IOUtil.writeUserData("laststart",System.currentTimeMillis() + "");
+
+            if (days > 1) {
+                //todo this should change to a ConsoleFrame.notify();
+                println("Welcome back, " + ConsoleFrame.getUsername() + "! Did you miss me?");
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -1091,8 +1107,25 @@ public class CyderMain {
             }
         });
 
-        //add sep here if mapped labels
-        //add mapped ones here: if title len greater than 9 items and cut off label text at > 9 chars
+        /*
+        add sep here if mapped labels
+        add mapped ones here: if title len greater than 9 items and cut off label text at > 9 chars
+        you'll need to redo how user data is stored and retreived since you'll need more than key/value pairs
+        probably should use JSON format. For example:
+
+        Mapped menu links: {
+            [
+                name: Banner
+                link: http://
+            ],
+            [
+                name: Super Long title that will be trimmed
+                link: something.io
+            ]
+        }
+        Username:nathan
+        Password;jdkljf230948kwejkflqj0
+         */
 
         CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
         menuScroll.setThumbSize(5);
@@ -1562,7 +1595,6 @@ public class CyderMain {
             }
 
             if (SecurityUtil.checkPassword(Username, SecurityUtil.toHexString(SecurityUtil.getSHA(Password)))) {
-                IOUtil.readUserData();
                 doLoginAnimations = false;
 
                 if (loginFrame != null)
@@ -4052,7 +4084,6 @@ public class CyderMain {
      */
     private void exit() {
         //save data and do operatings that require system IO
-        IOUtil.readUserData();
         IOUtil.writeUserData("Fonts", outputArea.getFont().getName());
         IOUtil.writeUserData("Foreground", ColorUtil.rgbtohexString(outputArea.getForeground()));
 
@@ -4077,11 +4108,5 @@ public class CyderMain {
     private void shutdown() {
         //delete temp dir
         IOUtil.deleteTempDir();
-
-        //delete all getter files
-        //todo move these to tmp dir itself
-        new File("InputMessage.txt").delete();
-        new File("File.txt").delete();
-        new File("String.txt").delete();
     }
 }

@@ -478,6 +478,9 @@ public class IOUtil {
             return;
 
         try {
+            //we should re-read our pairs before writing
+            readUserData();
+
             GenesisShare.getExitingSem().acquire();
 
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
@@ -985,6 +988,29 @@ public class IOUtil {
                     ErrorHandler.handle(e);
                 }
             }
+        }
+    }
+
+    public static void cleanSandbox() {
+        if (!SecurityUtil.nathanLenovo()) {
+            wipeSandbox();
+        } else {
+            File sandbox = new File("Sandbox");
+
+            if (!sandbox.exists()) {
+                sandbox.mkdir();
+            }
+        }
+    }
+
+    /**
+     * Wipes the Sandbox of files if we are not in developer mode, ensures the folder stays though.
+     */
+    public static void wipeSandbox() {
+        File sandbox = new File("Sandbox");
+
+        if (sandbox.exists()) {
+            SystemUtil.deleteFolder(sandbox);
         }
     }
 }

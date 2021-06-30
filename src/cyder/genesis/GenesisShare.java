@@ -27,6 +27,7 @@ public class GenesisShare {
         ret.add(new Preference("font","IGNORE","IGNORE","tahoma"));
         ret.add(new Preference("foreground","IGNORE","IGNORE","000000"));
         ret.add(new Preference("background","IGNORE","IGNORE","FFFFFF"));
+        ret.add(new Preference("laststart","IGNORE","IGNORE",System.currentTimeMillis() + ""));
 
         ret.add(new Preference("intromusic",
                 "Intro Music","" +
