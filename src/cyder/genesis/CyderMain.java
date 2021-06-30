@@ -820,18 +820,13 @@ public class CyderMain {
                 test();
             }
 
-            //todo make a method and put it somewhere
-            double timeSinceLastStart = System.currentTimeMillis() - Long.parseLong(IOUtil.getUserData("laststart"));
-            double seconds = timeSinceLastStart/1000;
-            double minutes = seconds / 60;
-            double hours = minutes / 60;
-            double days = hours / 24;
-            System.out.println("Times since last start:\nDays: " + days + "\nHours: " + hours +
-                    "\nMinutes: " + minutes + "\nSeconds: " + seconds);
+            long time = System.currentTimeMillis() -
+                    Long.parseLong(IOUtil.getUserData("laststart"));
+            println(TimeUtil.milisToFormattedString(time));
             IOUtil.writeUserData("laststart",System.currentTimeMillis() + "");
 
-            if (days > 1) {
-                //todo this should change to a ConsoleFrame.notify();
+            if (TimeUtil.milisToDays(time) > 1) {
+                //change to a ConsoleFrame.notify();
                 println("Welcome back, " + ConsoleFrame.getUsername() + "! Did you miss me?");
             }
         } catch (Exception e) {

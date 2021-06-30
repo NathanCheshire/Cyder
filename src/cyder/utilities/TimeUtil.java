@@ -197,4 +197,77 @@ public class TimeUtil {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         return hour > 11 && hour < 17;
     }
+
+    /**
+     * Returns a string detailing how many years/months/days/hours/minutes/seconds
+     *  are represented by the given input parameter
+     * @param msTime - the raw long of ms
+     */
+    public static String milisToFormattedString(long msTime) {
+        StringBuilder sb = new StringBuilder();
+
+        double years = 0;
+        double months = 0;
+        double days = 0;
+        double hours = 0;
+        double minutes = 0;
+        double seconds = 0;
+
+        seconds = msTime / 1000;
+
+        while (seconds >= 60) {
+            seconds -= 60;
+            minutes++;
+        }
+
+        while (minutes >= 60) {
+            minutes -= 60;
+            hours++;
+        }
+
+        while (hours >= 24) {
+            hours -= 24;
+            days++;
+        }
+
+        while (days >= 30) {
+            days -= 30;
+            months++;
+        }
+
+        while (months >= 12) {
+            months -= 12;
+            years++;
+        }
+
+        sb.append("years: ").append(years).append(", months: ").append(months).append(", days: ")
+                .append(days).append(", hours: ").append(hours).append(", minutes: ").append(minutes)
+                .append(", seconds: ").append(seconds);
+
+        return sb.toString();
+    }
+
+    public static double milisToSeconds(long msTime) {
+        return msTime / 1000;
+    }
+
+    public static double milisToMinutes(long msTime) {
+        return msTime / 1000 / 60;
+    }
+
+    public static double milisToHours(long msTime) {
+        return msTime / 1000 / 60 / 60;
+    }
+
+    public static double milisToDays(long msTime) {
+        return msTime / 1000 / 60 / 60 / 24;
+    }
+
+    public static double milisToMonths(long msTime) {
+        return msTime / 1000 / 60 / 60 / 24 / 30;
+    }
+
+    public static double milisToYears(long msTime) {
+        return msTime / 1000 / 60 / 60 / 24 / 30 / 12;
+    }
 }
