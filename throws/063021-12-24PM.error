@@ -1,14 +1,13 @@
-3
-class java.lang.ArrayIndexOutOfBoundsException
-Error thrown by line: 2592
+Error thrown on Wednesday, 06/30/2021 12:24PM CDT
+class cyder.exception.CyderException
+Error thrown by line: 2479
 
 Stack Trace:
 
-java.lang.ArrayIndexOutOfBoundsException: 3
-	at cyder.genesis.CyderMain.test(CyderMain.java:2592)
-	at cyder.genesis.CyderMain.handle(CyderMain.java:2423)
-	at cyder.genesis.CyderMain.access$200(CyderMain.java:57)
-	at cyder.genesis.CyderMain$15.actionPerformed(CyderMain.java:1133)
+CyderException object, hash=285906120
+	at cyder.genesis.CyderMain.handle(CyderMain.java:2479)
+	at cyder.genesis.CyderMain.access$500(CyderMain.java:56)
+	at cyder.genesis.CyderMain$28.actionPerformed(CyderMain.java:1331)
 	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
 	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
 	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)

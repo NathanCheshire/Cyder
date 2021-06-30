@@ -2581,7 +2581,7 @@ public class CyderMain {
             } else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
                 if (SecurityUtil.nathanLenovo()) {
                     IOUtil.wipeErrors();
-                    println("Deleted all user erorrs");
+                    println("Deleted all error files");
                 } else
                     println("Sorry, " + ConsoleFrame.getUsername() + ", but you don't have permission to do that.");
             } else if (hasWord("debug") && hasWord("windows")) {
