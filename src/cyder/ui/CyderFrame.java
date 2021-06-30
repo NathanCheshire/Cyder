@@ -112,6 +112,9 @@ public class CyderFrame extends JFrame {
         bottomDrag.setyOffset(height - 5);
         contentLabel.add(bottomDrag);
 
+        //todo really we're just back to where we started since with adding the border to make it draggable,
+        // we have reintroduced the layering issues
+
         //todo now just make sure notifications are put over components but not over the drag labels
         //todo override get content pane to return content label and make a getTrueContentPane method?
 

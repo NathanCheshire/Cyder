@@ -11,16 +11,13 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
-
-
-    //todo optimize frame notification checker so that if no notificaitons,
-    // end and when a new one is put in queueu, start back up
-
-    //todo photoviewer should be cyderframe now that we can add buttons to it
+    /*
+    this line here doesn't count as a comment in code analyzer, fix
+     */
 
     //todo color converter fields like rest of the new ones, add these properties to cyder textfield
 
-    //todo youtube thumbnail be able to say add to backgrounds
+    //todo getter util for string doesn't work unless you use thread so that it doesn't hang, fix
 
     //todo test adding and removing buttons from drag label
     //todo implement right title for cyder frame and then swap buttons to other side

@@ -5,6 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
+import cyder.utilities.StringUtil;
 import cyder.widgets.GenericInform;
 
 import javax.imageio.ImageIO;
@@ -175,6 +176,7 @@ public class PhotoViewer {
 
             ImageIcon newIcon = checkImage(validImages.get(currentIndex));
 
+            pictureFrame.setTitle(StringUtil.getFilename(validImages.get(currentIndex)));
             pictureFrame.setSnapSize(new Dimension(1,1));
             pictureFrame.setMinimumSize(new Dimension(newIcon.getIconWidth() / 2, newIcon.getIconHeight() / 2));
             pictureFrame.setMaximumSize(new Dimension(newIcon.getIconWidth(), newIcon.getIconHeight()));
@@ -200,6 +202,7 @@ public class PhotoViewer {
 
             ImageIcon newIcon = checkImage(validImages.get(currentIndex));
 
+            pictureFrame.setTitle(StringUtil.getFilename(validImages.get(currentIndex)));
             pictureFrame.setSnapSize(new Dimension(1,1));
             pictureFrame.setMinimumSize(new Dimension(newIcon.getIconWidth() / 2, newIcon.getIconHeight() / 2));
             pictureFrame.setMaximumSize(new Dimension(newIcon.getIconWidth(), newIcon.getIconHeight()));
@@ -242,7 +245,6 @@ public class PhotoViewer {
         return ((double) im.getIconWidth() / (double) im.getIconHeight());
     }
 
-    //todo fix me
     private void rename() {
         File currentRename = new File(validImages.get(currentIndex).getAbsolutePath());
         File currentBackground = ConsoleFrame.getCurrentBackgroundFile().getAbsoluteFile();
@@ -253,29 +255,35 @@ public class PhotoViewer {
             return;
         }
 
-        String name = new GetterUtil().getString("Rename","Valid filename","Rename");
+        new Thread(() -> {
+           try {
+               String name = new GetterUtil().getString("Rename","Valid filename","Rename");
 
-        if (name == null || name.length()  == 0)
-            return;
+               if (name == null || name.length()  == 0)
+                   return;
 
-        File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
-        File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
-        oldName.renameTo(newName);
-        GenericInform.inform("Successfully renamed to " + name,"");
+               File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
+               File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
+               oldName.renameTo(newName);
+               GenericInform.inform("Successfully renamed to " + name,"");
 
-        initFiles();
+               initFiles();
 
-        for (int i = 0 ; i < validImages.size() ; i++) {
-            if (validImages.get(i).getName().equals(name)) {
-                currentIndex = i;
-            }
-        }
+               for (int i = 0 ; i < validImages.size() ; i++) {
+                   if (validImages.get(i).getName().equals(name)) {
+                       currentIndex = i;
+                   }
+               }
 
-        pictureFrame.setTitle(name);
+               pictureFrame.setTitle(name);
+           } catch (Exception e) {
+               ErrorHandler.handle(e);
+           }
+       }, "wait thread for GetterUtil().getString()").start();
     }
 
     @Override
     public String toString() {
-        return "PhotoViewer object, hash=" + this.hashCode();
+        return "PhotoViewer object[" + validImages.get(currentIndex).getAbsolutePath() + "], hash=" + this.hashCode();
     }
 }
