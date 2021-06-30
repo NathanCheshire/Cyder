@@ -69,6 +69,8 @@ public class InputHandler {
     private JTextPane outputArea;
     private StringUtil stringUtil;
 
+    private InputHandler() {} //no instantiation without a valid outputArea to use
+
     public InputHandler(JTextPane outputArea) {
         this.outputArea = outputArea;
         stringUtil = new StringUtil(outputArea);
@@ -77,7 +79,12 @@ public class InputHandler {
     public void handle(JTextPane outputArea, String operation) {
         String firstWord = StringUtil.firstWord(operation);
 
-
+        //todo split off into different handle sections
+        // printing
+        // widgets
+        // calculations
+        // ui settings
+        // etc
     }
 
     public void setOutputArea(JTextPane outputArea) {

@@ -57,7 +57,6 @@ public class CyderTextField extends JTextField {
             }
         });
 
-
         this.setBackground(backgroundColor);
         this.setSelectionColor(CyderColors.selectionColor);
         this.setFont(CyderFonts.weatherFontSmall);

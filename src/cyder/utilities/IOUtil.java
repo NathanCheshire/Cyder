@@ -538,7 +538,10 @@ public class IOUtil {
     public static String getUserData(String name) {
         readUserData();
 
-        //errors are thrown here somehow? how? they don't actually mean anything
+        System.out.println("Don't remove until you figure out the " +
+                "reason errors are thrown here\nName: " + name + "\n" +
+                "Userdata size: " + userData.size());
+
         if (userData.isEmpty())
             ErrorHandler.handle(new FatalException("Attempting to access empty user data after calling read"));
 

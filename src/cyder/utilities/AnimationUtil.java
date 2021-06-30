@@ -38,10 +38,6 @@ public class AnimationUtil {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
-
-        if (frame instanceof CyderFrame) {
-            ((CyderFrame) frame).getTopDragLabel().enableDragging();
-        }
     }
 
     /**
