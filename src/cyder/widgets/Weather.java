@@ -97,7 +97,7 @@ public class Weather {
         };
         weatherFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         weatherFrame.setTitle("Weather");
-        weatherFrame.initializeBackgroundResizing();
+        weatherFrame.initializeResizing();
         weatherFrame.setBackgroundResizing(true);
         weatherFrame.setResizable(true);
         weatherFrame.setMinimumSize(new Dimension(200,200));

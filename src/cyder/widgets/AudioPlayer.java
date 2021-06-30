@@ -88,7 +88,7 @@ public class AudioPlayer {
                 stopAudio();
             }
         });
-        audioFrame.initializeBackgroundResizing();
+        audioFrame.initializeResizing();
         audioFrame.setResizable(true);
         audioFrame.setMinimumSize(new Dimension(500, 155));
         audioFrame.setMaximumSize(new Dimension(500, 225));
@@ -698,6 +698,8 @@ public class AudioPlayer {
 
                 lastAction = LastAction.PLAY;
 
+                //on spam of skip button, music player hangs for about 10 seconds
+                // and throws an error then catches up eventually
                 player.play();
 
                 if (audioLocation != null)

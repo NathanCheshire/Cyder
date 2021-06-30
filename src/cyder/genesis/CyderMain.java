@@ -4,7 +4,6 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -2780,29 +2779,30 @@ public class CyderMain {
     }
 
     private void test() {
-        CyderFrame testFrame = new CyderFrame(600,400);
-        testFrame.setBackground(CyderColors.vanila);
-        testFrame.setTitle("Test Frame");
-        testFrame.initializeBackgroundResizing();
-        testFrame.setResizable(true);
-
-        CyderButton cb = new CyderButton("Button");
-        cb.addActionListener(e -> {
-            testFrame.notify("This is just another test string that's twice as long", 5000, Direction.BOTTOM);
-            testFrame.notify("H");
-            testFrame.notify("And i am a wilderness");
-            testFrame.notify(CyderStrings.QUICK_BROWN_FOX + "\n" +
-                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-                    CyderStrings.QUICK_BROWN_FOX + "\n");
-        });
-        cb.setBounds(250,100,100,40);
-        testFrame.getContentPane().add(cb);
-
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(null);
+        editUser();
+//        CyderFrame testFrame = new CyderFrame(600,400);
+//        testFrame.setBackground(CyderColors.vanila);
+//        testFrame.setTitle("Test Frame");
+//        testFrame.initializeResizing();
+//        testFrame.setResizable(true);
+//
+//        CyderButton cb = new CyderButton("Button");
+//        cb.addActionListener(e -> {
+//            testFrame.notify("This is just another test string that's twice as long", 5000, Direction.BOTTOM);
+//            testFrame.notify("H");
+//            testFrame.notify("And i am a wilderness");
+//            testFrame.notify(CyderStrings.QUICK_BROWN_FOX + "\n" +
+//                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+//                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+//                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+//                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+//                    CyderStrings.QUICK_BROWN_FOX + "\n");
+//        });
+//        cb.setBounds(250,100,100,40);
+//        testFrame.getContentPane().add(cb);
+//
+//        testFrame.setVisible(true);
+//        testFrame.setLocationRelativeTo(null);
     }
 
     //get rid of these methods and just use a string util -----------------------------
@@ -3001,9 +3001,12 @@ public class CyderMain {
         if (editUserFrame != null)
             editUserFrame.closeAnimation();
 
-        editUserFrame = new CyderFrame(1000, 800, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        editUserFrame = new CyderFrame(950, 700, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
+        editUserFrame.initializeResizing();
+        editUserFrame.setMaximumSize(new Dimension(1000,700));
+        editUserFrame.setResizable(true);
 
         switchingLabel = new JLabel();
         switchingLabel.setForeground(new Color(255, 255, 255));
@@ -3015,22 +3018,22 @@ public class CyderMain {
 
         switchToMusicAndBackgrounds();
 
-        backwardPanel = new CyderButton("< Prev");
+        backwardPanel = new CyderButton("<");
         backwardPanel.setBackground(CyderColors.regularRed);
         backwardPanel.setColors(CyderColors.regularRed);
         backwardPanel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         backwardPanel.setFont(CyderFonts.weatherFontSmall);
         backwardPanel.addActionListener(e -> lastEditUser());
-        backwardPanel.setBounds(20, 380, 100, 40);
+        backwardPanel.setBounds(70, 260, 50, 120);
         editUserFrame.getContentPane().add(backwardPanel);
 
-        forwardPanel = new CyderButton("Next >");
+        forwardPanel = new CyderButton(">");
         forwardPanel.setBackground(CyderColors.regularRed);
         forwardPanel.setColors(CyderColors.regularRed);
         forwardPanel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         forwardPanel.setFont(CyderFonts.weatherFontSmall);
         forwardPanel.addActionListener(e -> nextEditUser());
-        forwardPanel.setBounds(1000 - 120, 380, 100, 40);
+        forwardPanel.setBounds(880, 260, 50, 120);
         editUserFrame.getContentPane().add(forwardPanel);
 
         JTextField changeUsernameField = new JTextField(10);
@@ -3038,7 +3041,7 @@ public class CyderMain {
         changeUsernameField.setFont(CyderFonts.weatherFontSmall);
         changeUsernameField.setSelectionColor(CyderColors.selectionColor);
         changeUsernameField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        changeUsernameField.setBounds(100, 700, 300, 40);
+        changeUsernameField.setBounds(140, 590, 260, 40);
         editUserFrame.getContentPane().add(changeUsernameField);
 
         changeUsername = new CyderButton("Change Username");
@@ -3055,7 +3058,7 @@ public class CyderMain {
                 changeUsernameField.setText("");
             }
         });
-        changeUsername.setBounds(100, 750, 300, 40);
+        changeUsername.setBounds(140, 640, 260, 40);
         editUserFrame.getContentPane().add(changeUsername);
 
         CyderButton deleteUser = new CyderButton("Delete User");
@@ -3069,7 +3072,7 @@ public class CyderMain {
             inputField.requestFocus();
             stringUtil.setUserInputDesc("deleteuser");
         });
-        deleteUser.setBounds(425, 700, 150, 90);
+        deleteUser.setBounds(425, 590, 150, 90);
         editUserFrame.getContentPane().add(deleteUser);
 
         JPasswordField changePasswordField = new JPasswordField(10);
@@ -3078,7 +3081,7 @@ public class CyderMain {
         changePasswordField.setSelectionColor(CyderColors.selectionColor);
         changePasswordField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         changePasswordField.setToolTipText("New password");
-        changePasswordField.setBounds(600, 700, 300, 40);
+        changePasswordField.setBounds(600, 590, 260, 40);
         editUserFrame.getContentPane().add(changePasswordField);
 
         changePassword = new CyderButton("Change Password");
@@ -3103,7 +3106,7 @@ public class CyderMain {
                 c = '\0';
             }
         });
-        changePassword.setBounds(600, 750, 300, 40);
+        changePassword.setBounds(600, 640, 260, 40);
         editUserFrame.getContentPane().add(changePassword);
 
         editUserFrame.enterAnimation();
@@ -3119,14 +3122,14 @@ public class CyderMain {
         for (File file : backgroundDir.listFiles()) {
             if (file.getName().endsWith((".png"))) {
                 musicBackgroundList.add(file.getAbsoluteFile());
-                musicBackgroundNameList.add(file.getName().replace(".png", ""));
+                musicBackgroundNameList.add("Backgrounds/" + StringUtil.getFilename(file));
             }
         }
 
         for (File file : musicDir.listFiles()) {
             if (file.getName().endsWith((".mp3"))) {
                 musicBackgroundList.add(file.getAbsoluteFile());
-                musicBackgroundNameList.add(file.getName().replace(".mp3", ""));
+                musicBackgroundNameList.add("Music/" + StringUtil.getFilename(file));
             }
         }
 
@@ -3591,7 +3594,7 @@ public class CyderMain {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         FontListScroll.setThumbColor(CyderColors.intellijPink);
-        FontListScroll.setBorder(new LineBorder(CyderColors.navy, 5, true));
+        FontListScroll.setBorder(new LineBorder(CyderColors.navy, 5, false));
 
         CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));

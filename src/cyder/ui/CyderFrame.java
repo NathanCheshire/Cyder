@@ -987,7 +987,7 @@ public class CyderFrame extends JFrame {
      * This method should be called first when attempting to allow resizing of a frame.
      * Procedural calls: init component resizer, set resizing to true, set min, max, and snap sizes to default.
      */
-    public void initializeBackgroundResizing() {
+    public void initializeResizing() {
         cr = new ComponentResizer();
         cr.registerComponent(this);
         cr.setResizing(true);

@@ -15,6 +15,8 @@ public class InputHandler {
     this line here doesn't count as a comment in code analyzer, fix
      */
 
+    //todo close animation seems slower?
+
     //todo getter util for string doesn't work unless you use thread so that it doesn't hang, fix
 
     //todo test adding and removing buttons from drag label
@@ -34,8 +36,6 @@ public class InputHandler {
     //todo add reading and writing calls to/from userdata to the log
     //todo suggestion will be in a log summary for a log, logs stored in logs dir
     //todo log these in chat log. Tags: [USER], [SYSTEM], [EXCEPTION] (link to exception file)
-
-    //todo show full file name for user files scroll "music/EpicDubstep.mp3"
 
     //todo scrollbar on dir messes up still, figure out a fix
 

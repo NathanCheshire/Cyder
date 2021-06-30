@@ -156,7 +156,7 @@ public class ErrorHandler {
         CyderFrame errorFrame = new CyderFrame();
         errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         errorFrame.setTitle(title.length() == 0 ? "Null error message" : title);
-        errorFrame.initializeBackgroundResizing();
+        errorFrame.initializeResizing();
         errorFrame.setResizable(true);
         errorFrame.setMaximumSize(new Dimension(800,800)); //this isn't working!!????
         errorFrame.setBackground(CyderColors.vanila);

@@ -21,7 +21,7 @@ public class Cards {
         christmas2020Frame.setTitle("Merry Christmas!");
         christmas2020Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
-        christmas2020Frame.initializeBackgroundResizing();
+        christmas2020Frame.initializeResizing();
         christmas2020Frame.setMinimumSize(new Dimension(498,490));
         christmas2020Frame.setMaximumSize(new Dimension(498 * 2,498 * 2));
         christmas2020Frame.setSnapSize(new Dimension(1,1));

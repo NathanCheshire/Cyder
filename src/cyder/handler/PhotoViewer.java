@@ -56,7 +56,7 @@ public class PhotoViewer {
         pictureFrame.setBackground(CyderColors.navy);
         pictureFrame.setTitle(imageName.getName().replace(".png", ""));
         pictureFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
-        pictureFrame.initializeBackgroundResizing();
+        pictureFrame.initializeResizing();
         pictureFrame.setResizable(true);
         pictureFrame.setBackgroundResizing(true);
         pictureFrame.setSnapSize(new Dimension(1,1));
