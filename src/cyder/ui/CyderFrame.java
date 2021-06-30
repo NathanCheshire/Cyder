@@ -487,6 +487,9 @@ public class CyderFrame extends JFrame {
 
                             //sleep the enter time, duration, exit time, and an extra 500ms
                             Thread.sleep(enterTime + duration + exitTime + 500);
+                        } else {
+                            notificationCheckerStarted = false;
+                            break;
                         }
                     }
                 } catch (Exception e) {

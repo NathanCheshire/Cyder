@@ -2753,28 +2753,29 @@ public class CyderMain {
     }
 
     private void test() {
-//        CyderFrame testFrame = new CyderFrame(600,400);
-//        testFrame.setBackground(CyderColors.vanila);
-//        testFrame.setTitle("Test Frame");
-//        testFrame.initializeBackgroundResizing();
-//        testFrame.setResizable(true);
-//
-//        CyderButton cb = new CyderButton("Button");
-//        cb.setBounds(250,100,100,40);
-//        testFrame.getContentPane().add(cb);
-//
-//        testFrame.setVisible(true);
-//        testFrame.setLocationRelativeTo(null);
-//
-//        testFrame.notify("This is just another test string that's twice as long", 5000, Direction.BOTTOM);
-//        testFrame.notify("H");
-//        testFrame.notify("And i am a wilderness");
-//        testFrame.notify(CyderStrings.QUICK_BROWN_FOX + "\n" +
-//                CyderStrings.QUICK_BROWN_FOX + "\n" +
-//                CyderStrings.QUICK_BROWN_FOX + "\n" +
-//                CyderStrings.QUICK_BROWN_FOX + "\n" +
-//                CyderStrings.QUICK_BROWN_FOX + "\n" +
-//                CyderStrings.QUICK_BROWN_FOX + "\n");
+        CyderFrame testFrame = new CyderFrame(600,400);
+        testFrame.setBackground(CyderColors.vanila);
+        testFrame.setTitle("Test Frame");
+        testFrame.initializeBackgroundResizing();
+        testFrame.setResizable(true);
+
+        CyderButton cb = new CyderButton("Button");
+        cb.addActionListener(e -> {
+            testFrame.notify("This is just another test string that's twice as long", 5000, Direction.BOTTOM);
+            testFrame.notify("H");
+            testFrame.notify("And i am a wilderness");
+            testFrame.notify(CyderStrings.QUICK_BROWN_FOX + "\n" +
+                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+                    CyderStrings.QUICK_BROWN_FOX + "\n" +
+                    CyderStrings.QUICK_BROWN_FOX + "\n");
+        });
+        cb.setBounds(250,100,100,40);
+        testFrame.getContentPane().add(cb);
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(null);
     }
 
     //get rid of these methods and just use a string util -----------------------------
