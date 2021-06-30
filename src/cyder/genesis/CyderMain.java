@@ -1947,9 +1947,6 @@ public class CyderMain {
                 }
 
                 anagram = "";
-            } else if (desc.equalsIgnoreCase("pixelate") && input != null && !input.equals("")) {
-                println("Pixelating " + pixelateFile.getName() + " with a pixel block size of " + input + "...");
-                ImageUtil.pixelate(pixelateFile, Integer.parseInt(input));
             } else if (desc.equalsIgnoreCase("alphabetize")) {
                 char[] Sorted = input.toCharArray();
                 Arrays.sort(Sorted);
@@ -2404,16 +2401,7 @@ public class CyderMain {
             } else if (hasWord("system") && hasWord("properties")) {
                 StatUtil.systemProperties();
             } else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
-                pixelateFile = new GetterUtil().getFile("Choose file to pixelate");
-
-                if (!pixelateFile.getName().endsWith(".png")) {
-                    println("Sorry, " + ConsoleFrame.getUsername() + ", but this feature only supports PNG images");
-                } else if (pixelateFile != null) {
-                    println("Enter your pixel size (Enter a positive integer)");
-                    stringUtil.setUserInputDesc("pixelate");
-                    inputField.requestFocus();
-                    stringUtil.setUserInputMode(true);
-                }
+                //todo pixelator widget that uses ImageUtil.pixelate()
             } else if (hasWord("donuts")) {
                 NetworkUtil.internetConnect("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
             } else if (hasWord("anagram")) {
@@ -3001,7 +2989,7 @@ public class CyderMain {
         if (editUserFrame != null)
             editUserFrame.closeAnimation();
 
-        editUserFrame = new CyderFrame(950, 700, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        editUserFrame = new CyderFrame(900, 700, new ImageIcon(DEFAULT_BACKGROUND_PATH));
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
         editUserFrame.initializeResizing();
@@ -3010,7 +2998,7 @@ public class CyderMain {
 
         switchingLabel = new JLabel();
         switchingLabel.setForeground(new Color(255, 255, 255));
-        switchingLabel.setBounds(140, 70, 720, 500);
+        switchingLabel.setBounds(90, 70, 720, 500);
         switchingLabel.setOpaque(true);
         switchingLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         switchingLabel.setBackground(new Color(255, 255, 255));
@@ -3024,7 +3012,7 @@ public class CyderMain {
         backwardPanel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         backwardPanel.setFont(CyderFonts.weatherFontSmall);
         backwardPanel.addActionListener(e -> lastEditUser());
-        backwardPanel.setBounds(70, 260, 50, 120);
+        backwardPanel.setBounds(20, 260, 50, 120);
         editUserFrame.getContentPane().add(backwardPanel);
 
         forwardPanel = new CyderButton(">");
@@ -3033,7 +3021,7 @@ public class CyderMain {
         forwardPanel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         forwardPanel.setFont(CyderFonts.weatherFontSmall);
         forwardPanel.addActionListener(e -> nextEditUser());
-        forwardPanel.setBounds(880, 260, 50, 120);
+        forwardPanel.setBounds(830, 260, 50, 120);
         editUserFrame.getContentPane().add(forwardPanel);
 
         JTextField changeUsernameField = new JTextField(10);
@@ -3041,7 +3029,7 @@ public class CyderMain {
         changeUsernameField.setFont(CyderFonts.weatherFontSmall);
         changeUsernameField.setSelectionColor(CyderColors.selectionColor);
         changeUsernameField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        changeUsernameField.setBounds(140, 590, 260, 40);
+        changeUsernameField.setBounds(90, 590, 260, 40);
         editUserFrame.getContentPane().add(changeUsernameField);
 
         changeUsername = new CyderButton("Change Username");
@@ -3058,7 +3046,7 @@ public class CyderMain {
                 changeUsernameField.setText("");
             }
         });
-        changeUsername.setBounds(140, 640, 260, 40);
+        changeUsername.setBounds(90, 640, 260, 40);
         editUserFrame.getContentPane().add(changeUsername);
 
         CyderButton deleteUser = new CyderButton("Delete User");
@@ -3072,7 +3060,7 @@ public class CyderMain {
             inputField.requestFocus();
             stringUtil.setUserInputDesc("deleteuser");
         });
-        deleteUser.setBounds(425, 590, 150, 90);
+        deleteUser.setBounds(375, 590, 150, 90);
         editUserFrame.getContentPane().add(deleteUser);
 
         JPasswordField changePasswordField = new JPasswordField(10);
@@ -3081,7 +3069,7 @@ public class CyderMain {
         changePasswordField.setSelectionColor(CyderColors.selectionColor);
         changePasswordField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         changePasswordField.setToolTipText("New password");
-        changePasswordField.setBounds(600, 590, 260, 40);
+        changePasswordField.setBounds(550, 590, 260, 40);
         editUserFrame.getContentPane().add(changePasswordField);
 
         changePassword = new CyderButton("Change Password");
@@ -3106,7 +3094,7 @@ public class CyderMain {
                 c = '\0';
             }
         });
-        changePassword.setBounds(600, 640, 260, 40);
+        changePassword.setBounds(550, 640, 260, 40);
         editUserFrame.getContentPane().add(changePassword);
 
         editUserFrame.enterAnimation();
@@ -3229,39 +3217,46 @@ public class CyderMain {
         addMusicBackground.setBackground(CyderColors.regularRed);
         addMusicBackground.addActionListener(e -> {
             try {
-                //if this is too small or big, where is it resized and why is it too big?
-                File addFile = new GetterUtil().getFile("Choose file to add");
+                new Thread(() -> {
+                    try {
+                        //if this is too small or big, where is it resized and why is it too big?
+                        File addFile = new GetterUtil().getFile("Choose file to add");
 
-                if (addFile == null)
-                    return;
+                        if (addFile == null || addFile.getName().equals("NULL"))
+                            return;
 
-                for (File f : ConsoleFrame.getBackgrounds()) {
-                    if (addFile.getName().equals(f.getName())) {
-                        editUserFrame.notify("Cannot add a background with the same name as a current one");
-                        return;
-                    }
-                }
+                        for (File f : ConsoleFrame.getBackgrounds()) {
+                            if (addFile.getName().equals(f.getName())) {
+                                editUserFrame.notify("Cannot add a background with the same name as a current one");
+                                return;
+                            }
+                        }
 
-                Path copyPath = new File(addFile.getAbsolutePath()).toPath();
+                        Path copyPath = new File(addFile.getAbsolutePath()).toPath();
 
-                if (addFile != null && addFile.getName().endsWith(".png")) {
-                    File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Backgrounds/" + addFile.getName());
-                    Files.copy(copyPath, Destination.toPath());
-                    initMusicBackgroundList();
-                    musicBackgroundScroll.setViewportView(componentsList);
-                    musicBackgroundScroll.revalidate();
-                    musicBackgroundScroll.repaint();
-                } else if (addFile != null && addFile.getName().endsWith(".mp3")) {
-                    File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Music/" + addFile.getName());
-                    Files.copy(copyPath, Destination.toPath());
-                    initMusicBackgroundList();
-                    musicBackgroundScroll.setViewportView(componentsList);
-                    musicBackgroundScroll.revalidate();
-                } else {
-                    editUserFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but you can only add PNGs and MP3s", "Error");
-                }
+                        if (addFile != null && addFile.getName().endsWith(".png")) {
+                            File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Backgrounds/" + addFile.getName());
+                            Files.copy(copyPath, Destination.toPath());
+                            initMusicBackgroundList();
+                            musicBackgroundScroll.setViewportView(componentsList);
+                            musicBackgroundScroll.revalidate();
+                            musicBackgroundScroll.repaint();
+                        } else if (addFile != null && addFile.getName().endsWith(".mp3")) {
+                            File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Music/" + addFile.getName());
+                            Files.copy(copyPath, Destination.toPath());
+                            initMusicBackgroundList();
+                            musicBackgroundScroll.setViewportView(componentsList);
+                            musicBackgroundScroll.revalidate();
+                        } else {
+                            editUserFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but you can only add PNGs and MP3s", "Error");
+                        }
 
-                ConsoleFrame.resizeBackgrounds();
+                        ConsoleFrame.resizeBackgrounds();
+
+                      } catch (Exception ex) {
+                          ErrorHandler.handle(ex);
+                      }
+                }, "wait thread for GetterUtil().getFile()").start();
             } catch (Exception exc) {
                 ErrorHandler.handle(exc);
             }
@@ -3930,14 +3925,20 @@ public class CyderMain {
             @Override
             public void mouseReleased(MouseEvent e) {
                 try {
-                    File temp = new GetterUtil().getFile("Choose new user's background file");
-                    if (temp != null) {
-                        createUserBackground = temp;
-                    }
+                    new Thread(() -> {
+                      try {
+                          File temp = new GetterUtil().getFile("Choose new user's background file");
+                          if (temp != null) {
+                              createUserBackground = temp;
+                          }
 
-                    if (temp != null && !Files.probeContentType(Paths.get(createUserBackground.getAbsolutePath())).endsWith("png")) {
-                        createUserBackground = null;
-                    }
+                          if (temp != null && !Files.probeContentType(Paths.get(createUserBackground.getAbsolutePath())).endsWith("png")) {
+                              createUserBackground = null;
+                          }
+                      } catch (Exception ex) {
+                          ErrorHandler.handle(ex);
+                      }
+                   }, "wait thread for GetterUtil().getFile()").start();
                 } catch (Exception exc) {
                     exc.printStackTrace();
                 }

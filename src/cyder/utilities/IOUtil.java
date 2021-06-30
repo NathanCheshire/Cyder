@@ -33,8 +33,7 @@ import java.util.zip.ZipOutputStream;
 
 public class IOUtil {
 
-    private IOUtil() {
-    } //private constructor to avoid object creation
+    private IOUtil() {} //private constructor to avoid object creation
 
     private static LinkedList<NST> userData = new LinkedList<>();
     private static LinkedList<NST> systemData = new LinkedList<>();
@@ -541,9 +540,7 @@ public class IOUtil {
     public static String getUserData(String name) {
         readUserData();
 
-        System.out.println("Don't remove until you figure out the " +
-                "reason errors are thrown here\nName: " + name + "\n" +
-                "Userdata size: " + userData.size());
+        System.out.println("Name: " + name + "\n" + "Userdata size: " + userData.size());
 
         if (userData.isEmpty())
             ErrorHandler.handle(new FatalException("Attempting to access empty user data after calling read"));

@@ -11,13 +11,13 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
+
+
     /*
     this line here doesn't count as a comment in code analyzer, fix
      */
 
     //todo close animation seems slower?
-
-    //todo getter util for string doesn't work unless you use thread so that it doesn't hang, fix
 
     //todo test adding and removing buttons from drag label
     //todo implement right title for cyder frame and then swap buttons to other side

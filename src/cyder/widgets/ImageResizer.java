@@ -51,28 +51,34 @@ public class ImageResizer {
         chooseFile.setColors(CyderColors.regularRed);
         chooseFile.addActionListener(e -> {
             try {
-                File temp = new GetterUtil().getFile("Choose file to resize");
+                new Thread(() -> {
+                  try {
+                      File temp = new GetterUtil().getFile("Choose file to resize");
 
-                if (temp != null && temp.getName().endsWith(".png")) {
-                    resizeImage = temp;
+                      if (temp != null && temp.getName().endsWith(".png")) {
+                          resizeImage = temp;
 
-                    //add preview label with picture to frame
-                    ImageIcon prevIcon = checkImage(temp);
-                    previewLabel.setIcon(prevIcon);
-                    previewLabel.setBorder(new LineBorder(CyderColors.navy, 3, false));
-                    previewLabel.setBounds(400 - prevIcon.getIconWidth() / 2,450 - prevIcon.getIconHeight() / 2,prevIcon.getIconWidth(),prevIcon.getIconHeight());
-                    resizeFrame.getContentPane().add(previewLabel);
-                    resizeFrame.revalidate();
-                    resizeFrame.repaint();
+                          //add preview label with picture to frame
+                          ImageIcon prevIcon = checkImage(temp);
+                          previewLabel.setIcon(prevIcon);
+                          previewLabel.setBorder(new LineBorder(CyderColors.navy, 3, false));
+                          previewLabel.setBounds(400 - prevIcon.getIconWidth() / 2,450 - prevIcon.getIconHeight() / 2,prevIcon.getIconWidth(),prevIcon.getIconHeight());
+                          resizeFrame.getContentPane().add(previewLabel);
+                          resizeFrame.revalidate();
+                          resizeFrame.repaint();
 
-                    ImageIcon dimIcon = new ImageIcon(ImageIO.read(resizeImage));
-                    xdim.setText(String.valueOf(dimIcon.getIconWidth()));
-                    ydim.setText(String.valueOf(dimIcon.getIconHeight()));
-                }
+                          ImageIcon dimIcon = new ImageIcon(ImageIO.read(resizeImage));
+                          xdim.setText(String.valueOf(dimIcon.getIconWidth()));
+                          ydim.setText(String.valueOf(dimIcon.getIconHeight()));
+                      }
 
-                if (temp != null && !Files.probeContentType(Paths.get(resizeImage.getAbsolutePath())).endsWith("png")) {
-                    resizeImage = null;
-                }
+                      if (temp != null && !Files.probeContentType(Paths.get(resizeImage.getAbsolutePath())).endsWith("png")) {
+                          resizeImage = null;
+                      }
+                  } catch (Exception ex) {
+                      ErrorHandler.handle(ex);
+                  }
+                }, "wait thread for GetterUtil().getFile()").start();
             }
 
             catch (Exception ex) {

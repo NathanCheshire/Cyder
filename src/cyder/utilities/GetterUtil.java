@@ -37,9 +37,10 @@ public class GetterUtil {
     STRING GETTER
      */
 
-    /** Custom getInput method, see usage below for how to setup if you would like this method to not
-     * spin wait on the main GUI thread and be able to continue operations. Ignoring the below setup
-     * instructions will make the application spin wait until the getter acquires a string or is exited.
+    /** Custom getInput method, see usage below for how to setup so that the program doesn't
+     * spin wait on the main GUI thread forever. Ignoring the below setup
+     * instructions is fine only for the getString method, the getFile method must be surrounded by
+     * a thread whenever called.
      *
      * USAGE:
      *  <pre>
@@ -150,9 +151,9 @@ public class GetterUtil {
     FILE GETTER
      */
 
-    /** Custom getInput method, see usage below for how to setup if you would like this method to not
-     * spin wait on the main GUI thread and be able to continue operations. Ignoring the below setup
-     * instructions will make the application spin wait until the getter acquires a File or is exited.
+    /** Custom getInput method, see usage below for how to setup so that the program doesn't
+     * spin wait on the main GUI thread forever. Ignoring the below setup
+     * instructions will make the application spin wait possibly forever.
      *
      * USAGE:
      * <pre>
