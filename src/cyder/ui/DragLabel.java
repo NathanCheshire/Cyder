@@ -10,13 +10,17 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
 
+
+/**
+ * Class to be used for CyderFrames, the parent is expected to be an instance of CyderFrame
+ */
 public class DragLabel extends JLabel {
-    private int restoreX = Integer.MAX_VALUE;
-    private int restoreY = Integer.MAX_VALUE;
     private int width;
     private int height;
-    private JFrame effectFrame;
+    private CyderFrame effectFrame;
 
+    private int xOffset;
+    private int yOffset;
     private int xMouse;
     private int yMouse;
 
@@ -28,7 +32,7 @@ public class DragLabel extends JLabel {
 
     private boolean draggingEnabled = true;
 
-    public DragLabel(int w, int h, JFrame effectFrame) {
+    public DragLabel(int w, int h, CyderFrame effectFrame) {
         this.width = w;
         this.height = h;
 
@@ -45,9 +49,9 @@ public class DragLabel extends JLabel {
                 int y = e.getYOnScreen();
 
                 if (effectFrame != null && effectFrame.isFocused() && draggingEnabled) {
-                    effectFrame.setLocation(x - xMouse, y - yMouse);
-                    restoreX = effectFrame.getX();
-                    restoreY = effectFrame.getY();
+                    effectFrame.setLocation(x - xMouse - xOffset, y - yMouse - yOffset);
+                    effectFrame.setRestoreX(effectFrame.getX());
+                    effectFrame.setRestoreY(effectFrame.getY());
                 }
             }
 
@@ -61,7 +65,7 @@ public class DragLabel extends JLabel {
         effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowDeiconified(WindowEvent e) {
-            effectFrame.setLocation(restoreX,restoreY);
+            effectFrame.setLocation(effectFrame.getRestoreX(),effectFrame.getRestoreY());
             effectFrame.setVisible(true);
             effectFrame.requestFocus();
             }
@@ -70,10 +74,10 @@ public class DragLabel extends JLabel {
         effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowIconified(WindowEvent e) {
-            if (restoreX == Integer.MAX_VALUE) {
-                restoreX = effectFrame.getX();
-                restoreY = effectFrame.getY();
-            }
+                if (effectFrame.getRestoreX() == Integer.MAX_VALUE || effectFrame.getRestoreY() == Integer.MAX_VALUE) {
+                    effectFrame.setRestoreX(effectFrame.getX());
+                    effectFrame.setRestoreY(effectFrame.getY());
+                }
             }
         });
 
@@ -85,22 +89,6 @@ public class DragLabel extends JLabel {
         this.width = width;
         refreshButtons();
         revalidate();
-    }
-
-    public int getRestoreX() {
-        return this.restoreX;
-    }
-
-    public int getRestoreY() {
-        return this.restoreY;
-    }
-
-    public void setRestoreX(int x) {
-       this.restoreX = x;
-    }
-
-    public void setRestoreY(int y) {
-        this.restoreY = y;
     }
 
     public int getWidth() {
@@ -150,8 +138,8 @@ public class DragLabel extends JLabel {
         JButton minimize = new JButton("");
         minimize.setToolTipText("Minimize");
         minimize.addActionListener(e -> {
-            restoreX = effectFrame.getX();
-            restoreY = effectFrame.getY();
+            effectFrame.setRestoreX(effectFrame.getX());
+            effectFrame.setRestoreY(effectFrame.getY());
             AnimationUtil.minimizeAnimation(effectFrame);
         });
 
@@ -175,13 +163,7 @@ public class DragLabel extends JLabel {
 
         JButton close = new JButton("");
         close.setToolTipText("Close");
-        close.addActionListener(e -> {
-            if (effectFrame instanceof CyderFrame) {
-                ((CyderFrame) effectFrame).closeAnimation();
-            } else {
-                AnimationUtil.closeAnimation(effectFrame);
-            }
-        });
+        close.addActionListener(e -> effectFrame.closeAnimation());
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -248,5 +230,21 @@ public class DragLabel extends JLabel {
             add(buttonsList.get(i));
             addWidth -= 26;
         }
+    }
+
+    public int getxOffset() {
+        return xOffset;
+    }
+
+    public int getyOffset() {
+        return yOffset;
+    }
+
+    public void setxOffset(int xOffset) {
+        this.xOffset = xOffset;
+    }
+
+    public void setyOffset(int yOffset) {
+        this.yOffset = yOffset;
     }
 }

@@ -2017,8 +2017,8 @@ public class CyderMain {
                         f.setState(Frame.NORMAL);
 
                         if (f instanceof CyderFrame) {
-                            ((CyderFrame) f).getDragLabel().setRestoreX(consoleFrame.getX());
-                            ((CyderFrame) f).getDragLabel().setRestoreY(consoleFrame.getY());
+                            ((CyderFrame) f).setRestoreX(consoleFrame.getX());
+                            ((CyderFrame) f).setRestoreY(consoleFrame.getY());
                         }
                     }
 

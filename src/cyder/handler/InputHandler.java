@@ -13,6 +13,11 @@ public class InputHandler {
 
 
 
+    //todo optimize frame notification checker so that if no notificaitons,
+    // end and when a new one is put in queueu, start back up
+
+    //todo photoviewer should be cyderframe now that we can add buttons to it
+
     //todo color converter fields like rest of the new ones, add these properties to cyder textfield
 
     //todo youtube thumbnail be able to say add to backgrounds

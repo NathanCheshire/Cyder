@@ -44,106 +44,106 @@ public class PhotoViewer {
     }
 
     public void start() {
-        initFiles();
-
-        File ImageName = validImages.get(currentIndex);
-
-        if (pictureFrame != null)
-            AnimationUtil.closeAnimation(pictureFrame);
-
-        BufferedImage Image = null;
-
-        try {
-            Image = ImageIO.read(ImageName);
-        } catch (Exception ex) {
-            ErrorHandler.handle(ex);
-        }
-
-        pictureFrame = new JFrame();
-        pictureFrame.setBackground(CyderColors.navy);
-        pictureFrame.setUndecorated(true);
-        pictureFrame.setTitle(ImageName.getName().replace(".png", ""));
-        pictureFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        ImageIcon size = checkImage(ImageName);
-        pictureLabel = new JLabel(size);
-        pictureFrame.setContentPane(pictureLabel);
-        pictureLabel.setToolTipText(validImages.get(currentIndex).getName());
-        pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
-
-        dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
-        pictureLabel.add(dl);
-
-        rename = new JLabel("Rename");
-        rename.setToolTipText("Rename image");
-        rename.setForeground(CyderColors.vanila);
-        rename.setFont(CyderFonts.weatherFontSmall);
-        rename.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                rename();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                rename.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                rename.setForeground(CyderColors.vanila);
-            }
-        });
-
-        rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
-        dl.add(rename);
-
-        nextImage = new JLabel(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
-        nextImage.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                scrollFoward();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture2.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
-            }
-        });
-        nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
-        nextImage.setToolTipText("Next image");
-        dl.add(nextImage);
-
-        lastImage = new JLabel(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
-        lastImage.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                scrollBack();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture2.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
-            }
-        });
-        lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
-        lastImage.setToolTipText("Last image");
-        dl.add(lastImage);
-
-        pictureFrame.setSize(size.getIconWidth(),size.getIconHeight());
-        pictureFrame.setVisible(true);
-        pictureFrame.setLocationRelativeTo(null);
-        pictureFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
+//        initFiles();
+//
+//        File ImageName = validImages.get(currentIndex);
+//
+//        if (pictureFrame != null)
+//            AnimationUtil.closeAnimation(pictureFrame);
+//
+//        BufferedImage Image = null;
+//
+//        try {
+//            Image = ImageIO.read(ImageName);
+//        } catch (Exception ex) {
+//            ErrorHandler.handle(ex);
+//        }
+//
+//        pictureFrame = new JFrame();
+//        pictureFrame.setBackground(CyderColors.navy);
+//        pictureFrame.setUndecorated(true);
+//        pictureFrame.setTitle(ImageName.getName().replace(".png", ""));
+//        pictureFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//
+//        ImageIcon size = checkImage(ImageName);
+//        pictureLabel = new JLabel(size);
+//        pictureFrame.setContentPane(pictureLabel);
+//        pictureLabel.setToolTipText(validImages.get(currentIndex).getName());
+//        pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
+//
+//        dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
+//        pictureLabel.add(dl);
+//
+//        rename = new JLabel("Rename");
+//        rename.setToolTipText("Rename image");
+//        rename.setForeground(CyderColors.vanila);
+//        rename.setFont(CyderFonts.weatherFontSmall);
+//        rename.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                rename();
+//            }
+//
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//                rename.setForeground(CyderColors.regularRed);
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent e) {
+//                rename.setForeground(CyderColors.vanila);
+//            }
+//        });
+//
+//        rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
+//        dl.add(rename);
+//
+//        nextImage = new JLabel(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
+//        nextImage.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                scrollFoward();
+//            }
+//
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//                nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture2.png"));
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent e) {
+//                nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
+//            }
+//        });
+//        nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
+//        nextImage.setToolTipText("Next image");
+//        dl.add(nextImage);
+//
+//        lastImage = new JLabel(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
+//        lastImage.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                scrollBack();
+//            }
+//
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//                lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture2.png"));
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent e) {
+//                lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
+//            }
+//        });
+//        lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
+//        lastImage.setToolTipText("Last image");
+//        dl.add(lastImage);
+//
+//        pictureFrame.setSize(size.getIconWidth(),size.getIconHeight());
+//        pictureFrame.setVisible(true);
+//        pictureFrame.setLocationRelativeTo(null);
+//        pictureFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
     }
 
     private void initFiles() {
@@ -179,212 +179,211 @@ public class PhotoViewer {
     }
 
     private void scrollFoward() {
-        oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
-        oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
-
-        try {
-            if (currentIndex + 1 < validImages.size()) {
-                currentIndex += 1;
-            }
-
-            else {
-                currentIndex = 0;
-            }
-
-            ImageIcon size = checkImage(validImages.get(currentIndex));
-            pictureLabel = new JLabel(size);
-            pictureLabel.setToolTipText(validImages.get(currentIndex).getName());
-            pictureFrame.setContentPane(pictureLabel);
-            pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
-
-            dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
-            pictureLabel.add(dl);
-
-            rename = new JLabel("Rename");
-            rename.setToolTipText("Rename image");
-            rename.setForeground(CyderColors.vanila);
-            rename.setFont(CyderFonts.weatherFontSmall);
-            rename.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    rename();
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    rename.setForeground(CyderColors.regularRed);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    rename.setForeground(CyderColors.vanila);
-                }
-            });
-
-            rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
-            dl.add(rename);
-
-            nextImage = new JLabel(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
-            nextImage.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    scrollFoward();
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture2.png"));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
-                }
-            });
-            nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
-            nextImage.setToolTipText("Next image");
-            dl.add(nextImage);
-
-            lastImage = new JLabel(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
-            lastImage.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    scrollBack();
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture2.png"));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
-                }
-            });
-            lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
-            lastImage.setToolTipText("Last image");
-            dl.add(lastImage);
-
-            pictureLabel.setSize(size.getIconWidth(), size.getIconHeight());
-            pictureLabel.setIcon(size);
-            pictureLabel.revalidate();
-
-            pictureFrame.setSize(size.getIconWidth(), size.getIconHeight());
-            pictureFrame.revalidate();
-            pictureFrame.setTitle(validImages.get(currentIndex).getName().replace(".png", ""));
-            pictureFrame.setLocation(oldCenterX - pictureFrame.getWidth() / 2,
-                    oldCenterY - pictureFrame.getHeight() / 2);
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+//        oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
+//        oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
+//
+//        try {
+//            if (currentIndex + 1 < validImages.size()) {
+//                currentIndex += 1;
+//            }
+//
+//            else {
+//                currentIndex = 0;
+//            }
+//
+//            ImageIcon size = checkImage(validImages.get(currentIndex));
+//            pictureLabel = new JLabel(size);
+//            pictureLabel.setToolTipText(validImages.get(currentIndex).getName());
+//            pictureFrame.setContentPane(pictureLabel);
+//            pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
+//
+//            dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
+//            pictureLabel.add(dl);
+//
+//            rename = new JLabel("Rename");
+//            rename.setToolTipText("Rename image");
+//            rename.setForeground(CyderColors.vanila);
+//            rename.setFont(CyderFonts.weatherFontSmall);
+//            rename.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                    rename();
+//                }
+//
+//                @Override
+//                public void mouseEntered(MouseEvent e) {
+//                    rename.setForeground(CyderColors.regularRed);
+//                }
+//
+//                @Override
+//                public void mouseExited(MouseEvent e) {
+//                    rename.setForeground(CyderColors.vanila);
+//                }
+//            });
+//
+//            rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
+//            dl.add(rename);
+//
+//            nextImage = new JLabel(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
+//            nextImage.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                    scrollFoward();
+//                }
+//
+//                @Override
+//                public void mouseEntered(MouseEvent e) {
+//                    nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture2.png"));
+//                }
+//
+//                @Override
+//                public void mouseExited(MouseEvent e) {
+//                    nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
+//                }
+//            });
+//            nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
+//            nextImage.setToolTipText("Next image");
+//            dl.add(nextImage);
+//
+//            lastImage = new JLabel(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
+//            lastImage.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                    scrollBack();
+//                }
+//
+//                @Override
+//                public void mouseEntered(MouseEvent e) {
+//                    lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture2.png"));
+//                }
+//
+//                @Override
+//                public void mouseExited(MouseEvent e) {
+//                    lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
+//                }
+//            });
+//            lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
+//            lastImage.setToolTipText("Last image");
+//            dl.add(lastImage);
+//
+//            pictureLabel.setSize(size.getIconWidth(), size.getIconHeight());
+//            pictureLabel.setIcon(size);
+//            pictureLabel.revalidate();
+//
+//            pictureFrame.setSize(size.getIconWidth(), size.getIconHeight());
+//            pictureFrame.revalidate();
+//            pictureFrame.setTitle(validImages.get(currentIndex).getName().replace(".png", ""));
+//            pictureFrame.setLocation(oldCenterX - pictureFrame.getWidth() / 2,
+//                    oldCenterY - pictureFrame.getHeight() / 2);
+//        }
+//
+//        catch (Exception e) {
+//            ErrorHandler.handle(e);
+//        }
     }
 
     private void scrollBack() {
-        oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
-        oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
-
-        try {
-            if (currentIndex - 1 >= 0) {
-                currentIndex--;
-            }
-
-            else {
-                currentIndex = validImages.size() - 1;
-            }
-
-            ImageIcon size = checkImage(validImages.get(currentIndex));
-            pictureLabel = new JLabel(size);
-            pictureLabel.setToolTipText(validImages.get(currentIndex).getName());
-            pictureFrame.setContentPane(pictureLabel);
-            pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
-
-            dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
-            pictureLabel.add(dl);
-
-            rename = new JLabel("Rename");
-            rename.setToolTipText("Rename image");
-            rename.setForeground(CyderColors.vanila);
-            rename.setFont(CyderFonts.weatherFontSmall);
-            rename.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                   rename();
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    rename.setForeground(CyderColors.regularRed);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    rename.setForeground(CyderColors.vanila);
-                }
-            });
-
-            rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
-            dl.add(rename);
-
-            nextImage = new JLabel(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
-            nextImage.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    scrollFoward();
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture2.png"));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
-                }
-            });
-            nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
-            nextImage.setToolTipText("Next image");
-            dl.add(nextImage);
-
-            lastImage = new JLabel(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
-            lastImage.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    scrollBack();
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture2.png"));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
-                }
-            });
-            lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
-            lastImage.setToolTipText("Last image");
-            dl.add(lastImage);
-
-            pictureLabel.setSize(size.getIconWidth(), size.getIconHeight());
-            pictureLabel.setIcon(size);
-            pictureLabel.revalidate();
-
-            pictureFrame.setSize(size.getIconWidth(), size.getIconHeight());
-            pictureFrame.revalidate();
-            pictureFrame.setTitle(validImages.get(currentIndex).getName().replace(".png", ""));
-            pictureFrame.setLocation(oldCenterX - pictureFrame.getWidth() / 2,
-                    oldCenterY - pictureFrame.getHeight() / 2);
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-
+//        oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
+//        oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
+//
+//        try {
+//            if (currentIndex - 1 >= 0) {
+//                currentIndex--;
+//            }
+//
+//            else {
+//                currentIndex = validImages.size() - 1;
+//            }
+//
+//            ImageIcon size = checkImage(validImages.get(currentIndex));
+//            pictureLabel = new JLabel(size);
+//            pictureLabel.setToolTipText(validImages.get(currentIndex).getName());
+//            pictureFrame.setContentPane(pictureLabel);
+//            pictureLabel.setBorder(new LineBorder(CyderColors.navy,8,false));
+//
+//            dl = new DragLabel(size.getIconWidth(), 30, pictureFrame);
+//            pictureLabel.add(dl);
+//
+//            rename = new JLabel("Rename");
+//            rename.setToolTipText("Rename image");
+//            rename.setForeground(CyderColors.vanila);
+//            rename.setFont(CyderFonts.weatherFontSmall);
+//            rename.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                   rename();
+//                }
+//
+//                @Override
+//                public void mouseEntered(MouseEvent e) {
+//                    rename.setForeground(CyderColors.regularRed);
+//                }
+//
+//                @Override
+//                public void mouseExited(MouseEvent e) {
+//                    rename.setForeground(CyderColors.vanila);
+//                }
+//            });
+//
+//            rename.setBounds(size.getIconWidth() / 2 - 50, 5, 90, 20);
+//            dl.add(rename);
+//
+//            nextImage = new JLabel(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
+//            nextImage.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                    scrollFoward();
+//                }
+//
+//                @Override
+//                public void mouseEntered(MouseEvent e) {
+//                    nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture2.png"));
+//                }
+//
+//                @Override
+//                public void mouseExited(MouseEvent e) {
+//                    nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
+//                }
+//            });
+//            nextImage.setBounds(size.getIconWidth() / 2 - 50 + 100, 5, 22, 22);
+//            nextImage.setToolTipText("Next image");
+//            dl.add(nextImage);
+//
+//            lastImage = new JLabel(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
+//            lastImage.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                    scrollBack();
+//                }
+//
+//                @Override
+//                public void mouseEntered(MouseEvent e) {
+//                    lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture2.png"));
+//                }
+//
+//                @Override
+//                public void mouseExited(MouseEvent e) {
+//                    lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
+//                }
+//            });
+//            lastImage.setBounds(size.getIconWidth() / 2 - 50 - 40, 5, 22, 22);
+//            lastImage.setToolTipText("Last image");
+//            dl.add(lastImage);
+//
+//            pictureLabel.setSize(size.getIconWidth(), size.getIconHeight());
+//            pictureLabel.setIcon(size);
+//            pictureLabel.revalidate();
+//
+//            pictureFrame.setSize(size.getIconWidth(), size.getIconHeight());
+//            pictureFrame.revalidate();
+//            pictureFrame.setTitle(validImages.get(currentIndex).getName().replace(".png", ""));
+//            pictureFrame.setLocation(oldCenterX - pictureFrame.getWidth() / 2,
+//                    oldCenterY - pictureFrame.getHeight() / 2);
+//        }
+//
+//        catch (Exception e) {
+//            ErrorHandler.handle(e);
+//        }
     }
 
     //returns a scaled down imageicon if the image file is too big
