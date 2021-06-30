@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
 
-
 /**
  * Class to be used for CyderFrames, the parent is expected to be an instance of CyderFrame
  */
@@ -87,6 +86,21 @@ public class DragLabel extends JLabel {
     public void setWidth(int width) {
         super.setSize(width,getHeight());
         this.width = width;
+        refreshButtons();
+        revalidate();
+    }
+
+    public void setHeight(int height) {
+        super.setSize(getWidth(), height);
+        this.height = height;
+        refreshButtons();
+        revalidate();
+    }
+
+    public void setSize(int width, int height) {
+        super.setSize(width,height);
+        this.width = width;
+        this.height = height;
         refreshButtons();
         revalidate();
     }
@@ -226,9 +240,16 @@ public class DragLabel extends JLabel {
         int addWidth = width - 26;
 
         for (int i = buttonsList.size() - 1 ; i >= 0 ; i--) {
-            buttonsList.get(i).setBounds(addWidth, 0, 22, 28);
+            int textWidth = 0;
+
+            if(buttonsList.get(i).getText().length() > 0) {
+                textWidth = CyderFrame.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
+            }
+
+            //might have to fix this method here depending on how many more buttons with text you add
+            buttonsList.get(i).setBounds(addWidth - textWidth, 0, textWidth == 0 ? 22 : textWidth + 25, 28);
             add(buttonsList.get(i));
-            addWidth -= 26;
+            addWidth -= (26 + textWidth);
         }
     }
 

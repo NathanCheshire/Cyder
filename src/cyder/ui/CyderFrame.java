@@ -13,6 +13,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,6 +46,10 @@ public class CyderFrame extends JFrame {
     private ImageIcon background;
 
     private DragLabel topDrag;
+    private DragLabel bottomDrag;
+    private DragLabel leftDrag;
+    private DragLabel rightDrag;
+
     private int restoreX = Integer.MAX_VALUE;
     private int restoreY = Integer.MIN_VALUE;
 
@@ -81,36 +86,34 @@ public class CyderFrame extends JFrame {
         contentLabel = new JLabel();
         contentLabel.setIcon(background);
         setContentPane(contentLabel);
+        contentLabel.setBorder(new LineBorder(CyderColors.navy, 1, false));
 
-        topDrag = new DragLabel(width, 30, this);
-        topDrag.setBounds(0, 0, width, 30);
+        topDrag = new DragLabel(width, DragLabel.getDefaultHeight() - 1, this);
+        topDrag.setBounds(0, 1, width, DragLabel.getDefaultHeight() - 1);
         topDrag.setxOffset(0);
-        topDrag.setyOffset(0);
+        topDrag.setyOffset(1);
         contentLabel.add(topDrag);
 
-        DragLabel leftDrag = new DragLabel(5, height - DragLabel.getDefaultHeight(), this);
-        leftDrag.setBounds(0, DragLabel.getDefaultHeight(), 5, height - DragLabel.getDefaultHeight());
-        leftDrag.setxOffset(0);
+        leftDrag = new DragLabel(4, height - DragLabel.getDefaultHeight() - 2, this);
+        leftDrag.setBounds(1, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
+        leftDrag.setxOffset(1);
         leftDrag.setyOffset(DragLabel.getDefaultHeight());
         contentLabel.add(leftDrag);
 
-        DragLabel rightDrag = new DragLabel(5, height - DragLabel.getDefaultHeight(), this);
-        rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), width, height - DragLabel.getDefaultHeight());
+        rightDrag = new DragLabel(4, height - DragLabel.getDefaultHeight() - 2, this);
+        rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
         rightDrag.setxOffset(width - 5);
         rightDrag.setyOffset(DragLabel.getDefaultHeight());
         contentLabel.add(rightDrag);
 
-        DragLabel bottomDrag = new DragLabel(width, 5, this);
-        bottomDrag.setBounds(0, height - 5, width, 5);
+        bottomDrag = new DragLabel(width, 4, this);
+        bottomDrag.setBounds(0, height - 5, width, 4);
         bottomDrag.setxOffset(0);
         bottomDrag.setyOffset(height - 5);
         contentLabel.add(bottomDrag);
 
-        //todo it would be great to enable dragging on all of these
         //todo now just make sure notifications are put over components but not over the drag labels
-
-        //todo maybe a master drag label that is the whole back but you put content label over it?
-        // then override get content pane to return content label and make a getTrueContentPane method
+        //todo override get content pane to return content label and make a getTrueContentPane method?
 
         titleLabel = new JLabel("");
         titleLabel.setFont(new Font("Agency FB", Font.BOLD, 22));
@@ -157,7 +160,7 @@ public class CyderFrame extends JFrame {
         if (different && isVisible()) {
             if (titlePosition != CyderFrame.TitlePosition.CENTER) {
                 new Thread(() -> {
-                    for (int i = (getDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i > 4; i--) {
+                    for (int i = (getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i > 4; i--) {
                         if (this.control_c_threads)
                             break;
 
@@ -172,7 +175,7 @@ public class CyderFrame extends JFrame {
                 },"title position animater").start();
             } else {
                 new Thread(() -> {
-                    for (int i = 5; i < (getDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2) + 1; i++) {
+                    for (int i = 5; i < (getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2) + 1; i++) {
                         if (this.control_c_threads)
                             break;
 
@@ -247,7 +250,7 @@ public class CyderFrame extends JFrame {
 
             switch (titlePosition) {
                 case CENTER:
-                    titleLabel.setBounds((getDragLabel().getWidth() / 2) - (getMinWidth(title) / 2), 2, getMinWidth(title), 25);
+                    titleLabel.setBounds((getTopDragLabel().getWidth() / 2) - (getMinWidth(title) / 2), 2, getMinWidth(title), 25);
                     break;
 
                 default:
@@ -482,9 +485,6 @@ public class CyderFrame extends JFrame {
                                     break;
                             }
 
-                            //todo not long enough, calculate entertime and exit time better OR, have the notification vanish
-                            // send a signal back here to poll the next one
-
                             //sleep the enter time, duration, exit time, and an extra 500ms
                             Thread.sleep(enterTime + duration + exitTime + 500);
                         }
@@ -497,12 +497,35 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Getter for the drag label associated with this CyderFrame instance. Used for frame resizing.
-     *
+     * Getter for the top drag label associated with this CyderFrame instance. Used for frame resizing.
      * @return - The associated DragLabel
      */
-    public DragLabel getDragLabel() {
+    public DragLabel getTopDragLabel() {
         return topDrag;
+    }
+
+    /**
+     * Getter for the bottom drag label associated with this CyderFrame instance. Used for frame resizing.
+     * @return - The associated DragLabel
+     */
+    public DragLabel getBottomDragLabel() {
+        return bottomDrag;
+    }
+
+    /**
+     * Getter for the left drag label associated with this CyderFrame instance. Used for frame resizing.
+     * @return - The associated DragLabel
+     */
+    public DragLabel getLeftDragLabel() {
+        return leftDrag;
+    }
+
+    /**
+     * Getter for the right drag label associated with this CyderFrame instance. Used for frame resizing.
+     * @return - The associated DragLabel
+     */
+    public DragLabel getRightDragLabel() {
+        return rightDrag;
     }
 
     /**
@@ -549,6 +572,9 @@ public class CyderFrame extends JFrame {
             return;
 
         topDrag.disableDragging();
+        bottomDrag.disableDragging();
+        leftDrag.disableDragging();
+        rightDrag.disableDragging();
 
         try {
             if (this != null && this.isVisible()) {
@@ -586,6 +612,9 @@ public class CyderFrame extends JFrame {
             return;
 
         topDrag.disableDragging();
+        bottomDrag.disableDragging();
+        leftDrag.disableDragging();
+        rightDrag.disableDragging();
 
         Point point = this.getLocationOnScreen();
         int x = (int) point.getX();
@@ -603,6 +632,9 @@ public class CyderFrame extends JFrame {
         }
 
         topDrag.enableDragging();
+        bottomDrag.enableDragging();
+        leftDrag.enableDragging();
+        rightDrag.enableDragging();
     }
 
     /**
@@ -611,10 +643,17 @@ public class CyderFrame extends JFrame {
      * @param relocatable - the boolean value determining if the window may be repositioned
      */
     public void setRelocatable(boolean relocatable) {
-        if (relocatable)
+        if (relocatable) {
             topDrag.enableDragging();
-        else
+            bottomDrag.enableDragging();
+            leftDrag.enableDragging();
+            rightDrag.enableDragging();
+        } else {
             topDrag.disableDragging();
+            bottomDrag.disableDragging();
+            leftDrag.disableDragging();
+            rightDrag.disableDragging();
+        }
     }
 
     //used for a ctrl + c even to stop dancing or anything else we might want to stop
@@ -638,6 +677,9 @@ public class CyderFrame extends JFrame {
 
             if (topDrag.isDraggingEnabled()) {
                 topDrag.disableDragging();
+                bottomDrag.disableDragging();
+                leftDrag.disableDragging();
+                rightDrag.disableDragging();
                 wasEnabled = true;
             }
 
@@ -724,8 +766,12 @@ public class CyderFrame extends JFrame {
             setLocation(restoreX, restoreY);
             setAlwaysOnTop(false);
 
-            if (wasEnabled)
+            if (wasEnabled) {
                 topDrag.enableDragging();
+                bottomDrag.enableDragging();
+                leftDrag.enableDragging();
+                rightDrag.enableDragging();
+            }
         },this + " [dance thread]");
 
         DanceThread.start();
@@ -816,9 +862,29 @@ public class CyderFrame extends JFrame {
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
 
-        if (getDragLabel() != null) {
-            getDragLabel().setWidth(width);
+        if (getTopDragLabel() != null) {
+            getTopDragLabel().setWidth(width);
+            getBottomDragLabel().setWidth(width);
+            getLeftDragLabel().setHeight(height);
+            getRightDragLabel().setHeight(height);
             setTitle(getTitle());
+
+            topDrag.setBounds(0, 1, width, DragLabel.getDefaultHeight() - 1);
+            leftDrag.setBounds(1, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
+            rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
+            bottomDrag.setBounds(0, height - 5, width, 4);
+
+            topDrag.setxOffset(0);
+            topDrag.setyOffset(1);
+
+            leftDrag.setxOffset(1);
+            leftDrag.setyOffset(DragLabel.getDefaultHeight());
+
+            rightDrag.setxOffset(width - 5);
+            rightDrag.setyOffset(DragLabel.getDefaultHeight());
+
+            bottomDrag.setxOffset(0);
+            bottomDrag.setyOffset(height - 5);
         }
 
         if (getCurrentNotification() != null)

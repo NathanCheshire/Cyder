@@ -19,7 +19,7 @@ public class AnimationUtil {
      */
     public static void closeAnimation(Frame frame) {
         if (frame instanceof CyderFrame) {
-            ((CyderFrame) frame).getDragLabel().disableDragging();
+            ((CyderFrame) frame).getTopDragLabel().disableDragging();
         }
 
         try {
@@ -40,7 +40,7 @@ public class AnimationUtil {
         }
 
         if (frame instanceof CyderFrame) {
-            ((CyderFrame) frame).getDragLabel().enableDragging();
+            ((CyderFrame) frame).getTopDragLabel().enableDragging();
         }
     }
 
@@ -51,7 +51,7 @@ public class AnimationUtil {
      */
     public static void minimizeAnimation(JFrame frame) {
         if (frame instanceof CyderFrame) {
-            ((CyderFrame) frame).getDragLabel().disableDragging();
+            ((CyderFrame) frame).getTopDragLabel().disableDragging();
         }
 
         Point point = frame.getLocationOnScreen();
@@ -70,7 +70,7 @@ public class AnimationUtil {
         }
 
         if (frame instanceof CyderFrame) {
-            ((CyderFrame) frame).getDragLabel().enableDragging();
+            ((CyderFrame) frame).getTopDragLabel().enableDragging();
         }
     }
 

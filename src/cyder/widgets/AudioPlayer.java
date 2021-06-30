@@ -120,7 +120,7 @@ public class AudioPlayer {
         changeSize.setContentAreaFilled(false);
         changeSize.setBorderPainted(false);
         changeSize.setFocusPainted(false);
-        audioFrame.getDragLabel().addButton(changeSize, 1);
+        audioFrame.getTopDragLabel().addButton(changeSize, 1);
 
         JButton pinButton = new JButton("");
         pinButton.setToolTipText("Pin window");
@@ -148,7 +148,7 @@ public class AudioPlayer {
         pinButton.setContentAreaFilled(false);
         pinButton.setBorderPainted(false);
         pinButton.setFocusPainted(false);
-        audioFrame.getDragLabel().addButton(pinButton, 1);
+        audioFrame.getTopDragLabel().addButton(pinButton, 1);
 
         audioTitleLabel = new JLabel("", SwingConstants.CENTER);
         audioTitleLabel.setBounds(50, 40, 400, 30);

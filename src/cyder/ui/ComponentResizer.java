@@ -8,8 +8,7 @@ import javax.swing.SwingUtilities;
 
 public class ComponentResizer extends MouseAdapter {
     private final Dimension MINIMUM_SIZE = new Dimension(10, 10);
-    private final Dimension MAXIMUM_SIZE =
-            new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    private final Dimension MAXIMUM_SIZE = new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
 
     private Map<Integer, Integer> cursors = new HashMap<>(); {
         cursors.put(1, Cursor.N_RESIZE_CURSOR);
@@ -110,10 +109,8 @@ public class ComponentResizer extends MouseAdapter {
         int minimumWidth = drag.left + drag.right;
         int minimumHeight = drag.top + drag.bottom;
 
-        if (minimum.width  < minimumWidth ||  minimum.height < minimumHeight) {
-            String message = "Minimum size cannot be less than drag insets";
-            throw new IllegalArgumentException(message);
-        }
+        if (minimum.width  < minimumWidth ||  minimum.height < minimumHeight)
+            throw new IllegalArgumentException("Minimum size cannot be less than drag insets");
     }
 
     @Override
@@ -136,9 +133,7 @@ public class ComponentResizer extends MouseAdapter {
 
         if (direction == 0) {
             source.setCursor( sourceCursor );
-        }
-
-        else {
+        } else {
             int cursorType = cursors.get( direction );
             Cursor cursor = Cursor.getPredefinedCursor( cursorType );
             source.setCursor( cursor );
