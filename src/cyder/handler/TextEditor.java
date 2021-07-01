@@ -2,6 +2,7 @@ package cyder.handler;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
@@ -12,8 +13,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.*;
-
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class TextEditor {
 
@@ -29,7 +28,7 @@ public class TextEditor {
         if (noteEditorFrame != null)
             noteEditorFrame.closeAnimation();
 
-        noteEditorFrame = new CyderFrame(600,625, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        noteEditorFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
 
         noteEditField = new JTextField(20);

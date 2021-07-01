@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
 import cyder.utilities.ColorUtil;
@@ -11,11 +12,10 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 
 import static cyder.consts.CyderColors.navy;
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class ColorConverter {
     public static void colorConverter() {
-        CyderFrame colorFrame = new CyderFrame(400,300,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        CyderFrame colorFrame = new CyderFrame(400,300, CyderImages.defaultBackground);
         colorFrame.setTitle("Color Converter");
 
         JLabel hexLabel = new JLabel("HEX:");

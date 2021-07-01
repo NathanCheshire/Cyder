@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 
 import cyder.ui.CyderButton;
@@ -16,8 +17,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
-
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class NumberUtil {
 
@@ -58,7 +57,7 @@ public class NumberUtil {
         if (numFrame != null)
             numFrame.closeAnimation();
 
-        numFrame = new CyderFrame(600, 230, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        numFrame = new CyderFrame(600, 230, CyderImages.defaultBackground);
         numFrame.setTitle("Number To Words");
         numFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         numFrame.initializeResizing();

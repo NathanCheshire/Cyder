@@ -3,6 +3,7 @@ package cyder.games;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
+import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCaret;
@@ -17,8 +18,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
-
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class Hangman {
     private CyderFrame HangmanFrame;
@@ -35,7 +34,7 @@ public class Hangman {
         if (HangmanFrame != null)
             HangmanFrame.closeAnimation();
 
-        HangmanFrame = new CyderFrame(712,812,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        HangmanFrame = new CyderFrame(712,812, CyderImages.defaultBackground);
         HangmanFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         HangmanFrame.setTitle("Hangman");
 

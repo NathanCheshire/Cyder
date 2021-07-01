@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderCheckBox;
@@ -12,8 +13,6 @@ import javax.swing.border.LineBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
-
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class TempConverter {
     private CyderFrame temperatureFrame;
@@ -30,7 +29,7 @@ public class TempConverter {
         if (temperatureFrame != null)
             temperatureFrame.closeAnimation();
 
-        temperatureFrame = new CyderFrame(600,340,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        temperatureFrame = new CyderFrame(600,340, CyderImages.defaultBackground);
         temperatureFrame.setTitle("Temperature Converter");
 
         JLabel ValueLabel = new JLabel("Measurement: ");

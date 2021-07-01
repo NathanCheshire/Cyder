@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCaret;
@@ -21,8 +22,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
-
 public class ImageResizer {
 
     private JTextField xdim;
@@ -39,7 +38,7 @@ public class ImageResizer {
     private boolean maintainAspectRatio = true;
 
     public ImageResizer() {
-        CyderFrame resizeFrame = new CyderFrame(800,800,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        CyderFrame resizeFrame = new CyderFrame(800,800, CyderImages.defaultBackground);
         resizeFrame.setTitle("Image Resizer");
 
         previewLabel = new JLabel();

@@ -1,7 +1,7 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
-import cyder.consts.CyderStrings;
+import cyder.consts.CyderImages;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 
@@ -14,7 +14,7 @@ import java.net.URL;
 
 public class ThumbnailStealer {
     public ThumbnailStealer() {
-        CyderFrame uuidFrame = new CyderFrame(400,240, new ImageIcon(CyderStrings.DEFAULT_BACKGROUND_PATH));
+        CyderFrame uuidFrame = new CyderFrame(400,240, CyderImages.defaultBackground);
         uuidFrame.setTitle("Thumbnail Stealer");
         uuidFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
 

@@ -49,7 +49,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -2766,8 +2765,7 @@ public class CyderMain {
     }
 
     private void test() {
-        CyderFrame testFrame = new CyderFrame(600,400);
-        testFrame.setBackground(CyderColors.vanila);
+        CyderFrame testFrame = new CyderFrame(600,400, CyderImages.defaultBackground);
         testFrame.setTitle("Test Frame");
         testFrame.initializeResizing();
         testFrame.setResizable(true);
@@ -2987,7 +2985,7 @@ public class CyderMain {
         if (editUserFrame != null)
             editUserFrame.closeAnimation();
 
-        editUserFrame = new CyderFrame(900, 700, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        editUserFrame = new CyderFrame(900, 700, CyderImages.defaultBackground);
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
         editUserFrame.initializeResizing();
@@ -3793,7 +3791,7 @@ public class CyderMain {
         if (createUserFrame != null)
             createUserFrame.closeAnimation();
 
-        createUserFrame = new CyderFrame(356, 473, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        createUserFrame = new CyderFrame(356, 473, CyderImages.defaultBackground);
         createUserFrame.setTitle("Create User");
 
         JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);
@@ -4001,8 +3999,15 @@ public class CyderMain {
                         newUserPasswordconf.setText("");
                     } else {
                         if (createUserBackground == null) {
-                            createUserFrame.inform("No background image was chosen so we're going to give you a sweet one ;)", "No background");
-                            createUserBackground = new File("sys/pictures/defaults/DefaultBackground.png");
+                            Image img = CyderImages.defaultBackground.getImage();
+
+                            BufferedImage bi = new BufferedImage(img.getWidth(null),
+                                    img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+
+                            Graphics2D g2 = bi.createGraphics();
+                            g2.drawImage(img, 0, 0, null);
+                            g2.dispose();
+                            ImageIO.write(bi, "png", new File("users/" + uuid + "/Backgrounds/Default.png"));
                         }
 
                         File NewUserFolder = new File("users/" + uuid);
@@ -4015,8 +4020,10 @@ public class CyderMain {
                         music.mkdir();
                         notes.mkdir();
 
-                        ImageIO.write(ImageIO.read(createUserBackground), "png",
-                                new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
+                        if (createUserBackground != null) {
+                            ImageIO.write(ImageIO.read(createUserBackground), "png",
+                                    new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
+                        }
 
                         //todo this needs to use binary writing
                         BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(

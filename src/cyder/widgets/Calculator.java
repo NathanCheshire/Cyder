@@ -3,16 +3,14 @@ package cyder.widgets;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
 
-import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class Calculator {
     private String calculatorExpression = "";
@@ -20,7 +18,7 @@ public class Calculator {
     public Calculator() {
         calculatorExpression = "";
 
-        CyderFrame calculatorFrame = new CyderFrame(600,600,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        CyderFrame calculatorFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
         calculatorFrame.setTitle("Calculator");
 
         CyderTextField calculatorField = new CyderTextField(20);

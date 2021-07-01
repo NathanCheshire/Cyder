@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
@@ -14,8 +15,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public final class ConsoleFrame extends CyderFrame {
 
@@ -212,8 +211,19 @@ public final class ConsoleFrame extends CyderFrame {
             backgroundFiles = new LinkedList<>(Arrays.asList(dir.listFiles(PNGFilter)));
 
             if (backgroundFiles.size() == 0) {
-                backgroundFiles = new LinkedList<>();
-                backgroundFiles.add(new File("sys/pictures/defaults/DefaultBackground.png"));
+
+                Image img = CyderImages.defaultBackground.getImage();
+
+                BufferedImage bi = new BufferedImage(img.getWidth(null),
+                        img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+
+                Graphics2D g2 = bi.createGraphics();
+                g2.drawImage(img, 0, 0, null);
+                g2.dispose();
+                ImageIO.write(bi, "png", new File("users/" + ConsoleFrame.getUsername()
+                        + "/Backgrounds/Default.png"));
+
+                initBackgrounds();
             }
         } catch (Exception ex) {
             ErrorHandler.handle(ex);

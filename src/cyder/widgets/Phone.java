@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
@@ -9,14 +10,12 @@ import cyder.utilities.IOUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
-
 public class Phone {
     private JLabel numberLabel;
     private String phoneNum;
 
     public Phone(JTextPane outputArea) {
-        CyderFrame phoneFrame = new CyderFrame(320,500,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        CyderFrame phoneFrame = new CyderFrame(320,500, CyderImages.defaultBackground);
         phoneFrame.setTitle("Phone");
 
         numberLabel = new JLabel("#");

@@ -10,6 +10,9 @@ public class InputHandler {
     // and direct the resulting flow and output
     // console frame (has-a) input handler (has-a) string util and context engine
 
+    //todo setting background color should override an imageicon for cyderframe and vice versa
+    // order should matter
+
     //todo close animation seems slower?
 
     //todo test adding and removing buttons from drag label

@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
@@ -14,8 +15,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.Stack;
-
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class DirectorySearch {
     private CyderFrame dirFrame;
@@ -33,7 +32,7 @@ public class DirectorySearch {
         if (dirFrame != null)
             dirFrame.closeAnimation();
 
-        dirFrame = new CyderFrame(620,470, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        dirFrame = new CyderFrame(620,470, CyderImages.defaultBackground);
         dirFrame.setTitle(new File(System.getProperty("user.dir")).getName());
 
         dirField = new JTextField(40);

@@ -3,6 +3,7 @@ package cyder.games;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
+import cyder.consts.CyderImages;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderButton;
 import cyder.utilities.ImageUtil;
@@ -10,8 +11,6 @@ import cyder.utilities.ImageUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class TicTacToe {
 
@@ -39,7 +38,7 @@ public class TicTacToe {
         if (tttFrame != null)
             tttFrame.closeAnimation();
 
-        tttFrame = new CyderFrame(400,500, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        tttFrame = new CyderFrame(400,500, CyderImages.defaultBackground);
         tttFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         tttFrame.setTitle("Tic Tac Toe");
 

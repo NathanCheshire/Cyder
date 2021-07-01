@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderStrings;
+import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCaret;
@@ -67,7 +67,7 @@ public class GetterUtil {
 
         new Thread(() -> {
             try {
-                CyderFrame inputFrame = new CyderFrame(400,170,new ImageIcon(CyderStrings.DEFAULT_BACKGROUND_PATH));
+                CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
                 inputFrame.setTitle(getStringFrameTitle());
 
                 JTextField inputField = new JTextField(20);

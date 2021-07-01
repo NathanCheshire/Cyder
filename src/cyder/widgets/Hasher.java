@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
+import cyder.consts.CyderImages;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.utilities.SecurityUtil;
@@ -12,13 +13,11 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
-
 public class Hasher {
     private JPasswordField hashField;
 
     public Hasher() {
-        CyderFrame hashFrame = new CyderFrame(500,200,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        CyderFrame hashFrame = new CyderFrame(500,200, CyderImages.defaultBackground);
         hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");
 

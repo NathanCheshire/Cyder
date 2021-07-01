@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -13,8 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
 
 public class Pizza {
 
@@ -40,7 +39,7 @@ public class Pizza {
         if (pizzaFrame != null)
             pizzaFrame.closeAnimation();
 
-        pizzaFrame = new CyderFrame(600,800, new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        pizzaFrame = new CyderFrame(600,800, CyderImages.defaultBackground);
         pizzaFrame.setTitle("Pizza");
 
         JLabel CustomerName = new JLabel("Name:");

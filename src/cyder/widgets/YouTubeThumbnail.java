@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCaret;
@@ -18,8 +19,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
-import static cyder.consts.CyderStrings.DEFAULT_BACKGROUND_PATH;
-
 public class YouTubeThumbnail {
     private CyderFrame yttnFrame;
     private CyderButton getYTTN;
@@ -32,7 +31,7 @@ public class YouTubeThumbnail {
         if (yttnFrame != null)
             yttnFrame.closeAnimation();
 
-        yttnFrame = new CyderFrame(600,225,new ImageIcon(DEFAULT_BACKGROUND_PATH));
+        yttnFrame = new CyderFrame(600,225, CyderImages.defaultBackground);
         yttnFrame.setTitle("YouTube Thumbnail");
         yttnFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
 
