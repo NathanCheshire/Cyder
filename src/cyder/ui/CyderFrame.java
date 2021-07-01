@@ -1012,7 +1012,7 @@ public class CyderFrame extends JFrame {
         try {
             currentOrigIcon = icon;
             contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
-                    .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
+                    .getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT)));
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -1020,13 +1020,13 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the background color of the Frame's content pane.
-     *
      * @param background - the Color object value of the content pane's desired background
      */
     @Override
     public void setBackground(Color background) {
         super.setBackground(background);
         backgroundColor = background;
+        currentOrigIcon = null;
         this.repaint();
     }
 

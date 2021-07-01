@@ -214,13 +214,27 @@ public class DragLabel extends JLabel {
      * @param addIndex - the index to append the button to in the button list
      */
     public void addButton(JButton button, int addIndex) {
+        //to avoid a weird visual bug, don't let a button that's already been added be added again
+        for (Component c : getComponents()) {
+            if (c instanceof JButton) {
+                if (c == button)
+                    throw new IllegalArgumentException("Attempting to add a button that is already added");
+            }
+        }
+
         buttonsList.add(addIndex, button);
         refreshButtons();
     }
 
     public void removeButton(int removeIndex) {
-        buttonsList.remove(removeIndex);
-        refreshButtons();
+        if (removeIndex > buttonsList.size() - 1)
+            throw new IllegalArgumentException("Invalid index");
+        else if (buttonsList.size() == 0)
+            throw new IllegalArgumentException("Empty list");
+        else {
+            buttonsList.remove(removeIndex);
+            refreshButtons();
+        }
     }
 
     public LinkedList<JButton> getButtonsList() {
@@ -237,6 +251,15 @@ public class DragLabel extends JLabel {
     }
 
     public void refreshButtons() {
+        //remove all buttons to repaint them
+        for (Component c : getComponents())
+            if (c instanceof JButton) {
+                this.remove(c);
+                this.revalidate();
+                this.repaint();
+            }
+
+
         int addWidth = width - 26;
 
         for (int i = buttonsList.size() - 1 ; i >= 0 ; i--) {
@@ -247,10 +270,13 @@ public class DragLabel extends JLabel {
             }
 
             //might have to fix this method here depending on how many more buttons with text you add
-            buttonsList.get(i).setBounds(addWidth - textWidth, 0, textWidth == 0 ? 22 : textWidth + 25, 28);
+            buttonsList.get(i).setBounds(addWidth - textWidth, 0, textWidth == 0 ? 22 : textWidth + 26, 28);
             add(buttonsList.get(i));
             addWidth -= (26 + textWidth);
         }
+
+        this.revalidate();
+        this.repaint();
     }
 
     public int getxOffset() {

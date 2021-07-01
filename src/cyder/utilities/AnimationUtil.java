@@ -29,7 +29,7 @@ public class AnimationUtil {
                 int y = (int) point.getY();
 
                 for (int i = y; i >= 0 - frame.getHeight(); i -= 15) {
-                    Thread.sleep(1);
+                    Thread.sleep(0, 500);
                     frame.setLocation(x, i);
                 }
 
@@ -48,6 +48,9 @@ public class AnimationUtil {
     public static void minimizeAnimation(JFrame frame) {
         if (frame instanceof CyderFrame) {
             ((CyderFrame) frame).getTopDragLabel().disableDragging();
+            ((CyderFrame) frame).getBottomDragLabel().disableDragging();
+            ((CyderFrame) frame).getLeftDragLabel().disableDragging();
+            ((CyderFrame) frame).getRightDragLabel().disableDragging();
         }
 
         Point point = frame.getLocationOnScreen();
@@ -56,7 +59,7 @@ public class AnimationUtil {
 
         try {
             for (int i = y; i <= SystemUtil.getScreenHeight(); i += 15) {
-                Thread.sleep(1);
+                Thread.sleep(0, 500);
                 frame.setLocation(x, i);
             }
 
@@ -67,6 +70,9 @@ public class AnimationUtil {
 
         if (frame instanceof CyderFrame) {
             ((CyderFrame) frame).getTopDragLabel().enableDragging();
+            ((CyderFrame) frame).getBottomDragLabel().enableDragging();
+            ((CyderFrame) frame).getLeftDragLabel().enableDragging();
+            ((CyderFrame) frame).getRightDragLabel().enableDragging();
         }
     }
 
@@ -78,7 +84,7 @@ public class AnimationUtil {
         frame.setVisible(true);
         frame.setLocation(SystemUtil.getScreenWidth() / 2 - frame.getWidth() / 2, - frame.getHeight());
 
-        for (int i = -frame.getHeight(); i < SystemUtil.getScreenHeight() / 2 - frame.getHeight() / 2; i += 7) {
+        for (int i = -frame.getHeight(); i < SystemUtil.getScreenHeight() / 2 - frame.getHeight() / 2; i += 15) {
             frame.setLocation(frame.getX(), i);
             try {
                 Thread.sleep(0,500);
@@ -87,8 +93,8 @@ public class AnimationUtil {
             }
         }
 
-//        frame.setLocation(SystemUtil.getScreenWidth() / 2 - frame.getWidth() / 2,
-//                SystemUtil.getScreenHeight() / 2 - frame.getHeight() / 2);
+        frame.setLocation(SystemUtil.getScreenWidth() / 2 - frame.getWidth() / 2,
+                SystemUtil.getScreenHeight() / 2 - frame.getHeight() / 2);
     }
 
     /**

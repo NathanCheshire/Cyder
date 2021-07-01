@@ -1,0 +1,21 @@
+java.desktop/javax.swing.JPanel cannot be cast to java.desktop/javax.swing.JLabel
+class java.lang.ClassCastException
+Error thrown by line: 1031
+
+Stack Trace:
+
+java.lang.ClassCastException: java.desktop/javax.swing.JPanel cannot be cast to java.desktop/javax.swing.JLabel
+	at cyder.ui.CyderFrame.setBackground(CyderFrame.java:1031)
+	at java.desktop/javax.swing.JFrame.frameInit(JFrame.java:259)
+	at java.desktop/javax.swing.JFrame.<init>(JFrame.java:181)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:75)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:139)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:147)
+	at cyder.handler.ErrorHandler.windowedError(ErrorHandler.java:156)
+	at cyder.handler.ErrorHandler.handle(ErrorHandler.java:90)
+	at cyder.genesis.CyderMain.console(CyderMain.java:830)
+	at cyder.genesis.CyderMain.recognize(CyderMain.java:1598)
+	at cyder.genesis.CyderMain.autoCypher(CyderMain.java:192)
+	at cyder.genesis.CyderMain.<init>(CyderMain.java:133)
+	at cyder.genesis.CyderMain.main(CyderMain.java:110)
+

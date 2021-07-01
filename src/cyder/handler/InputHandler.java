@@ -10,16 +10,11 @@ public class InputHandler {
     // and direct the resulting flow and output
     // console frame (has-a) input handler (has-a) string util and context engine
 
-    //todo setting background color should override an imageicon for cyderframe and vice versa
-    // order should matter
+    //todo animations seem slow?
+    // start animation bodge with checking for relative to null and then using enterAnimation works,
+    // on start up apps but not once already started?
 
-    //todo close animation seems slower?
-
-    //todo test adding and removing buttons from drag label
     //todo implement right title for cyder frame and then swap buttons to other side
-
-    //todo update threads method for cyderframes that is set to false on dispose
-    // so on frame dispose threads/executors will exit upon next iteration check
 
     //todo boolean for rounded corners for program as a whole
     // setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
@@ -31,7 +26,8 @@ public class InputHandler {
     //todo suggestion will be in a log summary for a log, logs stored in logs dir
     //todo log these in chat log. Tags: [USER], [SYSTEM], [EXCEPTION] (link to exception file)
 
-    //todo scrollbar on dir messes up still, figure out a fix
+    //todo custom list display that's clickable instead of name list?
+    // this could solve the scroll bar issue if you just use a scrollpane with jtextpane
 
     //todo check signatures for correctness and against actual files
     //todo file signature widget

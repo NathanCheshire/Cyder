@@ -4,7 +4,6 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exception.CyderException;
 import cyder.exception.FatalException;
@@ -2765,25 +2764,37 @@ public class CyderMain {
     }
 
     private void test() {
-        CyderFrame testFrame = new CyderFrame(600,400, CyderImages.defaultBackground);
-        testFrame.setTitle("Test Frame");
-        testFrame.initializeResizing();
-        testFrame.setResizable(true);
 
-        CyderButton cb = new CyderButton("Button");
-        cb.addActionListener(e -> {
-            testFrame.notify("This is just another test string that's twice as long", 5000, Direction.BOTTOM);
-            testFrame.notify("H");
-            testFrame.notify("And i am a wilderness");
-            testFrame.notify(CyderStrings.QUICK_BROWN_FOX + "\n" +
-                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-                    CyderStrings.QUICK_BROWN_FOX + "\n" +
-                    CyderStrings.QUICK_BROWN_FOX + "\n");
-        });
-        cb.setBounds(250,100,100,40);
+    }
+
+    //todo move to archive of test widgets package?
+    private void addingAndRemovingDragLabelButtonsTest() {
+        CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
+        testFrame.setTitle("Test Frame");
+        testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+
+        JButton pinButton = new JButton("");
+        pinButton.setToolTipText("Pin window");
+        pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin.png"));
+        pinButton.setContentAreaFilled(false);
+        pinButton.setBorderPainted(false);
+        pinButton.setFocusPainted(false);
+                    testFrame.getTopDragLabel().addButton(pinButton, 1);
+
+        CyderButton cb = new CyderButton("Remove first");
+        cb.setBounds(100, 100, 150, 40);
+        cb.addActionListener(e -> testFrame.getTopDragLabel().removeButton(0));
         testFrame.getContentPane().add(cb);
+
+        CyderButton cb1 = new CyderButton("Remove last");
+        cb1.setBounds(100, 180, 150, 40);
+        cb1.addActionListener(e -> testFrame.getTopDragLabel().removeButton(testFrame.getTopDragLabel().getButtonListSize() - 1));
+        testFrame.getContentPane().add(cb1);
+
+        CyderButton addPinFirst = new CyderButton("Add pin first");
+        addPinFirst.setBounds(100, 250, 150, 40);
+        addPinFirst.addActionListener(e -> testFrame.getTopDragLabel().addButton(pinButton, 0));
+        testFrame.getContentPane().add(addPinFirst);
 
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(null);

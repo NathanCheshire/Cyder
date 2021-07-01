@@ -367,6 +367,7 @@ public class Notification extends JLabel {
                 }
 
                 this.setVisible(false);
+                //todo remove too for optimizations?
             }
 
             catch (Exception e) {
