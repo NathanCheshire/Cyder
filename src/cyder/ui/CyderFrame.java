@@ -181,7 +181,6 @@ public class CyderFrame extends JFrame {
                     this.titlePosition = TitlePosition.LEFT;
                 },"title position animater").start();
             } else if (titlePosition == TitlePosition.CENTER){
-                //left or right since center
                 new Thread(() -> {
                     switch (oldPosition) {
                         case RIGHT:
@@ -944,6 +943,8 @@ public class CyderFrame extends JFrame {
     @Override
     public void setBounds(int x, int y, int width, int height) {
         super.setBounds(x, y, width, height);
+        this.width = width;
+        this.height = height;
 
         if (getTopDragLabel() != null) {
             getTopDragLabel().setWidth(width);
@@ -1083,8 +1084,6 @@ public class CyderFrame extends JFrame {
 
     ImageIcon currentOrigIcon;
 
-
-    //todo pull from an old commit before last night changes
     /**
      * Refresh the background in the event of a frame size change or background image change.
      */
@@ -1119,7 +1118,6 @@ public class CyderFrame extends JFrame {
     public void setBackground(Color background) {
         super.setBackground(background);
         backgroundColor = background;
-        currentOrigIcon = null;
         this.repaint();
     }
 
