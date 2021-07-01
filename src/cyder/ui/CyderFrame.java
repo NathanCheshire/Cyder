@@ -5,6 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.obj.Gluster;
+import cyder.utilities.AnimationUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -546,26 +547,19 @@ public class CyderFrame extends JFrame {
 
     /**
      * Animates the window from offscreen top to the center of the screen.
+     * This should be called in place of {@code this.setLocationRelativeTo(null);}
      */
     public void enterAnimation() {
-        setVisible(false);
-        setLocationRelativeTo(null);
+        AnimationUtil.enterAnimation(this);
+    }
 
-        int to = getY();
-        setLocation(getX(), 0 - getHeight());
-
-        setVisible(true);
-
-        for (int i = 0 - getHeight(); i < to / 2; i += 15) {
-            setLocation(getX(), i);
-            try {
-                Thread.sleep(1);
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
+    @Override
+    public void setLocationRelativeTo(Component c) {
+        if (c == null) {
+            this.enterAnimation();
+        } else {
+            super.setLocationRelativeTo(c);
         }
-
-        setLocationRelativeTo(null);
     }
 
     /**
@@ -584,15 +578,7 @@ public class CyderFrame extends JFrame {
 
         try {
             if (this != null && this.isVisible()) {
-                Point point = this.getLocationOnScreen();
-                int x = (int) point.getX();
-                int y = (int) point.getY();
-
-                for (int i = y; i >= 0 - this.getHeight(); i -= 15) {
-                    Thread.sleep(1);
-                    this.setLocation(x, i);
-                }
-
+                AnimationUtil.closeAnimation(this);
                 this.dispose();
             }
         } catch (Exception e) {

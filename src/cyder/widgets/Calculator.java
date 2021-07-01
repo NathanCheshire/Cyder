@@ -305,7 +305,7 @@ public class Calculator {
             calculatorField.setText(calculatorExpression);
         });
 
-        calculatorFrame.setLocationRelativeTo(null);
         calculatorFrame.setVisible(true);
+        calculatorFrame.setLocationRelativeTo(null);
     }
 }

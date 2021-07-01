@@ -75,24 +75,20 @@ public class AnimationUtil {
      * @param frame - the frame object to display
      */
     public static void enterAnimation(JFrame frame) {
-        frame.setVisible(false);
-        frame.setLocationRelativeTo(null);
-
-        int to = frame.getY();
-        frame.setLocation(frame.getX(), 0 - frame.getHeight());
-
         frame.setVisible(true);
+        frame.setLocation(SystemUtil.getScreenWidth() / 2 - frame.getWidth() / 2, - frame.getHeight());
 
-        for (int i = 0 - frame.getHeight(); i < to; i += 15) {
+        for (int i = -frame.getHeight(); i < SystemUtil.getScreenHeight() / 2 - frame.getHeight() / 2; i += 7) {
             frame.setLocation(frame.getX(), i);
             try {
-                Thread.sleep(1);
+                Thread.sleep(0,500);
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
         }
 
-        frame.setLocationRelativeTo(null);
+//        frame.setLocation(SystemUtil.getScreenWidth() / 2 - frame.getWidth() / 2,
+//                SystemUtil.getScreenHeight() / 2 - frame.getHeight() / 2);
     }
 
     /**

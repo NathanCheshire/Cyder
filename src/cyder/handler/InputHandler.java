@@ -15,8 +15,6 @@ public class InputHandler {
     //todo test adding and removing buttons from drag label
     //todo implement right title for cyder frame and then swap buttons to other side
 
-    //todo make enter-animation work and utilize
-
     //todo update threads method for cyderframes that is set to false on dispose
     // so on frame dispose threads/executors will exit upon next iteration check
 
