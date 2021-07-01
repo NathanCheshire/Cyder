@@ -31,6 +31,12 @@ public class DragLabel extends JLabel {
 
     private boolean draggingEnabled = true;
 
+    public enum ButtonPosition {
+        LEFT,RIGHT
+    }
+
+    private ButtonPosition buttonPosition = ButtonPosition.RIGHT;
+
     public DragLabel(int w, int h, CyderFrame effectFrame) {
         this.width = w;
         this.height = h;
@@ -259,20 +265,39 @@ public class DragLabel extends JLabel {
                 this.repaint();
             }
 
+        switch (buttonPosition) {
+            case RIGHT:
+                int addWidth = width - 26;
 
-        int addWidth = width - 26;
+                for (int i = buttonsList.size() - 1 ; i >= 0 ; i--) {
+                    int textWidth = 0;
 
-        for (int i = buttonsList.size() - 1 ; i >= 0 ; i--) {
-            int textWidth = 0;
+                    if(buttonsList.get(i).getText().length() > 0) {
+                        textWidth = CyderFrame.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
+                    }
 
-            if(buttonsList.get(i).getText().length() > 0) {
-                textWidth = CyderFrame.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
-            }
+                    //might have to fix this method here depending on how many more buttons with text you add
+                    buttonsList.get(i).setBounds(addWidth - textWidth, 0, textWidth == 0 ? 22 : textWidth + 26, 28);
+                    add(buttonsList.get(i));
+                    addWidth -= (26 + textWidth);
+                }
+                break;
+            case LEFT:
+                int leftAddWidth = 26 * (buttonsList.size() - 1) + 5;
 
-            //might have to fix this method here depending on how many more buttons with text you add
-            buttonsList.get(i).setBounds(addWidth - textWidth, 0, textWidth == 0 ? 22 : textWidth + 26, 28);
-            add(buttonsList.get(i));
-            addWidth -= (26 + textWidth);
+                for (int i = buttonsList.size() - 1 ; i >= 0 ; i--) {
+                    int textWidth = 0;
+
+                    if(buttonsList.get(i).getText().length() > 0) {
+                        textWidth = CyderFrame.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
+                    }
+
+                    //might have to fix this method here depending on how many more buttons with text you add
+                    buttonsList.get(i).setBounds(leftAddWidth - textWidth, 0, textWidth == 0 ? 22 : textWidth + 26, 28);
+                    add(buttonsList.get(i));
+                    leftAddWidth -= (26 + textWidth);
+                }
+                break;
         }
 
         this.revalidate();
@@ -293,5 +318,17 @@ public class DragLabel extends JLabel {
 
     public void setyOffset(int yOffset) {
         this.yOffset = yOffset;
+    }
+
+    public void setButtonPosition(ButtonPosition pos) {
+        if (buttonPosition == pos)
+            return;
+
+        this.buttonPosition = pos;
+        refreshButtons();
+    }
+
+    public ButtonPosition getButtonPosition() {
+        return this.buttonPosition;
     }
 }

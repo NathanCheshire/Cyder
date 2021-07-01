@@ -14,8 +14,6 @@ public class InputHandler {
     // start animation bodge with checking for relative to null and then using enterAnimation works,
     // on start up apps but not once already started?
 
-    //todo implement right title for cyder frame and then swap buttons to other side
-
     //todo boolean for rounded corners for program as a whole
     // setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
     // make rounded border for frames and make sure drag label components aren't too close to edge

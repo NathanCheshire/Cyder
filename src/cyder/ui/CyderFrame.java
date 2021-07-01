@@ -39,6 +39,7 @@ public class CyderFrame extends JFrame {
     }
 
     private TitlePosition titlePosition = TitlePosition.LEFT;
+    private ButtonPosition buttonPosition = ButtonPosition.RIGHT;
     private int width;
     private int height;
 
@@ -154,17 +155,17 @@ public class CyderFrame extends JFrame {
      * @param titlePosition the position for the title to be: left, center
      */
     public void setTitlePosition(TitlePosition titlePosition) {
-        if (titlePosition == null || this.titlePosition == null)
+        if (titlePosition == null || this.titlePosition == null || this.titlePosition == titlePosition)
             return;
 
-        boolean different = titlePosition != this.titlePosition;
-        this.titlePosition = titlePosition;
+        TitlePosition oldPosition = this.titlePosition;
         long timeout = 2;
 
-        if (different && isVisible()) {
-            if (titlePosition != CyderFrame.TitlePosition.CENTER) {
+        if (isVisible()) {
+            if (titlePosition == CyderFrame.TitlePosition.LEFT) {
                 new Thread(() -> {
-                    for (int i = (getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i > 4; i--) {
+                    //left
+                    for (int i = titleLabel.getX() ; i > 4; i--) {
                         if (this.control_c_threads)
                             break;
 
@@ -176,10 +177,50 @@ public class CyderFrame extends JFrame {
                             ErrorHandler.handle(e);
                         }
                     }
+                    titleLabel.setLocation(4, 2);
+                    this.titlePosition = TitlePosition.LEFT;
+                },"title position animater").start();
+            } else if (titlePosition == TitlePosition.CENTER){
+                //left or right since center
+                new Thread(() -> {
+                    switch (oldPosition) {
+                        case RIGHT:
+                            for (int i = titleLabel.getX() ; i > (getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i--) {
+                                if (this.control_c_threads)
+                                    break;
+
+                                titleLabel.setLocation(i, 2);
+
+                                try {
+                                    Thread.sleep(timeout);
+                                } catch (Exception e) {
+                                    ErrorHandler.handle(e);
+                                }
+                            }
+                            break;
+                        case LEFT:
+                            for (int i = titleLabel.getX(); i < (getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i++) {
+                                if (this.control_c_threads)
+                                    break;
+
+                                titleLabel.setLocation(i, 2);
+
+                                try {
+                                    Thread.sleep(timeout);
+                                } catch (Exception e) {
+                                    ErrorHandler.handle(e);
+                                }
+                            }
+                            break;
+                    }
+                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2), 2);
+                    this.titlePosition = TitlePosition.CENTER;
+                    //set final bounds
                 },"title position animater").start();
             } else {
+                //right
                 new Thread(() -> {
-                    for (int i = 5; i < (getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2) + 1; i++) {
+                    for (int i = titleLabel.getX() ; i < this.width - getMinWidth(titleLabel.getText()) - 8; i++) {
                         if (this.control_c_threads)
                             break;
 
@@ -191,7 +232,17 @@ public class CyderFrame extends JFrame {
                             ErrorHandler.handle(e);
                         }
                     }
+                    titleLabel.setLocation(this.width - getMinWidth(titleLabel.getText()) + 8, 2);
+                    this.titlePosition = TitlePosition.RIGHT;
                 },"title position animater").start();
+            }
+
+            if (buttonPosition == ButtonPosition.RIGHT && titlePosition == TitlePosition.RIGHT) {
+                buttonPosition = ButtonPosition.LEFT;
+                getTopDragLabel().setButtonPosition(DragLabel.ButtonPosition.LEFT);
+            } else if (buttonPosition == ButtonPosition.LEFT && titlePosition == TitlePosition.LEFT) {
+                buttonPosition = ButtonPosition.RIGHT;
+                getTopDragLabel().setButtonPosition(DragLabel.ButtonPosition.RIGHT);
             }
         }
     }
@@ -202,6 +253,28 @@ public class CyderFrame extends JFrame {
      */
     public TitlePosition getTitlePosition() {
         return this.titlePosition;
+    }
+
+    public ButtonPosition getButtonPosition() {
+        return this.buttonPosition;
+    }
+
+    public void setButtonPosition(ButtonPosition pos) {
+        if (pos == this.buttonPosition)
+            return;
+
+        ButtonPosition old = this.buttonPosition;
+        this.buttonPosition = pos;
+        topDrag.setButtonPosition(pos == ButtonPosition.LEFT ?
+                DragLabel.ButtonPosition.LEFT : DragLabel.ButtonPosition.RIGHT);
+
+        if (buttonPosition == ButtonPosition.RIGHT && titlePosition == TitlePosition.RIGHT) {
+            this.titlePosition = TitlePosition.LEFT;
+            titleLabel.setLocation(4, 2);
+        } else if (buttonPosition == ButtonPosition.LEFT && titlePosition == TitlePosition.LEFT) {
+            this.titlePosition = TitlePosition.RIGHT;
+            titleLabel.setLocation(this.width - getMinWidth(titleLabel.getText()) + 8, 2);
+        }
     }
 
     private boolean paintWindowTitle = true;
@@ -848,6 +921,24 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Repaints the title position in the correct location. To be used on resize events where we don't
+     * want to set button position or title position differently. We simply want to revalidate the title position
+     */
+    public void refreshTitlePosition() {
+        switch (titlePosition) {
+            case LEFT:
+                titleLabel.setLocation(4,2);
+                break;
+            case RIGHT:
+                titleLabel.setLocation(this.width - getMinWidth(titleLabel.getText()) + 8, 2);
+                break;
+            case CENTER:
+                titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2), 2);
+                break;
+        }
+    }
+
+    /**
      * Sets the frame bounds and also changes the underlying drag label's bounds which is why this method is overridden.
      */
     @Override
@@ -859,7 +950,8 @@ public class CyderFrame extends JFrame {
             getBottomDragLabel().setWidth(width);
             getLeftDragLabel().setHeight(height);
             getRightDragLabel().setHeight(height);
-            setTitle(getTitle());
+
+            refreshTitlePosition();
 
             topDrag.setBounds(0, 1, width, DragLabel.getDefaultHeight() - 1);
             leftDrag.setBounds(1, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
@@ -991,6 +1083,8 @@ public class CyderFrame extends JFrame {
 
     ImageIcon currentOrigIcon;
 
+
+    //todo pull from an old commit before last night changes
     /**
      * Refresh the background in the event of a frame size change or background image change.
      */
@@ -1005,7 +1099,6 @@ public class CyderFrame extends JFrame {
 
     /**
      * Set the background to a new icon and refresh the frame.
-     *
      * @param icon - the ImageIcon you want the frame background to be
      */
     public void setBackground(ImageIcon icon) {

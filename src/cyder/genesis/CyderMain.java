@@ -2764,7 +2764,39 @@ public class CyderMain {
     }
 
     private void test() {
+        CyderFrame testFrame = new CyderFrame(600, 400, CyderImages.defaultBackground);
+        testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+        testFrame.setTitle("Testing Title");
 
+        CyderButton setLeftTitle = new CyderButton("Left title");
+        setLeftTitle.setBounds(100,100,140,40);
+        setLeftTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT));
+        testFrame.getContentPane().add(setLeftTitle);
+
+        CyderButton setCenterTitle = new CyderButton("Center title");
+        setCenterTitle.setBounds(100,160,140,40);
+        setCenterTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER));
+        testFrame.getContentPane().add(setCenterTitle);
+
+        CyderButton setRightTitle = new CyderButton("Right title");
+        setRightTitle.setBounds(100,220,140,40);
+        setRightTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.RIGHT));
+        testFrame.getContentPane().add(setRightTitle);
+
+        CyderButton setLeftButton = new CyderButton("Left button");
+        setLeftButton.setBounds(300,100,150,40);
+        setLeftButton.addActionListener(e -> testFrame.setButtonPosition(CyderFrame.ButtonPosition.LEFT));
+        testFrame.getContentPane().add(setLeftButton);
+
+        CyderButton setRightButton = new CyderButton("Right button");
+        setRightButton.setBounds(300,160,150,40);
+        setRightButton.addActionListener(e -> testFrame.setButtonPosition(CyderFrame.ButtonPosition.RIGHT));
+        testFrame.getContentPane().add(setRightButton);
+
+        testFrame.initializeResizing();
+        testFrame.setResizable(true);
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(null);
     }
 
     //get rid of these methods and just use a string util -----------------------------

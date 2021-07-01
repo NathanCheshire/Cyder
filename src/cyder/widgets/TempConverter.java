@@ -106,10 +106,11 @@ public class TempConverter {
         temperatureFrame.getContentPane().add(oldCelsius);
         temperatureFrame.getContentPane().add(oldKelvin);
 
-        JLabel NewValue = new JLabel("-2-");
-        NewValue.setFont(CyderFonts.weatherFontBig.deriveFont(45f));
-        NewValue.setBounds(260,150,150,60);
-        temperatureFrame.getContentPane().add(NewValue);
+        JLabel twoLabel = new JLabel("-2-");
+        twoLabel.setFont(CyderFonts.weatherFontBig.deriveFont(45f));
+        twoLabel.setForeground(CyderColors.navy);
+        twoLabel.setBounds(260,150,150,60);
+        temperatureFrame.getContentPane().add(twoLabel);
 
         newFahrenheit =  new CyderCheckBox();
         newCelsius =  new CyderCheckBox();
