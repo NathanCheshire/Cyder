@@ -114,6 +114,8 @@ public class CyderFrame extends JFrame {
         bottomDrag.setyOffset(height - 5);
         contentLabel.add(bottomDrag);
 
+        //currently order goes by order added to pane
+
         //todo really we're just back to where we started since with adding the border to make it draggable,
         // we have reintroduced the layering issues
 
