@@ -12,7 +12,6 @@ public class InputHandler {
 
 
 
-    //todo implement menu slide direction change
     //todo implement mapping links, you'll need to change how user data is stored
     // make an issue for this and finally switching to binary writing
 
