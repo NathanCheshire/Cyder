@@ -16,11 +16,6 @@ public class InputHandler {
     //todo implement mapping links, you'll need to change how user data is stored
     // make an issue for this and finally switching to binary writing
 
-    //todo user logs and throws should eventually be converted to binary data so that you can only access it through the program
-    //todo add reading and writing calls to/from userdata to the log
-    //todo suggestion will be in a log summary for a log, logs stored in logs dir
-    //todo log these in chat log. Tags: [USER], [SYSTEM], [EXCEPTION] (link to exception file)
-
     //todo custom list display that's clickable instead of name list?
     // this could solve the scroll bar issue if you just use a scrollpane with jtextpane
 

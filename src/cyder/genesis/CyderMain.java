@@ -12,7 +12,6 @@ import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
 import cyder.obj.Preference;
-import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.MasterYoutube;
@@ -1152,7 +1151,15 @@ public class CyderMain {
 
                 menuLabel.setLocation(-150,DragLabel.getDefaultHeight());
                 menuLabel.setVisible(true);
-                AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
+
+                if (IOUtil.getUserData("menudirection").equals("1")) {
+                    AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
+                } else {
+                    menuLabel.setLocation(0, -250);
+                    AnimationUtil.componentDown(-250, 30, 10, 8, menuLabel);
+                }
+
+
             } else {
                 minimizeMenu();
             }
@@ -1180,20 +1187,47 @@ public class CyderMain {
     //console frame
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
-            menuLabel.setLocation(0, menuLabel.getY());
-            AnimationUtil.componentLeft(0, -150, 10, 8, menuLabel);
+            if (IOUtil.getUserData("menudirection").equals("1")) {
+                menuLabel.setLocation(0, menuLabel.getY());
 
-            Thread waitThread = new Thread(() -> {
-                try {
-                    Thread.sleep(186);
-                } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
-                }
+                new Thread(() -> {
+                    int y = menuLabel.getY();
 
-                menuLabel.setVisible(false);
-                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
-            },"minimize menu thread");
-            waitThread.start();
+                    for (int i = 0 ; i > -150 ; i-= 8) {
+                        menuLabel.setLocation(i, y);
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            ErrorHandler.handle(e);
+                        }
+                    }
+
+                    menuLabel.setLocation(-150, y);
+
+                    menuLabel.setVisible(false);
+                    menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+                },"minimize menu thread").start();
+            } else {
+                menuLabel.setLocation(0, 30);
+
+                new Thread(() -> {
+                    int x = menuLabel.getX();
+
+                    for (int i = 30 ; i > -250 ; i-= 8) {
+                        menuLabel.setLocation(x, i);
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            ErrorHandler.handle(e);
+                        }
+                    }
+
+                    menuLabel.setLocation(x, -250);
+
+                    menuLabel.setVisible(false);
+                    menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+                },"minimize menu thread").start();
+            }
         }
     }
 
