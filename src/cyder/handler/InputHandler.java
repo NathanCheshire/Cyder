@@ -14,7 +14,8 @@ public class InputHandler {
     // start animation bodge with checking for relative to null and then using enterAnimation works,
     // on start up apps but not once already started?
 
-    //todo is calculator symmetric?
+    //todo cyderframe background should never change from navy, when trying to set a color, we should set
+    // to an image icon of the color
 
     //todo boolean for rounded corners for program as a whole
     // setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));

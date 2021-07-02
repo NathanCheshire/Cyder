@@ -177,6 +177,14 @@ public class ImageUtil {
         return new ImageIcon(im);
     }
 
+    public static ImageIcon imageIconFromColor(Color c, int width, int height) {
+        BufferedImage im = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = im.createGraphics();
+        g.setPaint(c);
+        g.fillRect(0, 0, 1, 1);
+        return new ImageIcon(im);
+    }
+
     public static BufferedImage resizeImage(int x, int y, File UneditedImage) {
         BufferedImage ReturnImage = null;
 

@@ -59,7 +59,7 @@ public class CyderFrame extends JFrame {
     private JLabel iconLabel;
     private JLayeredPane contentLabel;
 
-    private Color backgroundColor = CyderColors.navy;
+    private final Color backgroundColor = CyderColors.navy;
 
     private LinkedList<Gluster> notificationList = new LinkedList<>();
 
@@ -109,9 +109,6 @@ public class CyderFrame extends JFrame {
 
         contentLabel.add(iconLabel,1);
         setContentPane(contentLabel);
-
-        //todo fix border issue with notifications
-        //todo resizing is broken, border not getting set and image not getting resized
 
         topDrag = new DragLabel(width, DragLabel.getDefaultHeight() - 1, this);
         topDrag.setBounds(0, 1, width, DragLabel.getDefaultHeight() - 1);
@@ -1147,14 +1144,13 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the background color of the Frame's content pane.
+     * Sets the background color of the Frame's content pane. What this really does
+     * is set the background to an icon with the desired color.
      * @param background - the Color object value of the content pane's desired background
      */
     @Override
     public void setBackground(Color background) {
-        super.setBackground(background);
-        backgroundColor = background;
-        this.repaint();
+        this.setBackground(ImageUtil.imageIconFromColor(background,this.width,this.height));
     }
 
     /**
