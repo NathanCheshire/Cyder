@@ -18,7 +18,7 @@ public class Calculator {
     public Calculator() {
         calculatorExpression = "";
 
-        CyderFrame calculatorFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
+        CyderFrame calculatorFrame = new CyderFrame(400,595, CyderImages.defaultBackground);
         calculatorFrame.setTitle("Calculator");
 
         CyderTextField calculatorField = new CyderTextField(20);
@@ -27,13 +27,13 @@ public class Calculator {
         calculatorField.setSelectionColor(CyderColors.selectionColor);
         calculatorField.setToolTipText("Use radians and not degree for any trig functions");
         calculatorField.setFont(CyderFonts.weatherFontSmall.deriveFont(26));
-        calculatorField.setBounds(100,40,380,50);
+        calculatorField.setBounds(50,50,300,50);
         calculatorFrame.getContentPane().add(calculatorField);
 
         CyderButton calculatorAdd = new CyderButton("+");
         calculatorAdd.setColors(CyderColors.calculatorOrange);
         calculatorAdd.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorAdd.setBounds(100,100,80,80);
+        calculatorAdd.setBounds(20,120,75,75);
         calculatorFrame.getContentPane().add(calculatorAdd);
         calculatorAdd.setFocusPainted(false);
         calculatorAdd.setBackground(CyderColors.calculatorOrange);
@@ -46,7 +46,7 @@ public class Calculator {
         CyderButton calculatorSubtract = new CyderButton("-");
         calculatorSubtract.setColors(CyderColors.calculatorOrange);
         calculatorSubtract.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorSubtract.setBounds(200,100,80,80);
+        calculatorSubtract.setBounds(115,120,75,75);
         calculatorFrame.getContentPane().add(calculatorSubtract);
         calculatorSubtract.setFocusPainted(false);
         calculatorSubtract.setBackground(CyderColors.calculatorOrange);
@@ -59,7 +59,7 @@ public class Calculator {
         CyderButton calculatorMultiply = new CyderButton("*");
         calculatorMultiply.setColors(CyderColors.calculatorOrange);
         calculatorMultiply.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorMultiply.setBounds(300,100,80,80);
+        calculatorMultiply.setBounds(210,120,75,75);
         calculatorFrame.getContentPane().add(calculatorMultiply);
         calculatorMultiply.setFocusPainted(false);
         calculatorMultiply.setBackground(CyderColors.calculatorOrange);
@@ -72,7 +72,7 @@ public class Calculator {
         CyderButton calculatorDivide = new CyderButton("/");
         calculatorDivide.setColors(CyderColors.calculatorOrange);
         calculatorDivide.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorDivide.setBounds(400,100,80,80);
+        calculatorDivide.setBounds(305,120,75,75);
         calculatorFrame.getContentPane().add(calculatorDivide);
         calculatorDivide.setFocusPainted(false);
         calculatorDivide.setBackground(CyderColors.calculatorOrange);
@@ -85,7 +85,7 @@ public class Calculator {
         CyderButton calculatorSeven = new CyderButton("7");
         calculatorSeven.setColors(CyderColors.calculatorOrange);
         calculatorSeven.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorSeven.setBounds(100,200,80,80);
+        calculatorSeven.setBounds(20,215,75,75);
         calculatorFrame.getContentPane().add(calculatorSeven);
         calculatorSeven.setFocusPainted(false);
         calculatorSeven.setBackground(CyderColors.calculatorOrange);
@@ -98,7 +98,7 @@ public class Calculator {
         CyderButton calculatorEight = new CyderButton("8");
         calculatorEight.setColors(CyderColors.calculatorOrange);
         calculatorEight.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorEight.setBounds(200,200,80,80);
+        calculatorEight.setBounds(115,215,75,75);
         calculatorFrame.getContentPane().add(calculatorEight);
         calculatorEight.setFocusPainted(false);
         calculatorEight.setBackground(CyderColors.calculatorOrange);
@@ -111,7 +111,7 @@ public class Calculator {
         CyderButton calculatorNine = new CyderButton("9");
         calculatorNine.setColors(CyderColors.calculatorOrange);
         calculatorNine.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorNine.setBounds(300,200,80,80);
+        calculatorNine.setBounds(210,215,75,75);
         calculatorFrame.getContentPane().add(calculatorNine);
         calculatorNine.setFocusPainted(false);
         calculatorNine.setBackground(CyderColors.calculatorOrange);
@@ -124,7 +124,7 @@ public class Calculator {
         CyderButton calculatorEquals = new CyderButton("=");
         calculatorEquals.setColors(CyderColors.calculatorOrange);
         calculatorEquals.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorEquals.setBounds(400,200,80,80);
+        calculatorEquals.setBounds(305,215,75,75);
         calculatorFrame.getContentPane().add(calculatorEquals);
         calculatorEquals.setFocusPainted(false);
         calculatorEquals.setBackground(CyderColors.calculatorOrange);
@@ -149,7 +149,7 @@ public class Calculator {
         CyderButton calculatorFour = new CyderButton("4");
         calculatorFour.setColors(CyderColors.calculatorOrange);
         calculatorFour.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorFour.setBounds(100,300,80,80);
+        calculatorFour.setBounds(20,310,75,75);
         calculatorFrame.getContentPane().add(calculatorFour);
         calculatorFour.setFocusPainted(false);
         calculatorFour.setBackground(CyderColors.calculatorOrange);
@@ -162,7 +162,7 @@ public class Calculator {
         CyderButton calculatorFive = new CyderButton("5");
         calculatorFive.setColors(CyderColors.calculatorOrange);
         calculatorFive.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorFive.setBounds(200,300,80,80);
+        calculatorFive.setBounds(115,310,75,75);
         calculatorFrame.getContentPane().add(calculatorFive);
         calculatorFive.setFocusPainted(false);
         calculatorFive.setBackground(CyderColors.calculatorOrange);
@@ -175,7 +175,7 @@ public class Calculator {
         CyderButton calculatorSix = new CyderButton("6");
         calculatorSix.setColors(CyderColors.calculatorOrange);
         calculatorSix.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorSix.setBounds(300,300,80,80);
+        calculatorSix.setBounds(210,310,75,75);
         calculatorFrame.getContentPane().add(calculatorSix);
         calculatorSix.setFocusPainted(false);
         calculatorSix.setBackground(CyderColors.calculatorOrange);
@@ -188,7 +188,7 @@ public class Calculator {
         CyderButton calculatorClear = new CyderButton("CE");
         calculatorClear.setColors(CyderColors.calculatorOrange);
         calculatorClear.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorClear.setBounds(400,300,80,80);
+        calculatorClear.setBounds(305,310,75,75);
         calculatorFrame.getContentPane().add(calculatorClear);
         calculatorClear.setFocusPainted(false);
         calculatorClear.setBackground(CyderColors.calculatorOrange);
@@ -201,7 +201,7 @@ public class Calculator {
         CyderButton calculatorOne = new CyderButton("1");
         calculatorOne.setColors(CyderColors.calculatorOrange);
         calculatorOne.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorOne.setBounds(100,400,80,80);
+        calculatorOne.setBounds(20,405,75,75);
         calculatorFrame.getContentPane().add(calculatorOne);
         calculatorOne.setFocusPainted(false);
         calculatorOne.setBackground(CyderColors.calculatorOrange);
@@ -214,7 +214,7 @@ public class Calculator {
         CyderButton calculatorTwo = new CyderButton("2");
         calculatorTwo.setColors(CyderColors.calculatorOrange);
         calculatorTwo.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorTwo.setBounds(200,400,80,80);
+        calculatorTwo.setBounds(115,405,75,75);
         calculatorFrame.getContentPane().add(calculatorTwo);
         calculatorTwo.setFocusPainted(false);
         calculatorTwo.setBackground(CyderColors.calculatorOrange);
@@ -227,7 +227,7 @@ public class Calculator {
         CyderButton calculatorThree = new CyderButton("3");
         calculatorThree.setColors(CyderColors.calculatorOrange);
         calculatorThree.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorThree.setBounds(300,400,80,80);
+        calculatorThree.setBounds(210,405,75,75);
         calculatorFrame.getContentPane().add(calculatorThree);
         calculatorThree.setFocusPainted(false);
         calculatorThree.setBackground(CyderColors.calculatorOrange);
@@ -240,7 +240,7 @@ public class Calculator {
         CyderButton calculatorUndo = new CyderButton("<<");
         calculatorUndo.setColors(CyderColors.calculatorOrange);
         calculatorUndo.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorUndo.setBounds(400,400,80,80);
+        calculatorUndo.setBounds(305,405,75,75);
         calculatorFrame.getContentPane().add(calculatorUndo);
         calculatorUndo.setFocusPainted(false);
         calculatorUndo.setBackground(CyderColors.calculatorOrange);
@@ -254,7 +254,7 @@ public class Calculator {
         CyderButton calculatorZero = new CyderButton("0");
         calculatorZero.setColors(CyderColors.calculatorOrange);
         calculatorZero.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorZero.setBounds(100,500,80,80);
+        calculatorZero.setBounds(20,500,75,75);
         calculatorFrame.getContentPane().add(calculatorZero);
         calculatorZero.setFocusPainted(false);
         calculatorZero.setBackground(CyderColors.calculatorOrange);
@@ -267,7 +267,7 @@ public class Calculator {
         CyderButton calculatorDecimal = new CyderButton(".");
         calculatorDecimal.setColors(CyderColors.calculatorOrange);
         calculatorDecimal.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorDecimal.setBounds(200,500,80,80);
+        calculatorDecimal.setBounds(115,500,75,75);
         calculatorFrame.getContentPane().add(calculatorDecimal);
         calculatorDecimal.setFocusPainted(false);
         calculatorDecimal.setBackground(CyderColors.calculatorOrange);
@@ -280,7 +280,7 @@ public class Calculator {
         CyderButton calculatorOpenP = new CyderButton("(");
         calculatorOpenP.setColors(CyderColors.calculatorOrange);
         calculatorOpenP.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorOpenP.setBounds(300,500,80,80);
+        calculatorOpenP.setBounds(210,500,75,75);
         calculatorFrame.getContentPane().add(calculatorOpenP);
         calculatorOpenP.setFocusPainted(false);
         calculatorOpenP.setBackground(CyderColors.calculatorOrange);
@@ -293,7 +293,7 @@ public class Calculator {
         CyderButton calculatorCloseP = new CyderButton(")");
         calculatorCloseP.setColors(CyderColors.calculatorOrange);
         calculatorCloseP.setBorder(new LineBorder(CyderColors.navy,5,false));
-        calculatorCloseP.setBounds(400,500,80,80);
+        calculatorCloseP.setBounds(305,500,75,75);
         calculatorFrame.getContentPane().add(calculatorCloseP);
         calculatorCloseP.setFocusPainted(false);
         calculatorCloseP.setBackground(CyderColors.calculatorOrange);

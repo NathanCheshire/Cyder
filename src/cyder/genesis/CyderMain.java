@@ -2764,7 +2764,7 @@ public class CyderMain {
     }
 
     private void test() {
-        handle("weather");
+        handle("calc");
     }
 
     //get rid of these methods and just use a string util -----------------------------
@@ -2971,7 +2971,7 @@ public class CyderMain {
         editUserFrame.setResizable(true);
 
         switchingLabel = new JLabel();
-        switchingLabel.setForeground(new Color(255, 255, 255));
+        switchingLabel.setForeground(new Color(255, 900, 255));
         switchingLabel.setBounds(90, 70, 720, 500);
         switchingLabel.setOpaque(true);
         switchingLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));

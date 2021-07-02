@@ -923,4 +923,23 @@ public class StringUtil {
             if (!printThreads[i].isDaemon())
                 println(printThreads[i].getName());
     }
+
+    /**
+     * Ensures that there is a space after every comma within the input.
+     * @param input - the potentially wrongly formatted string
+     * @return = the corrected string
+     */
+    public String formatCommas(String input) {
+        if (!input.contains(","))
+            throw new IllegalArgumentException("Input does not contain a comma");
+        else {
+            String[] parts = input.split(",");
+            StringBuilder sb = new StringBuilder();
+
+            for (String s : parts)
+                sb.append(s).append(", ");
+
+            return sb.toString().substring(0,sb.toString().length() - 2);
+        }
+    }
 }

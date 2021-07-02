@@ -103,9 +103,8 @@ public class CyderFrame extends JFrame {
 
         iconLabel = new JLabel();
         iconLabel.setIcon(background);
-        iconLabel.setBounds(0,0,width,height);
+        iconLabel.setBounds(1,1,width - 2,height - 2);
 
-        iconLabel.setBorder(new LineBorder(CyderColors.navy, 1, false));
         contentLabel.setBorder(new LineBorder(CyderColors.navy, 1, false));
 
         contentLabel.add(iconLabel,1);
@@ -1122,6 +1121,7 @@ public class CyderFrame extends JFrame {
 
             iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                    .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
+            iconLabel.setBounds(1,1,width - 2,height - 2);
             revalidate();
             repaint();
         } catch (Exception e) {
@@ -1138,6 +1138,7 @@ public class CyderFrame extends JFrame {
             currentOrigIcon = icon;
             iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                     .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
+            iconLabel.setBounds(1,1,width - 2,height - 2);
             revalidate();
             repaint();
         } catch (Exception e) {
@@ -1198,6 +1199,7 @@ public class CyderFrame extends JFrame {
 
         iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
+        iconLabel.setBounds(1,1,width - 2,height - 2);
     }
 
     public int getRestoreX() {

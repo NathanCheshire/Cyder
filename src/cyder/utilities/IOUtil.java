@@ -538,6 +538,8 @@ public class IOUtil {
     }
 
     public static String getUserData(String name) {
+        //todo maybe we shouldn't call read?
+        // we keep having stack overflow errors that reset this for no reason and it's weird
         readUserData();
 
         if (userData.isEmpty())
