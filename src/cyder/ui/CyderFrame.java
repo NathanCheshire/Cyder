@@ -568,38 +568,8 @@ public class CyderFrame extends JFrame {
                             int enterTime = 0;
                             int exitTime = 0;
 
-                            switch (currentGluster.getStartDir()) {
-                                case BOTTOM:
-                                    enterTime = (getHeight() - currentNotification.getHeight() + 5) * Notification.getIncrement();
-                                    break;
-                                case TOP:
-                                    enterTime = DragLabel.getDefaultHeight() * Notification.getIncrement();
-                                    break;
-                                case LEFT:
-                                    enterTime = 5 * Notification.getIncrement();
-                                    break;
-                                case RIGHT:
-                                    enterTime = (currentNotification.getWidth() + 5) * Notification.getIncrement();
-                                    break;
-                            }
-
-                            switch (currentGluster.getVanishDir()) {
-                                case BOTTOM:
-                                    exitTime = (getHeight() - currentNotification.getHeight() + 5) * Notification.getIncrement();
-                                    break;
-                                case TOP:
-                                    exitTime = DragLabel.getDefaultHeight() * Notification.getIncrement();
-                                    break;
-                                case LEFT:
-                                    exitTime = 5 * Notification.getIncrement();
-                                    break;
-                                case RIGHT:
-                                    exitTime = (currentNotification.getWidth() + 5) * Notification.getIncrement();
-                                    break;
-                            }
-
-                            //sleep the enter time, duration, exit time, and an extra 500ms
-                            Thread.sleep(enterTime + duration + exitTime + 500);
+                            while (getCurrentNotification().isVisible())
+                                Thread.onSpinWait();
                         } else {
                             notificationCheckerStarted = false;
                             break;
