@@ -462,11 +462,7 @@ public class CyderMain {
                 catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
-            },"input caret position updater").start();
-            //todo fix these bodges or optimize the threads and combine them
-            // test different wait periods
-            // we're almost done with conversion to this just a matter of correcting the input and handling it
-            // then setting it back to the proper consoleBashString for more input
+            },"Console Input Caret Position Updater").start();
 
             inputField.setToolTipText("Input Field");
             inputField.setSelectionColor(CyderColors.selectionColor);
@@ -812,6 +808,11 @@ public class CyderMain {
                 } else
                     throw new FatalException("Only one but also more than one background.");
             }
+
+            //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
+            // and exiting the program when we have just logged in
+            if (loginFrame != null)
+                loginFrame.closeAnimation();
 
             //will be removed
             AnimationUtil.enterAnimation(consoleFrame);
@@ -1365,6 +1366,8 @@ public class CyderMain {
                 ignoreNames.add("Final Frame Disposed Checker");
                 ignoreNames.add("DestroyJavaVM");
                 ignoreNames.add("JavaFX Application Thread");
+                ignoreNames.add("Console Input Caret Position Updater");
+
 
                 for (int i = 0; i < num; i++)
                     if (!printThreads[i].isDaemon() && !ignoreNames.contains(printThreads[i].getName())) {
@@ -1382,8 +1385,7 @@ public class CyderMain {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                String originalOp = String.valueOf(inputField.getPassword()).trim().substring(0, consoleBashString.length() - 1);
-                String op = originalOp;
+                String op = String.valueOf(inputField.getPassword()).trim().substring(consoleBashString.length());
 
                 if (!stringUtil.empytStr(op)) {
                     if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
@@ -1475,14 +1477,14 @@ public class CyderMain {
                         loginField.setCaretPosition(loginField.getPassword().length);
                     }
 
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 }
             }
 
             catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        },"login caret position updater").start();
+        },"Login Input Caret Position Updater").start();
     }
 
     //login widget
@@ -1667,9 +1669,6 @@ public class CyderMain {
             if (SecurityUtil.checkPassword(Username, SecurityUtil.toHexString(SecurityUtil.getSHA(Password)))) {
                 doLoginAnimations = false;
 
-                if (loginFrame != null)
-                    loginFrame.closeAnimation();
-
                 if (consoleFrame != null)
                     AnimationUtil.closeAnimation(consoleFrame);
 
@@ -1703,8 +1702,7 @@ public class CyderMain {
                 username = "";
 
                 loginField.requestFocusInWindow();
-            } else
-                login();
+            }
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
         }
@@ -3377,7 +3375,7 @@ public class CyderMain {
                         String extension = StringUtil.getExtension(selectedFile);
                         String newname = new GetterUtil().getString("Rename","Enter any valid file name","Submit");
 
-                        if (oldname.equals(newname))
+                        if (oldname.equals(newname) || newname.equals("NULL"))
                             return;
 
                         File renameTo = new File(selectedFile.getParent() + "/" + newname + extension);

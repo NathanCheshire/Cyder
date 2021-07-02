@@ -258,28 +258,26 @@ public class PhotoViewer {
         new Thread(() -> {
            try {
                String name = new GetterUtil().getString("Rename","Valid filename","Rename");
+               if (name != null && name.length() > 0 && !name.equals("NULL")) {
+                   File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
+                   File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
+                   oldName.renameTo(newName);
+                   GenericInform.inform("Successfully renamed to " + name,"");
 
-               if (name == null || name.length()  == 0)
-                   return;
+                   initFiles();
 
-               File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
-               File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
-               oldName.renameTo(newName);
-               GenericInform.inform("Successfully renamed to " + name,"");
-
-               initFiles();
-
-               for (int i = 0 ; i < validImages.size() ; i++) {
-                   if (validImages.get(i).getName().equals(name)) {
-                       currentIndex = i;
+                   for (int i = 0 ; i < validImages.size() ; i++) {
+                       if (validImages.get(i).getName().equals(name)) {
+                           currentIndex = i;
+                       }
                    }
-               }
 
-               pictureFrame.setTitle(name);
+                   pictureFrame.setTitle(name);
+               }
            } catch (Exception e) {
                ErrorHandler.handle(e);
            }
-       }, "wait thread for GetterUtil().getString()").start();
+       }, "wait thread for GetterUtil().getString() " + this).start();
     }
 
     @Override

@@ -58,7 +58,8 @@ public class GetterUtil {
      * @param title - the title of the frame
      * @param tooltip - the tooltip of the input field
      * @param buttonText - the text of the submit button
-     * @return - the user entered input string
+     * @return - the user entered input string. NOTE: if any improper input is ateempted to be returned,
+     *  this function returns the string literal of "NULL" instead of {@code null}
      */
     public String getString(String title, String tooltip, String buttonText) {
         stringFrameTitle = title;
@@ -89,11 +90,13 @@ public class GetterUtil {
                 submit.setFont(CyderFonts.weatherFontSmall);
                 submit.setForeground(CyderColors.navy);
                 submit.addActionListener(e12 -> {
-                    returnString = (inputField.getText() == null || inputField.getText().length() == 0 ? null : inputField.getText());
+                    returnString = (inputField.getText() == null || inputField.getText().length() == 0 ? "NULL" : inputField.getText());
                     inputFrame.closeAnimation();
                 });
                 submit.setBounds(40,100,320,40);
                 inputFrame.getContentPane().add(submit);
+
+                inputFrame.addCloseListener(e -> submit.doClick());
 
                 inputFrame.setVisible(true);
                 inputFrame.setAlwaysOnTop(true);

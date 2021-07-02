@@ -12,6 +12,8 @@ public class InputHandler {
 
 
 
+    //todo photo viewer is extremely laggy, maybe don't resize to old frame size and expant relative to old position?
+
     //todo implement mapping links, you'll need to change how user data is stored
     // make an issue for this and finally switching to binary writing
 
@@ -26,8 +28,6 @@ public class InputHandler {
     //todo background image changing doesn't move just the background
     //todo flipping console is broken
     //todo fipping console resets output area position
-
-    //todo make input field like the input field for login (actually a password field with the natche@cyder~$)
 
     //todo logout should end all executors and threads so only thing happening is login frame
     // all exeuctors should be spun once when logged in so inside of init console frame

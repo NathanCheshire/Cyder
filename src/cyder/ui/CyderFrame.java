@@ -1222,4 +1222,12 @@ public class CyderFrame extends JFrame {
 
         super.repaint();
     }
+
+    /**
+     * Adds an action listener hook to the frame to execute whenever the close button is pressed.
+     * @param actionListener - the action listener to add to the close button
+     */
+    public void addCloseListener(ActionListener actionListener) {
+        topDrag.addCloseListener(actionListener);
+    }
 }
