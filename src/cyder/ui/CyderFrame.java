@@ -5,6 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.obj.Gluster;
+import cyder.utilities.IOUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -21,6 +22,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
@@ -84,6 +86,11 @@ public class CyderFrame extends JFrame {
         setUndecorated(true);
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
+
+        if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
+            setShape(new RoundRectangle2D.Double(0, 0,
+                    getWidth(), getHeight(), 20, 20));
+        }
 
         contentLabel = new JLayeredPane() {
             @Override
@@ -1221,5 +1228,17 @@ public class CyderFrame extends JFrame {
         getBottomDragLabel().enableDragging();
         getRightDragLabel().enableDragging();
         getLeftDragLabel().enableDragging();
+    }
+
+    @Override
+    public void repaint() {
+        if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
+            setShape(new RoundRectangle2D.Double(0, 0,
+                    getWidth(), getHeight(), 20, 20));
+        } else {
+            setShape(null);
+        }
+
+        super.repaint();
     }
 }

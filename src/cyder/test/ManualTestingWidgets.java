@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class ManualTestingWidgets {
     //this was used on 7-1-21 to verify adding/removing buttons to/from drag labels
-    private void addingAndRemovingDragLabelButtonsTest() {
+    public static void addingAndRemovingDragLabelButtonsTest() {
         CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
         testFrame.setTitle("Test Frame");
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -40,7 +40,7 @@ public class ManualTestingWidgets {
         testFrame.setLocationRelativeTo(null);
     }
 
-    private void testButtonAndTitlePositions() {
+    public static void testButtonAndTitlePositions() {
         CyderFrame testFrame = new CyderFrame(600, 400, CyderImages.defaultBackground);
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         testFrame.setTitle("Testing Title");

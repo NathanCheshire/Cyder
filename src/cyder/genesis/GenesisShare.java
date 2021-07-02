@@ -23,11 +23,14 @@ public class GenesisShare {
 
     private static LinkedList<Preference> initPreferencesList() {
         LinkedList<Preference> ret = new LinkedList<>();
+
+        //ignores here
         ret.add(new Preference("font","IGNORE","IGNORE","tahoma"));
         ret.add(new Preference("foreground","IGNORE","IGNORE","000000"));
         ret.add(new Preference("background","IGNORE","IGNORE","FFFFFF"));
         ret.add(new Preference("laststart","IGNORE","IGNORE",System.currentTimeMillis() + ""));
 
+        //actual preferences here
         ret.add(new Preference("intromusic",
                 "Intro Music","" +
                 "Play intro music on start","0"));
@@ -70,6 +73,8 @@ public class GenesisShare {
         ret.add(new Preference("menudirection",
                 "Menu Minimize Direction",
                 "Console Menu Minimize Direction","1"));
+        ret.add(new Preference("roundwindows","Round Window Corners",
+                "Round Window Frame Corners","1"));
 
         return ret;
     }

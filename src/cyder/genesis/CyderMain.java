@@ -12,6 +12,7 @@ import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
 import cyder.obj.Preference;
+import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.MasterYoutube;
@@ -30,6 +31,7 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.InetAddress;
@@ -286,6 +288,11 @@ public class CyderMain {
 
             consoleFrame.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), ConsoleFrame.getBackgroundHeight());
             consoleFrame.setTitle(IOUtil.getSystemData("Version") + " Cyder [" + ConsoleFrame.getUsername() + "]");
+
+            if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
+                consoleFrame.setShape(new RoundRectangle2D.Double(0, 0,
+                        consoleFrame.getWidth(), consoleFrame.getHeight(), 20, 20));
+            }
 
             parentPane = new JLayeredPane();
             parentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -2764,7 +2771,7 @@ public class CyderMain {
     }
 
     private void test() {
-        handle("calc");
+
     }
 
     //get rid of these methods and just use a string util -----------------------------
@@ -3757,6 +3764,18 @@ public class CyderMain {
             inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
             inputField.repaint();
             inputField.revalidate();
+        }
+
+        //round corners fixer
+        for (Frame f : Frame.getFrames()) {
+            f.repaint();
+        }
+
+        if (IOUtil.getUserData("roundwindows").equals("1")) {
+            consoleFrame.setShape(new RoundRectangle2D.Double(0, 0,
+                    consoleFrame.getWidth(), consoleFrame.getHeight(), 20, 20));
+        } else {
+            consoleFrame.setShape(null);
         }
 
         consoleFrame.repaint();

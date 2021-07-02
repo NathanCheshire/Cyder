@@ -12,10 +12,9 @@ public class InputHandler {
 
 
 
-    //todo boolean for rounded corners for program as a whole
-    // setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
-    // make rounded border for frames and make sure drag label components aren't too close to edge
-    // make sure refreshing works still with everything added to drag label
+    //todo implement menu slide direction change
+    //todo implement mapping links, you'll need to change how user data is stored
+    // make an issue for this and finally switching to binary writing
 
     //todo user logs and throws should eventually be converted to binary data so that you can only access it through the program
     //todo add reading and writing calls to/from userdata to the log
@@ -31,15 +30,14 @@ public class InputHandler {
     //todo pixelate image widget
 
     //todo background image changing doesn't move just the background
+    //todo flipping console is broken
+    //todo fipping console resets output area position
 
     //todo make input field like the input field for login (actually a password field with the natche@cyder~$)
 
     //todo logout should end all executors and threads so only thing happening is login frame
     // all exeuctors should be spun once when logged in so inside of init console frame
     // all threads that continue should be able to be found and killed when logging out
-
-    //todo flipping console is broken
-    //todo fipping console resets output area position
 
     private JTextPane outputArea;
     private StringUtil stringUtil;
