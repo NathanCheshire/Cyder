@@ -97,12 +97,6 @@ public class Weather {
         };
         weatherFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         weatherFrame.setTitle("Weather");
-        weatherFrame.initializeResizing();
-        weatherFrame.setBackgroundResizing(true);
-        weatherFrame.setResizable(true);
-        weatherFrame.setMinimumSize(new Dimension(200,200));
-        weatherFrame.setMaximumSize(new Dimension(1000, 1000));
-        weatherFrame.setSnapSize(new Dimension(1,1));
 
         currentTimeLabel = new JLabel();
         currentTimeLabel.setForeground(CyderColors.vanila);
@@ -306,6 +300,13 @@ public class Weather {
                 ErrorHandler.handle(e);
             }
         },"Weather Clock Updater").start();
+
+        weatherFrame.initializeResizing();
+        weatherFrame.setResizable(true);
+        weatherFrame.setBackgroundResizing(true);
+        weatherFrame.setMinimumSize(new Dimension(200,200));
+        weatherFrame.setMaximumSize(new Dimension(1000, 1000));
+        weatherFrame.setSnapSize(new Dimension(1,1));
     }
 
     public String getWeatherTime() {

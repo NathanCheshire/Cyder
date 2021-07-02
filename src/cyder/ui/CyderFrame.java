@@ -56,7 +56,8 @@ public class CyderFrame extends JFrame {
     private int restoreY = Integer.MIN_VALUE;
 
     private JLabel titleLabel;
-    private JLabel contentLabel;
+    private JLabel iconLabel;
+    private JLayeredPane contentLabel;
 
     private Color backgroundColor = CyderColors.navy;
 
@@ -85,42 +86,57 @@ public class CyderFrame extends JFrame {
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
-        contentLabel = new JLabel();
-        contentLabel.setIcon(background);
-        setContentPane(contentLabel);
+        contentLabel = new JLayeredPane() {
+            @Override
+            public Component add(Component comp, int index) {
+                //currently we are only using drag layers, popups for notifications,
+                // and then default for components. This might need to change in the future
+                if (index == JLayeredPane.DRAG_LAYER) {
+                    return super.add(comp, index);
+                } else if (index == JLayeredPane.POPUP_LAYER) {
+                    return super.add(comp, index);
+                }
+
+                return super.add(comp, 0);
+            }
+        };
+
+        iconLabel = new JLabel();
+        iconLabel.setIcon(background);
+        iconLabel.setBounds(0,0,width,height);
+
+        iconLabel.setBorder(new LineBorder(CyderColors.navy, 1, false));
         contentLabel.setBorder(new LineBorder(CyderColors.navy, 1, false));
+
+        contentLabel.add(iconLabel,1);
+        setContentPane(contentLabel);
+
+        //todo fix border issue with notifications
+        //todo resizing is broken, border not getting set and image not getting resized
 
         topDrag = new DragLabel(width, DragLabel.getDefaultHeight() - 1, this);
         topDrag.setBounds(0, 1, width, DragLabel.getDefaultHeight() - 1);
         topDrag.setxOffset(0);
         topDrag.setyOffset(1);
-        contentLabel.add(topDrag);
+        contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
 
         leftDrag = new DragLabel(4, height - DragLabel.getDefaultHeight() - 2, this);
         leftDrag.setBounds(1, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
         leftDrag.setxOffset(1);
         leftDrag.setyOffset(DragLabel.getDefaultHeight());
-        contentLabel.add(leftDrag);
+        contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
 
         rightDrag = new DragLabel(4, height - DragLabel.getDefaultHeight() - 2, this);
         rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
         rightDrag.setxOffset(width - 5);
         rightDrag.setyOffset(DragLabel.getDefaultHeight());
-        contentLabel.add(rightDrag);
+        contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
 
         bottomDrag = new DragLabel(width, 4, this);
         bottomDrag.setBounds(0, height - 5, width, 4);
         bottomDrag.setxOffset(0);
         bottomDrag.setyOffset(height - 5);
-        contentLabel.add(bottomDrag);
-
-        //currently order goes by order added to pane
-
-        //todo really we're just back to where we started since with adding the border to make it draggable,
-        // we have reintroduced the layering issues
-
-        //todo now just make sure notifications are put over components but not over the drag labels
-        //todo override get content pane to return content label and make a getTrueContentPane method?
+        contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
 
         titleLabel = new JLabel("");
         titleLabel.setFont(new Font("Agency FB", Font.BOLD, 22));
@@ -129,6 +145,15 @@ public class CyderFrame extends JFrame {
         topDrag.add(titleLabel);
 
         this.threadsKilled = false;
+    }
+
+    @Override
+    public Container getContentPane() {
+        return iconLabel;
+    }
+
+    public Container getTrueContentPane() {
+        return contentLabel;
     }
 
     /**
@@ -519,7 +544,7 @@ public class CyderFrame extends JFrame {
                                 currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextYOffset(),
                                         DragLabel.getDefaultHeight() - currentNotification.getHeight());
 
-                            contentLabel.add(currentNotification);
+                            contentLabel.add(currentNotification, JLayeredPane.POPUP_LAYER);
                             getContentPane().repaint();
 
                             //duration is always 300ms per word unless less than 5 seconds
@@ -997,6 +1022,8 @@ public class CyderFrame extends JFrame {
                             currentNotification.getY());
                     break;
             }
+
+        refreshBackground();
     }
 
     private Dimension minimumSize = new Dimension(200, 200);
@@ -1005,7 +1032,6 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the minimum window size if resizing is allowed.
-     *
      * @param minSize - the Dimension of the minimum allowed size
      */
     public void setMinimumSize(Dimension minSize) {
@@ -1091,8 +1117,13 @@ public class CyderFrame extends JFrame {
      */
     public void refreshBackground() {
         try {
-            contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
-                    .getScaledInstance(contentLabel.getWidth(), contentLabel.getHeight(), Image.SCALE_DEFAULT)));
+            if (iconLabel == null)
+                return;
+
+            iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
+                   .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
+            revalidate();
+            repaint();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -1105,8 +1136,10 @@ public class CyderFrame extends JFrame {
     public void setBackground(ImageIcon icon) {
         try {
             currentOrigIcon = icon;
-            contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
-                    .getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT)));
+            iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
+                    .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
+            revalidate();
+            repaint();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -1163,8 +1196,8 @@ public class CyderFrame extends JFrame {
 
         currentOrigIcon = ConsoleFrame.getCurrentBackgroundImageIcon();
 
-        contentLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
-                .getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT)));
+        iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
+                .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
     }
 
     public int getRestoreX() {

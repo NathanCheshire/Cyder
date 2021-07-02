@@ -2764,7 +2764,7 @@ public class CyderMain {
     }
 
     private void test() {
-
+        handle("weather");
     }
 
     //get rid of these methods and just use a string util -----------------------------
