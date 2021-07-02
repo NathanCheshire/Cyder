@@ -16,6 +16,6 @@ InputFill:0
 ClockOnConsole:0
 ShowSeconds:1
 filterchat:1
-menudirection:0
-laststart:1625243945671
+menudirection:1
+laststart:1625244396219
 roundwindows:1
