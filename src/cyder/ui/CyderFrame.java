@@ -95,15 +95,13 @@ public class CyderFrame extends JFrame {
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
-                //currently we are only using drag layers, popups for notifications,
-                // and then default for components. This might need to change in the future
-                if (index == JLayeredPane.DRAG_LAYER) {
-                    return super.add(comp, index);
-                } else if (index == JLayeredPane.POPUP_LAYER) {
-                    return super.add(comp, index);
-                }
+            if (index == JLayeredPane.DRAG_LAYER) {
+                return super.add(comp, index);
+            } else if (index == JLayeredPane.POPUP_LAYER) {
+                return super.add(comp, index);
+            }
 
-                return super.add(comp, 0);
+            return super.add(comp, 0);
             }
         };
 
@@ -111,9 +109,8 @@ public class CyderFrame extends JFrame {
         iconLabel.setIcon(background);
         iconLabel.setBounds(1,1,width - 2,height - 2);
 
+        contentLabel.add(iconLabel,JLayeredPane.DEFAULT_LAYER);
         contentLabel.setBorder(new LineBorder(CyderColors.navy, 1, false));
-
-        contentLabel.add(iconLabel,1);
         setContentPane(contentLabel);
 
         topDrag = new DragLabel(width, DragLabel.getDefaultHeight() - 1, this);
