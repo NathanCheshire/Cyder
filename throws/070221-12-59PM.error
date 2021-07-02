@@ -1,0 +1,14 @@
+bad position: 16
+class java.lang.IllegalArgumentException
+Error thrown by line: 1684
+
+Stack Trace:
+
+java.lang.IllegalArgumentException: bad position: 16
+	at java.desktop/javax.swing.text.JTextComponent.setCaretPosition(JTextComponent.java:1684)
+	at cyder.genesis.CyderMain.console(CyderMain.java:364)
+	at cyder.genesis.CyderMain.recognize(CyderMain.java:1650)
+	at cyder.genesis.CyderMain.autoCypher(CyderMain.java:191)
+	at cyder.genesis.CyderMain.<init>(CyderMain.java:134)
+	at cyder.genesis.CyderMain.main(CyderMain.java:111)
+

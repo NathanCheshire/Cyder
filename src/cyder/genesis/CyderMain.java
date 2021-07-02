@@ -64,6 +64,7 @@ public class CyderMain {
     private int loginMode;
     private String username;
     private final String bashString = SystemUtil.getWindowsUsername() + "@Cyder:~$ ";
+    private String consoleBashString;
 
     //todo handler which each consoleframe uses
     private StringUtil stringUtil;
@@ -198,7 +199,7 @@ public class CyderMain {
     }
 
     private static JTextPane outputArea;
-    private JTextField inputField;
+    private JPasswordField inputField;
     public static JFrame consoleFrame;
     private JButton minimize;
     private JButton close;
@@ -235,6 +236,8 @@ public class CyderMain {
         try {
             ConsoleFrame.resizeBackgrounds();
             ConsoleFrame.initBackgrounds();
+
+            consoleBashString = ConsoleFrame.getUsername() + "@Cyder:~$ ";
 
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
 
@@ -324,6 +327,7 @@ public class CyderMain {
                 @Override
                 public void focusLost(FocusEvent e) {
                     inputField.requestFocusInWindow();
+                    inputField.setCaretPosition(inputField.getDocument().getLength());
                 }
             });
 
@@ -355,7 +359,9 @@ public class CyderMain {
 
             parentLabel.add(outputScroll);
 
-            inputField = new JTextField(40);
+            inputField = new JPasswordField(40);
+            inputField.setEchoChar((char)0);
+            inputField.setText(consoleBashString);
 
             if (IOUtil.getUserData("InputBorder").equalsIgnoreCase("1"))
                 inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
@@ -366,8 +372,10 @@ public class CyderMain {
             inputField.addKeyListener(new KeyListener() {
                 @Override
                 public void keyPressed(java.awt.event.KeyEvent e) {
-                    if (inputField.getText().length() == 1)
-                        inputField.setText(inputField.getText().toUpperCase());
+                    if (inputField.getPassword().length == consoleBashString.length() + 1) {
+                        inputField.setText(consoleBashString +
+                                String.valueOf(inputField.getPassword()).substring(consoleBashString.length()).toUpperCase());
+                    }
 
                     if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0))
                         handle("controlc");
@@ -395,8 +403,10 @@ public class CyderMain {
 
                 @Override
                 public void keyReleased(java.awt.event.KeyEvent e) {
-                    if (inputField.getText().length() == 1)
-                        inputField.setText(inputField.getText().toUpperCase());
+                    if (inputField.getPassword().length == consoleBashString.length() + 1) {
+                        inputField.setText(consoleBashString +
+                                String.valueOf(inputField.getPassword()).substring(consoleBashString.length()).toUpperCase());
+                    }
 
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
                         if (!consoleLinesDrawn) {
@@ -412,8 +422,17 @@ public class CyderMain {
 
                 @Override
                 public void keyTyped(java.awt.event.KeyEvent e) {
-                    if (inputField.getText().length() == 1)
-                        inputField.setText(inputField.getText().toUpperCase());
+                    if (inputField.getPassword().length == consoleBashString.length() + 1) {
+                        inputField.setText(consoleBashString +
+                                String.valueOf(inputField.getPassword()).substring(consoleBashString.length()).toUpperCase());
+                    }
+
+                    if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                        if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
+                            e.consume();
+                            inputField.setText(bashString);
+                        }
+                    }
                 }
             });
 
@@ -429,9 +448,30 @@ public class CyderMain {
                 }
             });
 
+            new Thread(() -> {
+                try {
+                    while (consoleFrame != null) {
+                        if (inputField.getCaretPosition() < consoleBashString.length()) {
+                            inputField.setCaretPosition(inputField.getPassword().length);
+                        }
+
+                        Thread.sleep(50);
+                    }
+                }
+
+                catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+            },"input caret position updater").start();
+            //todo fix these bodges or optimize the threads and combine them
+            // test different wait periods
+            // we're almost done with conversion to this just a matter of correcting the input and handling it
+            // then setting it back to the proper consoleBashString for more input
+
             inputField.setToolTipText("Input Field");
             inputField.setSelectionColor(CyderColors.selectionColor);
             inputField.addKeyListener(commandScrolling);
+            inputField.setCaretPosition(consoleBashString.length());
 
             consoleFrame.addWindowListener(consoleEcho);
 
@@ -1246,16 +1286,16 @@ public class CyderMain {
                         boolean Found = false;
 
                         for (int i = 0; i < operationList.size(); i++) {
-                            if (operationList.get(i).equals(inputField.getText())) {
+                            if (operationList.get(i).equals(String.valueOf(inputField.getPassword()))) {
                                 Found = true;
                                 break;
-                            } else if (!operationList.get(i).equals(inputField.getText()) && i == operationList.size() - 1) {
+                            } else if (!operationList.get(i).equals(String.valueOf(inputField.getPassword())) && i == operationList.size() - 1) {
                                 Found = false;
                                 break;
                             }
                         }
 
-                        if (inputField.getText() == null || inputField.getText().equals("")) {
+                        if (String.valueOf(inputField.getPassword()) == null || String.valueOf(inputField.getPassword()).equals("")) {
                             ConsoleFrame.setScrollingDowns(0);
                         } else if (!Found) {
                             ConsoleFrame.setScrollingDowns(0);
@@ -1266,12 +1306,12 @@ public class CyderMain {
                                 scrollingIndex = scrollingIndex - 1;
                             }
 
-                            inputField.setText(operationList.get(scrollingIndex));
+                            inputField.setText(consoleBashString + operationList.get(scrollingIndex));
                             ConsoleFrame.incScrollingDowns();
                         }
 
                         if (operationList.size() == 1) {
-                            inputField.setText(operationList.get(0));
+                            inputField.setText(consoleBashString + operationList.get(0));
                         }
                     }
 
@@ -1342,7 +1382,7 @@ public class CyderMain {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                String originalOp = inputField.getText().trim();
+                String originalOp = String.valueOf(inputField.getPassword()).trim().substring(0, consoleBashString.length() - 1);
                 String op = originalOp;
 
                 if (!stringUtil.empytStr(op)) {
@@ -1362,7 +1402,8 @@ public class CyderMain {
                     }
                 }
 
-                inputField.setText("");
+                inputField.setText(consoleBashString);
+                inputField.setCaretPosition(consoleBashString.length());
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
             }
@@ -1425,6 +1466,8 @@ public class CyderMain {
                 ErrorHandler.handle(e);
             }
         },"login printing animation").start();
+
+        //todo fix this bodge?
         new Thread(() -> {
             try {
                 while (doLoginAnimations && loginFrame != null) {
@@ -1891,12 +1934,14 @@ public class CyderMain {
         consoleFrame.setVisible(true);
         consoleFrame.requestFocus();
         inputField.requestFocus();
+        inputField.setCaretPosition(consoleBashString.length());
     }
 
     //todo move to input handler
     private void clc() {
         outputArea.setText("");
-        inputField.setText("");
+        inputField.setText(consoleBashString);
+        inputField.setCaretPosition(consoleBashString.length());
     }
 
     //input handler
