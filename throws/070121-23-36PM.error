@@ -1,0 +1,24 @@
+Width (0) and height (0) cannot be <= 0
+class java.lang.IllegalArgumentException
+Error thrown by line: 1016
+
+Stack Trace:
+
+java.lang.IllegalArgumentException: Width (0) and height (0) cannot be <= 0
+	at java.desktop/java.awt.image.DirectColorModel.createCompatibleWritableRaster(DirectColorModel.java:1016)
+	at java.desktop/java.awt.image.BufferedImage.<init>(BufferedImage.java:324)
+	at cyder.utilities.ImageUtil.imageIconFromColor(ImageUtil.java:181)
+	at cyder.ui.CyderFrame.setBackground(CyderFrame.java:1153)
+	at java.desktop/javax.swing.JFrame.frameInit(JFrame.java:259)
+	at java.desktop/javax.swing.JFrame.<init>(JFrame.java:181)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:77)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:163)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:171)
+	at cyder.handler.ErrorHandler.windowedError(ErrorHandler.java:156)
+	at cyder.handler.ErrorHandler.handle(ErrorHandler.java:90)
+	at cyder.genesis.CyderMain.console(CyderMain.java:829)
+	at cyder.genesis.CyderMain.recognize(CyderMain.java:1597)
+	at cyder.genesis.CyderMain.autoCypher(CyderMain.java:191)
+	at cyder.genesis.CyderMain.<init>(CyderMain.java:132)
+	at cyder.genesis.CyderMain.main(CyderMain.java:109)
+

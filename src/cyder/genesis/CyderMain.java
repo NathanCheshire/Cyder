@@ -2967,11 +2967,11 @@ public class CyderMain {
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
         editUserFrame.initializeResizing();
-        editUserFrame.setMaximumSize(new Dimension(1000,700));
+        editUserFrame.setMaximumSize(new Dimension(900,700));
         editUserFrame.setResizable(true);
 
         switchingLabel = new JLabel();
-        switchingLabel.setForeground(new Color(255, 900, 255));
+        switchingLabel.setForeground(new Color(255, 255, 255));
         switchingLabel.setBounds(90, 70, 720, 500);
         switchingLabel.setOpaque(true);
         switchingLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));

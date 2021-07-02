@@ -3,7 +3,6 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.exception.FatalException;
-import cyder.utilities.AnimationUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -160,7 +159,7 @@ public class DragLabel extends JLabel {
         minimize.addActionListener(e -> {
             effectFrame.setRestoreX(effectFrame.getX());
             effectFrame.setRestoreY(effectFrame.getY());
-            AnimationUtil.minimizeAnimation(effectFrame);
+            effectFrame.minimizeAnimation();
         });
 
         minimize.addMouseListener(new MouseAdapter() {

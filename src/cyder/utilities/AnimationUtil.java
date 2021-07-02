@@ -20,6 +20,9 @@ public class AnimationUtil {
     public static void closeAnimation(Frame frame) {
         if (frame instanceof CyderFrame) {
             ((CyderFrame) frame).getTopDragLabel().disableDragging();
+            ((CyderFrame) frame).getBottomDragLabel().disableDragging();
+            ((CyderFrame) frame).getRightDragLabel().disableDragging();
+            ((CyderFrame) frame).getLeftDragLabel().disableDragging();
         }
 
         try {
@@ -59,7 +62,7 @@ public class AnimationUtil {
 
         try {
             for (int i = y; i <= SystemUtil.getScreenHeight(); i += 15) {
-                Thread.sleep(0, 500);
+                Thread.sleep(0, 250);
                 frame.setLocation(x, i);
             }
 

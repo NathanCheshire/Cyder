@@ -131,7 +131,16 @@ public class Calculator {
         calculatorEquals.setFont(CyderFonts.weatherFontBig);
         calculatorEquals.addActionListener(e -> {
             try {
-                 calculatorFrame.notify(String.valueOf(new DoubleEvaluator().evaluate(calculatorField.getText().trim())));
+                String calcText = calculatorField.getText().trim();
+                double result = new DoubleEvaluator().evaluate(calcText);
+
+                if (result == Double.MAX_VALUE) {
+                    calculatorFrame.notify("Positive Inf");
+                } else if (result == Double.MIN_VALUE) {
+                    calculatorFrame.notify("Negative Inf");
+                } else {
+                    calculatorFrame.notify(String.valueOf(result));
+                }
             } catch (Exception exc) {
                 calculatorFrame.notify("<html>Could not parse expression. " +
                         "Please use multiplication signs after parenthesis " +

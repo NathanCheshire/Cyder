@@ -5,7 +5,6 @@ import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.obj.Gluster;
-import cyder.utilities.AnimationUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -40,8 +39,8 @@ public class CyderFrame extends JFrame {
 
     private TitlePosition titlePosition = TitlePosition.LEFT;
     private ButtonPosition buttonPosition = ButtonPosition.RIGHT;
-    private int width;
-    private int height;
+    private int width = 1;
+    private int height = 1;
 
     private boolean threadsKilled;
 
@@ -59,7 +58,7 @@ public class CyderFrame extends JFrame {
     private JLabel iconLabel;
     private JLayeredPane contentLabel;
 
-    private final Color backgroundColor = CyderColors.navy;
+    private Color backgroundColor = CyderColors.navy;
 
     private LinkedList<Gluster> notificationList = new LinkedList<>();
 
@@ -640,14 +639,6 @@ public class CyderFrame extends JFrame {
         GenericInform.informRelative(text, title, this);
     }
 
-    /**
-     * Animates the window from offscreen top to the center of the screen.
-     * This should be called in place of {@code this.setLocationRelativeTo(null);}
-     */
-    public void enterAnimation() {
-        AnimationUtil.enterAnimation(this);
-    }
-
     @Override
     public void setLocationRelativeTo(Component c) {
         if (c == null) {
@@ -657,28 +648,73 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    private int animationNano = 500;
+    private int animationInc = 40;
+
     /**
      * Close animation moves the window up until the CyderFrame is off screen. this.dispose() is then invoked
      * perhaps you might re-write this to override dispose so that closeanimation is always called and you can
      * simply dispose of a frame like normal.
      */
     public void closeAnimation() {
-        if (this == null)
-            return;
-
-        topDrag.disableDragging();
-        bottomDrag.disableDragging();
-        leftDrag.disableDragging();
-        rightDrag.disableDragging();
+        this.disableDragging();
 
         try {
-            if (this != null && this.isVisible()) {
-                AnimationUtil.closeAnimation(this);
-                this.dispose();
+            if (this != null && isVisible()) {
+                Point point = getLocationOnScreen();
+                int x = (int) point.getX();
+                int y = (int) point.getY();
+
+                for (int i = y; i >= 0 - getHeight(); i -= animationInc) {
+                    Thread.sleep(0, animationNano);
+                    setLocation(x, i);
+                }
+
+                dispose();
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    /**
+     * Moves the window down until it is off screen before setting the state to ICONIFIED.
+     * The original position of the frame will be remembered and set when the window is deiconified.
+     */
+    public void minimizeAnimation() {
+        try {
+
+            long start = System.currentTimeMillis();
+            for (int i = this.getY(); i <= SystemUtil.getScreenHeight(); i += animationInc) {
+                Thread.sleep(0, animationNano);
+                setLocation(this.getX(), i);
+            }
+            System.out.print("Milis: " + (System.currentTimeMillis() - start));
+            setState(JFrame.ICONIFIED);
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    /**
+     * Animates the window from offscreen top to the center of the screen.
+     * This should be called in place of {@code this.setLocationRelativeTo(null);}
+     */
+    public void enterAnimation() {
+        setVisible(true);
+        setLocation(SystemUtil.getScreenWidth() / 2 - getWidth() / 2, - getHeight());
+
+        for (int i = -getHeight(); i < SystemUtil.getScreenHeight() / 2 - getHeight() / 2; i += animationInc) {
+            setLocation(getX(), i);
+            try {
+                Thread.sleep(0, animationNano);
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }
+
+        setLocation(SystemUtil.getScreenWidth() / 2 - getWidth() / 2,
+                SystemUtil.getScreenHeight() / 2 - getHeight() / 2);
     }
 
     @Override
@@ -691,55 +727,15 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Moves the window down until it is off screen before setting the state to ICONIFIED.
-     * The original position of the frame will be remembered and set when the window is deiconified.
-     */
-    public void minimizeAnimation() {
-        if (this == null)
-            return;
-
-        topDrag.disableDragging();
-        bottomDrag.disableDragging();
-        leftDrag.disableDragging();
-        rightDrag.disableDragging();
-
-        Point point = this.getLocationOnScreen();
-        int x = (int) point.getX();
-        int y = (int) point.getY();
-
-        try {
-            for (int i = y; i <= SystemUtil.getScreenHeight(); i += 15) {
-                Thread.sleep(1);
-                this.setLocation(x, i);
-            }
-
-            this.setState(JFrame.ICONIFIED);
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-
-        topDrag.enableDragging();
-        bottomDrag.enableDragging();
-        leftDrag.enableDragging();
-        rightDrag.enableDragging();
-    }
-
-    /**
      * Allow or disable moving the window.
      *
      * @param relocatable - the boolean value determining if the window may be repositioned
      */
     public void setRelocatable(boolean relocatable) {
         if (relocatable) {
-            topDrag.enableDragging();
-            bottomDrag.enableDragging();
-            leftDrag.enableDragging();
-            rightDrag.enableDragging();
+            this.enableDragging();
         } else {
-            topDrag.disableDragging();
-            bottomDrag.disableDragging();
-            leftDrag.disableDragging();
-            rightDrag.disableDragging();
+           this.disableDragging();
         }
     }
 
@@ -763,10 +759,7 @@ public class CyderFrame extends JFrame {
             boolean wasEnabled = false;
 
             if (topDrag.isDraggingEnabled()) {
-                topDrag.disableDragging();
-                bottomDrag.disableDragging();
-                leftDrag.disableDragging();
-                rightDrag.disableDragging();
+                this.disableDragging();
                 wasEnabled = true;
             }
 
@@ -854,10 +847,7 @@ public class CyderFrame extends JFrame {
             setAlwaysOnTop(false);
 
             if (wasEnabled) {
-                topDrag.enableDragging();
-                bottomDrag.enableDragging();
-                leftDrag.enableDragging();
-                rightDrag.enableDragging();
+               this.enableDragging();
             }
         },this + " [dance thread]");
 
@@ -1132,6 +1122,10 @@ public class CyderFrame extends JFrame {
      */
     public void setBackground(ImageIcon icon) {
         try {
+            //prevent errors before instantiation of ui objects
+            if (iconLabel == null)
+                return;
+
             currentOrigIcon = icon;
             iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                     .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
@@ -1144,13 +1138,14 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the background color of the Frame's content pane. What this really does
-     * is set the background to an icon with the desired color.
+     * Sets the background color of the Frame's content pane
      * @param background - the Color object value of the content pane's desired background
      */
     @Override
     public void setBackground(Color background) {
-        this.setBackground(ImageUtil.imageIconFromColor(background,this.width,this.height));
+        super.setBackground(background);
+        this.backgroundColor = background;
+        revalidate();
     }
 
     /**
@@ -1212,5 +1207,19 @@ public class CyderFrame extends JFrame {
 
     public void setRestoreY(int y) {
         this.restoreY = y;
+    }
+    
+    public void disableDragging() {
+        getTopDragLabel().disableDragging();
+        getBottomDragLabel().disableDragging();
+        getRightDragLabel().disableDragging();
+        getLeftDragLabel().disableDragging();
+    }
+
+    public void enableDragging() {
+        getTopDragLabel().enableDragging();
+        getBottomDragLabel().enableDragging();
+        getRightDragLabel().enableDragging();
+        getLeftDragLabel().enableDragging();
     }
 }

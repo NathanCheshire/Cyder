@@ -10,12 +10,7 @@ public class InputHandler {
     // and direct the resulting flow and output
     // console frame (has-a) input handler (has-a) string util and context engine
 
-    //todo animations seem slow?
-    // start animation bodge with checking for relative to null and then using enterAnimation works,
-    // on start up apps but not once already started?
 
-    //todo cyderframe background should never change from navy, when trying to set a color, we should set
-    // to an image icon of the color
 
     //todo boolean for rounded corners for program as a whole
     // setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
