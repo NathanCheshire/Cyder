@@ -15,7 +15,11 @@ public class CyderTextField extends JTextField {
     private String regex;
 
     public CyderTextField(int charLimit) {
-        super(charLimit);
+        super(charLimit == 0 ? Integer.MAX_VALUE : charLimit);
+
+        if (charLimit == 0)
+            charLimit = Integer.MAX_VALUE;
+
         this.limit = charLimit;
         regex = null;
 

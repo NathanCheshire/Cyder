@@ -2805,7 +2805,47 @@ public class CyderMain {
     }
 
     private void test() {
+        CyderFrame testFrame = new CyderFrame(350,350,CyderImages.defaultBackground);
+        testFrame.setTitle("Notification Test");
 
+        int miliDelay = 3000;
+
+        CyderTextField ctf = new CyderTextField(0);
+        ctf.setBounds(100,50,150,40);
+        testFrame.getContentPane().add(ctf);
+
+        CyderButton topNotifiy = new CyderButton("Top");
+        topNotifiy.setBounds(100,110,150,40);
+        topNotifiy.addActionListener(e -> {
+            testFrame.notify(ctf.getText(), miliDelay, Direction.TOP);
+        });
+        testFrame.getContentPane().add(topNotifiy);
+
+        CyderButton rightNotify = new CyderButton("Right");
+        rightNotify.setBounds(100,170,150,40);
+        rightNotify.addActionListener(e -> {
+            testFrame.notify(ctf.getText(), miliDelay, Direction.RIGHT);
+        });
+        testFrame.getContentPane().add(rightNotify);
+
+        CyderButton bottomNotify = new CyderButton("Bottom");
+        bottomNotify.setBounds(100,230,150,40);
+        bottomNotify.addActionListener(e -> {
+            testFrame.notify(ctf.getText(), miliDelay, Direction.BOTTOM);
+        });
+        testFrame.getContentPane().add(bottomNotify);
+
+        CyderButton leftNotify = new CyderButton("Left");
+        leftNotify.setBounds(100,290,150,40);
+        leftNotify.addActionListener(e -> {
+            testFrame.notify(ctf.getText(), miliDelay, Direction.LEFT);
+        });
+        testFrame.getContentPane().add(leftNotify);
+
+        testFrame.initializeResizing();
+        testFrame.setResizable(true);
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(null);
     }
 
     //get rid of these methods and just use a string util -----------------------------

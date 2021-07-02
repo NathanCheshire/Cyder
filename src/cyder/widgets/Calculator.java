@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -135,21 +136,14 @@ public class Calculator {
                 double result = new DoubleEvaluator().evaluate(calcText);
 
                 if (result == Double.MAX_VALUE) {
-                    calculatorFrame.notify("Positive Inf");
+                    calculatorFrame.notify("Positive Inf",2000,Direction.RIGHT);
                 } else if (result == Double.MIN_VALUE) {
-                    calculatorFrame.notify("Negative Inf");
+                    calculatorFrame.notify("Negative Inf",2000,Direction.RIGHT);
                 } else {
-                    calculatorFrame.notify(String.valueOf(result));
+                    calculatorFrame.notify(String.valueOf(result),5000,Direction.RIGHT);
                 }
             } catch (Exception exc) {
-                calculatorFrame.notify("<html>Could not parse expression. " +
-                        "Please use multiplication signs after parenthesis " +
-                        "and check the exact syntax of your expression for common" +
-                        " errors such as missing delimiters. Note that this calculator " +
-                        "does support typing in the" +
-                        " Text Field and can handle more complicated" +
-                        "expressions such as sin, cos, tan, log, ln, floor, etc. " +
-                        "Use \"pi\" for pi.</html>");
+                calculatorFrame.notify("Could not parse expression",2000, Direction.RIGHT);
                 ErrorHandler.silentHandle(exc);
             }
         });

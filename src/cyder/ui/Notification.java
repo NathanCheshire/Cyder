@@ -246,7 +246,7 @@ public class Notification extends JLabel {
                             Thread.sleep(this.delay);
                         }
 
-                        setBounds(getX(), DragLabel.getDefaultHeight(), getWidth(), getHeight());
+                        setBounds(getX(), DragLabel.getDefaultHeight() - 1, getWidth(), getHeight());
 
                         break;
 
@@ -272,7 +272,7 @@ public class Notification extends JLabel {
                             Thread.sleep(this.delay);
                         }
 
-                        setBounds(5, getY(), getWidth(), getHeight());
+                        setBounds(2, getY(), getWidth(), getHeight());
 
                         break;
 
@@ -285,7 +285,7 @@ public class Notification extends JLabel {
                             Thread.sleep(this.delay);
                         }
 
-                        setBounds(getX(), parent.getHeight() - this.getHeight() + 5, getWidth(), getHeight());
+                        setBounds(getX(), parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
 
                         break;
                 }
