@@ -105,6 +105,7 @@ public class IOUtil {
             corruptedUser();
 
         try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))) {
+            GenesisShare.getExitingSem().acquire();
 
             String Line;
 
@@ -114,6 +115,8 @@ public class IOUtil {
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
         }
     }
 
@@ -127,6 +130,8 @@ public class IOUtil {
 
             if (!new File("users/" + ConsoleFrame.getUUID() + "/userdata.bin").exists())
                 corruptedUser();
+
+            GenesisShare.getExitingSem().acquire();
 
             BufferedReader fis = new BufferedReader(new FileReader("users/" + ConsoleFrame.getUUID() + "/userdata.bin"));
             String[] stringBytes = fis.readLine().split("(?<=\\G........)");
@@ -151,6 +156,8 @@ public class IOUtil {
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
         }
     }
 
@@ -172,6 +179,8 @@ public class IOUtil {
         String ret = null;
 
         try {
+            GenesisShare.getExitingSem().acquire();
+
             BufferedReader fis = new BufferedReader(new FileReader(userDataBin));
             String[] stringBytes = fis.readLine().split("(?<=\\G........)");
             StringBuilder sb = new StringBuilder();
@@ -196,6 +205,8 @@ public class IOUtil {
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
         }
 
         return ret;
@@ -239,10 +250,10 @@ public class IOUtil {
 
             fos.flush();
             fos.close();
-
-            GenesisShare.getExitingSem().release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
         }
     }
 
@@ -378,9 +389,6 @@ public class IOUtil {
                 userWriter.write(GenesisShare.getPrefs().get(i).getID() + ":" + GenesisShare.getPrefs().get(i).getDefaultValue());
                 userWriter.newLine();
             }
-
-            GenesisShare.getExitingSem().release();
-
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -445,9 +453,6 @@ public class IOUtil {
             }
 
             userWriter.close();
-
-            GenesisShare.getExitingSem().release();
-
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -458,9 +463,8 @@ public class IOUtil {
     public static void readSystemData() {
         systemData.clear();
 
-        try (BufferedReader sysReader = new BufferedReader(new FileReader(
-                "Sys.ini"))) {
-
+        try (BufferedReader sysReader = new BufferedReader(new FileReader("Sys.ini"))) {
+            GenesisShare.getExitingSem().acquire();
             String Line;
 
             while ((Line = sysReader.readLine()) != null) {
@@ -469,6 +473,8 @@ public class IOUtil {
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
         }
     }
 
@@ -477,9 +483,7 @@ public class IOUtil {
             return;
 
         try {
-            //we should re-read our pairs before writing
             readUserData();
-
             GenesisShare.getExitingSem().acquire();
 
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
@@ -494,9 +498,10 @@ public class IOUtil {
             }
 
             userWriter.close();
-            GenesisShare.getExitingSem().release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
         }
     }
 
@@ -516,9 +521,10 @@ public class IOUtil {
             }
 
             sysWriter.flush();
-            GenesisShare.getExitingSem().release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
         }
     }
 
@@ -538,12 +544,10 @@ public class IOUtil {
     }
 
     public static String getUserData(String name) {
-        //todo maybe we shouldn't call read?
-        // we keep having stack overflow errors that reset this for no reason and it's weird
         readUserData();
 
         if (userData.isEmpty())
-            ErrorHandler.handle(new FatalException("Attempting to access empty user data after calling read"));
+            throw new IllegalArgumentException("Attempting to access empty user data after calling read");
 
         for (NST data : userData) {
             if (data.getName().equalsIgnoreCase(name)) {
@@ -558,7 +562,7 @@ public class IOUtil {
         readSystemData();
 
         if (systemData.isEmpty())
-            ErrorHandler.handle(new FatalException("Attempting to access empty system data after calling read"));
+           throw new IllegalArgumentException("Attempting to access empty system data after calling read");
 
         for (NST data : systemData) {
             if (data.getName().equalsIgnoreCase(name)) {
@@ -755,18 +759,14 @@ public class IOUtil {
             Files.move(Paths.get("src/Cyder_Corrupted_Userdata.zip"),
                     Paths.get("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads/Cyder_Corrupted_Userdata.zip"));
 
-            //release sem
-            GenesisShare.getExitingSem().release();
-
             //todo go to login method instead (essentially restart program)
             System.exit(25);
         } catch (Exception e) {
-            e.printStackTrace();
             ErrorHandler.silentHandle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
         }
     }
-    //^
-    //todo does this actually log work?
 
     private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
         try {
@@ -808,7 +808,6 @@ public class IOUtil {
 
     public static void changeUsername(String newName) {
         try {
-            readUserData();
             writeUserData("name", newName);
         } catch (Exception e) {
             ErrorHandler.handle(e);
