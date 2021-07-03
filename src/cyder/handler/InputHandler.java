@@ -11,6 +11,7 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
+    //todo command scrolling is broken with password field implemented
 
     //todo photo viewer is extremely laggy, maybe don't resize to old frame size and expant relative to old position?
 

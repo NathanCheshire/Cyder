@@ -1500,7 +1500,13 @@ public class CyderMain {
 
         IOUtil.cleanUsers();
 
-        loginFrame = new CyderFrame(600, 400);
+        loginFrame = new CyderFrame(600, 400) {
+            @Override
+            public void dispose() {
+                doLoginAnimations = false;
+                super.dispose();
+            }
+        };
         loginFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         loginFrame.setTitle(IOUtil.getSystemData("Version") + " login");
         loginFrame.setBackground(new Color(21,23,24));
@@ -2880,7 +2886,6 @@ public class CyderMain {
                     }
 
                     Thread.sleep(lineTimeout);
-                    System.out.println("here");
                 }
             } catch (Exception e) {
                 ErrorHandler.handle(e);
