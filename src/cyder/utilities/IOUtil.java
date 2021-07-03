@@ -546,6 +546,7 @@ public class IOUtil {
     public static String getUserData(String name) {
         readUserData();
 
+        //errors coming from here somehow, try and debug
         if (userData.isEmpty())
             throw new IllegalArgumentException("Attempting to access empty user data after calling read");
 
@@ -634,7 +635,6 @@ public class IOUtil {
             TextEditor te = new TextEditor(FilePath);
         } else if (FilePath.endsWith(".png")) {
             PhotoViewer pv = new PhotoViewer(new File(FilePath));
-            pv.start();
         }
 
         //use our own mp3 player

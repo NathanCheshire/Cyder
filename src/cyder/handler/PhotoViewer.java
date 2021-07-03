@@ -35,9 +35,6 @@ public class PhotoViewer {
     //start instance
     public PhotoViewer(File startDir) {
         this.startDir = startDir;
-    }
-
-    public void start() {
         initFiles();
 
         File imageName = validImages.get(currentIndex);
@@ -62,6 +59,8 @@ public class PhotoViewer {
         pictureFrame.setSnapSize(new Dimension(1,1));
         pictureFrame.setMinimumSize(new Dimension(newImage.getIconWidth() / 2, newImage.getIconHeight() / 2));
         pictureFrame.setMaximumSize(new Dimension(newImage.getIconWidth(), newImage.getIconHeight()));
+        pictureFrame.setVisible(true);
+        pictureFrame.setLocationRelativeTo(null);
 
         renameButton = new JButton("Rename");
         renameButton.setForeground(CyderColors.vanila);
@@ -126,31 +125,31 @@ public class PhotoViewer {
         lastImage.setBorderPainted(false);
         lastImage.setFocusPainted(false);
         pictureFrame.getTopDragLabel().addButton(lastImage, 0);
-
-        pictureFrame.setVisible(true);
-        pictureFrame.setLocationRelativeTo(null);
     }
 
     private void initFiles() {
-        validImages.clear();
-
-        File[] possibles = null;
-
         if (startDir.isDirectory()) {
-            possibles = startDir.listFiles();
+            File[] files = startDir.listFiles();
+
+            for (File f : files) {
+                if (StringUtil.getExtension(f).equals(".png"))
+                    validImages.add(f);
+            }
         } else {
-            possibles = startDir.getParentFile().listFiles();
-        }
+            File parent = startDir.getParentFile();
+            File[] neighbors = parent.listFiles();
 
-        for (File f : possibles) {
-            if (f.getName().endsWith(".png"))
-                validImages.add(f);
-        }
+            for (File f : neighbors) {
+                if (StringUtil.getExtension(f).equals(".png"))
+                    validImages.add(f);
+            }
 
-        for (int i = 0 ; i < validImages.size() ; i++) {
-           if (validImages.get(i).getAbsolutePath().equalsIgnoreCase(startDir.getAbsolutePath())) {
-               currentIndex = i;
-           }
+            for (int i = 0 ; i < validImages.size() ; i++) {
+                if (validImages.get(i).equals(startDir)) {
+                    currentIndex = i;
+                    break;
+                }
+            }
         }
     }
     private void scrollFoward() {

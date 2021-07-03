@@ -673,7 +673,6 @@ public class CyderFrame extends JFrame {
                 Thread.sleep(0, animationNano);
                 setLocation(this.getX(), i);
             }
-            System.out.print("Milis: " + (System.currentTimeMillis() - start));
             setState(JFrame.ICONIFIED);
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -991,7 +990,8 @@ public class CyderFrame extends JFrame {
                     break;
             }
 
-        refreshBackground();
+        //todo how to add back in?
+        //refreshBackground();
     }
 
     private Dimension minimumSize = new Dimension(200, 200);
@@ -1210,6 +1210,8 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void repaint() {
+        //this doesn't cause much lag as of 7.3.21, that bug came from refreshing the background
+        // every time we setbounds of the frame
         if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
             setShape(new RoundRectangle2D.Double(0, 0,
                     getWidth(), getHeight(), 20, 20));

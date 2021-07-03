@@ -2804,7 +2804,7 @@ public class CyderMain {
     }
 
     private void test() {
-        new PhotoViewer(new File("c:/users/nathan/pictures/favorites/bobby.png")).start();
+        new PhotoViewer(new File("c:/users/nathan/pictures/favorites/bobby.png"));
     }
 
     private LinkedList<String> consolePrintingList = new LinkedList<>();
@@ -3311,7 +3311,6 @@ public class CyderMain {
                 if (ClickedSelectionPath != null) {
                     if (ClickedSelectionPath.getName().endsWith(".png")) {
                         PhotoViewer pv = new PhotoViewer(ClickedSelectionPath);
-                        pv.start();
                     } else if (ClickedSelectionPath.getName().endsWith(".mp3")) {
                         IOUtil.mp3(ClickedSelectionPath.toString());
                     }
