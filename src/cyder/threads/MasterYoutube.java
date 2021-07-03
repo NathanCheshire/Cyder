@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 public class MasterYoutube {
     private JTextPane outputArea;
+    private static boolean active = false;
 
     //todo this class still exists in the event we want to allow multithreading once again with random youtube
     // that will be hard to figure out due to the nature of threads, context switching, and just the general way
@@ -21,6 +22,8 @@ public class MasterYoutube {
     public void killAllYoutube() {
         for (YoutubeThread ytt : youtubeThreads)
             ytt.kill();
+
+        active = false;
     }
 
     //this will always be 1 as of right now
@@ -29,5 +32,11 @@ public class MasterYoutube {
             YoutubeThread current = new YoutubeThread(outputArea);
             youtubeThreads.add(current);
         }
+
+        active = true;
+    }
+
+    public static boolean isActive() {
+        return active;
     }
 }

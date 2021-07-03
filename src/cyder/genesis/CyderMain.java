@@ -279,6 +279,8 @@ public class CyderMain {
                 }
             };
 
+            consolePrintingAnimation();
+
             consoleFrame.setUndecorated(true);
             //this doesn't really do much since we don't call consoleFrame.dispose typicallyf
             consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1367,6 +1369,7 @@ public class CyderMain {
                 ignoreNames.add("DestroyJavaVM");
                 ignoreNames.add("JavaFX Application Thread");
                 ignoreNames.add("Console Input Caret Position Updater");
+                ignoreNames.add("Console Printing Animation");
 
 
                 for (int i = 0; i < num; i++)
@@ -1575,7 +1578,7 @@ public class CyderMain {
                                 loginMode = 0;
                             } else if (Arrays.equals(input,"login".toCharArray())) {
                                 loginField.setText(bashString);
-                                priorityPrintingList.add("Awaiting Username...\n");
+                                priorityPrintingList.add("Awaiting Username\n");
                                 loginMode = 1;
                             } else if (Arrays.equals(input,"login admin".toCharArray())) {
                                 loginField.setText(bashString);
@@ -1600,7 +1603,7 @@ public class CyderMain {
                         loginMode = 2;
                         loginField.setEchoChar('*');
                         loginField.setText("");
-                        priorityPrintingList.add("Awaiting Password...\n");
+                        priorityPrintingList.add("Awaiting Password\n");
 
                         break;
 
@@ -2382,7 +2385,8 @@ public class CyderMain {
                 consoleFrame.setLocationRelativeTo(null);
             } else if (hasWord("random") && hasWord("youtube")) {
                 my.killAllYoutube();
-                println("Type \"Stop Threads\" or press ctrl + c to stop the YouTube thread.");
+                //todo replace with consoleFrame.notify()
+                GenericInform.informRelative("Type \"Stop Threads\" or press ctrl + c to stop the YouTube thread.","Script", consoleFrame);
                 my = new MasterYoutube(outputArea);
                 my.start(1);
             } else if (hasWord("arduino")) {
@@ -2846,12 +2850,61 @@ public class CyderMain {
 
     }
 
-    //get rid of these methods and just use a string util -----------------------------
+    private LinkedList<String> consolePrintingList = new LinkedList<>();
+    private LinkedList<String> consolePriorityPrintingList = new LinkedList<>();
+
+    //login widget
+    private void consolePrintingAnimation() {
+        consolePrintingList.clear();
+        consolePriorityPrintingList.clear();
+
+        int charTimeout = 20;
+        int lineTimeout = 200;
+
+        new Thread(() -> {
+            try {
+                while (consoleFrame != null) {
+                    if (consolePriorityPrintingList.size() > 0) {
+                        String line = consolePriorityPrintingList.removeFirst();
+
+                        StyledDocument document = (StyledDocument) outputArea.getDocument();
+                        document.insertString(document.getLength(), line, null);
+                        outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                    } else if (consolePrintingList.size() > 0){
+                        String line = consolePrintingList.removeFirst();
+
+                        for (char c : line.toCharArray()) {
+                            innerConsolePrint(c);
+                            Thread.sleep(charTimeout);
+                        }
+                    }
+
+                    Thread.sleep(lineTimeout);
+                    System.out.println("here");
+                }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "Console Printing Animation").start();
+    }
+
+    private void innerConsolePrint(char c) {
+        try {
+            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            document.insertString(document.getLength(), String.valueOf(c), null);
+            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
 
     //handler method
     private void printlnImage(String filename) {
         outputArea.insertIcon(new ImageIcon(filename));
-        println("");
+        consolePriorityPrintingList.add("\n");
+
+        if (MasterYoutube.isActive())
+            consolePriorityPrintingList.add("\n");
     }
 
     //handler method
@@ -2861,165 +2914,127 @@ public class CyderMain {
 
     //handler method
     private void print(String usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), usage, null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        if (MasterYoutube.isActive())
+            consolePriorityPrintingList.add(usage);
+        else
+            consolePrintingList.add(usage);
     }
 
     //handler method
     private void print(int usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Integer.toString(usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        if (MasterYoutube.isActive())
+            consolePriorityPrintingList.add(Integer.toString(usage));
+        else
+            consolePrintingList.add(Integer.toString(usage));
     }
 
     //handler method
     private void print(double usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Double.toString(usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        if (MasterYoutube.isActive())
+            consolePriorityPrintingList.add(Double.toString(usage));
+        else
+            consolePrintingList.add(Double.toString(usage));
     }
 
     //handler method
     private void print(boolean usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Boolean.toString(usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        if (MasterYoutube.isActive())
+            consolePriorityPrintingList.add(Boolean.toString(usage));
+        else
+            consolePrintingList.add(Boolean.toString(usage));
     }
 
     //handler method
     private void print(float usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Float.toString(usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        if (MasterYoutube.isActive())
+            consolePriorityPrintingList.add(Float.toString(usage));
+        else
+            consolePrintingList.add(Float.toString(usage));
     }
 
     //handler method
     private void print(long usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), Long.toString(usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        if (MasterYoutube.isActive())
+            consolePriorityPrintingList.add(Long.toString(usage));
+        else
+            consolePrintingList.add(Long.toString(usage));
     }
 
     //handler method
     private void print(char usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), String.valueOf(usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        if (MasterYoutube.isActive())
+            consolePriorityPrintingList.add(String.valueOf(usage));
+        else
+            consolePrintingList.add(String.valueOf(usage));
     }
 
     //handler method
     private void print(Object usage) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), usage.toString(), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        if (MasterYoutube.isActive())
+            consolePriorityPrintingList.add(usage.toString());
+        else
+            consolePrintingList.add(usage.toString());
     }
 
     //handler method
     private void println(String usage) {
-        print(usage);
-        print("\n");
+        print(usage + "\n");
     }
 
     //handler method
     private void println(int usage) {
-        print(usage);
-        print("\n");
+        print(usage + "\n");
     }
 
     //handler method
     private void println(double usage) {
-        print(usage);
-        print("\n");
+        print(usage + "\n");
     }
 
     //handler method
     private void println(boolean usage) {
-        print(usage);
-        print("\n");
+        print(usage + "\n");
     }
 
     //handler method
     private void println(float usage) {
-        print(usage);
-        print("\n");
+        print(usage + "\n");
     }
 
     //handler method
     private void println(long usage) {
-        print(usage);
-        print("\n");
+        print(usage + "\n");
     }
 
     //handler method
     private void println(char usage) {
-        print(usage);
-        print("\n");
+        print(usage + "\n");
     }
 
     //handler method
     private void println(Object usage) {
-        print(usage);
-        print("\n");
+        print(usage + "\n");
     }
 
     //handler method
-    private boolean eic(String EIC) {
-        return operation.equalsIgnoreCase(EIC);
+    private boolean eic(String eic) {
+        return operation.equalsIgnoreCase(eic);
     }
 
     //handler method
     private boolean has(String compare) {
-        String ThisComp = compare.toLowerCase();
-        String ThisOp = operation.toLowerCase();
-
-        return ThisOp.contains(ThisComp);
+        return operation.toLowerCase().contains(compare.toLowerCase());
     }
 
     //handler method
     private boolean hasWord(String compare) {
-        String ThisComp = compare.toLowerCase();
-        String ThisOp = operation.toLowerCase();
-
-        if (ThisOp.equals(ThisComp) || ThisOp.contains(' ' + ThisComp + ' ') || ThisOp.contains(' ' + ThisComp) || ThisOp.contains(ThisComp + ' '))
+        if (operation.toLowerCase().equals(compare.toLowerCase()) ||
+                operation.toLowerCase().contains(' ' + compare.toLowerCase() + ' ') ||
+                operation.toLowerCase().contains(' ' + compare.toLowerCase()) ||
+                operation.toLowerCase().contains(compare.toLowerCase() + ' '))
             return true;
-
-        else return ThisOp.contains(ThisComp + ' ');
+        else return operation.toLowerCase().contains(compare.toLowerCase() + ' ');
     }
-
-    //console frame probably-------------------------------------------------------
 
     //Edit user vars
     private CyderFrame editUserFrame;
