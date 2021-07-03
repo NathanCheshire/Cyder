@@ -24,7 +24,7 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 
 ## TODO
 
-- [ ]  take into account possible secondary/tertiary monitors and know which one you're on
+- [x]  take into account possible secondary/tertiary monitors and know which one you're on
 - [ ]  be able to adapt to different screen resolutions and maintain relative size
 - [ ]  add a device manager so that you can see what's connected to the PC through the program
 - [ ]  add @return, @param, @args, etc. to most methods

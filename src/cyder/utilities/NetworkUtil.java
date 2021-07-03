@@ -3,10 +3,9 @@ package cyder.utilities;
 import cyder.handler.ErrorHandler;
 
 import java.awt.*;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.URI;
+import java.net.*;
+import java.util.Collections;
+import java.util.Enumeration;
 
 public class NetworkUtil {
 
@@ -19,6 +18,50 @@ public class NetworkUtil {
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }
+    }
+
+    public static String getMonitorStatsString() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] gs = ge.getScreenDevices();
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < gs.length; i++) {
+            DisplayMode dm = gs[i].getDisplayMode();
+            sb.append(i);
+            sb.append(", width: ");
+            sb.append(dm.getWidth());
+            sb.append(", height: ");
+            sb.append(dm.getHeight());
+            sb.append(", bit depth: ");
+            sb.append(dm.getBitDepth());
+            sb.append(", refresh rate: ");
+            sb.append(dm.getRefreshRate());
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+
+    public static String getNetworkDevicesString() {
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+
+            for (NetworkInterface netint : Collections.list(nets)) {
+                sb.append("Display name:").append(netint.getDisplayName()).append("\n");
+                sb.append("Name:").append(netint.getName()).append("\n");
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return sb.toString();
+    }
+
+    public static Enumeration<NetworkInterface> getNetworkDevices() throws SocketException {
+        return NetworkInterface.getNetworkInterfaces();
     }
 
     public static void internetConnect(URI URI) {

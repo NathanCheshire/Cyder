@@ -2666,6 +2666,10 @@ public class CyderMain {
                 } else {
                     println("hexdump usage: hexdump -f /path/to/binary/file");
                 }
+            } else if (has("monitor")) {
+                println(NetworkUtil.getMonitorStatsString());
+            } else if (hasWord("network") && hasWord("devices")) {
+                println(NetworkUtil.getNetworkDevicesString());
             }
 
             //attempts at undefined input
