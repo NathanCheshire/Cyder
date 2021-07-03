@@ -12,6 +12,7 @@ public class BletchyThread {
     private bletchyThread bletchThread;
     private JTextPane outputArea;
     private StringUtil su;
+    private static boolean isActive = false;
 
     /**
      * Class instantiation requires a JTextPane so that we may use a StringUtil to append to the profvided JTextPane
@@ -40,6 +41,8 @@ public class BletchyThread {
 
         bletchyThread(String[] print, int miliDelay) {
             new Thread(() -> {
+                isActive = true;
+
                 for (int i = 1 ; i < print.length ; i++) {
                     if (exit) {
                         su.println("Escaped");
@@ -67,7 +70,12 @@ public class BletchyThread {
 
         public void kill() {
             this.exit = true;
+            isActive = false;
         }
+    }
+
+    public static boolean isActive() {
+        return isActive;
     }
 
     /**

@@ -1281,7 +1281,7 @@ public class CyderMain {
                     if (code == KeyEvent.VK_DOWN) {
                         if (scrollingIndex + 1 < operationList.size()) {
                             scrollingIndex = scrollingIndex + 1;
-                            inputField.setText(operationList.get(scrollingIndex));
+                            inputField.setText(consoleBashString + operationList.get(scrollingIndex));
                         }
                     }
                     //scroll to subsequent command if exist
@@ -1339,8 +1339,8 @@ public class CyderMain {
     //consolidate with console frame in one time run method
     private WindowAdapter consoleEcho = new WindowAdapter() {
         public void windowOpened(WindowEvent e) {
-        inputField.requestFocus();
-        specialDayNotifier = new SpecialDay(parentPane);
+            inputField.requestFocus();
+            specialDayNotifier = new SpecialDay(parentPane);
         }
     };
 
@@ -2879,10 +2879,9 @@ public class CyderMain {
                     } else if (consolePrintingList.size() > 0){
                         String line = consolePrintingList.removeFirst();
 
-                        for (char c : line.toCharArray()) {
-                            innerConsolePrint(c);
-                            Thread.sleep(charTimeout);
-                        }
+                        StyledDocument document = (StyledDocument) outputArea.getDocument();
+                        document.insertString(document.getLength(), line, null);
+                        outputArea.setCaretPosition(outputArea.getDocument().getLength());
                     }
 
                     Thread.sleep(lineTimeout);
@@ -2908,7 +2907,7 @@ public class CyderMain {
         outputArea.insertIcon(new ImageIcon(filename));
         consolePriorityPrintingList.add("\n");
 
-        if (MasterYoutube.isActive())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add("\n");
     }
 
@@ -2919,7 +2918,7 @@ public class CyderMain {
 
     //handler method
     private void print(String usage) {
-        if (MasterYoutube.isActive())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage);
         else
             consolePrintingList.add(usage);
@@ -2927,7 +2926,7 @@ public class CyderMain {
 
     //handler method
     private void print(int usage) {
-        if (MasterYoutube.isActive())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Integer.toString(usage));
         else
             consolePrintingList.add(Integer.toString(usage));
@@ -2935,7 +2934,7 @@ public class CyderMain {
 
     //handler method
     private void print(double usage) {
-        if (MasterYoutube.isActive())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Double.toString(usage));
         else
             consolePrintingList.add(Double.toString(usage));
@@ -2943,7 +2942,7 @@ public class CyderMain {
 
     //handler method
     private void print(boolean usage) {
-        if (MasterYoutube.isActive())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Boolean.toString(usage));
         else
             consolePrintingList.add(Boolean.toString(usage));
@@ -2951,7 +2950,7 @@ public class CyderMain {
 
     //handler method
     private void print(float usage) {
-        if (MasterYoutube.isActive())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Float.toString(usage));
         else
             consolePrintingList.add(Float.toString(usage));
@@ -2959,7 +2958,7 @@ public class CyderMain {
 
     //handler method
     private void print(long usage) {
-        if (MasterYoutube.isActive())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Long.toString(usage));
         else
             consolePrintingList.add(Long.toString(usage));
@@ -2967,7 +2966,7 @@ public class CyderMain {
 
     //handler method
     private void print(char usage) {
-        if (MasterYoutube.isActive())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(String.valueOf(usage));
         else
             consolePrintingList.add(String.valueOf(usage));
@@ -2975,7 +2974,7 @@ public class CyderMain {
 
     //handler method
     private void print(Object usage) {
-        if (MasterYoutube.isActive())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage.toString());
         else
             consolePrintingList.add(usage.toString());
