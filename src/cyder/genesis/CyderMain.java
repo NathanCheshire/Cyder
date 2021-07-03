@@ -402,12 +402,11 @@ public class CyderMain {
                     if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
                         if (!consoleLinesDrawn) {
                             drawConsoleLines = true;
-                            consoleFrame.repaint();
                         } else {
                             drawConsoleLines = false;
                             consoleLinesDrawn = false;
-                            consoleFrame.repaint();
                         }
+                        consoleFrame.repaint();
                     }
                 }
 
@@ -760,13 +759,11 @@ public class CyderMain {
                         if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                             newBack = new ImageIcon(ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
                                     (int) SystemUtil.getScreenSize().getHeight(), new File(newBackFile)));
-                            tempW = newBack.getIconWidth();
-                            tempH = newBack.getIconHeight();
                         } else {
                             newBack = new ImageIcon(newBackFile);
-                            tempW = newBack.getIconWidth();
-                            tempH = newBack.getIconHeight();
                         }
+                        tempW = newBack.getIconWidth();
+                        tempH = newBack.getIconHeight();
 
                         parentLabel.setIcon(newBack);
 
@@ -1769,14 +1766,12 @@ public class CyderMain {
                     temporaryImage = ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
                             (int) SystemUtil.getScreenSize().getHeight(),
                             new File(oldBackFile));
-                    temporaryWidth = temporaryImage.getWidth();
-                    temporaryHeight = temporaryImage.getHeight();
                 } else {
                     newBack = ImageUtil.resizeImage(newBack.getWidth(), newBack.getHeight(), new File(newBackFile));
                     temporaryImage = ImageUtil.resizeImage(newBack.getWidth(), newBack.getHeight(), new File(oldBackFile));
-                    temporaryWidth = temporaryImage.getWidth();
-                    temporaryHeight = temporaryImage.getHeight();
                 }
+                temporaryWidth = temporaryImage.getWidth();
+                temporaryHeight = temporaryImage.getHeight();
 
                 refreshConsoleFrame();
 
@@ -2809,7 +2804,7 @@ public class CyderMain {
     }
 
     private void test() {
-
+        new PhotoViewer(new File("c:/users/nathan/pictures/favorites/bobby.png")).start();
     }
 
     private LinkedList<String> consolePrintingList = new LinkedList<>();
@@ -2988,7 +2983,7 @@ public class CyderMain {
 
     //handler method
     private boolean hasWord(String compare) {
-        if (operation.toLowerCase().equals(compare.toLowerCase()) ||
+        if (operation.equalsIgnoreCase(compare) ||
                 operation.toLowerCase().contains(' ' + compare.toLowerCase() + ' ') ||
                 operation.toLowerCase().contains(' ' + compare.toLowerCase()) ||
                 operation.toLowerCase().contains(compare.toLowerCase() + ' '))
@@ -3111,12 +3106,11 @@ public class CyderMain {
             if (newPassword.length > 4) {
                 IOUtil.changePassword(newPassword);
                 editUserFrame.inform("Password successfully changed", "");
-                changePasswordField.setText("");
             } else {
                 editUserFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", " +
                         "but your password must be greater than 4 characters for security reasons.", "");
-                changePasswordField.setText("");
             }
+            changePasswordField.setText("");
 
             for (char c : newPassword) {
                 c = '\0';

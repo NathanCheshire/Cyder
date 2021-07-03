@@ -153,16 +153,6 @@ public class PhotoViewer {
            }
         }
     }
-
-    private BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
-        BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
-        Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, img_width, img_height, null);
-        g.dispose();
-
-        return resizedImage;
-    }
-
     private void scrollFoward() {
         oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
         oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
@@ -174,45 +164,16 @@ public class PhotoViewer {
                 currentIndex = 0;
             }
 
-            ImageIcon newIcon = checkImage(validImages.get(currentIndex));
+            pictureFrame.setBackground(new ImageIcon(validImages.get(currentIndex).getAbsolutePath()));
+            pictureFrame.setLocation(oldCenterX - pictureFrame.getWidth() / 2, oldCenterY - pictureFrame.getHeight() / 2);
 
-            pictureFrame.setTitle(StringUtil.getFilename(validImages.get(currentIndex)));
-            pictureFrame.setSnapSize(new Dimension(1,1));
-            pictureFrame.setMinimumSize(new Dimension(newIcon.getIconWidth() / 2, newIcon.getIconHeight() / 2));
-            pictureFrame.setMaximumSize(new Dimension(newIcon.getIconWidth(), newIcon.getIconHeight()));
-            pictureFrame.setBackground(newIcon);
-            pictureFrame.revalidate();
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     private void scrollBack() {
-        oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
-        oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
 
-        try {
-            if (currentIndex - 1 >= 0) {
-                currentIndex -= 1;
-            } else {
-                currentIndex = validImages.size() - 1;
-            }
-
-            ImageIcon newIcon = checkImage(validImages.get(currentIndex));
-
-            pictureFrame.setTitle(StringUtil.getFilename(validImages.get(currentIndex)));
-            pictureFrame.setSnapSize(new Dimension(1,1));
-            pictureFrame.setMinimumSize(new Dimension(newIcon.getIconWidth() / 2, newIcon.getIconHeight() / 2));
-            pictureFrame.setMaximumSize(new Dimension(newIcon.getIconWidth(), newIcon.getIconHeight()));
-            pictureFrame.setBackground(newIcon);
-            pictureFrame.revalidate();
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
     }
 
     //returns a scaled down imageicon if the image file is too big

@@ -559,7 +559,7 @@ public class CyderFrame extends JFrame {
 
                             //duration is always 300ms per word unless less than 5 seconds
                             int duration = 300 * StringUtil.countWords(parsedHTML);
-                            duration = duration < 5000 ? 5000 : duration;
+                            duration = Math.max(duration, 5000);
                             duration = currentGluster.getDuration() == 0 ?
                                     duration : currentGluster.getDuration();
                             currentNotification.appear(currentGluster.getStartDir(), currentGluster.getVanishDir(),
@@ -650,7 +650,7 @@ public class CyderFrame extends JFrame {
                 int x = (int) point.getX();
                 int y = (int) point.getY();
 
-                for (int i = y; i >= 0 - getHeight(); i -= animationInc) {
+                for (int i = y; i >= -getHeight(); i -= animationInc) {
                     Thread.sleep(0, animationNano);
                     setLocation(x, i);
                 }
@@ -668,7 +668,6 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAnimation() {
         try {
-
             long start = System.currentTimeMillis();
             for (int i = this.getY(); i <= SystemUtil.getScreenHeight(); i += animationInc) {
                 Thread.sleep(0, animationNano);
@@ -713,7 +712,6 @@ public class CyderFrame extends JFrame {
 
     /**
      * Allow or disable moving the window.
-     *
      * @param relocatable - the boolean value determining if the window may be repositioned
      */
     public void setRelocatable(boolean relocatable) {
@@ -871,7 +869,6 @@ public class CyderFrame extends JFrame {
 
     /**
      * Rotates the currently content pane by the specified degrees from the top left corner.
-     *
      * @param degrees - the degrees to be rotated by; 360deg = 0deg.
      */
     public void rotateBackground(int degrees) {
