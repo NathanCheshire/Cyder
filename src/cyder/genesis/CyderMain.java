@@ -38,7 +38,6 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -222,16 +221,6 @@ public class CyderMain {
      * move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
      * that's all! possibly add some other methods to change things about the console frame like close operations. etc.
      */
-
-    //this extends CyderFrame so we need to override the settitle method since we'll be painting the time
-    // as the center title
-
-    //disable setting title position to left
-
-    //add the menu and suggestion button to the drag label
-
-    //override the action of the close button, make a getter for drag label's close button and be able
-    // to set any action for any button on drag label
     public void console() {
         try {
             ConsoleFrame.resizeBackgrounds();
@@ -1196,8 +1185,6 @@ public class CyderMain {
                     menuLabel.setLocation(0, -250);
                     AnimationUtil.componentDown(-250, 30, 10, 8, menuLabel);
                 }
-
-
             } else {
                 minimizeMenu();
             }
@@ -1277,44 +1264,19 @@ public class CyderMain {
             try {
                 //command scrolling
                 if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
-                    //scroll to previous commands
                     if (code == KeyEvent.VK_DOWN) {
+                        if (scrollingIndex - 1 > -1) {
+                            scrollingIndex--;
+                            inputField.setText(consoleBashString + operationList.get(scrollingIndex));
+                        }
+
+                    } else if (code == KeyEvent.VK_UP) {
                         if (scrollingIndex + 1 < operationList.size()) {
-                            scrollingIndex = scrollingIndex + 1;
+                            scrollingIndex++;
                             inputField.setText(consoleBashString + operationList.get(scrollingIndex));
-                        }
-                    }
-                    //scroll to subsequent command if exist
-                    else if (code == KeyEvent.VK_UP) {
-                        boolean Found = false;
-
-                        for (int i = 0; i < operationList.size(); i++) {
-                            if (operationList.get(i).equals(String.valueOf(inputField.getPassword()))) {
-                                Found = true;
-                                break;
-                            } else if (!operationList.get(i).equals(String.valueOf(inputField.getPassword())) && i == operationList.size() - 1) {
-                                Found = false;
-                                break;
-                            }
-                        }
-
-                        if (String.valueOf(inputField.getPassword()) == null || String.valueOf(inputField.getPassword()).equals("")) {
-                            ConsoleFrame.setScrollingDowns(0);
-                        } else if (!Found) {
-                            ConsoleFrame.setScrollingDowns(0);
-                        }
-
-                        if (scrollingIndex - 1 >= 0) {
-                            if (ConsoleFrame.getScrollingDowns() != 0) {
-                                scrollingIndex = scrollingIndex - 1;
-                            }
-
-                            inputField.setText(consoleBashString + operationList.get(scrollingIndex));
-                            ConsoleFrame.incScrollingDowns();
-                        }
-
-                        if (operationList.size() == 1) {
-                            inputField.setText(consoleBashString + operationList.get(0));
+                        } else if (scrollingIndex + 1 == operationList.size()) {
+                            scrollingIndex++;
+                            inputField.setText(consoleBashString);
                         }
                     }
 
@@ -1395,7 +1357,7 @@ public class CyderMain {
                         operationList.add(op);
                     }
 
-                    scrollingIndex = operationList.size() - 1;
+                    scrollingIndex = operationList.size();
                     ConsoleFrame.setScrollingDowns(0);
 
                     //calls to linked inputhandler
@@ -1415,25 +1377,13 @@ public class CyderMain {
         }
     };
 
-    //login widget (called by main)
-    private void loginPrint(String print, JTextPane refArea) {
-        try {
-            StyledDocument document = (StyledDocument) refArea.getDocument();
-            document.insertString(document.getLength(), print, null);
-            refArea.setCaretPosition(refArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
-
     private LinkedList<String> printingList = new LinkedList<>();
     private LinkedList<String> priorityPrintingList = new LinkedList<>();
 
     //login widget
     private void loginTypingAnimation(JTextPane refArea) {
         printingList.clear();
-        SimpleDateFormat versionFormatter = new SimpleDateFormat("MM.dd.yy");
-        printingList.add("Cyder version: " + versionFormatter.format(new Date()) + "\n");
+        printingList.add("Cyder version: " + IOUtil.getSystemData("Date") + "\n");
         printingList.add("Type \"h\" for a list of valid commands\n");
         printingList.add("Build: Soultree\n");
         printingList.add("Author: Nathan Cheshire\n");
@@ -1445,20 +1395,22 @@ public class CyderMain {
         int lineTimeout = 500;
 
         new Thread(() -> {
+            StringUtil su = new StringUtil(refArea);
+
             try {
                 while (doLoginAnimations && loginFrame != null)  {
                     if (priorityPrintingList.size() > 0) {
                         String line = priorityPrintingList.removeFirst();
 
                         for (char c : line.toCharArray()) {
-                            loginPrint(String.valueOf(c), refArea);
+                            su.print(String.valueOf(c));
                             Thread.sleep(charTimeout);
                         }
                     } else if (printingList.size() > 0) {
                         String line = printingList.removeFirst();
 
                         for (char c : line.toCharArray()) {
-                            loginPrint(String.valueOf(c), refArea);
+                            su.print(String.valueOf(c));
                             Thread.sleep(charTimeout);
                         }
                     }
