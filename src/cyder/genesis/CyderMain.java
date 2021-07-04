@@ -69,9 +69,11 @@ public class CyderMain {
     //todo handler which each consoleframe uses
     private StringUtil stringUtil;
     private String operation;
+
+    //go away
     private String anagram;
 
-    //todo go away
+    //go away
     private int restoreX;
     private int restoreY;
     private int xMouse;
@@ -81,7 +83,7 @@ public class CyderMain {
     private int consoleFrameRestoreX;
     private int consoleFrameRestoreY;
 
-    //todo consoleframe
+    //consoleframe
     private boolean backgroundProcessCheckerStarted = false;
     private boolean drawConsoleLines = false;
     private boolean consoleLinesDrawn = false;
@@ -256,10 +258,8 @@ public class CyderMain {
                         int strokeThickness = 4;
                         g2d.setStroke(new BasicStroke(strokeThickness));
 
-                        g2d.drawLine(getWidth() / 2 - strokeThickness / 2, 0,
-                                getWidth() / 2 - strokeThickness / 2, getHeight());
-                        g2d.drawLine(0, getHeight() / 2 - strokeThickness / 2, getWidth(),
-                                getHeight() / 2 - strokeThickness / 2);
+                        g2d.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
+                        g2d.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
                         if (img != null)
                             g2d.drawImage(img, getWidth() / 2 - w / 2, getHeight() / 2 - h / 2, null);
@@ -608,8 +608,7 @@ public class CyderMain {
                     ConsoleFrame.initBackgrounds();
 
                     try {
-                        //todo uncomment
-                        //lineColor = new ImageUtil().getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
+                        lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
 
                         if (ConsoleFrame.canSwitchBackground() && ConsoleFrame.getBackgrounds().size() > 1) {
                             ConsoleFrame.incBackgroundIndex();
@@ -1348,7 +1347,7 @@ public class CyderMain {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                String op = String.valueOf(inputField.getPassword()).trim().substring(consoleBashString.length());
+                String op = String.valueOf(inputField.getPassword()).substring(consoleBashString.length()).trim();
 
                 if (!stringUtil.empytStr(op)) {
                     if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
@@ -2805,13 +2804,15 @@ public class CyderMain {
     }
 
     private void test() {
-        new TextEditor("C:\\Users\\Nathan\\Documents\\IntelliJava\\Cyder\\users\\8657469f-418b-348f-ab79-8993fb4c2b84\\Userdata.txt");
+
     }
 
     private LinkedList<String> consolePrintingList = new LinkedList<>();
     private LinkedList<String> consolePriorityPrintingList = new LinkedList<>();
 
-    //login widget
+    //console printing animation currently turned off do to concurrency issues such as
+    // bletchy, youtube thread, and drawing pictures and such, maybe we just throw everything no matter
+    // what into a custom OutputQueue and from there determine how to store it and print it?
     private void consolePrintingAnimation() {
         consolePrintingList.clear();
         consolePriorityPrintingList.clear();
