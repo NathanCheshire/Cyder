@@ -2804,7 +2804,7 @@ public class CyderMain {
     }
 
     private void test() {
-        new PhotoViewer(new File("c:/users/nathan/pictures/favorites/bobby.png"));
+        new PhotoViewer(new File("c:/users/nathan/pictures/favorites/camping.png"));
     }
 
     private LinkedList<String> consolePrintingList = new LinkedList<>();

@@ -15,7 +15,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 
 public class PhotoViewer {
@@ -37,21 +36,17 @@ public class PhotoViewer {
         this.startDir = startDir;
         initFiles();
 
-        File imageName = validImages.get(currentIndex);
+        File currentImage = validImages.get(currentIndex);
 
         if (pictureFrame != null)
             pictureFrame.closeAnimation();
 
         ImageIcon newImage = null;
-        try {
-            newImage = new ImageIcon(ImageIO.read(imageName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        newImage = checkImage(currentImage);
 
         pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
         pictureFrame.setBackground(CyderColors.navy);
-        pictureFrame.setTitle(imageName.getName().replace(".png", ""));
+        pictureFrame.setTitle(currentImage.getName().replace(".png", ""));
         pictureFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         pictureFrame.initializeResizing();
         pictureFrame.setResizable(true);
@@ -163,16 +158,49 @@ public class PhotoViewer {
                 currentIndex = 0;
             }
 
-            pictureFrame.setBackground(new ImageIcon(validImages.get(currentIndex).getAbsolutePath()));
-            pictureFrame.setLocation(oldCenterX - pictureFrame.getWidth() / 2, oldCenterY - pictureFrame.getHeight() / 2);
+            ImageIcon nextImage = checkImage(validImages.get(currentIndex));
+            pictureFrame.setSize(nextImage.getIconWidth(),nextImage.getIconHeight());
+            pictureFrame.setBackground(nextImage);
+            pictureFrame.setLocation(oldCenterX - nextImage.getIconWidth() / 2,
+                    oldCenterY - nextImage.getIconHeight() / 2);
 
+            pictureFrame.setMinimumSize(new Dimension(nextImage.getIconWidth() / 2,
+                    nextImage.getIconHeight() / 2));
+            pictureFrame.setMaximumSize(new Dimension(nextImage.getIconWidth(),
+                    nextImage.getIconHeight()));
+
+            pictureFrame.refreshBackground();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     private void scrollBack() {
+        oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
+        oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
 
+        try {
+            if (currentIndex - 1 >= 0) {
+                currentIndex -= 1;
+            } else {
+                currentIndex = validImages.size() - 1;
+            }
+
+            ImageIcon nextImage = checkImage(validImages.get(currentIndex));
+            pictureFrame.setSize(nextImage.getIconWidth(),nextImage.getIconHeight());
+            pictureFrame.setBackground(nextImage);
+            pictureFrame.setLocation(oldCenterX - nextImage.getIconWidth() / 2,
+                    oldCenterY - nextImage.getIconHeight() / 2);
+
+            pictureFrame.setMinimumSize(new Dimension(nextImage.getIconWidth() / 2,
+                    nextImage.getIconHeight() / 2));
+            pictureFrame.setMaximumSize(new Dimension(nextImage.getIconWidth(),
+                    nextImage.getIconHeight()));
+
+            pictureFrame.refreshBackground();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     //returns a scaled down imageicon if the image file is too big

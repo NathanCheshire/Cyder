@@ -13,8 +13,6 @@ public class InputHandler {
 
     //todo askew is broken when successive calls, making a testing widget for this
 
-    //todo photo viewer is extremely laggy, maybe don't resize to old frame size and expant relative to old position?
-
     //todo implement mapping links, you'll need to change how user data is stored
     // make an issue for this and finally switching to binary writing
 
