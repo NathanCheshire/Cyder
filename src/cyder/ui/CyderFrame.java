@@ -990,8 +990,8 @@ public class CyderFrame extends JFrame {
                     break;
             }
 
-        //todo how to add back in?
-        //refreshBackground();
+        if (isVisible())
+            refreshBackground();
     }
 
     private Dimension minimumSize = new Dimension(200, 200);
@@ -1009,7 +1009,6 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the maximum window size if resizing is allowed.
-     *
      * @param maxSize - the Dimension of the minimum allowed size
      */
     public void setMaximumSize(Dimension maxSize) {
@@ -1077,7 +1076,6 @@ public class CyderFrame extends JFrame {
     public void setFrameResizing(Boolean allow) {
         cr.setResizing(allow);
     }
-
     ImageIcon currentOrigIcon;
 
     /**
@@ -1088,10 +1086,14 @@ public class CyderFrame extends JFrame {
             if (iconLabel == null)
                 return;
 
-            iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
-                   .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
+            if (cr != null && cr.getBackgroundRefreshOnResize()) {
+                iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
+                        .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
+            }
+
             iconLabel.setBounds(0,0,width - 2,height - 2);
             iconPane.setBounds(1,1, width - 2, height - 2);
+
             revalidate();
             repaint();
         } catch (Exception e) {
@@ -1143,7 +1145,8 @@ public class CyderFrame extends JFrame {
 
     @Override
     public String toString() {
-        String title = titleLabel.getText() == null || titleLabel.getText().length() == 0 ? super.getTitle() : titleLabel.getText();
+        String title = titleLabel.getText() == null ||
+                titleLabel.getText().length() == 0 ? super.getTitle() : titleLabel.getText();
         return "Name: " + title + "[" + this.getTitlePosition() + "],(" +
                 this.getX() + "," + this.getY() + "," + this.getWidth() + "x" + this.getHeight() + ")";
     }

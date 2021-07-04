@@ -50,7 +50,6 @@ public class PhotoViewer {
         pictureFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         pictureFrame.initializeResizing();
         pictureFrame.setResizable(true);
-        pictureFrame.setBackgroundResizing(true);
         pictureFrame.setSnapSize(new Dimension(1,1));
         pictureFrame.setMinimumSize(new Dimension(newImage.getIconWidth() / 2, newImage.getIconHeight() / 2));
         pictureFrame.setMaximumSize(new Dimension(newImage.getIconWidth(), newImage.getIconHeight()));

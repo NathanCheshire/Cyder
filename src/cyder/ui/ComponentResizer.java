@@ -171,7 +171,7 @@ public class ComponentResizer extends MouseAdapter {
         if (source instanceof JComponent) {
             JComponent jc = (JComponent)source;
             autoscrolls = jc.getAutoscrolls();
-            jc.setAutoscrolls( false );
+            jc.setAutoscrolls(false);
         }
     }
 
@@ -183,7 +183,7 @@ public class ComponentResizer extends MouseAdapter {
         source.setCursor( sourceCursor );
 
         if (source instanceof JComponent) {
-            ((JComponent)source).setAutoscrolls( autoscrolls );
+            ((JComponent)source).setAutoscrolls(autoscrolls);
         }
     }
 
@@ -242,8 +242,11 @@ public class ComponentResizer extends MouseAdapter {
             height += drag;
         }
 
-        if (source instanceof CyderFrame && backgroundRefreshOnResize)
-            ((CyderFrame) source).refreshBackground();
+        if (source instanceof CyderFrame ) {
+            if (backgroundRefreshOnResize) {
+                ((CyderFrame) source).refreshBackground();
+            }
+        }
 
         source.setBounds(x, y, width, height);
         source.validate();
