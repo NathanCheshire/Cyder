@@ -116,7 +116,7 @@ public class CyderFrame extends JFrame {
 
         contentLabel.add(iconPane,JLayeredPane.DEFAULT_LAYER);
 
-        contentLabel.setBorder(new LineBorder(CyderColors.navy, 1, false));
+        contentLabel.setBorder(new LineBorder(CyderColors.navy, 3, false));
         setContentPane(contentLabel);
 
         topDrag = new DragLabel(width, DragLabel.getDefaultHeight() - 1, this);

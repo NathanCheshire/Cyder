@@ -11,6 +11,8 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
+    //todo take away all jtextfield and use CyderTextField
+
     //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
 
     //todo askew is broken when successive calls, making a testing widget for this
