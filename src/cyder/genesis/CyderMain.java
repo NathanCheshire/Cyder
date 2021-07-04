@@ -11,6 +11,7 @@ import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
+import cyder.handler.TextEditor;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadFactory;
@@ -2804,7 +2805,7 @@ public class CyderMain {
     }
 
     private void test() {
-        new PhotoViewer(new File("c:/users/nathan/pictures/favorites/camping.png"));
+        new TextEditor("C:\\Users\\Nathan\\Documents\\IntelliJava\\Cyder\\users\\8657469f-418b-348f-ab79-8993fb4c2b84\\Userdata.txt");
     }
 
     private LinkedList<String> consolePrintingList = new LinkedList<>();

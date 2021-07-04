@@ -6,7 +6,6 @@ import cyder.consts.CyderImages;
 import cyder.ui.*;
 
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyListener;
@@ -248,10 +247,9 @@ public class Pizza {
         orderComments.setAutoscrolls(true);
         orderComments.setLineWrap(true);
         orderComments.setWrapStyleWord(true);
-        orderComments.setSelectedTextColor(CyderColors.selectionColor);
+        orderComments.setSelectionColor(CyderColors.selectionColor);
         orderComments.setBorder(new LineBorder(new Color(0, 0, 0)));
 
-        //todo this border on this scrollpane is messed up 
         CyderScrollPane orderCommentsScroll = new CyderScrollPane(orderComments,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -259,10 +257,9 @@ public class Pizza {
         orderCommentsScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         orderCommentsScroll.getViewport().setBorder(null);
         orderCommentsScroll.setViewportBorder(null);
-        orderCommentsScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(CyderColors.navy,5,false)));
+        orderCommentsScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
         orderCommentsScroll.setPreferredSize(new Dimension(400,200));
-        orderCommentsScroll.setBounds(80,600,600 - 160,140);
+        orderCommentsScroll.setBounds(80,600,600 - 160,120);
         pizzaFrame.getContentPane().add(orderCommentsScroll);
 
         CyderButton placeOrder = new CyderButton("Place Order");

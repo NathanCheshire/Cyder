@@ -11,6 +11,8 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
+    //todo singular notes frames so one object
+
     //todo askew is broken when successive calls, making a testing widget for this
 
     //todo implement mapping links, you'll need to change how user data is stored

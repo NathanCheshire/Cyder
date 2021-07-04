@@ -9,94 +9,85 @@ import cyder.ui.CyderScrollPane;
 import cyder.widgets.GenericInform;
 
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.io.*;
 
 public class TextEditor {
 
-    private CyderFrame noteEditorFrame;
-    private JTextField noteEditField;
-    private JTextArea noteEditArea;
+    private CyderFrame textEditorFrame;
+    private JTextField textNameEditField;
+    private JTextArea textEditArea;
 
     public TextEditor(String filePath) {
         openTextFile(new File(filePath));
     }
 
     private void openTextFile(File File) {
-        if (noteEditorFrame != null)
-            noteEditorFrame.closeAnimation();
+        if (textEditorFrame != null)
+            textEditorFrame.closeAnimation();
 
-        noteEditorFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
-        noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
+        textEditorFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
+        textEditorFrame.setTitle("Editing: " + File.getName().replace(".txt", ""));
 
-        noteEditField = new JTextField(20);
-        noteEditField.setToolTipText("Change Name");
-        noteEditField.setSelectionColor(CyderColors.selectionColor);
-        noteEditField.setText(File.getName().replaceFirst(".txt",""));
-        noteEditField.setFont(CyderFonts.weatherFontSmall);
-        noteEditField.setForeground(CyderColors.navy);
-        noteEditField.setBorder(new LineBorder(CyderColors.navy,5,false));
-        noteEditField.setBounds(50,50,600 - 50 - 50, 40);
-        noteEditorFrame.getContentPane().add(noteEditField);
+        textNameEditField = new JTextField(20);
+        textNameEditField.setToolTipText("Change Name");
+        textNameEditField.setSelectionColor(CyderColors.selectionColor);
+        textNameEditField.setText(File.getName().replaceFirst(".txt",""));
+        textNameEditField.setFont(CyderFonts.weatherFontSmall);
+        textNameEditField.setForeground(CyderColors.navy);
+        textNameEditField.setBorder(new LineBorder(CyderColors.navy,5));
+        textNameEditField.setBounds(50,50,600 - 50 - 50, 40);
+        textEditorFrame.getContentPane().add(textNameEditField);
 
-        noteEditArea = new JTextArea(20, 20);
-        noteEditArea.setSelectedTextColor(CyderColors.selectionColor);
-        noteEditArea.setFont(CyderFonts.weatherFontSmall);
-        noteEditArea.setForeground(CyderColors.navy);
-        noteEditArea.setEditable(true);
-        noteEditArea.setAutoscrolls(true);
-        noteEditArea.setLineWrap(true);
-        noteEditArea.setWrapStyleWord(true);
-        noteEditArea.setFocusable(true);
+        textEditArea = new JTextArea(20, 20);
+        textEditArea.setSelectionColor(CyderColors.selectionColor);
+        textEditArea.setFont(CyderFonts.weatherFontSmall);
+        textEditArea.setForeground(CyderColors.navy);
+        textEditArea.setEditable(true);
+        textEditArea.setAutoscrolls(true);
+        textEditArea.setLineWrap(true);
+        textEditArea.setWrapStyleWord(true);
+        textEditArea.setFocusable(true);
 
-        CyderScrollPane noteScroll = new CyderScrollPane(noteEditArea,
+        CyderScrollPane textScroll = new CyderScrollPane(textEditArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        noteScroll.setThumbColor(CyderColors.regularRed);
-        noteScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-        noteScroll.getViewport().setBorder(null);
-        noteScroll.setViewportBorder(null);
-        //todo this border here is messed up
-        noteEditArea.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(CyderColors.navy,5,false)));
-        noteScroll.setBounds(50,120,600 - 50 - 50, 400);
-        noteEditorFrame.getContentPane().add(noteScroll);
+        textScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
+        textScroll.setBounds(50,120,500, 400);
+        textEditorFrame.getContentPane().add(textScroll);
 
         try {
-            BufferedReader InitReader = new BufferedReader(new FileReader(File));
-            String Line = InitReader.readLine();
+            BufferedReader textReader = new BufferedReader(new FileReader(File));
+            String line = textReader.readLine();
 
-            while (Line != null) {
-                noteEditArea.append(Line + "\n");
-                Line = InitReader.readLine();
+            while (line != null) {
+                textEditArea.append(line + "\n");
+                line = textReader.readLine();
             }
 
-            InitReader.close();
+            textReader.close();
         }
 
         catch (Exception e) {
             ErrorHandler.handle(e);
         }
 
-        CyderButton saveNote = new CyderButton("Save & Resign");
-        saveNote.setColors(CyderColors.regularRed);
-        saveNote.setBorder(new LineBorder(CyderColors.navy,5,false));
-        saveNote.setFocusPainted(false);
-        saveNote.setBackground(CyderColors.regularRed);
-        saveNote.setFont(CyderFonts.weatherFontSmall);
-        saveNote.addActionListener(e -> {
+        CyderButton saveText = new CyderButton("Save & Resign");
+        saveText.setColors(CyderColors.regularRed);
+        saveText.setBorder(new LineBorder(CyderColors.navy,5,false));
+        saveText.setFocusPainted(false);
+        saveText.setBackground(CyderColors.regularRed);
+        saveText.setFont(CyderFonts.weatherFontSmall);
+        saveText.addActionListener(e -> {
             try {
                 BufferedWriter SaveWriter = new BufferedWriter(new FileWriter(File, false));
-                SaveWriter.write(noteEditArea.getText());
+                SaveWriter.write(textEditArea.getText());
                 SaveWriter.close();
 
                 File newName = null;
 
-                if (noteEditField.getText().length() > 0) {
-                    newName = new File(File.getAbsolutePath().replace(File.getName(),noteEditField.getText() + ".txt"));
+                if (textNameEditField.getText().length() > 0) {
+                    newName = new File(File.getAbsolutePath().replace(File.getName(), textNameEditField.getText() + ".txt"));
                     File.renameTo(newName);
                     GenericInform.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved");
                 }
@@ -105,19 +96,19 @@ public class TextEditor {
                     GenericInform.inform(File.getName().replace(".txt", "") + " has been successfully saved","Saved");
                 }
 
-                noteEditorFrame.closeAnimation();
+                textEditorFrame.closeAnimation();
             }
 
             catch (Exception exc) {
                 ErrorHandler.handle(exc);
             }
         });
-        saveNote.setBounds(50,550,600 - 50 - 50, 40);
-        noteEditorFrame.getContentPane().add(saveNote);
+        saveText.setBounds(50,550,600 - 50 - 50, 40);
+        textEditorFrame.getContentPane().add(saveText);
 
-        noteEditorFrame.setVisible(true);
-        noteEditArea.requestFocus();
-        noteEditorFrame.setLocationRelativeTo(null);
+        textEditorFrame.setVisible(true);
+        textEditArea.requestFocus();
+        textEditorFrame.setLocationRelativeTo(null);
     }
 
     @Override

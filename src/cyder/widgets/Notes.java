@@ -8,7 +8,6 @@ import cyder.ui.*;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -56,8 +55,7 @@ public class Notes {
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        noteListScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(CyderColors.navy,5,false)));
+        noteListScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
 
         noteListScroll.setThumbColor(CyderColors.regularRed);
         noteListScroll.setFont(CyderFonts.weatherFontSmall);
@@ -172,7 +170,7 @@ public class Notes {
         newNoteArea.setAutoscrolls(false);
         newNoteArea.setLineWrap(true);
         newNoteArea.setWrapStyleWord(true);
-        newNoteArea.setSelectedTextColor(CyderColors.selectionColor);
+        newNoteArea.setSelectionColor(CyderColors.selectionColor);
         newNoteArea.setBorder(new LineBorder(new Color(0, 0, 0)));
 
         CyderScrollPane NewNoteScroll = new CyderScrollPane(newNoteArea,
@@ -184,8 +182,7 @@ public class Notes {
         NewNoteScroll.getViewport().setBorder(null);
         NewNoteScroll.setViewportBorder(null);
 
-        NewNoteScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(CyderColors.navy,5,false)));
+        NewNoteScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
         NewNoteScroll.setBounds(50,180,600 - 50 - 50,380);
         newNoteFrame.getContentPane().add(NewNoteScroll);
 
@@ -272,7 +269,7 @@ public class Notes {
         noteEditorFrame.getContentPane().add(noteEditField);
 
         noteEditArea = new JTextArea(20, 20);
-        noteEditArea.setSelectedTextColor(CyderColors.selectionColor);
+        noteEditArea.setSelectionColor(CyderColors.selectionColor);
         noteEditArea.setFont(CyderFonts.weatherFontSmall);
         noteEditArea.setForeground(CyderColors.navy);
         noteEditArea.setEditable(true);
@@ -289,8 +286,7 @@ public class Notes {
         noteScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         noteScroll.getViewport().setBorder(null);
         noteScroll.setViewportBorder(null);
-        noteScroll.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10),
-                new LineBorder(CyderColors.navy,5,false)));
+        noteScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
         noteScroll.setBounds(50,120,600 - 50 - 50, 400);
         noteEditorFrame.getContentPane().add(noteScroll);
 
