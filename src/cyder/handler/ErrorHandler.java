@@ -216,5 +216,7 @@ public class ErrorHandler {
                 SystemUtil.getScreenHeight() - windowHeight, windowWidth, windowHeight);
         errorFrame.setVisible(true);
         errorFrame.setAlwaysOnTop(true);
+        errorFrame.setLocation(SystemUtil.getScreenWidth() - windowWidth,
+                SystemUtil.getScreenHeight() - windowHeight);
     }
 }

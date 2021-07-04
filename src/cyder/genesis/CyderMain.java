@@ -448,7 +448,6 @@ public class CyderMain {
             new Thread(() -> {
                 try {
                     while (consoleFrame != null) {
-                        System.out.println(inputField.getCaretPosition());
                         if (inputField.getCaretPosition() < consoleBashString.length()) {
                             inputField.setCaretPosition(inputField.getPassword().length);
                         }
@@ -2821,7 +2820,22 @@ public class CyderMain {
     }
 
     private void test() {
-        handle("temperature");
+        CyderFrame testFrame = new CyderFrame(350,300, CyderImages.defaultBackground);
+        testFrame.setTitle("Askew Test");
+
+        CyderTextField ctf = new CyderTextField(0);
+        ctf.setBounds(100,100,150,40);
+        testFrame.getContentPane().add(ctf);
+
+        CyderButton cb = new CyderButton("Askew");
+        cb.setBounds(100,200,150,40);
+        testFrame.getContentPane().add(cb);
+        cb.addActionListener(e -> {
+            testFrame.rotateBackground(Integer.parseInt(ctf.getText()));
+        });
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(null);
     }
 
     private LinkedList<String> consolePrintingList = new LinkedList<>();

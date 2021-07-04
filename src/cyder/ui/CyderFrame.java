@@ -866,51 +866,16 @@ public class CyderFrame extends JFrame {
         timer.start();
     }
 
+
     /**
      * Rotates the currently content pane by the specified degrees from the top left corner.
      * @param degrees - the degrees to be rotated by; 360deg = 0deg.
      */
     public void rotateBackground(int degrees) {
-        ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
+        ImageIcon masterIcon = currentOrigIcon;
         BufferedImage master = ImageUtil.getBi(masterIcon);
         BufferedImage rotated = ImageUtil.rotateImageByDegrees(master, degrees);
         ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
-    }
-
-    /**
-     * Attempts to rotate the background about the center using trigonometry.
-     * This method is mostly a joke and shouldn't be called seriously.
-     * See {@link CyderFrame#rotateBackground(int)} to rotate the content pane about the top left.
-     *
-     * @param degrees - the degrees to rotate by. Follow polar coordinate rules for figuring out
-     *                equivalent angles
-     */
-    public void rotateBackgroundFromCenter(int degrees) {
-        //get our current imageicon
-        ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
-        //rotate the imageicon
-        BufferedImage rotated = ImageUtil.rotateImageByDegrees(ImageUtil.getBi(masterIcon), degrees);
-        //init a buffered image with the necessary dimensions
-        BufferedImage paddedBi = new BufferedImage(rotated.getWidth(), rotated.getHeight(), BufferedImage.TYPE_INT_RGB);
-        //create graphics for the image
-        Graphics g = paddedBi.createGraphics();
-        g.setColor(CyderColors.navy);
-        g.fillRect(0, 0, rotated.getWidth(), rotated.getHeight());
-
-        double rads = degrees * Math.PI / 180.0;
-        int x0 = (rotated.getWidth()) / 2;
-        int y0 = (rotated.getHeight()) / 2;
-        int sin = (int) Math.sin(rads);
-        int cos = (int) Math.cos(rads);
-        int xoff = Math.abs((x0 - x0 * cos + y0 * sin)) - masterIcon.getIconWidth() / 2;
-        int yoff = Math.abs((y0 - x0 * sin - y0 * cos)) - masterIcon.getIconHeight() / 2;
-        xoff /= 2;
-        yoff /= 2;
-
-        //draw our rotated image on the padded image
-        g.drawImage(rotated, -xoff, -yoff, null);
-
-        ((JLabel) getContentPane()).setIcon(new ImageIcon(paddedBi));
     }
 
     /**

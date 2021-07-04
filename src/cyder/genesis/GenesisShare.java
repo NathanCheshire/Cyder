@@ -94,7 +94,7 @@ public class GenesisShare {
 //            bl.killBletchy();
 
             //log exit code and end log
-            SessionLogger.log(SessionLogger.Tag.EOL,code);
+            //TODO uncomment SessionLogger.log(SessionLogger.Tag.EOL,code);
 
             //acquire and release to ensure no IO is currently underway
             GenesisShare.getExitingSem().acquire();
