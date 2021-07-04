@@ -20,6 +20,7 @@ public class InputHandler {
 
     //todo custom list display that's clickable instead of name list?
     // this could solve the scroll bar issue if you just use a scrollpane with jtextpane
+    // pizza is the only one in use currently that needs multiple selection support
 
     //todo check signatures for correctness and against actual files
     //todo file signature widget

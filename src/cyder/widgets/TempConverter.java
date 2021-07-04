@@ -65,7 +65,7 @@ public class TempConverter {
         oldCelsiusLabel.setBounds(140,170,250,30);
         temperatureFrame.getContentPane().add(oldCelsiusLabel);
 
-        JLabel oldKelvinLabel = new JLabel("Fahrenheit");
+        JLabel oldKelvinLabel = new JLabel("Kelvin");
         oldKelvinLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
         oldKelvinLabel.setForeground(CyderColors.navy);
         oldKelvinLabel.setBounds(140,230,250,30);
@@ -128,7 +128,7 @@ public class TempConverter {
         newCelsiusLabel.setBounds(430,170,250,30);
         temperatureFrame.getContentPane().add(newCelsiusLabel);
 
-        JLabel newKelvinLabel = new JLabel("Fahrenheit");
+        JLabel newKelvinLabel = new JLabel("Kelvin");
         newKelvinLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
         newKelvinLabel.setForeground(CyderColors.navy);
         newKelvinLabel.setBounds(430,230,250,30);
@@ -178,106 +178,100 @@ public class TempConverter {
                 double CalculationValue = Double.parseDouble(startingValue.getText());
 
                 if (oldKelvin.isSelected() && CalculationValue <= 0) {
-                    temperatureFrame.inform("Temperatures below absolute zero are imposible.","");
-                }
-
-                else {
+                    temperatureFrame.notify("Temperatures below absolute zero are imposible.");
+                } else {
                     if (oldFahrenheit.isSelected()) {
-                        if (newFahrenheit.isSelected())
-                            temperatureFrame.inform("Get out of here with that. Your value is already in Fahrenheit.","");
-
-                        else if (newCelsius.isSelected()) {
+                        if (newFahrenheit.isSelected()) {
+                            temperatureFrame.notify("Get out of here with that. Your value is already in Fahrenheit.");
+                        } else if (newCelsius.isSelected()) {
                             double CelsiusFromFahrenheit;
 
                             CelsiusFromFahrenheit = (CalculationValue - 32.0) / 1.8;
 
-                            temperatureFrame.inform( CalculationValue + " Fahrenheit converted to Celsius equals: "
-                                    + tempFormat.format(CelsiusFromFahrenheit),"");
+                            temperatureFrame.notify( CalculationValue + " Fahrenheit converted to Celsius equals: "
+                                    + tempFormat.format(CelsiusFromFahrenheit));
 
                             startingValue.setText("");
-                        }
-
-                        else if (newKelvin.isSelected()) {
+                        } else if (newKelvin.isSelected()) {
                             double KelvinFromFahrenheit;
                             KelvinFromFahrenheit = (CalculationValue +459.67) * 5/9;
 
                             if (KelvinFromFahrenheit >= 0) {
-                                temperatureFrame.inform(CalculationValue + " Fahrenheit converted to Kelvin equals: "
-                                        + tempFormat.format(KelvinFromFahrenheit),"");
+                                temperatureFrame.notify(CalculationValue + " Fahrenheit converted to Kelvin equals: "
+                                        + tempFormat.format(KelvinFromFahrenheit));
 
                                 startingValue.setText("");
 
-                            } else
-                                temperatureFrame.inform("Temperatures below absolute zero are imposible.","");
+                            } else {
+                                temperatureFrame.notify("Temperatures below absolute zero are imposible.");
+                            }
+                        } else {
+                            temperatureFrame.notify("Please select the unit to convert to.");
                         }
-                    }
-
-                    else if (oldCelsius.isSelected()) {
+                    } else if (oldCelsius.isSelected()) {
                         if (newFahrenheit.isSelected()) {
                             double FahrenheitFromCelsius;
 
                             FahrenheitFromCelsius = (CalculationValue *1.8) + 32;
 
-                            temperatureFrame.inform(CalculationValue + " Celsius converted to Fahrenheit equals: "
-                                    + tempFormat.format(FahrenheitFromCelsius),"");
+                            temperatureFrame.notify(CalculationValue + " Celsius converted to Fahrenheit equals: "
+                                    + tempFormat.format(FahrenheitFromCelsius));
 
                             startingValue.setText("");
-                        }
-
-                        else if (newCelsius.isSelected())
-                            temperatureFrame.inform("Get out of here with that. Your value is already in Celsius.","");
-
-                        else if (newKelvin.isSelected()) {
+                        } else if (newCelsius.isSelected()) {
+                            temperatureFrame.notify("Get out of here with that. Your value is already in Celsius.");
+                        } else if (newKelvin.isSelected()) {
                             double KelvinFromCelsius;
-
                             KelvinFromCelsius = CalculationValue + 273.15 ;
 
                             if (KelvinFromCelsius >= 0) {
-                                temperatureFrame.inform(CalculationValue + " Celsius converted to Kelvin equals: "
-                                        + tempFormat.format(KelvinFromCelsius),"");
+                                temperatureFrame.notify(CalculationValue + " Celsius converted to Kelvin equals: "
+                                        + tempFormat.format(KelvinFromCelsius));
 
                                 startingValue.setText("");
+                            } else {
+                                temperatureFrame.notify("Temperatures below absolute zero are imposible.");
                             }
-
-                            else
-                                temperatureFrame.inform("Temperatures below absolute zero are imposible.","");
+                        } else {
+                            temperatureFrame.notify("Please select the unit to convert to.");
                         }
-                    }
-
-                    else if (oldKelvin.isSelected()) {
+                    } else if (oldKelvin.isSelected()) {
                         if (newFahrenheit.isSelected()) {
                             double FahrenheitFromKelvin;
 
                             FahrenheitFromKelvin = CalculationValue * 1.8 - 459.67;
 
-                            temperatureFrame.inform(CalculationValue + " Kelvin converted to Fahrenheit equals: "
-                                    + tempFormat.format(FahrenheitFromKelvin),"");
+                            temperatureFrame.notify(CalculationValue + " Kelvin converted to Fahrenheit equals: "
+                                    + tempFormat.format(FahrenheitFromKelvin));
 
                             startingValue.setText("");
-                        }
-
-                        else if (newCelsius.isSelected()) {
+                        } else if (newCelsius.isSelected()) {
                             double CelsiusFromKelvin;
 
                             CelsiusFromKelvin = CalculationValue - 273.15;
 
-                            temperatureFrame.inform( CalculationValue + " Kelvin converted to Celsius equals: "
-                                    + tempFormat.format(CelsiusFromKelvin),"");
+                            temperatureFrame.notify( CalculationValue + " Kelvin converted to Celsius equals: "
+                                    + tempFormat.format(CelsiusFromKelvin));
 
                             startingValue.setText("");
+                        } else if (newKelvin.isSelected()) {
+                            temperatureFrame.notify("Get out of here with that. Your value is already in Kelvin");
+                        } else {
+                            temperatureFrame.notify("Please select the unit to convert to.");
                         }
-
-                        else if (newKelvin.isSelected())
-                            temperatureFrame.inform("Get out of here with that. Your value is already in Kelvin","");
                     }
 
                     else
-                        temperatureFrame.inform("Please select your current temperature unit and the one you want to convet to.","");
+                        temperatureFrame.notify("Please select your current temperature unit and the one you want to convet to.");
                 }
             }
 
             catch (Exception ex) {
-                temperatureFrame.inform("Your value must only contain numbers.","");
+                if (startingValue.getText().length() == 0) {
+                    temperatureFrame.notify("Please enter a starting value.");
+                } else {
+                    temperatureFrame.notify("Your value must only contain numbers.");
+                }
             }
         });
 
