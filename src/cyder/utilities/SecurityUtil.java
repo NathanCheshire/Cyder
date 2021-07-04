@@ -9,8 +9,11 @@ import java.io.FileReader;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.UUID;
 
@@ -45,15 +48,26 @@ public class SecurityUtil {
         return toHexString(getSHA(mac.toCharArray())).equals(IOUtil.getSystemData("MMAC"));
     }
 
+    /**
+     * Converts the given char array to a byte array without using string object.
+     * This way any possible security issues that arise from the nature of String pool are avoided.
+     * @param chars - the char array to be converted to byte array
+     * @return - the byte array representing the given char array
+     */
+    public static byte[] toBytes(char[] chars) {
+        CharBuffer charBuffer = CharBuffer.wrap(chars);
+        ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(charBuffer);
+        byte[] bytes = Arrays.copyOfRange(byteBuffer.array(),
+                byteBuffer.position(), byteBuffer.limit());
+        //clear possible sensitive data
+        Arrays.fill(byteBuffer.array(), (byte) 0);
+        return bytes;
+    }
+
     public static byte[] getSHA(char[] input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-            StringBuilder sb = new StringBuilder();
-
-            for (char c : input)
-                sb.append(c);
-
-            return md.digest(sb.toString().getBytes(StandardCharsets.UTF_8));
+            return md.digest(toBytes(input));
         }
 
         catch (Exception ex) {

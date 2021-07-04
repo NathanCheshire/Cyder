@@ -18,7 +18,6 @@ import java.awt.*;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.URI;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -238,7 +237,7 @@ public class IOUtil {
                 sb.append("\n");
             }
 
-            byte[] bytes = sb.toString().getBytes(Charset.forName("UTF-8"));
+            byte[] bytes = sb.toString().getBytes(StandardCharsets.UTF_8);
 
             //writing bytes of bytes, change any before here
             for (byte b : bytes) {
@@ -340,7 +339,7 @@ public class IOUtil {
                 sb.append("\n");
             }
 
-            byte[] bytes = sb.toString().getBytes(Charset.forName("UTF-8"));
+            byte[] bytes = sb.toString().getBytes(StandardCharsets.UTF_8);
 
             //writing bytes of bytes, change any before here
             for (byte b : bytes) {
@@ -626,6 +625,17 @@ public class IOUtil {
 
     public static void wipeErrors() {
         File throwsFolder = new File("throws");
+        File[] files = throwsFolder.listFiles();
+        int inc = 0;
+
+        for (File f: files) {
+            if (StringUtil.getExtension(f).equals(".error")) {
+                inc++;
+                f.delete();
+            }
+        }
+
+        GenericInform.inform("Deleted " + inc + " error files","Errors wiped");
         SystemUtil.deleteFolder(throwsFolder);
     }
 
@@ -776,11 +786,10 @@ public class IOUtil {
             if (fileToZip.isDirectory()) {
                 if (fileName.endsWith("/")) {
                     zipOut.putNextEntry(new ZipEntry(fileName));
-                    zipOut.closeEntry();
                 } else {
                     zipOut.putNextEntry(new ZipEntry(fileName + "/"));
-                    zipOut.closeEntry();
                 }
+                zipOut.closeEntry();
 
                 File[] children = fileToZip.listFiles();
                 for (File childFile : children)
@@ -899,7 +908,7 @@ public class IOUtil {
         File binaryUserData = new File(userDataTxt.getParentFile(), "userdata.bin");
         binaryUserData.createNewFile();
 
-        byte[] bytes = sb.toString().getBytes(Charset.forName("UTF-8"));
+        byte[] bytes = sb.toString().getBytes(StandardCharsets.UTF_8);
         BufferedWriter fos = new BufferedWriter(new FileWriter(binaryUserData));
 
         for (byte b : bytes) {

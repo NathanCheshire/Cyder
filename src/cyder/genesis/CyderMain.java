@@ -11,7 +11,6 @@ import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
-import cyder.handler.TextEditor;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadFactory;
@@ -1421,7 +1420,7 @@ public class CyderMain {
             }
         },"login printing animation").start();
 
-        //todo fix this bodge?
+        //todo fix caret position updaters for this and login
         new Thread(() -> {
             try {
                 while (doLoginAnimations && loginFrame != null) {
@@ -2596,7 +2595,6 @@ public class CyderMain {
             } else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
                 if (SecurityUtil.nathanLenovo()) {
                     IOUtil.wipeErrors();
-                    println("Deleted all error files");
                 } else
                     println("Sorry, " + ConsoleFrame.getUsername() + ", but you don't have permission to do that.");
             } else if (hasWord("debug") && hasWord("windows")) {
@@ -2614,7 +2612,6 @@ public class CyderMain {
                 NetworkUtil.internetConnect("https://www.youtube.com/watch?v=s_1lP4CBKOg");
             } else if (eic("test")) {
                test();
-
             } else if (hasWord("frame") && has("title")) {
                 Frame[] frames = Frame.getFrames();
                 for (Frame f : frames)
@@ -2669,7 +2666,7 @@ public class CyderMain {
 
             //attempts at undefined input
             else {
-                //try context engine here
+                //try context engine validation linked to this (instace of InputHandler)
 
                 if (handleMath(operation))
                     return;
@@ -2687,7 +2684,10 @@ public class CyderMain {
         }
     }
 
+    //checks to see if a preference id was entered and if so, toggles it
     private boolean preferenceCheck(String op) {
+        boolean ret = false;
+
         for (Preference pref : GenesisShare.getPrefs()) {
             if (op.toLowerCase().contains(pref.getID().toLowerCase())) {
                 if (op.contains("1") || op.toLowerCase().contains("true")) {
@@ -2699,14 +2699,15 @@ public class CyderMain {
                 }
 
                 refreshPrefs();
-                return true;
+                ret = true;
             }
         }
 
-        return false;
+        return ret;
     }
 
     private void unknownInput() {
+        //todo turn this into a ConsoleFrame.notify();
         println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
                 " You can make a suggestion by clicking the \"Suggest something\" button.");
 
@@ -2845,7 +2846,7 @@ public class CyderMain {
         }, "Console Printing Animation").start();
     }
 
-    private void innerConsolePrint(char c) {
+    private void consleAppendChar(char c) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), String.valueOf(c), null);
@@ -2871,6 +2872,7 @@ public class CyderMain {
 
     //handler method
     private void print(String usage) {
+        //todo make a method to check if something that would cause a concurrency issue is ongoing
         if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage);
         else
@@ -3665,8 +3667,6 @@ public class CyderMain {
 
         switchingLabel.revalidate();
     }
-
-    //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
 
     private void switchToPreferences() {
         JTextPane preferencePane = new JTextPane();

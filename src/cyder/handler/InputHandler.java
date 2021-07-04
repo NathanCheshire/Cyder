@@ -11,6 +11,8 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
+    //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
+
     //todo singular notes frames so one object
 
     //todo askew is broken when successive calls, making a testing widget for this
