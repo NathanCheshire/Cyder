@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 
 public class CyderCheckBox extends JCheckBox {
+    private int borderWidth = 3;
 
     private boolean selected = false;
 
@@ -74,18 +75,6 @@ public class CyderCheckBox extends JCheckBox {
 
                 repaint();
             }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                drawColor = selected ? CyderColors.vanila : CyderColors.regularRed;
-                repaint();
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                drawColor = selected ? CyderColors.regularRed : CyderColors.vanila;
-                repaint();
-            }
         });
 
         setBorder(null);
@@ -116,21 +105,62 @@ public class CyderCheckBox extends JCheckBox {
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 
-        graphics2D.setPaint(background);
-        GeneralPath outlinePath = new GeneralPath();
-        outlinePath.moveTo(0, 0);
-        outlinePath.lineTo(sideLength,0);
-        outlinePath.lineTo(sideLength,sideLength);
-        outlinePath.lineTo(0,50);
-        outlinePath.lineTo(0,0);
-        outlinePath.closePath();
-        graphics2D.fill(outlinePath);
+        if (this.isSelected()) {
+            graphics2D.setPaint(background);
+            GeneralPath outlinePath = new GeneralPath();
+            outlinePath.moveTo(0, 0);
+            outlinePath.lineTo(sideLength,0);
+            outlinePath.lineTo(sideLength,sideLength);
+            outlinePath.lineTo(0,sideLength);
+            outlinePath.lineTo(0,0);
+            outlinePath.closePath();
+            graphics2D.fill(outlinePath);
 
-        graphics2D.setPaint(drawColor);
-        GeneralPath checkPath = new GeneralPath();
-        graphics2D.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        graphics2D.drawLine(5, 5, sideLength - 5, sideLength - 5);
-        graphics2D.drawLine(sideLength - 5, 5, 5, sideLength - 5);
+            //move enter check down
+            int yTranslate = 4;
+
+            graphics2D.setColor(CyderColors.intellijPink);
+
+            //thickness of line drawn
+            graphics2D.setStroke(new BasicStroke(5));
+
+            int cornerOffset = 5;
+            graphics2D.drawLine(sideLength - borderWidth - cornerOffset, borderWidth + cornerOffset + yTranslate,
+                    sideLength / 2, sideLength / 2 + yTranslate);
+
+            //length from center to bottom most check point
+            int secondaryDip = 5;
+            graphics2D.drawLine(sideLength / 2, sideLength / 2 + yTranslate,
+                    sideLength / 2 - secondaryDip, sideLength / 2 + secondaryDip + yTranslate);
+
+            //length from bottom most part back up
+            int lengthUp = 9;
+            graphics2D.drawLine(sideLength / 2 - secondaryDip, sideLength / 2 + secondaryDip + yTranslate,
+                    sideLength / 2 - secondaryDip - lengthUp, sideLength / 2 + secondaryDip - lengthUp + yTranslate);
+
+        } else {
+            graphics2D.setPaint(background);
+            GeneralPath outlinePath = new GeneralPath();
+            outlinePath.moveTo(0, 0);
+            outlinePath.lineTo(sideLength,0);
+            outlinePath.lineTo(sideLength,sideLength);
+            outlinePath.lineTo(0,50);
+            outlinePath.lineTo(0,0);
+            outlinePath.closePath();
+            graphics2D.fill(outlinePath);
+
+            graphics2D.setPaint(CyderColors.vanila);
+            GeneralPath fillPath = new GeneralPath();
+            fillPath.moveTo(borderWidth, borderWidth);
+            fillPath.lineTo(sideLength - borderWidth,borderWidth);
+            fillPath.lineTo(sideLength - borderWidth,sideLength - borderWidth);
+            fillPath.lineTo(borderWidth,sideLength - borderWidth);
+            fillPath.lineTo(borderWidth,borderWidth);
+            fillPath.closePath();
+            graphics2D.fill(fillPath);
+        }
+
+        graphics2D.dispose();
     }
 
     @Override

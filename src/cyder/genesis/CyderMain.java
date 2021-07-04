@@ -958,7 +958,7 @@ public class CyderMain {
         noteLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Notes();
+                IOUtil.startNoteEditor();
             }
 
             @Override
@@ -2409,7 +2409,7 @@ public class CyderMain {
                 TicTacToe ttt = new TicTacToe();
                 ttt.startTicTacToe();
             } else if (hasWord("note") || hasWord("notes")) {
-                new Notes();
+               IOUtil.startNoteEditor();
             } else if ((hasWord("youtube") && hasWord("thumbnail")) || (hasWord("yt") && hasWord("thumb"))) {
                 new YouTubeThumbnail();
                 new ThumbnailStealer();
@@ -2805,7 +2805,7 @@ public class CyderMain {
     }
 
     private void test() {
-
+        handle("temperature");
     }
 
     private LinkedList<String> consolePrintingList = new LinkedList<>();

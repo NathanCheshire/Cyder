@@ -11,6 +11,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.widgets.AudioPlayer;
 import cyder.widgets.GenericInform;
+import cyder.widgets.Notes;
 import javazoom.jl.player.Player;
 
 import javax.swing.*;
@@ -38,6 +39,7 @@ public class IOUtil {
     private static LinkedList<NST> systemData = new LinkedList<>();
 
     private static AudioPlayer CyderPlayer;
+    private static Notes Notes;
     private static Player player;
 
     public static void openFileOutsideProgram(String filePath) {
@@ -668,6 +670,13 @@ public class IOUtil {
                 }
             }
         }
+    }
+
+    public static void startNoteEditor() {
+        if (Notes != null)
+            Notes.kill();
+
+        Notes = new Notes();
     }
 
     public static void mp3(String FilePath) {

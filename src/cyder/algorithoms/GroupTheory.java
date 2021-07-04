@@ -1,9 +1,7 @@
 package cyder.algorithoms;
 
-import cyder.utilities.IOUtil;
-import cyder.utilities.TimeUtil;
-
 public class GroupTheory {
+
     private GroupTheory() {} //no instantiation
 
     public static int gcd(int a, int b) {

@@ -51,6 +51,9 @@ public class SecurityUtil {
     /**
      * Converts the given char array to a byte array without using string object.
      * This way any possible security issues that arise from the nature of String pool are avoided.
+     * Remember to use Arrays.fill(bytes, (byte) 0) for bytes or Arrays.fill(chars, '\u0000') for chars
+     * when finished with the byte/char array.
+     *
      * @param chars - the char array to be converted to byte array
      * @return - the byte array representing the given char array
      */
@@ -106,6 +109,7 @@ public class SecurityUtil {
         return null;
     }
 
+    //todo binary reading should return bytes for password and not convert to string
     public static boolean newCheckPassword(String name, String pass) {
         try {
             //delete possible corrupted users

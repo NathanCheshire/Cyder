@@ -349,4 +349,8 @@ public class Notes {
         noteEditArea.requestFocus();
         noteEditorFrame.setLocationRelativeTo(null);
     }
+
+    public void kill() {
+        noteFrame.dispose();
+    }
 }
