@@ -1,10 +1,16 @@
 package cyder.handler;
 
+import cyder.genesis.CyderMain;
 import cyder.utilities.StringUtil;
 import cyder.utilities.TimeUtil;
 
 import javax.swing.*;
+import javax.swing.text.Element;
+import javax.swing.text.ElementIterator;
+import javax.swing.text.StyledDocument;
 import java.io.*;
+import java.util.LinkedList;
+import java.util.Locale;
 
 public class SessionLogger {
     private SessionLogger() {}
@@ -113,12 +119,47 @@ public class SessionLogger {
     }
 
     //attempt to figure out the tag and pass on to the above method
-    public static void log(String stringRepresentation) {
+    public static <T> void log(T representation) {
+        if (representation instanceof JComponent) {
+            LinkedList<Element> elements = new LinkedList<>();
+            ElementIterator iterator = new ElementIterator(CyderMain.outputArea.getStyledDocument());
+            Element element;
 
+            while ((element = iterator.next()) != null) {
+                elements.add(element);
+            }
+
+            for (Element value : elements) {
+                if (value.toString().toLowerCase().contains(representation.toString().toLowerCase())) {
+                    log(Tag.CONSOLE_OUT, representation);
+                    return;
+                }
+            }
+            log(Tag.CONSOLE_OUT, representation);
+        } else if (representation instanceof File) {
+            log(Tag.LINK, representation);
+        } else if (representation.toString().toLowerCase().contains("exception")) {
+            log(Tag.EXCEPTION, representation);
+        } else if (representation.toString().contains("CLIENT_IO")) {
+            log(Tag.CLIENT_IO, representation);
+        } else if (representation.toString().contains("SYSTEM_IO")) {
+            log(Tag.SYSTEM_IO, representation);
+        } else {
+            for (int i = 0 ; i < CyderMain.operationList.size() ; i++) {
+                if (CyderMain.operationList.get(i).toLowerCase().contains(representation.toString())) {
+                    log(Tag.CLIENT);
+                    return;
+                }
+            }
+            log(Tag.UNKNOWN, representation);
+        }
     }
 
     public static void SessionLogger(File outputFile) {
         try {
+            if (!StringUtil.getFilename(outputFile.getParent()).equals("logs"))
+                throw new IllegalArgumentException("Attempting to place a log file outside of the logs directory");
+
             if (!outputFile.exists())
                 outputFile.createNewFile();
 
@@ -151,7 +192,7 @@ public class SessionLogger {
         }
     }
 
-    private static File getCurrentLog() {
+    public static File getCurrentLog() {
         return currentLog;
     }
 

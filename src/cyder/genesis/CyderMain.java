@@ -199,25 +199,32 @@ public class CyderMain {
         }
     }
 
-    private static JTextPane outputArea;
-    private JPasswordField inputField;
+    //input handler linked to console frame
+    public static ArrayList<String> operationList = new ArrayList<>();
+    private static int scrollingIndex;
+
     public static JFrame consoleFrame;
+
+    private CyderScrollPane outputScroll;
+    public static JTextPane outputArea;
+    private JPasswordField inputField;
+
+    private JLayeredPane parentPane;
+    private JLabel parentLabel;
+    private JLabel consoleClockLabel;
+    private JLabel menuLabel;
+
     private JButton minimize;
     private JButton close;
-    private JLabel consoleClockLabel;
-    private boolean updateConsoleClock;
-    private JLabel parentLabel;
-    private static ArrayList<String> operationList = new ArrayList<>();
-    private static int scrollingIndex;
-    private JList fontList;
-    private SpecialDay specialDayNotifier;
-    private JLabel menuLabel;
-    private JLayeredPane parentPane;
     private JButton suggestionButton;
     private JButton menuButton;
-    private CyderScrollPane outputScroll;
     private JButton alternateBackground;
+
+    private boolean updateConsoleClock;
     private boolean menuGenerated;
+
+    private JList fontList;
+    private SpecialDay specialDayNotifier;
 
     /**
      * move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
