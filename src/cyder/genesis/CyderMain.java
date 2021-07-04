@@ -448,8 +448,14 @@ public class CyderMain {
             new Thread(() -> {
                 try {
                     while (consoleFrame != null) {
+                        System.out.println(inputField.getCaretPosition());
                         if (inputField.getCaretPosition() < consoleBashString.length()) {
                             inputField.setCaretPosition(inputField.getPassword().length);
+                        }
+
+                        //if it doesn't start with bash string, reset it to it
+                        if (!String.valueOf(inputField.getPassword()).startsWith(consoleBashString)) {
+                            inputField.setText(consoleBashString);
                         }
 
                         Thread.sleep(50);
@@ -466,7 +472,16 @@ public class CyderMain {
             inputField.addKeyListener(commandScrolling);
             inputField.setCaretPosition(consoleBashString.length());
 
-            consoleFrame.addWindowListener(consoleEcho);
+            consoleFrame.addWindowListener(new WindowAdapter() {
+                //one time run method when the window is first opened? Test to make sure
+                // that this is actually the case, otherwise we should call it at the end of console()
+                public void windowOpened(WindowEvent e) {
+                    inputField.requestFocus();
+
+                    //will this work for multiple special days on the same day?
+                    specialDayNotifier = new SpecialDay(parentPane);
+                }
+            });
 
             inputField.setBounds(10, 82 + outputArea.getHeight(),
                     ConsoleFrame.getBackgroundWidth() - 20, ConsoleFrame.getBackgroundHeight() -
@@ -1299,16 +1314,6 @@ public class CyderMain {
         }
     };
 
-    //when we first launch this will check for any special days in the special days class
-    //will this work for multiple things on the same day?
-    //consolidate with console frame in one time run method
-    private WindowAdapter consoleEcho = new WindowAdapter() {
-        public void windowOpened(WindowEvent e) {
-            inputField.requestFocus();
-            specialDayNotifier = new SpecialDay(parentPane);
-        }
-    };
-
     //sets program icon if background threads are running
     private void startBackgroundProcessChecker() {
         if (backgroundProcessCheckerStarted)
@@ -1427,12 +1432,16 @@ public class CyderMain {
             }
         },"login printing animation").start();
 
-        //todo fix caret position updaters for this and login
         new Thread(() -> {
             try {
                 while (doLoginAnimations && loginFrame != null) {
                     if (loginField.getCaretPosition() < bashString.length()) {
                         loginField.setCaretPosition(loginField.getPassword().length);
+                    }
+
+                    //if it doesn't start with bash string, reset it to it
+                    if (!String.valueOf(loginField.getPassword()).startsWith(bashString)) {
+                        loginField.setText(bashString);
                     }
 
                     Thread.sleep(50);
