@@ -139,7 +139,7 @@ public class CyderMain {
             try {
                 GenesisShare.getExitingSem().acquire();
                 GenesisShare.getExitingSem().release();
-                System.exit(-600);
+                exit(-600);
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
@@ -434,7 +434,7 @@ public class CyderMain {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.exit(-404);
+                    exit(-404);
                 }
             });
 
@@ -652,7 +652,7 @@ public class CyderMain {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    exit();
+                    exit(25);
                 }
             });
 
@@ -829,7 +829,7 @@ public class CyderMain {
                         validFrames++;
 
                 if (validFrames < 1)
-                    System.exit(120);
+                    exit(120);
             }, 10, 5, SECONDS);
 
 
@@ -2064,7 +2064,7 @@ public class CyderMain {
                 println("Nice palindrome.");
             } else if ((eic("quit") || eic("exit") || eic("leave") || eic("close")) &&
                     (!has("music") && !has("dance") && !has("script"))) {
-                exit();
+                exit(25);
             } else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
                 for (Frame f : Frame.getFrames()) {
                     if (f.getState() == Frame.ICONIFIED) {
@@ -2383,7 +2383,7 @@ public class CyderMain {
             } else if (eic("hey")) {
                 IOUtil.playAudio("sys/audio/heyya.mp3",outputArea);
             } else if (eic("panic")) {
-                exit();
+                exit(25);
             } else if (hasWord("hash") || hasWord("hashser")) {
                 new Hasher();
             } else if (hasWord("home")) {
@@ -4120,25 +4120,17 @@ public class CyderMain {
     }
 
     /**
-     * Exiting method, stuff that you should do before exiting should go here. Stuff fatal to program exeuction, however,
-     * should be placed in {@link CyderMain#shutdown()} which is what the shutdown hook calls
+     * Exiting method, actions that should be completed prior to a system.exit call should go here.
+     * Actions fatal to program exeuction, however,should be placed in
+     * {@link CyderMain#shutdown()} which is what the shutdown hook
      */
-    private void exit() {
-        //save data and do operatings that require system IO
-        IOUtil.writeUserData("Fonts", outputArea.getFont().getName());
-        IOUtil.writeUserData("Foreground", ColorUtil.rgbtohexString(outputArea.getForeground()));
-
+    public void exit(int code) {
+        //todo these calls will be moved to GenesisShare.exit and this method will completely go away
         AnimationUtil.closeAnimation(consoleFrame);
         my.killAllYoutube();
         bl.killBletchy();
 
-        try {
-            GenesisShare.getExitingSem().acquire();
-            //we never release exiting sem since we are expecting to exit the program
-            System.exit(25);
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        GenesisShare.exit(code);
     }
 
     /**

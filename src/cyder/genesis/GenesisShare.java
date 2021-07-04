@@ -1,5 +1,7 @@
 package cyder.genesis;
 
+import cyder.handler.ErrorHandler;
+import cyder.handler.SessionLogger;
 import cyder.obj.Preference;
 
 import java.util.LinkedList;
@@ -77,5 +79,31 @@ public class GenesisShare {
                 "Round Window Frame Corners","1"));
 
         return ret;
+    }
+
+    /**
+     * Controled program exit that performs closing actions
+     * and then calls System.exit which will also invoke the shutdown hook
+     * @param code - the exiting code to describe why the program exited (0 is standard
+     *             but for this program we follow the key/value pairs in ExitCodes.ini)
+     */
+    public static void exit(int code) {
+        try {
+//            AnimationUtil.closeAnimation(consoleFrame);
+//            my.killAllYoutube();
+//            bl.killBletchy();
+
+            //log exit code and end log
+            SessionLogger.log(SessionLogger.Tag.EOL,code);
+
+            //acquire and release to ensure no IO is currently underway
+            GenesisShare.getExitingSem().acquire();
+            GenesisShare.getExitingSem().release();
+
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            System.exit(code);
+        }
     }
 }

@@ -113,7 +113,7 @@ public class TimeUtil {
             try {
                 GenesisShare.getExitingSem().acquire();
                 GenesisShare.getExitingSem().release();
-                System.exit(66);
+                GenesisShare.exit(66);
             }
 
             catch (Exception e) {

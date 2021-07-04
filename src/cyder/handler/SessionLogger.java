@@ -1,67 +1,115 @@
 package cyder.handler;
 
+import cyder.utilities.StringUtil;
 import cyder.utilities.TimeUtil;
 
-import java.io.File;
+import javax.swing.*;
+import java.io.*;
 
 public class SessionLogger {
     private SessionLogger() {}
 
     private static File currentLog;
 
-    //todo user logs and throws should eventually be converted to
-    // binary data so that you can only access it through the program
-
-    //todo add reading and writing calls to/from userdata to the log
-
     public enum Tag {
-        CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION
+        CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION, SYSTEM_IO, CLIENT_IO
     }
 
-    public static void log(Tag tag, String stringRepresentation) {
+    public static <T> void log(Tag tag, T representation) {
         StringBuilder logBuilder = new StringBuilder("[" + TimeUtil.logTime() + "] ");
 
         switch (tag) {
             case CLIENT:
                 logBuilder.append("[CLIENT]: ");
-
+                logBuilder.append(representation);
                 break;
             case CONSOLE_OUT:
                 logBuilder.append("[CONSOLE_OUT]: ");
-
+                if (representation instanceof ImageIcon) {
+                    logBuilder.append("[ICON] ");
+                    logBuilder.append(representation);
+                }
+                else if (representation instanceof JComponent) {
+                    logBuilder.append("[JCOMPONENT] ");
+                    logBuilder.append(representation);
+                } else {
+                    logBuilder.append("[UNKNOWN CONSOLE_OUT TYPE (TODO add type)] ");
+                    logBuilder.append(representation);
+                }
                 break;
             case EXCEPTION:
                 logBuilder.append("[EXCEPTION]: ");
-
+                logBuilder.append(representation);
                 break;
             case ACTION:
                 logBuilder.append("[ACTION]: ");
-
+                if (representation instanceof JComponent) {
+                    logBuilder.append("[").append(((JComponent) representation).getName()).append("] ");
+                }
+                logBuilder.append(representation);
                 break;
             case LINK:
                 logBuilder.append("[LINK]: ");
-
+                if (representation instanceof File) {
+                    logBuilder.append("[").append(StringUtil.getExtension((File) representation)).append("] ");
+                }
+                logBuilder.append(representation);
                 break;
             case EOL:
-                //todo maybe an exit method that you can pass a code that will log it and end the log first
-                // and then go on to exit and everything else
-
                 logBuilder.append("[EOL]: Log completed, exiting program with code: ");
-                logBuilder.append(stringRepresentation);
+                logBuilder.append(representation);
                 logBuilder.append(", exceptions thrown: ");
                 logBuilder.append(countExceptions());
                 break;
-            case UNKNOWN:
-                logBuilder.append("[UNKNOWN]: ");
-
-                break;
             case SUGGESTION:
                 logBuilder.append("[SUGGESTION]: ");
+                logBuilder.append(representation);
+                break;
+            case CLIENT_IO:
+                //[CLIENT_TO] [WRITE] [KEY] ROUNDWINDOWS [VALUE] 0
+                //[CLIENT_TO] [READ] [KEY] VERSION
+                logBuilder.append("[CLIENT_IO] ");
 
+                if (!representation.toString().contains(","))
+                    throw new IllegalArgumentException("CLIENT_IO representation incorrect data format");
+
+                String[] parts = representation.toString().split(",");
+
+                if (parts.length != 3 && parts.length != 2) {
+                    throw new IllegalArgumentException("CLIENT_IO representation does not contain sufficient data");
+                } else {
+                    logBuilder.append("[").append(parts[0].toUpperCase()).append("] ");
+                    logBuilder.append("[KEY] ").append(parts[1].toUpperCase()).append(" ");
+                    if (parts[0].equalsIgnoreCase("WRITE"))
+                        logBuilder.append("[VALUE]").append(parts[2].toUpperCase());
+                }
+                break;
+            case SYSTEM_IO:
+                //[SYSTEM_IO] [WRITE] [KEY] VERSION [VALUE] SOULTREE
+                //[SYSTEM_IO] [READ] [KEY] VERSION
+                logBuilder.append("[SYSTEM_IO] ");
+
+                if (!representation.toString().contains(","))
+                    throw new IllegalArgumentException("SYSTEM_IO representation incorrect data format");
+
+                String[] parters = representation.toString().split(",");
+
+                if (parters.length != 3 && parters.length != 2) {
+                    throw new IllegalArgumentException("SYSTEM_IO representation does not contain sufficient data");
+                } else {
+                    logBuilder.append("[").append(parters[0].toUpperCase()).append("] ");
+                    logBuilder.append("[KEY] ").append(parters[1].toUpperCase()).append(" ");
+                    if (parters[0].equalsIgnoreCase("WRITE"))
+                        logBuilder.append("[VALUE]").append(parters[2].toUpperCase());
+                }
+                break;
+            case UNKNOWN:
+                logBuilder.append("[UNKNOWN]: ");
+                logBuilder.append(representation);
                 break;
         }
 
-        //todo write logBuilder.toString();
+        writeLine(logBuilder.toString());
     }
 
     //attempt to figure out the tag and pass on to the above method
@@ -107,8 +155,28 @@ public class SessionLogger {
         return currentLog;
     }
 
+    private static void writeLine(String line) {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(currentLog))) {
+           br.write(line);
+           br.newLine();
+        } catch(Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
     private static int countExceptions() {
-        //todo count exceptions thrown in currnet log file
-        return 0;
+        int ret = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(currentLog))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.contains("[EXCEPTION]"))
+                    ret++;
+            }
+        } catch(Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ret;
     }
 }
