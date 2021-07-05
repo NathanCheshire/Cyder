@@ -172,13 +172,8 @@ public class CyderFrame extends JFrame {
         this(width, height, new ImageIcon(""));
     }
 
-    /**
-     * returns an instance of a cyderframe which extends JFrame with
-     * a width of 400 and a height of 400 and a drag label with minimize and close buttons
-     */
-    public CyderFrame() {
-        this(400, 400);
-    }
+    //used for ConsoleFrame extension of CyderFrame to avoid calls to userdata when UUID has not yet been set
+    public CyderFrame() {}
 
     /**
      * This method will change the title position to the specified value. If the frame is visible to the user,
@@ -1135,10 +1130,10 @@ public class CyderFrame extends JFrame {
      *  to add a method to enable this
      */
     public void stealConsoleBackground() {
-        if (ConsoleFrame.getCurrentBackgroundImageIcon() == null)
+        if (ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon() == null)
             return;
 
-        currentOrigIcon = ConsoleFrame.getCurrentBackgroundImageIcon();
+        currentOrigIcon = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon();
 
         iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));

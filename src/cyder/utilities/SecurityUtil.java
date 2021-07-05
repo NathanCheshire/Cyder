@@ -131,7 +131,7 @@ public class SecurityUtil {
 
                 //if it's the one we're looking for, set consoel UUID, free resources, and return true
                 if (pass.equals(binPassword) && name.equalsIgnoreCase(binUsername)) {
-                    ConsoleFrame.setUUID(UUIDs[i].getName());
+                    ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
                     return true;
                 }
             }
@@ -181,7 +181,7 @@ public class SecurityUtil {
 
                 //if it's the one we're looking for, set consoel UUID, free resources, and return true
                 if (pass.equals(filepass) && name.equalsIgnoreCase(filename)) {
-                    ConsoleFrame.setUUID(UUIDs[i].getName());
+                    ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
                     currentRead.close();
                     return true;
                 }

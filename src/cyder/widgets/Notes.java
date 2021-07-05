@@ -34,7 +34,7 @@ public class Notes {
     private static String UUID = "";
 
     public Notes() {
-        this.UUID = ConsoleFrame.getUUID();
+        this.UUID = ConsoleFrame.getConsoleFrame().getUUID();
 
         if (UUID == null)
             return;
@@ -43,7 +43,8 @@ public class Notes {
             noteFrame.closeAnimation();
 
         noteFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
-        noteFrame.setTitle(ConsoleFrame.getUsername() + StringUtil.getApostrophe(ConsoleFrame.getUsername()) + " notes");
+        noteFrame.setTitle(ConsoleFrame.getConsoleFrame().getUsername() +
+                StringUtil.getApostrophe(ConsoleFrame.getConsoleFrame().getUsername()) + " notes");
 
         initializeNotesList();
 

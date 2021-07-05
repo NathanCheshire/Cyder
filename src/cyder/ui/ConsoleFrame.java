@@ -2,7 +2,6 @@ package cyder.ui;
 
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
-import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.utilities.*;
 import cyder.widgets.GenericInform;
@@ -10,6 +9,8 @@ import cyder.widgets.GenericInform;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -17,20 +18,21 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public final class ConsoleFrame extends CyderFrame {
-
-    //todo this should be like runtime method. ConsoleFrame.getConsoleFrame().setUUID(); and stuff like that
-
     //the one and only console frame method
-    private ConsoleFrame onlyConsoleFrame = new ConsoleFrame();
+    private static ConsoleFrame theConsoleFrame = new ConsoleFrame();
+
+    public static ConsoleFrame getConsoleFrame() {
+        return theConsoleFrame;
+    }
 
     private ConsoleFrame() {} //no instantiation this way
 
     /**
-     * assuming uuid has been set, this will launch the whole of the program
-     * main now is used for user auth then calls ConsoleFrame so under current program structure,
-     * only one instance of console frame should ever exist
+     * Assuming uuid has been set, this will launch the whole of the program.
+     * Main class is used for user auth then calls ConsoleFrame so under current program structure,
+     * only one instance of console frame should ever exist.
      */
-    private ConsoleFrame(String UUID) {
+    private void start(String UUID) {
         resizeBackgrounds();
         initBackgrounds();
 
@@ -47,13 +49,14 @@ public final class ConsoleFrame extends CyderFrame {
 
     @Override
     public void setTitlePosition(TitlePosition position) {
-        if (position == TitlePosition.LEFT)
-            ErrorHandler.handle(new FatalException("Left title position now allowed for ConsoleFrame"));
-        else
+        if (position == TitlePosition.LEFT || position == TitlePosition.RIGHT) {
+            throw new IllegalArgumentException("Left and righttitle positions now allowed for ConsoleFrame");
+        } else {
             super.setTitlePosition(position);
+        }
     }
 
-    private static String UUID;
+    private String UUID;
 
     /**
      * Set the UUID for this Cyder session. Everything else relies on this being set and not null.
@@ -61,16 +64,16 @@ public final class ConsoleFrame extends CyderFrame {
      * @param uuid - the user uuid that we will use to determine our output dir and other
      *             information specific to this instance of the console frame
      */
-    public static void setUUID(String uuid) {
+    public void setUUID(String uuid) {
         UUID = uuid;
         IOUtil.fixUserData();
     }
 
-    public static String getUUID() {
+    public String getUUID() {
         return UUID;
     }
 
-    public static String getUsername() {
+    public String getUsername() {
         String name = IOUtil.getUserData("Name");
         if (name == null || name.trim().length() < 1)
             return "Name Not Found";
@@ -78,38 +81,37 @@ public final class ConsoleFrame extends CyderFrame {
             return name;
     }
 
-    private static int fontMetric = Font.BOLD;
+    private int fontMetric = Font.BOLD;
 
-    public static void setFontBold() {
+    public void setFontBold() {
         fontMetric = Font.BOLD;
     }
 
-    public static void setFontItalic() {
+    public void setFontItalic() {
         fontMetric = Font.ITALIC;
     }
 
-    public static void setFontPlain() {
+    public void setFontPlain() {
         fontMetric = Font.PLAIN;
     }
 
     /**
      * Sets the OutputArea and InputField font style for the current user
-     *
      * @param combStyle use Font.BOLD and Font.Italic to set the user
      *                  font style. You may pass combinations of font
      *                  styling using the addition operator
      */
-    public static void setFontStyle(int combStyle) {
+    public void setFontStyle(int combStyle) {
         fontMetric = combStyle;
     }
 
-    private static int fontSize = 30;
+    private int fontSize = 30;
 
     /**
      * Sets the font size for the user to be used when {@link ConsoleFrame#getUserFont()} is called.
      * @param size - the size of the font
      */
-    public static void setFontSize(int size) {
+    public void setFontSize(int size) {
         fontSize = size;
     }
 
@@ -117,7 +119,7 @@ public final class ConsoleFrame extends CyderFrame {
      * Get the desired user font in combination with the set font metric and font size.
      * @return - the font to use for the input and output areas
      */
-    public static Font getUserFont() {
+    public Font getUserFont() {
         return new Font(IOUtil.getUserData("Font"), fontMetric, fontSize);
     }
 
@@ -125,7 +127,7 @@ public final class ConsoleFrame extends CyderFrame {
      * Get the user's foreground color from Userdata
      * @return - a Color object representing the chosen foreground
      */
-    public static Color getUserForegroundColor() {
+    public Color getUserForegroundColor() {
         return ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
     }
 
@@ -133,7 +135,7 @@ public final class ConsoleFrame extends CyderFrame {
      * Get the user's background color from Userdata
      * @return - a Color object representing the chosen background
      */
-    public static Color getUserBackgroundColor() {
+    public Color getUserBackgroundColor() {
         return ColorUtil.hextorgbColor(IOUtil.getUserData("Background"));
     }
 
@@ -141,9 +143,9 @@ public final class ConsoleFrame extends CyderFrame {
      * Takes into account the dpi scaling value and checks all the backgrounds in the user's
      * directory against the current monitors resolution. If any width or height of a background file
      * exceeds the monitor's width or height. We resize until it doesn't. We also check to make sure the background
-     * is at least 600px by 600px.
+     * meets our minimum pixel dimension parameters.
      */
-    public static void resizeBackgrounds() {
+    public void resizeBackgrounds() {
         try {
             LinkedList<File> backgrounds = getBackgrounds();
 
@@ -201,17 +203,17 @@ public final class ConsoleFrame extends CyderFrame {
         }
     }
 
-    private static LinkedList<File> backgroundFiles;
+    private LinkedList<File> backgroundFiles;
 
-    public static void initBackgrounds() {
+    public void initBackgrounds() {
         try {
             File dir = new File("users/" + getUUID() + "/Backgrounds");
             FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
 
             backgroundFiles = new LinkedList<>(Arrays.asList(dir.listFiles(PNGFilter)));
 
+            //if no backgrounds, copy the default image icon over and recall initBackgrounds()
             if (backgroundFiles.size() == 0) {
-
                 Image img = CyderImages.defaultBackground.getImage();
 
                 BufferedImage bi = new BufferedImage(img.getWidth(null),
@@ -220,7 +222,7 @@ public final class ConsoleFrame extends CyderFrame {
                 Graphics2D g2 = bi.createGraphics();
                 g2.drawImage(img, 0, 0, null);
                 g2.dispose();
-                ImageIO.write(bi, "png", new File("users/" + ConsoleFrame.getUsername()
+                ImageIO.write(bi, "png", new File("users/" + getUsername()
                         + "/Backgrounds/Default.png"));
 
                 initBackgrounds();
@@ -230,51 +232,82 @@ public final class ConsoleFrame extends CyderFrame {
         }
     }
 
-    public static LinkedList<File> getBackgrounds() {
+    public LinkedList<File> getBackgrounds() {
         initBackgrounds();
         return backgroundFiles;
     }
 
-    private static int backgroundIndex;
+    private int backgroundIndex;
 
-    public static int getBackgroundIndex() {
+    public int getBackgroundIndex() {
         return backgroundIndex;
     }
 
-    public static void setBackgroundIndex(int i) {
+    public void setBackgroundIndex(int i) {
         backgroundIndex = i;
     }
 
-    public static void incBackgroundIndex() {
+    public void incBackgroundIndex() {
         backgroundIndex += 1;
     }
 
-    public static void decBackgroundIndex() {
+    public void decBackgroundIndex() {
         backgroundIndex -= 1;
     }
 
     private static File backgroundFile;
 
-    public static File getCurrentBackgroundFile() {
+    public File getCurrentBackgroundFile() {
         backgroundFile = backgroundFiles.get(backgroundIndex);
-
         return backgroundFile;
     }
 
-    private static ImageIcon backgroundImageIcon;
+    private ImageIcon backgroundImageIcon;
 
-    public static ImageIcon getCurrentBackgroundImageIcon() {
+    public ImageIcon getCurrentBackgroundImageIcon() {
         try {
             File f = getCurrentBackgroundFile();
             backgroundImageIcon = new ImageIcon(ImageIO.read(f));
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            return backgroundImageIcon;
         }
-
-        return backgroundImageIcon;
     }
 
-    private static Direction lastSlideDirection = Direction.TOP;
+    public ImageIcon getNextBackgroundImageIcon() {
+        ImageIcon ret = null;
+
+        try {
+            if (backgroundIndex + 1 == backgroundFiles.size() - 1) {
+                ret = new ImageIcon(ImageIO.read(backgroundFiles.get(0)));
+            } else {
+                ret = new ImageIcon(ImageIO.read(backgroundFiles.get(backgroundFiles.size() + 1)));
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            return ret;
+        }
+    }
+
+    public ImageIcon getLastBackgroundImageIcon() {
+        ImageIcon ret = null;
+
+        try {
+            if (backgroundIndex - 1 >= 0) {
+                ret = new ImageIcon(ImageIO.read(backgroundFiles.get(backgroundIndex - 1)));
+            } else {
+                ret = new ImageIcon(ImageIO.read(backgroundFiles.get(backgroundFiles.size() - 1)));
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            return ret;
+        }
+    }
+
+    private Direction lastSlideDirection = Direction.TOP;
 
     //todo make the frame and drag label stay when switching backgrounds and the image be separate (inside of consoleframe class)
     // you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
@@ -283,16 +316,15 @@ public final class ConsoleFrame extends CyderFrame {
     //todo make changing background animation no more than one second (so redo the method to calculate step)
     // make it also retain a console orientation when transitioning (both full screen or not full screen)
 
-    public static void switchBackground() {
+    //if this returns false then we didn't switch so we should tell the user they should add more backgrounds
+    public boolean switchBackground() {
         try {
             //if we only have one background we can't switch
             if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
-                return;
+                return false;
 
-            //todo replace with get next and get last image function calls
             ImageIcon oldBack = getCurrentBackgroundImageIcon();
-            ImageIcon newBack = new ImageIcon(ImageIO.read(getBackgrounds()
-                    .get(getBackgroundIndex() == 0 ? getBackgrounds().size() - 1 : getBackgroundIndex() - 1)));
+            ImageIcon newBack = getNextBackgroundImageIcon();
 
             //get the dimensions which we will flip to, the next image
             int width = newBack.getIconWidth();
@@ -351,6 +383,7 @@ public final class ConsoleFrame extends CyderFrame {
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.BOTTOM);
                     //todo set image bounds
                     //todo setbackground tod this new image
+                    int[] delayInc = AnimationUtil.getDelayIncrement(height);
                     //new CyderAnimation().jLabelYUp(0, -height, 10, 10, iconLabel);
                     //todo slide up by height so init bounds are 0,height,width,height
                     //todo set actual icon to background
@@ -386,13 +419,15 @@ public final class ConsoleFrame extends CyderFrame {
             //todo refresh consoleclock bounds
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            return true;
         }
     }
 
     /**
      * @return returns the current background with using the current background ImageIcon and whether or not full screen is active
      */
-    public static int getBackgroundWidth() {
+    public int getBackgroundWidth() {
         if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
             return (int) SystemUtil.getScreenSize().getWidth();
         else
@@ -402,7 +437,7 @@ public final class ConsoleFrame extends CyderFrame {
     /**
      * @return returns the current background height using the current background ImageIcon and whether or not full screen is active
      */
-    public static int getBackgroundHeight() {
+    public int getBackgroundHeight() {
         if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
             return (int) SystemUtil.getScreenSize().getHeight();
         else
@@ -410,80 +445,109 @@ public final class ConsoleFrame extends CyderFrame {
     }
 
     //this is an example of how the new method should look within here, remove all get user data from IOUtil
-    public static String getUserData(String dataName) {
+    public String getUserData(String dataName) {
         return (dataName instanceof String ? dataName : dataName.equals("1") ? "true" : "false");
     }
 
-    private static boolean consoleClockEnabled;
+    private boolean consoleClockEnabled;
 
-    public static void setConsoleClock(Boolean enable) {
-        consoleClockEnabled = IOUtil.getUserData("ClockOnConsole").equals("1");
+    public void setConsoleClock(Boolean enable) {
+        IOUtil.writeUserData("ClockOnConsole", enable ? "1" : "0");
+        consoleClockEnabled = enable;
 
         if (enable) {
-            //set console clock visible
+            setTitle("");
             //start up executor
         } else {
-            //set visible false
+            setTitle("");
             //end executor task if running
         }
     }
 
-    public static boolean isConsoleClockEnabled() {
+    public boolean consoleClockEnabled() {
         return consoleClockEnabled;
     }
 
-    private static Direction consoleDir = Direction.TOP;
+    private Direction consoleDir = Direction.TOP;
 
-    public static void setConsoleDirection(Direction conDir) {
+    public void setConsoleDirection(Direction conDir) {
         consoleDir = conDir;
-        //todo repaint
+        getConsoleFrame().repaint();
     }
 
-    public static Direction getConsoleDirection() {
+    public Direction getConsoleDirection() {
         return consoleDir;
     }
 
-    private static void rotateConsole(int deg) {
-        //todo roll console to deg, image should be centered in middle, however
-        // dont use this for setting console dir though, that should snap in direction
-        // since we are rolling, it should be a smooth transition
+    /**
+     * Smoothly transitions the background icon to the specified degrees.
+     * Use set console direction for console flipping and not this.
+     * @param deg - the degree by which to smoothly rotate
+     */
+    private void rotateConsole(int deg) {
+        ImageIcon masterIcon = (ImageIcon) ((JLabel) getConsoleFrame().getContentPane()).getIcon();
+        BufferedImage master = ImageUtil.getBi(masterIcon);
+
+        Timer timer = null;
+        Timer finalTimer = timer;
+        timer = new Timer(10, new ActionListener() {
+            private double angle = 0;
+            private double delta = 2.0;
+
+            BufferedImage rotated;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                angle += delta;
+                if (angle > deg) {
+                    rotated = ImageUtil.rotateImageByDegrees(master, deg);
+                    ((JLabel) getConsoleFrame().getContentPane()).setIcon(new ImageIcon(rotated));
+                    return;
+                }
+                rotated = ImageUtil.rotateImageByDegrees(master, angle);
+                ((JLabel) getConsoleFrame().getContentPane()).setIcon(new ImageIcon(rotated));
+            }
+        });
+        timer.start();
     }
 
-    private static boolean fullscreen = false;
+    private boolean fullscreen = false;
 
     public void setFullscreen(Boolean enable) {
         fullscreen = enable;
+
+        //this should recalculate bounds for components depending on console direction and fullscreen mode
         repaint();
     }
 
-    public static boolean isFullscreen() {
+    public boolean isFullscreen() {
         return fullscreen;
     }
 
-    private static int scrollingDowns;
+    private int scrollingDowns;
 
-    public static int getScrollingDowns() {
+    public int getScrollingDowns() {
         return scrollingDowns;
     }
 
-    public static void setScrollingDowns(int downs) {
+    public void setScrollingDowns(int downs) {
         scrollingDowns = downs;
     }
 
-    public static void incScrollingDowns() {
+    public void incScrollingDowns() {
         scrollingDowns += 1;
     }
 
-    public static void decScrollingDowns() {
+    public void decScrollingDowns() {
         scrollingDowns -= 1;
     }
 
-    public static boolean onLastBackground() {
+    public boolean onLastBackground() {
         initBackgrounds();
         return backgroundFiles.size() == backgroundIndex + 1;
     }
 
-    public static boolean canSwitchBackground() {
+    public boolean canSwitchBackground() {
         return backgroundFiles.size() > backgroundIndex + 1;
     }
 }

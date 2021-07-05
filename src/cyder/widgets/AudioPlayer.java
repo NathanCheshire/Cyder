@@ -169,7 +169,7 @@ public class AudioPlayer {
                 File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to startAudio");
                 if (selectedChildFile != null) {
                     if (!selectedChildFile.toString().endsWith("mp3")) {
-                        audioFrame.notify("Sorry, " + ConsoleFrame.getUsername() + ", but that's not an mp3 file.");
+                        audioFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that's not an mp3 file.");
                     } else if (selectedChildFile != null){
                         refreshAudioFiles(selectedChildFile);
                         startAudio();
@@ -434,7 +434,7 @@ public class AudioPlayer {
             }
         } else {
             try {
-                File userAudioDir = new File("users/" + ConsoleFrame.getUUID() + "/Music/" );
+                File userAudioDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" );
 
                 if (!userAudioDir.exists())
                     throw new FatalException("User music directory does not exist.");

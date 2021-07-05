@@ -25,7 +25,7 @@ public class ErrorHandler {
     public static void handle(Exception e) {
         try {
             //find out where to log the error
-            String user = ConsoleFrame.getUUID();
+            String user = ConsoleFrame.getConsoleFrame().getUUID();
             File throwsDir = null;
             String eFileString = "";
 
@@ -100,7 +100,7 @@ public class ErrorHandler {
     public static void silentHandle(Exception e) {
         try {
             //find out whereto log the error
-            String user = ConsoleFrame.getUUID();
+            String user = ConsoleFrame.getConsoleFrame().getUUID();
             File throwsDir = null;
             String eFileString = "";
 
@@ -164,7 +164,7 @@ public class ErrorHandler {
         errorFrame.setMinimumSize(new Dimension(200, 200));
 
         //bounds calculation for centered text
-        String displayText = message.substring(0,message.length() > 500 ? 500 : message.length());
+        String displayText = message.substring(0, Math.min(message.length(), 500));
         displayText = "<html><div style='text-align: center;'>" + displayText + "</div></html>";
         int w = CyderFrame.getMinWidth(displayText, CyderFonts.defaultFontSmall) + 10; //extra 10 to be safe
         int h = CyderFrame.getMinHeight(displayText, CyderFonts.defaultFontSmall) + 2; //1 pixel for top and bottom

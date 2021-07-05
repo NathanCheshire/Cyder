@@ -97,7 +97,7 @@ public class IOUtil {
 
     public static void readUserData() {
         userData.clear();
-        String user = ConsoleFrame.getUUID();
+        String user = ConsoleFrame.getConsoleFrame().getUUID();
 
         if (user == null)
             return;
@@ -129,12 +129,12 @@ public class IOUtil {
         try {
             userData.clear();
 
-            if (!new File("users/" + ConsoleFrame.getUUID() + "/userdata.bin").exists())
+            if (!new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin").exists())
                 corruptedUser();
 
             GenesisShare.getExitingSem().acquire();
 
-            BufferedReader fis = new BufferedReader(new FileReader("users/" + ConsoleFrame.getUUID() + "/userdata.bin"));
+            BufferedReader fis = new BufferedReader(new FileReader("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin"));
             String[] stringBytes = fis.readLine().split("(?<=\\G........)");
             StringBuilder sb = new StringBuilder();
 
@@ -218,7 +218,7 @@ public class IOUtil {
      * Binary writing will replace string writing for security purposes even though it complicates the program flow
      */
     public static void newWriteUserData(String targetID, String value) {
-        if (ConsoleFrame.getUUID() == null)
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             return;
 
         try {
@@ -260,7 +260,7 @@ public class IOUtil {
 
     public static void newFixUserData() {
         //get user var for later use
-        String user = ConsoleFrame.getUUID();
+        String user = ConsoleFrame.getConsoleFrame().getUUID();
 
         //return if no user, shouldn't be possible anyway
         if (user == null)
@@ -366,7 +366,7 @@ public class IOUtil {
      */
     public static void fixUserData() {
         //get user var for later use
-        String user = ConsoleFrame.getUUID();
+        String user = ConsoleFrame.getConsoleFrame().getUUID();
 
         //return if no user, shouldn't be possible anyway
         if (user == null)
@@ -379,7 +379,7 @@ public class IOUtil {
         //try with resources to write all the default pairs in case some are missing, only the first pairs will be saved
         // so any that we already have will be kept and any duplicates will be removed
         try (BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", true))) {
+                "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Userdata.txt", true))) {
             GenesisShare.getExitingSem().acquire();
 
             //always just add a newline to the front to be safe
@@ -446,7 +446,7 @@ public class IOUtil {
 
             //write the data we want to keep
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false));
+                    "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Userdata.txt", false));
 
             for (NST currentData : reWriteData) {
                 userWriter.write(currentData.getName() + ":" + currentData.getData());
@@ -480,7 +480,7 @@ public class IOUtil {
     }
 
     public static void writeUserData(String name, String value) {
-        if (ConsoleFrame.getUUID() == null)
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             return;
 
         try {
@@ -488,7 +488,7 @@ public class IOUtil {
             GenesisShare.getExitingSem().acquire();
 
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "users/" + ConsoleFrame.getUUID() + "/Userdata.txt", false));
+                    "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Userdata.txt", false));
 
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name))
@@ -747,12 +747,12 @@ public class IOUtil {
                 f.dispose();
 
             //if it's already gone then it really wasn't a corrupted user, possibly a user deleting their account
-            File mainZipFile = new File("users/" + ConsoleFrame.getUUID());
+            File mainZipFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID());
             if (mainZipFile == null || mainZipFile.listFiles() == null || mainZipFile.listFiles().length == 0)
                 return;
 
             //confirmed that the user was corrupted so we inform the user
-            GenericInform.inform("Sorry, " + ConsoleFrame.getUsername() + ", but your user was corrupted. " +
+            GenericInform.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but your user was corrupted. " +
                     "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User");
 
             //delete the stuff we don't care about

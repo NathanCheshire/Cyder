@@ -232,12 +232,12 @@ public class CyderMain {
      */
     public void console() {
         try {
-            ConsoleFrame.resizeBackgrounds();
-            ConsoleFrame.initBackgrounds();
+            ConsoleFrame.getConsoleFrame().resizeBackgrounds();
+            ConsoleFrame.getConsoleFrame().initBackgrounds();
 
-            consoleBashString = ConsoleFrame.getUsername() + "@Cyder:~$ ";
+            consoleBashString = ConsoleFrame.getConsoleFrame().getUsername() + "@Cyder:~$ ";
 
-            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
+            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
 
             consoleFrame = new JFrame() {
                 @Override
@@ -252,7 +252,7 @@ public class CyderMain {
                         int h = 0;
 
                         try {
-                            img = ImageUtil.resizeImage(25,25,ConsoleFrame.getCurrentBackgroundFile());
+                            img = ImageUtil.resizeImage(25,25,ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile());
                             w = img.getWidth(null);
                             h = img.getHeight(null);
 
@@ -281,8 +281,10 @@ public class CyderMain {
             //this doesn't really do much since we don't call consoleFrame.dispose typicallyf
             consoleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            consoleFrame.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), ConsoleFrame.getBackgroundHeight());
-            consoleFrame.setTitle(IOUtil.getSystemData("Version") + " Cyder [" + ConsoleFrame.getUsername() + "]");
+            consoleFrame.setBounds(0, 0, ConsoleFrame.getConsoleFrame().getBackgroundWidth(),
+                    ConsoleFrame.getConsoleFrame().getBackgroundHeight());
+            consoleFrame.setTitle(IOUtil.getSystemData("Version") + " Cyder [" +
+                    ConsoleFrame.getConsoleFrame().getUsername() + "]");
 
             if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
                 consoleFrame.setShape(new RoundRectangle2D.Double(0, 0,
@@ -301,15 +303,18 @@ public class CyderMain {
 
             if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
                 parentLabel.setIcon(new ImageIcon(ImageUtil.resizeImage((int) SystemUtil.getScreenSize().getWidth(),
-                        (int) SystemUtil.getScreenSize().getHeight(), ConsoleFrame.getCurrentBackgroundFile())));
+                        (int) SystemUtil.getScreenSize().getHeight(), ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())));
             else
-                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().toString(),
-                        ConsoleFrame.getConsoleDirection())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(
+                        ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().toString(),
+                        ConsoleFrame.getConsoleFrame().getConsoleDirection())));
 
-            parentLabel.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), ConsoleFrame.getBackgroundHeight());
+            parentLabel.setBounds(0, 0, ConsoleFrame.getConsoleFrame().getBackgroundWidth(),
+                    ConsoleFrame.getConsoleFrame().getBackgroundHeight());
 
             parentLabel.setBorder(new LineBorder(CyderColors.navy, 8, false));
-            parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
+            parentLabel.setToolTipText(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getName()
+                    .replace(".png", ""));
 
             parentPane.add(parentLabel, 1, 0);
 
@@ -330,10 +335,10 @@ public class CyderMain {
             });
 
             outputArea.setEditable(false);
-            outputArea.setCaretColor(ConsoleFrame.getUserForegroundColor());
-            outputArea.setCaret(new CyderCaret(ConsoleFrame.getUserForegroundColor()));
+            outputArea.setCaretColor(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
+            outputArea.setCaret(new CyderCaret(ConsoleFrame.getConsoleFrame().getUserForegroundColor()));
             outputArea.setAutoscrolls(true);
-            outputArea.setBounds(10, 62, ConsoleFrame.getBackgroundWidth() - 20, ConsoleFrame.getBackgroundHeight() - 204);
+            outputArea.setBounds(10, 62, ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 20, ConsoleFrame.getConsoleFrame().getBackgroundHeight() - 204);
             outputArea.setFocusable(true);
             outputArea.setSelectionColor(new Color(204, 153, 0));
             outputArea.setOpaque(false);
@@ -353,7 +358,7 @@ public class CyderMain {
             else
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
 
-            outputScroll.setBounds(10, 62, ConsoleFrame.getBackgroundWidth() - 20, ConsoleFrame.getBackgroundHeight() - 204);
+            outputScroll.setBounds(10, 62, ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 20, ConsoleFrame.getConsoleFrame().getBackgroundHeight() - 204);
 
             parentLabel.add(outputScroll);
 
@@ -379,22 +384,22 @@ public class CyderMain {
                         handle("controlc");
 
                     if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.setConsoleDirection(Direction.BOTTOM);
+                        ConsoleFrame.getConsoleFrame().setConsoleDirection(Direction.BOTTOM);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.setConsoleDirection(Direction.RIGHT);
+                        ConsoleFrame.getConsoleFrame().setConsoleDirection(Direction.RIGHT);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.setConsoleDirection(Direction.TOP);
+                        ConsoleFrame.getConsoleFrame().setConsoleDirection(Direction.TOP);
                         exitFullscreen();
                     }
 
                     if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.setConsoleDirection(Direction.LEFT);
+                        ConsoleFrame.getConsoleFrame().setConsoleDirection(Direction.LEFT);
                         exitFullscreen();
                     }
                 }
@@ -483,7 +488,7 @@ public class CyderMain {
             });
 
             inputField.setBounds(10, 82 + outputArea.getHeight(),
-                    ConsoleFrame.getBackgroundWidth() - 20, ConsoleFrame.getBackgroundHeight() -
+                    ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 20, ConsoleFrame.getConsoleFrame().getBackgroundHeight() -
                             (outputArea.getHeight() + 62 + 40));
             inputField.setOpaque(false);
 
@@ -497,14 +502,14 @@ public class CyderMain {
                 }
             });
 
-            inputField.setCaretColor(ConsoleFrame.getUserForegroundColor());
-            inputField.setCaret(new CyderCaret(ConsoleFrame.getUserForegroundColor()));
+            inputField.setCaretColor(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
+            inputField.setCaret(new CyderCaret(ConsoleFrame.getConsoleFrame().getUserForegroundColor()));
 
-            inputField.setForeground(ConsoleFrame.getUserForegroundColor());
-            outputArea.setForeground(ConsoleFrame.getUserForegroundColor());
+            inputField.setForeground(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
+            outputArea.setForeground(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
 
-            inputField.setFont(ConsoleFrame.getUserFont());
-            outputArea.setFont(ConsoleFrame.getUserFont());
+            inputField.setFont(ConsoleFrame.getConsoleFrame().getUserFont());
+            outputArea.setFont(ConsoleFrame.getConsoleFrame().getUserFont());
 
             Color fillColor = ColorUtil.hextorgbColor(IOUtil.getUserData("Background"));
 
@@ -600,7 +605,7 @@ public class CyderMain {
                 }
             });
 
-            minimize.setBounds(ConsoleFrame.getBackgroundWidth() - 81, 4, 22, 20);
+            minimize.setBounds(ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 81, 4, 22, 20);
 
             ImageIcon minimizeIcon = CyderImages.minimizeIcon;
             minimize.setIcon(minimizeIcon);
@@ -625,18 +630,18 @@ public class CyderMain {
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    ConsoleFrame.initBackgrounds();
+                    ConsoleFrame.getConsoleFrame().initBackgrounds();
 
                     try {
-                        lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
+                        lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
 
-                        if (ConsoleFrame.canSwitchBackground() && ConsoleFrame.getBackgrounds().size() > 1) {
-                            ConsoleFrame.incBackgroundIndex();
+                        if (ConsoleFrame.getConsoleFrame().canSwitchBackground() && ConsoleFrame.getConsoleFrame().getBackgrounds().size() > 1) {
+                            ConsoleFrame.getConsoleFrame().incBackgroundIndex();
                             switchBackground();
-                        } else if (ConsoleFrame.onLastBackground() && ConsoleFrame.getBackgrounds().size() > 1) {
-                            ConsoleFrame.setBackgroundIndex(0);
+                        } else if (ConsoleFrame.getConsoleFrame().onLastBackground() && ConsoleFrame.getConsoleFrame().getBackgrounds().size() > 1) {
+                            ConsoleFrame.getConsoleFrame().setBackgroundIndex(0);
                             switchBackground();
-                        } else if (ConsoleFrame.getBackgrounds().size() == 1) {
+                        } else if (ConsoleFrame.getConsoleFrame().getBackgrounds().size() == 1) {
                             println("You only have one background image. Would you like to add more? (Enter yes/no)");
                             inputField.requestFocus();
                             stringUtil.setUserInputMode(true);
@@ -650,7 +655,7 @@ public class CyderMain {
                 }
             });
 
-            alternateBackground.setBounds(ConsoleFrame.getBackgroundWidth() - 54, 4, 22, 20);
+            alternateBackground.setBounds(ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 54, 4, 22, 20);
             alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
             parentLabel.add(alternateBackground);
             alternateBackground.setFocusPainted(false);
@@ -677,7 +682,7 @@ public class CyderMain {
                 }
             });
 
-            close.setBounds(ConsoleFrame.getBackgroundWidth() - 27, 4, 22, 20);
+            close.setBounds(ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 27, 4, 22, 20);
             close.setIcon(CyderImages.closeIcon);
             parentLabel.add(close);
             close.setFocusPainted(false);
@@ -686,7 +691,7 @@ public class CyderMain {
             close.setBorderPainted(false);
 
             consoleDragLabel = new JLabel();
-            consoleDragLabel.setBounds(0, 0, ConsoleFrame.getBackgroundWidth(), 30);
+            consoleDragLabel.setBounds(0, 0, ConsoleFrame.getConsoleFrame().getBackgroundWidth(), 30);
             consoleDragLabel.setOpaque(true);
             consoleDragLabel.setBackground(CyderColors.navy);
             consoleDragLabel.addMouseMotionListener(new MouseMotionListener() {
@@ -759,18 +764,18 @@ public class CyderMain {
             });
 
             if (IOUtil.getUserData("RandomBackground").equals("1")) {
-                int len = ConsoleFrame.getBackgrounds().size();
+                int len = ConsoleFrame.getConsoleFrame().getBackgrounds().size();
 
                 if (len <= 1)
-                    println("Sorry, " + ConsoleFrame.getUsername() + ", but you only have one background file so there's no random element to be chosen.");
+                    println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you only have one background file so there's no random element to be chosen.");
 
                 else if (len > 1) {
                     try {
-                        LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
+                        LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
 
-                        ConsoleFrame.setBackgroundIndex(NumberUtil.randInt(0, (backgrounds.size()) - 1));
+                        ConsoleFrame.getConsoleFrame().setBackgroundIndex(NumberUtil.randInt(0, (backgrounds.size()) - 1));
 
-                        String newBackFile = ConsoleFrame.getCurrentBackgroundFile().toString();
+                        String newBackFile = ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().toString();
 
                         ImageIcon newBack;
                         int tempW = 0;
@@ -803,7 +808,7 @@ public class CyderMain {
 
                         parentLabel.setIcon(newBack);
 
-                        parentLabel.setToolTipText(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", ""));
+                        parentLabel.setToolTipText(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getName().replace(".png", ""));
 
                         String time = TimeUtil.consoleTime();
                         int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
@@ -829,7 +834,7 @@ public class CyderMain {
             Executors.newSingleThreadScheduledExecutor(
                     new CyderThreadFactory("Stable Network Connection Checker")).scheduleAtFixedRate(() -> {
                 if (!NetworkUtil.internetReachable()) {
-                    println("Sorry, " + ConsoleFrame.getUsername() + ", but I had trouble connecting to the internet.\n" +
+                    println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I had trouble connecting to the internet.\n" +
                             "As a result, some features may not work properly.");
                 }
             }, 0, 5, MINUTES);
@@ -854,7 +859,7 @@ public class CyderMain {
             }, 10, 5, SECONDS);
 
 
-            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile()));
+            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
 
             if (IOUtil.getUserData("DebugWindows").equals("1")) {
                 StatUtil.systemProperties();
@@ -873,7 +878,7 @@ public class CyderMain {
 
             if (TimeUtil.milisToDays(time) > 1) {
                 //change to a ConsoleFrame.notify();
-                println("Welcome back, " + ConsoleFrame.getUsername() + "! Did you miss me?");
+                println("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "! Did you miss me?");
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -1365,7 +1370,7 @@ public class CyderMain {
                     }
 
                     scrollingIndex = operationList.size();
-                    ConsoleFrame.setScrollingDowns(0);
+                    ConsoleFrame.getConsoleFrame().setScrollingDowns(0);
 
                     //calls to linked inputhandler
                     if (!stringUtil.getUserInputMode()) {
@@ -1650,7 +1655,7 @@ public class CyderMain {
                 if (IOUtil.getUserData("IntroMusic").equals("1")) {
                     LinkedList<String> MusicList = new LinkedList<>();
 
-                    File UserMusicDir = new File("users/" + ConsoleFrame.getUUID() + "/Music");
+                    File UserMusicDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
 
                     String[] FileNames = UserMusicDir.list();
 
@@ -1661,7 +1666,7 @@ public class CyderMain {
 
                     if (!MusicList.isEmpty())
                         IOUtil.playAudio(
-                                "users/" + ConsoleFrame.getUUID() + "/Music/" +
+                                "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
                                         (FileNames[NumberUtil.randInt(0, FileNames.length - 1)]), outputArea);
                     else
                         IOUtil.playAudio("sys/audio/Ride.mp3", outputArea);
@@ -1686,9 +1691,9 @@ public class CyderMain {
         if (consoleFrame.getWidth() != SystemUtil.getScreenWidth() && consoleFrame.getWidth() != SystemUtil.getScreenHeight())
             return;
 
-        ConsoleFrame.initBackgrounds();
-        LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
-        int index = ConsoleFrame.getBackgroundIndex();
+        ConsoleFrame.getConsoleFrame().initBackgrounds();
+        LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
+        int index = ConsoleFrame.getConsoleFrame().getBackgroundIndex();
         String backFile = backgrounds.get(index).toString();
 
         int width = 0;
@@ -1696,7 +1701,7 @@ public class CyderMain {
 
         ImageIcon backIcon;
 
-        switch (ConsoleFrame.getConsoleDirection()) {
+        switch (ConsoleFrame.getConsoleFrame().getConsoleDirection()) {
             case TOP:
                 backIcon = new ImageIcon(backFile);
                 width = backIcon.getIconWidth();
@@ -1708,18 +1713,18 @@ public class CyderMain {
                 backIcon = new ImageIcon(backFile);
                 width = backIcon.getIconWidth();
                 height = backIcon.getIconHeight();
-                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().toString(), ConsoleFrame.getConsoleDirection())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().toString(), ConsoleFrame.getConsoleFrame().getConsoleDirection())));
 
                 break;
             default:
                 backIcon = new ImageIcon(backFile);
 
-                if (ConsoleFrame.getConsoleDirection() == Direction.LEFT || ConsoleFrame.getConsoleDirection() == Direction.RIGHT) {
+                if (ConsoleFrame.getConsoleFrame().getConsoleDirection() == Direction.LEFT || ConsoleFrame.getConsoleFrame().getConsoleDirection() == Direction.RIGHT) {
                     height = backIcon.getIconWidth();
                     width = backIcon.getIconHeight();
                 }
 
-                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(ConsoleFrame.getCurrentBackgroundFile().toString(), ConsoleFrame.getConsoleDirection())));
+                parentLabel.setIcon(new ImageIcon(ImageUtil.getRotatedImage(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().toString(), ConsoleFrame.getConsoleFrame().getConsoleDirection())));
 
                 break;
         }
@@ -1757,12 +1762,12 @@ public class CyderMain {
     private void switchBackground() {
         new Thread(() -> {
             try {
-                ConsoleFrame.initBackgrounds();
+                ConsoleFrame.getConsoleFrame().initBackgrounds();
 
-                LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
-                int oldIndex = (ConsoleFrame.getBackgroundIndex() == 0 ? backgrounds.size() - 1 : ConsoleFrame.getBackgroundIndex() - 1);
+                LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
+                int oldIndex = (ConsoleFrame.getConsoleFrame().getBackgroundIndex() == 0 ? backgrounds.size() - 1 : ConsoleFrame.getConsoleFrame().getBackgroundIndex() - 1);
                 String oldBackFile = backgrounds.get(oldIndex).toString();
-                String newBackFile = ConsoleFrame.getCurrentBackgroundFile().toString();
+                String newBackFile = ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().toString();
 
                 ImageIcon oldBack = new ImageIcon(oldBackFile);
                 BufferedImage newBack = ImageIO.read(new File(newBackFile));
@@ -1849,9 +1854,9 @@ public class CyderMain {
             consoleFrameRestoreY = consoleFrame.getY() + consoleFrame.getHeight() / 2;
         }
 
-        ConsoleFrame.initBackgrounds();
-        LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
-        String backFile = backgrounds.get(ConsoleFrame.getBackgroundIndex()).toString();
+        ConsoleFrame.getConsoleFrame().initBackgrounds();
+        LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
+        String backFile = backgrounds.get(ConsoleFrame.getConsoleFrame().getBackgroundIndex()).toString();
 
         ImageIcon backIcon = new ImageIcon(backFile);
         BufferedImage fullimg = null;
@@ -2013,12 +2018,12 @@ public class CyderMain {
                     println("Okay nevermind then");
             } else if (desc.equalsIgnoreCase("deleteuser")) {
                 if (!StringUtil.isConfirmation(input)) {
-                    println("User " + ConsoleFrame.getUsername() + " was not removed.");
+                    println("User " + ConsoleFrame.getConsoleFrame().getUsername() + " was not removed.");
                     return;
                 }
 
                 AnimationUtil.closeAnimation(consoleFrame);
-                SystemUtil.deleteFolder(new File("users/" + ConsoleFrame.getUUID()));
+                SystemUtil.deleteFolder(new File("users/" + ConsoleFrame.getConsoleFrame().getUUID()));
 
                 String dep = SecurityUtil.getDeprecatedUUID();
 
@@ -2028,7 +2033,7 @@ public class CyderMain {
                     renamed = new File("users/" + dep);
                 }
 
-                File old = new File("users/" + ConsoleFrame.getUUID());
+                File old = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID());
                 old.renameTo(renamed);
 
                 Frame[] frames = Frame.getFrames();
@@ -2038,23 +2043,23 @@ public class CyderMain {
 
                 login();
             } else if (desc.equalsIgnoreCase("pixelatebackground")) {
-                BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getCurrentBackgroundFile().getAbsoluteFile()), Integer.parseInt(input));
+                BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getAbsoluteFile()), Integer.parseInt(input));
 
-                String searchName = ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", "")
+                String searchName = ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getName().replace(".png", "")
                         + "_Pixelated_Pixel_Size_" + Integer.parseInt(input) + ".png";
 
-                File saveFile = new File("users/" + ConsoleFrame.getUUID() +
+                File saveFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() +
                         "/Backgrounds/" + searchName);
 
                 ImageIO.write(img, "png", saveFile);
 
-                LinkedList<File> backgrounds = ConsoleFrame.getBackgrounds();
+                LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
 
                 for (int i = 0; i < backgrounds.size(); i++) {
                     if (backgrounds.get(i).getName().equals(searchName)) {
                         parentLabel.setIcon(new ImageIcon(backgrounds.get(i).toString()));
                         parentLabel.setToolTipText(backgrounds.get(i).getName().replace(".png", ""));
-                        ConsoleFrame.setBackgroundIndex(i);
+                        ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
                     }
                 }
 
@@ -2073,7 +2078,7 @@ public class CyderMain {
             String firstWord = stringUtil.firstWord(operation);
 
             if (StringUtil.filterLanguage(operation)) {
-                println("Sorry, " + ConsoleFrame.getUsername() + ", but that language is prohibited.");
+                println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
                 operation = "";
             } else if (stringUtil.isPalindrome(operation.replace(" ", "")) && operation.length() > 3) {
                 println("Nice palindrome.");
@@ -2112,24 +2117,24 @@ public class CyderMain {
 
                 switch (choice) {
                     case 1:
-                        println("Hello, " + ConsoleFrame.getUsername() + ".");
+                        println("Hello, " + ConsoleFrame.getConsoleFrame().getUsername() + ".");
                         break;
                     case 2:
                         if (TimeUtil.isEvening())
-                            println("Good evening, " + ConsoleFrame.getUsername() + ". How can I help?");
+                            println("Good evening, " + ConsoleFrame.getConsoleFrame().getUsername() + ". How can I help?");
                         else if (TimeUtil.isMorning())
-                            println("Good monring, " + ConsoleFrame.getUsername() + ". How can I help?");
+                            println("Good monring, " + ConsoleFrame.getConsoleFrame().getUsername() + ". How can I help?");
                         else
-                            println("Good afternoon, " + ConsoleFrame.getUsername() + ". How can I help?");
+                            println("Good afternoon, " + ConsoleFrame.getConsoleFrame().getUsername() + ". How can I help?");
                         break;
                     case 3:
-                        println("What's up, " + ConsoleFrame.getUsername() + "?");
+                        println("What's up, " + ConsoleFrame.getConsoleFrame().getUsername() + "?");
                         break;
                     case 4:
-                        println("How are you doing, " + ConsoleFrame.getUsername() + "?");
+                        println("How are you doing, " + ConsoleFrame.getConsoleFrame().getUsername() + "?");
                         break;
                     case 5:
-                        println("Greetings, " + ConsoleFrame.getUsername() + ".");
+                        println("Greetings, " + ConsoleFrame.getConsoleFrame().getUsername() + ".");
                         break;
                     case 6:
                         println("I'm here....");
@@ -2393,7 +2398,7 @@ public class CyderMain {
                     (hasWord("color") && !hasWord("reset") && !hasWord("converter")) || (eic("preferences") || eic("prefs"))) {
                 editUser();
             } else if (hasWord("story") && hasWord("tell")) {
-                println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + ConsoleFrame.getUsername() + " started talking to Cyder."
+                println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + ConsoleFrame.getConsoleFrame().getUsername() + " started talking to Cyder."
                         + " It was at this moment that Cyder knew its day had been ruined.");
             } else if (eic("hey")) {
                 IOUtil.playAudio("sys/audio/heyya.mp3",outputArea);
@@ -2406,7 +2411,7 @@ public class CyderMain {
             } else if (eic("search") || eic("dir") || (hasWord("file") && hasWord("search")) || eic("directory") || eic("ls")) {
                 DirectorySearch ds = new DirectorySearch();
             } else if (hasWord("I") && hasWord("love")) {
-                println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't understand human emotions or affections.");
+                println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I don't understand human emotions or affections.");
             } else if (hasWord("vexento")) {
                 NetworkUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
             } else if (hasWord("minecraft")) {
@@ -2418,7 +2423,7 @@ public class CyderMain {
                     String CurrentDir = System.getProperty("user.dir");
                     IOUtil.openFile(CurrentDir);
                 } else {
-                    println("Sorry, " + ConsoleFrame.getUsername() + ", but you don't have permission to do that.");
+                    println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you don't have permission to do that.");
                 }
             } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
                 TicTacToe ttt = new TicTacToe();
@@ -2492,7 +2497,7 @@ public class CyderMain {
                 if (SecurityUtil.compMACAddress(SecurityUtil.getMACAddress())) {
                     IOUtil.openFile("sys/pictures");
                 } else {
-                    println("Sorry, " + ConsoleFrame.getUsername() + ", but you do not have permission to access that.");
+                    println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you do not have permission to access that.");
                 }
             } else if (hasWord("when") && hasWord("thanksgiving")) {
                 int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -2611,7 +2616,7 @@ public class CyderMain {
                 if (SecurityUtil.nathanLenovo()) {
                     IOUtil.wipeErrors();
                 } else
-                    println("Sorry, " + ConsoleFrame.getUsername() + ", but you don't have permission to do that.");
+                    println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you don't have permission to do that.");
             } else if (hasWord("debug") && hasWord("windows")) {
                 StatUtil.allStats(outputArea);
             } else if (hasWord("alex") && hasWord("trebek")) {
@@ -2723,7 +2728,7 @@ public class CyderMain {
 
     private void unknownInput() {
         //todo turn this into a ConsoleFrame.notify();
-        println("Sorry, " + ConsoleFrame.getUsername() + ", but I don't recognize that command." +
+        println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I don't recognize that command." +
                 " You can make a suggestion by clicking the \"Suggest something\" button.");
 
         new Thread(() -> {
@@ -2830,9 +2835,7 @@ public class CyderMain {
         CyderButton cb = new CyderButton("Askew");
         cb.setBounds(100,200,150,40);
         testFrame.getContentPane().add(cb);
-        cb.addActionListener(e -> {
-            testFrame.rotateBackground(Integer.parseInt(ctf.getText()));
-        });
+        cb.addActionListener(e -> testFrame.rotateBackground(Integer.parseInt(ctf.getText())));
 
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(null);
@@ -3141,7 +3144,7 @@ public class CyderMain {
                 IOUtil.changePassword(newPassword);
                 editUserFrame.inform("Password successfully changed", "");
             } else {
-                editUserFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", " +
+                editUserFrame.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
                         "but your password must be greater than 4 characters for security reasons.", "");
             }
             changePasswordField.setText("");
@@ -3157,8 +3160,8 @@ public class CyderMain {
     }
 
     public void initMusicBackgroundList() {
-        File backgroundDir = new File("users/" + ConsoleFrame.getUUID() + "/Backgrounds");
-        File musicDir = new File("users/" + ConsoleFrame.getUUID() + "/Music");
+        File backgroundDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
+        File musicDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
 
         musicBackgroundList = new LinkedList<>();
         musicBackgroundNameList = new LinkedList<>();
@@ -3281,7 +3284,7 @@ public class CyderMain {
                         if (addFile == null || addFile.getName().equals("NULL"))
                             return;
 
-                        for (File f : ConsoleFrame.getBackgrounds()) {
+                        for (File f : ConsoleFrame.getConsoleFrame().getBackgrounds()) {
                             if (addFile.getName().equals(f.getName())) {
                                 editUserFrame.notify("Cannot add a background with the same name as a current one");
                                 return;
@@ -3291,23 +3294,23 @@ public class CyderMain {
                         Path copyPath = new File(addFile.getAbsolutePath()).toPath();
 
                         if (addFile != null && addFile.getName().endsWith(".png")) {
-                            File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Backgrounds/" + addFile.getName());
+                            File Destination = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds/" + addFile.getName());
                             Files.copy(copyPath, Destination.toPath());
                             initMusicBackgroundList();
                             musicBackgroundScroll.setViewportView(componentsList);
                             musicBackgroundScroll.revalidate();
                             musicBackgroundScroll.repaint();
                         } else if (addFile != null && addFile.getName().endsWith(".mp3")) {
-                            File Destination = new File("users/" + ConsoleFrame.getUUID() + "/Music/" + addFile.getName());
+                            File Destination = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" + addFile.getName());
                             Files.copy(copyPath, Destination.toPath());
                             initMusicBackgroundList();
                             musicBackgroundScroll.setViewportView(componentsList);
                             musicBackgroundScroll.revalidate();
                         } else {
-                            editUserFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but you can only add PNGs and MP3s", "Error");
+                            editUserFrame.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you can only add PNGs and MP3s", "Error");
                         }
 
-                        ConsoleFrame.resizeBackgrounds();
+                        ConsoleFrame.getConsoleFrame().resizeBackgrounds();
 
                       } catch (Exception ex) {
                           ErrorHandler.handle(ex);
@@ -3429,7 +3432,7 @@ public class CyderMain {
                         }
                     }
 
-                    if (ClickedSelection.equalsIgnoreCase(ConsoleFrame.getCurrentBackgroundFile().getName().replace(".png", "")))
+                    if (ClickedSelection.equalsIgnoreCase(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getName().replace(".png", "")))
                         editUserFrame.inform("Unable to delete the background you are currently using", "Error");
 
                     else {
@@ -3443,10 +3446,10 @@ public class CyderMain {
                         else if (ClickedSelection.endsWith(".png")) {
                             println("Background: " + ClickedSelectionPath.getName().replace(".png", "") + " successfully deleted.");
 
-                            LinkedList<File> paths = ConsoleFrame.getBackgrounds();
+                            LinkedList<File> paths = ConsoleFrame.getConsoleFrame().getBackgrounds();
                             for (int i = 0; i < paths.size(); i++) {
-                                if (paths.get(i).equals(ConsoleFrame.getCurrentBackgroundFile())) {
-                                    ConsoleFrame.setBackgroundIndex(i);
+                                if (paths.get(i).equals(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
+                                    ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
                                     break;
                                 }
                             }

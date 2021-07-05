@@ -50,7 +50,7 @@ public class ThumbnailStealer {
                     String thumbnailURL = "https://img.youtube.com/vi/" + inputField.getText().trim() + "/maxresdefault.jpg";
                     try {
                         BufferedImage save = ImageIO.read(new URL(thumbnailURL));
-                        File saveFile = new File("users/" + ConsoleFrame.getUUID()
+                        File saveFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID()
                                 + "/Backgrounds/" +inputField.getText().trim() + ".png");
                         ImageIO.write(save, "png", saveFile);
                         thumbnailFrame.notify("Successfully saved as a background file." +

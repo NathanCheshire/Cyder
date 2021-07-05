@@ -101,7 +101,7 @@ public class YouTubeThumbnail {
         String YouTubeID = yttnField.getText();
 
         if (YouTubeID.length() < 11)
-            yttnFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not a valid YouTube video ID.","Invalid");
+            yttnFrame.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that's not a valid YouTube video ID.","Invalid");
 
         else {
             String YouTubeURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
@@ -134,7 +134,7 @@ public class YouTubeThumbnail {
             }
 
             catch (Exception exc) {
-                yttnFrame.inform("Sorry, " + ConsoleFrame.getUsername() + ", but that's not a valid YouTube video ID.","Invalid");
+                yttnFrame.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that's not a valid YouTube video ID.","Invalid");
             }
         }
     }

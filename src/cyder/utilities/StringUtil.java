@@ -561,7 +561,7 @@ public class StringUtil {
 
                 BufferedWriter sugWriter = new BufferedWriter(new FileWriter(suggestionsFile, true));
 
-                sugWriter.write("User " + ConsoleFrame.getUsername() + " at " + new TimeUtil().weatherTime() + " made the suggestion: ");
+                sugWriter.write("User " + ConsoleFrame.getConsoleFrame().getUsername() + " at " + new TimeUtil().weatherTime() + " made the suggestion: ");
                 sugWriter.write(System.getProperty("line.separator"));
 
                 sugWriter.write(input);

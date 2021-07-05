@@ -488,7 +488,7 @@ public class AnimationUtil {
             if (width < 600)
                 throw new FatalException("Background dimensions below 600x600 " +
                         "are not allowed and shouln't be possible; allow me to fix that");
-            ConsoleFrame.resizeBackgrounds();
+            ConsoleFrame.getConsoleFrame().resizeBackgrounds();
 
             double animationLen = 500; //ideally we want the animation to last 1000ms
             double increment = animationLen / width; //delay must be an int so if this is less than 1, problem
