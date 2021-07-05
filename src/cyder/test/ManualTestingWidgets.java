@@ -113,4 +113,21 @@ public class ManualTestingWidgets {
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(null);
     }
+
+    private static void testAskew() {
+        CyderFrame testFrame = new CyderFrame(350,300, CyderImages.defaultBackground);
+        testFrame.setTitle("Askew Test");
+
+        CyderTextField ctf = new CyderTextField(0);
+        ctf.setBounds(100,100,150,40);
+        testFrame.getContentPane().add(ctf);
+
+        CyderButton cb = new CyderButton("Askew");
+        cb.setBounds(100,200,150,40);
+        testFrame.getContentPane().add(cb);
+        cb.addActionListener(e -> testFrame.rotateBackground(Integer.parseInt(ctf.getText())));
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(null);
+    }
 }
