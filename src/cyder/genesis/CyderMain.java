@@ -72,16 +72,6 @@ public class CyderMain {
     //go away
     private String anagram;
 
-    //go away
-    private int restoreX;
-    private int restoreY;
-    private int xMouse;
-    private int yMouse;
-    private boolean slidLeft;
-    private JLabel consoleDragLabel;
-    private int consoleFrameRestoreX;
-    private int consoleFrameRestoreY;
-
     //consoleframe
     private boolean backgroundProcessCheckerStarted = false;
     private boolean drawConsoleLines = false;
