@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
@@ -2826,7 +2827,11 @@ public class CyderMain {
     }
 
     private void test() {
-        ManualTestingWidgets.testIconLabelSliding();
+        println("jalksjdfjasdkfj ajsdkfjkasjd fjsakdjfajskfjasjfakjsdfjasklfjasdjf");
+
+        CyderButton stopMusicButton = new CyderButton("Stop Audio");
+        stopMusicButton.addActionListener((e) -> IOUtil.stopMusic());
+        printlnComponent(stopMusicButton);
     }
 
     private LinkedList<Object> consolePrintingList = new LinkedList<>();
@@ -2854,9 +2859,12 @@ public class CyderMain {
                             document.insertString(document.getLength(), (String) line, null);
                             outputArea.setCaretPosition(outputArea.getDocument().getLength());
                         } else if (line instanceof JComponent) {
-                            new StringUtil(outputArea).printComponent((Component) line);
+                            String componentUUID = SecurityUtil.generateUUID();
+                            Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
+                            StyleConstants.setComponent(cs, (Component) line);
+                            outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
                         } else if (line instanceof ImageIcon) {
-                            printlnImage((ImageIcon) line);
+                            outputArea.insertIcon((ImageIcon) line);
                         } else {
                             println("[UNKNOWN OBJECT]: " + line);
                         }
@@ -2873,9 +2881,12 @@ public class CyderMain {
                                 Thread.sleep(charTimeout);
                             }
                         } else if (line instanceof JComponent) {
-                            new StringUtil(outputArea).printComponent((Component) line);
+                            String componentUUID = SecurityUtil.generateUUID();
+                            Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
+                            StyleConstants.setComponent(cs, (Component) line);
+                            outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
                         } else if (line instanceof ImageIcon) {
-                            printlnImage((ImageIcon) line);
+                            outputArea.insertIcon((ImageIcon) line);
                         } else {
                             println("[UNKNOWN OBJECT]: " + line);
                         }
@@ -2918,27 +2929,36 @@ public class CyderMain {
 
     //handler method
     private void printlnImage(ImageIcon icon) {
-        consolePriorityPrintingList.add(icon);
-        consolePriorityPrintingList.add("\n");
+        consolePrintingList.add(icon);
+        consolePrintingList.add("\n");
 
         if (MasterYoutube.isActive() || BletchyThread.isActive())
-            consolePriorityPrintingList.add("\n");
+            consolePrintingList.add("\n");
     }
 
     //handler method
     public void printImage(ImageIcon icon) {
-        consolePriorityPrintingList.add(icon);
+        consolePrintingList.add(icon);
     }
 
     //handler method
     private void printlnImage(String filename) {
-        consolePriorityPrintingList.add(new ImageIcon(filename));
-        consolePriorityPrintingList.add("\n");
+        consolePrintingList.add(new ImageIcon(filename));
+        consolePrintingList.add("\n");
     }
 
     //handler method
     public void printImage(String filename) {
-        consolePriorityPrintingList.add(new ImageIcon(filename));
+        consolePrintingList.add(new ImageIcon(filename));
+    }
+
+    public void printlnComponent(Component c) {
+        consolePrintingList.add(c);
+        consolePrintingList.add("\n");
+    }
+
+    public void printComponent(Component c) {
+        consolePrintingList.add(c);
     }
 
     //handler method

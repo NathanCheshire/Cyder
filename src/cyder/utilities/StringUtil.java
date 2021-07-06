@@ -786,7 +786,6 @@ public class StringUtil {
         return  word.equals(userInput) ||
                 word.contains(' ' + userInput + ' ') ||
                 word.contains(' ' + userInput) ||
-                word.contains(userInput + ' ') ||
                 word.contains(userInput + ' ');
     }
 
