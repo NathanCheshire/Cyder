@@ -91,7 +91,8 @@ public final class ConsoleFrame extends CyderFrame {
 
         try {
             consoleBashString = getUsername() + "@Cyder:~$ ";
-            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
+            lineColor = ImageUtil.getDominantColorOpposite(
+                    ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
 
             consoleFrame = new JFrame() {
                 @Override
@@ -99,32 +100,32 @@ public final class ConsoleFrame extends CyderFrame {
                     super.paint(g);
 
                     if (drawConsoleLines && !consoleLinesDrawn) {
-                        Graphics2D g2d = (Graphics2D) g;
-
-                        BufferedImage img = null;
-                        int w = 0;
-                        int h = 0;
-
                         try {
+                            Graphics2D g2d = (Graphics2D) g;
+
+                            BufferedImage img = null;
+                            int w = 0;
+                            int h = 0;
+
                             img = ImageUtil.resizeImage(25,25,ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile());
                             w = img.getWidth(null);
                             h = img.getHeight(null);
 
+                            g2d.setPaint(lineColor);
+                            int strokeThickness = 4;
+                            g2d.setStroke(new BasicStroke(strokeThickness));
+
+                            g2d.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
+                            g2d.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
+
+                            if (img != null) {
+                                g2d.drawImage(img, getWidth() / 2 - w / 2, getHeight() / 2 - h / 2, null);
+                            }
+
+                            consoleLinesDrawn = true;
                         } catch (Exception e) {
                             ErrorHandler.handle(e);
                         }
-
-                        g2d.setPaint(lineColor);
-                        int strokeThickness = 4;
-                        g2d.setStroke(new BasicStroke(strokeThickness));
-
-                        g2d.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
-                        g2d.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
-
-                        if (img != null)
-                            g2d.drawImage(img, getWidth() / 2 - w / 2, getHeight() / 2 - h / 2, null);
-
-                        consoleLinesDrawn = true;
                     }
                 }
             };
@@ -548,6 +549,7 @@ public final class ConsoleFrame extends CyderFrame {
                 }
             });
 
+            //this turns into setting a center title
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
             consoleClockLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
             consoleClockLabel.setForeground(CyderColors.vanila);
@@ -579,24 +581,20 @@ public final class ConsoleFrame extends CyderFrame {
                     new CyderThreadFactory("Hourly Chime Checker")).scheduleAtFixedRate(() -> {
                 if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
                     IOUtil.playAudio("sys/audio/chime.mp3", outputArea, false);
-            }, 3600 - LocalDateTime.now().getSecond() - LocalDateTime.now().getMinute() * 60, 3600, SECONDS);
+            }, 3600 - LocalDateTime.now().getMinute() * 60 - LocalDateTime.now().getSecond(), 3600, SECONDS);
 
             parentLabel.add(consoleDragLabel);
 
+            //todo restore positions are already done in DragLabel,
+            // we just need to handle thread/executor stuff for optimization purposes
             consoleFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowDeiconified(WindowEvent e) {
                     updateConsoleClock = true;
-                    consoleFrame.setLocation(restoreX, restoreY);
                 }
-            });
-
-            consoleFrame.addWindowListener(new WindowAdapter() {
                 @Override
-                public void windowDeiconified(WindowEvent e) {
+                public void windowIconified(WindowEvent e) {
                     updateConsoleClock = false;
-                    restoreX = consoleFrame.getX();
-                    restoreY = consoleFrame.getY();
                 }
             });
 
@@ -670,14 +668,13 @@ public final class ConsoleFrame extends CyderFrame {
             //network connection checker
             Executors.newSingleThreadScheduledExecutor(
                     new CyderThreadFactory("Stable Network Connection Checker")).scheduleAtFixedRate(() -> {
-                if (!NetworkUtil.internetReachable()) {
+                        //update console clock tells us if we're iconified or not
+                if (!NetworkUtil.internetReachable() && updateConsoleClock) {
                     notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
                             ", but I had trouble connecting to the internet.\n" +
                             "As a result, some features may not work properly.");
                 }
             }, 0, 5, MINUTES);
-
-
             consoleClockLabel.setVisible(updateConsoleClock);
 
             //todo executors should be started once from main and not from console() method
@@ -702,6 +699,9 @@ public final class ConsoleFrame extends CyderFrame {
 
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
 
+            //after frame construction is complete and we've animated the entry of the frame----------------------------
+
+            //preference handlers here
             if (IOUtil.getUserData("DebugWindows").equals("1")) {
                 StatUtil.systemProperties();
                 StatUtil.computerProperties();
@@ -709,17 +709,18 @@ public final class ConsoleFrame extends CyderFrame {
                 StatUtil.debugMenu(outputArea);
             }
 
-            //stay but maybe relocate? auto test in debug mode
+            //Auto test in upon start debug mode
             if (SecurityUtil.nathanLenovo()) {
                 //todo handle("test"); for the linked input handler
             }
 
-            long time = System.currentTimeMillis() - Long.parseLong(IOUtil.getUserData("laststart"));
-            IOUtil.writeUserData("laststart",System.currentTimeMillis() + "");
-
-            if (TimeUtil.milisToDays(time) > 1) {
-                notify("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "! Did you miss me?");
+            //last start time operations
+            if (TimeUtil.milisToDays(System.currentTimeMillis() -
+                    Long.parseLong(IOUtil.getUserData("laststart"))) > 1) {
+                notify("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "!");
             }
+
+            IOUtil.writeUserData("laststart",System.currentTimeMillis() + "");
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -729,8 +730,12 @@ public final class ConsoleFrame extends CyderFrame {
     public void repaint() {
         super.repaint();
 
-        //todo reset all bounds of console elements and take into account possible
-        // fullscreen set and rotation set
+        //todo fullscreen/rotation ops
+
+        //input field bounds
+        //output area bounds
+        //suggestion button bounds
+        //menu button bounds
     }
 
     @Override
@@ -787,7 +792,7 @@ public final class ConsoleFrame extends CyderFrame {
      *                  font style. You may pass combinations of font
      *                  styling using the addition operator
      */
-    public void setFontStyle(int combStyle) {
+    public void setFontMetric(int combStyle) {
         fontMetric = combStyle;
     }
 
@@ -871,11 +876,7 @@ public final class ConsoleFrame extends CyderFrame {
                     backgroundHeight = (int) (backgroundHeight * (aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio));
                 }
 
-                //if the background width is a prime number then do some math
-                if (NumberUtil.isPrime(backgroundWidth)) {
-                    backgroundWidth = currentImage.getWidth() + ((int) aspectRatio * 5);
-                    backgroundHeight = currentImage.getHeight() + ((int) aspectRatio * 5);
-                }
+                //todo test background switching with prime number width/height
 
                 //save the modified image
                 BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, backgroundWidth, backgroundHeight);
@@ -941,7 +942,7 @@ public final class ConsoleFrame extends CyderFrame {
         backgroundIndex -= 1;
     }
 
-    private static File backgroundFile;
+    private File backgroundFile;
 
     public File getCurrentBackgroundFile() {
         backgroundFile = backgroundFiles.get(backgroundIndex);
@@ -995,8 +996,11 @@ public final class ConsoleFrame extends CyderFrame {
 
     private Direction lastSlideDirection = Direction.TOP;
 
-    //todo make the frame and drag label stay when switching backgrounds and the image be separate (inside of consoleframe class)
-    // you kind of did this in login with the sliding text, then notification will not go over it and only the background will slide
+    //todo make the frame and drag label stay when switching backgrounds
+    // and the image be separate (inside of consoleframe class)
+
+    //todo: you kind of did this in login with the sliding text, then notification
+    // will not go over it and only the background will slide
     // to do this, just have a backgroundLabel that you can slide in and out
 
     //todo make changing background animation no more than one second (so redo the method to calculate step)
