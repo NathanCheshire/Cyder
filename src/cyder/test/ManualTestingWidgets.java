@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderCheckBox;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
 import cyder.utilities.ImageUtil;
@@ -12,7 +13,7 @@ import javax.swing.*;
 
 public class ManualTestingWidgets {
     //this was used on 7-1-21 to verify adding/removing buttons to/from drag labels
-    public static void addingAndRemovingDragLabelButtonsTest() {
+    public static void AddingAndRemovingDragLabelButtonsTest() {
         CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
         testFrame.setTitle("Test Frame");
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -44,7 +45,7 @@ public class ManualTestingWidgets {
         testFrame.setLocationRelativeTo(null);
     }
 
-    public static void testButtonAndTitlePositions() {
+    public static void ButtonAndTitlePositionsTest() {
         CyderFrame testFrame = new CyderFrame(600, 400, CyderImages.defaultBackground);
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         testFrame.setTitle("Testing Title");
@@ -80,7 +81,7 @@ public class ManualTestingWidgets {
         testFrame.setLocationRelativeTo(null);
     }
 
-    public static void testNotifications() {
+    public static void NotificationsTest() {
         CyderFrame testFrame = new CyderFrame(350,350,CyderImages.defaultBackground);
         testFrame.setTitle("Notification Test");
 
@@ -116,7 +117,7 @@ public class ManualTestingWidgets {
         testFrame.setLocationRelativeTo(null);
     }
 
-    public static void testAskew() {
+    public static void AskewTest() {
         CyderFrame testFrame = new CyderFrame(350,300, CyderImages.defaultBackground);
         testFrame.setTitle("Askew Test");
 
@@ -133,7 +134,7 @@ public class ManualTestingWidgets {
         testFrame.setLocationRelativeTo(null);
     }
 
-    public static void testIconLabelSliding() {
+    public static void IconLabelSlidingTest() {
         CyderFrame testFrame = new CyderFrame(600,600,
                 new ImageIcon(ImageUtil.getImageGradient(600,1200,
                         CyderColors.selectionColor, CyderColors.intellijPink, CyderColors.regularBlue)));
@@ -215,6 +216,24 @@ public class ManualTestingWidgets {
             }
         }).start());
         testFrame.getContentPane().add(slideRight);
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(null);
+    }
+
+    public static void CheckboxTest() {
+        CyderFrame testFrame = new CyderFrame(400,400, CyderImages.defaultBackground);
+        testFrame.setTitle("Checkbox Test");
+
+        CyderCheckBox cb = new CyderCheckBox();
+        cb.setBounds(175,150,50, 50);
+        cb.setRoundedCorners(true);
+        testFrame.getContentPane().add(cb);
+
+        CyderCheckBox cb1 = new CyderCheckBox();
+        cb1.setBounds(175,225,50, 50);
+        cb1.setRoundedCorners(false);
+        testFrame.getContentPane().add(cb1);
 
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(null);
