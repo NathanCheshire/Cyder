@@ -135,9 +135,10 @@ public class ManualTestingWidgets {
     }
 
     public static void IconLabelSlidingTest() {
-        CyderFrame testFrame = new CyderFrame(600,600,
-                new ImageIcon(ImageUtil.getImageGradient(600,1200,
-                        CyderColors.selectionColor, CyderColors.intellijPink, CyderColors.regularBlue)));
+        ImageIcon theImage =  new ImageIcon(ImageUtil.getImageGradient(600,1200,
+                CyderColors.intellijPink, CyderColors.regularBlue, CyderColors.regularBlue));
+
+        CyderFrame testFrame = new CyderFrame(600,600, theImage);
         testFrame.setTitle("Sliding test");
         testFrame.initializeResizing();
         testFrame.setResizable(true);
@@ -145,12 +146,12 @@ public class ManualTestingWidgets {
         CyderButton slideUp = new CyderButton("UP");
         slideUp.setBounds(225,150,150,40);
         slideUp.addActionListener(e -> new Thread(() -> {
-            //this up action is proving we can slide up a w, h*2 image to give an animation effect
-            testFrame.getContentPane().setSize(testFrame.getContentPane().getWidth(),
-                    testFrame.getContentPane().getHeight() * 2);
+            testFrame.getContentPane().setSize(600, 1200);
+            ((JLabel) testFrame.getContentPane()).setIcon(theImage);
+
             try {
                 int x = testFrame.getContentPane().getX();
-                for (int i = 0 ; i > -testFrame.getHeight() ; i--) {
+                for (int i = testFrame.getContentPane().getY() ; i > -testFrame.getHeight() ; i--) {
                     testFrame.getContentPane().setLocation(x,i);
                     Thread.sleep(1);
                 }

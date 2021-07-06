@@ -17,4 +17,5 @@ public class CyderColors {
     public static final Color defaultColor = new Color(252, 252, 252);
     public static final Color tttblue = new Color(71, 81, 117);
     public static final Color navy = new Color(26, 32, 51);
+    public static final Color nul = new Color(0,0,0,0);
 }

@@ -17,8 +17,6 @@ public class InputHandler {
 
     //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
 
-    //todo askew is broken when successive calls, making a testing widget for this
-
     //todo implement mapping links, you'll need to change how user data is stored
     // make an issue for this and finally switching to binary writing
 

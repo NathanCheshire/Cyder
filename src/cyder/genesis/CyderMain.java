@@ -841,7 +841,6 @@ public class CyderMain {
                 }
             }, 0, 5, MINUTES);
 
-
             consoleClockLabel.setVisible(updateConsoleClock);
 
             //todo executors should be started once from main and not from console() method
@@ -867,7 +866,7 @@ public class CyderMain {
                 StatUtil.systemProperties();
                 StatUtil.computerProperties();
                 StatUtil.javaProperties();
-                StatUtil.debugMenu(outputArea);
+                StatUtil.debugMenu(outputArea); //todo send this the string util so that it puts it in the queue
             }
 
             //stay but maybe relocate? auto test in debug mode
@@ -1797,10 +1796,6 @@ public class CyderMain {
                 refreshConsoleFrame();
 
                 //todo set consoleframe location relative to it's old position
-                //set new frame relative to old frame
-                //we need to get bounds and location of old frame, determine it's center
-                //find the center of the new image
-                //and align that center with the old center using math
 
                 //based on last slide direction
                 if (slidLeft) {
@@ -2467,6 +2462,7 @@ public class CyderMain {
                 stringUtil.setUserInputMode(true);
 
             } else if (eic("controlc") && !outputArea.isFocusOwner()) {
+                //todo method in console frame for this
                 //exit user input mode if in it
                 stringUtil.setUserInputMode(false);
                 //kill youtube threads
@@ -2827,13 +2823,11 @@ public class CyderMain {
     }
 
     private void test() {
-        println("jalksjdfjasdkfj ajsdkfjkasjd fjsakdjfajskfjasjfakjsdfjasklfjasdjf");
-
-        CyderButton stopMusicButton = new CyderButton("Stop Audio");
-        stopMusicButton.addActionListener((e) -> IOUtil.stopMusic());
-        printlnComponent(stopMusicButton);
+        ManualTestingWidgets.IconLabelSlidingTest();
     }
 
+    //don't ever add to these lists, call the respective print functions and let them
+    // handle adding them to the lists
     private LinkedList<Object> consolePrintingList = new LinkedList<>();
     private LinkedList<Object> consolePriorityPrintingList = new LinkedList<>();
 
