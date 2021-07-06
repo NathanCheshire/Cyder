@@ -12,6 +12,7 @@ import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
 import cyder.obj.Preference;
+import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.MasterYoutube;
@@ -2825,89 +2826,11 @@ public class CyderMain {
     }
 
     private void test() {
-        CyderFrame testFrame = new CyderFrame(600,600,
-                new ImageIcon(ImageUtil.getImageGradient(600,600,
-                CyderColors.regularRed, CyderColors.regularRed.darker(), CyderColors.regularBlue)));
-        testFrame.setTitle("Sliding test");
-
-        CyderButton slideUp = new CyderButton("UP");
-        slideUp.setBounds(225,150,150,40);
-        slideUp.addActionListener(e -> new Thread(() -> {
-            try {
-                int x = testFrame.getContentPane().getX();
-                for (int i = 0 ; i > -testFrame.getHeight() ; i--) {
-                    testFrame.getContentPane().setLocation(x,i);
-                    Thread.sleep(1);
-                }
-                testFrame.getContentPane().setLocation(0,0);
-                testFrame.refreshBackground();
-                testFrame.getContentPane().revalidate();
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
-        }).start());
-        testFrame.getContentPane().add(slideUp);
-
-        CyderButton slideLeft = new CyderButton("LEFT");
-        slideLeft.setBounds(225,200,150,40);
-        slideLeft.addActionListener(e -> new Thread(() -> {
-            try {
-                int y = testFrame.getContentPane().getY();
-                for (int i = 0 ; i > -testFrame.getWidth() ; i--) {
-                    testFrame.getContentPane().setLocation(i,y);
-                    Thread.sleep(1);
-                }
-                testFrame.getContentPane().setLocation(0,0);
-                testFrame.refreshBackground();
-                testFrame.getContentPane().revalidate();
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
-        }).start());
-        testFrame.getContentPane().add(slideLeft);
-
-        CyderButton slideDown = new CyderButton("DOWN");
-        slideDown.setBounds(225,250,150,40);
-        slideDown.addActionListener(e -> new Thread(() -> {
-            try {
-                int x = testFrame.getContentPane().getX();
-                for (int i = 0 ; i < testFrame.getHeight() ; i++) {
-                    testFrame.getContentPane().setLocation(x,i);
-                    Thread.sleep(1);
-                }
-                testFrame.getContentPane().setLocation(0,0);
-                testFrame.refreshBackground();
-                testFrame.getContentPane().revalidate();
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
-        }).start());
-        testFrame.getContentPane().add(slideDown);
-
-        CyderButton slideRight = new CyderButton("RIGHT");
-        slideRight.setBounds(225,300,150,40);
-        slideRight.addActionListener(e -> new Thread(() -> {
-            try {
-                int y = testFrame.getContentPane().getY();
-                for (int i = 0 ; i < testFrame.getWidth() ; i++) {
-                    testFrame.getContentPane().setLocation(i,y);
-                    Thread.sleep(1);
-                }
-                testFrame.getContentPane().setLocation(0,0);
-                testFrame.refreshBackground();
-                testFrame.getContentPane().revalidate();
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
-        }).start());
-        testFrame.getContentPane().add(slideRight);
-
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(null);
+        ManualTestingWidgets.testIconLabelSliding();
     }
 
-    private LinkedList<String> consolePrintingList = new LinkedList<>();
-    private LinkedList<String> consolePriorityPrintingList = new LinkedList<>();
+    private LinkedList<Object> consolePrintingList = new LinkedList<>();
+    private LinkedList<Object> consolePriorityPrintingList = new LinkedList<>();
 
     //console printing animation currently turned off do to concurrency issues such as
     // bletchy, youtube thread, and drawing pictures and such, maybe we just throw everything no matter
@@ -2922,18 +2845,40 @@ public class CyderMain {
         new Thread(() -> {
             try {
                 while (consoleFrame != null) {
+                    //priority simply appends to the console
                     if (consolePriorityPrintingList.size() > 0) {
-                        String line = consolePriorityPrintingList.removeFirst();
+                        Object line = consolePriorityPrintingList.removeFirst();
 
-                        StyledDocument document = (StyledDocument) outputArea.getDocument();
-                        document.insertString(document.getLength(), line, null);
-                        outputArea.setCaretPosition(outputArea.getDocument().getLength());
-                    } else if (consolePrintingList.size() > 0){
-                        String line = consolePrintingList.removeFirst();
+                        if (line instanceof String) {
+                            StyledDocument document = (StyledDocument) outputArea.getDocument();
+                            document.insertString(document.getLength(), (String) line, null);
+                            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                        } else if (line instanceof JComponent) {
+                            new StringUtil(outputArea).printComponent((Component) line);
+                        } else if (line instanceof ImageIcon) {
+                            printlnImage((ImageIcon) line);
+                        } else {
+                            println("[UNKNOWN OBJECT]: " + line);
+                        }
+                    }
+                    //regular will perform a typing animation on strings if no method
+                    // is currently running, such as RY or Bletchy, that would cause
+                    // concurrency issues
+                    else if (consolePrintingList.size() > 0){
+                        Object line = consolePrintingList.removeFirst();
 
-                        StyledDocument document = (StyledDocument) outputArea.getDocument();
-                        document.insertString(document.getLength(), line, null);
-                        outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                        if (line instanceof String) {
+                            for (char c : ((String) line).toCharArray()) {
+                                innerConsolePrint(c);
+                                Thread.sleep(charTimeout);
+                            }
+                        } else if (line instanceof JComponent) {
+                            new StringUtil(outputArea).printComponent((Component) line);
+                        } else if (line instanceof ImageIcon) {
+                            printlnImage((ImageIcon) line);
+                        } else {
+                            println("[UNKNOWN OBJECT]: " + line);
+                        }
                     }
 
                     Thread.sleep(lineTimeout);
@@ -2942,6 +2887,23 @@ public class CyderMain {
                 ErrorHandler.handle(e);
             }
         }, "Console Printing Animation").start();
+    }
+
+    //todo use a semaphore in genesis share for printing to help with
+    // bletchy and remove last line and such concurrency issues
+
+    private void innerConsolePrint(char c) {
+        try {
+            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            document.insertString(document.getLength(), String.valueOf(c), null);
+            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    private boolean concurrencyIssues() {
+        return MasterYoutube.isActive() || BletchyThread.isActive();
     }
 
     private void consleAppendChar(char c) {
@@ -2955,8 +2917,8 @@ public class CyderMain {
     }
 
     //handler method
-    private void printlnImage(String filename) {
-        outputArea.insertIcon(new ImageIcon(filename));
+    private void printlnImage(ImageIcon icon) {
+        consolePriorityPrintingList.add(icon);
         consolePriorityPrintingList.add("\n");
 
         if (MasterYoutube.isActive() || BletchyThread.isActive())
@@ -2964,14 +2926,24 @@ public class CyderMain {
     }
 
     //handler method
-    public static void printImage(String filename) {
-        outputArea.insertIcon(new ImageIcon(filename));
+    public void printImage(ImageIcon icon) {
+        consolePriorityPrintingList.add(icon);
+    }
+
+    //handler method
+    private void printlnImage(String filename) {
+        consolePriorityPrintingList.add(new ImageIcon(filename));
+        consolePriorityPrintingList.add("\n");
+    }
+
+    //handler method
+    public void printImage(String filename) {
+        consolePriorityPrintingList.add(new ImageIcon(filename));
     }
 
     //handler method
     private void print(String usage) {
-        //todo make a method to check if something that would cause a concurrency issue is ongoing
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (concurrencyIssues())
             consolePriorityPrintingList.add(usage);
         else
             consolePrintingList.add(usage);
@@ -2979,7 +2951,7 @@ public class CyderMain {
 
     //handler method
     private void print(int usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (concurrencyIssues())
             consolePriorityPrintingList.add(Integer.toString(usage));
         else
             consolePrintingList.add(Integer.toString(usage));
@@ -2987,7 +2959,7 @@ public class CyderMain {
 
     //handler method
     private void print(double usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (concurrencyIssues())
             consolePriorityPrintingList.add(Double.toString(usage));
         else
             consolePrintingList.add(Double.toString(usage));
@@ -2995,7 +2967,7 @@ public class CyderMain {
 
     //handler method
     private void print(boolean usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (concurrencyIssues())
             consolePriorityPrintingList.add(Boolean.toString(usage));
         else
             consolePrintingList.add(Boolean.toString(usage));
@@ -3003,7 +2975,7 @@ public class CyderMain {
 
     //handler method
     private void print(float usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (concurrencyIssues())
             consolePriorityPrintingList.add(Float.toString(usage));
         else
             consolePrintingList.add(Float.toString(usage));
@@ -3011,7 +2983,7 @@ public class CyderMain {
 
     //handler method
     private void print(long usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (concurrencyIssues())
             consolePriorityPrintingList.add(Long.toString(usage));
         else
             consolePrintingList.add(Long.toString(usage));
@@ -3019,7 +2991,7 @@ public class CyderMain {
 
     //handler method
     private void print(char usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (concurrencyIssues())
             consolePriorityPrintingList.add(String.valueOf(usage));
         else
             consolePrintingList.add(String.valueOf(usage));
@@ -3027,7 +2999,7 @@ public class CyderMain {
 
     //handler method
     private void print(Object usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (concurrencyIssues())
             consolePriorityPrintingList.add(usage.toString());
         else
             consolePrintingList.add(usage.toString());

@@ -1,10 +1,12 @@
 package cyder.test;
 
+import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
+import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 
@@ -114,7 +116,7 @@ public class ManualTestingWidgets {
         testFrame.setLocationRelativeTo(null);
     }
 
-    private static void testAskew() {
+    public static void testAskew() {
         CyderFrame testFrame = new CyderFrame(350,300, CyderImages.defaultBackground);
         testFrame.setTitle("Askew Test");
 
@@ -126,6 +128,93 @@ public class ManualTestingWidgets {
         cb.setBounds(100,200,150,40);
         testFrame.getContentPane().add(cb);
         cb.addActionListener(e -> testFrame.rotateBackground(Integer.parseInt(ctf.getText())));
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(null);
+    }
+
+    public static void testIconLabelSliding() {
+        CyderFrame testFrame = new CyderFrame(600,600,
+                new ImageIcon(ImageUtil.getImageGradient(600,1200,
+                        CyderColors.selectionColor, CyderColors.intellijPink, CyderColors.regularBlue)));
+        testFrame.setTitle("Sliding test");
+        testFrame.initializeResizing();
+        testFrame.setResizable(true);
+
+        CyderButton slideUp = new CyderButton("UP");
+        slideUp.setBounds(225,150,150,40);
+        slideUp.addActionListener(e -> new Thread(() -> {
+            //this up action is proving we can slide up a w, h*2 image to give an animation effect
+            testFrame.getContentPane().setSize(testFrame.getContentPane().getWidth(),
+                    testFrame.getContentPane().getHeight() * 2);
+            try {
+                int x = testFrame.getContentPane().getX();
+                for (int i = 0 ; i > -testFrame.getHeight() ; i--) {
+                    testFrame.getContentPane().setLocation(x,i);
+                    Thread.sleep(1);
+                }
+                testFrame.getContentPane().setLocation(0,0);
+                testFrame.refreshBackground();
+                testFrame.getContentPane().revalidate();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }).start());
+        testFrame.getContentPane().add(slideUp);
+
+        CyderButton slideLeft = new CyderButton("LEFT");
+        slideLeft.setBounds(225,200,150,40);
+        slideLeft.addActionListener(e -> new Thread(() -> {
+            try {
+                int y = testFrame.getContentPane().getY();
+                for (int i = 0 ; i > -testFrame.getWidth() ; i--) {
+                    testFrame.getContentPane().setLocation(i,y);
+                    Thread.sleep(1);
+                }
+                testFrame.getContentPane().setLocation(0,0);
+                testFrame.refreshBackground();
+                testFrame.getContentPane().revalidate();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }).start());
+        testFrame.getContentPane().add(slideLeft);
+
+        CyderButton slideDown = new CyderButton("DOWN");
+        slideDown.setBounds(225,250,150,40);
+        slideDown.addActionListener(e -> new Thread(() -> {
+            try {
+                int x = testFrame.getContentPane().getX();
+                for (int i = 0 ; i < testFrame.getHeight() ; i++) {
+                    testFrame.getContentPane().setLocation(x,i);
+                    Thread.sleep(1);
+                }
+                testFrame.getContentPane().setLocation(0,0);
+                testFrame.refreshBackground();
+                testFrame.getContentPane().revalidate();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }).start());
+        testFrame.getContentPane().add(slideDown);
+
+        CyderButton slideRight = new CyderButton("RIGHT");
+        slideRight.setBounds(225,300,150,40);
+        slideRight.addActionListener(e -> new Thread(() -> {
+            try {
+                int y = testFrame.getContentPane().getY();
+                for (int i = 0 ; i < testFrame.getWidth() ; i++) {
+                    testFrame.getContentPane().setLocation(i,y);
+                    Thread.sleep(1);
+                }
+                testFrame.getContentPane().setLocation(0,0);
+                testFrame.refreshBackground();
+                testFrame.getContentPane().revalidate();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }).start());
+        testFrame.getContentPane().add(slideRight);
 
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(null);
