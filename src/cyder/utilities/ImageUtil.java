@@ -299,7 +299,7 @@ public class ImageUtil {
 
     public static void drawImageIcon(ImageIcon icon) {
         CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight(), icon);
-        frame.setTitle(icon.getDescription());
+        frame.setTitle(icon.getDescription() == null || icon.getDescription().length() == 0 ? "" : icon.getDescription());
         frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

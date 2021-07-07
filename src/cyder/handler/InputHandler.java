@@ -10,6 +10,9 @@ public class InputHandler {
     // and direct the resulting flow and output
     // console frame (has-a) input handler (change of plans, don't link to a string util)
 
+    //todo bug found, on logout, should reset console dir
+    // (will be fixed with cyderframe instances holding entire cyder instance essentially)
+    //stop music and basically everything on close, (mp3 music continues)
 
     //todo correcting user data doesn't work properly, it should either work and everything be there,
     // or correct it so that everything is there, or corrupted the user and wrap the data, nothing else!

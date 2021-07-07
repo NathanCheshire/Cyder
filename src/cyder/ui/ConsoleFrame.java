@@ -22,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.*;
@@ -39,32 +40,47 @@ public final class ConsoleFrame {
 
     private ConsoleFrame() {} //no instantiation this way
 
-    /**
-     * Assuming uuid has been set, this will launch the whole of the program.
-     * Main class is used for user auth then calls ConsoleFrame so under current program structure,
-     * only one instance of console frame should ever exist.
-     */
+    //program driver
+    private String UUID;
+    private CyderFrame consoleCyderFrame;
 
+    //ui elements
     private CyderScrollPane outputScroll;
     public static JTextPane outputArea;
     private JPasswordField inputField;
-
     private JLabel consoleClockLabel;
     private JLabel menuLabel;
-
     private JButton suggestionButton;
     private JButton menuButton;
     private JButton alternateBackground;
 
+    //boolean vars
     private boolean menuGenerated;
-
-    private String consoleBashString;
-
     private boolean drawConsoleLines = false;
     private boolean consoleLinesDrawn = false;
+    private boolean fullscreen = false;
+
+    //background vars
+    private LinkedList<File> backgroundFiles;
+    private int backgroundIndex;
+    private File backgroundFile;
+    private ImageIcon backgroundImageIcon;
+
+    //string and font vars
+    private String consoleBashString;
+    private int fontMetric = Font.BOLD;
+    private int fontSize = 30;
+
+    //debug vars
     private Color lineColor = Color.white;
 
-    private CyderFrame consoleCyderFrame;
+    //command scrolling
+    public static ArrayList<String> operationList = new ArrayList<>();
+    private static int scrollingIndex;
+
+    //directional enums
+    private Direction lastSlideDirection = Direction.TOP;
+    private Direction consoleDir = Direction.TOP;
 
     public void start() {
         if (consoleCyderFrame != null)
@@ -74,9 +90,14 @@ public final class ConsoleFrame {
         initBackgrounds();
 
         try {
-            //set line color and bash string
+            //set variables
             consoleBashString = getUsername() + "@Cyder:~$ ";
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
+            lastSlideDirection = Direction.TOP;
+            consoleDir = Direction.TOP;
+            operationList.clear();
+            scrollingIndex = 0;
+            fullscreen = false;
 
             //handle random background by setting a random background index
             if (IOUtil.getUserData("RandomBackground").equals("1")) {
@@ -98,7 +119,7 @@ public final class ConsoleFrame {
                 w = (int) SystemUtil.getScreenSize().getWidth();
                 h = (int) SystemUtil.getScreenSize().getHeight();
                 usage = new ImageIcon(ImageUtil.resizeImage(w,h,getCurrentBackgroundFile()));
-
+                fullscreen = true;
             } else {
                 w = getCurrentBackgroundImageIcon().getIconWidth();
                 h = getCurrentBackgroundImageIcon().getIconHeight();
@@ -147,6 +168,24 @@ public final class ConsoleFrame {
                     super.setBounds(x,y,w,h);
                     consoleLinesDrawn = false;
                     drawConsoleLines = false;
+                }
+
+                @Override
+                public void repaint() {
+                    //todo take into account console dir and full screen and reset positions based off of this
+                    super.repaint();
+                    System.out.println("Console dir: " + getConsoleDirection());
+                    System.out.println("Fullscreen: " + fullscreen);
+
+                    //todo setting frame size
+                    //todo setting console clock bounds
+                    //todo setting menu button and suggestion button bounds
+                    //todo input field bounds
+                    //todo output area bounds
+
+                    //shouldn't a lot of this just work since it's like a resize event as if
+                    // the user had done it? todo try just setting size and then seeing what happens and
+                    // what components need to have their bounds set
                 }
             };
 
@@ -245,17 +284,21 @@ public final class ConsoleFrame {
 
                     //direction switching
                     if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                        int pos = outputArea.getCaretPosition();
                         setConsoleDirection(Direction.BOTTOM);
-                        //todo here exitFullscreen();
+                        outputArea.setCaretPosition(pos);
                     } else if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                        int pos = outputArea.getCaretPosition();
                         setConsoleDirection(Direction.RIGHT);
-                        //todo here exitFullscreen();
+                        outputArea.setCaretPosition(pos);
                     } else if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                        int pos = outputArea.getCaretPosition();
                        setConsoleDirection(Direction.TOP);
-                        //todo here exitFullscreen();
+                        outputArea.setCaretPosition(pos);
                     } else if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                        int pos = outputArea.getCaretPosition();
                         setConsoleDirection(Direction.LEFT);
-                        //todo here exitFullscreen();
+                        outputArea.setCaretPosition(pos);
                     }
                 }
 
@@ -436,14 +479,15 @@ public final class ConsoleFrame {
                     try {
                         lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
 
-                        if (ConsoleFrame.getConsoleFrame().canSwitchBackground() && ConsoleFrame.getConsoleFrame().getBackgrounds().size() > 1) {
-                            ConsoleFrame.getConsoleFrame().incBackgroundIndex();
+                        if (canSwitchBackground() && getBackgrounds().size() > 1) {
+                            incBackgroundIndex();
                             switchBackground();
-                        } else if (ConsoleFrame.getConsoleFrame().onLastBackground() && ConsoleFrame.getConsoleFrame().getBackgrounds().size() > 1) {
-                            ConsoleFrame.getConsoleFrame().setBackgroundIndex(0);
+                        } else if (onLastBackground() && getBackgrounds().size() > 1) {
+                            setBackgroundIndex(0);
                             switchBackground();
-                        } else if (ConsoleFrame.getConsoleFrame().getBackgrounds().size() == 1) {
-                            consoleCyderFrame.notify("You only have one background image. Would you like to add more? (Enter yes/no)");
+                        } else if (getBackgrounds().size() == 1) {
+                            consoleCyderFrame.notify("You only have one background image. " +
+                                    "Would you like to add more? (Enter yes/no)");
                             inputField.requestFocus();
                             //todo handler stringUtil.setUserInputMode(true);
                             //todo handler stringUtil.setUserInputDesc("addbackgrounds");
@@ -501,6 +545,7 @@ public final class ConsoleFrame {
         }
     }
 
+    //todo you need to be able to end these either way when we log out and log back in again
     private void startExecutors() {
         //internet connection checker
         Executors.newSingleThreadScheduledExecutor(
@@ -978,7 +1023,46 @@ public final class ConsoleFrame {
         }
     }
 
-    private String UUID;
+    private KeyListener commandScrolling = new KeyAdapter() {
+        @Override
+        public void keyPressed(java.awt.event.KeyEvent event) {
+            int code = event.getKeyCode();
+
+            try {
+                //command scrolling
+                if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
+                    if (code == KeyEvent.VK_DOWN) {
+                        if (scrollingIndex - 1 > -1) {
+                            scrollingIndex--;
+                            inputField.setText(consoleBashString + operationList.get(scrollingIndex));
+                        }
+
+                    } else if (code == KeyEvent.VK_UP) {
+                        if (scrollingIndex + 1 < operationList.size()) {
+                            scrollingIndex++;
+                            inputField.setText(consoleBashString + operationList.get(scrollingIndex));
+                        } else if (scrollingIndex + 1 == operationList.size()) {
+                            scrollingIndex++;
+                            inputField.setText(consoleBashString);
+                        }
+                    }
+
+                    //f17 easter egg and other acknowlegement of other function keys
+                    for (int i = 61440; i < 61452; i++) {
+                        if (code == i) {
+                            if (i - 61427 == 17) {
+                                IOUtil.playAudio("sys/audio/f17.mp3", outputArea);
+                            } else {
+                                //todo linked handler println("Interesting F" + (i - 61427) + " key");
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }
+    };
 
     /**
      * Set the UUID for this Cyder session. Everything else relies on this being set and not null.
@@ -1003,8 +1087,6 @@ public final class ConsoleFrame {
             return name;
     }
 
-    private int fontMetric = Font.BOLD;
-
     public void setFontBold() {
         fontMetric = Font.BOLD;
     }
@@ -1026,8 +1108,6 @@ public final class ConsoleFrame {
     public void setFontMetric(int combStyle) {
         fontMetric = combStyle;
     }
-
-    private int fontSize = 30;
 
     /**
      * Sets the font size for the user to be used when {@link ConsoleFrame#getUserFont()} is called.
@@ -1083,26 +1163,26 @@ public final class ConsoleFrame {
 
                 //inform the user we are changing the size of the image.
                 if (backgroundWidth > SystemUtil.getScreenWidth() || backgroundHeight > SystemUtil.getScreenHeight())
-                    GenericInform.inform("Resized the background image \"" + currentFile.getName() + "\" since it was too big.",
-                            "System Action");
+                    GenericInform.inform("Resizing the background image \"" + currentFile.getName() +
+                                    "\" since it's too big.", "System Action");
 
                 //while the image dimensions are greater than the screen dimensions,
                 // divide the image dimensions by the the aspect ratio if it will result in a smaller number
                 // if it won't then we divide by 1/aspectRatio which will result in a smaller number if the first did not
-                while (backgroundWidth > screenWidth || backgroundHeight > screenHeight) {
+                while (backgroundWidth > screenWidth * 0.70 || backgroundHeight > screenHeight * 0.70) {
                     backgroundWidth = (int) (backgroundWidth / ((aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio)));
                     backgroundHeight = (int) (backgroundHeight / ((aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio)));
                 }
 
                 //inform the user we are changing the size of the image
-                if (backgroundWidth < 600 && backgroundHeight < 600)
-                    GenericInform.inform("Resized the background image \"" + getBackgrounds().get(i).getName()
-                            + "\" since it was too small.", "System Action");
+                if (backgroundWidth < 600 || backgroundHeight < 600)
+                    GenericInform.inform("Resizing the background image \"" + getBackgrounds().get(i).getName()
+                            + "\" since it's too small.", "System Action");
 
                 //while the image dimensions are less than 800x800, multiply the image dimensions by the
                 // aspect ratio if it will result in a bigger number, if it won't, multiply it by 1.0 / aspectRatio
                 // which will result in a number greater than 1.0 if the first option failed.
-                while (backgroundWidth < 800 && backgroundHeight < 800) {
+                while (backgroundWidth < 600 || backgroundHeight < 600) {
                     backgroundWidth = (int) (backgroundWidth * (aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio));
                     backgroundHeight = (int) (backgroundHeight * (aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio));
                 }
@@ -1120,8 +1200,6 @@ public final class ConsoleFrame {
             ErrorHandler.handle(ex);
         }
     }
-
-    private LinkedList<File> backgroundFiles;
 
     public void initBackgrounds() {
         try {
@@ -1155,8 +1233,6 @@ public final class ConsoleFrame {
         return backgroundFiles;
     }
 
-    private int backgroundIndex;
-
     public int getBackgroundIndex() {
         return backgroundIndex;
     }
@@ -1173,14 +1249,10 @@ public final class ConsoleFrame {
         backgroundIndex -= 1;
     }
 
-    private File backgroundFile;
-
     public File getCurrentBackgroundFile() {
         backgroundFile = backgroundFiles.get(backgroundIndex);
         return backgroundFile;
     }
-
-    private ImageIcon backgroundImageIcon;
 
     public ImageIcon getCurrentBackgroundImageIcon() {
         try {
@@ -1225,27 +1297,13 @@ public final class ConsoleFrame {
         }
     }
 
-    private Direction lastSlideDirection = Direction.TOP;
-
-    //todo make the frame and drag label stay when switching backgrounds
-    // and the image be separate (inside of consoleframe class)
-
-    //todo: you kind of did this in login with the sliding text, then notification
-    // will not go over it and only the background will slide
-    // to do this, just have a backgroundLabel that you can slide in and out
-
-    //todo make changing background animation no more than one second (so redo the method to calculate step)
-    // make it also retain a console orientation when transitioning (both full screen or not full screen)
+    //todo make it also retain a console orientation when transitioning (both full screen or not full screen)
 
     //if this returns false then we didn't switch so we should tell the user they should add more backgrounds
     public boolean switchBackground() {
         try {
-            //if we only have one background we can't switch
-            if (!(backgroundFiles.size() > backgroundIndex + 1 && backgroundFiles.size() > 1))
-                return false;
-
-            ImageIcon oldBack = getCurrentBackgroundImageIcon();
-            ImageIcon newBack = getNextBackgroundImageIcon();
+            ImageIcon oldBack = getLastBackgroundImageIcon();
+            ImageIcon newBack = getCurrentBackgroundImageIcon();
 
             //get the dimensions which we will flip to, the next image
             int width = newBack.getIconWidth();
@@ -1292,30 +1350,63 @@ public final class ConsoleFrame {
             //make master image to set to background and slide
             ImageIcon combinedIcon;
 
-            //todo bug found, on logout, should reset console dir (will be fixed with cyderframe instances holding entire cyder instance essentially)
-            //stop music and basically everything on close, (mp3 music continues)
-
             //todo before combining images, we need to make sure they're the same size, duhhhhh
             oldBack = ImageUtil.resizeImage(oldBack, width, height);
             newBack = ImageUtil.resizeImage(newBack, width, height);
 
+
+            //todo component up
+            //ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.BOTTOM));
+
+            //todo component down
+            // ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.TOP));
+
+            //todo component right
+            // ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.LEFT));
+
+            //todo component left (right means we place the new image to the right of the old image)
+            //ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.RIGHT));
+
             switch (lastSlideDirection) {
                 case LEFT:
+                    //get combined icon
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.BOTTOM);
-                    //todo set content pane bounds
-                    //todo set content pane to this combinedIcon
-                    int[] delayInc = AnimationUtil.getDelayIncrement(height);
-                    //todo slide up by height so init bounds are 0,height,width,height
-                    //todo reset contentPane bounds
-                    //todo set content pane to proper image
+                    //set content pane bounds
+                    consoleCyderFrame.getContentPane().setBounds(
+                            consoleCyderFrame.getContentPane().getX(),
+                            consoleCyderFrame.getContentPane().getY(),
+                            consoleCyderFrame.getContentPane().getWidth(),
+                            consoleCyderFrame.getContentPane().getHeight() * 2);
+                    //set content pane to this combinedIcon
+                    ((JLabel) consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
+//                    //get proper delay and inc values
+//                    int[] delayInc = AnimationUtil.getDelayIncrement(height);
+//                    //slide up by height so init bounds are 0,height,width,height with proper delay
+//                    try {
+//                        for (int i = consoleCyderFrame.getContentPane().getY() ;
+//                             i > - consoleCyderFrame.getContentPane().getHeight() ; i -= delayInc[1]) {
+//                            consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(),i);
+//                            Thread.sleep(delayInc[0]);
+//                        }
+//                    } catch (Exception e) {
+//                        ErrorHandler.handle(e);
+//                    }
+//
+//                    //reset contentPane bounds
+//                    consoleCyderFrame.getContentPane().setSize(
+//                            consoleCyderFrame.getContentPane().getWidth(),
+//                            consoleCyderFrame.getContentPane().getHeight() / 2);
 
-                    lastSlideDirection = Direction.TOP;
+                    //todo set content pane to proper image
+                    //todo revalidate anything else needed
+
+                    lastSlideDirection = Direction.TOP; //meaning we slid up
                     break;
 
                 case TOP:
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.LEFT);
 
-                    lastSlideDirection = Direction.RIGHT;
+                    lastSlideDirection = Direction.RIGHT; // meaning we slid right
                     break;
 
                 case RIGHT:
@@ -1366,11 +1457,9 @@ public final class ConsoleFrame {
         return (dataName instanceof String ? dataName : dataName.equals("1") ? "true" : "false");
     }
 
-    private Direction consoleDir = Direction.TOP;
-
     public void setConsoleDirection(Direction conDir) {
         consoleDir = conDir;
-        consoleCyderFrame.repaint();
+        setFullscreen(false);
     }
 
     public Direction getConsoleDirection() {
@@ -1409,12 +1498,8 @@ public final class ConsoleFrame {
         timer.start();
     }
 
-    private boolean fullscreen = false;
-
     public void setFullscreen(Boolean enable) {
         fullscreen = enable;
-
-        //this should recalculate bounds for components depending on console direction and fullscreen mode
         consoleCyderFrame.repaint();
     }
 
@@ -1422,22 +1507,20 @@ public final class ConsoleFrame {
         return fullscreen;
     }
 
-    private int scrollingDowns;
-
-    public int getScrollingDowns() {
-        return scrollingDowns;
+    public int getScrollingIndex() {
+        return scrollingIndex;
     }
 
-    public void setScrollingDowns(int downs) {
-        scrollingDowns = downs;
+    public void setScrollingIndex(int downs) {
+        scrollingIndex = downs;
     }
 
-    public void incScrollingDowns() {
-        scrollingDowns += 1;
+    public void incScrollingIndex() {
+        scrollingIndex += 1;
     }
 
-    public void decScrollingDowns() {
-        scrollingDowns -= 1;
+    public void decScrollingIndex() {
+        scrollingIndex -= 1;
     }
 
     public boolean onLastBackground() {

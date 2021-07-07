@@ -1367,7 +1367,7 @@ public class CyderMain {
                     }
 
                     scrollingIndex = operationList.size();
-                    ConsoleFrame.getConsoleFrame().setScrollingDowns(0);
+                    ConsoleFrame.getConsoleFrame().setScrollingIndex(0);
 
                     //calls to linked inputhandler
                     if (!stringUtil.getUserInputMode()) {
@@ -1643,35 +1643,40 @@ public class CyderMain {
             if (SecurityUtil.checkPassword(Username, SecurityUtil.toHexString(SecurityUtil.getSHA(Password)))) {
                 doLoginAnimations = false;
 
-                if (consoleFrame != null)
+                if (consoleFrame != null) {
                     AnimationUtil.closeAnimation(consoleFrame);
+                }
 
                 console();
 
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
                 // and exiting the program when we have just logged in
-                if (loginFrame != null)
+                if (loginFrame != null) {
                     loginFrame.closeAnimation();
+                }
 
                 //this if block needs to be in console, stuff to do specifically for user on first login
                 if (IOUtil.getUserData("IntroMusic").equals("1")) {
-                    LinkedList<String> MusicList = new LinkedList<>();
+                    LinkedList<String> musicList = new LinkedList<>();
 
-                    File UserMusicDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
+                    File userMusicDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
 
-                    String[] FileNames = UserMusicDir.list();
+                    String[] fileNames = userMusicDir.list();
 
-                    if (FileNames != null)
-                        for (String fileName : FileNames)
-                            if (fileName.endsWith(".mp3"))
-                                MusicList.add(fileName);
+                    if (fileNames != null) {
+                        for (String fileName : fileNames) {
+                            if (fileName.endsWith(".mp3")) {
+                                musicList.add(fileName);
+                            }
+                        }
+                    }
 
-                    if (!MusicList.isEmpty())
-                        IOUtil.playAudio(
-                                "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
-                                        (FileNames[NumberUtil.randInt(0, FileNames.length - 1)]), outputArea);
-                    else
+                    if (!musicList.isEmpty()) {
+                        IOUtil.playAudio("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
+                                (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]), outputArea);
+                    } else {
                         IOUtil.playAudio("sys/audio/Ride.mp3", outputArea);
+                    }
                 }
             } else if (loginFrame != null && loginFrame.isVisible()) {
                 loginField.setText("");
