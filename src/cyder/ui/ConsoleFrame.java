@@ -32,10 +32,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 public final class ConsoleFrame {
     //the one and only console frame method
-    private static ConsoleFrame theConsoleFrame = new ConsoleFrame();
+    private static ConsoleFrame consoleFrameInstance = new ConsoleFrame();
 
     public static ConsoleFrame getConsoleFrame() {
-        return theConsoleFrame;
+        return consoleFrameInstance;
     }
 
     private ConsoleFrame() {} //no instantiation this way
@@ -62,16 +62,15 @@ public final class ConsoleFrame {
 
     private String consoleBashString;
 
-    private boolean backgroundProcessCheckerStarted = false;
     private boolean drawConsoleLines = false;
     private boolean consoleLinesDrawn = false;
     private Color lineColor = Color.white;
 
-    private CyderFrame theActualConsoleFrame;
+    private CyderFrame consoleCyderFrame;
 
     public void start() {
-        if (theActualConsoleFrame != null)
-            theActualConsoleFrame.closeAnimation();
+        if (consoleCyderFrame != null)
+            consoleCyderFrame.closeAnimation();
 
         resizeBackgrounds();
         initBackgrounds();
@@ -84,7 +83,7 @@ public final class ConsoleFrame {
             //handle random background by setting a random background index
             if (IOUtil.getUserData("RandomBackground").equals("1")) {
                 if (getBackgrounds().size() <= 1) {
-                    theActualConsoleFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
+                    consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
                             "but you only have one background file so there's no random element to be chosen.");
                 } else {
                     backgroundIndex = NumberUtil.randInt(0,backgroundFiles.size() - 1);
@@ -110,56 +109,63 @@ public final class ConsoleFrame {
             }
 
             //override the CyderFrame we use for ConsoleFrame to add in the debug lines
-            theActualConsoleFrame = new CyderFrame(w, h, usage) {
+            consoleCyderFrame = new CyderFrame(w, h, usage) {
                 @Override
                 public void paint(Graphics g) {
                     super.paint(g);
 
                     if (drawConsoleLines && !consoleLinesDrawn) {
+                        Graphics2D g2d = (Graphics2D) g;
+
+                        BufferedImage img = null;
+                        int w = 0;
+                        int h = 0;
+
                         try {
-                            Graphics2D g2d = (Graphics2D) g;
-
-                            BufferedImage img = null;
-                            int w = 0;
-                            int h = 0;
-
-                            img = ImageUtil.resizeImage(25,25, getCurrentBackgroundFile());
+                            img = ImageUtil.resizeImage(25,25,ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile());
                             w = img.getWidth(null);
                             h = img.getHeight(null);
 
-                            g2d.setPaint(lineColor);
-                            int strokeThickness = 4;
-                            g2d.setStroke(new BasicStroke(strokeThickness));
-
-                            g2d.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
-                            g2d.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
-
-                            if (img != null) {
-                                g2d.drawImage(img, getWidth() / 2 - w / 2, getHeight() / 2 - h / 2, null);
-                            }
-
-                            consoleLinesDrawn = true;
                         } catch (Exception e) {
                             ErrorHandler.handle(e);
                         }
+
+                        g2d.setPaint(lineColor);
+                        int strokeThickness = 4;
+                        g2d.setStroke(new BasicStroke(strokeThickness));
+
+                        g2d.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
+                        g2d.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
+
+                        if (img != null)
+                            g2d.drawImage(img, getWidth() / 2 - w / 2, getHeight() / 2 - h / 2, null);
+
+                        consoleLinesDrawn = true;
                     }
+                }
+
+                @Override
+                public void setBounds(int x, int y, int w, int h) {
+                    super.setBounds(x,y,w,h);
+                    consoleLinesDrawn = false;
+                    drawConsoleLines = false;
                 }
             };
 
             //todo linked to inputhandler: consolePrintingAnimation();
 
             //we should always be using controlled exits so this is why we use DO_NOTHING_ON_CLOSE
-            theActualConsoleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            theActualConsoleFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+            consoleCyderFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            consoleCyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
-            theActualConsoleFrame.paintWindowTitle(false);
-            theActualConsoleFrame.paintSuperTitle(true);
-            theActualConsoleFrame.setTitle(IOUtil.getSystemData("Version") +
+            consoleCyderFrame.paintWindowTitle(false);
+            consoleCyderFrame.paintSuperTitle(true);
+            consoleCyderFrame.setTitle(IOUtil.getSystemData("Version") +
                     " Cyder [" + ConsoleFrame.getConsoleFrame().getUsername() + "]");
 
             //todo work in frame resizing somewhere? maybe allow/disallow this in Sys.ini
 
-            ((JLabel) (theActualConsoleFrame.getContentPane()))
+            ((JLabel) (consoleCyderFrame.getContentPane()))
                     .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
 
             outputArea = new JTextPane();
@@ -204,7 +210,7 @@ public final class ConsoleFrame {
             }
 
             outputScroll.setBounds(10, 62, getBackgroundWidth() - 20, getBackgroundHeight() - 204);
-            theActualConsoleFrame.getContentPane().add(outputScroll);
+            consoleCyderFrame.getContentPane().add(outputScroll);
 
             //output area settings complete; starting input field
             inputField = new JPasswordField(40);
@@ -222,27 +228,29 @@ public final class ConsoleFrame {
             inputField.addKeyListener(new KeyListener() {
                 @Override
                 public void keyPressed(java.awt.event.KeyEvent e) {
+                    //capitalization
                     if (inputField.getPassword().length == consoleBashString.length() + 1) {
-                        inputField.setText(consoleBashString +
-                                String.valueOf(inputField.getPassword()).substring(consoleBashString.length()).toUpperCase());
+                        inputField.setText(consoleBashString + String.valueOf(
+                                inputField.getPassword()).substring(consoleBashString.length()).toUpperCase());
                     }
+
+                    //escaping
                     if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                         //todo linked handler handle("controlc");
                     }
+
+                    //direction switching
                     if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.getConsoleFrame().setConsoleDirection(Direction.BOTTOM);
+                        setConsoleDirection(Direction.BOTTOM);
                         //todo here exitFullscreen();
-                    }
-                    if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.getConsoleFrame().setConsoleDirection(Direction.RIGHT);
+                    } else if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                        setConsoleDirection(Direction.RIGHT);
                         //todo here exitFullscreen();
-                    }
-                    if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.getConsoleFrame().setConsoleDirection(Direction.TOP);
+                    } else if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                       setConsoleDirection(Direction.TOP);
                         //todo here exitFullscreen();
-                    }
-                    if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
-                        ConsoleFrame.getConsoleFrame().setConsoleDirection(Direction.LEFT);
+                    } else if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                        setConsoleDirection(Direction.LEFT);
                         //todo here exitFullscreen();
                     }
                 }
@@ -262,8 +270,7 @@ public final class ConsoleFrame {
                             drawConsoleLines = false;
                             consoleLinesDrawn = false;
                         }
-
-                        theActualConsoleFrame.repaint();
+                        consoleCyderFrame.repaint();
                     }
                 }
 
@@ -274,7 +281,7 @@ public final class ConsoleFrame {
                         inputField.setText(consoleBashString + String.valueOf(
                                 inputField.getPassword()).substring(consoleBashString.length()).toUpperCase());
                     }
-                    //debug lines
+                    //bashstring checker
                     if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
                         if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
                             e.consume();
@@ -297,7 +304,7 @@ public final class ConsoleFrame {
             //a bodge to update the caret position if it goes before an allowed index for console bash string
             new Thread(() -> {
                 try {
-                    while (theActualConsoleFrame != null) {
+                    while (consoleCyderFrame != null) {
                         if (inputField.getCaretPosition() < consoleBashString.length()) {
                             inputField.setCaretPosition(inputField.getPassword().length);
                         }
@@ -321,7 +328,7 @@ public final class ConsoleFrame {
             //todo actually copy over and put here inputField.addKeyListener(commandScrolling);
             inputField.setCaretPosition(consoleBashString.length());
 
-            theActualConsoleFrame.addWindowListener(new WindowAdapter() {
+            consoleCyderFrame.addWindowListener(new WindowAdapter() {
                 public void windowOpened(WindowEvent e) {
                     inputField.requestFocus();
                     onLaunch();
@@ -331,7 +338,7 @@ public final class ConsoleFrame {
             inputField.setBounds(10, 82 + outputArea.getHeight(),getBackgroundWidth() - 20,
                     getBackgroundHeight() - (outputArea.getHeight() + 62 + 40));
             inputField.setOpaque(false);
-            theActualConsoleFrame.getContentPane().add(inputField);
+            consoleCyderFrame.getContentPane().add(inputField);
             //todo copy over inputField.addActionListener(inputFieldAction);
             inputField.addFocusListener(new FocusAdapter() {
                 @Override
@@ -350,7 +357,7 @@ public final class ConsoleFrame {
                 outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
                 outputArea.repaint();
                 outputArea.revalidate();
-                theActualConsoleFrame.revalidate(); //todo is this needed?
+                consoleCyderFrame.revalidate(); //todo is this needed?
             }
 
             if (IOUtil.getUserData("InputFill").equals("1")) {
@@ -360,7 +367,7 @@ public final class ConsoleFrame {
             suggestionButton = new JButton("");
             suggestionButton.setToolTipText("Suggestions");
             suggestionButton.addActionListener(e -> {
-                theActualConsoleFrame.notify("What feature would you like to suggest? " +
+                consoleCyderFrame.notify("What feature would you like to suggest? " +
                         "(Please include as much detail as possible such as " +
                         "how the feature should be triggered and how the program should responded; be detailed)");
                 //todo linkedHandler.getstringUtil.setUserInputDesc("suggestion");
@@ -380,7 +387,7 @@ public final class ConsoleFrame {
             });
             suggestionButton.setBounds(32, 4, 22, 22);
             suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion1.png"));
-            theActualConsoleFrame.getTopDragLabel().add(suggestionButton);
+            consoleCyderFrame.getTopDragLabel().add(suggestionButton);
             suggestionButton.setFocusPainted(false);
             suggestionButton.setOpaque(false);
             suggestionButton.setContentAreaFilled(false);
@@ -393,14 +400,14 @@ public final class ConsoleFrame {
             menuButton.addMouseListener(consoleMenu);
             menuButton.setBounds(4, 4, 22, 22);
             menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
-            theActualConsoleFrame.getTopDragLabel().add(menuButton);
+            consoleCyderFrame.getTopDragLabel().add(menuButton);
             menuButton.setVisible(true);
             menuButton.setFocusPainted(false);
             menuButton.setOpaque(false);
             menuButton.setContentAreaFilled(false);
             menuButton.setBorderPainted(false);
 
-            theActualConsoleFrame.getTopDragLabel().addMinimizeListener(e -> {
+            consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> {
                 updateConsoleClock = false;
                 minimizeMenu();
             });
@@ -432,7 +439,7 @@ public final class ConsoleFrame {
                             ConsoleFrame.getConsoleFrame().setBackgroundIndex(0);
                             switchBackground();
                         } else if (ConsoleFrame.getConsoleFrame().getBackgrounds().size() == 1) {
-                            theActualConsoleFrame.notify("You only have one background image. Would you like to add more? (Enter yes/no)");
+                            consoleCyderFrame.notify("You only have one background image. Would you like to add more? (Enter yes/no)");
                             inputField.requestFocus();
                             //todo handler stringUtil.setUserInputMode(true);
                             //todo handler stringUtil.setUserInputDesc("addbackgrounds");
@@ -440,7 +447,7 @@ public final class ConsoleFrame {
                         }
                     } catch (Exception ex) {
                         ErrorHandler.handle(new FatalException("Background DNE"));
-                        theActualConsoleFrame.notify("Error in parsing background; perhaps it was deleted.");
+                        consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
                     }
                 }
             });
@@ -450,9 +457,9 @@ public final class ConsoleFrame {
             alternateBackground.setOpaque(false);
             alternateBackground.setContentAreaFilled(false);
             alternateBackground.setBorderPainted(false);
-            theActualConsoleFrame.getTopDragLabel().addButton(alternateBackground,1);
+            consoleCyderFrame.getTopDragLabel().addButton(alternateBackground,1);
 
-            theActualConsoleFrame.getTopDragLabel().addCloseListener(e -> {
+            consoleCyderFrame.getTopDragLabel().addCloseListener(e -> {
             });
 
             //this turns into setting a center title
@@ -460,7 +467,7 @@ public final class ConsoleFrame {
             consoleClockLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
             consoleClockLabel.setForeground(CyderColors.vanila);
             //bounds not needed to be set since the executor service handles that
-            theActualConsoleFrame.getTopDragLabel().add(consoleClockLabel);
+            consoleCyderFrame.getTopDragLabel().add(consoleClockLabel);
 
             updateConsoleClock = IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
 
@@ -474,7 +481,7 @@ public final class ConsoleFrame {
                         int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                         int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
 
-                        consoleClockLabel.setBounds(theActualConsoleFrame.getWidth() / 2 - clockWidth / 2,
+                        consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
                                 -5, clockWidth, clockHeight);
                         consoleClockLabel.setText(time);
                     } else {
@@ -482,7 +489,7 @@ public final class ConsoleFrame {
                         int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                         int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
 
-                        consoleClockLabel.setBounds(theActualConsoleFrame.getWidth() / 2 - clockWidth / 2,
+                        consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
                                 -5, clockWidth, clockHeight);
                         consoleClockLabel.setText(time);
                     }
@@ -496,7 +503,7 @@ public final class ConsoleFrame {
             }, 3600 - LocalDateTime.now().getMinute() * 60 - LocalDateTime.now().getSecond(), 3600, SECONDS);
 
             //todo start/end executors via methods
-            theActualConsoleFrame.addWindowListener(new WindowAdapter() {
+            consoleCyderFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowDeiconified(WindowEvent e) {
                     updateConsoleClock = true;
@@ -512,7 +519,7 @@ public final class ConsoleFrame {
                     new CyderThreadFactory("Stable Network Connection Checker")).scheduleAtFixedRate(() -> {
                         //update console clock tells us if we're iconified or not
                 if (!NetworkUtil.internetReachable() && updateConsoleClock) {
-                    theActualConsoleFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
+                    consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
                             ", but I had trouble connecting to the internet.\n" +
                             "As a result, some features may not work properly.");
                 }
@@ -538,7 +545,7 @@ public final class ConsoleFrame {
                 }
             }, 10, 5, SECONDS);
 
-            theActualConsoleFrame.enterAnimation();
+            consoleCyderFrame.enterAnimation();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -549,19 +556,19 @@ public final class ConsoleFrame {
     private void onLaunch() {
         //special day events
         if (TimeUtil.isChristmas())
-            theActualConsoleFrame.notify("Merry Christmas!");
+            consoleCyderFrame.notify("Merry Christmas!");
 
         if (TimeUtil.isHalloween())
-            theActualConsoleFrame.notify("Happy Halloween!");
+            consoleCyderFrame.notify("Happy Halloween!");
 
         if (TimeUtil.isIndependenceDay())
-            theActualConsoleFrame.notify("Happy 4th of July!");
+            consoleCyderFrame.notify("Happy 4th of July!");
 
         if (TimeUtil.isThanksgiving())
-            theActualConsoleFrame.notify("Happy Thanksgiving!");
+            consoleCyderFrame.notify("Happy Thanksgiving!");
 
         if (TimeUtil.isAprilFoolsDay())
-            theActualConsoleFrame.notify("Happy April Fool Day!");
+            consoleCyderFrame.notify("Happy April Fool Day!");
 
         //preference handlers here
         if (IOUtil.getUserData("DebugWindows").equals("1")) {
@@ -579,7 +586,7 @@ public final class ConsoleFrame {
         //last start time operations
         if (TimeUtil.milisToDays(System.currentTimeMillis() -
                 Long.parseLong(IOUtil.getUserData("laststart"))) > 1) {
-            theActualConsoleFrame.notify("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "!");
+            consoleCyderFrame.notify("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "!");
         }
 
         IOUtil.writeUserData("laststart",System.currentTimeMillis() + "");
@@ -598,7 +605,7 @@ public final class ConsoleFrame {
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.navy);
         menuLabel.setVisible(true);
-        theActualConsoleFrame.getIconPane().add(menuLabel, JLayeredPane.POPUP_LAYER);
+        consoleCyderFrame.getIconPane().add(menuLabel, JLayeredPane.POPUP_LAYER);
 
         Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
 
@@ -1301,35 +1308,30 @@ public final class ConsoleFrame {
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.BOTTOM);
-                    //todo set image bounds
-                    //todo setbackground tod this new image
+                    //todo set content pane bounds
+                    //todo set content pane to this combinedIcon
                     int[] delayInc = AnimationUtil.getDelayIncrement(height);
-                    //new CyderAnimation().jLabelYUp(0, -height, 10, 10, iconLabel);
                     //todo slide up by height so init bounds are 0,height,width,height
-                    //todo set actual icon to background
-
-                    //rest all new bounds
+                    //todo reset contentPane bounds
+                    //todo set content pane to proper image
 
                     lastSlideDirection = Direction.TOP;
                     break;
 
                 case TOP:
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.LEFT);
-                    //todo slide right by width so init bounds are -width,0,width,height
 
                     lastSlideDirection = Direction.RIGHT;
                     break;
 
                 case RIGHT:
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.TOP);
-                    //todo slide down by height so init bounds are 0,-height,width,height
 
                     lastSlideDirection = Direction.BOTTOM;
                     break;
 
                 case BOTTOM:
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.RIGHT);
-                    //todo slide left by width so init bounds are width,0,width,height
 
                     lastSlideDirection = Direction.LEFT;
                     break;
@@ -1337,6 +1339,7 @@ public final class ConsoleFrame {
 
             //todo change tooltip for background
             //todo refresh consoleclock bounds
+            //todo other stuff maybe
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -1369,17 +1372,11 @@ public final class ConsoleFrame {
         return (dataName instanceof String ? dataName : dataName.equals("1") ? "true" : "false");
     }
 
-    private boolean consoleClockEnabled;
-
-    public boolean consoleClockEnabled() {
-        return consoleClockEnabled;
-    }
-
     private Direction consoleDir = Direction.TOP;
 
     public void setConsoleDirection(Direction conDir) {
         consoleDir = conDir;
-        theActualConsoleFrame.repaint();
+        consoleCyderFrame.repaint();
     }
 
     public Direction getConsoleDirection() {
@@ -1392,7 +1389,7 @@ public final class ConsoleFrame {
      * @param deg - the degree by which to smoothly rotate
      */
     private void rotateConsole(int deg) {
-        ImageIcon masterIcon = (ImageIcon) ((JLabel) theActualConsoleFrame.getContentPane()).getIcon();
+        ImageIcon masterIcon = (ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon();
         BufferedImage master = ImageUtil.getBi(masterIcon);
 
         Timer timer = null;
@@ -1408,11 +1405,11 @@ public final class ConsoleFrame {
                 angle += delta;
                 if (angle > deg) {
                     rotated = ImageUtil.rotateImageByDegrees(master, deg);
-                    ((JLabel) theActualConsoleFrame.getContentPane()).setIcon(new ImageIcon(rotated));
+                    ((JLabel) consoleCyderFrame.getContentPane()).setIcon(new ImageIcon(rotated));
                     return;
                 }
                 rotated = ImageUtil.rotateImageByDegrees(master, angle);
-                ((JLabel) theActualConsoleFrame.getContentPane()).setIcon(new ImageIcon(rotated));
+                ((JLabel) consoleCyderFrame.getContentPane()).setIcon(new ImageIcon(rotated));
             }
         });
         timer.start();
@@ -1424,7 +1421,7 @@ public final class ConsoleFrame {
         fullscreen = enable;
 
         //this should recalculate bounds for components depending on console direction and fullscreen mode
-        theActualConsoleFrame.repaint();
+        consoleCyderFrame.repaint();
     }
 
     public boolean isFullscreen() {
