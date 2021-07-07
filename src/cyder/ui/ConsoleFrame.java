@@ -8,15 +8,16 @@ import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.utilities.*;
+import cyder.widgets.Calculator;
 import cyder.widgets.GenericInform;
+import cyder.widgets.TempConverter;
+import cyder.widgets.Weather;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public final class ConsoleFrame extends CyderFrame {
+public final class ConsoleFrame {
     //the one and only console frame method
     private static ConsoleFrame theConsoleFrame = new ConsoleFrame();
 
@@ -70,7 +71,7 @@ public final class ConsoleFrame extends CyderFrame {
 
     private CyderFrame theActualConsoleFrame;
 
-    private void start(String UUID) {
+    public void start() {
         resizeBackgrounds();
         initBackgrounds();
 
@@ -82,7 +83,7 @@ public final class ConsoleFrame extends CyderFrame {
             //handle random background by setting a random background index
             if (IOUtil.getUserData("RandomBackground").equals("1")) {
                 if (getBackgrounds().size() <= 1) {
-                    notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
+                    theActualConsoleFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
                             "but you only have one background file so there's no random element to be chosen.");
                 } else {
                     backgroundIndex = NumberUtil.randInt(0,backgroundFiles.size() - 1);
@@ -142,13 +143,25 @@ public final class ConsoleFrame extends CyderFrame {
                         }
                     }
                 }
+
+                @Override
+                public void repaint() {
+                    super.repaint();
+
+                    //todo fullscreen/rotation ops
+
+                    //input field bounds
+                    //output area bounds
+                    //suggestion button bounds
+                    //menu button bounds
+                }
             };
 
             //todo linked to inputhandler: consolePrintingAnimation();
 
             //we should always be using controlled exits so this is why we use DO_NOTHING_ON_CLOSE
             theActualConsoleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            theActualConsoleFrame.setTitlePosition(TitlePosition.CENTER);
+            theActualConsoleFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
             //todo need to overeride setting title so that it's always center clock but super title is this
             theActualConsoleFrame.setTitle(IOUtil.getSystemData("Version") +
@@ -163,7 +176,7 @@ public final class ConsoleFrame extends CyderFrame {
             outputArea.addFocusListener(new FocusListener() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    //todo minimizeMenu();
+                    minimizeMenu();
                 }
 
                 @Override
@@ -333,7 +346,7 @@ public final class ConsoleFrame extends CyderFrame {
             inputField.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    //todo here minimizeMenu();
+                    minimizeMenu();
                 }
             });
 
@@ -359,7 +372,7 @@ public final class ConsoleFrame extends CyderFrame {
             suggestionButton = new JButton("");
             suggestionButton.setToolTipText("Suggestions");
             suggestionButton.addActionListener(e -> {
-                notify("What feature would you like to suggest? " +
+                theActualConsoleFrame.notify("What feature would you like to suggest? " +
                         "(Please include as much detail as possible such as " +
                         "how the feature should be triggered and how the program should responded; be detailed)");
                 //todo linkedHandler.getstringUtil.setUserInputDesc("suggestion");
@@ -379,7 +392,7 @@ public final class ConsoleFrame extends CyderFrame {
             });
             suggestionButton.setBounds(32, 4, 22, 22);
             suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion1.png"));
-            getTopDragLabel().add(suggestionButton);
+            theActualConsoleFrame.getTopDragLabel().add(suggestionButton);
             suggestionButton.setFocusPainted(false);
             suggestionButton.setOpaque(false);
             suggestionButton.setContentAreaFilled(false);
@@ -389,10 +402,10 @@ public final class ConsoleFrame extends CyderFrame {
             menuLabel = new JLabel();
             menuLabel.setVisible(false);
             menuButton.setToolTipText("Menu");
-            //todo here menuButton.addMouseListener(consoleMenu);
+            menuButton.addMouseListener(consoleMenu);
             menuButton.setBounds(4, 4, 22, 22);
             menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
-            getTopDragLabel().add(menuButton);
+            theActualConsoleFrame.getTopDragLabel().add(menuButton);
             menuButton.setVisible(true);
             menuButton.setFocusPainted(false);
             menuButton.setOpaque(false);
@@ -405,12 +418,10 @@ public final class ConsoleFrame extends CyderFrame {
             minimize = new JButton("");
             minimize.setToolTipText("Minimize");
             minimize.addActionListener(e -> {
-                //restoreX = consoleFrame.getX();
-                //restoreY = consoleFrame.getY();
                 AnimationUtil.minimizeAnimation(theActualConsoleFrame);
                 updateConsoleClock = false;
                 theActualConsoleFrame.setState(Frame.ICONIFIED);
-                //todo here minimizeMenu();
+                minimizeMenu();
             });
             minimize.addMouseListener(new MouseAdapter() {
                 @Override
@@ -459,7 +470,7 @@ public final class ConsoleFrame extends CyderFrame {
                             ConsoleFrame.getConsoleFrame().setBackgroundIndex(0);
                             switchBackground();
                         } else if (ConsoleFrame.getConsoleFrame().getBackgrounds().size() == 1) {
-                            ConsoleFrame.this.notify("You only have one background image. Would you like to add more? (Enter yes/no)");
+                            theActualConsoleFrame.notify("You only have one background image. Would you like to add more? (Enter yes/no)");
                             inputField.requestFocus();
                             //todo handler stringUtil.setUserInputMode(true);
                             //todo handler stringUtil.setUserInputDesc("addbackgrounds");
@@ -467,7 +478,7 @@ public final class ConsoleFrame extends CyderFrame {
                         }
                     } catch (Exception ex) {
                         ErrorHandler.handle(new FatalException("Background DNE"));
-                        ConsoleFrame.this.notify("Error in parsing background; perhaps it was deleted.");
+                        theActualConsoleFrame.notify("Error in parsing background; perhaps it was deleted.");
                     }
                 }
             });
@@ -508,14 +519,14 @@ public final class ConsoleFrame extends CyderFrame {
             close.setBorderPainted(false);
             customButtonList.add(close);
 
-            getTopDragLabel().setButtonsList(customButtonList);
+            theActualConsoleFrame.getTopDragLabel().setButtonsList(customButtonList);
 
             //this turns into setting a center title
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
             consoleClockLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
             consoleClockLabel.setForeground(CyderColors.vanila);
             //bounds not needed to be set since the executor service handles that
-            getTopDragLabel().add(consoleClockLabel);
+            theActualConsoleFrame.getTopDragLabel().add(consoleClockLabel);
 
             updateConsoleClock = IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
 
@@ -529,7 +540,7 @@ public final class ConsoleFrame extends CyderFrame {
                         int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                         int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
 
-                        consoleClockLabel.setBounds(getWidth() / 2 - clockWidth / 2,
+                        consoleClockLabel.setBounds(theActualConsoleFrame.getWidth() / 2 - clockWidth / 2,
                                 -5, clockWidth, clockHeight);
                         consoleClockLabel.setText(time);
                     } else {
@@ -537,7 +548,7 @@ public final class ConsoleFrame extends CyderFrame {
                         int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                         int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
 
-                        consoleClockLabel.setBounds(getWidth() / 2 - clockWidth / 2,
+                        consoleClockLabel.setBounds(theActualConsoleFrame.getWidth() / 2 - clockWidth / 2,
                                 -5, clockWidth, clockHeight);
                         consoleClockLabel.setText(time);
                     }
@@ -573,7 +584,7 @@ public final class ConsoleFrame extends CyderFrame {
                     new CyderThreadFactory("Stable Network Connection Checker")).scheduleAtFixedRate(() -> {
                         //update console clock tells us if we're iconified or not
                 if (!NetworkUtil.internetReachable() && updateConsoleClock) {
-                    notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
+                    theActualConsoleFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
                             ", but I had trouble connecting to the internet.\n" +
                             "As a result, some features may not work properly.");
                 }
@@ -617,19 +628,19 @@ public final class ConsoleFrame extends CyderFrame {
     private void onLaunch() {
         //special day events
         if (TimeUtil.isChristmas())
-            notify("Merry Christmas!");
+            theActualConsoleFrame.notify("Merry Christmas!");
 
         if (TimeUtil.isHalloween())
-            notify("Happy Halloween!");
+            theActualConsoleFrame.notify("Happy Halloween!");
 
         if (TimeUtil.isIndependenceDay())
-            notify("Happy 4th of July!");
+            theActualConsoleFrame.notify("Happy 4th of July!");
 
         if (TimeUtil.isThanksgiving())
-            notify("Happy Thanksgiving!");
+            theActualConsoleFrame.notify("Happy Thanksgiving!");
 
         if (TimeUtil.isAprilFoolsDay())
-            notify("Happy April Fool Day!");
+            theActualConsoleFrame.notify("Happy April Fool Day!");
 
         //preference handlers here
         if (IOUtil.getUserData("DebugWindows").equals("1")) {
@@ -647,22 +658,402 @@ public final class ConsoleFrame extends CyderFrame {
         //last start time operations
         if (TimeUtil.milisToDays(System.currentTimeMillis() -
                 Long.parseLong(IOUtil.getUserData("laststart"))) > 1) {
-            notify("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "!");
+            theActualConsoleFrame.notify("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "!");
         }
 
         IOUtil.writeUserData("laststart",System.currentTimeMillis() + "");
     }
 
-    @Override
-    public void repaint() {
-        super.repaint();
+    private void generateConsoleMenu() {
+        Font menuFont = CyderFonts.defaultFontSmall;
+        int menuHeight = 250;
+        int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
 
-        //todo fullscreen/rotation ops
+        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
 
-        //input field bounds
-        //output area bounds
-        //suggestion button bounds
-        //menu button bounds
+        menuLabel = new JLabel("");
+        menuLabel.setBounds(-150, DragLabel.getDefaultHeight(),
+                CyderFrame.getMinWidth("TEMP CONV", menuFont) + 10, menuHeight);
+        menuLabel.setOpaque(true);
+        menuLabel.setBackground(CyderColors.navy);
+        menuLabel.setVisible(true);
+        theActualConsoleFrame.getContentPane().add(menuLabel, JLayeredPane.POPUP_LAYER); //todo test layer added to
+
+        Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
+
+        JTextPane menuPane = new JTextPane();
+        menuPane.setEditable(false);
+        menuPane.setAutoscrolls(false);
+        menuPane.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight);
+        menuPane.setFocusable(true);
+        menuPane.setOpaque(false);
+        menuPane.setBackground(CyderColors.navy);
+
+        //adding components
+        StringUtil printingUtil = new StringUtil(menuPane);
+
+        JLabel calculatorLabel = new JLabel("Calculator");
+        calculatorLabel.setFont(menuFont);
+        calculatorLabel.setForeground(CyderColors.vanila);
+        calculatorLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Calculator c = new Calculator();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                calculatorLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                calculatorLabel.setForeground(CyderColors.vanila);
+            }
+        });
+        printingUtil.printlnComponent(calculatorLabel);
+
+        JLabel musicLabel = new JLabel("Music");
+        musicLabel.setFont(menuFont);
+        musicLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(musicLabel);
+        musicLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                IOUtil.mp3("");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                musicLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                musicLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel weatherLabel = new JLabel("Weather");
+        weatherLabel.setFont(menuFont);
+        weatherLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(weatherLabel);
+        weatherLabel.setOpaque(false);
+        weatherLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Weather ww = new Weather();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                weatherLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                weatherLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel noteLabel = new JLabel("Notes");
+        noteLabel.setFont(menuFont);
+        noteLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(noteLabel);
+        noteLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                IOUtil.startNoteEditor();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                noteLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                noteLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel editUserLabel = new JLabel("Edit user");
+        editUserLabel.setFont(menuFont);
+        editUserLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(editUserLabel);
+        editUserLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //todo editUser();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                editUserLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                editUserLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel temperatureLabel = new JLabel("Temp conv");
+        temperatureLabel.setFont(menuFont);
+        temperatureLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(temperatureLabel);
+        temperatureLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                TempConverter tc = new TempConverter();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                temperatureLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                temperatureLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel youtubeLabel = new JLabel("YouTube");
+        youtubeLabel.setFont(menuFont);
+        youtubeLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(youtubeLabel);
+        youtubeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NetworkUtil.internetConnect("https://youtube.com");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                youtubeLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                youtubeLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel twitterLabel = new JLabel("Twitter");
+        twitterLabel.setFont(menuFont);
+        twitterLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(twitterLabel);
+        twitterLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NetworkUtil.internetConnect("https://twitter.com");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                twitterLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                twitterLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel sepLabel = new JLabel("SEPARATOR") {
+            @Override
+            public void paintComponent(Graphics g) {
+                //draw 5 high line 150 width across
+                g.setColor(getForeground());
+                g.fillRect(0, 7, 150, 5);
+                g.dispose();
+            }
+        };
+        sepLabel.setForeground(CyderColors.vanila);
+        sepLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Thread(() -> {
+                    try {
+                        for (int i = 0; i < 10; i++) {
+                            sepLabel.setForeground(CyderColors.regularRed);
+                            Thread.sleep(100);
+                            sepLabel.setForeground(CyderColors.vanila);
+                            Thread.sleep(100);
+                        }
+                    } catch (Exception ex) {
+                        ErrorHandler.handle(ex);
+                    }
+                }, "Menu Line Disco Easter Egg").start();
+            }
+        });
+        printingUtil.printlnComponent(sepLabel);
+
+        JLabel logoutLabel = new JLabel("Logout");
+        logoutLabel.setFont(menuFont);
+        logoutLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(logoutLabel);
+        logoutLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //todo handle("logout");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                logoutLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                logoutLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel exitLabel = new JLabel("Exit");
+        exitLabel.setFont(menuFont);
+        exitLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(exitLabel);
+        exitLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //todo handle("quit");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exitLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exitLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        /*
+        add sep here if mapped labels
+        add mapped ones here: if title len greater than 9 items and cut off label text at > 9 chars
+        you'll need to redo how user data is stored and retreived since you'll need more than key/value pairs
+        probably should use JSON format. For example:
+
+        Mapped menu links: {
+            [
+                name: Banner
+                link: http://
+            ],
+            [
+                name: Super Long title that will be trimmed
+                link: something.io
+            ]
+        }
+        Username:nathan
+        Password;jdkljf230948kwejkflqj0
+         */
+
+        CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
+        menuScroll.setThumbSize(5);
+        menuScroll.getViewport().setOpaque(false);
+        menuScroll.setFocusable(true);
+        menuScroll.setOpaque(false);
+        menuScroll.setThumbColor(CyderColors.intellijPink);
+        menuScroll.setBackground(CyderColors.navy);
+        menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        menuScroll.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight);
+        menuLabel.add(menuScroll);
+
+        //set menu location to top
+        menuPane.setCaretPosition(0);
+
+        menuGenerated = true;
+    }
+
+    private MouseAdapter consoleMenu = new MouseAdapter() {
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if (!menuLabel.isVisible()) {
+                if (!menuGenerated)
+                    generateConsoleMenu();
+
+                menuLabel.setLocation(-150,DragLabel.getDefaultHeight());
+                menuLabel.setVisible(true);
+
+                if (IOUtil.getUserData("menudirection").equals("1")) {
+                    AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
+                } else {
+                    menuLabel.setLocation(0, -250);
+                    AnimationUtil.componentDown(-250, 30, 10, 8, menuLabel);
+                }
+            } else {
+                minimizeMenu();
+            }
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if (menuLabel.isVisible()) {
+                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
+            } else {
+                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide2.png"));
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (menuLabel.isVisible()) {
+                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
+            } else {
+                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+            }
+        }
+    };
+
+    private void minimizeMenu() {
+        if (menuLabel.isVisible()) {
+            if (IOUtil.getUserData("menudirection").equals("1")) {
+                menuLabel.setLocation(0, menuLabel.getY());
+
+                new Thread(() -> {
+                    int y = menuLabel.getY();
+
+                    for (int i = 0 ; i > -150 ; i-= 8) {
+                        menuLabel.setLocation(i, y);
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            ErrorHandler.handle(e);
+                        }
+                    }
+
+                    menuLabel.setLocation(-150, y);
+
+                    menuLabel.setVisible(false);
+                    menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+                },"minimize menu thread").start();
+            } else {
+                menuLabel.setLocation(0, 30);
+
+                new Thread(() -> {
+                    int x = menuLabel.getX();
+
+                    for (int i = 30 ; i > -250 ; i-= 8) {
+                        menuLabel.setLocation(x, i);
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            ErrorHandler.handle(e);
+                        }
+                    }
+
+                    menuLabel.setLocation(x, -250);
+
+                    menuLabel.setVisible(false);
+                    menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+                },"minimize menu thread").start();
+            }
+        }
     }
 
     private String UUID;
@@ -1059,19 +1450,6 @@ public final class ConsoleFrame extends CyderFrame {
 
     private boolean consoleClockEnabled;
 
-    public void setConsoleClock(Boolean enable) {
-        IOUtil.writeUserData("ClockOnConsole", enable ? "1" : "0");
-        consoleClockEnabled = enable;
-
-        if (enable) {
-            setTitle("");
-            //start up executor
-        } else {
-            setTitle("");
-            //end executor task if running
-        }
-    }
-
     public boolean consoleClockEnabled() {
         return consoleClockEnabled;
     }
@@ -1080,7 +1458,7 @@ public final class ConsoleFrame extends CyderFrame {
 
     public void setConsoleDirection(Direction conDir) {
         consoleDir = conDir;
-        getConsoleFrame().repaint();
+        theActualConsoleFrame.repaint();
     }
 
     public Direction getConsoleDirection() {
@@ -1093,7 +1471,7 @@ public final class ConsoleFrame extends CyderFrame {
      * @param deg - the degree by which to smoothly rotate
      */
     private void rotateConsole(int deg) {
-        ImageIcon masterIcon = (ImageIcon) ((JLabel) getConsoleFrame().getContentPane()).getIcon();
+        ImageIcon masterIcon = (ImageIcon) ((JLabel) theActualConsoleFrame.getContentPane()).getIcon();
         BufferedImage master = ImageUtil.getBi(masterIcon);
 
         Timer timer = null;
@@ -1109,11 +1487,11 @@ public final class ConsoleFrame extends CyderFrame {
                 angle += delta;
                 if (angle > deg) {
                     rotated = ImageUtil.rotateImageByDegrees(master, deg);
-                    ((JLabel) getConsoleFrame().getContentPane()).setIcon(new ImageIcon(rotated));
+                    ((JLabel) theActualConsoleFrame.getContentPane()).setIcon(new ImageIcon(rotated));
                     return;
                 }
                 rotated = ImageUtil.rotateImageByDegrees(master, angle);
-                ((JLabel) getConsoleFrame().getContentPane()).setIcon(new ImageIcon(rotated));
+                ((JLabel) theActualConsoleFrame.getContentPane()).setIcon(new ImageIcon(rotated));
             }
         });
         timer.start();
@@ -1125,7 +1503,7 @@ public final class ConsoleFrame extends CyderFrame {
         fullscreen = enable;
 
         //this should recalculate bounds for components depending on console direction and fullscreen mode
-        repaint();
+        theActualConsoleFrame.repaint();
     }
 
     public boolean isFullscreen() {

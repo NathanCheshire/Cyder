@@ -226,7 +226,6 @@ public class CyderMain {
     private boolean menuGenerated;
 
     private JList fontList;
-    private SpecialDay specialDayNotifier;
 
     /**
      * move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
@@ -483,9 +482,6 @@ public class CyderMain {
                 // that this is actually the case, otherwise we should call it at the end of console()
                 public void windowOpened(WindowEvent e) {
                     inputField.requestFocus();
-
-                    //will this work for multiple special days on the same day?
-                    specialDayNotifier = new SpecialDay(parentPane);
                 }
             });
 
@@ -2823,7 +2819,7 @@ public class CyderMain {
     }
 
     private void test() {
-        ManualTestingWidgets.IconLabelSlidingTest();
+        ConsoleFrame.getConsoleFrame().start();
     }
 
     //don't ever add to these lists, call the respective print functions and let them
