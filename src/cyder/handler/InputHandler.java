@@ -11,6 +11,9 @@ public class InputHandler {
     // console frame (has-a) input handler (has-a) string util and context engine
 
 
+    //todo correcting user data doesn't work properly, it should either work and everything be there,
+    // or correct it so that everything is there, or corrupted the user and wrap the data, nothing else!
+
     //todo background resizing in console frame has never been correct
 
     //todo take away all jtextfield and use CyderTextField

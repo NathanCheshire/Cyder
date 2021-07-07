@@ -157,6 +157,10 @@ public class CyderFrame extends JFrame {
         return iconLabel;
     }
 
+    public Container getIconPane() {
+        return iconPane;
+    }
+
     public Container getTrueContentPane() {
         return contentLabel;
     }
@@ -309,7 +313,7 @@ public class CyderFrame extends JFrame {
      * Determines whether or not to paint the default windows title. The CyderFrame label title is always painted.
      * @param enable - boolean variable of your chosen value for paintWindowTitle
      */
-    public void setPaintWindowTitle(boolean enable) {
+    public void paintWindowTitle(boolean enable) {
         paintWindowTitle = enable;
     }
 
@@ -1191,5 +1195,9 @@ public class CyderFrame extends JFrame {
      */
     public void addCloseListener(ActionListener actionListener) {
         topDrag.addCloseListener(actionListener);
+    }
+
+    public void addMinimizeListener(ActionListener actionListener) {
+        topDrag.addMinimizeListener(actionListener);
     }
 }

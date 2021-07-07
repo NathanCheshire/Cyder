@@ -53,8 +53,6 @@ public final class ConsoleFrame {
     private JLabel consoleClockLabel;
     private JLabel menuLabel;
 
-    private JButton minimize;
-    private JButton close;
     private JButton suggestionButton;
     private JButton menuButton;
     private JButton alternateBackground;
@@ -72,6 +70,9 @@ public final class ConsoleFrame {
     private CyderFrame theActualConsoleFrame;
 
     public void start() {
+        if (theActualConsoleFrame != null)
+            theActualConsoleFrame.closeAnimation();
+
         resizeBackgrounds();
         initBackgrounds();
 
@@ -109,7 +110,7 @@ public final class ConsoleFrame {
             }
 
             //override the CyderFrame we use for ConsoleFrame to add in the debug lines
-            theActualConsoleFrame = new CyderFrame(w, h) {
+            theActualConsoleFrame = new CyderFrame(w, h, usage) {
                 @Override
                 public void paint(Graphics g) {
                     super.paint(g);
@@ -143,18 +144,6 @@ public final class ConsoleFrame {
                         }
                     }
                 }
-
-                @Override
-                public void repaint() {
-                    super.repaint();
-
-                    //todo fullscreen/rotation ops
-
-                    //input field bounds
-                    //output area bounds
-                    //suggestion button bounds
-                    //menu button bounds
-                }
             };
 
             //todo linked to inputhandler: consolePrintingAnimation();
@@ -163,11 +152,12 @@ public final class ConsoleFrame {
             theActualConsoleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             theActualConsoleFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
-            //todo need to overeride setting title so that it's always center clock but super title is this
+            theActualConsoleFrame.paintWindowTitle(false);
+            theActualConsoleFrame.paintSuperTitle(true);
             theActualConsoleFrame.setTitle(IOUtil.getSystemData("Version") +
                     " Cyder [" + ConsoleFrame.getConsoleFrame().getUsername() + "]");
 
-            //todo work in resizing somewhere? maybe allow/disallow this in Sys.ini
+            //todo work in frame resizing somewhere? maybe allow/disallow this in Sys.ini
 
             ((JLabel) (theActualConsoleFrame.getContentPane()))
                     .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
@@ -355,18 +345,16 @@ public final class ConsoleFrame {
             inputField.setForeground(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
             inputField.setFont(ConsoleFrame.getConsoleFrame().getUserFont());
 
-            Color fillColor = ColorUtil.hextorgbColor(IOUtil.getUserData("Background"));
-
             if (IOUtil.getUserData("OutputFill").equals("1")) {
                 outputArea.setOpaque(true);
-                outputArea.setBackground(fillColor);
+                outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
                 outputArea.repaint();
                 outputArea.revalidate();
                 theActualConsoleFrame.revalidate(); //todo is this needed?
             }
 
             if (IOUtil.getUserData("InputFill").equals("1")) {
-                inputField.setBackground(fillColor);
+                inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
             }
 
             suggestionButton = new JButton("");
@@ -412,36 +400,10 @@ public final class ConsoleFrame {
             menuButton.setContentAreaFilled(false);
             menuButton.setBorderPainted(false);
 
-            //todo override drag label stuff and directly add your own buttons
-            LinkedList<JButton> customButtonList = new LinkedList<>();
-
-            minimize = new JButton("");
-            minimize.setToolTipText("Minimize");
-            minimize.addActionListener(e -> {
-                AnimationUtil.minimizeAnimation(theActualConsoleFrame);
+            theActualConsoleFrame.getTopDragLabel().addMinimizeListener(e -> {
                 updateConsoleClock = false;
-                theActualConsoleFrame.setState(Frame.ICONIFIED);
                 minimizeMenu();
             });
-            minimize.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    minimize.setIcon(CyderImages.minimizeIconHover);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    minimize.setIcon(CyderImages.minimizeIcon);
-                }
-            });
-            minimize.setBounds(ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 81, 4, 22, 20);
-            minimize.setIcon(CyderImages.minimizeIcon);
-            minimize.setFocusPainted(false);
-            minimize.setOpaque(false);
-            minimize.setContentAreaFilled(false);
-            minimize.setBorderPainted(false);
-            customButtonList.add(minimize);
-
 
             alternateBackground = new JButton("");
             alternateBackground.setToolTipText("Alternate Background");
@@ -483,43 +445,15 @@ public final class ConsoleFrame {
                 }
             });
 
-            alternateBackground.setBounds(ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 54,
-                    4, 22, 20);
             alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
             alternateBackground.setFocusPainted(false);
             alternateBackground.setOpaque(false);
             alternateBackground.setContentAreaFilled(false);
             alternateBackground.setBorderPainted(false);
-            customButtonList.add(alternateBackground);
+            theActualConsoleFrame.getTopDragLabel().addButton(alternateBackground,1);
 
-            close = new JButton("");
-            close.setToolTipText("Close");
-            close.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    close.setIcon(CyderImages.closeIconHover);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    close.setIcon(CyderImages.closeIcon);
-                }
-
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    //todo genesis share exit(25);
-                }
+            theActualConsoleFrame.getTopDragLabel().addCloseListener(e -> {
             });
-
-            close.setBounds(ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 27, 4, 22, 20);
-            close.setIcon(CyderImages.closeIcon);
-            close.setFocusPainted(false);
-            close.setOpaque(false);
-            close.setContentAreaFilled(false);
-            close.setBorderPainted(false);
-            customButtonList.add(close);
-
-            theActualConsoleFrame.getTopDragLabel().setButtonsList(customButtonList);
 
             //this turns into setting a center title
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
@@ -677,7 +611,7 @@ public final class ConsoleFrame {
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.navy);
         menuLabel.setVisible(true);
-        theActualConsoleFrame.getContentPane().add(menuLabel, JLayeredPane.POPUP_LAYER); //todo test layer added to
+        theActualConsoleFrame.getIconPane().add(menuLabel, JLayeredPane.POPUP_LAYER);
 
         Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
 
@@ -977,14 +911,14 @@ public final class ConsoleFrame {
                 if (!menuGenerated)
                     generateConsoleMenu();
 
-                menuLabel.setLocation(-150,DragLabel.getDefaultHeight());
+                menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 5);
                 menuLabel.setVisible(true);
 
                 if (IOUtil.getUserData("menudirection").equals("1")) {
                     AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
                 } else {
                     menuLabel.setLocation(0, -250);
-                    AnimationUtil.componentDown(-250, 30, 10, 8, menuLabel);
+                    AnimationUtil.componentDown(-250, DragLabel.getDefaultHeight() - 5, 10, 8, menuLabel);
                 }
             } else {
                 minimizeMenu();
@@ -1033,7 +967,7 @@ public final class ConsoleFrame {
                     menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
                 },"minimize menu thread").start();
             } else {
-                menuLabel.setLocation(0, 30);
+                menuLabel.setLocation(0, DragLabel.getDefaultHeight() - 5);
 
                 new Thread(() -> {
                     int x = menuLabel.getX();

@@ -13,7 +13,9 @@ SilenceErrors:0
 FullScreen:0
 OutputFill:0
 InputFill:0
-ClockOnConsole:0
+ClockOnConsole:1
 ShowSeconds:1
 filterchat:1
-menudirection:0
+menudirection:1
+laststart:1625623692621
+roundwindows:1

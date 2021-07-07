@@ -261,7 +261,7 @@ public class DragLabel extends JLabel {
     public void refreshButtons() {
         //remove all buttons to repaint them
         for (Component c : getComponents())
-            if (c instanceof JButton) {
+            if (c instanceof JButton && buttonsList.contains((JButton) c)) {
                 this.remove(c);
                 this.revalidate();
                 this.repaint();
@@ -336,5 +336,9 @@ public class DragLabel extends JLabel {
 
     protected void addCloseListener(ActionListener al) {
         close.addActionListener(al);
+    }
+
+    protected void addMinimizeListener(ActionListener al) {
+        minimize.addActionListener(al);
     }
 }
