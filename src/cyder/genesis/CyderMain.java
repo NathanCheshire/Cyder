@@ -12,7 +12,6 @@ import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
 import cyder.obj.Preference;
-import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.MasterYoutube;
@@ -357,7 +356,7 @@ public class CyderMain {
                 outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
 
             else
-                outputScroll.setBorder(BorderFactory.createEmptyBorder());
+                outputScroll.setBorder(null);
 
             outputScroll.setBounds(10, 62, ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 20, ConsoleFrame.getConsoleFrame().getBackgroundHeight() - 204);
 
@@ -371,7 +370,7 @@ public class CyderMain {
                 inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
 
             else
-                inputField.setBorder(BorderFactory.createEmptyBorder());
+                inputField.setBorder(null);
 
             inputField.addKeyListener(new KeyListener() {
                 @Override
@@ -519,8 +518,9 @@ public class CyderMain {
                 consoleFrame.revalidate();
             }
 
-            if (IOUtil.getUserData("InputFill").equals("1"))
+            if (IOUtil.getUserData("InputFill").equals("1")) {
                 inputField.setBackground(fillColor);
+            }
 
             suggestionButton = new JButton("");
             suggestionButton.setToolTipText("Suggestions");
@@ -3827,14 +3827,14 @@ public class CyderMain {
     public void refreshPrefs() {
         //output border
         if (IOUtil.getUserData("OutputBorder").equals("0")) {
-            outputScroll.setBorder(BorderFactory.createEmptyBorder());
+            outputScroll.setBorder(null);
         } else {
             outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
         }
 
         //input border
         if (IOUtil.getUserData("InputBorder").equals("0")) {
-            inputField.setBorder(BorderFactory.createEmptyBorder());
+            inputField.setBorder(null);
         } else {
             inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
         }

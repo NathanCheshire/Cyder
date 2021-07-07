@@ -24,8 +24,7 @@ import java.io.FilenameFilter;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -57,7 +56,6 @@ public final class ConsoleFrame {
     private JButton menuButton;
     private JButton alternateBackground;
 
-    private boolean updateConsoleClock;
     private boolean menuGenerated;
 
     private String consoleBashString;
@@ -163,7 +161,13 @@ public final class ConsoleFrame {
             consoleCyderFrame.setTitle(IOUtil.getSystemData("Version") +
                     " Cyder [" + ConsoleFrame.getConsoleFrame().getUsername() + "]");
 
-            //todo work in frame resizing somewhere? maybe allow/disallow this in Sys.ini
+            if (IOUtil.getSystemData("ConsoleResizable").equals("1")) {
+                //todo min and max sizes need to be set and updated upon new images,
+                // components need to be set to different sizes and revalidated
+                consoleCyderFrame.initializeResizing();
+                consoleCyderFrame.setResizable(true);
+                consoleCyderFrame.setBackgroundResizing(true);
+            }
 
             ((JLabel) (consoleCyderFrame.getContentPane()))
                     .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
@@ -206,7 +210,7 @@ public final class ConsoleFrame {
                 outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")),
                         3, false));
             } else {
-                outputScroll.setBorder(BorderFactory.createEmptyBorder());
+                outputScroll.setBorder(null);
             }
 
             outputScroll.setBounds(10, 62, getBackgroundWidth() - 20, getBackgroundHeight() - 204);
@@ -221,7 +225,7 @@ public final class ConsoleFrame {
                 inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor
                         (IOUtil.getUserData("Background")), 3, false));
             } else {
-                inputField.setBorder(BorderFactory.createEmptyBorder()); //todo test null border?
+                inputField.setBorder(null);
             }
 
             //input field key listeners such as auto-capitalization, escaping, and console rotations
@@ -361,7 +365,10 @@ public final class ConsoleFrame {
             }
 
             if (IOUtil.getUserData("InputFill").equals("1")) {
+                inputField.setOpaque(true);
                 inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+                inputField.repaint();
+                inputField.revalidate();
             }
 
             suggestionButton = new JButton("");
@@ -407,10 +414,7 @@ public final class ConsoleFrame {
             menuButton.setContentAreaFilled(false);
             menuButton.setBorderPainted(false);
 
-            consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> {
-                updateConsoleClock = false;
-                minimizeMenu();
-            });
+            consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> minimizeMenu());
 
             alternateBackground = new JButton("");
             alternateBackground.setToolTipText("Alternate Background");
@@ -460,6 +464,7 @@ public final class ConsoleFrame {
             consoleCyderFrame.getTopDragLabel().addButton(alternateBackground,1);
 
             consoleCyderFrame.getTopDragLabel().addCloseListener(e -> {
+                //todo genesis share exit(25);
             });
 
             //this turns into setting a center title
@@ -468,67 +473,12 @@ public final class ConsoleFrame {
             consoleClockLabel.setForeground(CyderColors.vanila);
             //bounds not needed to be set since the executor service handles that
             consoleCyderFrame.getTopDragLabel().add(consoleClockLabel);
+            consoleClockLabel.setVisible(true);
 
-            updateConsoleClock = IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
+            //spin off console executors
+            startExecutors();
 
-            //todo make a method to start/end executors
-
-            Executors.newSingleThreadScheduledExecutor(
-                    new CyderThreadFactory("ConsoleClock Updater")).scheduleAtFixedRate(() -> {
-                if (consoleClockLabel.isVisible())
-                    if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
-                        String time = TimeUtil.consoleSecondTime();
-                        int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                        int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-
-                        consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
-                                -5, clockWidth, clockHeight);
-                        consoleClockLabel.setText(time);
-                    } else {
-                        String time = TimeUtil.consoleTime();
-                        int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                        int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-
-                        consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
-                                -5, clockWidth, clockHeight);
-                        consoleClockLabel.setText(time);
-                    }
-            }, 0, 500, TimeUnit.MILLISECONDS);
-            consoleClockLabel.setVisible(updateConsoleClock);
-
-            Executors.newSingleThreadScheduledExecutor(
-                    new CyderThreadFactory("Hourly Chime Checker")).scheduleAtFixedRate(() -> {
-                if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
-                    IOUtil.playAudio("sys/audio/chime.mp3", outputArea, false);
-            }, 3600 - LocalDateTime.now().getMinute() * 60 - LocalDateTime.now().getSecond(), 3600, SECONDS);
-
-            //todo start/end executors via methods
-            consoleCyderFrame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowDeiconified(WindowEvent e) {
-                    updateConsoleClock = true;
-                }
-                @Override
-                public void windowIconified(WindowEvent e) {
-                    updateConsoleClock = false;
-                }
-            });
-
-            //network connection checker
-            Executors.newSingleThreadScheduledExecutor(
-                    new CyderThreadFactory("Stable Network Connection Checker")).scheduleAtFixedRate(() -> {
-                        //update console clock tells us if we're iconified or not
-                if (!NetworkUtil.internetReachable() && updateConsoleClock) {
-                    consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
-                            ", but I had trouble connecting to the internet.\n" +
-                            "As a result, some features may not work properly.");
-                }
-            }, 0, 5, MINUTES);
-            consoleClockLabel.setVisible(updateConsoleClock);
-
-            //todo executors should be started once from main and not from console() method
-
-            //final frame disposed checker
+            //final frame disposed checker todo move to main?
             Executors.newSingleThreadScheduledExecutor(
                     new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
                 Frame[] frames = Frame.getFrames();
@@ -549,6 +499,50 @@ public final class ConsoleFrame {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    private void startExecutors() {
+        //internet connection checker
+        Executors.newSingleThreadScheduledExecutor(
+                new CyderThreadFactory("Stable Network Connection Checker")).scheduleAtFixedRate(() -> {
+            //update console clock tells us if we're iconified or not
+            if (!NetworkUtil.internetReachable()) {
+                consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
+                        ", but I had trouble connecting to the internet.\n" +
+                        "As a result, some features may not work properly.");
+            }
+        }, 0, 5, MINUTES);
+
+        //hourly chime checker
+        Executors.newSingleThreadScheduledExecutor(
+                new CyderThreadFactory("Hourly Chime Checker")).scheduleAtFixedRate(() -> {
+            if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
+                IOUtil.playAudio("sys/audio/chime.mp3", outputArea, false);
+        }, 3600 - LocalDateTime.now().getMinute() * 60 - LocalDateTime.now().getSecond(), 3600, SECONDS);
+
+        //console clock updater
+        Executors.newSingleThreadScheduledExecutor(
+                new CyderThreadFactory("ConsoleClock Updater")).scheduleAtFixedRate(() -> {
+            if (IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1")) {
+                if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
+                    String time = TimeUtil.consoleSecondTime();
+                    int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                    int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+
+                    consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
+                            -5, clockWidth, clockHeight);
+                    consoleClockLabel.setText(time);
+                } else {
+                    String time = TimeUtil.consoleTime();
+                    int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                    int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+
+                    consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
+                            -5, clockWidth, clockHeight);
+                    consoleClockLabel.setText(time);
+                }
+            }
+        }, 0, 500, TimeUnit.MILLISECONDS);
     }
 
     //one time run things such as notifying due to special days, debug properties,
