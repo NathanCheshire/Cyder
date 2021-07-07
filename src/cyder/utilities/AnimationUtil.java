@@ -2,7 +2,6 @@ package cyder.utilities;
 
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
@@ -31,7 +30,7 @@ public class AnimationUtil {
                 int x = (int) point.getX();
                 int y = (int) point.getY();
 
-                for (int i = y; i >= 0 - frame.getHeight(); i -= 15) {
+                for (int i = y; i >= -frame.getHeight(); i -= 15) {
                     Thread.sleep(0, 500);
                     frame.setLocation(x, i);
                 }
@@ -475,36 +474,36 @@ public class AnimationUtil {
     /**
      * This method takes in a width and outputs the increment and delay to obtain a near 1s animation time
      * Used purely for console background switching animations.
-     * @param width - the width of which want to find an increment for
+     * @param len - the length of the side of which want to find an increment for
      * @return an array representing the delay in ms followed by the width increment
      */
-    public static int[] getDelayIncrement(int width) {
+    public static int[] getDelayIncrement(int len) {
         int[] ret = new int[2];
         //assign ret[0] to delay
         //assign ret[1] to inc
 
         try {
-            //width below 400 now allowed
-            if (width < 600)
+            //width below 600 now allowed
+            if (len < 600) {
                 throw new FatalException("Background dimensions below 600x600 " +
                         "are not allowed and shouln't be possible; allow me to fix that");
-            ConsoleFrame.getConsoleFrame().resizeBackgrounds();
+            }
 
             double animationLen = 500; //ideally we want the animation to last 1000ms
-            double increment = animationLen / width; //delay must be an int so if this is less than 1, problem
+            double increment = animationLen / len; //delay must be an int so if this is less than 1, problem
 
-            if (width < 500) {
+            if (len < 500) {
                 //increment will be 1 and delay will be at least 1 if not greater
                 ret[1] = 1;
-                ret[0] = (int) Math.round(animationLen / width);
+                ret[0] = (int) Math.round(animationLen / len);
 
-            } else if (width > 1000) {
+            } else if (len > 1000) {
                 //delay is 1ms, minimum in ms delay
                 ret[0] = 1;
                 //increment will be 1 from 1001 to 1499
                 //increment will be 2 from 1500 to 2000
                 //increment will be 3 from 2001 to 2499
-                ret[1] = (int) Math.round(width / animationLen);
+                ret[1] = (int) Math.round(len / animationLen);
             } else {
                 //width is 1000 and our delay is 1000 which resulted in 1 here. Thus we return the ideal array
                 ret[0] = (ret[1] = 1);

@@ -79,7 +79,7 @@ public final class ConsoleFrame {
     private static int scrollingIndex;
 
     //directional enums
-    private Direction lastSlideDirection = Direction.TOP;
+    private Direction lastSlideDirection = Direction.LEFT;
     private Direction consoleDir = Direction.TOP;
 
     public void start() {
@@ -93,7 +93,7 @@ public final class ConsoleFrame {
             //set variables
             consoleBashString = getUsername() + "@Cyder:~$ ";
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
-            lastSlideDirection = Direction.TOP;
+            lastSlideDirection = Direction.LEFT;
             consoleDir = Direction.TOP;
             operationList.clear();
             scrollingIndex = 0;
@@ -174,8 +174,6 @@ public final class ConsoleFrame {
                 public void repaint() {
                     //todo take into account console dir and full screen and reset positions based off of this
                     super.repaint();
-                    System.out.println("Console dir: " + getConsoleDirection());
-                    System.out.println("Fullscreen: " + fullscreen);
 
                     //todo setting frame size
                     //todo setting console clock bounds
@@ -479,13 +477,9 @@ public final class ConsoleFrame {
                     try {
                         lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
 
-                        if (canSwitchBackground() && getBackgrounds().size() > 1) {
-                            incBackgroundIndex();
+                        if (canSwitchBackground()) {
                             switchBackground();
-                        } else if (onLastBackground() && getBackgrounds().size() > 1) {
-                            setBackgroundIndex(0);
-                            switchBackground();
-                        } else if (getBackgrounds().size() == 1) {
+                        }  else if (getBackgrounds().size() == 1) {
                             consoleCyderFrame.notify("You only have one background image. " +
                                     "Would you like to add more? (Enter yes/no)");
                             inputField.requestFocus();
@@ -1242,11 +1236,19 @@ public final class ConsoleFrame {
     }
 
     public void incBackgroundIndex() {
-        backgroundIndex += 1;
+        if (backgroundIndex + 1 == backgroundFiles.size()) {
+            backgroundIndex = 0;
+        } else {
+            backgroundIndex += 1;
+        }
     }
 
     public void decBackgroundIndex() {
-        backgroundIndex -= 1;
+        if (backgroundIndex - 1 < 0) {
+            backgroundIndex = backgroundFiles.size() - 1;
+        } else {
+            backgroundIndex -= 1;
+        }
     }
 
     public File getCurrentBackgroundFile() {
@@ -1269,10 +1271,10 @@ public final class ConsoleFrame {
         ImageIcon ret = null;
 
         try {
-            if (backgroundIndex + 1 == backgroundFiles.size() - 1) {
+            if (backgroundIndex + 1 == backgroundFiles.size()) {
                 ret = new ImageIcon(ImageIO.read(backgroundFiles.get(0)));
             } else {
-                ret = new ImageIcon(ImageIO.read(backgroundFiles.get(backgroundFiles.size() + 1)));
+                ret = new ImageIcon(ImageIO.read(backgroundFiles.get(backgroundIndex + 1)));
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -1302,8 +1304,8 @@ public final class ConsoleFrame {
     //if this returns false then we didn't switch so we should tell the user they should add more backgrounds
     public boolean switchBackground() {
         try {
-            ImageIcon oldBack = getLastBackgroundImageIcon();
-            ImageIcon newBack = getCurrentBackgroundImageIcon();
+            ImageIcon oldBack = getCurrentBackgroundImageIcon();
+            ImageIcon newBack = getNextBackgroundImageIcon();
 
             //get the dimensions which we will flip to, the next image
             int width = newBack.getIconWidth();
@@ -1352,11 +1354,11 @@ public final class ConsoleFrame {
 
             //todo before combining images, we need to make sure they're the same size, duhhhhh
             oldBack = ImageUtil.resizeImage(oldBack, width, height);
-            newBack = ImageUtil.resizeImage(newBack, width, height);
-
+            newBack = ImageUtil.resizeImage(newBack, width, height); //todo you shouldn't need this line
+            ImageIcon finalNewBack = newBack;
 
             //todo component up
-            //ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.BOTTOM));
+            // ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.BOTTOM));
 
             //todo component down
             // ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.TOP));
@@ -1365,56 +1367,76 @@ public final class ConsoleFrame {
             // ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.LEFT));
 
             //todo component left (right means we place the new image to the right of the old image)
-            //ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.RIGHT));
+            // ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.RIGHT));
 
             switch (lastSlideDirection) {
                 case LEFT:
                     //get combined icon
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.BOTTOM);
-                    //set content pane bounds
-                    consoleCyderFrame.getContentPane().setBounds(
-                            consoleCyderFrame.getContentPane().getX(),
-                            consoleCyderFrame.getContentPane().getY(),
+                    //set content pane bounds to hold combined image
+                    consoleCyderFrame.getContentPane().setSize(
                             consoleCyderFrame.getContentPane().getWidth(),
-                            consoleCyderFrame.getContentPane().getHeight() * 2);
-                    //set content pane to this combinedIcon
-                    ((JLabel) consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
-//                    //get proper delay and inc values
-//                    int[] delayInc = AnimationUtil.getDelayIncrement(height);
-//                    //slide up by height so init bounds are 0,height,width,height with proper delay
-//                    try {
-//                        for (int i = consoleCyderFrame.getContentPane().getY() ;
-//                             i > - consoleCyderFrame.getContentPane().getHeight() ; i -= delayInc[1]) {
-//                            consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(),i);
-//                            Thread.sleep(delayInc[0]);
-//                        }
-//                    } catch (Exception e) {
-//                        ErrorHandler.handle(e);
-//                    }
-//
-//                    //reset contentPane bounds
-//                    consoleCyderFrame.getContentPane().setSize(
-//                            consoleCyderFrame.getContentPane().getWidth(),
-//                            consoleCyderFrame.getContentPane().getHeight() / 2);
+                            consoleCyderFrame.getContentPane().getHeight() * 2
+                    );
+                    //get delay and inc values
+                    int[] delayInc = AnimationUtil.getDelayIncrement(consoleCyderFrame.getContentPane().getHeight() / 2);
+                    //set content pane image
+                    ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
+                    //animate the image up
+                    new Thread(() -> {
+                        int start = 0;
+                        int stop = -consoleCyderFrame.getHeight();
+                        int increment = delayInc[1];
+                        int delay = delayInc[0];
+                        Component comp = consoleCyderFrame.getContentPane();
 
-                    //todo set content pane to proper image
-                    //todo revalidate anything else needed
+                        //disable dragging to avoid random repaints
+                        consoleCyderFrame.disableDragging();
 
-                    lastSlideDirection = Direction.TOP; //meaning we slid up
+                        for (int i = start; i >= stop; i -= increment) {
+                            try {
+                                Thread.sleep(delay);
+                                comp.setLocation(comp.getX(), i);
+                            } catch (InterruptedException e) {
+                                ErrorHandler.handle(e);
+                            }
+                        }
+                        //set proper location for complete animation
+                        comp.setLocation(comp.getX(), stop);
+
+                        //reanble dragging
+                        consoleCyderFrame.enableDragging();
+
+                        //reset content pane bounds
+                        consoleCyderFrame.getContentPane().setLocation(0,0);
+
+                        //reset the icon to the new one without combined icon
+
+                        consoleCyderFrame.setBackground(finalNewBack);
+                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNewBack);
+
+                        //refresh the background
+                        consoleCyderFrame.refreshBackground();
+                        consoleCyderFrame.getContentPane().revalidate();
+
+                        //set our last slide direction
+                        lastSlideDirection = Direction.TOP;
+
+                        //increment background index
+                        incBackgroundIndex();
+                    },"ConsoleFrame Background Switch Animation").start();
+
                     break;
-
                 case TOP:
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.LEFT);
 
                     lastSlideDirection = Direction.RIGHT; // meaning we slid right
                     break;
-
                 case RIGHT:
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.TOP);
 
                     lastSlideDirection = Direction.BOTTOM;
                     break;
-
                 case BOTTOM:
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.RIGHT);
 
@@ -1529,6 +1551,6 @@ public final class ConsoleFrame {
     }
 
     public boolean canSwitchBackground() {
-        return backgroundFiles.size() > backgroundIndex + 1;
+        return backgroundFiles.size() > 1;
     }
 }
