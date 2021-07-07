@@ -1441,7 +1441,7 @@ public class CyderMain {
                     }
 
                     //if it doesn't start with bash string, reset it to it
-                    if (!String.valueOf(loginField.getPassword()).startsWith(bashString)) {
+                    if (!String.valueOf(loginField.getPassword()).startsWith(bashString) && loginMode != 2) {
                         loginField.setText(bashString);
                     }
 
@@ -1647,6 +1647,11 @@ public class CyderMain {
                     AnimationUtil.closeAnimation(consoleFrame);
 
                 console();
+
+                //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
+                // and exiting the program when we have just logged in
+                if (loginFrame != null)
+                    loginFrame.closeAnimation();
 
                 //this if block needs to be in console, stuff to do specifically for user on first login
                 if (IOUtil.getUserData("IntroMusic").equals("1")) {
@@ -1903,7 +1908,7 @@ public class CyderMain {
         inputField.setCaretPosition(consoleBashString.length());
     }
 
-    //todo move to input handler
+    //todo move to input handler or it's TextAreaUtil if you make that
     private void clc() {
         outputArea.setText("");
         inputField.setText(consoleBashString);

@@ -507,12 +507,6 @@ public final class ConsoleFrame {
                 }
             });
 
-            //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
-            // and exiting the program when we have just logged in
-            //TODO do this in main after calling ConsoleFrame.start();
-//            if (loginFrame != null)
-//                loginFrame.closeAnimation();
-
             //network connection checker
             Executors.newSingleThreadScheduledExecutor(
                     new CyderThreadFactory("Stable Network Connection Checker")).scheduleAtFixedRate(() -> {
@@ -544,14 +538,7 @@ public final class ConsoleFrame {
                 }
             }, 10, 5, SECONDS);
 
-
-            //todo isn't this already set?
-            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
-
             theActualConsoleFrame.enterAnimation();
-
-            //after frame construction is complete and we've animated the entry of the frame----------------------------
-            //todo moved to onLaunch
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

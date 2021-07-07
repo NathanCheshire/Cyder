@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -195,5 +196,40 @@ public class NumberUtil {
 
     private static String prefix(int trioPlace) {
         return prefixes[trioPlace];
+    }
+
+    /**
+     * Returns "number" amount of random numbers within the provided range.
+     * @param min - the minimum random number possible
+     * @param max - the maximum random number possible
+     * @param number - the number of random elements desired
+     * @param allowDuplicates - allow duplicate random values for a pure random experience vs unique random elements
+     * @return - an array of ints of the desired size of random elements from min to max
+     */
+    public static int[] randInt(int min, int max, int number, boolean allowDuplicates) {
+        if (max - min < number && !allowDuplicates)
+            throw new IllegalArgumentException("Desired number of random elements cannot be met with provided range.");
+        int[] ret = new int[number];
+
+        if (!allowDuplicates) {
+            LinkedList<Integer> uniqueInts = new LinkedList<>();
+
+            while (uniqueInts.size() < number) {
+                int rand = randInt(min, max);
+                if (!uniqueInts.contains(rand)) {
+                    uniqueInts.add(rand);
+                }
+            }
+
+            for (int i = 0 ; i < uniqueInts.size() ; i++) {
+                ret[i] = uniqueInts.get(i);
+            }
+        } else {
+            for (int i = 0 ; i < number ; i++) {
+                ret[i] = randInt(min,max);
+            }
+        }
+
+        return ret;
     }
 }

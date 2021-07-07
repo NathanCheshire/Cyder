@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//a StringUtil method should always be connected to an inputhandler if instantiated
+//Simple general String util methods along with some JTextPane appending methods
 public class StringUtil {
     private static JTextPane outputArea = null;
 
@@ -218,11 +218,8 @@ public class StringUtil {
      */
     public void printComponent(Component c, String nm, String str) {
         try {
-            //setup style for sheet
             Style cs = outputArea.getStyledDocument().addStyle(nm, null);
-            //add component using the nm identifier
             StyleConstants.setComponent(cs, c);
-            //add style with component to styled document using str identifier
             outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), str, cs);
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -236,13 +233,9 @@ public class StringUtil {
      */
     public void printComponent(Component c) {
         try {
-            //get custom UUID for this component
             String componentUUID = SecurityUtil.generateUUID();
-            //setup style for sheet
             Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
-            //add component using the nm identifier
             StyleConstants.setComponent(cs, c);
-            //add style with component to styled document using str identifier
             outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -259,7 +252,6 @@ public class StringUtil {
         try {
             String componentUUID = SecurityUtil.generateUUID();
             printComponent(c, componentUUID, componentUUID);
-            //new line
             println("");
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -277,7 +269,6 @@ public class StringUtil {
     public void printlnComponent(Component c, String nm, String str) {
         try {
             printComponent(c, nm, str);
-            //new line
             println("");
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -502,11 +493,12 @@ public class StringUtil {
                 return false;
             }
 
-            if (Math.min(compA.length, opA.length) < i && compA[i] != opA[i]) {
+            boolean min = Math.min(compA.length, opA.length) < i;
+            if (min && compA[i] != opA[i]) {
                 return false;
             }
 
-            else if (Math.min(compA.length, opA.length) < i && compA[i] == opA[i] && i == compA.length - 1 && opA[i+1] == ' ') {
+            else if (min && compA[i] == opA[i] && i == compA.length - 1 && opA[i+1] == ' ') {
                 return true;
             }
         }
@@ -550,36 +542,8 @@ public class StringUtil {
             println(o);
     }
 
-    //todo this will be written in logs so held in memory until proper closing
     public void logSuggestion(String input) {
-        try {
-            if (input != null && !input.equals("") && !filterLanguage(input) && input.length() > 10 && !filterLanguage(input)) {
-                File suggestionsFile = new File("sys/text/suggestions.txt");
-
-                if (!suggestionsFile.exists())
-                    suggestionsFile.mkdir();
-
-                BufferedWriter sugWriter = new BufferedWriter(new FileWriter(suggestionsFile, true));
-
-                sugWriter.write("User " + ConsoleFrame.getConsoleFrame().getUsername() + " at " + new TimeUtil().weatherTime() + " made the suggestion: ");
-                sugWriter.write(System.getProperty("line.separator"));
-
-                sugWriter.write(input);
-
-                sugWriter.write(System.getProperty("line.separator"));
-                sugWriter.write(System.getProperty("line.separator"));
-
-                sugWriter.flush();
-                sugWriter.close();
-
-                println("Request registered.");
-                sugWriter.close();
-            }
-        }
-
-        catch (Exception ex) {
-            ErrorHandler.handle(ex);
-        }
+        //todo remove method and simply log a suggestion using SessionLogger
     }
 
     /**
@@ -938,7 +902,7 @@ public class StringUtil {
             for (String s : parts)
                 sb.append(s).append(", ");
 
-            return sb.toString().substring(0,sb.toString().length() - 2);
+            return sb.substring(0,sb.toString().length() - 2);
         }
     }
 }

@@ -8,7 +8,7 @@ import javax.swing.*;
 public class InputHandler {
     //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
     // and direct the resulting flow and output
-    // console frame (has-a) input handler (has-a) string util and context engine
+    // console frame (has-a) input handler (change of plans, don't link to a string util)
 
 
     //todo correcting user data doesn't work properly, it should either work and everything be there,
