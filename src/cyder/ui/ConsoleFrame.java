@@ -1903,4 +1903,20 @@ public final class ConsoleFrame {
     public ArrayList<String> getOperationList() {
         return operationList;
     }
+
+    public void minimize() {
+        consoleCyderFrame.minimizeAnimation();
+    }
+
+    public void barrelRoll() {
+        consoleCyderFrame.barrelRoll();
+    }
+
+    public void setLocation(int x, int y) {
+        consoleCyderFrame.setLocation(x, y);
+    }
+
+    public void setLocationRelativeTo(Component c) {
+        consoleCyderFrame.setLocationRelativeTo(c);
+    }
 }

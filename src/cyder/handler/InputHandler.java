@@ -1,8 +1,11 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 import cyder.exception.CyderException;
 import cyder.games.Hangman;
+import cyder.games.TicTacToe;
 import cyder.genesis.GenesisShare;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
@@ -10,10 +13,7 @@ import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.*;
-import cyder.widgets.Cards;
-import cyder.widgets.ClickMe;
-import cyder.widgets.ColorConverter;
-import cyder.widgets.TempConverter;
+import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,8 +21,11 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.InetAddress;
 import java.net.URI;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -35,6 +38,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class InputHandler {
+    //todo will control + c actions still work
+
     //todo anywhere we're passing output area, (to print to I assume), just call it here or pass
     // input handler to call that print method
 
@@ -116,7 +121,16 @@ public class InputHandler {
             println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
         }
         //printing strings ----------------------------------------
-        else if (hasWord("asdf")) {
+        else if (hasWord("shakespeare")) {
+            int rand = NumberUtil.randInt(1, 2);
+
+            if (rand == 1) {
+                println("Glamis hath murdered sleep, and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
+            } else {
+                println("To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer the slings and arrows of "
+                        + "outrageous fortune, or to take arms against a sea of troubles and by opposing end them.");
+            }
+        } else if (hasWord("asdf")) {
             println("Who is the spiciest meme lord?");
         } else if (hasWord("qwerty")) {
             println("I prefer Dvorak, but I also like Colemak, Maltron, and JCUKEN.");
@@ -237,16 +251,54 @@ public class InputHandler {
             } else {
                 println("Yes");
             }
+        } else if (eic("&&")) {
+            println("||");
+        } else if (eic("||")) {
+            println("&&");
+        } else if (eic("&")) {
+            println("|");
+        } else if (eic("|")) {
+            println("&");
+        } else if (hasWord("imposible")) {
+            println("¿Lo es?");
+        } else if (eic("look")) {
+            println("L()()K ---->> !FREE STUFF! <<---- L()()K");
+        } else if (eic("Cyder?")) {
+            println("Yes?");
+        } else if (hasWord("home")) {
+            println("There's no place like localhost/127.0.0.1");
+        } else if (hasWord("I") && hasWord("love")) {
+            println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I don't understand human emotions or affections.");
+        } else if (eic("loop")) {
+            println("InputHandler.handle(\"loop\");");
+        } else if (hasWord("story") && hasWord("tell")) {
+            println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + ConsoleFrame.getConsoleFrame().getUsername() + " started talking to Cyder."
+                    + " It was at this moment that Cyder knew its day had been ruined.");
+        } else if (hasWord("there") && hasWord("no") && hasWord("internet")) {
+            println("Sucks to be you.");
+        } else if (eic("i hate you")) {
+            println("That's not very nice.");
         }
         //printing components ------------------------------------
         //printing imageicons -------------------------------------
-        else if ((hasWord("mississippi") && hasWord("state") && hasWord("university")) || eic("msu")) {
+        else if (eic("java")) {
+            printlnImage("sys/pictures/print/Duke.png");
+        } else if ((hasWord("mississippi") && hasWord("state") && hasWord("university")) || eic("msu")) {
             printlnImage("sys/pictures/print/msu.png");
         } else if (eic("nathan")) {
             printlnImage("sys/pictures/print/me.png");
+        } else if (hasWord("html") || hasWord("html5")) {
+            printlnImage("sys/pictures/print/html5.png");
+        } else if (hasWord("css")) {
+            printlnImage("sys/pictures/print/css.png");
         }
         //threads -------------------------------------------------
-        else if (hasWord("scrub")) {
+        else if (hasWord("random") && hasWord("youtube")) {
+            masterYoutube.killAllYoutube();
+            println("Type \"Stop Threads\" or press ctrl + c to stop the YouTube thread.");
+            masterYoutube = new MasterYoutube(outputArea);
+            masterYoutube.start(1);
+        } else if (hasWord("scrub")) {
             bletchyThread.bletchy("No you!", false, 50, true);
         } else if (hasWord("bletchy")) {
             //todo does bletchy work?
@@ -260,7 +312,29 @@ public class InputHandler {
                     false, 50, true);
         }
         //widgets -------------------------------------------------
-        else if (hasWord("temperature") || eic("temp")) {
+        else if ((hasWord("youtube") && hasWord("thumbnail")) || (hasWord("yt") && hasWord("thumb"))) {
+            new YouTubeThumbnail();
+            new ThumbnailStealer();
+        } else if (hasWord("minecraft")) {
+            new Minecraft();
+        } else if ((hasWord("edit") && hasWord("user")) ||
+                (hasWord("font") && !hasWord("reset")) ||
+                (hasWord("color") && !hasWord("reset") &&
+                        !hasWord("converter")) || (eic("preferences") || eic("prefs"))) {
+            //todo widget: editUser();
+        } else if (hasWord("hash") || hasWord("hashser")) {
+            new Hasher();
+        }  else if (eic("search") || eic("dir") || (hasWord("file") && hasWord("search")) || eic("directory") || eic("ls")) {
+            DirectorySearch ds = new DirectorySearch();
+        } else if (hasWord("weather")) {
+            Weather ww = new Weather();
+        } else if (eic("pin") || eic("login")) {
+            //todo widget login();
+        } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
+            //todo widget createUser();
+        } else if (hasWord("resize") && (hasWord("image") || hasWord("picture"))) {
+            ImageResizer IR = new ImageResizer();
+        } else if (hasWord("temperature") || eic("temp")) {
             TempConverter tc = new TempConverter();
         } else if (has("click me")) {
             ClickMe.clickMe();
@@ -271,13 +345,55 @@ public class InputHandler {
         } else if (hasWord("number") && hasWord("word")) {
             NumberUtil.numberToWord();
         } else if (hasWord("hangman")) {
-            Hangman Hanger = new Hangman();
-            Hanger.startHangman();
+            new Hangman().startHangman();
         } else if (hasWord("rgb") || hasWord("hex") || (hasWord("color") && hasWord("converter"))) {
             ColorConverter.colorConverter();
+        } else if (hasWord("pizza")) {
+            new Pizza();
+        } else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
+            //todo pixelator widget that uses ImageUtil.pixelate()
+        } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
+            new TicTacToe().startTicTacToe();
+        } else if (hasWord("note") || hasWord("notes")) {
+            IOUtil.startNoteEditor();
+        } else if (hasWord("mp3") || hasWord("music")) {
+            IOUtil.mp3("");
+        } else if (hasWord("phone") || hasWord("dialer") || hasWord("call")) {
+            new Phone(outputArea);
+        } else if ((hasWord("calculator") || hasWord("calc")) && !has("graphing")) {
+            new Calculator();
         }
         //ui and settings -----------------------------------------
-        else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
+        else if (hasWord("font") && hasWord("reset")) {
+            ConsoleFrame.getConsoleFrame().getInputField().setFont(CyderFonts.defaultFont);
+            outputArea.setFont(CyderFonts.defaultFont);
+            println("The font has been reset.");
+            IOUtil.writeUserData("Fonts", outputArea.getFont().getName());
+        } else if (hasWord("reset") && hasWord("color")) {
+            outputArea.setForeground(CyderColors.vanila);
+            ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.vanila);
+            println("The text color has been reset.");
+            IOUtil.writeUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.defaultColor));
+        } else if (eic("top left")) {
+            ConsoleFrame.getConsoleFrame().setLocation(0, 0);
+        } else if (eic("top right")) {
+            ConsoleFrame.getConsoleFrame().setLocation(SystemUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(), 0);
+        } else if (eic("bottom left")) {
+            ConsoleFrame.getConsoleFrame().setLocation(0, SystemUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
+        } else if (eic("bottom right")) {
+            ConsoleFrame.getConsoleFrame().setLocation(SystemUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(),
+                    SystemUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
+        } else if (eic("middle") || eic("center")) {
+            ConsoleFrame.getConsoleFrame().setLocationRelativeTo(null);
+        } else if (hasWord("frame") && has("title")) {
+            Frame[] frames = Frame.getFrames();
+            for (Frame f : frames)
+                if (f instanceof CyderFrame) {
+                    println(f.getTitle());
+                } else {
+                    println(f.getTitle());
+                }
+        } else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
             for (Frame f : Frame.getFrames()) {
                 if (f.getState() == Frame.ICONIFIED) {
                     f.setState(Frame.NORMAL);
@@ -290,9 +406,76 @@ public class InputHandler {
 
                 f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY());
             }
+        } else if (hasWord("dance")) {
+            for (Frame f : Frame.getFrames())
+                if (f instanceof CyderFrame)
+                    ((CyderFrame) (f)).dance();
         }
-        //program out sourcing ------------------------------------ (todo internet connect, file explorer stuff)
-        else if (has("paint")) {
+        //program outsourcing ------------------------------------
+        else if (hasWord("cyder") && has("dir")) {
+            if (SecurityUtil.compMACAddress(SecurityUtil.getMACAddress())) {
+                String CurrentDir = System.getProperty("user.dir");
+                IOUtil.openFile(CurrentDir);
+            } else {
+                println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
+                        ", but you don't have permission to do that.");
+            }
+        } else if (eic("youtube word search")) {
+            println("Enter the desired word you would like to find in a YouTube URL");
+            setUserInputDesc("youtube word search");
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputMode(true);
+        } else if (hasWord("youtube") && (!has("word search") && !has("random") && !has("thumbnail"))) {
+            println("What would you like to search YouTube for?");
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputMode(true);
+            setUserInputDesc("youtube");
+        } else if ((hasWord("google"))) {
+            println("What would you like to Google?");
+            setUserInputDesc("google");
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputMode(true);
+        }   else if (firstWord.equalsIgnoreCase("echo")) {
+            String[] sentences = operation.split(" ");
+            for (int i = 1; i < sentences.length; i++) {
+                print(sentences[i] + " ");
+            }
+
+            println("");
+        } else if (eic("cmd") || (hasWord("command") && hasWord("prompt"))) {
+            File WhereItIs = new File("c:\\Windows\\System32\\cmd.exe");
+            Desktop.getDesktop().open(WhereItIs);
+        } else if ((has("graphing") && has("calculator")) || has("desmos") || has("graphing")) {
+            NetworkUtil.internetConnect("https://www.desmos.com/calculator");
+        } else if (has("airHeads xtremes") || has("candy")) {
+            NetworkUtil.internetConnect("http://airheads.com/candy#xtremes");
+        } else if (eic("404")) {
+            NetworkUtil.internetConnect("http://google.com/=");
+        } else if (hasWord("coffee")) {
+            NetworkUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
+        } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
+            NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
+        } else if (hasWord("triangle")) {
+            NetworkUtil.internetConnect("https://www.triangle-calculator.com/");
+        } else if (hasWord("board")) {
+            NetworkUtil.internetConnect("http://gameninja.com//games//fly-squirrel-fly.html");
+        }else if (hasWord("arduino")) {
+            NetworkUtil.internetConnect("https://www.arduino.cc/");
+        } else if (has("rasberry pi")) {
+            NetworkUtil.internetConnect("https://www.raspberrypi.org/");
+        }else if (hasWord("vexento")) {
+            NetworkUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
+        }else if (hasWord("papers") && hasWord("please")) {
+            NetworkUtil.internetConnect("http://papersplea.se/");
+        }else if (hasWord("donuts")) {
+            NetworkUtil.internetConnect("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
+        }else if (hasWord("bai")) {
+            NetworkUtil.internetConnect("http://www.drinkbai.com");
+        } else if (has("occam") && hasWord("razor")) {
+            NetworkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
+        } else if (eic("netsh")) {
+            Desktop.getDesktop().open(new File("C:\\Windows\\system32\\netsh.exe"));
+        } else if (has("paint")) {
             String param = "C:/Windows/system32/mspaint.exe";
             Runtime.getRuntime().exec(param);
         } else if (hasWord("rick") && hasWord("morty")) {
@@ -302,7 +485,17 @@ public class InputHandler {
             NetworkUtil.internetConnect("about:blank");
         }
         //playing audio -------------------------------------------
-        else if (has("toy") && has("story")) {
+        else if (eic("hey")) {
+            IOUtil.playAudio("sys/audio/heyya.mp3",outputArea);
+        }  else if (hasWord("windows")) {
+            IOUtil.playAudio("sys/audio/windows.mp3",outputArea);
+        }  else if (hasWord("light") && hasWord("saber")) {
+            IOUtil.playAudio("sys/audio/Lightsaber.mp3",outputArea);
+        } else if (hasWord("xbox")) {
+            IOUtil.playAudio("sys/audio/xbox.mp3",outputArea);
+        } else if (has("star") && has("trek")) {
+            IOUtil.playAudio("sys/audio/StarTrek.mp3",outputArea);
+        } else if (has("toy") && has("story")) {
             IOUtil.playAudio("sys/audio/TheClaw.mp3",outputArea);
         } else if (has("stop") && has("music")) {
             IOUtil.stopMusic();
@@ -312,7 +505,79 @@ public class InputHandler {
             IOUtil.playAudio("sys/audio/1800.mp3",outputArea);
         }
         //console commands ----------------------------------------
-        else if (hasWord("binary") && !has("dump")) {
+        else if (hasWord("disco")) {
+            println("How many iterations would you like to disco for? (Enter a positive integer)");
+            setUserInputMode(true);
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputDesc("disco");
+        }   else if (hasWord("java") && hasWord("properties")) {
+            StatUtil.javaProperties();
+        } else if (eic("panic")) {
+            GenesisShare.exit(25);
+        } else if ((firstWord.equalsIgnoreCase("print") || firstWord.equalsIgnoreCase("println"))) {
+            String[] sentences = operation.split(" ");
+
+            for (int i = 1; i < sentences.length; i++) {
+                print(sentences[i] + " ");
+            }
+
+            println("");
+        } else if (hasWord("open cd")) {
+            SystemUtil.openCD("D:\\");
+        } else if (hasWord("close cd")) {
+            SystemUtil.closeCD("D:\\");
+        } else if (firstWord.equalsIgnoreCase("define")) {
+            //todo parse string and print response here
+        } else if (hasWord("wikipedia")) {
+            //todo parse string and print response here
+        } else if (firstWord.equalsIgnoreCase("synonym")) {
+            //todo parse string and print response here
+        } else if (hasWord("debug") && hasWord("menu")) {
+            StatUtil.debugMenu(this);
+        } else if (hasWord("pixelate") && hasWord("background")) {
+            println("Enter your pixel size (a positive integer)");
+            setUserInputDesc("pixelatebackground");
+            setUserInputMode(true);
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+        }  else if ((hasWord("delete") ||
+                hasWord("remove")) &&
+                (hasWord("user") ||
+                        hasWord("account"))) {
+
+            println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
+            setUserInputMode(true);
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputDesc("deleteuser");
+        } else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
+            println("Enter your word to be alphabetically rearranged");
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputMode(true);
+            setUserInputDesc("alphabetize");
+        } else if (eic("hide")) {
+            ConsoleFrame.getConsoleFrame().minimize();
+        } else if (hasWord("analyze") && hasWord("code")) {
+            println("Lines of code: " +
+                    StatUtil.totalJavaLines(new File("src")));
+            println("Number of java files: " +
+                    StatUtil.totalJavaFiles(new File("src")));
+            println("Number of comments: " +
+                    StatUtil.totalComments(new File("src")));
+            println("Blank lines: " +
+                    StatUtil.totalBlankLines(new File("src")));
+            println("Total: " +
+                    (StatUtil.totalBlankLines(new File("src"))
+                            + StatUtil.totalJavaLines(new File("src"))));
+
+        } else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
+            new Robot().keyPress(KeyEvent.VK_F17);
+        }  else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
+            if (SecurityUtil.nathanLenovo()) {
+                IOUtil.wipeErrors();
+            } else
+                println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you don't have permission to do that.");
+        } else if (hasWord("debug") && hasWord("windows")) {
+            StatUtil.allStats(this); //todo does this work
+        } else if (hasWord("binary") && !has("dump")) {
             println("Enter a decimal number to be converted to binary.");
             ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
             setUserInputMode(true);
@@ -365,6 +630,9 @@ public class InputHandler {
             } else {
                 println("hexdump usage: hexdump -f /path/to/binary/file");
             }
+        } else if (hasWord("barrel") && hasWord("roll")) {
+            //todo does this work?
+            ConsoleFrame.getConsoleFrame().barrelRoll();
         } else if (eic("askew")) {
             //todo does this work? if so, how is it reset?
             ConsoleFrame.getConsoleFrame().rotateBackground(5);
@@ -403,13 +671,65 @@ public class InputHandler {
             }
 
             println("");
+        } else if (hasWord("ip")) {
+            println(InetAddress.getLocalHost().getHostAddress());
+        }  else if (hasWord("computer") && hasWord("properties")) {
+            println("This may take a second, since this feature counts your PC's free memory");
+            StatUtil.computerProperties();
+        } else if (hasWord("system") && hasWord("properties")) {
+            StatUtil.systemProperties();
+        } else if (hasWord("anagram")) {
+            println("This function will tell you if two"
+                    + "words are anagrams of each other."
+                    + " Enter your first word");
+            setUserInputDesc("anagram1");
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputMode(true);
+        } else if (hasWord("url")) {
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputMode(true);
+            setUserInputDesc("url");
+            println("Enter your desired URL");
+        } else if (hasWord("reset") && hasWord("mouse")) {
+            SystemUtil.resetMouse();
+        } else if (eic("logoff")) {
+            println("Are you sure you want to log off your computer? This is not Cyder we are talking about (Enter yes/no)");
+            setUserInputDesc("logoff");
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputMode(true);
+        } else if (eic("clc") || eic("cls") || eic("clear") || (hasWord("clear") && hasWord("screen"))) {
+            clc();
+        }  else if (hasWord("reset") && hasWord("clipboard")) {
+            StringSelection selection = new StringSelection(null);
+            java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(selection, selection);
+            println("Clipboard has been reset.");
+        } else if (eic("help")) {
+            help();
+        } else if (eic("controlc") && !outputArea.isFocusOwner()) {
+            //todo method for this
+            //exit user input mode if in it
+            setUserInputMode(false);
+            //kill youtube threads
+            masterYoutube.killAllYoutube();
+            //kill bletchy threads
+            bletchyThread.killBletchy();
+            //kill system threads
+            SystemUtil.killThreads();
+            //stop music
+            IOUtil.stopMusic();
+            //cancel dancing threads
+            for (Frame f : Frame.getFrames()) {
+                if (f instanceof CyderFrame)
+                    ((CyderFrame) (f)).setControl_c_threads(true);
+            }
+            //inform user we escaped
+            println("Escaped");
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
             test();
         }
-        //un-categorized ------------------------------------------
-
         //final attempt at unknown input --------------------------
         else {
             //try context engine validation linked to this (instace of InputHandler)

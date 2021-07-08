@@ -134,7 +134,8 @@ public class Minecraft {
 
         Dimension size = SystemUtil.getScreenSize();
 
-        minecraftFrame.setLocation((int) (size.getWidth() / 2 - (1263 / 2)), (int) size.getHeight() - 240);
+        minecraftFrame.setLocation(SystemUtil.getScreenWidth() / 2 - minecraftFrame.getWidth() / 2,
+                SystemUtil.getScreenHeight() - minecraftFrame.getHeight());
 
         minecraftFrame.setIconImage(new ImageIcon("sys/pictures/minecraft/Block.png").getImage());
     }
