@@ -475,8 +475,6 @@ public final class ConsoleFrame {
                     ConsoleFrame.getConsoleFrame().initBackgrounds();
 
                     try {
-                        lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
-
                         if (canSwitchBackground()) {
                             switchBackground();
                         }  else if (getBackgrounds().size() == 1) {
@@ -1360,11 +1358,16 @@ public final class ConsoleFrame {
                 newBack = ImageUtil.resizeImage(newBack, width, height);
             }
 
+            //update frame bounds and set location relative to old center
+            int oldCenterX = consoleCyderFrame.getX() + consoleCyderFrame.getWidth() / 2;
+            int oldCenterY = consoleCyderFrame.getY() + consoleCyderFrame.getHeight() / 2;
+
+            consoleCyderFrame.setSize(width,height);
+
+            consoleCyderFrame.setLocation(oldCenterX - width / 2, oldCenterY - height / 2);
+
             //icon to set as the background after sliding animation completes
             ImageIcon finalNewBack = newBack;
-
-            //todo up is the only animation that actually runs complete, other ones are cut off
-            // by time or bounds
 
             switch (lastSlideDirection) {
                 case LEFT:
@@ -1409,13 +1412,10 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.TOP;
-
-                        //increment background index
-                        incBackgroundIndex();
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
-                case TOP: //slide right
+                case TOP:
                     //get combined icon
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.LEFT);
                     //set content pane bounds to hold combined image
@@ -1456,9 +1456,6 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.RIGHT;
-
-                        //increment background index
-                        incBackgroundIndex();
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
@@ -1503,13 +1500,10 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.BOTTOM;
-
-                        //increment background index
-                        incBackgroundIndex();
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
-                case BOTTOM: //slide left
+                case BOTTOM:
                     //get combined icon
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.RIGHT);
                     //set content pane bounds to hold combined image
@@ -1551,19 +1545,20 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.LEFT;
-
-                        //increment background index
-                        incBackgroundIndex();
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
             }
 
+            //increment background index
+            incBackgroundIndex();
+
             //change tooltip to new image name
             ((JLabel) (consoleCyderFrame.getContentPane()))
                     .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
 
-            //todo other stuff here maybe
+            //update line color
+            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
