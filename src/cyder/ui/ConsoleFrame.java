@@ -58,9 +58,10 @@ public final class ConsoleFrame {
 
     //boolean vars
     private boolean menuGenerated;
-    private boolean drawConsoleLines = false;
-    private boolean consoleLinesDrawn = false;
-    private boolean fullscreen = false;
+    private boolean drawConsoleLines;
+    private boolean consoleLinesDrawn;
+    private boolean fullscreen;
+    private boolean doThreads;
     private boolean closed = true;
 
     //background vars
@@ -549,8 +550,6 @@ public final class ConsoleFrame {
         }
     }
 
-    private boolean doThreads = false;
-
     private void startExecutors() {
         //set control boolean
         doThreads = true;
@@ -593,7 +592,6 @@ public final class ConsoleFrame {
             }
         }, "Hourly Chime Checker").start();
 
-
         //Console Clock Updater
         new Thread(() -> {
             try {
@@ -625,6 +623,52 @@ public final class ConsoleFrame {
                 ErrorHandler.handle(e);
             }
         }, "Console Clock Updater").start();
+
+
+
+        //Console Clock Updater
+        new Thread(() -> {
+            try {
+                while (doThreads) {
+                    ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+                    int num = threadGroup.activeCount();
+                    Thread[] printThreads = new Thread[num];
+                    threadGroup.enumerate(printThreads);
+
+                    LinkedList<String> ignoreNames = new LinkedList<>();
+                    ignoreNames.add("Cyder Busy Checker");
+                    ignoreNames.add("AWT-EventQueue-0");
+                    ignoreNames.add("Console Clock Updater");
+                    ignoreNames.add("Hourly Chime Checker");
+                    ignoreNames.add("Stable Network Connection Checker");
+                    ignoreNames.add("Final Frame Disposed Checker");
+                    ignoreNames.add("DestroyJavaVM");
+                    ignoreNames.add("JavaFX Application Thread");
+                    ignoreNames.add("Console Input Caret Position Updater");
+                    ignoreNames.add("Console Printing Animation");
+
+                    int busyThreads = 0;
+
+                    for (int i = 0; i < num; i++) {
+                        if (!printThreads[i].isDaemon() && !ignoreNames.contains(printThreads[i].getName())) {
+                            busyThreads++;
+                            System.out.println(printThreads[i]);
+                        }
+                    }
+
+                    if (busyThreads == 0) {
+                        consoleCyderFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
+                    } else {
+                        consoleCyderFrame.setIconImage(SystemUtil.getCyderIconBlink().getImage());
+                    }
+
+                    //sleep 3 seconds
+                    Thread.sleep(3000);
+                }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "Cyder Busy Checker").start();
     }
 
     private void endExecutors() {

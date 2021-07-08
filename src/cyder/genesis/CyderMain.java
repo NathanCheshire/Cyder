@@ -54,11 +54,11 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class CyderMain {
-    //todo input handler
+    //go away; added in inputhandler already
     private MasterYoutube my = new MasterYoutube(outputArea);
     private BletchyThread bl = new BletchyThread(outputArea);
 
-    //todo login spins off of main if autocypher fails
+    //todo login widget
     private CyderFrame loginFrame;
     private JPasswordField loginField;
     private boolean doLoginAnimations;
@@ -67,13 +67,14 @@ public class CyderMain {
     private final String bashString = SystemUtil.getWindowsUsername() + "@Cyder:~$ ";
     private String consoleBashString;
 
-    //todo go away
+    //todo go away completely
     private StringUtil stringUtil;
     private InputHandler inputHandler;
 
+    //todo in input handler
     private String operation;
 
-    //go away
+    //go away; in input handler somehow
     private String anagram;
 
     //go away
@@ -721,7 +722,7 @@ public class CyderMain {
             updateConsoleClock = IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1");
 
             Executors.newSingleThreadScheduledExecutor(
-                    new CyderThreadFactory("ConsoleClock Updater")).scheduleAtFixedRate(() -> {
+                    new CyderThreadFactory("Console Clock Updater")).scheduleAtFixedRate(() -> {
                 if (consoleClockLabel.isVisible())
                     if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
                         String time = TimeUtil.consoleSecondTime();
@@ -1337,7 +1338,7 @@ public class CyderMain {
                 LinkedList<String> ignoreNames = new LinkedList<>();
                 ignoreNames.add("Cyder Busy Checker");
                 ignoreNames.add("AWT-EventQueue-0");
-                ignoreNames.add("ConsoleClock Updater");
+                ignoreNames.add("Console Clock Updater");
                 ignoreNames.add("Hourly Chime Checker");
                 ignoreNames.add("Stable Network Connection Checker");
                 ignoreNames.add("Final Frame Disposed Checker");
