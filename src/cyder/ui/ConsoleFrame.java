@@ -173,15 +173,24 @@ public final class ConsoleFrame {
             };
 
             //on minimize / reopen end/start threads for optimization
+            //on launch, request input field focus and run onLaunch() method
             consoleCyderFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowIconified(WindowEvent e) {
+                    inputField.requestFocus();
                     endExecutors();
                 }
 
                 @Override
                 public void windowDeiconified(WindowEvent e) {
+                    inputField.requestFocus();
                     startExecutors();
+                }
+
+                @Override
+                public void windowOpened(WindowEvent e) {
+                    inputField.requestFocus();
+                    onLaunch();
                 }
             });
 
@@ -240,7 +249,7 @@ public final class ConsoleFrame {
             inputHandler = new InputHandler(outputArea);
 
             //start printing queue for input handler
-            //todo inputHandler.consolePrintingAnimation();
+            inputHandler.startConsolePrintingAnimation();
 
             outputScroll = new CyderScrollPane(outputArea,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
@@ -379,13 +388,6 @@ public final class ConsoleFrame {
             inputField.setSelectionColor(CyderColors.selectionColor);
             inputField.addKeyListener(commandScrolling);
             inputField.setCaretPosition(consoleBashString.length());
-
-            consoleCyderFrame.addWindowListener(new WindowAdapter() {
-                public void windowOpened(WindowEvent e) {
-                    inputField.requestFocus();
-                    onLaunch();
-                }
-            });
 
             inputField.setBounds(10, 82 + outputArea.getHeight(),getBackgroundWidth() - 20,
                     getBackgroundHeight() - (outputArea.getHeight() + 62 + 40));
@@ -1115,7 +1117,6 @@ public final class ConsoleFrame {
         @Override
         public void keyPressed(java.awt.event.KeyEvent event) {
             int code = event.getKeyCode();
-
             try {
                 //command scrolling
                 if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
@@ -1135,13 +1136,13 @@ public final class ConsoleFrame {
                         }
                     }
 
-                    //f17 easter egg and acknowlegement of other function keys
+                    //f17 easter egg and other acknowlegement of other function keys
                     for (int i = 61440; i < 61452; i++) {
                         if (code == i) {
                             if (i - 61427 == 17) {
                                 IOUtil.playAudio("sys/audio/f17.mp3", outputArea);
                             } else {
-                                //todo linked handler println("Interesting F" + (i - 61427) + " key");
+                                inputHandler.println("Interesting F" + (i - 61427) + " key");
                             }
                         }
                     }

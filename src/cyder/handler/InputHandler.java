@@ -1,10 +1,21 @@
 package cyder.handler;
 
+import com.fathzer.soft.javaluator.DoubleEvaluator;
+import cyder.genesis.GenesisShare;
+import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
+import cyder.ui.ConsoleFrame;
+import cyder.utilities.IOUtil;
+import cyder.utilities.SecurityUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import java.awt.*;
+import java.util.LinkedList;
 
 
 public class InputHandler {
@@ -38,6 +49,7 @@ public class InputHandler {
     private BletchyThread bletchyThread;
     private boolean userInputMode;
     private String userInputDesc;
+    private String operation;
 
     private InputHandler() {} //no instantiation without a valid outputArea to use
 
@@ -47,25 +59,68 @@ public class InputHandler {
         bletchyThread = new BletchyThread(outputArea);
     }
 
-    //todo queues, printing methods that add to the queues
+    //checks to see if a preference id was entered and if so, toggles it
+    private boolean preferenceCheck(String op) {
+        boolean ret = false;
 
-    //todo also need to make login and edit user their owns widgets
+        for (Preference pref : GenesisShare.getPrefs()) {
+            if (op.toLowerCase().contains(pref.getID().toLowerCase())) {
+                if (op.contains("1") || op.toLowerCase().contains("true")) {
+                    IOUtil.writeUserData(pref.getID(), "1");
+                } else if (op.contains("0") || op.toLowerCase().contains("false")) {
+                    IOUtil.writeUserData(pref.getID(), "0");
+                } else {
+                    IOUtil.writeUserData(pref.getID(), (IOUtil.getUserData(pref.getID()).equals("1") ? "0" : "1"));
+                }
 
-    public void handle(String operation) {
+                //todo console frame method refreshPrefs();
+                ret = true;
+            }
+        }
+
+        return ret;
+    }
+
+    //handle methods ----------------------------------------------
+
+    public void handle(String op) {
         if (outputArea == null)
             throw new IllegalArgumentException("Output area not set");
 
+        this.operation = op;
+
         String firstWord = StringUtil.firstWord(operation);
 
-        //todo split off into different handle sections
-        // printing strings
-        // printing components
-        // printing imageicons
-        // widgets
-        // calculations
-        // ui and settings
-        // console commands (bin hex dumps)
-        // etc
+        //pre-process checks --------------------------------------
+        if (StringUtil.filterLanguage(operation)) {
+            println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
+        }
+
+        //printing strings-----------------------------------------
+        //printing components--------------------------------------
+        //printing imageicons--------------------------------------
+        //widgets--------------------------------------------------
+        //calculations---------------------------------------------
+        //ui and settings------------------------------------------
+        //console commands (bin hex dumps)-------------------------
+        //[other ones here]----------------------------------------
+        //un-categorized-------------------------------------------
+
+        //final attempt at unknown input---------------------------
+        else {
+            //try context engine validation linked to this (instace of InputHandler)
+
+            if (handleMath(operation))
+                return;
+
+            if (evaluateExpression(operation))
+                return;
+
+            if (preferenceCheck(operation))
+                return;
+
+            unknownInput();
+        }
     }
 
     public void handleSecond(String operation) {
@@ -81,15 +136,109 @@ public class InputHandler {
         }
     }
 
+    private boolean handleMath(String userInput) {
+        int firstParen = userInput.indexOf("(");
+        int comma = userInput.indexOf(",");
+        int lastParen = userInput.indexOf(")");
+
+        String mathop;
+        double param1 = 0.0;
+        double param2 = 0.0;
+
+        try {
+            if (firstParen != -1) {
+                mathop = userInput.substring(0, firstParen);
+
+                if (comma != -1) {
+                    param1 = Double.parseDouble(userInput.substring(firstParen + 1, comma));
+
+                    if (lastParen != -1) {
+                        param2 = Double.parseDouble(userInput.substring(comma + 1, lastParen));
+                    }
+                } else if (lastParen != -1) {
+                    param1 = Double.parseDouble(userInput.substring(firstParen + 1, lastParen));
+                }
+
+                if (mathop.equalsIgnoreCase("abs")) {
+                    println(Math.abs(param1));
+                    return true;
+                } else if (mathop.equalsIgnoreCase("ceil")) {
+                    println(Math.ceil(param1));
+                    return true;
+                } else if (mathop.equalsIgnoreCase("floor")) {
+                    println(Math.floor(param1));
+                    return true;
+                } else if (mathop.equalsIgnoreCase("log")) {
+                    println(Math.log(param1));
+                    return true;
+                } else if (mathop.equalsIgnoreCase("log10")) {
+                    println(Math.log10(param1));
+                    return true;
+                } else if (mathop.equalsIgnoreCase("max")) {
+                    println(Math.max(param1, param2));
+                    return true;
+                } else if (mathop.equalsIgnoreCase("min")) {
+                    println(Math.min(param1, param2));
+                    return true;
+                } else if (mathop.equalsIgnoreCase("pow")) {
+                    println(Math.pow(param1, param2));
+                    return true;
+                } else if (mathop.equalsIgnoreCase("round")) {
+                    println(Math.round(param1));
+                    return true;
+                } else if (mathop.equalsIgnoreCase("sqrt")) {
+                    println(Math.sqrt(param1));
+                    return true;
+                } else if (mathop.equalsIgnoreCase("convert2")) {
+                    println(Integer.toBinaryString((int) (param1)));
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.silentHandle(e);
+        }
+
+        return false;
+    }
+
+    private void unknownInput() {
+        println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I don't recognize that command." +
+                " You can make a suggestion by clicking the \"Suggest something\" button.");
+
+        new Thread(() -> {
+            try {
+                ImageIcon blinkIcon = new ImageIcon("sys/pictures/icons/suggestion2.png");
+                ImageIcon regularIcon = new ImageIcon("sys/pictures/icons/suggestion1.png");
+
+                for (int i = 0 ; i < 4 ; i++) {
+                    //todo suggestionButton.setIcon(blinkIcon);
+                    Thread.sleep(300);
+                    //todo suggestionButton.setIcon(regularIcon);
+                    Thread.sleep(300);
+                }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "Suggestion Button Flash").start();
+    }
+
+    //input handler
+    private boolean evaluateExpression(String userInput) {
+        try {
+            println(new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(userInput.trim())));
+            return true;
+        } catch (Exception ignored) {}
+
+        return false;
+    }
+
+    //random methods find a category for --------------------------
+
     /**
      * Prints a suggestion as to what the user should do
      */
     public void help() {
-//        String[] helpTips = {
-//                "Nathan forgot to finish this; tell him to fill out this list"
-//        };
-//
-//        println("Try typing: " + helpTips[0]);
+        //todo example trigger annotation for input handler that code looks through, gatheres, and outputs random ones
     }
 
     public void logSuggestion(String suggestion) {
@@ -154,5 +303,250 @@ public class InputHandler {
     public String toString() {
         return "InputHandler object, hash=" + this.hashCode() +
                 "\nLinked outputArea: " + this.outputArea + "";
+    }
+
+    //printing queue methods and logic ----------------------------
+
+    //don't ever add to these lists, call the respective print functions and let them
+    // handle adding them to the lists
+    private LinkedList<Object> consolePrintingList = new LinkedList<>();
+    private LinkedList<Object> consolePriorityPrintingList = new LinkedList<>();
+
+    private boolean started = false;
+
+    //console printing animation currently turned off do to concurrency issues such as
+    // bletchy, youtube thread, and drawing pictures and such, maybe we just throw everything no matter
+    // what into a custom OutputQueue and from there determine how to store it and print it?
+    public void startConsolePrintingAnimation() {
+        if (started)
+            return;
+
+        started = true;
+
+        consolePrintingList.clear();
+        consolePriorityPrintingList.clear();
+
+        int charTimeout = 20;
+        int lineTimeout = 200;
+
+        new Thread(() -> {
+            try {
+                while (!ConsoleFrame.getConsoleFrame().isClosed()) {
+                    //priority simply appends to the console
+                    if (consolePriorityPrintingList.size() > 0) {
+                        Object line = consolePriorityPrintingList.removeFirst();
+
+                        if (line instanceof String) {
+                            StyledDocument document = (StyledDocument) outputArea.getDocument();
+                            document.insertString(document.getLength(), (String) line, null);
+                            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                        } else if (line instanceof JComponent) {
+                            String componentUUID = SecurityUtil.generateUUID();
+                            Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
+                            StyleConstants.setComponent(cs, (Component) line);
+                            outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
+                        } else if (line instanceof ImageIcon) {
+                            outputArea.insertIcon((ImageIcon) line);
+                        } else {
+                            println("[UNKNOWN OBJECT]: " + line);
+                        }
+                    }
+                    //regular will perform a typing animation on strings if no method
+                    // is currently running, such as RY or Bletchy, that would cause
+                    // concurrency issues
+                    else if (consolePrintingList.size() > 0){
+                        Object line = consolePrintingList.removeFirst();
+
+                        if (line instanceof String) {
+                            for (char c : ((String) line).toCharArray()) {
+                                innerConsolePrint(c);
+                                Thread.sleep(charTimeout);
+                            }
+                        } else if (line instanceof JComponent) {
+                            String componentUUID = SecurityUtil.generateUUID();
+                            Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
+                            StyleConstants.setComponent(cs, (Component) line);
+                            outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
+                        } else if (line instanceof ImageIcon) {
+                            outputArea.insertIcon((ImageIcon) line);
+                        } else {
+                            println("[UNKNOWN OBJECT]: " + line);
+                        }
+                    }
+
+                    Thread.sleep(lineTimeout);
+                }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "Console Printing Animation").start();
+    }
+
+    //todo use a semaphore in genesis share for printing to help with
+    // bletchy and remove last line and such concurrency issues
+
+    private void innerConsolePrint(char c) {
+        try {
+            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            document.insertString(document.getLength(), String.valueOf(c), null);
+            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    private boolean concurrencyIssues() {
+        return MasterYoutube.isActive() || BletchyThread.isActive();
+    }
+
+    private void consleAppendChar(char c) {
+        try {
+            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            document.insertString(document.getLength(), String.valueOf(c), null);
+            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+    
+    public void printlnImage(ImageIcon icon) {
+        consolePrintingList.add(icon);
+        consolePrintingList.add("\n");
+
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
+            consolePrintingList.add("\n");
+    }
+    
+    public void printImage(ImageIcon icon) {
+        consolePrintingList.add(icon);
+    }
+    
+    public void printlnImage(String filename) {
+        consolePrintingList.add(new ImageIcon(filename));
+        consolePrintingList.add("\n");
+    }
+    
+    public void printImage(String filename) {
+        consolePrintingList.add(new ImageIcon(filename));
+    }
+
+    public void printlnComponent(Component c) {
+        consolePrintingList.add(c);
+        consolePrintingList.add("\n");
+    }
+
+    public void printComponent(Component c) {
+        consolePrintingList.add(c);
+    }
+    
+    public void print(String usage) {
+        if (concurrencyIssues())
+            consolePriorityPrintingList.add(usage);
+        else
+            consolePrintingList.add(usage);
+    }
+    
+    public void print(int usage) {
+        if (concurrencyIssues())
+            consolePriorityPrintingList.add(Integer.toString(usage));
+        else
+            consolePrintingList.add(Integer.toString(usage));
+    }
+    
+    public void print(double usage) {
+        if (concurrencyIssues())
+            consolePriorityPrintingList.add(Double.toString(usage));
+        else
+            consolePrintingList.add(Double.toString(usage));
+    }
+
+    public void print(boolean usage) {
+        if (concurrencyIssues())
+            consolePriorityPrintingList.add(Boolean.toString(usage));
+        else
+            consolePrintingList.add(Boolean.toString(usage));
+    }
+    
+    public void print(float usage) {
+        if (concurrencyIssues())
+            consolePriorityPrintingList.add(Float.toString(usage));
+        else
+            consolePrintingList.add(Float.toString(usage));
+    }
+
+    public void print(long usage) {
+        if (concurrencyIssues())
+            consolePriorityPrintingList.add(Long.toString(usage));
+        else
+            consolePrintingList.add(Long.toString(usage));
+    }
+    
+    public void print(char usage) {
+        if (concurrencyIssues())
+            consolePriorityPrintingList.add(String.valueOf(usage));
+        else
+            consolePrintingList.add(String.valueOf(usage));
+    }
+    
+    public void print(Object usage) {
+        if (concurrencyIssues())
+            consolePriorityPrintingList.add(usage.toString());
+        else
+            consolePrintingList.add(usage.toString());
+    }
+
+    public void println(String usage) {
+        print(usage + "\n");
+    }
+
+    public void println(int usage) {
+        print(usage + "\n");
+    }
+    
+    public void println(double usage) {
+        print(usage + "\n");
+    }
+
+    public void println(boolean usage) {
+        print(usage + "\n");
+    }
+
+    public void println(float usage) {
+        print(usage + "\n");
+    }
+    
+    public void println(long usage) {
+        print(usage + "\n");
+    }
+    
+    public void println(char usage) {
+        print(usage + "\n");
+    }
+    
+    public void println(Object usage) {
+        print(usage + "\n");
+    }
+    
+    private boolean eic(String eic) {
+        return operation.equalsIgnoreCase(eic);
+    }
+    
+    private boolean has(String compare) {
+        return operation.toLowerCase().contains(compare.toLowerCase());
+    }
+
+    private boolean hasWord(String compare) {
+        if (operation.equalsIgnoreCase(compare) ||
+                operation.toLowerCase().contains(' ' + compare.toLowerCase() + ' ') ||
+                operation.toLowerCase().contains(' ' + compare.toLowerCase()) ||
+                operation.toLowerCase().contains(compare.toLowerCase() + ' '))
+            return true;
+        else return operation.toLowerCase().contains(compare.toLowerCase() + ' ');
+    }
+
+    //direct JTextPane manipulation methods -----------------------
+
+    private void clc() {
+        outputArea.setText("");
     }
 }

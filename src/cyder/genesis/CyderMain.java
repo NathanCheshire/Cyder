@@ -50,7 +50,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class CyderMain {
@@ -843,7 +842,7 @@ public class CyderMain {
                 StatUtil.systemProperties();
                 StatUtil.computerProperties();
                 StatUtil.javaProperties();
-                StatUtil.debugMenu(outputArea); //todo send this the string util so that it puts it in the queue
+                StatUtil.debugMenu(outputArea); //todo send this the input handler so that it puts it in the queue
             }
 
             //stay but maybe relocate? auto test in debug mode
@@ -1260,7 +1259,6 @@ public class CyderMain {
         @Override
         public void keyPressed(java.awt.event.KeyEvent event) {
             int code = event.getKeyCode();
-
             try {
                 //command scrolling
                 if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
@@ -3083,6 +3081,9 @@ public class CyderMain {
             return true;
         else return operation.toLowerCase().contains(compare.toLowerCase() + ' ');
     }
+
+    //todo everything below here needs to be their own methods: login method, create user method,
+    // edit user method
 
     //Edit user vars
     private CyderFrame editUserFrame;
