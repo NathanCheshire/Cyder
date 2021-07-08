@@ -513,6 +513,6 @@ public class AnimationUtil {
             ErrorHandler.handle(e);
         }
 
-        return new int[]{1, 10};
+        return new int[]{ret[0], ret[1]};
     }
 }

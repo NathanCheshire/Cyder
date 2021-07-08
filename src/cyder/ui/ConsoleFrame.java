@@ -1352,7 +1352,7 @@ public final class ConsoleFrame {
             //make master image to set to background and slide
             ImageIcon combinedIcon;
 
-            //todo before combining images, we need to resize to the new width and height
+            //before combining images, we need to resize to the new width and height
             oldBack = ImageUtil.resizeImage(oldBack, width, height);
 
             //we only need to resize our new image in the event of a full screen or rotation event
@@ -1363,17 +1363,8 @@ public final class ConsoleFrame {
             //icon to set as the background after sliding animation completes
             ImageIcon finalNewBack = newBack;
 
-            //todo component up
-            // ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.BOTTOM));
-
-            //todo component down
-            // ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.TOP));
-
-            //todo component right
-            // ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.LEFT));
-
-            //todo component left (right means we place the new image to the right of the old image)
-            // ImageUtil.drawImageIcon( ImageUtil.combineImages(oldBack, newBack, Direction.RIGHT));
+            //todo up is the only animation that actually runs complete, other ones are cut off
+            // by time or bounds
 
             switch (lastSlideDirection) {
                 case LEFT:
@@ -1383,32 +1374,24 @@ public final class ConsoleFrame {
                     consoleCyderFrame.getContentPane().setSize(
                             consoleCyderFrame.getContentPane().getWidth(),
                             consoleCyderFrame.getContentPane().getHeight() * 2);
-                    //get delay and inc values
-                    int[] delayIncUp = AnimationUtil.getDelayIncrement(
-                            consoleCyderFrame.getContentPane().getHeight() / 2);
                     //set content pane image
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
                     new Thread(() -> {
-                        int start = 0;
-                        int stop = -consoleCyderFrame.getHeight();
-                        int increment = delayIncUp[1];
-                        int delay = delayIncUp[0];
-                        Component comp = consoleCyderFrame.getContentPane();
-
                         //disable dragging to avoid random repaints
                         consoleCyderFrame.disableDragging();
 
-                        for (int i = start; i >= stop; i -= increment) {
+                        for (int i = 0; i >= -consoleCyderFrame.getHeight(); i -= 8) {
                             try {
-                                Thread.sleep(delay);
-                                comp.setLocation(comp.getX(), i);
+                                Thread.sleep(5);
+                                consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
                             } catch (InterruptedException e) {
                                 ErrorHandler.handle(e);
                             }
                         }
                         //set proper location for complete animation
-                        comp.setLocation(comp.getX(), stop);
+                        consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(),
+                                -consoleCyderFrame.getHeight());
 
                         //reanble dragging
                         consoleCyderFrame.enableDragging();
@@ -1417,7 +1400,6 @@ public final class ConsoleFrame {
                         consoleCyderFrame.getContentPane().setLocation(0,0);
 
                         //reset the icon to the new one without combined icon
-
                         consoleCyderFrame.setBackground(finalNewBack);
                         ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNewBack);
 
@@ -1433,39 +1415,30 @@ public final class ConsoleFrame {
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
-                case TOP:
+                case TOP: //slide right
                     //get combined icon
                     combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.LEFT);
                     //set content pane bounds to hold combined image
                     consoleCyderFrame.getContentPane().setBounds(-consoleCyderFrame.getContentPane().getWidth(),0,
                             consoleCyderFrame.getContentPane().getWidth() * 2,
                             consoleCyderFrame.getContentPane().getHeight());
-                    //get delay and inc values
-                    int[] delayIncRight = AnimationUtil.getDelayIncrement(
-                            consoleCyderFrame.getContentPane().getWidth() / 2);
                     //set content pane image
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
                     new Thread(() -> {
-                        int start = -consoleCyderFrame.getWidth() / 2;
-                        int stop = 0;
-                        int increment = delayIncRight[1];
-                        int delay = delayIncRight[0];
-                        Component comp = consoleCyderFrame.getContentPane();
-
                         //disable dragging to avoid random repaints
                         consoleCyderFrame.disableDragging();
 
-                        for (int i = start; i <= stop; i += increment) {
+                        for (int i = -consoleCyderFrame.getWidth() ; i <= 0; i += 8) {
                             try {
-                                Thread.sleep(delay);
-                                comp.setLocation(i, comp.getY());
+                                Thread.sleep(5);
+                                consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
                             } catch (InterruptedException e) {
                                 ErrorHandler.handle(e);
                             }
                         }
                         //set proper location for complete animation
-                        comp.setLocation(stop, comp.getY());
+                        consoleCyderFrame.getContentPane().setLocation(0, consoleCyderFrame.getContentPane().getY());
 
                         //reanble dragging
                         consoleCyderFrame.enableDragging();
@@ -1474,7 +1447,6 @@ public final class ConsoleFrame {
                         consoleCyderFrame.getContentPane().setLocation(0,0);
 
                         //reset the icon to the new one without combined icon
-
                         consoleCyderFrame.setBackground(finalNewBack);
                         ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNewBack);
 
@@ -1497,32 +1469,23 @@ public final class ConsoleFrame {
                     consoleCyderFrame.getContentPane().setBounds(0,-consoleCyderFrame.getHeight(),
                             consoleCyderFrame.getContentPane().getWidth(),
                             consoleCyderFrame.getContentPane().getHeight() * 2);
-                    //get delay and inc values
-                    int[] delayIncDown = AnimationUtil.getDelayIncrement(
-                            consoleCyderFrame.getContentPane().getHeight() / 2);
                     //set content pane image
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
                     new Thread(() -> {
-                        int start = -consoleCyderFrame.getHeight() / 2;
-                        int stop = 0;
-                        int increment = delayIncDown[1];
-                        int delay = delayIncDown[0];
-                        Component comp = consoleCyderFrame.getContentPane();
-
                         //disable dragging to avoid random repaints
                         consoleCyderFrame.disableDragging();
 
-                        for (int i = start; i <= stop; i += increment) {
+                        for (int i = -consoleCyderFrame.getHeight() ; i <= 0; i += 8) {
                             try {
-                                Thread.sleep(delay);
-                                comp.setLocation(comp.getX(), i);
+                                Thread.sleep(5);
+                                consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
                             } catch (InterruptedException e) {
                                 ErrorHandler.handle(e);
                             }
                         }
                         //set proper location for complete animation
-                        comp.setLocation(comp.getX(), stop);
+                        consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), 0);
 
                         //reanble dragging
                         consoleCyderFrame.enableDragging();
@@ -1531,7 +1494,6 @@ public final class ConsoleFrame {
                         consoleCyderFrame.getContentPane().setLocation(0,0);
 
                         //reset the icon to the new one without combined icon
-
                         consoleCyderFrame.setBackground(finalNewBack);
                         ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNewBack);
 
@@ -1554,32 +1516,24 @@ public final class ConsoleFrame {
                     consoleCyderFrame.getContentPane().setBounds(0,0,
                             consoleCyderFrame.getContentPane().getWidth() * 2,
                             consoleCyderFrame.getContentPane().getHeight());
-                    //get delay and inc values
-                    int[] delayIncLeft = AnimationUtil.getDelayIncrement(
-                            consoleCyderFrame.getContentPane().getWidth() / 2);
                     //set content pane image
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
                     new Thread(() -> {
-                        int start = 0;
-                        int stop = -consoleCyderFrame.getWidth() / 2;
-                        int increment = delayIncLeft[1];
-                        int delay = delayIncLeft[0];
-                        Component comp = consoleCyderFrame.getContentPane();
-
                         //disable dragging to avoid random repaints
                         consoleCyderFrame.disableDragging();
 
-                        for (int i = start; i >= stop; i -= increment) {
+                        for (int i = 0; i >= -consoleCyderFrame.getWidth() ; i -= 8) {
                             try {
-                                Thread.sleep(delay);
-                                comp.setLocation(i, comp.getY());
+                                Thread.sleep(5);
+                                consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
                             } catch (InterruptedException e) {
                                 ErrorHandler.handle(e);
                             }
                         }
                         //set proper location for complete animation
-                        comp.setLocation(stop, comp.getY());
+                        consoleCyderFrame.getContentPane().setLocation(-consoleCyderFrame.getWidth() / 2,
+                                consoleCyderFrame.getContentPane().getY());
 
                         //reanble dragging
                         consoleCyderFrame.enableDragging();
@@ -1588,7 +1542,6 @@ public final class ConsoleFrame {
                         consoleCyderFrame.getContentPane().setLocation(0,0);
 
                         //reset the icon to the new one without combined icon
-
                         consoleCyderFrame.setBackground(finalNewBack);
                         ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNewBack);
 
@@ -1606,9 +1559,11 @@ public final class ConsoleFrame {
                     break;
             }
 
-            //todo change tooltip for background
-            //todo refresh consoleclock bounds
-            //todo other stuff maybe
+            //change tooltip to new image name
+            ((JLabel) (consoleCyderFrame.getContentPane()))
+                    .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
+
+            //todo other stuff here maybe
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
