@@ -169,22 +169,6 @@ public final class ConsoleFrame {
                     consoleLinesDrawn = false;
                     drawConsoleLines = false;
                 }
-
-                @Override
-                public void repaint() {
-                    //todo take into account console dir and full screen and reset positions based off of this
-                    super.repaint();
-
-                    //todo setting frame size
-                    //todo setting console clock bounds
-                    //todo setting menu button and suggestion button bounds
-                    //todo input field bounds
-                    //todo output area bounds
-
-                    //shouldn't a lot of this just work since it's like a resize event as if
-                    // the user had done it? todo try just setting size and then seeing what happens and
-                    // what components need to have their bounds set
-                }
             };
 
             //todo linked to inputhandler: consolePrintingAnimation();
@@ -1297,7 +1281,7 @@ public final class ConsoleFrame {
         }
     }
 
-    //todo make it also retain a console orientation when transitioning (both full screen or not full screen)
+    //todo make sure rotations in full screen exit full screen and cause requested rotation to work
 
     //if this returns false then we didn't switch so we should tell the user they should add more backgrounds
     public boolean switchBackground() {
@@ -1330,8 +1314,10 @@ public final class ConsoleFrame {
                     height = width - height;
                     width = width - height;
 
-                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(oldBack), -90));
-                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(newBack), -90));
+                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                            ImageUtil.ImageIcon2BufferedImage(oldBack), -90));
+                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                            ImageUtil.ImageIcon2BufferedImage(newBack), -90));
                 }
 
                 //not full screen and oriented right
@@ -1340,12 +1326,17 @@ public final class ConsoleFrame {
                     height = width - height;
                     width = width - height;
 
-                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(oldBack), 90));
-                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(ImageUtil.ImageIcon2BufferedImage(newBack), 90));
+                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                            ImageUtil.ImageIcon2BufferedImage(oldBack), 90));
+                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                            ImageUtil.ImageIcon2BufferedImage(newBack), 90));
+                } else if (direction == Direction.BOTTOM) {
+                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                            ImageUtil.ImageIcon2BufferedImage(oldBack), 180));
+                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                            ImageUtil.ImageIcon2BufferedImage(newBack), 180));
                 }
             }
-
-            //todo make sure console rotations are impossible in full screen
 
             //make master image to set to background and slide
             ImageIcon combinedIcon;
@@ -1559,6 +1550,16 @@ public final class ConsoleFrame {
 
             //update line color
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
+
+            outputArea.setBounds(10, 62,
+                    consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
+
+            outputScroll.setBounds(10, 62,
+                    consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
+
+            inputField.setBounds(10, 82 + outputArea.getHeight(),consoleCyderFrame.getWidth() - 20,
+                    consoleCyderFrame.getHeight() - (outputArea.getHeight() + 62 + 40));
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -1633,8 +1634,64 @@ public final class ConsoleFrame {
     }
 
     public void setFullscreen(Boolean enable) {
-        fullscreen = enable;
-        consoleCyderFrame.repaint();
+        try {
+            fullscreen = enable;
+
+            if (enable) {
+                consoleDir = Direction.TOP;
+                consoleCyderFrame.setSize(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight());
+                consoleCyderFrame.setLocation(0,0);
+            } else {
+                int w = 0;
+                int h = 0;
+                ImageIcon rotatedIcon = null;
+
+                if (consoleDir == Direction.LEFT || consoleDir == Direction.RIGHT) {
+                    w = getCurrentBackgroundImageIcon().getIconHeight();
+                    h = getCurrentBackgroundImageIcon().getIconWidth();
+                } else {
+                    w = getCurrentBackgroundImageIcon().getIconWidth();
+                    h = getCurrentBackgroundImageIcon().getIconHeight();
+                }
+
+                switch (consoleDir) {
+                    case TOP:
+                        rotatedIcon = getCurrentBackgroundImageIcon();
+                        break;
+                    case LEFT:
+                        rotatedIcon = new ImageIcon(ImageUtil.getRotatedImage(
+                                getCurrentBackgroundFile().getAbsolutePath(), Direction.LEFT));
+                        break;
+                    case RIGHT:
+                        rotatedIcon = new ImageIcon(ImageUtil.getRotatedImage(
+                                getCurrentBackgroundFile().getAbsolutePath(), Direction.RIGHT));
+                        break;
+                    case BOTTOM:
+                        rotatedIcon = new ImageIcon(ImageUtil.getRotatedImage(
+                                getCurrentBackgroundFile().getAbsolutePath(), Direction.BOTTOM));
+                        break;
+                }
+
+                int relativeX = consoleCyderFrame.getX() + consoleCyderFrame.getWidth() / 2;
+                int relativeY = consoleCyderFrame.getY() + consoleCyderFrame.getHeight() / 2;
+
+                consoleCyderFrame.setSize(w, h);
+                consoleCyderFrame.setBackground(rotatedIcon);
+
+                consoleCyderFrame.setLocation(relativeX - w / 2, relativeY - h / 2);
+
+                outputArea.setBounds(10, 62,
+                        consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
+
+                outputScroll.setBounds(10, 62,
+                        consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
+
+                inputField.setBounds(10, 82 + outputArea.getHeight(),w - 20,
+                        h - (outputArea.getHeight() + 62 + 40));
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     public boolean isFullscreen() {
