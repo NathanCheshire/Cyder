@@ -1281,8 +1281,6 @@ public final class ConsoleFrame {
         }
     }
 
-    //todo make sure rotations in full screen exit full screen and cause requested rotation to work
-
     //if this returns false then we didn't switch so we should tell the user they should add more backgrounds
     public boolean switchBackground() {
         try {
@@ -1294,7 +1292,7 @@ public final class ConsoleFrame {
             int height = newBack.getIconHeight();
 
             //are we full screened and are we rotated?
-            boolean fullscreen = IOUtil.getUserData("FullScreen").equalsIgnoreCase("1");
+            boolean fullscreen = isFullscreen();
             Direction direction = getConsoleDirection();
 
             //if full screen then get full screen images
@@ -1640,7 +1638,7 @@ public final class ConsoleFrame {
             if (enable) {
                 consoleDir = Direction.TOP;
                 consoleCyderFrame.setSize(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight());
-                consoleCyderFrame.setLocation(0,0);
+                consoleCyderFrame.setLocationRelativeTo(null);
             } else {
                 int w = 0;
                 int h = 0;
