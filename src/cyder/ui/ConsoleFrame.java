@@ -1163,8 +1163,6 @@ public final class ConsoleFrame {
                     backgroundHeight = (int) (backgroundHeight * (aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio));
                 }
 
-                //todo test background switching with prime number width/height
-
                 //save the modified image
                 BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, backgroundWidth, backgroundHeight);
                 ImageIO.write(saveImage, "png", currentFile);
