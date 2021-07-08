@@ -8,7 +8,6 @@ import cyder.exception.FatalException;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.handler.InputHandler;
-import cyder.threads.CyderThreadFactory;
 import cyder.utilities.*;
 import cyder.widgets.Calculator;
 import cyder.widgets.GenericInform;
@@ -27,9 +26,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.concurrent.Executors;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 public final class ConsoleFrame {
     //the one and only console frame method
@@ -381,7 +377,7 @@ public final class ConsoleFrame {
 
             inputField.setToolTipText("Input Field");
             inputField.setSelectionColor(CyderColors.selectionColor);
-            //todo actually copy over and put here inputField.addKeyListener(commandScrolling);
+            inputField.addKeyListener(commandScrolling);
             inputField.setCaretPosition(consoleBashString.length());
 
             consoleCyderFrame.addWindowListener(new WindowAdapter() {
@@ -395,7 +391,33 @@ public final class ConsoleFrame {
                     getBackgroundHeight() - (outputArea.getHeight() + 62 + 40));
             inputField.setOpaque(false);
             consoleCyderFrame.getContentPane().add(inputField);
-            //todo copy over inputField.addActionListener(inputFieldAction);
+            inputField.addActionListener(e -> {
+                try {
+                    String op = String.valueOf(inputField.getPassword()).substring(consoleBashString.length()).trim();
+
+                    if (!StringUtil.empytStr(op)) {
+                        if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
+                            operationList.add(op);
+                        }
+
+                        scrollingIndex = operationList.size();
+                        ConsoleFrame.getConsoleFrame().setScrollingIndex(0);
+
+                        //calls to linked inputhandler
+                        if (!inputHandler.getUserInputMode()) {
+                            inputHandler.handle(op);
+                        } else if (inputHandler.getUserInputMode()) {
+                            inputHandler.setUserInputMode(false);
+                            inputHandler.handleSecond(op);
+                        }
+                    }
+
+                    inputField.setText(consoleBashString);
+                    inputField.setCaretPosition(consoleBashString.length());
+                } catch (Exception ex) {
+                    ErrorHandler.handle(ex);
+                }
+            });
             inputField.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
@@ -429,9 +451,8 @@ public final class ConsoleFrame {
                 consoleCyderFrame.notify("What feature would you like to suggest? " +
                         "(Please include as much detail as possible such as " +
                         "how the feature should be triggered and how the program should responded; be detailed)");
-                //todo make userinput mode into handler and not string util
-                //todo linkedHandler.getstringUtil.setUserInputDesc("suggestion");
-                //todo linkedHandler.getstringUtil.setUserInputMode(true);
+                inputHandler.setUserInputDesc("suggestion");
+                inputHandler.setUserInputMode(true);
                 inputField.requestFocus();
             });
             suggestionButton.addMouseListener(new MouseAdapter() {
@@ -493,8 +514,8 @@ public final class ConsoleFrame {
                             consoleCyderFrame.notify("You only have one background image. " +
                                     "Would you like to add more? (Enter yes/no)");
                             inputField.requestFocus();
-                            //todo handler stringUtil.setUserInputMode(true);
-                            //todo handler stringUtil.setUserInputDesc("addbackgrounds");
+                            inputHandler.setUserInputMode(true);
+                            inputHandler.setUserInputDesc("addbackgrounds");
                             inputField.requestFocus();
                         }
                     } catch (Exception ex) {
@@ -526,23 +547,6 @@ public final class ConsoleFrame {
 
             //spin off console executors
             startExecutors();
-
-            //final frame disposed checker todo move to main?
-            Executors.newSingleThreadScheduledExecutor(
-                    new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
-                Frame[] frames = Frame.getFrames();
-                int validFrames = 0;
-
-                for (Frame f : frames) {
-                    if (f.isShowing()) {
-                        validFrames++;
-                    }
-                }
-
-                if (validFrames < 1) {
-                    GenesisShare.exit(120);
-                }
-            }, 10, 5, SECONDS);
 
             consoleCyderFrame.enterAnimation();
         } catch (Exception e) {
@@ -652,7 +656,6 @@ public final class ConsoleFrame {
                     for (int i = 0; i < num; i++) {
                         if (!printThreads[i].isDaemon() && !ignoreNames.contains(printThreads[i].getName())) {
                             busyThreads++;
-                            System.out.println(printThreads[i]);
                         }
                     }
 

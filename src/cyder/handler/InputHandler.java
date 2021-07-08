@@ -68,6 +68,18 @@ public class InputHandler {
         // etc
     }
 
+    public void handleSecond(String operation) {
+        if (outputArea == null)
+            throw new IllegalArgumentException("Output area not set");
+
+        String firstWord = StringUtil.firstWord(operation);
+
+        try {
+            String desc = getUserInputDesc();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
 
     /**
      * Prints a suggestion as to what the user should do

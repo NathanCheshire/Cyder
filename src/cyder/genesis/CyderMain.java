@@ -134,7 +134,9 @@ public class CyderMain {
         IOUtil.cleanErrors();
         IOUtil.cleanSandbox();
 
+        //todo moved to console frame so go away
         startBackgroundProcessChecker();
+        startFinalFrameDisposedChecker();
 
         if (SecurityUtil.nathanLenovo()) {
             autoCypher();
@@ -833,33 +835,7 @@ public class CyderMain {
             //will be removed
             AnimationUtil.enterAnimation(consoleFrame);
 
-            //network connection checker
-            Executors.newSingleThreadScheduledExecutor(
-                    new CyderThreadFactory("Stable Network Connection Checker")).scheduleAtFixedRate(() -> {
-                if (!NetworkUtil.internetReachable()) {
-                    println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I had trouble connecting to the internet.\n" +
-                            "As a result, some features may not work properly.");
-                }
-            }, 0, 5, MINUTES);
-
             consoleClockLabel.setVisible(updateConsoleClock);
-
-            //todo executors should be started once from main and not from console() method
-
-            //final frame disposed checker
-            Executors.newSingleThreadScheduledExecutor(
-                    new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
-                Frame[] frames = Frame.getFrames();
-                int validFrames = 0;
-
-                for (Frame f : frames)
-                    if (f.isShowing())
-                        validFrames++;
-
-                if (validFrames < 1)
-                    exit(120);
-            }, 10, 5, SECONDS);
-
 
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
 
@@ -1319,6 +1295,24 @@ public class CyderMain {
             }
         }
     };
+
+    private void startFinalFrameDisposedChecker() {
+        Executors.newSingleThreadScheduledExecutor(
+                new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
+            Frame[] frames = Frame.getFrames();
+            int validFrames = 0;
+
+            for (Frame f : frames) {
+                if (f.isShowing()) {
+                    validFrames++;
+                }
+            }
+
+            if (validFrames < 1) {
+                GenesisShare.exit(120);
+            }
+        }, 10, 5, SECONDS);
+    }
 
     //sets program icon if background threads are running
     private void startBackgroundProcessChecker() {
