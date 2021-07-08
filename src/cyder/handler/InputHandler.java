@@ -1,12 +1,19 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import cyder.exception.CyderException;
+import cyder.games.Hangman;
 import cyder.genesis.GenesisShare;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderFrame;
 import cyder.utilities.*;
+import cyder.widgets.Cards;
+import cyder.widgets.ClickMe;
+import cyder.widgets.ColorConverter;
+import cyder.widgets.TempConverter;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,12 +24,20 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URI;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class InputHandler {
+    //todo anywhere we're passing output area, (to print to I assume), just call it here or pass
+    // input handler to call that print method
+
     //todo new get delay increment method in ConsoleFrame since fullscreen takes too long
 
     //todo correcting user data doesn't work properly, it should either work and everything be there,
@@ -87,30 +102,315 @@ public class InputHandler {
 
     //handle methods ----------------------------------------------
 
-    public void handle(String op) {
+    public void handle(String op) throws Exception{
+        //test for no link to ConsoleFrame
         if (outputArea == null)
             throw new IllegalArgumentException("Output area not set");
 
+        //init String vars
         this.operation = op;
-
         String firstWord = StringUtil.firstWord(operation);
 
         //pre-process checks --------------------------------------
         if (StringUtil.filterLanguage(operation)) {
             println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
         }
+        //printing strings ----------------------------------------
+        else if (hasWord("asdf")) {
+            println("Who is the spiciest meme lord?");
+        } else if (hasWord("qwerty")) {
+            println("I prefer Dvorak, but I also like Colemak, Maltron, and JCUKEN.");
+        } else if (hasWord("thor")) {
+            println("Piss off, ghost.");
+        }  else if (hasWord("alex") && hasWord("trebek")) {
+            println("Do you mean who is alex trebek?");
+        } else if (StringUtil.isPalindrome(operation.replace(" ", "")) && operation.length() > 3) {
+            println("Nice palindrome.");
+        } else if ((hasWord("flip") && hasWord("coin")) ||
+                (hasWord("heads") && hasWord("tails"))) {
+            if (Math.random() <= 0.0001) {
+                println("You're not going to beleive this, but it landed on its side.");
+            } else if (Math.random() <= 0.5) {
+                println("It's Heads!");
+            } else {
+                println("It's Tails!");
+            }
+        } else if ((eic("hello") || has("whats up") || hasWord("hi"))
+                && (!hasWord("print") && !hasWord("bletchy") && !hasWord("echo") &&
+                !hasWord("youtube") && !hasWord("google") && !hasWord("wikipedia") &&
+                !hasWord("synonym") && !hasWord("define"))) {
+            int choice = NumberUtil.randInt(1, 7);
 
-        //printing strings-----------------------------------------
-        //printing components--------------------------------------
-        //printing imageicons--------------------------------------
-        //widgets--------------------------------------------------
-        //calculations---------------------------------------------
-        //ui and settings------------------------------------------
-        //console commands (bin hex dumps)-------------------------
-        //[other ones here]----------------------------------------
-        //un-categorized-------------------------------------------
+            switch (choice) {
+                case 1:
+                    println("Hello, " + ConsoleFrame.getConsoleFrame().getUsername() + ".");
+                    break;
+                case 2:
+                    if (TimeUtil.isEvening())
+                        println("Good evening, " + ConsoleFrame.getConsoleFrame().getUsername() + ". How can I help?");
+                    else if (TimeUtil.isMorning())
+                        println("Good monring, " + ConsoleFrame.getConsoleFrame().getUsername() + ". How can I help?");
+                    else
+                        println("Good afternoon, " + ConsoleFrame.getConsoleFrame().getUsername() + ". How can I help?");
+                    break;
+                case 3:
+                    println("What's up, " + ConsoleFrame.getConsoleFrame().getUsername() + "?");
+                    break;
+                case 4:
+                    println("How are you doing, " + ConsoleFrame.getConsoleFrame().getUsername() + "?");
+                    break;
+                case 5:
+                    println("Greetings, " + ConsoleFrame.getConsoleFrame().getUsername() + ".");
+                    break;
+                case 6:
+                    println("I'm here....");
+                    break;
+                case 7:
+                    println("Go ahead...");
+                    break;
+            }
+        } else if (hasWord("bye") || (hasWord("james") && hasWord("arthur"))) {
+            println("Just say you won't let go.");
+        } else if (hasWord("time") && hasWord("what")) {
+            println(TimeUtil.weatherTime());
+        } else if (eic("die") || (hasWord("roll") && hasWord("die"))) {
+            int Roll = ThreadLocalRandom.current().nextInt(1, 7);
+            println("You rolled a " + Roll + ".");
+        } else if (eic("lol")) {
+            println("My memes are better.");
+        } else if ((hasWord("thank") && hasWord("you")) || hasWord("thanks")) {
+            println("You're welcome.");
+        } else if (hasWord("you") && hasWord("cool")) {
+            println("I know.");
+        } else if (((hasWord("who") || hasWord("what")) && has("you"))) {
+            println("My name is Cyder. I am a tool built by Nathan Cheshire for programmers/advanced users.");
+        } else if (hasWord("helpful") && hasWord("you")) {
+            println("I will always do my best to serve you.");
+        } else if (eic("k")) {
+            println("Fun Fact: the letter 'K' comes from the Greek letter kappa, which was taken "
+                    + "from the Semitic kap, the symbol for an open hand. It is this very hand which "
+                    + "will be slapping you in the face for saying 'k' to me.");
+        } else if (eic("no")) {
+            println("Yes");
+        } else if (eic("nope")) {
+            println("yep");
+        } else if (eic("yes")) {
+            println("no");
+        } else if (eic("yep")) {
+            println("nope");
+        } else if (has("how can I help")) {
+            println("That's my line :P");
+        } else if (hasWord("siri") || hasWord("jarvis") || hasWord("alexa")) {
+            println("Whata bunch of losers.");
+        } else if (hasWord("when") && hasWord("thanksgiving")) {
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+            LocalDate RealTG = LocalDate.of(year, 11, 1)
+                    .with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
+            println("Thanksgiving this year is on the " + RealTG.getDayOfMonth() + " of November.");
+        } else if (hasWord("location") || (hasWord("where") && hasWord("am") && hasWord("i"))) {
+            println("You are currently in " + IPUtil.getUserCity() + ", " +
+                    IPUtil.getUserState() + " and your Internet Service Provider is " + IPUtil.getIsp());
+        } else if (hasWord("fibonacci")) {
+            for (long i : NumberUtil.fib(0, 1, 100))
+                println(i);
+        } else if ((hasWord("how") && hasWord("are") && hasWord("you")) && !hasWord("age") && !hasWord("old")) {
+            println("I am feeling like a programmed response. Thank you for asking.");
+        } else if (hasWord("how") && hasWord("day")) {
+            println("I was having fun until you started asking me questions.");
+        } else if (eic("break;")) {
+            println("Thankfully I am over my infinite while loop days.");
+        } else if (hasWord("why")) {
+            println("Why not?");
+        } else if (hasWord("why not")) {
+            println("Why?");
+        } else if (hasWord("groovy")) {
+            println("Alright Scooby Doo.");
+        } else if (hasWord("luck")) {
+            if (Math.random() * 100 <= 0.001) {
+                println("YOU WON!!");
+            } else {
+                println("You are not lucky today.");
+            }
+        } else if (has("are you sure") || has("are you certain")) {
+            if (Math.random() <= 0.5) {
+                println("No");
+            } else {
+                println("Yes");
+            }
+        }
+        //printing components ------------------------------------
+        //printing imageicons -------------------------------------
+        else if ((hasWord("mississippi") && hasWord("state") && hasWord("university")) || eic("msu")) {
+            printlnImage("sys/pictures/print/msu.png");
+        } else if (eic("nathan")) {
+            printlnImage("sys/pictures/print/me.png");
+        }
+        //threads -------------------------------------------------
+        else if (hasWord("scrub")) {
+            bletchyThread.bletchy("No you!", false, 50, true);
+        } else if (hasWord("bletchy")) {
+            //todo does bletchy work?
+            bletchyThread.bletchy(operation, false, 50, true);
+        } else if (hasWord("threads") && !hasWord("daemon")) {
+            new StringUtil(outputArea).printThreads();
+        } else if (hasWord("threads") && hasWord("daemon")) {
+            new StringUtil(outputArea).printDaemonThreads();
+        } else if (has("How old are you") || (hasWord("what") && hasWord("age"))) {
+            bletchyThread.bletchy("As old as my tongue and a little bit older than my teeth, wait...",
+                    false, 50, true);
+        }
+        //widgets -------------------------------------------------
+        else if (hasWord("temperature") || eic("temp")) {
+            TempConverter tc = new TempConverter();
+        } else if (has("click me")) {
+            ClickMe.clickMe();
+        } else if (has("Father") && hasWord("day") && has("2021")) {
+            Cards.FathersDay2021();
+        } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
+            Cards.Christmas2020();
+        } else if (hasWord("number") && hasWord("word")) {
+            NumberUtil.numberToWord();
+        } else if (hasWord("hangman")) {
+            Hangman Hanger = new Hangman();
+            Hanger.startHangman();
+        } else if (hasWord("rgb") || hasWord("hex") || (hasWord("color") && hasWord("converter"))) {
+            ColorConverter.colorConverter();
+        }
+        //ui and settings -----------------------------------------
+        else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
+            for (Frame f : Frame.getFrames()) {
+                if (f.getState() == Frame.ICONIFIED) {
+                    f.setState(Frame.NORMAL);
 
-        //final attempt at unknown input---------------------------
+                    if (f instanceof CyderFrame) {
+                        ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX());
+                        ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY());
+                    }
+                }
+
+                f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY());
+            }
+        }
+        //program out sourcing ------------------------------------ (todo internet connect, file explorer stuff)
+        else if (has("paint")) {
+            String param = "C:/Windows/system32/mspaint.exe";
+            Runtime.getRuntime().exec(param);
+        } else if (hasWord("rick") && hasWord("morty")) {
+            println("Turned myself into a pickle morty! Boom! Big reveal; I'm a pickle!");
+            NetworkUtil.internetConnect("https://www.youtube.com/watch?v=s_1lP4CBKOg");
+        } else if (eic("about:blank")) {
+            NetworkUtil.internetConnect("about:blank");
+        }
+        //playing audio -------------------------------------------
+        else if (has("toy") && has("story")) {
+            IOUtil.playAudio("sys/audio/TheClaw.mp3",outputArea);
+        } else if (has("stop") && has("music")) {
+            IOUtil.stopMusic();
+        } else if (eic("logic")) {
+            IOUtil.playAudio("sys/audio/commando.mp3",outputArea);
+        } else if (eic("1-800-273-8255") || eic("18002738255")) {
+            IOUtil.playAudio("sys/audio/1800.mp3",outputArea);
+        }
+        //console commands ----------------------------------------
+        else if (hasWord("binary") && !has("dump")) {
+            println("Enter a decimal number to be converted to binary.");
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputMode(true);
+            setUserInputDesc("binary");
+        } else if (hasWord("prime")) {
+            println("Enter any positive integer and I will tell you if it's prime and what it's divisible by.");
+            setUserInputDesc("prime");
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            setUserInputMode(true);
+        } else if ((eic("quit") || eic("exit") || eic("leave") || eic("close")) &&
+                (!has("music") && !has("dance") && !has("script"))) {
+            GenesisShare.exit(25);
+        } else if (has("monitor")) {
+            println(NetworkUtil.getMonitorStatsString());
+        } else if (hasWord("network") && hasWord("devices")) {
+            println(NetworkUtil.getNetworkDevicesString());
+        } else if (hasWord("bindump")) {
+            if (has("-f")) {
+                String[] parts = operation.split("-f");
+
+                if (parts.length != 2) {
+                    println("Too much/too little args");
+                } else {
+                    File f = new File(parts[1].trim());
+
+                    if (f.exists()) {
+                        println("0b" + IOUtil.getBinaryString(f));
+                    } else {
+                        println("File: " + parts[1].trim() + " does not exist.");
+                    }
+                }
+            } else {
+                println("bindump usage: bindump -f /path/to/binary/file");
+            }
+        } else if (hasWord("hexdump")) {
+            if (has("-f")) {
+                String[] parts = operation.split("-f");
+
+                if (parts.length != 2) {
+                    println("Too much/too little args");
+                } else {
+                    File f = new File(parts[1].trim());
+
+                    if (f.exists()) {
+                        println("0x" + IOUtil.getHexString(f).toUpperCase());
+                    } else {
+                        println("File: " + parts[1].trim() + " does not exist.");
+                    }
+                }
+            } else {
+                println("hexdump usage: hexdump -f /path/to/binary/file");
+            }
+        } else if (eic("askew")) {
+            //todo does this work? if so, how is it reset?
+            ConsoleFrame.getConsoleFrame().rotateBackground(5);
+        } else if (hasWord("logout")) {
+            for (Frame f : Frame.getFrames()) {
+                if (f instanceof CyderFrame)
+                    ((CyderFrame) f).closeAnimation();
+                else
+                    f.dispose();
+            }
+            ConsoleFrame.getConsoleFrame().close();
+            //todo widget: login();
+        } else if (hasWord("throw") && hasWord("error")) {
+            throw new CyderException("Error thrown on " + TimeUtil.userTime());
+        } else if (hasWord("clear") && (hasWord("operation") ||
+                hasWord("command")) && hasWord("list")) {
+            ConsoleFrame.getConsoleFrame().clearOperationList();
+            //todo SessionLogger.log(SessionLogger.Tag.ACTION, "User cleared command history");
+            println("Command history reset.");
+        } else if (hasWord("stop") && has("script")) {
+            masterYoutube.killAllYoutube();
+            println("YouTube scripts have been killed.");
+        } else if (hasWord("long") && hasWord("word")) {
+            int count = 0;
+
+            String[] words = operation.split(" ");
+
+            for (String word : words) {
+                if (word.equalsIgnoreCase("long")) {
+                    count++;
+                }
+            }
+
+            for (int i = 0; i < count; i++) {
+                print("pneumonoultramicroscopicsilicovolcanoconiosis");
+            }
+
+            println("");
+        }
+        //testing -------------------------------------------------
+        else if (eic("test")) {
+            test();
+        }
+        //un-categorized ------------------------------------------
+
+        //final attempt at unknown input --------------------------
         else {
             //try context engine validation linked to this (instace of InputHandler)
 
@@ -384,6 +684,10 @@ public class InputHandler {
     }
 
     //random methods find a category for --------------------------
+
+    private void test() {
+
+    }
 
     /**
      * Prints a suggestion as to what the user should do

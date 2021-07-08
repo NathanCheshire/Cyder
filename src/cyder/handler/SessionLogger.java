@@ -1,6 +1,6 @@
 package cyder.handler;
 
-import cyder.genesis.CyderMain;
+import cyder.ui.ConsoleFrame;
 import cyder.utilities.StringUtil;
 import cyder.utilities.TimeUtil;
 
@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.text.Element;
 import javax.swing.text.ElementIterator;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class SessionLogger {
@@ -120,7 +121,7 @@ public class SessionLogger {
     public static <T> void log(T representation) {
         if (representation instanceof JComponent) {
             LinkedList<Element> elements = new LinkedList<>();
-            ElementIterator iterator = new ElementIterator(CyderMain.outputArea.getStyledDocument());
+            ElementIterator iterator = new ElementIterator(ConsoleFrame.getConsoleFrame().getOutputArea().getStyledDocument());
             Element element;
 
             while ((element = iterator.next()) != null) {
@@ -143,8 +144,9 @@ public class SessionLogger {
         } else if (representation.toString().contains("SYSTEM_IO")) {
             log(Tag.SYSTEM_IO, representation);
         } else {
-            for (int i = 0 ; i < CyderMain.operationList.size() ; i++) {
-                if (CyderMain.operationList.get(i).toLowerCase().contains(representation.toString())) {
+            ArrayList<String> ops = ConsoleFrame.getConsoleFrame().getOperationList();
+            for (String op : ops) {
+                if (op.toLowerCase().contains(representation.toString())) {
                     log(Tag.CLIENT);
                     return;
                 }

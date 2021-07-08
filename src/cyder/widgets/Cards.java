@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
 import cyder.genesis.CyderMain;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
@@ -42,7 +43,13 @@ public class Cards {
         cardLabel.setBounds(498 + 40,40, christmas2020Frame.getWidth() - 40, christmas2020Frame.getHeight() - 40);
         christmas2020Frame.getContentPane().add(cardLabel);
 
-        christmas2020Frame.setLocationRelativeTo(CyderMain.consoleFrame);
+        int consoleX = ConsoleFrame.getConsoleFrame().getX();
+        int consoleY = ConsoleFrame.getConsoleFrame().getY();
+        int consoleW = ConsoleFrame.getConsoleFrame().getWidth();
+        int consoleH = ConsoleFrame.getConsoleFrame().getHeight();
+
+        christmas2020Frame.setLocation(consoleX + Math.abs((consoleW - christmas2020Frame.getWidth()) / 2),
+                consoleY + Math.abs((consoleH - christmas2020Frame.getHeight()) / 2));
         christmas2020Frame.setVisible(true);
     }
 
@@ -65,7 +72,13 @@ public class Cards {
         cardLabel.setBounds(5,40, fathersDay2021Frame.getWidth() - 40, 240);
         fathersDay2021Frame.getContentPane().add(cardLabel);
 
-        fathersDay2021Frame.setLocationRelativeTo(CyderMain.consoleFrame);
+        int consoleX = ConsoleFrame.getConsoleFrame().getX();
+        int consoleY = ConsoleFrame.getConsoleFrame().getY();
+        int consoleW = ConsoleFrame.getConsoleFrame().getWidth();
+        int consoleH = ConsoleFrame.getConsoleFrame().getHeight();
+
+        christmas2020Frame.setLocation(consoleX + Math.abs((consoleW - christmas2020Frame.getWidth()) / 2),
+                consoleY + Math.abs((consoleH - christmas2020Frame.getHeight()) / 2));
         fathersDay2021Frame.setVisible(true);
     }
 }

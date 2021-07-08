@@ -293,7 +293,11 @@ public final class ConsoleFrame {
 
                     //escaping
                     if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
-                        inputHandler.handle("controlc");
+                        try {
+                            inputHandler.handle("controlc");
+                        } catch (Exception exception) {
+                            ErrorHandler.handle(exception);
+                        }
                     }
 
                     //direction switching
@@ -709,7 +713,11 @@ public final class ConsoleFrame {
 
         //Auto test in upon start debug mode
         if (SecurityUtil.nathanLenovo()) {
-            inputHandler.handle("test");
+            try {
+                inputHandler.handle("test");
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
         }
 
         //last start time operations
@@ -841,7 +849,11 @@ public final class ConsoleFrame {
         editUserLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                inputHandler.handle("prefs");
+                try {
+                    inputHandler.handle("prefs");
+                } catch (Exception exception) {
+                    ErrorHandler.handle(exception);
+                }
             }
 
             @Override
@@ -954,7 +966,11 @@ public final class ConsoleFrame {
         logoutLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                inputHandler.handle("logout");
+                try {
+                    inputHandler.handle("logout");
+                } catch (Exception exception) {
+                    ErrorHandler.handle(exception);
+                }
             }
 
             @Override
@@ -975,7 +991,11 @@ public final class ConsoleFrame {
         exitLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                inputHandler.handle("quit");
+                try {
+                    inputHandler.handle("quit");
+                } catch (Exception exception) {
+                    ErrorHandler.handle(exception);
+                }
             }
 
             @Override
@@ -1845,5 +1865,42 @@ public final class ConsoleFrame {
 
     public InputHandler getInputHandler() {
         return inputHandler;
+    }
+
+    public int getX() {
+        return consoleCyderFrame.getX();
+    }
+
+    public int getY() {
+        return consoleCyderFrame.getY();
+    }
+
+    public int getWidth() {
+        return consoleCyderFrame.getWidth();
+    }
+
+    public int getHeight() {
+        return consoleCyderFrame.getHeight();
+    }
+
+    public void rotateBackground(int degrees) {
+        consoleCyderFrame.rotateBackground(degrees);
+    }
+
+    public void clearOperationList() {
+        operationList.clear();
+        scrollingIndex = 0;
+    }
+
+    public JTextPane getOutputArea() {
+        return outputArea;
+    }
+
+    public JTextField getInputField() {
+        return inputField;
+    }
+
+    public ArrayList<String> getOperationList() {
+        return operationList;
     }
 }
