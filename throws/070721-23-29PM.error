@@ -1,0 +1,11 @@
+timeout value is negative
+class java.lang.IllegalArgumentException
+Error thrown by line: -2
+
+Stack Trace:
+
+java.lang.IllegalArgumentException: timeout value is negative
+	at java.base/java.lang.Thread.sleep(Native Method)
+	at cyder.ui.ConsoleFrame.lambda$startExecutors$7(ConsoleFrame.java:592)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+

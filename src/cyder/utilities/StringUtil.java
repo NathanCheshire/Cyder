@@ -1,12 +1,13 @@
 package cyder.utilities;
 
 import cyder.handler.ErrorHandler;
-import cyder.ui.ConsoleFrame;
 
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -31,58 +32,12 @@ public class StringUtil {
         return outputArea;
     }
 
-    private boolean userInputMode;
-    private String userInputDesc;
-
-    /**
-     * Getter for this instance's input mode
-     * @return - the value of user input mode
-     */
-    public boolean getUserInputMode() {
-        return this.userInputMode;
-    }
-
-    /**
-     * Set the value of secondary input mode
-     * @param b - the value of input mode
-     */
-    public void setUserInputMode(boolean b) {
-        this.userInputMode = b;
-    }
-
-    /**
-     * Returns the expected secondary input description
-     * @return - the input description
-     */
-    public String getUserInputDesc() {
-        return this.userInputDesc;
-    }
-
-    /**
-     * Sets this instance's secondary input description
-     * @param s - the description of the input we expect to receive next
-     */
-    public void setUserInputDesc(String s) {
-        this.userInputDesc = s;
-    }
-
     /**
      * Sets the output area for this instance of StringUtil.
      * @param jTextPane - the JTextPane which we will append to when needed
      */
     public void setOutputArea(JTextPane jTextPane) {
         this.outputArea = jTextPane;
-    }
-
-    /**
-     * Prints a suggestion as to what the user should do
-     */
-    public void help() {
-        String[] helpTips = {
-            "Nathan forgot to finish this; tell him to fill out this list"
-        };
-
-        println("Try typing: " + helpTips[0]);
     }
 
     public void removeFirst() {
@@ -540,10 +495,6 @@ public class StringUtil {
     public void printArr(Object[] arr) {
         for (Object o : arr)
             println(o);
-    }
-
-    public void logSuggestion(String input) {
-        //todo remove method and simply log a suggestion using SessionLogger
     }
 
     /**

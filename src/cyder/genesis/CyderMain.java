@@ -10,9 +10,9 @@ import cyder.exception.FatalException;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
+import cyder.handler.InputHandler;
 import cyder.handler.PhotoViewer;
 import cyder.obj.Preference;
-import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.MasterYoutube;
@@ -67,8 +67,10 @@ public class CyderMain {
     private final String bashString = SystemUtil.getWindowsUsername() + "@Cyder:~$ ";
     private String consoleBashString;
 
-    //todo handler which each consoleframe uses
+    //todo go away
     private StringUtil stringUtil;
+    private InputHandler inputHandler;
+
     private String operation;
 
     //go away
@@ -154,6 +156,7 @@ public class CyderMain {
     private void initObjects() {
         //goes away since consoleframe will have it's own util and outputarea obviously
         stringUtil = new StringUtil(outputArea);
+        inputHandler = new InputHandler(outputArea);
     }
 
     /**
@@ -528,8 +531,8 @@ public class CyderMain {
             suggestionButton.addActionListener(e -> {
                 println("What feature would you like to suggest? (Please include as much detail as possible such as how " +
                         "the feature should be triggered and how the program should responded; be detailed)");
-                stringUtil.setUserInputDesc("suggestion");
-                stringUtil.setUserInputMode(true);
+                inputHandler.setUserInputDesc("suggestion");
+                inputHandler.setUserInputMode(true);
                 inputField.requestFocus();
             });
 
@@ -643,8 +646,8 @@ public class CyderMain {
                         } else if (ConsoleFrame.getConsoleFrame().getBackgrounds().size() == 1) {
                             println("You only have one background image. Would you like to add more? (Enter yes/no)");
                             inputField.requestFocus();
-                            stringUtil.setUserInputMode(true);
-                            stringUtil.setUserInputDesc("addbackgrounds");
+                            inputHandler.setUserInputMode(true);
+                            inputHandler.setUserInputDesc("addbackgrounds");
                             inputField.requestFocus();
                         }
                     } catch (Exception ex) {
@@ -1371,10 +1374,10 @@ public class CyderMain {
                     ConsoleFrame.getConsoleFrame().setScrollingIndex(0);
 
                     //calls to linked inputhandler
-                    if (!stringUtil.getUserInputMode()) {
+                    if (!inputHandler.getUserInputMode()) {
                         handle(op);
-                    } else if (stringUtil.getUserInputMode()) {
-                        stringUtil.setUserInputMode(false);
+                    } else if (inputHandler.getUserInputMode()) {
+                        inputHandler.setUserInputMode(false);
                         handleSecond(op);
                     }
                 }
@@ -1924,7 +1927,7 @@ public class CyderMain {
     //input handler
     private void handleSecond(String input) {
         try {
-            String desc = stringUtil.getUserInputDesc();
+            String desc = inputHandler.getUserInputDesc();
 
             if (desc.equalsIgnoreCase("url") && !stringUtil.empytStr(input)) {
                 NetworkUtil.internetConnect(new URI(input));
@@ -1981,8 +1984,8 @@ public class CyderMain {
                 println("Enter your second word");
                 anagram = input;
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
-                stringUtil.setUserInputDesc("anagram2");
+                inputHandler.setUserInputMode(true);
+                inputHandler.setUserInputDesc("anagram2");
             } else if (desc.equalsIgnoreCase("anagram2")) {
                 if (anagram.length() != input.length()) {
                     println("These words are not anagrams of each other.");
@@ -2007,7 +2010,7 @@ public class CyderMain {
                 Arrays.sort(Sorted);
                 println("\"" + input + "\" alphabetically organized is \"" + new String(Sorted) + "\".");
             } else if (desc.equalsIgnoreCase("suggestion")) {
-                stringUtil.logSuggestion(input);
+                inputHandler.logSuggestion(input);
             } else if (desc.equalsIgnoreCase("addbackgrounds")) {
                 if (StringUtil.isConfirmation(input)) {
                     editUser();
@@ -2170,8 +2173,8 @@ public class CyderMain {
                 println("Thankfully I am over my infinite while loop days.");
             } else if (hasWord("url")) {
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
-                stringUtil.setUserInputDesc("url");
+                inputHandler.setUserInputMode(true);
+                inputHandler.setUserInputDesc("url");
                 println("Enter your desired URL");
             } else if (hasWord("temperature") || eic("temp")) {
                 TempConverter tc = new TempConverter();
@@ -2197,9 +2200,9 @@ public class CyderMain {
                 SystemUtil.resetMouse();
             } else if (eic("logoff")) {
                 println("Are you sure you want to log off your computer? This is not Cyder we are talking about (Enter yes/no)");
-                stringUtil.setUserInputDesc("logoff");
+                inputHandler.setUserInputDesc("logoff");
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
+                inputHandler.setUserInputMode(true);
             } else if (eic("clc") || eic("cls") || eic("clear") || (hasWord("clear") && hasWord("screen"))) {
                 clc();
             } else if (eic("no")) {
@@ -2231,19 +2234,19 @@ public class CyderMain {
                 NetworkUtil.internetConnect("http://airheads.com/candy#xtremes");
             } else if (hasWord("prime")) {
                 println("Enter any positive integer and I will tell you if it's prime and what it's divisible by.");
-                stringUtil.setUserInputDesc("prime");
+                inputHandler.setUserInputDesc("prime");
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
+                inputHandler.setUserInputMode(true);
             } else if (hasWord("youtube") && (!has("word search") && !has("random") && !has("thumbnail"))) {
                 println("What would you like to search YouTube for?");
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
-                stringUtil.setUserInputDesc("youtube");
+                inputHandler.setUserInputMode(true);
+                inputHandler.setUserInputDesc("youtube");
             } else if ((hasWord("google"))) {
                 println("What would you like to Google?");
-                stringUtil.setUserInputDesc("google");
+                inputHandler.setUserInputDesc("google");
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
+                inputHandler.setUserInputMode(true);
             } else if (eic("404")) {
                 NetworkUtil.internetConnect("http://google.com/=");
             } else if ((hasWord("calculator") || hasWord("calc")) && !has("graphing")) {
@@ -2285,14 +2288,14 @@ public class CyderMain {
                 }
             } else if (has("math") && !eic("mathsh")) {
                 println("What math operation would you like to perform?");
-                stringUtil.setUserInputDesc("math");
+                inputHandler.setUserInputDesc("math");
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
+                inputHandler.setUserInputMode(true);
             } else if (eic("nathan")) {
                 printlnImage("sys/pictures/print/me.png");
             } else if (eic("help")) {
                 stringUtil.setOutputArea(outputArea);
-                stringUtil.help();
+                inputHandler.help();
             } else if (hasWord("light") && hasWord("saber")) {
                 IOUtil.playAudio("sys/audio/Lightsaber.mp3",outputArea);
             } else if (hasWord("xbox")) {
@@ -2316,8 +2319,8 @@ public class CyderMain {
             } else if (hasWord("binary") && !has("dump")) {
                 println("Enter a decimal number to be converted to binary.");
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
-                stringUtil.setUserInputDesc("binary");
+                inputHandler.setUserInputMode(true);
+                inputHandler.setUserInputDesc("binary");
             } else if (hasWord("pizza")) {
                 Pizza p = new Pizza();
             } else if (hasWord("imposible")) {
@@ -2379,14 +2382,14 @@ public class CyderMain {
                 println("&");
             } else if (eic("youtube word search")) {
                 println("Enter the desired word you would like to find in a YouTube URL");
-                stringUtil.setUserInputDesc("youtube word search");
+                inputHandler.setUserInputDesc("youtube word search");
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
+                inputHandler.setUserInputMode(true);
             } else if (hasWord("disco")) {
                 println("How many iterations would you like to disco for? (Enter a positive integer)");
-                stringUtil.setUserInputMode(true);
+                inputHandler.setUserInputMode(true);
                 inputField.requestFocus();
-                stringUtil.setUserInputDesc("disco");
+                inputHandler.setUserInputDesc("disco");
             } else if (hasWord("there") && hasWord("no") && hasWord("internet")) {
                 println("Sucks to be you.");
             } else if (eic("i hate you")) {
@@ -2464,14 +2467,14 @@ public class CyderMain {
                 println("This function will tell you if two"
                         + "words are anagrams of each other."
                         + " Enter your first word");
-                stringUtil.setUserInputDesc("anagram1");
+                inputHandler.setUserInputDesc("anagram1");
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
+                inputHandler.setUserInputMode(true);
 
             } else if (eic("controlc") && !outputArea.isFocusOwner()) {
                 //todo method in console frame for this
                 //exit user input mode if in it
-                stringUtil.setUserInputMode(false);
+                inputHandler.setUserInputMode(false);
                 //kill youtube threads
                 my.killAllYoutube();
                 //kill bletchy threads
@@ -2490,8 +2493,8 @@ public class CyderMain {
             } else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
                 println("Enter your word to be alphabetically rearranged");
                 inputField.requestFocus();
-                stringUtil.setUserInputMode(true);
-                stringUtil.setUserInputDesc("alphabetize");
+                inputHandler.setUserInputMode(true);
+                inputHandler.setUserInputDesc("alphabetize");
             } else if (hasWord("mp3") || hasWord("music")) {
                 IOUtil.mp3("");
             } else if (hasWord("bai")) {
@@ -2556,15 +2559,15 @@ public class CyderMain {
                             hasWord("account"))) {
 
                 println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
-                stringUtil.setUserInputMode(true);
+                inputHandler.setUserInputMode(true);
                 inputField.requestFocus();
-                stringUtil.setUserInputDesc("deleteuser");
+                inputHandler.setUserInputDesc("deleteuser");
             } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
                 createUser();
             } else if (hasWord("pixelate") && hasWord("background")) {
                 println("Enter your pixel size (a positive integer)");
-                stringUtil.setUserInputDesc("pixelatebackground");
-                stringUtil.setUserInputMode(true);
+                inputHandler.setUserInputDesc("pixelatebackground");
+                inputHandler.setUserInputMode(true);
                 inputField.requestFocus();
             } else if (hasWord("long") && hasWord("word")) {
                 int count = 0;
@@ -3174,9 +3177,9 @@ public class CyderMain {
         deleteUser.setFont(CyderFonts.weatherFontSmall);
         deleteUser.addActionListener(e -> {
             println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
-            stringUtil.setUserInputMode(true);
+            inputHandler.setUserInputMode(true);
             inputField.requestFocus();
-            stringUtil.setUserInputDesc("deleteuser");
+            inputHandler.setUserInputDesc("deleteuser");
         });
         deleteUser.setBounds(375, 590, 150, 90);
         editUserFrame.getContentPane().add(deleteUser);

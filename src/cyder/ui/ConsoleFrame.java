@@ -175,8 +175,6 @@ public final class ConsoleFrame {
                 }
             };
 
-            //todo linked to inputhandler: consolePrintingAnimation();
-
             //on minimize / reopen end/start threads for optimization
             consoleCyderFrame.addWindowListener(new WindowAdapter() {
                 @Override
@@ -241,6 +239,12 @@ public final class ConsoleFrame {
             outputArea.setForeground(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
             outputArea.setFont(ConsoleFrame.getConsoleFrame().getUserFont());
 
+            //init input handler
+            inputHandler = new InputHandler(outputArea);
+
+            //start printing queue for input handler
+            //todo inputHandler.consolePrintingAnimation();
+
             outputScroll = new CyderScrollPane(outputArea,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
                     JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -283,7 +287,7 @@ public final class ConsoleFrame {
 
                     //escaping
                     if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
-                        //todo linked handler handle("controlc");
+                        inputHandler.handle("controlc");
                     }
 
                     //direction switching
@@ -424,6 +428,7 @@ public final class ConsoleFrame {
                 consoleCyderFrame.notify("What feature would you like to suggest? " +
                         "(Please include as much detail as possible such as " +
                         "how the feature should be triggered and how the program should responded; be detailed)");
+                //todo make userinput mode into handler and not string util
                 //todo linkedHandler.getstringUtil.setUserInputDesc("suggestion");
                 //todo linkedHandler.getstringUtil.setUserInputMode(true);
                 inputField.requestFocus();
@@ -655,7 +660,7 @@ public final class ConsoleFrame {
 
         //Auto test in upon start debug mode
         if (SecurityUtil.nathanLenovo()) {
-            //todo handle("test"); for the linked input handler
+            inputHandler.handle("test");
         }
 
         //last start time operations
@@ -787,7 +792,7 @@ public final class ConsoleFrame {
         editUserLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //todo editUser();
+                inputHandler.handle("prefs");
             }
 
             @Override
@@ -900,7 +905,7 @@ public final class ConsoleFrame {
         logoutLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //todo handle("logout");
+                inputHandler.handle("logout");
             }
 
             @Override
@@ -921,7 +926,7 @@ public final class ConsoleFrame {
         exitLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //todo handle("quit");
+                inputHandler.handle("quit");
             }
 
             @Override

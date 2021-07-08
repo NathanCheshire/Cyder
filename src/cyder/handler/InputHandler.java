@@ -33,28 +33,55 @@ public class InputHandler {
     // all exeuctors should be spun once when logged in so inside of init console frame
     // all threads that continue should be able to be found and killed when logging out
 
-
-    //todo don't use a string util here use our own methods
-    // since string util is for quick direct appends to text pane
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
     private BletchyThread bletchyThread;
+    private boolean userInputMode;
+    private String userInputDesc;
 
     private InputHandler() {} //no instantiation without a valid outputArea to use
 
     public InputHandler(JTextPane outputArea) {
         this.outputArea = outputArea;
+        masterYoutube = new MasterYoutube(outputArea);
+        bletchyThread = new BletchyThread(outputArea);
     }
 
-    public void handle(JTextPane outputArea, String operation) {
+    //todo queues, printing methods that add to the queues
+
+    //todo also need to make login and edit user their owns widgets
+
+    public void handle(String operation) {
+        if (outputArea == null)
+            throw new IllegalArgumentException("Output area not set");
+
         String firstWord = StringUtil.firstWord(operation);
 
         //todo split off into different handle sections
-        // printing
+        // printing strings
+        // printing components
+        // printing imageicons
         // widgets
         // calculations
-        // ui settings
+        // ui and settings
+        // console commands (bin hex dumps)
         // etc
+    }
+
+
+    /**
+     * Prints a suggestion as to what the user should do
+     */
+    public void help() {
+//        String[] helpTips = {
+//                "Nathan forgot to finish this; tell him to fill out this list"
+//        };
+//
+//        println("Try typing: " + helpTips[0]);
+    }
+
+    public void logSuggestion(String suggestion) {
+        //SessionLogger.log(SessionLogger.Tag.SUGGESTION, suggestion);
     }
 
     public void setOutputArea(JTextPane outputArea) {
@@ -71,6 +98,38 @@ public class InputHandler {
 
     public BletchyThread getBletchyThread() {
         return bletchyThread;
+    }
+
+    /**
+     * Getter for this instance's input mode
+     * @return - the value of user input mode
+     */
+    public boolean getUserInputMode() {
+        return this.userInputMode;
+    }
+
+    /**
+     * Set the value of secondary input mode
+     * @param b - the value of input mode
+     */
+    public void setUserInputMode(boolean b) {
+        this.userInputMode = b;
+    }
+
+    /**
+     * Returns the expected secondary input description
+     * @return - the input description
+     */
+    public String getUserInputDesc() {
+        return this.userInputDesc;
+    }
+
+    /**
+     * Sets this instance's secondary input description
+     * @param s - the description of the input we expect to receive next
+     */
+    public void setUserInputDesc(String s) {
+        this.userInputDesc = s;
     }
 
     public void close() {

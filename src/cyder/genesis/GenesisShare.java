@@ -1,7 +1,6 @@
 package cyder.genesis;
 
 import cyder.handler.ErrorHandler;
-import cyder.handler.SessionLogger;
 import cyder.obj.Preference;
 import cyder.ui.ConsoleFrame;
 
@@ -90,11 +89,10 @@ public class GenesisShare {
      */
     public static void exit(int code) {
         try {
+            //reset console frame, input handler, bletchy thread, youtube thread,
+            // and other stuff linked to console frame
             if (!ConsoleFrame.getConsoleFrame().isClosed())
                 ConsoleFrame.getConsoleFrame().close();
-
-            //close bletchy and master youtube threads
-            ConsoleFrame.getConsoleFrame().getInputHandler().close();
 
             //log exit code and end of log tag
             //TODO uncomment SessionLogger.log(SessionLogger.Tag.EOL,code);
