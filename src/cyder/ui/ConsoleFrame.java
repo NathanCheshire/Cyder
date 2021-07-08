@@ -5,7 +5,9 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.exception.FatalException;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
+import cyder.handler.InputHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.utilities.*;
 import cyder.widgets.Calculator;
@@ -25,9 +27,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public final class ConsoleFrame {
@@ -43,6 +44,7 @@ public final class ConsoleFrame {
     //program driver
     private String UUID;
     private CyderFrame consoleCyderFrame;
+    private InputHandler inputHandler;
 
     //ui elements
     private CyderScrollPane outputScroll;
@@ -59,6 +61,7 @@ public final class ConsoleFrame {
     private boolean drawConsoleLines = false;
     private boolean consoleLinesDrawn = false;
     private boolean fullscreen = false;
+    private boolean closed = true;
 
     //background vars
     private LinkedList<File> backgroundFiles;
@@ -98,6 +101,7 @@ public final class ConsoleFrame {
             operationList.clear();
             scrollingIndex = 0;
             fullscreen = false;
+            closed = false;
 
             //handle random background by setting a random background index
             if (IOUtil.getUserData("RandomBackground").equals("1")) {
@@ -173,6 +177,19 @@ public final class ConsoleFrame {
 
             //todo linked to inputhandler: consolePrintingAnimation();
 
+            //on minimize / reopen end/start threads for optimization
+            consoleCyderFrame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowIconified(WindowEvent e) {
+                    endExecutors();
+                }
+
+                @Override
+                public void windowDeiconified(WindowEvent e) {
+                    startExecutors();
+                }
+            });
+
             //we should always be using controlled exits so this is why we use DO_NOTHING_ON_CLOSE
             consoleCyderFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             consoleCyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -193,7 +210,12 @@ public final class ConsoleFrame {
             ((JLabel) (consoleCyderFrame.getContentPane()))
                     .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
 
-            outputArea = new JTextPane();
+            outputArea = new JTextPane() {
+                @Override
+                public String toString() {
+                    return "JTextPane outputArea used for ConsoleFrame instance: " + consoleCyderFrame;
+                }
+            };
             outputArea.addFocusListener(new FocusListener() {
                 @Override
                 public void focusGained(FocusEvent e) {
@@ -326,7 +348,7 @@ public final class ConsoleFrame {
             inputField.getActionMap().put("forcedexit", new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //todo genesis share exit(-404);
+                    GenesisShare.exit(-404);
                 }
             });
 
@@ -484,7 +506,8 @@ public final class ConsoleFrame {
             consoleCyderFrame.getTopDragLabel().addButton(alternateBackground,1);
 
             consoleCyderFrame.getTopDragLabel().addCloseListener(e -> {
-                //todo genesis share exit(25);
+                endExecutors();
+                GenesisShare.exit(25);
             });
 
             //this turns into setting a center title
@@ -511,7 +534,7 @@ public final class ConsoleFrame {
                 }
 
                 if (validFrames < 1) {
-                    //todo genesis share exit(120);
+                    GenesisShare.exit(120);
                 }
             }, 10, 5, SECONDS);
 
@@ -521,49 +544,86 @@ public final class ConsoleFrame {
         }
     }
 
-    //todo you need to be able to end these either way when we log out and log back in again
+    private boolean doThreads = false;
+
     private void startExecutors() {
+        //set control boolean
+        doThreads = true;
+
         //internet connection checker
-        Executors.newSingleThreadScheduledExecutor(
-                new CyderThreadFactory("Stable Network Connection Checker")).scheduleAtFixedRate(() -> {
-            //update console clock tells us if we're iconified or not
-            if (!NetworkUtil.internetReachable()) {
-                consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
-                        ", but I had trouble connecting to the internet.\n" +
-                        "As a result, some features may not work properly.");
-            }
-        }, 0, 5, MINUTES);
+        new Thread(() -> {
+            try {
+                while (doThreads) {
+                    if (!NetworkUtil.internetReachable()) {
+                        consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
+                                ", but I had trouble connecting to the internet.\n" +
+                                "As a result, some features may not work properly.");
+                    }
 
-        //hourly chime checker
-        Executors.newSingleThreadScheduledExecutor(
-                new CyderThreadFactory("Hourly Chime Checker")).scheduleAtFixedRate(() -> {
-            if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1"))
-                IOUtil.playAudio("sys/audio/chime.mp3", outputArea, false);
-        }, 3600 - LocalDateTime.now().getMinute() * 60 - LocalDateTime.now().getSecond(), 3600, SECONDS);
-
-        //console clock updater
-        Executors.newSingleThreadScheduledExecutor(
-                new CyderThreadFactory("ConsoleClock Updater")).scheduleAtFixedRate(() -> {
-            if (IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1")) {
-                if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
-                    String time = TimeUtil.consoleSecondTime();
-                    int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                    int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-
-                    consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
-                            -5, clockWidth, clockHeight);
-                    consoleClockLabel.setText(time);
-                } else {
-                    String time = TimeUtil.consoleTime();
-                    int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                    int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-
-                    consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
-                            -5, clockWidth, clockHeight);
-                    consoleClockLabel.setText(time);
+                    //sleep 5 minutes
+                    Thread.sleep(5 * 60 * 1000);
                 }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
             }
-        }, 0, 500, TimeUnit.MILLISECONDS);
+        }, "Stable Network Connection Checker").start();
+
+        //hourly Chime Checker
+        new Thread(() -> {
+            try {
+                Thread.sleep(3600 * 1000 //1 hour
+                        - LocalDateTime.now().getMinute() * 60 * 1000 //minus minutes in hour to milis
+                        - LocalDateTime.now().getSecond() * 1000); //minus seconds in hour to milis
+
+                while (doThreads) {
+                    if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
+                        IOUtil.playAudio("sys/audio/chime.mp3", outputArea, false);
+                    }
+
+                    //sleep 60 minutes
+                    Thread.sleep(60 * 60 * 1000);
+                }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "Hourly Chime Checker").start();
+
+
+        //Console Clock Updater
+        new Thread(() -> {
+            try {
+                while (doThreads) {
+                    if (IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1")) {
+                        if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
+                            String time = TimeUtil.consoleSecondTime();
+                            int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                            int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+
+                            consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
+                                    -5, clockWidth, clockHeight);
+                            consoleClockLabel.setText(time);
+                        } else {
+                            String time = TimeUtil.consoleTime();
+                            int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                            int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+
+                            consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
+                                    -5, clockWidth, clockHeight);
+                            consoleClockLabel.setText(time);
+                        }
+                    }
+
+                    //sleep 1 second
+                    Thread.sleep(500);
+                }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "Console Clock Updater").start();
+    }
+
+    private void endExecutors() {
+        doThreads = false;
     }
 
     //one time run things such as notifying due to special days, debug properties,
@@ -1023,7 +1083,7 @@ public final class ConsoleFrame {
                         }
                     }
 
-                    //f17 easter egg and other acknowlegement of other function keys
+                    //f17 easter egg and acknowlegement of other function keys
                     for (int i = 61440; i < 61452; i++) {
                         if (code == i) {
                             if (i - 61427 == 17) {
@@ -1717,5 +1777,20 @@ public final class ConsoleFrame {
 
     public boolean canSwitchBackground() {
         return backgroundFiles.size() > 1;
+    }
+
+    public void close() {
+        inputHandler.close();
+        inputHandler = null;
+        consoleCyderFrame.closeAnimation();
+        closed = true;
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public InputHandler getInputHandler() {
+        return inputHandler;
     }
 }

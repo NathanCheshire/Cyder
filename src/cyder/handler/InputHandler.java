@@ -1,25 +1,17 @@
 package cyder.handler;
 
+import cyder.threads.BletchyThread;
+import cyder.threads.MasterYoutube;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 
 
 public class InputHandler {
-    //todo this class will be associated with a specific instance of ConsoleFrame to handle all input
-    // and direct the resulting flow and output
-    // console frame (has-a) input handler (change of plans, don't link to a string util)
-
-
-
     //todo new get delay increment method in ConsoleFrame since fullscreen takes too long
-
-    //todo on logout close everything and stop threads and such
 
     //todo correcting user data doesn't work properly, it should either work and everything be there,
     // or correct it so that everything is there, or corrupted the user and wrap the data, nothing else!
-
-    //todo background resizing in console frame has never been correct
 
     //todo take away all jtextfield and use CyderTextField
 
@@ -37,22 +29,21 @@ public class InputHandler {
 
     //todo pixelate image widget
 
-    //todo background image changing doesn't move just the background
-    //todo flipping console is broken
-    //todo fipping console resets output area position
-
     //todo logout should end all executors and threads so only thing happening is login frame
     // all exeuctors should be spun once when logged in so inside of init console frame
     // all threads that continue should be able to be found and killed when logging out
 
+
+    //todo don't use a string util here use our own methods
+    // since string util is for quick direct appends to text pane
     private JTextPane outputArea;
-    private StringUtil stringUtil;
+    private MasterYoutube masterYoutube;
+    private BletchyThread bletchyThread;
 
     private InputHandler() {} //no instantiation without a valid outputArea to use
 
     public InputHandler(JTextPane outputArea) {
         this.outputArea = outputArea;
-        stringUtil = new StringUtil(outputArea);
     }
 
     public void handle(JTextPane outputArea, String operation) {
@@ -74,8 +65,23 @@ public class InputHandler {
         return this.outputArea;
     }
 
+    public MasterYoutube getMasterYoutube() {
+        return masterYoutube;
+    }
+
+    public BletchyThread getBletchyThread() {
+        return bletchyThread;
+    }
+
+    public void close() {
+        masterYoutube.killAllYoutube();
+        bletchyThread.killBletchy();
+        //todo other stuff to reset this in the event of a logout and other events
+    }
+
     @Override
     public String toString() {
-        return "InputHandler object (I guess this is just the todo field though... *sad pony noises*), hash=" + this.hashCode();
+        return "InputHandler object, hash=" + this.hashCode() +
+                "\nLinked outputArea: " + this.outputArea + "";
     }
 }

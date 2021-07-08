@@ -3,6 +3,7 @@ package cyder.genesis;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.obj.Preference;
+import cyder.ui.ConsoleFrame;
 
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
@@ -89,11 +90,13 @@ public class GenesisShare {
      */
     public static void exit(int code) {
         try {
-//            AnimationUtil.closeAnimation(consoleFrame);
-//            my.killAllYoutube();
-//            bl.killBletchy();
+            if (!ConsoleFrame.getConsoleFrame().isClosed())
+                ConsoleFrame.getConsoleFrame().close();
 
-            //log exit code and end log
+            //close bletchy and master youtube threads
+            ConsoleFrame.getConsoleFrame().getInputHandler().close();
+
+            //log exit code and end of log tag
             //TODO uncomment SessionLogger.log(SessionLogger.Tag.EOL,code);
 
             //acquire and release to ensure no IO is currently underway
