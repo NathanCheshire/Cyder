@@ -230,8 +230,6 @@ public class CyderMain {
     private boolean updateConsoleClock;
     private boolean menuGenerated;
 
-    private JList fontList;
-
     /**
      * move to consoleFrame, instead of calling console, we will just call userFrame = new ConsoleFrame();
      * that's all! possibly add some other methods to change things about the console frame like close operations. etc.
@@ -842,7 +840,6 @@ public class CyderMain {
                 StatUtil.systemProperties();
                 StatUtil.computerProperties();
                 StatUtil.javaProperties();
-                StatUtil.debugMenu(outputArea); //todo send this the input handler so that it puts it in the queue
             }
 
             //stay but maybe relocate? auto test in debug mode
@@ -2528,7 +2525,7 @@ public class CyderMain {
                 my.killAllYoutube();
                 println("YouTube scripts have been killed.");
             } else if (hasWord("debug") && hasWord("menu")) {
-                StatUtil.debugMenu(outputArea);
+                StatUtil.debugMenu(inputHandler);
             } else if (hasWord("hangman")) {
                 Hangman Hanger = new Hangman();
                 Hanger.startHangman();
@@ -2619,7 +2616,7 @@ public class CyderMain {
                 } else
                     println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you don't have permission to do that.");
             } else if (hasWord("debug") && hasWord("windows")) {
-                StatUtil.allStats(outputArea);
+                StatUtil.allStats(inputHandler);
             } else if (hasWord("alex") && hasWord("trebek")) {
                 println("Do you mean who is alex trebek?");
             } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
@@ -3095,6 +3092,7 @@ public class CyderMain {
     private JList<?> componentsList;
     private List<String> musicBackgroundNameList;
     private List<File> musicBackgroundList;
+    private JList fontList;
     private CyderButton changeUsername;
     private CyderButton changePassword;
     private CyderButton forwardPanel;

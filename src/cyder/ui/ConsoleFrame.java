@@ -704,7 +704,7 @@ public final class ConsoleFrame {
             StatUtil.systemProperties();
             StatUtil.computerProperties();
             StatUtil.javaProperties();
-            StatUtil.debugMenu(outputArea);
+            StatUtil.debugMenu(inputHandler);
         }
 
         //Auto test in upon start debug mode

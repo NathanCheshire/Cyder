@@ -6,15 +6,19 @@ import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
-import cyder.utilities.IOUtil;
-import cyder.utilities.SecurityUtil;
-import cyder.utilities.StringUtil;
+import cyder.utilities.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -123,14 +127,161 @@ public class InputHandler {
         }
     }
 
-    public void handleSecond(String operation) {
+    public void handleSecond(String input) {
         if (outputArea == null)
             throw new IllegalArgumentException("Output area not set");
 
-        String firstWord = StringUtil.firstWord(operation);
-
         try {
             String desc = getUserInputDesc();
+
+            if (desc.equalsIgnoreCase("url") && !StringUtil.empytStr(input)) {
+                NetworkUtil.internetConnect(new URI(input));
+            } else if (desc.equalsIgnoreCase("prime") && input != null && !input.equals("")) {
+                int num = Integer.parseInt(input);
+
+                if (num <= 0) {
+                    println("The inger " + num + " is not a prime number because it is negative.");
+                } else if (num == 1) {
+                    println("The inger 1 is not a prime number by the definition of a prime number.");
+                } else if (num == 2) {
+                    println("The integer 2 is indeed a prime number.");
+                }
+
+                ArrayList<Integer> Numbers = new ArrayList<>();
+
+                for (int i = 3; i < Math.ceil(Math.sqrt(num)); i += 2) {
+                    if (num % i == 0) {
+                        Numbers.add(i);
+                    }
+                }
+
+                if (Numbers.isEmpty()) {
+                    println("The integer " + num + " is indeed a prime number.");
+                } else {
+                    println("The integer " + num + " is not a prime number because it is divisible by " + Numbers);
+                }
+            } else if (desc.equalsIgnoreCase("google") && input != null && !input.equals("")) {
+                input = input.replace("'", "").replace(" ", "+");
+                println("Attempting to connect...");
+                NetworkUtil.internetConnect("https://www.google.com/search?q=" + input);
+            } else if (desc.equalsIgnoreCase("youtube") && input != null && !input.equals("")) {
+                input = input.replace("'", "").replace(" ", "+");
+                println("Attempting to connect...");
+                NetworkUtil.internetConnect("https://www.youtube.com/results?search_query=" + input);
+            } else if (desc.equalsIgnoreCase("math") && input != null && !input.equals("")) {
+                input = input.replace("'", "").replace(" ", "+");
+                println("Attempting to connect...");
+                NetworkUtil.internetConnect("https://www.wolframalpha.com/input/?i=" + input);
+            } else if (desc.equalsIgnoreCase("binary")) {
+                if (input.matches("[0-9]+") && !StringUtil.empytStr(input)) {
+                    println(input + " converted to binary equals: " + Integer.toBinaryString(Integer.parseInt(input)));
+                } else {
+                    println("Your value must only contain numbers.");
+                }
+            } else if (desc.equalsIgnoreCase("disco") && input != null && !input.equals("")) {
+                println("I hope you're not the only one at this party.");
+                SystemUtil.disco(Integer.parseInt(input));
+            } else if (desc.equalsIgnoreCase("youtube word search") && input != null && !input.equals("")) {
+                String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
+                browse = browse.replace("REPLACE", input).replace(" ", "+");
+                NetworkUtil.internetConnect(browse);
+            } else if (desc.equalsIgnoreCase("anagram1")) {
+                println("Enter your second word");
+//                anagram = input;
+//                inputField.requestFocus();
+//                inputHandler.setUserInputMode(true);
+//                inputHandler.setUserInputDesc("anagram2"); todo fix this
+            } else if (desc.equalsIgnoreCase("anagram2")) {
+//                if (anagram.length() != input.length()) { todo fix this
+//                    println("These words are not anagrams of each other.");
+//                } else if (anagram.equalsIgnoreCase(input)) {
+//                    println("These words are in fact anagrams of each other.");
+//                } else {
+//                    char[] W1C = anagram.toLowerCase().toCharArray();
+//                    char[] W2C = input.toLowerCase().toCharArray();
+//                    Arrays.sort(W1C);
+//                    Arrays.sort(W2C);
+//
+//                    if (Arrays.equals(W1C, W2C)) {
+//                        println("These words are in fact anagrams of each other.");
+//                    } else {
+//                        println("These words are not anagrams of each other.");
+//                    }
+//                }
+//
+//                anagram = "";
+            } else if (desc.equalsIgnoreCase("alphabetize")) {
+                char[] Sorted = input.toCharArray();
+                Arrays.sort(Sorted);
+                println("\"" + input + "\" alphabetically organized is \"" + new String(Sorted) + "\".");
+            } else if (desc.equalsIgnoreCase("suggestion")) {
+                logSuggestion(input);
+            } else if (desc.equalsIgnoreCase("addbackgrounds")) {
+                if (StringUtil.isConfirmation(input)) {
+                    //editUser(); todo
+                    NetworkUtil.internetConnect("https://images.google.com/");
+                } else
+                    println("Okay nevermind then");
+            } else if (desc.equalsIgnoreCase("logoff")) {
+                if (StringUtil.isConfirmation(input)) {
+                    String shutdownCmd = "shutdown -l";
+                    Runtime.getRuntime().exec(shutdownCmd);
+                } else
+                    println("Okay nevermind then");
+            } else if (desc.equalsIgnoreCase("deleteuser")) {
+                if (!StringUtil.isConfirmation(input)) {
+                    println("User " + ConsoleFrame.getConsoleFrame().getUsername() + " was not removed.");
+                    return;
+                }
+
+                ConsoleFrame.getConsoleFrame().close();
+                SystemUtil.deleteFolder(new File("users/" + ConsoleFrame.getConsoleFrame().getUUID()));
+
+                String dep = SecurityUtil.getDeprecatedUUID();
+
+                File renamed = new File("users/" + dep);
+                while (renamed.exists()) {
+                    dep = SecurityUtil.getDeprecatedUUID();
+                    renamed = new File("users/" + dep);
+                }
+
+                File old = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID());
+                old.renameTo(renamed);
+
+                Frame[] frames = Frame.getFrames();
+
+                for (Frame f : frames)
+                    f.dispose();
+
+                //login(); todo just make a widget for this maybe a UserDeleter util
+            } else if (desc.equalsIgnoreCase("pixelatebackground")) {
+                BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getConsoleFrame().
+                        getCurrentBackgroundFile().getAbsoluteFile()), Integer.parseInt(input));
+
+                String searchName = ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getName()
+                        .replace(".png", "") + "_Pixelated_Pixel_Size_" + Integer.parseInt(input) + ".png";
+
+                File saveFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() +
+                        "/Backgrounds/" + searchName);
+
+                ImageIO.write(img, "png", saveFile);
+
+                LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
+
+                for (int i = 0; i < backgrounds.size(); i++) {
+                    //todo set the background to the one you just pixelated and set the background index
+                    // to what that corresponds to
+//                    if (backgrounds.get(i).getName().equals(searchName)) {
+//                        parentLabel.setIcon(new ImageIcon(backgrounds.get(i).toString()));
+//                        parentLabel.setToolTipText(backgrounds.get(i).getName().replace(".png", ""));
+//                        ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
+//                    }
+                }
+
+                println("Background pixelated and saved as a separate background file.");
+
+                //todo exitFullscreen(); shouldn't need to call this since setting background should perform?
+            }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

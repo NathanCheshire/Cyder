@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.handler.ErrorHandler;
+import cyder.handler.InputHandler;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -92,14 +93,14 @@ public class StatUtil {
         IOUtil.createAndOpenTmpFile("Computer Properties",".txt", lines);
     }
 
-    public static void allStats(JTextPane outputArea) {
-        debugMenu(outputArea);
+    public static void allStats(InputHandler inputHandler) {
+        debugMenu(inputHandler);
         computerProperties();
         javaProperties();
         systemProperties();
     }
 
-    public static void debugMenu(JTextPane outputArea) {
+    public static void debugMenu(InputHandler inputHandler) {
         try {
             DecimalFormat gFormater = new DecimalFormat("##.###");
             double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
@@ -111,7 +112,7 @@ public class StatUtil {
             double x = flag.getWidth();
             double y = flag.getHeight();
 
-            outputArea.insertIcon(new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
+            inputHandler.printlnImage(new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
 
             String[] lines = {"Time requested: " + TimeUtil.weatherTime(),
                     "ISP: " + IPUtil.getIsp(),
