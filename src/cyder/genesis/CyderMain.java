@@ -3,18 +3,13 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.exception.CyderException;
 import cyder.exception.FatalException;
-import cyder.games.Hangman;
-import cyder.games.TicTacToe;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
 import cyder.obj.Preference;
 import cyder.threads.CyderThreadFactory;
-import cyder.threads.MasterYoutube;
 import cyder.ui.*;
 import cyder.utilities.*;
-import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,24 +19,16 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.InetAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -463,11 +450,14 @@ public class CyderMain {
                         }
                     }
 
+                    //todo does intro music still work?
                     if (!musicList.isEmpty()) {
                         IOUtil.playAudio("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
-                                (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]), outputArea);
+                                (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]),
+                                ConsoleFrame.getConsoleFrame().getInputHandler().getOutputArea());
                     } else {
-                        IOUtil.playAudio("sys/audio/Ride.mp3", outputArea);
+                        IOUtil.playAudio("sys/audio/Ride.mp3",
+                                ConsoleFrame.getConsoleFrame().getInputHandler().getOutputArea());
                     }
                 }
             } else if (loginFrame != null && loginFrame.isVisible()) {
@@ -563,7 +553,7 @@ public class CyderMain {
                 IOUtil.changeUsername(newUsername);
                 editUserFrame.inform("Username successfully changed", "");
                 //todo test this
-                consoleCyderFrame.setTitle(IOUtil.getSystemData("Version") + " Cyder [" + newUsername + "]");
+                ConsoleFrame.getConsoleFrame().setTitle(IOUtil.getSystemData("Version") + " Cyder [" + newUsername + "]");
                 changeUsernameField.setText("");
             }
         });
@@ -576,10 +566,11 @@ public class CyderMain {
         deleteUser.setBorder(new LineBorder(CyderColors.navy, 5, false));
         deleteUser.setFont(CyderFonts.weatherFontSmall);
         deleteUser.addActionListener(e -> {
-            println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
-            setUserInputMode(true);
-            inputField.requestFocus();
-            setUserInputDesc("deleteuser");
+            ConsoleFrame.getConsoleFrame().getInputHandler().println("Are you sure you want to permanently " +
+                    "delete this account? This action cannot be undone! (yes/no)");
+            ConsoleFrame.getConsoleFrame().getInputHandler().setUserInputMode(true);
+            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            ConsoleFrame.getConsoleFrame().getInputHandler().setUserInputDesc("deleteuser");
         });
         deleteUser.setBounds(375, 590, 150, 90);
         editUserFrame.getContentPane().add(deleteUser);
@@ -903,9 +894,13 @@ public class CyderMain {
                         musicBackgroundScroll.revalidate();
 
                         if (ClickedSelection.endsWith(".mp3"))
-                            println("Music: " + ClickedSelectionPath.getName().replace(".mp3", "") + " successfully deleted.");
+                            ConsoleFrame.getConsoleFrame().getInputHandler()
+                                    .println("Music: " + ClickedSelectionPath.getName()
+                                            .replace(".mp3", "") + " successfully deleted.");
                         else if (ClickedSelection.endsWith(".png")) {
-                            println("Background: " + ClickedSelectionPath.getName().replace(".png", "") + " successfully deleted.");
+                            ConsoleFrame.getConsoleFrame().getInputHandler()
+                                    .println("Background: " + ClickedSelectionPath.getName()
+                                            .replace(".png", "") + " successfully deleted.");
 
                             LinkedList<File> paths = ConsoleFrame.getConsoleFrame().getBackgrounds();
                             for (int i = 0; i < paths.size(); i++) {
@@ -1027,12 +1022,14 @@ public class CyderMain {
             IOUtil.writeUserData("Foreground", hexField.getText());
             Color updateC = ColorUtil.hextorgbColor(hexField.getText());
 
-            outputArea.setForeground(updateC);
-            inputField.setForeground(updateC);
-            inputField.setCaretColor(updateC);
-            inputField.setCaret(new CyderCaret(updateC));
+            ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(updateC);
+            ConsoleFrame.getConsoleFrame().getInputField().setForeground(updateC);
+            ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(updateC);
+            ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(updateC));
 
-            println("The Color [" + updateC.getRed() + "," + updateC.getGreen() + "," + updateC.getBlue() + "] has been applied.");
+            ConsoleFrame.getConsoleFrame().getInputHandler()
+                    .println("The Color [" + updateC.getRed() + "," + updateC.getGreen() + ","
+                            + updateC.getBlue() + "] has been applied.");
         });
         applyColor.setBounds(450, 240 + colorOffsetY, 200, 40);
         switchingLabel.add(applyColor);
@@ -1121,11 +1118,12 @@ public class CyderMain {
             String FontS = (String) fontList.getSelectedValue();
 
             if (FontS != null) {
+                //todo does stuff like this work?
                 Font ApplyFont = new Font(FontS, Font.BOLD, 30);
-                outputArea.setFont(ApplyFont);
-                inputField.setFont(ApplyFont);
+                ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ApplyFont);
+                ConsoleFrame.getConsoleFrame().getInputField().setFont(ApplyFont);
                 IOUtil.writeUserData("Font", FontS);
-                println("The font \"" + FontS + "\" has been applied.");
+                ConsoleFrame.getConsoleFrame().getInputHandler().println("The font \"" + FontS + "\" has been applied.");
             }
         });
         applyFont.setBounds(100, 420, 200, 40);
@@ -1203,7 +1201,7 @@ public class CyderMain {
                 preferenceButton.setColors(wasSelected ? CyderColors.regularRed : CyderColors.regularGreen);
                 preferenceButton.setText(wasSelected ? "      Off      " : "      On      ");
 
-                refreshPrefs();
+                ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
             });
 
             printingUtil.printlnComponent(preferenceButton);
@@ -1233,89 +1231,7 @@ public class CyderMain {
         switchingLabel.revalidate();
     }
 
-    public void refreshPrefs() {
-        //output border
-        if (IOUtil.getUserData("OutputBorder").equals("0")) {
-            outputScroll.setBorder(null);
-        } else {
-            outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
-        }
 
-        //input border
-        if (IOUtil.getUserData("InputBorder").equals("0")) {
-            inputField.setBorder(null);
-        } else {
-            inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
-        }
-
-        //full screen
-        if (IOUtil.getUserData("FullScreen").equals("0")) {
-            exitFullscreen();
-        } else if (IOUtil.getUserData("FullScreen").equals("1")) {
-            refreshConsoleFrame();
-        }
-
-        //console clock
-        if (IOUtil.getUserData("ClockOnConsole").equals("1")) {
-            consoleClockLabel.setVisible(true);
-            updateConsoleClock = true;
-
-            if (consoleClockLabel.isVisible())
-                if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
-                    String time = TimeUtil.consoleSecondTime();
-                    int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                    int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, -5, w, h);
-                    consoleClockLabel.setText(time);
-                } else {
-                    String time = TimeUtil.consoleTime();
-                    int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                    int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-                    consoleClockLabel.setBounds(consoleDragLabel.getWidth() / 2 - w / 2, -5, w, h);
-                    consoleClockLabel.setText(time);
-                }
-
-        } else {
-            consoleClockLabel.setVisible(false);
-            updateConsoleClock = false;
-        }
-
-        //output color fill
-        if (IOUtil.getUserData("OutputFill").equals("0")) {
-            outputArea.setBackground(null);
-            outputArea.setOpaque(false);
-        } else {
-            outputArea.setOpaque(true);
-            outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
-            outputArea.repaint();
-            outputArea.revalidate();
-        }
-
-        //input color fill
-        if (IOUtil.getUserData("InputFill").equals("0")) {
-            inputField.setBackground(null);
-            inputField.setOpaque(false);
-        } else {
-            inputField.setOpaque(true);
-            inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
-            inputField.repaint();
-            inputField.revalidate();
-        }
-
-        //round corners fixer
-        for (Frame f : Frame.getFrames()) {
-            f.repaint();
-        }
-
-        if (IOUtil.getUserData("roundwindows").equals("1")) {
-            consoleFrame.setShape(new RoundRectangle2D.Double(0, 0,
-                    consoleFrame.getWidth(), consoleFrame.getHeight(), 20, 20));
-        } else {
-            consoleFrame.setShape(null);
-        }
-
-        consoleFrame.repaint();
-    }
 
     //CreateUser class in genesis
     public void createUser() {
@@ -1558,7 +1474,8 @@ public class CyderMain {
                                     new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
                         }
 
-                        //todo this needs to use binary writing
+                        //todo this will use binary writing when we switch
+                        // so we'll change to .bin and such
                         BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
                                 "users/" + uuid + "/Userdata.txt"));
 
@@ -1581,7 +1498,8 @@ public class CyderMain {
                         createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "");
                         createUserFrame.closeAnimation();
 
-                        if ((!consoleFrame.isVisible() && loginFrame != null) || (new File("users/").length() == 1)) {
+                        //attempt to log in new user if it's the only user
+                        if (new File("users/").length() == 1) {
                             loginFrame.closeAnimation();
                             recognize(newUserName.getText().trim(), pass);
                         }
@@ -1604,11 +1522,14 @@ public class CyderMain {
         createNewUser.setBounds(60, 390, 240, 40);
         createUserFrame.getContentPane().add(createNewUser);
 
-        JFrame relativeFrame = (loginFrame != null && loginFrame.isActive() && loginFrame.isVisible() ?
-                loginFrame : (consoleFrame != null && consoleFrame.isActive() && consoleFrame.isVisible() ?
-                consoleFrame : null));
+        if (!ConsoleFrame.getConsoleFrame().isClosed()) {
+            ConsoleFrame.getConsoleFrame().setFrameRelativeTo(createUserFrame);
+        } else if (loginFrame != null && loginFrame.isActive() && loginFrame.isVisible()) {
+            createUserFrame.setLocationRelativeTo(loginFrame);
+        } else {
+            createUserFrame.setLocationRelativeTo(null);
+        }
 
-        createUserFrame.setLocationRelativeTo(relativeFrame);
         createUserFrame.setVisible(true);
         newUserName.requestFocus();
     }

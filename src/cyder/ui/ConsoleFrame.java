@@ -708,7 +708,7 @@ public final class ConsoleFrame {
             StatUtil.systemProperties();
             StatUtil.computerProperties();
             StatUtil.javaProperties();
-            StatUtil.debugMenu(inputHandler);
+            StatUtil.debugMenu();
         }
 
         //Auto test in upon start debug mode
@@ -1823,6 +1823,61 @@ public final class ConsoleFrame {
         }
     }
 
+    public void refreshBasedOnPrefs() {
+        //output border
+        if (IOUtil.getUserData("OutputBorder").equals("0")) {
+            outputScroll.setBorder(null);
+        } else {
+            outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
+        }
+
+        //input border
+        if (IOUtil.getUserData("InputBorder").equals("0")) {
+            inputField.setBorder(null);
+        } else {
+            inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
+        }
+
+        //full screen
+        if (IOUtil.getUserData("FullScreen").equals("0")) {
+            //todo exitFullscreen();
+        } else if (IOUtil.getUserData("FullScreen").equals("1")) {
+            //todo refreshConsoleFrame();
+        }
+
+        //console clock
+        consoleClockLabel.setVisible(IOUtil.getUserData("ClockOnConsole").equals("1"));
+
+        //output color fill
+        if (IOUtil.getUserData("OutputFill").equals("0")) {
+            outputArea.setBackground(null);
+            outputArea.setOpaque(false);
+        } else {
+            outputArea.setOpaque(true);
+            outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+            outputArea.repaint();
+            outputArea.revalidate();
+        }
+
+        //input color fill
+        if (IOUtil.getUserData("InputFill").equals("0")) {
+            inputField.setBackground(null);
+            inputField.setOpaque(false);
+        } else {
+            inputField.setOpaque(true);
+            inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+            inputField.repaint();
+            inputField.revalidate();
+        }
+
+        //round corners fixer
+        for (Frame f : Frame.getFrames()) {
+            f.repaint();
+        }
+
+        consoleCyderFrame.repaint();
+    }
+
     public boolean isFullscreen() {
         return fullscreen;
     }
@@ -1918,5 +1973,14 @@ public final class ConsoleFrame {
 
     public void setLocationRelativeTo(Component c) {
         consoleCyderFrame.setLocationRelativeTo(c);
+    }
+
+    public void setFrameRelativeTo(Frame f) {
+        f.setLocationRelativeTo(consoleCyderFrame);
+    }
+
+    //todo does this work?
+    public void setTitle(String title) {
+        consoleCyderFrame.setTitle(title);
     }
 }

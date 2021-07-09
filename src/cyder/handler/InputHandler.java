@@ -533,7 +533,7 @@ public class InputHandler {
         } else if (firstWord.equalsIgnoreCase("synonym")) {
             //todo parse string and print response here
         } else if (hasWord("debug") && hasWord("menu")) {
-            StatUtil.debugMenu(this);
+            StatUtil.debugMenu();
         } else if (hasWord("pixelate") && hasWord("background")) {
             println("Enter your pixel size (a positive integer)");
             setUserInputDesc("pixelatebackground");
@@ -576,7 +576,7 @@ public class InputHandler {
             } else
                 println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you don't have permission to do that.");
         } else if (hasWord("debug") && hasWord("windows")) {
-            StatUtil.allStats(this); //todo does this work
+            StatUtil.allStats(); //todo does this work
         } else if (hasWord("binary") && !has("dump")) {
             println("Enter a decimal number to be converted to binary.");
             ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
