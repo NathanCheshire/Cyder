@@ -1766,15 +1766,16 @@ public final class ConsoleFrame {
         try {
             fullscreen = enable;
 
-            if (enable) {
-                consoleDir = Direction.TOP;
-                consoleCyderFrame.setSize(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight());
-                consoleCyderFrame.setLocationRelativeTo(null);
-            } else {
-                int w = 0;
-                int h = 0;
-                ImageIcon rotatedIcon = null;
+            int w = 0;
+            int h = 0;
+            ImageIcon rotatedIcon = null;
 
+            if (fullscreen) {
+                w = SystemUtil.getScreenWidth();
+                h = SystemUtil.getScreenHeight();
+                consoleDir = Direction.TOP;
+                rotatedIcon = new ImageIcon(ImageUtil.resizeImage(w,h,getCurrentBackgroundFile()));
+            } else {
                 if (consoleDir == Direction.LEFT || consoleDir == Direction.RIGHT) {
                     w = getCurrentBackgroundImageIcon().getIconHeight();
                     h = getCurrentBackgroundImageIcon().getIconWidth();
@@ -1800,24 +1801,24 @@ public final class ConsoleFrame {
                                 getCurrentBackgroundFile().getAbsolutePath(), Direction.BOTTOM));
                         break;
                 }
-
-                int relativeX = consoleCyderFrame.getX() + consoleCyderFrame.getWidth() / 2;
-                int relativeY = consoleCyderFrame.getY() + consoleCyderFrame.getHeight() / 2;
-
-                consoleCyderFrame.setSize(w, h);
-                consoleCyderFrame.setBackground(rotatedIcon);
-
-                consoleCyderFrame.setLocation(relativeX - w / 2, relativeY - h / 2);
-
-                outputArea.setBounds(10, 62,
-                        consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
-
-                outputScroll.setBounds(10, 62,
-                        consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
-
-                inputField.setBounds(10, 82 + outputArea.getHeight(),w - 20,
-                        h - (outputArea.getHeight() + 62 + 40));
             }
+
+            int relativeX = consoleCyderFrame.getX() + consoleCyderFrame.getWidth() / 2;
+            int relativeY = consoleCyderFrame.getY() + consoleCyderFrame.getHeight() / 2;
+
+            consoleCyderFrame.setSize(w, h);
+            consoleCyderFrame.setBackground(rotatedIcon);
+
+            consoleCyderFrame.setLocation(relativeX - w / 2, relativeY - h / 2);
+
+            outputArea.setBounds(10, 62,
+                    consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
+
+            outputScroll.setBounds(10, 62,
+                    consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
+
+            inputField.setBounds(10, 82 + outputArea.getHeight(),w - 20,
+                    h - (outputArea.getHeight() + 62 + 40));
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -1839,10 +1840,10 @@ public final class ConsoleFrame {
         }
 
         //full screen
-        if (IOUtil.getUserData("FullScreen").equals("0")) {
-            //todo exitFullscreen();
-        } else if (IOUtil.getUserData("FullScreen").equals("1")) {
-            //todo refreshConsoleFrame();
+        if (IOUtil.getUserData("FullScreen").equals("0") && isFullscreen()) {
+            setFullscreen(false);
+        } else if (IOUtil.getUserData("FullScreen").equals("1") && !isFullscreen()) {
+            setFullscreen(true);
         }
 
         //console clock

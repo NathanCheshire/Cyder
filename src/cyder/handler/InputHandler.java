@@ -1012,7 +1012,8 @@ public class InputHandler {
     //random methods find a category for --------------------------
 
     private void test() {
-
+        //todo after sliding animation request input field focus
+        ConsoleFrame.getConsoleFrame().setFullscreen(!ConsoleFrame.getConsoleFrame().isFullscreen());
     }
 
     /**

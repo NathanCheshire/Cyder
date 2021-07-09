@@ -447,7 +447,6 @@ public class CyderMain {
                         }
                     }
 
-                    //todo does intro music still work?
                     if (!musicList.isEmpty()) {
                         IOUtil.playAudio("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
                                 (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]),
@@ -460,8 +459,10 @@ public class CyderMain {
             } else if (loginFrame != null && loginFrame.isVisible()) {
                 loginField.setText("");
 
-                for (char c: Password)
+                for (char c: Password) {
                     c = '\0';
+                }
+
                 username = "";
 
                 loginField.requestFocusInWindow();
@@ -549,7 +550,6 @@ public class CyderMain {
             if (!StringUtil.empytStr(newUsername)) {
                 IOUtil.changeUsername(newUsername);
                 editUserFrame.inform("Username successfully changed", "");
-                //todo test this
                 ConsoleFrame.getConsoleFrame().setTitle(IOUtil.getSystemData("Version") + " Cyder [" + newUsername + "]");
                 changeUsernameField.setText("");
             }
