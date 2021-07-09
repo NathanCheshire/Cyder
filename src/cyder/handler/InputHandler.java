@@ -7,6 +7,7 @@ import cyder.exception.CyderException;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.genesis.GenesisShare;
+import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
@@ -346,7 +347,7 @@ public class InputHandler {
         } else if (eic("pin") || eic("login")) {
             //todo widget login();
         } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
-            //todo widget createUser();
+            UserCreator.createGUI();
         } else if (hasWord("resize") && (hasWord("image") || hasWord("picture"))) {
             ImageResizer IR = new ImageResizer();
         } else if (hasWord("temperature") || eic("temp")) {
