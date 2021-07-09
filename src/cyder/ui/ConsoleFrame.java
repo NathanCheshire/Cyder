@@ -1979,7 +1979,6 @@ public final class ConsoleFrame {
         f.setLocationRelativeTo(consoleCyderFrame);
     }
 
-    //todo does this work?
     public void setTitle(String title) {
         consoleCyderFrame.setTitle(title);
     }

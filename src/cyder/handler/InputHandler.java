@@ -36,8 +36,14 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
-
 public class InputHandler {
+    //todo make right clicking on icon in task bar and closing that way use a controlled exit (25)
+
+    //todo remove weird offset of output area at top of console resulting from old console
+    // acounting for drag label (so remove 30 basically)
+
+    //todo fix notifications not being centered due to custom paint component
+
     //todo will control + c actions still work
 
     //todo anywhere we're passing output area, (to print to I assume), just call it here or pass
@@ -108,7 +114,7 @@ public class InputHandler {
     //handle methods ----------------------------------------------
 
     public void handle(String op) throws Exception{
-        //test for no link to ConsoleFrame
+        //check for no link to ConsoleFrame
         if (outputArea == null)
             throw new IllegalArgumentException("Output area not set");
 
@@ -356,7 +362,7 @@ public class InputHandler {
             new TicTacToe().startTicTacToe();
         } else if (hasWord("note") || hasWord("notes")) {
             IOUtil.startNoteEditor();
-        } else if (hasWord("mp3") || hasWord("music")) {
+        } else if ((hasWord("mp3") || hasWord("music")) && !hasWord("stop")) {
             IOUtil.mp3("");
         } else if (hasWord("phone") || hasWord("dialer") || hasWord("call")) {
             new Phone(outputArea);

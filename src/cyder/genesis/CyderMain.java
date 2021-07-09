@@ -51,9 +51,6 @@ public class CyderMain {
     private CyderButton chooseBackground;
     private File createUserBackground;
 
-    //todo pixelating widget
-    private File pixelateFile;
-
     /**
      * start the best program ever made
      * @param CA - the arguments passed in
