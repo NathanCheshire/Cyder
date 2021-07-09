@@ -557,7 +557,9 @@ public final class ConsoleFrame {
             //spin off console executors
             startExecutors();
 
-            consoleCyderFrame.enterAnimation();
+            //show frame
+            consoleCyderFrame.setVisible(true);
+            consoleCyderFrame.setLocationRelativeTo(null);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

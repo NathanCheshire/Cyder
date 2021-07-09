@@ -28,6 +28,20 @@ public class GenesisShare {
         return prefs;
     }
 
+    private static boolean suspendFrameChecker = false;
+
+    public static void suspendFrameChecker() {
+        suspendFrameChecker = true;
+    }
+
+    public static void cancelFrameSuspention() {
+        suspendFrameChecker = false;
+    }
+
+    public static boolean framesSuspended() {
+        return suspendFrameChecker;
+    }
+
     private static LinkedList<Preference> initPreferencesList() {
         LinkedList<Preference> ret = new LinkedList<>();
 

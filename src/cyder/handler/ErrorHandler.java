@@ -2,6 +2,7 @@ package cyder.handler;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
@@ -61,7 +62,7 @@ public class ErrorHandler {
             errorWriter.close();
 
             //if the user has show errors configured, then we open the file
-            if (IOUtil.getUserData("SilenceErrors").equals("0")) {
+            if (!ConsoleFrame.getConsoleFrame().isClosed() && IOUtil.getUserData("SilenceErrors").equals("0")) {
                 System.out.println("\nOriginal error:\n");
                 e.printStackTrace();
                 windowedError(message, write, eFileString);
@@ -152,7 +153,7 @@ public class ErrorHandler {
             return;
         }
 
-        CyderFrame errorFrame = new CyderFrame();
+        CyderFrame errorFrame = new CyderFrame(400,400, CyderImages.defaultBackground, true);
         errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         errorFrame.setTitle(title.length() == 0 ? "Null error message" : title);
         errorFrame.initializeResizing();

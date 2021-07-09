@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.obj.Gluster;
@@ -75,8 +76,9 @@ public class CyderFrame extends JFrame {
      * @param background - the specified background image. You can choose to leave the image in the same place upon
      *                   frame resizing events or you can configure the frame instance to rescale the original background
      *                   image to fit to the new frame dimensions.
+     * @param ignoreUserPrefs - ignore prefs such as rounded windows and other defined properties in Userdata.bin
      */
-    public CyderFrame(int width, int height, ImageIcon background) {
+    public CyderFrame(int width, int height, ImageIcon background, boolean ignoreUserPrefs) {
         this.width = width;
         this.height = height;
         this.background = background;
@@ -88,7 +90,10 @@ public class CyderFrame extends JFrame {
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
-        if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
+        if (ignoreUserPrefs) {
+            setShape(new RoundRectangle2D.Double(0, 0,
+                    getWidth(), getHeight(), 20, 20));
+        } else if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
             setShape(new RoundRectangle2D.Double(0, 0,
                     getWidth(), getHeight(), 20, 20));
         }
@@ -173,11 +178,13 @@ public class CyderFrame extends JFrame {
      * @param height - the specified height of the cyder frame
      */
     public CyderFrame(int width, int height) {
-        this(width, height, new ImageIcon(""));
+        this(width, height, CyderImages.defaultBackground);
     }
 
-    //used for ConsoleFrame extension of CyderFrame to avoid calls to userdata when UUID has not yet been set
-    public CyderFrame() {}
+    //used for stand alone windows such as program first start with no users or no context informs
+    public CyderFrame(int width, int height, ImageIcon background) {
+        this(width, height, background, false);
+    }
 
     /**
      * This method will change the title position to the specified value. If the frame is visible to the user,
@@ -623,15 +630,6 @@ public class CyderFrame extends JFrame {
      */
     public void inform(String text, String title) {
         GenericInform.informRelative(text, title, this);
-    }
-
-    @Override
-    public void setLocationRelativeTo(Component c) {
-        if (c == null) {
-            this.enterAnimation();
-        } else {
-            super.setLocationRelativeTo(c);
-        }
     }
 
     private int animationNano = 500;

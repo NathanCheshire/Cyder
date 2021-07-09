@@ -45,8 +45,7 @@ public class InputHandler {
 
     //todo set frames relative to consoleFrame
 
-    //todo correcting user data doesn't work properly, it should either work and everything be there,
-    // or correct it so that everything is there, or corrupted the user and wrap the data, nothing else!
+    //todo corrupting user log info
 
     //todo corrupted users aren't saved to downloads,
     // they're saved a directory up, should save to same dir as src, or just save to downloads
@@ -704,7 +703,11 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            test();
+
+        }
+        //testing widgets not to auto call on start
+        else if (eic("test2")) {
+
         }
         //final attempt at unknown input --------------------------
         else {
@@ -963,7 +966,7 @@ public class InputHandler {
     }
 
     private void test() {
-
+        IOUtil.corruptedUser();
     }
 
     /**

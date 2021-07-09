@@ -39,7 +39,7 @@ public class UserCreator {
         if (createUserFrame != null)
             createUserFrame.closeAnimation();
 
-        createUserFrame = new CyderFrame(356, 473, CyderImages.defaultBackground);
+        createUserFrame = new CyderFrame(356, 473, CyderImages.defaultBackground, true);
         createUserFrame.setTitle("Create User");
 
         JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);

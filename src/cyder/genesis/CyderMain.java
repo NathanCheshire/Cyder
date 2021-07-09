@@ -78,7 +78,7 @@ public class CyderMain {
                 }
             }
 
-            if (validFrames < 1) {
+            if (validFrames < 1 && !GenesisShare.framesSuspended()) {
                 GenesisShare.exit(120);
             }
         }, 10, 5, SECONDS);

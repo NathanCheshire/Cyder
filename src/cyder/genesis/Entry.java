@@ -107,7 +107,8 @@ public class Entry {
 
         IOUtil.cleanUsers();
 
-        loginFrame = new CyderFrame(600, 400) {
+        loginFrame = new CyderFrame(600, 400,
+                ImageUtil.imageIconFromColor(new Color(21,23,24)),true) {
             @Override
             public void dispose() {
                 doLoginAnimations = false;
@@ -119,9 +120,7 @@ public class Entry {
         loginFrame.setBackground(new Color(21,23,24));
 
         if (ConsoleFrame.getConsoleFrame().isClosed()) {
-            loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        } else {
-            loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            loginFrame.addCloseListener(e -> GenesisShare.exit(25));
         }
 
         JTextPane loginArea = new JTextPane();
@@ -275,9 +274,12 @@ public class Entry {
         loginFrame.enterAnimation();
 
         if (directories != null && directories.length == 0)
-            priorityPrintingList.add("No users found; please type \"create\"");
+            priorityPrintingList.add("No users found; please type \"create\"\n");
 
         loginTypingAnimation(loginArea);
+
+        //in case this is after a corruption, start frame checker again
+        GenesisShare.cancelFrameSuspention();
     }
 
     public static void recognize(String Username, char[] Password) {

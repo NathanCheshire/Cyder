@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.exception.FatalException;
+import cyder.genesis.Entry;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
@@ -738,8 +739,8 @@ public class IOUtil {
      */
     public static void corruptedUser() {
         try {
-            //get the exiting sem to avoid any other threads exiting during this method resulting from context switching
-            GenesisShare.getExitingSem().acquire();
+            GenesisShare.suspendFrameChecker();
+            ConsoleFrame.getConsoleFrame().close();
 
             //close all open frames
             Frame[] frames = Frame.getFrames();
@@ -752,8 +753,8 @@ public class IOUtil {
                 return;
 
             //confirmed that the user was corrupted so we inform the user
-            GenericInform.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but your user was corrupted. " +
-                    "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User");
+            GenericInform.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
+                    "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User :(");
 
             //delete the stuff we don't care about
             for (File f : mainZipFile.listFiles()) {
@@ -764,7 +765,8 @@ public class IOUtil {
 
             //zip the remaining user data
             String sourceFile = mainZipFile.getAbsolutePath();
-            FileOutputStream fos = new FileOutputStream("src/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip");
+            FileOutputStream fos = new FileOutputStream("C:/Users/" + SystemUtil.getWindowsUsername() +
+                    "/Downloads/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip");
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             File fileToZip = new File(sourceFile);
             zipFile(fileToZip, fileToZip.getName(), zipOut);
@@ -774,16 +776,9 @@ public class IOUtil {
             //delete the folder we just zipped since it's a duplicate
             SystemUtil.deleteFolder(mainZipFile);
 
-            //move the zipped folder to downloads
-            Files.move(Paths.get("src/Cyder_Corrupted_Userdata.zip"),
-                    Paths.get("C:/Users/" + SystemUtil.getWindowsUsername() + "/Downloads/Cyder_Corrupted_Userdata.zip"));
-
-            //todo go to login method instead (essentially restart program)
-            System.exit(25);
+            Entry.showEntryGUI();
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
         }
     }
 

@@ -2,9 +2,8 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-
+import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
-import cyder.utilities.ImageUtil;
 import cyder.ui.CyderFrame;
 import cyder.utilities.SystemUtil;
 
@@ -41,7 +40,7 @@ public class GenericInform {
 
             //obtain cyderframe object of background color
             CyderFrame informFrame = new CyderFrame(width + widthOffset * 2,height + heightOffset * 2,
-                    new ImageIcon(ImageUtil.bufferedImageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
+                    CyderImages.defaultBackground, true);
             informFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
             informFrame.setTitle(title);
             informFrame.setBackground(CyderColors.vanila);
@@ -100,7 +99,7 @@ public class GenericInform {
 
             //obtain cyderframe object of background color
             CyderFrame informFrame = new CyderFrame(width + widthOffset * 2,height + heightOffset * 2,
-                    new ImageIcon(ImageUtil.bufferedImageFromColor(width + widthOffset * 2,height + heightOffset * 2, CyderColors.vanila)));
+                    CyderImages.defaultBackground, true);
             informFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
             informFrame.setBackground(CyderColors.vanila);
             informFrame.setTitle(title);
