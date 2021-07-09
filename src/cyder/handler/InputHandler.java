@@ -1133,10 +1133,12 @@ public class InputHandler {
                         Object line = consolePrintingList.removeFirst();
 
                         if (line instanceof String) {
+                            GenesisShare.getPrintinSem().acquire();
                             for (char c : ((String) line).toCharArray()) {
                                 innerConsolePrint(c);
                                 Thread.sleep(charTimeout);
                             }
+                            GenesisShare.getPrintinSem().release();
                         } else if (line instanceof JComponent) {
                             String componentUUID = SecurityUtil.generateUUID();
                             Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
@@ -1157,10 +1159,7 @@ public class InputHandler {
         }, "Console Printing Animation").start();
     }
 
-    //todo use a semaphore in genesis share for printing to help with
-    // bletchy and remove last line and such concurrency issues
-    // you'll only need to aquire it before the priting animation and release after wards
-    // aquire inside of remove last/first
+    //todo use printing sem for bletchy and random youtube
 
     private void innerConsolePrint(char c) {
         try {

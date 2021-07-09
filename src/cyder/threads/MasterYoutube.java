@@ -7,7 +7,7 @@ public class MasterYoutube {
     private JTextPane outputArea;
     private static boolean active = false;
 
-    //todo this class still exists in the event we want to allow multithreading once again with random youtube
+    //this class still exists in the event we want to allow multithreading once again with random youtube
     // that will be hard to figure out due to the nature of threads, context switching, and just the general way
     // processors and operating systems work D:
 

@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 
 import javax.swing.*;
@@ -42,11 +43,13 @@ public class StringUtil {
 
     public void removeFirst() {
         try {
+            GenesisShare.getPrintinSem().acquire();
             Element root = outputArea.getDocument().getDefaultRootElement();
             Element first = root.getElement(0);
             outputArea.getDocument().remove(first.getStartOffset(), first.getEndOffset());
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (BadLocationException e) {
+            GenesisShare.getPrintinSem().release();
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -83,41 +86,49 @@ public class StringUtil {
      *   are needed to {@link StringUtil#removeLastLine()}
      */
     public void removeLast() {
-        boolean removeTwoLines = false;
+        try {
+            boolean removeTwoLines = false;
 
-        LinkedList<Element> elements = new LinkedList<>();
-        ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
-        Element element;
-        while ((element = iterator.next()) != null) {
-            elements.add(element);
-        }
+            LinkedList<Element> elements = new LinkedList<>();
+            ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
+            Element element;
+            while ((element = iterator.next()) != null) {
+                elements.add(element);
+            }
 
-        int leafs = 0;
+            int leafs = 0;
 
-        for (Element value : elements)
-            if (value.getElementCount() == 0)
-                leafs++;
+            for (Element value : elements)
+                if (value.getElementCount() == 0)
+                    leafs++;
 
-        int passedLeafs = 0;
+            int passedLeafs = 0;
 
-        for (Element value : elements) {
-            if (value.getElementCount() == 0) {
-                if (passedLeafs + 3 != leafs) {
-                    passedLeafs++;
-                    continue;
-                }
+            for (Element value : elements) {
+                if (value.getElementCount() == 0) {
+                    if (passedLeafs + 3 != leafs) {
+                        passedLeafs++;
+                        continue;
+                    }
 
-                if (value.toString().toLowerCase().contains("icon") || value.toString().toLowerCase().contains("component")) {
-                    removeTwoLines = true;
+                    if (value.toString().toLowerCase().contains("icon") || value.toString().toLowerCase().contains("component")) {
+                        removeTwoLines = true;
+                    }
                 }
             }
-        }
 
-        if (removeTwoLines) {
+            GenesisShare.getPrintinSem().acquire();
+
+            if (removeTwoLines) {
+                removeLastLine();
+            }
+
             removeLastLine();
-        }
 
-        removeLastLine();
+            GenesisShare.getPrintinSem().release();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     public String getLastTextLine() {

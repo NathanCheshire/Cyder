@@ -32,6 +32,9 @@ public class BletchyThread {
      * @param useUnicode - a boolean depicting whether or not to use more than just latin letters and possibly numbers
      */
     public void bletchy(String decodeString, boolean useNumbers, int miliDelay, boolean useUnicode) {
+        if (isActive())
+            return;
+
         String[] print = bletchy(decodeString, useNumbers, useUnicode);
         bletchThread = new bletchyThread(print, miliDelay);
     }
