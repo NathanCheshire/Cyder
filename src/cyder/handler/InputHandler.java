@@ -348,7 +348,7 @@ public class InputHandler {
         } else if (hasWord("pizza")) {
             new Pizza();
         } else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
-            //todo pixelator widget that uses ImageUtil.pixelate()
+            new ImagePixelator(null);
         } else if (hasWord("file") && hasWord("signature")) {
             //todo file signature widget
         } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
@@ -970,10 +970,12 @@ public class InputHandler {
         return false;
     }
 
-    //random methods find a category for --------------------------
-
     private void test() {
-
+        try {
+            new ImagePixelator(new File("c:/users/nathan/downloads/Alpha.png"));
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     /**

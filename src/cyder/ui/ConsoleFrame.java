@@ -732,7 +732,7 @@ public final class ConsoleFrame {
 
         IOUtil.writeUserData("laststart",System.currentTimeMillis() + "");
 
-        //Bad Apple / Beetlejuice reference for a grayscale image
+        //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
         try {
             new Thread(() -> {
                 try {
@@ -752,10 +752,13 @@ public final class ConsoleFrame {
                     }
 
                     if (correct) {
-                        if (NumberUtil.randInt(0,1) == 0) {
+                        int rand = NumberUtil.randInt(0,2);
+                        if (rand == 0) {
                             IOUtil.playAudio("sys/audio/BadApple.mp3", outputArea);
-                        } else {
+                        } else if (rand == 1){
                             IOUtil.playAudio("sys/audio/BeetleJuice.mp3", outputArea);
+                        } else {
+                            IOUtil.playAudio("sys/audio/BlackOrWhite.mp3", outputArea);
                         }
                     }
                 } catch (Exception e) {

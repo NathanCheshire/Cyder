@@ -205,7 +205,7 @@ public class ImageResizer {
         originalImage.setFont(CyderFonts.weatherFontSmall);
         originalImage.setForeground(CyderColors.navy);
 
-        originalImage.setBounds(400 - 165 / 2,150, 180, 40);
+        originalImage.setBounds(400 - 165 / 2,130, 180, 40);
         resizeFrame.getContentPane().add(originalImage);
 
         CyderButton approve = new CyderButton("Approve Image");
@@ -234,7 +234,7 @@ public class ImageResizer {
             }
         });
 
-        approve.setBounds(400 - 180 / 2,735, 180, 40);
+        approve.setBounds(400 - 180 / 2,745, 180, 40);
         resizeFrame.getContentPane().add(approve);
 
         resizeFrame.setVisible(true);
