@@ -61,8 +61,6 @@ public class InputHandler {
 
     //todo fix notifications not being centered due to custom paint component
 
-    //todo new get delay increment method in ConsoleFrame since fullscreen takes too long
-
     //todo correcting user data doesn't work properly, it should either work and everything be there,
     // or correct it so that everything is there, or corrupted the user and wrap the data, nothing else!
 

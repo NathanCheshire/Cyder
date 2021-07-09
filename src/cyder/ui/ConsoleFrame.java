@@ -263,7 +263,7 @@ public final class ConsoleFrame {
                 outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")),
                         3, false));
             } else {
-                outputScroll.setBorder(null);
+                outputScroll.setBorder(BorderFactory.createEmptyBorder());
             }
 
             outputScroll.setBounds(10, 62, getBackgroundWidth() - 20, getBackgroundHeight() - 204);
@@ -393,8 +393,8 @@ public final class ConsoleFrame {
             inputField.addKeyListener(commandScrolling);
             inputField.setCaretPosition(consoleBashString.length());
 
-            inputField.setBounds(10, 82 + outputArea.getHeight(),getBackgroundWidth() - 20,
-                    getBackgroundHeight() - (outputArea.getHeight() + 62 + 40));
+            inputField.setBounds(10, 62 + outputArea.getHeight() + 20,w - 20,
+                    h - (62 + outputArea.getHeight() + 20 + 20));
             inputField.setOpaque(false);
             consoleCyderFrame.getContentPane().add(inputField);
             inputField.addActionListener(e -> {
@@ -1501,12 +1501,20 @@ public final class ConsoleFrame {
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
                     new Thread(() -> {
+                        int delay = 5;
+                        int increment = 8;
+
+                        if (fullscreen) {
+                            delay = 1;
+                            increment = 20;
+                        }
+
                         //disable dragging to avoid random repaints
                         consoleCyderFrame.disableDragging();
 
-                        for (int i = 0; i >= -consoleCyderFrame.getHeight(); i -= 8) {
+                        for (int i = 0; i >= -consoleCyderFrame.getHeight(); i -= increment) {
                             try {
-                                Thread.sleep(5);
+                                Thread.sleep(delay);
                                 consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
                             } catch (InterruptedException e) {
                                 ErrorHandler.handle(e);
@@ -1546,12 +1554,20 @@ public final class ConsoleFrame {
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
                     new Thread(() -> {
+                        int delay = 5;
+                        int increment = 8;
+
+                        if (fullscreen) {
+                            delay = 1;
+                            increment = 20;
+                        }
+
                         //disable dragging to avoid random repaints
                         consoleCyderFrame.disableDragging();
 
-                        for (int i = -consoleCyderFrame.getWidth() ; i <= 0; i += 8) {
+                        for (int i = -consoleCyderFrame.getWidth() ; i <= 0; i += increment) {
                             try {
-                                Thread.sleep(5);
+                                Thread.sleep(delay);
                                 consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
                             } catch (InterruptedException e) {
                                 ErrorHandler.handle(e);
@@ -1590,12 +1606,20 @@ public final class ConsoleFrame {
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
                     new Thread(() -> {
+                        int delay = 5;
+                        int increment = 8;
+
+                        if (fullscreen) {
+                            delay = 1;
+                            increment = 20;
+                        }
+
                         //disable dragging to avoid random repaints
                         consoleCyderFrame.disableDragging();
 
-                        for (int i = -consoleCyderFrame.getHeight() ; i <= 0; i += 8) {
+                        for (int i = -consoleCyderFrame.getHeight() ; i <= 0; i += increment) {
                             try {
-                                Thread.sleep(5);
+                                Thread.sleep(delay);
                                 consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
                             } catch (InterruptedException e) {
                                 ErrorHandler.handle(e);
@@ -1634,12 +1658,20 @@ public final class ConsoleFrame {
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
                     new Thread(() -> {
+                        int delay = 5;
+                        int increment = 8;
+
+                        if (fullscreen) {
+                            delay = 1;
+                            increment = 20;
+                        }
+
                         //disable dragging to avoid random repaints
                         consoleCyderFrame.disableDragging();
 
-                        for (int i = 0; i >= -consoleCyderFrame.getWidth() ; i -= 8) {
+                        for (int i = 0; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
                             try {
-                                Thread.sleep(5);
+                                Thread.sleep(delay);
                                 consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
                             } catch (InterruptedException e) {
                                 ErrorHandler.handle(e);
@@ -1680,14 +1712,9 @@ public final class ConsoleFrame {
             //update line color
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
 
-            outputArea.setBounds(10, 62,
-                    consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
-
-            outputScroll.setBounds(10, 62,
-                    consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
-
-            inputField.setBounds(10, 82 + outputArea.getHeight(),consoleCyderFrame.getWidth() - 20,
-                    consoleCyderFrame.getHeight() - (outputArea.getHeight() + 62 + 40));
+            outputScroll.setBounds(10, 62, width - 20, height - 204);
+            inputField.setBounds(10, 62 + outputScroll.getHeight() + 20,width - 20,
+                    height - (62 + outputScroll.getHeight() + 20 + 20));
 
             //request focus
             inputField.requestFocus();
@@ -1814,14 +1841,12 @@ public final class ConsoleFrame {
 
             consoleCyderFrame.setLocation(relativeX - w / 2, relativeY - h / 2);
 
-            outputArea.setBounds(10, 62,
-                    consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
+            outputScroll.setBounds(10, 62, w - 20, h - 204);
+            inputField.setBounds(10, 62 + outputScroll.getHeight() + 20,w - 20,
+                    h - (62 + outputScroll.getHeight() + 20 + 20));
 
-            outputScroll.setBounds(10, 62,
-                    consoleCyderFrame.getWidth() - 20, consoleCyderFrame.getHeight() - 204);
-
-            inputField.setBounds(10, 82 + outputArea.getHeight(),w - 20,
-                    h - (outputArea.getHeight() + 62 + 40));
+            if (fullscreen)
+                consoleCyderFrame.setLocationRelativeTo(null);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -1830,7 +1855,7 @@ public final class ConsoleFrame {
     public void refreshBasedOnPrefs() {
         //output border
         if (IOUtil.getUserData("OutputBorder").equals("0")) {
-            outputScroll.setBorder(null);
+            outputScroll.setBorder(BorderFactory.createEmptyBorder());
         } else {
             outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
         }

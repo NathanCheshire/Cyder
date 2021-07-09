@@ -1,0 +1,21 @@
+Attempting to access empty user data after calling read
+class java.lang.IllegalArgumentException
+Error thrown by line: 552
+
+Stack Trace:
+
+java.lang.IllegalArgumentException: Attempting to access empty user data after calling read
+	at cyder.utilities.IOUtil.getUserData(IOUtil.java:552)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1182)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1062)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:958)
+	at cyder.ui.ConsoleFrame$1.setBounds(ConsoleFrame.java:169)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.enterAnimation(CyderFrame.java:690)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:556)
+	at cyder.genesis.Entry.recognize(Entry.java:291)
+	at cyder.genesis.Entry.autoCypher(Entry.java:357)
+	at cyder.genesis.CyderMain.main(CyderMain.java:37)
+
