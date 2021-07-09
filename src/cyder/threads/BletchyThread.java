@@ -1,6 +1,7 @@
 package cyder.threads;
 
 import cyder.handler.ErrorHandler;
+import cyder.ui.ConsoleFrame;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
 
@@ -32,8 +33,12 @@ public class BletchyThread {
      * @param useUnicode - a boolean depicting whether or not to use more than just latin letters and possibly numbers
      */
     public void bletchy(String decodeString, boolean useNumbers, int miliDelay, boolean useUnicode) {
-        if (isActive())
+        if (ConsoleFrame.getConsoleFrame().getInputHandler().getBletchyThread().isActive() ||
+                ConsoleFrame.getConsoleFrame().getInputHandler().getMasterYoutube().isActive()) {
+            ConsoleFrame.getConsoleFrame().notify("Cannot start bletchy/youtube thread" +
+                    " at the same time as another instance.");
             return;
+        }
 
         String[] print = bletchy(decodeString, useNumbers, useUnicode);
         bletchThread = new bletchyThread(print, miliDelay);

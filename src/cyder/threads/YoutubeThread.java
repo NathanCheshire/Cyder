@@ -3,11 +3,12 @@ package cyder.threads;
 
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;
 import cyder.utilities.StringUtil;
-import cyder.widgets.GenericInform;
+import cyder.utilities.TimeUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,7 +29,6 @@ public class YoutubeThread {
             '3', '4', '5', '6', '7', '8', '9', '-', '_'};
 
     public YoutubeThread(JTextPane jTextPane) {
-        //todo will be passed a inputhandler which we will call inputHandler.getStringUtil().println(String);
         su = new StringUtil(jTextPane);
 
         new Thread(() -> {
@@ -124,9 +124,7 @@ public class YoutubeThread {
 
                         int avgMsPerCheck = 200; //we could make this actually calculate but...
                         double msTimeLeft = (totalUUIDs - completedUUIDs) / avgMsPerCheck;
-                        GenericInform.informRelative("Time left: " + msTimeLeft +
-                                        ".\n Replace this with consoleFrame.notify() when migration is complete",
-                                "YouTube Thread est. time remaining", null);
+                        ConsoleFrame.getConsoleFrame().notify("Time left: " + TimeUtil.milisToFormattedString(msTimeLeft));
                     }
                 }
 

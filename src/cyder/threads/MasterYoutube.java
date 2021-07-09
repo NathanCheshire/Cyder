@@ -1,5 +1,7 @@
 package cyder.threads;
 
+import cyder.ui.ConsoleFrame;
+
 import javax.swing.*;
 import java.util.LinkedList;
 
@@ -28,11 +30,19 @@ public class MasterYoutube {
 
     //this will always be 1 as of right now
     public void start(int number) {
+        if (ConsoleFrame.getConsoleFrame().getInputHandler().getBletchyThread().isActive() ||
+            ConsoleFrame.getConsoleFrame().getInputHandler().getMasterYoutube().isActive()) {
+            ConsoleFrame.getConsoleFrame().notify("Cannot start bletchy/youtube thread" +
+                    " at the same time as another instance.");
+            return;
+        }
+
         for (int i = 0; i < number; i++) {
             YoutubeThread current = new YoutubeThread(outputArea);
             youtubeThreads.add(current);
         }
 
+        ConsoleFrame.getConsoleFrame().notify("Type \"stop scripts\" or press ctrl + c to stop the YouTube thread.");
         active = true;
     }
 

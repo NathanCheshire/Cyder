@@ -20,9 +20,7 @@ import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
@@ -43,13 +41,15 @@ public class InputHandler {
     //todo inputfield and outputscroll bounds on resize events
 
     //todo make sure text against out/in fill results in visible text always
+    // algorithm for this to pass two colors and say which one will be changed and which one will stay the same
 
     //todo set frames relative to consoleFrame
 
     //todo correcting user data doesn't work properly, it should either work and everything be there,
     // or correct it so that everything is there, or corrupted the user and wrap the data, nothing else!
 
-    //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
+    //todo corrupted users aren't saved to downloads,
+    // they're saved a directory up, should save to same dir as src, or just save to downloads
 
     //todo implement mapping links, you'll need to change how user data is stored
     // make an issue for this and finally switching to binary writing
@@ -286,8 +286,6 @@ public class InputHandler {
         }
         //threads -------------------------------------------------
         else if (hasWord("random") && hasWord("youtube")) {
-            masterYoutube.killAllYoutube();
-            ConsoleFrame.getConsoleFrame().notify("Type \"stop scripts\" or press ctrl + c to stop the YouTube thread.");
             masterYoutube = new MasterYoutube(outputArea);
             masterYoutube.start(1);
         } else if (hasWord("scrub")) {
@@ -1309,6 +1307,103 @@ public class InputHandler {
 
     private void clc() {
         outputArea.setText("");
+    }
+
+    /**
+     * Removes the last "thing" addeed to the JTextPane whether it's a component,
+     *  icon, or string of multi-llined text.
+     *
+     *  In more detail, this method figures out what it'll be removing and then determines how many calls
+     *   are needed to {@link StringUtil#removeLastLine()}
+     */
+    public void removeLast() {
+        try {
+            boolean removeTwoLines = false;
+
+            LinkedList<Element> elements = new LinkedList<>();
+            ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
+            Element element;
+            while ((element = iterator.next()) != null) {
+                elements.add(element);
+            }
+
+            int leafs = 0;
+
+            for (Element value : elements)
+                if (value.getElementCount() == 0)
+                    leafs++;
+
+            int passedLeafs = 0;
+
+            for (Element value : elements) {
+                if (value.getElementCount() == 0) {
+                    if (passedLeafs + 3 != leafs) {
+                        passedLeafs++;
+                        continue;
+                    }
+
+                    if (value.toString().toLowerCase().contains("icon") || value.toString().toLowerCase().contains("component")) {
+                        removeTwoLines = true;
+                    }
+                }
+            }
+
+            GenesisShare.getPrintinSem().acquire();
+
+            if (removeTwoLines) {
+                removeLastLine();
+            }
+
+            removeLastLine();
+
+            GenesisShare.getPrintinSem().release();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    public String getLastTextLine() {
+        String text = outputArea.getText();
+        String[] lines = text.split("\n");
+        return lines[lines.length - 1];
+    }
+
+    /**
+     * Removes the last line added to the linked JTextPane. This could appear to remove nothing,
+     *  but really be removing just a newline (line break) character.
+     */
+    public void removeLastLine() {
+        try {
+            LinkedList<Element> elements = new LinkedList<>();
+            ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
+            Element element;
+            while ((element = iterator.next()) != null) {
+                elements.add(element);
+            }
+
+            int leafs = 0;
+
+            for (Element value : elements)
+                if (value.getElementCount() == 0)
+                    leafs++;
+
+            int passedLeafs = 0;
+
+            for (Element value : elements) {
+                if (value.getElementCount() == 0) {
+                    if (passedLeafs + 2 != leafs) {
+                        passedLeafs++;
+                        continue;
+                    }
+
+                    outputArea.getStyledDocument().remove(value.getStartOffset(),
+                            value.getEndOffset() - value.getStartOffset());
+                }
+            }
+        } catch (BadLocationException ignored) {}
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     //control flow handlers ---------------------------------------

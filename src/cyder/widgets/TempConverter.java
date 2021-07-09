@@ -185,7 +185,7 @@ public class TempConverter {
                             startingValue.setText("");
                         } else if (newKelvin.isSelected()) {
                             double KelvinFromFahrenheit;
-                            KelvinFromFahrenheit = (CalculationValue +459.67) * 5/9;
+                            KelvinFromFahrenheit = (CalculationValue + 459.67) * 5/9;
 
                             if (KelvinFromFahrenheit >= 0) {
                                 temperatureFrame.notify(CalculationValue + " Fahrenheit converted to Kelvin equals: "

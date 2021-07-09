@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -252,11 +253,90 @@ public class TimeUtil {
             years++;
         }
 
-        sb.append("years: ").append(years).append(", months: ").append(months).append(", days: ")
-                .append(days).append(", hours: ").append(hours).append(", minutes: ").append(minutes)
-                .append(", seconds: ").append(seconds);
+        DecimalFormat format = new DecimalFormat("#.##");
 
-        return sb.toString();
+        if (years != 0)
+            sb.append("years: ").append(format.format(years));
+        if (months != 0)
+            sb.append(", months: ").append(format.format(months));
+        if (days != 0)
+            sb.append(", days: ").append(format.format(days));
+        if (hours != 0)
+            sb.append(", hours: ").append(format.format(hours));
+        if (minutes != 0)
+            sb.append(", minutes: ").append(format.format(minutes));
+        if (seconds != 0)
+            sb.append(", seconds: ").append(format.format(seconds));
+
+        String ret = sb.toString();
+
+        if (ret.startsWith(","))
+            ret = ret.substring(1);
+        return ret.trim();
+    }
+
+    /**
+     * Returns a string detailing how many years/months/days/hours/minutes/seconds
+     *  are represented by the given input parameter
+     * @param msTime - the raw long of ms
+     */
+    public static String milisToFormattedString(double msTime) {
+        StringBuilder sb = new StringBuilder();
+
+        double years = 0;
+        double months = 0;
+        double days = 0;
+        double hours = 0;
+        double minutes = 0;
+        double seconds = 0;
+
+        seconds = msTime / 1000;
+
+        while (seconds >= 60) {
+            seconds -= 60;
+            minutes++;
+        }
+
+        while (minutes >= 60) {
+            minutes -= 60;
+            hours++;
+        }
+
+        while (hours >= 24) {
+            hours -= 24;
+            days++;
+        }
+
+        while (days >= 30) {
+            days -= 30;
+            months++;
+        }
+
+        while (months >= 12) {
+            months -= 12;
+            years++;
+        }
+
+        DecimalFormat format = new DecimalFormat("#.##");
+
+        if (years != 0)
+            sb.append("years: ").append(format.format(years));
+        if (months != 0)
+            sb.append(", months: ").append(format.format(months));
+        if (days != 0)
+            sb.append(", days: ").append(format.format(days));
+        if (hours != 0)
+            sb.append(", hours: ").append(format.format(hours));
+        if (minutes != 0)
+            sb.append(", minutes: ").append(format.format(minutes));
+        if (seconds != 0)
+            sb.append(", seconds: ").append(format.format(seconds));
+
+        String ret = sb.toString();
+
+        if (ret.startsWith(","))
+            ret = ret.substring(1);
+        return ret.trim();
     }
 
     public static double milisToSeconds(long msTime) {
