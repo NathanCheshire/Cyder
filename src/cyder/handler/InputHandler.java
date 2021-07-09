@@ -37,6 +37,19 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo badapple music plays if image contains purely black and/or white pixels
+
+    //todo count todos in code method
+
+    //todo dancing for console frame doesnt work
+
+    //todo bletchy while bletchy running glitches program out
+
+    //todo command scrolling is backwards?
+
+    //todo fix askew on next input (or make a repaint command that calls setfullscreen(isfullscreen())) and hopefully
+    // that will fix it
+
     //todo make right clicking on icon in task bar and closing that way use a controlled exit (25)
 
     //todo remove weird offset of output area at top of console resulting from old console
@@ -80,6 +93,7 @@ public class InputHandler {
     private boolean userInputMode;
     private String userInputDesc;
     private String operation;
+    private String anagram;
 
     private InputHandler() {} //no instantiation without a valid outputArea to use
 
@@ -103,7 +117,7 @@ public class InputHandler {
                     IOUtil.writeUserData(pref.getID(), (IOUtil.getUserData(pref.getID()).equals("1") ? "0" : "1"));
                 }
 
-                //todo console frame method refreshPrefs();
+                ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
                 ret = true;
             }
         }
@@ -301,13 +315,12 @@ public class InputHandler {
         //threads -------------------------------------------------
         else if (hasWord("random") && hasWord("youtube")) {
             masterYoutube.killAllYoutube();
-            println("Type \"Stop Threads\" or press ctrl + c to stop the YouTube thread.");
+            ConsoleFrame.getConsoleFrame().notify("Type \"stop scripts\" or press ctrl + c to stop the YouTube thread.");
             masterYoutube = new MasterYoutube(outputArea);
             masterYoutube.start(1);
         } else if (hasWord("scrub")) {
             bletchyThread.bletchy("No you!", false, 50, true);
         } else if (hasWord("bletchy")) {
-            //todo does bletchy work?
             bletchyThread.bletchy(operation, false, 50, true);
         } else if (hasWord("threads") && !hasWord("daemon")) {
             new StringUtil(outputArea).printThreads();
@@ -493,7 +506,7 @@ public class InputHandler {
         //playing audio -------------------------------------------
         else if (eic("hey")) {
             IOUtil.playAudio("sys/audio/heyya.mp3",outputArea);
-        }  else if (hasWord("windows")) {
+        }  else if (eic("windows")) {
             IOUtil.playAudio("sys/audio/windows.mp3",outputArea);
         }  else if (hasWord("light") && hasWord("saber")) {
             IOUtil.playAudio("sys/audio/Lightsaber.mp3",outputArea);
@@ -582,7 +595,7 @@ public class InputHandler {
             } else
                 println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you don't have permission to do that.");
         } else if (hasWord("debug") && hasWord("windows")) {
-            StatUtil.allStats(); //todo does this work
+            StatUtil.allStats();
         } else if (hasWord("binary") && !has("dump")) {
             println("Enter a decimal number to be converted to binary.");
             ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
@@ -637,10 +650,8 @@ public class InputHandler {
                 println("hexdump usage: hexdump -f /path/to/binary/file");
             }
         } else if (hasWord("barrel") && hasWord("roll")) {
-            //todo does this work?
             ConsoleFrame.getConsoleFrame().barrelRoll();
         } else if (eic("askew")) {
-            //todo does this work? if so, how is it reset?
             ConsoleFrame.getConsoleFrame().rotateBackground(5);
         } else if (hasWord("logout")) {
             for (Frame f : Frame.getFrames()) {
@@ -686,8 +697,8 @@ public class InputHandler {
             StatUtil.systemProperties();
         } else if (hasWord("anagram")) {
             println("This function will tell you if two"
-                    + "words are anagrams of each other."
-                    + " Enter your first word");
+                    + " words are anagrams of each other."
+                    + "\nEnter your first word...");
             setUserInputDesc("anagram1");
             ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
             setUserInputMode(true);
@@ -713,24 +724,7 @@ public class InputHandler {
         } else if (eic("help")) {
             help();
         } else if (eic("controlc") && !outputArea.isFocusOwner()) {
-            //todo method for this
-            //exit user input mode if in it
-            setUserInputMode(false);
-            //kill youtube threads
-            masterYoutube.killAllYoutube();
-            //kill bletchy threads
-            bletchyThread.killBletchy();
-            //kill system threads
-            SystemUtil.killThreads();
-            //stop music
-            IOUtil.stopMusic();
-            //cancel dancing threads
-            for (Frame f : Frame.getFrames()) {
-                if (f instanceof CyderFrame)
-                    ((CyderFrame) (f)).setControl_c_threads(true);
-            }
-            //inform user we escaped
-            println("Escaped");
+            escapeThreads();
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
@@ -813,29 +807,29 @@ public class InputHandler {
                 NetworkUtil.internetConnect(browse);
             } else if (desc.equalsIgnoreCase("anagram1")) {
                 println("Enter your second word");
-//                anagram = input;
-//                inputField.requestFocus();
-//                inputHandler.setUserInputMode(true);
-//                inputHandler.setUserInputDesc("anagram2"); todo fix this
+                anagram = input;
+                ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+                setUserInputMode(true);
+                setUserInputDesc("anagram2");
             } else if (desc.equalsIgnoreCase("anagram2")) {
-//                if (anagram.length() != input.length()) { todo fix this
-//                    println("These words are not anagrams of each other.");
-//                } else if (anagram.equalsIgnoreCase(input)) {
-//                    println("These words are in fact anagrams of each other.");
-//                } else {
-//                    char[] W1C = anagram.toLowerCase().toCharArray();
-//                    char[] W2C = input.toLowerCase().toCharArray();
-//                    Arrays.sort(W1C);
-//                    Arrays.sort(W2C);
-//
-//                    if (Arrays.equals(W1C, W2C)) {
-//                        println("These words are in fact anagrams of each other.");
-//                    } else {
-//                        println("These words are not anagrams of each other.");
-//                    }
-//                }
-//
-//                anagram = "";
+                if (anagram.length() != input.length()) {
+                    println("These words are not anagrams of each other.");
+                } else if (anagram.equalsIgnoreCase(input)) {
+                    println("These words are in fact anagrams of each other.");
+                } else {
+                    char[] W1C = anagram.toLowerCase().toCharArray();
+                    char[] W2C = input.toLowerCase().toCharArray();
+                    Arrays.sort(W1C);
+                    Arrays.sort(W2C);
+
+                    if (Arrays.equals(W1C, W2C)) {
+                        println("These words are in fact anagrams of each other.");
+                    } else {
+                        println("These words are not anagrams of each other.");
+                    }
+                }
+
+                anagram = "";
             } else if (desc.equalsIgnoreCase("alphabetize")) {
                 char[] Sorted = input.toCharArray();
                 Arrays.sort(Sorted);
@@ -894,6 +888,9 @@ public class InputHandler {
 
                 LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
 
+                println("Background pixelated and saved as a separate background file.");
+                ConsoleFrame.getConsoleFrame().setFullscreen(false);
+
                 for (int i = 0; i < backgrounds.size(); i++) {
                     //todo set the background to the one you just pixelated and set the background index
                     // to what that corresponds to
@@ -904,9 +901,7 @@ public class InputHandler {
 //                    }
                 }
 
-                println("Background pixelated and saved as a separate background file.");
 
-                //todo exitFullscreen(); shouldn't need to call this since setting background should perform?
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -1013,7 +1008,6 @@ public class InputHandler {
 
     private void test() {
         //todo after sliding animation request input field focus
-        ConsoleFrame.getConsoleFrame().setFullscreen(!ConsoleFrame.getConsoleFrame().isFullscreen());
     }
 
     /**
@@ -1078,7 +1072,6 @@ public class InputHandler {
     public void close() {
         masterYoutube.killAllYoutube();
         bletchyThread.killBletchy();
-        //todo other stuff to reset this in the event of a logout and other events
     }
 
     @Override
@@ -1166,6 +1159,8 @@ public class InputHandler {
 
     //todo use a semaphore in genesis share for printing to help with
     // bletchy and remove last line and such concurrency issues
+    // you'll only need to aquire it before the priting animation and release after wards
+    // aquire inside of remove last/first
 
     private void innerConsolePrint(char c) {
         try {
@@ -1330,5 +1325,27 @@ public class InputHandler {
 
     private void clc() {
         outputArea.setText("");
+    }
+
+    //control flow handlers ---------------------------------------
+
+    private void escapeThreads() {
+        //exit user input mode if in it
+        setUserInputMode(false);
+        //kill youtube threads
+        masterYoutube.killAllYoutube();
+        //kill bletchy threads
+        bletchyThread.killBletchy();
+        //kill system threads
+        SystemUtil.killThreads();
+        //stop music
+        IOUtil.stopMusic();
+        //cancel dancing threads
+        for (Frame f : Frame.getFrames()) {
+            if (f instanceof CyderFrame)
+                ((CyderFrame) (f)).setControl_c_threads(true);
+        }
+        //inform user we escaped
+        println("Escaped");
     }
 }

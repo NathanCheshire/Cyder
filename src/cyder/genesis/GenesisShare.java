@@ -12,9 +12,14 @@ public class GenesisShare {
     private GenesisShare() {}
 
     private static Semaphore exitingSem = new Semaphore(1);
+    private static Semaphore printinSem = new Semaphore(1);
 
     public static Semaphore getExitingSem() {
         return exitingSem;
+    }
+
+    public static Semaphore getPrintinSem() {
+        return printinSem;
     }
 
     private static final LinkedList<Preference> prefs = initPreferencesList();

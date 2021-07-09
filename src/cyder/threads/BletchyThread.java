@@ -45,7 +45,6 @@ public class BletchyThread {
 
                 for (int i = 1 ; i < print.length ; i++) {
                     if (exit) {
-                        su.println("Escaped");
                         return;
                     }
 

@@ -1983,4 +1983,8 @@ public final class ConsoleFrame {
     public void setTitle(String title) {
         consoleCyderFrame.setTitle(title);
     }
+
+    public void notify(String text) {
+        consoleCyderFrame.notify(text);
+    }
 }
