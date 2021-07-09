@@ -2,7 +2,6 @@ package cyder.handler;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.genesis.CyderMain;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
@@ -71,7 +70,7 @@ public class ErrorHandler {
 
         //uh oh; error was thrown inside of here so we'll just generic inform the user of it
         catch (Exception ex) {
-            if (CyderMain.consoleFrame != null && CyderMain.consoleFrame.isVisible()) {
+            if (!ConsoleFrame.getConsoleFrame().isClosed()) {
                 ex.printStackTrace();
 
                 StringWriter sw = new StringWriter();
