@@ -1080,6 +1080,12 @@ public class CyderFrame extends JFrame {
                     .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
             iconLabel.setBounds(0,0,width - 2,height - 2);
             iconPane.setBounds(1,1, width - 2, height - 2);
+
+            if (cr != null) {
+                cr.setMinimumSize(new Dimension(600,600));
+                cr.setMaximumSize(new Dimension(background.getIconWidth(), background.getIconHeight()));
+            }
+
             revalidate();
             repaint();
         } catch (Exception e) {

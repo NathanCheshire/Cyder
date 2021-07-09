@@ -40,6 +40,8 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo if a frame is supposed to be resizable, don't let it have rounded corners
+
     //todo make sure text against out/in fill results in visible text always
 
     //todo logout then create user then close login frame doesn't close program

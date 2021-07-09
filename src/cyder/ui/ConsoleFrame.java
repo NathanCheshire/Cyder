@@ -204,11 +204,10 @@ public final class ConsoleFrame {
                     " Cyder [" + ConsoleFrame.getConsoleFrame().getUsername() + "]");
 
             if (IOUtil.getSystemData("ConsoleResizable").equals("1")) {
-                //todo min and max sizes need to be set and updated upon new images,
-                // components need to be set to different sizes and revalidated
                 consoleCyderFrame.initializeResizing();
                 consoleCyderFrame.setResizable(true);
-                consoleCyderFrame.setBackgroundResizing(true);
+                consoleCyderFrame.setMinimumSize(new Dimension(600,600));
+                consoleCyderFrame.setMaximumSize(new Dimension(w, h));
             }
 
             ((JLabel) (consoleCyderFrame.getContentPane()))
@@ -633,8 +632,6 @@ public final class ConsoleFrame {
             }
         }, "Console Clock Updater").start();
 
-
-
         //Console Clock Updater
         new Thread(() -> {
             try {
@@ -675,6 +672,8 @@ public final class ConsoleFrame {
                 }
             } catch (Exception e) {
                 ErrorHandler.handle(e);
+            } finally {
+                consoleCyderFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
             }
         }, "Cyder Busy Checker").start();
     }
