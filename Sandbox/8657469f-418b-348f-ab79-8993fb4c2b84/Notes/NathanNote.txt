@@ -1,5 +1,0 @@
-This is some text inside of the contents folder with the text wrapping inside of here but no newline appearing in the output I hope.
-
-
-two new lines,
-Nathan Cheshire

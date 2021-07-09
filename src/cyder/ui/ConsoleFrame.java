@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.PixelGrabber;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.time.LocalDateTime;
@@ -730,6 +731,40 @@ public final class ConsoleFrame {
         }
 
         IOUtil.writeUserData("laststart",System.currentTimeMillis() + "");
+
+        //Bad Apple / Beetlejuice reference for a grayscale image
+        try {
+            new Thread(() -> {
+                try {
+                    Image icon = new ImageIcon(ImageIO.read(getCurrentBackgroundFile())).getImage();
+                    int w = icon.getWidth(null);
+                    int h = icon.getHeight(null);
+                    int[] pixels = new int[w * h];
+                    PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
+                    pg.grabPixels();
+                    boolean correct = true;
+                    for (int pixel : pixels) {
+                        Color color = new Color(pixel);
+                        if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
+                            correct = false;
+                            break;
+                        }
+                    }
+
+                    if (correct) {
+                        if (NumberUtil.randInt(0,1) == 0) {
+                            IOUtil.playAudio("sys/audio/BadApple.mp3", outputArea);
+                        } else {
+                            IOUtil.playAudio("sys/audio/BeetleJuice.mp3", outputArea);
+                        }
+                    }
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+            },"Black or White Checker").start();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     private void generateConsoleMenu() {

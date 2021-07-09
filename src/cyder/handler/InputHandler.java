@@ -46,8 +46,6 @@ public class InputHandler {
 
     //todo set frames relative to consoleFrame
 
-    //todo badapple music plays if image contains purely black and/or white pixels
-
     //todo command scrolling is backwards?
 
     //todo fix notifications not being centered due to custom paint component

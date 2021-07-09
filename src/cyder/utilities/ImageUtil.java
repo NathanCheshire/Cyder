@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.image.PixelGrabber;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -427,7 +428,6 @@ public class ImageUtil {
         return bi;
     }
 
-    //todo test this
     public static boolean checkFileSignature(File checkFile, int[] signature) {
         boolean ret = true;
 
@@ -463,5 +463,78 @@ public class ImageUtil {
         g2.dispose();
 
         return ret;
+    }
+
+    public static boolean whiteImage(ImageIcon icon) {
+        try {
+            int w = icon.getIconWidth();
+            int h = icon.getIconHeight();
+            int[] pixels = new int[w * h];
+            PixelGrabber pg = new PixelGrabber(icon.getImage(), 0, 0, w, h, pixels, 0, w);
+            pg.grabPixels();
+            boolean allWhite = true;
+            for (int pixel : pixels) {
+                Color color = new Color(pixel);
+                if (color.getRGB() != Color.WHITE.getRGB()) {
+                    allWhite = false;
+                    break;
+                }
+            }
+
+            return allWhite;
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return false;
+    }
+
+    public static boolean blackImage(ImageIcon icon) {
+        try {
+            int w = icon.getIconWidth();
+            int h = icon.getIconHeight();
+            int[] pixels = new int[w * h];
+            PixelGrabber pg = new PixelGrabber(icon.getImage(), 0, 0, w, h, pixels, 0, w);
+            pg.grabPixels();
+            boolean allBlack = true;
+            for (int pixel : pixels) {
+                Color color = new Color(pixel);
+                if (color.getRGB() != Color.BLACK.getRGB()) {
+                    allBlack = false;
+                    break;
+                }
+            }
+
+            return allBlack;
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return false;
+    }
+
+    public static boolean whiteOrBlackScale(File pathToFile) {
+        try {
+            Image icon = new ImageIcon(ImageIO.read(pathToFile)).getImage();
+            int w = icon.getWidth(null);
+            int h = icon.getHeight(null);
+            int[] pixels = new int[w * h];
+            PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
+            pg.grabPixels();
+            boolean allBlack = true;
+            for (int pixel : pixels) {
+                Color color = new Color(pixel);
+                if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
+                    allBlack = false;
+                    break;
+                }
+            }
+
+            return allBlack;
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return false;
     }
 }
