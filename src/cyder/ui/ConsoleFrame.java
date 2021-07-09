@@ -1689,6 +1689,9 @@ public final class ConsoleFrame {
             inputField.setBounds(10, 82 + outputArea.getHeight(),consoleCyderFrame.getWidth() - 20,
                     consoleCyderFrame.getHeight() - (outputArea.getHeight() + 62 + 40));
 
+            //request focus
+            inputField.requestFocus();
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -1986,5 +1989,23 @@ public final class ConsoleFrame {
 
     public void notify(String text) {
         consoleCyderFrame.notify(text);
+    }
+
+    public void flashSuggestionButton() {
+        new Thread(() -> {
+            try {
+                ImageIcon blinkIcon = new ImageIcon("sys/pictures/icons/suggestion2.png");
+                ImageIcon regularIcon = new ImageIcon("sys/pictures/icons/suggestion1.png");
+
+                for (int i = 0 ; i < 4 ; i++) {
+                    suggestionButton.setIcon(blinkIcon);
+                    Thread.sleep(300);
+                    suggestionButton.setIcon(regularIcon);
+                    Thread.sleep(300);
+                }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "Suggestion Button Flash").start();
     }
 }

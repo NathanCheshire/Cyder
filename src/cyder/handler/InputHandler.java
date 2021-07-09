@@ -7,6 +7,7 @@ import cyder.exception.CyderException;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.genesis.GenesisShare;
+import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
@@ -37,13 +38,13 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo set frames relative to consoleFrame
+
     //todo badapple music plays if image contains purely black and/or white pixels
 
     //todo count todos in code method
 
     //todo dancing for console frame doesnt work
-
-    //todo bletchy while bletchy running glitches program out
 
     //todo command scrolling is backwards?
 
@@ -56,11 +57,6 @@ public class InputHandler {
     // acounting for drag label (so remove 30 basically)
 
     //todo fix notifications not being centered due to custom paint component
-
-    //todo will control + c actions still work
-
-    //todo anywhere we're passing output area, (to print to I assume), just call it here or pass
-    // input handler to call that print method
 
     //todo new get delay increment method in ConsoleFrame since fullscreen takes too long
 
@@ -83,9 +79,8 @@ public class InputHandler {
 
     //todo pixelate image widget
 
-    //todo logout should end all executors and threads so only thing happening is login frame
-    // all exeuctors should be spun once when logged in so inside of init console frame
-    // all threads that continue should be able to be found and killed when logging out
+    //todo make sure that executors/threads are ended on logout
+    // and that only ones that were ended are started up again upon login within same session
 
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
@@ -94,6 +89,7 @@ public class InputHandler {
     private String userInputDesc;
     private String operation;
     private String anagram;
+    private UserEditor userEditor;
 
     private InputHandler() {} //no instantiation without a valid outputArea to use
 
@@ -128,7 +124,7 @@ public class InputHandler {
     //handle methods ----------------------------------------------
 
     public void handle(String op) throws Exception{
-        //check for no link to ConsoleFrame
+        //check for null link
         if (outputArea == null)
             throw new IllegalArgumentException("Output area not set");
 
@@ -340,7 +336,7 @@ public class InputHandler {
                 (hasWord("font") && !hasWord("reset")) ||
                 (hasWord("color") && !hasWord("reset") &&
                         !hasWord("converter")) || (eic("preferences") || eic("prefs"))) {
-            //todo widget: editUser();
+            userEditor = new UserEditor();
         } else if (hasWord("hash") || hasWord("hashser")) {
             new Hasher();
         }  else if (eic("search") || eic("dir") || (hasWord("file") && hasWord("search")) || eic("directory") || eic("ls")) {
@@ -838,7 +834,7 @@ public class InputHandler {
                 logSuggestion(input);
             } else if (desc.equalsIgnoreCase("addbackgrounds")) {
                 if (StringUtil.isConfirmation(input)) {
-                    //editUser(); todo
+                    userEditor = new UserEditor();
                     NetworkUtil.internetConnect("https://images.google.com/");
                 } else
                     println("Okay nevermind then");
@@ -873,7 +869,7 @@ public class InputHandler {
                 for (Frame f : frames)
                     f.dispose();
 
-                //login(); todo just make a widget for this maybe a UserDeleter util
+                GenesisShare.exit(-56);
             } else if (desc.equalsIgnoreCase("pixelatebackground")) {
                 BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getConsoleFrame().
                         getCurrentBackgroundFile().getAbsoluteFile()), Integer.parseInt(input));
@@ -975,23 +971,8 @@ public class InputHandler {
 
     private void unknownInput() {
         println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I don't recognize that command." +
-                " You can make a suggestion by clicking the \"Suggest something\" button.");
-
-        new Thread(() -> {
-            try {
-                ImageIcon blinkIcon = new ImageIcon("sys/pictures/icons/suggestion2.png");
-                ImageIcon regularIcon = new ImageIcon("sys/pictures/icons/suggestion1.png");
-
-                for (int i = 0 ; i < 4 ; i++) {
-                    //todo suggestionButton.setIcon(blinkIcon);
-                    Thread.sleep(300);
-                    //todo suggestionButton.setIcon(regularIcon);
-                    Thread.sleep(300);
-                }
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }, "Suggestion Button Flash").start();
+                " You can make a suggestion by clicking the \"Suggestion\" button.");
+        ConsoleFrame.getConsoleFrame().flashSuggestionButton();
     }
 
     //input handler
@@ -1007,14 +988,41 @@ public class InputHandler {
     //random methods find a category for --------------------------
 
     private void test() {
-        //todo after sliding animation request input field focus
+
     }
 
     /**
      * Prints a suggestion as to what the user should do
      */
     public void help() {
-        //todo example trigger annotation for input handler that code looks through, gatheres, and outputs random ones
+        LinkedList<String> helps = new LinkedList<>();
+        helps.add("Calculator");
+        helps.add("Prefs");
+        helps.add("Java");
+        helps.add("Bletchy Bletchy Park");
+        helps.add("Minecraft");
+        helps.add("Pixelate background");
+        helps.add("rgb");
+        helps.add("Hangman");
+        helps.add("Pizza");
+        helps.add("Music");
+        helps.add("Temperature");
+        helps.add("Tic tac toe");
+        helps.add("Top right");
+        helps.add("Consolidate windows");
+        helps.add("Hey");
+        helps.add("Press F17");
+        helps.add("Hexdump");
+        helps.add("Random Youtube");
+        helps.add("Dir");
+        helps.add("Nathan");
+        helps.add("Resize Image");
+
+        println("Try typing: ");
+
+        for (int i : NumberUtil.randInt(0,helps.size() - 1,10,false)) {
+            println("•\t" + helps.get(i));
+        }
     }
 
     public void logSuggestion(String suggestion) {
@@ -1158,8 +1166,6 @@ public class InputHandler {
             }
         }, "Console Printing Animation").start();
     }
-
-    //todo use printing sem for bletchy and random youtube
 
     private void innerConsolePrint(char c) {
         try {

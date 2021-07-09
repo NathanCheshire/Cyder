@@ -17,9 +17,15 @@ public class SessionLogger {
     private static File currentLog;
 
     public enum Tag {
-        CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION, SYSTEM_IO, CLIENT_IO
+        CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION, SYSTEM_IO, CLIENT_IO, LOGIN, LOGOUT
     }
 
+    /**
+     * The main log method to log an action associated with a type tag.
+     * @param tag - the type of data we are logging
+     * @param representation - the representation of the object
+     * @param <T> - the object instance of representation
+     */
     public static <T> void log(Tag tag, T representation) {
         StringBuilder logBuilder = new StringBuilder("[" + TimeUtil.logTime() + "] ");
 
@@ -108,6 +114,12 @@ public class SessionLogger {
                         logBuilder.append("[VALUE]").append(parters[2].toUpperCase());
                 }
                 break;
+            case LOGIN:
+                logBuilder.append("[LOGIN] [").append(representation).append("]");
+                break;
+            case LOGOUT:
+                logBuilder.append("[LOGOUT] [").append(representation).append("]");
+                break;
             case UNKNOWN:
                 logBuilder.append("[UNKNOWN]: ");
                 logBuilder.append(representation);
@@ -117,7 +129,11 @@ public class SessionLogger {
         writeLine(logBuilder.toString());
     }
 
-    //attempt to figure out the tag and pass on to the above method
+    /**
+     * Attempt to figure out what Tag representation should be and log it.
+     * @param representation - the object we are trying to log
+     * @param <T> - any object
+     */
     public static <T> void log(T representation) {
         if (representation instanceof JComponent) {
             LinkedList<Element> elements = new LinkedList<>();
@@ -155,6 +171,10 @@ public class SessionLogger {
         }
     }
 
+    /**
+     * Constructor that accepts a file in case we want to use a different file.
+     * @param outputFile - the file to write the log to
+     */
     public static void SessionLogger(File outputFile) {
         try {
             if (!StringUtil.getFilename(outputFile.getParent()).equals("logs"))
@@ -169,6 +189,9 @@ public class SessionLogger {
         }
     }
 
+    /**
+     * Constructor for the logger to create a file and write to for the current session.
+     */
     public static void SessionLogger() {
         try {
             File logsDir = new File("logs");
@@ -192,10 +215,18 @@ public class SessionLogger {
         }
     }
 
+    /**
+     * Getter for current log file
+     * @return - the log file associated with the current session
+     */
     public static File getCurrentLog() {
         return currentLog;
     }
 
+    /**
+     * Writes the line to the current log file and releases resources once done.
+     * @param line - the single line to write
+     */
     private static void writeLine(String line) {
         try (BufferedWriter br = new BufferedWriter(new FileWriter(currentLog))) {
            br.write(line);
@@ -205,6 +236,11 @@ public class SessionLogger {
         }
     }
 
+    /**
+     * Counts the exceptions in the current log folder. This is used when closing the log to provide
+     *  an exceptions summary.
+     * @return - the int number of exceptions thrown in this Cyder session
+     */
     private static int countExceptions() {
         int ret = 0;
 
