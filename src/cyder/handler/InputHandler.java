@@ -891,13 +891,10 @@ public class InputHandler {
                 ConsoleFrame.getConsoleFrame().setFullscreen(false);
 
                 for (int i = 0; i < backgrounds.size(); i++) {
-                    //todo set the background to the one you just pixelated and set the background index
-                    // to what that corresponds to
-//                    if (backgrounds.get(i).getName().equals(searchName)) {
-//                        parentLabel.setIcon(new ImageIcon(backgrounds.get(i).toString()));
-//                        parentLabel.setToolTipText(backgrounds.get(i).getName().replace(".png", ""));
-//                        ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
-//                    }
+                    if (backgrounds.get(i).getName().equals(searchName)) {
+                        ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
+                        ConsoleFrame.getConsoleFrame().repaint();
+                    }
                 }
 
 
