@@ -275,4 +275,31 @@ public class StatUtil {
 
         return ret;
     }
+
+    public static int totalTodos(File startDir) {
+        int ret = 0;
+
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                ret += totalTodos(f);
+        } else if (startDir.getName().endsWith(".java")) {
+            try {
+                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
+                String line = "";
+                int localRet = 0;
+
+                while ((line = lineReader.readLine()) != null)
+                    if (line.trim().toLowerCase().startsWith("//todo"))
+                        localRet++;
+
+                return localRet;
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
+            }
+        }
+
+        return ret;
+    }
 }

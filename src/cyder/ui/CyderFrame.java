@@ -186,6 +186,8 @@ public class CyderFrame extends JFrame {
      * @param titlePosition the position for the title to be: left, center
      */
     public void setTitlePosition(TitlePosition titlePosition) {
+        this.control_c_threads = false;
+
         if (titlePosition == null || this.titlePosition == null || this.titlePosition == titlePosition)
             return;
 
@@ -735,7 +737,9 @@ public class CyderFrame extends JFrame {
      * moves the frame around the user's monitor before returning to the initial location.
      */
     public void dance() {
+        this.control_c_threads = false;
         int delay = 10;
+
         Thread DanceThread = new Thread(() -> {
             boolean wasEnabled = false;
 
@@ -1039,6 +1043,7 @@ public class CyderFrame extends JFrame {
      */
     public void setFrameResizing(Boolean allow) {
         cr.setResizing(allow);
+        setShape(null);
     }
     ImageIcon currentOrigIcon;
 
@@ -1185,7 +1190,7 @@ public class CyderFrame extends JFrame {
     public void repaint() {
         //this doesn't cause much lag as of 7.3.21, that bug came from refreshing the background
         // every time we setbounds of the frame
-        if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
+        if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1") && cr == null) {
             setShape(new RoundRectangle2D.Double(0, 0,
                     getWidth(), getHeight(), 20, 20));
         } else {

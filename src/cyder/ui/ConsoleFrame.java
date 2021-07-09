@@ -192,6 +192,11 @@ public final class ConsoleFrame {
                     inputField.requestFocus();
                     onLaunch();
                 }
+
+                @Override
+                public void windowClosing(WindowEvent e) {
+                   GenesisShare.exit(25);
+                }
             });
 
             //we should always be using controlled exits so this is why we use DO_NOTHING_ON_CLOSE

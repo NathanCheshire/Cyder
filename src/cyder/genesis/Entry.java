@@ -265,6 +265,12 @@ public class Entry {
         File Users = new File("users/");
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
 
+        loginFrame.addCloseListener(e -> {
+            if (ConsoleFrame.getConsoleFrame().isClosed()) {
+                UserCreator.close();
+            }
+        });
+
         loginFrame.setVisible(true);
         loginFrame.enterAnimation();
 

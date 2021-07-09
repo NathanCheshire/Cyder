@@ -40,26 +40,15 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo if a frame is supposed to be resizable, don't let it have rounded corners
+    //todo inputfield and outputscroll bounds on resize events
 
     //todo make sure text against out/in fill results in visible text always
-
-    //todo logout then create user then close login frame doesn't close program
 
     //todo set frames relative to consoleFrame
 
     //todo badapple music plays if image contains purely black and/or white pixels
 
-    //todo count todos in code method
-
-    //todo dancing for console frame doesnt work
-
     //todo command scrolling is backwards?
-
-    //todo make right clicking on icon in task bar and closing that way use a controlled exit (25)
-
-    //todo remove weird offset of output area at top of console resulting from old console
-    // acounting for drag label (so remove 30 basically) (outputscroll is fine just area bounds are wrong?)
 
     //todo fix notifications not being centered due to custom paint component
 
@@ -76,14 +65,6 @@ public class InputHandler {
     //todo custom list display that's clickable instead of name list?
     // this could solve the scroll bar issue if you just use a scrollpane with jtextpane
     // pizza is the only one in use currently that needs multiple selection support
-
-    //todo check signatures for correctness and against actual files
-    //todo file signature widget
-
-    //todo pixelate image widget
-
-    //todo make sure that executors/threads are ended on logout
-    // and that only ones that were ended are started up again upon login within same session
 
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
@@ -370,6 +351,8 @@ public class InputHandler {
             new Pizza();
         } else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
             //todo pixelator widget that uses ImageUtil.pixelate()
+        } else if (hasWord("file") && hasWord("signature")) {
+            //todo file signature widget
         } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
             new TicTacToe().startTicTacToe();
         } else if (hasWord("note") || hasWord("notes")) {
@@ -726,6 +709,8 @@ public class InputHandler {
             help();
         } else if (eic("controlc") && !outputArea.isFocusOwner()) {
             escapeThreads();
+        } else if (hasWord("todo") || hasWord("todos")) {
+            println("Total todos: " + StatUtil.totalTodos(new File("src")));
         }
         //testing -------------------------------------------------
         else if (eic("test")) {

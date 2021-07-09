@@ -336,4 +336,9 @@ public class UserCreator {
         createUserFrame.setVisible(true);
         newUserName.requestFocus();
     }
+
+    public static void close() {
+        if (createUserFrame != null)
+            createUserFrame.closeAnimation();
+    }
 }
