@@ -6,6 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.exception.CyderException;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
+import cyder.genesis.Entry;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
@@ -39,6 +40,10 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo make sure text against out/in fill results in visible text always
+
+    //todo logout then create user then close login frame doesn't close program
+
     //todo set frames relative to consoleFrame
 
     //todo badapple music plays if image contains purely black and/or white pixels
@@ -49,13 +54,10 @@ public class InputHandler {
 
     //todo command scrolling is backwards?
 
-    //todo fix askew on next input (or make a repaint command that calls setfullscreen(isfullscreen())) and hopefully
-    // that will fix it
-
     //todo make right clicking on icon in task bar and closing that way use a controlled exit (25)
 
     //todo remove weird offset of output area at top of console resulting from old console
-    // acounting for drag label (so remove 30 basically)
+    // acounting for drag label (so remove 30 basically) (outputscroll is fine just area bounds are wrong?)
 
     //todo fix notifications not being centered due to custom paint component
 
@@ -345,7 +347,7 @@ public class InputHandler {
         } else if (hasWord("weather")) {
             Weather ww = new Weather();
         } else if (eic("pin") || eic("login")) {
-            //todo widget login();
+            Entry.showEntryGUI();
         } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
             UserCreator.createGUI();
         } else if (hasWord("resize") && (hasWord("image") || hasWord("picture"))) {
@@ -491,7 +493,7 @@ public class InputHandler {
             NetworkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
         } else if (eic("netsh")) {
             Desktop.getDesktop().open(new File("C:\\Windows\\system32\\netsh.exe"));
-        } else if (has("paint")) {
+        } else if (hasWord("paint")) {
             String param = "C:/Windows/system32/mspaint.exe";
             Runtime.getRuntime().exec(param);
         } else if (hasWord("rick") && hasWord("morty")) {
@@ -521,7 +523,9 @@ public class InputHandler {
             IOUtil.playAudio("sys/audio/1800.mp3",outputArea);
         }
         //console commands ----------------------------------------
-        else if (hasWord("disco")) {
+        else if (eic("repaint")) {
+            ConsoleFrame.getConsoleFrame().repaint();
+        } else if (hasWord("disco")) {
             println("How many iterations would you like to disco for? (Enter a positive integer)");
             setUserInputMode(true);
             ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
@@ -658,14 +662,14 @@ public class InputHandler {
                     f.dispose();
             }
             ConsoleFrame.getConsoleFrame().close();
-            //todo widget: login();
+            Entry.showEntryGUI();
         } else if (hasWord("throw") && hasWord("error")) {
             throw new CyderException("Error thrown on " + TimeUtil.userTime());
         } else if (hasWord("clear") && (hasWord("operation") ||
                 hasWord("command")) && hasWord("list")) {
             ConsoleFrame.getConsoleFrame().clearOperationList();
             //todo SessionLogger.log(SessionLogger.Tag.ACTION, "User cleared command history");
-            println("Command history reset.");
+            println("Command history reset");
         } else if (hasWord("stop") && has("script")) {
             masterYoutube.killAllYoutube();
             println("YouTube scripts have been killed.");
@@ -1319,12 +1323,14 @@ public class InputHandler {
     }
 
     private boolean hasWord(String compare) {
-        if (operation.equalsIgnoreCase(compare) ||
-                operation.toLowerCase().contains(' ' + compare.toLowerCase() + ' ') ||
-                operation.toLowerCase().contains(' ' + compare.toLowerCase()) ||
-                operation.toLowerCase().contains(compare.toLowerCase() + ' '))
-            return true;
-        else return operation.toLowerCase().contains(compare.toLowerCase() + ' ');
+        String[] words = operation.trim().split(" ");
+
+        for (String word : words) {
+            if (word.trim().equalsIgnoreCase(compare))
+                return true;
+        }
+
+        return false;
     }
 
     //direct JTextPane manipulation methods -----------------------

@@ -258,7 +258,9 @@ public class UserCreator {
                             Graphics2D g2 = bi.createGraphics();
                             g2.drawImage(img, 0, 0, null);
                             g2.dispose();
-                            ImageIO.write(bi, "png", new File("users/" + uuid + "/Backgrounds/Default.png"));
+                            File backgroundFile = new File("users/" + uuid + "/Backgrounds/Default.png");
+                            backgroundFile.mkdirs();
+                            ImageIO.write(bi, "png", backgroundFile);
                         }
 
                         File NewUserFolder = new File("users/" + uuid);

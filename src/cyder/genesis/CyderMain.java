@@ -20,15 +20,7 @@ public class CyderMain {
      * @param CA - the arguments passed in
      */
     public static void main(String[] CA)  {
-        new CyderMain(CA);
-    }
-
-    /**
-     * Shouldn't be entered but once
-     * @param CA - Arguments that we are going to log
-     */
-    private CyderMain(String[] CA) {
-        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown, "exit-hook"));
+        Runtime.getRuntime().addShutdownHook(new Thread(CyderMain::shutdown, "exit-hook"));
 
         initSystemProperties();
         initUIManager();
@@ -59,14 +51,14 @@ public class CyderMain {
     /**
      * Initializes System.getProperty key/value pairs
      */
-    private void initSystemProperties() {
+    private static void initSystemProperties() {
         System.setProperty("sun.java2d.uiScale", IOUtil.getSystemData("UISCALE"));
     }
 
     /**
      * Initializes UIManager.put key/value pairs
      */
-    private void initUIManager() {
+    private static void initUIManager() {
         UIManager.put("ToolTip.background", CyderColors.tooltipBackgroundColor);
         UIManager.put("ToolTip.border", new BorderUIResource(BorderFactory.createLineBorder(CyderColors.tooltipBorderColor, 2, true)));
         UIManager.put("ToolTip.font", CyderFonts.tahoma.deriveFont(22f));
@@ -74,7 +66,7 @@ public class CyderMain {
         UIManager.put("Slider.onlyLeftMouseButtonDrag", Boolean.TRUE);
     }
 
-    private void startFinalFrameDisposedChecker() {
+    private static void startFinalFrameDisposedChecker() {
         Executors.newSingleThreadScheduledExecutor(
                 new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
             Frame[] frames = Frame.getFrames();
@@ -97,7 +89,7 @@ public class CyderMain {
      * no matter what, before we close, System.exit has already been called here
      * so you shouldn't do any reading or writing to files or anything with locks/semaphores
      */
-    private void shutdown() {
+    private static void shutdown() {
         //delete temp dir
         IOUtil.deleteTempDir();
     }

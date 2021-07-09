@@ -441,7 +441,6 @@ public final class ConsoleFrame {
                 outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
                 outputArea.repaint();
                 outputArea.revalidate();
-                consoleCyderFrame.revalidate(); //todo is this needed?
             }
 
             if (IOUtil.getUserData("InputFill").equals("1")) {
@@ -1325,8 +1324,9 @@ public final class ConsoleFrame {
                 Graphics2D g2 = bi.createGraphics();
                 g2.drawImage(img, 0, 0, null);
                 g2.dispose();
-                ImageIO.write(bi, "png", new File("users/" + getUsername()
-                        + "/Backgrounds/Default.png"));
+                File backgroundFile = new File("users/" + UUID + "/Backgrounds/Default.png");
+                backgroundFile.mkdirs();
+                ImageIO.write(bi, "png", backgroundFile);
 
                 initBackgrounds();
             }
@@ -2007,5 +2007,9 @@ public final class ConsoleFrame {
                 ErrorHandler.handle(e);
             }
         }, "Suggestion Button Flash").start();
+    }
+
+    public void repaint() {
+        setFullscreen(fullscreen);
     }
 }

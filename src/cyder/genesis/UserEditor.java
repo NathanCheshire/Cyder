@@ -159,7 +159,6 @@ public class UserEditor {
         });
         changePassword.setBounds(550, 640, 260, 40);
         editUserFrame.getContentPane().add(changePassword);
-        System.out.println("here");
         editUserFrame.enterAnimation();
     }
 

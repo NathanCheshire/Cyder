@@ -6,7 +6,7 @@ Background:000000
 IntroMusic:0
 DebugWindows:0
 RandomBackground:0
-OutputBorder:1
+OutputBorder:0
 InputBorder:0
 HourlyChimes:1
 SilenceErrors:0
@@ -17,5 +17,5 @@ ClockOnConsole:1
 ShowSeconds:1
 filterchat:1
 menudirection:1
-laststart:1625801463284
+laststart:1625803896963
 roundwindows:1
