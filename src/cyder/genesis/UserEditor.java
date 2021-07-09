@@ -87,11 +87,10 @@ public class UserEditor {
         forwardPanel.setBounds(830, 260, 50, 120);
         editUserFrame.getContentPane().add(forwardPanel);
 
-        JTextField changeUsernameField = new JTextField(10);
+        CyderTextField changeUsernameField = new CyderTextField(0);
         changeUsernameField.addActionListener(e -> changeUsername.doClick());
+        changeUsernameField.setBackground(Color.white);
         changeUsernameField.setFont(CyderFonts.weatherFontSmall);
-        changeUsernameField.setSelectionColor(CyderColors.selectionColor);
-        changeUsernameField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         changeUsernameField.setBounds(90, 590, 260, 40);
         editUserFrame.getContentPane().add(changeUsernameField);
 
@@ -127,14 +126,17 @@ public class UserEditor {
         deleteUser.setBounds(375, 590, 150, 90);
         editUserFrame.getContentPane().add(deleteUser);
 
-        JPasswordField changePasswordField = new JPasswordField(10);
+        JPasswordField changePasswordField = new JPasswordField(15);
         changePasswordField.addActionListener(e -> changePassword.doClick());
-        changePasswordField.setFont(CyderFonts.weatherFontSmall);
+        changePasswordField.setFont(new Font("Agency FB",Font.BOLD, 20));
         changePasswordField.setSelectionColor(CyderColors.selectionColor);
         changePasswordField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         changePasswordField.setToolTipText("New password");
         changePasswordField.setBounds(550, 590, 260, 40);
         editUserFrame.getContentPane().add(changePasswordField);
+        changePasswordField.setForeground(CyderColors.navy);
+        changePasswordField.setCaretColor(CyderColors.navy);
+        changePasswordField.setCaret(new CyderCaret(CyderColors.navy));
 
         changePassword = new CyderButton("Change Password");
         changePassword.setBackground(CyderColors.regularRed);
@@ -511,16 +513,12 @@ public class UserEditor {
         colorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 120);
         switchingLabel.add(colorBlock);
 
-        JTextField rgbField = new JTextField(CyderColors.navy.getRed() + "," + CyderColors.navy.getGreen() + "," + CyderColors.navy.getBlue());
+        CyderTextField rgbField = new CyderTextField(0);
 
-        JTextField hexField = new JTextField(IOUtil.getUserData("Foreground"));
-        hexField.setSelectionColor(CyderColors.selectionColor);
+        CyderTextField hexField = new CyderTextField(0);
+        hexField.setText(IOUtil.getUserData("Foreground"));
         hexField.setFont(CyderFonts.weatherFontBig);
-        hexField.setForeground(CyderColors.navy);
-        hexField.setCaretColor(CyderColors.navy);
-        hexField.setCaret(new CyderCaret(CyderColors.navy));
         hexField.setToolTipText("Hex Value");
-        hexField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         JTextField finalHexField1 = hexField;
         JTextField finalRgbField = rgbField;
         hexField.addKeyListener(new KeyAdapter() {
@@ -536,15 +534,12 @@ public class UserEditor {
         hexField.setOpaque(false);
         switchingLabel.add(hexField);
 
-        rgbField.setSelectionColor(CyderColors.selectionColor);
+
         rgbField.setFont(CyderFonts.weatherFontBig);
-        rgbField.setForeground(CyderColors.navy);
-        rgbField.setCaretColor(CyderColors.navy);
-        rgbField.setCaret(new CyderCaret(CyderColors.navy));
         rgbField.setToolTipText("RGB Value");
+        rgbField.setBackground(Color.white);
         Color c = ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
         rgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
-        rgbField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         JTextField finalRgbField1 = rgbField;
         rgbField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -607,17 +602,10 @@ public class UserEditor {
         colorBlockFill.setBounds(330 + colorOffsetX, 340 + colorOffsetY, 40, 120);
         switchingLabel.add(colorBlockFill);
 
-        JTextField hexFieldFill = new JTextField(String.format("#%02X%02X%02X", CyderColors.navy.getRed(),
-                CyderColors.navy.getGreen(), CyderColors.navy.getBlue()).replace("#", ""));
-
+        CyderTextField hexFieldFill = new CyderTextField(0);
         hexFieldFill.setText(IOUtil.getUserData("Background"));
-        hexFieldFill.setSelectionColor(CyderColors.selectionColor);
         hexFieldFill.setFont(CyderFonts.weatherFontBig);
-        hexFieldFill.setForeground(CyderColors.navy);
-        hexFieldFill.setCaretColor(CyderColors.navy);
-        hexFieldFill.setCaret(new CyderCaret(CyderColors.navy));
         hexFieldFill.setToolTipText("Input field and output area fill color if enabled");
-        hexFieldFill.setBorder(new LineBorder(CyderColors.navy, 5, false));
         hexFieldFill.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {

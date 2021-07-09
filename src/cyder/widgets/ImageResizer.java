@@ -4,10 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderCaret;
-import cyder.ui.CyderCheckBox;
-import cyder.ui.CyderFrame;
+import cyder.ui.*;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.SystemUtil;
 
@@ -24,8 +21,8 @@ import java.nio.file.Paths;
 
 public class ImageResizer {
 
-    private JTextField xdim;
-    private JTextField ydim;
+    private CyderTextField xdim;
+    private CyderTextField ydim;
 
     private double aspectRatio;
 
@@ -102,13 +99,7 @@ public class ImageResizer {
         ydimLabel.setBounds(800 - 130 - 90,40, 100, 40);
         resizeFrame.getContentPane().add(ydimLabel);
 
-        xdim = new JTextField(5);
-        xdim.setSelectionColor(CyderColors.selectionColor);
-        xdim.setFont(CyderFonts.weatherFontSmall);
-        xdim.setForeground(CyderColors.navy);
-        xdim.setCaretColor(CyderColors.navy);
-        xdim.setCaret(new CyderCaret(CyderColors.navy));
-        xdim.setBorder(new LineBorder(CyderColors.navy,5,false));
+        xdim = new CyderTextField(0);
         xdim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
             leftLastEdited = true;
@@ -169,13 +160,7 @@ public class ImageResizer {
         maintainAspectRatioLab.setSelected();
         resizeFrame.getContentPane().add(maintainAspectRatioLab);
 
-        ydim = new JTextField(5);
-        ydim.setSelectionColor(CyderColors.selectionColor);
-        ydim.setFont(CyderFonts.weatherFontSmall);
-        ydim.setForeground(CyderColors.navy);
-        ydim.setCaretColor(CyderColors.navy);
-        ydim.setCaret(new CyderCaret(CyderColors.navy));
-        ydim.setBorder(new LineBorder(CyderColors.navy,5,false));
+        ydim = new CyderTextField(0);
         ydim.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
             leftLastEdited = false;

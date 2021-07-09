@@ -5,8 +5,8 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
-import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderTextField;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
@@ -17,6 +17,7 @@ import javafx.stage.StageStyle;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -71,14 +72,9 @@ public class GetterUtil {
                 CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
                 inputFrame.setTitle(getStringFrameTitle());
 
-                JTextField inputField = new JTextField(20);
-                inputField.setSelectionColor(CyderColors.selectionColor);
+                CyderTextField inputField = new CyderTextField(0);
+                inputField.setBackground(Color.white);
                 inputField.setToolTipText(getStringTooltipText());
-                inputField.setFont(CyderFonts.weatherFontSmall);
-                inputField.setForeground(CyderColors.navy);
-                inputField.setCaretColor(CyderColors.navy);
-                inputField.setCaret(new CyderCaret(CyderColors.navy));
-                inputField.setBorder(new LineBorder(CyderColors.navy,5,false));
                 inputField.setBounds(40,40,320,40);
                 inputFrame.getContentPane().add(inputField);
 

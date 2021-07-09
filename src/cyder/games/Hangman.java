@@ -2,12 +2,11 @@ package cyder.games;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-
 import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
-import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderTextField;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
 
@@ -23,7 +22,7 @@ public class Hangman {
     private CyderFrame HangmanFrame;
     private String HangmanWord;
     private CyderButton HangmanReset;
-    private JTextField letterField;
+    private CyderTextField letterField;
     private JLabel HangmanImageLabel;
     private JLabel HangmanLabel;
 
@@ -49,13 +48,10 @@ public class Hangman {
         HangmanImageLabel.setBounds(100,50,712,712);
         HangmanFrame.getContentPane().add(HangmanImageLabel);
 
-        letterField = new JTextField(40);
+        letterField = new CyderTextField(0);
+        letterField.setBackground(Color.white);
         letterField.setBorder(new LineBorder(CyderColors.navy,5,false));
-        letterField.setSelectionColor(CyderColors.selectionColor);
-        letterField.setFont(CyderFonts.weatherFontSmall);
-        letterField.setForeground(CyderColors.navy);
-        letterField.setCaretColor(CyderColors.navy);
-        letterField.setCaret(new CyderCaret(CyderColors.navy));
+        letterField.setRegexMatcher("[A-Za-z]*");
         letterField.setToolTipText("Enter your letter guess here [A-Z]");
         letterField.addKeyListener(new KeyListener() {
             @Override

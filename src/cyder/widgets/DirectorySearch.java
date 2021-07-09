@@ -3,10 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderCaret;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderScrollPane;
+import cyder.ui.*;
 import cyder.utilities.IOUtil;
 
 import javax.swing.*;
@@ -18,7 +15,7 @@ import java.util.Stack;
 
 public class DirectorySearch {
     private CyderFrame dirFrame;
-    private JTextField dirField;
+    private CyderTextField dirField;
     private CyderScrollPane dirScroll;
     private JList<?> directoryNameList;
     private JList<?> directoryList;
@@ -35,15 +32,10 @@ public class DirectorySearch {
         dirFrame = new CyderFrame(620,470, CyderImages.defaultBackground);
         dirFrame.setTitle(new File(System.getProperty("user.dir")).getName());
 
-        dirField = new JTextField(40);
-        dirField.setSelectionColor(CyderColors.selectionColor);
-        dirField.setFont(CyderFonts.weatherFontSmall);
-        dirField.setForeground(CyderColors.navy);
-        dirField.setCaretColor(CyderColors.navy);
-        dirField.setCaret(new CyderCaret(CyderColors.navy));
+        dirField = new CyderTextField(0);
+        dirField.setBackground(Color.white);
         dirField.setText(System.getProperty("user.dir"));
         dirField.addActionListener(directoryFieldListener);
-        dirField.setBorder(new LineBorder(CyderColors.navy,5,false));
         dirField.setBounds(15 + 40 + 15,60,620 - 160,40);
         dirFrame.getContentPane().add(dirField);
 

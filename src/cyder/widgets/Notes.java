@@ -19,10 +19,10 @@ import java.util.List;
 public class Notes {
     private static CyderFrame noteEditorFrame;
     private JTextArea noteEditArea;
-    private JTextField noteEditField;
+    private CyderTextField noteEditField;
     private File currentUserNote;
     private CyderFrame newNoteFrame;
-    private JTextField newNoteField;
+    private CyderTextField newNoteField;
     private JTextArea newNoteArea;
     private CyderFrame noteFrame;
     private CyderScrollPane noteListScroll;
@@ -150,13 +150,7 @@ public class Notes {
         FileNameLabel.setBounds(240,40,150,40);
         newNoteFrame.getContentPane().add(FileNameLabel);
 
-        newNoteField = new JTextField(30);
-        newNoteField.setBorder(new LineBorder(CyderColors.navy,5,false));
-        newNoteField.setSelectionColor(CyderColors.selectionColor);
-        newNoteField.setFont(CyderFonts.weatherFontSmall);
-        newNoteField.setForeground(CyderColors.navy);
-        newNoteField.setCaretColor(CyderColors.navy);
-        newNoteField.setCaret(new CyderCaret(CyderColors.navy));
+        newNoteField = new CyderTextField(0);
         newNoteField.setBounds(150,80,300,40);
         newNoteFrame.getContentPane().add(newNoteField);
 
@@ -257,15 +251,9 @@ public class Notes {
         noteEditorFrame = newNoteFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
 
-        noteEditField = new JTextField(20);
+        noteEditField = new CyderTextField(0);
         noteEditField.setToolTipText("Change Name");
-        noteEditField.setSelectionColor(CyderColors.selectionColor);
-        noteEditField.setFont(CyderFonts.weatherFontSmall);
-        noteEditField.setForeground(CyderColors.navy);
-        noteEditField.setCaretColor(CyderColors.navy);
-        noteEditField.setCaret(new CyderCaret(CyderColors.navy));
         noteEditField.setText(File.getName().replaceFirst(".txt",""));
-        noteEditField.setBorder(new LineBorder(CyderColors.navy,5,false));
         noteEditField.setBounds(50,50,600 - 50 - 50, 40);
         noteEditorFrame.getContentPane().add(noteEditField);
 

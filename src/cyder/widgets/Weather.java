@@ -4,8 +4,8 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
-import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderTextField;
 import cyder.utilities.*;
 
 import javax.swing.*;
@@ -153,13 +153,8 @@ public class Weather {
                 explenation.setBounds(40,40,520,170);
                 changeLocationFrame.getContentPane().add(explenation);
 
-                JTextField changeLocField = new JTextField(20);
-                changeLocField.setBorder(new LineBorder(CyderColors.navy,5,false));
-                changeLocField.setSelectionColor(CyderColors.selectionColor);
-                changeLocField.setFont(CyderFonts.weatherFontSmall);
-                changeLocField.setForeground(CyderColors.navy);
-                changeLocField.setCaretColor(CyderColors.navy);
-                changeLocField.setCaret(new CyderCaret(CyderColors.navy));
+                CyderTextField changeLocField = new CyderTextField(0);
+                changeLocField.setBackground(Color.white);
                 changeLocField.setBounds(40,200,520,40);
                 changeLocationFrame.getContentPane().add(changeLocField);
 

@@ -6,16 +6,18 @@ import cyder.consts.CyderImages;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
+import cyder.ui.CyderTextField;
 import cyder.widgets.GenericInform;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.io.*;
 
 public class TextEditor {
 
     private CyderFrame textEditorFrame;
-    private JTextField textNameEditField;
+    private CyderTextField textNameEditField;
     private JTextArea textEditArea;
 
     public TextEditor(String filePath) {
@@ -29,13 +31,10 @@ public class TextEditor {
         textEditorFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
         textEditorFrame.setTitle("Editing: " + File.getName().replace(".txt", ""));
 
-        textNameEditField = new JTextField(20);
+        textNameEditField = new CyderTextField(0);
+        textNameEditField.setBackground(Color.white);
         textNameEditField.setToolTipText("Change Name");
-        textNameEditField.setSelectionColor(CyderColors.selectionColor);
         textNameEditField.setText(File.getName().replaceFirst(".txt",""));
-        textNameEditField.setFont(CyderFonts.weatherFontSmall);
-        textNameEditField.setForeground(CyderColors.navy);
-        textNameEditField.setBorder(new LineBorder(CyderColors.navy,5));
         textNameEditField.setBounds(50,50,600 - 50 - 50, 40);
         textEditorFrame.getContentPane().add(textNameEditField);
 

@@ -3,10 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderCaret;
-import cyder.ui.CyderCheckBox;
-import cyder.ui.CyderFrame;
+import cyder.ui.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -16,7 +13,7 @@ import java.text.DecimalFormat;
 
 public class TempConverter {
     private CyderFrame temperatureFrame;
-    private JTextField startingValue;
+    private CyderTextField startingValue;
 
     private CyderCheckBox oldFahrenheit;
     private CyderCheckBox newFahrenheit;
@@ -35,13 +32,7 @@ public class TempConverter {
         JLabel ValueLabel = new JLabel("Measurement: ");
         ValueLabel.setFont(CyderFonts.weatherFontSmall);
         
-        startingValue = new JTextField(20);
-        startingValue.setBorder(new LineBorder(CyderColors.navy,5,false));
-        startingValue.setSelectionColor(CyderColors.selectionColor);
-        startingValue.setFont(CyderFonts.weatherFontSmall);
-        startingValue.setForeground(CyderColors.navy);
-        startingValue.setCaretColor(CyderColors.navy);
-        startingValue.setCaret(new CyderCaret(CyderColors.navy));
+        startingValue = new CyderTextField(0);
         
         ValueLabel.setBounds(60,40, 200, 30);
         

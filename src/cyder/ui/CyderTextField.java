@@ -68,13 +68,14 @@ public class CyderTextField extends JTextField {
         this.setCaretColor(CyderColors.navy);
         this.setCaret(new CyderCaret(CyderColors.navy));
         this.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        this.setOpaque(false);
+        this.setOpaque(true);
     }
 
     @Override
     public void setBackground(Color newBackgroundColor) {
         super.setBackground(newBackgroundColor);
         backgroundColor = newBackgroundColor;
+        this.setOpaque(true);
     }
 
     @Override

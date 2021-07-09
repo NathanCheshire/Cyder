@@ -49,8 +49,6 @@ public class InputHandler {
     //todo correcting user data doesn't work properly, it should either work and everything be there,
     // or correct it so that everything is there, or corrupted the user and wrap the data, nothing else!
 
-    //todo take away all jtextfield and use CyderTextField
-
     //todo corrupted users aren't saved to downloads, saved to directory up, should save to same dir as src, fix
 
     //todo implement mapping links, you'll need to change how user data is stored

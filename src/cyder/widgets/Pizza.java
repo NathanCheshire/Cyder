@@ -17,7 +17,7 @@ import java.util.List;
 public class Pizza {
 
     private CyderFrame pizzaFrame;
-    private JTextField nameField;
+    private CyderTextField nameField;
     private CyderCheckBox smallPizza;
     private CyderCheckBox mediumPizza;
     private CyderCheckBox largePizza;
@@ -47,12 +47,7 @@ public class Pizza {
         CustomerName.setBounds(40,45,100,30);
         pizzaFrame.getContentPane().add(CustomerName);
 
-        nameField = new JTextField(20);
-        nameField.setSelectionColor(CyderColors.selectionColor);
-        nameField.setFont(CyderFonts.weatherFontSmall);
-        nameField.setForeground(CyderColors.navy);
-        nameField.setCaretColor(CyderColors.navy);
-        nameField.setCaret(new CyderCaret(CyderColors.navy));
+        nameField = new CyderTextField(0);
         nameField.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
@@ -75,7 +70,7 @@ public class Pizza {
                 }
             }
         });
-        nameField.setBorder(new LineBorder(CyderColors.navy,5,false));
+        nameField.setBackground(Color.white);
         nameField.setBounds(140,40,400,40);
         pizzaFrame.getContentPane().add(nameField);
 

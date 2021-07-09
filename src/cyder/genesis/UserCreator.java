@@ -5,10 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.obj.Preference;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderCaret;
-import cyder.ui.CyderFrame;
+import cyder.ui.*;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.SecurityUtil;
 import cyder.utilities.StringUtil;
@@ -31,7 +28,7 @@ public class UserCreator {
     private static CyderFrame createUserFrame;
     private static JPasswordField newUserPasswordconf;
     private static JPasswordField newUserPassword;
-    private static JTextField newUserName;
+    private static CyderTextField newUserName;
     private static CyderButton createNewUser;
     private static CyderButton chooseBackground;
     private static File createUserBackground;
@@ -50,12 +47,9 @@ public class UserCreator {
         NameLabel.setBounds(120, 30, 121, 30);
         createUserFrame.getContentPane().add(NameLabel);
 
-        newUserName = new JTextField(15);
-        newUserName.setSelectionColor(CyderColors.selectionColor);
+        newUserName = new CyderTextField(0);
+        newUserName.setBackground(Color.white);
         newUserName.setFont(CyderFonts.weatherFontSmall);
-        newUserName.setForeground(CyderColors.navy);
-        newUserName.setCaretColor(CyderColors.navy);
-        newUserName.setCaret(new CyderCaret(CyderColors.navy));
         newUserName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 if (newUserName.getText().length() > 15) {
