@@ -552,7 +552,7 @@ public class CyderFrame extends JFrame {
                                 currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
                                         getHeight());
                             else
-                                currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextYOffset(),
+                                currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
                                         DragLabel.getDefaultHeight() - currentNotification.getHeight());
 
                             iconPane.add(currentNotification, JLayeredPane.POPUP_LAYER);

@@ -15,8 +15,8 @@ public class Notification extends JLabel {
     private int height = 300;
     private Direction ArrowType = Direction.TOP;
     private boolean killed;
-    private static  int delay = 10;
-    private static  int increment = 4;
+    private static int delay = 10;
+    private static int increment = 4;
 
     public Notification() {
         killed = false;

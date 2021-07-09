@@ -412,7 +412,6 @@ public final class ConsoleFrame {
                         }
 
                         scrollingIndex = operationList.size();
-                        ConsoleFrame.getConsoleFrame().setScrollingIndex(0);
 
                         //calls to linked inputhandler
                         if (!inputHandler.getUserInputMode()) {
@@ -1181,18 +1180,20 @@ public final class ConsoleFrame {
             try {
                 //command scrolling
                 if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
+                    //scroll to previous commands
                     if (code == KeyEvent.VK_DOWN) {
-                        if (scrollingIndex - 1 > -1) {
-                            scrollingIndex--;
-                            inputField.setText(consoleBashString + operationList.get(scrollingIndex));
+                        if (scrollingIndex - 1 >= 0) {
+                            scrollingIndex -= 1;
+                            inputField.setText(consoleBashString +  operationList.get(scrollingIndex));
                         }
-
-                    } else if (code == KeyEvent.VK_UP) {
+                    }
+                    //scroll to subsequent command if exist
+                    else if (code == KeyEvent.VK_UP) {
                         if (scrollingIndex + 1 < operationList.size()) {
-                            scrollingIndex++;
+                            scrollingIndex += 1;
                             inputField.setText(consoleBashString + operationList.get(scrollingIndex));
                         } else if (scrollingIndex + 1 == operationList.size()) {
-                            scrollingIndex++;
+                            scrollingIndex += 1;
                             inputField.setText(consoleBashString);
                         }
                     }

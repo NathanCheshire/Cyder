@@ -46,10 +46,6 @@ public class InputHandler {
 
     //todo set frames relative to consoleFrame
 
-    //todo command scrolling is backwards?
-
-    //todo fix notifications not being centered due to custom paint component
-
     //todo correcting user data doesn't work properly, it should either work and everything be there,
     // or correct it so that everything is there, or corrupted the user and wrap the data, nothing else!
 
@@ -971,11 +967,7 @@ public class InputHandler {
     }
 
     private void test() {
-        try {
-            new ImagePixelator(new File("c:/users/nathan/downloads/Alpha.png"));
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+
     }
 
     /**
