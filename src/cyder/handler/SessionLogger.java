@@ -15,9 +15,11 @@ public class SessionLogger {
     private SessionLogger() {}
 
     private static File currentLog;
+    private static long start;
 
     public enum Tag {
-        CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION, SYSTEM_IO, CLIENT_IO, LOGIN, LOGOUT
+        CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION,
+        SYSTEM_IO, CLIENT_IO, LOGIN, LOGOUT, ENTRY, EXIT, CORRUPTION
     }
 
     /**
@@ -51,6 +53,7 @@ public class SessionLogger {
             case EXCEPTION:
                 logBuilder.append("[EXCEPTION]: ");
                 logBuilder.append(representation);
+                logBuilder.append("\n");
                 break;
             case ACTION:
                 logBuilder.append("[ACTION]: ");
@@ -77,9 +80,9 @@ public class SessionLogger {
                 logBuilder.append(representation);
                 break;
             case CLIENT_IO:
-                //[CLIENT_TO] [WRITE] [KEY] ROUNDWINDOWS [VALUE] 0
-                //[CLIENT_TO] [READ] [KEY] VERSION
-                logBuilder.append("[CLIENT_IO] ");
+                //[CLIENT_IO]: [WRITE] [KEY] ROUNDWINDOWS [VALUE] 0
+                //[CLIENT_IO]: [READ] [KEY] VERSION
+                logBuilder.append("[CLIENT_IO]: ");
 
                 if (!representation.toString().contains(","))
                     throw new IllegalArgumentException("CLIENT_IO representation incorrect data format");
@@ -89,16 +92,23 @@ public class SessionLogger {
                 if (parts.length != 3 && parts.length != 2) {
                     throw new IllegalArgumentException("CLIENT_IO representation does not contain sufficient data");
                 } else {
-                    logBuilder.append("[").append(parts[0].toUpperCase()).append("] ");
-                    logBuilder.append("[KEY] ").append(parts[1].toUpperCase()).append(" ");
-                    if (parts[0].equalsIgnoreCase("WRITE"))
-                        logBuilder.append("[VALUE]").append(parts[2].toUpperCase());
+                    logBuilder.append("[");
+                    logBuilder.append(parts[0].toUpperCase());
+                    logBuilder.append("] ");
+                    logBuilder.append("[KEY] ");
+                    logBuilder.append(parts[1].toUpperCase());
+                    logBuilder.append(" ");
+
+                    if (parts[0].equalsIgnoreCase("WRITE")) {
+                        logBuilder.append("[VALUE]");
+                        logBuilder.append(parts[2].toUpperCase());
+                    }
                 }
                 break;
             case SYSTEM_IO:
-                //[SYSTEM_IO] [WRITE] [KEY] VERSION [VALUE] SOULTREE
-                //[SYSTEM_IO] [READ] [KEY] VERSION
-                logBuilder.append("[SYSTEM_IO] ");
+                //[SYSTEM_IO]: [WRITE] [KEY] VERSION [VALUE] SOULTREE
+                //[SYSTEM_IO]: [READ] [KEY] VERSION
+                logBuilder.append("[SYSTEM_IO]: ");
 
                 if (!representation.toString().contains(","))
                     throw new IllegalArgumentException("SYSTEM_IO representation incorrect data format");
@@ -108,19 +118,48 @@ public class SessionLogger {
                 if (parters.length != 3 && parters.length != 2) {
                     throw new IllegalArgumentException("SYSTEM_IO representation does not contain sufficient data");
                 } else {
-                    logBuilder.append("[").append(parters[0].toUpperCase()).append("] ");
-                    logBuilder.append("[KEY] ").append(parters[1].toUpperCase()).append(" ");
-                    if (parters[0].equalsIgnoreCase("WRITE"))
-                        logBuilder.append("[VALUE]").append(parters[2].toUpperCase());
+                    logBuilder.append("[");
+                    logBuilder.append(parters[0].toUpperCase());
+                    logBuilder.append("] ");
+                    logBuilder.append("[KEY] ");
+                    logBuilder.append(parters[1].toUpperCase());
+                    logBuilder.append(" ");
+
+                    if (parters[0].equalsIgnoreCase("WRITE")) {
+                        logBuilder.append("[VALUE] ");
+                        logBuilder.append(parters[2].toUpperCase());
+                    }
                 }
                 break;
             case LOGIN:
-                logBuilder.append("[LOGIN] [").append(representation).append("]");
+                //[LOGIN]: [NATHAN] Autocyphered (STD Login)
+                logBuilder.append("[LOGIN]: [");
+                logBuilder.append(representation);
+                logBuilder.append("]");
                 break;
             case LOGOUT:
-                logBuilder.append("[LOGOUT] [").append(representation).append("]");
+                //[LOGOUT]: [NATHAN]
+                logBuilder.append("[LOGOUT]: [");
+                logBuilder.append(representation);
+                logBuilder.append("]");
+                break;
+            case ENTRY:
+                //[ENTRY]: [WINUSER=NATHAN]
+                start = System.currentTimeMillis();
+                logBuilder.append("[ENTRY]: [WINUSER=");
+                logBuilder.append(representation);
+                logBuilder.append("]");
+                break;
+            case EXIT:
+                //[EXIT]: [RUNTIME] 1h 24m 31s
+                logBuilder.append("[ENTRY]: [RUNTIME] ");
+                logBuilder.append(representation);
+                break;
+            case CORRUPTION:
+                //[CORRUPTION]: [FILE] c:/users/nathan/downloads/CyderCorruptedUserData.zip
                 break;
             case UNKNOWN:
+                //[UNKNOWN]: CyderString.instance really anything that doesn't get caught above
                 logBuilder.append("[UNKNOWN]: ");
                 logBuilder.append(representation);
                 break;
@@ -255,5 +294,38 @@ public class SessionLogger {
         }
 
         return ret;
+    }
+
+    private static String getRuntime() {
+        long milis = System.currentTimeMillis() - start;
+        int seconds = 0;
+        int hours = 0;
+        int minutes = 0;
+
+        while (milis > 1000) {
+            seconds++;
+            milis -= 1000;
+        }
+
+        while (seconds > 60) {
+            minutes++;
+            seconds -= 60;
+        }
+
+        while (minutes > 60) {
+            hours++;
+            minutes -= 60;
+        }
+
+        StringBuilder ret = new StringBuilder();
+
+        if (hours != 0)
+            ret.append(hours).append("h ");
+        if (minutes != 0)
+            ret.append(minutes).append("m ");
+        if (seconds != 0)
+            ret.append(seconds).append("s ");
+
+        return ret.toString().trim();
     }
 }

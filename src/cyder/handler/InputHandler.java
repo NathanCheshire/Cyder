@@ -38,16 +38,10 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo inputfield and outputscroll bounds on resize events
-
     //todo make sure text against out/in fill results in visible text always
     // algorithm for this to pass two colors and say which one will be changed and which one will stay the same
 
-    //todo corrupting user log info
-    //todo instance start and end, run time too
-
-    //todo corrupted users aren't saved to downloads,
-    // they're saved a directory up, should save to same dir as src, or just save to downloads
+    //todo sometimes on preference toggles it'll toggle the previous one
 
     //todo implement mapping links, you'll need to change how user data is stored
     // make an issue for this and finally switching to binary writing
@@ -632,6 +626,7 @@ public class InputHandler {
                 else
                     f.dispose();
             }
+            IOUtil.stopMusic();
             ConsoleFrame.getConsoleFrame().close();
             Entry.showEntryGUI();
         } else if (hasWord("throw") && hasWord("error")) {

@@ -168,8 +168,15 @@ public final class ConsoleFrame {
                 @Override
                 public void setBounds(int x, int y, int w, int h) {
                     super.setBounds(x,y,w,h);
+
                     consoleLinesDrawn = false;
                     drawConsoleLines = false;
+
+                    if (outputScroll != null && inputField != null) {
+                        outputScroll.setBounds(10, 62, w - 20, h - 204);
+                        inputField.setBounds(10, 62 + outputScroll.getHeight() + 20,w - 20,
+                                h - (62 + outputScroll.getHeight() + 20 + 20));
+                    }
                 }
             };
 

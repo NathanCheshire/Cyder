@@ -18,8 +18,8 @@ import java.io.*;
 public class ErrorHandler {
 
     /**
-     * This method takes an exception, prints it to a string, and then writes that string to
-     * either the user's Throws dir or the system throws dir
+     * This method takes an exception, prints it to a string, and then passes the
+     * error to the SessionLogger to be logged
      * @param e the exception we are handling and possibly informing the user of
      */
     public static void handle(Exception e) {
@@ -62,7 +62,9 @@ public class ErrorHandler {
             errorWriter.close();
 
             //if the user has show errors configured, then we open the file
-            if (!ConsoleFrame.getConsoleFrame().isClosed() && IOUtil.getUserData("SilenceErrors").equals("0")) {
+            if (ConsoleFrame.getConsoleFrame().getUUID() != null &&
+                    !ConsoleFrame.getConsoleFrame().isClosed() &&
+                    IOUtil.getUserData("SilenceErrors").equals("0")) {
                 System.out.println("\nOriginal error:\n");
                 e.printStackTrace();
                 windowedError(message, write, eFileString);

@@ -161,6 +161,7 @@ public class UserEditor {
         });
         changePassword.setBounds(550, 640, 260, 40);
         editUserFrame.getContentPane().add(changePassword);
+        editUserFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelativeTo(editUserFrame);
     }
 
