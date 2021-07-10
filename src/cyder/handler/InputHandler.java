@@ -38,6 +38,9 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo fix windows error color
+    //todo get rid of newlines in input and output before logging
+
     //todo make sure text against out/in fill results in visible text always
     // algorithm for this to pass two colors and say which one will be changed and which one will stay the same
 

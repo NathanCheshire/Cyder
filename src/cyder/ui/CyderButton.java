@@ -25,7 +25,8 @@ public class CyderButton extends JButton {
         super.setContentAreaFilled(false);
 
         addMouseMotionListener(new CyderDraggableComponent());
-        addActionListener(e -> SessionLogger.log(SessionLogger.Tag.ACTION, this.getName() + " CLICKED"));
+        addActionListener(e -> SessionLogger.log(SessionLogger.Tag.ACTION, "BUTTON, TEXT = "
+                + this.getText() + " CLICKED"));
 
         setFont(CyderFonts.weatherFontSmall);
         setBackground(CyderColors.regularRed);

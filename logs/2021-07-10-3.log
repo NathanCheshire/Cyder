@@ -1,0 +1,162 @@
+[00:09:08] [ENTRY]: [WINUSER=Nathan]
+[00:09:08] [SYSTEM_IO]: [GET] [KEY] UISCALE
+[00:09:08] [SYSTEM_IO]: [GET] [KEY] MMAC
+[00:09:09] [SYSTEM_IO]: [GET] [KEY] MMAC
+[00:09:09] [SYSTEM_IO]: [GET] [KEY] MMAC
+[00:09:09] [LOGIN]: [AUTOCYPHERED]
+[00:09:09] [LOGIN]: [STD LOGIN]
+[00:09:09] [CLIENT_IO]: [GET] [KEY] NAME
+[00:09:10] [CLIENT_IO]: [GET] [KEY] RANDOMBACKGROUND
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[00:09:10] [SYSTEM_IO]: [GET] [KEY] VERSION
+[00:09:10] [CLIENT_IO]: [GET] [KEY] NAME
+[00:09:10] [SYSTEM_IO]: [GET] [KEY] CONSOLERESIZABLE
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FONT
+[00:09:10] [CLIENT_IO]: [GET] [KEY] OUTPUTBORDER
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[00:09:10] [CLIENT_IO]: [GET] [KEY] INPUTBORDER
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:09:10] [CLIENT_IO]: [GET] [KEY] FONT
+[00:09:10] [CLIENT_IO]: [GET] [KEY] OUTPUTFILL
+[00:09:10] [CLIENT_IO]: [GET] [KEY] INPUTFILL
+[00:09:10] [CLIENT_IO]: [GET] [KEY] INTROMUSIC
+[00:09:10] [CLIENT_IO]: [GET] [KEY] DEBUGWINDOWS
+[00:09:10] [SYSTEM_IO]: [GET] [KEY] MMAC
+[00:09:10] [CLIENT]: test
+[00:09:10] [CLIENT_IO]: [GET] [KEY] LASTSTART
+[00:09:10] [CLIENT_IO]: [WRITE] [KEY] LASTSTART [VALUE] 1625893750764
+[00:09:47] [CLIENT]: Throw error
+[00:09:47] [EXCEPTION]: Error thrown on Saturday, 07/10/2021 12:09AM CDT
+class cyder.exception.CyderException
+Error thrown by line: 656
+
+Stack Trace:
+
+CyderException object, hash=823962994
+	at cyder.handler.InputHandler.handle(InputHandler.java:656)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:426)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+
+[00:09:47] [CLIENT_IO]: [GET] [KEY] SILENCEERRORS
+[00:10:34] [CLIENT]: Throw errortest
+[00:10:34] [CLIENT_IO]: [GET] [KEY] NAME
+[00:10:34] [CONSOLE_OUT]: [UNKNOWN CONSOLE_OUT TYPE] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+
+[00:10:53] [CLIENT]: Okay
+[00:10:53] [CLIENT_IO]: [GET] [KEY] NAME
+[00:10:53] [CONSOLE_OUT]: [UNKNOWN CONSOLE_OUT TYPE] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+
+[00:10:55] [CLIENT]: Cls
+[00:10:56] [CLIENT]: controlc
+[00:10:57] [CLIENT]: controlc
+[00:10:57] [CLIENT]: controlc
+[00:10:57] [CLIENT]: controlc
+[00:10:57] [CONSOLE_OUT]: [UNKNOWN CONSOLE_OUT TYPE] Escaped
+
+[00:10:58] [CONSOLE_OUT]: [UNKNOWN CONSOLE_OUT TYPE] Escaped
+
+[00:10:58] [CONSOLE_OUT]: [UNKNOWN CONSOLE_OUT TYPE] Escaped
+
+[00:10:58] [CONSOLE_OUT]: [UNKNOWN CONSOLE_OUT TYPE] Escaped
+
+[00:10:59] [CLIENT]: Cls
+[00:11:08] [CLIENT]: controlc
+[00:11:08] [CONSOLE_OUT]: [UNKNOWN CONSOLE_OUT TYPE] Escaped
+
+[00:11:10] [CLIENT]: controlc
+[00:11:10] [CONSOLE_OUT]: [UNKNOWN CONSOLE_OUT TYPE] Escaped
+
+[00:12:50] [CLIENT]: Cls
+[00:12:51] [CLIENT]: Hi
+[00:12:51] [CONSOLE_OUT]: [UNKNOWN CONSOLE_OUT TYPE] I'm here....
+
+[00:12:52] [CLIENT]: How are you
+[00:12:53] [CONSOLE_OUT]: [UNKNOWN CONSOLE_OUT TYPE] I am feeling like a programmed response. Thank you for asking.
+
+[00:13:05] [CLIENT]: Logout
+[00:13:05] [CLIENT_IO]: [GET] [KEY] NAME
+[00:13:05] [LOGOUT]:  [Nathan]
+[00:13:05] [SYSTEM_IO]: [GET] [KEY] VERSION
+[00:13:05] [SYSTEM_IO]: [GET] [KEY] DATE
+[00:13:17] [ACTION]: BUTTON, TEXT = Choose background CLICKED
+[00:13:25] [LOGIN]: [STD LOGIN]
+[00:13:25] [CLIENT_IO]: [GET] [KEY] NAME
+[00:13:25] [CLIENT_IO]: [GET] [KEY] RANDOMBACKGROUND
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[00:13:25] [SYSTEM_IO]: [GET] [KEY] VERSION
+[00:13:25] [CLIENT_IO]: [GET] [KEY] NAME
+[00:13:25] [SYSTEM_IO]: [GET] [KEY] CONSOLERESIZABLE
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FONT
+[00:13:25] [CLIENT_IO]: [GET] [KEY] OUTPUTBORDER
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[00:13:25] [CLIENT_IO]: [GET] [KEY] INPUTBORDER
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[00:13:25] [CLIENT_IO]: [GET] [KEY] FONT
+[00:13:25] [CLIENT_IO]: [GET] [KEY] OUTPUTFILL
+[00:13:25] [CLIENT_IO]: [GET] [KEY] INPUTFILL
+[00:13:25] [CLIENT_IO]: [GET] [KEY] INTROMUSIC
+[00:13:25] [CLIENT_IO]: [GET] [KEY] DEBUGWINDOWS
+[00:13:26] [SYSTEM_IO]: [GET] [KEY] MMAC
+[00:13:26] [CLIENT]: test
+[00:13:26] [CLIENT_IO]: [GET] [KEY] LASTSTART
+[00:13:26] [CLIENT_IO]: [WRITE] [KEY] LASTSTART [VALUE] 1625894006095
+[00:13:41] [CLIENT]: Exit
+[00:13:42] [CLIENT_IO]: [GET] [KEY] NAME
+[00:13:42] [LOGOUT]:  [Nathan]
+[00:13:42] [EXIT]: [RUNTIME] 4m 33s
+[00:13:42] [EOL]: Log completed, exiting program with code: 25, exceptions thrown: 1

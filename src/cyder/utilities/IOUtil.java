@@ -553,7 +553,13 @@ public class IOUtil {
 
     public static String getUserData(String name) {
         readUserData();
-        SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[GET] [KEY] " + name.toUpperCase());
+
+        //these are called every second so don't log them
+        if (!name.equalsIgnoreCase("CLOCKONCONSOLE")
+                && !name.equalsIgnoreCase("SHOWSECONDS")
+                && !name.equalsIgnoreCase("ROUNDWINDOWS")) {
+            SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[GET] [KEY] " + name.toUpperCase());
+        }
 
         //errors coming from here somehow, try and debug
         if (userData.isEmpty())

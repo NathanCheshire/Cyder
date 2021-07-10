@@ -59,7 +59,6 @@ public class SessionLogger {
                 //any exceptions thrown are passed from errorhandler to here
                 logBuilder.append("[EXCEPTION]: ");
                 logBuilder.append(representation);
-                logBuilder.append("\n");
                 break;
             case ACTION: //completed but could catch actions for more cyder components in future like text field
                 logBuilder.append("[ACTION]: ");
@@ -109,9 +108,8 @@ public class SessionLogger {
                 break;
             case LOGOUT: //completed
                 //[LOGOUT]: [NATHAN]
-                logBuilder.append("[LOGOUT]: [");
+                logBuilder.append("[LOGOUT]: ");
                 logBuilder.append(representation);
-                logBuilder.append("]");
                 break;
             case ENTRY: //completed
                 //[ENTRY]: [WINUSER=NATHAN]
@@ -239,9 +237,12 @@ public class SessionLogger {
      * @param line - the single line to write
      */
     private static void writeLine(String line) {
-        try (BufferedWriter br = new BufferedWriter(new FileWriter(currentLog))) {
-           br.write(line);
-           br.newLine();
+        try {
+            FileWriter fw = new FileWriter(currentLog,true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(line);
+            bw.newLine();
+            bw.close();
         } catch(Exception e) {
             ErrorHandler.handle(e);
         }
