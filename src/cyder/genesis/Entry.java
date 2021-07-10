@@ -3,6 +3,7 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
+import cyder.handler.SessionLogger;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
@@ -296,6 +297,7 @@ public class Entry {
                     ConsoleFrame.getConsoleFrame().close();
                 }
 
+                SessionLogger.log(SessionLogger.Tag.LOGIN, "STD LOGIN");
                 ConsoleFrame.getConsoleFrame().start();
 
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames

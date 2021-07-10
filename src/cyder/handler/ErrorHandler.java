@@ -7,13 +7,13 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SystemUtil;
-import cyder.utilities.TimeUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class ErrorHandler {
 
@@ -24,22 +24,6 @@ public class ErrorHandler {
      */
     public static void handle(Exception e) {
         try {
-            //find out where to log the error
-            String user = ConsoleFrame.getConsoleFrame().getUUID();
-            File throwsDir = null;
-            String eFileString = "";
-
-            throwsDir = new File("throws");
-            eFileString = "throws/" + TimeUtil.errorTime() + ".error";
-
-            //make the dir if it doesn't exist
-            if (!throwsDir.exists())
-                throwsDir.mkdir();
-
-            //make the file we are going to write to
-            File eFile = new File(eFileString);
-            eFile.createNewFile();
-
             //obtain a String object of the error and the line number
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
@@ -49,17 +33,13 @@ public class ErrorHandler {
             int lineNumber = e.getStackTrace()[0].getLineNumber();
             Class c = e.getClass();
 
-            //get our master string and write it to the file
+            //get our master string and write it to the
             String message = e.getMessage();
             String write = message == null ? "" : message + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
                     "\n\nStack Trace:\n\n" + stackTrack;
 
-            //write to file, flush, close
-            BufferedWriter errorWriter = new BufferedWriter(new FileWriter(eFileString));
-            errorWriter.write(write);
-            errorWriter.newLine();
-            errorWriter.flush();
-            errorWriter.close();
+            if (write.trim().length() > 0)
+                SessionLogger.log(SessionLogger.Tag.EXCEPTION, write);
 
             //if the user has show errors configured, then we open the file
             if (ConsoleFrame.getConsoleFrame().getUUID() != null &&
@@ -67,7 +47,7 @@ public class ErrorHandler {
                     IOUtil.getUserData("SilenceErrors").equals("0")) {
                 System.out.println("\nOriginal error:\n");
                 e.printStackTrace();
-                windowedError(message, write, eFileString);
+                windowedError(message, write);
             }
         }
 
@@ -89,7 +69,7 @@ public class ErrorHandler {
                 String write = ex.getMessage() + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
                         "\n\nStack Trace:\n\n" + stackTrack;
 
-                windowedError(ex.getMessage(), write, null);
+                windowedError(ex.getMessage(), write);
             }
         }
     }
@@ -101,22 +81,6 @@ public class ErrorHandler {
      */
     public static void silentHandle(Exception e) {
         try {
-            //find out whereto log the error
-            String user = ConsoleFrame.getConsoleFrame().getUUID();
-            File throwsDir = null;
-            String eFileString = "";
-
-            throwsDir = new File("throws");
-            eFileString = "throws/" + TimeUtil.errorTime() + ".error";
-
-            //make the dir if it doesn't exist
-            if (!throwsDir.exists())
-                throwsDir.mkdir();
-
-            //make the file we are going to write to
-            File eFile = new File(eFileString);
-            eFile.createNewFile();
-
             //obtain a String object of the error and the line number
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
@@ -131,15 +95,9 @@ public class ErrorHandler {
             String write = message == null ? "" : message + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
                     "\n\nStack Trace:\n\n" + stackTrack;
 
-            //write to file, flush, close
-            BufferedWriter errorWriter = new BufferedWriter(new FileWriter(eFileString));
-            errorWriter.write(write);
-            errorWriter.newLine();
-            errorWriter.flush();
-            errorWriter.close();
-        }
-
-        catch (Exception ex) {
+            if (write.trim().length() > 0)
+                SessionLogger.log(SessionLogger.Tag.EXCEPTION, write);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -149,7 +107,7 @@ public class ErrorHandler {
         return "ErrorHandler object, hash=" + this.hashCode();
     }
 
-    private static void windowedError(String title, String message, String errorFilePath) {
+    private static void windowedError(String title, String message) {
         if (title == null || title.length() == 0 || message == null || message.length() == 0) {
             System.out.println("Windowed error was passed null");
             return;
@@ -189,16 +147,8 @@ public class ErrorHandler {
         displayLabel.setSize(w, h);
         displayLabel.setLocation(5, 35);
         errorFrame.add(displayLabel);
-        displayLabel.setToolTipText(errorFilePath == null ? "Error stack trace" : "Click to open error file");
 
-        //mouse listener to open file on click
         displayLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                errorFrame.closeAnimation();
-                IOUtil.openFile(errorFilePath);
-            }
-
             @Override
             public void mouseEntered(MouseEvent e) {
                 displayLabel.setForeground(CyderColors.regularRed);

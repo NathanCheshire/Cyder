@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.handler.ErrorHandler;
+import cyder.handler.SessionLogger;
 
 import java.awt.*;
 import java.net.*;
@@ -15,6 +16,7 @@ public class NetworkUtil {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(new URI(URL));
+            SessionLogger.log(SessionLogger.Tag.LINK, URL);
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }
@@ -68,6 +70,7 @@ public class NetworkUtil {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(URI);
+            SessionLogger.log(SessionLogger.Tag.LINK, URI.getPath());
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }

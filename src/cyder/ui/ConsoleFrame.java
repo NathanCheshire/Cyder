@@ -8,6 +8,7 @@ import cyder.exception.FatalException;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.handler.InputHandler;
+import cyder.handler.SessionLogger;
 import cyder.utilities.*;
 import cyder.widgets.Calculator;
 import cyder.widgets.GenericInform;
@@ -1993,6 +1994,7 @@ public final class ConsoleFrame {
         inputHandler = null;
         consoleCyderFrame.closeAnimation();
         closed = true;
+        SessionLogger.log(SessionLogger.Tag.LOGOUT, " [" + getUsername() + "]");
     }
 
     public boolean isClosed() {

@@ -3,9 +3,11 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.handler.ErrorHandler;
+import cyder.handler.SessionLogger;
 import cyder.threads.CyderThreadFactory;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SecurityUtil;
+import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -22,18 +24,22 @@ public class CyderMain {
     public static void main(String[] CA)  {
         Runtime.getRuntime().addShutdownHook(new Thread(CyderMain::shutdown, "exit-hook"));
 
+        //start the logger
+        SessionLogger.SessionLogger();
+        SessionLogger.log(SessionLogger.Tag.ENTRY, SystemUtil.getWindowsUsername());
+
         initSystemProperties();
         initUIManager();
 
         IOUtil.cleanUsers();
         IOUtil.deleteTempDir();
         IOUtil.logArgs(CA);
-        IOUtil.cleanErrors();
         IOUtil.cleanSandbox();
 
         startFinalFrameDisposedChecker();
 
         if (SecurityUtil.nathanLenovo()) {
+            SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHERED");
             Entry.autoCypher();
         } else if (IOUtil.getSystemData("Released").equals("1")) {
             Entry.showEntryGUI();

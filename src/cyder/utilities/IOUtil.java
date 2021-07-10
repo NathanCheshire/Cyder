@@ -5,6 +5,7 @@ import cyder.genesis.Entry;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.handler.PhotoViewer;
+import cyder.handler.SessionLogger;
 import cyder.handler.TextEditor;
 import cyder.obj.NST;
 import cyder.obj.Preference;
@@ -53,6 +54,7 @@ public class IOUtil {
         } catch (Exception e) {
             try {
                 Runtime.getRuntime().exec("explorer.exe /select," + filePath);
+                SessionLogger.log(SessionLogger.Tag.LINK, filePath);
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
             }
@@ -500,6 +502,8 @@ public class IOUtil {
             }
 
             userWriter.close();
+            SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[WRITE] [KEY] "
+                    + name.toUpperCase() + " [VALUE] " + value);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -523,6 +527,8 @@ public class IOUtil {
             }
 
             sysWriter.flush();
+            SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[WRITE] [KEY] "
+                    + name.toUpperCase() + " [VALUE] " + value);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -547,6 +553,7 @@ public class IOUtil {
 
     public static String getUserData(String name) {
         readUserData();
+        SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[GET] [KEY] " + name.toUpperCase());
 
         //errors coming from here somehow, try and debug
         if (userData.isEmpty())
@@ -563,6 +570,7 @@ public class IOUtil {
 
     public static String getSystemData(String name) {
         readSystemData();
+        SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[GET] [KEY] " + name.toUpperCase());
 
         if (systemData.isEmpty())
            throw new IllegalArgumentException("Attempting to access empty system data after calling read");
@@ -626,22 +634,6 @@ public class IOUtil {
         }
     }
 
-    public static void wipeErrors() {
-        File throwsFolder = new File("throws");
-        File[] files = throwsFolder.listFiles();
-        int inc = 0;
-
-        for (File f: files) {
-            if (StringUtil.getExtension(f).equals(".error")) {
-                inc++;
-                f.delete();
-            }
-        }
-
-        GenericInform.inform("Deleted " + inc + " error files","Errors wiped");
-        SystemUtil.deleteFolder(throwsFolder);
-    }
-
     public static void openFile(String FilePath) {
         //use our custom text editor
         if (FilePath.endsWith(".txt")) {
@@ -663,6 +655,7 @@ public class IOUtil {
                 File FileToOpen = new File(FilePath);
                 URI FileURI = FileToOpen.toURI();
                 OpenFile.browse(FileURI);
+                SessionLogger.log(SessionLogger.Tag.LINK, FileToOpen.getAbsoluteFile());
             } catch (Exception e) {
                 try {
                     Runtime.getRuntime().exec("explorer.exe /select," + FilePath);
@@ -765,13 +758,16 @@ public class IOUtil {
 
             //zip the remaining user data
             String sourceFile = mainZipFile.getAbsolutePath();
-            FileOutputStream fos = new FileOutputStream("C:/Users/" + SystemUtil.getWindowsUsername() +
-                    "/Downloads/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip");
+            String fileName = "C:/Users/" + SystemUtil.getWindowsUsername() +
+                    "/Downloads/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip";
+            FileOutputStream fos = new FileOutputStream(fileName);
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             File fileToZip = new File(sourceFile);
             zipFile(fileToZip, fileToZip.getName(), zipOut);
             zipOut.close();
             fos.close();
+
+            SessionLogger.log(SessionLogger.Tag.CORRUPTION,fileName);
 
             //delete the folder we just zipped since it's a duplicate
             SystemUtil.deleteFolder(mainZipFile);
@@ -975,31 +971,6 @@ public class IOUtil {
         }
 
         return ret;
-    }
-
-    public static void cleanErrors() {
-        File throwsDir = new File("throws");
-
-        if (throwsDir.exists()) {
-            File[] errorFiles = throwsDir.listFiles();
-
-            for (File f : errorFiles) {
-                try (FileInputStream fis = new FileInputStream(f)) {
-                    if (StringUtil.getExtension(f).equals(".error")) {
-                        byte[] data = new byte[(int) f.length()];
-                        fis.read(data);
-                        String contents = new String(data, StandardCharsets.UTF_8);
-                        fis.close();
-
-                        if (contents.trim().length() == 0) {
-                            f.delete();
-                        }
-                    }
-                } catch (Exception e) {
-                    ErrorHandler.handle(e);
-                }
-            }
-        }
     }
 
     public static void cleanSandbox() {

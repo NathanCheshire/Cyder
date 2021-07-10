@@ -32,130 +32,102 @@ public class SessionLogger {
         StringBuilder logBuilder = new StringBuilder("[" + TimeUtil.logTime() + "] ");
 
         switch (tag) {
-            case CLIENT:
+            case CLIENT: //completed
+                //user inputs to the console
                 logBuilder.append("[CLIENT]: ");
                 logBuilder.append(representation);
                 break;
-            case CONSOLE_OUT:
+            case CONSOLE_OUT: //completed
+                //string print outs
                 logBuilder.append("[CONSOLE_OUT]: ");
                 if (representation instanceof ImageIcon) {
                     logBuilder.append("[ICON] ");
                     logBuilder.append(representation);
                 }
+                //jcomponent print outs
                 else if (representation instanceof JComponent) {
                     logBuilder.append("[JCOMPONENT] ");
                     logBuilder.append(representation);
-                } else {
-                    logBuilder.append("[UNKNOWN CONSOLE_OUT TYPE (TODO add type)] ");
+                }
+                //other console print outs
+                else {
+                    logBuilder.append("[UNKNOWN CONSOLE_OUT TYPE] ");
                     logBuilder.append(representation);
                 }
                 break;
-            case EXCEPTION:
+            case EXCEPTION: //completed
+                //any exceptions thrown are passed from errorhandler to here
                 logBuilder.append("[EXCEPTION]: ");
                 logBuilder.append(representation);
                 logBuilder.append("\n");
                 break;
-            case ACTION:
+            case ACTION: //completed but could catch actions for more cyder components in future like text field
                 logBuilder.append("[ACTION]: ");
                 if (representation instanceof JComponent) {
                     logBuilder.append("[").append(((JComponent) representation).getName()).append("] ");
                 }
                 logBuilder.append(representation);
                 break;
-            case LINK:
+            case LINK: //completed
+                //files opened, links opened
                 logBuilder.append("[LINK]: ");
                 if (representation instanceof File) {
                     logBuilder.append("[").append(StringUtil.getExtension((File) representation)).append("] ");
                 }
                 logBuilder.append(representation);
                 break;
-            case EOL:
+            case EOL: //completed
                 logBuilder.append("[EOL]: Log completed, exiting program with code: ");
                 logBuilder.append(representation);
                 logBuilder.append(", exceptions thrown: ");
                 logBuilder.append(countExceptions());
                 break;
-            case SUGGESTION:
+            case SUGGESTION://completed
                 logBuilder.append("[SUGGESTION]: ");
                 logBuilder.append(representation);
                 break;
-            case CLIENT_IO:
+            case CLIENT_IO: //completed
+                //userdata read or write
                 //[CLIENT_IO]: [WRITE] [KEY] ROUNDWINDOWS [VALUE] 0
-                //[CLIENT_IO]: [READ] [KEY] VERSION
+                //[CLIENT_IO]: [GET] [KEY] VERSION
                 logBuilder.append("[CLIENT_IO]: ");
-
-                if (!representation.toString().contains(","))
-                    throw new IllegalArgumentException("CLIENT_IO representation incorrect data format");
-
-                String[] parts = representation.toString().split(",");
-
-                if (parts.length != 3 && parts.length != 2) {
-                    throw new IllegalArgumentException("CLIENT_IO representation does not contain sufficient data");
-                } else {
-                    logBuilder.append("[");
-                    logBuilder.append(parts[0].toUpperCase());
-                    logBuilder.append("] ");
-                    logBuilder.append("[KEY] ");
-                    logBuilder.append(parts[1].toUpperCase());
-                    logBuilder.append(" ");
-
-                    if (parts[0].equalsIgnoreCase("WRITE")) {
-                        logBuilder.append("[VALUE]");
-                        logBuilder.append(parts[2].toUpperCase());
-                    }
-                }
+                logBuilder.append(representation);
                 break;
-            case SYSTEM_IO:
+            case SYSTEM_IO: //completed
+                //systemdata read or write
                 //[SYSTEM_IO]: [WRITE] [KEY] VERSION [VALUE] SOULTREE
-                //[SYSTEM_IO]: [READ] [KEY] VERSION
+                //[SYSTEM_IO]: [GET] [KEY] VERSION
                 logBuilder.append("[SYSTEM_IO]: ");
-
-                if (!representation.toString().contains(","))
-                    throw new IllegalArgumentException("SYSTEM_IO representation incorrect data format");
-
-                String[] parters = representation.toString().split(",");
-
-                if (parters.length != 3 && parters.length != 2) {
-                    throw new IllegalArgumentException("SYSTEM_IO representation does not contain sufficient data");
-                } else {
-                    logBuilder.append("[");
-                    logBuilder.append(parters[0].toUpperCase());
-                    logBuilder.append("] ");
-                    logBuilder.append("[KEY] ");
-                    logBuilder.append(parters[1].toUpperCase());
-                    logBuilder.append(" ");
-
-                    if (parters[0].equalsIgnoreCase("WRITE")) {
-                        logBuilder.append("[VALUE] ");
-                        logBuilder.append(parters[2].toUpperCase());
-                    }
-                }
+                logBuilder.append(representation);
                 break;
-            case LOGIN:
+            case LOGIN: //completed
+                //user logged in using recognize method
                 //[LOGIN]: [NATHAN] Autocyphered (STD Login)
                 logBuilder.append("[LOGIN]: [");
                 logBuilder.append(representation);
                 logBuilder.append("]");
                 break;
-            case LOGOUT:
+            case LOGOUT: //completed
                 //[LOGOUT]: [NATHAN]
                 logBuilder.append("[LOGOUT]: [");
                 logBuilder.append(representation);
                 logBuilder.append("]");
                 break;
-            case ENTRY:
+            case ENTRY: //completed
                 //[ENTRY]: [WINUSER=NATHAN]
                 start = System.currentTimeMillis();
                 logBuilder.append("[ENTRY]: [WINUSER=");
                 logBuilder.append(representation);
                 logBuilder.append("]");
                 break;
-            case EXIT:
+            case EXIT: //completed
+                //right before genesisshare.exit exits
                 //[EXIT]: [RUNTIME] 1h 24m 31s
-                logBuilder.append("[ENTRY]: [RUNTIME] ");
-                logBuilder.append(representation);
+                logBuilder.append("[EXIT]: [RUNTIME] ");
+                logBuilder.append(getRuntime());
                 break;
-            case CORRUPTION:
+            case CORRUPTION: //completed
+                //before user corruption method is called
                 //[CORRUPTION]: [FILE] c:/users/nathan/downloads/CyderCorruptedUserData.zip
                 break;
             case UNKNOWN:
@@ -240,11 +212,11 @@ public class SessionLogger {
             String uniqueLogString = TimeUtil.logFileTime();
 
             int number = 1;
-            File logFile = new File("throws/" + uniqueLogString + "-" + number + ".log");
+            File logFile = new File("logs/" + uniqueLogString + "-" + number + ".log");
 
             while (logFile.exists()) {
                 number++;
-                logFile = new File("throws/" + uniqueLogString + "-" + number + ".log");
+                logFile = new File("logs/" + uniqueLogString + "-" + number + ".log");
             }
 
             logFile.createNewFile();

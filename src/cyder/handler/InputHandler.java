@@ -41,7 +41,7 @@ public class InputHandler {
     //todo make sure text against out/in fill results in visible text always
     // algorithm for this to pass two colors and say which one will be changed and which one will stay the same
 
-    //todo sometimes on preference toggles it'll toggle the previous one
+    //todo fix console focus traversal and outlinle whatever element has focus with a regularRed 3 width border?
 
     //todo implement mapping links, you'll need to change how user data is stored
     // make an issue for this and finally switching to binary writing
@@ -72,7 +72,7 @@ public class InputHandler {
         boolean ret = false;
 
         for (Preference pref : GenesisShare.getPrefs()) {
-            if (op.toLowerCase().contains(pref.getID().toLowerCase())) {
+            if (op.equalsIgnoreCase(pref.getID())) {
                 if (op.contains("1") || op.toLowerCase().contains("true")) {
                     IOUtil.writeUserData(pref.getID(), "1");
                 } else if (op.contains("0") || op.toLowerCase().contains("false")) {
@@ -99,6 +99,9 @@ public class InputHandler {
         //init String vars
         this.operation = op;
         String firstWord = StringUtil.firstWord(operation);
+
+        //log CLIENT
+        SessionLogger.log(SessionLogger.Tag.CLIENT, operation);
 
         //pre-process checks --------------------------------------
         if (StringUtil.filterLanguage(operation)) {
@@ -296,55 +299,80 @@ public class InputHandler {
         else if ((hasWord("youtube") && hasWord("thumbnail")) || (hasWord("yt") && hasWord("thumb"))) {
             new YouTubeThumbnail();
             new ThumbnailStealer();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "YOUTUBE THUMBNAIL");
+            SessionLogger.log(SessionLogger.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
         } else if (hasWord("minecraft")) {
             new Minecraft();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "MINECRAFT");
         } else if ((hasWord("edit") && hasWord("user")) ||
                 (hasWord("font") && !hasWord("reset")) ||
                 (hasWord("color") && !hasWord("reset") &&
                         !hasWord("converter")) || (eic("preferences") || eic("prefs"))) {
             userEditor = new UserEditor();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "USER EDITOR");
         } else if (hasWord("hash") || hasWord("hashser")) {
             new Hasher();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "SHA256 HASHER");
         }  else if (eic("search") || eic("dir") || (hasWord("file") && hasWord("search")) || eic("directory") || eic("ls")) {
             DirectorySearch ds = new DirectorySearch();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "DIR SEARCH");
         } else if (hasWord("weather")) {
             Weather ww = new Weather();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "WEATHER");
         } else if (eic("pin") || eic("login")) {
             Entry.showEntryGUI();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "LOGIN WIDGET");
         } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
             UserCreator.createGUI();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "USER CREATOR");
         } else if (hasWord("resize") && (hasWord("image") || hasWord("picture"))) {
             ImageResizer IR = new ImageResizer();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE RESIZER");
         } else if (hasWord("temperature") || eic("temp")) {
             TempConverter tc = new TempConverter();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "TEMPERATURE CONVERTER");
         } else if (has("click me")) {
             ClickMe.clickMe();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "CLICK ME");
         } else if (has("Father") && hasWord("day") && has("2021")) {
             Cards.FathersDay2021();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "CARD");
         } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
             Cards.Christmas2020();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "CARD");
         } else if (hasWord("number") && hasWord("word")) {
             NumberUtil.numberToWord();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "NUMBER TO WORD");
         } else if (hasWord("hangman")) {
             new Hangman().startHangman();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "HANGMAN");
         } else if (hasWord("rgb") || hasWord("hex") || (hasWord("color") && hasWord("converter"))) {
             ColorConverter.colorConverter();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "COLOR CONVERTER");
         } else if (hasWord("pizza")) {
             new Pizza();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "PIZZA");
         } else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
             new ImagePixelator(null);
+            SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE PIXELATOR");
         } else if (hasWord("file") && hasWord("signature")) {
             //todo file signature widget
+            SessionLogger.log(SessionLogger.Tag.ACTION, "FILE SIGNATURE");
         } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
             new TicTacToe().startTicTacToe();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "TIC TAC TOE");
         } else if (hasWord("note") || hasWord("notes")) {
             IOUtil.startNoteEditor();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "NOTE EDITOR");
         } else if ((hasWord("mp3") || hasWord("music")) && !hasWord("stop")) {
             IOUtil.mp3("");
+            SessionLogger.log(SessionLogger.Tag.ACTION, "AUDIO PLAYER");
         } else if (hasWord("phone") || hasWord("dialer") || hasWord("call")) {
             new Phone(outputArea);
+            SessionLogger.log(SessionLogger.Tag.ACTION, "PHONE");
         } else if ((hasWord("calculator") || hasWord("calc")) && !has("graphing")) {
             new Calculator();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "CALCULATOR");
         }
         //ui and settings -----------------------------------------
         else if (hasWord("font") && hasWord("reset")) {
@@ -555,12 +583,7 @@ public class InputHandler {
 
         } else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
             new Robot().keyPress(KeyEvent.VK_F17);
-        }  else if ((hasWord("wipe") || hasWord("clear") || hasWord("delete")) && has("error")) {
-            if (SecurityUtil.nathanLenovo()) {
-                IOUtil.wipeErrors();
-            } else
-                println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you don't have permission to do that.");
-        } else if (hasWord("debug") && hasWord("windows")) {
+        }  else if (hasWord("debug") && hasWord("windows")) {
             StatUtil.allStats();
         } else if (hasWord("binary") && !has("dump")) {
             println("Enter a decimal number to be converted to binary.");
@@ -960,7 +983,7 @@ public class InputHandler {
     }
 
     private void test() {
-        IOUtil.corruptedUser();
+
     }
 
     /**
@@ -998,7 +1021,7 @@ public class InputHandler {
     }
 
     public void logSuggestion(String suggestion) {
-        //SessionLogger.log(SessionLogger.Tag.SUGGESTION, suggestion);
+        SessionLogger.log(SessionLogger.Tag.SUGGESTION, suggestion);
     }
 
     public void setOutputArea(JTextPane outputArea) {
@@ -1090,6 +1113,7 @@ public class InputHandler {
                     //priority simply appends to the console
                     if (consolePriorityPrintingList.size() > 0) {
                         Object line = consolePriorityPrintingList.removeFirst();
+                        SessionLogger.log(SessionLogger.Tag.CONSOLE_OUT,line);
 
                         if (line instanceof String) {
                             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -1111,6 +1135,7 @@ public class InputHandler {
                     // concurrency issues
                     else if (consolePrintingList.size() > 0){
                         Object line = consolePrintingList.removeFirst();
+                        SessionLogger.log(SessionLogger.Tag.CONSOLE_OUT,line);
 
                         if (line instanceof String) {
                             GenesisShare.getPrintinSem().acquire();

@@ -1,6 +1,7 @@
 package cyder.genesis;
 
 import cyder.handler.ErrorHandler;
+import cyder.handler.SessionLogger;
 import cyder.obj.Preference;
 import cyder.ui.ConsoleFrame;
 
@@ -114,7 +115,8 @@ public class GenesisShare {
                 ConsoleFrame.getConsoleFrame().close();
 
             //log exit code and end of log tag
-            //TODO uncomment SessionLogger.log(SessionLogger.Tag.EOL,code);
+            SessionLogger.log(SessionLogger.Tag.EXIT,null);
+            SessionLogger.log(SessionLogger.Tag.EOL,code);
 
             //acquire and release to ensure no IO is currently underway
             GenesisShare.getExitingSem().acquire();
