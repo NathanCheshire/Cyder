@@ -117,6 +117,8 @@ public class IOUtil {
                 String[] parts = Line.split(":");
                 userData.add(new NST(parts[0], parts[1]));
             }
+
+            SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[READ] ARRAY SIZE: " + userData.size());
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -475,6 +477,8 @@ public class IOUtil {
                 String[] parts = Line.split(":");
                 systemData.add(new NST(parts[0], parts[1]));
             }
+
+            SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[READ] ARRAY SIZE: " + systemData.size());
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -540,29 +544,6 @@ public class IOUtil {
         newReadUserData();
 
         if (userData.isEmpty())
-            ErrorHandler.handle(new FatalException("Attempting to access empty user data after calling read"));
-
-        for (NST data : userData) {
-            if (data.getName().equalsIgnoreCase(name)) {
-                return data.getData();
-            }
-        }
-
-        return null;
-    }
-
-    public static String getUserData(String name) {
-        readUserData();
-
-        //these are called every second so don't log them
-        if (!name.equalsIgnoreCase("CLOCKONCONSOLE")
-                && !name.equalsIgnoreCase("SHOWSECONDS")
-                && !name.equalsIgnoreCase("ROUNDWINDOWS")) {
-            SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[GET] [KEY] " + name.toUpperCase());
-        }
-
-        //errors coming from here somehow, try and debug
-        if (userData.isEmpty())
             throw new IllegalArgumentException("Attempting to access empty user data after calling read");
 
         for (NST data : userData) {
@@ -574,11 +555,44 @@ public class IOUtil {
         return null;
     }
 
+    public static String getUserData(String name) {
+        String ret = null;
+
+        try {
+            readUserData();
+
+            //these are called every second so don't log them
+            if (!name.equalsIgnoreCase("CLOCKONCONSOLE")
+                    && !name.equalsIgnoreCase("SHOWSECONDS")
+                    && !name.equalsIgnoreCase("ROUNDWINDOWS")) {
+                SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[GET] [KEY] " + name.toUpperCase());
+            }
+
+            GenesisShare.getExitingSem().acquire();
+            GenesisShare.getExitingSem().release();
+
+            //errors coming from here somehow, try and debug
+            if (userData.size() == 0)
+                throw new IllegalArgumentException("Attempting to access empty user data after calling read");
+
+            for (NST data : userData) {
+                if (data.getName().equalsIgnoreCase(name)) {
+                    ret = data.getData();
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            return ret;
+        }
+    }
+
     public static String getSystemData(String name) {
         readSystemData();
         SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[GET] [KEY] " + name.toUpperCase());
 
-        if (systemData.isEmpty())
+        if (systemData.size() == 0)
            throw new IllegalArgumentException("Attempting to access empty system data after calling read");
 
         for (NST data : systemData) {

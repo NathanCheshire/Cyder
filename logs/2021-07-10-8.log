@@ -1,0 +1,138 @@
+[08:45:18] [ENTRY]: [WINUSER=Nathan]
+[08:45:18] [SYSTEM_IO]: [GET] [KEY] UISCALE
+[08:45:18] [SYSTEM_IO]: [GET] [KEY] MMAC
+[08:45:18] [SYSTEM_IO]: [GET] [KEY] MMAC
+[08:45:19] [SYSTEM_IO]: [GET] [KEY] MMAC
+[08:45:19] [LOGIN]: [AUTOCYPHERED]
+[08:45:19] [LOGIN]: [STD LOGIN]
+[08:45:19] [CLIENT_IO]: [GET] [KEY] NAME
+[08:45:19] [CLIENT_IO]: [GET] [KEY] RANDOMBACKGROUND
+[08:45:19] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[08:45:20] [SYSTEM_IO]: [GET] [KEY] VERSION
+[08:45:20] [CLIENT_IO]: [GET] [KEY] NAME
+[08:45:20] [SYSTEM_IO]: [GET] [KEY] CONSOLERESIZABLE
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FONT
+[08:45:20] [CLIENT_IO]: [GET] [KEY] OUTPUTBORDER
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
+[08:45:20] [CLIENT_IO]: [GET] [KEY] INPUTBORDER
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FOREGROUND
+[08:45:20] [CLIENT_IO]: [GET] [KEY] FONT
+[08:45:20] [CLIENT_IO]: [GET] [KEY] OUTPUTFILL
+[08:45:20] [CLIENT_IO]: [GET] [KEY] INPUTFILL
+[08:45:20] [CLIENT_IO]: [GET] [KEY] INTROMUSIC
+[08:45:20] [CLIENT_IO]: [GET] [KEY] DEBUGWINDOWS
+[08:45:20] [SYSTEM_IO]: [GET] [KEY] MMAC
+[08:45:20] [CLIENT]: test
+[08:45:20] [CLIENT_IO]: [GET] [KEY] LASTSTART
+[08:45:20] [CLIENT_IO]: [WRITE] [KEY] LASTSTART [VALUE] 1625924720589
+[08:45:26] [CLIENT]: Throw error
+[08:45:26] [EXCEPTION]: Error thrown on Saturday, 07/10/2021 08:45AM CDT
+class cyder.exception.CyderException
+Error thrown by line: 659
+
+Stack Trace:
+
+CyderException object, hash=899580217
+	at cyder.handler.InputHandler.handle(InputHandler.java:659)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:426)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+[08:45:26] [CLIENT_IO]: [GET] [KEY] SILENCEERRORS
+[08:45:28] [EXCEPTION]: Attempting to access empty user data after calling read
+class java.lang.IllegalArgumentException
+Error thrown by line: 566
+
+Stack Trace:
+
+java.lang.IllegalArgumentException: Attempting to access empty user data after calling read
+	at cyder.utilities.IOUtil.getUserData(IOUtil.java:566)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1190)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1064)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:960)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.DragLabel$1.mouseDragged(DragLabel.java:59)
+	at java.desktop/java.awt.Component.processMouseMotionEvent(Component.java:6626)
+	at java.desktop/javax.swing.JComponent.processMouseMotionEvent(JComponent.java:3361)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6347)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4904)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4556)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4480)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2303)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+[08:45:28] [CLIENT_IO]: [GET] [KEY] SILENCEERRORS
+[08:46:01] [CLIENT_IO]: [GET] [KEY] NAME
+[08:46:01] [LOGOUT]:  [Nathan]
+[08:46:01] [EXIT]: [RUNTIME] 43s
+[08:46:01] [EOL]: Log completed, exiting program with code: 25, exceptions thrown: 2

@@ -10,8 +10,6 @@ import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -113,16 +111,6 @@ public class ErrorHandler {
             return;
         }
 
-        CyderFrame errorFrame = new CyderFrame(400,400, CyderImages.defaultBackground, true);
-        errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        errorFrame.setTitle(title.length() == 0 ? "Null error message" : title);
-        errorFrame.initializeResizing();
-        errorFrame.setResizable(true);
-        errorFrame.setMaximumSize(new Dimension(800,800)); //this isn't working!!????
-        errorFrame.setBackground(CyderColors.vanila);
-        errorFrame.setMaximumSize(new Dimension(1000, 1000));
-        errorFrame.setMinimumSize(new Dimension(200, 200));
-
         //bounds calculation for centered text
         String displayText = message.substring(0, Math.min(message.length(), 500));
         displayText = "<html><div style='text-align: center;'>" + displayText + "</div></html>";
@@ -138,6 +126,17 @@ public class ErrorHandler {
 
         h += heightIncrement;
 
+        CyderFrame errorFrame = new CyderFrame(400,400, CyderImages.defaultBackgroundLarge, true);
+        errorFrame.setTitle(title.length() == 0 ? "Null error message" : title);
+        errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+
+        //window needs to be bigger than the label
+        int windowWidth = w + 2 * 5;
+        int windowHeight = h + 5 + 35;
+
+        errorFrame.setBounds(SystemUtil.getScreenWidth() - windowWidth,
+                SystemUtil.getScreenHeight() - windowHeight, windowWidth, windowHeight);
+
         //label setup
         JLabel displayLabel = new JLabel(displayText);
         displayLabel.setForeground(CyderColors.navy);
@@ -148,24 +147,6 @@ public class ErrorHandler {
         displayLabel.setLocation(5, 35);
         errorFrame.add(displayLabel);
 
-        displayLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                displayLabel.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                displayLabel.setForeground(CyderColors.navy);
-            }
-        });
-
-        //window needs to be bigger than the label
-        int windowWidth = w + 2 * 5;
-        int windowHeight = h + 5 + 35;
-
-        errorFrame.setBounds(SystemUtil.getScreenWidth() - windowWidth,
-                SystemUtil.getScreenHeight() - windowHeight, windowWidth, windowHeight);
         errorFrame.setVisible(true);
         errorFrame.setAlwaysOnTop(true);
         errorFrame.setLocation(SystemUtil.getScreenWidth() - windowWidth,

@@ -38,6 +38,8 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo entry -> throw error -> move window will throw that stupid bug we keep seeing with null user data
+
     //todo fix windows error color
     //todo get rid of newlines in input and output before logging
 

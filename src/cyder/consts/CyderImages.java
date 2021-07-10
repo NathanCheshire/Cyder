@@ -14,4 +14,8 @@ public class CyderImages {
             new Color(224, 230, 244),
             new Color(249, 233, 241),
             new Color(253, 253, 253)));
+    public static final ImageIcon defaultBackgroundLarge = new ImageIcon(ImageUtil.getImageGradient(2000,2000,
+            new Color(224, 230, 244),
+            new Color(249, 233, 241),
+            new Color(253, 253, 253)));
 }
