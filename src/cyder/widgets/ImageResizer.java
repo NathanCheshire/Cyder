@@ -223,7 +223,7 @@ public class ImageResizer {
         resizeFrame.getContentPane().add(approve);
 
         resizeFrame.setVisible(true);
-        resizeFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(resizeFrame);
     }
 
     private double getAspectRatio(ImageIcon im) {

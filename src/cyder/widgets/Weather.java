@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.handler.ErrorHandler;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -263,7 +264,7 @@ public class Weather {
         weatherFrame.getContentPane().add(sunsetLabel, SwingConstants.CENTER);
 
         weatherFrame.setVisible(true);
-        weatherFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(weatherFrame);
 
         update = true;
 

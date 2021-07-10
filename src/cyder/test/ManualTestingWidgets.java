@@ -3,10 +3,7 @@ package cyder.test;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderCheckBox;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderTextField;
+import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
@@ -42,7 +39,7 @@ public class ManualTestingWidgets {
         testFrame.getContentPane().add(addPinFirst);
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
     }
 
     public static void ButtonAndTitlePositionsTest() {
@@ -78,7 +75,7 @@ public class ManualTestingWidgets {
         testFrame.initializeResizing();
         testFrame.setResizable(true);
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
     }
 
     public static void NotificationsTest() {
@@ -114,7 +111,7 @@ public class ManualTestingWidgets {
         testFrame.initializeResizing();
         testFrame.setResizable(true);
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
     }
 
     public static void AskewTest() {
@@ -131,7 +128,7 @@ public class ManualTestingWidgets {
         cb.addActionListener(e -> testFrame.rotateBackground(Integer.parseInt(ctf.getText())));
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
     }
 
     public static void IconLabelSlidingTest() {
@@ -219,7 +216,7 @@ public class ManualTestingWidgets {
         testFrame.getContentPane().add(slideRight);
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
     }
 
     public static void CheckboxTest() {
@@ -237,6 +234,6 @@ public class ManualTestingWidgets {
         testFrame.getContentPane().add(cb1);
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
     }
 }

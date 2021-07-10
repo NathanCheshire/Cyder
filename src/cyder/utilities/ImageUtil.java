@@ -5,6 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 
@@ -151,7 +152,7 @@ public class ImageUtil {
             pixelFrame.getContentPane().add(rejectImage);
 
             pixelFrame.setVisible(true);
-            pixelFrame.setLocationRelativeTo(null);
+            ConsoleFrame.getConsoleFrame().setFrameRelativeTo(pixelFrame);
             pixelFrame.setAlwaysOnTop(true);
         }
 

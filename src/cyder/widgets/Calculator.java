@@ -6,6 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -307,6 +308,6 @@ public class Calculator {
         });
 
         calculatorFrame.setVisible(true);
-        calculatorFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(calculatorFrame);
     }
 }

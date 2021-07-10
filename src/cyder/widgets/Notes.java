@@ -134,7 +134,7 @@ public class Notes {
         noteFrame.getContentPane().add(deleteNote);
 
         noteFrame.setVisible(true);
-        noteFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(noteFrame);
     }
 
     private void addNote() {
@@ -209,7 +209,7 @@ public class Notes {
         submitNewNote.setBounds(50,180 + 390,600 - 50 - 50,40);
         newNoteFrame.getContentPane().add(submitNewNote);
 
-        newNoteFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(newNoteFrame);
         newNoteFrame.setVisible(true);
         newNoteField.requestFocus();
     }
@@ -336,7 +336,7 @@ public class Notes {
 
         noteEditorFrame.setVisible(true);
         noteEditArea.requestFocus();
-        noteEditorFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(noteEditorFrame);
     }
 
     public void kill() {

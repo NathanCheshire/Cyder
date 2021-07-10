@@ -3,10 +3,7 @@ package cyder.handler;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderScrollPane;
-import cyder.ui.CyderTextField;
+import cyder.ui.*;
 import cyder.widgets.GenericInform;
 
 import javax.swing.*;
@@ -107,7 +104,7 @@ public class TextEditor {
 
         textEditorFrame.setVisible(true);
         textEditArea.requestFocus();
-        textEditorFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(textEditorFrame);
     }
 
     @Override

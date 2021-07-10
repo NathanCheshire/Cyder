@@ -161,7 +161,7 @@ public class UserEditor {
         });
         changePassword.setBounds(550, 640, 260, 40);
         editUserFrame.getContentPane().add(changePassword);
-        editUserFrame.enterAnimation();
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(editUserFrame);
     }
 
     private void initMusicBackgroundList() {

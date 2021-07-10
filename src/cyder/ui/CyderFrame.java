@@ -1041,7 +1041,6 @@ public class CyderFrame extends JFrame {
      */
     public void setFrameResizing(Boolean allow) {
         cr.setResizing(allow);
-        setShape(null);
     }
     ImageIcon currentOrigIcon;
 
@@ -1188,7 +1187,7 @@ public class CyderFrame extends JFrame {
     public void repaint() {
         //this doesn't cause much lag as of 7.3.21, that bug came from refreshing the background
         // every time we setbounds of the frame
-        if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1") && cr == null) {
+        if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
             setShape(new RoundRectangle2D.Double(0, 0,
                     getWidth(), getHeight(), 20, 20));
         } else {

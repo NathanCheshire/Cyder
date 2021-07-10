@@ -62,7 +62,7 @@ public class YouTubeThumbnail {
         getYTTN.setBounds(150,150,300,40);
         yttnFrame.getContentPane().add(getYTTN);
 
-        yttnFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(yttnFrame);
         yttnFrame.setVisible(true);
         yttnField.requestFocus();
     }

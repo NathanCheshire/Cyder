@@ -292,6 +292,6 @@ public class TempConverter {
         temperatureFrame.getContentPane().add(calculate);
         temperatureFrame.getContentPane().add(resetValues);
         temperatureFrame.setVisible(true);
-        temperatureFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(temperatureFrame);
     }
 }

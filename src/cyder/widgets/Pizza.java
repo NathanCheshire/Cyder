@@ -350,6 +350,6 @@ public class Pizza {
         pizzaFrame.getContentPane().add(resetPizza);
 
         pizzaFrame.setVisible(true);
-        pizzaFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(pizzaFrame);
     }
 }

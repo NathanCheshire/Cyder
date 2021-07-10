@@ -8,6 +8,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderSliderUI;
 import cyder.utilities.GetterUtil;
+import cyder.utilities.ImageUtil;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
 import javazoom.jl.player.Player;
@@ -78,7 +79,8 @@ public class AudioPlayer {
         if (audioFrame != null)
             audioFrame.closeAnimation();
 
-        audioFrame = new CyderFrame(500,225);
+        audioFrame = new CyderFrame(500,225,
+                new ImageIcon(ImageUtil.bufferedImageFromColor(500,225,CyderColors.navy)));
         audioFrame.setBackground(new Color(8,23,52));
         audioFrame.setTitle("Flash Player");
         audioFrame.addWindowListener(new WindowAdapter() {
@@ -420,7 +422,7 @@ public class AudioPlayer {
         audioLocationSlider.repaint();
         audioFrame.getContentPane().add(audioLocationSlider);
 
-        audioFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(audioFrame);
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 

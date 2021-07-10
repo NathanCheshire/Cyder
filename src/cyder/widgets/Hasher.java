@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
 import cyder.consts.CyderImages;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.utilities.SecurityUtil;
@@ -67,7 +68,7 @@ public class Hasher {
         hashButton.setBounds(200,140, 100, 40);
         hashFrame.getContentPane().add(hashButton);
 
-        hashFrame.setLocationRelativeTo(null);
+        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(hashFrame);
         hashFrame.setVisible(true);
         hashFrame.setAlwaysOnTop(true);
     }

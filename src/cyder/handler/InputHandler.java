@@ -43,9 +43,8 @@ public class InputHandler {
     //todo make sure text against out/in fill results in visible text always
     // algorithm for this to pass two colors and say which one will be changed and which one will stay the same
 
-    //todo set frames relative to consoleFrame
-
     //todo corrupting user log info
+    //todo instance start and end, run time too
 
     //todo corrupted users aren't saved to downloads,
     // they're saved a directory up, should save to same dir as src, or just save to downloads
