@@ -39,7 +39,7 @@ public class CyderMain {
         startFinalFrameDisposedChecker();
 
         if (SecurityUtil.nathanLenovo()) {
-            SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHERED");
+            SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
             Entry.autoCypher();
         } else if (IOUtil.getSystemData("Released").equals("1")) {
             Entry.showEntryGUI();

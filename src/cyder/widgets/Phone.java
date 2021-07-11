@@ -224,11 +224,13 @@ public class Phone {
                 checkForSuicideHotline();
 
                 if (checkForSuicideHotline()) {
-                    IOUtil.playAudio("sys/audio/1800.mp3", outputArea);
+                    IOUtil.playAudio("sys/audio/1800.mp3",
+                            ConsoleFrame.getConsoleFrame().getInputHandler());
                 }
 
                 else if (checkFor223()) {
-                    IOUtil.playAudio("sys/audio/223.mp3", outputArea);
+                    IOUtil.playAudio("sys/audio/223.mp3",
+                            ConsoleFrame.getConsoleFrame().getInputHandler());
                 }
 
                 else {
@@ -255,7 +257,7 @@ public class Phone {
         }
 
         else if (len == 5) {
-            return (num.substring(0,1) + "-" + num.substring(1,len));
+            return (num.charAt(0) + "-" + num.substring(1,len));
         }
 
         else if (len == 6) {
@@ -267,7 +269,7 @@ public class Phone {
         }
 
         else if (len == 8) {
-            return ("(" + num.substring(0,1) + ") " + num.substring(1,4) + " " + num.substring(4,len));
+            return ("(" + num.charAt(0) + ") " + num.substring(1,4) + " " + num.substring(4,len));
         }
 
         else if (len == 9) {

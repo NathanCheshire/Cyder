@@ -604,7 +604,7 @@ public final class ConsoleFrame {
 
                 while (doThreads) {
                     if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
-                        IOUtil.playAudio("sys/audio/chime.mp3", outputArea, false);
+                        IOUtil.playSystemAudio("sys/audio/chime.mp3");
                     }
 
                     //sleep 60 minutes
@@ -763,11 +763,11 @@ public final class ConsoleFrame {
                     if (correct) {
                         int rand = NumberUtil.randInt(0,2);
                         if (rand == 0) {
-                            IOUtil.playAudio("sys/audio/BadApple.mp3", outputArea);
+                            IOUtil.playAudio("sys/audio/BadApple.mp3", inputHandler);
                         } else if (rand == 1){
-                            IOUtil.playAudio("sys/audio/BeetleJuice.mp3", outputArea);
+                            IOUtil.playAudio("sys/audio/BeetleJuice.mp3", inputHandler);
                         } else {
-                            IOUtil.playAudio("sys/audio/BlackOrWhite.mp3", outputArea);
+                            IOUtil.playAudio("sys/audio/BlackOrWhite.mp3", inputHandler);
                         }
                     }
                 } catch (Exception e) {
@@ -1212,7 +1212,7 @@ public final class ConsoleFrame {
                     for (int i = 61440; i < 61452; i++) {
                         if (code == i) {
                             if (i - 61427 == 17) {
-                                IOUtil.playAudio("sys/audio/f17.mp3", outputArea);
+                                IOUtil.playAudio("sys/audio/f17.mp3", inputHandler);
                             } else {
                                 inputHandler.println("Interesting F" + (i - 61427) + " key");
                             }

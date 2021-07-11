@@ -39,20 +39,18 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
     //todo make semaphore usage consistent with better names like one for writing
-    //todo open last log key if in debug mode
-    //todo wipe logs function
     //todo say what exit code means in log
 
-    //todo ioUtil play system sound separate player
-    //todo log playing system sounds and regular audio in IOutil
+
 
     //todo snap size when rotated is broken
     //todo snap sizes when fullscreen check? disable resizing if in fullscreen and disable dragging?
 
-    //todo say if autocypher failed or passed
+    //todo better default background with white not gray and red and blue light corner gradients?
 
     //todo maybe you should do away with rounded windows and stuff like that
     // since it messes up UI stuff when no user exists
+    //todo remove ignore prefs for cyderframe constructor
 
     //todo make sure login input field has the same caret position and string updaters console frame does
 
@@ -373,7 +371,7 @@ public class InputHandler {
         } else if (hasWord("pizza")) {
             new Pizza();
             SessionLogger.log(SessionLogger.Tag.ACTION, "PIZZA");
-        } else if ((hasWord("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
+        } else if ((has("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
             new ImagePixelator(null);
             SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE PIXELATOR");
         } else if (hasWord("file") && hasWord("signature")) {
@@ -518,23 +516,23 @@ public class InputHandler {
         }
         //playing audio -------------------------------------------
         else if (eic("hey")) {
-            IOUtil.playAudio("sys/audio/heyya.mp3",outputArea);
+            IOUtil.playAudio("sys/audio/heyya.mp3",this);
         }  else if (eic("windows")) {
-            IOUtil.playAudio("sys/audio/windows.mp3",outputArea);
+            IOUtil.playAudio("sys/audio/windows.mp3",this);
         }  else if (hasWord("light") && hasWord("saber")) {
-            IOUtil.playAudio("sys/audio/Lightsaber.mp3",outputArea);
+            IOUtil.playAudio("sys/audio/Lightsaber.mp3",this);
         } else if (hasWord("xbox")) {
-            IOUtil.playAudio("sys/audio/xbox.mp3",outputArea);
+            IOUtil.playAudio("sys/audio/xbox.mp3",this);
         } else if (has("star") && has("trek")) {
-            IOUtil.playAudio("sys/audio/StarTrek.mp3",outputArea);
+            IOUtil.playAudio("sys/audio/StarTrek.mp3",this);
         } else if (has("toy") && has("story")) {
-            IOUtil.playAudio("sys/audio/TheClaw.mp3",outputArea);
+            IOUtil.playAudio("sys/audio/TheClaw.mp3",this);
         } else if (has("stop") && has("music")) {
             IOUtil.stopMusic();
         } else if (eic("logic")) {
-            IOUtil.playAudio("sys/audio/commando.mp3",outputArea);
+            IOUtil.playAudio("sys/audio/commando.mp3",this);
         } else if (eic("1-800-273-8255") || eic("18002738255")) {
-            IOUtil.playAudio("sys/audio/1800.mp3",outputArea);
+            IOUtil.playAudio("sys/audio/1800.mp3",this);
         }
         //console commands ----------------------------------------
         else if (eic("repaint")) {
@@ -679,7 +677,7 @@ public class InputHandler {
         } else if (hasWord("clear") && (hasWord("operation") ||
                 hasWord("command")) && hasWord("list")) {
             ConsoleFrame.getConsoleFrame().clearOperationList();
-            //todo SessionLogger.log(SessionLogger.Tag.ACTION, "User cleared command history");
+            SessionLogger.log(SessionLogger.Tag.ACTION, "User cleared command history");
             println("Command history reset");
         } else if (hasWord("stop") && has("script")) {
             masterYoutube.killAllYoutube();
@@ -739,6 +737,44 @@ public class InputHandler {
             escapeThreads();
         } else if (hasWord("todo") || hasWord("todos")) {
             println("Total todos: " + StatUtil.totalTodos(new File("src")));
+        } else if ((hasWord("wipe") || hasWord("clear")) && hasWord("logs")) {
+            if (SecurityUtil.nathanLenovo()) {
+                File[] logs = new File("logs").listFiles();
+                int count = 0;
+
+                for (File log : logs) {
+                    if (StringUtil.getExtension(log).equals(".log")
+                        && !log.equals(SessionLogger.getCurrentLog())) {
+                        log.delete();
+                        count++;
+                    }
+                }
+
+                println("Deleted " + count + " logs" + (count == 1 ? "" : "s"));
+            } else {
+                println("Sorry, " + IOUtil.getUserData("name") + ", " +
+                        "but you do not have permission to perform that operation.");
+            }
+        } else if (hasWord("open") && hasWord("current") && hasWord("log")) {
+            if (SecurityUtil.nathanLenovo()) {
+                IOUtil.openFileOutsideProgram(SessionLogger.getCurrentLog().getAbsolutePath());
+            } else {
+                println("Sorry, " + IOUtil.getUserData("name") + ", but you do not have permission " +
+                        "to perform that operation.");
+            }
+        } else if (hasWord("open") && hasWord("last") && hasWord("log")) {
+            if (SecurityUtil.nathanLenovo()) {
+                File[] logs = new File("logs").listFiles();
+
+                if (logs.length == 1) {
+                    println("No previous logs found");
+                } else if (logs.length > 1) {
+                    IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
+                }
+            } else {
+                println("Sorry, " + IOUtil.getUserData("name") + ", but you do not have permission " +
+                        "to perform that operation.");
+            }
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
@@ -854,6 +890,9 @@ public class InputHandler {
                 println("\"" + input + "\" alphabetically organized is \"" + new String(Sorted) + "\".");
             } else if (desc.equalsIgnoreCase("suggestion")) {
                 logSuggestion(input);
+                ConsoleFrame.getConsoleFrame().notify("Suggestion logged; " +
+                        "please remember to send your logs directory to Nathan so that" +
+                        " he can make Cyder better for us all");
             } else if (desc.equalsIgnoreCase("addbackgrounds")) {
                 if (StringUtil.isConfirmation(input)) {
                     userEditor = new UserEditor();

@@ -3,10 +3,7 @@ package cyder.utilities;
 import cyder.exception.FatalException;
 import cyder.genesis.Entry;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
-import cyder.handler.PhotoViewer;
-import cyder.handler.SessionLogger;
-import cyder.handler.TextEditor;
+import cyder.handler.*;
 import cyder.obj.NST;
 import cyder.obj.Preference;
 import cyder.ui.ConsoleFrame;
@@ -16,7 +13,6 @@ import cyder.widgets.GenericInform;
 import cyder.widgets.Notes;
 import javazoom.jl.player.Player;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.math.BigInteger;
@@ -784,11 +780,18 @@ public class IOUtil {
         CyderPlayer = new AudioPlayer(new File(FilePath));
     }
 
-    public static void playAudio(String FilePath, JTextPane appendButtonPane, boolean showStopButton) {
+    /**
+     * Plays the requested mp3 audio file using the general IOUtil JLayer player
+     * @param FilePath - the path to the mp3 file to play
+     * @param inputHandler - the inputhandler to use when appending the stop button
+     * @param showStopButton - whether or not to print a button to stop the audio.
+     */
+    public static void playAudio(String FilePath, InputHandler inputHandler, boolean showStopButton) {
         try {
             stopMusic();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
             player = new Player(FileInputStream);
+            SessionLogger.log(SessionLogger.Tag.ACTION,"[AUDIO] " + FilePath);
             Thread MusicThread = new Thread(() -> {
                 try {
                     player.play();
@@ -802,16 +805,41 @@ public class IOUtil {
             if (showStopButton) {
                 CyderButton stopMusicButton = new CyderButton("Stop Audio");
                 stopMusicButton.addActionListener((e) -> IOUtil.stopMusic());
-                StringUtil su = new StringUtil(appendButtonPane);
-                su.printlnComponent(stopMusicButton,"button","button");
+                inputHandler.printlnComponent(stopMusicButton);
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
-    public static void playAudio(String FilePath, JTextPane appendButtonPane) {
-        playAudio(FilePath, appendButtonPane, true);
+    /**
+     * Plays the requested system audio file using a new JLayer player
+     * @param FilePath - the path to the mp3 file to play
+     */
+    public static void playSystemAudio(String FilePath) {
+        try {
+            FileInputStream FileInputStream = new FileInputStream(FilePath);
+            Player systemPlayer = new Player(FileInputStream);
+            SessionLogger.log(SessionLogger.Tag.ACTION,"[SYSTEM AUDIO] " + FilePath);
+            new Thread(() -> {
+                try {
+                    systemPlayer.play();
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+            }, "system audio thread").start();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    /**
+     * Simpler function for playing an audio file
+     * @param FilePath - the path to the mp3 file
+     * @param inputHandler - the inputhandler to use hwen appending the stop button
+     */
+    public static void playAudio(String FilePath, InputHandler inputHandler) {
+        playAudio(FilePath, inputHandler, true);
     }
 
     //static music player widget

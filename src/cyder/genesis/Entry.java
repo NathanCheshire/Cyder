@@ -31,6 +31,8 @@ public class Entry {
     private static final String bashString = SystemUtil.getWindowsUsername() + "@Cyder:~$ ";
     private static String consoleBashString;
 
+    private static boolean autoCypherAttempt;
+
     private static LinkedList<String> printingList = new LinkedList<>();
     private static LinkedList<String> priorityPrintingList = new LinkedList<>();
 
@@ -293,6 +295,7 @@ public class Entry {
 
             if (SecurityUtil.checkPassword(Username, SecurityUtil.toHexString(SecurityUtil.getSHA(Password)))) {
                 doLoginAnimations = false;
+                SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER PASS");
 
                 if (!ConsoleFrame.getConsoleFrame().isClosed()) {
                     ConsoleFrame.getConsoleFrame().close();
@@ -326,10 +329,10 @@ public class Entry {
                     if (!musicList.isEmpty()) {
                         IOUtil.playAudio("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
                                         (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]),
-                                ConsoleFrame.getConsoleFrame().getInputHandler().getOutputArea());
+                                ConsoleFrame.getConsoleFrame().getInputHandler());
                     } else {
                         IOUtil.playAudio("sys/audio/Ride.mp3",
-                                ConsoleFrame.getConsoleFrame().getInputHandler().getOutputArea());
+                                ConsoleFrame.getConsoleFrame().getInputHandler());
                     }
                 }
             } else if (loginFrame != null && loginFrame.isVisible()) {
@@ -339,8 +342,8 @@ public class Entry {
                     c = '\0';
                 }
 
+                SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
                 username = "";
-
                 loginField.requestFocusInWindow();
             }
         } catch (Exception e) {
@@ -365,6 +368,7 @@ public class Entry {
 
                 if (parts.length == 2 && !parts[0].equals("") && !parts[1].equals("")) {
                     ac.close();
+                    autoCypherAttempt = true;
                     recognize(parts[0], parts[1].toCharArray());
                 }
             } else {
