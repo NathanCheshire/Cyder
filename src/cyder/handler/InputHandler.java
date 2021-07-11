@@ -11,12 +11,10 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
-import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
-import cyder.ui.CyderTextField;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
@@ -42,8 +40,21 @@ import java.util.concurrent.ThreadLocalRandom;
 public class InputHandler {
     //todo make semaphore usage consistent with better names like one for writing
     //todo open last log key if in debug mode
-    //todo wipe logs
+    //todo wipe logs function
     //todo say what exit code means in log
+
+    //todo ioUtil play system sound separate player
+    //todo log playing system sounds and regular audio in IOutil
+
+    //todo snap size when rotated is broken
+    //todo snap sizes when fullscreen check? disable resizing if in fullscreen and disable dragging?
+
+    //todo say if autocypher failed or passed
+
+    //todo maybe you should do away with rounded windows and stuff like that
+    // since it messes up UI stuff when no user exists
+
+    //todo make sure login input field has the same caret position and string updaters console frame does
 
     //todo escaping should stop current printing and speed through rest of queue instantly
     //todo fix unknown console out in logs
@@ -731,12 +742,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            CyderFrame errorFrame = new CyderFrame(400, 400, Color.white);
-            errorFrame.setTitle("test");
-            errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
-            errorFrame.setVisible(true);
-            errorFrame.setLocationRelativeTo(null);
         }
         //testing widgets not to auto call on start
         else if (eic("test2")) {

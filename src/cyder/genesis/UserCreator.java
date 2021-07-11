@@ -171,9 +171,11 @@ public class UserCreator {
                             File temp = new GetterUtil().getFile("Choose new user's background file");
                             if (temp != null) {
                                 createUserBackground = temp;
+                                chooseBackground.setText(createUserBackground.getName());
                             }
 
-                            if (temp != null && !Files.probeContentType(Paths.get(createUserBackground.getAbsolutePath())).endsWith("png")) {
+                            if (temp == null ||
+                                    !Files.probeContentType(Paths.get(createUserBackground.getAbsolutePath())).endsWith("png")) {
                                 createUserBackground = null;
                             }
                         } catch (Exception ex) {
@@ -191,7 +193,7 @@ public class UserCreator {
                     if (createUserBackground != null) {
                         chooseBackground.setText(createUserBackground.getName());
                     } else {
-                        chooseBackground.setToolTipText("No File Chosen");
+                        chooseBackground.setText("No File Chosen");
                     }
                 } catch (Exception ex) {
                     ErrorHandler.handle(ex);
@@ -200,7 +202,15 @@ public class UserCreator {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                chooseBackground.setToolTipText("Choose background");
+                try {
+                    if (createUserBackground != null) {
+                        chooseBackground.setText(createUserBackground.getName());
+                    } else {
+                        chooseBackground.setText("Choose Background");
+                    }
+                } catch (Exception ex) {
+                    ErrorHandler.handle(ex);
+                }
             }
         });
 
@@ -296,7 +306,7 @@ public class UserCreator {
                         createUserFrame.closeAnimation();
 
                         //attempt to log in new user if it's the only user
-                        if (new File("users/").length() == 1) {
+                        if (new File("users/").listFiles().length == 1) {
                             Entry.getFrame().closeAnimation();
                             Entry.recognize(newUserName.getText().trim(), pass);
                         }

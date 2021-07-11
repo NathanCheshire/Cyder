@@ -175,7 +175,7 @@ public class GetterUtil {
 
         new Thread(() -> {
             try {
-                CyderFrame frame = new CyderFrame(1,1, new ImageIcon(""));
+                CyderFrame frame = new CyderFrame(1,1, new ImageIcon(""), true);
                 frame.setTitle("");
                 final JFXPanel fxPanel = new JFXPanel();
                 frame.add(fxPanel);
