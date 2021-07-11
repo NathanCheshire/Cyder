@@ -2,7 +2,6 @@ package cyder.handler;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
@@ -33,8 +32,9 @@ public class ErrorHandler {
 
             //get our master string and write it to the
             String message = e.getMessage();
-            String write = message == null ? "" : message + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
-                    "\n\nStack Trace:\n\n" + stackTrack;
+            String write = e.getMessage() == null ? "" :
+                    "\n" + e.getMessage() + "\nThrown from:\n" + stackTrack.split("\\s+at\\s+")[1] + "\n"
+                            + "StackTrace:\n" + stackTrack;
 
             if (write.trim().length() > 0)
                 SessionLogger.log(SessionLogger.Tag.EXCEPTION, write);
@@ -64,8 +64,9 @@ public class ErrorHandler {
                 int lineNumber = ex.getStackTrace()[0].getLineNumber();
                 Class c = ex.getClass();
 
-                String write = ex.getMessage() + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
-                        "\n\nStack Trace:\n\n" + stackTrack;
+                String write = e.getMessage() == null ? "" :
+                        "\n" + e.getMessage() + "\nThrown from:\n" + stackTrack.split("\\s+at\\s+")[1] + "\n"
+                                + "StackTrace:\n" + stackTrack;
 
                 windowedError(ex.getMessage(), write);
             }
@@ -89,9 +90,9 @@ public class ErrorHandler {
             Class c = e.getClass();
 
             //get our master string and write it to the
-            String message = e.getMessage();
-            String write = message == null ? "" : message + "\n" + c + "\n" + "Error thrown by line: " + lineNumber +
-                    "\n\nStack Trace:\n\n" + stackTrack;
+            String write = e.getMessage() == null ? "" :
+                    "\n" + e.getMessage() + "\nThrown from:\n" + stackTrack.split("\\s+at\\s+")[1] + "\n"
+                            + "StackTrace:\n" + stackTrack;
 
             if (write.trim().length() > 0)
                 SessionLogger.log(SessionLogger.Tag.EXCEPTION, write);
@@ -126,16 +127,13 @@ public class ErrorHandler {
 
         h += heightIncrement;
 
-        CyderFrame errorFrame = new CyderFrame(400,400, CyderImages.defaultBackgroundLarge, true);
-        errorFrame.setTitle(title.length() == 0 ? "Null error message" : title);
-        errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-
         //window needs to be bigger than the label
         int windowWidth = w + 2 * 5;
         int windowHeight = h + 5 + 35;
 
-        errorFrame.setBounds(SystemUtil.getScreenWidth() - windowWidth,
-                SystemUtil.getScreenHeight() - windowHeight, windowWidth, windowHeight);
+        CyderFrame errorFrame = new CyderFrame(windowWidth, windowHeight, Color.white);
+        errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+        errorFrame.setTitle(title.length() == 0 ? "Null error message" : title);
 
         //label setup
         JLabel displayLabel = new JLabel(displayText);
@@ -145,7 +143,7 @@ public class ErrorHandler {
         displayLabel.setVerticalAlignment(JLabel.CENTER);
         displayLabel.setSize(w, h);
         displayLabel.setLocation(5, 35);
-        errorFrame.add(displayLabel);
+        errorFrame.getContentPane().add(displayLabel);
 
         errorFrame.setVisible(true);
         errorFrame.setAlwaysOnTop(true);

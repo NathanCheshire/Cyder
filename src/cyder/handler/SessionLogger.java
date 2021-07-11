@@ -32,15 +32,17 @@ public class SessionLogger {
         StringBuilder logBuilder = new StringBuilder("[" + TimeUtil.logTime() + "] ");
 
         switch (tag) {
-            case CLIENT: //completed
+            case CLIENT:
                 //user inputs to the console
                 logBuilder.append("[CLIENT]: ");
                 logBuilder.append(representation);
                 break;
-            case CONSOLE_OUT: //completed
-                //string print outs
+            case CONSOLE_OUT:
                 logBuilder.append("[CONSOLE_OUT]: ");
-                if (representation instanceof ImageIcon) {
+                if (representation instanceof String) {
+                    logBuilder.append("[STRING] ");
+                    logBuilder.append(representation);
+                } else if (representation instanceof ImageIcon) {
                     logBuilder.append("[ICON] ");
                     logBuilder.append(representation);
                 }
@@ -55,19 +57,19 @@ public class SessionLogger {
                     logBuilder.append(representation);
                 }
                 break;
-            case EXCEPTION: //completed
+            case EXCEPTION:
                 //any exceptions thrown are passed from errorhandler to here
                 logBuilder.append("[EXCEPTION]: ");
                 logBuilder.append(representation);
                 break;
-            case ACTION: //completed but could catch actions for more cyder components in future like text field
+            case ACTION: //catch actions for more cyder components in future like text field
                 logBuilder.append("[ACTION]: ");
                 if (representation instanceof JComponent) {
                     logBuilder.append("[").append(((JComponent) representation).getName()).append("] ");
                 }
                 logBuilder.append(representation);
                 break;
-            case LINK: //completed
+            case LINK:
                 //files opened, links opened
                 logBuilder.append("[LINK]: ");
                 if (representation instanceof File) {
@@ -75,56 +77,56 @@ public class SessionLogger {
                 }
                 logBuilder.append(representation);
                 break;
-            case EOL: //completed
+            case EOL:
                 logBuilder.append("[EOL]: Log completed, exiting program with code: ");
                 logBuilder.append(representation);
                 logBuilder.append(", exceptions thrown: ");
                 logBuilder.append(countExceptions());
                 break;
-            case SUGGESTION://completed
+            case SUGGESTION:
                 logBuilder.append("[SUGGESTION]: ");
                 logBuilder.append(representation);
                 break;
-            case CLIENT_IO: //completed
+            case CLIENT_IO:
                 //userdata read or write
                 //[CLIENT_IO]: [SET] [KEY] ROUNDWINDOWS [VALUE] 0
                 //[CLIENT_IO]: [GET] [KEY] VERSION [RETURN VALUE] 9.2.21
                 logBuilder.append("[CLIENT_IO]: ");
                 logBuilder.append(representation);
                 break;
-            case SYSTEM_IO: //completed
+            case SYSTEM_IO:
                 //systemdata read or write
                 //[SYSTEM_IO]: [SET] [KEY] VERSION [VALUE] SOULTREE
                 //[SYSTEM_IO]: [GET] [KEY] VERSION [RETURN VALUE] 9.2.21
                 logBuilder.append("[SYSTEM_IO]: ");
                 logBuilder.append(representation);
                 break;
-            case LOGIN: //completed
+            case LOGIN:
                 //user logged in using recognize method
                 //[LOGIN]: [NATHAN] Autocyphered (STD Login)
                 logBuilder.append("[LOGIN]: [");
                 logBuilder.append(representation);
                 logBuilder.append("]");
                 break;
-            case LOGOUT: //completed
+            case LOGOUT:
                 //[LOGOUT]: [NATHAN]
                 logBuilder.append("[LOGOUT]: ");
                 logBuilder.append(representation);
                 break;
-            case ENTRY: //completed
+            case ENTRY:
                 //[ENTRY]: [WINUSER=NATHAN]
                 start = System.currentTimeMillis();
                 logBuilder.append("[ENTRY]: [WINUSER=");
                 logBuilder.append(representation);
                 logBuilder.append("]");
                 break;
-            case EXIT: //completed
+            case EXIT:
                 //right before genesisshare.exit exits
                 //[EXIT]: [RUNTIME] 1h 24m 31s
                 logBuilder.append("[EXIT]: [RUNTIME] ");
                 logBuilder.append(getRuntime());
                 break;
-            case CORRUPTION: //completed
+            case CORRUPTION:
                 //before user corruption method is called
                 //[CORRUPTION]: [FILE] c:/users/nathan/downloads/CyderCorruptedUserData.zip
                 break;

@@ -5,6 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
+import cyder.handler.SessionLogger;
 import cyder.obj.Gluster;
 import cyder.utilities.IOUtil;
 import cyder.utilities.ImageUtil;
@@ -179,6 +180,10 @@ public class CyderFrame extends JFrame {
      */
     public CyderFrame(int width, int height) {
         this(width, height, CyderImages.defaultBackground);
+    }
+
+    public CyderFrame(int width, int height, Color c) {
+        this(width, height, ImageUtil.imageIconFromColor(c, width, height));
     }
 
     //used for stand alone windows such as program first start with no users or no context informs
@@ -573,8 +578,9 @@ public class CyderFrame extends JFrame {
                             currentNotification.appear(currentGluster.getStartDir(), currentGluster.getVanishDir(),
                                     getContentPane(), duration);
 
-                            int enterTime = 0;
-                            int exitTime = 0;
+                            //log the notification
+                            SessionLogger.log(SessionLogger.Tag.ACTION, "[" +
+                                    this.getTitle() + "] [NOTIFICATION] " + htmltext);
 
                             while (getCurrentNotification().isVisible())
                                 Thread.onSpinWait();

@@ -183,7 +183,7 @@ public class ImageUtil {
         BufferedImage im = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
         g.setPaint(c);
-        g.fillRect(0, 0, 1, 1);
+        g.fillRect(0, 0, width, height);
         return new ImageIcon(im);
     }
 

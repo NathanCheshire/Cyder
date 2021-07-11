@@ -1,47 +1,46 @@
-[08:40:45] [ENTRY]: [WINUSER=Nathan]
-[08:40:45] [SYSTEM_IO]: [GET] [KEY] UISCALE
-[08:40:45] [SYSTEM_IO]: [GET] [KEY] MMAC
-[08:40:45] [SYSTEM_IO]: [GET] [KEY] MMAC
-[08:40:46] [SYSTEM_IO]: [GET] [KEY] MMAC
-[08:40:46] [LOGIN]: [AUTOCYPHERED]
-[08:40:46] [LOGIN]: [STD LOGIN]
-[08:40:46] [CLIENT_IO]: [GET] [KEY] NAME
-[08:40:46] [CLIENT_IO]: [GET] [KEY] RANDOMBACKGROUND
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
-[08:40:46] [SYSTEM_IO]: [GET] [KEY] VERSION
-[08:40:46] [CLIENT_IO]: [GET] [KEY] NAME
-[08:40:46] [SYSTEM_IO]: [GET] [KEY] CONSOLERESIZABLE
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FOREGROUND
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FOREGROUND
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FOREGROUND
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FONT
-[08:40:46] [CLIENT_IO]: [GET] [KEY] OUTPUTBORDER
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FULLSCREEN
-[08:40:46] [CLIENT_IO]: [GET] [KEY] INPUTBORDER
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FOREGROUND
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FOREGROUND
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FOREGROUND
-[08:40:46] [CLIENT_IO]: [GET] [KEY] FONT
-[08:40:46] [CLIENT_IO]: [GET] [KEY] OUTPUTFILL
-[08:40:46] [CLIENT_IO]: [GET] [KEY] INPUTFILL
-[08:40:47] [CLIENT_IO]: [GET] [KEY] INTROMUSIC
-[08:40:47] [CLIENT_IO]: [GET] [KEY] DEBUGWINDOWS
-[08:40:47] [SYSTEM_IO]: [GET] [KEY] MMAC
-[08:40:47] [CLIENT]: test
-[08:40:47] [CLIENT_IO]: [GET] [KEY] LASTSTART
-[08:40:47] [CLIENT_IO]: [WRITE] [KEY] LASTSTART [VALUE] 1625924447228
-[08:40:50] [CLIENT]: Throw error
-[08:40:50] [EXCEPTION]: Error thrown on Saturday, 07/10/2021 08:40AM CDT
-class cyder.exception.CyderException
-Error thrown by line: 659
-
-Stack Trace:
-
-CyderException object, hash=1937983829
-	at cyder.handler.InputHandler.handle(InputHandler.java:659)
+[23:21:20] [ENTRY]: [WINUSER=Nathan]
+[23:21:20] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[23:21:21] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:21:21] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:21:21] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:21:21] [LOGIN]: [AUTOCYPHERED]
+[23:21:21] [LOGIN]: [STD LOGIN]
+[23:21:21] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:21:22] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[23:21:22] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:21:22] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[23:21:22] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:21:22] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[23:21:22] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:21:22] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:21:22] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:21:22] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:21:22] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:21:22] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[23:21:22] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[23:21:22] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:21:22] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:21:22] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[23:21:22] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:21:22] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:21:22] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:21:22] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[23:21:22] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[23:21:22] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[23:21:22] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[23:21:22] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[23:21:22] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:21:22] [CLIENT]: test
+[23:21:22] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1625977206269
+[23:21:22] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1625977282708
+[23:21:26] [CLIENT]: Throw error
+[23:21:26] [EXCEPTION]: 
+Error thrown on Saturday, 07/10/2021 11:21PM CDT
+Thrown from:
+cyder.handler.InputHandler.handle(InputHandler.java:666)
+StackTrace:
+CyderException object, hash=385721043
+	at cyder.handler.InputHandler.handle(InputHandler.java:666)
 	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:426)
 	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
 	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
@@ -82,11 +81,8 @@ CyderException object, hash=1937983829
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-
-[08:40:50] [CLIENT_IO]: [GET] [KEY] SILENCEERRORS
-[08:41:15] [CLIENT_IO]: [GET] [KEY] NAME
-[08:41:15] [LOGOUT]:  [Nathan]
-[08:41:15] [EXIT]: [RUNTIME] 30s
-[08:41:15] [EOL]: Log completed, exiting program with code: 25, exceptions thrown: 1
-[08:41:15] [EXIT]: [RUNTIME] 30s
-[08:41:15] [EOL]: Log completed, exiting program with code: 120, exceptions thrown: 1
+[23:21:26] [CLIENT_IO]: [GET] [SilenceErrors] [RETURN VALUE] 0
+[23:21:32] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:21:32] [LOGOUT]:  [Nathan]
+[23:21:32] [EXIT]: [RUNTIME] 11s
+[23:21:32] [EOL]: Log completed, exiting program with code: 25, exceptions thrown: 1

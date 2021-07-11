@@ -15,6 +15,7 @@ import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderTextField;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
@@ -38,12 +39,13 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo just make windows always rounded unless resizable, remove no show errors
+    //todo make semaphore usage consistent with better names like one for writing
+    //todo open last log key if in debug mode
+    //todo wipe logs
+    //todo say what exit code means in log
 
-    //todo entry -> throw error -> move window will throw that stupid bug we keep seeing with null user data
-
-    //todo fix windows error color
-    //todo get rid of newlines in input and output before logging
+    //todo escaping should stop current printing and speed through rest of queue instantly
+    //todo fix unknown console out in logs
 
     //todo make sure text against out/in fill results in visible text always
     // algorithm for this to pass two colors and say which one will be changed and which one will stay the same
@@ -660,6 +662,7 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().close();
             Entry.showEntryGUI();
         } else if (hasWord("throw") && hasWord("error")) {
+            ConsoleFrame.getConsoleFrame().getInputField().setText("");
             throw new CyderException("Error thrown on " + TimeUtil.userTime());
         } else if (hasWord("clear") && (hasWord("operation") ||
                 hasWord("command")) && hasWord("list")) {
@@ -727,7 +730,12 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
+            CyderFrame errorFrame = new CyderFrame(400, 400, Color.white);
+            errorFrame.setTitle("test");
+            errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
+            errorFrame.setVisible(true);
+            errorFrame.setLocationRelativeTo(null);
         }
         //testing widgets not to auto call on start
         else if (eic("test2")) {

@@ -640,7 +640,10 @@ public class IOUtil {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
-            SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[SET] [" +  name
+            if (!name.equalsIgnoreCase("CLOCKONCONSOLE")
+                    && !name.equalsIgnoreCase("SHOWSECONDS")
+                    && !name.equalsIgnoreCase("ROUNDWINDOWS"))
+            SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[GET] [" +  name
                     + "] [RETURN VALUE] " + ret);
             GenesisShare.getExitingSem().release();
             return ret;
@@ -678,7 +681,7 @@ public class IOUtil {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
-            SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[SET] [" +  name
+            SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[GET] [" +  name
                     + "] [RETURN VALUE] " + ret);
             GenesisShare.getExitingSem().release();
             return ret;
