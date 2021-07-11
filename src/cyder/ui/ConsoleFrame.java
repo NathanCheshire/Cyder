@@ -739,7 +739,7 @@ public final class ConsoleFrame {
             consoleCyderFrame.notify("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "!");
         }
 
-        IOUtil.writeUserData("laststart",System.currentTimeMillis() + "");
+        IOUtil.setUserData("laststart",System.currentTimeMillis() + "");
 
         //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
         try {

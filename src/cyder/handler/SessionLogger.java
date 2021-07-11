@@ -87,15 +87,15 @@ public class SessionLogger {
                 break;
             case CLIENT_IO: //completed
                 //userdata read or write
-                //[CLIENT_IO]: [WRITE] [KEY] ROUNDWINDOWS [VALUE] 0
-                //[CLIENT_IO]: [GET] [KEY] VERSION
+                //[CLIENT_IO]: [SET] [KEY] ROUNDWINDOWS [VALUE] 0
+                //[CLIENT_IO]: [GET] [KEY] VERSION [RETURN VALUE] 9.2.21
                 logBuilder.append("[CLIENT_IO]: ");
                 logBuilder.append(representation);
                 break;
             case SYSTEM_IO: //completed
                 //systemdata read or write
-                //[SYSTEM_IO]: [WRITE] [KEY] VERSION [VALUE] SOULTREE
-                //[SYSTEM_IO]: [GET] [KEY] VERSION
+                //[SYSTEM_IO]: [SET] [KEY] VERSION [VALUE] SOULTREE
+                //[SYSTEM_IO]: [GET] [KEY] VERSION [RETURN VALUE] 9.2.21
                 logBuilder.append("[SYSTEM_IO]: ");
                 logBuilder.append(representation);
                 break;
@@ -240,7 +240,7 @@ public class SessionLogger {
         try {
             FileWriter fw = new FileWriter(currentLog,true);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(line);
+            bw.write(line.trim());
             bw.newLine();
             bw.close();
         } catch(Exception e) {

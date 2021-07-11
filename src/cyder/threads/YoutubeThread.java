@@ -188,7 +188,7 @@ public class YoutubeThread {
      */
     public void kill() {
         this.exit = true;
-        IOUtil.writeSystemData("YTT",UUID);
+        IOUtil.setSystemData("YTT",UUID);
     }
 
     @Override

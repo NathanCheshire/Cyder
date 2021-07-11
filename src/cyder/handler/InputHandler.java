@@ -38,6 +38,8 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo just make windows always rounded unless resizable, remove no show errors
+
     //todo entry -> throw error -> move window will throw that stupid bug we keep seeing with null user data
 
     //todo fix windows error color
@@ -79,11 +81,11 @@ public class InputHandler {
         for (Preference pref : GenesisShare.getPrefs()) {
             if (op.equalsIgnoreCase(pref.getID())) {
                 if (op.contains("1") || op.toLowerCase().contains("true")) {
-                    IOUtil.writeUserData(pref.getID(), "1");
+                    IOUtil.setUserData(pref.getID(), "1");
                 } else if (op.contains("0") || op.toLowerCase().contains("false")) {
-                    IOUtil.writeUserData(pref.getID(), "0");
+                    IOUtil.setUserData(pref.getID(), "0");
                 } else {
-                    IOUtil.writeUserData(pref.getID(), (IOUtil.getUserData(pref.getID()).equals("1") ? "0" : "1"));
+                    IOUtil.setUserData(pref.getID(), (IOUtil.getUserData(pref.getID()).equals("1") ? "0" : "1"));
                 }
 
                 ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
@@ -384,12 +386,12 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().getInputField().setFont(CyderFonts.defaultFont);
             outputArea.setFont(CyderFonts.defaultFont);
             println("The font has been reset.");
-            IOUtil.writeUserData("Fonts", outputArea.getFont().getName());
+            IOUtil.setUserData("Fonts", outputArea.getFont().getName());
         } else if (hasWord("reset") && hasWord("color")) {
             outputArea.setForeground(CyderColors.vanila);
             ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.vanila);
             println("The text color has been reset.");
-            IOUtil.writeUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.defaultColor));
+            IOUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.defaultColor));
         } else if (eic("top left")) {
             ConsoleFrame.getConsoleFrame().setLocation(0, 0);
         } else if (eic("top right")) {

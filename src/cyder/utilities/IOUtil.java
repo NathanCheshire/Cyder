@@ -37,9 +37,6 @@ public class IOUtil {
 
     private IOUtil() {} //private constructor to avoid object creation
 
-    private static LinkedList<NST> userData = new LinkedList<>();
-    private static LinkedList<NST> systemData = new LinkedList<>();
-
     private static AudioPlayer CyderPlayer;
     private static Notes Notes;
     private static Player player;
@@ -83,6 +80,7 @@ public class IOUtil {
             tmpFileWriter.flush();
             tmpFileWriter.close();
 
+            SessionLogger.log(SessionLogger.Tag.LINK, "[TEMP FILE] " + filename + "." + extension);
             openFileOutsideProgram(tmpFile.getAbsolutePath());
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -98,77 +96,9 @@ public class IOUtil {
         }
     }
 
-    public static void readUserData() {
-        userData.clear();
-        String user = ConsoleFrame.getConsoleFrame().getUUID();
-
-        if (user == null)
-            return;
-
-        if (!new File("users/" + user + "/Userdata.txt").exists())
-            corruptedUser();
-
-        try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))) {
-            GenesisShare.getExitingSem().acquire();
-
-            String Line;
-
-            while ((Line = dataReader.readLine()) != null) {
-                String[] parts = Line.split(":");
-                userData.add(new NST(parts[0], parts[1]));
-            }
-
-            SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[READ] ARRAY SIZE: " + userData.size());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
-        }
-    }
-
     /**
-     * Function to replace the old readUserData to read the current user's data into the userData NST array
-     * Binary reading will replace string reading for security purposes even though it complicates the program flow
-     */
-    public static void newReadUserData() {
-        try {
-            userData.clear();
-
-            if (!new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin").exists())
-                corruptedUser();
-
-            GenesisShare.getExitingSem().acquire();
-
-            BufferedReader fis = new BufferedReader(new FileReader("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin"));
-            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
-            StringBuilder sb = new StringBuilder();
-
-            for (String stringByte : stringBytes) {
-                sb.append(new String(
-                        new BigInteger(stringByte, 2).toByteArray(),
-                        StandardCharsets.UTF_8
-                ));
-            }
-
-            fis.close();
-            String lines[] = sb.toString().split("\\r?\\n");
-
-            for (String line : lines) {
-                if (!line.contains(":"))
-                    corruptedUser();
-
-                String parts[] = line.split(":");
-                userData.add(new NST(parts[0], parts[1]));
-            }
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
-        }
-    }
-
-    /**
-     * Used to obtain data from any binary file (not just the current user) that is stored using Common Cyder Data Format
+     * Used to obtain data from any binary file (not just the current user) that is stored in binary
+     *  using the regular key/value pair preference encoding
      *
      * @param userDataBin - the .bin file to read
      * @param dataKey     - the identifier of the data to be obtained
@@ -219,21 +149,59 @@ public class IOUtil {
     }
 
     /**
-     * Function to replace the old writeUserData to overwrite targetID's value in usersdata.bin with the passed in value
+     * Function to replace the old setUserData to overwrite targetID's value in usersdata.bin with the passed in value.
      * Binary writing will replace string writing for security purposes even though it complicates the program flow
+     * @param targetID - the preference ID to find
+     * @param value - the new value to set targetID to
      */
-    public static void newWriteUserData(String targetID, String value) {
+    public static void newSetUserData(String targetID, String value) {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             return;
 
+        if (!new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin").exists())
+            corruptedUser();
+
         try {
+            //only this function can be accessing io data now
             GenesisShare.getExitingSem().acquire();
 
-            BufferedWriter fos = new BufferedWriter(new FileWriter("src/cyder/genesis/userdata.bin"));
+            //init list to hold user data
+            LinkedList<NST> userData = new LinkedList<>();
 
-            readUserData();
+            //init reader, read bin data, init string builder
+            BufferedReader fis = new BufferedReader(new FileReader("users/"
+                    + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin"));
+            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
             StringBuilder sb = new StringBuilder();
 
+            //decoding string
+            for (String stringByte : stringBytes) {
+                sb.append(new String(
+                        new BigInteger(stringByte, 2).toByteArray(),
+                        StandardCharsets.UTF_8
+                ));
+            }
+
+            //free resources
+            fis.close();
+            //get all lines from decoded string
+            String lines[] = sb.toString().split("\\r?\\n");
+
+            //validate data and all to list
+            for (String line : lines) {
+                if (!line.contains(":"))
+                    corruptedUser();
+
+                String parts[] = line.split(":");
+                userData.add(new NST(parts[0], parts[1]));
+            }
+
+            //now we write back and set
+            BufferedWriter fos = new BufferedWriter(new FileWriter("src/cyder/genesis/userdata.bin"));
+            //reset string builder to use for writing
+            sb.setLength(0);
+
+            //loop through data and change the value we are writing
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(targetID))
                     data.setData(value);
@@ -244,9 +212,10 @@ public class IOUtil {
                 sb.append("\n");
             }
 
+            //get bytes from string
             byte[] bytes = sb.toString().getBytes(StandardCharsets.UTF_8);
 
-            //writing bytes of bytes, change any before here
+            //writing bytes to file after changing data
             for (byte b : bytes) {
                 int result = b & 0xff;
                 String resultWithPadZero = String.format("%8s", Integer.toBinaryString(result))
@@ -254,7 +223,7 @@ public class IOUtil {
                 fos.write(resultWithPadZero);
             }
 
-            fos.flush();
+            //freeing resources
             fos.close();
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -466,37 +435,49 @@ public class IOUtil {
         }
     }
 
-    public static void readSystemData() {
-        systemData.clear();
-
-        try (BufferedReader sysReader = new BufferedReader(new FileReader("Sys.ini"))) {
-            GenesisShare.getExitingSem().acquire();
-            String Line;
-
-            while ((Line = sysReader.readLine()) != null) {
-                String[] parts = Line.split(":");
-                systemData.add(new NST(parts[0], parts[1]));
-            }
-
-            SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[READ] ARRAY SIZE: " + systemData.size());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
-        }
-    }
-
-    public static void writeUserData(String name, String value) {
+    /**
+     * Sets the targeted key in userdata to the requested value
+     * @param name - the target ID to find
+     * @param value - the value to set the ID to
+     */
+    public static void setUserData(String name, String value) {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             return;
 
         try {
-            readUserData();
+            //block other functions from reading/writing to userdata until we're done
             GenesisShare.getExitingSem().acquire();
 
+            //check for no user
+            String user = ConsoleFrame.getConsoleFrame().getUUID();
+            if (user == null)
+                return;
+
+            //check for absense of data file
+            if (!new File("users/" + user + "/Userdata.txt").exists())
+                corruptedUser();
+
+            SessionLogger.log(SessionLogger.Tag.CLIENT_IO,"[SET] [KEY] " + name + " [VALUE] " + value);
+
+            //init reader, list, and line var
+            BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"));
+            LinkedList<NST> userData = new LinkedList<>();
+            String Line;
+
+            //read all data into our list
+            while ((Line = dataReader.readLine()) != null) {
+                String[] parts = Line.split(":");
+                userData.add(new NST(parts[0], parts[1]));
+            }
+
+            //free resources
+            dataReader.close();
+
+            //init writer
             BufferedWriter userWriter = new BufferedWriter(new FileWriter(
                     "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Userdata.txt", false));
 
+            //loop through data and change the value we need to update, then write to file
             for (NST data : userData) {
                 if (data.getName().equalsIgnoreCase(name))
                     data.setData(value);
@@ -505,9 +486,8 @@ public class IOUtil {
                 userWriter.newLine();
             }
 
+            //free resouces
             userWriter.close();
-            SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[WRITE] [KEY] "
-                    + name.toUpperCase() + " [VALUE] " + value);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -515,24 +495,46 @@ public class IOUtil {
         }
     }
 
-    public static void writeSystemData(String name, String value) {
+    /**
+     * Changes the requested system data to the provided value
+     * @param name - the system data ID to find
+     * @param value - the value of the requested system data ID to update
+     */
+    public static void setSystemData(String name, String value) {
         try {
-            GenesisShare.getExitingSem().acquire();
-            BufferedWriter sysWriter = new BufferedWriter(new FileWriter(
-                    "Sys.ini", false));
+            SessionLogger.log(SessionLogger.Tag.SYSTEM_IO,"[SET] [KEY] " + name + " [VALUE] " + value);
 
+            //block other functiosn from changing system data while we are changing it here
+            GenesisShare.getExitingSem().acquire();
+
+            //init needed vars
+            BufferedReader sysReader = new BufferedReader(new FileReader("Sys.ini"));
+            LinkedList<NST> systemData = new LinkedList<>();
+            String Line;
+
+            //read data into list
+            while ((Line = sysReader.readLine()) != null) {
+                String[] parts = Line.split(":");
+                systemData.add(new NST(parts[0], parts[1]));
+            }
+
+            //free resources
+            sysReader.close();
+
+            //init writer
+            BufferedWriter sysWriter = new BufferedWriter(new FileWriter("Sys.ini", false));
+
+            //loop through data and write to file, change the data we wanted to change
             for (NST data : systemData) {
-                if (data.getName().equalsIgnoreCase(name))
+                if (data.getName().equalsIgnoreCase(name)) {
                     data.setData(value);
+                }
 
                 sysWriter.write(data.getName() + ":" + data.getData());
-
                 sysWriter.newLine();
             }
 
-            sysWriter.flush();
-            SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[WRITE] [KEY] "
-                    + name.toUpperCase() + " [VALUE] " + value);
+            sysWriter.close();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
@@ -540,74 +542,152 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Reads and returns the data with the keyname given. Data should be stored in binary using
+     * key/value pair encoding.
+     * @param name - the data ID to target
+     * @return - the data associated with the requested key
+     */
     public static String newGetUserData(String name) {
-        newReadUserData();
-
-        if (userData.isEmpty())
-            throw new IllegalArgumentException("Attempting to access empty user data after calling read");
-
-        for (NST data : userData) {
-            if (data.getName().equalsIgnoreCase(name)) {
-                return data.getData();
-            }
-        }
-
-        return null;
-    }
-
-    public static String getUserData(String name) {
         String ret = null;
 
-        try {
-            readUserData();
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+            throw new IllegalArgumentException("User not set");
 
-            //these are called every second so don't log them
-            if (!name.equalsIgnoreCase("CLOCKONCONSOLE")
-                    && !name.equalsIgnoreCase("SHOWSECONDS")
-                    && !name.equalsIgnoreCase("ROUNDWINDOWS")) {
-                SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[GET] [KEY] " + name.toUpperCase());
+        if (!new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin").exists())
+            corruptedUser();
+
+        try {
+            //only this function can be accessing io data now
+            GenesisShare.getExitingSem().acquire();
+
+            //init reader, read bin data, init string builder
+            BufferedReader fis = new BufferedReader(new FileReader("users/"
+                    + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin"));
+            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
+            StringBuilder sb = new StringBuilder();
+
+            //decoding string
+            for (String stringByte : stringBytes) {
+                sb.append(new String(
+                        new BigInteger(stringByte, 2).toByteArray(),
+                        StandardCharsets.UTF_8
+                ));
             }
 
-            GenesisShare.getExitingSem().acquire();
-            GenesisShare.getExitingSem().release();
+            //free resources
+            fis.close();
+            //get all lines from decoded string
+            String lines[] = sb.toString().split("\\r?\\n");
 
-            //errors coming from here somehow, try and debug
-            if (userData.size() == 0)
-                throw new IllegalArgumentException("Attempting to access empty user data after calling read");
+            //validate data and all to list
+            for (String line : lines) {
+                String parts[] = line.split(":");
 
-            for (NST data : userData) {
-                if (data.getName().equalsIgnoreCase(name)) {
-                    ret = data.getData();
+                if (parts[0].equalsIgnoreCase(name)) {
+                    ret = parts[1];
                     break;
                 }
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
+            GenesisShare.getExitingSem().release();
             return ret;
         }
     }
 
-    public static String getSystemData(String name) {
-        readSystemData();
-        SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[GET] [KEY] " + name.toUpperCase());
+    /**
+     * Finds and returns the requested userdata stored in key/value pairs.
+     * @param name - the data ID to find
+     * @return - the data associated with the provided ID
+     */
+    public static String getUserData(String name) {
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+            return null;
 
-        if (systemData.size() == 0)
-           throw new IllegalArgumentException("Attempting to access empty system data after calling read");
+        String ret = null;
 
-        for (NST data : systemData) {
-            if (data.getName().equalsIgnoreCase(name)) {
-                return data.getData();
+        try {
+            //block other functions from reading/writing to userdata until we're done
+            GenesisShare.getExitingSem().acquire();
+
+            //check for no user
+            String user = ConsoleFrame.getConsoleFrame().getUUID();
+            if (user == null)
+                return null;
+
+            //check for absense of data file
+            if (!new File("users/" + user + "/Userdata.txt").exists())
+                corruptedUser();
+
+            //init reader and line var
+            BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"));
+            String Line;
+
+            //read all data into our list
+            while ((Line = dataReader.readLine()) != null) {
+                String[] parts = Line.split(":");
+
+                if (parts[0].equalsIgnoreCase(name)) {
+                    ret = parts[1];
+                    break;
+                }
             }
-        }
 
-        return null;
+            //free resources
+            dataReader.close();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[SET] [" +  name
+                    + "] [RETURN VALUE] " + ret);
+            GenesisShare.getExitingSem().release();
+            return ret;
+        }
+    }
+
+    /**
+     * Finds and returns the data associated with the provided ID
+     * @param name - the ID of the data to be returned
+     * @return - the data associated with the provided ID
+     */
+    public static String getSystemData(String name) {
+        String ret = null;
+
+        try {
+            //block other functiosn from changing system data while we are changing it here
+            GenesisShare.getExitingSem().acquire();
+
+            //init needed vars
+            BufferedReader sysReader = new BufferedReader(new FileReader("Sys.ini"));
+            String Line;
+
+            //read data until we find what we are looking for
+            while ((Line = sysReader.readLine()) != null) {
+                String[] parts = Line.split(":");
+
+                if (parts[0].equalsIgnoreCase(name)) {
+                    ret = parts[1];
+                    break;
+                }
+            }
+
+            //free resources
+            sysReader.close();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[SET] [" +  name
+                    + "] [RETURN VALUE] " + ret);
+            GenesisShare.getExitingSem().release();
+            return ret;
+        }
     }
 
     /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
      * Appends the start date along with some information to StartLog.ini
-     *
      * @param cyderArgs - command line arguments passed in
      */
     public static void logArgs(String[] cyderArgs) {
@@ -837,7 +917,7 @@ public class IOUtil {
 
     public static void changeUsername(String newName) {
         try {
-            writeUserData("name", newName);
+            setUserData("name", newName);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -845,8 +925,7 @@ public class IOUtil {
 
     public static void changePassword(char[] newPassword) {
         try {
-            readUserData();
-            writeUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA(newPassword)));
+            setUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA(newPassword)));
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

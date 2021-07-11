@@ -566,7 +566,7 @@ public class UserEditor {
         applyColor.setFocusPainted(false);
         applyColor.setBackground(CyderColors.regularRed);
         applyColor.addActionListener(e -> {
-            IOUtil.writeUserData("Foreground", hexField.getText());
+            IOUtil.setUserData("Foreground", hexField.getText());
             Color updateC = ColorUtil.hextorgbColor(hexField.getText());
 
             ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(updateC);
@@ -611,7 +611,7 @@ public class UserEditor {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
                     colorBlockFill.setBackground(ColorUtil.hextorgbColor(hexFieldFill.getText()));
-                    IOUtil.writeUserData("Background", hexFieldFill.getText());
+                    IOUtil.setUserData("Background", hexFieldFill.getText());
                 } catch (Exception ignored) {
                     if (hexFieldFill.getText().length() == 6)
                         editUserFrame.notify("Invalid color");
@@ -661,7 +661,7 @@ public class UserEditor {
                 Font ApplyFont = new Font(FontS, Font.BOLD, 30);
                 ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ApplyFont);
                 ConsoleFrame.getConsoleFrame().getInputField().setFont(ApplyFont);
-                IOUtil.writeUserData("Font", FontS);
+                IOUtil.setUserData("Font", FontS);
                 ConsoleFrame.getConsoleFrame().getInputHandler().println("The font \"" + FontS + "\" has been applied.");
             }
         });
@@ -735,7 +735,7 @@ public class UserEditor {
             preferenceButton.setToolTipText(GenesisShare.getPrefs().get(i).getTooltip());
             preferenceButton.addActionListener(e -> {
                 boolean wasSelected = IOUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
-                IOUtil.writeUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
+                IOUtil.setUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
 
                 preferenceButton.setColors(wasSelected ? CyderColors.regularRed : CyderColors.regularGreen);
                 preferenceButton.setText(wasSelected ? "      Off      " : "      On      ");
