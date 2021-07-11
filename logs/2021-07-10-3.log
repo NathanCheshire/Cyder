@@ -1,39 +1,91 @@
-[23:20:04] [ENTRY]: [WINUSER=Nathan]
-[23:20:04] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
-[23:20:04] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[23:20:04] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[23:20:05] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[23:20:05] [LOGIN]: [AUTOCYPHERED]
-[23:20:05] [LOGIN]: [STD LOGIN]
-[23:20:05] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
-[23:20:05] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
-[23:20:05] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
-[23:20:05] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
-[23:20:05] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
-[23:20:05] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
-[23:20:05] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
-[23:20:05] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
-[23:20:05] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
-[23:20:05] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
-[23:20:05] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
-[23:20:05] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
-[23:20:05] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
-[23:20:05] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
-[23:20:05] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
-[23:20:05] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
-[23:20:05] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
-[23:20:05] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
-[23:20:05] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
-[23:20:05] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
-[23:20:05] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
-[23:20:05] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
-[23:20:06] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
-[23:20:06] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
-[23:20:06] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[23:20:06] [CLIENT]: test
-[23:20:06] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1625977149311
-[23:20:06] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1625977206269
-[23:21:16] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
-[23:21:16] [LOGOUT]:  [Nathan]
-[23:21:16] [EXIT]: [RUNTIME] 1m 12s
-[23:21:16] [EOL]: Log completed, exiting program with code: 25, exceptions thrown: 0
+[23:34:53] [ENTRY]: [WINUSER=Nathan]
+[23:34:53] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[23:34:54] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:34:54] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:34:54] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:34:54] [LOGIN]: [AUTOCYPHERED]
+[23:34:54] [LOGIN]: [STD LOGIN]
+[23:34:55] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:34:55] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[23:34:55] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:34:55] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[23:34:55] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:34:55] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[23:34:55] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:34:55] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:34:55] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:34:55] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:34:55] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:34:55] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[23:34:55] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[23:34:55] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:34:55] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:34:55] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[23:34:55] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:34:55] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:34:55] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[23:34:55] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[23:34:55] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[23:34:55] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[23:34:55] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[23:34:55] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[23:34:55] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:34:55] [CLIENT]: test
+[23:34:55] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1625977936336
+[23:34:55] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1625978095835
+[23:35:06] [CLIENT]: Throw error
+[23:35:06] [EXCEPTION]: 
+Error thrown on Saturday, 07/10/2021 11:35PM CDT
+Thrown from:
+cyder.handler.InputHandler.handle(InputHandler.java:667)
+StackTrace:
+CyderException object, hash=1203399693
+	at cyder.handler.InputHandler.handle(InputHandler.java:667)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:426)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[23:35:06] [CLIENT_IO]: [GET] [SilenceErrors] [RETURN VALUE] 0
+[23:35:11] [CLIENT]: Logout
+[23:35:12] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:35:12] [LOGOUT]:  [Nathan]
+[23:35:12] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[23:35:12] [SYSTEM_IO]: [GET] [Date] [RETURN VALUE] 7.2.21
+[23:35:13] [EXIT]: [RUNTIME] 19s
+[23:35:13] [EOL]: Log completed, exiting program with code: 25, exceptions thrown: 1

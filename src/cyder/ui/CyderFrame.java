@@ -200,7 +200,7 @@ public class CyderFrame extends JFrame {
     public void setTitlePosition(TitlePosition titlePosition) {
         this.control_c_threads = false;
 
-        if (titlePosition == null || this.titlePosition == null || this.titlePosition == titlePosition)
+        if (titlePosition == null || this.titlePosition == null)
             return;
 
         TitlePosition oldPosition = this.titlePosition;
@@ -288,6 +288,20 @@ public class CyderFrame extends JFrame {
                 buttonPosition = ButtonPosition.RIGHT;
                 getTopDragLabel().setButtonPosition(DragLabel.ButtonPosition.RIGHT);
             }
+        } else {
+            switch (titlePosition) {
+                case LEFT:
+                    titleLabel.setLocation(4, 2);
+                    break;
+                case RIGHT:
+                    titleLabel.setLocation(this.width - getMinWidth(titleLabel.getText()) + 8, 2);
+                    break;
+                case CENTER:
+                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2), 2);
+                    break;
+            }
+
+            this.titlePosition = titlePosition;
         }
     }
 

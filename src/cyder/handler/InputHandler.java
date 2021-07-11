@@ -11,6 +11,7 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
+import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
