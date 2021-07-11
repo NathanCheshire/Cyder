@@ -43,10 +43,8 @@ public class InputHandler {
 
 
     //todo quit from login shouldn't close program if consoleframe is open
-    //tod login input for login widget
+    //todo login input for login widget
 
-    //todo snap size when rotated is broken
-    //todo snap sizes when fullscreen check? disable resizing if in fullscreen and disable dragging?
 
     //todo better default background with white not gray and red and blue light corner gradients?
 

@@ -1604,6 +1604,8 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.TOP;
+                        consoleCyderFrame.setMaximumSize(new Dimension(finalNewBack.getIconWidth(),
+                                finalNewBack.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
@@ -1656,6 +1658,8 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.RIGHT;
+                        consoleCyderFrame.setMaximumSize(new Dimension(finalNewBack.getIconWidth(),
+                                finalNewBack.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
@@ -1708,6 +1712,8 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.BOTTOM;
+                        consoleCyderFrame.setMaximumSize(new Dimension(finalNewBack.getIconWidth(),
+                                finalNewBack.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
@@ -1761,14 +1767,13 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.LEFT;
+                        consoleCyderFrame.setMaximumSize(new Dimension(finalNewBack.getIconWidth(),
+                                finalNewBack.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
             }
 
-
-            //todo figure out what you need from here and put at the end of the threads so everything is
-            // inside the threads, or just call set direction after switching animation?
 
             //increment background index
             incBackgroundIndex();
@@ -1784,13 +1789,6 @@ public final class ConsoleFrame {
             outputScroll.setBounds(10, 62, width - 20, height - 204);
             inputField.setBounds(10, 62 + outputScroll.getHeight() + 20,width - 20,
                     height - (62 + outputScroll.getHeight() + 20 + 20));
-
-            //todo this doesn't work but the setFullScreen one does
-            consoleCyderFrame.initializeResizing();
-            consoleCyderFrame.setResizable(true);
-            consoleCyderFrame.setMinimumSize(new Dimension(600,600));
-            consoleCyderFrame.setMaximumSize(new Dimension(width, height));
-            System.out.println("inside switch background");
 
             //request focus
             inputField.requestFocus();
@@ -1927,7 +1925,6 @@ public final class ConsoleFrame {
                     h - (62 + outputScroll.getHeight() + 20 + 20));
 
             consoleCyderFrame.setMaximumSize(new Dimension(w, h));
-            System.out.println("inside set fullscreen");
 
             if (fullscreen) {
                 consoleCyderFrame.setLocationRelativeTo(null);

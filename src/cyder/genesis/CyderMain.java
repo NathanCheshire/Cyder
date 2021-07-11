@@ -75,7 +75,7 @@ public class CyderMain {
     private static void startFinalFrameDisposedChecker() {
         Executors.newSingleThreadScheduledExecutor(
                 new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
-          /*  Frame[] frames = Frame.getFrames();
+          Frame[] frames = Frame.getFrames();
             int validFrames = 0;
 
             for (Frame f : frames) {
@@ -86,7 +86,7 @@ public class CyderMain {
 
             if (validFrames < 1 && !GenesisShare.framesSuspended()) {
                 GenesisShare.exit(120);
-            }*/
+            }
         }, 10, 5, SECONDS);
     }
 
