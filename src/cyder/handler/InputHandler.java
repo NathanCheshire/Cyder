@@ -41,11 +41,6 @@ public class InputHandler {
     //todo make semaphore usage consistent with better names like one for writing
     //todo say what exit code means in log
 
-
-    //todo quit from login shouldn't close program if consoleframe is open
-    //todo login input for login widget
-
-
     //todo better default background with white not gray and red and blue light corner gradients?
 
     //todo maybe you should do away with rounded windows and stuff like that
@@ -748,7 +743,7 @@ public class InputHandler {
                     }
                 }
 
-                println("Deleted " + count + " logs" + (count == 1 ? "" : "s"));
+                println("Deleted " + count + " log" + (count == 1 ? "" : "s"));
             } else {
                 println("Sorry, " + IOUtil.getUserData("name") + ", " +
                         "but you do not have permission to perform that operation.");

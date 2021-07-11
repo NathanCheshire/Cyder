@@ -1,7 +1,6 @@
 package cyder.genesis;
 
 import cyder.consts.CyderColors;
-import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.ui.ConsoleFrame;
@@ -183,6 +182,7 @@ public class Entry {
                         }
 
                         input = newInput.clone();
+                        SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[LOGIN FRAME] " + String.valueOf(input));
                     }
 
                     switch (loginMode) {
@@ -202,7 +202,8 @@ public class Entry {
                                     loginMode = 0;
                                 } else if (Arrays.equals(input,"quit".toCharArray())) {
                                     loginFrame.closeAnimation();
-                                    GenesisShare.exit(25);
+                                    if (ConsoleFrame.getConsoleFrame().isClosed())
+                                        GenesisShare.exit(25);
                                 } else if (Arrays.equals(input,"h".toCharArray())) {
                                     loginField.setText(bashString);
                                     priorityPrintingList.add("Valid commands: create, login, login admin, quit, h\n");
@@ -226,16 +227,10 @@ public class Entry {
 
                         case 2:
                             loginField.setEchoChar((char)0);
-
-                            try {
-                                Robot rob = new Robot();
-                                rob.keyPress(KeyEvent.VK_BACK_SPACE);
-                                rob.keyRelease(KeyEvent.VK_BACK_SPACE);
-                            } catch (Exception e) {
-                                ErrorHandler.handle(e);
-                            }
-
                             recognize(username,input);
+
+                            loginField.setText(bashString);
+                            loginField.setCaretPosition(loginField.getPassword().length);
                             priorityPrintingList.add("Could not recognize user\n");
 
                             if (input != null)
@@ -247,11 +242,7 @@ public class Entry {
 
                         default:
                             loginField.setText(bashString);
-                            try {
-                                throw new FatalException("Error resulting from login shell");
-                            } catch (FatalException e) {
-                                ErrorHandler.handle(e);
-                            }
+                            throw new IllegalArgumentException("Error resulting from login shell");
                     }
                 }
             }
@@ -296,13 +287,17 @@ public class Entry {
 
             if (SecurityUtil.checkPassword(Username, SecurityUtil.toHexString(SecurityUtil.getSHA(Password)))) {
                 doLoginAnimations = false;
-                SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER PASS");
+                if (autoCypherAttempt) {
+                    SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER PASS");
+                    autoCypherAttempt = false;
+                } else {
+                    SessionLogger.log(SessionLogger.Tag.LOGIN, "STD LOGIN");
+                }
 
                 if (!ConsoleFrame.getConsoleFrame().isClosed()) {
                     ConsoleFrame.getConsoleFrame().close();
                 }
 
-                SessionLogger.log(SessionLogger.Tag.LOGIN, "STD LOGIN");
                 ConsoleFrame.getConsoleFrame().start();
 
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
@@ -343,7 +338,13 @@ public class Entry {
                     c = '\0';
                 }
 
-                SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
+                if (autoCypherAttempt) {
+                    autoCypherAttempt = false;
+                    SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
+                } else {
+                    SessionLogger.log(SessionLogger.Tag.LOGIN, "LOGIN FAIL");
+                }
+
                 username = "";
                 loginField.requestFocusInWindow();
             }
