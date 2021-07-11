@@ -89,6 +89,7 @@ public class Entry {
                     //if it doesn't start with bash string, reset it to it
                     if (!String.valueOf(loginField.getPassword()).startsWith(bashString) && loginMode != 2) {
                         loginField.setText(bashString);
+                        loginField.setCaretPosition(loginField.getPassword().length);
                     }
 
                     Thread.sleep(50);

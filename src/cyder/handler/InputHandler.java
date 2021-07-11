@@ -42,6 +42,8 @@ public class InputHandler {
     //todo say what exit code means in log
 
 
+    //todo quit from login shouldn't close program if consoleframe is open
+    //tod login input for login widget
 
     //todo snap size when rotated is broken
     //todo snap sizes when fullscreen check? disable resizing if in fullscreen and disable dragging?
@@ -51,8 +53,6 @@ public class InputHandler {
     //todo maybe you should do away with rounded windows and stuff like that
     // since it messes up UI stuff when no user exists
     //todo remove ignore prefs for cyderframe constructor
-
-    //todo make sure login input field has the same caret position and string updaters console frame does
 
     //todo escaping should stop current printing and speed through rest of queue instantly
     //todo fix unknown console out in logs

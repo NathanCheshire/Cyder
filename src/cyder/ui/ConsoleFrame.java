@@ -179,7 +179,17 @@ public final class ConsoleFrame {
                                 h - (62 + outputScroll.getHeight() + 20 + 20));
                     }
                 }
+
+                @Override
+                public void setSize(int x, int y) {
+                    super.setSize(x, y);
+                }
             };
+
+            //this has to be here since we need consoleCyderFrame to not be null
+            if (fullscreen) {
+                consoleCyderFrame.disableDragging();
+            }
 
             //on minimize / reopen end/start threads for optimization
             //on launch, request input field focus and run onLaunch() method
@@ -390,6 +400,7 @@ public final class ConsoleFrame {
                         //if it doesn't start with bash string, reset it to it
                         if (!String.valueOf(inputField.getPassword()).startsWith(consoleBashString)) {
                             inputField.setText(consoleBashString);
+                            inputField.setCaretPosition(inputField.getPassword().length);
                         }
 
                         Thread.sleep(50);
@@ -1191,14 +1202,14 @@ public final class ConsoleFrame {
                 //command scrolling
                 if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
                     //scroll to previous commands
-                    if (code == KeyEvent.VK_DOWN) {
+                    if (code == KeyEvent.VK_UP) {
                         if (scrollingIndex - 1 >= 0) {
                             scrollingIndex -= 1;
                             inputField.setText(consoleBashString +  operationList.get(scrollingIndex));
                         }
                     }
                     //scroll to subsequent command if exist
-                    else if (code == KeyEvent.VK_UP) {
+                    else if (code == KeyEvent.VK_DOWN) {
                         if (scrollingIndex + 1 < operationList.size()) {
                             scrollingIndex += 1;
                             inputField.setText(consoleBashString + operationList.get(scrollingIndex));
@@ -1755,6 +1766,10 @@ public final class ConsoleFrame {
                     break;
             }
 
+
+            //todo figure out what you need from here and put at the end of the threads so everything is
+            // inside the threads, or just call set direction after switching animation?
+
             //increment background index
             incBackgroundIndex();
 
@@ -1765,9 +1780,17 @@ public final class ConsoleFrame {
             //update line color
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
 
+            //set input and output bounds
             outputScroll.setBounds(10, 62, width - 20, height - 204);
             inputField.setBounds(10, 62 + outputScroll.getHeight() + 20,width - 20,
                     height - (62 + outputScroll.getHeight() + 20 + 20));
+
+            //todo this doesn't work but the setFullScreen one does
+            consoleCyderFrame.initializeResizing();
+            consoleCyderFrame.setResizable(true);
+            consoleCyderFrame.setMinimumSize(new Dimension(600,600));
+            consoleCyderFrame.setMaximumSize(new Dimension(width, height));
+            System.out.println("inside switch background");
 
             //request focus
             inputField.requestFocus();
@@ -1845,6 +1868,11 @@ public final class ConsoleFrame {
         timer.start();
     }
 
+    /**
+     * Repaints the ConsoleFrame based on the console flip diretion and whether or not fullscreen is turned on.
+     * Use this method as a repaint essentially.
+     * @param enable - the fullscreen value of the frame
+     */
     public void setFullscreen(Boolean enable) {
         try {
             fullscreen = enable;
@@ -1898,8 +1926,15 @@ public final class ConsoleFrame {
             inputField.setBounds(10, 62 + outputScroll.getHeight() + 20,w - 20,
                     h - (62 + outputScroll.getHeight() + 20 + 20));
 
-            if (fullscreen)
+            consoleCyderFrame.setMaximumSize(new Dimension(w, h));
+            System.out.println("inside set fullscreen");
+
+            if (fullscreen) {
                 consoleCyderFrame.setLocationRelativeTo(null);
+                consoleCyderFrame.disableDragging();
+            } else {
+                consoleCyderFrame.enableDragging();
+            }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
