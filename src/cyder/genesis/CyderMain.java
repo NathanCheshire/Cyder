@@ -75,7 +75,7 @@ public class CyderMain {
     private static void startFinalFrameDisposedChecker() {
         Executors.newSingleThreadScheduledExecutor(
                 new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
-          Frame[] frames = Frame.getFrames();
+            Frame[] frames = Frame.getFrames();
             int validFrames = 0;
 
             for (Frame f : frames) {

@@ -52,7 +52,9 @@ public final class ConsoleFrame {
     private JLabel menuLabel;
     private JButton suggestionButton;
     private JButton menuButton;
+    private JButton minimize;
     private JButton alternateBackground;
+    private JButton close;
 
     //boolean vars
     private boolean menuGenerated;
@@ -504,6 +506,7 @@ public final class ConsoleFrame {
 
             menuButton = new JButton("");
             menuLabel = new JLabel();
+            menuLabel.setFocusable(false);
             menuLabel.setVisible(false);
             menuButton.setToolTipText("Menu");
             menuButton.addMouseListener(consoleMenu);
@@ -517,6 +520,34 @@ public final class ConsoleFrame {
             menuButton.setBorderPainted(false);
 
             consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> minimizeMenu());
+
+            //custom list of buttons even for mini and close so we can focus traverse them
+            LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
+
+            minimize = new JButton("");
+            minimize.setToolTipText("Minimize");
+            minimize.addActionListener(e -> {
+                consoleCyderFrame.setRestoreX(consoleCyderFrame.getX());
+                consoleCyderFrame.setRestoreY(consoleCyderFrame.getY());
+                consoleCyderFrame.minimizeAnimation();
+            });
+            minimize.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    minimize.setIcon(CyderImages.minimizeIconHover);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    minimize.setIcon(CyderImages.minimizeIcon);
+                }
+            });
+            minimize.setIcon(CyderImages.minimizeIcon);
+            minimize.setContentAreaFilled(false);
+            minimize.setBorderPainted(false);
+            minimize.setFocusPainted(false);
+            minimize.setFocusable(false);
+            consoleDragButtonList.add(minimize);
 
             alternateBackground = new JButton("");
             alternateBackground.setToolTipText("Alternate Background");
@@ -558,7 +589,32 @@ public final class ConsoleFrame {
             alternateBackground.setOpaque(false);
             alternateBackground.setContentAreaFilled(false);
             alternateBackground.setBorderPainted(false);
-            consoleCyderFrame.getTopDragLabel().addButton(alternateBackground,1);
+            consoleDragButtonList.add(alternateBackground);
+
+            close = new JButton("");
+            close.setToolTipText("Close");
+            close.addActionListener(e -> consoleCyderFrame.closeAnimation());
+            close.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    close.setIcon(CyderImages.closeIconHover);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    close.setIcon(CyderImages.closeIcon);
+                }
+            });
+
+            close.setIcon(CyderImages.closeIcon);
+            close.setContentAreaFilled(false);
+            close.setBorderPainted(false);
+            close.setFocusPainted(false);
+            close.setFocusable(false);
+            consoleDragButtonList.add(close);
+
+            //set top drag's button list
+            consoleCyderFrame.getTopDragLabel().setButtonsList(consoleDragButtonList);
 
             consoleCyderFrame.getTopDragLabel().addCloseListener(e -> {
                 endExecutors();
@@ -571,6 +627,7 @@ public final class ConsoleFrame {
             consoleClockLabel.setForeground(CyderColors.vanila);
             //bounds not needed to be set since the executor service handles that
             consoleCyderFrame.getTopDragLabel().add(consoleClockLabel);
+            consoleClockLabel.setFocusable(false);
             consoleClockLabel.setVisible(true);
 
             //spin off console executors

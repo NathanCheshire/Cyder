@@ -111,14 +111,17 @@ public class CyderFrame extends JFrame {
             return super.add(comp, 0);
             }
         };
+        contentLabel.setFocusable(false);
 
         iconLabel = new JLabel();
         iconLabel.setIcon(background);
         iconLabel.setBounds(0,0,width - 2,height - 2);
+        iconLabel.setFocusable(false);
 
         iconPane = new JLayeredPane();
         iconPane.setBounds(1,1, width - 2, height - 2);
         iconPane.add(iconLabel,JLayeredPane.DEFAULT_LAYER);
+        iconPane.setFocusable(false);
 
         contentLabel.add(iconPane,JLayeredPane.DEFAULT_LAYER);
 
@@ -130,28 +133,33 @@ public class CyderFrame extends JFrame {
         topDrag.setxOffset(0);
         topDrag.setyOffset(1);
         contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
+        topDrag.setFocusable(false);
 
         leftDrag = new DragLabel(4, height - DragLabel.getDefaultHeight() - 2, this);
         leftDrag.setBounds(1, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
         leftDrag.setxOffset(1);
         leftDrag.setyOffset(DragLabel.getDefaultHeight());
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
+        leftDrag.setFocusable(false);
 
         rightDrag = new DragLabel(4, height - DragLabel.getDefaultHeight() - 2, this);
         rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
         rightDrag.setxOffset(width - 5);
         rightDrag.setyOffset(DragLabel.getDefaultHeight());
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
+        rightDrag.setFocusable(false);
 
         bottomDrag = new DragLabel(width, 4, this);
         bottomDrag.setBounds(0, height - 5, width, 4);
         bottomDrag.setxOffset(0);
         bottomDrag.setyOffset(height - 5);
         contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
+        bottomDrag.setFocusable(false);
 
         titleLabel = new JLabel("");
         titleLabel.setFont(new Font("Agency FB", Font.BOLD, 22));
         titleLabel.setForeground(CyderColors.vanila);
+        titleLabel.setFocusable(false);
 
         topDrag.add(titleLabel);
 

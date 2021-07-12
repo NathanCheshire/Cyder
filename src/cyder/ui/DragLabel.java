@@ -48,6 +48,7 @@ public class DragLabel extends JLabel {
         new JLabel();
         setSize(width,height);
         setOpaque(true);
+        setFocusable(false);
         setBackground(CyderColors.navy);
         addMouseMotionListener(new MouseMotionListener() {
             @Override
@@ -87,8 +88,6 @@ public class DragLabel extends JLabel {
                 }
             }
         });
-
-        refreshButtons();
     }
 
     public void setWidth(int width) {
@@ -163,6 +162,7 @@ public class DragLabel extends JLabel {
             effectFrame.setRestoreX(effectFrame.getX());
             effectFrame.setRestoreY(effectFrame.getY());
             effectFrame.minimizeAnimation();
+            System.out.println("this mini");
         });
 
         minimize.addMouseListener(new MouseAdapter() {
@@ -176,11 +176,23 @@ public class DragLabel extends JLabel {
                 minimize.setIcon(minimizeIcon);
             }
         });
+        minimize.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                minimize.setIcon(minimizeIconHover);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                minimize.setIcon(minimizeIcon);
+            }
+        });
 
         minimize.setIcon(minimizeIcon);
         minimize.setContentAreaFilled(false);
         minimize.setBorderPainted(false);
         minimize.setFocusPainted(false);
+        minimize.setFocusable(false);
         ret.add(minimize);
 
         close = new JButton("");
@@ -197,11 +209,23 @@ public class DragLabel extends JLabel {
                 close.setIcon(closeIcon);
             }
         });
+        close.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                close.setIcon(closeIconHover);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                close.setIcon(closeIcon);
+            }
+        });
 
         close.setIcon(closeIcon);
         close.setContentAreaFilled(false);
         close.setBorderPainted(false);
         close.setFocusPainted(false);
+        close.setFocusable(false);
         ret.add(close);
 
         return ret;
@@ -254,18 +278,27 @@ public class DragLabel extends JLabel {
     }
 
     public void setButtonsList(LinkedList<JButton> list) {
+        //remove all buttons from button list
+        for (Component c : getComponents()) {
+            if (c instanceof JButton && buttonsList.contains((JButton) c)) {
+                this.remove(c);
+                this.revalidate();
+                this.repaint();
+            }
+        }
         this.buttonsList = list;
         refreshButtons();
     }
 
     public void refreshButtons() {
         //remove all buttons to repaint them
-        for (Component c : getComponents())
+        for (Component c : getComponents()) {
             if (c instanceof JButton && buttonsList.contains((JButton) c)) {
                 this.remove(c);
                 this.revalidate();
                 this.repaint();
             }
+        }
 
         switch (buttonPosition) {
             case RIGHT:
