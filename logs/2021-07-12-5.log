@@ -1,0 +1,63 @@
+[12:44:09] [ENTRY]: [WINUSER=Nathan]
+[12:44:09] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[12:44:10] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:44:10] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:44:10] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:44:10] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12:44:10] [LOGIN]: [AUTOCYPHER PASS]
+[12:44:11] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:44:11] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[12:44:11] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:44:11] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[12:44:11] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:44:11] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[12:44:11] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:44:11] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:44:11] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:44:11] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:44:11] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:44:11] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[12:44:11] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[12:44:11] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:44:11] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:44:11] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[12:44:11] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:44:11] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:44:11] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:44:11] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[12:44:11] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[12:44:11] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[12:44:11] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[12:44:11] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[12:44:11] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:44:11] [CLIENT]: test
+[12:44:11] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626111796368
+[12:44:11] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626111851928
+[12:44:12] [CONSOLE_OUT]: [STRING] java.awt.Color[r=16,g=16,b=16]
+[12:44:17] [CLIENT]: Cls
+[12:44:19] [CLIENT]: Ksdfj
+[12:44:19] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:44:19] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:44:19] [CLIENT]: Ksdfj
+[12:44:19] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:44:19] [CLIENT]: Ksdfj
+[12:44:19] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:44:20] [CLIENT]: Ksdfj
+[12:44:20] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:44:20] [CLIENT]: Ksdfj
+[12:44:20] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:44:21] [CLIENT]: controlc
+[12:44:21] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:44:21] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:44:21] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:44:21] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:44:21] [CONSOLE_OUT]: [STRING] Escaped
+[12:44:22] [CLIENT]: Cls
+[12:44:23] [CLIENT]: Hi
+[12:44:23] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:44:23] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[12:44:24] [CLIENT]: Cls
+[12:44:25] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:44:25] [LOGOUT]:  [Nathan]
+[12:44:25] [EXIT]: [RUNTIME] 16s
+[12:44:25] [EOL]: Log completed, exiting program with code: 25, exceptions thrown: 0

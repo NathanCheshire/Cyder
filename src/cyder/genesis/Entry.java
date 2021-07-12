@@ -347,6 +347,9 @@ public class Entry {
 
                 username = "";
                 loginField.requestFocusInWindow();
+            } else if (autoCypherAttempt) {
+                autoCypherAttempt = false;
+                SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
             }
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
@@ -354,7 +357,7 @@ public class Entry {
     }
 
     /**
-     * Used for debugging, automatically logs me in if my account exists,
+     * Used for debugging, automatically logs the developer in if their account exists,
      * otherwise the program continues as normal
      */
     public static void autoCypher() {
@@ -374,6 +377,7 @@ public class Entry {
                     recognize(parts[0], parts[1].toCharArray());
                 }
             } else {
+                SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
                 showEntryGUI();
             }
         } catch (Exception e) {

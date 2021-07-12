@@ -1,0 +1,86 @@
+[12:38:50] [ENTRY]: [WINUSER=Nathan]
+[12:38:50] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[12:38:50] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:38:50] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:38:51] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:38:51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12:38:51] [LOGIN]: [AUTOCYPHER PASS]
+[12:38:51] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:51] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[12:38:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:38:52] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[12:38:52] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:52] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[12:38:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:38:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:38:52] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:38:52] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:38:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:38:52] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[12:38:52] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[12:38:52] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:38:52] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:38:52] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[12:38:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:38:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:38:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:38:52] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[12:38:52] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[12:38:52] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[12:38:52] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[12:38:52] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[12:38:52] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:38:52] [CLIENT]: test
+[12:38:52] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626111492058
+[12:38:52] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626111532711
+[12:38:52] [CONSOLE_OUT]: [STRING] java.awt.Color[r=16,g=16,b=16]
+[12:38:57] [CLIENT]: Asdkfjsld
+[12:38:57] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:57] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:38:58] [CLIENT]: Asdkfjsld
+[12:38:58] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:58] [CLIENT]: Asdkfjsld
+[12:38:58] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:58] [CLIENT]: Asdkfjsld
+[12:38:58] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:58] [CLIENT]: Asdkfjsld
+[12:38:58] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:59] [CLIENT]: Asdkfjsld
+[12:38:59] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:59] [CLIENT]: Asdkfjsld
+[12:38:59] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:59] [CLIENT]: Asdkfjsld
+[12:38:59] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:59] [CLIENT]: Asdkfjsld
+[12:38:59] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:38:59] [CLIENT]: Asdkfjsld
+[12:38:59] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:39:00] [CLIENT]: Asdkfjsld
+[12:39:00] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:39:01] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:39:02] [CLIENT]: controlc
+[12:39:02] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:39:02] [CLIENT]: Hi
+[12:39:02] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:39:05] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:39:05] [CLIENT]: controlc
+[12:39:05] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:39:05] [CLIENT]: controlc
+[12:39:05] [CLIENT]: controlc
+[12:39:05] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:39:05] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:39:05] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:39:05] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:39:06] [CLIENT]: controlc
+[12:39:06] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:39:07] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:39:07] [CONSOLE_OUT]: [STRING] Escaped
+[12:39:07] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[12:39:07] [CLIENT]: controlc
+[12:39:08] [CONSOLE_OUT]: [STRING] Escaped
+[12:39:08] [CONSOLE_OUT]: [STRING] Escaped
+[12:39:08] [CONSOLE_OUT]: [STRING] Escaped
+[12:39:09] [CONSOLE_OUT]: [STRING] Escaped
+[12:39:09] [CLIENT]: controlc
+[12:39:09] [CONSOLE_OUT]: [STRING] Escaped
+[12:39:10] [CONSOLE_OUT]: [STRING] Escaped

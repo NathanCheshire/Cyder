@@ -1,0 +1,78 @@
+[12:40:01] [ENTRY]: [WINUSER=Nathan]
+[12:40:01] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[12:40:01] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:40:01] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:40:01] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:40:01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12:40:02] [LOGIN]: [AUTOCYPHER PASS]
+[12:40:02] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:02] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[12:40:02] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:40:02] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[12:40:02] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:02] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[12:40:02] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:40:02] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:40:02] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:40:02] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:40:02] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:40:02] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[12:40:02] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[12:40:02] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:40:02] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:40:02] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[12:40:02] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:40:02] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:40:02] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:40:02] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[12:40:02] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[12:40:02] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[12:40:03] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[12:40:03] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[12:40:03] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:40:03] [CLIENT]: test
+[12:40:03] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626111574474
+[12:40:03] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626111603363
+[12:40:03] [CONSOLE_OUT]: [STRING] java.awt.Color[r=16,g=16,b=16]
+[12:40:13] [CLIENT]: Cls
+[12:40:15] [CLIENT]: Jafksdfkk
+[12:40:15] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:15] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:40:16] [CLIENT]: controlc
+[12:40:16] [CONSOLE_OUT]: [STRING] Escaped
+[12:40:18] [CLIENT]: Hello
+[12:40:18] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:18] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[12:40:19] [CLIENT]: Cls
+[12:40:21] [CLIENT]: Sdjfkasdjfkjsdfj
+[12:40:21] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:21] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:40:21] [CLIENT]: Sdjfkasdjfkjsdfj
+[12:40:21] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:21] [CLIENT]: Sdjfkasdjfkjsdfj
+[12:40:21] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:22] [CLIENT]: controlc
+[12:40:22] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:40:22] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:40:22] [CONSOLE_OUT]: [STRING] Escaped
+[12:40:23] [CLIENT]: Cls
+[12:40:24] [CLIENT]: Hi
+[12:40:25] [CLIENT]: Nathan@Cyder:~$
+[12:40:25] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:27] [CLIENT]: Nathan@Cyder:~$
+[12:40:27] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:33] [CLIENT]: Hi
+[12:40:33] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:36] [CLIENT_IO]: [GET] [menudirection] [RETURN VALUE] 1
+[12:40:41] [CLIENT_IO]: [GET] [menudirection] [RETURN VALUE] 1
+[12:40:41] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[12:40:42] [CLIENT]: What
+[12:40:42] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:43] [CLIENT]: Cls
+[12:40:43] [CLIENT]: Hi
+[12:40:43] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:47] [CLIENT]: Hello
+[12:40:47] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:40:53] [CLIENT]: Test
+[12:41:08] [CLIENT]: Cls
+[12:41:09] [CLIENT]: Nathan

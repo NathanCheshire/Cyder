@@ -41,14 +41,12 @@ public class InputHandler {
     //todo make semaphore usage consistent with better names like one for writing
     //todo say what exit code means in log
 
+    //todo store autocypher in sys.ini (autocypher:1, and if that's true
+    // then it will find the username,singular sha256 hash) don't call it singular
+    // just pass a random it such as "0" to say that it shouldn't be hashed
+    // but simply compared against the password hash in userdata
+
     //todo better default background with white not gray and red and blue light corner gradients?
-
-    //todo maybe you should do away with rounded windows and stuff like that
-    // since it messes up UI stuff when no user exists
-    //todo remove ignore prefs for cyderframe constructor
-
-    //todo escaping should stop current printing and speed through rest of queue instantly
-    //todo fix unknown console out in logs
 
     //todo make sure text against out/in fill results in visible text always
     // algorithm for this to pass two colors and say which one will be changed and which one will stay the same
@@ -64,6 +62,7 @@ public class InputHandler {
     private MasterYoutube masterYoutube;
     private BletchyThread bletchyThread;
     private boolean userInputMode;
+    private boolean finishPrinting;
     private String userInputDesc;
     private String operation;
     private String anagram;
@@ -769,7 +768,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-
+            test();
         }
         //testing widgets not to auto call on start
         else if (eic("test2")) {
@@ -1035,7 +1034,22 @@ public class InputHandler {
     }
 
     private void test() {
+        try {
+           Color offWhite = Color.decode("#f0f0f0");
+           Color offBlack = Color.decode("#101010");
 
+           Color backgroundDom = ImageUtil.getDominantColor(
+                   ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
+
+           if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
+                   * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
+               println(offBlack);
+           } else {
+               println(offWhite);
+           }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     /**
@@ -1193,7 +1207,9 @@ public class InputHandler {
                             GenesisShare.getPrintinSem().acquire();
                             for (char c : ((String) line).toCharArray()) {
                                 innerConsolePrint(c);
-                                Thread.sleep(charTimeout);
+
+                                if (!finishPrinting)
+                                    Thread.sleep(charTimeout);
                             }
                             GenesisShare.getPrintinSem().release();
                         } else if (line instanceof JComponent) {
@@ -1206,9 +1222,13 @@ public class InputHandler {
                         } else {
                             println("[UNKNOWN OBJECT]: " + line);
                         }
+                    } else if (consolePrintingList.isEmpty() && consolePriorityPrintingList.isEmpty()) {
+                        //fix possible escape from last command
+                        finishPrinting = false;
                     }
 
-                    Thread.sleep(lineTimeout);
+                    if (!finishPrinting)
+                        Thread.sleep(lineTimeout);
                 }
             } catch (Exception e) {
                 ErrorHandler.handle(e);
@@ -1498,6 +1518,8 @@ public class InputHandler {
             if (f instanceof CyderFrame)
                 ((CyderFrame) (f)).setControl_c_threads(true);
         }
+        //finish printing anything in printing queue
+        finishPrinting = true;
         //inform user we escaped
         println("Escaped");
     }

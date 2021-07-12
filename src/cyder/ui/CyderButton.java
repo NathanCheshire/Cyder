@@ -25,8 +25,8 @@ public class CyderButton extends JButton {
         super.setContentAreaFilled(false);
 
         addMouseMotionListener(new CyderDraggableComponent());
-        addActionListener(e -> SessionLogger.log(SessionLogger.Tag.ACTION, "BUTTON, TEXT = "
-                + this.getText() + " CLICKED"));
+        addActionListener(e -> SessionLogger.log(SessionLogger.Tag.ACTION, "CyderButton, text=["
+                + this.getText() + "] CLICKED"));
 
         setFont(CyderFonts.weatherFontSmall);
         setBackground(CyderColors.regularRed);
@@ -107,6 +107,7 @@ public class CyderButton extends JButton {
 
     @Override
     public String toString() {
-        return "CyderButton object, hash=" + this.hashCode();
+        return "CyderButton object, hash=" + this.hashCode() +
+                (this.getText() != null && this.getText().length() > 0 ? ", text=[" + this.getText() + "]" : "");
     }
 }
