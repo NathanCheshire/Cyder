@@ -35,6 +35,7 @@ public class CyderMain {
         IOUtil.deleteTempDir();
         IOUtil.logArgs(CA);
         IOUtil.cleanSandbox();
+        IOUtil.fixLogs();
 
         startFinalFrameDisposedChecker();
 

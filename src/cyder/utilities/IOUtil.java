@@ -20,6 +20,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.DosFileAttributes;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -1112,6 +1113,37 @@ public class IOUtil {
 
         if (sandbox.exists()) {
             SystemUtil.deleteFolder(sandbox);
+        }
+    }
+
+    /**
+     * Upon entry this method attempts to fix any user logs that ended abruptly (an exit code of -1 most likely)
+     *  as a result of an IDE stop or OS Task Manager Stop.
+     */
+    public static void fixLogs() {
+        try {
+            for (File log : new File("logs").listFiles()) {
+                if (!log.equals(SessionLogger.getCurrentLog())) {
+                    BufferedReader br = new BufferedReader(new FileReader(log));
+                    String line;
+                    boolean containsEOL = false;
+
+                    while ((line = br.readLine()) != null) {
+                        if (line.contains("[EOL]")) {
+                            containsEOL = true;
+                            break;
+                        }
+                    }
+
+                    if (!containsEOL) {
+                        Files.write(Paths.get(log.getAbsolutePath()),
+                                ("[EXTERNAL STOP] Cyder was force closed by an external entity such " +
+                                        "as an IDE stop or the OS' Task Manager\n").getBytes(), StandardOpenOption.APPEND);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
         }
     }
 }

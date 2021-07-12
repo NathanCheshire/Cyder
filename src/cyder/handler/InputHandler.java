@@ -41,8 +41,6 @@ public class InputHandler {
     //todo use: Files.write(Paths.get("file.extension"), append.getBytes(), StandardOpenOption.APPEND);
     // for file writing more
 
-    //todo if a log doesn't end with an EOL tag, append to that log a statement
-    // todo that the program was force closed by means such as IDE stop or OS Task Manager Stop
 
     //todo make semaphore usage consistent with better names like one for writing
 
