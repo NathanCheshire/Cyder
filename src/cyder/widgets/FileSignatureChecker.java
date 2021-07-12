@@ -10,13 +10,17 @@ import cyder.ui.CyderTextField;
 import cyder.utilities.GetterUtil;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-public class FileSignature {
+public class FileSignatureChecker {
     private File currentFile = null;
     CyderFrame signatureFrame;
-    CyderTextField extensionField;
+    CyderTextField signatureField;
 
-    public FileSignature() {
+    public FileSignatureChecker() {
         signatureFrame = new CyderFrame(400,400, CyderImages.defaultBackground);
         signatureFrame.setTitle("File Signature Checker");
 
@@ -43,13 +47,13 @@ public class FileSignature {
         });
         signatureFrame.getContentPane().add(getFile);
 
-        extensionField = new CyderTextField(0);
-        extensionField.setBounds(50,120,300,40);
-        extensionField.setToolTipText("Enter the extension of the file you presume it to be");
-        extensionField.addActionListener(e -> validate());
-        signatureFrame.getContentPane().add(extensionField);
+        signatureField = new CyderTextField(0);
+        signatureField.setBounds(50,120,300,40);
+        signatureField.setToolTipText("Enter the hex file signature of the file type you presume this file to be");
+        signatureField.addActionListener(e -> validate());
+        signatureFrame.getContentPane().add(signatureField);
 
-        CyderButton checkFile = new CyderButton("Validate File");
+        CyderButton checkFile = new CyderButton("Validate File Type");
         checkFile.setColors(CyderColors.regularBlue);
         checkFile.setBounds(50,190, 300, 40);
         checkFile.addActionListener(e -> validate());
@@ -60,13 +64,29 @@ public class FileSignature {
     }
 
     private void validate() {
-        if (currentFile == null) {
-            signatureFrame.notify("Please choose a file");
-        } else if (extensionField.getText().trim().length() == 0) {
-            signatureFrame.notify("Please enter a file extension");
-        } else {
-            String extension = extensionField.getText().replace(".","");
-            System.out.println("Validate " + currentFile.getName() + " against the extension " + extension);
+        try {
+            if (currentFile == null) {
+                signatureFrame.notify("Please choose a file");
+            } else if (signatureField.getText().trim().length() == 0) {
+                signatureFrame.notify("Please enter a file extension");
+            } else {
+                String byteSignature = signatureField.getText().trim();
+                int byteLen = byteSignature.length();
+
+                InputStream inputStream = new FileInputStream(currentFile);
+                int numberOfColumns = 10;
+
+                long streamPtr=0;
+                while (inputStream.available() > 0) {
+                    final long col = streamPtr++ % numberOfColumns;
+                    System.out.printf("%02x ",inputStream.read());
+                    if (col == (numberOfColumns-1)) {
+                        System.out.printf("\n");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
         }
     }
 }

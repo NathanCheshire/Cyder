@@ -1047,9 +1047,8 @@ public class IOUtil {
     public static String getBinaryString(File f) throws FatalException {
         if (!f.exists())
             throw new FatalException("bin does not exist");
-        else if (!f.getName().endsWith(".bin")) {
-            throw new FatalException("bin is not a binary");
-        }
+        if (!StringUtil.getExtension(f).equalsIgnoreCase(".bin"))
+            throw new IllegalArgumentException("File is not a binary");
 
         String ret = null;
 
@@ -1069,9 +1068,8 @@ public class IOUtil {
     public static String getHexString(File f) throws FatalException {
         if (!f.exists())
             throw new FatalException("bin does not exist");
-        else if (!f.getName().endsWith(".bin")) {
-            throw new FatalException("bin is not a binary");
-        }
+        if (!StringUtil.getExtension(f).equalsIgnoreCase(".bin"))
+            throw new IllegalArgumentException("File is not a binary");
 
         String ret = null;
 

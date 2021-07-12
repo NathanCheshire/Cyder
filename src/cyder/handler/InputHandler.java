@@ -360,7 +360,7 @@ public class InputHandler {
             new ImagePixelator(null);
             SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE PIXELATOR");
         } else if (hasWord("file") && hasWord("signature")) {
-            new FileSignature();
+            new FileSignatureChecker();
             SessionLogger.log(SessionLogger.Tag.ACTION, "FILE SIGNATURE");
         } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
             new TicTacToe().startTicTacToe();
