@@ -76,9 +76,8 @@ public class CyderFrame extends JFrame {
      * @param background - the specified background image. You can choose to leave the image in the same place upon
      *                   frame resizing events or you can configure the frame instance to rescale the original background
      *                   image to fit to the new frame dimensions.
-     * @param ignoreUserPrefs - ignore prefs such as rounded windows and other defined properties in Userdata.bin
      */
-    public CyderFrame(int width, int height, ImageIcon background, boolean ignoreUserPrefs) {
+    public CyderFrame(int width, int height, ImageIcon background) {
         this.width = width;
         this.height = height;
         this.background = background;
@@ -90,7 +89,7 @@ public class CyderFrame extends JFrame {
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
-        //todo always this unless resizing is on then square
+
         setShape(new RoundRectangle2D.Double(0, 0,
                 getWidth(), getHeight(), 20, 20));
 
@@ -189,10 +188,6 @@ public class CyderFrame extends JFrame {
         this(width, height, ImageUtil.imageIconFromColor(c, width, height));
     }
 
-    //used for stand alone windows such as program first start with no users or no context informs
-    public CyderFrame(int width, int height, ImageIcon background) {
-        this(width, height, background, false);
-    }
 
     /**
      * This method will change the title position to the specified value. If the frame is visible to the user,
@@ -587,6 +582,10 @@ public class CyderFrame extends JFrame {
                             iconPane.add(currentNotification, JLayeredPane.POPUP_LAYER);
                             getContentPane().repaint();
 
+                            //log the notification
+                            SessionLogger.log(SessionLogger.Tag.ACTION, "[" +
+                                    this.getTitle() + "] [NOTIFICATION] " + currentGluster.getHtmlText());
+
                             //duration is always 300ms per word unless less than 5 seconds
                             int duration = 300 * StringUtil.countWords(parsedHTML);
                             duration = Math.max(duration, 5000);
@@ -594,10 +593,6 @@ public class CyderFrame extends JFrame {
                                     duration : currentGluster.getDuration();
                             currentNotification.appear(currentGluster.getStartDir(), currentGluster.getVanishDir(),
                                     getContentPane(), duration);
-
-                            //log the notification
-                            SessionLogger.log(SessionLogger.Tag.ACTION, "[" +
-                                    this.getTitle() + "] [NOTIFICATION] " + htmltext);
 
                             while (getCurrentNotification().isVisible())
                                 Thread.onSpinWait();
@@ -1060,6 +1055,8 @@ public class CyderFrame extends JFrame {
         cr.setMinimumSize(getMinimumSize());
         cr.setMaximumSize(getMaximumSize());
         cr.setSnapSize(getSnapSize());
+
+        setShape(null);
     }
 
     /**
@@ -1211,9 +1208,12 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void repaint() {
-        //todo unless resizing is on
-        setShape(new RoundRectangle2D.Double(0, 0,
-                getWidth(), getHeight(), 20, 20));
+        if (cr == null) {
+            setShape(new RoundRectangle2D.Double(0, 0,
+                    getWidth(), getHeight(), 20, 20));
+        } else {
+            setShape(null);
+        }
 
         super.repaint();
     }

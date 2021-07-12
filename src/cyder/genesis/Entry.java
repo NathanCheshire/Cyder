@@ -111,7 +111,7 @@ public class Entry {
         IOUtil.cleanUsers();
 
         loginFrame = new CyderFrame(600, 400,
-                ImageUtil.imageIconFromColor(new Color(21,23,24)),true) {
+                ImageUtil.imageIconFromColor(new Color(21,23,24))) {
             @Override
             public void dispose() {
                 doLoginAnimations = false;
