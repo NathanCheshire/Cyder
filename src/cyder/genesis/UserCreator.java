@@ -330,7 +330,7 @@ public class UserCreator {
         createUserFrame.getContentPane().add(createNewUser);
 
         if (!ConsoleFrame.getConsoleFrame().isClosed()) {
-            ConsoleFrame.getConsoleFrame().setFrameRelativeTo(createUserFrame);
+            ConsoleFrame.getConsoleFrame().setFrameRelative(createUserFrame);
         } else if (Entry.getFrame() != null && Entry.getFrame().isActive() && Entry.getFrame().isVisible()) {
             createUserFrame.setLocationRelativeTo(Entry.getFrame());
         } else {

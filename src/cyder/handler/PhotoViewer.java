@@ -54,7 +54,7 @@ public class PhotoViewer {
         pictureFrame.setMinimumSize(new Dimension(newImage.getIconWidth() / 2, newImage.getIconHeight() / 2));
         pictureFrame.setMaximumSize(new Dimension(newImage.getIconWidth(), newImage.getIconHeight()));
         pictureFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(pictureFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(pictureFrame);
 
         renameButton = new JButton("Rename");
         renameButton.setForeground(CyderColors.vanila);

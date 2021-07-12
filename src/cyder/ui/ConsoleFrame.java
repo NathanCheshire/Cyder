@@ -2219,7 +2219,7 @@ public final class ConsoleFrame {
         consoleCyderFrame.setLocationRelativeTo(c);
     }
 
-    public void setFrameRelativeTo(Frame f) {
+    public void setFrameRelative(Frame f) {
         f.setLocationRelativeTo(consoleCyderFrame);
     }
 

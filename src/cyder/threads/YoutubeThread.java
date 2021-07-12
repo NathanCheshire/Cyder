@@ -83,7 +83,7 @@ public class YoutubeThread {
                     thumbnailFrame.getContentPane().add(pictureLabel);
 
                     thumbnailFrame.setVisible(true);
-                    ConsoleFrame.getConsoleFrame().setFrameRelativeTo(thumbnailFrame);
+                    ConsoleFrame.getConsoleFrame().setFrameRelative(thumbnailFrame);
 
                     this.kill();
                 } catch (Exception ignored) {

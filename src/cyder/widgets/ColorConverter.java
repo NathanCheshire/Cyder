@@ -86,6 +86,6 @@ public class ColorConverter {
         colorFrame.getContentPane().add(rgbField);
 
         colorFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(colorFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(colorFrame);
     }
 }

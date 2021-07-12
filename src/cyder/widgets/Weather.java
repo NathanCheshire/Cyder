@@ -264,7 +264,7 @@ public class Weather {
         weatherFrame.getContentPane().add(sunsetLabel, SwingConstants.CENTER);
 
         weatherFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(weatherFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(weatherFrame);
 
         update = true;
 

@@ -308,6 +308,6 @@ public class Calculator {
         });
 
         calculatorFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(calculatorFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(calculatorFrame);
     }
 }

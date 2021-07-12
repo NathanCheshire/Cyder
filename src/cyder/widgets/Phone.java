@@ -240,7 +240,7 @@ public class Phone {
             }
         });
 
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(phoneFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(phoneFrame);
         phoneFrame.setVisible(true);
     }
 

@@ -152,7 +152,7 @@ public class ImageUtil {
             pixelFrame.getContentPane().add(rejectImage);
 
             pixelFrame.setVisible(true);
-            ConsoleFrame.getConsoleFrame().setFrameRelativeTo(pixelFrame);
+            ConsoleFrame.getConsoleFrame().setFrameRelative(pixelFrame);
             pixelFrame.setAlwaysOnTop(true);
         }
 

@@ -110,4 +110,6 @@ public class CyderButton extends JButton {
         return "CyderButton object, hash=" + this.hashCode() +
                 (this.getText() != null && this.getText().length() > 0 ? ", text=[" + this.getText() + "]" : "");
     }
+
+
 }

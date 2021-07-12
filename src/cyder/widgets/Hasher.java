@@ -68,7 +68,7 @@ public class Hasher {
         hashButton.setBounds(200,140, 100, 40);
         hashFrame.getContentPane().add(hashButton);
 
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(hashFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(hashFrame);
         hashFrame.setVisible(true);
         hashFrame.setAlwaysOnTop(true);
     }

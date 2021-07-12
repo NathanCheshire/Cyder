@@ -4,12 +4,8 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.exception.CyderException;
-import cyder.games.Hangman;
-import cyder.games.TicTacToe;
-import cyder.genesis.Entry;
-import cyder.genesis.GenesisShare;
-import cyder.genesis.UserCreator;
-import cyder.genesis.UserEditor;
+import cyder.games.*;
+import cyder.genesis.*;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
@@ -38,10 +34,6 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo use: Files.write(Paths.get("file.extension"), append.getBytes(), StandardOpenOption.APPEND);
-    // for file writing more
-
-
     //todo make semaphore usage consistent with better names like one for writing
 
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
@@ -368,7 +360,7 @@ public class InputHandler {
             new ImagePixelator(null);
             SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE PIXELATOR");
         } else if (hasWord("file") && hasWord("signature")) {
-            //todo file signature widget
+            new FileSignature();
             SessionLogger.log(SessionLogger.Tag.ACTION, "FILE SIGNATURE");
         } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
             new TicTacToe().startTicTacToe();
@@ -1050,6 +1042,8 @@ public class InputHandler {
            } else {
                println(offWhite);
            }
+
+           handle("file signature");
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

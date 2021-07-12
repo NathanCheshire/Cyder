@@ -73,6 +73,6 @@ public class ThumbnailStealer {
         });
 
         uuidFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(uuidFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(uuidFrame);
     }
 }

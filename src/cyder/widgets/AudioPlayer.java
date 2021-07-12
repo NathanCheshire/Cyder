@@ -422,7 +422,7 @@ public class AudioPlayer {
         audioLocationSlider.repaint();
         audioFrame.getContentPane().add(audioLocationSlider);
 
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(audioFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(audioFrame);
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 

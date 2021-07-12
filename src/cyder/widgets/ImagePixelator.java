@@ -143,7 +143,7 @@ public class ImagePixelator {
         pixelFrame.getContentPane().add(previewLabel);
 
         pixelFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(pixelFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(pixelFrame);
 
         if (startPNG != null && StringUtil.getExtension(startPNG).equalsIgnoreCase(".png")) {
             try {

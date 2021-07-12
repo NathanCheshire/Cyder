@@ -39,7 +39,7 @@ public class ManualTestingWidgets {
         testFrame.getContentPane().add(addPinFirst);
 
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
 
     public static void ButtonAndTitlePositionsTest() {
@@ -75,7 +75,7 @@ public class ManualTestingWidgets {
         testFrame.initializeResizing();
         testFrame.setResizable(true);
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
 
     public static void NotificationsTest() {
@@ -111,7 +111,7 @@ public class ManualTestingWidgets {
         testFrame.initializeResizing();
         testFrame.setResizable(true);
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
 
     public static void AskewTest() {
@@ -128,7 +128,7 @@ public class ManualTestingWidgets {
         cb.addActionListener(e -> testFrame.rotateBackground(Integer.parseInt(ctf.getText())));
 
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
 
     public static void IconLabelSlidingTest() {
@@ -216,7 +216,7 @@ public class ManualTestingWidgets {
         testFrame.getContentPane().add(slideRight);
 
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
 
     public static void CheckboxTest() {
@@ -234,6 +234,6 @@ public class ManualTestingWidgets {
         testFrame.getContentPane().add(cb1);
 
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(testFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
 }

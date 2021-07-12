@@ -120,7 +120,7 @@ public class Hangman {
         HangmanReset.setBounds(80,750,712 - 80 - 80, 40);
         HangmanFrame.getContentPane().add(HangmanReset);
 
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(HangmanFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(HangmanFrame);
         HangmanFrame.setVisible(true);
         HangmanFrame.requestFocus();
 

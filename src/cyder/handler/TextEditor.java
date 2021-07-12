@@ -104,7 +104,7 @@ public class TextEditor {
 
         textEditorFrame.setVisible(true);
         textEditArea.requestFocus();
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(textEditorFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(textEditorFrame);
     }
 
     @Override

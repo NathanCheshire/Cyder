@@ -178,7 +178,7 @@ public class DirectorySearch {
         dirScroll.setBounds(10,120,600,340);
         dirFrame.getContentPane().add(dirScroll);
 
-        ConsoleFrame.getConsoleFrame().setFrameRelativeTo(dirFrame);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(dirFrame);
         dirFrame.setVisible(true);
         dirField.requestFocus();
     }
