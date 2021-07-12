@@ -41,3 +41,5 @@
 [18:06:34] [ACTION]: CyderButton, text=[Validate File Type] CLICKED
 [18:07:13] [LINK]: https://en.wikipedia.org/wiki/List_of_file_signatures
 [18:07:17] [ACTION]: CyderButton, text=[Validate File Type] CLICKED
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

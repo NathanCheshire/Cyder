@@ -22,6 +22,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URI;
 import java.time.DayOfWeek;
@@ -622,7 +624,7 @@ public class InputHandler {
                     }
                 }
             } else {
-                println("bindump usage: bindump -f /path/to/binary/file");
+                println("Bindump usage: bindump -f /path/to/binary/file");
             }
         } else if (hasWord("hexdump")) {
             if (has("-f")) {
@@ -633,14 +635,31 @@ public class InputHandler {
                 } else {
                     File f = new File(parts[1].trim());
 
-                    if (f.exists()) {
-                        println("0x" + IOUtil.getHexString(f).toUpperCase());
+                    if (!f.exists())
+                        throw new IllegalArgumentException("File does not exist");
+
+                    if (StringUtil.getExtension(f).equalsIgnoreCase(".bin")) {
+                        if (f.exists()) {
+                            println("0x" + IOUtil.getHexString(f).toUpperCase());
+                        } else {
+                            println("File: " + parts[1].trim() + " does not exist.");
+                        }
                     } else {
-                        println("File: " + parts[1].trim() + " does not exist.");
+                        InputStream inputStream = new FileInputStream(f);
+                        int numberOfColumns = 10;
+
+                        long streamPtr=0;
+                        while (inputStream.available() > 0) {
+                            final long col = streamPtr++ % numberOfColumns;
+                            print(String.format("%02x ", inputStream.read()));
+                            if (col == (numberOfColumns - 1)) {
+                                println("");
+                            }
+                        }
                     }
                 }
             } else {
-                println("hexdump usage: hexdump -f /path/to/binary/file");
+                println("Hexdump usage: hexdump -f /path/to/binary/file");
             }
         } else if (hasWord("barrel") && hasWord("roll")) {
             ConsoleFrame.getConsoleFrame().barrelRoll();
