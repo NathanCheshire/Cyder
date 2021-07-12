@@ -25,7 +25,7 @@ public class CyderLabel extends JLabel {
     @Override
     public void setText(String text) {
         if (!text.startsWith("<html>")) {
-            super.setText("<html>" + text + "</html>");
+            super.setText("<html><div style='text-align: center;'>" + text + "</html>");
         }
 
         else
