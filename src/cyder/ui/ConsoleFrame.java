@@ -264,6 +264,18 @@ public final class ConsoleFrame {
             outputArea.setAutoscrolls(true);
             outputArea.setBounds(10, 62, ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 20, ConsoleFrame.getConsoleFrame().getBackgroundHeight() - 204);
             outputArea.setFocusable(true);
+            outputArea.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")),
+                            3, false));
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    outputScroll.setBorder(BorderFactory.createEmptyBorder());
+                }
+            });
             outputArea.setSelectionColor(CyderColors.selectionColor);
             outputArea.setOpaque(false);
             outputArea.setBackground(CyderColors.nul);
@@ -282,7 +294,7 @@ public final class ConsoleFrame {
             outputScroll.setThumbColor(CyderColors.intellijPink);
             outputScroll.getViewport().setOpaque(false);
             outputScroll.setOpaque(false);
-            outputScroll.setFocusable(true);
+            outputScroll.setFocusable(false);
 
             if (IOUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
                 outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")),
@@ -496,6 +508,17 @@ public final class ConsoleFrame {
                     suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion1.png"));
                 }
             });
+            suggestionButton.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion2.png"));
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion1.png"));
+                }
+            });
             suggestionButton.setBounds(32, 4, 22, 22);
             suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion1.png"));
             consoleCyderFrame.getTopDragLabel().add(suggestionButton);
@@ -513,6 +536,25 @@ public final class ConsoleFrame {
             menuButton.setBounds(4, 4, 22, 22);
             menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
             consoleCyderFrame.getTopDragLabel().add(menuButton);
+            menuButton.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if (menuLabel.isVisible()) {
+                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
+                    } else {
+                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide2.png"));
+                    }
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (menuLabel.isVisible()) {
+                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
+                    } else {
+                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+                    }
+                }
+            });
             menuButton.setVisible(true);
             menuButton.setFocusPainted(false);
             menuButton.setOpaque(false);
@@ -542,11 +584,22 @@ public final class ConsoleFrame {
                     minimize.setIcon(CyderImages.minimizeIcon);
                 }
             });
+            minimize.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    minimize.setIcon(CyderImages.minimizeIconHover);
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    minimize.setIcon(CyderImages.minimizeIcon);
+                }
+            });
             minimize.setIcon(CyderImages.minimizeIcon);
             minimize.setContentAreaFilled(false);
             minimize.setBorderPainted(false);
             minimize.setFocusPainted(false);
-            minimize.setFocusable(false);
+            minimize.setFocusable(true);
             consoleDragButtonList.add(minimize);
 
             alternateBackground = new JButton("");
@@ -583,7 +636,17 @@ public final class ConsoleFrame {
                     }
                 }
             });
+            alternateBackground.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize2.png"));
+                }
 
+                @Override
+                public void focusLost(FocusEvent e) {
+                    alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
+                }
+            });
             alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
             alternateBackground.setFocusPainted(false);
             alternateBackground.setOpaque(false);
@@ -593,7 +656,11 @@ public final class ConsoleFrame {
 
             close = new JButton("");
             close.setToolTipText("Close");
-            close.addActionListener(e -> consoleCyderFrame.closeAnimation());
+            close.addActionListener(e -> {
+                consoleCyderFrame.closeAnimation();
+                endExecutors();
+                GenesisShare.exit(25);
+            });
             close.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
@@ -605,21 +672,26 @@ public final class ConsoleFrame {
                     close.setIcon(CyderImages.closeIcon);
                 }
             });
+            close.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    close.setIcon(CyderImages.closeIconHover);
+                }
 
+                @Override
+                public void focusLost(FocusEvent e) {
+                    close.setIcon(CyderImages.closeIcon);
+                }
+            });
             close.setIcon(CyderImages.closeIcon);
             close.setContentAreaFilled(false);
             close.setBorderPainted(false);
             close.setFocusPainted(false);
-            close.setFocusable(false);
+            close.setFocusable(true);
             consoleDragButtonList.add(close);
 
             //set top drag's button list
             consoleCyderFrame.getTopDragLabel().setButtonsList(consoleDragButtonList);
-
-            consoleCyderFrame.getTopDragLabel().addCloseListener(e -> {
-                endExecutors();
-                GenesisShare.exit(25);
-            });
 
             //this turns into setting a center title
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
