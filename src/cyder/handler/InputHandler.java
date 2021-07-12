@@ -38,8 +38,9 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo get rid of startLog?
+
     //todo make semaphore usage consistent with better names like one for writing
-    //todo say what exit code means in log
 
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
     // then it will find the username,singular sha256 hash) don't call it singular

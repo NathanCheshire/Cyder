@@ -80,6 +80,9 @@ public class SessionLogger {
             case EOL:
                 logBuilder.append("[EOL]: Log completed, exiting program with code: ");
                 logBuilder.append(representation);
+                logBuilder.append(" [");
+                logBuilder.append(getCodeDescription((int) representation));
+                logBuilder.append("]");
                 logBuilder.append(", exceptions thrown: ");
                 logBuilder.append(countExceptions());
                 break;
@@ -302,5 +305,26 @@ public class SessionLogger {
             ret.append(seconds).append("s ");
 
         return ret.toString().trim();
+    }
+
+    private static String getCodeDescription(int code) {
+        String ret = "UNKNOWN EXIT CODE";
+
+        try {
+            BufferedReader codeReader = new BufferedReader(new FileReader("ExitCodes.ini"));
+            String line;
+
+            while ((line = codeReader.readLine()) != null) {
+                String[] parts = line.split(":");
+                if (Integer.parseInt(parts[0]) == code) {
+                    ret = parts[1];
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ret;
     }
 }
