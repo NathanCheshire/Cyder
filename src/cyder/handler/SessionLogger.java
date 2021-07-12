@@ -89,7 +89,7 @@ public class SessionLogger {
                 break;
             case CLIENT_IO:
                 //userdata read or write
-                //[CLIENT_IO]: [SET] [KEY] ROUNDWINDOWS [VALUE] 0
+                //[CLIENT_IO]: [SET] [KEY] NAME [VALUE] NATHAN
                 //[CLIENT_IO]: [GET] [KEY] VERSION [RETURN VALUE] 9.2.21
                 logBuilder.append("[CLIENT_IO]: ");
                 logBuilder.append(representation);

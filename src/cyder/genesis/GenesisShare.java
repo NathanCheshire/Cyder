@@ -95,8 +95,6 @@ public class GenesisShare {
         ret.add(new Preference("menudirection",
                 "Menu Minimize Direction",
                 "Console Menu Minimize Direction","1"));
-        ret.add(new Preference("roundwindows","Round Window Corners",
-                "Round Window Frame Corners","1"));
 
         return ret;
     }

@@ -637,8 +637,7 @@ public class IOUtil {
             ErrorHandler.handle(e);
         } finally {
             if (!name.equalsIgnoreCase("CLOCKONCONSOLE")
-                    && !name.equalsIgnoreCase("SHOWSECONDS")
-                    && !name.equalsIgnoreCase("ROUNDWINDOWS"))
+                    && !name.equalsIgnoreCase("SHOWSECONDS"))
             SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[GET] [" +  name
                     + "] [RETURN VALUE] " + ret);
             GenesisShare.getExitingSem().release();

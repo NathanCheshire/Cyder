@@ -7,7 +7,6 @@ import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.obj.Gluster;
-import cyder.utilities.IOUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -91,13 +90,9 @@ public class CyderFrame extends JFrame {
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
-        if (ignoreUserPrefs) {
-            setShape(new RoundRectangle2D.Double(0, 0,
-                    getWidth(), getHeight(), 20, 20));
-        } else if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
-            setShape(new RoundRectangle2D.Double(0, 0,
-                    getWidth(), getHeight(), 20, 20));
-        }
+        //todo always this unless resizing is on then square
+        setShape(new RoundRectangle2D.Double(0, 0,
+                getWidth(), getHeight(), 20, 20));
 
         contentLabel = new JLayeredPane() {
             @Override
@@ -1216,14 +1211,9 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void repaint() {
-        //this doesn't cause much lag as of 7.3.21, that bug came from refreshing the background
-        // every time we setbounds of the frame
-        if (IOUtil.getUserData("roundwindows").equalsIgnoreCase("1")) {
-            setShape(new RoundRectangle2D.Double(0, 0,
-                    getWidth(), getHeight(), 20, 20));
-        } else {
-            setShape(null);
-        }
+        //todo unless resizing is on
+        setShape(new RoundRectangle2D.Double(0, 0,
+                getWidth(), getHeight(), 20, 20));
 
         super.repaint();
     }

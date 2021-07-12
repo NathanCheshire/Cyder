@@ -85,7 +85,7 @@ public class Weather {
         if (weatherFrame != null)
             weatherFrame.closeAnimation();
 
-        weatherFrame = new CyderFrame(500,600, new ImageIcon(
+        weatherFrame = new CyderFrame(400,600, new ImageIcon(
                 ImageUtil.getImageGradient(500, 600,
                         new Color(205,119,130),
                         new Color(38,21,75),
@@ -300,8 +300,8 @@ public class Weather {
         weatherFrame.initializeResizing();
         weatherFrame.setResizable(true);
         weatherFrame.setBackgroundResizing(true);
-        weatherFrame.setMinimumSize(new Dimension(200,200));
-        weatherFrame.setMaximumSize(new Dimension(1000, 1000));
+        weatherFrame.setMinimumSize(new Dimension(400,90));
+        weatherFrame.setMaximumSize(new Dimension(400, 600));
         weatherFrame.setSnapSize(new Dimension(1,1));
     }
 

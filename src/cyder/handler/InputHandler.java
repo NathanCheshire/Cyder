@@ -53,8 +53,6 @@ public class InputHandler {
     //todo make sure text against out/in fill results in visible text always
     // algorithm for this to pass two colors and say which one will be changed and which one will stay the same
 
-    //todo fix console focus traversal and outline whatever element has focus with a regularRed 3 width border?
-
     //todo implement mapping links, you'll need to change how user data is stored
     // make an issue for this and finally switching to binary writing
 

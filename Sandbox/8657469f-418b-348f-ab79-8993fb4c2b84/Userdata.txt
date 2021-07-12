@@ -18,4 +18,3 @@ ShowSeconds:1
 filterchat:1
 menudirection:1
 laststart:1625979243418
-roundwindows:1
