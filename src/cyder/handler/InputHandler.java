@@ -43,8 +43,6 @@ public class InputHandler {
     // just pass a random it such as "0" to say that it shouldn't be hashed
     // but simply compared against the password hash in userdata
 
-    //todo better default background with white not gray and red and blue light corner gradients?
-
     //todo make sure text against out/in fill results in visible text always
     // algorithm for this to pass two colors and say which one will be changed and which one will stay the same
 
@@ -1061,8 +1059,6 @@ public class InputHandler {
            } else {
                println(offWhite);
            }
-
-           handle("file signature");
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
