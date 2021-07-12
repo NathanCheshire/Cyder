@@ -19,7 +19,7 @@ public class SessionLogger {
 
     public enum Tag {
         CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION,
-        SYSTEM_IO, CLIENT_IO, LOGIN, LOGOUT, ENTRY, EXIT, CORRUPTION
+        SYSTEM_IO, CLIENT_IO, LOGIN, LOGOUT, JAVA_ARGS, ENTRY, EXIT, CORRUPTION
     }
 
     /**
@@ -114,6 +114,11 @@ public class SessionLogger {
             case LOGOUT:
                 //[LOGOUT]: [NATHAN]
                 logBuilder.append("[LOGOUT]: ");
+                logBuilder.append(representation);
+                break;
+            case JAVA_ARGS:
+                //[JAVA ARGS]: (possible args) [LOCATION] New Orleans, LA
+                logBuilder.append("[JAVA ARGS]: ");
                 logBuilder.append(representation);
                 break;
             case ENTRY:

@@ -20,11 +20,8 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.DosFileAttributes;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -685,16 +682,11 @@ public class IOUtil {
 
     /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
-     * Appends the start date along with some information to StartLog.ini
+     * Appends JVM Command Line Arguments along with the start location to the log
      * @param cyderArgs - command line arguments passed in
      */
     public static void logArgs(String[] cyderArgs) {
         try {
-            File log = new File("StartLog.ini");
-
-            if (!log.exists())
-                log.createNewFile();
-
             String argsString = "";
 
             for (int i = 0; i < cyderArgs.length; i++) {
@@ -703,17 +695,15 @@ public class IOUtil {
                 argsString += cyderArgs[i];
             }
 
-            String append = new SimpleDateFormat("MM-dd-yy HH:mm:ss").format(new Date())
-                    + " : " + "Started by " + System.getProperty("user.name") + " in "
-                    + (SecurityUtil.nathanLenovo() ? "[LOCATION NOT AVAILABLE]" :
-                    (IPUtil.getUserCity() + ", " + IPUtil.getUserState())) + System.getProperty("line.separator");
+            String append = "[LOCATION] " + (SecurityUtil.nathanLenovo() ?
+                    "[400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT" :
+                    (IPUtil.getUserCity() + ", " + IPUtil.getUserState()));
 
             if (argsString.trim().length() > 0) {
                 append += "; args: " + argsString;
             }
 
-            Files.write(Paths.get("StartLog.ini"), append.getBytes(), StandardOpenOption.APPEND);
-
+            SessionLogger.log(SessionLogger.Tag.JAVA_ARGS, append);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
