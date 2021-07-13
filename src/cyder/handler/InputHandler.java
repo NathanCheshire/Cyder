@@ -1046,22 +1046,7 @@ public class InputHandler {
     }
 
     private void test() {
-        try {
-           Color offWhite = Color.decode("#f0f0f0");
-           Color offBlack = Color.decode("#101010");
 
-           Color backgroundDom = ImageUtil.getDominantColor(
-                   ImageIO.read(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
-
-           if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
-                   * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
-               println(offBlack);
-           } else {
-               println(offWhite);
-           }
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
     }
 
     /**

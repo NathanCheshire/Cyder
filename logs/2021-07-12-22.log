@@ -1,0 +1,101 @@
+[19:44:50] [ENTRY]: [WINUSER=Nathan]
+[19:44:50] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[19:44:50] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:44:50] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[19:44:50] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:44:51] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:44:51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:44:51] [LOGIN]: [AUTOCYPHER PASS]
+[19:44:51] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[19:44:52] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[19:44:52] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:44:52] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[19:44:52] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[19:44:52] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[19:44:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:44:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:44:52] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:44:52] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:44:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:44:52] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[19:44:52] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[19:44:52] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:44:52] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:44:52] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[19:44:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:44:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:44:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:44:52] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[19:44:52] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[19:44:52] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[19:44:52] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[19:44:52] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[19:44:52] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:44:52] [CLIENT]: test
+[19:44:52] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626137043132
+[19:44:52] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626137092850
+[19:44:55] [CLIENT]: Create user
+[19:44:55] [ACTION]: USER CREATOR
+[19:45:01] [ACTION]: CyderButton, text=[No File Chosen] CLICKED
+[19:45:06] [ACTION]: CyderButton, text=[Create User] CLICKED
+[19:45:10] [CLIENT]: Login
+[19:45:10] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[19:45:10] [SYSTEM_IO]: [GET] [Date] [RETURN VALUE] 7.2.21
+[19:45:10] [ACTION]: LOGIN WIDGET
+[19:45:11] [CLIENT_IO]: [LOGIN FRAME] login
+[19:45:12] [CLIENT_IO]: [LOGIN FRAME] nate
+[19:45:13] [LOGIN]: [STD LOGIN]
+[19:45:13] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nate
+[19:45:13] [LOGOUT]:  [Nate]
+[19:45:13] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nate
+[19:45:13] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[19:45:13] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:45:13] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[19:45:13] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nate
+[19:45:13] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[19:45:13] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[19:45:13] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[19:45:13] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:45:13] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:45:13] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[19:45:13] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] tahoma
+[19:45:13] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[19:45:13] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:45:13] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:45:13] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[19:45:13] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[19:45:13] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[19:45:13] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[19:45:13] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] tahoma
+[19:45:13] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[19:45:13] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[19:45:14] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[19:45:14] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[19:45:14] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:45:14] [CLIENT]: test
+[19:45:14] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626137090375
+[19:45:14] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626137114327
+[19:45:15] [CLIENT]: Hello
+[19:45:15] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nate
+[19:45:16] [CONSOLE_OUT]: [STRING] What's up, Nate?
+[19:45:17] [CLIENT]: Cls
+[19:45:19] [CLIENT]: Delete user
+[19:45:19] [CONSOLE_OUT]: [STRING] Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)
+[19:45:20] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nate
+[19:45:20] [LOGOUT]:  [Nate]
+[19:45:20] [EXIT]: [RUNTIME] 30s
+[19:45:20] [EOL]: Log completed, exiting program with code: -56 [User Deleted], exceptions thrown: 0
+[19:45:20] [EXCEPTION]: 
+users\61cfd38f-de00-34ef-a73c-ddd3caf082f6\Userdata.txt (The system cannot find the path specified)
+Thrown from:
+java.base/java.io.FileInputStream.open0(Native Method)
+StackTrace:
+java.io.FileNotFoundException: users\61cfd38f-de00-34ef-a73c-ddd3caf082f6\Userdata.txt (The system cannot find the path specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:196)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:139)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:94)
+	at java.base/java.io.FileReader.<init>(FileReader.java:58)
+	at cyder.utilities.IOUtil.getUserData(IOUtil.java:619)
+	at cyder.ui.ConsoleFrame.lambda$startExecutors$8(ConsoleFrame.java:762)
+	at java.base/java.lang.Thread.run(Thread.java:844)

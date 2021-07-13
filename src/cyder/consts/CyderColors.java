@@ -18,4 +18,6 @@ public class CyderColors {
     public static final Color tttblue = new Color(71, 81, 117);
     public static final Color navy = new Color(26, 32, 51);
     public static final Color nul = new Color(0,0,0,0);
+    public static final Color textWhite = Color.decode("#f0f0f0");
+    public static final Color textBlack = Color.decode("#101010");
 }

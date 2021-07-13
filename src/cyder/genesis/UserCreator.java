@@ -6,9 +6,7 @@ import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.obj.Preference;
 import cyder.ui.*;
-import cyder.utilities.GetterUtil;
-import cyder.utilities.SecurityUtil;
-import cyder.utilities.StringUtil;
+import cyder.utilities.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -291,7 +289,28 @@ public class UserCreator {
                         data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
 
                         for (Preference pref : GenesisShare.getPrefs()) {
-                            data.add(pref.getID() + ":" + pref.getDefaultValue());
+                            if (!pref.getID().equalsIgnoreCase("foreground")) {
+                                data.add(pref.getID() + ":" + pref.getDefaultValue());
+                            } else {
+                                try {
+                                    Color backgroundDom = null;
+
+                                    if (createUserBackground == null) {
+                                        backgroundDom = ImageUtil.getDominantColor(ImageIO.read(new File("users/" + uuid + "/Backgrounds/Default.png")));
+                                    } else {
+                                        backgroundDom = ImageUtil.getDominantColor(ImageIO.read(createUserBackground));
+                                    }
+
+                                    if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
+                                            * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
+                                        data.add(pref.getID() + ":" + ColorUtil.rgbtohexString(CyderColors.textBlack));
+                                    } else {
+                                        data.add(pref.getID() + ":" + ColorUtil.rgbtohexString(CyderColors.textWhite));
+                                    }
+                                } catch (Exception ex) {
+                                    ErrorHandler.handle(ex);
+                                }
+                            }
                         }
 
                         for (String d : data) {
