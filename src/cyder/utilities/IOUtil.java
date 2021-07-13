@@ -1127,7 +1127,7 @@ public class IOUtil {
                     boolean containsEOL = false;
 
                     while ((line = br.readLine()) != null) {
-                        if (line.contains("[EOL]")) {
+                        if (line.contains("[EOL]") || line.contains("[EXTERNAL STOP]")) {
                             containsEOL = true;
                             break;
                         }

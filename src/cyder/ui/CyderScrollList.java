@@ -106,7 +106,12 @@ public class CyderScrollList {
     }
 
     public void removeElement(String labelText) {
-        //todo
+        for (JLabel element : elements) {
+            if (element.getText().equals(labelText)) {
+                elements.remove(element);
+                break;
+            }
+        }
     }
 
     private void handleElementClick(String clickedText) {
@@ -133,6 +138,18 @@ public class CyderScrollList {
                 }
             }
         }
+    }
+
+    public LinkedList<String> getSelectedElements() {
+        LinkedList<String> ret = new LinkedList<>();
+
+        for (JLabel element : elements) {
+            if (element.getForeground() == CyderColors.regularRed) {
+                ret.add(element.getText());
+            }
+        }
+
+        return ret;
     }
 
     public int getWidth() {

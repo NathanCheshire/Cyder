@@ -15,6 +15,7 @@ import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
 import cyder.utilities.*;
@@ -780,7 +781,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
+            CyderFrame testFrame = new CyderFrame(600,650, CyderImages.defaultBackground);
             testFrame.setTitle("Scroll test");
 
             CyderScrollList csl = new CyderScrollList(500,400, CyderScrollList.SelectionPolicy.MULTIPLE);
@@ -792,6 +793,15 @@ public class InputHandler {
             JLabel addLabel = csl.generateScrollList();
             addLabel.setBounds(50,100,500,400);
             testFrame.getContentPane().add(addLabel);
+
+            CyderButton getSelected = new CyderButton("Get Selected Element(s)");
+            getSelected.setBounds(50,550, 500, 40);
+            testFrame.getContentPane().add(getSelected);
+            getSelected.addActionListener(e -> {
+                for (String s : csl.getSelectedElements()) {
+                    System.out.println(s);
+                }
+            });
 
             testFrame.setVisible(true);
             ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
