@@ -1,0 +1,41 @@
+[11:11:46] [ENTRY]: [WINUSER=Nathan]
+[11:11:46] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[11:11:46] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[11:11:46] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[11:11:47] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[11:11:47] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[11:11:47] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11:11:47] [LOGIN]: [AUTOCYPHER PASS]
+[11:11:48] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[11:11:48] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[11:11:48] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:11:49] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[11:11:49] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[11:11:49] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[11:11:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[11:11:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[11:11:49] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:11:49] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:11:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[11:11:49] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[11:11:49] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[11:11:49] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:11:49] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:11:49] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[11:11:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[11:11:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[11:11:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[11:11:49] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[11:11:49] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[11:11:49] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[11:11:49] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[11:11:49] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[11:11:49] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[11:11:49] [CLIENT]: test
+[11:11:50] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626149432961
+[11:11:50] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626192710038
+[11:11:54] [CLIENT]: Test
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

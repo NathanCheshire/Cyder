@@ -23,7 +23,7 @@ public class GenericInform {
 
             //start of font width and height calculation
             int w = 0;
-            Font notificationFont = CyderFonts.weatherFontSmall;
+            Font notificationFont = CyderFonts.defaultFontSmall;
             AffineTransform affinetransform = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
 

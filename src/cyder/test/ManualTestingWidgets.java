@@ -236,4 +236,21 @@ public class ManualTestingWidgets {
         testFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
+
+    public static void InformTest() {
+        CyderFrame testFrame = new CyderFrame(300,200, CyderImages.defaultBackground);
+        testFrame.setTitle("Inform test");
+
+        CyderTextField textField = new CyderTextField(0);
+        textField.setBounds(50,50,200,40);
+        testFrame.getContentPane().add(textField);
+
+        CyderButton informButton = new CyderButton("Inform");
+        informButton.setBounds(50,120, 200, 40);
+        testFrame.getContentPane().add(informButton);
+        informButton.addActionListener(e -> testFrame.inform(textField.getText(),"Inform"));
+
+        testFrame.setVisible(true);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+    }
 }

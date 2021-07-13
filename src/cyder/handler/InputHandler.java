@@ -3,26 +3,27 @@ package cyder.handler;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
 import cyder.exception.CyderException;
-import cyder.games.*;
-import cyder.genesis.*;
+import cyder.games.Hangman;
+import cyder.games.TicTacToe;
+import cyder.genesis.Entry;
+import cyder.genesis.GenesisShare;
+import cyder.genesis.UserCreator;
+import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
-import cyder.ui.*;
+import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderFrame;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,8 +40,6 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo fix pizza spelling bug
-
     //todo make semaphore usage consistent with better names like one for writing
 
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
@@ -777,46 +776,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
-            testFrame.setTitle("CyderScrollList Test");
 
-            JTextPane menuPane = new JTextPane();
-            menuPane.setEditable(false);
-            menuPane.setAutoscrolls(false);
-            menuPane.setBounds(0,0,400,400);
-            menuPane.setFocusable(true);
-            menuPane.setOpaque(false);
-            menuPane.setBackground(CyderColors.navy);
-
-            CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
-            menuScroll.setThumbSize(5);
-            menuScroll.getViewport().setOpaque(false);
-            menuScroll.setFocusable(true);
-            menuScroll.setOpaque(false);
-            menuScroll.setThumbColor(CyderColors.intellijPink);
-            menuScroll.setBorder(new LineBorder(CyderColors.navy, 5, false));
-            menuScroll.setBackground(CyderColors.navy);
-            menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-            menuScroll.setBounds(100,100,200,200);
-            testFrame.getContentPane().add(menuScroll);
-
-            CyderLabel label = new CyderLabel("Clickable one");
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (label.getForeground() == CyderColors.regularRed) {
-                        label.setForeground(CyderColors.navy);
-                    } else {
-                        label.setForeground(CyderColors.regularRed);
-                    }
-                }
-            });
-            label.setHorizontalAlignment(SwingConstants.LEFT);
-            new StringUtil(menuPane).printlnComponent(label);
-
-            testFrame.setVisible(true);
-            testFrame.setLocationRelativeTo(null);
         }
         //final attempt at unknown input --------------------------
         else {
