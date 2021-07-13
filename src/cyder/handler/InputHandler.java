@@ -781,7 +781,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            //todo: replace the following cases with this:
+            //todo
             // Pizza - crust type single selection, toppings multiple selection
             // UserEditor - music & backgrounds, Font
             // DirectorySearch

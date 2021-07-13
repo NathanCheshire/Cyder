@@ -52,8 +52,17 @@ public class Notes {
 
         cyderScrollList = new CyderScrollList(520, 500, CyderScrollList.SelectionPolicy.SINGLE);
 
-        for (String name : noteNameList) {
-            cyderScrollList.addElement(name);
+        for (int i = 0 ; i < noteNameList.size() ; i++) {
+            int finalI = i;
+            class thisAction implements CyderScrollList.ScrollAction {
+                @Override
+                public void fire() {
+                    openNote(noteList.get(finalI));
+                }
+            }
+
+            thisAction action = new thisAction();
+            cyderScrollList.addElement(noteNameList.get(i), action);
         }
 
         noteScrollLabel = cyderScrollList.generateScrollList();
@@ -111,8 +120,17 @@ public class Notes {
                     cyderScrollList.clearElements();
                     noteFrame.remove(noteScrollLabel);
 
-                    for (String name : noteNameList) {
-                        cyderScrollList.addElement(name);
+                    for (int j = 0 ; j < noteNameList.size() ; j++) {
+                        int finalJ = j;
+                        class thisAction implements CyderScrollList.ScrollAction {
+                            @Override
+                            public void fire() {
+                                openNote(noteList.get(finalJ));
+                            }
+                        }
+
+                        thisAction action = new thisAction();
+                        cyderScrollList.addElement(noteNameList.get(i), action);
                     }
 
                     noteScrollLabel = cyderScrollList.generateScrollList();
@@ -201,10 +219,18 @@ public class Notes {
             cyderScrollList.clearElements();
             noteFrame.remove(noteScrollLabel);
 
-            for (String name : noteNameList) {
-                cyderScrollList.addElement(name);
-            }
+            for (int i = 0 ; i < noteNameList.size() ; i++) {
+                int finalI = i;
+                class thisAction implements CyderScrollList.ScrollAction {
+                    @Override
+                    public void fire() {
+                        openNote(noteList.get(finalI));
+                    }
+                }
 
+                thisAction action = new thisAction();
+                cyderScrollList.addElement(noteNameList.get(i), action);
+            }
             noteScrollLabel = cyderScrollList.generateScrollList();
             noteScrollLabel.setBounds(40, 40, 520, 500);
             noteFrame.getContentPane().add(noteScrollLabel);
@@ -308,8 +334,17 @@ public class Notes {
                     cyderScrollList.clearElements();
                     noteFrame.remove(noteScrollLabel);
 
-                    for (String name : noteNameList) {
-                        cyderScrollList.addElement(name);
+                    for (int i = 0 ; i < noteNameList.size() ; i++) {
+                        int finalI = i;
+                        class thisAction implements CyderScrollList.ScrollAction {
+                            @Override
+                            public void fire() {
+                                openNote(noteList.get(finalI));
+                            }
+                        }
+
+                        thisAction action = new thisAction();
+                        cyderScrollList.addElement(noteNameList.get(i), action);
                     }
 
                     noteScrollLabel = cyderScrollList.generateScrollList();

@@ -38,8 +38,18 @@ public class CyderScrollList {
         elements = new LinkedList<>();
     }
 
+    private Font scrollFont = CyderFonts.weatherFontSmall;
+
+    public Font getScrollFont() {
+        return this.scrollFont;
+    }
+
+    public void setScrollFont(Font f) {
+        this.scrollFont = f;
+    }
+
     public JLabel generateScrollList() {
-        Font menuFont = CyderFonts.weatherFontSmall; //todo be able to change this default font
+        Font menuFont = scrollFont;
         int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
 
         JLabel retLabel = new JLabel("");
@@ -86,7 +96,7 @@ public class CyderScrollList {
         return retLabel;
     }
 
-    public void addElement(String labelText) {
+    public void addElement(String labelText, ScrollAction sa) {
         JLabel add = new JLabel(labelText);
         add.setForeground(CyderColors.navy);
         add.setFont(CyderFonts.weatherFontSmall);
@@ -94,11 +104,20 @@ public class CyderScrollList {
         add.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                handleElementClick(add.getText());
+                if (e.getClickCount() >= 2 && sa != null) {
+                    sa.fire();
+                    add.setForeground(CyderColors.navy);
+                } else {
+                    handleElementClick(add.getText());
+                }
             }
         });
 
         elements.add(add);
+    }
+
+    public interface ScrollAction {
+        void fire();
     }
 
     public void clearElements() {
