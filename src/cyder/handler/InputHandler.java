@@ -3,23 +3,26 @@ package cyder.handler;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.exception.CyderException;
 import cyder.games.*;
 import cyder.genesis.*;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderFrame;
+import cyder.ui.*;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +39,8 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo fix pizza spelling bug
+
     //todo make semaphore usage consistent with better names like one for writing
 
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
@@ -43,15 +48,8 @@ public class InputHandler {
     // just pass a random it such as "0" to say that it shouldn't be hashed
     // but simply compared against the password hash in userdata
 
-    //todo make sure text against out/in fill results in visible text always
-    // algorithm for this to pass two colors and say which one will be changed and which one will stay the same
-
     //todo implement mapping links, you'll need to change how user data is stored
     // make an issue for this and finally switching to binary writing
-
-    //todo custom list display that's clickable instead of name list?
-    // this could solve the scroll bar issue if you just use a scrollpane with jtextpane
-    // pizza is the only one in use currently that needs multiple selection support
 
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
@@ -560,7 +558,6 @@ public class InputHandler {
                 hasWord("remove")) &&
                 (hasWord("user") ||
                         hasWord("account"))) {
-
             println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
             setUserInputMode(true);
             ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
@@ -780,11 +777,46 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            test();
-        }
-        //testing widgets not to auto call on start
-        else if (eic("test2")) {
+            CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
+            testFrame.setTitle("CyderScrollList Test");
 
+            JTextPane menuPane = new JTextPane();
+            menuPane.setEditable(false);
+            menuPane.setAutoscrolls(false);
+            menuPane.setBounds(0,0,400,400);
+            menuPane.setFocusable(true);
+            menuPane.setOpaque(false);
+            menuPane.setBackground(CyderColors.navy);
+
+            CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
+            menuScroll.setThumbSize(5);
+            menuScroll.getViewport().setOpaque(false);
+            menuScroll.setFocusable(true);
+            menuScroll.setOpaque(false);
+            menuScroll.setThumbColor(CyderColors.intellijPink);
+            menuScroll.setBorder(new LineBorder(CyderColors.navy, 5, false));
+            menuScroll.setBackground(CyderColors.navy);
+            menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+            menuScroll.setBounds(100,100,200,200);
+            testFrame.getContentPane().add(menuScroll);
+
+            CyderLabel label = new CyderLabel("Clickable one");
+            label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (label.getForeground() == CyderColors.regularRed) {
+                        label.setForeground(CyderColors.navy);
+                    } else {
+                        label.setForeground(CyderColors.regularRed);
+                    }
+                }
+            });
+            label.setHorizontalAlignment(SwingConstants.LEFT);
+            new StringUtil(menuPane).printlnComponent(label);
+
+            testFrame.setVisible(true);
+            testFrame.setLocationRelativeTo(null);
         }
         //final attempt at unknown input --------------------------
         else {
@@ -1035,7 +1067,6 @@ public class InputHandler {
         ConsoleFrame.getConsoleFrame().flashSuggestionButton();
     }
 
-    //input handler
     private boolean evaluateExpression(String userInput) {
         try {
             println(new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(userInput.trim())));
@@ -1043,10 +1074,6 @@ public class InputHandler {
         } catch (Exception ignored) {}
 
         return false;
-    }
-
-    private void test() {
-
     }
 
     /**

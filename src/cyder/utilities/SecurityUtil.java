@@ -80,6 +80,19 @@ public class SecurityUtil {
         return null;
     }
 
+    public static byte[] getSHA(byte[] input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            return md.digest(input);
+        }
+
+        catch (Exception ex) {
+            ErrorHandler.handle(ex);
+        }
+
+        return null;
+    }
+
     public static String toHexString(byte[] hash) {
         BigInteger number = new BigInteger(1, hash);
         StringBuilder hexString = new StringBuilder(number.toString(16));
@@ -111,36 +124,6 @@ public class SecurityUtil {
 
     //todo binary reading should return bytes for password and not convert to string
     public static boolean newCheckPassword(String name, String pass) {
-        try {
-            //delete possible corrupted users
-            IOUtil.cleanUsers();
-
-            //get all users
-            File[] UUIDs = new File("users").listFiles();
-            LinkedList<File> userBins = new LinkedList<>();
-
-            //get all valid users
-            for (File user : UUIDs) {
-                userBins.add(new File(user.getAbsolutePath() + "/userdata.bin"));
-            }
-
-            //loop through all users and extract the name and password fields
-            for (int i = 0 ; i < userBins.size() ; i++) {
-                String binUsername = IOUtil.extractUserData(userBins.get(i), "username");
-                String binPassword = IOUtil.extractUserData(userBins.get(i), "password");
-
-                //if it's the one we're looking for, set consoel UUID, free resources, and return true
-                if (pass.equals(binPassword) && name.equalsIgnoreCase(binUsername)) {
-                    ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
-                    return true;
-                }
-            }
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-
         return false;
     }
 

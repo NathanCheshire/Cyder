@@ -86,7 +86,7 @@ public class Entry {
                     }
 
                     //if it doesn't start with bash string, reset it to it
-                    if (!String.valueOf(loginField.getPassword()).startsWith(bashString) && loginMode != 2) {
+                    if (loginMode != 2 && !String.valueOf(loginField.getPassword()).startsWith(bashString)) {
                         loginField.setText(bashString);
                         loginField.setCaretPosition(loginField.getPassword().length);
                     }
@@ -278,14 +278,14 @@ public class Entry {
         GenesisShare.cancelFrameSuspention();
     }
 
-    public static void recognize(String Username, char[] Password) {
+    public static void recognize(String name, char[] pass) {
         try {
             if (loginFrame != null) {
                 loginField.setEchoChar((char)0);
                 loginField.setText(bashString);
             }
 
-            if (SecurityUtil.checkPassword(Username, SecurityUtil.toHexString(SecurityUtil.getSHA(Password)))) {
+            if (SecurityUtil.checkPassword(name, SecurityUtil.toHexString(SecurityUtil.getSHA(pass)))) {
                 doLoginAnimations = false;
                 if (autoCypherAttempt) {
                     SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER PASS");
@@ -334,7 +334,7 @@ public class Entry {
             } else if (loginFrame != null && loginFrame.isVisible()) {
                 loginField.setText("");
 
-                for (char c: Password) {
+                for (char c: pass) {
                     c = '\0';
                 }
 

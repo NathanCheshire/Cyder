@@ -1,6 +1,7 @@
 package cyder.consts;
 
 import cyder.utilities.ImageUtil;
+import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,9 @@ public class CyderImages {
             new Color(252,245,255),
             new Color(164,154,187),
             new Color(249, 233, 241)));
-    public static final ImageIcon defaultBackgroundLarge = new ImageIcon(ImageUtil.getImageGradient(2000,2000,
+    public static final ImageIcon defaultBackgroundLarge = new ImageIcon(ImageUtil.getImageGradient(
+            Math.max(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight()),
+            Math.max(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight()),
             new Color(252,245,255),
             new Color(164,154,187),
             new Color(249, 233, 241)));

@@ -1,17 +1,12 @@
 package cyder.utilities;
 
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -107,58 +102,6 @@ public class ImageUtil {
                 .getKey();
 
         return new Color(dominantRGB);
-    }
-
-    public static void pixelate(File path, int pixelSize) {
-        try {
-            BufferedImage retImage = ImageUtil.pixelate(ImageIO.read(path), pixelSize);
-            String NewName = path.getName().replace(".png", "") + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
-
-            if (pixelFrame != null)
-                pixelFrame.closeAnimation();
-
-            pixelFrame = new CyderFrame(retImage.getWidth(),retImage.getHeight(), new ImageIcon(retImage));
-            pixelFrame.setTitle("Approve Pixelation");
-
-            CyderButton approveImage = new CyderButton("Approve Image");
-            approveImage.setFocusPainted(false);
-            approveImage.setBackground(CyderColors.regularRed);
-            approveImage.setColors(CyderColors.regularRed);
-            approveImage.setBorder(new LineBorder(CyderColors.navy,3,false));
-            approveImage.setFont(CyderFonts.weatherFontSmall);
-
-            approveImage.addActionListener(e -> {
-                try {
-                    ImageIO.write(retImage, "png", new File("C:\\Users\\" + SystemUtil.getWindowsUsername() + "\\Downloads\\" + NewName));
-                } catch (Exception exc) {
-                    ErrorHandler.handle(exc);
-                }
-
-                pixelFrame.closeAnimation();
-                pixelFrame.inform("The pixelated image has been saved to your Downloads folder.","Saved");
-            });
-            approveImage.setBounds(20, retImage.getHeight() - 100,retImage.getWidth() - 40, 40);
-            pixelFrame.getContentPane().add(approveImage);
-
-            CyderButton rejectImage = new CyderButton("Reject Image");
-            rejectImage.setFocusPainted(false);
-            rejectImage.setBackground(CyderColors.regularRed);
-            rejectImage.setBorder(new LineBorder(CyderColors.navy,3,false));
-            rejectImage.setColors(CyderColors.regularRed);
-            rejectImage.setFont(CyderFonts.weatherFontSmall);
-            rejectImage.addActionListener(e -> pixelFrame.closeAnimation());
-            rejectImage.setSize(pixelFrame.getX(), 20);
-            rejectImage.setBounds(20, retImage.getHeight() - 60,retImage.getWidth() - 40, 40);
-            pixelFrame.getContentPane().add(rejectImage);
-
-            pixelFrame.setVisible(true);
-            ConsoleFrame.getConsoleFrame().setFrameRelative(pixelFrame);
-            pixelFrame.setAlwaysOnTop(true);
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
     }
 
     public static BufferedImage bufferedImageFromColor(int width, int height, Color c) {
@@ -514,7 +457,7 @@ public class ImageUtil {
         return false;
     }
 
-    public static boolean whiteOrBlackScale(File pathToFile) {
+    public static boolean grayScaleImage(File pathToFile) {
         try {
             Image icon = new ImageIcon(ImageIO.read(pathToFile)).getImage();
             int w = icon.getWidth(null);
