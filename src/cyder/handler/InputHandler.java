@@ -3,6 +3,7 @@ package cyder.handler;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderImages;
 import cyder.exception.CyderException;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
@@ -15,6 +16,7 @@ import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderScrollList;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
@@ -24,6 +26,8 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +44,8 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo implement, test, and utilize CyderScrollList
+
     //todo make semaphore usage consistent with better names like one for writing
 
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
@@ -776,7 +782,41 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
+            CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
+            testFrame.setTitle("Scroll test");
 
+            CyderScrollList csl = new CyderScrollList(500,400, CyderScrollList.SelectionPolicy.SINGLE);
+
+            JLabel label = CyderScrollList.generateLabel("src/cyder/genesis/CyderMain.java");
+            label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (label.getForeground() == CyderColors.navy)
+                        label.setForeground(CyderColors.regularRed);
+                    else
+                        label.setForeground(CyderColors.navy);
+                }
+            });
+            csl.addElement(label);
+
+            JLabel label1 = CyderScrollList.generateLabel("src/cyder/genesis/CyderMain.java");
+            label1.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (label1.getForeground() == CyderColors.navy)
+                        label1.setForeground(CyderColors.regularRed);
+                    else
+                        label1.setForeground(CyderColors.navy);
+                }
+            });
+            csl.addElement(label1);
+
+            JLabel addLabel = csl.generateScrollList(CyderColors.vanila, CyderColors.navy);
+            addLabel.setBounds(50,100,500,400);
+            testFrame.getContentPane().add(addLabel);
+
+            testFrame.setVisible(true);
+            ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
         }
         //final attempt at unknown input --------------------------
         else {
