@@ -26,8 +26,6 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -785,33 +783,13 @@ public class InputHandler {
             CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
             testFrame.setTitle("Scroll test");
 
-            CyderScrollList csl = new CyderScrollList(500,400, CyderScrollList.SelectionPolicy.SINGLE);
+            CyderScrollList csl = new CyderScrollList(500,400, CyderScrollList.SelectionPolicy.MULTIPLE);
+            csl.addElement("src/cyder/genesis/CyderMain.java");
+            csl.addElement("src/cyder/genesis/Entry.java");
+            csl.addElement("src/cyder/genesis/GenesisShare.java");
+            csl.addElement("src/cyder/genesis/UserCreator.java");
 
-            JLabel label = CyderScrollList.generateLabel("src/cyder/genesis/CyderMain.java");
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (label.getForeground() == CyderColors.navy)
-                        label.setForeground(CyderColors.regularRed);
-                    else
-                        label.setForeground(CyderColors.navy);
-                }
-            });
-            csl.addElement(label);
-
-            JLabel label1 = CyderScrollList.generateLabel("src/cyder/genesis/CyderMain.java");
-            label1.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (label1.getForeground() == CyderColors.navy)
-                        label1.setForeground(CyderColors.regularRed);
-                    else
-                        label1.setForeground(CyderColors.navy);
-                }
-            });
-            csl.addElement(label1);
-
-            JLabel addLabel = csl.generateScrollList(CyderColors.vanila, CyderColors.navy);
+            JLabel addLabel = csl.generateScrollList();
             addLabel.setBounds(50,100,500,400);
             testFrame.getContentPane().add(addLabel);
 

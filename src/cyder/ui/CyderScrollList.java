@@ -7,6 +7,8 @@ import cyder.utilities.StringUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
 public class CyderScrollList {
@@ -36,13 +38,13 @@ public class CyderScrollList {
         elements = new LinkedList<>();
     }
 
-    public JLabel generateScrollList(Color background, Color sepColor) {
+    public JLabel generateScrollList() {
         Font menuFont = CyderFonts.defaultFontSmall;
         int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
 
         JLabel retLabel = new JLabel("");
         retLabel.setSize(this.width, this.height);
-        retLabel.setBackground(background);
+        retLabel.setBackground(CyderColors.vanila);
         retLabel.setOpaque(true);
         retLabel.setVisible(true);
 
@@ -52,7 +54,7 @@ public class CyderScrollList {
         listPane.setBounds(0, 0, this.width , this.height);
         listPane.setFocusable(true);
         listPane.setOpaque(false);
-        listPane.setBackground(background);
+        listPane.setBackground(CyderColors.vanila);
 
         //used to add the CyderScrollListLabels
         StringUtil printingUtil = new StringUtil(listPane);
@@ -61,7 +63,7 @@ public class CyderScrollList {
             printingUtil.printlnComponent(elements.get(i));
 
             if (i != elements.size() - 1)
-                printingUtil.printlnComponent(getSepLabel(CyderColors.navy, ";)"));
+                printingUtil.printlnComponent(getSepLabel());
         }
 
 
@@ -71,7 +73,7 @@ public class CyderScrollList {
         scrollPane.setFocusable(true);
         scrollPane.setOpaque(false);
         scrollPane.setThumbColor(CyderColors.intellijPink);
-        scrollPane.setBackground(background);
+        scrollPane.setBackground(CyderColors.vanila);
         scrollPane.setBorder(new LineBorder(CyderColors.navy,5,false));
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -84,12 +86,53 @@ public class CyderScrollList {
         return retLabel;
     }
 
-    public void addElement(JLabel label) {
-        elements.add(label);
+    public void addElement(String labelText) {
+        JLabel add = new JLabel(labelText);
+        add.setForeground(CyderColors.navy);
+        add.setFont(CyderFonts.defaultFontSmall);
+        add.setVerticalAlignment(JLabel.CENTER);
+        add.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleElementClick(add.getText());
+            }
+        });
+
+        elements.add(add);
     }
 
-    public void removeElement(JLabel label) {
-        elements.remove(label);
+    public void clearElements() {
+        this.elements = null;
+    }
+
+    public void removeElement(String labelText) {
+        //todo
+    }
+
+    private void handleElementClick(String clickedText) {
+        if (selectionPolicy == SelectionPolicy.SINGLE) {
+            for (JLabel element : elements) {
+                if (element.getText().equals(clickedText)) {
+                    if (element.getForeground() == CyderColors.regularRed) {
+                        element.setForeground(CyderColors.navy);
+                    } else {
+                        element.setForeground(CyderColors.regularRed);
+                    }
+                } else {
+                    element.setForeground(CyderColors.navy);
+                }
+            }
+        } else {
+            for (JLabel element : elements) {
+                if (element.getText().equals(clickedText)) {
+                    if (element.getForeground() == CyderColors.regularRed) {
+                        element.setForeground(CyderColors.navy);
+                    } else {
+                        element.setForeground(CyderColors.regularRed);
+                    }
+                }
+            }
+        }
     }
 
     public int getWidth() {
@@ -100,9 +143,6 @@ public class CyderScrollList {
         return height;
     }
 
-    public LinkedList<JLabel> getElements() {
-        return elements;
-    }
 
     public SelectionPolicy getSelectionPolicy() {
         return selectionPolicy;
@@ -116,32 +156,21 @@ public class CyderScrollList {
         this.height = height;
     }
 
-    public void setElements(LinkedList<JLabel> elements) {
-        this.elements = elements;
-    }
 
     public void setSelectionPolicy(SelectionPolicy selectionPolicy) {
         this.selectionPolicy = selectionPolicy;
     }
 
-    private JLabel getSepLabel(Color c, String associatedText) {
-        CyderLabel sepLabel = new CyderLabel(associatedText) {
+    private JLabel getSepLabel() {
+        CyderLabel sepLabel = new CyderLabel(";)") {
             @Override
             public void paintComponent(Graphics g) {
-                g.setColor(c);
+                g.setColor(CyderColors.navy);
                 g.fillRect(0, 10, this.getWidth(), 5);
                 g.dispose();
             }
         };
-        sepLabel.setForeground(c);
+        sepLabel.setForeground(CyderColors.navy);
         return sepLabel;
-    }
-
-    public static JLabel generateLabel(String text) {
-        JLabel ret = new JLabel(text);
-        ret.setForeground(CyderColors.navy);
-        ret.setFont(CyderFonts.defaultFontSmall);
-        ret.setVerticalAlignment(JLabel.CENTER);
-        return ret;
     }
 }
