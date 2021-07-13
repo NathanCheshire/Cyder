@@ -6,30 +6,32 @@ import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.StringUtil;
+import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Notes {
-    private static CyderFrame noteEditorFrame;
+    //main frame
+    private CyderFrame noteFrame;
+    private CyderScrollList cyderScrollList;
+    private CyderButton openNote;
+    private List<String> noteNameList;
+    private List<File> noteList;
+    private JLabel noteScrollLabel;
+
+    //note editor components
+    private CyderFrame noteEditorFrame;
     private JTextArea noteEditArea;
     private CyderTextField noteEditField;
     private File currentUserNote;
     private CyderFrame newNoteFrame;
     private CyderTextField newNoteField;
     private JTextArea newNoteArea;
-    private CyderFrame noteFrame;
-    private CyderScrollPane noteListScroll;
-    private JList<?> fileSelectionList;
-    private List<String> noteNameList;
-    private List<File> noteList;
-    private CyderButton openNote;
 
     private static String UUID = "";
 
@@ -48,21 +50,15 @@ public class Notes {
 
         initializeNotesList();
 
-        fileSelectionList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        fileSelectionList.setFont(CyderFonts.weatherFontSmall);
-        fileSelectionList.setForeground(CyderColors.navy);
-        fileSelectionList.setSelectionBackground(CyderColors.selectionColor);
-        noteListScroll = new CyderScrollPane(fileSelectionList,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        cyderScrollList = new CyderScrollList(520, 500, CyderScrollList.SelectionPolicy.SINGLE);
 
-        noteListScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
+        for (String name : noteNameList) {
+            cyderScrollList.addElement(name);
+        }
 
-        noteListScroll.setThumbColor(CyderColors.regularRed);
-        noteListScroll.setFont(CyderFonts.weatherFontSmall);
-        noteListScroll.setForeground(CyderColors.navy);
-        noteListScroll.setBounds(40,40,600 - 80, 700 - 100 - 100);
-        noteFrame.getContentPane().add(noteListScroll);
+        noteScrollLabel = cyderScrollList.generateScrollList();
+        noteScrollLabel.setBounds(40,40,520, 500);
+        noteFrame.getContentPane().add(noteScrollLabel);
 
         CyderButton addNote = new CyderButton("Add Note");
         addNote.setColors(CyderColors.regularRed);
@@ -81,21 +77,14 @@ public class Notes {
         openNote.setBackground(CyderColors.regularRed);
         openNote.setFont(CyderFonts.weatherFontSmall);
         openNote.addActionListener(e -> {
-            List<?> ClickedSelectionList = fileSelectionList.getSelectedValuesList();
+            LinkedList<String> selectedNames = cyderScrollList.getSelectedElements();
+            String selectedName = selectedNames.get(0);
 
-            if (!ClickedSelectionList.isEmpty()) {
-                String ClickedSelection = ClickedSelectionList.get(0).toString();
-
-                File ClickedSelectionPath = null;
-
-                for (int i = 0; i < noteNameList.size() ; i++) {
-                    if (ClickedSelection.equals(noteNameList.get(i))) {
-                        ClickedSelectionPath = noteList.get(i);
-                        break;
-                    }
+            for (int i = 0 ; i < noteNameList.size() ; i++) {
+                if (noteNameList.get(i).equals(selectedName)) {
+                    openNote(noteList.get(i));
+                    break;
                 }
-
-                openNote(ClickedSelectionPath);
             }
         });
         openNote.setBounds(225,550,150,50);
@@ -108,26 +97,32 @@ public class Notes {
         deleteNote.setBackground(CyderColors.regularRed);
         deleteNote.setFont(CyderFonts.weatherFontSmall);
         deleteNote.addActionListener(e -> {
-            List<?> ClickedSelectionList = fileSelectionList.getSelectedValuesList();
+            LinkedList<String> selectedNames = cyderScrollList.getSelectedElements();
+            String selectedName = selectedNames.get(0);
 
-            if (!ClickedSelectionList.isEmpty()) {
-                String ClickedSelection = ClickedSelectionList.get(0).toString();
+            for (int i = 0 ; i < noteNameList.size() ; i++) {
+                if (noteNameList.get(i).equals(selectedName)) {
+                    SystemUtil.deleteFolder(noteList.get(i));
+                    if (noteEditorFrame != null)
+                        noteEditorFrame.closeAnimation();
 
-                File ClickedSelectionPath = null;
+                    initializeNotesList();
 
-                for (int i = 0; i < noteNameList.size() ; i++) {
-                    if (ClickedSelection.equals(noteNameList.get(i))) {
-                        ClickedSelectionPath = noteList.get(i);
-                        break;
+                    cyderScrollList.clearElements();
+                    noteFrame.remove(noteScrollLabel);
+
+                    for (String name : noteNameList) {
+                        cyderScrollList.addElement(name);
                     }
-                }
 
-                if (ClickedSelectionPath != null) {
-                    ClickedSelectionPath.delete();
+                    noteScrollLabel = cyderScrollList.generateScrollList();
+                    noteScrollLabel.setBounds(40,40,520, 500);
+                    noteFrame.getContentPane().add(noteScrollLabel);
+                    noteFrame.revalidate();
+                    noteFrame.repaint();
+
+                    break;
                 }
-                initializeNotesList();
-                noteListScroll.setViewportView(fileSelectionList);
-                noteListScroll.revalidate();
             }
         });
         deleteNote.setBounds(400,550,150,50);
@@ -203,8 +198,18 @@ public class Notes {
 
             initializeNotesList();
 
-            noteListScroll.setViewportView(fileSelectionList);
-            noteListScroll.revalidate();
+            cyderScrollList.clearElements();
+            noteFrame.remove(noteScrollLabel);
+
+            for (String name : noteNameList) {
+                cyderScrollList.addElement(name);
+            }
+
+            noteScrollLabel = cyderScrollList.generateScrollList();
+            noteScrollLabel.setBounds(40, 40, 520, 500);
+            noteFrame.getContentPane().add(noteScrollLabel);
+            noteFrame.revalidate();
+            noteFrame.repaint();
         });
         submitNewNote.setBounds(50,180 + 390,600 - 50 - 50,40);
         newNoteFrame.getContentPane().add(submitNewNote);
@@ -220,28 +225,11 @@ public class Notes {
         noteNameList = new LinkedList<>();
 
         for (File file : dir.listFiles()) {
-            if (file.getName().endsWith((".txt"))) {
+            if (StringUtil.getExtension(file.getName()).equalsIgnoreCase((".txt"))) {
                 noteList.add(file.getAbsoluteFile());
-                noteNameList.add(file.getName().replace(".txt", ""));
+                noteNameList.add(StringUtil.getFilename(file.getName()));
             }
         }
-
-        String[] NotesArray = new String[noteNameList.size()];
-        NotesArray = noteNameList.toArray(NotesArray);
-        fileSelectionList = new JList(NotesArray);
-        fileSelectionList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                if (evt.getClickCount() == 2 && fileSelectionList.getSelectedIndex() != -1) {
-                    openNote.doClick();
-                }
-            }
-        });
-
-        fileSelectionList.setFont(CyderFonts.weatherFontSmall);
-
-        fileSelectionList.setForeground(CyderColors.navy);
-
-        fileSelectionList.setSelectionBackground(CyderColors.selectionColor);
     }
 
     private void openNote(File File) {
@@ -316,8 +304,19 @@ public class Notes {
                     File.renameTo(newName);
                     GenericInform.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved");
                     initializeNotesList();
-                    noteListScroll.setViewportView(fileSelectionList);
-                    noteListScroll.revalidate();
+
+                    cyderScrollList.clearElements();
+                    noteFrame.remove(noteScrollLabel);
+
+                    for (String name : noteNameList) {
+                        cyderScrollList.addElement(name);
+                    }
+
+                    noteScrollLabel = cyderScrollList.generateScrollList();
+                    noteScrollLabel.setBounds(40, 40, 520, 500);
+                    noteFrame.getContentPane().add(noteScrollLabel);
+                    noteFrame.revalidate();
+                    noteFrame.repaint();
                 }
 
                 else {

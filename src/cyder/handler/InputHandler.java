@@ -43,9 +43,9 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo implement, test, and utilize CyderScrollList
+    //todo utilize CyderScrollList
 
-    //todo make semaphore usage consistent with better names like one for writing
+    //todo add enter listeners to focusable consoleframe elments
 
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
     // then it will find the username,singular sha256 hash) don't call it singular
@@ -781,30 +781,44 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            CyderFrame testFrame = new CyderFrame(600,650, CyderImages.defaultBackground);
-            testFrame.setTitle("Scroll test");
+            //todo: replace the following cases with this:
+            // Pizza - crust type single selection, toppings multiple selection
+            // UserEditor - music & backgrounds, Font
+            // DirectorySearch
 
-            CyderScrollList csl = new CyderScrollList(500,400, CyderScrollList.SelectionPolicy.MULTIPLE);
-            csl.addElement("src/cyder/genesis/CyderMain.java");
-            csl.addElement("src/cyder/genesis/Entry.java");
-            csl.addElement("src/cyder/genesis/GenesisShare.java");
-            csl.addElement("src/cyder/genesis/UserCreator.java");
+            //todo implement a double click policy
 
-            JLabel addLabel = csl.generateScrollList();
-            addLabel.setBounds(50,100,500,400);
-            testFrame.getContentPane().add(addLabel);
-
-            CyderButton getSelected = new CyderButton("Get Selected Element(s)");
-            getSelected.setBounds(50,550, 500, 40);
-            testFrame.getContentPane().add(getSelected);
-            getSelected.addActionListener(e -> {
-                for (String s : csl.getSelectedElements()) {
-                    System.out.println(s);
-                }
-            });
-
-            testFrame.setVisible(true);
-            ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+//            CyderFrame testFrame = new CyderFrame(600,650, CyderImages.defaultBackground);
+//            testFrame.setTitle("Scroll test");
+//
+//            CyderScrollList csl = new CyderScrollList(500,300, CyderScrollList.SelectionPolicy.MULTIPLE);
+//            csl.addElement("src/cyder/genesis/CyderMain.java");
+//            csl.addElement("src/cyder/genesis/Entry.java");
+//            csl.addElement("src/cyder/genesis/GenesisShare.java");
+//            csl.addElement("src/cyder/genesis/UserCreator.java");
+//            csl.addElement("src/cyder/genesis/UserEditor.java");
+//            csl.addElement("src/cyder/ui/CyderButton.java");
+//            csl.addElement("src/cyder/ui/CyderLabel.java");
+//            csl.addElement("src/cyder/ui/CyderCheckBox.java");
+//            csl.addElement("src/cyder/ui/CyderTextField.java");
+//            csl.addElement("src/cyder/ui/CyderCaret.java");
+//            csl.addElement("src/cyder/ui/CyderFrame.java");
+//
+//            JLabel addLabel = csl.generateScrollList();
+//            addLabel.setBounds(50,100,500,300);
+//            testFrame.getContentPane().add(addLabel);
+//
+//            CyderButton getSelected = new CyderButton("Get Selected Element(s)");
+//            getSelected.setBounds(50,550, 500, 40);
+//            testFrame.getContentPane().add(getSelected);
+//            getSelected.addActionListener(e -> {
+//                for (String s : csl.getSelectedElements()) {
+//                    System.out.println(s);
+//                }
+//            });
+//
+//            testFrame.setVisible(true);
+//            ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
         }
         //final attempt at unknown input --------------------------
         else {

@@ -39,7 +39,7 @@ public class CyderScrollList {
     }
 
     public JLabel generateScrollList() {
-        Font menuFont = CyderFonts.defaultFontSmall;
+        Font menuFont = CyderFonts.weatherFontSmall; //todo be able to change this default font
         int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
 
         JLabel retLabel = new JLabel("");
@@ -89,7 +89,7 @@ public class CyderScrollList {
     public void addElement(String labelText) {
         JLabel add = new JLabel(labelText);
         add.setForeground(CyderColors.navy);
-        add.setFont(CyderFonts.defaultFontSmall);
+        add.setFont(CyderFonts.weatherFontSmall);
         add.setVerticalAlignment(JLabel.CENTER);
         add.addMouseListener(new MouseAdapter() {
             @Override
@@ -102,7 +102,7 @@ public class CyderScrollList {
     }
 
     public void clearElements() {
-        this.elements = null;
+        this.elements = new LinkedList<>();
     }
 
     public void removeElement(String labelText) {
