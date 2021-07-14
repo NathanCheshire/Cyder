@@ -5,7 +5,7 @@ import java.awt.*;
 public class CyderColors {
     public static final Color selectionColor = new Color(204,153,0);
     public static final Color regularGreen = new Color(60, 167, 92);
-    public static final Color regularBlue = new Color(38,168,255); //#26A8FF
+    public static final Color regularBlue = new Color(38,168,255);
     public static final Color calculatorOrange = new Color(255,140,0);
     public static final Color regularRed = new Color(223,85,83);
     public static final Color intellijPink = new Color(236,64,122);
