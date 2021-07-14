@@ -1,0 +1,65 @@
+[22:10:39] [ENTRY]: [WINUSER=Nathan]
+[22:10:39] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[22:10:40] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[22:10:40] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[22:10:40] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[22:10:40] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[22:10:40] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22:10:40] [LOGIN]: [AUTOCYPHER PASS]
+[22:10:41] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[22:10:41] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[22:10:41] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[22:10:41] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[22:10:41] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[22:10:41] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[22:10:41] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[22:10:41] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[22:10:41] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[22:10:41] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[22:10:41] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[22:10:41] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[22:10:41] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[22:10:41] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[22:10:41] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[22:10:41] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[22:10:41] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[22:10:41] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[22:10:41] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[22:10:41] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[22:10:41] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[22:10:41] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[22:10:41] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[22:10:41] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[22:10:42] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[22:10:42] [CLIENT]: test
+[22:10:42] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626232069452
+[22:10:42] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626232242089
+[22:10:43] [CLIENT]: Dir
+[22:10:44] [ACTION]: DIR SEARCH
+[22:10:48] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:10:48] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:10:49] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:10:49] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:10:50] [ACTION]: CyderButton, text=[ > ] CLICKED
+[22:10:59] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:00] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:02] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:03] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:03] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:09] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[22:11:09] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[22:11:09] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:09] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:21] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[22:11:21] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:21] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[22:11:21] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:22] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:22] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:23] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:23] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:23] [ACTION]: CyderButton, text=[ < ] CLICKED
+[22:11:28] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[22:11:28] [LOGOUT]:  [Nathan]
+[22:11:28] [EXIT]: [RUNTIME] 48s
+[22:11:28] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

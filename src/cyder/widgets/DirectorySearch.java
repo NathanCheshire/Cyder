@@ -25,24 +25,22 @@ public class DirectorySearch {
     private LinkedList<String> directoryNameList = new LinkedList<>();
     private LinkedList<File> directoryFileList = new LinkedList<>();
 
-    private Stack<String> backward = new Stack<>();
-    private Stack<String> foward = new Stack<>();
+    private Stack<File> backward = new Stack<>();
+    private Stack<File> forward = new Stack<>();
 
-    private String currentDirectory = "c:/users/"
-            + SystemUtil.getWindowsUsername() + "/";
+    private File currentDirectory = new File("c:\\users\\"
+            + SystemUtil.getWindowsUsername() + "\\");
 
     public DirectorySearch() {
         if (dirFrame != null)
             dirFrame.closeAnimation();
 
         dirFrame = new CyderFrame(620,470, CyderImages.defaultBackground);
-        dirFrame.setTitle(new File("c:/users/"
-                + SystemUtil.getWindowsUsername() + "/").getName());
+        dirFrame.setTitle(currentDirectory.getName());
 
         dirField = new CyderTextField(0);
         dirField.setBackground(Color.white);
-        dirField.setText("c:/users/"
-                + SystemUtil.getWindowsUsername() + "/");
+        dirField.setText(currentDirectory.getAbsolutePath());
         dirField.addActionListener(directoryEnterListener);
         dirField.setBounds(15 + 40 + 15,60,620 - 160,40);
         dirFrame.getContentPane().add(dirField);
@@ -55,7 +53,52 @@ public class DirectorySearch {
         last.setBorder(new LineBorder(CyderColors.navy,5,false));
         last.setColors(CyderColors.regularRed);
         last.addActionListener(e -> {
-            //todo
+            if (backward != null && !backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
+                forward.push(currentDirectory);
+
+                currentDirectory = backward.pop();
+                File[] files = currentDirectory.listFiles();
+
+                cyderScrollList.clearElements();
+                dirFrame.remove(dirScrollLabel);
+
+                directoryFileList.clear();
+                directoryNameList.clear();
+
+                Collections.addAll(directoryFileList, files);
+
+                for (File file : directoryFileList) {
+                    directoryNameList.add(file.getName());
+                }
+
+                cyderScrollList = new CyderScrollList(600, 340, CyderScrollList.SelectionPolicy.SINGLE);
+                cyderScrollList.setScrollFont(CyderFonts.weatherFontSmall.deriveFont(16f));
+
+                for (int i = 0 ; i < directoryNameList.size() ; i++) {
+                    int finalI = i;
+                    class thisAction implements CyderScrollList.ScrollAction {
+                        @Override
+                        public void fire() {
+                            if (directoryFileList.get(finalI).isDirectory()) {
+                                refreshBasedOnDir(directoryFileList.get(finalI));
+                            } else {
+                                IOUtil.openFile(directoryFileList.get(finalI).getAbsolutePath());
+                            }
+                        }
+                    }
+
+                    thisAction action = new thisAction();
+                    cyderScrollList.addElement(directoryNameList.get(i), action);
+                }
+
+                dirScrollLabel = cyderScrollList.generateScrollList();
+                dirScrollLabel.setBounds(10,120,600, 340);
+                dirFrame.getContentPane().add(dirScrollLabel);
+                dirFrame.revalidate();
+                dirFrame.repaint();
+                dirFrame.setTitle(currentDirectory.getName());
+                dirField.setText(currentDirectory.getAbsolutePath());
+            }
         });
         last.setBounds(15,50,40,60);
         dirFrame.getContentPane().add(last);
@@ -68,7 +111,52 @@ public class DirectorySearch {
         next.setBorder(new LineBorder(CyderColors.navy,5,false));
         next.setColors(CyderColors.regularRed);
         next.addActionListener(e -> {
-            //todo
+            if (forward != null && !forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
+                backward.push(currentDirectory);
+
+                currentDirectory = forward.pop();
+                File[] files = currentDirectory.listFiles();
+
+                cyderScrollList.clearElements();
+                dirFrame.remove(dirScrollLabel);
+
+                directoryFileList.clear();
+                directoryNameList.clear();
+
+                Collections.addAll(directoryFileList, files);
+
+                for (File file : directoryFileList) {
+                    directoryNameList.add(file.getName());
+                }
+
+                cyderScrollList = new CyderScrollList(600, 340, CyderScrollList.SelectionPolicy.SINGLE);
+                cyderScrollList.setScrollFont(CyderFonts.weatherFontSmall.deriveFont(16f));
+
+                for (int i = 0 ; i < directoryNameList.size() ; i++) {
+                    int finalI = i;
+                    class thisAction implements CyderScrollList.ScrollAction {
+                        @Override
+                        public void fire() {
+                            if (directoryFileList.get(finalI).isDirectory()) {
+                                refreshBasedOnDir(directoryFileList.get(finalI));
+                            } else {
+                                IOUtil.openFile(directoryFileList.get(finalI).getAbsolutePath());
+                            }
+                        }
+                    }
+
+                    thisAction action = new thisAction();
+                    cyderScrollList.addElement(directoryNameList.get(i), action);
+                }
+
+                dirScrollLabel = cyderScrollList.generateScrollList();
+                dirScrollLabel.setBounds(10,120,600, 340);
+                dirFrame.getContentPane().add(dirScrollLabel);
+                dirFrame.revalidate();
+                dirFrame.repaint();
+                dirFrame.setTitle(currentDirectory.getName());
+                dirField.setText(currentDirectory.getAbsolutePath());
+            }
         });
         next.setBounds(620 - 15 - 15 - 40,50,40,60);
         dirFrame.getContentPane().add(next);
@@ -126,7 +214,16 @@ public class DirectorySearch {
     };
 
     private void refreshBasedOnDir(File directory) {
-        System.out.println("put into back stack: " + dirField.getText());
+        //clear forward since a new path
+        forward.clear();
+
+        //before where we were is wiped, put it in backwards if it's not the last
+        if (backward.isEmpty() || !backward.peek().equals(currentDirectory)) {
+            backward.push(currentDirectory);
+        }
+
+        //this is our current now
+        currentDirectory = directory;
 
         File[] files = directory.listFiles();
 
@@ -168,5 +265,6 @@ public class DirectorySearch {
         dirFrame.revalidate();
         dirFrame.repaint();
         dirFrame.setTitle(directory.getName());
+        dirField.setText(directory.getAbsolutePath());
     }
 }
