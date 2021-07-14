@@ -1,11 +1,23 @@
 <p align="center">
 <a>
-<img  src="https://img.shields.io/badge/Cyder-A%20Programmer's%20Swiss%20Army%20Knife-26A8FF?style=for-the-badge&logo=appveyor"/>
+<img  src="https://img.shields.io/github/commit-activity/w/NathanCheshire/Cyder?style=for-the-badge"/>
+</a>
+<a>
+<img  src="https://img.shields.io/github/license/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
+</a>
+<a>
+<img  src="https://img.shields.io/github/issues/NathanCheshire/Cyder?style=for-the-badge"/>
+</a>
+<a>
+<img  src="https://img.shields.io/tokei/lines/Github.com/NathanCheshire/Cyder?style=for-the-badge"/>
+</a>
+<a>
+<img  src="https://img.shields.io/github/repo-size/NathanCheshire/Cyder?style=for-the-badge"/>
 </a>
 </p>
 
 # Cyder - A Programmers Swiss Army Knife
- 
+
 ## Screenshots
 Desktop full of Cyder Widgets <br/>
 <img src="https://i.imgur.com/4hEv3kG.png" data-canonical-src="https://i.imgur.com/4hEv3kG.png" width="800" height="440" />
