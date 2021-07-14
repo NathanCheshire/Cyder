@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.utilities.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -110,6 +111,22 @@ public class CyderScrollList {
                 } else {
                     handleElementClick(add.getText());
                 }
+            }
+        });
+
+        elements.add(add);
+    }
+
+    public void addElementWithSingleCLickAction(String labelText, @NotNull ScrollAction sa) {
+        JLabel add = new JLabel(labelText);
+        add.setForeground(CyderColors.navy);
+        add.setFont(CyderFonts.weatherFontSmall);
+        add.setVerticalAlignment(JLabel.CENTER);
+        add.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                sa.fire();
+                handleElementClick(add.getText());
             }
         });
 

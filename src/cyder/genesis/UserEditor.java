@@ -19,27 +19,29 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class UserEditor {
     private CyderFrame editUserFrame;
     private CyderScrollPane musicBackgroundScroll;
+
     private CyderButton addMusicBackground;
     private CyderButton openMusicBackground;
     private CyderButton deleteMusicBackground;
     private CyderButton renameMusicBackground;
+
     private JList<?> componentsList;
     private List<String> musicBackgroundNameList;
     private List<File> musicBackgroundList;
-    private JList fontList;
+    private LinkedList<String> fontList = new LinkedList<>();
     private CyderButton changeUsername;
     private CyderButton changePassword;
     private CyderButton forwardPanel;
@@ -629,24 +631,34 @@ public class UserEditor {
         FontLabel.setBounds(150, 60, 300, 30);
         switchingLabel.add(FontLabel);
 
+        //todo single element selection
+        // upon single selection, single click addElementWithSingleClickAction(),
+        // change the font of FontLabel to the selected one
+
+        //todo add get selected element which returns the zero-th element
+        //todo add elemental alignment to cyderscrolllist and set to center for this
+
         String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        Collections.addAll(fontList, Fonts);
 
-        fontList = new JList(Fonts);
-        fontList.setSelectionBackground(CyderColors.selectionColor);
-        fontList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        fontList.setFont(CyderFonts.weatherFontSmall);
+        CyderScrollList fontScrollList = new CyderScrollList(300, 300, CyderScrollList.SelectionPolicy.SINGLE);
 
-        for (int i = 0 ; i < Fonts.length ; i++)
-            if (Fonts[i].equals(IOUtil.getUserData("Font")))
-                fontList.setSelectedIndex(i);
+        for (int i = 0 ; i < fontList.size() ; i++) {
+            int finalI = i;
+            class thisAction implements CyderScrollList.ScrollAction {
+                @Override
+                public void fire() {
+                    FontLabel.setFont(new Font(fontList.get(finalI),Font.BOLD, 30));
+                }
+            }
 
+            thisAction action = new thisAction();
+            fontScrollList.addElementWithSingleCLickAction(fontList.get(i), action);
+        }
 
-        CyderScrollPane FontListScroll = new CyderScrollPane(fontList,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        FontListScroll.setThumbColor(CyderColors.intellijPink);
-        FontListScroll.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        JLabel fontScrollLabel = fontScrollList.generateScrollList();
+        fontScrollLabel.setBounds(50, 100, 300, 300);
+        switchingLabel.add(fontScrollLabel);
 
         CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -656,46 +668,18 @@ public class UserEditor {
         applyFont.setFocusPainted(false);
         applyFont.setBackground(CyderColors.regularRed);
         applyFont.addActionListener(e -> {
-            String FontS = (String) fontList.getSelectedValue();
+            String selectedFont = fontScrollList.getSelectedElements().get(0);
 
-            if (FontS != null) {
-                Font ApplyFont = new Font(FontS, Font.BOLD, 30);
+            if (selectedFont != null) {
+                Font ApplyFont = new Font(selectedFont, Font.BOLD, 30);
                 ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ApplyFont);
                 ConsoleFrame.getConsoleFrame().getInputField().setFont(ApplyFont);
-                IOUtil.setUserData("Font", FontS);
-                ConsoleFrame.getConsoleFrame().getInputHandler().println("The font \"" + FontS + "\" has been applied.");
+                IOUtil.setUserData("Font", selectedFont);
+                ConsoleFrame.getConsoleFrame().getInputHandler().println("The font \"" + selectedFont + "\" has been applied.");
             }
         });
         applyFont.setBounds(100, 420, 200, 40);
         switchingLabel.add(applyFont);
-
-        fontList.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    applyFont.doClick();
-                } else {
-                    try {
-                        FontLabel.setFont(new Font(fontList.getSelectedValue().toString(), Font.BOLD, 30));
-                    } catch (Exception ex) {
-                        ErrorHandler.handle(ex);
-                    }
-                }
-            }
-        });
-
-        fontList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                JList t = (JList) e.getSource();
-                int index = t.locationToIndex(e.getPoint());
-
-                FontLabel.setFont(new Font(t.getModel().getElementAt(index).toString(), Font.BOLD, 30));
-            }
-        });
-
-        FontListScroll.setBounds(50, 100, 300, 300);
-        switchingLabel.add(FontListScroll, Component.CENTER_ALIGNMENT);
 
         switchingLabel.revalidate();
     }
