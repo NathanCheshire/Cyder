@@ -34,11 +34,11 @@ The name comes from, well, I don't know to be completely transparent. I think it
 
 ## Usage
 
-Currently you can fork the project or download it I suppose. Running it in an IDE like Eclipse or IntelliJ shouldn't be that hard if you know what you're doing. For IntelliJ which is what I use, you might have to import the libraries inside the jars folder (sys/jars). Other than that, it should be pretty simple to get it working on your machine. ~~At some point I'll make it a jar that can download all the files and resources it needs from the internet and be independent of an IDE.~~
+TODO gradle setup instructions, forking, adding, and PR requests, and Release usage instructions to come.
 
 ## Disclaimers
 
-As of 5.18.21, the program is intended for 2560x1440 resolution displays (my main display). I plan to fix this using SVG and other vector based graphics approaches in the future but currently, seeing as this message is still here, the program will look and operate best using a 2560x1440 display, Windows 10+, and Java 8+.
+As of 5.18.21, the program is intended for 2560x1440 resolution displays (my main display). I plan to fix this using SVG and other vector based graphics approaches in the future but currently, seeing as this message is still here, the program will look and operate best using a 2560x1440 display and Windows 10+.
 
 ## TODO
 
@@ -49,7 +49,7 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [ ]  comment the code
 - [ ]  log exit codes at what time and by whom
 - [ ]  make chat IO logs for each session
-- [ ]  move start data to user specific and place in a logs dir for the user. You should zip these logs upon completion
+- [x]  move start data to user specific and place in a logs dir for the user. You should zip these logs upon completion
 - [ ]  incorporate CyderProgressUI for ProgressBars wherever it might fit
 - [ ]  put spotlight inside of the program
 - [ ]  get ImAvg working and put it inside the program
@@ -58,31 +58,31 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [x]  change the login animation to actual sliding JLabels with text and not a sliding image
 - [ ]  make a perlin noise widget
 - [ ]  make a Conway's Game of Life widget
-- [ ]  make pixelating a picture it's own widget
+- [x]  make pixelating a picture it's own widget
 - [ ]  add multiple image support (not just PNG)
 - [ ]  add a light/dark mode toggle
 - [ ]  be able to change the CyderFrame/ConsolFrame border color from navy to some other color and repaint it. Remmeber this change
 - [ ]  if your location cannot be found, restrict features that rely on IP data and inform the user of this
-- [ ]  get start animations working and use them for CyderFrame instanceof objects
+- [x]  get start animations working and use them for CyderFrame instanceof objects
 - [x]  utilize system.exit more and give more data on why the program was exited
 - [ ]  be able to download missing files from the internet and if you cannot and you need them, inform the user and exit the program
 - [x]  move file.txt, string.txt, and inputmessage.txt to the tmp directory (removed in 6.22.21)
-- [ ]  utilze html inside of notifications (line breaks, color, bold, italics, etc.)
+- [x]  utilze html inside of notifications (line breaks, color, bold, italics, etc.)
 - [ ]  be able to set the background to a solid color. On doing so, save the background
 - [ ]  Algorithms package with euclidian algorithm: Algorithms.euclidian(47,63) should return ints in same order to multiply alpha and beta inputs by to get the gcd
 - [ ]  make an entire minecraft widget which can launch minecraft via the offical launcher, lunar client, or any other client provided the user can provide a path to the executable
 - [ ]  allow starting executables to be mapped to links within the menu
 - [ ]  convert all non vector based images to SVGs or other vector based data structures
-- [ ]  if the operating system is OSX, swap the location of the menu and window toggle trio and make it resemble the green, yellow, red dots on OSX
+- [ ]  exit the program if in OSX (program not intended for OSX and should only run on Windows 10+ and possible Linux distros)
 - [ ]  implement convex hull algorithm and visualizer
 - [ ]  implement path finding visualizer but also link to pac-man game
 - [x]  make certain classes final, don't let people instantiate the class by making the constructor private like "private Math() {}"
 - [ ]  take and recongize a pastebin link or UUID and print the contents to the console, should be reading from the RAW paste
-- [ ]  allow once instance of console frame but multiple for dev mode (See Runtime native class)
+- [x]  allow one instance of console frame
 - [x]  make launching and testing easier
 - [ ]  make a music lab using lines that correspond to notes; inspired by Wintergatan Marble Machine
 - [x]  add work with binary files (read/write to/from bin files)
-- [ ]  determine common files even without extension based on meta data binary reader
+- [x]  determine common files even without extension based on meta data binary reader
 - [x]  bin dump function
 - [x]  hex dump function
 - [ ]  ncview functionality
