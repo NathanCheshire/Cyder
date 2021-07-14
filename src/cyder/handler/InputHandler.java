@@ -49,8 +49,10 @@ public class InputHandler {
     // just pass a random it such as "0" to say that it shouldn't be hashed
     // but simply compared against the password hash in userdata
 
-    //todo implement mapping links, you'll need to change how user data is stored
-    // make an issue for this and finally switching to binary writing
+    //todo user data is stable enough; switch to new IO but add debug methods
+    // that will convrt to and from and dump to console so you can debug in the process
+
+    //todo implement mapping links, possibly switch to JSON userdata storage before
 
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;

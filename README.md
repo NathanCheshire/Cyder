@@ -1,3 +1,9 @@
+<p align="center">
+<a>
+<img  src="https://img.shields.io/badge/Cyder-A%20Programmer's%20Swiss%20Army%20Knife-26A8FF?style=for-the-badge&logo=appveyor"/>
+</a>
+</p>
+
 # Cyder - A Programmers Swiss Army Knife
  
 ## Screenshots
