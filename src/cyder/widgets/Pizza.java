@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class Pizza {
 
@@ -22,8 +22,13 @@ public class Pizza {
     private CyderCheckBox mediumPizza;
     private CyderCheckBox largePizza;
 
-    private JList<String> pizzaToppingsList;
-    private JList<String> crustTypeList;
+    private CyderScrollList pizzaToppingsScroll;
+    private CyderScrollList crustTypeScroll;
+    private JLabel pizzaToppingsLabel;
+    private JLabel crustTypeLabel;
+
+    private LinkedList<String> pizzaToppingsList;
+    private LinkedList<String> crustTypeList;
 
     private JTextArea orderComments;
 
@@ -143,53 +148,35 @@ public class Pizza {
         crustLabel.setBounds(90,210,130,30);
         pizzaFrame.getContentPane().add(crustLabel);
 
-        //todo crust type
-        String[] CrustTypeChoice = {"Thin", "Thick", "Deep Dish", "Classic", "Tavern", "Seasonal"};
-        JList crustToppingsJList = new JList(CrustTypeChoice);
-        crustTypeList = crustToppingsJList;
-        crustTypeList.setForeground(CyderColors.navy);
-        crustTypeList.setFont(CyderFonts.weatherFontSmall);
-        crustTypeList.setSelectionBackground(CyderColors.selectionColor);
-        crustTypeList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-
-        CyderScrollPane crustToppingsListScroll = new CyderScrollPane(crustTypeList,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        crustToppingsListScroll.setThumbColor(CyderColors.regularRed);
-        crustToppingsListScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-        crustToppingsListScroll.getViewport().setBorder(null);
-        crustToppingsListScroll.setViewportBorder(null);
-        crustToppingsListScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
-        crustToppingsListScroll.setBounds(80,250,160,200);
-        pizzaFrame.getContentPane().add(crustToppingsListScroll);
-
         JLabel Toppings = new JLabel("Toppings");
         Toppings.setFont(CyderFonts.weatherFontSmall);
         Toppings.setForeground(CyderColors.navy);
         Toppings.setBounds(370,210,130,30);
         pizzaFrame.getContentPane().add(Toppings);
 
-        //todo topings type
-        String[] pizzaToppingsStrList = {"Pepperoni", "Sausage", "Green Peppers",
+        String[] crustTypes = {"Thin", "Thick", "Deep Dish", "Classic", "Tavern", "Seasonal"};
+        crustTypeScroll = new CyderScrollList(160, 200, CyderScrollList.SelectionPolicy.SINGLE);
+
+        for (String crustType : crustTypes) {
+            crustTypeScroll.addElement(crustType, null);
+        }
+
+        crustTypeLabel = crustTypeScroll.generateScrollList();
+        crustTypeLabel.setBounds(80,250,160,200);
+        pizzaFrame.getContentPane().add(crustTypeLabel);
+
+        String[] pizzaToppings = {"Pepperoni", "Sausage", "Green Peppers",
                 "Onions", "Tomatoes", "Anchovies", "Bacon", "Chicken", "Beef",
                 "Olives", "Mushrooms"};
-        JList pizzaToppingsJList = new JList(pizzaToppingsStrList);
-        pizzaToppingsList = pizzaToppingsJList;
-        pizzaToppingsList.setForeground(CyderColors.navy);
-        pizzaToppingsList.setFont(CyderFonts.weatherFontSmall);
-        pizzaToppingsList.setSelectionBackground(CyderColors.selectionColor);
-        pizzaToppingsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        pizzaToppingsScroll = new CyderScrollList(200, 200, CyderScrollList.SelectionPolicy.MULTIPLE);
 
-        CyderScrollPane PizzaToppingsListScroll = new CyderScrollPane(pizzaToppingsList,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        PizzaToppingsListScroll.setThumbColor(CyderColors.regularRed);
-        PizzaToppingsListScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-        PizzaToppingsListScroll.getViewport().setBorder(null);
-        PizzaToppingsListScroll.setViewportBorder(null);
-        PizzaToppingsListScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
-        PizzaToppingsListScroll.setBounds(320,250,600 - 80 - 320,200);
-        pizzaFrame.getContentPane().add(PizzaToppingsListScroll);
+        for (String pizzaTopping : pizzaToppings) {
+            pizzaToppingsScroll.addElement(pizzaTopping, null);
+        }
+
+        pizzaToppingsLabel = pizzaToppingsScroll.generateScrollList();
+        pizzaToppingsLabel.setBounds(320,250,200,200);
+        pizzaFrame.getContentPane().add(pizzaToppingsLabel);
 
         JLabel Extra = new JLabel("Extras:");
         Extra.setForeground(CyderColors.navy);
@@ -280,9 +267,9 @@ public class Pizza {
                 else
                     Size = "Large<br/>";
 
-                String Crust = crustTypeList.getSelectedValue();
+                String Crust = crustTypeScroll.getSelectedElements().get(0);
 
-                List<String> ToppingsList = pizzaToppingsList.getSelectedValuesList();
+                LinkedList<String> ToppingsList = pizzaToppingsScroll.getSelectedElements();
                 ArrayList<String> ToppingsArrList = new ArrayList<>();
 
                 for (Object o : ToppingsList)
@@ -317,13 +304,13 @@ public class Pizza {
 
                 if (Comments.length() == 0) {
                     GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
-                        + "<br/>" + Size + "<br/><br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Topings: " + "<br/><br/>" + ToppingsChosen
+                        + "<br/>" + Size + "<br/><br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/><br/>" + ToppingsChosen
                         + "<br/><br/>" + Extras,"Order Summary");
                 }
 
                 else {
                     GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
-                        + "<br/>" + Size + "<br/><br/>" + "Crust Type: " + "<br/>" + Crust + "<br/><br/>" + "Topings: " + "<br/>" + ToppingsChosen
+                        + "<br/>" + Size + "<br/><br/>" + "Crust Type: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/>" + ToppingsChosen
                         + "<br/>" + Extras + "<br/><br/>Comments: " + "<br/><br/>" + Comments,"Order Summary");
                 }
             }
@@ -340,8 +327,8 @@ public class Pizza {
             smallPizza.setNotSelected();
             mediumPizza.setNotSelected();
             largePizza.setNotSelected();
-            crustTypeList.clearSelection();
-            pizzaToppingsList.clearSelection();
+            crustTypeScroll.clearSelectedElements();
+            pizzaToppingsScroll.clearSelectedElements();
             breadSticks.setNotSelected();
             salad.setNotSelected();
             soda.setNotSelected();

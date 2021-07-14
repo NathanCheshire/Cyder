@@ -117,7 +117,7 @@ public class Notes {
 
                     initializeNotesList();
 
-                    cyderScrollList.clearElements();
+                    cyderScrollList.removeAllElements();
                     noteFrame.remove(noteScrollLabel);
 
                     for (int j = 0 ; j < noteNameList.size() ; j++) {
@@ -216,7 +216,7 @@ public class Notes {
 
             initializeNotesList();
 
-            cyderScrollList.clearElements();
+            cyderScrollList.removeAllElements();
             noteFrame.remove(noteScrollLabel);
 
             for (int i = 0 ; i < noteNameList.size() ; i++) {
@@ -331,7 +331,7 @@ public class Notes {
                     GenericInform.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved");
                     initializeNotesList();
 
-                    cyderScrollList.clearElements();
+                    cyderScrollList.removeAllElements();
                     noteFrame.remove(noteScrollLabel);
 
                     for (int i = 0 ; i < noteNameList.size() ; i++) {

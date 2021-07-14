@@ -59,7 +59,7 @@ public class DirectorySearch {
                 currentDirectory = backward.pop();
                 File[] files = currentDirectory.listFiles();
 
-                cyderScrollList.clearElements();
+                cyderScrollList.removeAllElements();
                 dirFrame.remove(dirScrollLabel);
 
                 directoryFileList.clear();
@@ -117,7 +117,7 @@ public class DirectorySearch {
                 currentDirectory = forward.pop();
                 File[] files = currentDirectory.listFiles();
 
-                cyderScrollList.clearElements();
+                cyderScrollList.removeAllElements();
                 dirFrame.remove(dirScrollLabel);
 
                 directoryFileList.clear();
@@ -227,7 +227,7 @@ public class DirectorySearch {
 
         File[] files = directory.listFiles();
 
-        cyderScrollList.clearElements();
+        cyderScrollList.removeAllElements();
         dirFrame.remove(dirScrollLabel);
 
         directoryFileList.clear();

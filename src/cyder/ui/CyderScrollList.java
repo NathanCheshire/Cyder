@@ -120,7 +120,7 @@ public class CyderScrollList {
         void fire();
     }
 
-    public void clearElements() {
+    public void removeAllElements() {
         this.elements = new LinkedList<>();
     }
 
@@ -208,5 +208,11 @@ public class CyderScrollList {
         };
         sepLabel.setForeground(CyderColors.navy);
         return sepLabel;
+    }
+
+    public void clearSelectedElements() {
+        for (JLabel element : elements) {
+            element.setForeground(CyderColors.navy);
+        }
     }
 }
