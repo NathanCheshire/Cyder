@@ -100,11 +100,10 @@ public class AudioPlayer {
         changeSize.addActionListener(e -> {
            if (!miniPlayer) {
                enterMiniPlayer();
-               miniPlayer = !miniPlayer;
            } else {
                exitMiniPlayer();
-               miniPlayer = !miniPlayer;
            }
+            miniPlayer = !miniPlayer;
         });
         changeSize.addMouseListener(new MouseAdapter() {
             @Override
@@ -427,13 +426,8 @@ public class AudioPlayer {
         audioFrame.requestFocus();
 
         if (startPlaying != null && StringUtil.getExtension(startPlaying).equals(".mp3")) {
-            try {
-                refreshAudioFiles(startPlaying);
-                startAudio();
-            } catch (FatalException e) {
-                e.printStackTrace();
-                ErrorHandler.handle(e);
-            }
+            refreshAudioFiles(startPlaying);
+            startAudio();
         } else {
             try {
                 File userAudioDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" );
@@ -491,26 +485,25 @@ public class AudioPlayer {
      * When starting pass the file that the user selected using the select audio directory button.
      * On refresh, you may pass null and the program will infer where to look based on the current audioFile dir.
      */
-    public void refreshAudioFiles(File chosenFile) throws FatalException {
+    public void refreshAudioFiles(File refreshOnFile) {
         if (audioFiles == null)
             audioFiles = new LinkedList<>();
 
-        if (chosenFile == null) {
-            if (audioFiles.size() == 0)
-                throw new FatalException("Chosen file is null with no files in audioFiles to get parent from");
-            else {
-                chosenFile = audioFiles.get(0);
-            }
+        if (refreshOnFile == null) {
+            if (audioFiles == null || audioFiles.size() == 0)
+                throw new IllegalArgumentException("No music files were found to refresh on");
+
+            refreshOnFile = audioFiles.get(audioIndex);
         }
 
-        File neighboringFiles[] = chosenFile.getParentFile().listFiles();
+        File neighboringFiles[] = refreshOnFile.getParentFile().listFiles();
 
         for (File file : neighboringFiles)
             if (StringUtil.getExtension(file).equals(".mp3"))
                 audioFiles.add(file);
 
         for (int i = 0; i < audioFiles.size() ; i++) {
-            if (audioFiles.get(i).equals(chosenFile))
+            if (audioFiles.get(i).equals(refreshOnFile))
                 audioIndex = i;
         }
 
@@ -579,6 +572,7 @@ public class AudioPlayer {
      * Skips to the current audio file's predecesor if it exists in the directory.
      */
     public void previousAudio() {
+        refreshAudioFiles(null);
         lastAction = LastAction.SKIP;
         try {
             stopAudio();
@@ -609,6 +603,7 @@ public class AudioPlayer {
      * Skips to the current audio file's successor if it exists in the directory.
      */
     public void nextAudio() {
+        refreshAudioFiles(null);
         lastAction = LastAction.SKIP;
         try {
             stopAudio();
@@ -966,10 +961,7 @@ public class AudioPlayer {
      */
     public void setPinned(boolean b) {
         this.pinned = b;
-        if (this.pinned)
-            audioFrame.setAlwaysOnTop(true);
-        else
-            audioFrame.setAlwaysOnTop(false);
+        audioFrame.setAlwaysOnTop(this.pinned);
     }
 
     /**

@@ -6,6 +6,7 @@ import cyder.utilities.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
@@ -56,6 +57,12 @@ public class CyderScrollList {
         this.scrollFont = f;
     }
 
+    private Border border = new LineBorder(CyderColors.navy,5,false);
+
+    public void setBorder(Border border) {
+        this.border = border;
+    }
+
     public JLabel generateScrollList() {
         Font menuFont = scrollFont;
         int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
@@ -95,7 +102,7 @@ public class CyderScrollList {
         scrollPane.setOpaque(false);
         scrollPane.setThumbColor(CyderColors.intellijPink);
         scrollPane.setBackground(CyderColors.vanila);
-        scrollPane.setBorder(new LineBorder(CyderColors.navy,5,false));
+        scrollPane.setBorder(border);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBounds(0, 0, this.width, this.height);

@@ -40,10 +40,6 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo add enter listeners to focusable consoleframe elments
-
-    //todo AudioPlayer should refresh files and update index on ANY action
-
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
     // then it will find the username,singular sha256 hash) don't call it singular
     // just pass a random it such as "0" to say that it shouldn't be hashed

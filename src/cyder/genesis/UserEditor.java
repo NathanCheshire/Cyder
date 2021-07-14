@@ -255,6 +255,7 @@ public class UserEditor {
         initMusicBackgroundList();
 
         musicBackgroundScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
+        musicBackgroundScroll.setBorder(null);
 
         for (int i = 0 ; i < musicBackgroundNameList.size() ; i++) {
             int finalI = i;

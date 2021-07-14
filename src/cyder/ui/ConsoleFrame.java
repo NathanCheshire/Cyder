@@ -489,6 +489,12 @@ public final class ConsoleFrame {
 
             suggestionButton = new JButton("");
             suggestionButton.setToolTipText("Suggestions");
+
+            //instantiate enter listener for all buttons
+            InputMap im = (InputMap)UIManager.get("Button.focusInputMap");
+            im.put( KeyStroke.getKeyStroke( "ENTER" ), "pressed" );
+            im.put( KeyStroke.getKeyStroke( "released ENTER" ), "released" );
+
             suggestionButton.addActionListener(e -> {
                 consoleCyderFrame.notify("What feature would you like to suggest? " +
                         "(Please include as much detail as possible such as " +
@@ -532,7 +538,43 @@ public final class ConsoleFrame {
             menuLabel.setFocusable(false);
             menuLabel.setVisible(false);
             menuButton.setToolTipText("Menu");
-            menuButton.addMouseListener(consoleMenu);
+            menuButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (menuLabel.isVisible()) {
+                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
+                    } else {
+                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide2.png"));
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (menuLabel.isVisible()) {
+                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
+                    } else {
+                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+                    }
+                }
+            });
+            menuButton.addActionListener(e -> {
+                if (!menuLabel.isVisible()) {
+                    if (!menuGenerated)
+                        generateConsoleMenu();
+
+                    menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 5);
+                    menuLabel.setVisible(true);
+
+                    if (IOUtil.getUserData("menudirection").equals("1")) {
+                        AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
+                    } else {
+                        menuLabel.setLocation(0, -250);
+                        AnimationUtil.componentDown(-250, DragLabel.getDefaultHeight() - 5, 10, 8, menuLabel);
+                    }
+                } else {
+                    minimizeMenu();
+                }
+            });
             menuButton.setBounds(4, 4, 22, 22);
             menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
             consoleCyderFrame.getTopDragLabel().add(menuButton);
@@ -614,26 +656,24 @@ public final class ConsoleFrame {
                 public void mouseExited(MouseEvent e) {
                     alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
                 }
+            });
+            alternateBackground.addActionListener(e -> {
+                ConsoleFrame.getConsoleFrame().initBackgrounds();
 
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    ConsoleFrame.getConsoleFrame().initBackgrounds();
-
-                    try {
-                        if (canSwitchBackground()) {
-                            switchBackground();
-                        }  else if (getBackgrounds().size() == 1) {
-                            consoleCyderFrame.notify("You only have one background image. " +
-                                    "Would you like to add more? (Enter yes/no)");
-                            inputField.requestFocus();
-                            inputHandler.setUserInputMode(true);
-                            inputHandler.setUserInputDesc("addbackgrounds");
-                            inputField.requestFocus();
-                        }
-                    } catch (Exception ex) {
-                        ErrorHandler.handle(new FatalException("Background DNE"));
-                        consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
+                try {
+                    if (canSwitchBackground()) {
+                        switchBackground();
+                    }  else if (getBackgrounds().size() == 1) {
+                        consoleCyderFrame.notify("You only have one background image. " +
+                                "Would you like to add more? (Enter yes/no)");
+                        inputField.requestFocus();
+                        inputHandler.setUserInputMode(true);
+                        inputHandler.setUserInputDesc("addbackgrounds");
+                        inputField.requestFocus();
                     }
+                } catch (Exception ex) {
+                    ErrorHandler.handle(new FatalException("Background DNE"));
+                    consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
                 }
             });
             alternateBackground.addFocusListener(new FocusAdapter() {
@@ -1236,46 +1276,6 @@ public final class ConsoleFrame {
 
         menuGenerated = true;
     }
-
-    private MouseAdapter consoleMenu = new MouseAdapter() {
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            if (!menuLabel.isVisible()) {
-                if (!menuGenerated)
-                    generateConsoleMenu();
-
-                menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 5);
-                menuLabel.setVisible(true);
-
-                if (IOUtil.getUserData("menudirection").equals("1")) {
-                    AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
-                } else {
-                    menuLabel.setLocation(0, -250);
-                    AnimationUtil.componentDown(-250, DragLabel.getDefaultHeight() - 5, 10, 8, menuLabel);
-                }
-            } else {
-                minimizeMenu();
-            }
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            if (menuLabel.isVisible()) {
-                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
-            } else {
-                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide2.png"));
-            }
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            if (menuLabel.isVisible()) {
-                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
-            } else {
-                menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
-            }
-        }
-    };
 
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
