@@ -39,16 +39,16 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo hex dumping any file should be immediate, build a string with proper new lines
-    // and then send to inputHandler.println
-
-    //todo refresh Cyder logo with 3 or 4 colors
+    //todo println priority methods to put into priority queue to avoid typing animation
+    //todo user pref to toggle typing animation
+    //todo minimize on close user pref
 
     //todo if inputpassfield or login field ever contains bash string, just remove it
 
     //todo "black background" or hex code background will create that background with the size 800x800, save it
     // and switch to it immediately
 
+    //todo (re-implement double hashing before this)
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
     // then it will find the username,singular sha256 hash) don't call it singular
     // just pass a random it such as "0" to say that it shouldn't be hashed
@@ -57,7 +57,7 @@ public class InputHandler {
     //todo user data is stable enough; switch to new IO but add debug methods
     // that will convrt to and from and dump to console so you can debug in the process
 
-    //todo implement mapping links, possibly switch to JSON userdata storage before
+    //todo implement mapping links, switch to JSON userdata storage before imlementing
 
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
@@ -647,14 +647,18 @@ public class InputHandler {
                         InputStream inputStream = new FileInputStream(f);
                         int numberOfColumns = 10;
 
-                        long streamPtr=0;
+                        StringBuilder sb = new StringBuilder();
+
+                        long streamPtr = 0;
                         while (inputStream.available() > 0) {
                             final long col = streamPtr++ % numberOfColumns;
-                            print(String.format("%02x ", inputStream.read()));
+                            sb.append(String.format("%02x ", inputStream.read()));
                             if (col == (numberOfColumns - 1)) {
-                                println("");
+                                sb.append("\n");
                             }
                         }
+
+                        println(sb.toString());
                     }
                 }
             } else {
