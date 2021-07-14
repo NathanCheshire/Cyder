@@ -1,6 +1,5 @@
 package cyder.utilities;
 
-import cyder.exception.FatalException;
 import cyder.genesis.Entry;
 import cyder.genesis.GenesisShare;
 import cyder.handler.*;
@@ -97,13 +96,12 @@ public class IOUtil {
      * @param userDataBin - the .bin file to read
      * @param dataKey     - the identifier of the data to be obtained
      * @return - the data associated with dataKey
-     * @throws FatalException - if file DNE or file is a non-binary
      */
-    public static String extractUserData(File userDataBin, String dataKey) throws FatalException {
+    public static String extractUserData(File userDataBin, String dataKey)  {
         if (!userDataBin.exists())
-            throw new FatalException("Userdata.bin does not exist");
+            throw new IllegalArgumentException("Userdata.bin does not exist");
         else if (!userDataBin.getName().endsWith(".bin")) {
-            throw new FatalException("Userdata is not a binary");
+            throw new IllegalArgumentException("Userdata is not a binary");
         }
 
         String ret = null;
@@ -990,13 +988,13 @@ public class IOUtil {
         return ret;
     }
 
-    public static void legacyDataToBinary(File userDataTxt) throws FatalException, IOException, InterruptedException {
+    public static void legacyDataToBinary(File userDataTxt) throws Exception {
         if (!userDataTxt.isFile())
-            throw new FatalException("Given file is not a file");
+            throw new IllegalArgumentException("Given file is not a file");
         else if (!userDataTxt.getName().endsWith(".txt"))
-            throw new FatalException("Given file is not a legacy user data file");
+            throw new IllegalArgumentException("Given file is not a legacy user data file");
         else if (!userDataTxt.exists())
-            throw new FatalException("Given file does not exist");
+            throw new IllegalArgumentException("Given file does not exist");
 
         GenesisShare.getExitingSem().acquire();
 
@@ -1006,12 +1004,12 @@ public class IOUtil {
 
         while ((line = legacyReader.readLine()) != null) {
             if (!line.contains(":"))
-                throw new FatalException("Legacy data not formatting properly");
+                throw new IllegalArgumentException("Legacy data not formatting properly");
 
             String[] parts = line.split(":");
 
             if (parts.length != 2)
-                throw new FatalException("Legacy data has more or less than 2 parts");
+                throw new IllegalArgumentException("Legacy data has more or less than 2 parts");
 
             legacyData.add(new NST(parts[0], parts[1]));
         }
@@ -1044,9 +1042,9 @@ public class IOUtil {
         GenesisShare.getExitingSem().release();
     }
 
-    public static String getBinaryString(File f) throws FatalException {
+    public static String getBinaryString(File f) {
         if (!f.exists())
-            throw new FatalException("bin does not exist");
+            throw new IllegalArgumentException("bin does not exist");
         if (!StringUtil.getExtension(f).equalsIgnoreCase(".bin"))
             throw new IllegalArgumentException("File is not a binary");
 
@@ -1065,9 +1063,9 @@ public class IOUtil {
         return ret;
     }
 
-    public static String getHexString(File f) throws FatalException {
+    public static String getHexString(File f) {
         if (!f.exists())
-            throw new FatalException("bin does not exist");
+            throw new IllegalArgumentException("bin does not exist");
         if (!StringUtil.getExtension(f).equalsIgnoreCase(".bin"))
             throw new IllegalArgumentException("File is not a binary");
 

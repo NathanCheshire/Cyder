@@ -3,7 +3,6 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
@@ -375,7 +374,7 @@ public class UserEditor {
                     boolean success = selectedFile.renameTo(renameTo);
 
                     if (!success) {
-                        throw new FatalException("File was not renamed");
+                        throw new IllegalArgumentException("File was not renamed");
                     } else {
                         editUserFrame.notify(selectedFile.getName() +
                                 " was successfully renamed to " + renameTo.getName());

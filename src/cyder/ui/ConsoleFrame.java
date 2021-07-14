@@ -4,7 +4,6 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
-import cyder.exception.FatalException;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.handler.InputHandler;
@@ -672,8 +671,8 @@ public final class ConsoleFrame {
                         inputField.requestFocus();
                     }
                 } catch (Exception ex) {
-                    ErrorHandler.handle(new FatalException("Background DNE"));
                     consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
+                    throw new IllegalArgumentException("Background DNE");
                 }
             });
             alternateBackground.addFocusListener(new FocusAdapter() {

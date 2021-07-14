@@ -2,7 +2,6 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
-import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -433,7 +432,7 @@ public class AudioPlayer {
                 File userAudioDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" );
 
                 if (!userAudioDir.exists())
-                    throw new FatalException("User music directory does not exist.");
+                    throw new IllegalArgumentException("User music directory does not exist.");
 
                 File[] userFiles = userAudioDir.listFiles();
 

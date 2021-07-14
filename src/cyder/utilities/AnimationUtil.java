@@ -1,6 +1,5 @@
 package cyder.utilities;
 
-import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 
@@ -219,7 +218,7 @@ public class AnimationUtil {
         try {
             //width below 600 now allowed
             if (len < 600) {
-                throw new FatalException("Background dimensions below 600x600 " +
+                throw new IllegalArgumentException("Background dimensions below 600x600 " +
                         "are not allowed and shouln't be possible; allow me to fix that");
             }
 

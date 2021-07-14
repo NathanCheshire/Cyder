@@ -2,7 +2,6 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
-import cyder.exception.FatalException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -230,9 +229,9 @@ public class DragLabel extends JLabel {
         return ret;
     }
 
-    public JButton getButton(int index) throws FatalException {
+    public JButton getButton(int index) {
         if (index < 0 || index > buttonsList.size() - 1)
-            throw new FatalException("Attempting to get button from invalid index.");
+            throw new IllegalArgumentException("Attempting to get button from invalid index.");
 
         return this.buttonsList.get(index);
     }

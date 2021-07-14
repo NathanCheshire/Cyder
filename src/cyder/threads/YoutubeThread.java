@@ -1,7 +1,5 @@
 package cyder.threads;
 
-
-import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -38,9 +36,9 @@ public class YoutubeThread {
 
             try {
                 if (UUID.length() != 11)
-                    throw new FatalException("Youtube Thread UUID not length 11");
+                    throw new IllegalArgumentException("Youtube Thread UUID not length 11");
                 else if (UUID.length() == 0 || UUID == null)
-                    throw new FatalException("Youtube Thread UUID length 0 or null");
+                    throw new IllegalArgumentException("Youtube Thread UUID length 0 or null");
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
@@ -90,7 +88,7 @@ public class YoutubeThread {
                     //invalid UUID so we ingnore and increment the UUID here to ensure we checked it
                     try {
                         UUID = String.valueOf(incrementUUID(UUID.toCharArray(), 10));
-                    } catch (FatalException e) {
+                    } catch (Exception e) {
                         ErrorHandler.handle(e);
                     }
                 }
@@ -132,7 +130,7 @@ public class YoutubeThread {
         },"Random youtube thread").start();
     }
 
-    private char[] incrementUUID(char[] uuid, int pos) throws FatalException {
+    private char[] incrementUUID(char[] uuid, int pos)  {
         //init ret array
         char[] ret = uuid.clone();
 
@@ -143,7 +141,7 @@ public class YoutubeThread {
         if (charac == validChars[validChars.length - 1]) {
             //use recursion to add to next column
             if (pos - 1 < 0)
-                throw new FatalException("YouTube thread overflow");
+                throw new IllegalArgumentException("YouTube thread overflow");
             else
                 ret = incrementUUID(uuid, pos - 1);
         } else { //otherwise we just add to it and return

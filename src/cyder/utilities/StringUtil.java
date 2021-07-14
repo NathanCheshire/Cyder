@@ -2,6 +2,9 @@ package cyder.utilities;
 
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
+import org.jsoup.nodes.Document;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -871,6 +874,24 @@ public class StringUtil {
                 sb.append(s).append(", ");
 
             return sb.substring(0,sb.toString().length() - 2);
+        }
+    }
+
+    public static String define(String word) {
+        String ret = null;
+
+        try {
+            Document doc = Jsoup.connect("https://www.dictionary.com/browse/" + word).get();
+            Elements els = doc.getElementsByClass("one-click-content css-nnyc96 e1q3nk1v1").not(".pad_10").not(".pad_20");
+            org.jsoup.nodes.Element htmlDescription = els.get(0);
+
+            Document docParsed = Jsoup.parse(String.valueOf(htmlDescription));
+            ret = capsFirst(docParsed.text());
+        } catch (Exception e) {
+            ret = "Definition not found";
+            ErrorHandler.silentHandle(e);
+        } finally {
+            return ret;
         }
     }
 }

@@ -3,7 +3,6 @@ package cyder.handler;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.exception.CyderException;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.genesis.Entry;
@@ -40,6 +39,16 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo hex dumping any file should be immediate, build a string with proper new lines
+    // and then send to inputHandler.println
+
+    //todo refresh Cyder logo with 3 or 4 colors
+
+    //todo if inputpassfield or login field ever contains bash string, just remove it
+
+    //todo "black background" or hex code background will create that background with the size 800x800, save it
+    // and switch to it immediately
+
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
     // then it will find the username,singular sha256 hash) don't call it singular
     // just pass a random it such as "0" to say that it shouldn't be hashed
@@ -60,7 +69,7 @@ public class InputHandler {
     private String anagram;
     private UserEditor userEditor;
 
-    private InputHandler() {} //no instantiation without a valid outputArea to use
+    private InputHandler() {} //no instantiation without a valid JTextPane to use
 
     public InputHandler(JTextPane outputArea) {
         this.outputArea = outputArea;
@@ -541,12 +550,8 @@ public class InputHandler {
         } else if (hasWord("close cd")) {
             SystemUtil.closeCD("D:\\");
         } else if (firstWord.equalsIgnoreCase("define")) {
-            //todo parse string and print response here
-        } else if (hasWord("wikipedia")) {
-            //todo parse string and print response here
-        } else if (firstWord.equalsIgnoreCase("synonym")) {
-            //todo parse string and print response here
-        } else if (hasWord("debug") && hasWord("menu")) {
+            println(StringUtil.define(operation.replaceAll("(?i)define","").trim()));
+        }  else if (hasWord("debug") && hasWord("menu")) {
             StatUtil.debugMenu();
         } else if (hasWord("pixelate") && hasWord("background")) {
             println("Enter your pixel size (a positive integer)");
@@ -671,7 +676,7 @@ public class InputHandler {
             Entry.showEntryGUI();
         } else if (hasWord("throw") && hasWord("error")) {
             ConsoleFrame.getConsoleFrame().getInputField().setText("");
-            throw new CyderException("Error thrown on " + TimeUtil.userTime());
+            throw new Exception("Error thrown on " + TimeUtil.userTime());
         } else if (hasWord("clear") && (hasWord("operation") ||
                 hasWord("command")) && hasWord("list")) {
             ConsoleFrame.getConsoleFrame().clearOperationList();

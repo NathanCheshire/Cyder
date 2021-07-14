@@ -1,0 +1,65 @@
+[12:45:41] [ENTRY]: [WINUSER=Nathan]
+[12:45:41] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[12:45:42] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:45:42] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[12:45:42] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:45:42] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:45:42] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12:45:42] [LOGIN]: [AUTOCYPHER PASS]
+[12:45:43] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:45:43] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[12:45:43] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:45:44] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[12:45:44] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:45:44] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[12:45:44] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:45:44] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:45:44] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:45:44] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:45:44] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:45:44] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[12:45:44] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[12:45:44] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:45:44] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:45:44] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[12:45:44] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:45:44] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:45:44] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[12:45:44] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[12:45:44] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[12:45:44] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[12:45:44] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[12:45:44] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[12:45:44] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:45:44] [CLIENT]: test
+[12:45:44] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626284688618
+[12:45:44] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626284744452
+[12:46:11] [CLIENT]: Define esoteric
+[12:46:12] [CONSOLE_OUT]: [STRING] Understood By Or Meant For Only The Select Few Who Have Special Knowledge Or Interest; Recondite: Poetry Full Of Esoteric Allusions.
+[12:46:27] [CLIENT]: Define plane
+[12:46:27] [CONSOLE_OUT]: [STRING] A Flat Or Level Surface.
+[12:46:31] [CLIENT]: Define airplane
+[12:46:31] [CONSOLE_OUT]: [STRING] A Heavier-than-air Aircraft Kept Aloft By The Upward Thrust Exerted By The Passing Air On Its Fixed Wings And Driven By Propellers, Jet Propulsion, Etc.
+[12:46:39] [CLIENT]: Cls
+[12:47:19] [CLIENT]: Pixelate background
+[12:47:19] [CONSOLE_OUT]: [STRING] Enter your pixel size (a positive integer)
+[12:47:21] [CONSOLE_OUT]: [STRING] Background pixelated and saved as a separate background file.
+[12:47:22] [CLIENT]: Cls
+[12:47:24] [CLIENT]: controlc
+[12:47:24] [CONSOLE_OUT]: [STRING] Escaped
+[12:47:24] [CLIENT]: Cls
+[12:47:26] [CLIENT]: Ajsdkfjls
+[12:47:26] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:47:26] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:47:27] [CLIENT]: controlc
+[12:47:27] [CONSOLE_OUT]: [STRING] Escaped
+[12:47:28] [CLIENT]: Cls
+[12:47:32] [CLIENT]: Define definition
+[12:47:32] [CONSOLE_OUT]: [STRING] The Act Of Defining, Or Of Making Something Definite, Distinct, Or Clear: We Need A Better Definition Of Her Responsibilities.
+[12:47:39] [CLIENT]: Nathan@Cyder:~$ cls
+[12:47:39] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:47:39] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[12:48:18] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:48:18] [LOGOUT]:  [Nathan]
+[12:48:18] [EXIT]: [RUNTIME] 2m 36s
+[12:48:18] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

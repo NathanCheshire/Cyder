@@ -1,7 +1,6 @@
 package cyder.utilities;
 
 import cyder.enums.Direction;
-import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 
@@ -350,7 +349,7 @@ public class ImageUtil {
 
                     break;
                 default:
-                    throw new FatalException("Somehow an invalid direction was specified");
+                    throw new IllegalArgumentException("Somehow an invalid direction was specified");
             }
 
             ret = new ImageIcon(combined);
