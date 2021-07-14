@@ -112,9 +112,6 @@ public class ImagePixelator {
 
                 if (pixel > 1) {
                     try {
-                        System.out.println("Save " + currentFile.getAbsolutePath() + " to downloads after reisizing" +
-                                " to a pixel size of " + pixel);
-
                         BufferedImage saveImage = ImageUtil.pixelate(ImageIO.read(currentFile), pixel);
                         String saveName = StringUtil.getFilename(currentFile) +
                                  "_Pixelated_Pixel_Size_" + pixel + ".png";

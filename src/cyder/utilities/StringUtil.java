@@ -16,7 +16,13 @@ import java.util.regex.Pattern;
 
 //Simple general String util methods along with some JTextPane appending methods
 public class StringUtil {
-    private static JTextPane outputArea = null;
+    private JTextPane outputArea = null;
+
+    public void setItemAlignment(int styleConstantsAlignment) {
+        SimpleAttributeSet attribs = new SimpleAttributeSet();
+        StyleConstants.setAlignment(attribs, styleConstantsAlignment);
+        outputArea.setParagraphAttributes(attribs, true);
+    }
 
     private StringUtil() {} //no instantiation without jtextpane object
 
@@ -29,7 +35,7 @@ public class StringUtil {
      * Standard getter for this object's possible JTextPane
      * @return - The resultant output area if one is connected
      */
-    public static JTextPane getOutputArea() {
+    public JTextPane getOutputArea() {
         return outputArea;
     }
 

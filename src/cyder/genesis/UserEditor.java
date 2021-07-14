@@ -5,7 +5,6 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.exception.FatalException;
 import cyder.handler.ErrorHandler;
-import cyder.handler.PhotoViewer;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.GetterUtil;
@@ -19,8 +18,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,21 +28,26 @@ import java.util.List;
 
 public class UserEditor {
     private CyderFrame editUserFrame;
-    private CyderScrollPane musicBackgroundScroll;
 
     private CyderButton addMusicBackground;
     private CyderButton openMusicBackground;
     private CyderButton deleteMusicBackground;
     private CyderButton renameMusicBackground;
 
-    private JList<?> componentsList;
     private List<String> musicBackgroundNameList;
     private List<File> musicBackgroundList;
+
+    private JLabel musicBackgroundLabel;
+    private CyderScrollList musicBackgroundScroll;
+
     private LinkedList<String> fontList = new LinkedList<>();
+
     private CyderButton changeUsername;
     private CyderButton changePassword;
+
     private CyderButton forwardPanel;
     private CyderButton backwardPanel;
+
     private JLabel switchingLabel;
     private int prefsPanelIndex;
 
@@ -190,20 +192,6 @@ public class UserEditor {
 
         String[] BackgroundsArray = new String[musicBackgroundNameList.size()];
         BackgroundsArray = musicBackgroundNameList.toArray(BackgroundsArray);
-
-        //todo music and backgrounds list
-        componentsList = new JList(BackgroundsArray);
-        componentsList.setFont(CyderFonts.weatherFontSmall);
-        componentsList.setForeground(CyderColors.navy);
-        componentsList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                if (evt.getClickCount() == 2 && componentsList.getSelectedIndex() != -1) {
-                    openMusicBackground.doClick();
-                }
-            }
-        });
-
-        componentsList.setSelectionBackground(CyderColors.selectionColor);
     }
 
     private void nextEditUser() {
@@ -266,17 +254,25 @@ public class UserEditor {
 
         initMusicBackgroundList();
 
-        componentsList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        musicBackgroundScroll = new CyderScrollPane(componentsList,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        musicBackgroundScroll.setSize(400, 400);
-        musicBackgroundScroll.setFont(CyderFonts.weatherFontBig);
-        musicBackgroundScroll.setThumbColor(CyderColors.regularRed);
-        componentsList.setBackground(new Color(255, 255, 255));
-        musicBackgroundScroll.getViewport().setBackground(new Color(0, 0, 0, 0));
-        musicBackgroundScroll.setBounds(20, 60, 680, 360);
-        switchingLabel.add(musicBackgroundScroll);
+        musicBackgroundScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
+
+        for (int i = 0 ; i < musicBackgroundNameList.size() ; i++) {
+            int finalI = i;
+            class thisAction implements CyderScrollList.ScrollAction {
+                @Override
+                public void fire() {
+                   IOUtil.openFile(musicBackgroundList.get(finalI).getAbsolutePath());
+                }
+            }
+
+            thisAction action = new thisAction();
+            musicBackgroundScroll.addElement(musicBackgroundNameList.get(i), action);
+        }
+
+        musicBackgroundLabel = musicBackgroundScroll.generateScrollList();
+        musicBackgroundLabel.setBounds(20, 60, 680, 360);
+        editUserFrame.getContentPane().add(musicBackgroundLabel);
+        switchingLabel.add(musicBackgroundLabel);
 
         addMusicBackground = new CyderButton("Add");
         addMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -305,16 +301,11 @@ public class UserEditor {
                         if (addFile != null && addFile.getName().endsWith(".png")) {
                             File Destination = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds/" + addFile.getName());
                             Files.copy(copyPath, Destination.toPath());
-                            initMusicBackgroundList();
-                            musicBackgroundScroll.setViewportView(componentsList);
-                            musicBackgroundScroll.revalidate();
-                            musicBackgroundScroll.repaint();
+                            revalidateMusicBackgroundScroll();
                         } else if (addFile != null && addFile.getName().endsWith(".mp3")) {
                             File Destination = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" + addFile.getName());
                             Files.copy(copyPath, Destination.toPath());
-                            initMusicBackgroundList();
-                            musicBackgroundScroll.setViewportView(componentsList);
-                            musicBackgroundScroll.revalidate();
+                            revalidateMusicBackgroundScroll();
                         } else {
                             editUserFrame.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you can only add PNGs and MP3s", "Error");
                         }
@@ -340,26 +331,12 @@ public class UserEditor {
         openMusicBackground.setBackground(CyderColors.regularRed);
         openMusicBackground.setFont(CyderFonts.weatherFontSmall);
         openMusicBackground.addActionListener(e -> {
-            List<?> clickedSelectionList = componentsList.getSelectedValuesList();
+            String element = musicBackgroundScroll.getSelectedElement();
 
-            if (!clickedSelectionList.isEmpty()) {
-                String ClickedSelection = clickedSelectionList.get(0).toString();
-
-                File ClickedSelectionPath = null;
-
-                for (int i = 0; i < musicBackgroundNameList.size(); i++) {
-                    if (ClickedSelection.equals(musicBackgroundNameList.get(i))) {
-                        ClickedSelectionPath = musicBackgroundList.get(i);
-                        break;
-                    }
-                }
-
-                if (ClickedSelectionPath != null) {
-                    if (ClickedSelectionPath.getName().endsWith(".png")) {
-                        PhotoViewer pv = new PhotoViewer(ClickedSelectionPath);
-                    } else if (ClickedSelectionPath.getName().endsWith(".mp3")) {
-                        IOUtil.mp3(ClickedSelectionPath.toString());
-                    }
+            for (int i = 0 ; i < musicBackgroundNameList.size() ; i++) {
+                if (element.equalsIgnoreCase(musicBackgroundNameList.get(i))) {
+                    IOUtil.openFile(musicBackgroundList.get(i).getAbsolutePath());
+                    break;
                 }
             }
         });
@@ -371,45 +348,39 @@ public class UserEditor {
         renameMusicBackground.setColors(CyderColors.regularRed);
         renameMusicBackground.addActionListener(e -> new Thread(() -> {
             try {
-                if (!componentsList.getSelectedValuesList().isEmpty()) {
-                    List clickedSelections = componentsList.getSelectedValuesList();
+                if (!musicBackgroundScroll.getSelectedElements().isEmpty()) {
+                    String clickedSelection = musicBackgroundScroll.getSelectedElements().get(0);
                     File selectedFile = null;
 
-                    if (!clickedSelections.isEmpty()) {
-                        String clickedSelection = clickedSelections.get(0).toString();
-
-                        for (int i = 0; i < musicBackgroundNameList.size(); i++) {
-                            if (clickedSelection.equals(musicBackgroundNameList.get(i))) {
-                                selectedFile = musicBackgroundList.get(i);
-                                break;
-                            }
+                    for (int i = 0; i < musicBackgroundNameList.size(); i++) {
+                        if (clickedSelection.equals(musicBackgroundNameList.get(i))) {
+                            selectedFile = musicBackgroundList.get(i);
+                            break;
                         }
-
-                        String oldname = StringUtil.getFilename(selectedFile);
-                        String extension = StringUtil.getExtension(selectedFile);
-                        String newname = new GetterUtil().getString("Rename","Enter any valid file name","Submit");
-
-                        if (oldname.equals(newname) || newname.equals("NULL"))
-                            return;
-
-                        File renameTo = new File(selectedFile.getParent() + "/" + newname + extension);
-
-                        if (renameTo.exists())
-                            throw new IOException("file exists");
-
-                        boolean success = selectedFile.renameTo(renameTo);
-
-                        if (!success) {
-                            throw new FatalException("File was not renamed");
-                        } else {
-                            editUserFrame.notify(selectedFile.getName() +
-                                    " was successfully renamed to " + renameTo.getName());
-                        }
-
-                        initMusicBackgroundList();
-                        musicBackgroundScroll.setViewportView(componentsList);
-                        musicBackgroundScroll.revalidate();
                     }
+
+                    String oldname = StringUtil.getFilename(selectedFile);
+                    String extension = StringUtil.getExtension(selectedFile);
+                    String newname = new GetterUtil().getString("Rename","Enter any valid file name","Submit");
+
+                    if (oldname.equals(newname) || newname.equals("NULL"))
+                        return;
+
+                    File renameTo = new File(selectedFile.getParent() + "/" + newname + extension);
+
+                    if (renameTo.exists())
+                        throw new IOException("file exists");
+
+                    boolean success = selectedFile.renameTo(renameTo);
+
+                    if (!success) {
+                        throw new FatalException("File was not renamed");
+                    } else {
+                        editUserFrame.notify(selectedFile.getName() +
+                                " was successfully renamed to " + renameTo.getName());
+                    }
+
+                    revalidateMusicBackgroundScroll();
                 }
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
@@ -425,46 +396,37 @@ public class UserEditor {
         deleteMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
         deleteMusicBackground.setColors(CyderColors.regularRed);
         deleteMusicBackground.addActionListener(e -> {
-            if (!componentsList.getSelectedValuesList().isEmpty()) {
-                List<?> ClickedSelectionListMusic = componentsList.getSelectedValuesList();
+            if (!musicBackgroundScroll.getSelectedElements().isEmpty()) {
+                String clickedSelection = musicBackgroundScroll.getSelectedElements().get(0);
+                File selectedFile = null;
 
-                File ClickedSelectionPath = null;
-
-                if (!ClickedSelectionListMusic.isEmpty()) {
-                    String ClickedSelection = ClickedSelectionListMusic.get(0).toString();
-
-                    for (int i = 0; i < musicBackgroundNameList.size(); i++) {
-                        if (ClickedSelection.equals(musicBackgroundNameList.get(i))) {
-                            ClickedSelectionPath = musicBackgroundList.get(i);
-
-                            break;
-                        }
+                for (int i = 0; i < musicBackgroundNameList.size(); i++) {
+                    if (clickedSelection.equals(musicBackgroundNameList.get(i))) {
+                        selectedFile = musicBackgroundList.get(i);
+                        break;
                     }
+                }
 
-                    if (ClickedSelection.equalsIgnoreCase(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getName().replace(".png", "")))
-                        editUserFrame.inform("Unable to delete the background you are currently using", "Error");
+                if (selectedFile == ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()) {
+                    editUserFrame.inform("Unable to delete the background you are currently using", "Error");
+                } else {
+                    selectedFile.delete();
 
-                    else {
-                        ClickedSelectionPath.delete();
-                        initMusicBackgroundList();
-                        musicBackgroundScroll.setViewportView(componentsList);
-                        musicBackgroundScroll.revalidate();
+                    revalidateMusicBackgroundScroll();
 
-                        if (ClickedSelection.endsWith(".mp3"))
-                            ConsoleFrame.getConsoleFrame().getInputHandler()
-                                    .println("Music: " + ClickedSelectionPath.getName()
-                                            .replace(".mp3", "") + " successfully deleted.");
-                        else if (ClickedSelection.endsWith(".png")) {
-                            ConsoleFrame.getConsoleFrame().getInputHandler()
-                                    .println("Background: " + ClickedSelectionPath.getName()
-                                            .replace(".png", "") + " successfully deleted.");
+                    if (StringUtil.getExtension(selectedFile).equals(".mp3"))
+                        ConsoleFrame.getConsoleFrame().getInputHandler()
+                                .println("Music: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
+                    else if (StringUtil.getExtension(selectedFile).equals(".png")) {
+                        ConsoleFrame.getConsoleFrame().getInputHandler()
+                                .println("Background: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
 
-                            LinkedList<File> paths = ConsoleFrame.getConsoleFrame().getBackgrounds();
-                            for (int i = 0; i < paths.size(); i++) {
-                                if (paths.get(i).equals(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
-                                    ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
-                                    break;
-                                }
+                        LinkedList<File> paths = ConsoleFrame.getConsoleFrame().getBackgrounds();
+
+                        for (int i = 0; i < paths.size(); i++) {
+                            if (paths.get(i).equals(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
+                                ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
+                                break;
                             }
                         }
                     }
@@ -476,6 +438,32 @@ public class UserEditor {
         deleteMusicBackground.setFont(CyderFonts.weatherFontSmall);
         deleteMusicBackground.setBounds(20 + 155 + 20 + 155 + 20 + 155 + 20, 440, 155, 40);
         switchingLabel.add(deleteMusicBackground);
+
+        switchingLabel.revalidate();
+    }
+
+    private void revalidateMusicBackgroundScroll() {
+        initMusicBackgroundList();
+
+        musicBackgroundScroll.removeAllElements();
+        switchingLabel.remove(musicBackgroundLabel);
+
+        for (int j = 0 ; j < musicBackgroundNameList.size() ; j++) {
+            int finalJ = j;
+            class thisAction implements CyderScrollList.ScrollAction {
+                @Override
+                public void fire() {
+                    IOUtil.openFile(musicBackgroundList.get(finalJ).getAbsolutePath());
+                }
+            }
+
+            thisAction action = new thisAction();
+            musicBackgroundScroll.addElement(musicBackgroundNameList.get(j), action);
+        }
+
+        musicBackgroundLabel = musicBackgroundScroll.generateScrollList();
+        musicBackgroundLabel.setBounds(20, 60, 680, 360);
+        switchingLabel.add(musicBackgroundLabel);
 
         switchingLabel.revalidate();
     }
@@ -631,17 +619,11 @@ public class UserEditor {
         FontLabel.setBounds(150, 60, 300, 30);
         switchingLabel.add(FontLabel);
 
-        //todo single element selection
-        // upon single selection, single click addElementWithSingleClickAction(),
-        // change the font of FontLabel to the selected one
-
-        //todo add get selected element which returns the zero-th element
-        //todo add elemental alignment to cyderscrolllist and set to center for this
-
         String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         Collections.addAll(fontList, Fonts);
 
         CyderScrollList fontScrollList = new CyderScrollList(300, 300, CyderScrollList.SelectionPolicy.SINGLE);
+        fontScrollList.setItemAlignemnt(StyleConstants.ALIGN_LEFT);
 
         for (int i = 0 ; i < fontList.size() ; i++) {
             int finalI = i;

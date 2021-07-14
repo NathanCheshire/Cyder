@@ -1,0 +1,58 @@
+[00:06:49] [ENTRY]: [WINUSER=Nathan]
+[00:06:49] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[00:06:49] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:06:49] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[00:06:50] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:06:50] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:06:50] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:06:50] [LOGIN]: [AUTOCYPHER PASS]
+[00:06:51] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[00:06:51] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:06:51] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[00:06:51] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[00:06:51] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[00:06:51] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[00:06:51] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[00:06:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[00:06:51] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[00:06:51] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[00:06:51] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[00:06:51] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[00:06:51] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[00:06:51] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[00:06:51] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:06:51] [CLIENT]: test
+[00:06:51] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626238892313
+[00:06:51] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626239211981
+[00:06:54] [CLIENT]: Prefs
+[00:06:54] [ACTION]: USER EDITOR
+[00:07:00] [ACTION]: CyderButton, text=[Add] CLICKED
+[00:07:18] [CLIENT_IO]: [GET] [SilenceErrors] [RETURN VALUE] 0
+[00:07:26] [EXCEPTION]: 
+begin 0, end 26, length 11
+Thrown from:
+java.base/java.lang.String.checkBoundsBeginEnd(String.java:3116)
+StackTrace:
+java.lang.StringIndexOutOfBoundsException: begin 0, end 26, length 11
+	at java.base/java.lang.String.checkBoundsBeginEnd(String.java:3116)
+	at java.base/java.lang.String.substring(String.java:1885)
+	at cyder.widgets.AudioPlayer$ScrollLabel.lambda$new$0(AudioPlayer.java:893)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[00:07:26] [CLIENT_IO]: [GET] [SilenceErrors] [RETURN VALUE] 0
+[00:07:32] [CLIENT]: Open current log
+[00:07:32] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:07:37] [CLIENT]: Threads
+[00:07:53] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[00:07:53] [LOGOUT]:  [Nathan]
+[00:07:53] [EXIT]: [RUNTIME] 1m 4s
+[00:07:53] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 1

@@ -107,7 +107,7 @@ public class ErrorHandler {
     }
 
     private static void windowedError(String title, String message) {
-        if (title == null || title.length() == 0 || message == null || message.length() == 0) {
+        if ((title == null || title.length() == 0) && (message == null || message.length() == 0)) {
             System.out.println("Windowed error was passed null");
             return;
         }

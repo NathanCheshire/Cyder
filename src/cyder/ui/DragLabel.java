@@ -162,7 +162,6 @@ public class DragLabel extends JLabel {
             effectFrame.setRestoreX(effectFrame.getX());
             effectFrame.setRestoreY(effectFrame.getY());
             effectFrame.minimizeAnimation();
-            System.out.println("this mini");
         });
 
         minimize.addMouseListener(new MouseAdapter() {

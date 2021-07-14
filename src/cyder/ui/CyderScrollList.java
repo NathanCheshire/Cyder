@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,6 +16,12 @@ import java.util.LinkedList;
 public class CyderScrollList {
     private int width;
     private int height;
+
+    private int itemAlignemnt = StyleConstants.ALIGN_LEFT;
+
+    public void setItemAlignemnt(int itemAlignment) {
+        this.itemAlignemnt = itemAlignment;
+    }
 
     private LinkedList<JLabel> elements;
 
@@ -69,6 +76,9 @@ public class CyderScrollList {
 
         //used to add the CyderScrollListLabels
         StringUtil printingUtil = new StringUtil(listPane);
+
+        //item alignment is 0?
+        printingUtil.setItemAlignment(itemAlignemnt);
 
         for (int i = 0 ; i < elements.size() ; i++) {
             printingUtil.printlnComponent(elements.get(i));
@@ -186,6 +196,18 @@ public class CyderScrollList {
         }
 
         return ret;
+    }
+
+    public String getSelectedElement() {
+        LinkedList<String> ret = new LinkedList<>();
+
+        for (JLabel element : elements) {
+            if (element.getForeground() == CyderColors.regularRed) {
+                ret.add(element.getText());
+            }
+        }
+
+        return ret.get(0);
     }
 
     public int getWidth() {

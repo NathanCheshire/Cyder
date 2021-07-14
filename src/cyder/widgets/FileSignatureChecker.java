@@ -114,9 +114,6 @@ public class FileSignatureChecker {
 
                 String questionableByteSignature = sb.toString().replace(" ", "");
 
-                System.out.println(questionableByteSignature);
-                System.out.println(byteSignature);
-
                 if (byteSignature.equalsIgnoreCase(questionableByteSignature)) {
                     resultLabel.setText("File signature matches provided signature");
                 } else {
