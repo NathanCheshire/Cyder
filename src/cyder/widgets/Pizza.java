@@ -143,6 +143,7 @@ public class Pizza {
         crustLabel.setBounds(90,210,130,30);
         pizzaFrame.getContentPane().add(crustLabel);
 
+        //todo crust type
         String[] CrustTypeChoice = {"Thin", "Thick", "Deep Dish", "Classic", "Tavern", "Seasonal"};
         JList crustToppingsJList = new JList(CrustTypeChoice);
         crustTypeList = crustToppingsJList;
@@ -168,6 +169,7 @@ public class Pizza {
         Toppings.setBounds(370,210,130,30);
         pizzaFrame.getContentPane().add(Toppings);
 
+        //todo topings type
         String[] pizzaToppingsStrList = {"Pepperoni", "Sausage", "Green Peppers",
                 "Onions", "Tomatoes", "Anchovies", "Bacon", "Chicken", "Beef",
                 "Olives", "Mushrooms"};

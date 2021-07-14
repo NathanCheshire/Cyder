@@ -189,6 +189,7 @@ public class UserEditor {
         String[] BackgroundsArray = new String[musicBackgroundNameList.size()];
         BackgroundsArray = musicBackgroundNameList.toArray(BackgroundsArray);
 
+        //todo music and backgrounds list
         componentsList = new JList(BackgroundsArray);
         componentsList.setFont(CyderFonts.weatherFontSmall);
         componentsList.setForeground(CyderColors.navy);

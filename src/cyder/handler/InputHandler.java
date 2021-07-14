@@ -3,7 +3,6 @@ package cyder.handler;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
 import cyder.exception.CyderException;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
@@ -15,9 +14,7 @@ import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
-import cyder.ui.CyderScrollList;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
@@ -43,8 +40,6 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo utilize CyderScrollList
-
     //todo add enter listeners to focusable consoleframe elments
 
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
@@ -320,7 +315,7 @@ public class InputHandler {
             new Hasher();
             SessionLogger.log(SessionLogger.Tag.ACTION, "SHA256 HASHER");
         }  else if (eic("search") || eic("dir") || (hasWord("file") && hasWord("search")) || eic("directory") || eic("ls")) {
-            DirectorySearch ds = new DirectorySearch();
+            new DirectorySearch();
             SessionLogger.log(SessionLogger.Tag.ACTION, "DIR SEARCH");
         } else if (hasWord("weather")) {
             Weather ww = new Weather();
@@ -781,44 +776,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            //todo
-            // Pizza - crust type single selection, toppings multiple selection
-            // UserEditor - music & backgrounds, Font
-            // DirectorySearch
 
-            //todo implement a double click policy
-
-//            CyderFrame testFrame = new CyderFrame(600,650, CyderImages.defaultBackground);
-//            testFrame.setTitle("Scroll test");
-//
-//            CyderScrollList csl = new CyderScrollList(500,300, CyderScrollList.SelectionPolicy.MULTIPLE);
-//            csl.addElement("src/cyder/genesis/CyderMain.java");
-//            csl.addElement("src/cyder/genesis/Entry.java");
-//            csl.addElement("src/cyder/genesis/GenesisShare.java");
-//            csl.addElement("src/cyder/genesis/UserCreator.java");
-//            csl.addElement("src/cyder/genesis/UserEditor.java");
-//            csl.addElement("src/cyder/ui/CyderButton.java");
-//            csl.addElement("src/cyder/ui/CyderLabel.java");
-//            csl.addElement("src/cyder/ui/CyderCheckBox.java");
-//            csl.addElement("src/cyder/ui/CyderTextField.java");
-//            csl.addElement("src/cyder/ui/CyderCaret.java");
-//            csl.addElement("src/cyder/ui/CyderFrame.java");
-//
-//            JLabel addLabel = csl.generateScrollList();
-//            addLabel.setBounds(50,100,500,300);
-//            testFrame.getContentPane().add(addLabel);
-//
-//            CyderButton getSelected = new CyderButton("Get Selected Element(s)");
-//            getSelected.setBounds(50,550, 500, 40);
-//            testFrame.getContentPane().add(getSelected);
-//            getSelected.addActionListener(e -> {
-//                for (String s : csl.getSelectedElements()) {
-//                    System.out.println(s);
-//                }
-//            });
-//
-//            testFrame.setVisible(true);
-//            ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
         }
         //final attempt at unknown input --------------------------
         else {
