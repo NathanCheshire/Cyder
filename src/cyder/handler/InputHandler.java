@@ -40,7 +40,9 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo inform widgth for hasher is broken
+    //todo Jsoup.clean(line, Whitelist.none()) is how you clean html from text, use for define
+    // and try to implement wikipedia summary and synnonym
+
     //todo make CyderPasswordField and use for hasher and other areas
 
     //todo changing password conf, auto capitalization for new name

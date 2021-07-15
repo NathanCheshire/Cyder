@@ -709,14 +709,19 @@ public class IOUtil {
     }
 
     public static void cleanUsers() {
-        File[] UUIDs = new File("users").listFiles();
+        File users = new File("users");
 
-        for (File user : UUIDs) {
-            if (!user.isDirectory())
-                return;
+        if (!users.exists()) {
+            users.mkdirs();
+        } else {
+            File[] UUIDs = users.listFiles();
 
-            if (user.getName().contains("VoidUser") || (user.isDirectory() && user.listFiles().length < 2)) {
-                SystemUtil.deleteFolder(user);
+            for (File user : UUIDs) {
+                if (!user.isDirectory())
+                    continue;
+                if (user.isDirectory() && (user.getName().contains("VoidUser") || user.listFiles().length < 2)) {
+                    SystemUtil.deleteFolder(user);
+                }
             }
         }
     }

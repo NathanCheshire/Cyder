@@ -6,6 +6,8 @@ import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.SystemUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -34,7 +36,7 @@ public class GenericInform {
             int h = (int) notificationFont.getStringBounds(text, frc).getHeight();
             int heightInc = h;
 
-            while (w > SystemUtil.getScreenWidth() / 4) {
+            while (w > SystemUtil.getScreenWidth() / 2) {
                 int area = w * h;
                 w /= 2;
                 h = area / w;
@@ -45,6 +47,15 @@ public class GenericInform {
 
             if (h != heightInc)
                 h += 10;
+
+            //in case we're too short from html breaks, find the max width line and set it to w
+            for (String line : text.split("<br/>")) {
+                int thisW = (int) notificationFont.getStringBounds(Jsoup.clean(line, Whitelist.none()), frc).getWidth() + 5;
+
+                if (thisW > w) {
+                    w = thisW;
+                }
+            }
 
             textLabel.setBounds(10,35, w, h);
 
