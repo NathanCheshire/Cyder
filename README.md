@@ -20,11 +20,11 @@
 
 ## Screenshots
 Desktop full of Cyder Widgets <br/>
-<img src="https://i.imgur.com/4hEv3kG.png" data-canonical-src="https://i.imgur.com/4hEv3kG.png" width="800" height="440" />
+<img src="https://i.imgur.com/nNaPfK5.png" data-canonical-src="https://i.imgur.com/nNaPfK5.png"/>
 
 ## Background
 
-Cyder started as a way to test my basic java skills and have fun while taking AP Computer Science in 2017. As I continued to grow, work piled up and I had college and internships. Recently, however, I have began to work on it in my free time as a hobby. I know so much more now than when I started and hope to keep adding features for quite some time. Ultimately though, I'll probably call it adequte at best and either move on, or try to recreate it using C++ and completely platform-independent resources.
+Cyder started as a way to test my basic java skills and have fun while taking AP Computer Science in 2017. As I continued to grow, work piled up and I had college and internships. Recently, however, I have begun to work on it in my free time as a hobby. I know so much more now than when I started and hope to keep adding features for quite some time. Ideally I should recreate this in electron-js but I doubt I'll ever get around it since I use Java for this project as a challenge since I've also built my own GUI library.
 
 The best way I can describe Cyder is a multipurpose tool that launches all of the java projects I have done, are currently working on, or will do. I know certain ways I do things are not great and PLEASE do not comment about me building a java LAF from scratch essentailly and not using JavaFX. I am aware of these (I should hope I know since I'm the developer behind Cyder) and consider it a challenge to not work with modern UI depdencies.
 
