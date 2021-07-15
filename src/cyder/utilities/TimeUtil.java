@@ -3,6 +3,7 @@ package cyder.utilities;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.threads.CyderThreadFactory;
+import cyder.ui.ConsoleFrame;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -112,12 +113,14 @@ public class TimeUtil {
             AnimationUtil.closeAnimation(consoleFrame);
 
             try {
-                GenesisShare.getExitingSem().acquire();
-                GenesisShare.getExitingSem().release();
-                GenesisShare.exit(66);
-            }
-
-            catch (Exception e) {
+                if (IOUtil.getUserData("minimizeonclose").equals("1")) {
+                    ConsoleFrame.getConsoleFrame().minimizeAll();
+                } else {
+                    GenesisShare.getExitingSem().acquire();
+                    GenesisShare.getExitingSem().release();
+                    GenesisShare.exit(66);
+                }
+            } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
         }, (CloseCalendar.getTimeInMillis() - System.currentTimeMillis()), TimeUnit.MILLISECONDS);

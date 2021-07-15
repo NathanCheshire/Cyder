@@ -13,6 +13,7 @@ import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.utilities.*;
 import cyder.widgets.*;
@@ -40,12 +41,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
     //todo user pref to toggle typing animation
-    //todo minimize on close user pref
 
     //todo if inputpassfield or login field ever contains bash string, just remove it
-
-    //todo "black background" or hex code background will create that background with the size 800x800, save it
-    // and switch to it immediately
 
     //todo update readme at this point with pictures
 
@@ -86,10 +83,13 @@ public class InputHandler {
             if (op.equalsIgnoreCase(pref.getID())) {
                 if (op.contains("1") || op.toLowerCase().contains("true")) {
                     IOUtil.setUserData(pref.getID(), "1");
+                    println(pref.getDisplayName() + " set to true");
                 } else if (op.contains("0") || op.toLowerCase().contains("false")) {
                     IOUtil.setUserData(pref.getID(), "0");
+                    println(pref.getDisplayName() + " set to false");
                 } else {
                     IOUtil.setUserData(pref.getID(), (IOUtil.getUserData(pref.getID()).equals("1") ? "0" : "1"));
+                    println(pref.getDisplayName() + " toggled");
                 }
 
                 ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
@@ -315,10 +315,7 @@ public class InputHandler {
         } else if (hasWord("minecraft")) {
             new Minecraft();
             SessionLogger.log(SessionLogger.Tag.ACTION, "MINECRAFT");
-        } else if ((hasWord("edit") && hasWord("user")) ||
-                (hasWord("font") && !hasWord("reset")) ||
-                (hasWord("color") && !hasWord("reset") &&
-                        !hasWord("converter")) || (eic("preferences") || eic("prefs"))) {
+        } else if ((hasWord("edit") && hasWord("user")) || eic("prefs")) {
             userEditor = new UserEditor();
             SessionLogger.log(SessionLogger.Tag.ACTION, "USER EDITOR");
         } else if (hasWord("hash") || hasWord("hashser")) {
@@ -527,8 +524,65 @@ public class InputHandler {
             IOUtil.playAudio("sys/audio/1800.mp3",this);
         }
         //console commands ----------------------------------------
-        else if (eic("repaint")) {
+        else if (hasWord("background") && hasWord("color")) {
+            String colorInput = operation.replaceAll("(?i)background","")
+                    .replaceAll("(?i)color","").replace("#","")
+                    .replace(" ", "");
+            try {
+                Color color = Color.decode("#" + colorInput);
+                BufferedImage saveImage = ImageUtil.bufferedImageFromColor(
+                        ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconWidth(),
+                        ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconHeight(),
+                        color);
+
+                String saveName = "Solid_" + colorInput + "Generated_Background.png";
+
+                File saveFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() +
+                        "/Backgrounds/" + saveName);
+
+                ImageIO.write(saveImage, "png", saveFile);
+
+                LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
+                ConsoleFrame.getConsoleFrame().setFullscreen(false);
+
+                for (int i = 0; i < backgrounds.size(); i++) {
+                    if (backgrounds.get(i).getName().equals(saveName)) {
+                        ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
+                        ConsoleFrame.getConsoleFrame().repaint();
+                        break;
+                    }
+                }
+
+                println("Background generated, set, and saved as a separate background file.");
+            } catch (Exception e) {
+                ErrorHandler.silentHandle(e);
+                println("Background color command usage: background color #EC407A");
+            }
+        } else if (hasWord("fix") && hasWord("foreground")) {
+            Color backgroundDom = ImageUtil.getDominantColor(ImageIO.read(
+                    ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
+
+            if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
+                    * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
+                ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(CyderColors.textBlack);
+                ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.textBlack);
+                ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.textBlack);
+                ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.textBlack));
+                IOUtil.setUserData("Foreground",ColorUtil.rgbtohexString(CyderColors.textBlack));
+            } else {
+                ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(CyderColors.textWhite);
+                ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.textWhite);
+                ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.textWhite);
+                ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.textWhite));
+                IOUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.textWhite));
+            }
+
+            println("Foreground fixed");
+
+            ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
+        } else if (eic("repaint")) {
             ConsoleFrame.getConsoleFrame().repaint();
+            println("ConsoleFrame repainted");
         } else if (hasWord("disco")) {
             println("How many iterations would you like to disco for? (Enter a positive integer)");
             setUserInputMode(true);
@@ -537,7 +591,11 @@ public class InputHandler {
         }   else if (hasWord("java") && hasWord("properties")) {
             StatUtil.javaProperties();
         } else if (eic("panic")) {
-            GenesisShare.exit(25);
+            if (IOUtil.getUserData("minimizeonclose").equals("1")) {
+                ConsoleFrame.getConsoleFrame().minimizeAll();
+            } else {
+                GenesisShare.exit(25);
+            }
         } else if ((firstWord.equalsIgnoreCase("print") || firstWord.equalsIgnoreCase("println"))) {
             String[] sentences = operation.split(" ");
 
@@ -603,7 +661,11 @@ public class InputHandler {
             setUserInputMode(true);
         } else if ((eic("quit") || eic("exit") || eic("leave") || eic("close")) &&
                 (!has("music") && !has("dance") && !has("script"))) {
-            GenesisShare.exit(25);
+            if (IOUtil.getUserData("minimizeonclose").equals("1")) {
+                ConsoleFrame.getConsoleFrame().minimizeAll();
+            } else {
+                GenesisShare.exit(25);
+            }
         } else if (has("monitor")) {
             println(NetworkUtil.getMonitorStatsString());
         } else if (hasWord("network") && hasWord("devices")) {
@@ -958,8 +1020,6 @@ public class InputHandler {
                         ConsoleFrame.getConsoleFrame().repaint();
                     }
                 }
-
-
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);

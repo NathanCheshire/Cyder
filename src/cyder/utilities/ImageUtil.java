@@ -104,7 +104,7 @@ public class ImageUtil {
     }
 
     public static BufferedImage bufferedImageFromColor(int width, int height, Color c) {
-        BufferedImage bi = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
+        BufferedImage bi = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bi.createGraphics();
 
         graphics.setPaint(c);

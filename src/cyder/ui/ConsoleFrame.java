@@ -696,9 +696,13 @@ public final class ConsoleFrame {
             close = new JButton("");
             close.setToolTipText("Close");
             close.addActionListener(e -> {
-                consoleCyderFrame.closeAnimation();
-                endExecutors();
-                GenesisShare.exit(25);
+                if (IOUtil.getUserData("minimizeonclose").equals("1")) {
+                    ConsoleFrame.getConsoleFrame().minimizeAll();
+                } else {
+                    consoleCyderFrame.closeAnimation();
+                    endExecutors();
+                    GenesisShare.exit(25);
+                }
             });
             close.addMouseListener(new MouseAdapter() {
                 @Override
@@ -2204,6 +2208,16 @@ public final class ConsoleFrame {
 
     public void minimize() {
         consoleCyderFrame.minimizeAnimation();
+    }
+
+    public void minimizeAll() {
+        for (Frame f : Frame.getFrames()) {
+            if (f instanceof CyderFrame) {
+                ((CyderFrame) f).minimizeAnimation();
+            } else {
+                f.setState(Frame.ICONIFIED);
+            }
+        }
     }
 
     public void barrelRoll() {

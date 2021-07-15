@@ -204,6 +204,7 @@ public class Entry {
                                     loginFrame.closeAnimation();
                                     if (ConsoleFrame.getConsoleFrame().isClosed())
                                         GenesisShare.exit(25);
+
                                 } else if (Arrays.equals(input,"h".toCharArray())) {
                                     loginField.setText(bashString);
                                     priorityPrintingList.add("Valid commands: create, login, login admin, quit, h\n");

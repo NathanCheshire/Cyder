@@ -1,0 +1,311 @@
+[19:53:53] [ENTRY]: [WINUSER=Nathan]
+[19:53:53] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[19:53:53] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:53:53] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[19:53:53] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:53:54] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:53:54] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:53:54] [LOGIN]: [AUTOCYPHER PASS]
+[19:53:54] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[19:53:54] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[19:53:54] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:53:54] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[19:53:54] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[19:53:54] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[19:53:54] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:53:54] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:53:54] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:53:54] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:53:55] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:53:55] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[19:53:55] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[19:53:55] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:53:55] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:53:55] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[19:53:55] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:53:55] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:53:55] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:53:55] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[19:53:55] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[19:53:55] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[19:53:55] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[19:53:55] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[19:53:55] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:53:55] [CLIENT]: test
+[19:53:55] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626310377681
+[19:53:55] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626310435380
+[19:53:58] [CLIENT]: Background 343434
+[19:53:58] [CONSOLE_OUT]: [STRING] java.awt.Color[r=5,g=61,b=138]
+[19:54:10] [CLIENT]: Background
+[19:54:10] [EXCEPTION]: 
+Zero length string
+Thrown from:
+java.base/java.lang.Integer.decode(Integer.java:1392)
+StackTrace:
+java.lang.NumberFormatException: Zero length string
+	at java.base/java.lang.Integer.decode(Integer.java:1392)
+	at java.desktop/java.awt.Color.decode(Color.java:729)
+	at cyder.handler.InputHandler.handle(InputHandler.java:532)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:450)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[19:54:10] [CONSOLE_OUT]: [STRING] Background color usage: background #EC407A
+[19:54:19] [CLIENT]: Background ec4071
+[19:54:19] [EXCEPTION]: 
+For input string: "ec4071"
+Thrown from:
+java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+StackTrace:
+java.lang.NumberFormatException: For input string: "ec4071"
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.base/java.lang.Integer.parseInt(Integer.java:652)
+	at java.base/java.lang.Integer.valueOf(Integer.java:957)
+	at java.base/java.lang.Integer.decode(Integer.java:1427)
+	at java.desktop/java.awt.Color.decode(Color.java:729)
+	at cyder.handler.InputHandler.handle(InputHandler.java:532)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:450)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[19:54:19] [CONSOLE_OUT]: [STRING] Background color usage: background #EC407A
+[19:54:21] [CLIENT]: Background ec407a
+[19:54:21] [EXCEPTION]: 
+For input string: "ec407a"
+Thrown from:
+java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+StackTrace:
+java.lang.NumberFormatException: For input string: "ec407a"
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.base/java.lang.Integer.parseInt(Integer.java:652)
+	at java.base/java.lang.Integer.valueOf(Integer.java:957)
+	at java.base/java.lang.Integer.decode(Integer.java:1427)
+	at java.desktop/java.awt.Color.decode(Color.java:729)
+	at cyder.handler.InputHandler.handle(InputHandler.java:532)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:450)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[19:54:21] [CONSOLE_OUT]: [STRING] Background color usage: background #EC407A
+[19:54:29] [CLIENT]: Background #ec407a
+[19:54:29] [EXCEPTION]: 
+For input string: "ec407a"
+Thrown from:
+java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+StackTrace:
+java.lang.NumberFormatException: For input string: "ec407a"
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.base/java.lang.Integer.parseInt(Integer.java:652)
+	at java.base/java.lang.Integer.valueOf(Integer.java:957)
+	at java.base/java.lang.Integer.decode(Integer.java:1427)
+	at java.desktop/java.awt.Color.decode(Color.java:729)
+	at cyder.handler.InputHandler.handle(InputHandler.java:532)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:450)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[19:54:29] [CONSOLE_OUT]: [STRING] Background color usage: background #EC407A
+[19:54:33] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[19:54:35] [CLIENT]: background #EC407A
+[19:54:35] [EXCEPTION]: 
+For input string: "EC407A"
+Thrown from:
+java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+StackTrace:
+java.lang.NumberFormatException: For input string: "EC407A"
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.base/java.lang.Integer.parseInt(Integer.java:652)
+	at java.base/java.lang.Integer.valueOf(Integer.java:957)
+	at java.base/java.lang.Integer.decode(Integer.java:1427)
+	at java.desktop/java.awt.Color.decode(Color.java:729)
+	at cyder.handler.InputHandler.handle(InputHandler.java:532)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:450)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[19:54:35] [CONSOLE_OUT]: [STRING] Background color usage: background #EC407A
+[19:54:40] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[19:54:41] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[19:54:41] [LOGOUT]:  [Nathan]
+[19:54:41] [EXIT]: [RUNTIME] 48s
+[19:54:41] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 5

@@ -1,0 +1,62 @@
+[19:54:54] [ENTRY]: [WINUSER=Nathan]
+[19:54:54] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[19:54:55] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:54:55] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[19:54:55] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:54:55] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:54:55] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:54:55] [LOGIN]: [AUTOCYPHER PASS]
+[19:54:56] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[19:54:56] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[19:54:56] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:54:56] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[19:54:56] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[19:54:56] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[19:54:56] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:54:56] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:54:56] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:54:56] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:54:56] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:54:56] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[19:54:56] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[19:54:56] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:54:56] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[19:54:56] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[19:54:56] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:54:56] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:54:56] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 000000
+[19:54:56] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[19:54:56] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[19:54:56] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[19:54:56] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[19:54:56] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[19:54:56] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:54:56] [CLIENT]: test
+[19:54:56] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626310435380
+[19:54:56] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626310496893
+[19:55:01] [CLIENT]: background #EC407A
+[19:55:01] [CONSOLE_OUT]: [STRING] java.awt.Color[r=236,g=64,b=122]
+[19:55:13] [CLIENT]: background EC407A
+[19:55:13] [CONSOLE_OUT]: [STRING] java.awt.Color[r=236,g=64,b=122]
+[19:55:23] [CLIENT]: background FFF
+[19:55:23] [CONSOLE_OUT]: [STRING] java.awt.Color[r=0,g=15,b=255]
+[19:55:28] [CLIENT]: background FFFFFF
+[19:55:28] [CONSOLE_OUT]: [STRING] java.awt.Color[r=255,g=255,b=255]
+[19:55:56] [CLIENT]: background FFF
+[19:55:56] [CONSOLE_OUT]: [STRING] java.awt.Color[r=0,g=15,b=255]
+[19:55:58] [CLIENT]: Cls
+[19:55:58] [CLIENT]: Cls
+[19:55:59] [CLIENT]: background FFF
+[19:55:59] [CONSOLE_OUT]: [STRING] java.awt.Color[r=0,g=15,b=255]
+[19:56:03] [CLIENT]: background FFF000
+[19:56:03] [CONSOLE_OUT]: [STRING] java.awt.Color[r=255,g=240,b=0]
+[19:56:13] [CLIENT]: Cls
+[19:56:20] [CLIENT]: background FFF
+[19:56:20] [CONSOLE_OUT]: [STRING] java.awt.Color[r=0,g=15,b=255]
+[19:56:24] [CLIENT]: background 000FFF
+[19:56:24] [CONSOLE_OUT]: [STRING] java.awt.Color[r=0,g=15,b=255]
+[19:56:49] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[19:56:49] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[19:56:49] [LOGOUT]:  [Nathan]
+[19:56:49] [EXIT]: [RUNTIME] 1m 55s
+[19:56:49] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

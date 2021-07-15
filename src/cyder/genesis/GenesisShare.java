@@ -95,6 +95,8 @@ public class GenesisShare {
         ret.add(new Preference("menudirection",
                 "Menu Minimize Direction",
                 "Console Menu Minimize Direction","1"));
+        ret.add(new Preference("minimizeonclose","Minimize On Close",
+                "Minimize the application instead of exiting whenever a close action is requested","0"));
 
         return ret;
     }
