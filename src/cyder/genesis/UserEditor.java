@@ -17,6 +17,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -111,6 +112,28 @@ public class UserEditor {
                 changeUsernameField.setText("");
             }
         });
+        changeUsernameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (changeUsernameField.getText().length() == 1) {
+                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (changeUsernameField.getText().length() == 1) {
+                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (changeUsernameField.getText().length() == 1) {
+                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
+                }
+            }
+        });
         changeUsername.setBounds(90, 640, 260, 40);
         editUserFrame.getContentPane().add(changeUsername);
 
@@ -159,6 +182,9 @@ public class UserEditor {
         changePassword.setBounds(550, 640, 260, 40);
         editUserFrame.getContentPane().add(changePassword);
         editUserFrame.setVisible(true);
+
+
+
         ConsoleFrame.getConsoleFrame().setFrameRelative(editUserFrame);
     }
 

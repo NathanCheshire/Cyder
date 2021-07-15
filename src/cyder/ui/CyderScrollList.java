@@ -214,7 +214,11 @@ public class CyderScrollList {
             }
         }
 
-        return ret.get(0);
+        String retString = "null";
+
+        if (!ret.isEmpty() && ret.get(0) != null)
+            retString = ret.get(0);
+        return retString;
     }
 
     public int getWidth() {

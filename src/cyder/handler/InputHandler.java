@@ -47,9 +47,9 @@ public class InputHandler {
     // be able to restrict to just those values as well
     // use this for hasher and add support for multiple hashing algorithms
 
-    //todo make CyderPasswordField and use for hasher and other areas
+    //todo cyder progress bar? make usable and use?
 
-    //todo changing password conf, auto capitalization for new name
+    //todo changing password add confirmation field and label to tell if same
 
     //todo user data is stable enough; switch to new IO but add debug methods
     // that will convrt to and from and dump to console so you can debug in the process

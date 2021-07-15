@@ -406,13 +406,15 @@ public final class ConsoleFrame {
             new Thread(() -> {
                 try {
                     while (consoleCyderFrame != null) {
+                        //if caret position is before the bash string
                         if (inputField.getCaretPosition() < consoleBashString.length()) {
                             inputField.setCaretPosition(inputField.getPassword().length);
                         }
 
                         //if it doesn't start with bash string, reset it to it
                         if (!String.valueOf(inputField.getPassword()).startsWith(consoleBashString)) {
-                            inputField.setText(consoleBashString);
+                            inputField.setText(consoleBashString + String.valueOf(inputField.getPassword())
+                                    .replace(consoleBashString, ""));
                             inputField.setCaretPosition(inputField.getPassword().length);
                         }
 
