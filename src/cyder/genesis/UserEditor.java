@@ -129,17 +129,11 @@ public class UserEditor {
         deleteUser.setBounds(375, 590, 150, 90);
         editUserFrame.getContentPane().add(deleteUser);
 
-        JPasswordField changePasswordField = new JPasswordField(15);
+        CyderPasswordField changePasswordField = new CyderPasswordField();
         changePasswordField.addActionListener(e -> changePassword.doClick());
-        changePasswordField.setFont(new Font("Agency FB",Font.BOLD, 20));
-        changePasswordField.setSelectionColor(CyderColors.selectionColor);
-        changePasswordField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         changePasswordField.setToolTipText("New password");
         changePasswordField.setBounds(550, 590, 260, 40);
         editUserFrame.getContentPane().add(changePasswordField);
-        changePasswordField.setForeground(CyderColors.navy);
-        changePasswordField.setCaretColor(CyderColors.navy);
-        changePasswordField.setCaret(new CyderCaret(CyderColors.navy));
 
         changePassword = new CyderButton("Change Password");
         changePassword.setBackground(CyderColors.regularRed);

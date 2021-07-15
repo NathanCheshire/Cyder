@@ -43,6 +43,10 @@ public class InputHandler {
     //todo Jsoup.clean(line, Whitelist.none()) is how you clean html from text, use for define
     // and try to implement wikipedia summary and synnonym
 
+    //todo implement selection button for possible values for cyder text field
+    // be able to restrict to just those values as well
+    // use this for hasher and add support for multiple hashing algorithms
+
     //todo make CyderPasswordField and use for hasher and other areas
 
     //todo changing password conf, auto capitalization for new name

@@ -7,6 +7,7 @@ import cyder.consts.CyderImages;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderPasswordField;
 import cyder.utilities.SecurityUtil;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 
 public class Hasher {
-    private JPasswordField hashField;
+    private CyderPasswordField hashField;
 
     public Hasher() {
         CyderFrame hashFrame = new CyderFrame(500,200, CyderImages.defaultBackgroundLarge);
@@ -29,10 +30,7 @@ public class Hasher {
         Instructions.setBounds(65,40, 400, 30);
         hashFrame.getContentPane().add(Instructions);
 
-        hashField = new JPasswordField(15);
-        hashField.setForeground(CyderColors.navy);
-        hashField.setFont(CyderFonts.weatherFontSmall);
-        hashField.setBorder(new LineBorder(CyderColors.navy,5,false));
+        hashField = new CyderPasswordField();
         hashField.addActionListener(e -> {
             char[] Hash = hashField.getPassword();
 
@@ -45,7 +43,6 @@ public class Hasher {
                 clipboard.setContents(selection, selection);
             }
         });
-
         hashField.setBounds(50,90, 400, 40);
         hashFrame.getContentPane().add(hashField);
 

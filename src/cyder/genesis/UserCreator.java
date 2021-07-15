@@ -24,8 +24,8 @@ import java.util.LinkedList;
 
 public class UserCreator {
     private static CyderFrame createUserFrame;
-    private static JPasswordField newUserPasswordconf;
-    private static JPasswordField newUserPassword;
+    private static CyderPasswordField newUserPasswordconf;
+    private static CyderPasswordField newUserPassword;
     private static CyderTextField newUserName;
     private static CyderButton createNewUser;
     private static CyderButton chooseBackground;
@@ -98,7 +98,7 @@ public class UserCreator {
 
         JLabel matchPasswords = new JLabel("Passwords match", SwingConstants.CENTER);
 
-        newUserPassword = new JPasswordField(15);
+        newUserPassword = new CyderPasswordField();
         newUserPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -113,12 +113,7 @@ public class UserCreator {
         });
         newUserPassword.setBorder(new LineBorder(CyderColors.navy, 5, false));
         newUserPassword.setBounds(60, 160, 240, 40);
-        newUserPassword.setSelectionColor(CyderColors.selectionColor);
-        newUserPassword.setFont(new Font("Agency FB",Font.BOLD, 20));
-        newUserPassword.setForeground(CyderColors.navy);
-        newUserPassword.setCaretColor(CyderColors.navy);
         newUserPassword.setCaret(new CyderCaret(CyderColors.navy));
-
         createUserFrame.getContentPane().add(newUserPassword);
 
         JLabel passwordLabelConf = new JLabel("Confirm Password: ", SwingConstants.CENTER);
@@ -127,7 +122,7 @@ public class UserCreator {
         passwordLabelConf.setBounds(60, 210, 240, 30);
         createUserFrame.getContentPane().add(passwordLabelConf);
 
-        newUserPasswordconf = new JPasswordField(15);
+        newUserPasswordconf = new CyderPasswordField();
         newUserPasswordconf.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -140,13 +135,6 @@ public class UserCreator {
                 }
             }
         });
-
-        newUserPasswordconf.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        newUserPasswordconf.setSelectionColor(CyderColors.selectionColor);
-        newUserPasswordconf.setFont(new Font("Agency FB",Font.BOLD, 20));
-        newUserPasswordconf.setForeground(CyderColors.navy);
-        newUserPasswordconf.setCaretColor(CyderColors.navy);
-        newUserPasswordconf.setCaret(new CyderCaret(CyderColors.navy));
         newUserPasswordconf.setBounds(60, 250, 240, 40);
         createUserFrame.getContentPane().add(newUserPasswordconf);
 
