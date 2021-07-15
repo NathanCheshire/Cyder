@@ -15,9 +15,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -102,6 +100,8 @@ public class Entry {
     }
 
     public static void showEntryGUI() {
+        printingList.clear();
+        priorityPrintingList.clear();
         doLoginAnimations = true;
         loginMode = 0;
 
@@ -228,7 +228,7 @@ public class Entry {
 
                         case 2:
                             loginField.setEchoChar((char)0);
-                            recognize(username,input);
+                            recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA(input)));
 
                             loginField.setText(bashString);
                             loginField.setCaretPosition(loginField.getPassword().length);
@@ -279,14 +279,19 @@ public class Entry {
         GenesisShare.cancelFrameSuspention();
     }
 
-    public static void recognize(String name, char[] pass) {
+    /**
+     * Attempts to log in a user based on the inputed name and already hashed password
+     * @param name - the provided user account name
+     * @param hashedPass - the password already having been hashed (we hash it again in checkPassword method)
+     */
+    public static void recognize(String name, String hashedPass) {
         try {
             if (loginFrame != null) {
                 loginField.setEchoChar((char)0);
                 loginField.setText(bashString);
             }
 
-            if (SecurityUtil.checkPassword(name, SecurityUtil.toHexString(SecurityUtil.getSHA(pass)))) {
+            if (SecurityUtil.checkPassword(name, hashedPass)) {
                 doLoginAnimations = false;
                 if (autoCypherAttempt) {
                     SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER PASS");
@@ -335,10 +340,6 @@ public class Entry {
             } else if (loginFrame != null && loginFrame.isVisible()) {
                 loginField.setText("");
 
-                for (char c: pass) {
-                    c = '\0';
-                }
-
                 if (autoCypherAttempt) {
                     autoCypherAttempt = false;
                     SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
@@ -351,6 +352,7 @@ public class Entry {
             } else if (autoCypherAttempt) {
                 autoCypherAttempt = false;
                 SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
+                Entry.showEntryGUI();
             }
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
@@ -363,20 +365,12 @@ public class Entry {
      */
     public static void autoCypher() {
         try {
-            File autoCypher = new File("../autocypher.txt");
-            File Users = new File("users/");
+            String cypherHash = IOUtil.getSystemData("CypherHash");
 
-            if (autoCypher.exists() && Users.listFiles().length != 0) {
-                BufferedReader ac = new BufferedReader(new FileReader(autoCypher));
-
-                String line = ac.readLine();
-                String[] parts = line.split(":");
-
-                if (parts.length == 2 && !parts[0].equals("") && !parts[1].equals("")) {
-                    ac.close();
-                    autoCypherAttempt = true;
-                    recognize(parts[0], parts[1].toCharArray());
-                }
+            if (cypherHash.contains(",") && cypherHash.split(",").length == 2) {
+                String[] parts = cypherHash.split(",");
+                autoCypherAttempt = true;
+                recognize(parts[0], parts[1]);
             } else {
                 SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
                 showEntryGUI();

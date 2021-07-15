@@ -39,10 +39,10 @@ public class CyderMain {
 
         startFinalFrameDisposedChecker();
 
-        if (SecurityUtil.nathanLenovo()) {
+        if (SecurityUtil.nathanLenovo() && IOUtil.getSystemData("AutoCypher").equals("1")) {
             SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
             Entry.autoCypher();
-        } else if (IOUtil.getSystemData("Released").equals("1")) {
+        } else if (IOUtil.getSystemData("Released").equals("1") || SecurityUtil.nathanLenovo()) {
             Entry.showEntryGUI();
         } else {
             try {

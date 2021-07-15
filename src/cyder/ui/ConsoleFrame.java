@@ -436,7 +436,8 @@ public final class ConsoleFrame {
             consoleCyderFrame.getContentPane().add(inputField);
             inputField.addActionListener(e -> {
                 try {
-                    String op = String.valueOf(inputField.getPassword()).substring(consoleBashString.length()).trim();
+                    String op = String.valueOf(inputField.getPassword()).substring(consoleBashString.length())
+                            .trim().replace(consoleBashString, "");
 
                     if (!StringUtil.empytStr(op)) {
                         if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {

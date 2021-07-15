@@ -598,7 +598,7 @@ public class IOUtil {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             return null;
 
-        String ret = null;
+        String ret = "null";
 
         try {
             //block other functions from reading/writing to userdata until we're done
@@ -647,7 +647,7 @@ public class IOUtil {
      * @return - the data associated with the provided ID
      */
     public static String getSystemData(String name) {
-        String ret = null;
+        String ret = "null";
 
         try {
             //block other functiosn from changing system data while we are changing it here
@@ -944,7 +944,8 @@ public class IOUtil {
 
     public static void changePassword(char[] newPassword) {
         try {
-            setUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA(newPassword)));
+            setUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA(
+                    SecurityUtil.toHexString(SecurityUtil.getSHA(newPassword)).toCharArray())));
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

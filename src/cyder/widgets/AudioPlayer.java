@@ -79,7 +79,7 @@ public class AudioPlayer {
             audioFrame.closeAnimation();
 
         audioFrame = new CyderFrame(500,225,
-                new ImageIcon(ImageUtil.bufferedImageFromColor(500,225,CyderColors.navy)));
+                new ImageIcon(ImageUtil.bufferedImageFromColor(500,225,new Color(8,23,52))));
         audioFrame.setBackground(new Color(8,23,52));
         audioFrame.setTitle("Flash Player");
         audioFrame.addWindowListener(new WindowAdapter() {

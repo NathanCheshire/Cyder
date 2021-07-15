@@ -127,10 +127,11 @@ public class SecurityUtil {
         return false;
     }
 
-    public static boolean checkPassword(String name, String pass) {
+    public static boolean checkPassword(String name, String hashedPass) {
         try {
-            //delete possible corrupted users
             IOUtil.cleanUsers();
+
+            hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA(hashedPass.toCharArray()));
 
             //get all users
             File[] UUIDs = new File("users").listFiles();
@@ -163,7 +164,7 @@ public class SecurityUtil {
                 }
 
                 //if it's the one we're looking for, set consoel UUID, free resources, and return true
-                if (pass.equals(filepass) && name.equalsIgnoreCase(filename)) {
+                if (hashedPass.equalsIgnoreCase(filepass) && name.equalsIgnoreCase(filename)) {
                     ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
                     currentRead.close();
                     return true;

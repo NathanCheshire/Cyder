@@ -40,22 +40,18 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo user pref to toggle typing animation
+    //todo inform widgth for hasher is broken
+    //todo make CyderPasswordField and use for hasher and other areas
 
-    //todo if inputpassfield or login field ever contains bash string, just remove it
-
-    //todo update readme at this point with pictures
-
-    //todo (re-implement double hashing before this)
-    //todo store autocypher in sys.ini (autocypher:1, and if that's true
-    // then it will find the username,singular sha256 hash) don't call it singular
-    // just pass a random it such as "0" to say that it shouldn't be hashed
-    // but simply compared against the password hash in userdata
+    //todo changing password conf, auto capitalization for new name
 
     //todo user data is stable enough; switch to new IO but add debug methods
     // that will convrt to and from and dump to console so you can debug in the process
 
     //todo implement mapping links, switch to JSON userdata storage before imlementing
+    //todo map url links or system path links to open programs like discord and such
+
+    //todo make Cyder a gradle project
 
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
@@ -680,7 +676,7 @@ public class InputHandler {
                     File f = new File(parts[1].trim());
 
                     if (f.exists()) {
-                        println("0b" + IOUtil.getBinaryString(f));
+                        printlnPriority("0b" + IOUtil.getBinaryString(f));
                     } else {
                         println("File: " + parts[1].trim() + " does not exist.");
                     }
@@ -702,7 +698,7 @@ public class InputHandler {
 
                     if (StringUtil.getExtension(f).equalsIgnoreCase(".bin")) {
                         if (f.exists()) {
-                            println("0x" + IOUtil.getHexString(f).toUpperCase());
+                            printlnPriority("0x" + IOUtil.getHexString(f).toUpperCase());
                         } else {
                             println("File: " + parts[1].trim() + " does not exist.");
                         }
@@ -721,7 +717,7 @@ public class InputHandler {
                             }
                         }
 
-                        println(sb.toString());
+                        printlnPriority(sb.toString());
                     }
                 }
             } else {
@@ -1258,14 +1254,20 @@ public class InputHandler {
                         SessionLogger.log(SessionLogger.Tag.CONSOLE_OUT,line);
 
                         if (line instanceof String) {
-                            GenesisShare.getPrintinSem().acquire();
-                            for (char c : ((String) line).toCharArray()) {
-                                innerConsolePrint(c);
+                            if (IOUtil.getUserData("typinganimation").equals("1")) {
+                                GenesisShare.getPrintinSem().acquire();
+                                for (char c : ((String) line).toCharArray()) {
+                                    innerConsolePrint(c);
 
-                                if (!finishPrinting)
-                                    Thread.sleep(charTimeout);
+                                    if (!finishPrinting)
+                                        Thread.sleep(charTimeout);
+                                }
+                                GenesisShare.getPrintinSem().release();
+                            } else {
+                                StyledDocument document = (StyledDocument) outputArea.getDocument();
+                                document.insertString(document.getLength(), (String) line, null);
+                                outputArea.setCaretPosition(outputArea.getDocument().getLength());
                             }
-                            GenesisShare.getPrintinSem().release();
                         } else if (line instanceof JComponent) {
                             String componentUUID = SecurityUtil.generateUUID();
                             Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
