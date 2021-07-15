@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+}
+dependencies {
+    compile 'junit:junit:4.12'
+    compile 'org.jetbrains:annotations:16.0.2'
+    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'org.jsoup:jsoup:1.14.1'
+    implementation group: 'javazoom', name: 'jlayer', version: '1.0.1'
+    implementation group: 'com.fathzer', name: 'javaluator', version: '3.0.0'
+}
