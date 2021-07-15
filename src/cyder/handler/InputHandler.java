@@ -41,7 +41,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
     //todo Jsoup.clean(line, Whitelist.none()) is how you clean html from text, use for define
-    // and try to implement wikipedia summary and synnonym
 
     //todo CyderComboBox
     //todo implement selection button for possible values for cyder text field
@@ -611,7 +610,9 @@ public class InputHandler {
             SystemUtil.closeCD("D:\\");
         } else if (firstWord.equalsIgnoreCase("define")) {
             println(StringUtil.define(operation.replaceAll("(?i)define","").trim()));
-        }  else if (hasWord("debug") && hasWord("menu")) {
+        } else if (firstWord.equalsIgnoreCase("wikisum")) {
+            println(StringUtil.wikiSummary(operation.replaceAll("(?i)wikisum","").trim()));
+        } else if (hasWord("debug") && hasWord("menu")) {
             StatUtil.debugMenu();
         } else if (hasWord("pixelate") && hasWord("background")) {
             println("Enter your pixel size (a positive integer)");

@@ -1,0 +1,49 @@
+[14:14:50] [ENTRY]: [WINUSER=Nathan]
+[14:14:50] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[14:14:50] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[14:14:50] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[14:14:50] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[14:14:51] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[14:14:51] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[14:14:51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[14:14:51] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[14:14:51] [LOGIN]: [AUTOCYPHER PASS]
+[14:14:51] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[14:14:51] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[14:14:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:14:51] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[14:14:51] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[14:14:51] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[14:14:51] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[14:14:51] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[14:14:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:14:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:14:51] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[14:14:51] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[14:14:51] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[14:14:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:14:51] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:14:52] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[14:14:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[14:14:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[14:14:52] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[14:14:52] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[14:14:52] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[14:14:52] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[14:14:52] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[14:14:52] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[14:14:52] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[14:14:52] [CLIENT]: test
+[14:14:52] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626376471347
+[14:14:52] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626376492321
+[14:14:54] [CLIENT]: Wikisum water
+[14:14:55] [CONSOLE_OUT]: [STRING] Water (chemical formula H2O) is an inorganic, transparent, tasteless, odorless, and nearly colorless chemical substance, which is the main constituent of Earth's hydrosphere and the fluids of all known living organisms (in which it acts as a solvent). It is vital for all known forms of life, even though it provides no calories or organic nutrients. Its chemical formula H2O, indicates that each of its molecules contains one oxygen and two hydrogen atoms, connected by covalent bonds. The hydrogen atoms are attached to the oxygen atom at an angle of 104.45\u00b0. \"Water\" is the name of the liquid state of H2O at standard conditions for temperature and pressure. \nA number of natural states of water exist. It forms precipitation in the form of rain and aerosols in the form of fog. Clouds consist of suspended droplets of water and ice, its solid state. When finely divided, crystalline ice may precipitate in the form of snow. The gaseous state of water is steam or water vapor.\nWater covers approximately 70.9% of the Earth's surface, mostly in seas and oceans. Small portions of water occur as groundwater (1.7%), in the glaciers and the ice caps of Antarctica and Greenland (1.7%), and in the air as vapor, clouds (consisting of ice and liquid water suspended in air), and precipitation (0.001%). Water moves continually through the water cycle of evaporation, transpiration (evapotranspiration), condensation, precipitation, and runoff, usually reaching the sea.\nWater plays an important role in the world economy. Approximately 70% of the freshwater used by humans goes to agriculture. Fishing in salt and fresh water bodies is a major source of food for many parts of the world. Much of the long-distance trade of commodities (such as oil, natural gas, and manufactured products) is transported by boats through seas, rivers, lakes, and canals. Large quantities of water, ice, and steam are used for cooling and heating, in industry and homes. Water is an excellent solvent for a wide variety of substances both mineral and organic; as such it is widely used in industrial processes, and in cooking and washing. Water, ice and snow are also central to many sports and other forms of entertainment, such as swimming, pleasure boating, boat racing, surfing, sport fishing, diving, ice skating and skiing.
+[14:14:55] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[14:14:56] [CLIENT]: controlc
+[14:14:57] [CONSOLE_OUT]: [STRING] Escaped
+[14:14:57] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[14:15:02] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[14:15:02] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[14:15:02] [LOGOUT]:  [Nathan]
+[14:15:02] [EXIT]: [RUNTIME] 12s
+[14:15:02] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

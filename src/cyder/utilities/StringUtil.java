@@ -3,8 +3,8 @@ package cyder.utilities;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import org.jsoup.Jsoup;
-import org.jsoup.select.Elements;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -898,12 +898,17 @@ public class StringUtil {
     public static String wikiSummary(String querry) {
         String ret = null;
 
-        try {
-            Document doc = Jsoup.connect("https://en.wikipedia.org/w/api.php?format=json&action=query" +
+        try  {
+            String urlString = "https://en.wikipedia.org/w/api.php?format=json&action=query" +
                     "&prop=extracts&exintro&explaintext&redirects=1&titles=" +
-                    querry.replace(" ","%20")).get();
-            //todo paused until we convert to a gradle project to use GSON dependency
+                    querry.replace(" ","%20");
+            String jsonString = NetworkUtil.readUrl(urlString);
+
+            String[] serializedPageNumber = jsonString.split("\"extract\":\"");
+            ret = serializedPageNumber[1].replace("}","");
+            ret = ret.substring(0, ret.length() - 1);
         } catch (Exception e) {
+            e.printStackTrace();
             ret = "Wiki article not found";
             ErrorHandler.silentHandle(e);
         } finally {
