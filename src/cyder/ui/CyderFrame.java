@@ -12,7 +12,7 @@ import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
 import cyder.widgets.GenericInform;
 import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -522,7 +522,7 @@ public class CyderFrame extends JFrame {
                             FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
 
                             //parse away html
-                            String parsedHTML = Jsoup.clean(currentGluster.getHtmlText(), Whitelist.none());
+                            String parsedHTML = Jsoup.clean(currentGluster.getHtmlText(), Safelist.none());
 
                             //get minimum width for whole parsed string
                             w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 5;

@@ -24,7 +24,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
     private Color[] colors = {CyderColors.selectionColor, CyderColors.vanila};
 
-    private void setColors(Color[] color) {
+    public void setColors(Color[] color) {
         if (color.length != 2)
             return;
 
@@ -75,6 +75,8 @@ public class CyderProgressUI extends BasicProgressBarUI {
             setAnimationIndex(0);
         }
     }
+
+    //todo combine rounded settings and such from ImAvg repo
 
     @Override
     protected void paintDeterminate(Graphics g, JComponent c) {

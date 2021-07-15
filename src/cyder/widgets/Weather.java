@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
@@ -85,8 +86,8 @@ public class Weather {
         if (weatherFrame != null)
             weatherFrame.closeAnimation();
 
-        weatherFrame = new CyderFrame(400,600, new ImageIcon(
-                ImageUtil.getImageGradient(500, 600,
+        weatherFrame = new CyderFrame(450,600, new ImageIcon(
+                ImageUtil.getImageGradient(450, 600,
                         new Color(205,119,130),
                         new Color(38,21,75),
                         new Color(89,85,161)))) {
@@ -300,8 +301,8 @@ public class Weather {
         weatherFrame.initializeResizing();
         weatherFrame.setResizable(true);
         weatherFrame.setBackgroundResizing(true);
-        weatherFrame.setMinimumSize(new Dimension(400,90));
-        weatherFrame.setMaximumSize(new Dimension(400, 600));
+        weatherFrame.setMinimumSize(new Dimension(450,90));
+        weatherFrame.setMaximumSize(new Dimension(450, 600));
         weatherFrame.setSnapSize(new Dimension(1,1));
     }
 
@@ -337,7 +338,7 @@ public class Weather {
             sunsetLabel.setText(correctedSunTime(sunset) + "pm");
 
             if (weatherFrame != null)
-                weatherFrame.notify("Refreshed");
+                weatherFrame.notify("Refreshed", 2000, Direction.RIGHT);
         }
 
         catch (Exception e) {

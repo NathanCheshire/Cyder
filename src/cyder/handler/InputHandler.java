@@ -15,11 +15,13 @@ import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderProgressUI;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -40,22 +42,16 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo Jsoup.clean(line, Whitelist.none()) is how you clean html from text, use for define
-
     //todo CyderComboBox
     //todo implement selection button for possible values for cyder text field
     // be able to restrict to just those values as well
     // use this for hasher and add support for multiple hashing algorithms
-
-    //todo cyder progress bar? make usable and use?
 
     //todo user data is stable enough; switch to new IO but add debug methods
     // that will convrt to and from and dump to console so you can debug in the process
 
     //todo implement mapping links, switch to JSON userdata storage before imlementing
     //todo map url links or system path links to open programs like discord and such
-
-    //todo make Cyder a gradle project
 
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
@@ -850,7 +846,43 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
+            CyderFrame cf = new CyderFrame(400,80);
+            cf.setTitle("ProgressBar Test");
 
+            JProgressBar jpb = new JProgressBar(0,500);
+            jpb.setBounds(40,40,320,20);
+            jpb.setOrientation(JProgressBar.HORIZONTAL);
+            jpb.setBorder(new LineBorder(CyderColors.navy, 3));
+
+            CyderProgressUI ui = new CyderProgressUI();
+            ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.calculatorOrange});
+            jpb.setUI(ui);
+            jpb.setForeground(CyderColors.intellijPink);
+            jpb.setBackground(CyderColors.vanila);
+
+            cf.getContentPane().add(jpb);
+            cf.setVisible(true);
+            ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
+
+            new Thread( () -> {
+                for (int i = 0 ; i <= jpb.getMaximum() / 2; i++) {
+                    jpb.setValue(i);
+                    try {
+                        Thread.sleep(2000 / jpb.getMaximum());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                for (int i = jpb.getMaximum() / 2 ; i <= jpb.getMaximum(); i++) {
+                    jpb.setValue(i);
+                    try {
+                        Thread.sleep(500 / jpb.getMaximum());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, "ProgressBar Animator").start();
         }
         //final attempt at unknown input --------------------------
         else {
