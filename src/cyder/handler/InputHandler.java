@@ -39,7 +39,6 @@ import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo println priority methods to put into priority queue to avoid typing animation
     //todo user pref to toggle typing animation
     //todo minimize on close user pref
 
@@ -47,6 +46,8 @@ public class InputHandler {
 
     //todo "black background" or hex code background will create that background with the size 800x800, save it
     // and switch to it immediately
+
+    //todo update readme at this point with pictures
 
     //todo (re-implement double hashing before this)
     //todo store autocypher in sys.ini (autocypher:1, and if that's true
@@ -1239,26 +1240,11 @@ public class InputHandler {
         }
     }
 
-    private boolean concurrencyIssues() {
-        return MasterYoutube.isActive() || BletchyThread.isActive();
-    }
-
-    private void consleAppendChar(char c) {
-        try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), String.valueOf(c), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
+    //specifically print and println methods ----------------------
     
     public void printlnImage(ImageIcon icon) {
         consolePrintingList.add(icon);
         consolePrintingList.add("\n");
-
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
-            consolePrintingList.add("\n");
     }
     
     public void printImage(ImageIcon icon) {
@@ -1284,56 +1270,56 @@ public class InputHandler {
     }
     
     public void print(String usage) {
-        if (concurrencyIssues())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage);
         else
             consolePrintingList.add(usage);
     }
     
     public void print(int usage) {
-        if (concurrencyIssues())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Integer.toString(usage));
         else
             consolePrintingList.add(Integer.toString(usage));
     }
     
     public void print(double usage) {
-        if (concurrencyIssues())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Double.toString(usage));
         else
             consolePrintingList.add(Double.toString(usage));
     }
 
     public void print(boolean usage) {
-        if (concurrencyIssues())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Boolean.toString(usage));
         else
             consolePrintingList.add(Boolean.toString(usage));
     }
     
     public void print(float usage) {
-        if (concurrencyIssues())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Float.toString(usage));
         else
             consolePrintingList.add(Float.toString(usage));
     }
 
     public void print(long usage) {
-        if (concurrencyIssues())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Long.toString(usage));
         else
             consolePrintingList.add(Long.toString(usage));
     }
     
     public void print(char usage) {
-        if (concurrencyIssues())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(String.valueOf(usage));
         else
             consolePrintingList.add(String.valueOf(usage));
     }
     
     public void print(Object usage) {
-        if (concurrencyIssues())
+        if (MasterYoutube.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage.toString());
         else
             consolePrintingList.add(usage.toString());
@@ -1370,6 +1356,101 @@ public class InputHandler {
     public void println(Object usage) {
         print(usage + "\n");
     }
+
+    //repeat above methods but for priority queue should an object need quick printing
+
+    public void printlnImagePriority(ImageIcon icon) {
+        consolePrintingList.add(icon);
+        consolePrintingList.add("\n");
+    }
+
+    public void printImagePriority(ImageIcon icon) {
+        consolePriorityPrintingList.add(icon);
+    }
+
+    public void printlnImagePriority(String filename) {
+        consolePriorityPrintingList.add(new ImageIcon(filename));
+        consolePriorityPrintingList.add("\n");
+    }
+
+    public void printImagePriority(String filename) {
+        consolePriorityPrintingList.add(new ImageIcon(filename));
+    }
+
+    public void printlnComponentPriority(Component c) {
+        consolePriorityPrintingList.add(c);
+        consolePriorityPrintingList.add("\n");
+    }
+
+    public void printComponentPriority(Component c) {
+        consolePriorityPrintingList.add(c);
+    }
+
+    public void printPriority(String usage) {
+        consolePriorityPrintingList.add(usage);
+    }
+
+    public void printPriority(int usage) {
+        consolePriorityPrintingList.add(Integer.toString(usage));
+    }
+
+    public void printPriority(double usage) {
+        consolePriorityPrintingList.add(Double.toString(usage));
+    }
+
+    public void printPriority(boolean usage) {
+        consolePriorityPrintingList.add(Boolean.toString(usage));
+    }
+
+    public void printPriority(float usage) {
+        consolePriorityPrintingList.add(Float.toString(usage));
+    }
+
+    public void printPriority(long usage) {
+        consolePriorityPrintingList.add(Long.toString(usage));
+    }
+
+    public void printPriority(char usage) {
+        consolePriorityPrintingList.add(String.valueOf(usage));
+    }
+
+    public void printPriority(Object usage) {
+        consolePriorityPrintingList.add(usage.toString());
+    }
+
+    public void printlnPriority(String usage) {
+        printPriority(usage + "\n");
+    }
+
+    public void printlnPriority(int usage) {
+        printPriority(usage + "\n");
+    }
+
+    public void printlnPriority(double usage) {
+        printPriority(usage + "\n");
+    }
+
+    public void printlnPriority(boolean usage) {
+        printPriority(usage + "\n");
+    }
+
+    public void printlnPriority(float usage) {
+        printPriority(usage + "\n");
+    }
+
+    public void printlnPriority(long usage) {
+        printPriority(usage + "\n");
+    }
+
+    public void printlnPriority(char usage) {
+        printPriority(usage + "\n");
+    }
+
+    public void printlnPriority(Object usage) {
+        printPriority(usage + "\n");
+    }
+    
+    //string comparison methods -----------------------------------
     
     private boolean eic(String eic) {
         return operation.equalsIgnoreCase(eic);
