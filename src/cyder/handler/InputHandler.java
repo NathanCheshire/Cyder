@@ -43,13 +43,12 @@ public class InputHandler {
     //todo Jsoup.clean(line, Whitelist.none()) is how you clean html from text, use for define
     // and try to implement wikipedia summary and synnonym
 
+    //todo CyderComboBox
     //todo implement selection button for possible values for cyder text field
     // be able to restrict to just those values as well
     // use this for hasher and add support for multiple hashing algorithms
 
     //todo cyder progress bar? make usable and use?
-
-    //todo changing password add confirmation field and label to tell if same
 
     //todo user data is stable enough; switch to new IO but add debug methods
     // that will convrt to and from and dump to console so you can debug in the process

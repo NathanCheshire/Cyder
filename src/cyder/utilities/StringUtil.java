@@ -894,4 +894,20 @@ public class StringUtil {
             return ret;
         }
     }
+
+    public static String wikiSummary(String querry) {
+        String ret = null;
+
+        try {
+            Document doc = Jsoup.connect("https://en.wikipedia.org/w/api.php?format=json&action=query" +
+                    "&prop=extracts&exintro&explaintext&redirects=1&titles=" +
+                    querry.replace(" ","%20")).get();
+            //todo paused until we convert to a gradle project to use GSON dependency
+        } catch (Exception e) {
+            ret = "Wiki article not found";
+            ErrorHandler.silentHandle(e);
+        } finally {
+            return ret;
+        }
+    }
 }

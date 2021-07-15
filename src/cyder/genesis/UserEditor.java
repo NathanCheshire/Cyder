@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -93,6 +94,7 @@ public class UserEditor {
 
         CyderTextField changeUsernameField = new CyderTextField(0);
         changeUsernameField.addActionListener(e -> changeUsername.doClick());
+        changeUsernameField.setToolTipText("New Username");
         changeUsernameField.setBackground(Color.white);
         changeUsernameField.setFont(CyderFonts.weatherFontSmall);
         changeUsernameField.setBounds(90, 590, 260, 40);
@@ -105,9 +107,9 @@ public class UserEditor {
         changeUsername.setFont(CyderFonts.weatherFontSmall);
         changeUsername.addActionListener(e -> {
             String newUsername = changeUsernameField.getText();
-            if (!StringUtil.empytStr(newUsername)) {
+            if (!StringUtil.empytStr(newUsername) && !newUsername.equalsIgnoreCase(ConsoleFrame.getConsoleFrame().getUsername())) {
                 IOUtil.changeUsername(newUsername);
-                editUserFrame.inform("Username successfully changed", "");
+                editUserFrame.inform("Username successfully changed to \"" + newUsername + "\"", "");
                 ConsoleFrame.getConsoleFrame().setTitle(IOUtil.getSystemData("Version") + " Cyder [" + newUsername + "]");
                 changeUsernameField.setText("");
             }
@@ -153,10 +155,15 @@ public class UserEditor {
         editUserFrame.getContentPane().add(deleteUser);
 
         CyderPasswordField changePasswordField = new CyderPasswordField();
-        changePasswordField.addActionListener(e -> changePassword.doClick());
-        changePasswordField.setToolTipText("New password");
-        changePasswordField.setBounds(550, 590, 260, 40);
+        changePasswordField.setToolTipText("New Password");
+        changePasswordField.setBounds(550, 590, 120, 40);
         editUserFrame.getContentPane().add(changePasswordField);
+
+        CyderPasswordField changePasswordConfField = new CyderPasswordField();
+        changePasswordConfField.addActionListener(e -> changePassword.doClick());
+        changePasswordConfField.setToolTipText("New Password Confirmation");
+        changePasswordConfField.setBounds(680, 590, 130, 40);
+        editUserFrame.getContentPane().add(changePasswordConfField);
 
         changePassword = new CyderButton("Change Password");
         changePassword.setBackground(CyderColors.regularRed);
@@ -165,15 +172,24 @@ public class UserEditor {
         changePassword.setFont(CyderFonts.weatherFontSmall);
         changePassword.addActionListener(e -> {
             char[] newPassword = changePasswordField.getPassword();
+            char[] newPasswordConf = changePasswordConfField.getPassword();
 
             if (newPassword.length > 4) {
-                IOUtil.changePassword(newPassword);
-                editUserFrame.inform("Password successfully changed", "");
+                if (!Arrays.equals(newPasswordConf,newPassword)) {
+                    editUserFrame.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
+                            "but your provided passwords were not equal", "");
+                    changePasswordField.setText("");
+                    changePasswordConfField.setText("");
+                } else {
+                    IOUtil.changePassword(newPassword);
+                    editUserFrame.inform("Password successfully changed", "");
+                }
             } else {
                 editUserFrame.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
                         "but your password must be greater than 4 characters for security reasons.", "");
             }
             changePasswordField.setText("");
+            changePasswordConfField.setText("");
 
             for (char c : newPassword) {
                 c = '\0';
@@ -182,8 +198,6 @@ public class UserEditor {
         changePassword.setBounds(550, 640, 260, 40);
         editUserFrame.getContentPane().add(changePassword);
         editUserFrame.setVisible(true);
-
-
 
         ConsoleFrame.getConsoleFrame().setFrameRelative(editUserFrame);
     }
