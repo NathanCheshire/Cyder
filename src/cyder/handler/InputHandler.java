@@ -3,6 +3,7 @@ package cyder.handler;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.enums.AnimationDirection;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.genesis.Entry;
@@ -846,16 +847,17 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            CyderFrame cf = new CyderFrame(400,80);
+            CyderFrame cf = new CyderFrame(200,400);
             cf.setTitle("ProgressBar Test");
 
             JProgressBar jpb = new JProgressBar(0,500);
-            jpb.setBounds(40,40,320,20);
-            jpb.setOrientation(JProgressBar.HORIZONTAL);
+            jpb.setBounds(40,40,20,320);
+            jpb.setOrientation(JProgressBar.VERTICAL);
             jpb.setBorder(new LineBorder(CyderColors.navy, 3));
 
             CyderProgressUI ui = new CyderProgressUI();
             ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.calculatorOrange});
+            ui.setDirection(AnimationDirection.BOTTOM_TO_TOP);
             jpb.setUI(ui);
             jpb.setForeground(CyderColors.intellijPink);
             jpb.setBackground(CyderColors.vanila);
