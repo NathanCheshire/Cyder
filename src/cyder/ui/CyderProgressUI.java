@@ -2,9 +2,9 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.enums.AnimationDirection;
-import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -91,8 +91,6 @@ public class CyderProgressUI extends BasicProgressBarUI {
         }
     }
 
-    //todo add rounded option and copy from ImAvg
-
     public enum Shape {
         SQUARE, ROUNDED
     }
@@ -107,11 +105,25 @@ public class CyderProgressUI extends BasicProgressBarUI {
         return this.shape;
     }
 
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        if (this.shape == Shape.SQUARE) {
+            c.setBorder(new LineBorder(CyderColors.navy, 3));
+            super.paint(g, c);
+        } else {
+            //todo figoure out from imavg how you did that
+            // also much later copy from that program how it looks the same size on both these monitors
+
+        }
+    }
+
     //NOTE: animation direction is simply the direction the bar animation moves,
     // not what direction the bar moves (top to bottom vs bottom to top or left to right vs right to left)
     @Override
     protected void paintDeterminate(Graphics g, JComponent c) {
         if (this.shape == Shape.SQUARE) {
+            c.setBackground(CyderColors.vanila);
+
             if (progressBar.getOrientation() == JProgressBar.VERTICAL) {
                 barImage = createRippleImageVertical(colors[0], colors[1], c.getWidth(), c.getHeight());
 

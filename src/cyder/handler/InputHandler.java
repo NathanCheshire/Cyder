@@ -13,21 +13,16 @@ import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderCaret;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderProgressUI;
+import cyder.ui.*;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -854,14 +849,13 @@ public class InputHandler {
             JProgressBar jpb = new JProgressBar(0,500);
             jpb.setBounds(40,80,320,20);
             jpb.setOrientation(JProgressBar.HORIZONTAL);
-            jpb.setBorder(new LineBorder(CyderColors.navy, 3));
 
-            CyderProgressUI ui = new CyderProgressUI();
-            ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.regularBlue});
-            ui.setDirection(AnimationDirection.LEFT_TO_RIGHT);
-            jpb.setUI(ui);
-            jpb.setForeground(CyderColors.intellijPink);
-            jpb.setBackground(CyderColors.vanila);
+//            CyderProgressUI ui = new CyderProgressUI();
+//            ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.tooltipForegroundColor});
+//            ui.setDirection(AnimationDirection.LEFT_TO_RIGHT);
+//            jpb.setUI(ui);
+            jpb.setUI(new MediaProgressBarUI());
+            jpb.setValue(50);
 
             cf.getContentPane().add(jpb);
             cf.setVisible(true);
@@ -871,7 +865,7 @@ public class InputHandler {
                 for (int i = 0 ; i <= jpb.getMaximum() / 2; i++) {
                     jpb.setValue(i);
                     try {
-                        Thread.sleep(6000 / jpb.getMaximum());
+                        Thread.sleep(2000 / jpb.getMaximum());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
