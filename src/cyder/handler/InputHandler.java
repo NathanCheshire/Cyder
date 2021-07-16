@@ -27,6 +27,7 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -847,17 +848,17 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            CyderFrame cf = new CyderFrame(200,400);
+            CyderFrame cf = new CyderFrame(400,200);
             cf.setTitle("ProgressBar Test");
 
             JProgressBar jpb = new JProgressBar(0,500);
-            jpb.setBounds(40,40,20,320);
-            jpb.setOrientation(JProgressBar.VERTICAL);
+            jpb.setBounds(40,80,320,20);
+            jpb.setOrientation(JProgressBar.HORIZONTAL);
             jpb.setBorder(new LineBorder(CyderColors.navy, 3));
 
             CyderProgressUI ui = new CyderProgressUI();
-            ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.calculatorOrange});
-            ui.setDirection(AnimationDirection.BOTTOM_TO_TOP);
+            ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.regularBlue});
+            ui.setDirection(AnimationDirection.LEFT_TO_RIGHT);
             jpb.setUI(ui);
             jpb.setForeground(CyderColors.intellijPink);
             jpb.setBackground(CyderColors.vanila);
@@ -870,7 +871,7 @@ public class InputHandler {
                 for (int i = 0 ; i <= jpb.getMaximum() / 2; i++) {
                     jpb.setValue(i);
                     try {
-                        Thread.sleep(2000 / jpb.getMaximum());
+                        Thread.sleep(6000 / jpb.getMaximum());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
