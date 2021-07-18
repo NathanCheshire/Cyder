@@ -11,6 +11,15 @@ import java.awt.image.BufferedImage;
 
 public class CyderProgressUI extends BasicProgressBarUI {
 
+    /**
+     * Constructor that starts the animation timer to allow the progressbar to move the animation colors
+     */
+    public CyderProgressUI() {
+        startAnimationTimer();
+    }
+
+    //frames for animation, more frames means slower animation
+
     private int numFrames = 100;
 
     public void setNumFrames(int numFrame) {
@@ -20,6 +29,8 @@ public class CyderProgressUI extends BasicProgressBarUI {
     public int getNumFrames() {
         return this.numFrames;
     }
+
+    //two colors for the buffered image used for animation
 
     private Color[] colors = {CyderColors.selectionColor, CyderColors.vanila};
 
@@ -33,6 +44,8 @@ public class CyderProgressUI extends BasicProgressBarUI {
     private Color[] getColors() {
         return this.colors;
     }
+
+    //the image used for the animation
 
     private BufferedImage barImage;
 
@@ -64,6 +77,8 @@ public class CyderProgressUI extends BasicProgressBarUI {
         return image;
     }
 
+    //direction of animation, L2R or R2L for horiz and T2B or B2T for vert
+
     private AnimationDirection direction = AnimationDirection.LEFT_TO_RIGHT;
 
     public AnimationDirection getDirection() {
@@ -74,6 +89,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
         this.direction = direction;
     }
 
+    //overridden since custom animation
     @Override
     protected void incrementAnimationIndex() {
         int newValue = getAnimationIndex() + 1;
@@ -85,6 +101,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
         }
     }
 
+    //UI Shape, currently only SQUARE works, rounded still being implemented
     public enum Shape {
         SQUARE, ROUNDED
     }
@@ -176,10 +193,12 @@ public class CyderProgressUI extends BasicProgressBarUI {
         }
     }
 
+    //maps the given value in the first range to the corresponding value in the second range
     public static double rangeMap(double value, double low1, double high1, double low2, double high2) {
         return linearInterpolate(low2, high2, (value - low1) / (high1 - low1));
     }
 
+    //linearly interpolate between val1 and val2 where amt is the amount to interpolate between the two values
     public static double linearInterpolate(double value1, double value2, double amt) {
         return ((value2 - value1) * amt) + value1;
     }

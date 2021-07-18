@@ -1,6 +1,7 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import cyder.annotations.Helper;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.AnimationDirection;
@@ -847,6 +848,7 @@ public class InputHandler {
             CyderFrame cf = new CyderFrame(400,200);
             cf.setTitle("ProgressBar Test");
 
+            @Helper(help = "Test")
             JProgressBar jpb = new JProgressBar(0,500);
             jpb.setBounds(40,80,320,20);
             jpb.setOrientation(JProgressBar.HORIZONTAL);
