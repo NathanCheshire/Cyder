@@ -19,6 +19,7 @@ import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -850,13 +851,13 @@ public class InputHandler {
             jpb.setBounds(40,80,320,20);
             jpb.setOrientation(JProgressBar.HORIZONTAL);
 
-//            CyderProgressUI ui = new CyderProgressUI();
-//            ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.tooltipForegroundColor});
-//            ui.setDirection(AnimationDirection.LEFT_TO_RIGHT);
-//            jpb.setUI(ui);
-            jpb.setUI(new MediaProgressBarUI());
+            CyderProgressUI ui = new CyderProgressUI();
+            ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.tooltipForegroundColor});
+            ui.setDirection(AnimationDirection.LEFT_TO_RIGHT);
+            ui.setShape(CyderProgressUI.Shape.SQUARE);
+            jpb.setBorder(new LineBorder(CyderColors.navy, 3));
+            jpb.setUI(ui);
             jpb.setValue(50);
-
             cf.getContentPane().add(jpb);
             cf.setVisible(true);
             ConsoleFrame.getConsoleFrame().setFrameRelative(cf);

@@ -9,20 +9,7 @@ import java.awt.geom.RoundRectangle2D;
 
 public class MediaProgressBarUI extends BasicProgressBarUI {
 
-        private double renderProgress = 0;
-        private double targetProgress = 0;
-        private double progressDelta = 0.009;
-
-        private Timer repaintTimer;
-        private Timer paintTimer;
-
-        public MediaProgressBarUI() {
-
-        }
-
-        void requestRepaint() {
-            repaintTimer.restart();
-        }
+        public MediaProgressBarUI() {}
 
         @Override
         protected void installDefaults() {
@@ -46,7 +33,7 @@ public class MediaProgressBarUI extends BasicProgressBarUI {
             int outerWidth = c.getWidth();
             int outerHeight = c.getHeight();
 
-            double progressPercent = (double) ((JProgressBar) (c)).getValue() / (double) ((JProgressBar) (c)).getMaximum();
+            double progressPercent = progressBar.getValue() / (double) progressBar.getMaximum();
             double prog = (outerWidth - oStrokeWidth) * progressPercent;
             int fullW = (outerWidth - oStrokeWidth);
             int drawFill = (int) Math.min(fullW, prog);
@@ -69,6 +56,9 @@ public class MediaProgressBarUI extends BasicProgressBarUI {
                     width - iStrokWidth, height - iStrokWidth, height, height);
 
             g2d.draw(outline);
+
+            //clip so nothing out of outer oval
+            g2d.setClip(outline);
 
             g2d.dispose();
         }

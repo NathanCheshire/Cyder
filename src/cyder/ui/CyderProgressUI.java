@@ -107,14 +107,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
     @Override
     public void paint(Graphics g, JComponent c) {
-        if (this.shape == Shape.SQUARE) {
-            c.setBorder(new LineBorder(CyderColors.navy, 3));
-            super.paint(g, c);
-        } else {
-            //todo figoure out from imavg how you did that
-            // also much later copy from that program how it looks the same size on both these monitors
-
-        }
+        super.paint(g, c);
     }
 
     //NOTE: animation direction is simply the direction the bar animation moves,

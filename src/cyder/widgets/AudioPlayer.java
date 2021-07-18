@@ -1,11 +1,10 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
+import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
 import cyder.handler.ErrorHandler;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderSliderUI;
+import cyder.ui.*;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.NumberUtil;
@@ -17,6 +16,7 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Port;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -41,7 +41,7 @@ public class AudioPlayer {
     private JLabel audioTitleLabel;
     private CyderFrame audioFrame;
     private JSlider audioVolumeSlider;
-    private JSlider audioLocationSlider;
+    private CyderProgressBar audioProgress;
     private JButton previousAudioButton;
     private JButton nextAudioButton;
     private JButton stopAudioButton;
@@ -397,28 +397,23 @@ public class AudioPlayer {
         audioVolumeSlider.repaint();
         audioFrame.getContentPane().add(audioVolumeSlider);
 
-        audioLocationSlider = new JSlider(JSlider.HORIZONTAL, 0, 10000, 0);
-        CyderSliderUI UI2 = new CyderSliderUI(audioLocationSlider);
-        UI2.setThumbStroke(new BasicStroke(2.0f));
-        UI2.setSliderShape(SliderShape.NONE);
-        UI2.setFillColor(CyderColors.vanila);
-        UI2.setOutlineColor(CyderColors.vanila);
-        UI2.setNewValColor(CyderColors.vanila);
-        UI2.setOldValColor(CyderColors.regularRed);
-        UI2.setStroke(new BasicStroke(2.0f));
-        audioLocationSlider.setUI(UI2);
-        audioLocationSlider.setBounds(55, 185, 385, 30);
-        audioLocationSlider.setMinimum(0);
-        audioLocationSlider.setMaximum(10000);
-        audioLocationSlider.setPaintTicks(false);
-        audioLocationSlider.setPaintLabels(false);
-        audioLocationSlider.setVisible(true);
-        audioLocationSlider.setValue(0);
-        audioLocationSlider.setOpaque(false);
-        audioLocationSlider.setToolTipText("Audio Location");
-        audioLocationSlider.setFocusable(false);
-        audioLocationSlider.repaint();
-        audioFrame.getContentPane().add(audioLocationSlider);
+        audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
+        CyderProgressUI ui = new CyderProgressUI();
+        ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.tooltipForegroundColor});
+        ui.setDirection(AnimationDirection.LEFT_TO_RIGHT);
+        ui.setShape(CyderProgressUI.Shape.SQUARE);
+        audioProgress.setUI(ui);
+        audioProgress.setMinimum(0);
+        audioProgress.setMaximum(10000);
+        audioProgress.setBorder(null);
+        audioProgress.setBounds(55, 190, 385, 20);
+        audioProgress.setVisible(true);
+        audioProgress.setValue(0);
+        audioProgress.setOpaque(false);
+        audioProgress.setToolTipText("Audio Location");
+        audioProgress.setFocusable(false);
+        audioProgress.repaint();
+        audioFrame.getContentPane().add(audioProgress);
 
         ConsoleFrame.getConsoleFrame().setFrameRelative(audioFrame);
         audioFrame.setVisible(true);
@@ -543,7 +538,7 @@ public class AudioPlayer {
            if (audioLocation != null)
                audioLocation.kill();
            audioLocation = null;
-           audioLocationSlider.setValue(0);
+           audioProgress.setValue(0);
 
            if (player != null)
                player.close();
@@ -555,7 +550,7 @@ public class AudioPlayer {
            totalLength = 0;
 
            audioTitleLabel.setText("No Audio Playing");
-           audioLocationSlider.setValue(0);
+           audioProgress.setValue(0);
 
            playPauseAudioButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
            playPauseAudioButton.setToolTipText("Play");
@@ -648,7 +643,7 @@ public class AudioPlayer {
         audioScroll = null;
         audioLocation = null;
 
-        audioLocationSlider.setValue(0);
+        audioProgress.setValue(0);
 
         audioFrame.closeAnimation();
     }
@@ -686,7 +681,7 @@ public class AudioPlayer {
                 if (!miniPlayer) {
                     audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
                     audioScroll = new ScrollLabel(audioTitleLabel);
-                    audioLocation = new AudioLocation(audioLocationSlider);
+                    audioLocation = new AudioLocation(audioProgress);
                 }
 
                 playPauseAudioButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
@@ -773,7 +768,7 @@ public class AudioPlayer {
                     if (!miniPlayer) {
                         audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
                         audioScroll = new ScrollLabel(audioTitleLabel);
-                        audioLocation = new AudioLocation(audioLocationSlider);
+                        audioLocation = new AudioLocation(audioProgress);
                     }
 
                     playPauseAudioButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
@@ -826,23 +821,23 @@ public class AudioPlayer {
      * private inner class for the audio location slider
      */
     private class AudioLocation {
-        private JSlider effectSlider;
+        private CyderProgressBar effectBar;
         boolean update;
 
-        AudioLocation(JSlider effectSlider) {
-            this.effectSlider = effectSlider;
+        AudioLocation(CyderProgressBar effectBar) {
+            this.effectBar = effectBar;
             update = true;
 
             try {
                 new Thread( () -> {
                     while (update) {
                         try {
-                            if (totalLength == 0 || fis == null || !audioLocationSlider.isVisible())
+                            if (totalLength == 0 || fis == null || !audioProgress.isVisible())
                                 return;
 
                             double place = ((double) (totalLength - fis.available()) /
-                                    (double) totalLength) * audioLocationSlider.getMaximum();
-                            audioLocationSlider.setValue((int) place);
+                                    (double) totalLength) * audioProgress.getMaximum();
+                            audioProgress.setValue((int) place);
                             Thread.sleep(250);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -983,7 +978,7 @@ public class AudioPlayer {
             audioLocation.kill();
         audioLocation = null;
 
-        audioLocationSlider.setVisible(false);
+        audioProgress.setVisible(false);
         audioVolumeSlider.setVisible(false);
         audioTitleLabel.setVisible(false);
 
@@ -1006,9 +1001,9 @@ public class AudioPlayer {
     public void exitMiniPlayer() {
         audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
         audioScroll = new ScrollLabel(audioTitleLabel);
-        audioLocation = new AudioLocation(audioLocationSlider);
+        audioLocation = new AudioLocation(audioProgress);
 
-        audioLocationSlider.setVisible(true);
+        audioProgress.setVisible(true);
         audioVolumeSlider.setVisible(true);
         audioTitleLabel.setVisible(true);
 
