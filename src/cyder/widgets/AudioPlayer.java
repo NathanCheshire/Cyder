@@ -171,6 +171,7 @@ public class AudioPlayer {
                     if (!selectedChildFile.toString().endsWith("mp3")) {
                         audioFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that's not an mp3 file.");
                     } else if (selectedChildFile != null){
+                        stopAudio();
                         refreshAudioFiles(selectedChildFile);
                         startAudio();
                     }
@@ -406,7 +407,7 @@ public class AudioPlayer {
         audioProgress.setMinimum(0);
         audioProgress.setMaximum(10000);
         audioProgress.setBorder(null);
-        audioProgress.setBounds(55, 190, 385, 20);
+        audioProgress.setBounds(55, 190, 385, 15);
         audioProgress.setVisible(true);
         audioProgress.setValue(0);
         audioProgress.setOpaque(false);
@@ -538,7 +539,6 @@ public class AudioPlayer {
            if (audioLocation != null)
                audioLocation.kill();
            audioLocation = null;
-           audioProgress.setValue(0);
 
            if (player != null)
                player.close();
@@ -870,14 +870,15 @@ public class AudioPlayer {
                 int maxLen = 30;
                 int charScrollDelay = 200;
 
-                if (StringUtil.getFilename(audioFiles.get(audioIndex)).length() > maxLen) {
+                String localTitle = StringUtil.getFilename(audioFiles.get(audioIndex));
+
+                if (localTitle.length() > maxLen) {
                     scroll = true;
 
                     new Thread(() -> {
                         try {
                             OUTER:
                                 while (scroll) {
-                                    String localTitle = StringUtil.getFilename(audioFiles.get(audioIndex));
                                     int localLen = localTitle.length();
                                     audioTitleLabel.setText(localTitle.substring(0,26));
 

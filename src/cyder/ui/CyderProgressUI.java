@@ -4,12 +4,10 @@ import cyder.consts.CyderColors;
 import cyder.enums.AnimationDirection;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-
 
 public class CyderProgressUI extends BasicProgressBarUI {
 
@@ -36,11 +34,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
         return this.colors;
     }
 
-    private BufferedImage barImage = createRippleImageHorizontal(colors[0],colors[1],100,100);
-
-    public CyderProgressUI() {
-        startAnimationTimer();
-    }
+    private BufferedImage barImage;
 
     protected BufferedImage createRippleImageHorizontal(Color darkColor, Color lightColor, int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -103,11 +97,6 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
     public Shape getShape() {
         return this.shape;
-    }
-
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        super.paint(g, c);
     }
 
     //NOTE: animation direction is simply the direction the bar animation moves,
