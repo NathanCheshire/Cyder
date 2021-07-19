@@ -400,7 +400,7 @@ public class AudioPlayer {
         audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
         CyderProgressUI ui = new CyderProgressUI();
         ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.tooltipForegroundColor});
-        ui.setDirection(AnimationDirection.LEFT_TO_RIGHT);
+        ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         ui.setShape(CyderProgressUI.Shape.SQUARE);
         audioProgress.setUI(ui);
         audioProgress.setMinimum(0);

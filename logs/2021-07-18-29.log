@@ -1,0 +1,100 @@
+[18:30:19] [ENTRY]: [WINUSER=Nathan]
+[18:30:19] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[18:30:19] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[18:30:19] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[18:30:19] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[18:30:19] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[18:30:19] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[18:30:19] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18:30:19] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[18:30:19] [LOGIN]: [AUTOCYPHER PASS]
+[18:30:20] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[18:30:20] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[18:30:20] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[18:30:20] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[18:30:20] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[18:30:20] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[18:30:20] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[18:30:20] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[18:30:20] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[18:30:20] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[18:30:20] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[18:30:20] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[18:30:20] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[18:30:20] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[18:30:20] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[18:30:20] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[18:30:20] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[18:30:20] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[18:30:20] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[18:30:20] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[18:30:20] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[18:30:20] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[18:30:20] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[18:30:20] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[18:30:21] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[18:30:21] [CLIENT]: test
+[18:30:21] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626650975904
+[18:30:21] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626651021099
+[18:30:24] [CLIENT]: Test2
+[18:30:24] [EXCEPTION]: 
+Cannot run program "youtube-dl": CreateProcess error=2, The system cannot find the file specified
+Thrown from:
+java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+StackTrace:
+java.io.IOException: Cannot run program "youtube-dl": CreateProcess error=2, The system cannot find the file specified
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+	at java.base/java.lang.Runtime.exec(Runtime.java:635)
+	at java.base/java.lang.Runtime.exec(Runtime.java:459)
+	at java.base/java.lang.Runtime.exec(Runtime.java:356)
+	at cyder.utilities.YoutubeUtil.test(YoutubeUtil.java:22)
+	at cyder.handler.InputHandler.handle(InputHandler.java:846)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:453)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Caused by: java.io.IOException: CreateProcess error=2, The system cannot find the file specified
+	at java.base/java.lang.ProcessImpl.create(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:420)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:151)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+	... 46 more
+[18:30:24] [CLIENT_IO]: [GET] [SilenceErrors] [RETURN VALUE] 0
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

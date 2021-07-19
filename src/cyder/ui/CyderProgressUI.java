@@ -4,12 +4,22 @@ import cyder.consts.CyderColors;
 import cyder.enums.AnimationDirection;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 
 public class CyderProgressUI extends BasicProgressBarUI {
+
+    @Override
+    protected void installDefaults() {
+        super.installDefaults();
+
+        progressBar.setOpaque(false);
+        progressBar.setBorder(null);
+    }
 
     /**
      * Constructor that starts the animation timer to allow the progressbar to move the animation colors
@@ -49,7 +59,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
     private BufferedImage barImage;
 
-    protected BufferedImage createRippleImageHorizontal(Color darkColor, Color lightColor, int width, int height) {
+    public static BufferedImage createRippleImageHorizontal(Color darkColor, Color lightColor, int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
 
@@ -63,7 +73,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
         return image;
     }
 
-    protected BufferedImage createRippleImageVertical(Color darkColor, Color lightColor, int width, int height) {
+    public static BufferedImage createRippleImageVertical(Color darkColor, Color lightColor, int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
 
@@ -81,11 +91,11 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
     private AnimationDirection direction = AnimationDirection.LEFT_TO_RIGHT;
 
-    public AnimationDirection getDirection() {
+    public AnimationDirection getAnimationDirection() {
         return direction;
     }
 
-    public void setDirection(AnimationDirection direction) {
+    public void setAnimationDirection(AnimationDirection direction) {
         this.direction = direction;
     }
 
@@ -120,7 +130,9 @@ public class CyderProgressUI extends BasicProgressBarUI {
     // not what direction the bar moves (top to bottom vs bottom to top or left to right vs right to left)
     @Override
     protected void paintDeterminate(Graphics g, JComponent c) {
+        //square uses the custom animation
         if (this.shape == Shape.SQUARE) {
+            c.setBorder(new LineBorder(CyderColors.navy, 3));
             c.setBackground(CyderColors.vanila);
 
             if (progressBar.getOrientation() == JProgressBar.VERTICAL) {
@@ -189,17 +201,99 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 }
             }
         } else {
+            if (progressBar.getOrientation() == JProgressBar.VERTICAL) {
+                Graphics2D g2d = (Graphics2D) g.create();
 
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                //fill
+                int oStrokeHeight = 3;
+                g2d.setStroke(new BasicStroke(oStrokeHeight, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g2d.setColor(colors[0]);
+
+                int outerWidth = c.getWidth();
+                int outerHeight = c.getHeight();
+
+                double progressPercent = progressBar.getValue() / (double) progressBar.getMaximum();
+                double prog = (outerHeight - oStrokeHeight) * progressPercent;
+                int fullH = (outerHeight - oStrokeHeight);
+                int drawFill = (int) Math.min(fullH, prog);
+
+                RoundRectangle2D fill = new RoundRectangle2D.Double(oStrokeHeight / 2, oStrokeHeight / 2,
+                         outerWidth - oStrokeHeight, drawFill, outerWidth, outerWidth);
+
+                g2d.fill(fill);
+
+                //outline over fill
+                int iStrokeHeight = 3;
+                g2d.setStroke(new BasicStroke(iStrokeHeight, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g2d.setColor(CyderColors.navy);
+                g2d.setBackground(CyderColors.navy);
+
+                int width = c.getWidth();
+                int height = c.getHeight();
+
+                RoundRectangle2D outline = new RoundRectangle2D.Double(iStrokeHeight / 2, iStrokeHeight / 2,
+                        width - iStrokeHeight, height - iStrokeHeight, width, width);
+
+                g2d.draw(outline);
+
+                //clip so nothing out of outer oval
+                g2d.setClip(outline);
+
+                g2d.dispose();
+            } else {
+                Graphics2D g2d = (Graphics2D) g.create();
+
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                //fill
+                int oStrokeWidth = 3;
+                g2d.setStroke(new BasicStroke(oStrokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g2d.setColor(CyderColors.intellijPink);
+
+                int outerWidth = c.getWidth();
+                int outerHeight = c.getHeight();
+
+                double progressPercent = progressBar.getValue() / (double) progressBar.getMaximum();
+                double prog = (outerWidth - oStrokeWidth) * progressPercent;
+                int fullW = (outerWidth - oStrokeWidth);
+                int drawFill = (int) Math.min(fullW, prog);
+
+                RoundRectangle2D fill = new RoundRectangle2D.Double(oStrokeWidth / 2, oStrokeWidth / 2,
+                        drawFill, outerHeight - oStrokeWidth, outerHeight, outerHeight);
+
+                g2d.fill(fill);
+
+                //outline over fill
+                int iStrokWidth = 3;
+                g2d.setStroke(new BasicStroke(iStrokWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g2d.setColor(CyderColors.navy);
+                g2d.setBackground(CyderColors.navy);
+
+                int width = c.getWidth();
+                int height = c.getHeight();
+
+                RoundRectangle2D outline = new RoundRectangle2D.Double(iStrokWidth / 2, iStrokWidth / 2,
+                        width - iStrokWidth, height - iStrokWidth, height, height);
+
+                g2d.draw(outline);
+
+                //clip so nothing out of outer oval
+                g2d.setClip(outline);
+
+                g2d.dispose();
+            }
         }
     }
 
     //maps the given value in the first range to the corresponding value in the second range
-    public static double rangeMap(double value, double low1, double high1, double low2, double high2) {
+    private static double rangeMap(double value, double low1, double high1, double low2, double high2) {
         return linearInterpolate(low2, high2, (value - low1) / (high1 - low1));
     }
 
     //linearly interpolate between val1 and val2 where amt is the amount to interpolate between the two values
-    public static double linearInterpolate(double value1, double value2, double amt) {
+    private static double linearInterpolate(double value1, double value2, double amt) {
         return ((value2 - value1) * amt) + value1;
     }
 

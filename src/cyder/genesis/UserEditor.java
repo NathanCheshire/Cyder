@@ -415,6 +415,7 @@ public class UserEditor {
                     }
 
                     revalidateMusicBackgroundScroll();
+                    ConsoleFrame.getConsoleFrame().refreshBackgroundIndex();
                 }
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
@@ -455,14 +456,7 @@ public class UserEditor {
                         ConsoleFrame.getConsoleFrame().getInputHandler()
                                 .println("Background: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
 
-                        LinkedList<File> paths = ConsoleFrame.getConsoleFrame().getBackgrounds();
-
-                        for (int i = 0; i < paths.size(); i++) {
-                            if (paths.get(i).equals(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
-                                ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
-                                break;
-                            }
-                        }
+                        ConsoleFrame.getConsoleFrame().refreshBackgroundIndex();
                     }
                 }
             }

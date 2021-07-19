@@ -2268,4 +2268,15 @@ public final class ConsoleFrame {
     public void repaint() {
         setFullscreen(fullscreen);
     }
+
+    public void refreshBackgroundIndex() {
+        LinkedList<File> paths = ConsoleFrame.getConsoleFrame().getBackgrounds();
+
+        for (int i = 0; i < paths.size(); i++) {
+            if (paths.get(i).equals(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
+                ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
+                break;
+            }
+        }
+    }
 }

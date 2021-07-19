@@ -14,13 +14,15 @@ import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
-import cyder.ui.*;
+import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderCaret;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderProgressUI;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -46,8 +48,10 @@ public class InputHandler {
     // be able to restrict to just those values as well
     // use this for hasher and add support for multiple hashing algorithms
 
+    //todo audio progress bar for audio player should show: percent complete (time in, time remaining)
+
     //todo user data is stable enough; switch to new IO but add debug methods
-    // that will convrt to and from and dump to console so you can debug in the process
+    // that will convert to and from and dump to console so you can debug in the process
 
     //todo implement mapping links, switch to JSON userdata storage before imlementing
     //todo map url links or system path links to open programs like discord and such
@@ -449,16 +453,14 @@ public class InputHandler {
             setUserInputDesc("google");
             ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
             setUserInputMode(true);
-        }   else if (firstWord.equalsIgnoreCase("echo")) {
+        } else if (firstWord.equalsIgnoreCase("echo")) {
             String[] sentences = operation.split(" ");
             for (int i = 1; i < sentences.length; i++) {
                 print(sentences[i] + " ");
             }
-
             println("");
         } else if (eic("cmd") || (hasWord("command") && hasWord("prompt"))) {
-            File WhereItIs = new File("c:\\Windows\\System32\\cmd.exe");
-            Desktop.getDesktop().open(WhereItIs);
+            Desktop.getDesktop().open(new File("c:/windows/system32/cmd.exe"));
         } else if ((has("graphing") && has("calculator")) || has("desmos") || has("graphing")) {
             NetworkUtil.internetConnect("https://www.desmos.com/calculator");
         } else if (has("airHeads xtremes") || has("candy")) {
@@ -845,19 +847,17 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            CyderFrame cf = new CyderFrame(400,200);
+            CyderFrame cf = new CyderFrame(400,100);
             cf.setTitle("ProgressBar Test");
 
             @Helper(help = "Test")
             JProgressBar jpb = new JProgressBar(0,500);
-            jpb.setBounds(40,80,320,20);
+            jpb.setBounds(40,40,320,20);
             jpb.setOrientation(JProgressBar.HORIZONTAL);
-
             CyderProgressUI ui = new CyderProgressUI();
-            ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.tooltipForegroundColor});
-            ui.setDirection(AnimationDirection.LEFT_TO_RIGHT);
+            ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
+            ui.setColors(new Color[]{CyderColors.regularBlue, CyderColors.intellijPink});
             ui.setShape(CyderProgressUI.Shape.SQUARE);
-            jpb.setBorder(new LineBorder(CyderColors.navy, 3));
             jpb.setUI(ui);
             jpb.setValue(50);
             cf.getContentPane().add(jpb);
