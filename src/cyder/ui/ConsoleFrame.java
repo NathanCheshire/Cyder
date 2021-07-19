@@ -837,35 +837,37 @@ public final class ConsoleFrame {
         new Thread(() -> {
             try {
                 while (doThreads) {
-                    ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-                    int num = threadGroup.activeCount();
-                    Thread[] printThreads = new Thread[num];
-                    threadGroup.enumerate(printThreads);
+                    if (IOUtil.getUserData("showbusyicon").equals("1")) {
+                        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+                        int num = threadGroup.activeCount();
+                        Thread[] printThreads = new Thread[num];
+                        threadGroup.enumerate(printThreads);
 
-                    LinkedList<String> ignoreNames = new LinkedList<>();
-                    ignoreNames.add("Cyder Busy Checker");
-                    ignoreNames.add("AWT-EventQueue-0");
-                    ignoreNames.add("Console Clock Updater");
-                    ignoreNames.add("Hourly Chime Checker");
-                    ignoreNames.add("Stable Network Connection Checker");
-                    ignoreNames.add("Final Frame Disposed Checker");
-                    ignoreNames.add("DestroyJavaVM");
-                    ignoreNames.add("JavaFX Application Thread");
-                    ignoreNames.add("Console Input Caret Position Updater");
-                    ignoreNames.add("Console Printing Animation");
+                        LinkedList<String> ignoreNames = new LinkedList<>();
+                        ignoreNames.add("Cyder Busy Checker");
+                        ignoreNames.add("AWT-EventQueue-0");
+                        ignoreNames.add("Console Clock Updater");
+                        ignoreNames.add("Hourly Chime Checker");
+                        ignoreNames.add("Stable Network Connection Checker");
+                        ignoreNames.add("Final Frame Disposed Checker");
+                        ignoreNames.add("DestroyJavaVM");
+                        ignoreNames.add("JavaFX Application Thread");
+                        ignoreNames.add("Console Input Caret Position Updater");
+                        ignoreNames.add("Console Printing Animation");
 
-                    int busyThreads = 0;
+                        int busyThreads = 0;
 
-                    for (int i = 0; i < num; i++) {
-                        if (!printThreads[i].isDaemon() && !ignoreNames.contains(printThreads[i].getName())) {
-                            busyThreads++;
+                        for (int i = 0; i < num; i++) {
+                            if (!printThreads[i].isDaemon() && !ignoreNames.contains(printThreads[i].getName())) {
+                                busyThreads++;
+                            }
                         }
-                    }
 
-                    if (busyThreads == 0) {
-                        consoleCyderFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
-                    } else {
-                        consoleCyderFrame.setIconImage(SystemUtil.getCyderIconBlink().getImage());
+                        if (busyThreads == 0) {
+                            consoleCyderFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
+                        } else {
+                            consoleCyderFrame.setIconImage(SystemUtil.getCyderIconBlink().getImage());
+                        }
                     }
 
                     //sleep 3 seconds

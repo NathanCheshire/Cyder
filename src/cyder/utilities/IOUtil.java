@@ -773,6 +773,10 @@ public class IOUtil {
         CyderPlayer = new AudioPlayer(new File(FilePath));
     }
 
+    public static File getCurrentMP3() {
+        return CyderPlayer.getCurrentAudio();
+    }
+
     /**
      * Plays the requested mp3 audio file using the general IOUtil JLayer player
      * @param FilePath - the path to the mp3 file to play

@@ -1,0 +1,70 @@
+[11:52:55] [ENTRY]: [WINUSER=Nathan]
+[11:52:55] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[11:52:55] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[11:52:55] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[11:52:55] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[11:52:55] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[11:52:55] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[11:52:55] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11:52:55] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[11:52:56] [LOGIN]: [AUTOCYPHER PASS]
+[11:52:57] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[11:52:57] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[11:52:57] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:52:57] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[11:52:57] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[11:52:57] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[11:52:57] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[11:52:57] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[11:52:57] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:52:57] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:52:57] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[11:52:57] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[11:52:57] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[11:52:57] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:52:57] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:52:57] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[11:52:57] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[11:52:57] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[11:52:57] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[11:52:57] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[11:52:57] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[11:52:57] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[11:52:57] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[11:52:57] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[11:52:57] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[11:52:57] [CLIENT]: test
+[11:52:57] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626713423273
+[11:52:57] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626713577935
+[11:53:02] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[11:53:05] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[11:53:09] [CLIENT]: Fix foreground
+[11:53:09] [CLIENT_IO]: [SET] [KEY] Foreground [VALUE] F0F0F0
+[11:53:09] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[11:53:09] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[11:53:09] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:53:09] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[11:53:09] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[11:53:09] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[11:53:09] [CONSOLE_OUT]: [STRING] Foreground fixed
+[11:53:09] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[11:53:10] [CLIENT]: Cls
+[11:53:11] [CLIENT]: Hello
+[11:53:11] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[11:53:12] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[11:53:12] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[11:53:13] [CLIENT]: Cls
+[11:53:14] [CLIENT]: Mp3
+[11:53:14] [ACTION]: AUDIO PLAYER
+[11:53:18] [CLIENT]: Prefs
+[11:53:19] [ACTION]: USER EDITOR
+[11:53:22] [ACTION]: CyderButton, text=[Delete] CLICKED
+[11:53:22] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the audio you are currently playing
+[11:53:25] [ACTION]: CyderButton, text=[Delete] CLICKED
+[11:53:25] [CONSOLE_OUT]: [STRING] Background: Life successfully deleted.
+[11:53:25] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[11:53:35] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[11:53:35] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[11:53:35] [LOGOUT]:  [Nathan]
+[11:53:35] [EXIT]: [RUNTIME] 40s
+[11:53:35] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

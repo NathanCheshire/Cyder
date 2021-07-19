@@ -28,8 +28,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.URI;
+import java.net.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -45,6 +44,11 @@ public class InputHandler {
     //todo implement selection button for possible values for cyder text field
     // be able to restrict to just those values as well
     // use this for hasher and add support for multiple hashing algorithms
+
+    //todo figuring out where we are if we rename the background doesn't work
+    //todo auto fix foreground not working
+    //todo easter egg message if user tries to pixelate a a solid color background
+    //todo move other youtube functions to youtubeUtil and clean up how you access them
 
     //todo audio progress bar for audio player should show: percent complete (time in, time remaining)
 
@@ -467,7 +471,7 @@ public class InputHandler {
             NetworkUtil.internetConnect("https://www.arduino.cc/");
         } else if (has("rasberry pi")) {
             NetworkUtil.internetConnect("https://www.raspberrypi.org/");
-        }else if (hasWord("vexento")) {
+        }else if (eic("vexento")) {
             NetworkUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
         }else if (hasWord("papers") && hasWord("please")) {
             NetworkUtil.internetConnect("http://papersplea.se/");
@@ -832,32 +836,59 @@ public class InputHandler {
                 println("Sorry, " + IOUtil.getUserData("name") + ", but you do not have permission " +
                         "to perform that operation.");
             }
-        }
+        } else if (firstWord.equalsIgnoreCase("play")) {
+            boolean isURL = false;
 
-        //todo auto fix foreground not working
-        //todo pref for busy icon
-        //todo easter egg message if user tries to pixelate a a solid color background
-        //todo can't delete audio if currently being played function
+            String input = operation.replaceAll("(?i)play","").trim();
+
+            try {
+                URL url = new URL(input);
+                URLConnection conn = url.openConnection();
+                conn.connect();
+            } catch (Exception e) {
+                isURL = false;
+            }
+
+            if (isURL) {
+                new Thread(() -> {
+                    try {
+                        String videoURL = input;
+                        Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "users/"
+                                + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
+
+                        while (!downloadedFile.isDone()) {
+                            Thread.onSpinWait();
+                        }
+
+                        IOUtil.mp3(downloadedFile.get().getAbsolutePath());
+                    } catch (Exception e) {
+                        ErrorHandler.handle(e);
+                    }
+                }, "Youtube Audio Download Waiter").start();
+            } else {
+                new Thread(() -> {
+                    try {
+                        String userQuery = input;
+                        String UUID = YoutubeUtil.getFirstUUID(userQuery);
+                        String videoURL = "https://www.youtube.com/watch?v=" + UUID;
+                        Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "users/"
+                                + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
+
+                        while (!downloadedFile.isDone()) {
+                            Thread.onSpinWait();
+                        }
+
+                        IOUtil.mp3(downloadedFile.get().getAbsolutePath());
+                    } catch (Exception e) {
+                        ErrorHandler.handle(e);
+                    }
+                }, "Youtube Audio Download Waiter").start();
+            }
+        }
 
         //testing -------------------------------------------------
         else if (eic("test")) {
-            new Thread(() -> {
-                try {
-                    String userQuery = "renegades x embassadors";
-                    String UUID = YoutubeUtil.getFirstUUID(userQuery);
-                    String videoURL = "https://www.youtube.com/watch?v=" + UUID;
-                    Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "users/"
-                            + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
-                    while (!downloadedFile.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
-                    IOUtil.mp3(downloadedFile.get().getAbsolutePath());
-                } catch (Exception e) {
-                    ErrorHandler.handle(e);
-                }
-            }, "Youtube Audio Download Waiter").start();
         }
         //final attempt at unknown input --------------------------
         else {

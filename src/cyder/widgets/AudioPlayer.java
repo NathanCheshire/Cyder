@@ -35,6 +35,8 @@ public class AudioPlayer {
 
     private LastAction lastAction;
 
+    private File currentAudio;
+
     //ui components
     private ScrollLabel audioScroll;
     private AudioLocation audioLocation;
@@ -87,6 +89,8 @@ public class AudioPlayer {
         public void windowClosed(WindowEvent e) {
             if (player != null)
                 stopAudio();
+
+            kill();
             }
         });
         audioFrame.initializeResizing();
@@ -643,6 +647,8 @@ public class AudioPlayer {
         audioScroll = null;
         audioLocation = null;
 
+        currentAudio = null;
+
         audioProgress.setValue(0);
 
         audioFrame.closeAnimation();
@@ -688,6 +694,7 @@ public class AudioPlayer {
                 playPauseAudioButton.setToolTipText("Pause");
 
                 lastAction = LastAction.PLAY;
+                currentAudio = audioFiles.get(audioIndex);
 
                 //on spam of skip button, music player hangs for about 10 seconds
                 // and throws an error then catches up eventually
@@ -775,6 +782,7 @@ public class AudioPlayer {
                     playPauseAudioButton.setToolTipText("Pause");
 
                     lastAction = LastAction.PLAY;
+                    currentAudio = audioFiles.get(audioIndex);
 
                     fis.skip(startPosition);
                     player.play();
@@ -1019,5 +1027,12 @@ public class AudioPlayer {
         playPauseAudioButton.setLocation(playPauseAudioButton.getX(), 105);
         nextAudioButton.setLocation(nextAudioButton.getX(), 105);
         shuffleAudioButton.setLocation(shuffleAudioButton.getX(), 105);
+    }
+
+    public File getCurrentAudio() {
+        if (currentAudio == null)
+            return null;
+        else
+            return this.currentAudio.getAbsoluteFile();
     }
 }

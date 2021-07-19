@@ -442,8 +442,12 @@ public class UserEditor {
                     }
                 }
 
-                if (selectedFile == ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()) {
-                    editUserFrame.inform("Unable to delete the background you are currently using", "Error");
+                if (selectedFile.getAbsolutePath().equalsIgnoreCase(ConsoleFrame.getConsoleFrame()
+                        .getCurrentBackgroundFile().getAbsolutePath())) {
+                    editUserFrame.notify("Unable to delete the background you are currently using");
+                } else if (IOUtil.getCurrentMP3() != null &&
+                        selectedFile.getAbsolutePath().equalsIgnoreCase(IOUtil.getCurrentMP3().getAbsolutePath())) {
+                    editUserFrame.notify("Unable to delete the audio you are currently playing");
                 } else {
                     selectedFile.delete();
 

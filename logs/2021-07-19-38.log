@@ -1,0 +1,150 @@
+[12:09:05] [ENTRY]: [WINUSER=Nathan]
+[12:09:05] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[12:09:05] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:09:05] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[12:09:06] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:09:06] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:09:06] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[12:09:06] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12:09:06] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[12:09:06] [LOGIN]: [AUTOCYPHER PASS]
+[12:09:07] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:09:07] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[12:09:07] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:09:07] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[12:09:07] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:09:07] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[12:09:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[12:09:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[12:09:07] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:09:07] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:09:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[12:09:07] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[12:09:07] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[12:09:07] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:09:07] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[12:09:07] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[12:09:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[12:09:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[12:09:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[12:09:08] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[12:09:08] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[12:09:08] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[12:09:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:08] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[12:09:08] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[12:09:08] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[12:09:08] [CLIENT]: test
+[12:09:08] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626714144107
+[12:09:08] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626714548245
+[12:09:10] [CLIENT]: Play perfect - logic
+[12:09:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:09:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:15] [CLIENT]: Play XXXTENTACION feat. Joyner Lucas - NorthStar (Remix) (Audio)
+[12:10:15] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:10:15] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but that language is prohibited.
+[12:10:15] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[12:10:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:23] [CLIENT]: XXXTENTACION feat. Joyner Lucas - NorthStar (Remix) (Audio)
+[12:10:23] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:10:23] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but that language is prohibited.
+[12:10:23] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[12:10:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:10:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:34] [CLIENT]: Wikisum xxxtentacion
+[12:11:34] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:11:34] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but that language is prohibited.
+[12:11:34] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[12:11:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:57] [CLIENT]: Wikisum xxxtentacion
+[12:11:58] [CONSOLE_OUT]: [STRING] Jahseh Dwayne Ricardo Onfroy (January 23, 1998 \u2013 June 18, 2018), known professionally as XXXTentacion (often stylized as XXXTENTACION) and commonly referred to as simply X, was an American rapper, singer, and songwriter. Though a controversial figure due to his widely publicized legal troubles, XXXTentacion gained a cult following among his young fanbase during his short career with his depression and alienation-themed music. Critics and fans often credit him for his musical versatility, with his music exploring emo, trap, lo-fi, indie rock, nu metal, hip hop, R&B and punk rock. He is considered as a leading figure in the emo-rap and SoundCloud rap genres which garnered mainstream attention during the mid-late 2010s.Born in Plantation, Florida, United States, XXXTentacion spent most of his childhood in Lauderhill. He began writing music after being released from a juvenile detention center and soon started his music career on SoundCloud in 2013, employing styles and techniques that were unconventional in rap music, such as distortion and heavy guitar-backed instrumentals, drawing inspiration from third-wave emo and grunge. In 2014, he formed the underground collective Members Only and alongside other members of the collective soon became a popular figure in SoundCloud rap, a trap music scene that takes elements of lo-fi music and harsh 808s.XXXTentacion gained mainstream attention with the single \"Look at Me\". His debut album 17 (2017) was certified double platinum in the US. His second album ? (2018) debuted at number one on the Billboard 200, and its lead single, \"Sad!\", reached number one on the Billboard Hot 100 and had amassed more than a billion views on YouTube and 1.6 billion streams on Spotify by June 2021.On June 18, 2018, XXXTentacion was murdered at the age of 20 when he was fatally shot near a motorcycle dealership in Deerfield Beach, Florida, United States. The attackers fled the scene in an SUV after stealing from him a Louis Vuitton bag containing $50,000; four suspects were arrested. No trial date has been set for the accused and the motive for the murder remains under investigation.XXXTentacion has RIAA-certified sales of 61 million units in the US and BPI-certified sales of over 7 million units in the UK, bringing his total to 68 million certified records sold in the two countries. Since his death, he has won an American Music Award and a BET Hip Hop Award and received 11 Billboard Music Award nominations. Two posthumous albums were released, Skins (2018) and Bad Vibes Forever (2019); the former became his second number-one album on the Billboard 200 while the latter entered the top 5.
+[12:11:58] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[12:11:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:11:59] [CLIENT]: controlc
+[12:12:00] [CONSOLE_OUT]: [STRING] Escaped
+[12:12:00] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[12:12:01] [CLIENT]: Cls
+[12:12:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:05] [CLIENT]: Define trash
+[12:12:06] [CONSOLE_OUT]: [STRING] Anything Worthless, Useless, Or Discarded; Rubbish.
+[12:12:06] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[12:12:06] [CLIENT]: controlc
+[12:12:06] [CONSOLE_OUT]: [STRING] Escaped
+[12:12:06] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[12:12:07] [CLIENT]: Cls
+[12:12:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:13] [CLIENT]: Play XXXTENTACION feat. Joyner Lucas - NorthStar (Remix) (Audio)
+[12:12:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:12:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[12:13:00] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[12:13:01] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[12:13:01] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[12:13:01] [LOGOUT]:  [Nathan]
+[12:13:01] [EXIT]: [RUNTIME] 3m 56s
+[12:13:01] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
