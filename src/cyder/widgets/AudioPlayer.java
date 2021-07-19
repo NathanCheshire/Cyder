@@ -399,7 +399,7 @@ public class AudioPlayer {
         audioVolumeSlider.setPaintTicks(false);
         audioVolumeSlider.setPaintLabels(false);
         audioVolumeSlider.setVisible(true);
-        audioVolumeSlider.setValue(15);
+        audioVolumeSlider.setValue(50);
         audioVolumeSlider.addChangeListener(e -> refreshAudio());
         audioVolumeSlider.setOpaque(false);
         audioVolumeSlider.setToolTipText("Volume");
@@ -475,17 +475,16 @@ public class AudioPlayer {
                 Port outline = (Port) AudioSystem.getLine(Port.Info.SPEAKER);
                 outline.open();
                 FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
-                volumeControl.setValue((float) (audioVolumeSlider.getValue() * 0.01));
+                volumeControl.setValue((float) (audioVolumeSlider.getValue() * 0.001));
             }
 
             if (AudioSystem.isLineSupported(Port.Info.HEADPHONE)) {
                 Port outline = (Port) AudioSystem.getLine(Port.Info.HEADPHONE);
                 outline.open();
                 FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
-                volumeControl.setValue((float) (audioVolumeSlider.getValue() * 0.01));
+                volumeControl.setValue((float) (audioVolumeSlider.getValue() * 0.001));
             }
         } catch (LineUnavailableException ex) {
-            ex.printStackTrace();
             ErrorHandler.handle(ex);
         }
     }
@@ -566,6 +565,7 @@ public class AudioPlayer {
 
            audioTitleLabel.setText("No Audio Playing");
            audioProgress.setValue(0);
+           audioProgressLabel.setText("");
 
            playPauseAudioButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
            playPauseAudioButton.setToolTipText("Play");
@@ -658,9 +658,8 @@ public class AudioPlayer {
         audioScroll = null;
         audioLocation = null;
 
-        currentAudio = null;
-
         audioProgress.setValue(0);
+        audioProgressLabel.setText("");
 
         audioFrame.closeAnimation();
     }
@@ -705,7 +704,6 @@ public class AudioPlayer {
                 playPauseAudioButton.setToolTipText("Pause");
 
                 lastAction = LastAction.PLAY;
-                currentAudio = audioFiles.get(audioIndex);
 
                 //on spam of skip button, music player hangs for about 10 seconds
                 // and throws an error then catches up eventually
@@ -793,7 +791,6 @@ public class AudioPlayer {
                     playPauseAudioButton.setToolTipText("Pause");
 
                     lastAction = LastAction.PLAY;
-                    currentAudio = audioFiles.get(audioIndex);
 
                     fis.skip(startPosition);
                     player.play();
@@ -874,8 +871,6 @@ public class AudioPlayer {
                             e.printStackTrace();
                         }
                     }
-
-                    audioProgressLabel.setText("");
                 },"Flash Player Progress Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1055,10 +1050,10 @@ public class AudioPlayer {
     }
 
     public File getCurrentAudio() {
-        if (currentAudio == null)
+        if (audioFiles == null)
             return null;
         else
-            return this.currentAudio.getAbsoluteFile();
+            return audioFiles.get(audioIndex);
     }
 
     public static float audioFileDuration(File audioFile) {

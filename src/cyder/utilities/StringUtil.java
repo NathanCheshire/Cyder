@@ -739,7 +739,7 @@ public class StringUtil {
                 String[] words = userInput.split("\\s+");
 
                 for (String word : words) {
-                    if (word.toLowerCase().contains(blockedWord.toLowerCase())) {
+                    if (word.equalsIgnoreCase(blockedWord)) {
                         vReader.close();
                         return true;
                     }

@@ -50,11 +50,13 @@ public class InputHandler {
     //todo easter egg message if user tries to pixelate a a solid color background
     //todo move other youtube functions to youtubeUtil and clean up how you access them
 
-    //todo audio volume slider should be way decreased for finer tuning
-    //todo make currentaudiofile logic better so that we can delete it if we're not playing it, since
-    // right now it won't work even if you're not playing it but pressed stop
+    //todo add print statements to tell user we're downloading
+    // searching youtube for:
+    // youtube video found: TITLE
+    // download complete
+    // or for url input: downloading audio, download complete
 
-    //todo pressing pause should make audio location label go away
+    //todo look into first couple frames playing on resume bug
 
     //todo user data is stable enough; switch to new IO but add debug methods
     // that will convert to and from and dump to console so you can debug in the process
@@ -125,9 +127,7 @@ public class InputHandler {
         }
         //printing strings ----------------------------------------
         else if (hasWord("shakespeare")) {
-            int rand = NumberUtil.randInt(1, 2);
-
-            if (rand == 1) {
+            if (NumberUtil.randInt(1, 2) == 1) {
                 println("Glamis hath murdered sleep, and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
             } else {
                 println("To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer the slings and arrows of "
@@ -459,7 +459,7 @@ public class InputHandler {
             Desktop.getDesktop().open(new File("c:/windows/system32/cmd.exe"));
         } else if ((has("graphing") && has("calculator")) || has("desmos") || has("graphing")) {
             NetworkUtil.internetConnect("https://www.desmos.com/calculator");
-        } else if (has("airHeads xtremes") || has("candy")) {
+        } else if (has("airHeads xtremes") || eic("candy")) {
             NetworkUtil.internetConnect("http://airheads.com/candy#xtremes");
         } else if (eic("404")) {
             NetworkUtil.internetConnect("http://google.com/=");

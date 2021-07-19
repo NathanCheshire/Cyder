@@ -1,0 +1,83 @@
+[17:56:21] [ENTRY]: [WINUSER=Nathan]
+[17:56:21] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[17:56:21] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:56:21] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[17:56:21] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:56:22] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:56:22] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[17:56:22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17:56:22] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[17:56:22] [LOGIN]: [AUTOCYPHER PASS]
+[17:56:23] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[17:56:23] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[17:56:23] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:56:23] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[17:56:23] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[17:56:23] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[17:56:23] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:56:23] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:56:23] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:56:23] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:56:23] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:56:23] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[17:56:23] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[17:56:23] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:56:23] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:56:24] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[17:56:24] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:56:24] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:56:24] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:56:24] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[17:56:24] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[17:56:24] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[17:56:24] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:24] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[17:56:24] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[17:56:24] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:56:24] [CLIENT]: test
+[17:56:24] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626735296310
+[17:56:24] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626735384361
+[17:56:27] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:30] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:31] [CLIENT]: Play backstreet boys everybody
+[17:56:33] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:34] [CLIENT]: Threads
+[17:56:36] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:39] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:42] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:45] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:48] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:51] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:54] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:57] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:56:57] [CLIENT_IO]: [GET] [menudirection] [RETURN VALUE] 1
+[17:56:58] [CLIENT]: prefs
+[17:56:58] [ACTION]: USER EDITOR
+[17:57:00] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:57:03] [ACTION]: CyderButton, text=[Delete] CLICKED
+[17:57:03] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:57:03] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the audio you are currently playing
+[17:57:06] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:57:09] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:57:10] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[17:57:10] [ACTION]: CyderButton, text=[Delete] CLICKED
+[17:57:10] [CONSOLE_OUT]: [STRING] Music: Backstreet Boys - Everybody (Backstreet's Back) (Official HD Video) successfully deleted.
+[17:57:10] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:57:12] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:57:12] [EXCEPTION]: 
+C:\Users\Nathan\Documents\IntelliJava\Cyder\users\8657469f-418b-348f-ab79-8993fb4c2b84\Music\Backstreet Boys - Everybody (Backstreet's Back) (Official HD Video).mp3 (The system cannot find the file specified)
+Thrown from:
+java.base/java.io.FileInputStream.open0(Native Method)
+StackTrace:
+java.io.FileNotFoundException: C:\Users\Nathan\Documents\IntelliJava\Cyder\users\8657469f-418b-348f-ab79-8993fb4c2b84\Music\Backstreet Boys - Everybody (Backstreet's Back) (Official HD Video).mp3 (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:196)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:139)
+	at cyder.widgets.AudioPlayer.lambda$startAudio$11(AudioPlayer.java:672)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[17:57:12] [CLIENT_IO]: [GET] [SilenceErrors] [RETURN VALUE] 0
+[17:57:15] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:57:18] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:57:21] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:57:24] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

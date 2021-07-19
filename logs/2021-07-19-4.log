@@ -1,0 +1,165 @@
+[17:47:57] [ENTRY]: [WINUSER=Nathan]
+[17:47:58] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[17:47:58] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:47:58] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[17:47:58] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:47:59] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:47:59] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[17:47:59] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17:47:59] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[17:47:59] [LOGIN]: [AUTOCYPHER PASS]
+[17:47:59] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[17:48:00] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:48:00] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[17:48:00] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[17:48:00] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[17:48:00] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:48:00] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:48:00] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:48:00] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[17:48:00] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:48:00] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:48:00] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:48:00] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[17:48:00] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[17:48:00] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[17:48:01] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:48:01] [CLIENT]: test
+[17:48:01] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626734840681
+[17:48:01] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626734881048
+[17:48:01] [CONSOLE_OUT]: [STRING] Sorry, but ffmpeg and/or youtube-dl couldn't be located. Please make sure they are both installed and added to your PATH Windows variable
+[17:48:01] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:48:03] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:04] [CLIENT]: controlc
+[17:48:04] [CONSOLE_OUT]: [STRING] Remember to also set the path to your youtube-dl executable in the user editor
+[17:48:04] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:48:04] [CONSOLE_OUT]: [JCOMPONENT] CyderButton object, hash=1116591054, text=[Learn how to add environment variables]
+[17:48:04] [CONSOLE_OUT]: [STRING]
+[17:48:04] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:48:04] [CONSOLE_OUT]: [JCOMPONENT] CyderButton object, hash=1708907294, text=[Learn how to download ffmpeg]
+[17:48:04] [CONSOLE_OUT]: [STRING]
+[17:48:04] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:48:04] [CONSOLE_OUT]: [JCOMPONENT] CyderButton object, hash=1451792262, text=[Learn how to download youtube-dl]
+[17:48:04] [CONSOLE_OUT]: [STRING]
+[17:48:04] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:48:04] [CONSOLE_OUT]: [STRING] Escaped
+[17:48:04] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:48:06] [LINK]: https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/
+[17:48:06] [ACTION]: CyderButton, text=[Learn how to add environment variables] CLICKED
+[17:48:06] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:08] [LINK]: https://www.wikihow.com/Install-FFmpeg-on-Windows
+[17:48:08] [ACTION]: CyderButton, text=[Learn how to download ffmpeg] CLICKED
+[17:48:09] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[17:48:09] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:10] [LINK]: https://github.com/ytdl-org/youtube-dl#installation
+[17:48:10] [ACTION]: CyderButton, text=[Learn how to download youtube-dl] CLICKED
+[17:48:12] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:15] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:18] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:21] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:24] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:27] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:30] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:33] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:36] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:39] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:42] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:45] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:48] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:51] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:54] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:48:57] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:00] [CLIENT]: Mp3
+[17:49:00] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:00] [ACTION]: AUDIO PLAYER
+[17:49:03] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:06] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:08] [CLIENT_IO]: [GET] [menudirection] [RETURN VALUE] 1
+[17:49:09] [CLIENT]: prefs
+[17:49:09] [ACTION]: USER EDITOR
+[17:49:09] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:12] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:14] [CLIENT_IO]: [GET] [menudirection] [RETURN VALUE] 1
+[17:49:14] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[17:49:15] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:16] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[17:49:18] [CLIENT_IO]: [GET] [menudirection] [RETURN VALUE] 1
+[17:49:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:22] [CLIENT_IO]: [GET] [menudirection] [RETURN VALUE] 1
+[17:49:24] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[17:49:24] [ACTION]: CyderButton, text=[Delete] CLICKED
+[17:49:24] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the audio you are currently playing
+[17:49:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:30] [CLIENT_IO]: [GET] [menudirection] [RETURN VALUE] 1
+[17:49:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:31] [CLIENT]: logout
+[17:49:32] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[17:49:32] [LOGOUT]:  [Nathan]
+[17:49:32] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[17:49:32] [SYSTEM_IO]: [GET] [Date] [RETURN VALUE] 7.2.21
+[17:49:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:35] [CLIENT_IO]: [LOGIN FRAME] login
+[17:49:36] [CLIENT_IO]: [LOGIN FRAME] nathan
+[17:49:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:37] [LOGIN]: [STD LOGIN]
+[17:49:37] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[17:49:37] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[17:49:37] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:49:37] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[17:49:37] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[17:49:37] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[17:49:37] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:49:37] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:49:37] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:49:37] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:49:37] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:49:37] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[17:49:37] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[17:49:37] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:49:37] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[17:49:37] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[17:49:37] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:49:37] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:49:37] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[17:49:37] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[17:49:37] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[17:49:37] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[17:49:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:38] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[17:49:38] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[17:49:38] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:49:38] [CLIENT]: test
+[17:49:38] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626734881048
+[17:49:38] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626734978247
+[17:49:38] [CONSOLE_OUT]: [STRING] Sorry, but ffmpeg and/or youtube-dl couldn't be located. Please make sure they are both installed and added to your PATH Windows variable
+[17:49:38] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:49:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:42] [CONSOLE_OUT]: [STRING] Remember to also set the path to your youtube-dl executable in the user editor
+[17:49:42] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:49:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:45] [CONSOLE_OUT]: [JCOMPONENT] CyderButton object, hash=1172180507, text=[Learn how to add environment variables]
+[17:49:45] [CONSOLE_OUT]: [STRING]
+[17:49:45] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:49:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[17:49:46] [CONSOLE_OUT]: [JCOMPONENT] CyderButton object, hash=465435355, text=[Learn how to download ffmpeg]
+[17:49:46] [CONSOLE_OUT]: [STRING]
+[17:49:46] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:49:46] [CONSOLE_OUT]: [JCOMPONENT] CyderButton object, hash=1193361665, text=[Learn how to download youtube-dl]
+[17:49:46] [CONSOLE_OUT]: [STRING]
+[17:49:46] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[17:49:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

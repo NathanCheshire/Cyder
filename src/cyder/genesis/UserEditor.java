@@ -408,7 +408,7 @@ public class UserEditor {
                     boolean success = selectedFile.renameTo(renameTo);
 
                     if (!success) {
-                        throw new IllegalArgumentException("File was not renamed");
+                        editUserFrame.notify("Could not rename file at this time");
                     } else {
                         editUserFrame.notify(selectedFile.getName() +
                                 " was successfully renamed to " + renameTo.getName());

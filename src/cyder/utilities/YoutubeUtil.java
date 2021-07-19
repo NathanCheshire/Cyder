@@ -134,12 +134,12 @@ public class YoutubeUtil {
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(environmentVariableHelp);
 
         CyderButton downloadFFMPEG = new CyderButton("Learn how to download ffmpeg");
-        environmentVariableHelp.addActionListener(e ->
+        downloadFFMPEG.addActionListener(e ->
                 NetworkUtil.internetConnect("https://www.wikihow.com/Install-FFmpeg-on-Windows"));
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadFFMPEG);
 
         CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
-        environmentVariableHelp.addActionListener(e ->
+        downloadYoutubeDL.addActionListener(e ->
                 NetworkUtil.internetConnect("https://github.com/ytdl-org/youtube-dl#installation"));
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadYoutubeDL);
     }
