@@ -54,6 +54,8 @@ public class InputHandler {
     //todo make currentaudiofile logic better so that we can delete it if we're not playing it, since
     // right now it won't work even if you're not playing it but pressed stop
 
+    //todo pressing pause should make audio location label go away
+
     //todo user data is stable enough; switch to new IO but add debug methods
     // that will convert to and from and dump to console so you can debug in the process
 
