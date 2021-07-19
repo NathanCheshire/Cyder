@@ -774,7 +774,10 @@ public class IOUtil {
     }
 
     public static File getCurrentMP3() {
-        return CyderPlayer.getCurrentAudio();
+        if (CyderPlayer == null)
+            return null;
+         else
+            return CyderPlayer.getCurrentAudio();
     }
 
     /**

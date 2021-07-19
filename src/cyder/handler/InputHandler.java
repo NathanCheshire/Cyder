@@ -50,7 +50,9 @@ public class InputHandler {
     //todo easter egg message if user tries to pixelate a a solid color background
     //todo move other youtube functions to youtubeUtil and clean up how you access them
 
-    //todo audio progress bar for audio player should show: percent complete (time in, time remaining)
+    //todo audio volume slider should be way decreased for finer tuning
+    //todo make currentaudiofile logic better so that we can delete it if we're not playing it, since
+    // right now it won't work even if you're not playing it but pressed stop
 
     //todo user data is stable enough; switch to new IO but add debug methods
     // that will convert to and from and dump to console so you can debug in the process

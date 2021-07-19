@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
 import cyder.handler.ErrorHandler;
@@ -9,6 +10,8 @@ import cyder.utilities.GetterUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
+import javazoom.jl.decoder.Bitstream;
+import javazoom.jl.decoder.Header;
 import javazoom.jl.player.Player;
 
 import javax.sound.sampled.AudioSystem;
@@ -25,6 +28,7 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 
 public class AudioPlayer {
@@ -51,6 +55,7 @@ public class AudioPlayer {
     private JButton selectAudioDirButton;
     private JButton playPauseAudioButton;
     private JButton shuffleAudioButton;
+    private JLabel audioProgressLabel;
 
     //audio booleans
     private boolean shuffleAudio;
@@ -402,6 +407,12 @@ public class AudioPlayer {
         audioVolumeSlider.repaint();
         audioFrame.getContentPane().add(audioVolumeSlider);
 
+        audioProgressLabel = new CyderLabel("");
+        audioProgressLabel.setFont(CyderFonts.defaultFontSmall.deriveFont(20f));
+        audioProgressLabel.setForeground(CyderColors.vanila);
+        audioProgressLabel.setBounds(55, 190, 385, 25);
+        audioFrame.getContentPane().add(audioProgressLabel);
+
         audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
         CyderProgressUI ui = new CyderProgressUI();
         ui.setColors(new Color[]{CyderColors.intellijPink, CyderColors.tooltipForegroundColor});
@@ -411,7 +422,7 @@ public class AudioPlayer {
         audioProgress.setMinimum(0);
         audioProgress.setMaximum(10000);
         audioProgress.setBorder(new LineBorder(Color.black, 2));
-        audioProgress.setBounds(55, 190, 385, 20);
+        audioProgress.setBounds(55, 190, 385, 25);
         audioProgress.setVisible(true);
         audioProgress.setValue(0);
         audioProgress.setOpaque(false);
@@ -831,11 +842,12 @@ public class AudioPlayer {
     private class AudioLocation {
         private CyderProgressBar effectBar;
         boolean update;
+        DecimalFormat format = new DecimalFormat("##.#");
 
         AudioLocation(CyderProgressBar effectBar) {
             this.effectBar = effectBar;
             update = true;
-
+            audioProgress.setStringPainted(true);
             try {
                 new Thread( () -> {
                     while (update) {
@@ -846,11 +858,24 @@ public class AudioPlayer {
                             double place = ((double) (totalLength - fis.available()) /
                                     (double) totalLength) * audioProgress.getMaximum();
                             audioProgress.setValue((int) place);
+
+                            double percentIn = (((double) audioProgress.getValue() /
+                                    (double) audioProgress.getMaximum()));
+                            double percentLeft = 1.0 - percentIn;
+
+                            float totalMilis = audioFileDuration(audioFiles.get(audioIndex));
+                            double milisIn = percentIn * totalMilis;
+                            double milisLeft = percentLeft * totalMilis;
+
+                            audioProgressLabel.setText(formatMilis(milisIn) + " played, "
+                                    + formatMilis(milisLeft) + " left");
                             Thread.sleep(250);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
+
+                    audioProgressLabel.setText("");
                 },"Flash Player Progress Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1034,5 +1059,60 @@ public class AudioPlayer {
             return null;
         else
             return this.currentAudio.getAbsoluteFile();
+    }
+
+    public static float audioFileDuration(File audioFile) {
+        float milisRet = 0;
+
+        try {
+            Header h = null;
+            FileInputStream fis = new FileInputStream(audioFile);
+            Bitstream bitstream = new Bitstream(fis);
+            h = bitstream.readFrame();
+
+            int size = h.calculate_framesize();
+            float ms_per_frame = h.ms_per_frame();
+            int maxSize = h.max_number_of_frames(10000);
+            float t = h.total_ms(size);
+            long tn = 0;
+            tn = fis.getChannel().size();
+
+            int min = h.min_number_of_frames(500);
+            milisRet = h.total_ms((int) tn);
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            return milisRet;
+        }
+    }
+
+    public static String formatMilis(double milis) {
+        StringBuilder sb = new StringBuilder();
+
+        double seconds = milis / 1000.0;
+        int minutes = 0;
+        int hours = 0;
+
+        while (seconds >= 60) {
+            minutes++;
+            seconds -= 60.0;
+        }
+
+        while (minutes >= 60) {
+            hours++;
+            minutes -= 60.0;
+        }
+
+        if (hours > 0) {
+            sb.append(hours).append("h ");
+        }
+
+        if (minutes > 0) {
+            sb.append(minutes).append("m ");
+        }
+
+        sb.append((int) Math.ceil(seconds)).append("s");
+
+        return sb.toString();
     }
 }
