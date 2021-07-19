@@ -26,7 +26,7 @@ public class YoutubeUtil {
             error();
         }
     }
-
+    //todo make these return the path to the downloaded file
     public static void download(String videoURL, String outputDir) {
         if (ffmpegInstalled() && youtubedlInstalled()) {
             YoutubeDL.setExecutablePath(youtubeDLExecutablePath);
@@ -87,6 +87,25 @@ public class YoutubeUtil {
         } finally {
             return ret;
         }
+    }
+
+    /**
+     * Retreives the first valid UUID (if one exists)
+     * @param youtubeQuery - the user friendly query on youtube. Example: "Gryffin Digital Mirage"
+     * @return - the first UUID obtained from the raw html page youtube returns corresponding to the desired query
+     */
+    public static String getFirstUUID(String youtubeQuery) {
+        String ret = null;
+
+        String query = "https://www.youtube.com/results?search_query=" + youtubeQuery.replace(" ", "+");
+        String jsonString = NetworkUtil.readUrl(query);
+
+        if (jsonString.contains("\"videoId\":\"")) {
+            String[] parts = jsonString.split("\"videoId\":\"");
+            ret =  parts[1].substring(0,11);
+        }
+
+        return ret;
     }
 
     private static void error() {

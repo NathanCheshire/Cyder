@@ -20,6 +20,8 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderProgressUI;
 import cyder.utilities.*;
 import cyder.widgets.*;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -441,16 +443,6 @@ public class InputHandler {
             setUserInputDesc("youtube word search");
             ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
             setUserInputMode(true);
-        } else if (hasWord("youtube") && (!has("word search") && !has("random") && !has("thumbnail"))) {
-            println("What would you like to search YouTube for?");
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputMode(true);
-            setUserInputDesc("youtube");
-        } else if ((hasWord("google"))) {
-            println("What would you like to Google?");
-            setUserInputDesc("google");
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputMode(true);
         } else if (firstWord.equalsIgnoreCase("echo")) {
             String[] sentences = operation.split(" ");
             for (int i = 1; i < sentences.length; i++) {
@@ -845,8 +837,9 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            println(YoutubeUtil.ffmpegInstalled());
-            println(YoutubeUtil.youtubedlInstalled());
+            //todo test: search for word, find, download audio to user's dir, start mp3 player with new audio
+
+            YoutubeUtil.getFirstUUID("Gryffin Digital Mirage");
         }
         //final attempt at unknown input --------------------------
         else {
