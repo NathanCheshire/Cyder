@@ -2,11 +2,13 @@ package cyder.test;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
+import cyder.enums.AnimationDirection;
 import cyder.enums.Direction;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ManualTestingWidgets {
     //this was used on 7-1-21 to verify adding/removing buttons to/from drag labels
@@ -252,5 +254,43 @@ public class ManualTestingWidgets {
 
         testFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+    }
+
+    public static void ProgressBarTest() {
+        CyderFrame cf = new CyderFrame(400,100);
+        cf.setTitle("ProgressBar Test");
+
+        JProgressBar jpb = new JProgressBar(0,500);
+        jpb.setBounds(40,40,320,20);
+        jpb.setOrientation(JProgressBar.HORIZONTAL);
+        CyderProgressUI ui = new CyderProgressUI();
+        ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
+        ui.setColors(new Color[]{CyderColors.regularBlue, CyderColors.intellijPink});
+        ui.setShape(CyderProgressUI.Shape.SQUARE);
+        jpb.setUI(ui);
+        jpb.setValue(50);
+        cf.getContentPane().add(jpb);
+        cf.setVisible(true);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
+
+        new Thread( () -> {
+            for (int i = 0 ; i <= jpb.getMaximum() / 2; i++) {
+                jpb.setValue(i);
+                try {
+                    Thread.sleep(2000 / jpb.getMaximum());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for (int i = jpb.getMaximum() / 2 ; i <= jpb.getMaximum(); i++) {
+                jpb.setValue(i);
+                try {
+                    Thread.sleep(500 / jpb.getMaximum());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "ProgressBar Animator").start();
     }
 }

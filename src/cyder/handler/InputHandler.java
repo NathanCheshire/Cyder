@@ -28,9 +28,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
 import java.time.DayOfWeek;
@@ -847,42 +845,8 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            CyderFrame cf = new CyderFrame(400,100);
-            cf.setTitle("ProgressBar Test");
-
-            @Helper(help = "Test")
-            JProgressBar jpb = new JProgressBar(0,500);
-            jpb.setBounds(40,40,320,20);
-            jpb.setOrientation(JProgressBar.HORIZONTAL);
-            CyderProgressUI ui = new CyderProgressUI();
-            ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
-            ui.setColors(new Color[]{CyderColors.regularBlue, CyderColors.intellijPink});
-            ui.setShape(CyderProgressUI.Shape.SQUARE);
-            jpb.setUI(ui);
-            jpb.setValue(50);
-            cf.getContentPane().add(jpb);
-            cf.setVisible(true);
-            ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
-
-            new Thread( () -> {
-                for (int i = 0 ; i <= jpb.getMaximum() / 2; i++) {
-                    jpb.setValue(i);
-                    try {
-                        Thread.sleep(2000 / jpb.getMaximum());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                for (int i = jpb.getMaximum() / 2 ; i <= jpb.getMaximum(); i++) {
-                    jpb.setValue(i);
-                    try {
-                        Thread.sleep(500 / jpb.getMaximum());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, "ProgressBar Animator").start();
+            println(YoutubeUtil.ffmpegInstalled());
+            println(YoutubeUtil.youtubedlInstalled());
         }
         //final attempt at unknown input --------------------------
         else {
