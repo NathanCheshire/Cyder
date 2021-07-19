@@ -837,12 +837,13 @@ public class InputHandler {
         //todo auto fix foreground not working
         //todo pref for busy icon
         //todo easter egg message if user tries to pixelate a a solid color background
+        //todo can't delete audio if currently being played function
 
         //testing -------------------------------------------------
         else if (eic("test")) {
             new Thread(() -> {
                 try {
-                    String userQuery = "for the glory all good things";
+                    String userQuery = "renegades x embassadors";
                     String UUID = YoutubeUtil.getFirstUUID(userQuery);
                     String videoURL = "https://www.youtube.com/watch?v=" + UUID;
                     Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "users/"

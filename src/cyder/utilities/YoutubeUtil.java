@@ -6,6 +6,7 @@ import com.sapher.youtubedl.YoutubeDLResponse;
 import cyder.handler.ErrorHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderButton;
 
 import java.io.File;
 import java.util.concurrent.ExecutorService;
@@ -122,14 +123,24 @@ public class YoutubeUtil {
 
     private static void error() {
         ConsoleFrame.getConsoleFrame().getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl " +
-                "couldn't be located. Please make sure they are both installed and added to your PATH windows" +
+                "couldn't be located. Please make sure they are both installed and added to your PATH Windows" +
                 " variable");
-        ConsoleFrame.getConsoleFrame().getInputHandler().println("Click the following button to go the download pages" +
-                " for ffmpeg and youtube-dl\n" +
+        ConsoleFrame.getConsoleFrame().getInputHandler().println(
                 "Remember to also set the path to your youtube-dl executable in the user editor");
 
-        //todo adding environment variable button
-        //todo downloading ffmpeg button
-        //todo download youtube-dl button
+        CyderButton environmentVariableHelp = new CyderButton("Learn how to add environment variables");
+        environmentVariableHelp.addActionListener(e ->
+                NetworkUtil.internetConnect("https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/"));
+        ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(environmentVariableHelp);
+
+        CyderButton downloadFFMPEG = new CyderButton("Learn how to download ffmpeg");
+        environmentVariableHelp.addActionListener(e ->
+                NetworkUtil.internetConnect("https://www.wikihow.com/Install-FFmpeg-on-Windows"));
+        ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadFFMPEG);
+
+        CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
+        environmentVariableHelp.addActionListener(e ->
+                NetworkUtil.internetConnect("https://github.com/ytdl-org/youtube-dl#installation"));
+        ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadYoutubeDL);
     }
 }
