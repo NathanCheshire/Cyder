@@ -839,7 +839,19 @@ public class InputHandler {
         else if (eic("test")) {
             //todo test: search for word, find, download audio to user's dir, start mp3 player with new audio
 
-            YoutubeUtil.getFirstUUID("Gryffin Digital Mirage");
+            String userQuery = "24k goldn Iann Dior Mood";
+            String UUID = YoutubeUtil.getFirstUUID(userQuery);
+            String videoURL = "https://www.youtube.com/watch?v=" + UUID;
+            YoutubeUtil.download(videoURL);
+
+            File[] musicFiles = new File("users/" +
+                    ConsoleFrame.getConsoleFrame().getUUID() + "/Music/").listFiles();
+
+            for (int i = 0 ; i < musicFiles.length ; i++) {
+                if (musicFiles[i].getName().contains(userQuery.split(" ")[0])) {
+                    IOUtil.playAudio(musicFiles[i].getAbsolutePath(), this);
+                }
+            }
         }
         //final attempt at unknown input --------------------------
         else {
