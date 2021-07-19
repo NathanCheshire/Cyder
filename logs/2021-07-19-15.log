@@ -1,0 +1,109 @@
+[01:03:01] [ENTRY]: [WINUSER=Nathan]
+[01:03:01] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[01:03:01] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[01:03:01] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[01:03:01] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[01:03:02] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[01:03:02] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[01:03:02] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[01:03:02] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[01:03:02] [LOGIN]: [AUTOCYPHER PASS]
+[01:03:02] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[01:03:02] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[01:03:02] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:03:02] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[01:03:02] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[01:03:02] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[01:03:03] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[01:03:03] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[01:03:03] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:03:03] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:03:03] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[01:03:03] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[01:03:03] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[01:03:03] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:03:03] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:03:03] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[01:03:03] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[01:03:03] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[01:03:03] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[01:03:03] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[01:03:03] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[01:03:03] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[01:03:03] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[01:03:03] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[01:03:03] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[01:03:03] [CLIENT]: test
+[01:03:03] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626674249248
+[01:03:03] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626674583431
+[01:03:05] [ACTION]: [Soultree Cyder [Nathan]] [NOTIFICATION] You only have one background image. Would you like to add more? (Enter yes/no)
+[01:03:06] [ACTION]: [Soultree Cyder [Nathan]] [NOTIFICATION] You only have one background image. Would you like to add more? (Enter yes/no)
+[01:03:15] [CONSOLE_OUT]: [STRING] Okay nevermind then
+[01:03:15] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:03:17] [CLIENT]: Background color #101010
+[01:03:17] [CONSOLE_OUT]: [STRING] Background generated, set, and saved as a separate background file.
+[01:03:17] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:03:20] [CLIENT]: controlc
+[01:03:20] [CONSOLE_OUT]: [STRING] Escaped
+[01:03:20] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:03:21] [CLIENT]: Fix color
+[01:03:21] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[01:03:22] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[01:03:22] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:03:24] [CLIENT]: Fix foreground
+[01:03:25] [CLIENT_IO]: [SET] [KEY] Foreground [VALUE] F0F0F0
+[01:03:25] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[01:03:25] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[01:03:25] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:03:25] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:03:25] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[01:03:25] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[01:03:25] [CONSOLE_OUT]: [STRING] Foreground fixed
+[01:03:25] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:03:42] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[01:03:48] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[01:03:49] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[01:03:58] [CLIENT]: Background color #40ff50
+[01:03:58] [CONSOLE_OUT]: [STRING] Background generated, set, and saved as a separate background file.
+[01:03:58] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:04:04] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[01:04:06] [CLIENT]: Prefs
+[01:04:06] [ACTION]: USER EDITOR
+[01:04:09] [ACTION]: CyderButton, text=[Delete] CLICKED
+[01:04:09] [CONSOLE_OUT]: [STRING] Music: Timeflies Tuesday - Paranoid successfully deleted.
+[01:04:09] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:04:10] [ACTION]: CyderButton, text=[Delete] CLICKED
+[01:04:11] [CONSOLE_OUT]: [STRING] Music: Timeflies - Raincoat (feat. Shy Martin) successfully deleted.
+[01:04:11] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:04:12] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[01:04:12] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[01:04:12] [ACTION]: CyderButton, text=[Delete] CLICKED
+[01:04:13] [CONSOLE_OUT]: [STRING] Music: Dabin - In Flames (feat. Lexi Norton) successfully deleted.
+[01:04:13] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:04:16] [ACTION]: CyderButton, text=[Delete] CLICKED
+[01:04:16] [CONSOLE_OUT]: [STRING] Background: Solid_40ff50Generated_Background successfully deleted.
+[01:04:16] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:04:21] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[01:04:22] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[01:04:26] [CLIENT]: Fix foreground
+[01:04:26] [CLIENT_IO]: [SET] [KEY] Foreground [VALUE] 101010
+[01:04:26] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[01:04:26] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[01:04:26] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:04:26] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:04:26] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[01:04:26] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[01:04:26] [CONSOLE_OUT]: [STRING] Foreground fixed
+[01:04:26] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[01:04:28] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[01:04:29] [CLIENT]: Fix foreground
+[01:04:29] [CLIENT_IO]: [SET] [KEY] Foreground [VALUE] F0F0F0
+[01:04:29] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[01:04:29] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[01:04:29] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:04:29] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[01:04:29] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[01:04:29] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[01:04:29] [CONSOLE_OUT]: [STRING] Foreground fixed
+[01:04:29] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

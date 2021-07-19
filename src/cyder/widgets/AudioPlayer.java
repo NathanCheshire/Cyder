@@ -16,6 +16,7 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Port;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -405,8 +406,8 @@ public class AudioPlayer {
         audioProgress.setUI(ui);
         audioProgress.setMinimum(0);
         audioProgress.setMaximum(10000);
-        audioProgress.setBorder(null);
-        audioProgress.setBounds(55, 190, 385, 15);
+        audioProgress.setBorder(new LineBorder(Color.black, 2));
+        audioProgress.setBounds(55, 190, 385, 20);
         audioProgress.setVisible(true);
         audioProgress.setValue(0);
         audioProgress.setOpaque(false);

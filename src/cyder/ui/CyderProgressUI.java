@@ -4,7 +4,6 @@ import cyder.consts.CyderColors;
 import cyder.enums.AnimationDirection;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -132,7 +131,6 @@ public class CyderProgressUI extends BasicProgressBarUI {
     protected void paintDeterminate(Graphics g, JComponent c) {
         //square uses the custom animation
         if (this.shape == Shape.SQUARE) {
-            c.setBorder(new LineBorder(CyderColors.navy, 3));
             c.setBackground(CyderColors.vanila);
 
             if (progressBar.getOrientation() == JProgressBar.VERTICAL) {

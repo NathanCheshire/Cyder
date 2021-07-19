@@ -1,0 +1,53 @@
+[00:14:13] [ENTRY]: [WINUSER=Nathan]
+[00:14:13] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[00:14:13] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:14:13] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[00:14:14] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:14:14] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:14:14] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[00:14:14] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:14:14] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[00:14:14] [LOGIN]: [AUTOCYPHER PASS]
+[00:14:14] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[00:14:14] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[00:14:14] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:14:15] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[00:14:15] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[00:14:15] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[00:14:15] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:14:15] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:14:15] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:14:15] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:14:15] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:14:15] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[00:14:15] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[00:14:15] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:14:15] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:14:15] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[00:14:15] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:14:15] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:14:15] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:14:15] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[00:14:15] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[00:14:15] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[00:14:15] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[00:14:15] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[00:14:15] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:14:15] [CLIENT]: test
+[00:14:15] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626667715556
+[00:14:15] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626671655588
+[00:14:25] [CLIENT]: Threads
+[00:14:53] [CLIENT]: Cls
+[00:14:54] [CLIENT]: Threads
+[00:15:45] [CONSOLE_OUT]: [STRING] [youtube] 36csrfm6qrk: Downloading webpage
+[download] Destination: 'Broken' - A Beautiful Chillstep Mix _ Epic Music Mix.webm
+[download]   0.0% of 61.12MiB at 122.11KiB/s ETA 09:03[download]   0.0% of 61.12MiB at 345.58KiB/s ETA 03:01[download]   0.0% of 61.12MiB at 806.35KiB/s ETA 01:17[download]   0.0% of 61.12MiB at  1.60MiB/s ETA 00:38 [download]   0.0% of 61.12MiB at 744.35KiB/s ETA 01:24[download]   0.1% of 61.12MiB at 901.87KiB/s ETA 01:09[download]   0.2% of 61.12MiB at  1.15MiB/s ETA 00:52 [download]   0.4% of 61.12MiB at  1.68MiB/s ETA 00:36 [download]   0.8% of 61.12MiB at  2.29MiB/s ETA 00:26 [download]   1.6% of 61.12MiB at  3.64MiB/s ETA 00:16 [download]   3.3% of 61.12MiB at  5.50MiB/s ETA 00:10 [download]   6.5% of 61.12MiB at  7.37MiB/s ETA 00:07 [download]  13.1% of 61.12MiB at  8.85MiB/s ETA 00:06 [download]  16.0% of 61.12MiB at  9.24MiB/s ETA 00:05 [download]  16.0% of 61.12MiB at 103.46KiB/s ETA 08:28[download]  16.0% of 61.12MiB at 295.13KiB/s ETA 02:58[download]  16.0% of 61.12MiB at 688.64KiB/s ETA 01:16[download]  16.1% of 61.12MiB at  1.44MiB/s ETA 00:35 [download]  16.1% of 61.12MiB at 754.77KiB/s ETA 01:09[download]  16.1% of 61.12MiB at 918.13KiB/s ETA 00:57[download]  16.2% of 61.12MiB at  1.17MiB/s ETA 00:43 [download]  16.4% of 61.12MiB at  1.69MiB/s ETA 00:30 [download]  16.8% of 61.12MiB at  2.45MiB/s ETA 00:20 [download]  17.7% of 61.12MiB at  3.88MiB/s ETA 00:12 [download]  19.3% of 61.12MiB at  5.78MiB/s ETA 00:08 [download]  22.6% of 61.12MiB at  7.63MiB/s ETA 00:06 [download]  29.1% of 61.12MiB at  9.02MiB/s ETA 00:04 [download]  31.7% of 61.12MiB at  9.34MiB/s ETA 00:04 [download]  31.7% of 61.12MiB at 112.66KiB/s ETA 06:19[download]  31.7% of 61.12MiB at 320.10KiB/s ETA 02:13[download]  31.7% of 61.12MiB at 746.91KiB/s ETA 00:57[download]  31.7% of 61.12MiB at  1.48MiB/s ETA 00:28 [download]  31.7% of 61.12MiB at 627.68KiB/s ETA 01:08[download]  31.8% of 61.12MiB at 889.33KiB/s ETA 00:48[download]  31.9% of 61.12MiB at  1.16MiB/s ETA 00:35 [download]  32.1% of 61.12MiB at  1.76MiB/s ETA 00:23 [download]  32.5% of 61.12MiB at  2.43MiB/s ETA 00:16 [download]  33.3% of 61.12MiB at  3.84MiB/s ETA 00:10 [download]  34.9% of 61.12MiB at  5.71MiB/s ETA 00:06 [download]  38.2% of 61.12MiB at  7.58MiB/s ETA 00:04 [download]  44.7% of 61.12MiB at  9.01MiB/s ETA 00:03 [download]  47.3% of 61.12MiB at  9.19MiB/s ETA 00:03 [download]  47.3% of 61.12MiB at 57.29KiB/s ETA 09:35 [download]  47.3% of 61.12MiB at 171.88KiB/s ETA 03:11[download]  47.3% of 61.12MiB at 390.24KiB/s ETA 01:24[download]  47.3% of 61.12MiB at 836.22KiB/s ETA 00:39[download]  47.4% of 61.12MiB at 715.18KiB/s ETA 00:46[download]  47.4% of 61.12MiB at 834.49KiB/s ETA 00:39[download]  47.5% of 61.12MiB at  1.12MiB/s ETA 00:28 [download]  47.7% of 61.12MiB at  1.70MiB/s ETA 00:18 [download]  48.1% of 61.12MiB at  2.57MiB/s ETA 00:12 [download]  49.0% of 61.12MiB at  4.08MiB/s ETA 00:07 [download]  50.6% of 61.12MiB at  5.80MiB/s ETA 00:05 [download]  53.9% of 61.12MiB at  7.65MiB/s ETA 00:03 [download]  60.4% of 61.12MiB at  9.10MiB/s ETA 00:02 [download]  63.2% of 61.12MiB at  9.30MiB/s ETA 00:02 [download]  63.2% of 61.12MiB at 112.23KiB/s ETA 03:25[download]  63.2% of 61.12MiB at 318.47KiB/s ETA 01:12[download]  63.2% of 61.12MiB at 743.11KiB/s ETA 00:30[download]  63.2% of 61.12MiB at  1.48MiB/s ETA 00:15 [download]  63.2% of 61.12MiB at 618.39KiB/s ETA 00:37[download]  63.3% of 61.12MiB at 811.00KiB/s ETA 00:28[download]  63.4% of 61.12MiB at  1.07MiB/s ETA 00:20 [download]  63.6% of 61.12MiB at  1.66MiB/s ETA 00:13 [download]  64.0% of 61.12MiB at  2.40MiB/s ETA 00:09 [download]  64.8% of 61.12MiB at  3.82MiB/s ETA 00:05 [download]  66.5% of 61.12MiB at  5.72MiB/s ETA 00:03 [download]  69.7% of 61.12MiB at  7.57MiB/s ETA 00:02 [download]  76.3% of 61.12MiB at  8.96MiB/s ETA 00:01 [download]  79.0% of 61.12MiB at  9.30MiB/s ETA 00:01 [download]  79.0% of 61.12MiB at 111.53KiB/s ETA 01:58[download]  79.0% of 61.12MiB at 321.99KiB/s ETA 00:40[download]  79.0% of 61.12MiB at 712.83KiB/s ETA 00:18[download]  79.0% of 61.12MiB at  1.49MiB/s ETA 00:08 [download]  79.0% of 61.12MiB at 746.68KiB/s ETA 00:17[download]  79.1% of 61.12MiB at 844.98KiB/s ETA 00:15[download]  79.2% of 61.12MiB at  1.17MiB/s ETA 00:10 [download]  79.4% of 61.12MiB at  1.76MiB/s ETA 00:07 [download]  79.8% of 61.12MiB at  2.48MiB/s ETA 00:04 [download]  80.6% of 61.12MiB at  3.94MiB/s ETA 00:03 [download]  82.2% of 61.12MiB at  5.59MiB/s ETA 00:01 [download]  85.5% of 61.12MiB at  7.44MiB/s ETA 00:01 [download]  92.1% of 61.12MiB at  8.69MiB/s ETA 00:00 [download]  94.8% of 61.12MiB at  9.06MiB/s ETA 00:00 [download]  94.8% of 61.12MiB at 115.85KiB/s ETA 00:28[download]  94.8% of 61.12MiB at 347.55KiB/s ETA 00:09[download]  94.8% of 61.12MiB at 810.94KiB/s ETA 00:04[download]  94.8% of 61.12MiB at  1.70MiB/s ETA 00:01 [download]  94.8% of 61.12MiB at 732.31KiB/s ETA 00:04[download]  94.9% of 61.12MiB at 911.64KiB/s ETA 00:03[download]  95.0% of 61.12MiB at  1.15MiB/s ETA 00:02 [download]  95.2% of 61.12MiB at  1.73MiB/s ETA 00:01 [download]  95.6% of 61.12MiB at  2.25MiB/s ETA 00:01 [download]  96.4% of 61.12MiB at  3.64MiB/s ETA 00:00 [download]  98.0% of 61.12MiB at  5.51MiB/s ETA 00:00 [download] 100.0% of 61.12MiB at  6.84MiB/s ETA 00:00 [download] 100% of 61.12MiB in 00:07                  
+[ffmpeg] Destination: 'Broken' - A Beautiful Chillstep Mix _ Epic Music Mix.mp3
+Deleting original file 'Broken' - A Beautiful Chillstep Mix _ Epic Music Mix.webm (pass -k to keep)
+[00:15:45] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[00:16:02] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[00:16:04] [CLIENT]: controlc
+[00:16:05] [CONSOLE_OUT]: [STRING] Escaped
+[00:16:05] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[00:16:19] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

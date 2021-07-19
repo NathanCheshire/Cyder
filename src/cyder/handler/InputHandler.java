@@ -1,10 +1,8 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import cyder.annotations.Helper;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.enums.AnimationDirection;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.genesis.Entry;
@@ -17,11 +15,8 @@ import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
-import cyder.ui.CyderProgressUI;
 import cyder.utilities.*;
 import cyder.widgets.*;
-import org.jsoup.Jsoup;
-import org.jsoup.select.Elements;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -30,7 +25,9 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URI;
 import java.time.DayOfWeek;
@@ -40,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
@@ -835,23 +833,30 @@ public class InputHandler {
                         "to perform that operation.");
             }
         }
+
+        //todo auto fix foreground not working
+        //todo pref for busy icon
+        //todo easter egg message if user tries to pixelate a a solid color background
+
         //testing -------------------------------------------------
         else if (eic("test")) {
-            //todo test: search for word, find, download audio to user's dir, start mp3 player with new audio
+            new Thread(() -> {
+                try {
+                    String userQuery = "for the glory all good things";
+                    String UUID = YoutubeUtil.getFirstUUID(userQuery);
+                    String videoURL = "https://www.youtube.com/watch?v=" + UUID;
+                    Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "users/"
+                            + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
-            String userQuery = "24k goldn Iann Dior Mood";
-            String UUID = YoutubeUtil.getFirstUUID(userQuery);
-            String videoURL = "https://www.youtube.com/watch?v=" + UUID;
-            YoutubeUtil.download(videoURL);
+                    while (!downloadedFile.isDone()) {
+                        Thread.onSpinWait();
+                    }
 
-            File[] musicFiles = new File("users/" +
-                    ConsoleFrame.getConsoleFrame().getUUID() + "/Music/").listFiles();
-
-            for (int i = 0 ; i < musicFiles.length ; i++) {
-                if (musicFiles[i].getName().contains(userQuery.split(" ")[0])) {
-                    IOUtil.playAudio(musicFiles[i].getAbsolutePath(), this);
+                    IOUtil.mp3(downloadedFile.get().getAbsolutePath());
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
                 }
-            }
+            }, "Youtube Audio Download Waiter").start();
         }
         //final attempt at unknown input --------------------------
         else {

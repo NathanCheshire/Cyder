@@ -4,9 +4,16 @@ import com.sapher.youtubedl.YoutubeDL;
 import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import cyder.handler.ErrorHandler;
+import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 
+import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class YoutubeUtil {
+
     private YoutubeUtil() {}
 
     public static void setYoutubeDLExecutablePath(String path) {
@@ -19,44 +26,49 @@ public class YoutubeUtil {
 
     private static String youtubeDLExecutablePath = "C:/Program Files/youtube-dl/youtube-dl.exe";
 
-    public static void download(String videoURL) {
-        if (ffmpegInstalled() && youtubedlInstalled()) {
-            download(videoURL, "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
-        } else {
-            error();
-        }
-    }
-    //todo make these return the path to the downloaded file
-    public static void download(String videoURL, String outputDir) {
-        if (ffmpegInstalled() && youtubedlInstalled()) {
-            YoutubeDL.setExecutablePath(youtubeDLExecutablePath);
+    private static ExecutorService executor = Executors.newSingleThreadExecutor(
+            new CyderThreadFactory("Youtube Audio Extractor"));
 
-            try {
-                new Thread(() -> {
-                    try {
-                        //req build
-                        YoutubeDLRequest request = new YoutubeDLRequest(videoURL, outputDir);
-                        request.setOption("ignore-errors");
-                        request.setOption("extract-audio");
-                        request.setOption("audio-format","mp3");
-                        request.setOption("output", "%(title)s.%(ext)s");
+    public static Future<File> download(String videoURL, String outputDir) {
+        return executor.submit(() -> {
+            File ret = null;
 
-                        //req and response ret
-                        YoutubeDLResponse response = YoutubeDL.execute(request);
+            if (ffmpegInstalled() && youtubedlInstalled()) {
+                YoutubeDL.setExecutablePath(youtubeDLExecutablePath);
 
-                        //show user response from yt-dl / ffmpeg
-                        //String stdOut = response.getOut(); // Executable output
-                        //ConsoleFrame.getConsoleFrame().getInputHandler().println(stdOut);
-                    } catch (Exception e) {
-                        ErrorHandler.handle(e);
+                try {
+                    //req build
+                    YoutubeDLRequest request = new YoutubeDLRequest(videoURL, outputDir);
+                    request.setOption("ignore-errors");
+                    request.setOption("extract-audio");
+                    request.setOption("audio-format","mp3");
+                    request.setOption("output", "%(title)s.%(ext)s");
+
+                    //req and response ret
+                    YoutubeDLResponse response = YoutubeDL.execute(request);
+                    response.getOut();
+
+                    String[] outLines = response.getOut().split("\n");
+                    String outName = "NULL";
+
+                    for (String line: outLines) {
+                        if (line.contains("[ffmpeg] Destination:")) {
+                            outName = line.replace("[ffmpeg] Destination:","").trim();
+                            break;
+                        }
                     }
-                }, "Youtube Audio Extractor").start();
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
+
+                    ret = new File(response.getDirectory() + outName);
+
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+            } else {
+                error();
             }
-        } else {
-            error();
-        }
+
+            return ret;
+        });
     }
 
     public static boolean ffmpegInstalled() {

@@ -1,7 +1,7 @@
 Name:Nathan
 Password:a1ed49ffc79fec196dcc25555352cba3e74ddc0e474af08736a4410e0dfd695d
 Font:Agency FB
-Foreground:101010
+Foreground:F0F0F0
 Background:000000
 IntroMusic:0
 DebugWindows:0
@@ -17,6 +17,6 @@ ClockOnConsole:1
 ShowSeconds:1
 filterchat:1
 menudirection:1
-laststart:1626667715556
+laststart:1626674731942
 minimizeonclose:0
 typinganimation:1

@@ -2270,10 +2270,10 @@ public final class ConsoleFrame {
     }
 
     public void refreshBackgroundIndex() {
-        LinkedList<File> paths = ConsoleFrame.getConsoleFrame().getBackgrounds();
+        LinkedList<File> backgroundFiles = ConsoleFrame.getConsoleFrame().getBackgrounds();
 
-        for (int i = 0; i < paths.size(); i++) {
-            if (paths.get(i).equals(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
+        for (int i = 0; i < backgroundFiles.size(); i++) {
+            if (StringUtil.getFilename(backgroundFiles.get(i)).contains(((JLabel) consoleCyderFrame.getContentPane()).getToolTipText())) {
                 ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
                 break;
             }
