@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
+import org.jsoup.Jsoup;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -180,6 +181,19 @@ public class NetworkUtil {
             ErrorHandler.silentHandle(e);
         } finally {
             return sb.toString();
+        }
+    }
+
+    public static String getURLTitle(String URL) {
+        String ret = null;
+
+        try {
+            org.jsoup.nodes.Document document = Jsoup.connect(URL).get();
+            ret = document.title();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            return ret;
         }
     }
 }

@@ -28,7 +28,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -841,7 +844,7 @@ public class InputHandler {
                         "to perform that operation.");
             }
         } else if (firstWord.equalsIgnoreCase("play")) {
-            boolean isURL = false;
+            boolean isURL = true;
 
             String input = operation.replaceAll("(?i)play","").trim();
 
@@ -850,6 +853,7 @@ public class InputHandler {
                 URLConnection conn = url.openConnection();
                 conn.connect();
             } catch (Exception e) {
+                e.printStackTrace();
                 isURL = false;
             }
 
@@ -860,9 +864,15 @@ public class InputHandler {
                         Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "users/"
                                 + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
+                        String videoTitle = NetworkUtil.getURLTitle(videoURL)
+                                .replaceAll("(?i) - YouTube", "").trim();
+                        println("Starting download of: " + videoTitle);
+
                         while (!downloadedFile.isDone()) {
                             Thread.onSpinWait();
                         }
+
+                        println("Download complete; playing");
 
                         IOUtil.mp3(downloadedFile.get().getAbsolutePath());
                     } catch (Exception e) {
@@ -873,14 +883,22 @@ public class InputHandler {
                 new Thread(() -> {
                     try {
                         String userQuery = input;
+
+                        println("Searching youtube for: " + userQuery);
                         String UUID = YoutubeUtil.getFirstUUID(userQuery);
                         String videoURL = "https://www.youtube.com/watch?v=" + UUID;
                         Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "users/"
                                 + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
+                        String videoTitle = NetworkUtil.getURLTitle(videoURL)
+                                .replaceAll("(?i) - YouTube", "").trim();
+                        println("Starting download of: " + videoTitle);
+
                         while (!downloadedFile.isDone()) {
                             Thread.onSpinWait();
                         }
+
+                        println("Download complete; playing");
 
                         IOUtil.mp3(downloadedFile.get().getAbsolutePath());
                     } catch (Exception e) {

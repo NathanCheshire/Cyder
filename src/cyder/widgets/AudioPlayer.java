@@ -6,10 +6,7 @@ import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
-import cyder.utilities.GetterUtil;
-import cyder.utilities.ImageUtil;
-import cyder.utilities.NumberUtil;
-import cyder.utilities.StringUtil;
+import cyder.utilities.*;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.player.Player;
@@ -96,6 +93,8 @@ public class AudioPlayer {
                 stopAudio();
 
             kill();
+            audioFrame.setRestoreX(SystemUtil.getScreenWidth() / 2 - audioFrame.getWidth() / 2);
+            audioFrame.setRestoreY( SystemUtil.getScreenHeight() / 2 - audioFrame.getHeight() / 2);
             }
         });
         audioFrame.initializeResizing();
@@ -660,6 +659,8 @@ public class AudioPlayer {
 
         audioProgress.setValue(0);
         audioProgressLabel.setText("");
+
+        audioFiles = null;
 
         audioFrame.closeAnimation();
     }
