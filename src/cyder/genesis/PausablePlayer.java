@@ -37,8 +37,7 @@ public class PausablePlayer {
         synchronized (playerLock) {
             switch (playerStatus) {
                 case NOTSTARTED:
-                    final Runnable r = this::playInternal;
-                    final Thread t = new Thread(r);
+                    final Thread t = new Thread(this::playInternal,"Audio Player Interval Thread");
                     t.setDaemon(true);
                     t.setPriority(Thread.MAX_PRIORITY);
                     playerStatus = Status.PLAYING;
