@@ -42,10 +42,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class InputHandler {
     //todo pin button should be default with windows for always on top toggling
 
-    //todo multi dragging windows if you drag console frame and other frames are touching
-    // probably should be able to toggle that one in user prefs
+    //todo on console frame drag, drag other windows that are pinned and touching the frame in some way
 
-    //todo use CyderComboBox this for hasher and add support for multiple hashing algorithms
+    //todo use CyderComboBox for hasher and add support for multiple hashing algorithms
 
     //todo figuring out where we are if we rename the background doesn't work
 
