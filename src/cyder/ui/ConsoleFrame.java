@@ -14,7 +14,6 @@ import cyder.widgets.Calculator;
 import cyder.widgets.GenericInform;
 import cyder.widgets.TempConverter;
 import cyder.widgets.Weather;
-import org.w3c.dom.css.Rect;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -767,7 +766,8 @@ public final class ConsoleFrame {
                                 Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
 
                                 if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
-                                    //TODO set to relative pos
+                                    f.setLocation(consoleCyderFrame.getX() + ((CyderFrame) f).getRelativeX(),
+                                            consoleCyderFrame.getY() + ((CyderFrame) f).getRelativeY());
                                 }
                             }
                         }
@@ -790,8 +790,8 @@ public final class ConsoleFrame {
                                 Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
 
                                 if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
-                                    ((CyderFrame) f).setRelativeX(consoleCyderFrame.getX() - f.getX());
-                                    ((CyderFrame) f).setRelativeY(consoleCyderFrame.getY() - f.getY());
+                                    ((CyderFrame) f).setRelativeX(-consoleCyderFrame.getX() + f.getX());
+                                    ((CyderFrame) f).setRelativeY(-consoleCyderFrame.getY() + f.getY());
                                 }
                             }
                         }
