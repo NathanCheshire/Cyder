@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.algorithoms.GeometryAlgorithms;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -13,6 +14,7 @@ import cyder.widgets.Calculator;
 import cyder.widgets.GenericInform;
 import cyder.widgets.TempConverter;
 import cyder.widgets.Weather;
+import org.w3c.dom.css.Rect;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -494,8 +496,8 @@ public final class ConsoleFrame {
 
             //instantiate enter listener for all buttons
             InputMap im = (InputMap)UIManager.get("Button.focusInputMap");
-            im.put( KeyStroke.getKeyStroke( "ENTER" ), "pressed" );
-            im.put( KeyStroke.getKeyStroke( "released ENTER" ), "released" );
+            im.put(KeyStroke.getKeyStroke("ENTER"), "pressed");
+            im.put(KeyStroke.getKeyStroke("released ENTER"), "released");
 
             suggestionButton.addActionListener(e -> {
                 consoleCyderFrame.notify("What feature would you like to suggest? " +
@@ -743,10 +745,81 @@ public final class ConsoleFrame {
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
             consoleClockLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
             consoleClockLabel.setForeground(CyderColors.vanila);
+
             //bounds not needed to be set since the executor service handles that
             consoleCyderFrame.getTopDragLabel().add(consoleClockLabel);
             consoleClockLabel.setFocusable(false);
             consoleClockLabel.setVisible(true);
+
+            //add listeners for pinned window functon
+            consoleCyderFrame.addDragListener(new MouseMotionAdapter() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
+                            && consoleCyderFrame.draggingEnabled()) {
+
+                        Rectangle consoleRect = new Rectangle(consoleCyderFrame.getX(), consoleCyderFrame.getY(),
+                                consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
+
+                        for (Frame f : Frame.getFrames()) {
+                            if (f instanceof CyderFrame && ((CyderFrame) f).getPinned() &&
+                                    !f.getTitle().equals(consoleCyderFrame.getTitle())) {
+                                Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+
+                                if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
+                                    //TODO set to relative pos
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            consoleCyderFrame.addDragMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
+                            && consoleCyderFrame.draggingEnabled()) {
+
+                        Rectangle consoleRect = new Rectangle(consoleCyderFrame.getX(), consoleCyderFrame.getY(),
+                                consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
+
+                        for (Frame f : Frame.getFrames()) {
+                            if (f instanceof CyderFrame && ((CyderFrame) f).getPinned() &&
+                                    !f.getTitle().equals(consoleCyderFrame.getTitle())) {
+                                Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+
+                                if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
+                                    ((CyderFrame) f).setRelativeX(consoleCyderFrame.getX() - f.getX());
+                                    ((CyderFrame) f).setRelativeY(consoleCyderFrame.getY() - f.getY());
+                                }
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
+                            && consoleCyderFrame.draggingEnabled()) {
+
+                        Rectangle consoleRect = new Rectangle(consoleCyderFrame.getX(), consoleCyderFrame.getY(),
+                                consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
+
+                        for (Frame f : Frame.getFrames()) {
+                            if (f instanceof CyderFrame && ((CyderFrame) f).getPinned() &&
+                                    !f.getTitle().equals(consoleCyderFrame.getTitle())) {
+                                Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+
+                                if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
+                                   ((CyderFrame) f).setRelativeX(0);
+                                   ((CyderFrame) f).setRelativeY(0);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
 
             //spin off console executors
             startExecutors();

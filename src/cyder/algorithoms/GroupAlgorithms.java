@@ -1,8 +1,8 @@
 package cyder.algorithoms;
 
-public class GroupTheory {
+public class GroupAlgorithms {
 
-    private GroupTheory() {} //no instantiation
+    private GroupAlgorithms() {} //no instantiation
 
     public static int gcd(int a, int b) {
         if (a < b)
@@ -26,14 +26,6 @@ public class GroupTheory {
             return lcm(arr[start], arr[end - 1]);
         else
             return lcm(arr[start], lcmArrayInner(arr, start + 1, end));
-    }
-
-    public static String bezoutIdentity(int a, int b) {
-        return "To be implemented";
-    }
-
-    public static int[] bezoutConstants() {
-        return null; //https://planetcalc.com/8586/
     }
 
     //Precise method, which guarantees v = v1 when t = 1.

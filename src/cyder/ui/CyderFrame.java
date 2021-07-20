@@ -17,10 +17,7 @@ import org.jsoup.safety.Safelist;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.RoundRectangle2D;
@@ -1191,6 +1188,13 @@ public class CyderFrame extends JFrame {
     public void setRestoreY(int y) {
         this.restoreY = y;
     }
+
+    public boolean draggingEnabled() {
+        return getTopDragLabel().isDraggingEnabled() &&
+                getBottomDragLabel().isDraggingEnabled() &&
+                getLeftDragLabel().isDraggingEnabled() &&
+                getRightDragLabel().isDraggingEnabled();
+    }
     
     public void disableDragging() {
         getTopDragLabel().disableDragging();
@@ -1230,6 +1234,20 @@ public class CyderFrame extends JFrame {
         topDrag.addMinimizeListener(actionListener);
     }
 
+    public void addDragListener(MouseMotionListener actionListener) {
+        topDrag.addMouseMotionListener(actionListener);
+        bottomDrag.addMouseMotionListener(actionListener);
+        leftDrag.addMouseMotionListener(actionListener);
+        rightDrag.addMouseMotionListener(actionListener);
+    }
+
+    public void addDragMouseListener(MouseListener ml) {
+        topDrag.addMouseListener(ml);
+        bottomDrag.addMouseListener(ml);
+        leftDrag.addMouseListener(ml);
+        rightDrag.addMouseListener(ml);
+    }
+
     private boolean pinned;
 
     /**
@@ -1247,5 +1265,24 @@ public class CyderFrame extends JFrame {
      */
     public boolean getPinned() {
         return this.pinned;
+    }
+
+    private int relativeX = 0;
+    private int relativeY = 0;
+
+    public int getRelativeX() {
+        return relativeX;
+    }
+
+    public int getRelativeY() {
+        return relativeY;
+    }
+
+    public void setRelativeX(int relativeX) {
+        this.relativeX = relativeX;
+    }
+
+    public void setRelativeY(int relativeY) {
+        this.relativeY = relativeY;
     }
 }
