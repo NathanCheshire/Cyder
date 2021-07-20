@@ -1935,6 +1935,21 @@ public final class ConsoleFrame {
                 getInputHandler().handle("fix foreground");
             }
 
+            //fix frame out of bounds if needed
+            if (consoleCyderFrame.getX() + consoleCyderFrame.getWidth() > SystemUtil.getScreenWidth()) {
+                consoleCyderFrame.setLocation(SystemUtil.getScreenWidth() - consoleCyderFrame.getWidth(),
+                        consoleCyderFrame.getY());
+            }
+            if (consoleCyderFrame.getX() < 0) {
+                consoleCyderFrame.setLocation(0, consoleCyderFrame.getY());
+            }
+            if (consoleCyderFrame.getY() + consoleCyderFrame.getHeight() > SystemUtil.getScreenHeight()) {
+                consoleCyderFrame.setLocation(consoleCyderFrame.getX(),
+                        SystemUtil.getScreenHeight() - consoleCyderFrame.getHeight());
+            }
+            if (consoleCyderFrame.getY() < 0) {
+                consoleCyderFrame.setLocation(consoleCyderFrame.getX(), 0);
+            }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {

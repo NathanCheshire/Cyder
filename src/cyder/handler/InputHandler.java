@@ -45,8 +45,7 @@ public class InputHandler {
     //todo multi dragging windows if you drag console frame and other frames are touching
     // probably should be able to toggle that one in user prefs
 
-    //todo CyderComboBox
-    // use this for hasher and add support for multiple hashing algorithms
+    //todo use CyderComboBox this for hasher and add support for multiple hashing algorithms
 
     //todo figuring out where we are if we rename the background doesn't work
 

@@ -3,6 +3,7 @@ package cyder.utilities;
 import cyder.ui.CyderTextField;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class CyderComboBox extends JComponent {
@@ -25,5 +26,28 @@ public class CyderComboBox extends JComponent {
 
     public ArrayList<String> getValues() {
         return values;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    @Override
+    public void paint(Graphics g) {
+
     }
 }
