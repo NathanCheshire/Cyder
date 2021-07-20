@@ -480,4 +480,28 @@ public class ImageUtil {
 
         return false;
     }
+
+    public static boolean solidColor(File pathToFile) {
+        boolean ret = true;
+
+        try {
+            Image icon = new ImageIcon(ImageIO.read(pathToFile)).getImage();
+            int w = icon.getWidth(null);
+            int h = icon.getHeight(null);
+            int[] pixels = new int[w * h];
+            PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
+            pg.grabPixels();
+            Color firstColor = new Color(pixels[0]);
+            for (int i = 1 ; i < pixels.length ; i++) {
+                if (!new Color(pixels[i]).equals(firstColor)) {
+                    ret = false;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ret;
+    }
 }

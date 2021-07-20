@@ -49,15 +49,6 @@ public class InputHandler {
     // use this for hasher and add support for multiple hashing algorithms
 
     //todo figuring out where we are if we rename the background doesn't work
-    //todo auto fix foreground not working
-    //todo easter egg message if user tries to pixelate a a solid color background
-    //todo move other youtube functions to youtubeUtil and clean up how you access them
-
-    //todo add print statements to tell user we're downloading
-    // searching youtube for:
-    // youtube video found: TITLE
-    // download complete
-    // or for url input: downloading audio, download complete
 
     //todo look into first couple frames playing on resume bug
 
@@ -315,10 +306,8 @@ public class InputHandler {
                     false, 50, true);
         }
         //widgets -------------------------------------------------
-        else if ((hasWord("youtube") && hasWord("thumbnail")) || (hasWord("yt") && hasWord("thumb"))) {
-            new YouTubeThumbnail();
-            new ThumbnailStealer();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "YOUTUBE THUMBNAIL");
+        else if ((hasWord("youtube") && hasWord("thumbnail"))) {
+            YoutubeUtil.ThumbnailStealer();
             SessionLogger.log(SessionLogger.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
         } else if (hasWord("minecraft")) {
             new Minecraft();
@@ -611,10 +600,15 @@ public class InputHandler {
         } else if (hasWord("debug") && hasWord("menu")) {
             StatUtil.debugMenu();
         } else if (hasWord("pixelate") && hasWord("background")) {
-            println("Enter your pixel size (a positive integer)");
-            setUserInputDesc("pixelatebackground");
-            setUserInputMode(true);
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
+                println("Silly " + ConsoleFrame.getConsoleFrame().getUsername() + "; your background " +
+                        "is a solid color :P");
+            } else {
+                println("Enter your pixel size (a positive integer)");
+                setUserInputDesc("pixelatebackground");
+                setUserInputMode(true);
+                ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+            }
         }  else if ((hasWord("delete") ||
                 hasWord("remove")) &&
                 (hasWord("user") ||

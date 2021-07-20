@@ -1930,6 +1930,11 @@ public final class ConsoleFrame {
             //request focus
             inputField.requestFocus();
 
+            //fix foreground if needed
+            if (ImageUtil.solidColor(getCurrentBackgroundFile())) {
+                getInputHandler().handle("fix foreground");
+            }
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
