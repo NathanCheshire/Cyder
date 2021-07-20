@@ -1229,4 +1229,23 @@ public class CyderFrame extends JFrame {
     public void addMinimizeListener(ActionListener actionListener) {
         topDrag.addMinimizeListener(actionListener);
     }
+
+    private boolean pinned;
+
+    /**
+     * Sets the value for pinning the frame on top.
+     * @param b - the value determining whether or not the frame is always on top
+     */
+    public void setPinned(boolean b) {
+        this.pinned = b;
+        setAlwaysOnTop(this.pinned);
+    }
+
+    /**
+     * Standard getter for pinned boolean.
+     * @return - the boolean of pinned
+     */
+    public boolean getPinned() {
+        return this.pinned;
+    }
 }

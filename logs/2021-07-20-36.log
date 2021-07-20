@@ -53,3 +53,4 @@
 [13:26:02] [ACTION]: CyderButton, text=[Hash] CLICKED
 [13:26:03] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
 [13:26:06] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

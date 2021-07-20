@@ -193,6 +193,35 @@ public class DragLabel extends JLabel {
         minimize.setFocusable(false);
         ret.add(minimize);
 
+        JButton pinButton = new JButton("");
+        pinButton.setToolTipText("Pin Window");
+        pinButton.addActionListener(e -> {
+            boolean pinned = !effectFrame.getPinned();
+            effectFrame.setPinned(pinned);
+            if (pinned)
+                pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin2.png"));
+            else
+                pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin.png"));
+        });
+        pinButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                pinButton.setIcon(new ImageIcon(effectFrame.getPinned() ? "sys/pictures/icons/pin.png" : "sys/pictures/icons/pin2.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                pinButton.setIcon(new ImageIcon(effectFrame.getPinned() ? "sys/pictures/icons/pin2.png" : "sys/pictures/icons/pin.png"));
+            }
+        });
+
+        pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin.png"));
+        pinButton.setContentAreaFilled(false);
+        pinButton.setBorderPainted(false);
+        pinButton.setFocusPainted(false);
+        pinButton.setFocusable(false);
+        ret.add(pinButton);
+
         close = new JButton("");
         close.setToolTipText("Close");
         close.addActionListener(e -> effectFrame.closeAnimation());
@@ -262,7 +291,16 @@ public class DragLabel extends JLabel {
         else if (buttonsList.size() == 0)
             throw new IllegalArgumentException("Empty list");
         else {
+            for (Component c : getComponents()) {
+                if (c instanceof JButton && buttonsList.contains((JButton) c)) {
+                    this.remove(c);
+                    this.revalidate();
+                    this.repaint();
+                }
+            }
+
             buttonsList.remove(removeIndex);
+
             refreshButtons();
         }
     }

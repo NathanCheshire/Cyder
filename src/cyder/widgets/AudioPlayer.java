@@ -128,35 +128,7 @@ public class AudioPlayer {
         changeSize.setContentAreaFilled(false);
         changeSize.setBorderPainted(false);
         changeSize.setFocusPainted(false);
-        audioFrame.getTopDragLabel().addButton(changeSize, 1);
-
-        JButton pinButton = new JButton("");
-        pinButton.setToolTipText("Pin window");
-        pinButton.addActionListener(e -> {
-            pinned = !pinned;
-            setPinned(pinned);
-            if (pinned)
-                pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin2.png"));
-            else
-                pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin.png"));
-        });
-        pinButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                pinButton.setIcon(new ImageIcon(pinned ? "sys/pictures/icons/pin.png" : "sys/pictures/icons/pin2.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                pinButton.setIcon(new ImageIcon(pinned ? "sys/pictures/icons/pin2.png" : "sys/pictures/icons/pin.png"));
-            }
-        });
-
-        pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin.png"));
-        pinButton.setContentAreaFilled(false);
-        pinButton.setBorderPainted(false);
-        pinButton.setFocusPainted(false);
-        audioFrame.getTopDragLabel().addButton(pinButton, 1);
+        audioFrame.getTopDragLabel().addButton(changeSize, 2);
 
         audioTitleLabel = new JLabel("", SwingConstants.CENTER);
         audioTitleLabel.setBounds(50, 40, 400, 30);

@@ -18,8 +18,8 @@ public class ManualTestingWidgets {
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
         JButton pinButton = new JButton("");
-        pinButton.setToolTipText("Pin window");
-        pinButton.setIcon(new ImageIcon("sys/pictures/icons/pin.png"));
+        pinButton.setToolTipText("Random button");
+        pinButton.setIcon(new ImageIcon("sys/pictures/icons/changesize1.png"));
         pinButton.setContentAreaFilled(false);
         pinButton.setBorderPainted(false);
         pinButton.setFocusPainted(false);
@@ -35,7 +35,7 @@ public class ManualTestingWidgets {
         cb1.addActionListener(e -> testFrame.getTopDragLabel().removeButton(testFrame.getTopDragLabel().getButtonListSize() - 1));
         testFrame.getContentPane().add(cb1);
 
-        CyderButton addPinFirst = new CyderButton("Add pin first");
+        CyderButton addPinFirst = new CyderButton("Add Random Butter first");
         addPinFirst.setBounds(100, 250, 150, 40);
         addPinFirst.addActionListener(e -> testFrame.getTopDragLabel().addButton(pinButton, 0));
         testFrame.getContentPane().add(addPinFirst);

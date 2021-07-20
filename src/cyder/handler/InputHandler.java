@@ -10,6 +10,7 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
+import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
@@ -40,7 +41,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo pin button should be default with windows for always on top toggling
+    //todo method to define order of buttons on drag label for reguular frames and drag labels
 
     //todo on console frame drag, drag other windows that are pinned and touching the frame in some way
 
