@@ -2258,7 +2258,11 @@ public final class ConsoleFrame {
     }
 
     public void setFrameRelative(Frame f) {
-        f.setLocationRelativeTo(consoleCyderFrame);
+        if (consoleCyderFrame == null) {
+            f.setLocationRelativeTo(null);
+        } else {
+            f.setLocationRelativeTo(consoleCyderFrame);
+        }
     }
 
     public void setTitle(String title) {

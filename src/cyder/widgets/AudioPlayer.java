@@ -525,7 +525,7 @@ public class AudioPlayer {
     public void pauseAudio() {
         lastAction = LastAction.PAUSE;
         try {
-            pauseLocation = totalLength - fis.available() - 14000;
+            pauseLocation = totalLength - fis.available() - 10000;
 
             if (player != null)
                 player.close();
@@ -644,24 +644,29 @@ public class AudioPlayer {
     public void kill() {
         stopAudio();
 
+        //player ending calls
         if (player != null)
             this.player.close();
 
+        //scrolllabel ending calls
         if (audioScroll != null)
             audioScroll.kill();
 
+        //location progress bar ending calls
         if (audioLocation != null)
             audioLocation.kill();
 
+        //null sets
         player = null;
         audioScroll = null;
         audioLocation = null;
+        audioFiles = null;
 
+        //default stes
         audioProgress.setValue(0);
         audioProgressLabel.setText("");
 
-        audioFiles = null;
-
+        //exiting widget
         audioFrame.closeAnimation();
     }
 
@@ -714,6 +719,7 @@ public class AudioPlayer {
                     audioLocation.kill();
                 audioLocation = null;
 
+                //we end up here if player is ended
                 if (lastAction == LastAction.PAUSE || lastAction == LastAction.STOP) {
                     //paused/stopped for a reason so do nothing as of now
                 } else {
@@ -733,8 +739,8 @@ public class AudioPlayer {
                     } else if (audioIndex + 1 < audioFiles.size()) {
                         audioIndex++;
                         startAudio();
-                    } else {
-                        //loop back around to the beginning
+                    } else if (audioFiles.size() > 1) {
+                        //loop back around to the beginning as long as more than one song
                         audioIndex = 0;
                         startAudio();
                     }
@@ -758,8 +764,11 @@ public class AudioPlayer {
             lastAction = LastAction.RESUME;
             new Thread(() -> {
                 try {
+                    System.out.println(startPosition);
                     refreshAudio();
                     fis = new FileInputStream(audioFiles.get(audioIndex));
+                    totalLength = fis.available();
+                    fis.skip(startPosition);
                     bis = new BufferedInputStream(fis);
 
                     if (player != null)
@@ -777,10 +786,7 @@ public class AudioPlayer {
                     //these occasionally throws NullPtrExep if the user spams buttons so we'll ignore that
                     try {
                         player = new Player(bis);
-                        totalLength = fis.available();
                     } catch (Exception ignored) {}
-
-                    pauseLocation = 0;
 
                     if (!miniPlayer) {
                         audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
@@ -793,7 +799,6 @@ public class AudioPlayer {
 
                     lastAction = LastAction.PLAY;
 
-                    fis.skip(startPosition);
                     player.play();
 
                     if (audioLocation != null)
