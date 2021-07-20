@@ -45,7 +45,7 @@ public class SecurityUtil {
     }
 
     public static boolean compMACAddress(String mac) {
-        return toHexString(getSHA(mac.toCharArray())).equals(IOUtil.getSystemData("MMAC"));
+        return toHexString(getSHA256(mac.toCharArray())).equals(IOUtil.getSystemData("MMAC"));
     }
 
     /**
@@ -67,7 +67,7 @@ public class SecurityUtil {
         return bytes;
     }
 
-    public static byte[] getSHA(char[] input) {
+    public static byte[] getSHA256(char[] input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             return md.digest(toBytes(input));
@@ -80,7 +80,33 @@ public class SecurityUtil {
         return null;
     }
 
-    public static byte[] getSHA(byte[] input) {
+    public static byte[] getSHA1(char[] input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            return md.digest(toBytes(input));
+        }
+
+        catch (Exception ex) {
+            ErrorHandler.handle(ex);
+        }
+
+        return null;
+    }
+
+    public static byte[] getMD5(char[] input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            return md.digest(toBytes(input));
+        }
+
+        catch (Exception ex) {
+            ErrorHandler.handle(ex);
+        }
+
+        return null;
+    }
+
+    public static byte[] getSHA256(byte[] input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             return md.digest(input);
@@ -131,7 +157,7 @@ public class SecurityUtil {
         try {
             IOUtil.cleanUsers();
 
-            hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA(hashedPass.toCharArray()));
+            hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
 
             //get all users
             File[] UUIDs = new File("users").listFiles();

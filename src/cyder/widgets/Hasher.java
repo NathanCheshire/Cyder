@@ -35,7 +35,7 @@ public class Hasher {
             char[] Hash = hashField.getPassword();
 
             if (Hash.length > 0) {
-                String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA(hashField.getPassword()));
+                String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
                 hashFrame.closeAnimation();
                 GenericInform.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","");
                 StringSelection selection = new StringSelection(PrintHash);
@@ -52,7 +52,7 @@ public class Hasher {
         hashButton.setBorder(new LineBorder(CyderColors.navy,5,false));
         hashButton.setFont(CyderFonts.weatherFontSmall);
         hashButton.addActionListener(e -> {
-            String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA(hashField.getPassword()));
+            String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
             hashFrame.closeAnimation();
             GenericInform.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","");
             StringSelection selection = new StringSelection(PrintHash);

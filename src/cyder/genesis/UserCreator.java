@@ -274,8 +274,8 @@ public class UserCreator {
 
                         LinkedList<String> data = new LinkedList<>();
                         data.add("Name:" + newUserName.getText().trim());
-                        data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA(
-                                SecurityUtil.toHexString(SecurityUtil.getSHA(pass)).toCharArray())));
+                        data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA256(
+                                SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)).toCharArray())));
 
                         for (Preference pref : GenesisShare.getPrefs()) {
                             if (!pref.getID().equalsIgnoreCase("foreground")) {
@@ -316,7 +316,7 @@ public class UserCreator {
                         //attempt to log in new user if it's the only user
                         if (new File("users/").listFiles().length == 1) {
                             Entry.getFrame().closeAnimation();
-                            Entry.recognize(newUserName.getText().trim(), SecurityUtil.toHexString(SecurityUtil.getSHA(pass)));
+                            Entry.recognize(newUserName.getText().trim(), SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)));
                         }
                     }
 

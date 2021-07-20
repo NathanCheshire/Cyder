@@ -228,7 +228,7 @@ public class Entry {
 
                         case 2:
                             loginField.setEchoChar((char)0);
-                            recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA(input)));
+                            recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA256(input)));
 
                             loginField.setText(bashString);
                             loginField.setCaretPosition(loginField.getPassword().length);

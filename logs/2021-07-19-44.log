@@ -1,0 +1,211 @@
+[20:22:47] [ENTRY]: [WINUSER=Nathan]
+[20:22:47] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[20:22:47] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[20:22:47] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[20:22:47] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[20:22:48] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[20:22:48] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[20:22:48] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20:22:48] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[20:22:48] [LOGIN]: [AUTOCYPHER PASS]
+[20:22:48] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[20:22:49] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:22:49] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[20:22:49] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[20:22:49] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[20:22:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[20:22:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[20:22:49] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[20:22:49] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[20:22:49] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[20:22:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[20:22:49] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[20:22:49] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[20:22:49] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[20:22:49] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[20:22:49] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[20:22:49] [CLIENT]: test
+[20:22:49] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626743308069
+[20:22:49] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626744169933
+[20:22:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:22:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:22:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:04] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:08] [CLIENT]: Play crossed the line vosai
+[20:23:08] [CONSOLE_OUT]: [STRING] Searching youtube for: crossed the line vosai
+[20:23:08] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:23:10] [CONSOLE_OUT]: [STRING] Starting download of: Vosai & Facading - Crossed The Line (feat. Linn Sandin) [NCS Release]
+[20:23:10] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:23:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:18] [CONSOLE_OUT]: [STRING] Download complete; playing
+[20:23:18] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:23:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:47] [CLIENT]: Consolidate windows
+[20:23:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:50] [CLIENT]: Fix foreground
+[20:23:50] [CLIENT_IO]: [SET] [KEY] Foreground [VALUE] F0F0F0
+[20:23:50] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[20:23:50] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[20:23:50] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:23:50] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:23:50] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[20:23:50] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[20:23:50] [CONSOLE_OUT]: [STRING] Foreground fixed
+[20:23:50] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:23:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:23:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:04] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:24:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:52] [CLIENT]: Prefs
+[20:25:53] [ACTION]: USER EDITOR
+[20:25:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:56] [ACTION]: CyderButton, text=[Delete] CLICKED
+[20:25:56] [CONSOLE_OUT]: [STRING] Background: Solid_ffffffGenerated_Background successfully deleted.
+[20:25:56] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:25:57] [ACTION]: CyderButton, text=[Delete] CLICKED
+[20:25:58] [CONSOLE_OUT]: [STRING] Music: Vosai & Facading - Crossed The Line (feat. Linn Sandin) [NCS Release] successfully deleted.
+[20:25:58] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:25:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:25:59] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[20:25:59] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[20:25:59] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:25:59] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:25:59] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[20:25:59] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[20:26:02] [CLIENT]: Cls
+[20:26:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:08] [CLIENT]: Play help me out maroon 5 lyrics
+[20:26:08] [CONSOLE_OUT]: [STRING] Searching youtube for: help me out maroon 5 lyrics
+[20:26:08] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:26:10] [CONSOLE_OUT]: [STRING] Starting download of: Maroon 5, Julia Michaels - Help Me Out (Lyrics / Lyric Video)
+[20:26:10] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:26:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:16] [CONSOLE_OUT]: [STRING] Download complete; playing
+[20:26:16] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:26:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:54] [CLIENT]: Prefs
+[20:26:54] [ACTION]: USER EDITOR
+[20:26:55] [ACTION]: CyderButton, text=[Delete] CLICKED
+[20:26:56] [CONSOLE_OUT]: [STRING] Music: Maroon 5, Julia Michaels - Help Me Out (Lyrics _ Lyric Video) successfully deleted.
+[20:26:56] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:26:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:56] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[20:26:56] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[20:26:56] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:26:56] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[20:26:56] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[20:26:56] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[20:26:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:26:59] [CLIENT]: Intromusic 1
+[20:26:59] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[20:26:59] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[20:26:59] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:27:02] [CLIENT]: Intromusic 1
+[20:27:02] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[20:27:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:03] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[20:27:03] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:27:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:07] [CLIENT]: Intromusic true
+[20:27:07] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[20:27:07] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[20:27:07] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:27:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:29] [CLIENT]: IntroMusic 1
+[20:27:29] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[20:27:29] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[20:27:29] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[20:27:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:27:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[20:28:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

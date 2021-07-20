@@ -35,17 +35,17 @@ import java.net.URLConnection;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo pin button should be default with windows for always on top toggling
+
+    //todo multi dragging windows if you drag console frame and other frames are touching
+    // probably should be able to toggle that one in user prefs
+
     //todo CyderComboBox
-    //todo implement selection button for possible values for cyder text field
-    // be able to restrict to just those values as well
     // use this for hasher and add support for multiple hashing algorithms
 
     //todo figuring out where we are if we rename the background doesn't work
@@ -81,7 +81,8 @@ public class InputHandler {
         boolean ret = false;
 
         for (Preference pref : GenesisShare.getPrefs()) {
-            if (op.equalsIgnoreCase(pref.getID())) {
+
+            if (op.toLowerCase().contains(pref.getID().toLowerCase())) {
                 if (op.contains("1") || op.toLowerCase().contains("true")) {
                     IOUtil.setUserData(pref.getID(), "1");
                     println(pref.getDisplayName() + " set to true");
@@ -847,7 +848,7 @@ public class InputHandler {
                 URLConnection conn = url.openConnection();
                 conn.connect();
             } catch (Exception e) {
-                e.printStackTrace();
+                ErrorHandler.silentHandle(e);
                 isURL = false;
             }
 
