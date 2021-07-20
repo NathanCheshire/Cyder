@@ -49,6 +49,9 @@ public class GenericInform {
                 h += 10;
 
             //in case we're too short from html breaks, find the max width line and set it to w
+            if (text.contains("<br/>"))
+                w = 0;
+
             for (String line : text.split("<br/>")) {
                 int thisW = (int) notificationFont.getStringBounds(Jsoup.clean(line, Safelist.none()), frc).getWidth() + 5;
 

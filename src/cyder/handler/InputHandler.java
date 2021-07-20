@@ -44,8 +44,6 @@ public class InputHandler {
 
     //todo on console frame drag, drag other windows that are pinned and touching the frame in some way
 
-    //todo use CyderComboBox for hasher and add support for multiple hashing algorithms
-
     //todo figuring out where we are if we rename the background doesn't work
 
     //todo user data is stable enough; switch to new IO but add debug methods
@@ -86,8 +84,9 @@ public class InputHandler {
                     IOUtil.setUserData(pref.getID(), "0");
                     println(pref.getDisplayName() + " set to false");
                 } else {
-                    IOUtil.setUserData(pref.getID(), (IOUtil.getUserData(pref.getID()).equals("1") ? "0" : "1"));
-                    println(pref.getDisplayName() + " toggled");
+                    String newVal = IOUtil.getUserData(pref.getID()).equals("1") ? "0" : "1";
+                    IOUtil.setUserData(pref.getID(), newVal);
+                    println(pref.getDisplayName() + " set to " + (newVal.equals("1") ? "true" : "false"));
                 }
 
                 ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
@@ -113,7 +112,7 @@ public class InputHandler {
         SessionLogger.log(SessionLogger.Tag.CLIENT, operation);
 
         //pre-process checks --------------------------------------
-        if (StringUtil.filterLanguage(operation)) {
+        if (StringUtil.filterLanguage(operation) && IOUtil.getUserData("filterchat").equals("1")) {
             println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
         }
         //printing strings ----------------------------------------

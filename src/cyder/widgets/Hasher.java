@@ -2,23 +2,26 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-
 import cyder.consts.CyderImages;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderPasswordField;
+import cyder.ui.*;
 import cyder.utilities.SecurityUtil;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
+import java.util.ArrayList;
 
 public class Hasher {
+    private CyderButton hashButton;
     private CyderPasswordField hashField;
+    private int algorithmIndex = 0;
+    private ArrayList<String> algorithms = new ArrayList<>();
 
     public Hasher() {
+        algorithms.add("SHA-256");
+        algorithms.add("SHA-1");
+        algorithms.add("MD5");
+
         CyderFrame hashFrame = new CyderFrame(500,200, CyderImages.defaultBackgroundLarge);
         hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");
@@ -31,42 +34,60 @@ public class Hasher {
         hashFrame.getContentPane().add(Instructions);
 
         hashField = new CyderPasswordField();
-        hashField.addActionListener(e -> {
-            char[] Hash = hashField.getPassword();
-
-            if (Hash.length > 0) {
-                String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
-                hashFrame.closeAnimation();
-                GenericInform.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","");
-                StringSelection selection = new StringSelection(PrintHash);
-                java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                clipboard.setContents(selection, selection);
-            }
-        });
+        hashField.addActionListener(e -> hashButton.doClick());
         hashField.setBounds(50,90, 400, 40);
         hashFrame.getContentPane().add(hashField);
 
-        CyderButton hashButton = new CyderButton("Hash");
-        hashButton.setColors(CyderColors.regularRed);
-        hashButton.setBackground(CyderColors.regularRed);
-        hashButton.setBorder(new LineBorder(CyderColors.navy,5,false));
-        hashButton.setFont(CyderFonts.weatherFontSmall);
+        hashButton = new CyderButton("Hash");
         hashButton.addActionListener(e -> {
-            String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
-            hashFrame.closeAnimation();
-            GenericInform.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","");
-            StringSelection selection = new StringSelection(PrintHash);
-            java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.setContents(selection, selection);
+            char[] Hash = hashField.getPassword();
+
+            if (Hash.length > 0) {
+                if (algorithmIndex == 0) {
+                    String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
+                    GenericInform.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", hashFrame);
+                    StringSelection selection = new StringSelection(PrintHash);
+                    java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    clipboard.setContents(selection, selection);
+                } else if (algorithmIndex == 1) {
+                    String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA1(hashField.getPassword()));
+                    GenericInform.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA1","", hashFrame);
+                    StringSelection selection = new StringSelection(PrintHash);
+                    java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    clipboard.setContents(selection, selection);
+                } else if (algorithmIndex == 2) {
+                    String PrintHash = SecurityUtil.toHexString(SecurityUtil.getMD5(hashField.getPassword()));
+                    GenericInform.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by MD5","", hashFrame);
+                    StringSelection selection = new StringSelection(PrintHash);
+                    java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    clipboard.setContents(selection, selection);
+                }
+
+                hashField.setText("");
+            }
         });
-
-        hashButton.setFocusPainted(false);
-
-        hashButton.setBounds(200,140, 100, 40);
+        hashButton.setBounds(50,140, 180, 40);
         hashFrame.getContentPane().add(hashButton);
+
+        CyderTextField hashAlgorithmField = new CyderTextField(0);
+        hashAlgorithmField.setFocusable(false);
+        hashAlgorithmField.setBounds(240,140,180,40);
+        hashAlgorithmField.setEditable(false);
+        hashFrame.getContentPane().add(hashAlgorithmField);
+        hashAlgorithmField.setText(algorithms.get(algorithmIndex));
+
+        CyderButton hashDropDown = new CyderButton("▼");
+        hashDropDown.setBounds(240 + 170,140,40,40);
+        hashFrame.getContentPane().add(hashDropDown);
+        hashDropDown.addActionListener(e -> {
+            algorithmIndex++;
+            if (algorithmIndex == algorithms.size())
+                algorithmIndex = 0;
+
+            hashAlgorithmField.setText(algorithms.get(algorithmIndex));
+        });
 
         ConsoleFrame.getConsoleFrame().setFrameRelative(hashFrame);
         hashFrame.setVisible(true);
-        hashFrame.setAlwaysOnTop(true);
     }
 }
