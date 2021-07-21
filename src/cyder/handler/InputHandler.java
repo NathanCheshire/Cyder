@@ -40,8 +40,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo user data is stable enough; switch to new IO but add debug methods
-    // that will convert to and from and dump to console so you can debug in the process
+    //todo dance ruins pinned windows
 
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
@@ -67,7 +66,7 @@ public class InputHandler {
 
         for (Preference pref : GenesisShare.getPrefs()) {
 
-            if (op.toLowerCase().contains(pref.getID().toLowerCase())) {
+            if (op.toLowerCase().contains(pref.getID().toLowerCase()) && !pref.getDisplayName().equals("IGNORE")) {
                 if (op.contains("1") || op.toLowerCase().contains("true")) {
                     IOUtil.setUserData(pref.getID(), "1");
                     println(pref.getDisplayName() + " set to true");
@@ -538,7 +537,7 @@ public class InputHandler {
         } else if (has("toy") && has("story")) {
             IOUtil.playAudio("sys/audio/TheClaw.mp3",this);
         } else if (has("stop") && has("music")) {
-            IOUtil.stopMusic();
+            IOUtil.stopAudio();
         } else if (eic("logic")) {
             IOUtil.playAudio("sys/audio/commando.mp3",this);
         } else if (eic("1-800-273-8255") || eic("18002738255")) {
@@ -766,7 +765,7 @@ public class InputHandler {
                 else
                     f.dispose();
             }
-            IOUtil.stopMusic();
+            IOUtil.stopAudio();
             ConsoleFrame.getConsoleFrame().close();
             Entry.showEntryGUI();
         } else if (hasWord("throw") && hasWord("error")) {
@@ -945,20 +944,16 @@ public class InputHandler {
             User user = User.createDefaultUser();
 
             // Java objects to File
-            try (FileWriter writer = new FileWriter("user.json")) {
+            try (FileWriter writer = new FileWriter("users/Tester/user.json")) {
                 gson.toJson(user, writer);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else if (eic("test2")) {
             Gson gson = new Gson();
-            try (Reader reader = new FileReader("user.json")) {
+            try (Reader reader = new FileReader("users/Tester/user.json")) {
                 User user = gson.fromJson(reader, User.class);
-                LinkedList<User.MappedExecutable> exes = user.getExecutables();
-
-                for (User.MappedExecutable exe : exes) {
-                    IOUtil.openFile(exe.getFilepath());
-                }
+                System.out.println(user.getIntromusic());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -1765,7 +1760,7 @@ public class InputHandler {
         //kill system threads
         SystemUtil.killThreads();
         //stop music
-        IOUtil.stopMusic();
+        IOUtil.stopAudio();
         //cancel dancing threads
         for (Frame f : Frame.getFrames()) {
             if (f instanceof CyderFrame)

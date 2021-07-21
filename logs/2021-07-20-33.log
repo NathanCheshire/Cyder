@@ -195,3 +195,4 @@ java.net.MalformedURLException: no protocol: flume say it illenium remix lyrics
 [23:04:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
 [23:04:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
 [23:04:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

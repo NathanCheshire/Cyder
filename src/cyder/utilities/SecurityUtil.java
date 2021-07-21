@@ -148,11 +148,6 @@ public class SecurityUtil {
         return null;
     }
 
-    //todo binary reading should return bytes for password and not convert to string
-    public static boolean newCheckPassword(String name, String pass) {
-        return false;
-    }
-
     public static boolean checkPassword(String name, String hashedPass) {
         try {
             IOUtil.cleanUsers();

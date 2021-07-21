@@ -23,12 +23,6 @@ public class GenesisShare {
         return printinSem;
     }
 
-    private static final LinkedList<Preference> prefs = initPreferencesList();
-
-    public static LinkedList<Preference> getPrefs() {
-        return prefs;
-    }
-
     private static boolean suspendFrameChecker = false;
 
     public static void suspendFrameChecker() {
@@ -43,6 +37,12 @@ public class GenesisShare {
         return suspendFrameChecker;
     }
 
+    private static final LinkedList<Preference> prefs = initPreferencesList();
+
+    public static LinkedList<Preference> getPrefs() {
+        return prefs;
+    }
+
     private static LinkedList<Preference> initPreferencesList() {
         LinkedList<Preference> ret = new LinkedList<>();
 
@@ -50,7 +50,8 @@ public class GenesisShare {
         ret.add(new Preference("font","IGNORE","IGNORE","tahoma"));
         ret.add(new Preference("foreground","IGNORE","IGNORE","000000"));
         ret.add(new Preference("background","IGNORE","IGNORE","FFFFFF"));
-        ret.add(new Preference("laststart","IGNORE","IGNORE",System.currentTimeMillis() + ""));
+        ret.add(new Preference("laststart","IGNORE","IGNORE",
+                System.currentTimeMillis() + ""));
 
         //actual preferences here
         ret.add(new Preference("intromusic",
@@ -100,6 +101,8 @@ public class GenesisShare {
                 "Typing Animation on console for non-vital outputs", "1"));
         ret.add(new Preference("showbusyicon", "Show Cyder Busy Icon",
                 "Show when Cyder is busy by changing the tray icon","0"));
+
+        //todo add future default prefs here and in User.java
 
         return ret;
     }

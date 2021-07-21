@@ -4,7 +4,6 @@ import cyder.genesis.Entry;
 import cyder.genesis.GenesisShare;
 import cyder.handler.*;
 import cyder.obj.NST;
-import cyder.obj.Preference;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.widgets.AudioPlayer;
@@ -14,9 +13,7 @@ import javazoom.jl.player.Player;
 
 import java.awt.*;
 import java.io.*;
-import java.math.BigInteger;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -34,6 +31,11 @@ public class IOUtil {
     private static Notes Notes;
     private static Player player;
 
+    /**
+     * Opens the provided file outside of the program regardless of whether or not a
+     * handler exists for the file type
+     * @param filePath - the path to the file to open
+     */
     public static void openFileOutsideProgram(String filePath) {
         Desktop OpenFile = Desktop.getDesktop();
 
@@ -51,6 +53,12 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Creates the provided temporary file in the temp directory and writes the given string lines to it
+     * @param filename - the name of the file to create
+     * @param extension - the extension of the file to create
+     * @param lines - the Strings to write to the file
+     */
     public static void createAndOpenTmpFile(String filename, String extension, String[] lines) {
         try {
             File tmpDir = new File("src/tmp");
@@ -80,249 +88,15 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Deletes the temperary directory if it exists
+     */
     public static void deleteTempDir() {
         try {
             File tmpDir = new File("src/tmp");
             SystemUtil.deleteFolder(tmpDir);
         } catch (Exception e) {
             ErrorHandler.handle(e);
-        }
-    }
-
-    /**
-     * Used to obtain data from any binary file (not just the current user) that is stored in binary
-     *  using the regular key/value pair preference encoding
-     *
-     * @param userDataBin - the .bin file to read
-     * @param dataKey     - the identifier of the data to be obtained
-     * @return - the data associated with dataKey
-     */
-    public static String extractUserData(File userDataBin, String dataKey)  {
-        if (!userDataBin.exists())
-            throw new IllegalArgumentException("Userdata.bin does not exist");
-        else if (!userDataBin.getName().endsWith(".bin")) {
-            throw new IllegalArgumentException("Userdata is not a binary");
-        }
-
-        String ret = null;
-
-        try {
-            GenesisShare.getExitingSem().acquire();
-
-            BufferedReader fis = new BufferedReader(new FileReader(userDataBin));
-            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
-            StringBuilder sb = new StringBuilder();
-
-            for (String stringByte : stringBytes) {
-                sb.append(new String(
-                        new BigInteger(stringByte, 2).toByteArray(),
-                        StandardCharsets.UTF_8
-                ));
-            }
-
-            fis.close();
-            String lines[] = sb.toString().split("\\r?\\n");
-
-            for (String line : lines) {
-                String parts[] = line.split(":");
-
-                if (parts[0].equalsIgnoreCase(dataKey)) {
-                    ret = parts[1];
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
-        }
-
-        return ret;
-    }
-
-    /**
-     * Function to replace the old setUserData to overwrite targetID's value in usersdata.bin with the passed in value.
-     * Binary writing will replace string writing for security purposes even though it complicates the program flow
-     * @param targetID - the preference ID to find
-     * @param value - the new value to set targetID to
-     */
-    public static void newSetUserData(String targetID, String value) {
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-            return;
-
-        if (!new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin").exists())
-            corruptedUser();
-
-        try {
-            //only this function can be accessing io data now
-            GenesisShare.getExitingSem().acquire();
-
-            //init list to hold user data
-            LinkedList<NST> userData = new LinkedList<>();
-
-            //init reader, read bin data, init string builder
-            BufferedReader fis = new BufferedReader(new FileReader("users/"
-                    + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin"));
-            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
-            StringBuilder sb = new StringBuilder();
-
-            //decoding string
-            for (String stringByte : stringBytes) {
-                sb.append(new String(
-                        new BigInteger(stringByte, 2).toByteArray(),
-                        StandardCharsets.UTF_8
-                ));
-            }
-
-            //free resources
-            fis.close();
-            //get all lines from decoded string
-            String lines[] = sb.toString().split("\\r?\\n");
-
-            //validate data and all to list
-            for (String line : lines) {
-                if (!line.contains(":"))
-                    corruptedUser();
-
-                String parts[] = line.split(":");
-                userData.add(new NST(parts[0], parts[1]));
-            }
-
-            //now we write back and set
-            BufferedWriter fos = new BufferedWriter(new FileWriter("src/cyder/genesis/userdata.bin"));
-            //reset string builder to use for writing
-            sb.setLength(0);
-
-            //loop through data and change the value we are writing
-            for (NST data : userData) {
-                if (data.getName().equalsIgnoreCase(targetID))
-                    data.setData(value);
-
-                sb.append(data.getName());
-                sb.append(":");
-                sb.append(data.getData());
-                sb.append("\n");
-            }
-
-            //get bytes from string
-            byte[] bytes = sb.toString().getBytes(StandardCharsets.UTF_8);
-
-            //writing bytes to file after changing data
-            for (byte b : bytes) {
-                int result = b & 0xff;
-                String resultWithPadZero = String.format("%8s", Integer.toBinaryString(result))
-                        .replace(" ", "0");
-                fos.write(resultWithPadZero);
-            }
-
-            //freeing resources
-            fos.close();
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
-        }
-    }
-
-    public static void newFixUserData() {
-        //get user var for later use
-        String user = ConsoleFrame.getConsoleFrame().getUUID();
-
-        //return if no user, shouldn't be possible anyway
-        if (user == null)
-            return;
-
-        File dataFile = new File("users/" + user + "/userdata.bin");
-
-        //if the data file is gone then we're screwed
-        if (!dataFile.exists())
-            corruptedUser();
-
-        ArrayList<NST> data = new ArrayList<>();
-
-        try {
-            GenesisShare.getExitingSem().acquire();
-
-            BufferedReader fis = new BufferedReader(new FileReader(dataFile));
-            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
-            StringBuilder sb = new StringBuilder();
-
-            for (String stringByte : stringBytes) {
-                sb.append(new String(
-                        new BigInteger(stringByte, 2).toByteArray(),
-                        StandardCharsets.UTF_8
-                ));
-            }
-
-            fis.close();
-            String lines[] = sb.toString().split("\\r?\\n");
-
-            for (String line : lines) {
-                if (!line.contains(":"))
-                    corruptedUser();
-
-                String parts[] = line.split(":");
-
-                if (parts.length != 2)
-                    corruptedUser();
-
-                data.add(new NST(parts[0], parts[1]));
-            }
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
-        }
-
-        for (Preference pref : GenesisShare.getPrefs()) {
-            data.add(new NST(pref.getID(), pref.getDefaultValue()));
-        }
-
-        ArrayList<NST> reWriteData = new ArrayList<>();
-
-        for (NST datum : data) {
-            String currentName = datum.getName();
-            boolean alreadyHas = false;
-
-            for (NST reWriteDatum : reWriteData) {
-                if (reWriteDatum.getName().equalsIgnoreCase(currentName)) {
-                    alreadyHas = true;
-                    break;
-                }
-            }
-
-            if (!alreadyHas)
-                reWriteData.add(datum);
-        }
-
-        try {
-            GenesisShare.getExitingSem().acquire();
-            BufferedWriter fos = new BufferedWriter(new FileWriter(dataFile));
-            StringBuilder sb = new StringBuilder();
-
-            for (NST redata : reWriteData) {
-                sb.append(redata.getName());
-                sb.append(":");
-                sb.append(redata.getData());
-                sb.append("\n");
-            }
-
-            byte[] bytes = sb.toString().getBytes(StandardCharsets.UTF_8);
-
-            //writing bytes of bytes, change any before here
-            for (byte b : bytes) {
-                int result = b & 0xff;
-                String resultWithPadZero = String.format("%8s", Integer.toBinaryString(result))
-                        .replace(" ", "0");
-                fos.write(resultWithPadZero);
-            }
-
-            fos.flush();
-            fos.close();
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
         }
     }
 
@@ -535,61 +309,6 @@ public class IOUtil {
     }
 
     /**
-     * Reads and returns the data with the keyname given. Data should be stored in binary using
-     * key/value pair encoding.
-     * @param name - the data ID to target
-     * @return - the data associated with the requested key
-     */
-    public static String newGetUserData(String name) {
-        String ret = null;
-
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-            throw new IllegalArgumentException("User not set");
-
-        if (!new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin").exists())
-            corruptedUser();
-
-        try {
-            //only this function can be accessing io data now
-            GenesisShare.getExitingSem().acquire();
-
-            //init reader, read bin data, init string builder
-            BufferedReader fis = new BufferedReader(new FileReader("users/"
-                    + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.bin"));
-            String[] stringBytes = fis.readLine().split("(?<=\\G........)");
-            StringBuilder sb = new StringBuilder();
-
-            //decoding string
-            for (String stringByte : stringBytes) {
-                sb.append(new String(
-                        new BigInteger(stringByte, 2).toByteArray(),
-                        StandardCharsets.UTF_8
-                ));
-            }
-
-            //free resources
-            fis.close();
-            //get all lines from decoded string
-            String lines[] = sb.toString().split("\\r?\\n");
-
-            //validate data and all to list
-            for (String line : lines) {
-                String parts[] = line.split(":");
-
-                if (parts[0].equalsIgnoreCase(name)) {
-                    ret = parts[1];
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
-            return ret;
-        }
-    }
-
-    /**
      * Finds and returns the requested userdata stored in key/value pairs.
      * @param name - the data ID to find
      * @return - the data associated with the provided ID
@@ -708,6 +427,9 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Clean the users/ dir of any possibly corrupted or invalid user folders
+     */
     public static void cleanUsers() {
         File users = new File("users");
 
@@ -726,6 +448,10 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Opens the provided file, possibly inside of the program if a handler exists for it
+     * @param FilePath - the path to the file to open
+     */
     public static void openFile(String FilePath) {
         //use our custom text editor
         if (FilePath.endsWith(".txt")) {
@@ -758,6 +484,9 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Opens the current user's notes; ensoures only one note editor is open at any given time
+     */
     public static void startNoteEditor() {
         if (Notes != null)
             Notes.kill();
@@ -765,14 +494,22 @@ public class IOUtil {
         Notes = new Notes();
     }
 
+    /**
+     * Ends the current AudioPlayer session if ongoing and starts a new one with the requested file
+     * @param FilePath - the path to the audio file to start playing
+     */
     public static void mp3(String FilePath) {
         if (CyderPlayer != null)
             CyderPlayer.kill();
 
-        stopMusic();
+        stopAudio();
         CyderPlayer = new AudioPlayer(new File(FilePath));
     }
 
+    /**
+     * Gets the current audio file playing through the AudioPlayer if any
+     * @return - the current audio file being played - null if no file is being played
+     */
     public static File getCurrentMP3() {
         if (CyderPlayer == null)
             return null;
@@ -788,11 +525,11 @@ public class IOUtil {
      */
     public static void playAudio(String FilePath, InputHandler inputHandler, boolean showStopButton) {
         try {
-            stopMusic();
+            stopAudio();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
             player = new Player(FileInputStream);
             SessionLogger.log(SessionLogger.Tag.ACTION,"[AUDIO] " + FilePath);
-            Thread MusicThread = new Thread(() -> {
+            Thread AudioThread = new Thread(() -> {
                 try {
                     player.play();
                 } catch (Exception e) {
@@ -800,11 +537,11 @@ public class IOUtil {
                 }
             }, "mp3 audio thread");
 
-            MusicThread.start();
+            AudioThread.start();
 
             if (showStopButton) {
                 CyderButton stopMusicButton = new CyderButton("Stop Audio");
-                stopMusicButton.addActionListener((e) -> IOUtil.stopMusic());
+                stopMusicButton.addActionListener((e) -> IOUtil.stopAudio());
                 inputHandler.printlnComponent(stopMusicButton);
             }
         } catch (Exception e) {
@@ -842,8 +579,10 @@ public class IOUtil {
         playAudio(FilePath, inputHandler, true);
     }
 
-    //static music player widget
-    public static void stopMusic() {
+    /**
+     * Stops the audio currently playing that is absent of an AudioPlayer object
+     */
+    public static void stopAudio() {
         try {
             if (player != null && !player.isComplete()) {
                 player.close();
@@ -909,6 +648,12 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Zips the provided file with the given name using hte provided ZOS
+     * @param fileToZip - the file/dir to zip
+     * @param fileName - the name of the resulting file (path included)
+     * @param zipOut - the Zip Output Stream
+     */
     private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
         try {
             if (fileToZip.isHidden())
@@ -946,6 +691,10 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Changes the current user from console frame's name to the provided name.
+     * @param newName - the new name of the user
+     */
     public static void changeUsername(String newName) {
         try {
             setUserData("name", newName);
@@ -954,6 +703,10 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Changes the current user from console frame's password to the provided password
+     * @param newPassword - the raw char[] new password to hash and store
+     */
     public static void changePassword(char[] newPassword) {
         try {
             setUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA256(
@@ -963,11 +716,13 @@ public class IOUtil {
         }
     }
 
-    @Override
-    public String toString() {
-        return "IOUtil object, hash=" + this.hashCode();
-    }
-
+    /**
+     * Gets DOS attributes of the provided file
+     * @param file - the file to obtain the attributes of
+     * @return - the DOS attributes in the following order: isArchive, isHidden,
+     *              isReadOnly, isSystem, creationTime, isDirectory, isOther, isSymbolicLink,
+     *              lastAccessTime, lastModifiedTime
+     */
     public static String[] getDOSAttributes(File file) {
         String[] ret = new String[10];
 
@@ -990,6 +745,11 @@ public class IOUtil {
         return ret;
     }
 
+    /**
+     * Returns the size of the provided file in bytes
+     * @param f - the file to calculate the size of
+     * @return - the size in bytes of the file
+     */
     public static long getFileSize(File f) {
         long ret = 0;
         try {
@@ -1001,6 +761,11 @@ public class IOUtil {
         return ret;
     }
 
+    /**
+     * Returns a binary string from the provided binary file
+     * @param f - the binary file of pure binary contents
+     * @return - the String of binary data from the file
+     */
     public static String getBinaryString(File f) {
         if (!f.exists())
             throw new IllegalArgumentException("bin does not exist");
@@ -1022,6 +787,11 @@ public class IOUtil {
         return ret;
     }
 
+    /**
+     * Returns a hex string from the provided binary file
+     * @param f - the binary file of pure binary contents
+     * @return - the String of hex data from the file
+     */
     public static String getHexString(File f) {
         if (!f.exists())
             throw new IllegalArgumentException("bin does not exist");
@@ -1048,6 +818,9 @@ public class IOUtil {
         return ret;
     }
 
+    /**
+     * Handles the sandbox and it's files depending on the computer we are on
+     */
     public static void cleanSandbox() {
         if (!SecurityUtil.nathanLenovo()) {
             wipeSandbox();

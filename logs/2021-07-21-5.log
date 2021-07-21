@@ -1,0 +1,331 @@
+[13:45:44] [ENTRY]: [WINUSER=Nathan]
+[13:45:44] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[13:45:45] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:45:45] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[13:45:45] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:45:45] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:45:45] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[13:45:45] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:45:45] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[13:45:45] [LOGIN]: [AUTOCYPHER PASS]
+[13:45:46] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[13:45:46] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:45:46] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[13:45:46] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[13:45:46] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[13:45:46] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[13:45:46] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[13:45:46] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[13:45:46] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[13:45:46] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[13:45:46] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[13:45:46] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[13:45:46] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[13:45:46] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[13:45:46] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[13:45:47] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:45:47] [CLIENT]: test
+[13:45:47] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626891842910
+[13:45:47] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626893147153
+[13:45:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:45:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:45:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:45:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:02] [CLIENT]: Font
+[13:46:02] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[13:46:02] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[13:46:02] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:04] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:08] [CLIENT]: Laststart
+[13:46:08] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[13:46:08] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[13:46:08] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:10] [CLIENT]: Intromusic
+[13:46:10] [CLIENT_IO]: [GET] [intromusic] [RETURN VALUE] 0
+[13:46:10] [CLIENT_IO]: [SET] [KEY] intromusic [VALUE] 1
+[13:46:10] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[13:46:10] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[13:46:10] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:10] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:10] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[13:46:10] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[13:46:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:12] [CONSOLE_OUT]: [STRING] Intro Music set to true
+[13:46:12] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:12] [CLIENT]: Intromusic
+[13:46:12] [CLIENT_IO]: [GET] [intromusic] [RETURN VALUE] 1
+[13:46:12] [CLIENT_IO]: [SET] [KEY] intromusic [VALUE] 0
+[13:46:12] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[13:46:12] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[13:46:12] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:12] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:12] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[13:46:12] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[13:46:13] [CONSOLE_OUT]: [STRING] Intro Music set to false
+[13:46:13] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:14] [CLIENT]: Intromusic
+[13:46:14] [CLIENT_IO]: [GET] [intromusic] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [SET] [KEY] intromusic [VALUE] 1
+[13:46:14] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[13:46:14] [CONSOLE_OUT]: [STRING] Intro Music set to true
+[13:46:14] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:14] [CLIENT]: Intromusic
+[13:46:14] [CLIENT_IO]: [GET] [intromusic] [RETURN VALUE] 1
+[13:46:14] [CLIENT_IO]: [SET] [KEY] intromusic [VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[13:46:14] [CLIENT]: Intromusic
+[13:46:14] [CLIENT_IO]: [GET] [intromusic] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [SET] [KEY] intromusic [VALUE] 1
+[13:46:14] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[13:46:14] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[13:46:15] [CLIENT]: Intromusic
+[13:46:15] [CLIENT_IO]: [GET] [intromusic] [RETURN VALUE] 1
+[13:46:15] [CLIENT_IO]: [SET] [KEY] intromusic [VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[13:46:15] [CLIENT]: Intromusic
+[13:46:15] [CLIENT_IO]: [GET] [intromusic] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [SET] [KEY] intromusic [VALUE] 1
+[13:46:15] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[13:46:15] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[13:46:15] [CONSOLE_OUT]: [STRING] Intro Music set to false
+[13:46:15] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:16] [CONSOLE_OUT]: [STRING] Intro Music set to true
+[13:46:16] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:17] [CONSOLE_OUT]: [STRING] Intro Music set to false
+[13:46:17] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:18] [CONSOLE_OUT]: [STRING] Intro Music set to true
+[13:46:18] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:19] [CLIENT]: Intromusic
+[13:46:19] [CLIENT_IO]: [GET] [intromusic] [RETURN VALUE] 1
+[13:46:19] [CLIENT_IO]: [SET] [KEY] intromusic [VALUE] 0
+[13:46:19] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[13:46:19] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[13:46:19] [CONSOLE_OUT]: [STRING] Intro Music set to false
+[13:46:19] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:19] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[13:46:19] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[13:46:19] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:19] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[13:46:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:21] [CLIENT]: controlc
+[13:46:21] [CONSOLE_OUT]: [STRING] Escaped
+[13:46:21] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[13:46:22] [CLIENT]: Cls
+[13:46:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:24] [CLIENT]: Calc
+[13:46:24] [ACTION]: CALCULATOR
+[13:46:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:46:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:47:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:48:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:49:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:33] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:36] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:39] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:42] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:45] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:48] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:51] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:54] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:50:57] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:00] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:03] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:06] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:09] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:12] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:15] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:18] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:21] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:24] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:27] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:30] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:33] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:36] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:39] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:42] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:45] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:48] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:51] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:54] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:51:57] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:00] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:03] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:06] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:09] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:12] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:15] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:18] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:21] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:24] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:27] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:30] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:33] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:36] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:39] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:42] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:45] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:48] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:51] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:54] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:52:57] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:00] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:03] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:06] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:09] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:12] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:15] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:18] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:21] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:24] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:27] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:30] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:33] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:36] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:39] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:42] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:45] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:48] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:51] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:54] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:57] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:53:58] [CLIENT]: Consolidate windows bottom right
+[13:54:00] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:03] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:06] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:36] [CLIENT]: Dance
+[13:54:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:54:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[13:55:00] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[13:55:01] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[13:55:01] [LOGOUT]:  [Nathan]
+[13:55:01] [EXIT]: [RUNTIME] 9m 16s
+[13:55:01] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

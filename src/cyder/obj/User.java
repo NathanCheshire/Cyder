@@ -1,7 +1,6 @@
 package cyder.obj;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class User {
     private String name;
@@ -255,17 +254,9 @@ public class User {
         jsonUser.setTypinganimation("1");
         jsonUser.setShowbusyicon("0");
 
-        LinkedList<MappedExecutable> exes = new LinkedList<>();
-        MappedExecutable defaultExe = new MappedExecutable(
-                "Minecraft","C:/Program Files (x86)/Minecraft Launcher/MinecraftLauncher.exe");
-        MappedExecutable defaultExe2 = new MappedExecutable(
-                "Lunar","C:\\Users\\Nathan\\AppData\\Local\\Programs\\lunarclient\\lunar client.exe");
-        MappedExecutable defaultExe3 = new MappedExecutable(
-                "Discord","C:\\Users\\Nathan\\AppData\\Local\\Discord\\Update.exe");
+        //todo add future defaults here and in GenesisShare.java
 
-        exes.add(defaultExe);
-        exes.add(defaultExe2);
-        exes.add(defaultExe3);
+        LinkedList<MappedExecutable> exes = new LinkedList<>();
         jsonUser.setExecutables(exes);
 
         return jsonUser;
