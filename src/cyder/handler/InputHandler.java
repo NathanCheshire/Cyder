@@ -43,9 +43,6 @@ public class InputHandler {
     //todo user data is stable enough; switch to new IO but add debug methods
     // that will convert to and from and dump to console so you can debug in the process
 
-    //todo implement mapping links, switch to JSON userdata storage before imlementing
-    //todo map url links or system path links to open programs like discord and such
-
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
     private BletchyThread bletchyThread;
@@ -943,17 +940,17 @@ public class InputHandler {
 
         //testing -------------------------------------------------
         else if (eic("test")) {
-//            Gson gson = new Gson();
-//
-//            User user = User.createDefaultUser();
-//
-//            // Java objects to File
-//            try (FileWriter writer = new FileWriter("user.json")) {
-//                gson.toJson(user, writer);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            Gson gson = new Gson();
 
+            User user = User.createDefaultUser();
+
+            // Java objects to File
+            try (FileWriter writer = new FileWriter("user.json")) {
+                gson.toJson(user, writer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (eic("test2")) {
             Gson gson = new Gson();
             try (Reader reader = new FileReader("user.json")) {
                 User user = gson.fromJson(reader, User.class);
@@ -965,7 +962,6 @@ public class InputHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
         //final attempt at unknown input --------------------------
         else {

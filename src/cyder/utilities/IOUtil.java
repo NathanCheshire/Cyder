@@ -1001,60 +1001,6 @@ public class IOUtil {
         return ret;
     }
 
-    public static void legacyDataToBinary(File userDataTxt) throws Exception {
-        if (!userDataTxt.isFile())
-            throw new IllegalArgumentException("Given file is not a file");
-        else if (!userDataTxt.getName().endsWith(".txt"))
-            throw new IllegalArgumentException("Given file is not a legacy user data file");
-        else if (!userDataTxt.exists())
-            throw new IllegalArgumentException("Given file does not exist");
-
-        GenesisShare.getExitingSem().acquire();
-
-        BufferedReader legacyReader = new BufferedReader(new FileReader(userDataTxt));
-        LinkedList<NST> legacyData = new LinkedList<>();
-        String line = null;
-
-        while ((line = legacyReader.readLine()) != null) {
-            if (!line.contains(":"))
-                throw new IllegalArgumentException("Legacy data not formatting properly");
-
-            String[] parts = line.split(":");
-
-            if (parts.length != 2)
-                throw new IllegalArgumentException("Legacy data has more or less than 2 parts");
-
-            legacyData.add(new NST(parts[0], parts[1]));
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        for (NST data : legacyData) {
-            sb.append(data.getName());
-            sb.append(":");
-            sb.append(data.getData());
-            sb.append("\n");
-        }
-
-        File binaryUserData = new File(userDataTxt.getParentFile(), "userdata.bin");
-        binaryUserData.createNewFile();
-
-        byte[] bytes = sb.toString().getBytes(StandardCharsets.UTF_8);
-        BufferedWriter fos = new BufferedWriter(new FileWriter(binaryUserData));
-
-        for (byte b : bytes) {
-            int result = b & 0xff;
-            String resultWithPadZero = String.format("%8s", Integer.toBinaryString(result))
-                    .replace(" ", "0");
-            fos.write(resultWithPadZero);
-        }
-
-        fos.flush();
-        fos.close();
-
-        GenesisShare.getExitingSem().release();
-    }
-
     public static String getBinaryString(File f) {
         if (!f.exists())
             throw new IllegalArgumentException("bin does not exist");

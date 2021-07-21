@@ -260,8 +260,12 @@ public class User {
                 "Minecraft","C:/Program Files (x86)/Minecraft Launcher/MinecraftLauncher.exe");
         MappedExecutable defaultExe2 = new MappedExecutable(
                 "Lunar","C:\\Users\\Nathan\\AppData\\Local\\Programs\\lunarclient\\lunar client.exe");
+        MappedExecutable defaultExe3 = new MappedExecutable(
+                "Discord","C:\\Users\\Nathan\\AppData\\Local\\Discord\\Update.exe");
+
         exes.add(defaultExe);
         exes.add(defaultExe2);
+        exes.add(defaultExe3);
         jsonUser.setExecutables(exes);
 
         return jsonUser;

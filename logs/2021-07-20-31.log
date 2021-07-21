@@ -1,0 +1,125 @@
+[23:00:06] [ENTRY]: [WINUSER=Nathan]
+[23:00:06] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[23:00:07] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:00:07] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[23:00:07] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:00:08] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:00:08] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[23:00:08] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:00:08] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[23:00:08] [LOGIN]: [AUTOCYPHER PASS]
+[23:00:09] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:00:09] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[23:00:09] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:00:10] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[23:00:10] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:00:10] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[23:00:10] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:00:10] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:00:10] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:00:10] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:00:10] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:00:10] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] 0
+[23:00:10] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[23:00:10] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:00:10] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:00:10] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[23:00:10] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:00:10] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:00:10] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:00:10] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] 0
+[23:00:10] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[23:00:10] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[23:00:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:13] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[23:00:13] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[23:00:13] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:00:13] [CLIENT]: test
+[23:00:13] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626837417674
+[23:00:13] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626840013438
+[23:00:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:00:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:04] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:42] [CLIENT]: Font
+[23:01:42] [CLIENT_IO]: [GET] [font] [RETURN VALUE] 0
+[23:01:42] [CLIENT_IO]: [SET] [KEY] font [VALUE] 1
+[23:01:42] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[23:01:42] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[23:01:42] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:01:42] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:01:42] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[23:01:42] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[23:01:42] [CONSOLE_OUT]: [STRING] IGNORE set to true
+[23:01:42] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[23:01:43] [CLIENT]: Font
+[23:01:43] [CLIENT_IO]: [GET] [font] [RETURN VALUE] 1
+[23:01:43] [CLIENT_IO]: [SET] [KEY] font [VALUE] 0
+[23:01:43] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[23:01:43] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[23:01:43] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:01:43] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:01:43] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[23:01:43] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[23:01:43] [CONSOLE_OUT]: [STRING] IGNORE set to false
+[23:01:43] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[23:01:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:45] [CLIENT]: Prefs
+[23:01:45] [ACTION]: USER EDITOR
+[23:01:46] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:01:46] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:01:46] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:01:46] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[23:01:46] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[23:01:46] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] 0
+[23:01:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:47] [ACTION]: CyderButton, text=[>] CLICKED
+[23:01:49] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[23:01:49] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[23:01:49] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[23:01:49] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
+[23:01:49] [CLIENT_IO]: [SET] [KEY] Font [VALUE] Agency FB
+[23:01:49] [ACTION]: CyderButton, text=[Apply Font] CLICKED
+[23:01:49] [CONSOLE_OUT]: [STRING] The font "Agency FB" has been applied.
+[23:01:49] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[23:01:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:50] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[23:01:50] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[23:01:50] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:01:50] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:01:50] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[23:01:50] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[23:01:51] [CLIENT]: Cls
+[23:01:52] [CLIENT]: Close
+[23:01:52] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[23:01:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:01:53] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:01:53] [LOGOUT]:  [Nathan]
+[23:01:53] [EXIT]: [RUNTIME] 1m 46s
+[23:01:53] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

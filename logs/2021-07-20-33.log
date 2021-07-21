@@ -1,0 +1,197 @@
+[23:02:31] [ENTRY]: [WINUSER=Nathan]
+[23:02:31] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[23:02:32] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:02:32] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[23:02:32] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:02:32] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:02:32] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[23:02:32] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:02:32] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[23:02:32] [LOGIN]: [AUTOCYPHER PASS]
+[23:02:33] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:02:33] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[23:02:33] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:02:33] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[23:02:33] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[23:02:33] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[23:02:33] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:02:33] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:02:33] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:02:33] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:02:34] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:02:34] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[23:02:34] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[23:02:34] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:02:34] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[23:02:34] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[23:02:34] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:02:34] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:02:34] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[23:02:34] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[23:02:34] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[23:02:34] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[23:02:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:34] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[23:02:34] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[23:02:34] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:02:34] [CLIENT]: test
+[23:02:34] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626840120788
+[23:02:34] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626840154456
+[23:02:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:40] [CLIENT]: Play flume say it illenium remix lyrics
+[23:02:40] [EXCEPTION]: 
+no protocol: flume say it illenium remix lyrics
+Thrown from:
+java.base/java.net.URL.<init>(URL.java:627)
+StackTrace:
+java.net.MalformedURLException: no protocol: flume say it illenium remix lyrics
+	at java.base/java.net.URL.<init>(URL.java:627)
+	at java.base/java.net.URL.<init>(URL.java:523)
+	at java.base/java.net.URL.<init>(URL.java:470)
+	at cyder.handler.InputHandler.handle(InputHandler.java:882)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:454)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[23:02:40] [CONSOLE_OUT]: [STRING] Searching youtube for: flume say it illenium remix lyrics
+[23:02:40] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[23:02:42] [CONSOLE_OUT]: [STRING] Starting download of: Flume - Say It ft. Tove Lo (Illenium Remix) (Lyrics)
+[23:02:42] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[23:02:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:02:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:04] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:32] [CLIENT]: Define mouse
+[23:03:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:33] [CONSOLE_OUT]: [STRING] Any Of Numerous Small Old World Rodents Of The Family Muridae, Especially Of The Genus Mus, Introduced Widely In Other Parts Of The World.
+[23:03:33] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[23:03:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:34] [CLIENT]: controlc
+[23:03:34] [CONSOLE_OUT]: [STRING] Escaped
+[23:03:34] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[23:03:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:36] [CLIENT]: Cls
+[23:03:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:42] [CLIENT]: Wikisum sand
+[23:03:42] [CONSOLE_OUT]: [STRING] Sand is a granular material composed of finely divided rock and mineral particles. Sand has various compositions but is defined by its grain size. Sand grains are smaller than gravel and coarser than silt. Sand can also refer to a textural class of soil or soil type; i.e., a soil containing more than 85 percent sand-sized particles by mass.The composition of sand varies, depending on the local rock sources and conditions, but the most common constituent of sand in inland continental settings and non-tropical coastal settings is silica (silicon dioxide, or SiO2), usually in the form of quartz. \nCalcium carbonate is the second most common type of sand, for example, aragonite, which has mostly been created, over the past 500 million years, by various forms of life, like coral and shellfish. For example, it is the primary form of sand apparent in areas where reefs have dominated the ecosystem for millions of years like the Caribbean.  Somewhat more rarely, sand may be composed of calcium sulfate, such as gypsum and selenite, as is found in places like White Sands National Park and Salt Plains National Wildlife Refuge in the U.S.  \nSand is a non-renewable resource over human timescales, and sand suitable for making concrete is in high demand. Desert sand, although plentiful, is not suitable for concrete. 50 billion tons of beach sand and fossil sand is used each year for construction.
+[23:03:42] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[23:03:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:46] [CLIENT]: controlc
+[23:03:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:46] [CONSOLE_OUT]: [STRING] Escaped
+[23:03:46] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[23:03:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:48] [CLIENT]: Cls
+[23:03:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:53] [CLIENT]: Threads
+[23:03:53] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:56] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:03:59] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:02] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:04] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:09] [CONSOLE_OUT]: [STRING] Download complete; playing
+[23:04:09] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[23:04:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:11] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:17] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:20] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:23] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:26] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:29] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:32] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:35] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:38] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:41] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:44] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:47] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[23:04:50] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
