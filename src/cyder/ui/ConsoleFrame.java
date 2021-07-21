@@ -737,8 +737,11 @@ public final class ConsoleFrame {
             close.setFocusable(true);
             consoleDragButtonList.add(close);
 
-            //set top drag's button list
+            //set top drag's button list and others to none
             consoleCyderFrame.getTopDragLabel().setButtonsList(consoleDragButtonList);
+            consoleCyderFrame.getBottomDragLabel().setButtonsList(null);
+            consoleCyderFrame.getLeftDragLabel().setButtonsList(null);
+            consoleCyderFrame.getRightDragLabel().setButtonsList(null);
 
             //this turns into setting a center title
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);

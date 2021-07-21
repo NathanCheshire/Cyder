@@ -132,6 +132,7 @@ public class CyderFrame extends JFrame {
         leftDrag.setyOffset(DragLabel.getDefaultHeight());
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
         leftDrag.setFocusable(false);
+        leftDrag.setButtonsList(null);
 
         rightDrag = new DragLabel(4, height - DragLabel.getDefaultHeight() - 2, this);
         rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
@@ -139,6 +140,7 @@ public class CyderFrame extends JFrame {
         rightDrag.setyOffset(DragLabel.getDefaultHeight());
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
         rightDrag.setFocusable(false);
+        rightDrag.setButtonsList(null);
 
         bottomDrag = new DragLabel(width, 4, this);
         bottomDrag.setBounds(0, height - 5, width, 4);
@@ -146,6 +148,7 @@ public class CyderFrame extends JFrame {
         bottomDrag.setyOffset(height - 5);
         contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
         bottomDrag.setFocusable(false);
+        bottomDrag.setButtonsList(null);
 
         titleLabel = new JLabel("");
         titleLabel.setFont(new Font("Agency FB", Font.BOLD, 22));

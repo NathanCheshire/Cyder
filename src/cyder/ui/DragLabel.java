@@ -18,6 +18,7 @@ public class DragLabel extends JLabel {
 
     private JButton minimize;
     private JButton close;
+    private JButton pinButton;
 
     private int xOffset;
     private int yOffset;
@@ -194,7 +195,7 @@ public class DragLabel extends JLabel {
         minimize.setFocusable(false);
         ret.add(minimize);
 
-        JButton pinButton = new JButton("");
+        pinButton = new JButton("");
         pinButton.setToolTipText("Pin Window");
         pinButton.addActionListener(e -> {
             boolean pinned = !effectFrame.getPinned();
@@ -369,6 +370,9 @@ public class DragLabel extends JLabel {
                 this.repaint();
             }
         }
+
+        if (buttonsList == null)
+            return;
 
         switch (buttonPosition) {
             case RIGHT:

@@ -43,6 +43,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo usereditor doesn't use IOUtil mp3 apparently since we can get two mp3s to launch
+
     //todo figuring out where we are if we rename the background doesn't work
 
     //todo user data is stable enough; switch to new IO but add debug methods
