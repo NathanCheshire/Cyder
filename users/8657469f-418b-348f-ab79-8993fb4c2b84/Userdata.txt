@@ -17,7 +17,7 @@ ClockOnConsole:1
 ShowSeconds:1
 filterchat:0
 menudirection:1
-laststart:1626829640492
+laststart:1626832483232
 minimizeonclose:0
 typinganimation:1
 showbusyicon:0

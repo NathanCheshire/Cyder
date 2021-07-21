@@ -1,14 +1,13 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import com.google.gson.Gson;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
-import cyder.genesis.Entry;
-import cyder.genesis.GenesisShare;
-import cyder.genesis.UserCreator;
-import cyder.genesis.UserEditor;
+import cyder.genesis.*;
+import cyder.obj.User;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
@@ -25,9 +24,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
@@ -946,6 +943,28 @@ public class InputHandler {
 
         //testing -------------------------------------------------
         else if (eic("test")) {
+//            Gson gson = new Gson();
+//
+//            User user = User.createDefaultUser();
+//
+//            // Java objects to File
+//            try (FileWriter writer = new FileWriter("user.json")) {
+//                gson.toJson(user, writer);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
+            Gson gson = new Gson();
+            try (Reader reader = new FileReader("user.json")) {
+                User user = gson.fromJson(reader, User.class);
+                LinkedList<User.MappedExecutable> exes = user.getExecutables();
+
+                for (User.MappedExecutable exe : exes) {
+                    IOUtil.openFile(exe.getFilepath());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
         //final attempt at unknown input --------------------------
