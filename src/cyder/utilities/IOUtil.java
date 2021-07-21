@@ -730,15 +730,15 @@ public class IOUtil {
         //use our custom text editor
         if (FilePath.endsWith(".txt")) {
             TextEditor te = new TextEditor(FilePath);
-        } else if (FilePath.endsWith(".png")) {
+        }
+        //use our custom photo viewer
+        else if (FilePath.endsWith(".png")) {
             PhotoViewer pv = new PhotoViewer(new File(FilePath));
         }
-
         //use our own mp3 player
         else if (FilePath.endsWith(".mp3")) {
-            CyderPlayer = new AudioPlayer(new File(FilePath));
+            mp3(FilePath);
         }
-
         //welp just open it outside of the program :(
         else {
             Desktop OpenFile = Desktop.getDesktop();
