@@ -393,29 +393,37 @@ public class UserEditor {
                         }
                     }
 
-                    String oldname = StringUtil.getFilename(selectedFile);
-                    String extension = StringUtil.getExtension(selectedFile);
-                    String newname = new GetterUtil().getString("Rename","Enter any valid file name","Submit");
 
-                    if (oldname.equals(newname) || newname.equals("NULL"))
-                        return;
-
-                    File renameTo = new File(selectedFile.getParent() + "/" + newname + extension);
-
-                    if (renameTo.exists())
-                        throw new IOException("file exists");
-
-                    boolean success = selectedFile.renameTo(renameTo);
-
-                    if (!success) {
-                        editUserFrame.notify("Could not rename file at this time");
+                    if ((IOUtil.getCurrentMP3() != null
+                            && selectedFile.getAbsoluteFile().toString().equals(IOUtil.getCurrentMP3().getAbsoluteFile().toString())) ||
+                            selectedFile.getAbsoluteFile().toString().equals(ConsoleFrame.getConsoleFrame()
+                                    .getCurrentBackgroundFile().getAbsoluteFile().toString())) {
+                        editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
-                        editUserFrame.notify(selectedFile.getName() +
-                                " was successfully renamed to " + renameTo.getName());
-                    }
+                        String oldname = StringUtil.getFilename(selectedFile);
+                        String extension = StringUtil.getExtension(selectedFile);
+                        String newname = new GetterUtil().getString("Rename","Enter any valid file name","Submit");
 
-                    revalidateMusicBackgroundScroll();
-                    ConsoleFrame.getConsoleFrame().refreshBackgroundIndex();
+                        if (oldname.equals(newname) || newname.equals("NULL"))
+                            return;
+
+                        File renameTo = new File(selectedFile.getParent() + "/" + newname + extension);
+
+                        if (renameTo.exists())
+                            throw new IOException("file exists");
+
+                        boolean success = selectedFile.renameTo(renameTo);
+
+                        if (!success) {
+                            editUserFrame.notify("Could not rename file at this time");
+                        } else {
+                            editUserFrame.notify(selectedFile.getName() +
+                                    " was successfully renamed to " + renameTo.getName());
+                        }
+
+                        revalidateMusicBackgroundScroll();
+                        ConsoleFrame.getConsoleFrame().refreshBackgroundIndex();
+                    }
                 }
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);

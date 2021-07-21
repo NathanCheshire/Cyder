@@ -43,8 +43,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo figuring out where we are if we rename the background doesn't work
-
     //todo user data is stable enough; switch to new IO but add debug methods
     // that will convert to and from and dump to console so you can debug in the process
 
