@@ -405,17 +405,66 @@ public class InputHandler {
                     println(f.getTitle());
                 }
         } else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
-            for (Frame f : Frame.getFrames()) {
-                if (f.getState() == Frame.ICONIFIED) {
-                    f.setState(Frame.NORMAL);
+            if (hasWord("top") && hasWord("right")) {
+                for (Frame f : Frame.getFrames()) {
+                    if (f.getState() == Frame.ICONIFIED) {
+                        f.setState(Frame.NORMAL);
 
-                    if (f instanceof CyderFrame) {
-                        ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX());
-                        ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY());
+                        if (f instanceof CyderFrame) {
+                            ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX()
+                                + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
+                            ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY());
+                        }
                     }
-                }
 
-                f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY());
+                    f.setLocation(ConsoleFrame.getConsoleFrame().getX() + ConsoleFrame.getConsoleFrame().getWidth()
+                            - f.getWidth(), ConsoleFrame.getConsoleFrame().getY());
+                }
+            } else if (hasWord("bottom") && hasWord("right")) {
+                for (Frame f : Frame.getFrames()) {
+                    if (f.getState() == Frame.ICONIFIED) {
+                        f.setState(Frame.NORMAL);
+
+                        if (f instanceof CyderFrame) {
+                            ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX()
+                                    + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
+                            ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY()
+                                    + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                        }
+                    }
+
+                    f.setLocation(ConsoleFrame.getConsoleFrame().getX() + ConsoleFrame.getConsoleFrame().getWidth()
+                            - f.getWidth(), ConsoleFrame.getConsoleFrame().getY() +
+                            ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                }
+            } else if (hasWord("bottom") && hasWord("left")) {
+                for (Frame f : Frame.getFrames()) {
+                    if (f.getState() == Frame.ICONIFIED) {
+                        f.setState(Frame.NORMAL);
+
+                        if (f instanceof CyderFrame) {
+                            ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX());
+                            ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY()
+                                    + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                        }
+                    }
+
+                    f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY() +
+                            ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                }
+            } else {
+                for (Frame f : Frame.getFrames()) {
+                    if (f.getState() == Frame.ICONIFIED) {
+                        f.setState(Frame.NORMAL);
+
+                        if (f instanceof CyderFrame) {
+                            ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX());
+                            ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY());
+                        }
+                    }
+
+                    f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY());
+                }
             }
         } else if (hasWord("dance")) {
             for (Frame f : Frame.getFrames())

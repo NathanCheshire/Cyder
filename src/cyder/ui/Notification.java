@@ -225,8 +225,6 @@ public class Notification extends JLabel {
         }
     }
 
-    //todo magic number offsets here? Make it obvious that they come from this' custom paint method
-
     /**
      * This method to be used with an already initialized component. Expected that the component's starting
      * location is already set.
