@@ -10,7 +10,6 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
-import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
@@ -36,15 +35,14 @@ import java.net.URLConnection;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo method to define order of buttons on drag label for reguular frames and drag labels
-
-    //todo on console frame drag, drag other windows that are pinned and touching the frame in some way
-
     //todo figuring out where we are if we rename the background doesn't work
 
     //todo user data is stable enough; switch to new IO but add debug methods

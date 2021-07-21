@@ -152,6 +152,7 @@ public class DragLabel extends JLabel {
 
     private LinkedList<JButton> buttonsList = buildDefaultButtons();
 
+    //default order: mini, pin, close
     private LinkedList<JButton> buildDefaultButtons() {
         LinkedList<JButton> ret = new LinkedList<>();
 
@@ -285,6 +286,43 @@ public class DragLabel extends JLabel {
         refreshButtons();
     }
 
+    /**
+     * Moves the provided button the specified index.
+     * @param button - the button to move to the specified index
+     * @param newIndex - the index to move the specified button to
+     */
+    public void setButtonIndex(JButton button, int newIndex) {
+        if (!buttonsList.contains(button))
+            throw new IllegalArgumentException("Button list does not contain provided button");
+        else if (newIndex > buttonsList.size() - 1)
+            throw new IndexOutOfBoundsException("Provided index does not exist within the current button list");
+
+        int oldIndex = -1;
+
+        for (int i = 0 ; i < buttonsList.size() ; i++) {
+            if (button == buttonsList.get(i)) {
+                oldIndex = i;
+                break;
+            }
+        }
+
+        JButton popButton = buttonsList.remove(oldIndex);
+        buttonsList.add(newIndex, popButton);
+
+        refreshButtons();
+    }
+
+    /**
+     * Moves the button at the oldIndex to the new Index and pushes any other buttons out of the way.
+     * @param oldIndex - the position of the button to target
+     * @param newIndex - the index to move the targeted button to
+     */
+    public void setButtonIndex(int oldIndex, int newIndex) {
+        JButton popButton = buttonsList.remove(oldIndex);
+        buttonsList.add(newIndex, popButton);
+        refreshButtons();
+    }
+
     public void removeButton(int removeIndex) {
         if (removeIndex > buttonsList.size() - 1)
             throw new IllegalArgumentException("Invalid index");
@@ -307,10 +345,6 @@ public class DragLabel extends JLabel {
 
     public LinkedList<JButton> getButtonsList() {
         return this.buttonsList;
-    }
-
-    public int getButtonListSize() {
-        return this.buttonsList.size();
     }
 
     public void setButtonsList(LinkedList<JButton> list) {
