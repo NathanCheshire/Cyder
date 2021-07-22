@@ -1,0 +1,252 @@
+[14:05:22] [ENTRY]: [WINUSER=Nathan]
+[14:05:22] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[14:05:22] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[14:05:22] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[14:05:23] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[14:05:23] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[14:05:23] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[14:05:23] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[14:05:23] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[14:05:23] [LOGIN]: [AUTOCYPHER PASS]
+[14:05:24] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[14:05:24] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:05:24] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[14:05:24] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[14:05:24] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[14:05:24] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:05:24] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:05:24] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:05:24] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[14:05:24] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:05:24] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:05:24] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:05:24] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[14:05:24] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[14:05:24] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[14:05:25] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[14:05:25] [CLIENT]: test
+[14:05:25] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626980536045
+[14:05:25] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626980725080
+[14:05:27] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:30] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:33] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:36] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:39] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:42] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:45] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:48] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:51] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:52] [CLIENT]: Prefs
+[14:05:52] [ACTION]: USER EDITOR
+[14:05:54] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:57] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:05:57] [ACTION]: CyderButton, text=[Rename] CLICKED
+[14:05:58] [ACTION]: [Edit User] [NOTIFICATION] Cannot rename a file that is in use
+[14:06:00] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[14:06:00] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:03] [ACTION]: CyderButton, text=[Rename] CLICKED
+[14:06:03] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:06] [ACTION]: [Edit User] [NOTIFICATION] 3dah63MFoL4.png was successfully renamed to Traveling.png
+[14:06:06] [ACTION]: CyderButton, text=[Submit] CLICKED
+[14:06:06] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:08] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[14:06:09] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[14:06:09] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:12] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:06:12] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:06:12] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:06:12] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[14:06:12] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[14:06:12] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[14:06:12] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:13] [ACTION]: CyderButton, text=[>] CLICKED
+[14:06:14] [CLIENT_IO]: [GET] [intromusic] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [intromusic] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [debugwindows] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [debugwindows] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [randombackground] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [randombackground] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [outputborder] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [outputborder] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [inputborder] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [inputborder] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [hourlychimes] [RETURN VALUE] 1
+[14:06:14] [CLIENT_IO]: [GET] [hourlychimes] [RETURN VALUE] 1
+[14:06:14] [CLIENT_IO]: [GET] [silenceerrors] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [silenceerrors] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [fullscreen] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [fullscreen] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [outputfill] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [outputfill] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [inputfill] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [inputfill] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [filterchat] [RETURN VALUE] 1
+[14:06:14] [CLIENT_IO]: [GET] [filterchat] [RETURN VALUE] 1
+[14:06:14] [CLIENT_IO]: [GET] [menudirection] [RETURN VALUE] 1
+[14:06:14] [CLIENT_IO]: [GET] [menudirection] [RETURN VALUE] 1
+[14:06:14] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[14:06:14] [CLIENT_IO]: [GET] [typinganimation] [RETURN VALUE] 1
+[14:06:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:14] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:14] [ACTION]: CyderButton, text=[>] CLICKED
+[14:06:15] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:20] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[14:06:20] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[14:06:20] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:06:20] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:06:20] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[14:06:20] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[14:06:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:06:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:04] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:26] [ACTION]: [Soultree Cyder [Nathan]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
+[14:07:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:38] [SUGGESTION]: Resize iamge
+[14:07:38] [ACTION]: [Soultree Cyder [Nathan]] [NOTIFICATION] Suggestion logged; please remember to send your logs directory to Nathan so that he can make Cyder better for us all
+[14:07:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:44] [CLIENT]: Resize image
+[14:07:44] [ACTION]: IMAGE RESIZER
+[14:07:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:48] [ACTION]: [Soultree Cyder [Nathan]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
+[14:07:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:50] [SUGGESTION]: Asdf
+[14:07:51] [ACTION]: [Soultree Cyder [Nathan]] [NOTIFICATION] Suggestion logged; please remember to send your logs directory to Nathan so that he can make Cyder better for us all
+[14:07:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:54] [ACTION]: CyderButton, text=[Choose Image] CLICKED
+[14:07:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:07:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:04] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:20] [ACTION]: CyderButton, text=[Approve Image] CLICKED
+[14:08:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:23] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[14:08:24] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[14:08:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:25] [CLIENT_IO]: [GET] [Background] [RETURN VALUE] 000000
+[14:08:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:08:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:04] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:22] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:25] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:28] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:31] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:34] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:37] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:40] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:43] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:46] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:49] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:52] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:55] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:09:57] [CLIENT]: Threads
+[14:09:58] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:03] [CLIENT]: Logout
+[14:10:03] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[14:10:03] [LOGOUT]:  [Nathan]
+[14:10:03] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[14:10:03] [SYSTEM_IO]: [GET] [Date] [RETURN VALUE] 7.2.21
+[14:10:04] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:04] [CLIENT_IO]: [LOGIN FRAME] login
+[14:10:05] [CLIENT_IO]: [LOGIN FRAME] nathan
+[14:10:06] [LOGIN]: [STD LOGIN]
+[14:10:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[14:10:07] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:10:07] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[14:10:07] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[14:10:07] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[14:10:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:10:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:10:07] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:10:07] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[14:10:07] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:10:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:10:07] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] F0F0F0
+[14:10:07] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[14:10:07] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[14:10:07] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[14:10:07] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[14:10:07] [CLIENT]: test
+[14:10:07] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626980725080
+[14:10:07] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626981007880
+[14:10:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:10] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:12] [CLIENT]: Threads
+[14:10:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:13] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:16] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:19] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[14:10:19] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[14:10:19] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[14:10:19] [LOGOUT]:  [Nathan]
+[14:10:19] [EXIT]: [RUNTIME] 4m 57s
+[14:10:19] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

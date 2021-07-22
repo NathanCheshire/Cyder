@@ -61,7 +61,6 @@ public final class ConsoleFrame {
     private boolean drawConsoleLines;
     private boolean consoleLinesDrawn;
     private boolean fullscreen;
-    private boolean doThreads;
     private boolean closed = true;
 
     //background vars
@@ -85,6 +84,12 @@ public final class ConsoleFrame {
     //directional enums
     private Direction lastSlideDirection = Direction.LEFT;
     private Direction consoleDir = Direction.TOP;
+
+    //threads to end/start for different users
+    private Thread busyCheckerThread;
+    private Thread consoleClockUpdaterThread;
+    private Thread internetReachableThread;
+    private Thread hourlyChimerThread;
 
     public void start() {
         if (consoleCyderFrame != null)
@@ -199,7 +204,6 @@ public final class ConsoleFrame {
                 @Override
                 public void windowIconified(WindowEvent e) {
                     inputField.requestFocus();
-                    endExecutors();
                 }
 
                 @Override
@@ -406,7 +410,7 @@ public final class ConsoleFrame {
             //a bodge to update the caret position if it goes before an allowed index for console bash string
             new Thread(() -> {
                 try {
-                    while (consoleCyderFrame != null) {
+                    while (!isClosed()) {
                         //if caret position is before the bash string
                         if (inputField.getCaretPosition() < consoleBashString.length()) {
                             inputField.setCaretPosition(inputField.getPassword().length);
@@ -704,7 +708,6 @@ public final class ConsoleFrame {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
                     consoleCyderFrame.closeAnimation();
-                    endExecutors();
                     GenesisShare.exit(25);
                 }
             });
@@ -836,129 +839,166 @@ public final class ConsoleFrame {
     }
 
     private void startExecutors() {
-        //set control boolean
-        doThreads = true;
-
         //internet connection checker
-        new Thread(() -> {
+        internetReachableThread = new Thread(() -> {
             try {
-                while (doThreads) {
-                    if (!NetworkUtil.internetReachable()) {
-                        consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
-                                ", but I had trouble connecting to the internet.\n" +
-                                "As a result, some features may not work properly.");
-                    }
+                OUTER:
+                    while (true) {
+                        if (!NetworkUtil.internetReachable()) {
+                            consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
+                                    ", but I had trouble connecting to the internet.\n" +
+                                    "As a result, some features may not work properly.");
+                        }
 
-                    //sleep 5 minutes
-                    Thread.sleep(5 * 60 * 1000);
+                        //sleep 5 minutes
+                        int i = 0;
+                        while (i < 5 * 60 * 1000) {
+                            Thread.sleep(50);
+                            if (closed) {
+                                break OUTER;
+                            }
+                            i += 50;
+                        }
                 }
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        }, "Stable Network Connection Checker").start();
+        }, "Stable Network Connection Checker");
+        internetReachableThread.start();
 
         //hourly Chime Checker
-        new Thread(() -> {
+        hourlyChimerThread = new Thread(() -> {
             try {
-                Thread.sleep(3600 * 1000 //1 hour
+                long initSleep = (3600 * 1000 //1 hour
                         - LocalDateTime.now().getMinute() * 60 * 1000 //minus minutes in hour to milis
                         - LocalDateTime.now().getSecond() * 1000); //minus seconds in hour to milis
-
-                while (doThreads) {
-                    if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
-                        IOUtil.playSystemAudio("sys/audio/chime.mp3");
+                int j = 0;
+                while (j < initSleep) {
+                    Thread.sleep(50);
+                    if (closed) {
+                        return;
                     }
-
-                    //sleep 60 minutes
-                    Thread.sleep(60 * 60 * 1000);
+                    j += 50;
                 }
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }, "Hourly Chime Checker").start();
 
-        //Console Clock Updater
-        new Thread(() -> {
-            try {
-                while (doThreads) {
-                    if (IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1")) {
-                        if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
-                            String time = TimeUtil.consoleSecondTime();
-                            int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                            int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+                OUTER:
+                    while (true) {
+                        if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
+                            IOUtil.playSystemAudio("sys/audio/chime.mp3");
+                        }
 
-                            consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
-                                    -5, clockWidth, clockHeight);
-                            consoleClockLabel.setText(time);
-                        } else {
-                            String time = TimeUtil.consoleTime();
-                            int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                            int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-
-                            consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
-                                    -5, clockWidth, clockHeight);
-                            consoleClockLabel.setText(time);
+                        //sleep 60 minutes
+                        int i = 0;
+                        while (i < 60 * 60 * 1000) {
+                            Thread.sleep(50);
+                            if (closed) {
+                                break OUTER;
+                            }
+                            i += 50;
                         }
                     }
-
-                    //sleep 1 second
-                    Thread.sleep(500);
-                }
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        }, "Console Clock Updater").start();
+        }, "Hourly Chime Checker");
+        hourlyChimerThread.start();
 
         //Console Clock Updater
-        new Thread(() -> {
+        consoleClockUpdaterThread = new Thread(() -> {
             try {
-                while (doThreads) {
-                    if (IOUtil.getUserData("showbusyicon").equals("1")) {
-                        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-                        int num = threadGroup.activeCount();
-                        Thread[] printThreads = new Thread[num];
-                        threadGroup.enumerate(printThreads);
+                OUTER:
+                    while (true) {
+                        if (IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1")) {
+                            if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
+                                String time = TimeUtil.consoleSecondTime();
+                                int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                                int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
 
-                        LinkedList<String> ignoreNames = new LinkedList<>();
-                        ignoreNames.add("Cyder Busy Checker");
-                        ignoreNames.add("AWT-EventQueue-0");
-                        ignoreNames.add("Console Clock Updater");
-                        ignoreNames.add("Hourly Chime Checker");
-                        ignoreNames.add("Stable Network Connection Checker");
-                        ignoreNames.add("Final Frame Disposed Checker");
-                        ignoreNames.add("DestroyJavaVM");
-                        ignoreNames.add("JavaFX Application Thread");
-                        ignoreNames.add("Console Input Caret Position Updater");
-                        ignoreNames.add("Console Printing Animation");
+                                consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
+                                        -5, clockWidth, clockHeight);
+                                consoleClockLabel.setText(time);
+                            } else {
+                                String time = TimeUtil.consoleTime();
+                                int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
+                                int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
 
-                        int busyThreads = 0;
-
-                        for (int i = 0; i < num; i++) {
-                            if (!printThreads[i].isDaemon() && !ignoreNames.contains(printThreads[i].getName())) {
-                                busyThreads++;
+                                consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
+                                        -5, clockWidth, clockHeight);
+                                consoleClockLabel.setText(time);
                             }
                         }
 
-                        if (busyThreads == 0) {
-                            consoleCyderFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
-                        } else {
-                            consoleCyderFrame.setIconImage(SystemUtil.getCyderIconBlink().getImage());
+                        //sleep 500 ms
+                        int i = 0;
+                        while (i < 500) {
+                            Thread.sleep(50);
+                            if (closed) {
+                                break OUTER;
+                            }
+                            i += 50;
                         }
                     }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "Console Clock Updater");
+        consoleClockUpdaterThread.start();
 
-                    //sleep 3 seconds
-                    Thread.sleep(3000);
-                }
+        //Cyder Busy Checker
+        busyCheckerThread = new Thread(() -> {
+            try {
+                OUTER:
+                    while (true) {
+                        if (IOUtil.getUserData("showbusyicon").equals("1")) {
+                            ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+                            int num = threadGroup.activeCount();
+                            Thread[] printThreads = new Thread[num];
+                            threadGroup.enumerate(printThreads);
+
+                            LinkedList<String> ignoreNames = new LinkedList<>();
+                            ignoreNames.add("Cyder Busy Checker");
+                            ignoreNames.add("AWT-EventQueue-0");
+                            ignoreNames.add("Console Clock Updater");
+                            ignoreNames.add("Hourly Chime Checker");
+                            ignoreNames.add("Stable Network Connection Checker");
+                            ignoreNames.add("Final Frame Disposed Checker");
+                            ignoreNames.add("DestroyJavaVM");
+                            ignoreNames.add("JavaFX Application Thread");
+                            ignoreNames.add("Console Input Caret Position Updater");
+                            ignoreNames.add("Console Printing Animation");
+
+                            int busyThreads = 0;
+
+                            for (int i = 0; i < num; i++) {
+                                if (!printThreads[i].isDaemon() && !ignoreNames.contains(printThreads[i].getName())) {
+                                    busyThreads++;
+                                }
+                            }
+
+                            if (busyThreads == 0) {
+                                consoleCyderFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
+                            } else {
+                                consoleCyderFrame.setIconImage(SystemUtil.getCyderIconBlink().getImage());
+                            }
+                        }
+
+                        //sleep 3 seconds
+                        int i = 0;
+                        while (i < 3000) {
+                            Thread.sleep(50);
+                            if (closed) {
+                                break OUTER;
+                            }
+                            i += 50;
+                        }
+                    }
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             } finally {
                 consoleCyderFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
             }
-        }, "Cyder Busy Checker").start();
-    }
-
-    private void endExecutors() {
-        doThreads = false;
+        }, "Cyder Busy Checker");
+        busyCheckerThread.start();
     }
 
     //one time run things such as notifying due to special days, debug properties,

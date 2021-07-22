@@ -48,6 +48,10 @@ public class InputHandler {
     //todo make pinning relative positions be maintained when
     // background is changed or console direction is flipped
 
+    //todo disallow adding a mapped exe if it already exists
+
+    //todo anytime alternate background is pressed, before changing, revalidate where we are
+
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
     private BletchyThread bletchyThread;
@@ -945,7 +949,7 @@ public class InputHandler {
 
         //testing -------------------------------------------------
         else if (eic("test")) {
-            //todo test adding mapped exe and getting it
+
         }
         //final attempt at unknown input --------------------------
         else {
