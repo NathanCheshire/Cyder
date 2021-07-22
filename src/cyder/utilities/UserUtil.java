@@ -68,6 +68,36 @@ public class UserUtil {
         }
     }
 
+    public static <T> void setUserData(String name, T value) {
+        File f = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
+
+        if (!f.exists())
+            throw new IllegalArgumentException("File does not exist");
+
+        User user = extractUser(f);
+
+        try {
+            for (Method m : user.getClass().getMethods()) {
+                if (m.getName().startsWith("set")
+                        && m.getParameterTypes().length == 1
+                        && m.getName().toLowerCase().contains(name.toLowerCase())) {
+                    m.invoke(user, value);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        Gson gson = new Gson();
+
+        try (FileWriter writer = new FileWriter(f)) {
+            gson.toJson(user, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Writes the provided user after being converted to JSON format to the provided file.
      * @param f - the file to write to
@@ -148,48 +178,6 @@ public class UserUtil {
                     }
                 }
             }
-
-            //now we handle the case of if an entire key value pair was simply removed
-            // (or we added a new one since this is a case that needs to be addressed)
-            for (Preference pref : GenesisShare.getPrefs()) {
-                //the getter and setters for the possibly added data must exists since
-                // that's hte process for adding new user data to Cyder
-                for (Method getterMethod : user.getClass().getMethods()) {
-                    if (getterMethod.getName().startsWith("get")
-                            && getterMethod.getParameterTypes().length == 0
-                            && getterMethod.getName().toLowerCase().contains(pref.getID().toLowerCase())) {
-                        final Object getterResult = getterMethod.invoke(user);
-
-                        boolean empty = false;
-
-                        if (getterResult instanceof String) {
-
-                        } else if (getterResult instanceof User.MappedExecutable) {
-
-                        }
-
-                        if (empty) {
-                            // find the setter function
-                            for (Method setterMethod : user.getClass().getMethods()) {
-                                if (setterMethod.getName().startsWith("set")
-                                        && setterMethod.getParameterTypes().length == 1
-                                        && setterMethod.getName().toLowerCase().contains(getterMethod.getName()
-                                        .toLowerCase().replace("get",""))) {
-
-                                    //invoke setter to set to pref default value
-                                    setterMethod.invoke(user, pref.getDefaultValue());
-
-                                    //then we set the user to the file
-                                    setUserData(userJsonFile, user);
-                                }
-                            }
-                        }
-
-
-                    }
-                }
-            }
-
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -198,13 +186,58 @@ public class UserUtil {
     /**
      * Extracts the user from the provided json file
      * @param f - the json file to extract a user object from
-     * @return - teh resulting user object
+     * @return - the resulting user object
      */
     public static User extractUser(File f) {
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");
         if (!StringUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("Provided file is not a json");
+
+        User ret = null;
+        Gson gson = new Gson();
+
+        try (Reader reader = new FileReader(f)) {
+            ret = gson.fromJson(reader, User.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return ret;
+        }
+    }
+
+    /**
+     * Extracts the user from the provided json file
+     * @param UUID - the uuid if the user we want to obtain
+     * @return - the resulting user object
+     */
+    public static User extractUser(String UUID) {
+        File f = new File("users/" + UUID + "/userdata.json");
+
+        if (!f.exists())
+            throw new IllegalArgumentException("Provided file does not exist");
+
+        User ret = null;
+        Gson gson = new Gson();
+
+        try (Reader reader = new FileReader(f)) {
+            ret = gson.fromJson(reader, User.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            return ret;
+        }
+    }
+
+    /**
+     * Extracts the user from the the currently logged in user.
+     * @return - the resulting user object
+     */
+    public static User extractUser() {
+        File f = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
+
+        if (!f.exists())
+            throw new IllegalArgumentException("Provided file does not exist");
 
         User ret = null;
         Gson gson = new Gson();

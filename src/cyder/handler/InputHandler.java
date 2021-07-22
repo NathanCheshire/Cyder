@@ -945,7 +945,7 @@ public class InputHandler {
 
         //testing -------------------------------------------------
         else if (eic("test")) {
-            UserUtil.fixUser();
+            //todo test adding mapped exe and getting it
         }
         //final attempt at unknown input --------------------------
         else {
