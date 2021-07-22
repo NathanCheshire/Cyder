@@ -504,4 +504,87 @@ public class ImageUtil {
 
         return ret;
     }
+
+    public static boolean imageIconsEqual(ImageIcon first, ImageIcon second) {
+        boolean ret = true;
+
+        try {
+            Image firstImage = first.getImage();
+            Image secondImage = second.getImage();
+
+            int w1 = firstImage.getWidth(null);
+            int h1 = firstImage.getHeight(null);
+
+            int w2 = secondImage.getWidth(null);
+            int h2 = secondImage.getHeight(null);
+
+            if (w1 != w2 || h1 != h2) {
+                ret = false;
+            } else {
+                int[] pixels1 = new int[w1 * h1];
+                int[] pixels2 = new int[w2 * h2];
+
+                PixelGrabber pg1 = new PixelGrabber(firstImage, 0, 0, w1, h2, pixels1, 0, w1);
+                pg1.grabPixels();
+
+                PixelGrabber pg2 = new PixelGrabber(secondImage, 0, 0, w2, h2, pixels2, 0, w2);
+                pg2.grabPixels();
+
+                if (pixels1.length != pixels2.length) {
+                    ret = false;
+                } else {
+                    for (int i = 1 ; i < pixels1.length ; i++) {
+                        if (pixels1[i] != pixels2[i]) {
+                            ret = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            return ret;
+        }
+    }
+
+    public static boolean imagesEqual(Image firstImage, Image secondImage) {
+        boolean ret = true;
+
+        try {
+            int w1 = firstImage.getWidth(null);
+            int h1 = firstImage.getHeight(null);
+
+            int w2 = secondImage.getWidth(null);
+            int h2 = secondImage.getHeight(null);
+
+            if (w1 != w2 || h1 != h2) {
+                ret = false;
+            } else {
+                int[] pixels1 = new int[w1 * h1];
+                int[] pixels2 = new int[w2 * h2];
+
+                PixelGrabber pg1 = new PixelGrabber(firstImage, 0, 0, w1, h2, pixels1, 0, w1);
+                pg1.grabPixels();
+
+                PixelGrabber pg2 = new PixelGrabber(secondImage, 0, 0, w2, h2, pixels2, 0, w2);
+                pg2.grabPixels();
+
+                if (pixels1.length != pixels2.length) {
+                    ret = false;
+                } else {
+                    for (int i = 1 ; i < pixels1.length ; i++) {
+                        if (pixels1[i] != pixels2[i]) {
+                            ret = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            return ret;
+        }
+    }
 }

@@ -758,6 +758,7 @@ public class CyderFrame extends JFrame {
 
         Thread DanceThread = new Thread(() -> {
             boolean wasEnabled = false;
+            boolean wasOnTop = this.isAlwaysOnTop();
 
             if (topDrag.isDraggingEnabled()) {
                 this.disableDragging();
@@ -850,6 +851,9 @@ public class CyderFrame extends JFrame {
             if (wasEnabled) {
                this.enableDragging();
             }
+
+            if (wasOnTop)
+                this.setAlwaysOnTop(true);
         },this + " [dance thread]");
 
         DanceThread.start();

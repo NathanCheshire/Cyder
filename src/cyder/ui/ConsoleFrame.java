@@ -1661,6 +1661,24 @@ public final class ConsoleFrame {
         return backgroundIndex;
     }
 
+    public void revalidateBackgroundIndex() {
+        try {
+            ImageIcon currentBackground = ((ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon());
+            initBackgrounds();
+
+            for (int i = 0 ; i < backgroundFiles.size() ; i++) {
+                ImageIcon possibleMatch = new ImageIcon(ImageIO.read(backgroundFiles.get(i)));
+
+                if (ImageUtil.imageIconsEqual(possibleMatch, currentBackground)) {
+                    setBackgroundIndex(i);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
     public void setBackgroundIndex(int i) {
         backgroundIndex = i;
     }
@@ -1731,6 +1749,8 @@ public final class ConsoleFrame {
 
     //if this returns false then we didn't switch so we should tell the user they should add more backgrounds
     public boolean switchBackground() {
+        revalidateBackgroundIndex();
+
         try {
             ImageIcon oldBack = getCurrentBackgroundImageIcon();
             ImageIcon newBack = getNextBackgroundImageIcon();

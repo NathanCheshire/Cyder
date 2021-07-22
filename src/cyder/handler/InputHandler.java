@@ -43,14 +43,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo dance ruins pinned windows
-
     //todo make pinning relative positions be maintained when
     // background is changed or console direction is flipped
 
     //todo disallow adding a mapped exe if it already exists
-
-    //todo anytime alternate background is pressed, before changing, revalidate where we are
+    // todo add this function in fix user data
 
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
