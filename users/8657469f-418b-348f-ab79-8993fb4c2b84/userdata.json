@@ -22,14 +22,5 @@
   "minimizeonclose": "0",
   "typinganimation": "1",
   "showbusyicon": "0",
-  "executables": [
-    {
-      "name": "name",
-      "filepath": "PATH/TO/EXE"
-    },
-    {
-      "name": "discord",
-      "filepath": "PATH/TO/DISCORD.EXE"
-    },
-  ]
+  "executables": []
 }

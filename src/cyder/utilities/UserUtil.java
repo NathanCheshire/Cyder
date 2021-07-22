@@ -9,6 +9,7 @@ import cyder.ui.ConsoleFrame;
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
 
 public class UserUtil {
 
@@ -178,6 +179,18 @@ public class UserUtil {
                     }
                 }
             }
+
+            LinkedList<User.MappedExecutable> exes = user.getExecutables();
+            LinkedList<User.MappedExecutable> nonDuplicates = new LinkedList<>();
+
+            for (User.MappedExecutable me : exes) {
+                if (!nonDuplicates.contains(me)) {
+                    nonDuplicates.add(me);
+                }
+            }
+
+            user.setExecutables(nonDuplicates);
+            setUserData(userJsonFile, user);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

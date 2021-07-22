@@ -46,9 +46,6 @@ public class InputHandler {
     //todo make pinning relative positions be maintained when
     // background is changed or console direction is flipped
 
-    //todo disallow adding a mapped exe if it already exists
-    // todo add this function in fix user data
-
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
     private BletchyThread bletchyThread;

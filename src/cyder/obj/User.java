@@ -250,5 +250,15 @@ public class User {
         public void setFilepath(String filepath) {
             this.filepath = filepath;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o instanceof MappedExecutable) {
+                return ((MappedExecutable) o).getName().equals(this.getName())
+                        && ((MappedExecutable) o).getFilepath().equals(this.getFilepath());
+            } else {
+                return false;
+            }
+        }
     }
 }
