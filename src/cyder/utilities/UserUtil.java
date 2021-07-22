@@ -106,6 +106,7 @@ public class UserUtil {
         User user = extractUser(userJsonFile);
 
         try {
+            //this handles data whos ID is still there
             for (Method getterMethod : user.getClass().getMethods()) {
                 if (getterMethod.getName().startsWith("get")
                         && getterMethod.getParameterTypes().length == 0) {
@@ -147,6 +148,48 @@ public class UserUtil {
                     }
                 }
             }
+
+            //now we handle the case of if an entire key value pair was simply removed
+            // (or we added a new one since this is a case that needs to be addressed)
+            for (Preference pref : GenesisShare.getPrefs()) {
+                //the getter and setters for the possibly added data must exists since
+                // that's hte process for adding new user data to Cyder
+                for (Method getterMethod : user.getClass().getMethods()) {
+                    if (getterMethod.getName().startsWith("get")
+                            && getterMethod.getParameterTypes().length == 0
+                            && getterMethod.getName().toLowerCase().contains(pref.getID().toLowerCase())) {
+                        final Object getterResult = getterMethod.invoke(user);
+
+                        boolean empty = false;
+
+                        if (getterResult instanceof String) {
+
+                        } else if (getterResult instanceof User.MappedExecutable) {
+
+                        }
+
+                        if (empty) {
+                            // find the setter function
+                            for (Method setterMethod : user.getClass().getMethods()) {
+                                if (setterMethod.getName().startsWith("set")
+                                        && setterMethod.getParameterTypes().length == 1
+                                        && setterMethod.getName().toLowerCase().contains(getterMethod.getName()
+                                        .toLowerCase().replace("get",""))) {
+
+                                    //invoke setter to set to pref default value
+                                    setterMethod.invoke(user, pref.getDefaultValue());
+
+                                    //then we set the user to the file
+                                    setUserData(userJsonFile, user);
+                                }
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

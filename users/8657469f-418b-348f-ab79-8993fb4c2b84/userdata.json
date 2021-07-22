@@ -22,10 +22,5 @@
   "minimizeonclose": "0",
   "typinganimation": "1",
   "showbusyicon": "0",
-  "executables": [
-    {
-      "name": "Discored",
-      "filepath": "PATH/TO/DISCORD.EXE"
-    }
-  ]
+  "executables": []
 }

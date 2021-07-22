@@ -736,7 +736,6 @@ public class AudioPlayer {
             lastAction = LastAction.RESUME;
             new Thread(() -> {
                 try {
-                    System.out.println(startPosition);
                     refreshAudio();
                     fis = new FileInputStream(audioFiles.get(audioIndex));
                     totalLength = fis.available();

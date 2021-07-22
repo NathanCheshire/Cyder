@@ -163,7 +163,6 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
                 for (int i = 0; i < numRepetitions; i++) {
                     g.drawImage(barImage, 0, (i - 1) * barImage.getHeight() + offset, null);
-                    System.out.println((i - 1) * barImage.getHeight());
                 }
             } else {
                 //get the image with the colors of proper width and height

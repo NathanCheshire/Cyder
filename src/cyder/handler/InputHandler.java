@@ -1,13 +1,14 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import com.google.gson.Gson;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
-import cyder.genesis.*;
-import cyder.obj.User;
+import cyder.genesis.Entry;
+import cyder.genesis.GenesisShare;
+import cyder.genesis.UserCreator;
+import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
@@ -24,7 +25,9 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
@@ -41,6 +44,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
     //todo dance ruins pinned windows
+
+    //todo make pinning relative positions be maintained when
+    // background is changed or console direction is flipped
 
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
