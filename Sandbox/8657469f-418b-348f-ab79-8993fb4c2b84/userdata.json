@@ -1,0 +1,31 @@
+{
+  "name": "guitar",
+  "pass": "password",
+  "font": "tahoma",
+  "foreground": "000000",
+  "background": "ffffff",
+  "intromusic": "0",
+  "debugwindows": "0",
+  "randombackground": "0",
+  "outputborder": "0",
+  "inputborder": "0",
+  "hourlychimes": "1",
+  "silenceerrors": "1",
+  "fullscreen": "0",
+  "outputfill": "0",
+  "inputfill": "0",
+  "clockonconsole": "1",
+  "showseconds": "1",
+  "filterchat": "1",
+  "menudirection": "",
+  "laststart": "0",
+  "minimizeonclose": "0",
+  "typinganimation": "1",
+  "showbusyicon": "0",
+  "executables": [
+    {
+      "name": "Discored",
+      "filepath": "PATH/TO/DISCORD.EXE"
+    }
+  ]
+}

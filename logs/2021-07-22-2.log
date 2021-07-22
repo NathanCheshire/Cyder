@@ -1,0 +1,102 @@
+[00:06:25] [ENTRY]: [WINUSER=Nathan]
+[00:06:25] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[00:06:25] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:06:25] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[00:06:26] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:06:26] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:06:26] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[00:06:26] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:06:26] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[00:06:26] [LOGIN]: [AUTOCYPHER PASS]
+[00:06:26] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[00:06:27] [CLIENT_IO]: [GET] [RandomBackground] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:06:27] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[00:06:27] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[00:06:27] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[00:06:27] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:06:27] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:06:27] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:06:27] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[00:06:27] [CLIENT_IO]: [GET] [OutputBorder] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [FullScreen] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [InputBorder] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:06:27] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:06:27] [CLIENT_IO]: [GET] [Foreground] [RETURN VALUE] 101010
+[00:06:27] [CLIENT_IO]: [GET] [Font] [RETURN VALUE] Agency FB
+[00:06:27] [CLIENT_IO]: [GET] [OutputFill] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [InputFill] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [IntroMusic] [RETURN VALUE] 0
+[00:06:27] [CLIENT_IO]: [GET] [DebugWindows] [RETURN VALUE] 0
+[00:06:27] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[00:06:27] [CLIENT]: test
+[00:06:27] [EXCEPTION]: 
+java.base/java.util.LinkedList cannot be cast to java.base/java.lang.String
+Thrown from:
+cyder.utilities.UserUtil.fixUser(UserUtil.java:94)
+StackTrace:
+java.lang.ClassCastException: java.base/java.util.LinkedList cannot be cast to java.base/java.lang.String
+	at cyder.utilities.UserUtil.fixUser(UserUtil.java:94)
+	at cyder.handler.InputHandler.handle(InputHandler.java:942)
+	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:994)
+	at cyder.ui.ConsoleFrame.access$700(ConsoleFrame.java:32)
+	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:214)
+	at java.desktop/java.awt.AWTEventMulticaster.windowOpened(AWTEventMulticaster.java:348)
+	at java.desktop/java.awt.Window.processWindowEvent(Window.java:2061)
+	at java.desktop/javax.swing.JFrame.processWindowEvent(JFrame.java:298)
+	at java.desktop/java.awt.Window.processEvent(Window.java:2023)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[00:06:27] [CLIENT_IO]: [GET] [SilenceErrors] [RETURN VALUE] 0
+[00:06:28] [CLIENT_IO]: [GET] [laststart] [RETURN VALUE] 1626327482362
+[00:06:28] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[00:06:28] [CLIENT_IO]: [SET] [KEY] laststart [VALUE] 1626930388111
+[00:06:28] [ACTION]: [Soultree Cyder [Nathan]] [NOTIFICATION] Welcome back, Nathan!
+[00:06:30] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:06:33] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:06:36] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:06:39] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:06:42] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:06:45] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:06:48] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:06:51] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:06:54] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:06:57] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:07:00] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:07:03] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:07:06] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:07:09] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:07:12] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:07:15] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[00:07:16] [CLIENT_IO]: [GET] [minimizeonclose] [RETURN VALUE] 0
+[00:07:16] [CLIENT_IO]: [GET] [Name] [RETURN VALUE] Nathan
+[00:07:16] [LOGOUT]:  [Nathan]
+[00:07:16] [EXIT]: [RUNTIME] 50s
+[00:07:16] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 1
+[00:07:16] [EXIT]: [RUNTIME] 50s
+[00:07:16] [EOL]: Log completed, exiting program with code: 120 [Final Frame Disposed], exceptions thrown: 1

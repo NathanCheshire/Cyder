@@ -69,6 +69,26 @@ public class UserUtil {
     }
 
     /**
+     * Writes the provided user after being converted to JSON format to the provided file.
+     * @param f - the file to write to
+     * @param u - the user object to write to the file
+     */
+    public static void setUserData(File f, User u) {
+        if (!f.exists())
+            throw new IllegalArgumentException("File does not exist");
+        if (!StringUtil.getExtension(f).equals(".json"))
+            throw new IllegalArgumentException("File is not a json type");
+
+        Gson gson = new Gson();
+
+        try (FileWriter writer = new FileWriter(f)) {
+            gson.toJson(u, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Function called upon UUID being set for consoleFrame to attempt to fix any user data
      * in case it was corrupted. If we fail to correct any corrupted data, then we corrupt the user and exit
      */
@@ -91,8 +111,7 @@ public class UserUtil {
                         && getterMethod.getParameterTypes().length == 0) {
                     //object returned by current getter
                     final Object getterRet = getterMethod.invoke(user);
-                    final String stringRepresentation = (String) getterRet;
-                    if (getterRet == null || stringRepresentation == null || stringRepresentation.length() == 0) {
+                    if (getterRet == null || (getterRet instanceof String && ((String) getterRet).length() == 0)) {
                         //fatal data that results in the user being corrupted if it is corrupted
                         if (getterMethod.getName().toLowerCase().contains("pass") ||
                             getterMethod.getName().toLowerCase().contains("name")) {
@@ -120,6 +139,7 @@ public class UserUtil {
                                     }
 
                                     setterMethod.invoke(user, defaultValue);
+                                    setUserData(userJsonFile,user);
                                     break;
                                 }
                             }
@@ -130,7 +150,7 @@ public class UserUtil {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
-    } //todo this method needs testing
+    }
 
     /**
      * Extracts the user from the provided json file
