@@ -939,24 +939,7 @@ public class InputHandler {
 
         //testing -------------------------------------------------
         else if (eic("test")) {
-            Gson gson = new Gson();
-
-            User user = User.createDefaultUser();
-
-            // Java objects to File
-            try (FileWriter writer = new FileWriter("users/Tester/user.json")) {
-                gson.toJson(user, writer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (eic("test2")) {
-            Gson gson = new Gson();
-            try (Reader reader = new FileReader("users/Tester/user.json")) {
-                User user = gson.fromJson(reader, User.class);
-                System.out.println(user.getIntromusic());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            UserUtil.setUserData(new File("users/Tester/user.json"),"name","guitar");
         }
         //final attempt at unknown input --------------------------
         else {
