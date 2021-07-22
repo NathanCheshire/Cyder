@@ -1,7 +1,9 @@
 package cyder.utilities;
 
 import com.google.gson.Gson;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
+import cyder.obj.Preference;
 import cyder.obj.User;
 import cyder.ui.ConsoleFrame;
 
@@ -71,19 +73,64 @@ public class UserUtil {
      * in case it was corrupted. If we fail to correct any corrupted data, then we corrupt the user and exit
      */
     public static void fixUser() {
-        String user = ConsoleFrame.getConsoleFrame().getUUID();
+        String UUID = ConsoleFrame.getConsoleFrame().getUUID();
 
-        if (user == null)
+        if (UUID == null)
             return;
 
-        if (!new File("users/" + user + "/userdata.json").exists())
+        File userJsonFile = new File("users/" + UUID + "/userdata.json");
+
+        if (!userJsonFile.exists())
             IOUtil.corruptedUser();
 
-        //todo read in default user data
-        // for any null or empty data, add the default version
-        // if any needed data such as password or name and such is null or blank or whatever then corrupted user
-        // so ensure data has all pairs from a GenesisShare.getPrefs
-    }
+        User user = extractUser(userJsonFile);
+
+        try {
+            for (Method getterMethod : user.getClass().getMethods()) {
+                if (getterMethod.getName().startsWith("get")
+                        && getterMethod.getParameterTypes().length == 0) {
+                    //object returned by current getter
+                    final Object getterRet = getterMethod.invoke(user);
+                    final String stringRepresentation = (String) getterRet;
+                    if (getterRet == null || stringRepresentation == null || stringRepresentation.length() == 0) {
+                        //fatal data that results in the user being corrupted if it is corrupted
+                        if (getterMethod.getName().toLowerCase().contains("pass") ||
+                            getterMethod.getName().toLowerCase().contains("name")) {
+                            IOUtil.corruptedUser();
+                            return;
+                        }
+                        //non-fatal data that we can restore from the default data
+                        else {
+                            //find corresponding setter
+                            for (Method setterMethod : user.getClass().getMethods()) {
+                                if (setterMethod.getName().startsWith("set")
+                                        && setterMethod.getParameterTypes().length == 1
+                                        && setterMethod.getName().toLowerCase().contains(getterMethod.getName()
+                                        .toLowerCase().replace("get",""))) {
+
+                                    Object defaultValue = null;
+
+                                    //find corresponding default vaule
+                                    for (Preference pref : GenesisShare.getPrefs()) {
+                                        if (pref.getID().toLowerCase().contains(getterMethod.getName()
+                                                .toLowerCase().replace("get",""))) {
+                                            defaultValue = pref.getDefaultValue();
+                                            break;
+                                        }
+                                    }
+
+                                    setterMethod.invoke(user, defaultValue);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    } //todo this method needs testing
 
     /**
      * Extracts the user from the provided json file
