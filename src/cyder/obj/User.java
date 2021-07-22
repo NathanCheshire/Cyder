@@ -130,7 +130,6 @@ public class User {
 
     //setters
 
-
     public void setName(String name) {
         this.name = name;
     }
@@ -225,41 +224,6 @@ public class User {
 
     public void setExecutables(LinkedList<MappedExecutable> executables) {
         this.executables = executables;
-    }
-
-    public static User createDefaultUser() {
-        User jsonUser = new User();
-
-        jsonUser.setName("name");
-        jsonUser.setPass("password");
-        jsonUser.setFont("tahoma");
-        jsonUser.setForeground("000000");
-        jsonUser.setBackground("ffffff");
-        jsonUser.setIntromusic("0");
-        jsonUser.setInputborder("0");
-        jsonUser.setOutputborder("0");
-        jsonUser.setDebugwindows("0");
-        jsonUser.setRandombackground("0");
-        jsonUser.setHourlychimes("1");
-        jsonUser.setSilenceerrors("1");
-        jsonUser.setFullscreen("0");
-        jsonUser.setOutputfill("0");
-        jsonUser.setInputfill("0");
-        jsonUser.setClockonconsole("1");
-        jsonUser.setShowseconds("1");
-        jsonUser.setFilterchat("1");
-        jsonUser.setMenudirection("1");
-        jsonUser.setLaststart("0");
-        jsonUser.setMinimizeonclose("0");
-        jsonUser.setTypinganimation("1");
-        jsonUser.setShowbusyicon("0");
-
-        //todo add future defaults here and in GenesisShare.java
-
-        LinkedList<MappedExecutable> exes = new LinkedList<>();
-        jsonUser.setExecutables(exes);
-
-        return jsonUser;
     }
 
     public static class MappedExecutable {

@@ -1,5 +1,5 @@
 {
-  "name": "name",
+  "name": "guitar",
   "pass": "password",
   "font": "tahoma",
   "foreground": "000000",
@@ -22,5 +22,10 @@
   "minimizeonclose": "0",
   "typinganimation": "1",
   "showbusyicon": "0",
-  "executables": []
+  "executables": [
+    {
+      "name": "Discored",
+      "filepath": "PATH/TO/DISCORD.EXE"
+    }
+  ]
 }

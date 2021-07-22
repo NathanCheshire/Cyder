@@ -276,7 +276,7 @@ public class Entry {
         loginTypingAnimation(loginArea);
 
         //in case this is after a corruption, start frame checker again
-        GenesisShare.cancelFrameSuspention();
+        GenesisShare.cancelFrameCheckerSuspention();
     }
 
     /**

@@ -36,7 +36,7 @@ public class UserUtil {
        setUserData(userJsonFile, name, value);
     }
 
-    public static void setUserData(File f, String name, String value) {
+    public static <T> void setUserData(File f, String name, T value) {
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
         if (!StringUtil.getExtension(f).equals(".json"))
@@ -47,8 +47,8 @@ public class UserUtil {
         try {
             for (Method m : user.getClass().getMethods()) {
                 if (m.getName().startsWith("set")
-                        && m.getParameterTypes().length == 0
-                        && m.getName().contains(name)) {
+                        && m.getParameterTypes().length == 1
+                        && m.getName().toLowerCase().contains(name.toLowerCase())) {
                     m.invoke(user, value);
                     break;
                 }
@@ -66,11 +66,23 @@ public class UserUtil {
         }
     }
 
+    /**
+     * Function called upon UUID being set for consoleFrame to attempt to fix any user data
+     * in case it was corrupted. If we fail to correct any corrupted data, then we corrupt the user and exit
+     */
     public static void fixUser() {
-        //todo this is for all users in users/
+        String user = ConsoleFrame.getConsoleFrame().getUUID();
 
-        //for all getters on the user that are null:
-        // use corresponding setters to set to the data from the default user
+        if (user == null)
+            return;
+
+        if (!new File("users/" + user + "/userdata.json").exists())
+            IOUtil.corruptedUser();
+
+        //todo read in default user data
+        // for any null or empty data, add the default version
+        // if any needed data such as password or name and such is null or blank or whatever then corrupted user
+        // so ensure data has all pairs from a GenesisShare.getPrefs
     }
 
     /**
@@ -125,7 +137,7 @@ public class UserUtil {
             for (Method m : u.getClass().getMethods()) {
                 if (m.getName().startsWith("get")
                         && m.getParameterTypes().length == 0
-                        && m.getName().contains(data)) {
+                        && m.getName().toLowerCase().contains(data.toLowerCase())) {
                     final Object r = m.invoke(u);
                     ret = (String) r;
                     break;

@@ -939,7 +939,9 @@ public class InputHandler {
 
         //testing -------------------------------------------------
         else if (eic("test")) {
-            UserUtil.setUserData(new File("users/Tester/user.json"),"name","guitar");
+            LinkedList<User.MappedExecutable> exes = new LinkedList<>();
+            exes.add(new User.MappedExecutable("Discored","PATH/TO/DISCORD.EXE"));
+            UserUtil.setUserData(new File("users/Tester/user.json"), "executables", exes);
         }
         //final attempt at unknown input --------------------------
         else {

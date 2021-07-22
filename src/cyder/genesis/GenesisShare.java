@@ -29,7 +29,7 @@ public class GenesisShare {
         suspendFrameChecker = true;
     }
 
-    public static void cancelFrameSuspention() {
+    public static void cancelFrameCheckerSuspention() {
         suspendFrameChecker = false;
     }
 
@@ -46,14 +46,11 @@ public class GenesisShare {
     private static LinkedList<Preference> initPreferencesList() {
         LinkedList<Preference> ret = new LinkedList<>();
 
-        //ignores here
+        ret.add(new Preference("name","IGNORE","IGNORE","IGNORE"));
+        ret.add(new Preference("pass","IGNORE","IGNORE","IGNORE"));
         ret.add(new Preference("font","IGNORE","IGNORE","tahoma"));
         ret.add(new Preference("foreground","IGNORE","IGNORE","000000"));
         ret.add(new Preference("background","IGNORE","IGNORE","FFFFFF"));
-        ret.add(new Preference("laststart","IGNORE","IGNORE",
-                System.currentTimeMillis() + ""));
-
-        //actual preferences here
         ret.add(new Preference("intromusic",
                 "Intro Music","" +
                 "Play intro music on start","0"));
@@ -95,14 +92,16 @@ public class GenesisShare {
                 "Filter foul language","1"));
         ret.add(new Preference("menudirection", "Menu Minimize Direction",
                 "Console Menu Minimize Direction","1"));
+        ret.add(new Preference("laststart","IGNORE","IGNORE",
+                System.currentTimeMillis() + ""));
         ret.add(new Preference("minimizeonclose","Minimize On Close",
                 "Minimize the application instead of exiting whenever a close action is requested","0"));
         ret.add(new Preference("typinganimation","Typing Animation",
                 "Typing Animation on console for non-vital outputs", "1"));
         ret.add(new Preference("showbusyicon", "Show Cyder Busy Icon",
                 "Show when Cyder is busy by changing the tray icon","0"));
-
-        //todo add future default prefs here and in User.java
+        ret.add(new Preference("executables","IGNORE","IGNORE","IGNORE"));
+        //add future default data here
 
         return ret;
     }
