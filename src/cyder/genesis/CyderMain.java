@@ -37,6 +37,7 @@ public class CyderMain {
         IOUtil.cleanSandbox();
         IOUtil.fixLogs();
 
+        GenesisShare.suspendFrameChecker();
         startFinalFrameDisposedChecker();
 
         if (SecurityUtil.nathanLenovo() && IOUtil.getSystemData("AutoCypher").equals("1")) {

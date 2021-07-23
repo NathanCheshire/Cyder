@@ -362,7 +362,7 @@ public class AudioPlayer {
         UI.setOutlineColor(CyderColors.vanila);
         UI.setNewValColor(CyderColors.vanila);
         UI.setOldValColor(CyderColors.regularRed);
-        UI.setStroke(new BasicStroke(2.0f));
+        UI.setTrackStroke(new BasicStroke(2.0f));
         audioVolumeSlider.setUI(UI);
         audioVolumeSlider.setBounds(55, 155, 385, 40);
         audioVolumeSlider.setMinimum(0);

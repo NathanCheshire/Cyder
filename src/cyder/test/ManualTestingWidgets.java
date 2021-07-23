@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.enums.AnimationDirection;
 import cyder.enums.Direction;
+import cyder.enums.SliderShape;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 
@@ -292,5 +293,36 @@ public class ManualTestingWidgets {
                 }
             }
         }, "ProgressBar Animator").start();
+    }
+
+    public static void CyderSliderTest() {
+        CyderFrame testFrame = new CyderFrame(400,400);
+        testFrame.setTitle("Cyder Slider Test");
+
+        JSlider audioVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+        CyderSliderUI UI = new CyderSliderUI(audioVolumeSlider);
+        UI.setThumbDiameter(25);
+        UI.setSliderShape(SliderShape.CIRCLE);
+        UI.setFillColor(CyderColors.intellijPink);
+        UI.setOutlineColor(CyderColors.intellijPink);
+        UI.setNewValColor(CyderColors.navy);
+        UI.setOldValColor(CyderColors.regularBlue);
+        UI.setTrackStroke(new BasicStroke(4.0f));
+        audioVolumeSlider.setUI(UI);
+        audioVolumeSlider.setBounds(50, 150, 300, 40);
+        audioVolumeSlider.setMinimum(0);
+        audioVolumeSlider.setMaximum(100);
+        audioVolumeSlider.setPaintTicks(false);
+        audioVolumeSlider.setPaintLabels(false);
+        audioVolumeSlider.setVisible(true);
+        audioVolumeSlider.setValue(50);
+        audioVolumeSlider.setOpaque(false);
+        audioVolumeSlider.setToolTipText("Volume");
+        audioVolumeSlider.setFocusable(false);
+        audioVolumeSlider.repaint();
+        testFrame.getContentPane().add(audioVolumeSlider);
+
+        testFrame.setVisible(true);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
 }

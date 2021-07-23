@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import cyder.enums.SliderShape;
-import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
@@ -21,9 +20,13 @@ public class CyderSliderUI extends BasicSliderUI {
     private Color outlineColor;
     private int thumbDiameter = 10;
 
+    private JSlider slider;
+
     private SliderShape sliderShape = SliderShape.RECT;
 
     public void setThumbDiameter(int radius) {
+        if (radius <= 0)
+            throw new IllegalArgumentException("Thumb radius must be greater than 0");
         this.thumbDiameter = radius;
     }
 
@@ -53,7 +56,7 @@ public class CyderSliderUI extends BasicSliderUI {
         this.outlineColor = c;
     }
 
-    public void setStroke(BasicStroke s) {
+    public void setTrackStroke(BasicStroke s) {
         this.stroke = s;
     }
 
@@ -63,6 +66,7 @@ public class CyderSliderUI extends BasicSliderUI {
 
     public CyderSliderUI(JSlider b) {
         super(b);
+        this.slider = b;
     }
 
     @Override
@@ -168,10 +172,10 @@ public class CyderSliderUI extends BasicSliderUI {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             Rectangle t = thumbRect;
             g2d.setColor(fillColor);
-            double xOffset = getXOffset(20);
-            double yOffset = getYOffset(20);
-            g2d.fillOval((int) (t.x + xOffset), (int) (t.y + yOffset),
-                    thumbDiameter / 2, thumbDiameter / 2);
+            System.out.println(slider.getValue());
+            int x = (int) (trackRect.getX() + trackRect.getWidth() * slider.getValue() / 100.0 - (thumbDiameter / 4));
+            int y = (int) (trackRect.getY() + trackRect.getHeight() / 2 - (thumbDiameter / 4));
+            g.fillOval(x, y,thumbDiameter / 2, thumbDiameter / 2);
             g2d.dispose();
         } else if (sliderShape == SliderShape.RECT){
             Rectangle knobBounds = thumbRect;
@@ -187,15 +191,6 @@ public class CyderSliderUI extends BasicSliderUI {
 
             g2d.setColor(outlineColor);
             g2d.draw(thumbShape);
-            g2d.dispose();
-        } else if (sliderShape == SliderShape.ICON){
-            Rectangle knobBounds = thumbRect;
-            int w = knobBounds.width;
-            int h = knobBounds.height;
-            g2d.translate(knobBounds.x - 25, knobBounds.y - 25);
-
-            BufferedImage resized = ImageUtil.resizeImage(customThumb,BufferedImage.TYPE_INT_RGB,25,25);
-            g2d.drawImage(resized, 25, 25, null);
             g2d.dispose();
         } else if (sliderShape == SliderShape.HOLLOW_CIRCLE) {
             g2d = (Graphics2D) g;
@@ -326,14 +321,5 @@ public class CyderSliderUI extends BasicSliderUI {
     @Override
     public String toString() {
         return "CyderSliderUI object, hash=" + this.hashCode();
-    }
-
-    //todo fix these offsets without using least squares
-    private double getXOffset(int d) {
-        return -0.07358 * d + 1.925;
-    }
-
-    private double getYOffset(int d) {
-        return -0.2566 * d + 10.02;
     }
 }

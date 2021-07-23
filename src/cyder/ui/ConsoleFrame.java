@@ -830,6 +830,9 @@ public final class ConsoleFrame {
             //show frame
             consoleCyderFrame.setVisible(true);
             consoleCyderFrame.setLocationRelativeTo(null);
+
+            //unsuspend frame checker
+            GenesisShare.cancelFrameCheckerSuspention();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
