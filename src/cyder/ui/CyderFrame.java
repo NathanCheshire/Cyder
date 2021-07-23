@@ -844,8 +844,6 @@ public class CyderFrame extends JFrame {
                 }
 
             setLocation(restoreX, restoreY);
-
-            setLocation(restoreX, restoreY);
             setAlwaysOnTop(false);
 
             if (wasEnabled) {
@@ -1274,6 +1272,8 @@ public class CyderFrame extends JFrame {
         return this.pinned;
     }
 
+    //relativeX, relativeY are used for frame pinning and dragging on the consoleFrame
+
     private int relativeX = 0;
     private int relativeY = 0;
 
@@ -1291,5 +1291,26 @@ public class CyderFrame extends JFrame {
 
     public void setRelativeY(int relativeY) {
         this.relativeY = relativeY;
+    }
+
+    //used for frame consolidation points
+
+    private double xPercent = 0;
+    private double yPercent = 0;
+
+    public double getxPercent() {
+        return xPercent;
+    }
+
+    public double getyPercent() {
+        return yPercent;
+    }
+
+    public void setxPercent(double xPercent) {
+        this.xPercent = xPercent;
+    }
+
+    public void setyPercent(double yPercent) {
+        this.yPercent = yPercent;
     }
 }

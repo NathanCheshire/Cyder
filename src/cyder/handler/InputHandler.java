@@ -43,9 +43,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo make pinning relative positions be maintained when
-    // background is changed or console direction is flipped
-
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
     private BletchyThread bletchyThread;

@@ -771,7 +771,9 @@ public final class ConsoleFrame {
                                     !f.getTitle().equals(consoleCyderFrame.getTitle())) {
                                 Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
 
-                                if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
+                                if (GeometryAlgorithms.overlaps(consoleRect,frameRect)
+                                        && ((CyderFrame) f).getRelativeY() != 0
+                                        && ((CyderFrame) f).getRelativeX() != 0) {
                                     f.setLocation(consoleCyderFrame.getX() + ((CyderFrame) f).getRelativeX(),
                                             consoleCyderFrame.getY() + ((CyderFrame) f).getRelativeY());
                                 }
@@ -1747,8 +1749,7 @@ public final class ConsoleFrame {
         }
     }
 
-    //if this returns false then we didn't switch so we should tell the user they should add more backgrounds
-    public boolean switchBackground() {
+    public void switchBackground() {
         revalidateBackgroundIndex();
 
         try {
@@ -2088,8 +2089,6 @@ public final class ConsoleFrame {
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
-        } finally {
-            return true;
         }
     }
 

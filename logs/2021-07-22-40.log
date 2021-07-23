@@ -41,3 +41,4 @@
 [18:22:01] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
 [18:22:05] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
 [18:22:08] [CLIENT_IO]: [GET] [showbusyicon] [RETURN VALUE] 0
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
