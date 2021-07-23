@@ -43,6 +43,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    //todo add mapping links and exes
+    //todo use helper annotation
+    //todo dragging console frame picks up windows that aren't touching it, fix
+
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
     private BletchyThread bletchyThread;

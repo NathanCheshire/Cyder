@@ -768,7 +768,9 @@ public final class ConsoleFrame {
 
                         for (Frame f : Frame.getFrames()) {
                             if (f instanceof CyderFrame && ((CyderFrame) f).getPinned() &&
-                                    !f.getTitle().equals(consoleCyderFrame.getTitle())) {
+                                    !f.getTitle().equals(consoleCyderFrame.getTitle()) &&
+                                    ((CyderFrame) f).getRelativeX() != Integer.MIN_VALUE &&
+                                    ((CyderFrame) f).getRelativeY() != Integer.MIN_VALUE) {
 
                                     f.setLocation(consoleCyderFrame.getX() + ((CyderFrame) f).getRelativeX(),
                                             consoleCyderFrame.getY() + ((CyderFrame) f).getRelativeY());
@@ -779,6 +781,7 @@ public final class ConsoleFrame {
             });
 
             consoleCyderFrame.addDragMouseListener(new MouseAdapter() {
+                //this should figure out what frames we need to move during hte current drag event
                 @Override
                 public void mousePressed(MouseEvent e) {
                     if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
@@ -795,28 +798,9 @@ public final class ConsoleFrame {
                                 if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
                                     ((CyderFrame) f).setRelativeX(-consoleCyderFrame.getX() + f.getX());
                                     ((CyderFrame) f).setRelativeY(-consoleCyderFrame.getY() + f.getY());
-                                }
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
-                            && consoleCyderFrame.draggingEnabled()) {
-
-                        Rectangle consoleRect = new Rectangle(consoleCyderFrame.getX(), consoleCyderFrame.getY(),
-                                consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
-
-                        for (Frame f : Frame.getFrames()) {
-                            if (f instanceof CyderFrame && ((CyderFrame) f).getPinned() &&
-                                    !f.getTitle().equals(consoleCyderFrame.getTitle())) {
-                                Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
-
-                                if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
-                                   ((CyderFrame) f).setRelativeX(0);
-                                   ((CyderFrame) f).setRelativeY(0);
+                                } else {
+                                    ((CyderFrame) f).setRelativeX(Integer.MIN_VALUE);
+                                    ((CyderFrame) f).setRelativeY(Integer.MIN_VALUE);
                                 }
                             }
                         }

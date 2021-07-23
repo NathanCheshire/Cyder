@@ -172,7 +172,6 @@ public class CyderSliderUI extends BasicSliderUI {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             Rectangle t = thumbRect;
             g2d.setColor(fillColor);
-            System.out.println(slider.getValue());
             int x = (int) (trackRect.getX() + trackRect.getWidth() * slider.getValue() / 100.0 - (thumbDiameter / 4));
             int y = (int) (trackRect.getY() + trackRect.getHeight() / 2 - (thumbDiameter / 4));
             g.fillOval(x, y,thumbDiameter / 2, thumbDiameter / 2);
