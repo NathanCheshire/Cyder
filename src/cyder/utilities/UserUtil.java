@@ -350,7 +350,7 @@ public class UserUtil {
                 User user = extractUser(userDataFiles.get(i));
 
                 //if it's the one we're looking for, set consoel UUID, free resources, and return true
-                if (hashedPass.equalsIgnoreCase(user.getName()) && name.equalsIgnoreCase(user.getPass())) {
+                if (name.equalsIgnoreCase(user.getName()) && hashedPass.equals(user.getPass())) {
                     ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
                     return true;
                 }
