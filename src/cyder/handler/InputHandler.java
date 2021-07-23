@@ -69,14 +69,14 @@ public class InputHandler {
 
             if (op.toLowerCase().contains(pref.getID().toLowerCase()) && !pref.getDisplayName().equals("IGNORE")) {
                 if (op.contains("1") || op.toLowerCase().contains("true")) {
-                    IOUtil.setUserData(pref.getID(), "1");
+                    UserUtil.setUserData(pref.getID(), "1");
                     println(pref.getDisplayName() + " set to true");
                 } else if (op.contains("0") || op.toLowerCase().contains("false")) {
-                    IOUtil.setUserData(pref.getID(), "0");
+                    UserUtil.setUserData(pref.getID(), "0");
                     println(pref.getDisplayName() + " set to false");
                 } else {
-                    String newVal = IOUtil.getUserData(pref.getID()).equals("1") ? "0" : "1";
-                    IOUtil.setUserData(pref.getID(), newVal);
+                    String newVal = UserUtil.getUserData(pref.getID()).equals("1") ? "0" : "1";
+                    UserUtil.setUserData(pref.getID(), newVal);
                     println(pref.getDisplayName() + " set to " + (newVal.equals("1") ? "true" : "false"));
                 }
 
@@ -103,7 +103,7 @@ public class InputHandler {
         SessionLogger.log(SessionLogger.Tag.CLIENT, operation);
 
         //pre-process checks --------------------------------------
-        if (StringUtil.filterLanguage(operation) && IOUtil.getUserData("filterchat").equals("1")) {
+        if (StringUtil.filterLanguage(operation) && UserUtil.getUserData("filterchat").equals("1")) {
             println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
         }
         //printing strings ----------------------------------------
@@ -371,12 +371,12 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().getInputField().setFont(CyderFonts.defaultFont);
             outputArea.setFont(CyderFonts.defaultFont);
             println("The font has been reset.");
-            IOUtil.setUserData("Fonts", outputArea.getFont().getName());
+            UserUtil.setUserData("Fonts", outputArea.getFont().getName());
         } else if (hasWord("reset") && hasWord("color")) {
             outputArea.setForeground(CyderColors.vanila);
             ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.vanila);
             println("The text color has been reset.");
-            IOUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.defaultColor));
+            UserUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.defaultColor));
         } else if (eic("top left")) {
             ConsoleFrame.getConsoleFrame().setLocation(0, 0);
         } else if (eic("top right")) {
@@ -589,13 +589,13 @@ public class InputHandler {
                 ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.textBlack);
                 ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.textBlack);
                 ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.textBlack));
-                IOUtil.setUserData("Foreground",ColorUtil.rgbtohexString(CyderColors.textBlack));
+                UserUtil.setUserData("Foreground",ColorUtil.rgbtohexString(CyderColors.textBlack));
             } else {
                 ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(CyderColors.textWhite);
                 ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.textWhite);
                 ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.textWhite);
                 ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.textWhite));
-                IOUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.textWhite));
+                UserUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.textWhite));
             }
 
             println("Foreground fixed");
@@ -612,7 +612,7 @@ public class InputHandler {
         }   else if (hasWord("java") && hasWord("properties")) {
             StatUtil.javaProperties();
         } else if (eic("panic")) {
-            if (IOUtil.getUserData("minimizeonclose").equals("1")) {
+            if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 ConsoleFrame.getConsoleFrame().minimizeAll();
             } else {
                 GenesisShare.exit(25);
@@ -689,7 +689,7 @@ public class InputHandler {
             setUserInputMode(true);
         } else if ((eic("quit") || eic("exit") || eic("leave") || eic("close")) &&
                 (!has("music") && !has("dance") && !has("script"))) {
-            if (IOUtil.getUserData("minimizeonclose").equals("1")) {
+            if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 ConsoleFrame.getConsoleFrame().minimizeAll();
             } else {
                 GenesisShare.exit(25);
@@ -850,14 +850,14 @@ public class InputHandler {
 
                 println("Deleted " + count + " log" + (count == 1 ? "" : "s"));
             } else {
-                println("Sorry, " + IOUtil.getUserData("name") + ", " +
+                println("Sorry, " + UserUtil.getUserData("name") + ", " +
                         "but you do not have permission to perform that operation.");
             }
         } else if (hasWord("open") && hasWord("current") && hasWord("log")) {
             if (SecurityUtil.nathanLenovo()) {
                 IOUtil.openFileOutsideProgram(SessionLogger.getCurrentLog().getAbsolutePath());
             } else {
-                println("Sorry, " + IOUtil.getUserData("name") + ", but you do not have permission " +
+                println("Sorry, " + UserUtil.getUserData("name") + ", but you do not have permission " +
                         "to perform that operation.");
             }
         } else if (hasWord("open") && hasWord("last") && hasWord("log")) {
@@ -870,7 +870,7 @@ public class InputHandler {
                     IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
                 }
             } else {
-                println("Sorry, " + IOUtil.getUserData("name") + ", but you do not have permission " +
+                println("Sorry, " + UserUtil.getUserData("name") + ", but you do not have permission " +
                         "to perform that operation.");
             }
         } else if (firstWord.equalsIgnoreCase("play")) {
@@ -1350,7 +1350,7 @@ public class InputHandler {
                         SessionLogger.log(SessionLogger.Tag.CONSOLE_OUT,line);
 
                         if (line instanceof String) {
-                            if (IOUtil.getUserData("typinganimation").equals("1")) {
+                            if (UserUtil.getUserData("typinganimation").equals("1")) {
                                 GenesisShare.getPrintinSem().acquire();
                                 for (char c : ((String) line).toCharArray()) {
                                     innerConsolePrint(c);

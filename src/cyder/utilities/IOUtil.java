@@ -18,7 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.DosFileAttributes;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -101,167 +100,6 @@ public class IOUtil {
     }
 
     /**
-     * This method removes any repeated user data. Any repeated keys are thrown away and the first occurences are kept.
-     * If any keys are missing, the default ones necessary for the program to function properly are inserted.
-     */
-    public static void fixUserData() {
-        //get user var for later use
-        String user = ConsoleFrame.getConsoleFrame().getUUID();
-
-        //return if no user, shouldn't be possible anyway
-        if (user == null)
-            return;
-
-        //if the data file is gone then we're screwed
-        if (!new File("users/" + user + "/Userdata.txt").exists())
-            corruptedUser();
-
-        //try with resources to write all the default pairs in case some are missing, only the first pairs will be saved
-        // so any that we already have will be kept and any duplicates will be removed
-        try (BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Userdata.txt", true))) {
-            GenesisShare.getExitingSem().acquire();
-
-            //always just add a newline to the front to be safe
-            userWriter.newLine();
-
-            //write default pairs
-            for (int i = 0; i < GenesisShare.getPrefs().size(); i++) {
-                userWriter.write(GenesisShare.getPrefs().get(i).getID() + ":" + GenesisShare.getPrefs().get(i).getDefaultValue());
-                userWriter.newLine();
-            }
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
-        }
-
-        //try with resources reading all user data
-        try (BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"))) {
-            GenesisShare.getExitingSem().acquire();
-            String line;
-            ArrayList<NST> data = new ArrayList<>();
-
-            //read all data from in
-            while ((line = dataReader.readLine()) != null) {
-                //skip for blank lines
-                if (line.trim().length() == 0)
-                    continue;
-
-                long count = line.chars().filter(charaizard -> charaizard == ':').count(); //charizard, rawr
-
-                //if more than one colon on a line, screwed
-                if (count != 1 && line.trim().length() != 0)
-                    corruptedUser();
-
-                String[] parts = line.split(":");
-
-                //if not two parts, then screwed
-                if (parts.length != 2)
-                    corruptedUser();
-
-                //we're good so form a NST object and place in data list
-                data.add(new NST(parts[0], parts[1]));
-            }
-
-            //list to hold only the first data pairs
-            ArrayList<NST> reWriteData = new ArrayList<>();
-
-            //loop through all data
-            for (NST datum : data) {
-                String currentName = datum.getName();
-                boolean alreadyHas = false;
-
-                //if the current name is already in the rewrite data, skip it
-                for (NST reWriteDatum : reWriteData) {
-                    if (reWriteDatum.getName().equalsIgnoreCase(currentName)) {
-                        alreadyHas = true;
-                        break;
-                    }
-                }
-
-                if (!alreadyHas)
-                    reWriteData.add(datum);
-            }
-
-            //write the data we want to keep
-            BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Userdata.txt", false));
-
-            for (NST currentData : reWriteData) {
-                userWriter.write(currentData.getName() + ":" + currentData.getData());
-                userWriter.newLine();
-            }
-
-            userWriter.close();
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
-        }
-    }
-
-    /**
-     * Sets the targeted key in userdata to the requested value
-     * @param name - the target ID to find
-     * @param value - the value to set the ID to
-     */
-    public static void setUserData(String name, String value) {
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-            return;
-
-        try {
-            //block other functions from reading/writing to userdata until we're done
-            GenesisShare.getExitingSem().acquire();
-
-            //check for no user
-            String user = ConsoleFrame.getConsoleFrame().getUUID();
-            if (user == null)
-                return;
-
-            //check for absense of data file
-            if (!new File("users/" + user + "/Userdata.txt").exists())
-                corruptedUser();
-
-            SessionLogger.log(SessionLogger.Tag.CLIENT_IO,"[SET] [KEY] " + name + " [VALUE] " + value);
-
-            //init reader, list, and line var
-            BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"));
-            LinkedList<NST> userData = new LinkedList<>();
-            String Line;
-
-            //read all data into our list
-            while ((Line = dataReader.readLine()) != null) {
-                String[] parts = Line.split(":");
-                userData.add(new NST(parts[0], parts[1]));
-            }
-
-            //free resources
-            dataReader.close();
-
-            //init writer
-            BufferedWriter userWriter = new BufferedWriter(new FileWriter(
-                    "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Userdata.txt", false));
-
-            //loop through data and change the value we need to update, then write to file
-            for (NST data : userData) {
-                if (data.getName().equalsIgnoreCase(name))
-                    data.setData(value);
-
-                userWriter.write(data.getName() + ":" + data.getData());
-                userWriter.newLine();
-            }
-
-            //free resouces
-            userWriter.close();
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
-        }
-    }
-
-    /**
      * Changes the requested system data to the provided value
      * @param name - the system data ID to find
      * @param value - the value of the requested system data ID to update
@@ -305,58 +143,6 @@ public class IOUtil {
             ErrorHandler.handle(e);
         } finally {
             GenesisShare.getExitingSem().release();
-        }
-    }
-
-    /**
-     * Finds and returns the requested userdata stored in key/value pairs.
-     * @param name - the data ID to find
-     * @return - the data associated with the provided ID
-     */
-    public static String getUserData(String name) {
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-            return null;
-
-        String ret = "null";
-
-        try {
-            //block other functions from reading/writing to userdata until we're done
-            GenesisShare.getExitingSem().acquire();
-
-            //check for no user
-            String user = ConsoleFrame.getConsoleFrame().getUUID();
-            if (user == null)
-                return null;
-
-            //check for absense of data file
-            if (!new File("users/" + user + "/Userdata.txt").exists())
-                corruptedUser();
-
-            //init reader and line var
-            BufferedReader dataReader = new BufferedReader(new FileReader("users/" + user + "/Userdata.txt"));
-            String Line;
-
-            //read all data into our list
-            while ((Line = dataReader.readLine()) != null) {
-                String[] parts = Line.split(":");
-
-                if (parts[0].equalsIgnoreCase(name)) {
-                    ret = parts[1];
-                    break;
-                }
-            }
-
-            //free resources
-            dataReader.close();
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        } finally {
-            if (!name.equalsIgnoreCase("CLOCKONCONSOLE")
-                    && !name.equalsIgnoreCase("SHOWSECONDS"))
-            SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[GET] [" +  name
-                    + "] [RETURN VALUE] " + ret);
-            GenesisShare.getExitingSem().release();
-            return ret;
         }
     }
 
@@ -696,7 +482,7 @@ public class IOUtil {
      */
     public static void changeUsername(String newName) {
         try {
-            setUserData("name", newName);
+            UserUtil.setUserData("name", newName);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -708,7 +494,7 @@ public class IOUtil {
      */
     public static void changePassword(char[] newPassword) {
         try {
-            setUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA256(
+            UserUtil.setUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA256(
                     SecurityUtil.toHexString(SecurityUtil.getSHA256(newPassword)).toCharArray())));
         } catch (Exception e) {
             ErrorHandler.handle(e);

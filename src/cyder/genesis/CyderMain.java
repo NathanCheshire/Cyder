@@ -5,9 +5,9 @@ import cyder.consts.CyderFonts;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.threads.CyderThreadFactory;
-import cyder.utilities.IOUtil;
 import cyder.utilities.SecurityUtil;
 import cyder.utilities.SystemUtil;
+import cyder.utilities.IOUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;

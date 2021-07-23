@@ -539,7 +539,7 @@ public class UserEditor {
         colorBlock.setBackground(CyderColors.navy);
         colorBlock.setFocusable(false);
         colorBlock.setCursor(null);
-        colorBlock.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground")));
+        colorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Foreground")));
         colorBlock.setToolTipText("Color Preview");
         colorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         colorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 120);
@@ -548,7 +548,7 @@ public class UserEditor {
         CyderTextField rgbField = new CyderTextField(0);
 
         CyderTextField hexField = new CyderTextField(0);
-        hexField.setText(IOUtil.getUserData("Foreground"));
+        hexField.setText(UserUtil.getUserData("Foreground"));
         hexField.setFont(CyderFonts.weatherFontBig);
         hexField.setToolTipText("Hex Value");
         JTextField finalHexField1 = hexField;
@@ -570,7 +570,7 @@ public class UserEditor {
         rgbField.setFont(CyderFonts.weatherFontBig);
         rgbField.setToolTipText("RGB Value");
         rgbField.setBackground(Color.white);
-        Color c = ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
+        Color c = ColorUtil.hextorgbColor(UserUtil.getUserData("Foreground"));
         rgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
         JTextField finalRgbField1 = rgbField;
         rgbField.addKeyListener(new KeyAdapter() {
@@ -597,7 +597,7 @@ public class UserEditor {
         applyColor.setFocusPainted(false);
         applyColor.setBackground(CyderColors.regularRed);
         applyColor.addActionListener(e -> {
-            IOUtil.setUserData("Foreground", hexField.getText());
+            UserUtil.setUserData("Foreground", hexField.getText());
             Color updateC = ColorUtil.hextorgbColor(hexField.getText());
 
             ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(updateC);
@@ -628,21 +628,21 @@ public class UserEditor {
         colorBlockFill.setBackground(CyderColors.navy);
         colorBlockFill.setFocusable(false);
         colorBlockFill.setCursor(null);
-        colorBlockFill.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+        colorBlockFill.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
         colorBlockFill.setToolTipText("Color Preview");
         colorBlockFill.setBorder(new LineBorder(CyderColors.navy, 5, false));
         colorBlockFill.setBounds(330 + colorOffsetX, 340 + colorOffsetY, 40, 120);
         switchingLabel.add(colorBlockFill);
 
         CyderTextField hexFieldFill = new CyderTextField(0);
-        hexFieldFill.setText(IOUtil.getUserData("Background"));
+        hexFieldFill.setText(UserUtil.getUserData("Background"));
         hexFieldFill.setFont(CyderFonts.weatherFontBig);
         hexFieldFill.setToolTipText("Input field and output area fill color if enabled");
         hexFieldFill.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
                     colorBlockFill.setBackground(ColorUtil.hextorgbColor(hexFieldFill.getText()));
-                    IOUtil.setUserData("Background", hexFieldFill.getText());
+                    UserUtil.setUserData("Background", hexFieldFill.getText());
                 } catch (Exception ignored) {
                     if (hexFieldFill.getText().length() == 6)
                         editUserFrame.notify("Invalid color");
@@ -654,7 +654,7 @@ public class UserEditor {
         switchingLabel.add(hexFieldFill);
 
         JLabel FontLabel = new JLabel("Fonts");
-        FontLabel.setFont(new Font(IOUtil.getUserData("Font"),Font.BOLD, 30));
+        FontLabel.setFont(new Font(UserUtil.getUserData("Font"),Font.BOLD, 30));
         FontLabel.setForeground(CyderColors.navy);
         FontLabel.setBounds(150, 60, 300, 30);
         switchingLabel.add(FontLabel);
@@ -696,7 +696,7 @@ public class UserEditor {
                 Font ApplyFont = new Font(selectedFont, Font.BOLD, 30);
                 ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ApplyFont);
                 ConsoleFrame.getConsoleFrame().getInputField().setFont(ApplyFont);
-                IOUtil.setUserData("Font", selectedFont);
+                UserUtil.setUserData("Font", selectedFont);
                 ConsoleFrame.getConsoleFrame().getInputHandler().println("The font \"" + selectedFont + "\" has been applied.");
             }
         });
@@ -736,13 +736,13 @@ public class UserEditor {
             printingUtil.printlnComponent(preferenceLabel);
 
             CyderButton preferenceButton = new CyderButton(
-                    IOUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? "      On      " :
+                    UserUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? "      On      " :
                             "      Off      ");
-            preferenceButton.setColors(IOUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? CyderColors.regularGreen : CyderColors.regularRed);
+            preferenceButton.setColors(UserUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? CyderColors.regularGreen : CyderColors.regularRed);
             preferenceButton.setToolTipText(GenesisShare.getPrefs().get(i).getTooltip());
             preferenceButton.addActionListener(e -> {
-                boolean wasSelected = IOUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
-                IOUtil.setUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
+                boolean wasSelected = UserUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
+                UserUtil.setUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
 
                 preferenceButton.setColors(wasSelected ? CyderColors.regularRed : CyderColors.regularGreen);
                 preferenceButton.setText(wasSelected ? "      Off      " : "      On      ");

@@ -1,11 +1,7 @@
 package cyder.utilities;
 
 import cyder.handler.ErrorHandler;
-import cyder.ui.ConsoleFrame;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -14,7 +10,6 @@ import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.UUID;
 
 public class SecurityUtil {
@@ -146,60 +141,6 @@ public class SecurityUtil {
         }
 
         return null;
-    }
-
-    public static boolean checkPassword(String name, String hashedPass) {
-        try {
-            IOUtil.cleanUsers();
-
-            hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
-
-            //get all users
-            File[] UUIDs = new File("users").listFiles();
-            LinkedList<File> userDataFiles = new LinkedList<>();
-
-            //get all valid users
-            for (File user : UUIDs) {
-                userDataFiles.add(new File(user.getAbsolutePath() + "/Userdata.txt")); //change to bin
-            }
-
-            //loop through all users and extract the name and password fields
-            for (int i = 0 ; i < userDataFiles.size() ; i++) {
-                //init objects
-                BufferedReader currentRead = new BufferedReader(new FileReader(userDataFiles.get(i)));
-                String filename = null;
-                String filepass = null;
-                String Line = currentRead.readLine();
-
-                //loop through current file and find name and pass
-                while (Line != null) {
-                    String[] parts = Line.split(":");
-
-                    if (parts[0].equalsIgnoreCase("Name")) {
-                        filename = parts[1];
-                    } else if (parts[0].equalsIgnoreCase("Password")) {
-                        filepass = parts[1];
-                    }
-
-                    Line = currentRead.readLine();
-                }
-
-                //if it's the one we're looking for, set consoel UUID, free resources, and return true
-                if (hashedPass.equalsIgnoreCase(filepass) && name.equalsIgnoreCase(filename)) {
-                    ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
-                    currentRead.close();
-                    return true;
-                }
-
-                currentRead.close();
-            }
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-
-        return false;
     }
 
     public static void clearCharArray(char[] arr) {

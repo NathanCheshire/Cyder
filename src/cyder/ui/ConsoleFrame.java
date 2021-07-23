@@ -110,7 +110,7 @@ public final class ConsoleFrame {
             closed = false;
 
             //handle random background by setting a random background index
-            if (IOUtil.getUserData("RandomBackground").equals("1")) {
+            if (UserUtil.getUserData("RandomBackground").equals("1")) {
                 if (getBackgrounds().size() <= 1) {
                     consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
                             "but you only have one background file so there's no random element to be chosen.");
@@ -125,7 +125,7 @@ public final class ConsoleFrame {
             int h = 0;
             ImageIcon usage = null;
 
-            if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+            if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                 w = (int) SystemUtil.getScreenSize().getWidth();
                 h = (int) SystemUtil.getScreenSize().getHeight();
                 usage = new ImageIcon(ImageUtil.resizeImage(w,h,getCurrentBackgroundFile()));
@@ -271,7 +271,7 @@ public final class ConsoleFrame {
             outputArea.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")),
+                    outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),
                             3, false));
                 }
 
@@ -300,8 +300,8 @@ public final class ConsoleFrame {
             outputScroll.setOpaque(false);
             outputScroll.setFocusable(false);
 
-            if (IOUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
-                outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")),
+            if (UserUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
+                outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),
                         3, false));
             } else {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
@@ -315,9 +315,9 @@ public final class ConsoleFrame {
             inputField.setEchoChar((char)0);
             inputField.setText(consoleBashString);
 
-            if (IOUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
+            if (UserUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
                 inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor
-                        (IOUtil.getUserData("Background")), 3, false));
+                        (UserUtil.getUserData("Background")), 3, false));
             } else {
                 inputField.setBorder(null);
             }
@@ -480,16 +480,16 @@ public final class ConsoleFrame {
             inputField.setForeground(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
             inputField.setFont(ConsoleFrame.getConsoleFrame().getUserFont());
 
-            if (IOUtil.getUserData("OutputFill").equals("1")) {
+            if (UserUtil.getUserData("OutputFill").equals("1")) {
                 outputArea.setOpaque(true);
-                outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+                outputArea.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
                 outputArea.repaint();
                 outputArea.revalidate();
             }
 
-            if (IOUtil.getUserData("InputFill").equals("1")) {
+            if (UserUtil.getUserData("InputFill").equals("1")) {
                 inputField.setOpaque(true);
-                inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+                inputField.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
                 inputField.repaint();
                 inputField.revalidate();
             }
@@ -572,7 +572,7 @@ public final class ConsoleFrame {
                     menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 5);
                     menuLabel.setVisible(true);
 
-                    if (IOUtil.getUserData("menudirection").equals("1")) {
+                    if (UserUtil.getUserData("menudirection").equals("1")) {
                         AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
                     } else {
                         menuLabel.setLocation(0, -250);
@@ -704,7 +704,7 @@ public final class ConsoleFrame {
             close = new JButton("");
             close.setToolTipText("Close");
             close.addActionListener(e -> {
-                if (IOUtil.getUserData("minimizeonclose").equals("1")) {
+                if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
                     consoleCyderFrame.closeAnimation();
@@ -883,7 +883,7 @@ public final class ConsoleFrame {
 
                 OUTER:
                     while (true) {
-                        if (IOUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
+                        if (UserUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
                             IOUtil.playSystemAudio("sys/audio/chime.mp3");
                         }
 
@@ -908,8 +908,8 @@ public final class ConsoleFrame {
             try {
                 OUTER:
                     while (true) {
-                        if (IOUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1")) {
-                            if (IOUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
+                        if (UserUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1")) {
+                            if (UserUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
                                 String time = TimeUtil.consoleSecondTime();
                                 int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                                 int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
@@ -949,7 +949,7 @@ public final class ConsoleFrame {
             try {
                 OUTER:
                     while (true) {
-                        if (IOUtil.getUserData("showbusyicon").equals("1")) {
+                        if (UserUtil.getUserData("showbusyicon").equals("1")) {
                             ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                             int num = threadGroup.activeCount();
                             Thread[] printThreads = new Thread[num];
@@ -1021,7 +1021,7 @@ public final class ConsoleFrame {
             consoleCyderFrame.notify("Happy April Fool Day!");
 
         //preference handlers here
-        if (IOUtil.getUserData("DebugWindows").equals("1")) {
+        if (UserUtil.getUserData("DebugWindows").equals("1")) {
             StatUtil.systemProperties();
             StatUtil.computerProperties();
             StatUtil.javaProperties();
@@ -1039,11 +1039,11 @@ public final class ConsoleFrame {
 
         //last start time operations
         if (TimeUtil.milisToDays(System.currentTimeMillis() -
-                Long.parseLong(IOUtil.getUserData("laststart"))) > 1) {
+                Long.parseLong(UserUtil.getUserData("laststart"))) > 1) {
             consoleCyderFrame.notify("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "!");
         }
 
-        IOUtil.setUserData("laststart",System.currentTimeMillis() + "");
+        UserUtil.setUserData("laststart",System.currentTimeMillis() + "");
 
         //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
         try {
@@ -1403,7 +1403,7 @@ public final class ConsoleFrame {
 
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
-            if (IOUtil.getUserData("menudirection").equals("1")) {
+            if (UserUtil.getUserData("menudirection").equals("1")) {
                 menuLabel.setLocation(0, menuLabel.getY());
 
                 new Thread(() -> {
@@ -1497,7 +1497,7 @@ public final class ConsoleFrame {
      */
     public void setUUID(String uuid) {
         UUID = uuid;
-        IOUtil.fixUserData();
+        UserUtil.fixUser();
     }
 
     public String getUUID() {
@@ -1505,7 +1505,7 @@ public final class ConsoleFrame {
     }
 
     public String getUsername() {
-        String name = IOUtil.getUserData("Name");
+        String name = UserUtil.getUserData("Name");
         if (name == null || name.trim().length() < 1)
             return "Name Not Found";
         else
@@ -1547,7 +1547,7 @@ public final class ConsoleFrame {
      * @return - the font to use for the input and output areas
      */
     public Font getUserFont() {
-        return new Font(IOUtil.getUserData("Font"), fontMetric, fontSize);
+        return new Font(UserUtil.getUserData("Font"), fontMetric, fontSize);
     }
 
     /**
@@ -1555,7 +1555,7 @@ public final class ConsoleFrame {
      * @return - a Color object representing the chosen foreground
      */
     public Color getUserForegroundColor() {
-        return ColorUtil.hextorgbColor(IOUtil.getUserData("Foreground"));
+        return ColorUtil.hextorgbColor(UserUtil.getUserData("Foreground"));
     }
 
     /**
@@ -1563,7 +1563,7 @@ public final class ConsoleFrame {
      * @return - a Color object representing the chosen background
      */
     public Color getUserBackgroundColor() {
-        return ColorUtil.hextorgbColor(IOUtil.getUserData("Background"));
+        return ColorUtil.hextorgbColor(UserUtil.getUserData("Background"));
     }
 
     /**
@@ -2094,7 +2094,7 @@ public final class ConsoleFrame {
      * @return returns the current background with using the current background ImageIcon and whether or not full screen is active
      */
     public int getBackgroundWidth() {
-        if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
+        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
             return (int) SystemUtil.getScreenSize().getWidth();
         else
             return getCurrentBackgroundImageIcon().getIconWidth();
@@ -2104,7 +2104,7 @@ public final class ConsoleFrame {
      * @return returns the current background height using the current background ImageIcon and whether or not full screen is active
      */
     public int getBackgroundHeight() {
-        if (IOUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
+        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
             return (int) SystemUtil.getScreenSize().getHeight();
         else
             return getCurrentBackgroundImageIcon().getIconHeight();
@@ -2229,47 +2229,47 @@ public final class ConsoleFrame {
 
     public void refreshBasedOnPrefs() {
         //output border
-        if (IOUtil.getUserData("OutputBorder").equals("0")) {
+        if (UserUtil.getUserData("OutputBorder").equals("0")) {
             outputScroll.setBorder(BorderFactory.createEmptyBorder());
         } else {
-            outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
+            outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")), 3, true));
         }
 
         //input border
-        if (IOUtil.getUserData("InputBorder").equals("0")) {
+        if (UserUtil.getUserData("InputBorder").equals("0")) {
             inputField.setBorder(null);
         } else {
-            inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")), 3, true));
+            inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")), 3, true));
         }
 
         //full screen
-        if (IOUtil.getUserData("FullScreen").equals("0") && isFullscreen()) {
+        if (UserUtil.getUserData("FullScreen").equals("0") && isFullscreen()) {
             setFullscreen(false);
-        } else if (IOUtil.getUserData("FullScreen").equals("1") && !isFullscreen()) {
+        } else if (UserUtil.getUserData("FullScreen").equals("1") && !isFullscreen()) {
             setFullscreen(true);
         }
 
         //console clock
-        consoleClockLabel.setVisible(IOUtil.getUserData("ClockOnConsole").equals("1"));
+        consoleClockLabel.setVisible(UserUtil.getUserData("ClockOnConsole").equals("1"));
 
         //output color fill
-        if (IOUtil.getUserData("OutputFill").equals("0")) {
+        if (UserUtil.getUserData("OutputFill").equals("0")) {
             outputArea.setBackground(null);
             outputArea.setOpaque(false);
         } else {
             outputArea.setOpaque(true);
-            outputArea.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+            outputArea.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
             outputArea.repaint();
             outputArea.revalidate();
         }
 
         //input color fill
-        if (IOUtil.getUserData("InputFill").equals("0")) {
+        if (UserUtil.getUserData("InputFill").equals("0")) {
             inputField.setBackground(null);
             inputField.setOpaque(false);
         } else {
             inputField.setOpaque(true);
-            inputField.setBackground(ColorUtil.hextorgbColor(IOUtil.getUserData("Background")));
+            inputField.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
             inputField.repaint();
             inputField.revalidate();
         }

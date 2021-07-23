@@ -4,8 +4,8 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
-import cyder.utilities.IOUtil;
 import cyder.utilities.SystemUtil;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +42,7 @@ public class ErrorHandler {
             //if the user has show errors configured, then we open the file
             if (ConsoleFrame.getConsoleFrame().getUUID() != null &&
                     !ConsoleFrame.getConsoleFrame().isClosed() &&
-                    IOUtil.getUserData("SilenceErrors").equals("0")) {
+                    UserUtil.getUserData("SilenceErrors").equals("0")) {
                 System.out.println("\nOriginal error:\n");
                 e.printStackTrace();
                 windowedError(message, write);

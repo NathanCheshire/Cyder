@@ -291,7 +291,7 @@ public class Entry {
                 loginField.setText(bashString);
             }
 
-            if (SecurityUtil.checkPassword(name, hashedPass)) {
+            if (UserUtil.checkPassword(name, hashedPass)) {
                 doLoginAnimations = false;
                 if (autoCypherAttempt) {
                     SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER PASS");
@@ -313,7 +313,7 @@ public class Entry {
                 }
 
                 //this if block needs to be in console, stuff to do specifically for user on first login
-                if (IOUtil.getUserData("IntroMusic").equals("1")) {
+                if (UserUtil.getUserData("IntroMusic").equals("1")) {
                     LinkedList<String> musicList = new LinkedList<>();
 
                     File userMusicDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");

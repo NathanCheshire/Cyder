@@ -113,7 +113,7 @@ public class TimeUtil {
             AnimationUtil.closeAnimation(consoleFrame);
 
             try {
-                if (IOUtil.getUserData("minimizeonclose").equals("1")) {
+                if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
                     GenesisShare.getExitingSem().acquire();
