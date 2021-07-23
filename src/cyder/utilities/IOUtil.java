@@ -595,7 +595,7 @@ public class IOUtil {
     /**
      * If a user becomes corrupted for any reason which may be determined any way we choose,
      * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
-     * zip any user data aside from userdata.bin and the Throws directory
+     * zip any user data aside from userdata.json and the Throws directory
      * <p>
      * This could fail if something has already been deleted which is fine since we want to
      * go to the starting
@@ -621,8 +621,7 @@ public class IOUtil {
 
             //delete the stuff we don't care about
             for (File f : mainZipFile.listFiles()) {
-                if (f.getName().equalsIgnoreCase("userdata.bin")
-                        || f.getName().equalsIgnoreCase("userdata.txt"))
+                if (f.getName().equalsIgnoreCase("userdata.json"))
                     f.delete();
             }
 

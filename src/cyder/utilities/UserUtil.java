@@ -12,20 +12,6 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 
 public class UserUtil {
-
-    public static String getUserData(String name) {
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-            throw new IllegalArgumentException("UUID not yet set");
-        File userJsonFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                                    + "/userdata.json");
-
-        if (!userJsonFile.exists())
-            throw new IllegalArgumentException("userdata.json does not exist");
-
-        User user = extractUser(userJsonFile);
-        return extractUserData(user, name);
-    }
-
     public static void setUserData(String name, String value) {
        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
            throw new IllegalArgumentException("UUID is null");
@@ -37,6 +23,21 @@ public class UserUtil {
            throw new IllegalArgumentException("userdata.json does not exist");
 
        setUserData(userJsonFile, name, value);
+    }
+
+    public static void setUserData(User user, String name, String value) {
+        try {
+            for (Method m : user.getClass().getMethods()) {
+                if (m.getName().startsWith("set")
+                        && m.getParameterTypes().length == 1
+                        && m.getName().toLowerCase().contains(name.toLowerCase())) {
+                    m.invoke(user, value);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     public static <T> void setUserData(File f, String name, T value) {
@@ -68,6 +69,8 @@ public class UserUtil {
             e.printStackTrace();
         }
     }
+
+
 
     public static <T> void setUserData(String name, T value) {
         File f = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
@@ -280,8 +283,29 @@ public class UserUtil {
     }
 
     /**
+     * Gets the requested data from the currently logged in user.
+     * This method exists purely for legacy calls such as getUserData("foreground").
+     * Ideally the call should be extractUser().getForeground()
+     * @param name - the ID of the data we want to obtain
+     * @return - the resulting data
+     */
+    public static String getUserData(String name) {
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+            throw new IllegalArgumentException("UUID not yet set");
+        File userJsonFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                + "/userdata.json");
+
+        if (!userJsonFile.exists())
+            throw new IllegalArgumentException("userdata.json does not exist");
+
+        User user = extractUser(userJsonFile);
+        return extractUserData(user, name);
+    }
+
+    /**
      * Assuming the corresponding getter and setter functions exist in User.java,
-     * this method will call the getter method that matches the provided data
+     * this method will call the getter method that matches the provided data.
+     * This method exists purely for legacy calls such as extractUserData("font")
      * @param u - the initialized user containing the data we want to obtain
      * @param data - the data id for which to return
      * @return - the requested data
@@ -304,5 +328,39 @@ public class UserUtil {
         } finally {
             return ret;
         }
+    }
+
+    public static boolean checkPassword(String name, String hashedPass) {
+        try {
+            IOUtil.cleanUsers();
+
+            hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
+
+            //get all users
+            File[] UUIDs = new File("users").listFiles();
+            LinkedList<File> userDataFiles = new LinkedList<>();
+
+            //get all valid users
+            for (File user : UUIDs) {
+                userDataFiles.add(new File(user.getAbsolutePath() + "/userdata.json"));
+            }
+
+            //loop through all users and extract the name and password fields
+            for (int i = 0 ; i < userDataFiles.size() ; i++) {
+                User user = extractUser(userDataFiles.get(i));
+
+                //if it's the one we're looking for, set consoel UUID, free resources, and return true
+                if (hashedPass.equalsIgnoreCase(user.getName()) && name.equalsIgnoreCase(user.getPass())) {
+                    ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
+                    return true;
+                }
+            }
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return false;
     }
 }

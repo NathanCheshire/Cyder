@@ -5,8 +5,12 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.obj.Preference;
+import cyder.obj.User;
 import cyder.ui.*;
-import cyder.utilities.*;
+import cyder.utilities.GetterUtil;
+import cyder.utilities.SecurityUtil;
+import cyder.utilities.StringUtil;
+import cyder.utilities.UserUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,13 +18,10 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 public class UserCreator {
     private static CyderFrame createUserFrame;
@@ -268,46 +269,22 @@ public class UserCreator {
                                     new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
                         }
 
-                        //this will use binary writing when we switch so we'll change to .bin and such
-                        BufferedWriter newUserWriter = new BufferedWriter(new FileWriter(
-                                "users/" + uuid + "/Userdata.txt"));
+                        File dataFile = new File("users/" + uuid + "/userdata.json");
+                        dataFile.createNewFile();
 
-                        LinkedList<String> data = new LinkedList<>();
-                        data.add("Name:" + newUserName.getText().trim());
-                        data.add("Password:" + SecurityUtil.toHexString(SecurityUtil.getSHA256(
+                        User user = new User();
+
+                        user.setName(newUserName.getText().trim());
+                        user.setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
                                 SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)).toCharArray())));
 
                         for (Preference pref : GenesisShare.getPrefs()) {
-                            if (!pref.getID().equalsIgnoreCase("foreground")) {
-                                data.add(pref.getID() + ":" + pref.getDefaultValue());
-                            } else {
-                                try {
-                                    Color backgroundDom = null;
-
-                                    if (createUserBackground == null) {
-                                        backgroundDom = ImageUtil.getDominantColor(ImageIO.read(new File("users/" + uuid + "/Backgrounds/Default.png")));
-                                    } else {
-                                        backgroundDom = ImageUtil.getDominantColor(ImageIO.read(createUserBackground));
-                                    }
-
-                                    if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
-                                            * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
-                                        data.add(pref.getID() + ":" + ColorUtil.rgbtohexString(CyderColors.textBlack));
-                                    } else {
-                                        data.add(pref.getID() + ":" + ColorUtil.rgbtohexString(CyderColors.textWhite));
-                                    }
-                                } catch (Exception ex) {
-                                    ErrorHandler.handle(ex);
-                                }
+                            if (!pref.getDisplayName().equals("IGNORE")) {
+                                UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
                             }
                         }
 
-                        for (String d : data) {
-                            newUserWriter.write(d);
-                            newUserWriter.newLine();
-                        }
-
-                        newUserWriter.close();
+                        UserUtil.setUserData(dataFile, user);
 
                         createUserFrame.closeAnimation();
                         createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "");

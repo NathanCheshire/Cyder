@@ -28,8 +28,6 @@ public class User {
     private String showbusyicon;
     private LinkedList<MappedExecutable> executables;
 
-    private User() {}
-
     //getters
 
     public String getName() {
