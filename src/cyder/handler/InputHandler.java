@@ -54,7 +54,6 @@ public class InputHandler {
     private UserEditor userEditor;
 
     //todo how does an image become corrupted
-    //todo fix shift debug lines bug
 
     private InputHandler() {} //no instantiation without a valid JTextPane to use
 

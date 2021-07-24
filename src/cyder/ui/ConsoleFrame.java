@@ -368,16 +368,6 @@ public final class ConsoleFrame {
                         inputField.setText(consoleBashString +
                                 String.valueOf(inputField.getPassword()).substring(consoleBashString.length()).toUpperCase());
                     }
-                    //debug lines
-                    if ((KeyEvent.SHIFT_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                        if (!consoleLinesDrawn) {
-                            drawConsoleLines = true;
-                        } else {
-                            drawConsoleLines = false;
-                            consoleLinesDrawn = false;
-                        }
-                        consoleCyderFrame.repaint();
-                    }
                 }
 
                 @Override
@@ -394,6 +384,22 @@ public final class ConsoleFrame {
                             inputField.setText(consoleBashString);
                         }
                     }
+                }
+            });
+
+            inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                    .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), "debuglines");
+
+            inputField.getActionMap().put("debuglines", new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!consoleLinesDrawn) {
+                        drawConsoleLines = true;
+                    } else {
+                        drawConsoleLines = false;
+                        consoleLinesDrawn = false;
+                    }
+                    consoleCyderFrame.repaint();
                 }
             });
 
