@@ -1,14 +1,97 @@
-[22:29:55] [ENTRY]: [WINUSER=Nathan]
-[22:29:55] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
-[22:29:56] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[22:29:56] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
-[22:29:56] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[22:29:56] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[22:29:56] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
-[22:29:56] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[22:29:56] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
-[22:29:56] [LOGIN]: [AUTOCYPHER FAIL]
-[22:29:56] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
-[22:29:57] [SYSTEM_IO]: [GET] [Date] [RETURN VALUE] 7.2.21
-[22:30:06] [EXIT]: [RUNTIME] 10s
-[22:30:06] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
+[23:20:19] [ENTRY]: [WINUSER=Nathan]
+[23:20:19] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[23:20:19] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:20:19] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[23:20:20] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:20:20] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:20:20] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[23:20:20] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:20:20] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[23:20:21] [LOGIN]: [AUTOCYPHER PASS]
+[23:20:22] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[23:20:22] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[23:20:22] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:20:22] [CLIENT]: test
+[23:20:27] [CLIENT]: Logout
+[23:20:27] [LOGOUT]:  [Nathan]
+[23:20:27] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[23:20:27] [SYSTEM_IO]: [GET] [Date] [RETURN VALUE] 7.2.21
+[23:20:29] [CLIENT_IO]: [LOGIN FRAME] create
+[23:20:33] [ACTION]: CyderButton, text=[Create User] CLICKED
+[23:20:37] [CLIENT_IO]: [LOGIN FRAME] login
+[23:20:37] [CLIENT_IO]: [LOGIN FRAME] kar
+[23:20:40] [EXCEPTION]: 
+argument type mismatch
+Thrown from:
+java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+StackTrace:
+java.lang.IllegalArgumentException: argument type mismatch
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at cyder.utilities.UserUtil.fixUser(UserUtil.java:191)
+	at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1522)
+	at cyder.utilities.UserUtil.checkPassword(UserUtil.java:369)
+	at cyder.genesis.Entry.recognize(Entry.java:294)
+	at cyder.genesis.Entry$2.keyTyped(Entry.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[23:20:40] [LOGIN]: [STD LOGIN]
+[23:20:40] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[23:20:40] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[23:20:41] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[23:20:41] [CLIENT]: test
+[23:22:38] [CLIENT]: Prefs
+[23:22:38] [ACTION]: USER EDITOR
+[23:22:40] [ACTION]: CyderButton, text=[>] CLICKED
+[23:22:41] [ACTION]: CyderButton, text=[>] CLICKED
+[23:22:46] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[23:22:49] [ACTION]: [Soultree Cyder [Kar]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
+[23:22:52] [ACTION]: CyderButton, text=[      Off      ] CLICKED
+[23:23:02] [SUGGESTION]: Threads
+[23:23:02] [ACTION]: [Soultree Cyder [Kar]] [NOTIFICATION] Suggestion logged; please remember to send your logs directory to Nathan so that he can make Cyder better for us all
+[23:23:05] [CLIENT]: Threads
+[23:23:19] [ACTION]: [Soultree Cyder [Kar]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
+[23:23:22] [ACTION]: [Soultree Cyder [Kar]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
+[23:23:25] [SUGGESTION]: Cls
+[23:23:25] [ACTION]: [Soultree Cyder [Kar]] [NOTIFICATION] Suggestion logged; please remember to send your logs directory to Nathan so that he can make Cyder better for us all
+[23:23:27] [CLIENT]: Threads
+[23:23:28] [CLIENT]: Clear
+[23:23:29] [CLIENT]: Cls
+[23:23:32] [CLIENT]: Threads
+[23:23:42] [LOGOUT]:  [Kar]
+[23:23:42] [EXIT]: [RUNTIME] 3m 22s
+[23:23:42] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 1

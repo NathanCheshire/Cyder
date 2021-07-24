@@ -260,6 +260,7 @@ public final class ConsoleFrame {
                 public void focusLost(FocusEvent e) {
                     inputField.requestFocusInWindow();
                     inputField.setCaretPosition(inputField.getDocument().getLength());
+                    minimizeMenu();
                 }
             });
 

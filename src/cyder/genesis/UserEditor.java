@@ -397,7 +397,6 @@ public class UserEditor {
                         }
                     }
 
-
                     if ((IOUtil.getCurrentMP3() != null
                             && selectedFile.getAbsoluteFile().toString().equals(IOUtil.getCurrentMP3().getAbsoluteFile().toString())) ||
                             selectedFile.getAbsoluteFile().toString().equals(ConsoleFrame.getConsoleFrame()
@@ -406,7 +405,10 @@ public class UserEditor {
                     } else {
                         String oldname = StringUtil.getFilename(selectedFile);
                         String extension = StringUtil.getExtension(selectedFile);
-                        String newname = new GetterUtil().getString("Rename","Enter any valid file name","Submit");
+                        GetterUtil gu = new GetterUtil();
+                        gu.setRelativeFrame(editUserFrame);
+                        String newname = gu.getString("Rename","Enter any valid file name",
+                                "Submit", oldname);
 
                         if (oldname.equals(newname) || newname.equals("NULL"))
                             return;
@@ -799,8 +801,6 @@ public class UserEditor {
 
         CyderTextField addField = new CyderTextField(0);
 
-        //todo how does an image become corrupted
-        //todo notification bug
         CyderButton addButton = new CyderButton("Add");
         addButton.setBounds(80,160,200,40);
         addButton.addActionListener(e -> {
@@ -818,8 +818,8 @@ public class UserEditor {
 
                         File pointerFile = new File(path);
 
-                        if (!pointerFile.exists()) {
-                            editUserFrame.notify("File does not exist");
+                        if (!pointerFile.exists() || !pointerFile.isFile()) {
+                            editUserFrame.notify("File does not exist or is not a file");
                         } else {
                             if (name.length() > 0) {
                                 LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();

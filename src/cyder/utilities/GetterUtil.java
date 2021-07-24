@@ -115,6 +115,91 @@ public class GetterUtil {
         }
     }
 
+    /** Custom getInput method, see usage below for how to setup so that the program doesn't
+     * spin wait on the main GUI thread forever. Ignoring the below setup
+     * instructions is fine only for the getString method, the getFile method must be surrounded by
+     * a thread whenever called.
+     *
+     * USAGE:
+     *  <pre>
+     *  {@code
+     *  new Thread(() -> {
+     *      try {
+     *          String input = new GetterUtil().getString("title","tooltip","button text","initial field value");
+     *          //other operations using input
+     *      } catch (Exception e) {
+     *          ErrorHandler.handle(e);
+     *      }
+     *  }, "wait thread for GetterUtil().getString()").start();
+     *  }
+     *  </pre>
+     * @param title - the title of the frame
+     * @param tooltip - the tooltip of the input field
+     * @param buttonText - the text of the submit button
+     * @param initialString - the initial text in the input field
+     * @return - the user entered input string. NOTE: if any improper input is ateempted to be returned,
+     *  this function returns the string literal of "NULL" instead of {@code null}
+     */
+    public String getString(String title, String tooltip, String buttonText, String initialString) {
+        stringFrameTitle = title;
+        stringTooltipText = tooltip;
+        stringButtonText = buttonText;
+
+        new Thread(() -> {
+            try {
+                CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
+                inputFrame.setTitle(getStringFrameTitle());
+
+                CyderTextField inputField = new CyderTextField(0);
+                inputField.setBackground(Color.white);
+                inputField.setText(initialString);
+                inputField.setToolTipText(getStringTooltipText());
+                inputField.setBounds(40,40,320,40);
+                inputFrame.getContentPane().add(inputField);
+
+                CyderButton submit = new CyderButton(getStringButtonText());
+                submit.setBackground(CyderColors.regularRed);
+                submit.setColors(CyderColors.regularRed);
+                inputField.addActionListener(e1 -> submit.doClick());
+                submit.setBorder(new LineBorder(CyderColors.navy,5,false));
+                submit.setFont(CyderFonts.weatherFontSmall);
+                submit.setForeground(CyderColors.navy);
+                submit.addActionListener(e12 -> {
+                    returnString = (inputField.getText() == null || inputField.getText().length() == 0 ? "NULL" : inputField.getText());
+                    inputFrame.closeAnimation();
+                });
+                submit.setBounds(40,100,320,40);
+                inputFrame.getContentPane().add(submit);
+
+                inputFrame.addCloseListener(e -> submit.doClick());
+
+                inputFrame.setVisible(true);
+                inputFrame.setAlwaysOnTop(true);
+                inputFrame.setLocationRelativeTo(relativeFrame);
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, this + "getString thread").start();
+
+        try {
+            while (returnString == null) {
+                Thread.onSpinWait();
+            }
+        } catch (Exception ex) {
+            ErrorHandler.handle(ex);
+        } finally {
+            String ret = returnString;
+            clearString();
+            return ret;
+        }
+    }
+
+    private CyderFrame relativeFrame = null;
+
+    public void setRelativeFrame(CyderFrame relativeFrame) {
+        this.relativeFrame = relativeFrame;
+    }
+
     public void setStringFrameTitle(String title) {
         stringFrameTitle = title;
     }
