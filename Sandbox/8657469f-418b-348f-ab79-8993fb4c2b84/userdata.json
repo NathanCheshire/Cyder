@@ -18,9 +18,20 @@
   "showseconds": "1",
   "filterchat": "1",
   "menudirection": "1",
-  "laststart": "1627019888755",
+  "laststart": "1627100284773",
   "minimizeonclose": "0",
   "typinganimation": "1",
   "showbusyicon": "0",
-  "executables": []
+  "ffmpegpath": "C:\\FFmpeg\\bin\\ffmpeg.exe",
+  "youtubedlpath": "C:\\Program Files\\youtube-dl\\youtube-dl.exe",
+  "executables": [
+    {
+      "name": "Spotify",
+      "filepath": "C:\\Users\\Nathan\\AppData\\Roaming\\Spotify\\Spotify.exe"
+    },
+    {
+      "name": "Chrome",
+      "filepath": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\Chrome.exe"
+    }
+  ]
 }

@@ -279,7 +279,8 @@ public class UserCreator {
                                 SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)).toCharArray())));
 
                         for (Preference pref : GenesisShare.getPrefs()) {
-                            UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
+                            if (!pref.getDisplayName().equals("IGNORE"))
+                                UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
                         }
 
                         UserUtil.setUserData(dataFile, user);

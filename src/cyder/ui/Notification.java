@@ -367,6 +367,7 @@ public class Notification extends JLabel {
                 }
 
                 this.getParent().remove(this);
+                this.setVisible(false);
             }
 
             catch (Exception e) {

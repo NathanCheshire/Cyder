@@ -799,7 +799,8 @@ public class UserEditor {
 
         CyderTextField addField = new CyderTextField(0);
 
-        //todo if already exists name, don't let them add, also what is up with notifications not working?
+        //todo how does an image become corrupted
+        //todo notification bug
         CyderButton addButton = new CyderButton("Add");
         addButton.setBounds(80,160,200,40);
         addButton.addActionListener(e -> {
@@ -821,14 +822,28 @@ public class UserEditor {
                             editUserFrame.notify("File does not exist");
                         } else {
                             if (name.length() > 0) {
-                                User.MappedExecutable addExe = new User.MappedExecutable(name, path);
-                                User user = UserUtil.extractUser();
-                                LinkedList<User.MappedExecutable> currentExes = user.getExecutables();
-                                currentExes.add(addExe);
-                                user.setExecutables(currentExes);
-                                UserUtil.setUserData(user);
-                                editUserFrame.notify("Mapped exe successfully added");
-                                ConsoleFrame.getConsoleFrame().revaliateMenu();
+                                LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
+                                boolean exists = false;
+
+                                for (User.MappedExecutable exe : exes) {
+                                    if (exe.getName().equalsIgnoreCase(name)) {
+                                        exists = true;
+                                        break;
+                                    }
+                                }
+
+                                if (exists) {
+                                    editUserFrame.notify("Mapped exe name already in use");
+                                } else {
+                                    User.MappedExecutable addExe = new User.MappedExecutable(name, path);
+                                    User user = UserUtil.extractUser();
+                                    LinkedList<User.MappedExecutable> currentExes = user.getExecutables();
+                                    currentExes.add(addExe);
+                                    user.setExecutables(currentExes);
+                                    UserUtil.setUserData(user);
+                                    editUserFrame.notify("Mapped exe successfully added");
+                                    ConsoleFrame.getConsoleFrame().revaliateMenu();
+                                }
                             } else {
                                 editUserFrame.notify("Invalid exe name");
                             }
