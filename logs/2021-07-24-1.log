@@ -1,96 +1,17 @@
-[12:57:12] [ENTRY]: [WINUSER=Nathan]
-[12:57:12] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
-[12:57:12] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[12:57:12] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
-[12:57:13] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[12:57:13] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[12:57:13] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
-[12:57:13] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[12:57:13] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
-[12:57:13] [LOGIN]: [AUTOCYPHER PASS]
-[12:57:14] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
-[12:57:14] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
-[12:57:15] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[12:57:15] [CLIENT]: test
-[12:57:16] [ACTION]: CyderButton, text=[Top] CLICKED
-[12:57:16] [ACTION]: [Notification Test] [NOTIFICATION]
-[12:57:18] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:57:18] [ACTION]: CyderButton, text=[Right] CLICKED
-[12:57:20] [ACTION]: [Notification Test] [NOTIFICATION]
-[12:57:21] [ACTION]: CyderButton, text=[Bottom] CLICKED
-[12:57:23] [ACTION]: [Notification Test] [NOTIFICATION]
-[12:57:24] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:57:24] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:57:24] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:57:24] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:57:24] [ACTION]: CyderButton, text=[Left] CLICKED
-[12:57:27] [ACTION]: [Notification Test] [NOTIFICATION]
-[12:57:29] [ACTION]: CyderButton, text=[Top] CLICKED
-[12:57:29] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:57:29] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:57:29] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:57:29] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:57:29] [ACTION]: CyderButton, text=[Right] CLICKED
-[12:57:29] [ACTION]: CyderButton, text=[Bottom] CLICKED
-[12:57:30] [ACTION]: CyderButton, text=[Left] CLICKED
-[12:57:30] [ACTION]: [Notification Test] [NOTIFICATION] a
-[12:57:34] [ACTION]: [Notification Test] [NOTIFICATION] a
-[12:57:37] [ACTION]: [Notification Test] [NOTIFICATION] a
-[12:57:41] [ACTION]: [Notification Test] [NOTIFICATION] a
-[12:57:48] [ACTION]: CyderButton, text=[Bottom] CLICKED
-[12:57:48] [ACTION]: [Notification Test] [NOTIFICATION] a
-[12:57:49] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:57:49] [ACTION]: CyderButton, text=[Left] CLICKED
-[12:57:51] [ACTION]: [Notification Test] [NOTIFICATION] a
-[12:57:57] [ACTION]: CyderButton, text=[Top] CLICKED
-[12:57:57] [ACTION]: [Notification Test] [NOTIFICATION] alpha
-[12:57:57] [ACTION]: CyderButton, text=[Right] CLICKED
-[12:57:58] [ACTION]: CyderButton, text=[Bottom] CLICKED
-[12:57:58] [ACTION]: CyderButton, text=[Left] CLICKED
-[12:57:59] [ACTION]: [Notification Test] [NOTIFICATION] alpha
-[12:57:59] [ACTION]: [Notification Test] [NOTIFICATION] alpha
-[12:58:01] [ACTION]: [Notification Test] [NOTIFICATION] alpha
-[12:58:03] [ACTION]: CyderButton, text=[Top] CLICKED
-[12:58:03] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta
-[12:58:04] [ACTION]: CyderButton, text=[Top] CLICKED
-[12:58:05] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta
-[12:58:06] [ACTION]: CyderButton, text=[Right] CLICKED
-[12:58:06] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta
-[12:58:07] [ACTION]: CyderButton, text=[Bottom] CLICKED
-[12:58:07] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta
-[12:58:09] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:58:09] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:58:09] [ACTION]: CyderButton, text=[Left] CLICKED
-[12:58:09] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta
-[12:58:18] [ACTION]: CyderButton, text=[Top] CLICKED
-[12:58:18] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:58:20] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:58:20] [ACTION]: CyderButton, text=[Right] CLICKED
-[12:58:21] [ACTION]: CyderButton, text=[Bottom] CLICKED
-[12:58:21] [ACTION]: CyderButton, text=[Left] CLICKED
-[12:58:22] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:58:25] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:58:26] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:58:42] [ACTION]: CyderButton, text=[Top] CLICKED
-[12:58:42] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:58:49] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
-[12:58:49] [ACTION]: CyderButton, text=[Top] CLICKED
-[12:58:49] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:58:51] [ACTION]: CyderButton, text=[Right] CLICKED
-[12:58:51] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:58:51] [ACTION]: CyderButton, text=[Right] CLICKED
-[12:58:52] [ACTION]: CyderButton, text=[Right] CLICKED
-[12:58:52] [ACTION]: CyderButton, text=[Right] CLICKED
-[12:58:52] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:58:53] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:58:54] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:58:59] [ACTION]: CyderButton, text=[Bottom] CLICKED
-[12:58:59] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[12:59:00] [ACTION]: CyderButton, text=[Top] CLICKED
-[12:59:03] [ACTION]: [Notification Test] [NOTIFICATION] alpha beta gamma delta elsilon zeta eta theta
-[13:00:39] [ACTION]: [SYSTEM AUDIO] sys/audio/chime.mp3
-[13:00:45] [CLIENT]: Threads
-[13:00:53] [CLIENT]: Logout
-[13:00:53] [LOGOUT]:  [Nathan]
-[13:00:53] [EXIT]: [RUNTIME] 3m 40s
-[13:00:53] [EOL]: Log completed, exiting program with code: 120 [Final Frame Disposed], exceptions thrown: 0
+[13:43:21] [ENTRY]: [WINUSER=Nathan]
+[13:43:21] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[13:43:22] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:43:22] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[13:43:22] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:43:22] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:43:22] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[13:43:22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:43:23] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[13:43:23] [LOGIN]: [AUTOCYPHER PASS]
+[13:43:24] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[13:43:24] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[13:43:24] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:43:24] [CLIENT]: test
+[13:43:27] [LOGOUT]:  [Nathan]
+[13:43:27] [EXIT]: [RUNTIME] 5s
+[13:43:27] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

@@ -54,7 +54,7 @@ public class InputHandler {
     private UserEditor userEditor;
 
     //todo how does an image become corrupted
-    //todo audio player on play after pause resets scrolling position
+    //todo fix shift debug lines bug
 
     private InputHandler() {} //no instantiation without a valid JTextPane to use
 

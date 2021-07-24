@@ -746,10 +746,6 @@ public class AudioPlayer {
                         player.close();
                     player = null;
 
-                    if (audioScroll != null)
-                        audioScroll.kill();
-                    audioScroll = null;
-
                     if (audioLocation != null)
                         audioLocation.kill();
                     audioLocation = null;
@@ -760,8 +756,6 @@ public class AudioPlayer {
                     } catch (Exception ignored) {}
 
                     if (!miniPlayer) {
-                        audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
-                        audioScroll = new ScrollLabel(audioTitleLabel);
                         audioLocation = new AudioLocation(audioProgress);
                     }
 
