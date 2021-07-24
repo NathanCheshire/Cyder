@@ -45,3 +45,4 @@
 [22:48:34] [ACTION]: [Edit User] [NOTIFICATION] ffmpeg path sucessfully set
 [22:49:13] [ACTION]: CyderButton, text=[Validate] CLICKED
 [22:49:13] [ACTION]: [Edit User] [NOTIFICATION] youtube-dl path sucessfully set
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

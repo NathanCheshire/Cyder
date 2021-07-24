@@ -799,6 +799,7 @@ public class UserEditor {
 
         CyderTextField addField = new CyderTextField(0);
 
+        //todo if already exists name, don't let them add, also what is up with notifications not working?
         CyderButton addButton = new CyderButton("Add");
         addButton.setBounds(80,160,200,40);
         addButton.addActionListener(e -> {
@@ -827,6 +828,7 @@ public class UserEditor {
                                 user.setExecutables(currentExes);
                                 UserUtil.setUserData(user);
                                 editUserFrame.notify("Mapped exe successfully added");
+                                ConsoleFrame.getConsoleFrame().revaliateMenu();
                             } else {
                                 editUserFrame.notify("Invalid exe name");
                             }
@@ -868,6 +870,7 @@ public class UserEditor {
                     user.setExecutables(exes);
                     UserUtil.setUserData(user);
                     editUserFrame.notify("Exe successfully removed");
+                    ConsoleFrame.getConsoleFrame().revaliateMenu();
                 } else {
                     editUserFrame.notify("Could not locate specified exe");
                 }

@@ -1302,7 +1302,27 @@ public final class ConsoleFrame {
 
         if (!exes.isEmpty()) {
             for (User.MappedExecutable exe : exes) {
-                //todo generate and print label
+                JLabel label = new JLabel(StringUtil.capsFirst(exe.getName()));
+                label.setFont(menuFont);
+                label.setForeground(CyderColors.vanila);
+                printingUtil.printlnComponent(label);
+                label.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        IOUtil.openFileOutsideProgram(exe.getFilepath());
+                        consoleCyderFrame.notify("Opening: " + exe.getName());
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        label.setForeground(CyderColors.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        label.setForeground(CyderColors.vanila);
+                    }
+                });
             }
 
             JLabel sepLabel2 = new JLabel("SEPARATOR") {
@@ -2443,5 +2463,9 @@ public final class ConsoleFrame {
 
     public CyderFrame getConsoleCyderFrame() {
         return consoleCyderFrame;
+    }
+
+    public void revaliateMenu() {
+        menuGenerated = false;
     }
 }
