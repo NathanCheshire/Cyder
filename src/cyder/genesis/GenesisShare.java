@@ -4,6 +4,7 @@ import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.obj.Preference;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderFrame;
 
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
@@ -100,7 +101,9 @@ public class GenesisShare {
                 "Typing Animation on console for non-vital outputs", "1"));
         ret.add(new Preference("showbusyicon", "Show Cyder Busy Icon",
                 "Show when Cyder is busy by changing the tray icon","0"));
-        ret.add(new Preference("executables","IGNORE","IGNORE","IGNORE"));
+        ret.add(new Preference("executables","IGNORE","IGNORE","null"));
+        ret.add(new Preference("ffmpegpath","IGNORE","IGNORE",""));
+        ret.add(new Preference("youtubedlpath","IGNORE","IGNORE",""));
         //add future default data here
 
         return ret;
@@ -132,5 +135,13 @@ public class GenesisShare {
         } finally {
             System.exit(code);
         }
+    }
+
+    public static CyderFrame getDominantFrame() {
+        if (!ConsoleFrame.getConsoleFrame().isClosed()) {
+            return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
+        }
+
+        return Entry.getFrame();
     }
 }

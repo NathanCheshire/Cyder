@@ -9,6 +9,7 @@ import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.handler.InputHandler;
 import cyder.handler.SessionLogger;
+import cyder.obj.User;
 import cyder.utilities.*;
 import cyder.widgets.Calculator;
 import cyder.widgets.GenericInform;
@@ -1297,6 +1298,43 @@ public final class ConsoleFrame {
         });
         printingUtil.printlnComponent(sepLabel);
 
+        LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
+
+        if (!exes.isEmpty()) {
+            for (User.MappedExecutable exe : exes) {
+                //todo generate and print label
+            }
+
+            JLabel sepLabel2 = new JLabel("SEPARATOR") {
+                @Override
+                public void paintComponent(Graphics g) {
+                    //draw 5 high line 150 width across
+                    g.setColor(getForeground());
+                    g.fillRect(0, 7, 150, 5);
+                    g.dispose();
+                }
+            };
+            sepLabel2.setForeground(CyderColors.vanila);
+            sepLabel2.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    new Thread(() -> {
+                        try {
+                            for (int i = 0; i < 10; i++) {
+                                sepLabel2.setForeground(CyderColors.regularRed);
+                                Thread.sleep(100);
+                                sepLabel2.setForeground(CyderColors.vanila);
+                                Thread.sleep(100);
+                            }
+                        } catch (Exception ex) {
+                            ErrorHandler.handle(ex);
+                        }
+                    }, "Menu Line Disco Easter Egg").start();
+                }
+            });
+            printingUtil.printlnComponent(sepLabel2);
+        }
+
         JLabel logoutLabel = new JLabel("Logout");
         logoutLabel.setFont(menuFont);
         logoutLabel.setForeground(CyderColors.vanila);
@@ -1346,26 +1384,6 @@ public final class ConsoleFrame {
                 exitLabel.setForeground(CyderColors.vanila);
             }
         });
-
-        /*
-        add sep here if mapped labels
-        add mapped ones here: if title len greater than 9 items and cut off label text at > 9 chars
-        you'll need to redo how user data is stored and retreived since you'll need more than key/value pairs
-        probably should use JSON format. For example:
-
-        Mapped menu links: {
-            [
-                name: Banner
-                link: http://
-            ],
-            [
-                name: Super Long title that will be trimmed
-                link: something.io
-            ]
-        }
-        Username:nathan
-        Password;jdkljf230948kwejkflqj0
-         */
 
         CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
         menuScroll.setThumbSize(5);
@@ -2421,5 +2439,9 @@ public final class ConsoleFrame {
                 break;
             }
         }
+    }
+
+    public CyderFrame getConsoleCyderFrame() {
+        return consoleCyderFrame;
     }
 }

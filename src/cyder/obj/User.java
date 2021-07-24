@@ -26,6 +26,8 @@ public class User {
     private String minimizeonclose;
     private String typinganimation;
     private String showbusyicon;
+    private String ffmpegpath;
+    private String youtubedlpath;
     private LinkedList<MappedExecutable> executables;
 
     //getters
@@ -126,6 +128,14 @@ public class User {
         return executables;
     }
 
+    public String getFfmpegpath() {
+        return ffmpegpath;
+    }
+
+    public String getYoutubedlpath() {
+        return youtubedlpath;
+    }
+
     //setters
 
     public void setName(String name) {
@@ -223,6 +233,16 @@ public class User {
     public void setExecutables(LinkedList<MappedExecutable> executables) {
         this.executables = executables;
     }
+
+    public void setFfmpegpath(String ffmpegpath) {
+        this.ffmpegpath = ffmpegpath;
+    }
+
+    public void setYoutubedlpath(String youtubedlpath) {
+        this.youtubedlpath = youtubedlpath;
+    }
+
+    //inner classes
 
     public static class MappedExecutable {
         private String name;

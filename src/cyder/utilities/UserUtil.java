@@ -70,8 +70,6 @@ public class UserUtil {
         }
     }
 
-
-
     public static <T> void setUserData(String name, T value) {
         File f = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
 
@@ -108,6 +106,23 @@ public class UserUtil {
      * @param u - the user object to write to the file
      */
     public static void setUserData(File f, User u) {
+        if (!f.exists())
+            throw new IllegalArgumentException("File does not exist");
+        if (!StringUtil.getExtension(f).equals(".json"))
+            throw new IllegalArgumentException("File is not a json type");
+
+        Gson gson = new Gson();
+
+        try (FileWriter writer = new FileWriter(f)) {
+            gson.toJson(u, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setUserData(User u) {
+        File f = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
+
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
         if (!StringUtil.getExtension(f).equals(".json"))

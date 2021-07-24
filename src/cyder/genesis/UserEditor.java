@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
+import cyder.obj.User;
 import cyder.ui.*;
 import cyder.utilities.*;
 
@@ -233,7 +234,7 @@ public class UserEditor {
 
         prefsPanelIndex++;
 
-        if (prefsPanelIndex == 3)
+        if (prefsPanelIndex == 4)
             prefsPanelIndex = 0;
 
         switch (prefsPanelIndex) {
@@ -246,6 +247,9 @@ public class UserEditor {
 
             case 2:
                 switchToPreferences();
+                break;
+            case 3:
+                switchToMappingLinks();
                 break;
         }
     }
@@ -260,7 +264,7 @@ public class UserEditor {
         prefsPanelIndex--;
 
         if (prefsPanelIndex == -1)
-            prefsPanelIndex = 2;
+            prefsPanelIndex = 3;
 
         switch (prefsPanelIndex) {
             case 0:
@@ -272,6 +276,9 @@ public class UserEditor {
 
             case 2:
                 switchToPreferences();
+                break;
+            case 3:
+                switchToMappingLinks();
                 break;
         }
     }
@@ -772,5 +779,178 @@ public class UserEditor {
 
         switchingLabel.add(preferenceScroll);
         switchingLabel.revalidate();
+    }
+
+    private void switchToMappingLinks() {
+        CyderLabel TitleLabel = new CyderLabel("Map Executables");
+        TitleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
+        TitleLabel.setFont(CyderFonts.weatherFontBig);
+        switchingLabel.add(TitleLabel);
+
+        CyderLabel add = new CyderLabel("Add Map");
+        add.setBounds(110,70,100,40);
+        add.setFont(CyderFonts.weatherFontSmall);
+        switchingLabel.add(add);
+
+        CyderLabel remove = new CyderLabel("Remove Map");
+        remove.setBounds(720 - 110 - 150,70,150,40);
+        remove.setFont(CyderFonts.weatherFontSmall);
+        switchingLabel.add(remove);
+
+        CyderTextField addField = new CyderTextField(0);
+
+        CyderButton addButton = new CyderButton("Add");
+        addButton.setBounds(80,160,200,40);
+        addButton.addActionListener(e -> {
+            if (addField.getText().trim().length() > 0) {
+                if (!addField.getText().trim().contains(",")) {
+                    editUserFrame.notify("Invalid exe map format");
+                } else {
+                    String[] parts = addField.getText().trim().split(",");
+
+                    if (parts.length != 2) {
+                        editUserFrame.notify("Too many arguments");
+                    } else {
+                        String name = parts[0].trim();
+                        String path = parts[1].trim();
+
+                        File pointerFile = new File(path);
+
+                        if (!pointerFile.exists()) {
+                            editUserFrame.notify("File does not exist");
+                        } else {
+                            if (name.length() > 0) {
+                                User.MappedExecutable addExe = new User.MappedExecutable(name, path);
+                                User user = UserUtil.extractUser();
+                                LinkedList<User.MappedExecutable> currentExes = user.getExecutables();
+                                currentExes.add(addExe);
+                                user.setExecutables(currentExes);
+                                UserUtil.setUserData(user);
+                                editUserFrame.notify("Mapped exe successfully added");
+                            } else {
+                                editUserFrame.notify("Invalid exe name");
+                            }
+                        }
+                    }
+
+                    addField.setText("");
+                }
+            }
+        });
+        switchingLabel.add(addButton);
+
+        addField.setToolTipText("Add format: \"map name, PATH/TO/EXE OR FILE\"");
+        addField.addActionListener(e -> addButton.doClick());
+        addField.setBounds(80,110,200,40);
+        switchingLabel.add(addField);
+
+        CyderTextField removeField = new CyderTextField(0);
+
+        CyderButton removeButton = new CyderButton("Remove");
+        removeButton.setBounds(720 - 80 - 200,160,200,40);
+        removeButton.addActionListener(e -> {
+            String text = removeField.getText().trim();
+
+            if (text.length() > 0) {
+                LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
+                boolean found = false;
+
+                for (User.MappedExecutable exe : exes) {
+                    if (exe.getName().equalsIgnoreCase(text)) {
+                        found = true;
+                        exes.remove(exe);
+                        break;
+                    }
+                }
+
+                if (found) {
+                    User user = UserUtil.extractUser();
+                    user.setExecutables(exes);
+                    UserUtil.setUserData(user);
+                    editUserFrame.notify("Exe successfully removed");
+                } else {
+                    editUserFrame.notify("Could not locate specified exe");
+                }
+
+                removeField.setText("");
+            }
+        });
+        switchingLabel.add(removeButton);
+
+        removeField.setToolTipText("Name of already mapped executable to remove");
+        removeField.addActionListener(e -> removeButton.doClick());
+        removeField.setBounds(720 - 80 - 200,110,200,40);
+        switchingLabel.add(removeField);
+
+        CyderLabel ffmpegLabel = new CyderLabel("FFMPEG Path");
+        ffmpegLabel.setBounds(80,300,200,40);
+        ffmpegLabel.setFont(CyderFonts.weatherFontSmall);
+        switchingLabel.add(ffmpegLabel);
+
+        CyderLabel youtubedlLabel = new CyderLabel("YouTube-DL Path");
+        youtubedlLabel.setBounds(720 - 80 - 200,300,200,40);
+        youtubedlLabel.setFont(CyderFonts.weatherFontSmall);
+        switchingLabel.add(youtubedlLabel);
+
+        CyderTextField ffmpegField = new CyderTextField(0);
+        CyderTextField youtubedlField = new CyderTextField(0);
+
+        CyderButton validateFFMPEG = new CyderButton("Validate");
+        validateFFMPEG.setBounds(80,390,200,40);
+        validateFFMPEG.addActionListener(e -> {
+            String text = ffmpegField.getText().trim();
+
+            if (text.length() > 0) {
+                File ffmpegMaybe = new File(text);
+                if (ffmpegMaybe.exists() && ffmpegMaybe.isFile() &&
+                        StringUtil.getExtension(ffmpegMaybe).equals(".exe")) {
+                    User user = UserUtil.extractUser();
+                    user.setFfmpegpath(text);
+                    UserUtil.setUserData(user);
+                    editUserFrame.notify("ffmpeg path sucessfully set");
+                } else {
+                    editUserFrame.notify("ffmpeg does not exist at the provided path");
+                    ffmpegField.setText("");
+                }
+            }
+        });
+        switchingLabel.add(validateFFMPEG);
+
+        CyderButton validateYoutubeDL = new CyderButton("Validate");
+        validateYoutubeDL.setBounds(720 - 80 - 200,390,200,40);
+        validateYoutubeDL.addActionListener(e -> {
+            String text = youtubedlField.getText().trim();
+
+            if (text.length() > 0) {
+                File youtubeDLMaybe = new File(text);
+                if (youtubeDLMaybe.exists() && youtubeDLMaybe.isFile() &&
+                        StringUtil.getExtension(youtubeDLMaybe).equals(".exe")) {
+                    User user = UserUtil.extractUser();
+                    user.setYoutubedlpath(text);
+                    UserUtil.setUserData(user);
+                    editUserFrame.notify("youtube-dl path sucessfully set");
+                } else {
+                    editUserFrame.notify("youtube-dl does not exist at the provided path");
+                    youtubedlField.setText("");
+                }
+            }
+        });
+        switchingLabel.add(validateYoutubeDL);
+
+        ffmpegField.setToolTipText("Path to ffmpeg.exe");
+        ffmpegField.addActionListener(e -> validateFFMPEG.doClick());
+        ffmpegField.setBounds(80,340,200,40);
+        switchingLabel.add(ffmpegField);
+
+        youtubedlField.setToolTipText("Path to YouTube-dl.exe");
+        youtubedlField.addActionListener(e -> validateYoutubeDL.doClick());
+        youtubedlField.setBounds(720 - 80 - 200,340,200,40);
+        switchingLabel.add(youtubedlField);
+
+        ffmpegField.setText(UserUtil.getUserData("ffmpegpath"));
+        youtubedlField.setText(UserUtil.getUserData("youtubedlpath"));
+
+        //switchingLabel.add(stuff);
+        switchingLabel.revalidate(); //720x500
     }
 }
