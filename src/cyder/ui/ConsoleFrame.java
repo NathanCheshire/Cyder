@@ -260,7 +260,6 @@ public final class ConsoleFrame {
                 public void focusLost(FocusEvent e) {
                     inputField.requestFocusInWindow();
                     inputField.setCaretPosition(inputField.getDocument().getLength());
-                    minimizeMenu();
                 }
             });
 
@@ -273,8 +272,7 @@ public final class ConsoleFrame {
             outputArea.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),
-                            3, false));
+                    outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),3));
                 }
 
                 @Override
@@ -2467,6 +2465,8 @@ public final class ConsoleFrame {
     }
 
     public void revaliateMenu() {
+        menuLabel.setVisible(false);
         menuGenerated = false;
+        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
     }
 }

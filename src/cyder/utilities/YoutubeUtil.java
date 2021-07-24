@@ -23,16 +23,6 @@ public class YoutubeUtil {
 
     private YoutubeUtil() {}
 
-    public static void setYoutubeDLExecutablePath(String path) {
-        youtubeDLExecutablePath = path;
-    }
-
-    public static String getYoutubeDLExecutablePath() {
-        return youtubeDLExecutablePath;
-    }
-
-    private static String youtubeDLExecutablePath = "C:/Program Files/youtube-dl/youtube-dl.exe";
-
     private static ExecutorService executor = Executors.newSingleThreadExecutor(
             new CyderThreadFactory("Youtube Audio Extractor"));
 
@@ -41,7 +31,10 @@ public class YoutubeUtil {
             File ret = null;
 
             if (ffmpegInstalled() && youtubedlInstalled()) {
-                YoutubeDL.setExecutablePath(youtubeDLExecutablePath);
+                String ydlPath = UserUtil.extractUser().getYoutubedlpath();
+                if (ydlPath != null && ydlPath.trim().length() > 0) {
+                    YoutubeDL.setExecutablePath(ydlPath);
+                }
 
                 try {
                     //req build

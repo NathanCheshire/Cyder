@@ -10,7 +10,6 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
-import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
@@ -55,7 +54,6 @@ public class InputHandler {
     private UserEditor userEditor;
 
     //todo how does an image become corrupted
-    //todo utililze ffmpeg and youtube-dl path if set
     //todo audio player on play after pause resets scrolling position
 
     private InputHandler() {} //no instantiation without a valid JTextPane to use
@@ -946,7 +944,7 @@ public class InputHandler {
 
         //testing -------------------------------------------------
         else if (eic("test")) {
-            ManualTestingWidgets.NotificationsTest();
+
         }
         //final attempt at unknown input --------------------------
         else {
