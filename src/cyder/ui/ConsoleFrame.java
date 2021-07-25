@@ -1525,6 +1525,7 @@ public final class ConsoleFrame {
     public void setUUID(String uuid) {
         UUID = uuid;
         UserUtil.fixUser();
+        UserUtil.fixBackgrounds();
     }
 
     public String getUUID() {

@@ -7,6 +7,8 @@ import cyder.obj.Preference;
 import cyder.obj.User;
 import cyder.ui.ConsoleFrame;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
@@ -211,6 +213,24 @@ public class UserUtil {
             setUserData(userJsonFile, user);
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        }
+    }
+
+    public static void fixBackgrounds() {
+        for (File f : new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds").listFiles()) {
+           boolean valid = true;
+
+            try (FileInputStream fi = new FileInputStream(f)) {
+                BufferedImage sourceImg = ImageIO.read(fi);
+                int w = sourceImg.getWidth();
+            } catch (Exception e) {
+                valid = false;
+                ErrorHandler.silentHandle(e);
+            }
+
+            if (!valid) {
+                f.delete();
+            }
         }
     }
 

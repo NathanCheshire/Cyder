@@ -53,8 +53,6 @@ public class InputHandler {
     private String anagram;
     private UserEditor userEditor;
 
-    //todo how does an image become corrupted
-
     private InputHandler() {} //no instantiation without a valid JTextPane to use
 
     public InputHandler(JTextPane outputArea) {
