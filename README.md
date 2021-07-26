@@ -77,7 +77,7 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [x]  implement convex hull algorithm and visualizer
 - [ ]  implement path finding visualizer but also link to pac-man game
 - [x]  make certain classes final, don't let people instantiate the class by making the constructor private like "private Math() {}"
-- [ ]  take and recongize a pastebin link or UUID and print the contents to the console, should be reading from the RAW paste
+- [x]  take and recongize a pastebin link or UUID and print the contents to the console, should be reading from the RAW paste
 - [x]  allow one instance of console frame
 - [x]  make launching and testing easier
 - [ ]  make a music lab using lines that correspond to notes; inspired by Wintergatan Marble Machine

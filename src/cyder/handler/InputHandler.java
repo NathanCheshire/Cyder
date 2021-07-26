@@ -25,9 +25,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
@@ -946,6 +944,34 @@ public class InputHandler {
                     .println("Spotlight images saved to your user's background/ directory");
         } else if (hasWord("convex") && hasWord("hull")) {
             ConvexHull.ShowVisualizer();
+        } else if (firstWord.equalsIgnoreCase("pastebin")) {
+            String[] parts = op.split(" ");
+
+            if (parts.length != 2) {
+                println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
+            } else {
+                String urlString = "";
+
+                if (parts[1].contains("pastebin.com")) {
+                    urlString = parts[1];
+                } else {
+                    urlString = "https://pastebin.com/raw/" + parts[1];
+                }
+
+                try {
+                    URL url = new URL(urlString);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        println(line);
+                    }
+
+                    reader.close();
+                } catch (Exception e) {
+                    ErrorHandler.silentHandle(e);
+                    println("Improper pastebin url");
+                }
+            }
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
