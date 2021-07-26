@@ -947,7 +947,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-
+            ConvexHull.ShowVisualizer();
         }
         //final attempt at unknown input --------------------------
         else {
