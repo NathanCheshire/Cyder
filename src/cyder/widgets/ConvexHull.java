@@ -1,7 +1,6 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
 import cyder.ui.*;
 import cyder.utilities.GrahamScan;
 
@@ -10,7 +9,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
+import java.util.Vector;
 
 public class ConvexHull {
     private static JLabel hullLabel;
@@ -32,16 +31,16 @@ public class ConvexHull {
         hullFrame = new CyderFrame(800,800);
         hullFrame.setTitle("Convex Hull");
 
-        titleLabel = new CyderLabel("Convex Hull Visualizer");
-        titleLabel.setFont(CyderFonts.weatherFontSmall);
-        titleLabel.setBounds(250, 40, 300, 40);
-        hullFrame.getContentPane().add(titleLabel);
-
         hullLabel = new JLabel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
+
+                g2d.setColor(CyderColors.vanila);
+                g2d.fillRect(0,0,800,800);
+
+                g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                 int size = 5;
 
@@ -61,7 +60,6 @@ public class ConvexHull {
 
                 if (hullPoints != null && hullPoints.size() > 0) {
                     g2d.setColor(CyderColors.intellijPink);
-                    g2d.setStroke(new BasicStroke(3));
 
                     for (int i = 0 ; i < hullPoints.size() ; i++) {
                         int inc = i + 1 == hullPoints.size() ? 0 : i + 1;
@@ -75,14 +73,14 @@ public class ConvexHull {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getX() > 4 && e.getY() > 4
-                    && e.getX() < 760 - 4 && e.getY() < 760 - 4) {
+                    && e.getX() < 760 - 4 && e.getY() < 710 - 4) {
                     Point addPoint = new Point(e.getX(), e.getY());
                     boardPoints.add(addPoint);
                     hullLabel.repaint();
                 }
             }
         });
-        hullLabel.setBounds(20,90,760,640);
+        hullLabel.setBounds(20,40,760,690);
         hullLabel.setBorder(new LineBorder(CyderColors.navy, 4));
         hullFrame.getContentPane().add(hullLabel);
 
