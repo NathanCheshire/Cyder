@@ -46,12 +46,12 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [ ]  be able to adapt to different screen resolutions and maintain relative size
 - [ ]  add a device manager so that you can see what's connected to the PC through the program
 - [ ]  add @return, @param, @args, etc. to most methods
-- [ ]  comment the code
+- [x]  comment the code
 - [x]  log exit codes at what time and by whom
 - [x]  make chat IO logs for each session
 - [x]  move start data to user specific and place in a logs dir for the user. You should zip these logs upon completion
 - [x]  incorporate CyderProgressUI for ProgressBars wherever it might fit
-- [ ]  put spotlight inside of the program
+- [x]  put spotlight inside of the program
 - [ ]  get ImAvg working and put it inside the program
 - [ ]  allow users to map up to three internet links and place them on the menu panel
 - [ ]  allow users to rearrange the menu panel and remember what they do
@@ -71,7 +71,7 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [x]  be able to set the background to a solid color. On doing so, save the background
 - [ ]  Algorithms package with euclidian algorithm: Algorithms.euclidian(47,63) should return ints in same order to multiply alpha and beta inputs by to get the gcd
 - [ ]  make an entire minecraft widget which can launch minecraft via the offical launcher, lunar client, or any other client provided the user can provide a path to the executable
-- [ ]  allow starting executables to be mapped to links within the menu
+- [x]  allow starting executables to be mapped to links within the menu
 - [ ]  convert all non vector based images to SVGs or other vector based data structures
 - [ ]  exit the program if in OSX (program not intended for OSX and should only run on Windows 10+ and possible Linux distros)
 - [ ]  implement convex hull algorithm and visualizer
