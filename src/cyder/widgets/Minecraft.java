@@ -1,12 +1,14 @@
 package cyder.widgets;
 
 
+import cyder.obj.User;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
+import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;
-import cyder.utilities.SystemUtil;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -51,7 +53,6 @@ public class Minecraft {
         minecraftFrame.getContentPane().add(blockLabel);
 
         realmsLabel = new JLabel(new ImageIcon("sys/pictures/minecraft/Realms.png"));
-
         realmsLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) { NetworkUtil.internetConnect("https://minecraft.net/en-us/realms/?ref=m");
@@ -71,13 +72,10 @@ public class Minecraft {
                 realmsLabel.setIcon(RealmsIcon);
             }
         });
-
         realmsLabel.setBounds(196, 51, 70, 45);
-
         minecraftFrame.getContentPane().add(realmsLabel);
 
         chestLabel = new JLabel(new ImageIcon("sys/pictures/minecraft/Chest.png"));
-
         chestLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -98,13 +96,10 @@ public class Minecraft {
                 chestLabel.setIcon(ChestIcon);
             }
         });
-
         chestLabel.setBounds(1009, 44, 60, 50);
-
         minecraftFrame.getContentPane().add(chestLabel);
 
         hamLabel = new JLabel(new ImageIcon("sys/pictures/minecraft/Hamburger.png"));
-
         hamLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -125,18 +120,21 @@ public class Minecraft {
                 hamLabel.setIcon(HamIcon);
             }
         });
-
         hamLabel.setBounds(1135, 52, 42, 40);
-
         minecraftFrame.getContentPane().add(hamLabel);
 
         minecraftFrame.setVisible(true);
-
-        Dimension size = SystemUtil.getScreenSize();
-
-        minecraftFrame.setLocation(SystemUtil.getScreenWidth() / 2 - minecraftFrame.getWidth() / 2,
-                SystemUtil.getScreenHeight() - minecraftFrame.getHeight());
-
+        ConsoleFrame.getConsoleFrame().setFrameRelative(minecraftFrame);
         minecraftFrame.setIconImage(new ImageIcon("sys/pictures/minecraft/Block.png").getImage());
+
+        //open minecraft if map exists
+        for (User.MappedExecutable exe : UserUtil.extractUser().getExecutables()) {
+            if (exe.getName().equalsIgnoreCase("minecraft") ||
+                exe.getName().equalsIgnoreCase("lunar") ||
+                exe.getName().equalsIgnoreCase("badlion")) {
+                IOUtil.openFileOutsideProgram(exe.getFilepath());
+                break;
+            }
+        }
     }
 }
