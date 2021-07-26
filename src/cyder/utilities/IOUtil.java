@@ -200,7 +200,7 @@ public class IOUtil {
             }
 
             String append = "[LOCATION] " + (SecurityUtil.nathanLenovo() ?
-                    "[400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT" :
+                    "[400 S. Monroe St. Tallahassee, FL]" :
                     (IPUtil.getUserCity() + ", " + IPUtil.getUserState()));
 
             if (argsString.trim().length() > 0) {

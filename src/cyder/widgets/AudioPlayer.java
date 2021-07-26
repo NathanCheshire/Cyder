@@ -381,6 +381,7 @@ public class AudioPlayer {
         audioProgressLabel = new CyderLabel("");
         audioProgressLabel.setFont(CyderFonts.defaultFontSmall.deriveFont(20f));
         audioProgressLabel.setForeground(CyderColors.vanila);
+        audioProgressLabel.setFocusable(false);
         audioProgressLabel.setBounds(55, 190, 385, 25);
         audioFrame.getContentPane().add(audioProgressLabel);
 
@@ -401,6 +402,17 @@ public class AudioPlayer {
         audioProgress.setFocusable(false);
         audioProgress.repaint();
         audioFrame.getContentPane().add(audioProgress);
+        audioProgress.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (fis != null && player != null) {
+                    pauseAudio();
+                    long skipLocation = (long) (((double) e.getX() / (double) audioProgress.getWidth()) * totalLength);
+                    pauseLocation = skipLocation;
+                    resumeAudio(skipLocation);
+                }
+            }
+        });
 
         ConsoleFrame.getConsoleFrame().setFrameRelative(audioFrame);
         audioFrame.setVisible(true);
