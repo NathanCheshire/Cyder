@@ -1,6 +1,8 @@
 package cyder.widgets;
 
+import cyder.consts.CyderFonts;
 import cyder.handler.ErrorHandler;
+import cyder.ui.*;
 import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
@@ -11,8 +13,44 @@ import java.nio.file.StandardCopyOption;
 
 public class Spotlight {
 
-    public Spotlight() {
-        //todo gui version
+    public static void SpotlightGUI() {
+        CyderFrame spotlightFrame = new CyderFrame(400,250);
+        spotlightFrame.setTitle("Spotlight Stealer");
+
+        CyderLabel label = new CyderLabel("Save directory");
+        label.setFont(CyderFonts.weatherFontSmall);
+        label.setBounds(100,50,200,40);
+        spotlightFrame.add(label);
+
+        CyderButton stealButton = new CyderButton("Steal");
+
+        CyderTextField outputDirField = new CyderTextField(0);
+        outputDirField.setToolTipText("Directory to save the images to");
+        outputDirField.addActionListener(e -> stealButton.doClick());
+        outputDirField.setBounds(100,100,200,40);
+        spotlightFrame.getContentPane().add(outputDirField);
+
+        stealButton.addActionListener(e -> {
+            if (outputDirField.getText().trim().length() > 0) {
+                String text = outputDirField.getText().trim();
+                File saveDir = new File(text);
+
+                if (saveDir.isDirectory()) {
+                    saveSpotlights(saveDir);
+                    spotlightFrame.notify("Spotlight images saved to: " + saveDir.getPath());
+                    ConsoleFrame.getConsoleFrame().resizeBackgrounds();
+                } else {
+                    spotlightFrame.notify("Chosen save location is not a directory");
+                }
+
+                outputDirField.setText("");
+            }
+        });
+        stealButton.setBounds(100,150, 200, 40);
+        spotlightFrame.getContentPane().add(stealButton);
+
+        spotlightFrame.setVisible(true);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(spotlightFrame);
     }
 
     public static void saveSpotlights(File saveDir) {

@@ -937,12 +937,17 @@ public class InputHandler {
                     }
                 }, "Youtube Audio Download Waiter").start();
             }
+        } else if (eic("spotlight")) {
+            Spotlight.SpotlightGUI();
+        } else if (hasWord("steal") && hasWord("windows") && hasWord("backgrounds")) {
+            Spotlight.saveSpotlights(new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds"));
+            ConsoleFrame.getConsoleFrame().resizeBackgrounds();
+            ConsoleFrame.getConsoleFrame().getInputHandler()
+                    .println("Spotlight images saved to your user's background/ directory");
         }
-
         //testing -------------------------------------------------
         else if (eic("test")) {
-            //todo on switch image, resize images first, also fix algorithm
-            Spotlight.saveSpotlights(new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds"));
+
         }
         //final attempt at unknown input --------------------------
         else {
