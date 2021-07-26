@@ -7,57 +7,129 @@ import cyder.ui.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 public class ConvexHull {
     private static JLabel hullLabel;
-    private static Vector<Point> points;
+    private static Vector<Point> boardPoints;
+    private static Vector<Point> hullPoints;
+    private static CyderFrame hullFrame;
+    private static CyderLabel titleLabel;
+    private static CyderButton resetPoints;
+    private static CyderButton arrowButton;
+    private static CyderButton computeButton;
+    private static CyderTextField algorithmField;
+
+    private static String[] algorithms = new String[] {"Jarvis (wrapping)","Graham Scan"};
+    private static int algorithmIndex;
 
     public static void ShowVisualizer() {
-        points = new Vector<>();
+        boardPoints = new Vector<>();
 
-        CyderFrame hullFrame = new CyderFrame(800,800);
+        hullFrame = new CyderFrame(800,800);
         hullFrame.setTitle("Convex Hull");
 
-        CyderLabel titleLabel = new CyderLabel("Convex Hull Visualizer");
+        titleLabel = new CyderLabel("Convex Hull Visualizer");
         titleLabel.setFont(CyderFonts.weatherFontSmall);
         titleLabel.setBounds(250, 40, 300, 40);
         hullFrame.getContentPane().add(titleLabel);
 
-        hullLabel = new JLabel();
+        hullLabel = new JLabel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+                int size = 5;
+
+                if (boardPoints.size() > 0) {
+                    g2d.setColor(Color.black);
+                    for (Point p : boardPoints) {
+                        g2d.fillOval((int) p.getX(), (int) p.getY(), size, size);
+                    }
+                }
+
+                if (hullPoints != null && hullPoints.size() > 0) {
+                    g2d.setColor(CyderColors.intellijPink);
+                    for (Point p : hullPoints) {
+                        g2d.fillOval((int) p.getX(), (int) p.getY(), size, size);
+                    }
+                }
+
+                if (hullPoints != null && hullPoints.size() > 0) {
+                    g2d.setColor(CyderColors.intellijPink);
+                    g2d.setStroke(new BasicStroke(3));
+
+                    for (int i = 0 ; i < hullPoints.size() ; i++) {
+                        int inc = i + 1 == hullPoints.size() ? 0 : i + 1;
+                        g2d.drawLine((int) hullPoints.get(i).getX(),(int)  hullPoints.get(i).getY(),
+                                (int) hullPoints.get(inc).getX(), (int) hullPoints.get(inc).getY());
+                    }
+                }
+            }
+        };
+        hullLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getX() > 4 && e.getY() > 4
+                    && e.getX() < 760 - 4 && e.getY() < 760 - 4) {
+                    Point addPoint = new Point(e.getX(), e.getY());
+                    boardPoints.add(addPoint);
+                    hullLabel.repaint();
+                }
+            }
+        });
         hullLabel.setBounds(20,90,760,640);
         hullLabel.setBorder(new LineBorder(CyderColors.navy, 4));
         hullFrame.getContentPane().add(hullLabel);
 
-        CyderButton resetPoints = new CyderButton("Reset");
+        resetPoints = new CyderButton("Reset");
         resetPoints.addActionListener(e -> {
-            //todo clear points list
-            //todo reset board
+            boardPoints = new Vector<>();
+            hullLabel.repaint();
         });
         resetPoints.setBounds(20, 90 + 640 + 10, 240, 40);
         hullFrame.getContentPane().add(resetPoints);
 
-        CyderTextField algorithmField = new CyderTextField(0);
+        algorithmField = new CyderTextField(0);
         algorithmField.setEditable(false);
+        algorithmField.setText(algorithms[algorithmIndex]);
         algorithmField.setBounds(20 + 20 + 240, 90 + 640 + 10, 240 - 35, 40);
         hullFrame.getContentPane().add(algorithmField);
 
-        CyderButton arrowButton = new CyderButton("▼");
+        arrowButton = new CyderButton("▼");
         arrowButton.addActionListener(e -> {
-            //todo cycle algorithms in list
+            algorithmIndex++;
+
+            if (algorithmIndex == 2)
+                algorithmIndex = 0;
+
+            algorithmField.setText(algorithms[algorithmIndex]);
         });
         arrowButton.setBounds(20 + 20 + 240 - 40 + 240, 90 + 640 + 10, 40, 40);
         hullFrame.getContentPane().add(arrowButton);
 
-        CyderButton computeButton = new CyderButton("Solve");
-        computeButton.addActionListener(e -> {
-            //todo solve and update board
-        });
+        computeButton = new CyderButton("Solve");
+        computeButton.addActionListener(e -> solveAndUpdate());
         computeButton.setBounds(240 + 240 + 20 + 20 + 20, 90 + 640 + 10, 240, 40);
         hullFrame.getContentPane().add(computeButton);
 
         hullFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(hullFrame);
+    }
+
+    private static void solveAndUpdate() {
+        switch (algorithmIndex) {
+            case 0:
+                 hullPoints = convexHullJarvis(boardPoints, boardPoints.size());
+                 hullLabel.repaint();
+                break;
+            case 1:
+
+                break;
+        }
     }
 
     /**
@@ -77,7 +149,7 @@ public class ConvexHull {
         return (val > 0) ? 1 : 2;
     }
 
-    public static Vector<Point> convexHullJarvis(Point[] points, int n) {
+    public static Vector<Point> convexHullJarvis(Vector<Point> points, int n) {
         if (n < 3)
             return null;
 
@@ -86,18 +158,18 @@ public class ConvexHull {
         int leftMostPoint = 0;
 
         for (int i = 1; i < n; i++)
-            if (points[i].x < points[leftMostPoint].x)
+            if (points.get(i).x < points.get(leftMostPoint).x)
                 leftMostPoint = i;
 
         int p = leftMostPoint;
         int q;
 
         do {
-            hull.add(points[p]);
+            hull.add(points.get(p));
             q = (p + 1) % n;
 
             for (int i = 0 ; i < n ; i++) {
-                if (orientation(points[p], points[i], points[q]) == 2) {
+                if (orientation(points.get(p), points.get(i), points.get(q)) == 2) {
                     q = i;
                 }
             }
