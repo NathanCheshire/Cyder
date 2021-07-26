@@ -8,6 +8,7 @@ import cyder.threads.CyderThreadFactory;
 import cyder.utilities.SecurityUtil;
 import cyder.utilities.SystemUtil;
 import cyder.utilities.IOUtil;
+import cyder.widgets.GenericInform;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -40,7 +41,12 @@ public class CyderMain {
         GenesisShare.suspendFrameChecker();
         startFinalFrameDisposedChecker();
 
-        if (SecurityUtil.nathanLenovo() && IOUtil.getSystemData("AutoCypher").equals("1")) {
+        if (osxSystem()) {
+            GenericInform.inform("System OS not intended for Cyder use. You should" +
+                    " install a dual boot or a VM or something.","OS Exception");
+            SessionLogger.log(SessionLogger.Tag.LOGIN, "IMPROPER OS");
+            GenesisShare.cancelFrameCheckerSuspention();
+        } else if (SecurityUtil.nathanLenovo() && IOUtil.getSystemData("AutoCypher").equals("1")) {
             SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
             Entry.autoCypher();
         } else if (IOUtil.getSystemData("Released").equals("1") || SecurityUtil.nathanLenovo()) {
@@ -100,5 +106,15 @@ public class CyderMain {
     private static void shutdown() {
         //delete temp dir
         IOUtil.deleteTempDir();
+    }
+
+    /**
+     * Checks the OS and if it is an OSX build, notifies why we are going to exit
+     * and exits the program. Cyder is built for Windows 10 (as it plainly says),
+     * and also for some possible linux distros which it might work on.
+     */
+    private static boolean osxSystem() {
+        String osName = System.getProperty("os.name").toLowerCase();
+        return osName.startsWith("mac os x");
     }
 }
