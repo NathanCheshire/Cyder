@@ -1,0 +1,22 @@
+[22:07:44] [ENTRY]: [WINUSER=Nathan]
+[22:07:44] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[22:07:44] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[22:07:44] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[22:07:44] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[22:07:45] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[22:07:45] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[22:07:45] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22:07:45] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[22:07:45] [LOGIN]: [AUTOCYPHER PASS]
+[22:07:46] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[22:07:46] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[22:07:46] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[22:07:46] [CLIENT]: test
+[22:07:55] [ACTION]: CyderButton, text=[Solve] CLICKED
+[22:07:57] [ACTION]: CyderButton, text=[Solve] CLICKED
+[22:07:58] [ACTION]: CyderButton, text=[Solve] CLICKED
+[22:08:00] [ACTION]: CyderButton, text=[Solve] CLICKED
+[22:08:01] [ACTION]: CyderButton, text=[Solve] CLICKED
+[22:08:05] [ACTION]: CyderButton, text=[Solve] CLICKED
+[22:08:07] [ACTION]: CyderButton, text=[▼] CLICKED
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

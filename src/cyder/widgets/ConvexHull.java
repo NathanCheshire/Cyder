@@ -3,13 +3,14 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.ui.*;
+import cyder.utilities.GrahamScan;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
+import java.util.*;
 
 public class ConvexHull {
     private static JLabel hullLabel;
@@ -127,7 +128,8 @@ public class ConvexHull {
                  hullLabel.repaint();
                 break;
             case 1:
-
+                hullPoints = GrahamScan.getConvexHull(boardPoints);
+                hullLabel.repaint();
                 break;
         }
     }
@@ -139,7 +141,7 @@ public class ConvexHull {
      * @param r - third point r
      * @return 0 if the points are co-linear, 1 if the points go clockwise, 2 if they go counter-clockwise
      */
-    public static int orientation(Point p, Point q, Point r) {
+    private static int orientation(Point p, Point q, Point r) {
         int val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
 
         if (val == 0) {

@@ -17,3 +17,4 @@
 [21:11:58] [SYSTEM_IO]: [GET] [UILOC] [RETURN VALUE] 0
 [21:11:58] [ACTION]: CyderButton, text=[Solve] CLICKED
 [21:12:05] [ACTION]: CyderButton, text=[Solve] CLICKED
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
