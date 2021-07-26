@@ -73,7 +73,7 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [x]  make an entire minecraft widget which can launch minecraft via the offical launcher, lunar client, or any other client provided the user can provide a path to the executable
 - [x]  allow starting executables to be mapped to links within the menu
 - [ ]  convert all non vector based images to SVGs or other vector based data structures
-- [ ]  exit the program if in OSX (program not intended for OSX and should only run on Windows 10+ and possible Linux distros)
+- [x]  exit the program if in OSX (program not intended for OSX and should only run on Windows 10+ and possible Linux distros)
 - [x]  implement convex hull algorithm and visualizer
 - [ ]  implement path finding visualizer but also link to pac-man game
 - [x]  make certain classes final, don't let people instantiate the class by making the constructor private like "private Math() {}"
