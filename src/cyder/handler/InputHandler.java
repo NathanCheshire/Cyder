@@ -944,15 +944,15 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().resizeBackgrounds();
             ConsoleFrame.getConsoleFrame().getInputHandler()
                     .println("Spotlight images saved to your user's background/ directory");
+        } else if (hasWord("convex") && hasWord("hull")) {
+            ConvexHull.ShowVisualizer();
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            ConvexHull.ShowVisualizer();
+
         }
         //final attempt at unknown input --------------------------
         else {
-            //try context engine validation linked to this (instace of InputHandler)
-
             if (handleMath(operation))
                 return;
 
