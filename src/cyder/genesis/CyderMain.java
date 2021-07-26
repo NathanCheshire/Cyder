@@ -5,6 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.threads.CyderThreadFactory;
+import cyder.ui.CyderFrame;
 import cyder.utilities.SecurityUtil;
 import cyder.utilities.SystemUtil;
 import cyder.utilities.IOUtil;
@@ -42,10 +43,14 @@ public class CyderMain {
         startFinalFrameDisposedChecker();
 
         if (osxSystem()) {
-            GenericInform.inform("System OS not intended for Cyder use. You should" +
-                    " install a dual boot or a VM or something.","OS Exception");
             SessionLogger.log(SessionLogger.Tag.LOGIN, "IMPROPER OS");
             GenesisShare.cancelFrameCheckerSuspention();
+
+            CyderFrame retFrame = GenericInform.informRet("System OS not intended for Cyder use. You should" +
+                    " install a dual boot or a VM or something.","OS Exception");
+            retFrame.addCloseListener(e -> GenesisShare.exit(178));
+            retFrame.setVisible(true);
+            retFrame.setLocationRelativeTo(null);
         } else if (SecurityUtil.nathanLenovo() && IOUtil.getSystemData("AutoCypher").equals("1")) {
             SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
             Entry.autoCypher();

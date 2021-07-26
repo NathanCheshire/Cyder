@@ -1,0 +1,8 @@
+[13:04:38] [ENTRY]: [WINUSER=Nathan]
+[13:04:38] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[13:04:38] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:04:38] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[13:04:39] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:04:39] [LOGIN]: [IMPROPER OS]
+[13:04:41] [EXIT]: [RUNTIME] 3s
+[13:04:41] [EOL]: Log completed, exiting program with code: 178 [Improper OS], exceptions thrown: 0
