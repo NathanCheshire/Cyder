@@ -1,0 +1,21 @@
+[19:09:25] [ENTRY]: [WINUSER=Nathan]
+[19:09:25] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[19:09:25] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:09:25] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
+[19:09:26] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:09:26] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:09:26] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[19:09:26] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:09:26] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[19:09:26] [LOGIN]: [AUTOCYPHER PASS]
+[19:09:27] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[19:09:27] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[19:09:27] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[19:09:27] [CLIENT]: test
+[19:10:18] [CLIENT]: Prefs
+[19:10:18] [ACTION]: USER EDITOR
+[19:10:26] [LOGOUT]:  [Nathan]
+[19:10:26] [EXIT]: [RUNTIME] 60s
+[19:10:26] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
+[19:10:26] [EXIT]: [RUNTIME] 60s
+[19:10:26] [EOL]: Log completed, exiting program with code: 120 [Final Frame Disposed], exceptions thrown: 0

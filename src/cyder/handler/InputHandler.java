@@ -941,7 +941,8 @@ public class InputHandler {
 
         //testing -------------------------------------------------
         else if (eic("test")) {
-
+            //todo on switch image, resize images first, also fix algorithm
+            Spotlight.saveSpotlights(new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds"));
         }
         //final attempt at unknown input --------------------------
         else {
