@@ -1,9 +1,11 @@
 package cyder.widgets;
 
+import com.google.gson.Gson;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
+import cyder.obj.WeatherData;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -374,77 +376,42 @@ public class Weather {
                 OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
                         locationString + "&appid=" + IOUtil.getSystemData("Weather") + "&units=imperial";
 
-                URL URL = new URL(OpenString);
-                BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
-                String[] Fields = {"", ""};
-                String Line;
+                Gson gson = new Gson();
+                WeatherData wd = null;
 
-                while ((Line = WeatherReader.readLine()) != null) {
-                    String[] LineArray = Line.replace("{", "").replace("}", "")
-                            .replace(":", "").replace("\"", "").replace("[", "")
-                            .replace("]", "").replace(":", "").split(",");
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
+                    wd = gson.fromJson(reader, WeatherData.class);
 
-                    Fields = StringUtil.combineArrays(Fields, LineArray);
-                }
+                    sunrise = String.valueOf(wd.getSys().getSunrise());
+                    sunset = String.valueOf(wd.getSys().getSunset());
+                    weatherIcon = wd.getWeather().get(0).getIcon();
+                    windSpeed = String.valueOf(wd.getWind().getSpeed());
+                    windBearing = String.valueOf(wd.getWind().getDeg());
+                    weatherCondition = wd.getWeather().get(0).getDescription();
+                    visibility = String.valueOf(wd.getVisibility());
+                    feelsLike = String.valueOf(wd.getMain().getFeels_like());
+                    pressure = String.valueOf(wd.getMain().getPressure()).substring(0, Math.min(pressure.length(), 4));
+                    humidity = String.valueOf(wd.getMain().getHumidity());
+                    temperature = String.valueOf(wd.getMain().getTemp());
+                    gmtOffset = String.valueOf(wd.getTimezone());
 
-                WeatherReader.close();
+                    SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
 
-                for (String field : Fields) {
-                    if (field.contains("sunrise")) {
-                        sunrise = field.replaceAll("[^\\d.]", "");
-                    }
-                    else if (field.contains("sunset")) {
-                        sunset = field.replaceAll("[^\\d.]", "");
-                    }
-                    else if (field.contains("icon")) {
-                        weatherIcon = field.replace("icon", "");
-                    }
-                    else if (field.contains("speed")) {
-                        windSpeed = field.replaceAll("[^\\d.]", "");
-                    }
-                    else if (field.contains("deg")) {
-                        windBearing = field.replaceAll("[^\\d.]", "");
-                    }
-                    else if (field.contains("description")) {
-                        weatherCondition = field.replace("description", "");
-                    }
-                    else if (field.contains("visibility")) {
-                        visibility = field.replaceAll("[^\\d.]", "");
-                    }
-                    else if (field.contains("feels_like")) {
-                        feelsLike = field.replaceAll("[^\\d.]", "");
-                    }
-                    else if (field.contains("pressure")) {
-                        pressure = field.replaceAll("[^\\d.]", "");
-                        pressure = pressure.substring(0, Math.min(pressure.length(), 4));
-                    }
-                    else if (field.contains("humidity")) {
-                        humidity = field.replaceAll("[^\\d.]", "");
-                    }
-                    else if (field.contains("temp")) {
-                        temperature = field.replaceAll("[^\\d.]", "");
-                    }
-                    else if (field.contains("timezone")) {
-                        gmtOffset = field.replaceAll("[^0-9\\-]", "");
-                    }
-                }
+                    sunrise = dateFormatter.format(new Date((long) Integer.parseInt(sunrise) * 1000));
 
-                SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
+                    Date SunsetTime = new Date((long) Integer.parseInt(sunset) * 1000);
+                    sunset = dateFormatter.format(SunsetTime);
 
-                sunrise = dateFormatter.format(new Date((long) Integer.parseInt(sunrise) * 1000));
+                    //calculate the offset from GMT + 0/Zulu time
+                    if (!GMTset) {
+                        currentLocationGMTOffset = Integer.parseInt(gmtOffset);
+                        GMTset = true;
+                    }
 
-                Date SunsetTime = new Date((long) Integer.parseInt(sunset) * 1000);
-                sunset = dateFormatter.format(SunsetTime);
-
-                //calculate the offset from GMT + 0/Zulu time
-                if (!GMTset) {
-                    currentLocationGMTOffset = Integer.parseInt(gmtOffset);
-                    GMTset = true;
-                }
-
-                //check for night/day icon
-                if (new Date().getTime() > SunsetTime.getTime()) {
-                    weatherIcon = weatherIcon.replace("d", "n");
+                    //check for night/day icon
+                    if (new Date().getTime() > SunsetTime.getTime()) {
+                        weatherIcon = weatherIcon.replace("d", "n");
+                    }
                 }
             } catch (FileNotFoundException ignored) {
                 //invalid custom location so go back to the old one
