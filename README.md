@@ -53,7 +53,7 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [x]  incorporate CyderProgressUI for ProgressBars wherever it might fit
 - [x]  put spotlight inside of the program
 - [ ]  get ImAvg working and put it inside the program
-- [ ]  allow users to map up to three internet links and place them on the menu panel
+- [x]  allow users to map up to three internet links and place them on the menu panel
 - [ ]  allow users to rearrange the menu panel and remember what they do
 - [x]  change the login animation to actual sliding JLabels with text and not a sliding image
 - [ ]  make a perlin noise widget
