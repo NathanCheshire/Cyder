@@ -1,0 +1,124 @@
+[17:07:38] [ENTRY]: [WINUSER=Nathan]
+[17:07:38] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[17:07:38] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:07:38] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[17:07:38] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:07:39] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:07:39] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[17:07:39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17:07:39] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[17:07:39] [LOGIN]: [AUTOCYPHER PASS]
+[17:07:40] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[17:07:40] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[17:07:40] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[17:07:40] [CLIENT]: test
+[17:07:44] [CLIENT]: Analyze code
+[17:07:44] [CONSOLE_OUT]: [STRING] Lines of code: 20239
+[17:07:45] [CONSOLE_OUT]: [STRING] Number of java files: 89
+[17:07:46] [CONSOLE_OUT]: [STRING] Number of comments: 1546
+[17:07:47] [CONSOLE_OUT]: [STRING] Blank lines: 4178
+[17:07:47] [CONSOLE_OUT]: [STRING] Total: 24417
+[17:07:56] [CLIENT]: Todos
+[17:07:56] [CONSOLE_OUT]: [STRING] Total todos: 0
+[17:07:58] [CLIENT]: Weather
+[17:07:58] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:07:58] [ACTION]: WEATHER
+[17:07:59] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:07:59] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:07:59] [SYSTEM_IO]: [GET] [Weather] [RETURN VALUE] 2d790dd0766f1da62af488f101380c75
+[17:07:59] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[17:08:05] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[17:08:05] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:08:06] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:08:06] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:08:06] [SYSTEM_IO]: [GET] [Weather] [RETURN VALUE] 2d790dd0766f1da62af488f101380c75
+[17:08:06] [ACTION]: [Weather] [NOTIFICATION] Sorry, but that location is invalid
+[17:08:12] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[17:08:16] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[17:08:16] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:08:16] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:08:16] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:08:17] [SYSTEM_IO]: [GET] [Weather] [RETURN VALUE] 2d790dd0766f1da62af488f101380c75
+[17:08:18] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[17:08:25] [CLIENT]: Wher am i
+[17:08:25] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[17:08:27] [CLIENT]: Where am i
+[17:08:27] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:08:27] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:08:27] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:08:28] [CONSOLE_OUT]: [STRING] You are currently in Mandeville, Louisiana and your Internet Service Provider is Charter Communications
+[17:08:33] [CLIENT]: Cls
+[17:08:34] [CLIENT]: Flag
+[17:08:34] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[17:08:40] [CLIENT]: Debug stats
+[17:08:41] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[17:08:42] [CLIENT]: Debug
+[17:08:44] [CLIENT]: controlc
+[17:08:44] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[17:08:44] [CONSOLE_OUT]: [STRING] Escaped
+[17:08:49] [CLIENT]: Debug stats
+[17:08:49] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[17:09:31] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:09:31] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:09:31] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:09:31] [SYSTEM_IO]: [GET] [Weather] [RETURN VALUE] 2d790dd0766f1da62af488f101380c75
+[17:09:31] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[17:10:15] [CLIENT]: Debug menu
+[17:10:15] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:10:15] [EXCEPTION]: 
+no protocol: 🇺🇸
+Thrown from:
+java.base/java.net.URL.<init>(URL.java:627)
+StackTrace:
+java.net.MalformedURLException: no protocol: 🇺🇸
+	at java.base/java.net.URL.<init>(URL.java:627)
+	at java.base/java.net.URL.<init>(URL.java:523)
+	at java.base/java.net.URL.<init>(URL.java:470)
+	at cyder.utilities.StatUtil.debugMenu(StatUtil.java:110)
+	at cyder.handler.InputHandler.handle(InputHandler.java:609)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:464)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[17:11:03] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:11:04] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:11:04] [SYSTEM_IO]: [GET] [IP] [RETURN VALUE] 8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932
+[17:11:04] [SYSTEM_IO]: [GET] [Weather] [RETURN VALUE] 2d790dd0766f1da62af488f101380c75
+[17:11:04] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

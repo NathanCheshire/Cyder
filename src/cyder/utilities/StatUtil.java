@@ -107,7 +107,7 @@ public class StatUtil {
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
 
-            BufferedImage flag = ImageIO.read(new URL(IPUtil.getIpdata().getEmoji_flag()));
+            BufferedImage flag = ImageIO.read(new URL(IPUtil.getIpdata().getFlag()));
 
             double x = flag.getWidth();
             double y = flag.getHeight();
