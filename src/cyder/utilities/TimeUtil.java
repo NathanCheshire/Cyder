@@ -69,8 +69,8 @@ public class TimeUtil {
     private void initGMTOffset() {
         try {
             String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
-                    IPUtil.getUserCity() + "," + IPUtil.getUserState() + "," +
-                    IPUtil.getUserCountry() + "&appid=" + IOUtil.getSystemData("Weather") + "&units=imperial";
+                    IPUtil.getIpdata().getCity() + "," + IPUtil.getIpdata().getRegion()+ "," +
+                    IPUtil.getIpdata().getCountry_name() + "&appid=" + IOUtil.getSystemData("Weather") + "&units=imperial";
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));

@@ -59,33 +59,6 @@ public class InputHandler {
         bletchyThread = new BletchyThread(outputArea);
     }
 
-    //checks to see if a preference id was entered and if so, toggles it
-    private boolean preferenceCheck(String op) {
-        boolean ret = false;
-
-        for (Preference pref : GenesisShare.getPrefs()) {
-
-            if (op.toLowerCase().contains(pref.getID().toLowerCase()) && !pref.getDisplayName().equals("IGNORE")) {
-                if (op.contains("1") || op.toLowerCase().contains("true")) {
-                    UserUtil.setUserData(pref.getID(), "1");
-                    println(pref.getDisplayName() + " set to true");
-                } else if (op.contains("0") || op.toLowerCase().contains("false")) {
-                    UserUtil.setUserData(pref.getID(), "0");
-                    println(pref.getDisplayName() + " set to false");
-                } else {
-                    String newVal = UserUtil.getUserData(pref.getID()).equals("1") ? "0" : "1";
-                    UserUtil.setUserData(pref.getID(), newVal);
-                    println(pref.getDisplayName() + " set to " + (newVal.equals("1") ? "true" : "false"));
-                }
-
-                ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
-                ret = true;
-            }
-        }
-
-        return ret;
-    }
-
     //handle methods ----------------------------------------------
 
     public void handle(String op) throws Exception{
@@ -204,8 +177,9 @@ public class InputHandler {
                     .with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
             println("Thanksgiving this year is on the " + RealTG.getDayOfMonth() + " of November.");
         } else if (hasWord("location") || (hasWord("where") && hasWord("am") && hasWord("i"))) {
-            println("You are currently in " + IPUtil.getUserCity() + ", " +
-                    IPUtil.getUserState() + " and your Internet Service Provider is " + IPUtil.getIsp());
+            println("You are currently in " + IPUtil.getIpdata().getCity() + ", " +
+                    IPUtil.getIpdata().getRegion() + " and your Internet Service Provider is "
+                    + IPUtil.getIpdata().getAsn().getName());
         } else if (hasWord("fibonacci")) {
             for (long i : NumberUtil.fib(0, 1, 100))
                 println(i);
@@ -1229,6 +1203,33 @@ public class InputHandler {
         } catch (Exception ignored) {}
 
         return false;
+    }
+
+    //checks to see if a preference id was entered and if so, toggles it
+    private boolean preferenceCheck(String op) {
+        boolean ret = false;
+
+        for (Preference pref : GenesisShare.getPrefs()) {
+
+            if (op.toLowerCase().contains(pref.getID().toLowerCase()) && !pref.getDisplayName().equals("IGNORE")) {
+                if (op.contains("1") || op.toLowerCase().contains("true")) {
+                    UserUtil.setUserData(pref.getID(), "1");
+                    println(pref.getDisplayName() + " set to true");
+                } else if (op.contains("0") || op.toLowerCase().contains("false")) {
+                    UserUtil.setUserData(pref.getID(), "0");
+                    println(pref.getDisplayName() + " set to false");
+                } else {
+                    String newVal = UserUtil.getUserData(pref.getID()).equals("1") ? "0" : "1";
+                    UserUtil.setUserData(pref.getID(), newVal);
+                    println(pref.getDisplayName() + " set to " + (newVal.equals("1") ? "true" : "false"));
+                }
+
+                ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
+                ret = true;
+            }
+        }
+
+        return ret;
     }
 
     /**

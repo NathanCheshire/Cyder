@@ -362,9 +362,9 @@ public class Weather {
     protected void repullWeatherStats() {
         new Thread(() -> {
             try {
-                userCity = IPUtil.getUserCity();
-                userState = IPUtil.getUserState();
-                userCountry = IPUtil.getUserCountry();
+                userCity = IPUtil.getIpdata().getCity();
+                userState = IPUtil.getIpdata().getRegion();
+                userCountry = IPUtil.getIpdata().getCountry_name();
 
                 if (!useCustomLoc)
                     locationString = userCity + "," + userState + "," + userCountry;

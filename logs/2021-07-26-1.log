@@ -1,8 +1,127 @@
-[12:53:33] [ENTRY]: [WINUSER=Nathan]
-[12:53:33] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
-[12:53:33] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[12:53:33] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL] //Ron DeSantis is a GOAT
-[12:53:33] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
-[12:53:34] [LOGIN]: [IMPROPER OS]
-[12:53:43] [EXIT]: [RUNTIME] 10s
-[12:53:43] [EOL]: Log completed, exiting program with code: 120 [Final Frame Disposed], exceptions thrown: 0
+[13:35:56] [ENTRY]: [WINUSER=Nathan]
+[13:35:56] [SYSTEM_IO]: [GET] [UISCALE] [RETURN VALUE] 1.0
+[13:35:56] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:35:56] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[13:35:56] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:35:57] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:35:57] [SYSTEM_IO]: [GET] [AutoCypher] [RETURN VALUE] 1
+[13:35:57] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:35:57] [SYSTEM_IO]: [GET] [CypherHash] [RETURN VALUE] nathan,3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2
+[13:35:57] [LOGIN]: [AUTOCYPHER PASS]
+[13:35:58] [SYSTEM_IO]: [GET] [Version] [RETURN VALUE] Soultree
+[13:35:58] [SYSTEM_IO]: [GET] [ConsoleResizable] [RETURN VALUE] 1
+[13:35:58] [SYSTEM_IO]: [GET] [MMAC] [RETURN VALUE] 5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e
+[13:35:58] [CLIENT]: test
+[13:37:27] [CLIENT]: Play say it illenium remix lyrics
+[13:37:27] [EXCEPTION]: 
+no protocol: say it illenium remix lyrics
+Thrown from:
+java.base/java.net.URL.<init>(URL.java:627)
+StackTrace:
+java.net.MalformedURLException: no protocol: say it illenium remix lyrics
+	at java.base/java.net.URL.<init>(URL.java:627)
+	at java.base/java.net.URL.<init>(URL.java:523)
+	at java.base/java.net.URL.<init>(URL.java:470)
+	at cyder.handler.InputHandler.handle(InputHandler.java:883)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:464)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13:37:27] [CONSOLE_OUT]: [STRING] Searching youtube for: say it illenium remix lyrics
+[13:37:29] [CONSOLE_OUT]: [STRING] Starting download of: Flume - Say It ft. Tove Lo (Illenium Remix) (Lyrics)
+[13:37:38] [CONSOLE_OUT]: [STRING] Download complete; playing
+[13:43:02] [CLIENT]: Prefs
+[13:43:02] [ACTION]: USER EDITOR
+[13:43:05] [ACTION]: CyderButton, text=[Rename] CLICKED
+[13:43:06] [ACTION]: [Edit User] [NOTIFICATION] Cannot rename a file that is in use
+[13:55:52] [CLIENT]: Play so close calvin harris lyrics
+[13:55:52] [EXCEPTION]: 
+no protocol: so close calvin harris lyrics
+Thrown from:
+java.base/java.net.URL.<init>(URL.java:627)
+StackTrace:
+java.net.MalformedURLException: no protocol: so close calvin harris lyrics
+	at java.base/java.net.URL.<init>(URL.java:627)
+	at java.base/java.net.URL.<init>(URL.java:523)
+	at java.base/java.net.URL.<init>(URL.java:470)
+	at cyder.handler.InputHandler.handle(InputHandler.java:883)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:464)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13:55:52] [CONSOLE_OUT]: [STRING] Searching youtube for: so close calvin harris lyrics
+[13:55:54] [CONSOLE_OUT]: [STRING] Starting download of: Feel So Close Calvin Harris OFFICIAL LYRICS
+[13:56:02] [CONSOLE_OUT]: [STRING] Download complete; playing
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
