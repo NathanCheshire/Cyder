@@ -61,7 +61,7 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [x]  make pixelating a picture it's own widget
 - [ ]  add multiple image support (not just PNG)
 - [ ]  add a light/dark mode toggle
-- [ ]  be able to change the CyderFrame/ConsolFrame border color from navy to some other color and repaint it. Remmeber this change
+- [ ]  be able to change the CyderFrame/ConsolFrame border color from navy to some other color and repaint it. Rememeber this change
 - [x]  if your location cannot be found, restrict features that rely on IP data and inform the user of this
 - [x]  get start animations working and use them for CyderFrame instanceof objects
 - [x]  utilize system.exit more and give more data on why the program was exited
