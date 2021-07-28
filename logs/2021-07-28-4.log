@@ -1,9 +1,0 @@
-[12:15:13] [ENTRY]: [WINUSER=Nathan]
-[12:15:14] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
-[12:15:14] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[12:15:14] [LOGIN]: [AUTOCYPHER PASS]
-[12:15:16] [CLIENT]: test
-[12:15:34] [CLIENT]: Random youtube
-[12:15:34] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] Type "stop scripts" or press ctrl + c to stop the YouTube thread.
-[12:15:55] [CLIENT]: Threads
-[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

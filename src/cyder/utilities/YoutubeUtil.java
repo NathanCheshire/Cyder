@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.sapher.youtubedl.YoutubeDL;
+import com.sapher.youtubedl.YoutubeDLException;
 import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import cyder.consts.CyderColors;
@@ -60,8 +61,9 @@ public class YoutubeUtil {
 
                     ret = new File(response.getDirectory() + outName);
 
-                } catch (Exception e) {
+                } catch (YoutubeDLException e) {
                     ErrorHandler.handle(e);
+                    ConsoleFrame.getConsoleFrame().getInputHandler().println("Could not download video's audio at this time");
                 }
             } else {
                 error();

@@ -875,9 +875,11 @@ public class InputHandler {
                             Thread.onSpinWait();
                         }
 
-                        println("Download complete; playing");
+                        if (downloadedFile.get() != null && downloadedFile.get().exists()) {
+                            println("Download complete and added to mp3 queue");
 
-                        IOUtil.addToMp3Queue(downloadedFile.get());
+                            IOUtil.addToMp3Queue(downloadedFile.get());
+                        }
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
                     }
@@ -901,9 +903,11 @@ public class InputHandler {
                             Thread.onSpinWait();
                         }
 
-                        println("Download complete; playing");
+                        if (downloadedFile.get() != null && downloadedFile.get().exists()) {
+                            println("Download complete and added to mp3 queue");
 
-                        IOUtil.addToMp3Queue(downloadedFile.get());
+                            IOUtil.addToMp3Queue(downloadedFile.get());
+                        }
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
                     }

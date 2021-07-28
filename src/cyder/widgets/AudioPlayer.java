@@ -78,6 +78,8 @@ public class AudioPlayer {
      *                     Pass {@code null} to avoid starting audio upon launch.
      */
     public AudioPlayer(File startPlaying) {
+        queue = new LinkedList<>();
+        
         if (audioFrame != null)
             audioFrame.closeAnimation();
 
@@ -486,6 +488,8 @@ public class AudioPlayer {
 
         File neighboringFiles[] = refreshOnFile.getParentFile().listFiles();
 
+        audioFiles.clear();
+
         for (File file : neighboringFiles)
             if (StringUtil.getExtension(file).equals(".mp3"))
                 audioFiles.add(file);
@@ -703,7 +707,18 @@ public class AudioPlayer {
                     refreshAudioFiles(null);
                     refreshAudio();
 
-                    if (repeatAudio) {
+                    if (!queue.isEmpty()) {
+                        System.out.println(queue.pop().getAbsolutePath());
+
+                        System.out.println("---------------");
+
+                        System.out.println(audioFiles.size());
+
+                        for (File f : audioFiles)
+                            System.out.println(f.getAbsolutePath());
+                    }
+
+                   if (repeatAudio) {
                         startAudio();
                     } else if (shuffleAudio) {
                         int newIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
@@ -779,6 +794,17 @@ public class AudioPlayer {
                         stopAudio();
                         refreshAudioFiles(null);
                         refreshAudio();
+
+                        if (!queue.isEmpty()) {
+                            System.out.println(queue.pop().getAbsolutePath());
+
+                            System.out.println("---------------");
+
+                            System.out.println(audioFiles.size());
+
+                            for (File f : audioFiles)
+                                System.out.println(f.getAbsolutePath());
+                        }
 
                         if (repeatAudio) {
                             startAudio();
