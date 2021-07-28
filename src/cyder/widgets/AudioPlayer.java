@@ -486,11 +486,9 @@ public class AudioPlayer {
             refreshOnFile = audioFiles.get(audioIndex);
         }
 
-        File neighboringFiles[] = refreshOnFile.getParentFile().listFiles();
-
         audioFiles.clear();
 
-        for (File file : neighboringFiles)
+        for (File file : refreshOnFile.getParentFile().listFiles())
             if (StringUtil.getExtension(file).equals(".mp3"))
                 audioFiles.add(file);
 
@@ -708,17 +706,17 @@ public class AudioPlayer {
                     refreshAudio();
 
                     if (!queue.isEmpty()) {
-                        System.out.println(queue.pop().getAbsolutePath());
+                        String playPath = queue.pop().getAbsolutePath();
 
-                        System.out.println("---------------");
+                        for (int i = 0 ; i < audioFiles.size() ; i++) {
+                            if (audioFiles.get(i).getAbsolutePath().equalsIgnoreCase(playPath)) {
+                                audioIndex = i;
+                                break;
+                            }
+                        }
 
-                        System.out.println(audioFiles.size());
-
-                        for (File f : audioFiles)
-                            System.out.println(f.getAbsolutePath());
-                    }
-
-                   if (repeatAudio) {
+                        startAudio();
+                    } else if (repeatAudio) {
                         startAudio();
                     } else if (shuffleAudio) {
                         int newIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
@@ -796,17 +794,17 @@ public class AudioPlayer {
                         refreshAudio();
 
                         if (!queue.isEmpty()) {
-                            System.out.println(queue.pop().getAbsolutePath());
+                            String playPath = queue.pop().getAbsolutePath();
 
-                            System.out.println("---------------");
+                            for (int i = 0 ; i < audioFiles.size() ; i++) {
+                                if (audioFiles.get(i).getAbsolutePath().equalsIgnoreCase(playPath)) {
+                                    audioIndex = i;
+                                    break;
+                                }
+                            }
 
-                            System.out.println(audioFiles.size());
-
-                            for (File f : audioFiles)
-                                System.out.println(f.getAbsolutePath());
-                        }
-
-                        if (repeatAudio) {
+                            startAudio();
+                        } else if (repeatAudio) {
                             startAudio();
                         } else if (shuffleAudio) {
                             int newIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
@@ -875,7 +873,7 @@ public class AudioPlayer {
                     }
                 },"Flash Player Progress Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ErrorHandler.silentHandle(e);
             }
         }
 

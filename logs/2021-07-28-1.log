@@ -1,0 +1,79 @@
+[17:33:04] [ENTRY]: [WINUSER=Nathan]
+[17:33:04] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[17:33:05] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17:33:05] [LOGIN]: [AUTOCYPHER PASS]
+[17:33:06] [CLIENT]: test
+[17:33:14] [CLIENT]: Prefs
+[17:33:14] [ACTION]: USER EDITOR
+[17:33:18] [ACTION]: CyderButton, text=[Delete] CLICKED
+[17:33:18] [CONSOLE_OUT]: [STRING] Music: NEFFEX - Destiny (Lyrics) successfully deleted.
+[17:33:19] [ACTION]: CyderButton, text=[Rename] CLICKED
+[17:33:27] [ACTION]: CyderButton, text=[Submit] CLICKED
+[17:33:27] [ACTION]: [Edit User] [NOTIFICATION] Wanted Dead Or Alive~ Bon Jovi~ w_ lyrics.mp3 was successfully renamed to Dead Or Alive - Bon Jovi.mp3
+[17:33:52] [CLIENT]: Play help me out maroon 5 lyrics
+[17:33:52] [EXCEPTION]: 
+no protocol: help me out maroon 5 lyrics
+Thrown from:
+java.base/java.net.URL.<init>(URL.java:627)
+StackTrace:
+java.net.MalformedURLException: no protocol: help me out maroon 5 lyrics
+	at java.base/java.net.URL.<init>(URL.java:627)
+	at java.base/java.net.URL.<init>(URL.java:523)
+	at java.base/java.net.URL.<init>(URL.java:470)
+	at cyder.handler.InputHandler.handle(InputHandler.java:855)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:464)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[17:33:52] [CONSOLE_OUT]: [STRING] Searching youtube for: help me out maroon 5 lyrics
+[17:33:54] [CONSOLE_OUT]: [STRING] Starting download of: Maroon 5, Julia Michaels - Help Me Out (Lyrics / Lyric Video)
+[17:34:50] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
+[17:35:53] [ACTION]: CyderButton, text=[>] CLICKED
+[17:35:53] [ACTION]: CyderButton, text=[<] CLICKED
+[17:36:00] [EXCEPTION]: 
+Index: 2, Size: 0
+Thrown from:
+java.base/java.util.LinkedList.checkElementIndex(LinkedList.java:559)
+StackTrace:
+java.lang.IndexOutOfBoundsException: Index: 2, Size: 0
+	at java.base/java.util.LinkedList.checkElementIndex(LinkedList.java:559)
+	at java.base/java.util.LinkedList.get(LinkedList.java:480)
+	at cyder.widgets.AudioPlayer$AudioLocation.lambda$new$0(AudioPlayer.java:856)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
