@@ -832,7 +832,11 @@ public final class ConsoleFrame {
                         if (!NetworkUtil.internetReachable()) {
                             consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
                                     ", but I had trouble connecting to the internet.\n" +
-                                    "As a result, some features may not work properly.");
+                                    "As a result, some features have been restired until a " +
+                                    "stable connection can be established.");
+                            GenesisShare.setQuesitonableInternet(true);
+                        } else {
+                            GenesisShare.setQuesitonableInternet(false);
                         }
 
                         //sleep 5 minutes

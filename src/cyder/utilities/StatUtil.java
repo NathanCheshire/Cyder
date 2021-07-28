@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 
@@ -102,6 +103,10 @@ public class StatUtil {
 
     public static void debugMenu() {
         try {
+            if (GenesisShare.isQuesitonableInternet()) {
+                throw new RuntimeException("Stable connection not established");
+            }
+
             DecimalFormat gFormater = new DecimalFormat("##.###");
             double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
             InetAddress address = InetAddress.getLocalHost();

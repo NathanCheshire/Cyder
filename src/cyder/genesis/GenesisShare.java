@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
 public class GenesisShare {
-    //private constructor
     private GenesisShare() {}
 
     private static Semaphore exitingSem = new Semaphore(1);
@@ -143,5 +142,15 @@ public class GenesisShare {
         }
 
         return Entry.getFrame();
+    }
+
+    private static boolean quesitonableInternet;
+
+    public static boolean isQuesitonableInternet() {
+        return quesitonableInternet;
+    }
+
+    public static void setQuesitonableInternet(boolean quesitonableInternet) {
+        quesitonableInternet = quesitonableInternet;
     }
 }

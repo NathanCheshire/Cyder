@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.obj.WeatherData;
 import cyder.ui.ConsoleFrame;
@@ -83,6 +84,12 @@ public class Weather {
     private boolean GMTset;
 
     public Weather() {
+        if (GenesisShare.isQuesitonableInternet()) {
+            ConsoleFrame.getConsoleFrame().notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but" +
+                    " this feature is suspended until a stable internet connection can be established");
+            return;
+        }
+
         repullWeatherStats();
 
         if (weatherFrame != null)
