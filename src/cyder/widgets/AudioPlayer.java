@@ -30,6 +30,8 @@ import java.util.LinkedList;
 
 public class AudioPlayer {
 
+    //todo be able to add to a queue next and last if we're downloading music via "play" command
+
     private enum LastAction {
         SKIP,PAUSE,STOP,RESUME,PLAY
     }
@@ -835,11 +837,14 @@ public class AudioPlayer {
                             double percentLeft = 1.0 - percentIn;
 
                             float totalMilis = audioFileDuration(audioFiles.get(audioIndex));
-                            double milisIn = percentIn * totalMilis;
-                            double milisLeft = percentLeft * totalMilis;
 
-                            audioProgressLabel.setText(formatMilis(milisIn) + " played, "
-                                    + formatMilis(milisLeft) + " left");
+                            int totalSeconds = (int) (totalMilis / 1000.0);
+                            int secondsIn = (int) (percentIn * totalSeconds);
+
+                            int secondsLeft = totalSeconds - secondsIn;
+
+                            audioProgressLabel.setText(formatSeconds(secondsIn) + " played, "
+                                    + formatSeconds(secondsLeft) + " left");
                             Thread.sleep(250);
                         } catch (Exception e) {
                             ErrorHandler.handle(e);
@@ -1052,10 +1057,9 @@ public class AudioPlayer {
         }
     }
 
-    public static String formatMilis(double milis) {
+    public static String formatSeconds(double seconds) {
         StringBuilder sb = new StringBuilder();
 
-        double seconds = milis / 1000.0;
         int minutes = 0;
         int hours = 0;
 
