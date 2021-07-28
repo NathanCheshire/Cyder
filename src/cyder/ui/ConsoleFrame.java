@@ -474,12 +474,6 @@ public final class ConsoleFrame {
                     ErrorHandler.handle(ex);
                 }
             });
-            inputField.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    minimizeMenu();
-                }
-            });
 
             inputField.setCaretColor(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
             inputField.setCaret(new CyderCaret(ConsoleFrame.getConsoleFrame().getUserForegroundColor()));
@@ -572,8 +566,9 @@ public final class ConsoleFrame {
             });
             menuButton.addActionListener(e -> {
                 if (!menuLabel.isVisible()) {
-                    if (!menuGenerated)
+                    if (!menuGenerated) {
                         generateConsoleMenu();
+                    }
 
                     menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 5);
                     menuLabel.setVisible(true);

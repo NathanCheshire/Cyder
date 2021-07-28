@@ -41,7 +41,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
-    //todo when output area is in focus and menu button is clicked, it glitches out
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
     private BletchyThread bletchyThread;
