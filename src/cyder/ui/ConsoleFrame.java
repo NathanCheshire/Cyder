@@ -231,10 +231,10 @@ public final class ConsoleFrame {
 
             consoleCyderFrame.paintWindowTitle(false);
             consoleCyderFrame.paintSuperTitle(true);
-            consoleCyderFrame.setTitle(IOUtil.getSystemData("Version") +
+            consoleCyderFrame.setTitle(IOUtil.getSystemData().getVersion()+
                     " Cyder [" + ConsoleFrame.getConsoleFrame().getUsername() + "]");
 
-            if (IOUtil.getSystemData("ConsoleResizable").equals("1")) {
+            if (IOUtil.getSystemData().isConsoleresizable()) {
                 consoleCyderFrame.initializeResizing();
                 consoleCyderFrame.setResizable(true);
                 consoleCyderFrame.setMinimumSize(new Dimension(600,600));

@@ -40,7 +40,7 @@ public class SecurityUtil {
     }
 
     public static boolean compMACAddress(String mac) {
-        return toHexString(getSHA256(mac.toCharArray())).equals(IOUtil.getSystemData("MMAC"));
+        return toHexString(getSHA256(mac.toCharArray())).equals(IOUtil.getSystemData().getMastermac());
     }
 
     /**

@@ -51,10 +51,10 @@ public class CyderMain {
             retFrame.addCloseListener(e -> GenesisShare.exit(178));
             retFrame.setVisible(true);
             retFrame.setLocationRelativeTo(null);
-        } else if (SecurityUtil.nathanLenovo() && IOUtil.getSystemData("AutoCypher").equals("1")) {
+        } else if (SecurityUtil.nathanLenovo() && IOUtil.getSystemData().isAutocypher()) {
             SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
             Entry.autoCypher();
-        } else if (IOUtil.getSystemData("Released").equals("1") || SecurityUtil.nathanLenovo()) {
+        } else if (IOUtil.getSystemData().isReleased()|| SecurityUtil.nathanLenovo()) {
             Entry.showEntryGUI();
         } else {
             try {
@@ -71,7 +71,7 @@ public class CyderMain {
      * Initializes System.getProperty key/value pairs
      */
     private static void initSystemProperties() {
-        System.setProperty("sun.java2d.uiScale", IOUtil.getSystemData("UISCALE"));
+        System.setProperty("sun.java2d.uiScale", String.valueOf(IOUtil.getSystemData().getUiscale()));
     }
 
     /**

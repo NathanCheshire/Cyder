@@ -385,7 +385,7 @@ public class ImageUtil {
                 }
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            ErrorHandler.handle(ex);
         }
 
         return ret;

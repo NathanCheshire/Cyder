@@ -97,7 +97,7 @@ public class ErrorHandler {
             if (write.trim().length() > 0)
                 SessionLogger.log(SessionLogger.Tag.EXCEPTION, write);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorHandler.handle(ex);
         }
     }
 

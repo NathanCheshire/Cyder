@@ -158,7 +158,7 @@ public class AudioPlayer {
                 }
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
-                ex.printStackTrace();
+                ErrorHandler.handle(ex);
             }
         }, "wait thread for GetterUtil().getFile()").start());
 
@@ -237,7 +237,6 @@ public class AudioPlayer {
             try {
                 stopAudio();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 ErrorHandler.handle(ex);
             }
         });
@@ -272,7 +271,6 @@ public class AudioPlayer {
                     resumeAudio(pauseLocation);
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
                 ErrorHandler.handle(ex);
             }
         });
@@ -443,7 +441,6 @@ public class AudioPlayer {
             }
 
             catch (Exception e) {
-                e.printStackTrace();
                 ErrorHandler.handle(e);
             }
         }
@@ -518,7 +515,6 @@ public class AudioPlayer {
             playPauseAudioButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
             playPauseAudioButton.setToolTipText("Play");
         } catch (Exception e) {
-            e.printStackTrace();
             ErrorHandler.handle(e);
         }
     }
@@ -555,7 +551,6 @@ public class AudioPlayer {
 
            refreshAudio();
        } catch (Exception e) {
-           e.printStackTrace();
            ErrorHandler.handle(e);
        }
     }
@@ -586,7 +581,6 @@ public class AudioPlayer {
 
             startAudio();
         } catch (Exception ex) {
-            ex.printStackTrace();
             ErrorHandler.handle(ex);
         }
     }
@@ -617,7 +611,6 @@ public class AudioPlayer {
 
             startAudio();
         } catch (Exception ex) {
-            ex.printStackTrace();
             ErrorHandler.handle(ex);
         }
     }
@@ -731,7 +724,6 @@ public class AudioPlayer {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
                 ErrorHandler.handle(e);
             }
         },"Flash Player Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
@@ -809,7 +801,6 @@ public class AudioPlayer {
                     }
 
                 } catch (Exception e) {
-                    e.printStackTrace();
                     ErrorHandler.handle(e);
                 }
             },"Flash Player Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
@@ -851,12 +842,11 @@ public class AudioPlayer {
                                     + formatMilis(milisLeft) + " left");
                             Thread.sleep(250);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            ErrorHandler.handle(e);
                         }
                     }
                 },"Flash Player Progress Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
             } catch (Exception e) {
-                e.printStackTrace();
                 ErrorHandler.handle(e);
             }
         }
@@ -927,7 +917,6 @@ public class AudioPlayer {
                         }
 
                         catch (Exception e) {
-                            e.printStackTrace();
                             ErrorHandler.handle(e);
                         }
                     },"Flash Player scrolling title thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
@@ -935,7 +924,6 @@ public class AudioPlayer {
                     audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
                 }
             } catch (Exception e) {
-                e.printStackTrace();
                 ErrorHandler.handle(e);
             }
         }

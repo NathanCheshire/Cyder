@@ -108,7 +108,7 @@ public class UserEditor {
             if (!StringUtil.empytStr(newUsername) && !newUsername.equalsIgnoreCase(ConsoleFrame.getConsoleFrame().getUsername())) {
                 IOUtil.changeUsername(newUsername);
                 editUserFrame.inform("Username successfully changed to \"" + newUsername + "\"", "");
-                ConsoleFrame.getConsoleFrame().setTitle(IOUtil.getSystemData("Version") + " Cyder [" + newUsername + "]");
+                ConsoleFrame.getConsoleFrame().setTitle(IOUtil.getSystemData().getVersion() + " Cyder [" + newUsername + "]");
                 changeUsernameField.setText("");
             }
         });

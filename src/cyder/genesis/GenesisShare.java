@@ -113,7 +113,7 @@ public class GenesisShare {
      * Controled program exit that performs closing actions
      * and then calls System.exit which will also invoke the shutdown hook
      * @param code - the exiting code to describe why the program exited (0 is standard
-     *             but for this program, the key/value pairs in ExitCodes.ini are followed)
+     *             but for this program, the key/value pairs in Sys.json are followed)
      */
     public static void exit(int code) {
         try {

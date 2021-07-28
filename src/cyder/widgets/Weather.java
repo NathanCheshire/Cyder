@@ -374,7 +374,7 @@ public class Weather {
                 String OpenString = "";
 
                 OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
-                        locationString + "&appid=" + IOUtil.getSystemData("Weather") + "&units=imperial";
+                        locationString + "&appid=" + IOUtil.getSystemData().getWeatherkey() + "&units=imperial";
 
                 Gson gson = new Gson();
                 WeatherData wd = null;

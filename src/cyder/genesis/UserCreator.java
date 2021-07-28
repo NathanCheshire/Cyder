@@ -170,7 +170,7 @@ public class UserCreator {
                         }
                     }, "wait thread for GetterUtil().getFile()").start();
                 } catch (Exception exc) {
-                    exc.printStackTrace();
+                    ErrorHandler.handle(exc);
                 }
             }
 

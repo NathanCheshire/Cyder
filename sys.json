@@ -1,18 +1,18 @@
 {
   "released": false,
-  "version":"Apfelwein",
-  "releasedate":"7.27.21",
-  "mastermac":"5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e",
-  "ipkey":"8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932",
-  "weatherkey":"2d790dd0766f1da62af488f101380c75",
+  "version": "Stella",
+  "releasedate": "7.27.21",
+  "mastermac": "5c486915459709261d6d9af79dd1be29fea375fe59a8392f64369d2c6da0816e",
+  "ipkey": "8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932",
+  "weatherkey": "2d790dd0766f1da62af488f101380c75",
   "uiloc": false,
-  "ytt":"aaaaaaaaaaa",
+  "ytt": "aaaaaaaaaau",
   "uiscale": 1.0,
   "consoleresizable": true,
   "autocypher": true,
   "cypherhash": {
-      "name": "nathan",
-      "hashpass": "3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2"
+    "name": "nathan",
+    "hashpass": "3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2"
   },
   "exitconditions": [
     {

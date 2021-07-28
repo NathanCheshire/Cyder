@@ -187,7 +187,7 @@ public class YoutubeUtil {
                                 " You may view this by switching the background or by typing \"prefs\" " +
                                 "to view your profile settings.");
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        ErrorHandler.handle(ex);
                     }
                 });
                 thumbnailFrame.add(addToBackgrounds);

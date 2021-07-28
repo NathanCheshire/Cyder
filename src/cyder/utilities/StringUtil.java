@@ -180,7 +180,7 @@ public class StringUtil {
             }
         } catch (BadLocationException ignored) {}
         catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         }
     }
 
@@ -908,7 +908,7 @@ public class StringUtil {
             ret = serializedPageNumber[1].replace("}","");
             ret = ret.substring(0, ret.length() - 1);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.silentHandle(e);
             ret = "Wiki article not found";
             ErrorHandler.silentHandle(e);
         } finally {

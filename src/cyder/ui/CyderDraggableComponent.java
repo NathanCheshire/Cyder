@@ -12,7 +12,7 @@ public class CyderDraggableComponent implements MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (IOUtil.getSystemData("UILOC").equals("1")) {
+        if (IOUtil.getSystemData().isUiloc()) {
             JFrame refFrame = (JFrame) SwingUtilities.windowForComponent(e.getComponent());
             int x = (int) (e.getLocationOnScreen().getX() - refFrame.getX() - xMouse);
             int y = (int) (e.getLocationOnScreen().getY() - refFrame.getY() - yMouse);

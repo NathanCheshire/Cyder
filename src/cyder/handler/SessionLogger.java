@@ -1,6 +1,8 @@
 package cyder.handler;
 
+import cyder.obj.SystemData;
 import cyder.ui.ConsoleFrame;
+import cyder.utilities.IOUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.TimeUtil;
 
@@ -316,13 +318,11 @@ public class SessionLogger {
         String ret = "UNKNOWN EXIT CODE";
 
         try {
-            BufferedReader codeReader = new BufferedReader(new FileReader("ExitCodes.ini"));
-            String line;
+            LinkedList<SystemData.ExitCondition> conditions = IOUtil.getSystemData().getExitconditions();
 
-            while ((line = codeReader.readLine()) != null) {
-                String[] parts = line.split(":");
-                if (Integer.parseInt(parts[0]) == code) {
-                    ret = parts[1];
+            for (SystemData.ExitCondition condition : conditions) {
+                if (condition.getCode() == code) {
+                    ret = condition.getDescription();
                     break;
                 }
             }

@@ -68,7 +68,7 @@ public class UserUtil {
         try (FileWriter writer = new FileWriter(f)) {
             gson.toJson(user, writer);
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         }
     }
 
@@ -98,7 +98,7 @@ public class UserUtil {
         try (FileWriter writer = new FileWriter(f)) {
             gson.toJson(user, writer);
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         }
     }
 
@@ -118,7 +118,7 @@ public class UserUtil {
         try (FileWriter writer = new FileWriter(f)) {
             gson.toJson(u, writer);
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         }
     }
 
@@ -135,7 +135,7 @@ public class UserUtil {
         try (FileWriter writer = new FileWriter(f)) {
             gson.toJson(u, writer);
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         }
     }
 
@@ -251,7 +251,7 @@ public class UserUtil {
         try (Reader reader = new FileReader(f)) {
             ret = gson.fromJson(reader, User.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         } finally {
             return ret;
         }
@@ -274,7 +274,7 @@ public class UserUtil {
         try (Reader reader = new FileReader(f)) {
             ret = gson.fromJson(reader, User.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         } finally {
             return ret;
         }
@@ -296,7 +296,7 @@ public class UserUtil {
         try (Reader reader = new FileReader(f)) {
             ret = gson.fromJson(reader, User.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         } finally {
             return ret;
         }

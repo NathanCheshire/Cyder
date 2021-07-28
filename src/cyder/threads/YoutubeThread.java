@@ -1,6 +1,7 @@
 package cyder.threads;
 
 import cyder.handler.ErrorHandler;
+import cyder.obj.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
@@ -32,7 +33,7 @@ public class YoutubeThread {
         new Thread(() -> {
             String Start = "https://www.youtube.com/watch?v=";
             String thumbnailURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
-            UUID = IOUtil.getSystemData("YTT");
+            UUID = IOUtil.getSystemData().getYtt();
 
             try {
                 if (UUID.length() != 11)
@@ -186,7 +187,9 @@ public class YoutubeThread {
      */
     public void kill() {
         this.exit = true;
-        IOUtil.setSystemData("YTT",UUID);
+        SystemData sd = IOUtil.getSystemData();
+        sd.setYtt(UUID);
+        IOUtil.setSystemData(sd);
     }
 
     @Override

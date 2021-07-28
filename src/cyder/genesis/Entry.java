@@ -3,6 +3,7 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
+import cyder.obj.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
@@ -35,7 +36,7 @@ public class Entry {
 
     private static void loginTypingAnimation(JTextPane refArea) {
         printingList.clear();
-        printingList.add("Cyder version: " + IOUtil.getSystemData("Date") + "\n");
+        printingList.add("Cyder version: " + IOUtil.getSystemData().getReleasedate() + "\n");
         printingList.add("Type \"h\" for a list of valid commands\n");
         printingList.add("Build: Soultree\n");
         printingList.add("Author: Nathan Cheshire\n");
@@ -119,7 +120,7 @@ public class Entry {
             }
         };
         loginFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
-        loginFrame.setTitle(IOUtil.getSystemData("Version") + " login");
+        loginFrame.setTitle(IOUtil.getSystemData().getVersion() + " Cyder login");
         loginFrame.setBackground(new Color(21,23,24));
 
         if (ConsoleFrame.getConsoleFrame().isClosed()) {
@@ -365,16 +366,9 @@ public class Entry {
      */
     public static void autoCypher() {
         try {
-            String cypherHash = IOUtil.getSystemData("CypherHash");
-
-            if (cypherHash.contains(",") && cypherHash.split(",").length == 2) {
-                String[] parts = cypherHash.split(",");
-                autoCypherAttempt = true;
-                recognize(parts[0], parts[1]);
-            } else {
-                SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
-                showEntryGUI();
-            }
+            SystemData.Hash cypherHash = IOUtil.getSystemData().getCypherhash();
+            autoCypherAttempt = true;
+            recognize(cypherHash.getName(), cypherHash.getHashpass());
         } catch (Exception e) {
             ErrorHandler.handle(e);
             showEntryGUI();

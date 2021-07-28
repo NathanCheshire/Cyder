@@ -1,7 +1,6 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import com.google.gson.Gson;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.games.Hangman;
@@ -11,8 +10,6 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
-import cyder.obj.SystemData;
-import cyder.obj.User;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
@@ -952,16 +949,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            SystemData ret = null;
-            Gson gson = new Gson();
 
-            try (Reader reader = new FileReader("sys.json")) {
-                ret = gson.fromJson(reader, SystemData.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println(ret.getCypherhash().getHashpass());
         }
         //final attempt at unknown input --------------------------
         else {

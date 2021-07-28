@@ -1,9 +1,10 @@
 package cyder.utilities;
 
+import com.google.gson.Gson;
 import cyder.genesis.Entry;
 import cyder.genesis.GenesisShare;
 import cyder.handler.*;
-import cyder.obj.NST;
+import cyder.obj.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.widgets.AudioPlayer;
@@ -18,7 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.DosFileAttributes;
-import java.util.LinkedList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -100,87 +100,33 @@ public class IOUtil {
     }
 
     /**
-     * Changes the requested system data to the provided value
-     * @param name - the system data ID to find
-     * @param value - the value of the requested system data ID to update
+     * Returns the SystemData object representing all the system data located in sys.json
+     * @return - the SystemData object
      */
-    public static void setSystemData(String name, String value) {
-        try {
-            SessionLogger.log(SessionLogger.Tag.SYSTEM_IO,"[SET] [KEY] " + name + " [VALUE] " + value);
+    public static SystemData getSystemData() {
+        SystemData ret = null;
+        Gson gson = new Gson();
 
-            //block other functiosn from changing system data while we are changing it here
-            GenesisShare.getExitingSem().acquire();
-
-            //init needed vars
-            BufferedReader sysReader = new BufferedReader(new FileReader("Sys.ini"));
-            LinkedList<NST> systemData = new LinkedList<>();
-            String Line;
-
-            //read data into list
-            while ((Line = sysReader.readLine()) != null) {
-                String[] parts = Line.split(":");
-                systemData.add(new NST(parts[0], parts[1]));
-            }
-
-            //free resources
-            sysReader.close();
-
-            //init writer
-            BufferedWriter sysWriter = new BufferedWriter(new FileWriter("Sys.ini", false));
-
-            //loop through data and write to file, change the data we wanted to change
-            for (NST data : systemData) {
-                if (data.getName().equalsIgnoreCase(name)) {
-                    data.setData(value);
-                }
-
-                sysWriter.write(data.getName() + ":" + data.getData());
-                sysWriter.newLine();
-            }
-
-            sysWriter.close();
-        } catch (Exception e) {
+        try (Reader reader = new FileReader("sys.json")) {
+            ret = gson.fromJson(reader, SystemData.class);
+        } catch (IOException e) {
             ErrorHandler.handle(e);
-        } finally {
-            GenesisShare.getExitingSem().release();
         }
+
+        return ret;
     }
 
     /**
-     * Finds and returns the data associated with the provided ID
-     * @param name - the ID of the data to be returned
-     * @return - the data associated with the provided ID
+     * Writes the provided SystemData object to sys.json, overriding whatever object is represented there.
+     * @param sd the SystemData object to write
      */
-    public static String getSystemData(String name) {
-        String ret = "null";
+    public static void setSystemData(SystemData sd) {
+        Gson gson = new Gson();
 
-        try {
-            //block other functiosn from changing system data while we are changing it here
-            GenesisShare.getExitingSem().acquire();
-
-            //init needed vars
-            BufferedReader sysReader = new BufferedReader(new FileReader("Sys.ini"));
-            String Line;
-
-            //read data until we find what we are looking for
-            while ((Line = sysReader.readLine()) != null) {
-                String[] parts = Line.split(":");
-
-                if (parts[0].equalsIgnoreCase(name)) {
-                    ret = parts[1];
-                    break;
-                }
-            }
-
-            //free resources
-            sysReader.close();
-        } catch (Exception e) {
+        try (FileWriter writer = new FileWriter("sys.json")) {
+            gson.toJson(sd, writer);
+        } catch (IOException e) {
             ErrorHandler.handle(e);
-        } finally {
-            SessionLogger.log(SessionLogger.Tag.SYSTEM_IO, "[GET] [" +  name
-                    + "] [RETURN VALUE] " + ret);
-            GenesisShare.getExitingSem().release();
-            return ret;
         }
     }
 

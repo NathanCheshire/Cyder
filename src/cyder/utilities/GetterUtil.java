@@ -300,7 +300,7 @@ public class GetterUtil {
                 returnFile = new File("NULL");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         }
 
         File ret = returnFile;
