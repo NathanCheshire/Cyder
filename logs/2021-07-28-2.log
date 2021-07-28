@@ -1,0 +1,10 @@
+[12:12:31] [ENTRY]: [WINUSER=Nathan]
+[12:12:31] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[12:12:32] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12:12:32] [LOGIN]: [AUTOCYPHER PASS]
+[12:12:34] [CLIENT]: test
+[12:12:58] [CLIENT]: Random youtube
+[12:12:58] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] Type "stop scripts" or press ctrl + c to stop the YouTube thread.
+[12:13:11] [LOGOUT]:  [Nathan]
+[12:13:11] [EXIT]: [RUNTIME] 39s
+[12:13:11] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

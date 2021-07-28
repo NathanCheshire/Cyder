@@ -295,30 +295,20 @@ public class TimeUtil {
 
         seconds = msTime / 1000;
 
-        while (seconds >= 60) {
-            seconds -= 60;
-            minutes++;
-        }
+        minutes = Math.floor(seconds / 60.0);
+        seconds -= minutes * 60.0;
 
-        while (minutes >= 60) {
-            minutes -= 60;
-            hours++;
-        }
+        hours = Math.floor(minutes / 60.0);
+        minutes -= hours * 60.0;
 
-        while (hours >= 24) {
-            hours -= 24;
-            days++;
-        }
+        days = Math.floor(hours / 24.0);
+        hours -= days * 24.0;
 
-        while (days >= 30) {
-            days -= 30;
-            months++;
-        }
+        months = Math.floor(days / 30.0);
+        days -= months * 30.0;
 
-        while (months >= 12) {
-            months -= 12;
-            years++;
-        }
+        years = Math.floor(months / 12.0);
+        months -= years * 12.0;
 
         DecimalFormat format = new DecimalFormat("#.##");
 

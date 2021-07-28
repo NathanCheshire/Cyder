@@ -94,6 +94,7 @@ public class YoutubeThread {
                     }
                 }
 
+                //todo why does it stop here
                 if (runs <= 10) {
                     long time = System.currentTimeMillis() - start;
                     accTime += time;
@@ -126,7 +127,6 @@ public class YoutubeThread {
                         ConsoleFrame.getConsoleFrame().notify("Time left: " + TimeUtil.milisToFormattedString(msTimeLeft));
                     }
                 }
-
             }
         },"Random youtube thread").start();
     }
