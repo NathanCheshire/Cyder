@@ -1385,14 +1385,14 @@ public class InputHandler {
 
                         if (line instanceof String) {
                             if (UserUtil.getUserData("typinganimation").equals("1")) {
-                                GenesisShare.getPrintinSem().acquire();
+                                GenesisShare.getPrintingSem().acquire();
                                 for (char c : ((String) line).toCharArray()) {
                                     innerConsolePrint(c);
 
                                     if (!finishPrinting)
                                         Thread.sleep(charTimeout);
                                 }
-                                GenesisShare.getPrintinSem().release();
+                                GenesisShare.getPrintingSem().release();
                             } else {
                                 StyledDocument document = (StyledDocument) outputArea.getDocument();
                                 document.insertString(document.getLength(), (String) line, null);
@@ -1708,7 +1708,7 @@ public class InputHandler {
                 }
             }
 
-            GenesisShare.getPrintinSem().acquire();
+            GenesisShare.getPrintingSem().acquire();
 
             if (removeTwoLines) {
                 removeLastLine();
@@ -1716,7 +1716,7 @@ public class InputHandler {
 
             removeLastLine();
 
-            GenesisShare.getPrintinSem().release();
+            GenesisShare.getPrintingSem().release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

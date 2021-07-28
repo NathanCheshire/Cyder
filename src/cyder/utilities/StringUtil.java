@@ -52,12 +52,12 @@ public class StringUtil {
 
     public void removeFirst() {
         try {
-            GenesisShare.getPrintinSem().acquire();
+            GenesisShare.getPrintingSem().acquire();
             Element root = outputArea.getDocument().getDefaultRootElement();
             Element first = root.getElement(0);
             outputArea.getDocument().remove(first.getStartOffset(), first.getEndOffset());
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
-            GenesisShare.getPrintinSem().release();
+            GenesisShare.getPrintingSem().release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -126,7 +126,7 @@ public class StringUtil {
                 }
             }
 
-            GenesisShare.getPrintinSem().acquire();
+            GenesisShare.getPrintingSem().acquire();
 
             if (removeTwoLines) {
                 removeLastLine();
@@ -134,7 +134,7 @@ public class StringUtil {
 
             removeLastLine();
 
-            GenesisShare.getPrintinSem().release();
+            GenesisShare.getPrintingSem().release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

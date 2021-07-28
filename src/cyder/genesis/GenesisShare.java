@@ -14,14 +14,14 @@ public class GenesisShare {
     private GenesisShare() {}
 
     private static Semaphore exitingSem = new Semaphore(1);
-    private static Semaphore printinSem = new Semaphore(1);
+    private static Semaphore printingSem = new Semaphore(1);
 
     public static Semaphore getExitingSem() {
         return exitingSem;
     }
 
-    public static Semaphore getPrintinSem() {
-        return printinSem;
+    public static Semaphore getPrintingSem() {
+        return printingSem;
     }
 
     private static boolean suspendFrameChecker = false;
