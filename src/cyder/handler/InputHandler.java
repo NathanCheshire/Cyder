@@ -877,7 +877,7 @@ public class InputHandler {
 
                         println("Download complete; playing");
 
-                        IOUtil.mp3(downloadedFile.get().getAbsolutePath());
+                        IOUtil.addToMp3Queue(downloadedFile.get());
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
                     }
@@ -903,7 +903,7 @@ public class InputHandler {
 
                         println("Download complete; playing");
 
-                        IOUtil.mp3(downloadedFile.get().getAbsolutePath());
+                        IOUtil.addToMp3Queue(downloadedFile.get());
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
                     }

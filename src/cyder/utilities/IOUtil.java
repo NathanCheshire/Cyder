@@ -226,6 +226,14 @@ public class IOUtil {
         Notes = new Notes();
     }
 
+    public static void addToMp3Queue(File f) {
+        if (CyderPlayer != null) {
+            CyderPlayer.addToQueue(f);
+        } else {
+            mp3(f.getAbsolutePath());
+        }
+    }
+
     /**
      * Ends the current AudioPlayer session if ongoing and starts a new one with the requested file
      * @param FilePath - the path to the audio file to start playing

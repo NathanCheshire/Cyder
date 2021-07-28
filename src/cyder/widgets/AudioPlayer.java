@@ -29,9 +29,6 @@ import java.text.DecimalFormat;
 import java.util.LinkedList;
 
 public class AudioPlayer {
-
-    //todo be able to add to a queue next and last if we're downloading music via "play" command
-
     private enum LastAction {
         SKIP,PAUSE,STOP,RESUME,PLAY
     }
@@ -1084,5 +1081,11 @@ public class AudioPlayer {
         sb.append((int) Math.ceil(seconds)).append("s");
 
         return sb.toString();
+    }
+
+    private LinkedList<File> queue;
+
+    public void addToQueue(File f) {
+        queue.push(f);
     }
 }
