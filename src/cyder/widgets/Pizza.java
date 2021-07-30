@@ -259,15 +259,18 @@ public class Pizza {
                 String Size;
 
                 if (smallPizza.isSelected())
-                    Size = "small<br/>";
+                    Size = "Small<br/>";
 
                 else if (mediumPizza.isSelected())
-                    Size = "medium<br/>";
+                    Size = "Medium<br/>";
 
                 else
                     Size = "Large<br/>";
 
                 String Crust = crustTypeScroll.getSelectedElement();
+
+                if (Crust == null)
+                    Crust = "Thin";
 
                 LinkedList<String> ToppingsList = pizzaToppingsScroll.getSelectedElements();
                 ArrayList<String> ToppingsArrList = new ArrayList<>();
@@ -296,24 +299,18 @@ public class Pizza {
 
                 String Comments = orderComments.getText().trim();
 
-                if (Extras.length() == 0)
+                if (Extras.length() == 0) {
                     Extras = "";
-
-                else
+                } else {
                     Extras = "<br/>Extras: " + "<br/>" + Extras;
-
-                //todo fix formatting issues here
-                if (Comments.length() == 0) {
-                    GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
-                        + "<br/>" + Size + "<br/><br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/><br/>" + ToppingsChosen
-                        + "<br/><br/>" + Extras,"");
                 }
 
-                else {
-                    GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
-                        + "<br/>" + Size + "<br/><br/>" + "Crust Type: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/>" + ToppingsChosen
-                        + "<br/>" + Extras + "<br/><br/>Comments: " + "<br/><br/>" + Comments,"");
-                }
+                Comments = Comments.trim().length() == 0 ? "" : "<br/>Comments: " + "<br/>" + Comments;
+
+                GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/>" + "Size: "
+                    + "<br/>" + Size + "<br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/>" + ToppingsChosen
+                        + Extras + Comments,"");
+
             }
         });
         placeOrder.setBounds(80,740,200,40);
