@@ -57,9 +57,13 @@ public final class ConsoleFrame {
     private JButton alternateBackground;
     private JButton close;
 
+    //debug ui elements
+    private JLabel debugImageLabel;
+    private JLabel verticalDebugLine;
+    private JLabel horizontalDebugLine;
+
     //boolean vars
     private boolean menuGenerated;
-    private boolean drawConsoleLines;
     private boolean consoleLinesDrawn;
     private boolean fullscreen;
     private boolean closed = true;
@@ -138,48 +142,10 @@ public final class ConsoleFrame {
                         getCurrentBackgroundFile().toString(),getConsoleDirection()));
             }
 
-            //override the CyderFrame we use for ConsoleFrame to add in the debug lines
             consoleCyderFrame = new CyderFrame(w, h, usage) {
-                @Override
-                public void paint(Graphics g) {
-                    super.paint(g);
-
-                    if (drawConsoleLines && !consoleLinesDrawn) {
-                        Graphics2D g2d = (Graphics2D) g;
-
-                        BufferedImage img = null;
-                        int w = 0;
-                        int h = 0;
-
-                        try {
-                            img = ImageUtil.resizeImage(25,25,ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile());
-                            w = img.getWidth(null);
-                            h = img.getHeight(null);
-
-                        } catch (Exception e) {
-                            ErrorHandler.handle(e);
-                        }
-
-                        g2d.setPaint(lineColor);
-                        int strokeThickness = 4;
-                        g2d.setStroke(new BasicStroke(strokeThickness));
-
-                        g2d.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
-                        g2d.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
-
-                        if (img != null)
-                            g2d.drawImage(img, getWidth() / 2 - w / 2, getHeight() / 2 - h / 2, null);
-
-                        consoleLinesDrawn = true;
-                    }
-                }
-
                 @Override
                 public void setBounds(int x, int y, int w, int h) {
                     super.setBounds(x,y,w,h);
-
-                    consoleLinesDrawn = false;
-                    drawConsoleLines = false;
 
                     if (outputScroll != null && inputField != null) {
                         outputScroll.setBounds(10, 62, w - 20, h - 204);
@@ -394,12 +360,48 @@ public final class ConsoleFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (!consoleLinesDrawn) {
-                        drawConsoleLines = true;
+                        BufferedImage img = null;
+                        int w = 0;
+                        int h = 0;
+
+                        try {
+                            img = ImageUtil.resizeImage(25,25,ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile());
+                            w = img.getWidth(null);
+                            h = img.getHeight(null);
+
+                        } catch (Exception ex) {
+                            ErrorHandler.handle(ex);
+                        }
+
+                        verticalDebugLine = new JLabel();
+                        verticalDebugLine.setBounds(getWidth() / 2 - 2, 0, 4, getHeight());
+                        verticalDebugLine.setOpaque(true);
+                        verticalDebugLine.setBackground(lineColor);
+                        consoleCyderFrame.getTrueContentPane().add(verticalDebugLine,9000);
+
+                        horizontalDebugLine = new JLabel();
+                        horizontalDebugLine.setBounds(0, getHeight() / 2 - 2, getWidth(), 4);
+                        horizontalDebugLine.setOpaque(true);
+                        horizontalDebugLine.setBackground(lineColor);
+                        consoleCyderFrame.getTrueContentPane().add(horizontalDebugLine,9000);
+
+                        if (img != null) {
+                            debugImageLabel = new JLabel();
+                            debugImageLabel.setIcon(new ImageIcon(img));
+                            debugImageLabel.setBounds(getWidth() / 2 - w / 2,getHeight() / 2 - h / 2, w, h);
+                            consoleCyderFrame.getTrueContentPane().add(debugImageLabel,9000);
+                        }
+
+                        consoleLinesDrawn = true;
                     } else {
-                        drawConsoleLines = false;
+                        consoleCyderFrame.getTrueContentPane().remove(verticalDebugLine);
+                        consoleCyderFrame.getTrueContentPane().remove(horizontalDebugLine);
+                        consoleCyderFrame.getTrueContentPane().remove(debugImageLabel);
+                        consoleCyderFrame.getTrueContentPane().revalidate();
+                        consoleCyderFrame.getTrueContentPane().repaint();
+
                         consoleLinesDrawn = false;
                     }
-                    consoleCyderFrame.repaint();
                 }
             });
 

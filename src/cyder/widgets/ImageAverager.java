@@ -34,7 +34,6 @@ public class ImageAverager {
         cf.setTitle("Image Averager");
 
         imagesScroll = new CyderScrollList(400, 400, CyderScrollList.SelectionPolicy.SINGLE);
-        imagesScroll.setItemAlignemnt(StyleConstants.ALIGN_CENTER);
         imagesScroll.setBorder(null);
 
         imageScrollLabelHolder = new JLabel();
@@ -91,6 +90,7 @@ public class ImageAverager {
         });
 
         CyderButton average = new CyderButton("Average Images");
+        average.setColors(CyderColors.intellijPink);
         average.setBounds(90,580,420,40);
         cf.getContentPane().add(average);
         average.addActionListener(e -> compute());
