@@ -613,7 +613,7 @@ public final class ConsoleFrame {
 
             consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> minimizeMenu());
 
-            //custom list of buttons even for mini and close so we can focus traverse them
+            //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
 
             minimize = new JButton("");
@@ -1498,7 +1498,7 @@ public final class ConsoleFrame {
                         }
                     }
 
-                    //f17 easter egg and other acknowlegement of other function keys
+                    //f17 Easter egg and other acknowlegement of other function keys
                     for (int i = 61440; i < 61452; i++) {
                         if (code == i) {
                             if (i - 61427 == 17) {
@@ -1595,7 +1595,7 @@ public final class ConsoleFrame {
 
     /**
      * Takes into account the dpi scaling value and checks all the backgrounds in the user's
-     * directory against the current monitors resolution. If any width or height of a background file
+     * directory against the current monitor's resolution. If any width or height of a background file
      * exceeds the monitor's width or height. We resize until it doesn't. We also check to make sure the background
      * meets our minimum pixel dimension parameters.
      */
@@ -1619,7 +1619,7 @@ public final class ConsoleFrame {
                                     "\" since it's too big.", "System Action");
 
                 //while the image dimensions are greater than the screen dimensions,
-                // divide the image dimensions by the the aspect ratio if it will result in a smaller number
+                // divide the image dimensions by the aspect ratio if it will result in a smaller number
                 // if it won't then we divide by 1/aspectRatio which will result in a smaller number if the first did not
                 while (backgroundWidth > screenWidth * 0.70 || backgroundHeight > screenHeight * 0.70) {
                     backgroundWidth = (int) (backgroundWidth / ((aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio)));
@@ -2118,7 +2118,7 @@ public final class ConsoleFrame {
     }
 
     /**
-     * @return returns the current background with using the current background ImageIcon and whether or not full screen is active
+     * @return returns the current background with using the current background ImageIcon and regardless of whether full screen is active
      */
     public int getBackgroundWidth() {
         if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
@@ -2128,7 +2128,7 @@ public final class ConsoleFrame {
     }
 
     /**
-     * @return returns the current background height using the current background ImageIcon and whether or not full screen is active
+     * @return returns the current background height using the current background ImageIcon and regardless of whether full screen is active
      */
     public int getBackgroundHeight() {
         if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
@@ -2184,7 +2184,7 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Repaints the ConsoleFrame based on the console flip diretion and whether or not fullscreen is turned on.
+     * Repaints the ConsoleFrame based on the console flip diretion and regardless of whether fullscreen is turned on.
      * Use this method as a repaint essentially.
      * @param enable - the fullscreen value of the frame
      */

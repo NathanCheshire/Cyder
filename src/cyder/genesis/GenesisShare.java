@@ -116,7 +116,7 @@ public class GenesisShare {
      */
     public static void exit(int code) {
         try {
-            //reset console frame, input handler, bletchy thread, youtube thread,
+            //reset console frame, input handler, bletchy thread, YouTube thread,
             // and other stuff linked to console frame
             if (!ConsoleFrame.getConsoleFrame().isClosed())
                 ConsoleFrame.getConsoleFrame().close();
@@ -151,6 +151,6 @@ public class GenesisShare {
     }
 
     public static void setQuesitonableInternet(boolean quesitonableInternet) {
-        quesitonableInternet = quesitonableInternet;
+        GenesisShare.quesitonableInternet = quesitonableInternet;
     }
 }

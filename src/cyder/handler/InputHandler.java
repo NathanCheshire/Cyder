@@ -950,10 +950,12 @@ public class InputHandler {
                     println("Improper pastebin url");
                 }
             }
+        } else if (hasWord("average") && (hasWord("image")) || hasWord("picture")) {
+            new ImageAverager();
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-
+            new ImageAverager();
         }
         //final attempt at unknown input --------------------------
         else {
@@ -1343,7 +1345,7 @@ public class InputHandler {
     private boolean started = false;
 
     //console printing animation currently turned off do to concurrency issues such as
-    // bletchy, youtube thread, and drawing pictures and such, maybe we just throw everything no matter
+    // bletchy, YouTube thread, and drawing pictures and such, maybe we just throw everything no matter
     // what into a custom OutputQueue and from there determine how to store it and print it?
     public void startConsolePrintingAnimation() {
         if (started)
@@ -1775,7 +1777,7 @@ public class InputHandler {
     private void escapeThreads() {
         //exit user input mode if in it
         setUserInputMode(false);
-        //kill youtube threads
+        //kill YouTube threads
         masterYoutube.killAllYoutube();
         //kill bletchy threads
         bletchyThread.killBletchy();
