@@ -23,26 +23,27 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 public class ImageAverager {
     private LinkedList<File> files;
     private JLabel imagesScrollLabel;
-    private CyderScrollList imagseScroll;
+    private CyderScrollList imagesScroll;
     private CyderFrame cf;
     private JLabel imageScrollLabelHolder;
 
     public ImageAverager() {
         files = new LinkedList<>();
 
-        cf = new CyderFrame(500,830);
+        cf = new CyderFrame(600,640);
         cf.setTitle("Image Averager");
 
-        imagseScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
-        imagseScroll.setBorder(null);
+        imagesScroll = new CyderScrollList(400, 400, CyderScrollList.SelectionPolicy.SINGLE);
+        imagesScroll.setItemAlignemnt(StyleConstants.ALIGN_CENTER);
+        imagesScroll.setBorder(null);
 
         imageScrollLabelHolder = new JLabel();
-        imageScrollLabelHolder.setBounds(90,90,320,620);
+        imageScrollLabelHolder.setBounds(90,40,420,420);
         imageScrollLabelHolder.setBorder(new LineBorder(CyderColors.navy, 5));
         cf.getContentPane().add(imageScrollLabelHolder);
 
-        imagesScrollLabel = imagseScroll.generateScrollList();
-        imagesScrollLabel.setBounds(10, 10, 300, 600);
+        imagesScrollLabel = imagesScroll.generateScrollList();
+        imagesScrollLabel.setBounds(10, 10, 400, 400);
         imageScrollLabelHolder.add(imagesScrollLabel);
 
         imageScrollLabelHolder.setBackground(Color.white);
@@ -51,7 +52,7 @@ public class ImageAverager {
         imagesScrollLabel.setBackground(Color.white);
 
         CyderButton addButton = new CyderButton("Add Image");
-        addButton.setBounds(100,40,300,40);
+        addButton.setBounds(90,480,420,40);
         cf.getContentPane().add(addButton);
         addButton.addActionListener(e -> new Thread(() -> {
             try {
@@ -69,10 +70,10 @@ public class ImageAverager {
         }, "wait thread for GetterUtil().getFile()").start());
 
         CyderButton remove = new CyderButton("Remove Image");
-        remove.setBounds(100,720,300,40);
+        remove.setBounds(90,530,420,40);
         cf.getContentPane().add(remove);
         remove.addActionListener(e -> {
-            String matchName = imagseScroll.getSelectedElement();
+            String matchName = imagesScroll.getSelectedElement();
             int removeIndex = -1;
 
             for (int i = 0 ; i < files.size() ; i++) {
@@ -90,7 +91,7 @@ public class ImageAverager {
         });
 
         CyderButton average = new CyderButton("Average Images");
-        average.setBounds(100,780,300,40);
+        average.setBounds(90,580,420,40);
         cf.getContentPane().add(average);
         average.addActionListener(e -> compute());
 
@@ -99,7 +100,7 @@ public class ImageAverager {
     }
 
     private void revalidateScroll() {
-        imagseScroll.removeAllElements();
+        imagesScroll.removeAllElements();
         imageScrollLabelHolder.remove(imagesScrollLabel);
 
         for (int j = 0 ; j < files.size() ; j++) {
@@ -112,13 +113,12 @@ public class ImageAverager {
             }
 
             thisAction action = new thisAction();
-            imagseScroll.addElement(files.get(j).getName(), action);
+            imagesScroll.addElement(files.get(j).getName(), action);
         }
 
-        imagseScroll.setItemAlignemnt(StyleConstants.ALIGN_LEFT);
-        imagesScrollLabel = imagseScroll.generateScrollList();
-        imagesScrollLabel.setBackground(new Color(255,255,255));
-        imagesScrollLabel.setBounds(10, 10, 300, 600);
+        imagesScroll.setItemAlignemnt(StyleConstants.ALIGN_LEFT);
+        imagesScrollLabel = imagesScroll.generateScrollList();
+        imagesScrollLabel.setBounds(10, 10, 400, 400);
         imageScrollLabelHolder.setBackground(CyderColors.vanila);
 
         imageScrollLabelHolder.add(imagesScrollLabel);
@@ -190,14 +190,22 @@ public class ImageAverager {
                 for (int y = 0; y < currentPixels.length; y++) {
                     for (int x = 0; x < currentPixels[0].length; x++) {
                         pixels[y + currentYOffset][x + currentXOffset] += currentPixels[y][x];
-                        pixels[y + currentYOffset][x + currentXOffset] += 1;
+                        divideBy[y + currentYOffset][x + currentXOffset] += 1;
+                    }
+                }
+            }
+
+            for (int y = 0 ; y < divideBy.length ; y++) {
+                for (int x = 0 ; x < divideBy[0].length ; x++) {
+                    if (divideBy[y][x] == 0) {
+                        divideBy[y][x] = 1;
                     }
                 }
             }
 
             for (int y = 0 ; y < pixels.length ; y++) {
                 for (int x = 0 ; x < pixels[0].length ; x++) {
-                    saveImage.setRGB(x, y, pixels[y][x] / (divideBy[y][x] == 0 ? 1 : divideBy[y][x]));
+                    saveImage.setRGB(x, y, pixels[y][x] / divideBy[y][x]);
                 }
             }
         } catch (Exception e) {

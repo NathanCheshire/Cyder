@@ -267,7 +267,7 @@ public class Pizza {
                 else
                     Size = "Large<br/>";
 
-                String Crust = crustTypeScroll.getSelectedElements().get(0);
+                String Crust = crustTypeScroll.getSelectedElement();
 
                 LinkedList<String> ToppingsList = pizzaToppingsScroll.getSelectedElements();
                 ArrayList<String> ToppingsArrList = new ArrayList<>();
@@ -302,16 +302,17 @@ public class Pizza {
                 else
                     Extras = "<br/>Extras: " + "<br/>" + Extras;
 
+                //todo fix formatting issues here
                 if (Comments.length() == 0) {
                     GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
                         + "<br/>" + Size + "<br/><br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/><br/>" + ToppingsChosen
-                        + "<br/><br/>" + Extras,"Order Summary");
+                        + "<br/><br/>" + Extras,"");
                 }
 
                 else {
                     GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/><br/>" + "Size: "
                         + "<br/>" + Size + "<br/><br/>" + "Crust Type: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/>" + ToppingsChosen
-                        + "<br/>" + Extras + "<br/><br/>Comments: " + "<br/><br/>" + Comments,"Order Summary");
+                        + "<br/>" + Extras + "<br/><br/>Comments: " + "<br/><br/>" + Comments,"");
                 }
             }
         });
