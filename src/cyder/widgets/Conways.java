@@ -20,7 +20,8 @@ public class Conways {
 
         JLabel gridLabel = new JLabel() {
             @Override
-            protected void paintComponent(Graphics g) {
+            public void paint(Graphics g) {
+                super.paint(g);
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setColor(CyderColors.navy);
                 g2d.setStroke(new BasicStroke(2));
@@ -41,9 +42,7 @@ public class Conways {
                 for (int x = 0 ; x < 45 ; x++) {
                     for (int y = 0 ; y < 45 ; y++) {
                         if (grid[x][y] == 1) {
-                            System.out.println("fill" + x + "," + y);
-                        } else {
-
+                            g2d.fillRect(1 + squareLen * x, 1 + squareLen* y, squareLen, squareLen);
                         }
                     }
                 }
@@ -59,6 +58,7 @@ public class Conways {
                 double x = Math.floor(((e.getX() + 2) / 20));
                 double y = Math.floor(((e.getY() + 2) / 20));
 
+                //todo toggle instead of set to 1
                 if (x < 45 && y < 45 && x >= 0 && y >= 0) {
                     grid[(int) x][(int) y] = 1;
                     gridLabel.repaint();
