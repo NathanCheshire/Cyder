@@ -955,7 +955,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            new ImageAverager();
+            new Conways();
         }
         //final attempt at unknown input --------------------------
         else {

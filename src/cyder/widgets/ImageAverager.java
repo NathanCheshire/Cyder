@@ -1,18 +1,24 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
-import cyder.utilities.*;
+import cyder.utilities.GetterUtil;
+import cyder.utilities.IOUtil;
+import cyder.utilities.SecurityUtil;
+import cyder.utilities.StringUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
@@ -144,19 +150,53 @@ public class ImageAverager {
                     }
                 }
 
+                //alpha since possibility of alpha channel
                 BufferedImage saveImage = new BufferedImage(width, height, TYPE_INT_ARGB);
                 Graphics2D graph = saveImage.createGraphics();
-                graph.setPaint (new Color(255,255,255,0));
-                graph.fillRect ( 0, 0, width, height);
 
+                //init transparent image
+                graph.setPaint(new Color(0,0,0,0));
+                graph.fillRect(0, 0, width, height);
+
+                //compute the average based on max width, height, and the BI to write to
                 ComputeAverage(width, height, saveImage);
 
-                ImageUtil.drawBufferedImage(saveImage);
+                CyderFrame drawFrame = new CyderFrame(saveImage.getWidth(), saveImage.getHeight(), new ImageIcon(saveImage));
 
-//                File outFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() +
-//                        "/Backgrounds/" + SecurityUtil.generateUUID() + ".png");
-//                ImageIO.write(saveImage, "png", outFile);
-//                cf.notify("Average computed and saved to your user's backgrounds/ directory");
+                JButton save = new JButton("Save");
+                save.setForeground(CyderColors.vanila);
+                save.setFont(CyderFonts.defaultFontSmall);
+                save.setToolTipText("Save image");
+                save.addActionListener(e -> {
+                    try {
+                        File outFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() +
+                                "/Backgrounds/" + SecurityUtil.generateUUID() + ".png");
+                        ImageIO.write(saveImage, "png", outFile);
+                        cf.notify("Average computed and saved to your user's backgrounds/ directory");
+                    } catch (Exception ex) {
+                        ErrorHandler.handle(ex);
+                    }
+                });
+                save.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        save.setForeground(CyderColors.regularRed);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        save.setForeground(CyderColors.vanila);
+                    }
+                });
+
+                save.setContentAreaFilled(false);
+                save.setBorderPainted(false);
+                save.setFocusPainted(false);
+                drawFrame.getTopDragLabel().addButton(save, 0);
+
+                drawFrame.getTopDragLabel().add(save,1);
+                drawFrame.setVisible(true);
+                drawFrame.setLocationRelativeTo(cf);
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
@@ -167,34 +207,44 @@ public class ImageAverager {
 
     private void ComputeAverage(int width, int height, BufferedImage saveImage) {
         try {
+            //running add array
             int[][] pixels = new int[height][width];
+            //averaging array
             int[][] divideBy = new int[height][width];
 
-            //fill divideBy with zeros
+            //fill averaging with zeros
             for (int y = 0 ; y < divideBy.length ; y++) {
                 for (int x = 0 ; x < divideBy[0].length ; x++) {
                     divideBy[y][x] = 0;
                 }
             }
 
+            //for all files
             for (File file : files) {
+                //create bi object
                 BufferedImage bufferImage = ImageIO.read(file);
 
+                //get pixel data
                 int[][] currentPixels = get2DRGBArr(bufferImage);
 
+                //get current dimensions and offsets
                 int currentHeight = bufferImage.getHeight();
                 int currentWidth = bufferImage.getWidth();
                 int currentXOffset = (width - currentWidth) / 2;
                 int currentYOffset = (height - currentHeight) / 2;
 
+                //loop through current data
                 for (int y = 0; y < currentPixels.length; y++) {
                     for (int x = 0; x < currentPixels[0].length; x++) {
+                        //add in current data to master array accounting for offset
                         pixels[y + currentYOffset][x + currentXOffset] += currentPixels[y][x];
+                        //add in data to say this pixel was added to
                         divideBy[y + currentYOffset][x + currentXOffset] += 1;
                     }
                 }
             }
 
+            //can't divide by 0 so for the pixel values that were not changed, divide by a 1
             for (int y = 0 ; y < divideBy.length ; y++) {
                 for (int x = 0 ; x < divideBy[0].length ; x++) {
                     if (divideBy[y][x] == 0) {
@@ -203,6 +253,7 @@ public class ImageAverager {
                 }
             }
 
+            //write pixel data to image
             for (int y = 0 ; y < pixels.length ; y++) {
                 for (int x = 0 ; x < pixels[0].length ; x++) {
                     saveImage.setRGB(x, y, pixels[y][x] / divideBy[y][x]);
