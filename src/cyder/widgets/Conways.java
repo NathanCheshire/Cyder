@@ -24,9 +24,11 @@ public class Conways {
 
     private CyderLabel iterationLabel;
     private CyderLabel populationLabel;
+    private CyderLabel maxPopulationLabel;
 
     private int generationCount = 0;
     private int populationCount = 0;
+    private int maxPopulation = 0;
 
     public Conways() {
         grid = new int[45][45];
@@ -65,6 +67,11 @@ public class Conways {
                 }
 
                 populationLabel.setText("Population: " + populationCount);
+
+                if (populationCount > maxPopulation) {
+                    maxPopulation = populationCount;
+                    maxPopulationLabel.setText("Max Population: " + maxPopulation);
+                }
             }
         };
         gridLabel.setOpaque(true);
@@ -118,6 +125,10 @@ public class Conways {
         populationLabel.setBounds(180,32, 150, 30);
         cf.getContentPane().add(populationLabel);
 
+        maxPopulationLabel = new CyderLabel("Max Population: 0");
+        maxPopulationLabel.setBounds(340,32, 150, 30);
+        cf.getContentPane().add(maxPopulationLabel);
+
         CyderButton resetButton = new CyderButton("Reset");
         resetButton.addActionListener(e -> {
             new Thread(() -> {
@@ -132,8 +143,10 @@ public class Conways {
             simulateButton.setText("Simulate");
 
             simulationRunning = false;
+            maxPopulation = 0;
             generationCount = 0;
             iterationLabel.setText("Generation: 0");
+            maxPopulationLabel.setText("Max Population: 0");
             grid = new int[45][45];
             gridLabel.repaint();
         });
@@ -222,6 +235,7 @@ public class Conways {
     @SuppressWarnings("ForLoopReplaceableByForEach")
     private void start() {
         generationCount = 0;
+        maxPopulation = populationCount;
         new Thread(() -> {
             while (simulationRunning) {
                 try {
