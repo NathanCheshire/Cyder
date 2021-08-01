@@ -234,8 +234,7 @@ public class Conways {
 
     @SuppressWarnings("ForLoopReplaceableByForEach")
     private void start() {
-        generationCount = 0;
-        maxPopulation = populationCount;
+
         new Thread(() -> {
             while (simulationRunning) {
                 try {
