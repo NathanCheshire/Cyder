@@ -26,8 +26,6 @@ public class Conways {
         //todo iteration counter
         //todo population counter
 
-        //todo restrict placement on edges
-
         grid = new int[45][45];
         CyderFrame cf = new CyderFrame(940,1050, CyderImages.defaultBackgroundLarge);
         cf.setTitle("Conway's Game of Life");
@@ -73,7 +71,7 @@ public class Conways {
                     double x = Math.floor(((e.getX() + 2) / 20));
                     double y = Math.floor(((e.getY() + 2) / 20));
 
-                    if (x < 45 && y < 45 && x >= 0 && y >= 0) {
+                    if (x < 44 && y < 44 && x >= 1 && y >= 1) {
                         switch (grid[(int) x][(int) y]) {
                             case 0:
                                 grid[(int) x][(int) y] = 1;
@@ -97,7 +95,7 @@ public class Conways {
                     double x = Math.floor(((e.getX() + 2) / 20));
                     double y = Math.floor(((e.getY() + 2) / 20));
 
-                    if (x < 45 && y < 45 && x >= 0 && y >= 0) {
+                    if (x < 44 && y < 44 && x >= 1 && y >= 1) {
                         grid[(int) x][(int) y] = 1;
                         gridLabel.repaint();
                     }
