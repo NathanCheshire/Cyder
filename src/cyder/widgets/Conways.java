@@ -16,10 +16,18 @@ import java.awt.event.MouseMotionAdapter;
 public class Conways {
     private int[][] grid;
     private boolean simulationRunning;
-    private static int framesPerSecond = 2;
+    private static int framesPerSecond = 10;
     private JLabel gridLabel;
+    private CyderButton simulateButton;
 
     public Conways() {
+
+        //todo if board is ever empty, end the simulation and notify it ended since all nodes eliminated themselves
+        //todo iteration counter
+        //todo population counter
+
+        //todo restrict placement on edges
+
         grid = new int[45][45];
         CyderFrame cf = new CyderFrame(940,1050, CyderImages.defaultBackgroundLarge);
         cf.setTitle("Conway's Game of Life");
@@ -99,6 +107,18 @@ public class Conways {
 
         CyderButton resetButton = new CyderButton("Reset");
         resetButton.addActionListener(e -> {
+            new Thread(() -> {
+                try {
+                    simulateButton.setEnabled(false);
+                    Thread.sleep(2L * framesPerSecond);
+                    simulateButton.setEnabled(true);
+                } catch (Exception ex) {
+                    ErrorHandler.handle(ex);
+                }
+            }, "Conway's Game of Life start button timeout").start();
+            simulateButton.setText("Simulate");
+
+            simulationRunning = false;
             grid = new int[45][45];
             gridLabel.repaint();
         });
@@ -106,7 +126,7 @@ public class Conways {
         resetButton.setColors(CyderColors.intellijPink);
         cf.getContentPane().add(resetButton);
 
-        CyderButton simulateButton = new CyderButton("Simulate");
+        simulateButton = new CyderButton("Simulate");
         simulateButton.addActionListener(e -> {
             if (simulationRunning) {
                 simulateButton.setText("Simulate");
@@ -133,7 +153,47 @@ public class Conways {
 
         CyderButton gliderButton = new CyderButton("Gliders");
         gliderButton.addActionListener(e -> {
+            resetButton.doClick();
+            grid = new int[45][45];
 
+            grid[1][5] = 1;
+            grid[1][6] = 1;
+            grid[2][5] = 1;
+            grid[2][6] = 1;
+            grid[11][5] = 1;
+            grid[11][6] = 1;
+            grid[11][7] = 1;
+            grid[12][4] = 1;
+            grid[12][8] = 1;
+            grid[13][3] = 1;
+            grid[13][9] = 1;
+            grid[14][3] = 1;
+            grid[14][9] = 1;
+            grid[15][6] = 1;
+            grid[16][4] = 1;
+            grid[16][8] = 1;
+            grid[17][5] = 1;
+            grid[17][6] = 1;
+            grid[17][7] = 1;
+            grid[18][6] = 1;
+            grid[21][3] = 1;
+            grid[21][4] = 1;
+            grid[21][5] = 1;
+            grid[22][3] = 1;
+            grid[22][4] = 1;
+            grid[22][5] = 1;
+            grid[23][2] = 1;
+            grid[23][6] = 1;
+            grid[25][1] = 1;
+            grid[25][2] = 1;
+            grid[25][6] = 1;
+            grid[25][7] = 1;
+            grid[35][3] = 1;
+            grid[35][4] = 1;
+            grid[36][3] = 1;
+            grid[36][4] = 1;
+
+            gridLabel.repaint();
         });
         gliderButton.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 10 + 902, (902 - 20) / 3, 40);
         gliderButton.setColors(CyderColors.intellijPink);
@@ -148,7 +208,6 @@ public class Conways {
         new Thread(() -> {
             while (simulationRunning) {
                 try {
-                    System.out.println("here");
                     grid = nextGeneration(grid);
                     gridLabel.repaint();
 
