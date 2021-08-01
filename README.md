@@ -57,7 +57,7 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [ ]  allow users to rearrange the menu panel and remember what they do
 - [x]  change the login animation to actual sliding JLabels with text and not a sliding image
 - [ ]  make a perlin noise widget
-- [ ]  make a Conway's Game of Life widget
+- [x]  make a Conway's Game of Life widget
 - [x]  make pixelating a picture it's own widget
 - [ ]  add multiple image support (not just PNG)
 - [ ]  add a light/dark mode toggle
