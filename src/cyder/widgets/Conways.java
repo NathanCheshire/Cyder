@@ -6,6 +6,7 @@ import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderLabel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,20 +20,23 @@ public class Conways {
     private static int framesPerSecond = 10;
     private JLabel gridLabel;
     private CyderButton simulateButton;
+    private CyderFrame cf;
+
+    private CyderLabel iterationLabel;
+    private CyderLabel populationLabel;
+
+    private int generationCount = 0;
+    private int populationCount = 0;
 
     public Conways() {
-
-        //todo if board is ever empty, end the simulation and notify it ended since all nodes eliminated themselves
-        //todo iteration counter
-        //todo population counter
-
         grid = new int[45][45];
-        CyderFrame cf = new CyderFrame(940,1050, CyderImages.defaultBackgroundLarge);
+        cf = new CyderFrame(940,1050, CyderImages.defaultBackgroundLarge);
         cf.setTitle("Conway's Game of Life");
 
         gridLabel = new JLabel() {
             @Override
             public void paint(Graphics g) {
+                populationCount = 0;
                 super.paint(g);
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setColor(CyderColors.navy);
@@ -54,10 +58,13 @@ public class Conways {
                 for (int x = 0 ; x < 45 ; x++) {
                     for (int y = 0 ; y < 45 ; y++) {
                         if (grid[x][y] == 1) {
+                            populationCount++;
                             g2d.fillRect(1 + squareLen * x, 1 + squareLen* y, squareLen, squareLen);
                         }
                     }
                 }
+
+                populationLabel.setText("Population: " + populationCount);
             }
         };
         gridLabel.setOpaque(true);
@@ -103,6 +110,14 @@ public class Conways {
             }
         });
 
+        iterationLabel = new CyderLabel("Generation: 0");
+        iterationLabel.setBounds(20,32, 150, 30);
+        cf.getContentPane().add(iterationLabel);
+
+        populationLabel = new CyderLabel("Population: 0");
+        populationLabel.setBounds(180,32, 150, 30);
+        cf.getContentPane().add(populationLabel);
+
         CyderButton resetButton = new CyderButton("Reset");
         resetButton.addActionListener(e -> {
             new Thread(() -> {
@@ -117,6 +132,8 @@ public class Conways {
             simulateButton.setText("Simulate");
 
             simulationRunning = false;
+            generationCount = 0;
+            iterationLabel.setText("Generation: 0");
             grid = new int[45][45];
             gridLabel.repaint();
         });
@@ -202,12 +219,33 @@ public class Conways {
         cf.addCloseListener(e -> simulationRunning = false);
     }
 
+    @SuppressWarnings("ForLoopReplaceableByForEach")
     private void start() {
+        generationCount = 0;
         new Thread(() -> {
             while (simulationRunning) {
                 try {
                     grid = nextGeneration(grid);
+                    generationCount++;
                     gridLabel.repaint();
+
+                    iterationLabel.setText("Generation: " + generationCount);
+
+                    boolean empty = true;
+
+                    for (int x = 0 ; x < grid.length ; x++) {
+                        for (int y = 0 ; y < grid[0].length ; y++) {
+                            if (grid[x][y] == 1) {
+                                empty = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (empty) {
+                        cf.notify("Simulation ended with total elimination");
+                        break;
+                    }
 
                     Thread.sleep(1000 / framesPerSecond);
                 } catch (Exception e) {
@@ -222,7 +260,6 @@ public class Conways {
             throw new IllegalArgumentException("Null or invalid board");
 
         int[][] ret = new int[currentGeneration.length][currentGeneration[0].length];
-
 
         for (int l = 1 ; l < currentGeneration.length - 1 ; l++) {
             for (int m = 1 ; m < currentGeneration[0].length - 1 ; m++) {
