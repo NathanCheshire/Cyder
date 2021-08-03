@@ -952,10 +952,12 @@ public class InputHandler {
             }
         } else if (hasWord("average") && (hasWord("image")) || hasWord("picture")) {
             new ImageAverager();
+        } else if (hasWord("conway") || hasWord("conways")) {
+            new Conways();
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            new Conways();
+            PathFinder.showGUI();
         }
         //final attempt at unknown input --------------------------
         else {
