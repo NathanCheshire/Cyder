@@ -24,8 +24,8 @@ public class PathFinder {
     private static CyderButton startButton;
     private static JSlider speedSlider;
 
-    private static Node start = new Node(0,0);
-    private static Node end = new Node(25, 25);
+    private static Node start;
+    private static Node end;
     private static LinkedList<Node> walls;
     private static LinkedList<Node> pathableNodes;
 
@@ -39,6 +39,9 @@ public class PathFinder {
             pathFindingFrame.closeAnimation();
 
         walls = new LinkedList<>();
+        pathableNodes = new LinkedList<>();
+        start = new Node(0,0);
+        end = new Node(25, 25);
 
         pathFindingFrame = new CyderFrame(1000,1000);
         pathFindingFrame.setTitle("Path finding visualizer");
@@ -92,6 +95,19 @@ public class PathFinder {
                             g2d.fillRect(2 + wall.getX() * squareLen, 2 + wall.getY() * squareLen,
                                     squareLen - 2, squareLen - 2);
                             gridLabel.repaint();
+                        }
+                    }
+
+                    if (pathableNodes != null && !pathableNodes.isEmpty()) {
+                        for (Node pathable : pathableNodes) {
+                            if (pathable.getParent() != null) {
+                                if (!pathable.equals(start) && !pathable.equals(end)) {
+                                    g2d.setColor(CyderColors.regularGreen);
+                                    g2d.fillRect(2 + pathable.getX() * squareLen, 2 + pathable.getY() * squareLen,
+                                            squareLen - 2, squareLen - 2);
+                                    gridLabel.repaint();
+                                }
+                            }
                         }
                     }
                 }
@@ -278,6 +294,7 @@ public class PathFinder {
             start = null;
             end = null;
             walls = new LinkedList<>();
+            pathableNodes = new LinkedList<>();
             gridLabel.repaint();
         });
         pathFindingFrame.getContentPane().add(reset);
@@ -285,12 +302,15 @@ public class PathFinder {
         startButton = new CyderButton("Start");
         startButton.setBounds(420,935, 150, 40);
         startButton.addActionListener(e -> {
+            //todo toggle between starting and stopping, stopping should exit pathfinding and leave painting where it is
+            // to be reset on start again
             if (start == null || end == null) {
                 pathFindingFrame.notify("Start/end nodes not set");
             } else {
                 //todo disable box checking
                 simulationRunning = true;
                 findPath();
+                simulationRunning = false;
             }
         });
         pathFindingFrame.getContentPane().add(startButton);
@@ -326,9 +346,6 @@ public class PathFinder {
         //todo found path will be in blue
         //todo checked nodes in green
 
-        //todo implement algorithm now and worry about diagonals in addition
-        // to orthogonals after, also worry about showing steps after
-
         //todo if end has no parent then no path found
 
         //make grid of pathable nodes that we will use to draw the path
@@ -336,8 +353,6 @@ public class PathFinder {
         for (int x = 0 ; x < numSquares ; x++) {
             for (int y = 0 ; y < numSquares ; y++) {
                 Node addNode = new Node(x, y);
-                boolean isStart = addNode.equals(start);
-                boolean isEnd = addNode.equals(end);
 
                 boolean isWall = false;
 
@@ -348,44 +363,40 @@ public class PathFinder {
                     }
                 }
 
-                if (!isStart && !isEnd && !isWall) {
+                if (!isWall && !addNode.equals(start)) {
                     pathableNodes.add(addNode);
                 }
             }
         }
 
-        //todo now don't create ANY nodes, we want to change the nodes in pathableNodes
-
         //create open/closed lists for reference nodes
         LinkedList<Node> open = new LinkedList<>();
-        LinkedList<Node> closed = new LinkedList<>();
 
-        //add start to the open list and leave it's f cost at 0
+        start.setG(0);
+        start.setF(calcHCost(start));
         open.add(start);
 
-        //loop until we find a node
+        //for all nodes in open which is filled with found nodes
         while (!open.isEmpty()) {
             //get min f score from open list
-            Node refNode = null;
+            Node current = null;
 
             for (Node node : open) {
-                if (refNode == null)
-                    refNode = node;
-                else if (refNode.getF() > node.getF())
-                    refNode = node;
+                if (current == null)
+                    current = node;
+                else if (current.getF() > node.getF())
+                    current = node;
+            }
+
+            //if goal, set parent for backtracking from pathableNodes list and return
+            if (end.equals(current)) {
+                System.out.println("path found");
+                end.setParent(current.getParent());
+                return;
             }
 
             //remove from open
-            open.remove(refNode);
-
-            //add to closed
-            closed.add(refNode);
-
-            //if goal, set parent for backtracking from pathableNodes list and return
-            if (end.equals(refNode)) {
-                end.setParent(refNode.getParent());
-                return;
-            }
+            open.remove(current);
 
             //generate neighbors
             LinkedList<Node> neighbors = new LinkedList<>();
@@ -395,19 +406,19 @@ public class PathFinder {
                 if (possibleNeighbor.getX() >= 0 && possibleNeighbor.getY() >= 0 &&
                     possibleNeighbor.getX() < numSquares && possibleNeighbor.getY() < numSquares) {
                     //if self continue
-                    if (possibleNeighbor.getX() == refNode.getX() && possibleNeighbor.getY() == refNode.getY())
+                    if (possibleNeighbor.getX() == current.getX() && possibleNeighbor.getY() == current.getY())
                         continue;
 
                     boolean isDiagonal =
-                            (possibleNeighbor.getX() == refNode.getX() + 1 && possibleNeighbor.getY() == refNode.getY() + 1) ||
-                            (possibleNeighbor.getX() == refNode.getX() - 1 && possibleNeighbor.getY() == refNode.getY() - 1) ||
-                            (possibleNeighbor.getX() == refNode.getX() - 1 && possibleNeighbor.getY() == refNode.getY() + 1) ||
-                            (possibleNeighbor.getX() == refNode.getX() + 1 && possibleNeighbor.getY() == refNode.getY() - 1);
+                            (possibleNeighbor.getX() == current.getX() + 1 && possibleNeighbor.getY() == current.getY() + 1) ||
+                            (possibleNeighbor.getX() == current.getX() - 1 && possibleNeighbor.getY() == current.getY() - 1) ||
+                            (possibleNeighbor.getX() == current.getX() - 1 && possibleNeighbor.getY() == current.getY() + 1) ||
+                            (possibleNeighbor.getX() == current.getX() + 1 && possibleNeighbor.getY() == current.getY() - 1);
                     boolean isOrthogonal =
-                            (possibleNeighbor.getX() == refNode.getX() + 1 && possibleNeighbor.getY() == refNode.getY()) ||
-                            (possibleNeighbor.getX() == refNode.getX() - 1 && possibleNeighbor.getY() == refNode.getY()) ||
-                            (possibleNeighbor.getX() == refNode.getX() && possibleNeighbor.getY() == refNode.getY() + 1) ||
-                            (possibleNeighbor.getX() == refNode.getX() && possibleNeighbor.getY() == refNode.getY() - 1);
+                            (possibleNeighbor.getX() == current.getX() + 1 && possibleNeighbor.getY() == current.getY()) ||
+                            (possibleNeighbor.getX() == current.getX() - 1 && possibleNeighbor.getY() == current.getY()) ||
+                            (possibleNeighbor.getX() == current.getX() && possibleNeighbor.getY() == current.getY() + 1) ||
+                            (possibleNeighbor.getX() == current.getX() && possibleNeighbor.getY() == current.getY() - 1);
 
                     if (isDiagonal && diagonalBox.isSelected())
                         neighbors.add(possibleNeighbor);
@@ -424,10 +435,12 @@ public class PathFinder {
         }
     }
 
+    //distance from node to end
     private static double calcHCost(Node n) {
         return euclideanDistance(n, end);
     }
 
+    //distance from node to start
     private static double calcGCost(Node n) {
         return euclideanDistance(n, start);
     }
@@ -439,28 +452,24 @@ public class PathFinder {
     private static class Node {
        private int x;
        private int y;
-       private double h;
-       private double g;
+       private double g = Double.POSITIVE_INFINITY;
+       private double f = Double.POSITIVE_INFINITY;
        private Node parent;
 
         public int getX() {
             return x;
         }
 
+        public void setX(int x) {
+            this.x = x;
+        }
+
         public int getY() {
             return y;
         }
 
-        public double getF() {
-            return h + g;
-        }
-
-        public double getH() {
-            return h;
-        }
-
-        public void setH(double h) {
-            this.h = h;
+        public void setY(int y) {
+            this.y = y;
         }
 
         public double getG() {
@@ -469,6 +478,14 @@ public class PathFinder {
 
         public void setG(double g) {
             this.g = g;
+        }
+
+        public double getF() {
+            return f;
+        }
+
+        public void setF(double f) {
+            this.f = f;
         }
 
         public Node getParent() {
@@ -495,19 +512,9 @@ public class PathFinder {
             }
        }
 
-       private boolean isPath;
-
-        public boolean isPath() {
-            return isPath;
-        }
-
-        public void setPath(boolean path) {
-            isPath = path;
-        }
-
         @Override
         public String toString() {
-            return x + "," + y + "[parent=" + parent + "]";
+            return x + "," + y;
         }
     }
 }
