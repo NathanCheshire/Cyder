@@ -1,12 +1,14 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
+import cyder.enums.SliderShape;
 import cyder.ui.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.LinkedList;
 
 public class PathFinder {
@@ -19,10 +21,14 @@ public class PathFinder {
     private static CyderCheckBox diagonalBox;
     private static CyderFrame pathFindingFrame;
     private static CyderButton reset;
+    private static JSlider speedSlider;
 
     private static Node start;
     private static Node end;
     private static LinkedList<Node> walls;
+
+    private static long timeoutMS = 500;
+    private static long maxTimeoutMs = 1000;
 
     public static void showGUI() {
         if (pathFindingFrame != null)
@@ -75,10 +81,14 @@ public class PathFinder {
                     }
 
                     for (Node wall : walls) {
-                        g2d.setColor(CyderColors.navy);
-                        g2d.fillRect(2 + wall.getX() * squareLen, 2 + wall.getY() * squareLen,
-                                squareLen - 2, squareLen - 2);
-                        gridLabel.repaint();
+                        if (wall.getX() >= numSquares || wall.getY() >= numSquares) {
+                            walls.remove(wall);
+                        } else {
+                            g2d.setColor(CyderColors.navy);
+                            g2d.fillRect(2 + wall.getX() * squareLen, 2 + wall.getY() * squareLen,
+                                    squareLen - 2, squareLen - 2);
+                            gridLabel.repaint();
+                        }
                     }
                 }
             }
@@ -90,6 +100,7 @@ public class PathFinder {
                 } else if (squareLen -1 > 0){
                     squareLen -= 1;
                 }
+
                 gridLabel.repaint();
             }
         });
@@ -156,8 +167,40 @@ public class PathFinder {
                 }
             }
         });
+        gridLabel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x = (int) Math.floor((1 + e.getX()) / squareLen);
+                int y = (int) Math.floor((1 + e.getY()) / squareLen);
+
+                if (x >= numSquares || y >= numSquares)
+                    return;
+
+                Node addNode = new Node(x, y);
+
+                if (addNode.equals(start)) {
+                    start = null;
+                } else if (addNode.equals(end)) {
+                    end = null;
+                }
+
+                boolean contains = false;
+                for (Node wall : walls) {
+                    if (wall.equals(addNode)) {
+                        contains = true;
+                        break;
+                    }
+                }
+
+                if (!contains) {
+                    walls.add(addNode);
+                }
+
+                gridLabel.repaint();
+            }
+        });
         gridLabel.setSize(800,800);
-        gridLabel.setLocation(100,100);
+        gridLabel.setLocation(100,80);
         pathFindingFrame.getContentPane().add(gridLabel);
 
         CyderLabel setStartLabel = new CyderLabel("Set start");
@@ -202,7 +245,7 @@ public class PathFinder {
         pathFindingFrame.getContentPane().add(showStepsBox);
 
         CyderLabel diagonalStepsLabel = new CyderLabel("Diagonals");
-        diagonalStepsLabel.setBounds(75 + 70 + 75 + 75,885,100,30);
+        diagonalStepsLabel.setBounds(75 + 70 + 75 + 70,885,100,30);
         pathFindingFrame.getContentPane().add(diagonalStepsLabel);
 
         diagonalBox = new CyderCheckBox();
@@ -211,10 +254,34 @@ public class PathFinder {
         pathFindingFrame.getContentPane().add(diagonalBox);
 
         reset = new CyderButton("Reset");
-        reset.setBounds(420,925, 200, 40);
+        reset.setBounds(420,925, 150, 40);
+        reset.addActionListener(e -> {
+            //reset everything to defaults and stop visualization if on going
+        });
         pathFindingFrame.getContentPane().add(reset);
 
-        //speed slider
+        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 500);
+        CyderSliderUI UI = new CyderSliderUI(speedSlider);
+        UI.setThumbStroke(new BasicStroke(2.0f));
+        UI.setSliderShape(SliderShape.RECT);
+        UI.setFillColor(Color.black);
+        UI.setOutlineColor(CyderColors.navy);
+        UI.setNewValColor(CyderColors.regularBlue);
+        UI.setOldValColor(CyderColors.intellijPink);
+        UI.setTrackStroke(new BasicStroke(3.0f));
+        speedSlider.setUI(UI);
+        speedSlider.setBounds(600, 925, 290, 40);
+        speedSlider.setPaintTicks(false);
+        speedSlider.setPaintLabels(false);
+        speedSlider.setVisible(true);
+        speedSlider.setValue(500);
+        speedSlider.addChangeListener(e -> timeoutMS = (long) (maxTimeoutMs *
+                ((double) speedSlider.getValue() /  (double) speedSlider.getMaximum())));
+        speedSlider.setOpaque(false);
+        speedSlider.setToolTipText("Speed");
+        speedSlider.setFocusable(false);
+        speedSlider.repaint();
+        pathFindingFrame.getContentPane().add(speedSlider);
 
         pathFindingFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(pathFindingFrame);
