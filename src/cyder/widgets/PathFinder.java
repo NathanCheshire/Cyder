@@ -24,8 +24,8 @@ public class PathFinder {
     private static CyderButton startButton;
     private static JSlider speedSlider;
 
-    private static Node start;
-    private static Node end;
+    private static Node start = new Node(0,0);
+    private static Node end = new Node(25, 25);
     private static LinkedList<Node> walls;
     private static LinkedList<Node> pathableNodes;
 
@@ -354,8 +354,9 @@ public class PathFinder {
             }
         }
 
+        //todo now don't create ANY nodes, we want to change the nodes in pathableNodes
 
-        //init lists
+        //create open/closed lists for reference nodes
         LinkedList<Node> open = new LinkedList<>();
         LinkedList<Node> closed = new LinkedList<>();
 
@@ -364,117 +365,63 @@ public class PathFinder {
 
         //loop until we find a node
         while (!open.isEmpty()) {
-            //get node from open with least f cost
-            Node minPQ = null;
+            //get min f score from open list
+            Node refNode = null;
 
-            for (Node n: open) {
-               if (minPQ == null)
-                   minPQ = n;
-               else if (n.getF() < minPQ.getF())
-                   minPQ = n;
+            for (Node node : open) {
+                if (refNode == null)
+                    refNode = node;
+                else if (refNode.getF() > node.getF())
+                    refNode = node;
             }
 
-            //remove minPQ from open and add to closed
-            for (Node n : open) {
-                if (n.equals(minPQ)) {
-                    open.remove(n);
-                    break;
-                }
-            }
-            closed.add(minPQ);
+            //remove from open
+            open.remove(refNode);
 
-            //if goal, then return and construct path using parent
-            if (minPQ.equals(end)) {
-                end.setParent(minPQ.getParent());
+            //add to closed
+            closed.add(refNode);
+
+            //if goal, set parent for backtracking from pathableNodes list and return
+            if (end.equals(refNode)) {
+                end.setParent(refNode.getParent());
                 return;
             }
 
-            //generate neighbors of node
+            //generate neighbors
             LinkedList<Node> neighbors = new LinkedList<>();
 
-            for (int x = -1 ; x < 2 ; x++) {
-                for (int y = -1 ; y < 2 ; y++) {
-                    //if in bounds
-                    if (minPQ.getX() + x >= 0 && minPQ.getX() + x < numSquares &&
-                            minPQ.getY() + y >= 0 && minPQ.getY() + y < numSquares) {
-                        //if not self
-                        if (x == 0 && y == 0)
-                            continue;
-
-                        Node addNode = new Node(x + minPQ.getX(), y + minPQ.getY());
-
-                        //if in pathable nodes
-                        boolean isPathable = false;
-
-                        for (Node n : pathableNodes) {
-                            if (n.equals(addNode)) {
-                                isPathable = true;
-                                break;
-                            }
-                        }
-
-                        if (!isPathable)
-                            continue;
-
-                        boolean diagonalNeighbor = addNode.getX() != minPQ.getX() && addNode.getY() != minPQ.getY();
-
-                        //if orthogonal neighbor
-                        if (!diagonalNeighbor) {
-                            neighbors.add(addNode);
-                            addNode.setParent(minPQ);
-                        }
-                        //if diagonal neighbor
-                        else if (diagonalBox.isSelected()) {
-                            neighbors.add(addNode);
-                            addNode.setParent(minPQ);
-                        }
-                    }
-                }
-            }
-
-            //for all neighbors
-            for (Node neighbor : neighbors) {
-                //continue if neighbor is in the closed list
-                boolean inClosed = false;
-
-                for (Node c: closed) {
-                    if (c.equals(neighbor)) {
-                        inClosed = true;
-                        break;
-                    }
-                }
-
-                if (inClosed)
-                    return;
-
-                //otherwise, set costs
-                neighbor.setH(calcHCost(neighbor));
-                neighbor.setG(calcGCost(neighbor));
-
-                //if neighbor is in the open list
-                boolean inOpen = false;
-
-                for (Node c: open) {
-                    if (c.equals(neighbor)) {
-                        inOpen = true;
-                        break;
-                    }
-                }
-
-                if (inOpen) {
-                    //if the neighbor's G is higher than minPQ's G, continue
-                    if (neighbor.getG() > minPQ.getG())
+            for (Node possibleNeighbor : pathableNodes) {
+                //if possible neighbor in bounds
+                if (possibleNeighbor.getX() >= 0 && possibleNeighbor.getY() >= 0 &&
+                    possibleNeighbor.getX() < numSquares && possibleNeighbor.getY() < numSquares) {
+                    //if self continue
+                    if (possibleNeighbor.getX() == refNode.getX() && possibleNeighbor.getY() == refNode.getY())
                         continue;
-                }
 
-                //add neighbor to open list
-                System.out.println(neighbors.size());
-                open.add(neighbor);
+                    boolean isDiagonal =
+                            (possibleNeighbor.getX() == refNode.getX() + 1 && possibleNeighbor.getY() == refNode.getY() + 1) ||
+                            (possibleNeighbor.getX() == refNode.getX() - 1 && possibleNeighbor.getY() == refNode.getY() - 1) ||
+                            (possibleNeighbor.getX() == refNode.getX() - 1 && possibleNeighbor.getY() == refNode.getY() + 1) ||
+                            (possibleNeighbor.getX() == refNode.getX() + 1 && possibleNeighbor.getY() == refNode.getY() - 1);
+                    boolean isOrthogonal =
+                            (possibleNeighbor.getX() == refNode.getX() + 1 && possibleNeighbor.getY() == refNode.getY()) ||
+                            (possibleNeighbor.getX() == refNode.getX() - 1 && possibleNeighbor.getY() == refNode.getY()) ||
+                            (possibleNeighbor.getX() == refNode.getX() && possibleNeighbor.getY() == refNode.getY() + 1) ||
+                            (possibleNeighbor.getX() == refNode.getX() && possibleNeighbor.getY() == refNode.getY() - 1);
+
+                    if (isDiagonal && diagonalBox.isSelected())
+                        neighbors.add(possibleNeighbor);
+                    else if (isOrthogonal) {
+                        neighbors.add(possibleNeighbor);
+                    }
+                }
             }
 
-            System.out.println(end.getParent());
-        }
+            //for each neighbor
+            for (Node neighbor: neighbors) {
 
+            }
+        }
     }
 
     private static double calcHCost(Node n) {
@@ -537,8 +484,15 @@ public class PathFinder {
            this.y = y;
        }
 
-       public boolean equals(Node n) {
-           return n != null && n.getX() == this.x && n.getY() == this.y;
+       @Override
+       public boolean equals(Object n) {
+            if (n == null)
+                return false;
+            if (!(n instanceof Node))
+                return false;
+            else {
+                return ((Node) n).getX() == x && ((Node) n).getY() == y;
+            }
        }
 
        private boolean isPath;
@@ -549,6 +503,11 @@ public class PathFinder {
 
         public void setPath(boolean path) {
             isPath = path;
+        }
+
+        @Override
+        public String toString() {
+            return x + "," + y + "[parent=" + parent + "]";
         }
     }
 }
