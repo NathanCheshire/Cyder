@@ -1,8 +1,5 @@
 <p align="center">
 <a>
-<img  src="https://img.shields.io/github/commit-activity/m/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
-</a>
-<a>
 <img  src="https://img.shields.io/github/license/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
 </a>
 <a>
