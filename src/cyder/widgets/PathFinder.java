@@ -1,10 +1,7 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderCheckBox;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
+import cyder.ui.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +15,10 @@ public class PathFinder {
     private static JLabel gridLabel;
     private static CyderCheckBox setStartBox;
     private static CyderCheckBox setEndBox;
+    private static CyderCheckBox showStepsBox;
+    private static CyderCheckBox diagonalBox;
     private static CyderFrame pathFindingFrame;
+    private static CyderButton reset;
 
     private static Node start;
     private static Node end;
@@ -98,6 +98,9 @@ public class PathFinder {
             public void mouseClicked(MouseEvent e) {
                 int x = (int) Math.floor((1 + e.getX()) / squareLen);
                 int y = (int) Math.floor((1 + e.getY()) / squareLen);
+
+                if (x >= numSquares || y >= numSquares)
+                    return;
 
                 Node addNode = new Node(x, y);
 
@@ -189,12 +192,28 @@ public class PathFinder {
             }
         });
 
+        CyderLabel showStepsLabel = new CyderLabel("Steps");
+        showStepsLabel.setBounds(75 + 70 + 70,885,100,30);
+        pathFindingFrame.getContentPane().add(showStepsLabel);
 
-        //show steps checkbox
-        //diagonal box
-        //set start
-        //set end
-        //reset button
+        showStepsBox = new CyderCheckBox();
+        showStepsBox.setNotSelected();
+        showStepsBox.setBounds(240, 920,50,50);
+        pathFindingFrame.getContentPane().add(showStepsBox);
+
+        CyderLabel diagonalStepsLabel = new CyderLabel("Diagonals");
+        diagonalStepsLabel.setBounds(75 + 70 + 75 + 75,885,100,30);
+        pathFindingFrame.getContentPane().add(diagonalStepsLabel);
+
+        diagonalBox = new CyderCheckBox();
+        diagonalBox.setNotSelected();
+        diagonalBox.setBounds(310, 920,50,50);
+        pathFindingFrame.getContentPane().add(diagonalBox);
+
+        reset = new CyderButton("Reset");
+        reset.setBounds(420,925, 200, 40);
+        pathFindingFrame.getContentPane().add(reset);
+
         //speed slider
 
         pathFindingFrame.setVisible(true);
