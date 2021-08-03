@@ -21,6 +21,7 @@ public class PathFinder {
     private static CyderCheckBox diagonalBox;
     private static CyderFrame pathFindingFrame;
     private static CyderButton reset;
+    private static CyderButton startButton;
     private static JSlider speedSlider;
 
     private static Node start;
@@ -29,6 +30,8 @@ public class PathFinder {
 
     private static long timeoutMS = 500;
     private static long maxTimeoutMs = 1000;
+
+    private static boolean simulationRunning;
 
     public static void showGUI() {
         if (pathFindingFrame != null)
@@ -74,7 +77,7 @@ public class PathFinder {
                     }
 
                     if (end != null) {
-                        g2d.setColor(CyderColors.regularBlue);
+                        g2d.setColor(CyderColors.calculatorOrange);
                         g2d.fillRect(2 + end.getX() * squareLen, 2 + end.getY() * squareLen,
                                 squareLen - 2, squareLen - 2);
                         gridLabel.repaint();
@@ -254,11 +257,31 @@ public class PathFinder {
         pathFindingFrame.getContentPane().add(diagonalBox);
 
         reset = new CyderButton("Reset");
-        reset.setBounds(420,925, 150, 40);
+        reset.setBounds(420,880, 150, 40);
         reset.addActionListener(e -> {
-            //reset everything to defaults and stop visualization if on going
+            simulationRunning = false; //to cause possible pathfinding/animation loop to terminate
+            diagonalBox.setNotSelected();
+            setEndBox.setNotSelected();
+            setStartBox.setNotSelected();
+            showStepsBox.setNotSelected();
+            speedSlider.setValue(500);
+            start = null;
+            end = null;
+            walls = new LinkedList<>();
+            gridLabel.repaint();
         });
         pathFindingFrame.getContentPane().add(reset);
+
+        startButton = new CyderButton("Start");
+        startButton.setBounds(420,935, 150, 40);
+        startButton.addActionListener(e -> {
+            if (start == null || end == null) {
+                pathFindingFrame.notify("Start/end nodes not set");
+            } else {
+                findPath();
+            }
+        });
+        pathFindingFrame.getContentPane().add(startButton);
 
         speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 500);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
@@ -285,6 +308,16 @@ public class PathFinder {
 
         pathFindingFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(pathFindingFrame);
+    }
+
+    private static void findPath() {
+        //todo found path will be in blue
+        //todo checked nodes in green
+
+        //todo implement algorithm now and worry about diagonals in addition
+        // to orthogonals after, also worry about showing steps after
+
+
     }
 
     private static class Node {
