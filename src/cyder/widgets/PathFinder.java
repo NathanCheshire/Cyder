@@ -9,7 +9,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class PathFinder {
     private static int squareLen = 30;
@@ -98,18 +100,14 @@ public class PathFinder {
                         }
                     }
 
-                    if (pathableNodes != null && !pathableNodes.isEmpty()) {
-                        for (Node pathable : pathableNodes) {
-                            if (pathable.getParent() != null) {
-                                if (!pathable.equals(start) && !pathable.equals(end)) {
-                                    g2d.setColor(CyderColors.regularGreen);
-                                    g2d.fillRect(2 + pathable.getX() * squareLen, 2 + pathable.getY() * squareLen,
-                                            squareLen - 2, squareLen - 2);
-                                    gridLabel.repaint();
-                                }
-                            }
-                        }
-                    }
+                   for (Node n : pathableNodes) {
+                       if (n.getParent() != null && !n.equals(end)) {
+                           g2d.setColor(CyderColors.regularGreen);
+                           g2d.fillRect(2 + n.getX() * squareLen, 2 + n.getY() * squareLen,
+                                   squareLen - 2, squareLen - 2);
+                           gridLabel.repaint();
+                       }
+                   }
                 }
             }
         };
@@ -348,7 +346,6 @@ public class PathFinder {
 
         //todo if end has no parent then no path found
 
-        //make grid of pathable nodes that we will use to draw the path
         pathableNodes = new LinkedList<>();
         for (int x = 0 ; x < numSquares ; x++) {
             for (int y = 0 ; y < numSquares ; y++) {
@@ -369,74 +366,50 @@ public class PathFinder {
             }
         }
 
-        //create open/closed lists for reference nodes
-        LinkedList<Node> open = new LinkedList<>();
+        PriorityQueue<Node> open = new PriorityQueue<>(new NodeComparator());
+        LinkedList<Node> closed = new LinkedList<>();
 
-        start.setG(0);
-        start.setF(calcHCost(start));
         open.add(start);
 
-        //for all nodes in open which is filled with found nodes
         while (!open.isEmpty()) {
-            //get min f score from open list
-            Node current = null;
+            //todo thread sleep would be here and repaint
+            Node current = open.poll();
+            open.remove(current);
+            closed.add(current);
+            System.out.println("Pulled: " + current);
 
-            for (Node node : open) {
-                if (current == null)
-                    current = node;
-                else if (current.getF() > node.getF())
-                    current = node;
-            }
-
-            //if goal, set parent for backtracking from pathableNodes list and return
-            if (end.equals(current)) {
-                System.out.println("path found");
-                end.setParent(current.getParent());
+            if (current.equals(end)) {
+                System.out.println("Path found");
                 return;
             }
 
-            //remove from open
-            open.remove(current);
+            for (Node neighbor : pathableNodes) {
+                boolean isOrthogonal =
+                        (neighbor.getX() == current.getX() && neighbor.getY() == current.getY() + 1) ||
+                        (neighbor.getX() == current.getX() && neighbor.getY() == current.getY() - 1) ||
+                        (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY()) ||
+                        (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY());
 
-            //generate neighbors
-            LinkedList<Node> neighbors = new LinkedList<>();
+                boolean isDiagonal =
+                        (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY() + 1) ||
+                        (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY() - 1) ||
+                        (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY() - 1) ||
+                        (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY() + 1);
 
-            for (Node possibleNeighbor : pathableNodes) {
-                //if possible neighbor in bounds
-                if (possibleNeighbor.getX() >= 0 && possibleNeighbor.getY() >= 0 &&
-                    possibleNeighbor.getX() < numSquares && possibleNeighbor.getY() < numSquares) {
-                    //if self continue
-                    if (possibleNeighbor.getX() == current.getX() && possibleNeighbor.getY() == current.getY())
-                        continue;
+                boolean isNeighbor = isDiagonal || isOrthogonal;
 
-                    boolean isDiagonal =
-                            (possibleNeighbor.getX() == current.getX() + 1 && possibleNeighbor.getY() == current.getY() + 1) ||
-                            (possibleNeighbor.getX() == current.getX() - 1 && possibleNeighbor.getY() == current.getY() - 1) ||
-                            (possibleNeighbor.getX() == current.getX() - 1 && possibleNeighbor.getY() == current.getY() + 1) ||
-                            (possibleNeighbor.getX() == current.getX() + 1 && possibleNeighbor.getY() == current.getY() - 1);
-                    boolean isOrthogonal =
-                            (possibleNeighbor.getX() == current.getX() + 1 && possibleNeighbor.getY() == current.getY()) ||
-                            (possibleNeighbor.getX() == current.getX() - 1 && possibleNeighbor.getY() == current.getY()) ||
-                            (possibleNeighbor.getX() == current.getX() && possibleNeighbor.getY() == current.getY() + 1) ||
-                            (possibleNeighbor.getX() == current.getX() && possibleNeighbor.getY() == current.getY() - 1);
-
-                    if (isDiagonal && diagonalBox.isSelected())
-                        neighbors.add(possibleNeighbor);
-                    else if (isOrthogonal) {
-                        neighbors.add(possibleNeighbor);
-                    }
+                if (isNeighbor) {
+                    if (!open.contains(neighbor) && !closed.contains(neighbor))
+                        open.add(neighbor);
                 }
             }
 
-            //for each neighbor
-            for (Node neighbor: neighbors) {
-
-            }
+           //find neighbors and add to open
         }
     }
 
     //distance from node to end
-    private static double calcHCost(Node n) {
+    private static double heuristic(Node n) {
         return euclideanDistance(n, end);
     }
 
@@ -450,11 +423,11 @@ public class PathFinder {
     }
 
     private static class Node {
-       private int x;
-       private int y;
-       private double g = Double.POSITIVE_INFINITY;
-       private double f = Double.POSITIVE_INFINITY;
-       private Node parent;
+        private int x;
+        private int y;
+        private double g = Double.POSITIVE_INFINITY;
+        private double f = Double.POSITIVE_INFINITY;
+        private Node parent;
 
         public int getX() {
             return x;
@@ -499,10 +472,10 @@ public class PathFinder {
         public Node(int x, int y) {
            this.x = x;
            this.y = y;
-       }
+        }
 
-       @Override
-       public boolean equals(Object n) {
+        @Override
+        public boolean equals(Object n) {
             if (n == null)
                 return false;
             if (!(n instanceof Node))
@@ -510,11 +483,21 @@ public class PathFinder {
             else {
                 return ((Node) n).getX() == x && ((Node) n).getY() == y;
             }
-       }
+        }
 
         @Override
         public String toString() {
             return x + "," + y;
+        }
+    }
+
+    private static class NodeComparator implements Comparator<Node> {
+        @Override
+        public int compare(Node node1, Node node2) {
+            if (node1.getF() > node2.getF())
+                return 1;
+            else
+                return -1;
         }
     }
 }
