@@ -13,6 +13,7 @@ public class CyderCheckBox extends JLabel {
     private int borderWidth = 3;
 
     private boolean selected = false;
+    private boolean enabled = true;
 
     public static final int sideLength = 50;
 
@@ -55,8 +56,10 @@ public class CyderCheckBox extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                selected = !selected;
-                repaint();
+                if (enabled) {
+                    selected = !selected;
+                    repaint();
+                }
             }
         });
 
@@ -185,5 +188,15 @@ public class CyderCheckBox extends JLabel {
     @Override
     public String toString() {
         return "CyderCheckBox object, hash=" + this.hashCode();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

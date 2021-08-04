@@ -1,0 +1,24 @@
+[13:55:56] [ENTRY]: [WINUSER=Nathan]
+[13:55:56] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[13:55:57] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:55:57] [LOGIN]: [AUTOCYPHER PASS]
+[13:55:58] [CLIENT]: test
+[13:56:00] [ACTION]: CyderButton, text=[Start] CLICKED
+[13:56:08] [ACTION]: CyderButton, text=[Reset] CLICKED
+[13:56:15] [ACTION]: CyderButton, text=[Start] CLICKED
+[13:56:17] [ACTION]: CyderButton, text=[Reset] CLICKED
+[13:56:21] [ACTION]: CyderButton, text=[Start] CLICKED
+[13:56:25] [ACTION]: CyderButton, text=[Reset] CLICKED
+[13:56:29] [ACTION]: CyderButton, text=[Start] CLICKED
+[13:56:31] [ACTION]: CyderButton, text=[Reset] CLICKED
+[13:56:34] [ACTION]: CyderButton, text=[Start] CLICKED
+[13:56:36] [ACTION]: CyderButton, text=[Reset] CLICKED
+[13:56:40] [ACTION]: CyderButton, text=[Start] CLICKED
+[13:56:40] [ACTION]: CyderButton, text=[Reset] CLICKED
+[13:56:43] [ACTION]: CyderButton, text=[Start] CLICKED
+[13:56:44] [ACTION]: CyderButton, text=[Reset] CLICKED
+[13:56:48] [ACTION]: CyderButton, text=[Start] CLICKED
+[16:36:22] [ACTION]: [SYSTEM AUDIO] sys/audio/chime.mp3
+[16:37:02] [LOGOUT]:  [Nathan]
+[16:37:02] [EXIT]: [RUNTIME] 2h 41m 6s
+[16:37:02] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

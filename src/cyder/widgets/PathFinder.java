@@ -12,6 +12,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
+import cyder.obj.Node;
 
 public class PathFinder {
     private static int squareLen = 30;
@@ -106,6 +107,17 @@ public class PathFinder {
                            g2d.fillRect(2 + n.getX() * squareLen, 2 + n.getY() * squareLen,
                                    squareLen - 2, squareLen - 2);
                            gridLabel.repaint();
+                       }
+                   }
+
+                   if (end != null && end.getParent() != null) {
+                       Node currentRef = end.getParent();
+
+                       while (currentRef != null && currentRef != start) {
+                           g2d.setColor(CyderColors.regularBlue);
+                           g2d.fillRect(2 + currentRef.getX() * squareLen, 2 + currentRef.getY() * squareLen,
+                                   squareLen - 2, squareLen - 2);
+                           currentRef = currentRef.getParent();
                        }
                    }
                 }
@@ -305,10 +317,19 @@ public class PathFinder {
             if (start == null || end == null) {
                 pathFindingFrame.notify("Start/end nodes not set");
             } else {
-                //todo disable box checking
+                diagonalBox.setEnabled(false);
+                showStepsBox.setEnabled(false);
+                setStartBox.setEnabled(false);
+                setEndBox.setEnabled(false);
+
                 simulationRunning = true;
                 findPath();
                 simulationRunning = false;
+
+                diagonalBox.setEnabled(true);
+                showStepsBox.setEnabled(true);
+                setStartBox.setEnabled(true);
+                setEndBox.setEnabled(true);
             }
         });
         pathFindingFrame.getContentPane().add(startButton);
@@ -373,13 +394,13 @@ public class PathFinder {
 
         while (!open.isEmpty()) {
             //todo thread sleep would be here and repaint
+
             Node current = open.poll();
             open.remove(current);
             closed.add(current);
-            System.out.println("Pulled: " + current);
 
             if (current.equals(end)) {
-                System.out.println("Path found");
+                end.setParent(current.getParent());
                 return;
             }
 
@@ -396,11 +417,26 @@ public class PathFinder {
                         (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY() - 1) ||
                         (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY() + 1);
 
-                boolean isNeighbor = isDiagonal || isOrthogonal;
+                if (isOrthogonal || (isDiagonal && diagonalBox.isSelected())) {
+                    if (closed.contains(neighbor)) {
+                        continue; //to next neighbor
+                    }
 
-                if (isNeighbor) {
-                    if (!open.contains(neighbor) && !closed.contains(neighbor))
-                        open.add(neighbor);
+                    double currentPathG = current.getG() + euclideanDistance(current,neighbor);
+
+                    //if new path to neighbor is shorter or neighbor is not in open
+                    if (currentPathG < neighbor.getG() || !open.contains(neighbor)) {
+                        //set g cost of neighbor
+                        neighbor.setG(currentPathG);
+                        neighbor.setH(heuristic(neighbor));
+
+                        //set parent
+                        neighbor.setParent(current);
+
+                        //if neighbor is not in open, add
+                        if (!open.contains(neighbor))
+                            open.add(neighbor);
+                    }
                 }
             }
 
@@ -418,77 +454,13 @@ public class PathFinder {
         return euclideanDistance(n, start);
     }
 
+    //todo heuristic changer box to come
     private static double euclideanDistance(Node n1, Node n2) {
         return Math.sqrt((n1.getX() - n2.getX()) ^ 2 + (n1.getY() - n2.getY()) ^ 2);
     }
 
-    private static class Node {
-        private int x;
-        private int y;
-        private double g = Double.POSITIVE_INFINITY;
-        private double f = Double.POSITIVE_INFINITY;
-        private Node parent;
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public double getG() {
-            return g;
-        }
-
-        public void setG(double g) {
-            this.g = g;
-        }
-
-        public double getF() {
-            return f;
-        }
-
-        public void setF(double f) {
-            this.f = f;
-        }
-
-        public Node getParent() {
-            return parent;
-        }
-
-        public void setParent(Node parent) {
-            this.parent = parent;
-        }
-
-        public Node(int x, int y) {
-           this.x = x;
-           this.y = y;
-        }
-
-        @Override
-        public boolean equals(Object n) {
-            if (n == null)
-                return false;
-            if (!(n instanceof Node))
-                return false;
-            else {
-                return ((Node) n).getX() == x && ((Node) n).getY() == y;
-            }
-        }
-
-        @Override
-        public String toString() {
-            return x + "," + y;
-        }
+    private static double manhattanDistance(Node n1, Node n2) {
+        return Math.abs(n1.getX() - n2.getX()) + Math.abs(n1.getY() - n2.getY());
     }
 
     private static class NodeComparator implements Comparator<Node> {
@@ -496,8 +468,14 @@ public class PathFinder {
         public int compare(Node node1, Node node2) {
             if (node1.getF() > node2.getF())
                 return 1;
-            else
+            else if (node1.getF() < node2.getF())
                 return -1;
+            else {
+                if (node1.getH() > node1.getH())
+                    return -1;
+                else
+                    return 1;
+            }
         }
     }
 }

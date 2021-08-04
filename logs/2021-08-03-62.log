@@ -1,0 +1,11 @@
+[13:50:24] [ENTRY]: [WINUSER=Nathan]
+[13:50:24] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[13:50:25] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:50:25] [LOGIN]: [AUTOCYPHER PASS]
+[13:50:27] [CLIENT]: test
+[13:50:28] [ACTION]: CyderButton, text=[Start] CLICKED
+[13:50:31] [ACTION]: CyderButton, text=[Reset] CLICKED
+[13:50:32] [ACTION]: CyderButton, text=[Start] CLICKED
+[13:50:32] [ACTION]: [Path finding visualizer] [NOTIFICATION] Start/end nodes not set
+[13:50:35] [CLIENT]: Test
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
