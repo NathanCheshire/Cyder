@@ -397,66 +397,22 @@ public class PathFinder {
             }
         }
 
-        open = new LinkedList<>();
-        closed = new LinkedList<>();
-
-        open.add(start);
-
-        while (!open.isEmpty()) {
-            Node current = open.get(0);
-
-            for (Node n : open) {
-                if (n.getF() < current.getF() || n.getF() == current.getF() && n.getH() < current.getH())
-                    current = n;
-            }
-
-            open.remove(current);
-            closed.add(current);
-
-            if (current.equals(end)) {
-                end.setParent(current.getParent());
-                return;
-            }
-
-            for (Node neighbor : pathableNodes) {
-                boolean isOrthogonal =
-                        (neighbor.getX() == current.getX() && neighbor.getY() == current.getY() + 1) ||
-                                (neighbor.getX() == current.getX() && neighbor.getY() == current.getY() - 1) ||
-                                (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY()) ||
-                                (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY());
-
-                boolean isDiagonal =
-                        (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY() + 1) ||
-                                (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY() - 1) ||
-                                (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY() - 1) ||
-                                (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY() + 1);
-
-                if (isOrthogonal || (isDiagonal && diagonalBox.isSelected())) {
-                    if (closed.contains(neighbor)) {
-                        continue; //to next neighbor
-                    }
-
-                    double currentPathG = current.getG() + euclideanDistance(current,neighbor);
-
-                    //if new path to neighbor is shorter or neighbor is not in open
-                    if (currentPathG < neighbor.getG() || !open.contains(neighbor)) {
-                        //set g cost of neighbor
-                        neighbor.setG(currentPathG);
-                        neighbor.setH(heuristic(neighbor));
-
-                        //set parent
-                        neighbor.setParent(current);
-
-                        //if neighbor is not in open, add
-                        if (!open.contains(neighbor))
-                            open.add(neighbor);
-                    }
-                }
-            }
-
-            //find neighbors and add to open
-        }
+        //algorithm here in steps using timer
     };
+
+    private static boolean areDiagonalNeighbors(Node n1, Node n2) {
+        return (n1.getX() == n2.getX() + 1 && n1.getY() == n2.getY() + 1) ||
+                (n1.getX() == n2.getX() + 1 && n1.getY() == n2.getY() - 1) ||
+                (n1.getX() == n2.getX() - 1 && n1.getY() == n2.getY() - 1) ||
+                (n1.getX() == n2.getX() - 1 && n1.getY() == n2.getY() + 1);
+    }
+
+    private static boolean areOrthogonalNeighbors(Node n1, Node n2) {
+        return (n1.getX() == n2.getX() && n1.getY() == n2.getY() + 1) ||
+                (n1.getX() == n2.getX() && n1.getY() == n2.getY() - 1) ||
+                (n1.getX() == n2.getX() + 1 && n1.getY() == n2.getY()) ||
+                (n1.getX() == n2.getX() - 1 && n1.getY() == n2.getY());
+    }
 
     //distance from node to end
     private static double heuristic(Node n) {
