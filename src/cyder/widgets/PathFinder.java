@@ -2,17 +2,13 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
+import cyder.obj.Node;
 import cyder.ui.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.util.Comparator;
+import java.awt.event.*;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
-import cyder.obj.Node;
 
 public class PathFinder {
     private static int squareLen = 30;
@@ -32,15 +28,16 @@ public class PathFinder {
     private static LinkedList<Node> walls;
     private static LinkedList<Node> pathableNodes;
 
-    private static long timeoutMS = 500;
-    private static long maxTimeoutMs = 1000;
-
-    private static boolean simulationRunning;
+    private static Timer timer;
+    private static int timeoutMS = 500;
+    private static int maxTimeoutMs = 1000;
 
     public static void showGUI() {
         if (pathFindingFrame != null)
             pathFindingFrame.closeAnimation();
 
+        timer = new Timer(timeoutMS, pathFindAction);
+        timer.setDelay(timeoutMS);
         walls = new LinkedList<>();
         pathableNodes = new LinkedList<>();
         start = new Node(0,0);
@@ -76,6 +73,29 @@ public class PathFinder {
                     g2d.drawLine(drawTo, 1, drawTo, drawTo);
                     g2d.drawLine(1, drawTo, drawTo, drawTo);
 
+                    //draw green squres
+                   for (Node n : pathableNodes) {
+                       if (n.getParent() != null && !n.equals(end)) {
+                           g2d.setColor(CyderColors.regularGreen);
+                           g2d.fillRect(2 + n.getX() * squareLen, 2 + n.getY() * squareLen,
+                                   squareLen - 2, squareLen - 2);
+                           gridLabel.repaint();
+                       }
+                   }
+
+                    //draw path
+                    if (end != null && end.getParent() != null) {
+                       Node currentRef = end.getParent();
+
+                       while (currentRef != null && currentRef != start) {
+                           g2d.setColor(CyderColors.regularBlue);
+                           g2d.fillRect(2 + currentRef.getX() * squareLen, 2 + currentRef.getY() * squareLen,
+                                   squareLen - 2, squareLen - 2);
+                           currentRef = currentRef.getParent();
+                       }
+                    }
+
+                    //draw start
                     if (start != null) {
                         g2d.setColor(CyderColors.intellijPink);
                         g2d.fillRect(2 + start.getX() * squareLen, 2 + start.getY() * squareLen,
@@ -83,6 +103,7 @@ public class PathFinder {
                         gridLabel.repaint();
                     }
 
+                    //draw end
                     if (end != null) {
                         g2d.setColor(CyderColors.calculatorOrange);
                         g2d.fillRect(2 + end.getX() * squareLen, 2 + end.getY() * squareLen,
@@ -90,6 +111,7 @@ public class PathFinder {
                         gridLabel.repaint();
                     }
 
+                    //draw walls last
                     for (Node wall : walls) {
                         if (wall.getX() >= numSquares || wall.getY() >= numSquares) {
                             walls.remove(wall);
@@ -100,31 +122,11 @@ public class PathFinder {
                             gridLabel.repaint();
                         }
                     }
-
-                   for (Node n : pathableNodes) {
-                       if (n.getParent() != null && !n.equals(end)) {
-                           g2d.setColor(CyderColors.regularGreen);
-                           g2d.fillRect(2 + n.getX() * squareLen, 2 + n.getY() * squareLen,
-                                   squareLen - 2, squareLen - 2);
-                           gridLabel.repaint();
-                       }
-                   }
-
-                   if (end != null && end.getParent() != null) {
-                       Node currentRef = end.getParent();
-
-                       while (currentRef != null && currentRef != start) {
-                           g2d.setColor(CyderColors.regularBlue);
-                           g2d.fillRect(2 + currentRef.getX() * squareLen, 2 + currentRef.getY() * squareLen,
-                                   squareLen - 2, squareLen - 2);
-                           currentRef = currentRef.getParent();
-                       }
-                   }
                 }
             }
         };
         gridLabel.addMouseWheelListener(e -> {
-            if (simulationRunning)
+            if (timer.isRepeats())
                 return;
 
             if (e.isControlDown()) {
@@ -140,7 +142,7 @@ public class PathFinder {
         gridLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (simulationRunning)
+                if (timer.isRunning())
                     return;
 
                 int x = (int) Math.floor((1 + e.getX()) / squareLen);
@@ -206,7 +208,7 @@ public class PathFinder {
         gridLabel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (simulationRunning)
+                if (timer.isRunning())
                     return;
 
                 int x = (int) Math.floor((1 + e.getX()) / squareLen);
@@ -295,7 +297,7 @@ public class PathFinder {
         reset = new CyderButton("Reset");
         reset.setBounds(420,880, 150, 40);
         reset.addActionListener(e -> {
-            simulationRunning = false; //to cause possible pathfinding/animation loop to terminate
+            timer.stop();
             diagonalBox.setNotSelected();
             setEndBox.setNotSelected();
             setStartBox.setNotSelected();
@@ -322,9 +324,7 @@ public class PathFinder {
                 setStartBox.setEnabled(false);
                 setEndBox.setEnabled(false);
 
-                simulationRunning = true;
-                findPath();
-                simulationRunning = false;
+                timer.start();
 
                 diagonalBox.setEnabled(true);
                 showStepsBox.setEnabled(true);
@@ -349,8 +349,11 @@ public class PathFinder {
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
         speedSlider.setValue(500);
-        speedSlider.addChangeListener(e -> timeoutMS = (long) (maxTimeoutMs *
-                ((double) speedSlider.getValue() /  (double) speedSlider.getMaximum())));
+        speedSlider.addChangeListener(e -> {
+            timeoutMS = (int) (maxTimeoutMs *
+                    ((double) speedSlider.getValue() /  (double) speedSlider.getMaximum()));
+            timer.setDelay(timeoutMS);
+        });
         speedSlider.setOpaque(false);
         speedSlider.setToolTipText("Speed");
         speedSlider.setFocusable(false);
@@ -361,11 +364,18 @@ public class PathFinder {
         ConsoleFrame.getConsoleFrame().setFrameRelative(pathFindingFrame);
     }
 
-    private static void findPath() {
+    private static LinkedList<Node> open;
+    private static LinkedList<Node> closed;
+
+    private static ActionListener pathFindAction = evt -> {
         //todo found path will be in blue
         //todo checked nodes in green
 
         //todo if end has no parent then no path found
+
+        //todo: generic request: add parent frame of button text to log so you know what frame the button is from
+
+        //todo heuristic changer box to come
 
         pathableNodes = new LinkedList<>();
         for (int x = 0 ; x < numSquares ; x++) {
@@ -381,21 +391,25 @@ public class PathFinder {
                     }
                 }
 
-                if (!isWall && !addNode.equals(start)) {
+                if (!isWall) {
                     pathableNodes.add(addNode);
                 }
             }
         }
 
-        PriorityQueue<Node> open = new PriorityQueue<>(new NodeComparator());
-        LinkedList<Node> closed = new LinkedList<>();
+        open = new LinkedList<>();
+        closed = new LinkedList<>();
 
         open.add(start);
 
         while (!open.isEmpty()) {
-            //todo thread sleep would be here and repaint
+            Node current = open.get(0);
 
-            Node current = open.poll();
+            for (Node n : open) {
+                if (n.getF() < current.getF() || n.getF() == current.getF() && n.getH() < current.getH())
+                    current = n;
+            }
+
             open.remove(current);
             closed.add(current);
 
@@ -407,15 +421,15 @@ public class PathFinder {
             for (Node neighbor : pathableNodes) {
                 boolean isOrthogonal =
                         (neighbor.getX() == current.getX() && neighbor.getY() == current.getY() + 1) ||
-                        (neighbor.getX() == current.getX() && neighbor.getY() == current.getY() - 1) ||
-                        (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY()) ||
-                        (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY());
+                                (neighbor.getX() == current.getX() && neighbor.getY() == current.getY() - 1) ||
+                                (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY()) ||
+                                (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY());
 
                 boolean isDiagonal =
                         (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY() + 1) ||
-                        (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY() - 1) ||
-                        (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY() - 1) ||
-                        (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY() + 1);
+                                (neighbor.getX() == current.getX() + 1 && neighbor.getY() == current.getY() - 1) ||
+                                (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY() - 1) ||
+                                (neighbor.getX() == current.getX() - 1 && neighbor.getY() == current.getY() + 1);
 
                 if (isOrthogonal || (isDiagonal && diagonalBox.isSelected())) {
                     if (closed.contains(neighbor)) {
@@ -440,9 +454,9 @@ public class PathFinder {
                 }
             }
 
-           //find neighbors and add to open
+            //find neighbors and add to open
         }
-    }
+    };
 
     //distance from node to end
     private static double heuristic(Node n) {
@@ -454,28 +468,11 @@ public class PathFinder {
         return euclideanDistance(n, start);
     }
 
-    //todo heuristic changer box to come
     private static double euclideanDistance(Node n1, Node n2) {
         return Math.sqrt((n1.getX() - n2.getX()) ^ 2 + (n1.getY() - n2.getY()) ^ 2);
     }
 
     private static double manhattanDistance(Node n1, Node n2) {
         return Math.abs(n1.getX() - n2.getX()) + Math.abs(n1.getY() - n2.getY());
-    }
-
-    private static class NodeComparator implements Comparator<Node> {
-        @Override
-        public int compare(Node node1, Node node2) {
-            if (node1.getF() > node2.getF())
-                return 1;
-            else if (node1.getF() < node2.getF())
-                return -1;
-            else {
-                if (node1.getH() > node1.getH())
-                    return -1;
-                else
-                    return 1;
-            }
-        }
     }
 }
