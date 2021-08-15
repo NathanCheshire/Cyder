@@ -1306,7 +1306,7 @@ public final class ConsoleFrame {
 
         LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
 
-        if (!exes.isEmpty()) {
+        if (exes != null && !exes.isEmpty()) {
             for (User.MappedExecutable exe : exes) {
                 JLabel label = new JLabel(StringUtil.capsFirst(exe.getName()));
                 label.setFont(menuFont);

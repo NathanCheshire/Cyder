@@ -5,8 +5,16 @@ public class Node {
     private int y;
     private double g = Double.POSITIVE_INFINITY;
     private double h = Double.POSITIVE_INFINITY;
-    private double f = Double.POSITIVE_INFINITY;
     private Node parent;
+
+    public enum NodeType {
+        WALL,
+        START,
+        END,
+        PATH, //final path in blue
+        CHECKED_PATHABLE, //green squares that have been checked
+        CHECKING_PATHABLE //edges of checked nodes in different color
+    }
 
     public int getX() {
         return x;
@@ -55,6 +63,11 @@ public class Node {
     public Node(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Node() {
+        this.x = 0;
+        this.y = 0;
     }
 
     @Override

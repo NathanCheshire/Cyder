@@ -1,0 +1,33 @@
+[16:28:35] [ENTRY]: [WINUSER=Nathan]
+[16:28:36] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[16:28:37] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16:28:37] [LOGIN]: [AUTOCYPHER PASS]
+[16:28:38] [CLIENT]: test
+[16:28:50] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[16:29:02] [CLIENT]: prefs
+[16:29:02] [ACTION]: USER EDITOR
+[16:29:28] [CLIENT]: Help
+[16:29:28] [CONSOLE_OUT]: [STRING] Try typing:
+[16:29:29] [CONSOLE_OUT]: [STRING] •	Random Youtube
+[16:29:30] [CONSOLE_OUT]: [STRING] •	Top right
+[16:29:30] [CONSOLE_OUT]: [STRING] •	Bletchy Bletchy Park
+[16:29:31] [CONSOLE_OUT]: [STRING] •	Pixelate background
+[16:29:32] [CONSOLE_OUT]: [STRING] •	Hangman
+[16:29:33] [CONSOLE_OUT]: [STRING] •	Dir
+[16:29:33] [CONSOLE_OUT]: [STRING] •	Nathan
+[16:29:34] [CONSOLE_OUT]: [STRING] •	Prefs
+[16:29:34] [CONSOLE_OUT]: [STRING] •	Temperature
+[16:29:35] [CONSOLE_OUT]: [STRING] •	Java
+[16:29:36] [CLIENT]: Dir
+[16:29:36] [ACTION]: DIR SEARCH
+[16:29:44] [CLIENT]: Login
+[16:29:44] [ACTION]: LOGIN WIDGET
+[16:30:21] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[16:32:14] [ACTION]: CyderButton, text=[=] CLICKED
+[16:32:14] [ACTION]: [Calculator] [NOTIFICATION] -0.28061055348533886
+[16:33:15] [CLIENT]: Cls
+[16:33:16] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] Sorry, Nathan, but I had trouble connecting to the internet.
+As a result, some features have been restired until a stable connection can be established.
+[16:33:18] [LOGOUT]:  [Nathan]
+[16:33:18] [EXIT]: [RUNTIME] 4m 42s
+[16:33:18] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

@@ -954,10 +954,12 @@ public class InputHandler {
             new ImageAverager();
         } else if (hasWord("conway") || hasWord("conways")) {
             new Conways();
+        } else if (hasWord("birthday") && hasWord("card") && hasWord("2021")) {
+            Cards.Birthday2021();
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            PathFinder.showGUI();
+           //TODO uncomment when working on cyder again PathFinder.showGUI();
         }
         //final attempt at unknown input --------------------------
         else {

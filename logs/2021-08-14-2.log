@@ -1,0 +1,11 @@
+[20:52:08] [ENTRY]: [WINUSER=Nathan]
+[20:52:08] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[20:52:09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20:52:09] [LOGIN]: [AUTOCYPHER PASS]
+[20:52:10] [CLIENT]: test
+[20:52:21] [CLIENT]: controlc
+[20:52:21] [CONSOLE_OUT]: [STRING] Escaped
+[20:52:21] [CLIENT]: Birthday card 2021
+[20:52:25] [LOGOUT]:  [Nathan]
+[20:52:25] [EXIT]: [RUNTIME] 17s
+[20:52:25] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

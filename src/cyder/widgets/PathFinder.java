@@ -368,15 +368,9 @@ public class PathFinder {
     private static LinkedList<Node> closed;
 
     private static ActionListener pathFindAction = evt -> {
-        //todo found path will be in blue
-        //todo checked nodes in green
-
         //todo if end has no parent then no path found
 
-        //todo: generic request: add parent frame of button text to log so you know what frame the button is from
-
-        //todo heuristic changer box to come
-
+        //get pathable nodes
         pathableNodes = new LinkedList<>();
         for (int x = 0 ; x < numSquares ; x++) {
             for (int y = 0 ; y < numSquares ; y++) {
@@ -399,6 +393,11 @@ public class PathFinder {
 
         //algorithm here in steps using timer
     };
+
+    //this method to be called from timer (instead of while not empty, check if empty and if not, call this method so we can update)
+    private static void aStarWhileInner() {
+
+    }
 
     private static boolean areDiagonalNeighbors(Node n1, Node n2) {
         return (n1.getX() == n2.getX() + 1 && n1.getY() == n2.getY() + 1) ||

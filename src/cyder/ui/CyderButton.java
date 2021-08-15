@@ -107,8 +107,15 @@ public class CyderButton extends JButton {
 
     @Override
     public String toString() {
+        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        String frameRep = "";
+
+        if (topFrame != null)
+            frameRep = topFrame.getTitle();
+
         return "CyderButton object, hash=" + this.hashCode() +
-                (this.getText() != null && this.getText().length() > 0 ? ", text=[" + this.getText() + "]" : "");
+                (this.getText() != null && this.getText().length() > 0 ? ", text=[" + this.getText() + "]" : "") +
+                (frameRep.length() > 0 ? frameRep : "");
     }
 
 

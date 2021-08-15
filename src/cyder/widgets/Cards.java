@@ -3,7 +3,9 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
+import cyder.enums.Direction;
 import cyder.genesis.CyderMain;
+import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 
@@ -13,6 +15,7 @@ import java.awt.*;
 public class Cards {
     private static CyderFrame christmas2020Frame;
     private static CyderFrame fathersDay2021Frame;
+    private static CyderFrame birthday2021Frame;
 
     public static void Christmas2020() {
         if (christmas2020Frame != null)
@@ -77,8 +80,53 @@ public class Cards {
         int consoleW = ConsoleFrame.getConsoleFrame().getWidth();
         int consoleH = ConsoleFrame.getConsoleFrame().getHeight();
 
-        christmas2020Frame.setLocation(consoleX + Math.abs((consoleW - christmas2020Frame.getWidth()) / 2),
-                consoleY + Math.abs((consoleH - christmas2020Frame.getHeight()) / 2));
+        fathersDay2021Frame.setLocation(consoleX + Math.abs((consoleW - fathersDay2021Frame.getWidth()) / 2),
+                consoleY + Math.abs((consoleH - fathersDay2021Frame.getHeight()) / 2));
         fathersDay2021Frame.setVisible(true);
+    }
+    public static void Birthday2021() {
+        if (birthday2021Frame != null)
+            birthday2021Frame.closeAnimation();
+
+        birthday2021Frame = new CyderFrame(800,600, new ImageIcon("sys/pictures/cards/Confetti.png"));
+        birthday2021Frame.setTitle("Happy Birthday Day!");
+        birthday2021Frame.setBackground(CyderColors.navy);
+        birthday2021Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+
+        JLabel cardLabel = new JLabel("<html>Happy Birthday Dad! Thanks for everything " +
+                "this year such as helpng me move into BR and back home, the Destin and Kentucky " +
+                "trips, and for bringing my desk up next weekend :D<br/><br/>Love,<br/>Nathan</html>");
+        cardLabel.setForeground(CyderColors.navy);
+        cardLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(24f));
+        cardLabel.setHorizontalAlignment(JLabel.CENTER);
+        cardLabel.setVerticalAlignment(JLabel.CENTER);
+        cardLabel.setBounds(5,40, birthday2021Frame.getWidth() - 40, 240);
+        birthday2021Frame.getContentPane().add(cardLabel);
+
+        int consoleX = ConsoleFrame.getConsoleFrame().getX();
+        int consoleY = ConsoleFrame.getConsoleFrame().getY();
+        int consoleW = ConsoleFrame.getConsoleFrame().getWidth();
+        int consoleH = ConsoleFrame.getConsoleFrame().getHeight();
+
+        birthday2021Frame.setLocation(consoleX + Math.abs((consoleW - birthday2021Frame.getWidth()) / 2),
+                consoleY + Math.abs((consoleH - birthday2021Frame.getHeight()) / 2));
+        birthday2021Frame.setVisible(true);
+
+        try {
+            new Thread(() -> {
+                try {
+                    Thread.sleep(10000);
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+
+                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, Direction.TOP);
+                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, Direction.LEFT);
+                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, Direction.BOTTOM);
+                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, Direction.RIGHT);
+            },"Birthday card 2021 notification wait thread").start();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 }
