@@ -1,0 +1,66 @@
+[21:25:50] [ENTRY]: [WINUSER=Nathan]
+[21:25:50] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[21:25:51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21:25:51] [LOGIN]: [AUTOCYPHER PASS]
+[21:25:53] [CLIENT]: test
+[21:25:53] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] Welcome back, Nathan!
+[21:25:58] [CLIENT]: Fullscreen
+[21:25:58] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[21:26:00] [CLIENT]: Cls
+[21:26:02] [CLIENT]: Logout
+[21:26:02] [LOGOUT]:  [Nathan]
+[21:26:04] [CLIENT_IO]: [LOGIN FRAME] create
+[21:26:12] [ACTION]: CyderButton, text=[Create User] CLICKED
+[21:26:14] [CLIENT_IO]: [LOGIN FRAME] login
+[21:26:16] [CLIENT_IO]: [LOGIN FRAME] karla
+[21:26:17] [EXCEPTION]: 
+argument type mismatch
+Thrown from:
+java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+StackTrace:
+java.lang.IllegalArgumentException: argument type mismatch
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at cyder.utilities.UserUtil.fixUser(UserUtil.java:193)
+	at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1528)
+	at cyder.utilities.UserUtil.checkPassword(UserUtil.java:389)
+	at cyder.genesis.Entry.recognize(Entry.java:295)
+	at cyder.genesis.Entry$2.keyTyped(Entry.java:232)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[21:26:17] [LOGIN]: [STD LOGIN]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

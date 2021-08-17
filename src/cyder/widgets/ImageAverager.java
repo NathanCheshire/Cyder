@@ -89,7 +89,6 @@ public class ImageAverager {
             }
 
             if (removeIndex != -1) {
-                System.out.println(removeIndex);
                 files.remove(removeIndex);
                 revalidateScroll();
             }
