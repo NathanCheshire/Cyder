@@ -959,7 +959,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-           //TODO uncomment when working on cyder again PathFinder.showGUI();
+           PathFinder.showGUI();
         }
         //final attempt at unknown input --------------------------
         else {

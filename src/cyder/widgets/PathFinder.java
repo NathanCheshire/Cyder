@@ -73,7 +73,7 @@ public class PathFinder {
                     g2d.drawLine(drawTo, 1, drawTo, drawTo);
                     g2d.drawLine(1, drawTo, drawTo, drawTo);
 
-                    //draw green squres
+                    //draw checked nodes in green
                    for (Node n : pathableNodes) {
                        if (n.getParent() != null && !n.equals(end)) {
                            g2d.setColor(CyderColors.regularGreen);
@@ -83,7 +83,7 @@ public class PathFinder {
                        }
                    }
 
-                    //draw path
+                    //draw path in blue
                     if (end != null && end.getParent() != null) {
                        Node currentRef = end.getParent();
 
@@ -95,7 +95,7 @@ public class PathFinder {
                        }
                     }
 
-                    //draw start
+                    //draw start in pink
                     if (start != null) {
                         g2d.setColor(CyderColors.intellijPink);
                         g2d.fillRect(2 + start.getX() * squareLen, 2 + start.getY() * squareLen,
@@ -103,7 +103,7 @@ public class PathFinder {
                         gridLabel.repaint();
                     }
 
-                    //draw end
+                    //draw in orange
                     if (end != null) {
                         g2d.setColor(CyderColors.calculatorOrange);
                         g2d.fillRect(2 + end.getX() * squareLen, 2 + end.getY() * squareLen,
@@ -111,7 +111,7 @@ public class PathFinder {
                         gridLabel.repaint();
                     }
 
-                    //draw walls last
+                    //draw walls in black
                     for (Node wall : walls) {
                         if (wall.getX() >= numSquares || wall.getY() >= numSquares) {
                             walls.remove(wall);
@@ -314,17 +314,20 @@ public class PathFinder {
         startButton = new CyderButton("Start");
         startButton.setBounds(420,935, 150, 40);
         startButton.addActionListener(e -> {
-            //todo toggle between starting and stopping, stopping should exit pathfinding and leave painting where it is
-            // to be reset on start again
             if (start == null || end == null) {
                 pathFindingFrame.notify("Start/end nodes not set");
-            } else {
+            } else if (!timer.isRunning()) {
+                startButton.setText("Stop");
+
                 diagonalBox.setEnabled(false);
                 showStepsBox.setEnabled(false);
                 setStartBox.setEnabled(false);
                 setEndBox.setEnabled(false);
 
                 timer.start();
+            } else {
+                timer.stop();
+                startButton.setText("Start");
 
                 diagonalBox.setEnabled(true);
                 showStepsBox.setEnabled(true);
@@ -391,12 +394,12 @@ public class PathFinder {
             }
         }
 
-        //algorithm here in steps using timer
+        aStarWhileInner();
     };
 
     //this method to be called from timer (instead of while not empty, check if empty and if not, call this method so we can update)
     private static void aStarWhileInner() {
-
+        System.out.println("here");
     }
 
     private static boolean areDiagonalNeighbors(Node n1, Node n2) {
