@@ -5,6 +5,7 @@ public class Node {
     private int y;
     private double g = Double.POSITIVE_INFINITY;
     private double h = Double.POSITIVE_INFINITY;
+    private double f = Double.POSITIVE_INFINITY;
     private Node parent;
 
     public enum NodeType {
@@ -49,7 +50,11 @@ public class Node {
     }
 
     public double getF() {
-        return g + h;
+        return f;
+    }
+
+    public void setF(double f) {
+        this.f = f;
     }
 
     public Node getParent() {

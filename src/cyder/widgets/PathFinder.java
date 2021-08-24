@@ -32,8 +32,8 @@ public class PathFinder {
     private static int timeoutMS = 500;
     private static int maxTimeoutMs = 1000;
 
-    private static boolean eHeld;
-    private static boolean sHeld;
+    private static boolean eToggled;
+    private static boolean sToggled;
     private static boolean deleteWallsMode;
 
     public static void showGUI() {
@@ -129,12 +129,6 @@ public class PathFinder {
                 }
             }
         };
-        gridLabel.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                System.out.println(e.getKeyChar());
-            }
-        });
         gridLabel.addMouseWheelListener(e -> {
             if (timer.isRunning())
                 return;
@@ -149,7 +143,33 @@ public class PathFinder {
                 gridLabel.repaint();
             }
         });
-        //todo hold down s or e to place start/end
+
+        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        InputMap inputMap = gridLabel.getInputMap(condition);
+        ActionMap actionMap = gridLabel.getActionMap();
+
+        KeyStroke sStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, 0);
+        String skey = "skey";
+
+        KeyStroke eStroke = KeyStroke.getKeyStroke(KeyEvent.VK_E, 0);
+        String ekey = "ekey";
+
+        inputMap.put(sStroke, skey);
+        actionMap.put(skey, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sToggled = !sToggled;
+            }
+        });
+
+        inputMap.put(eStroke, ekey);
+        actionMap.put(ekey, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eToggled = !eToggled;
+            }
+        });
+
         gridLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -170,17 +190,18 @@ public class PathFinder {
                     end = null;
                 }
 
-                if (sHeld) {
+                if (sToggled) {
                     for (Node n : walls) {
                         if (n.equals(addNode)) {
                             walls.remove(n);
                             break;
                         }
                     }
-
+                    System.out.println("here");
                     start = addNode;
+                    sToggled = false;
                     gridLabel.repaint();
-                } else if (eHeld) {
+                } else if (eToggled) {
                     for (Node n : walls) {
                         if (n.equals(addNode)) {
                             walls.remove(n);
@@ -189,6 +210,7 @@ public class PathFinder {
                     }
 
                     end = addNode;
+                    eToggled = false;
                     gridLabel.repaint();
                 } else {
                     boolean contains = false;
@@ -214,7 +236,6 @@ public class PathFinder {
                 }
             }
         });
-        //todo mode checkbox for deletion or creation
         gridLabel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -256,6 +277,7 @@ public class PathFinder {
         });
         gridLabel.setSize(800,800);
         gridLabel.setLocation(100,80);
+        gridLabel.setFocusable(true);
         pathFindingFrame.getContentPane().add(gridLabel);
 
         CyderLabel setEndLabel = new CyderLabel("Delete Walls");
@@ -321,7 +343,7 @@ public class PathFinder {
                 showStepsBox.setEnabled(false);
                 deleteWallsCheckBox.setEnabled(false);
 
-                timer.start();
+                searchSetup();
             } else {
                 timer.stop();
                 startButton.setText("Start");
@@ -363,13 +385,12 @@ public class PathFinder {
         ConsoleFrame.getConsoleFrame().setFrameRelative(pathFindingFrame);
     }
 
+    //open and closed list out side methods to allow access to a* inner
     private static LinkedList<Node> open;
     private static LinkedList<Node> closed;
 
-    private static ActionListener pathFindAction = evt -> {
-        //todo if end has no parent then no path found
-
-        //get pathable nodes
+    //performs the setup for the A* algorithm so that the timer can call update to interate over the next nodes
+    private static void searchSetup() {
         pathableNodes = new LinkedList<>();
         for (int x = 0 ; x < numSquares ; x++) {
             for (int y = 0 ; y < numSquares ; y++) {
@@ -390,17 +411,36 @@ public class PathFinder {
             }
         }
 
-        aStarWhileInner();
+        open = new LinkedList<>();
+        closed = new LinkedList<>();
+
+        //put start in the open with f(start) = h(start)
+        start.setF(heuristic(start));
+        start.setH(heuristic(start));
+        start.setG(0);
+
+        timer.start();
+    }
+
+    //timer update action (while loop of a*)
+    private static ActionListener pathFindAction = evt -> {
+        if (open.isEmpty()) {
+            pathNotFound();
+        } else {
+
+        }
     };
 
-    //todo if a path is not found in this step function, end and show words on screen,
-    // no path until started again or reset
-    //if a path IS found, end simulation and draw path with an animation so either way,
-    // we need to stop the timer and do something else like pathFound(); or pathNotFound();
+    //indicates a path was found and finished animating so takes the proper actions given this criteria
+    private static void pathFound() {
+        //end the simulation if still running, stop the simulation,
+        // show path found text, animate drawing the path over and over until reset or start are pressed
+    }
 
-    //this method to be called from timer (instead of while not empty, check if empty and if not, call this method so we can update)
-    private static void aStarWhileInner() {
-        System.out.println("here");
+    //indicates a path was not found so takes the proper actions given this criteria
+    private static void pathNotFound() {
+        //end the simulation/animation
+        //show no path found text until reset or start buttons are pressed
     }
 
     private static boolean areDiagonalNeighbors(Node n1, Node n2) {
