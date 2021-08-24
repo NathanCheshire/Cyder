@@ -14,10 +14,10 @@ public class PathFinder {
     private static int squareLen = 30;
     private static int numSquares;
     private static JLabel gridLabel;
-    private static CyderCheckBox setStartBox;
-    private static CyderCheckBox setEndBox;
+
     private static CyderCheckBox showStepsBox;
     private static CyderCheckBox diagonalBox;
+    private static CyderCheckBox deleteWallsCheckBox;
     private static CyderFrame pathFindingFrame;
     private static CyderButton reset;
     private static CyderButton startButton;
@@ -31,6 +31,10 @@ public class PathFinder {
     private static Timer timer;
     private static int timeoutMS = 500;
     private static int maxTimeoutMs = 1000;
+
+    private static boolean eHeld;
+    private static boolean sHeld;
+    private static boolean deleteWallsMode;
 
     public static void showGUI() {
         if (pathFindingFrame != null)
@@ -125,8 +129,14 @@ public class PathFinder {
                 }
             }
         };
+        gridLabel.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println(e.getKeyChar());
+            }
+        });
         gridLabel.addMouseWheelListener(e -> {
-            if (timer.isRepeats())
+            if (timer.isRunning())
                 return;
 
             if (e.isControlDown()) {
@@ -139,6 +149,7 @@ public class PathFinder {
                 gridLabel.repaint();
             }
         });
+        //todo hold down s or e to place start/end
         gridLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -159,7 +170,7 @@ public class PathFinder {
                     end = null;
                 }
 
-                if (setStartBox.isSelected()) {
+                if (sHeld) {
                     for (Node n : walls) {
                         if (n.equals(addNode)) {
                             walls.remove(n);
@@ -168,9 +179,8 @@ public class PathFinder {
                     }
 
                     start = addNode;
-                    setStartBox.setNotSelected();
                     gridLabel.repaint();
-                } else if (setEndBox.isSelected()) {
+                } else if (eHeld) {
                     for (Node n : walls) {
                         if (n.equals(addNode)) {
                             walls.remove(n);
@@ -179,7 +189,6 @@ public class PathFinder {
                     }
 
                     end = addNode;
-                    setEndBox.setNotSelected();
                     gridLabel.repaint();
                 } else {
                     boolean contains = false;
@@ -205,6 +214,7 @@ public class PathFinder {
                 }
             }
         });
+        //todo mode checkbox for deletion or creation
         gridLabel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -219,22 +229,26 @@ public class PathFinder {
 
                 Node addNode = new Node(x, y);
 
-                if (addNode.equals(start)) {
-                    start = null;
-                } else if (addNode.equals(end)) {
-                    end = null;
-                }
-
-                boolean contains = false;
-                for (Node wall : walls) {
-                    if (wall.equals(addNode)) {
-                        contains = true;
-                        break;
+                if (deleteWallsMode) {
+                    walls.remove(addNode);
+                } else {
+                    if (addNode.equals(start)) {
+                        start = null;
+                    } else if (addNode.equals(end)) {
+                        end = null;
                     }
-                }
 
-                if (!contains) {
-                    walls.add(addNode);
+                    boolean contains = false;
+                    for (Node wall : walls) {
+                        if (wall.equals(addNode)) {
+                            contains = true;
+                            break;
+                        }
+                    }
+
+                    if (!contains) {
+                        walls.add(addNode);
+                    }
                 }
 
                 gridLabel.repaint();
@@ -244,35 +258,19 @@ public class PathFinder {
         gridLabel.setLocation(100,80);
         pathFindingFrame.getContentPane().add(gridLabel);
 
-        CyderLabel setStartLabel = new CyderLabel("Set start");
-        setStartLabel.setBounds(75,885,100,30);
-        pathFindingFrame.getContentPane().add(setStartLabel);
-
-        setStartBox = new CyderCheckBox();
-        setStartBox.setNotSelected();
-        setStartBox.setBounds(100, 920,50,50);
-        pathFindingFrame.getContentPane().add(setStartBox);
-        setStartBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                setEndBox.setNotSelected();
-            }
-        });
-
-        CyderLabel setEndLabel = new CyderLabel("Set end");
+        CyderLabel setEndLabel = new CyderLabel("Delete Walls");
         setEndLabel.setBounds(75 + 70,885,100,30);
         pathFindingFrame.getContentPane().add(setEndLabel);
 
-        setEndBox = new CyderCheckBox();
-        setEndBox.setNotSelected();
-        setEndBox.setBounds(170, 920,50,50);
-        pathFindingFrame.getContentPane().add(setEndBox);
-        setEndBox.addMouseListener(new MouseAdapter() {
+        deleteWallsCheckBox = new CyderCheckBox();
+        deleteWallsCheckBox.setNotSelected();
+        deleteWallsCheckBox.setBounds(170, 920,50,50);
+        pathFindingFrame.getContentPane().add(deleteWallsCheckBox);
+        deleteWallsCheckBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                setStartBox.setNotSelected();
+                deleteWallsMode = !deleteWallsMode;
             }
         });
 
@@ -298,10 +296,10 @@ public class PathFinder {
         reset.setBounds(420,880, 150, 40);
         reset.addActionListener(e -> {
             timer.stop();
+            startButton.setText("Start");
             diagonalBox.setNotSelected();
-            setEndBox.setNotSelected();
-            setStartBox.setNotSelected();
             showStepsBox.setNotSelected();
+            deleteWallsCheckBox.setNotSelected();
             speedSlider.setValue(500);
             start = null;
             end = null;
@@ -321,8 +319,7 @@ public class PathFinder {
 
                 diagonalBox.setEnabled(false);
                 showStepsBox.setEnabled(false);
-                setStartBox.setEnabled(false);
-                setEndBox.setEnabled(false);
+                deleteWallsCheckBox.setEnabled(false);
 
                 timer.start();
             } else {
@@ -331,8 +328,7 @@ public class PathFinder {
 
                 diagonalBox.setEnabled(true);
                 showStepsBox.setEnabled(true);
-                setStartBox.setEnabled(true);
-                setEndBox.setEnabled(true);
+                deleteWallsCheckBox.setEnabled(true);
             }
         });
         pathFindingFrame.getContentPane().add(startButton);
@@ -396,6 +392,11 @@ public class PathFinder {
 
         aStarWhileInner();
     };
+
+    //todo if a path is not found in this step function, end and show words on screen,
+    // no path until started again or reset
+    //if a path IS found, end simulation and draw path with an animation so either way,
+    // we need to stop the timer and do something else like pathFound(); or pathNotFound();
 
     //this method to be called from timer (instead of while not empty, check if empty and if not, call this method so we can update)
     private static void aStarWhileInner() {
