@@ -8,7 +8,9 @@ import cyder.ui.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class PathFinder {
     private static int squareLen = 30;
@@ -385,9 +387,8 @@ public class PathFinder {
         ConsoleFrame.getConsoleFrame().setFrameRelative(pathFindingFrame);
     }
 
-    //open and closed list out side methods to allow access to a* inner
-    private static LinkedList<Node> open;
-    private static LinkedList<Node> closed;
+    //open list outside methods to allow access to a* inner
+    private static PriorityQueue<Node> open;
 
     //performs the setup for the A* algorithm so that the timer can call update to interate over the next nodes
     private static void searchSetup() {
@@ -411,15 +412,55 @@ public class PathFinder {
             }
         }
 
-        open = new LinkedList<>();
-        closed = new LinkedList<>();
+        open = new PriorityQueue<>(new NodeComparator());
 
-        //put start in the open with f(start) = h(start)
-        start.setF(heuristic(start));
-        start.setH(heuristic(start));
+        //put start in the open
         start.setG(0);
+        start.setH(euclideanDistance(start, end));
+        open.add(start);
 
-        timer.start();
+        //animation chosen
+        if (showStepsBox.isSelected()) {
+            timer.start();
+        } else {
+            //instantly solve and paint grid and animate path if found and show words PATH or NO PATH
+
+            while (!open.isEmpty()) {
+                Node min = open.poll();
+                open.remove(min);
+
+                if (min.equals(end)) {
+                    System.out.println("PATH FOUND");
+                    //todo other stuff
+                    break;
+                }
+
+                //generate neihbors of this current node
+                LinkedList<Node> neighbors = new LinkedList<>();
+
+                for (Node possibleNeighbor : pathableNodes) {
+                    if (areOrthogonalNeighbors(possibleNeighbor, min) ||
+                            (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isSelected())) {
+                        neighbors.add(possibleNeighbor);
+                    }
+                }
+
+                for (Node neighbor: neighbors) {
+                    //calculate new H
+                    double newH = euclideanDistance(neighbor, end);
+
+                    if (newH < neighbor.getH()) {
+                        neighbor.setH(newH);
+                        neighbor.setParent(min);
+                        neighbor.setG(min.getG() + euclideanDistance(min, neighbor));
+
+                        if (!open.contains(neighbor)) {
+                            open.add(neighbor);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //timer update action (while loop of a*)
@@ -427,7 +468,32 @@ public class PathFinder {
         if (open.isEmpty()) {
             pathNotFound();
         } else {
+            //find lowest h from open
+            Node current = open.poll();
 
+            for (Node n : open) {
+                if (n.getG() < current.getG()) {
+                    current = n;
+                }
+            }
+
+            if (current == end) {
+                pathFound();
+            } else {
+                //generate neihbors of this current node
+                LinkedList<Node> neighbors = new LinkedList<>();
+
+                for (Node possibleNeighbor : pathableNodes) {
+                    if (areOrthogonalNeighbors(possibleNeighbor, current) ||
+                            (areDiagonalNeighbors(possibleNeighbor, current) && diagonalBox.isSelected())) {
+                        neighbors.add(possibleNeighbor);
+                    }
+                }
+
+                for (Node neighbor: neighbors) {
+
+                }
+            }
         }
     };
 
@@ -435,12 +501,14 @@ public class PathFinder {
     private static void pathFound() {
         //end the simulation if still running, stop the simulation,
         // show path found text, animate drawing the path over and over until reset or start are pressed
+        //todo
     }
 
     //indicates a path was not found so takes the proper actions given this criteria
     private static void pathNotFound() {
         //end the simulation/animation
         //show no path found text until reset or start buttons are pressed
+        //todo
     }
 
     private static boolean areDiagonalNeighbors(Node n1, Node n2) {
@@ -473,5 +541,23 @@ public class PathFinder {
 
     private static double manhattanDistance(Node n1, Node n2) {
         return Math.abs(n1.getX() - n2.getX()) + Math.abs(n1.getY() - n2.getY());
+    }
+
+    private static class NodeComparator implements Comparator<Node> {
+        @Override
+        public int compare(Node node1, Node node2) {
+            if (node1.getF() > node2.getF())
+                return 1;
+            else if (node1.getF() < node2.getF())
+                return -1;
+            else {
+                if (node1.getH() > node2.getH())
+                    return 1;
+                else if (node1.getH() < node2.getH())
+                    return -1;
+                else
+                    return 0;
+            }
+        }
     }
 }

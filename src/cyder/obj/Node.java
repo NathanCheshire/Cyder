@@ -3,19 +3,9 @@ package cyder.obj;
 public class Node {
     private int x;
     private int y;
-    private double g = Double.POSITIVE_INFINITY;
-    private double h = Double.POSITIVE_INFINITY;
-    private double f = Double.POSITIVE_INFINITY;
+    private double g = Integer.MAX_VALUE;
+    private double h = Integer.MAX_VALUE;
     private Node parent;
-
-    public enum NodeType {
-        WALL,
-        START,
-        END,
-        PATH, //final path in blue
-        CHECKED_PATHABLE, //green squares that have been checked
-        CHECKING_PATHABLE //edges of checked nodes in different color
-    }
 
     public int getX() {
         return x;
@@ -50,11 +40,7 @@ public class Node {
     }
 
     public double getF() {
-        return f;
-    }
-
-    public void setF(double f) {
-        this.f = f;
+        return this.h + this.g;
     }
 
     public Node getParent() {
