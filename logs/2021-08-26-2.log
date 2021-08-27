@@ -18,3 +18,4 @@
 [16:39:04] [ACTION]: CyderButton, text=[Reset] CLICKED
 [16:39:12] [ACTION]: CyderButton, text=[Stop] CLICKED
 [16:39:13] [ACTION]: CyderButton, text=[Reset] CLICKED
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

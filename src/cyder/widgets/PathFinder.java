@@ -38,6 +38,8 @@ public class PathFinder {
     private static boolean sToggled;
     private static boolean deleteWallsMode;
 
+    private static String pathText = "";
+
     public static void showGUI() {
         if (pathFindingFrame != null)
             pathFindingFrame.closeAnimation();
@@ -81,8 +83,8 @@ public class PathFinder {
 
                     //draw checked nodes in green
                    for (Node n : pathableNodes) {
-                       if (n.getParent() != null && !n.equals(end)) {
-                           g2d.setColor(CyderColors.regularGreen);
+                       if (n.getParent() != null && !n.equals(end) && n.getH() != Integer.MAX_VALUE) {
+                           g2d.setColor(new Color(121,236,135));
                            g2d.fillRect(2 + n.getX() * squareLen, 2 + n.getY() * squareLen,
                                    squareLen - 2, squareLen - 2);
                            gridLabel.repaint();
@@ -99,6 +101,20 @@ public class PathFinder {
                                    squareLen - 2, squareLen - 2);
                            currentRef = currentRef.getParent();
                        }
+                    }
+
+                    //path drawing
+                    if (end != null && end.getParent() != null) {
+                        Node refNode = end.getParent();
+
+                        while (refNode != start) {
+                            g2d.setColor(new Color(34,216,248));
+                            g2d.fillRect(2 + refNode.getX() * squareLen, 2 + refNode.getY() * squareLen,
+                                    squareLen - 2, squareLen - 2);
+                            refNode = refNode.getParent();
+                        }
+
+                        gridLabel.repaint();
                     }
 
                     //draw start in pink
@@ -128,6 +144,22 @@ public class PathFinder {
                             gridLabel.repaint();
                         }
                     }
+
+                    //path label
+                    int centerX = gridLabel.getX() + gridLabel.getWidth() / 2;
+                    int centerY = gridLabel.getY() + gridLabel.getHeight() / 2;
+
+                    Font labelFont = new Font("Arial Black",Font.BOLD, 50);
+
+                    Graphics2D g2 = (Graphics2D) g;
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.setFont(labelFont);
+                    g2.setColor(CyderColors.navy);
+
+                    FontMetrics fm = g.getFontMetrics();
+                    int x = (gridLabel.getWidth() - fm.stringWidth(pathText)) / 2;
+                    int y = (fm.getAscent() + (gridLabel.getHeight() - (fm.getAscent() + fm.getDescent())) / 2);
+                    g.drawString(pathText, x, y);
                 }
             }
         };
@@ -199,7 +231,6 @@ public class PathFinder {
                             break;
                         }
                     }
-                    System.out.println("here");
                     start = addNode;
                     sToggled = false;
                     gridLabel.repaint();
@@ -329,6 +360,7 @@ public class PathFinder {
             end = null;
             walls = new LinkedList<>();
             pathableNodes = new LinkedList<>();
+            pathText = "";
             gridLabel.repaint();
         });
         pathFindingFrame.getContentPane().add(reset);
@@ -340,6 +372,7 @@ public class PathFinder {
                 pathFindingFrame.notify("Start/end nodes not set");
             } else if (!timer.isRunning()) {
                 startButton.setText("Stop");
+                pathText = "";
 
                 diagonalBox.setEnabled(false);
                 showStepsBox.setEnabled(false);
@@ -349,6 +382,7 @@ public class PathFinder {
             } else {
                 timer.stop();
                 startButton.setText("Start");
+                pathText = "";
 
                 diagonalBox.setEnabled(true);
                 showStepsBox.setEnabled(true);
@@ -431,8 +465,8 @@ public class PathFinder {
                 open.remove(min);
 
                 if (min.equals(end)) {
-                    System.out.println("PATH FOUND");
-                    //todo other stuff
+                    end.setParent(min.getParent());
+                    pathFound();
                     break;
                 }
 
@@ -461,6 +495,8 @@ public class PathFinder {
                     }
                 }
             }
+
+            pathNotFound();
         }
     }
 
@@ -473,14 +509,19 @@ public class PathFinder {
     private static void pathFound() {
         //end the simulation if still running, stop the simulation,
         // show path found text, animate drawing the path over and over until reset or start are pressed
-        //todo
+
+        timer.stop();
+        startButton.setText("Start");
+        diagonalBox.setEnabled(true);
+        showStepsBox.setEnabled(true);
+        deleteWallsCheckBox.setEnabled(true);
+
+        pathText = "PATH FOUND";
     }
 
     //indicates a path was not found so takes the proper actions given this criteria
     private static void pathNotFound() {
-        //end the simulation/animation
-        //show no path found text until reset or start buttons are pressed
-        //todo
+
     }
 
     private static boolean areDiagonalNeighbors(Node n1, Node n2) {
