@@ -500,7 +500,7 @@ public class PathFinder {
                 if (min.equals(end)) {
                     end.setParent(min.getParent());
                     pathFound();
-                    break;
+                    return;
                 }
 
                 //generate neihbors of this current node
@@ -535,7 +535,7 @@ public class PathFinder {
 
     //timer update action (while loop of a*) for animation purposes
     private static ActionListener pathFindAction = evt -> {
-
+        //todo animation of actually finding the path
     };
 
     //indicates a path was found and finished animating so takes the proper actions given this criteria
@@ -554,6 +554,16 @@ public class PathFinder {
             path.add(refNode);
             refNode = refNode.getParent();
         }
+
+        LinkedList<Node> pathReversed = new LinkedList<>();
+
+        for (int i = path.size() - 1 ; i > -1 ; i--) {
+            pathReversed.add(path.get(i));
+        }
+
+        path = pathReversed;
+
+        gridLabel.repaint();
     }
 
     //indicates a path was not found so takes the proper actions given this criteria
@@ -564,7 +574,12 @@ public class PathFinder {
         showStepsBox.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
 
-        pathText = "PATH FOUND";
+        pathText = "PATH NOT FOUND";
+
+        path = new LinkedList<>();
+        pathIndex = 0;
+
+        gridLabel.repaint();
     }
 
     private static boolean areDiagonalNeighbors(Node n1, Node n2) {
