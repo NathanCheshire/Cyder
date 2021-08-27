@@ -416,12 +416,13 @@ public class PathFinder {
 
         //put start in the open
         start.setG(0);
-        start.setH(euclideanDistance(start, end));
+        start.setH(heuristic(end));
         open.add(start);
 
         //animation chosen
         if (showStepsBox.isSelected()) {
             timer.start();
+            //spins off below action listener to update grid until path found or no path found or user intervention
         } else {
             //instantly solve and paint grid and animate path if found and show words PATH or NO PATH
 
@@ -447,7 +448,7 @@ public class PathFinder {
 
                 for (Node neighbor: neighbors) {
                     //calculate new H
-                    double newH = euclideanDistance(neighbor, end);
+                    double newH = heuristic(neighbor);
 
                     if (newH < neighbor.getH()) {
                         neighbor.setH(newH);
@@ -463,38 +464,9 @@ public class PathFinder {
         }
     }
 
-    //timer update action (while loop of a*)
+    //timer update action (while loop of a*) for animation purposes
     private static ActionListener pathFindAction = evt -> {
-        if (open.isEmpty()) {
-            pathNotFound();
-        } else {
-            //find lowest h from open
-            Node current = open.poll();
 
-            for (Node n : open) {
-                if (n.getG() < current.getG()) {
-                    current = n;
-                }
-            }
-
-            if (current == end) {
-                pathFound();
-            } else {
-                //generate neihbors of this current node
-                LinkedList<Node> neighbors = new LinkedList<>();
-
-                for (Node possibleNeighbor : pathableNodes) {
-                    if (areOrthogonalNeighbors(possibleNeighbor, current) ||
-                            (areDiagonalNeighbors(possibleNeighbor, current) && diagonalBox.isSelected())) {
-                        neighbors.add(possibleNeighbor);
-                    }
-                }
-
-                for (Node neighbor: neighbors) {
-
-                }
-            }
-        }
     };
 
     //indicates a path was found and finished animating so takes the proper actions given this criteria
@@ -536,7 +508,9 @@ public class PathFinder {
     }
 
     private static double euclideanDistance(Node n1, Node n2) {
-        return Math.sqrt((n1.getX() - n2.getX()) ^ 2 + (n1.getY() - n2.getY()) ^ 2);
+        double distnace =
+                Math.sqrt(Math.pow((n1.getX() - n2.getX()), 2) + Math.pow((n1.getY() - n2.getY()), 2));
+        return distnace;
     }
 
     private static double manhattanDistance(Node n1, Node n2) {
