@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
+import cyder.handler.ErrorHandler;
 import cyder.obj.Node;
 import cyder.ui.*;
 
@@ -30,6 +31,9 @@ public class PathFinder {
     private static LinkedList<Node> walls;
     private static LinkedList<Node> pathableNodes;
 
+    private static LinkedList<Node> path;
+    private static int pathIndex;
+
     private static Timer timer;
     private static int timeoutMS = 500;
     private static int maxTimeoutMs = 1000;
@@ -48,6 +52,7 @@ public class PathFinder {
         timer.setDelay(timeoutMS);
         walls = new LinkedList<>();
         pathableNodes = new LinkedList<>();
+        path = new LinkedList<>();
         start = new Node(0,0);
         end = new Node(25, 25);
 
@@ -115,6 +120,13 @@ public class PathFinder {
                         }
 
                         gridLabel.repaint();
+                    }
+
+                    if (!path.isEmpty()) {
+                        g2d.setColor(CyderColors.regularBlue);
+                        g2d.fillRect(2 + path.get(pathIndex).getX() * squareLen, 2 +
+                                        path.get(pathIndex).getY() * squareLen,
+                                squareLen - 2, squareLen - 2);
                     }
 
                     //draw start in pink
@@ -360,6 +372,7 @@ public class PathFinder {
             end = null;
             walls = new LinkedList<>();
             pathableNodes = new LinkedList<>();
+            path = new LinkedList<>();
             pathText = "";
             gridLabel.repaint();
         });
@@ -419,7 +432,23 @@ public class PathFinder {
 
         pathFindingFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(pathFindingFrame);
+
+        Timer pathDrawingTimer = new Timer(50, pathDrawingAnimation);
+        pathDrawingTimer.start();
     }
+
+    private static ActionListener pathDrawingAnimation = evt -> {
+        try {
+            if (pathIndex + 1 < path.size())
+                pathIndex++;
+            else
+                pathIndex = 0;
+
+            gridLabel.repaint();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    };
 
     //open list outside methods to allow access to a* inner
     private static PriorityQueue<Node> open;
@@ -452,6 +481,10 @@ public class PathFinder {
         start.setG(0);
         start.setH(heuristic(end));
         open.add(start);
+
+        //reset path stuff
+        path = new LinkedList<>();
+        pathIndex = 0;
 
         //animation chosen
         if (showStepsBox.isSelected()) {
@@ -507,9 +540,6 @@ public class PathFinder {
 
     //indicates a path was found and finished animating so takes the proper actions given this criteria
     private static void pathFound() {
-        //end the simulation if still running, stop the simulation,
-        // show path found text, animate drawing the path over and over until reset or start are pressed
-
         timer.stop();
         startButton.setText("Start");
         diagonalBox.setEnabled(true);
@@ -517,11 +547,24 @@ public class PathFinder {
         deleteWallsCheckBox.setEnabled(true);
 
         pathText = "PATH FOUND";
+
+        Node refNode = end.getParent();
+
+        while (refNode != start) {
+            path.add(refNode);
+            refNode = refNode.getParent();
+        }
     }
 
     //indicates a path was not found so takes the proper actions given this criteria
     private static void pathNotFound() {
+        timer.stop();
+        startButton.setText("Start");
+        diagonalBox.setEnabled(true);
+        showStepsBox.setEnabled(true);
+        deleteWallsCheckBox.setEnabled(true);
 
+        pathText = "PATH FOUND";
     }
 
     private static boolean areDiagonalNeighbors(Node n1, Node n2) {
