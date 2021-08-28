@@ -66,7 +66,7 @@ public class PathFinder {
 
                 if (gridLabel != null) {
                     Graphics2D g2d = (Graphics2D) g;
-                    g2d.setColor(CyderColors.navy);
+                    g2d.setColor(Color.darkGray);
                     g2d.setStroke(new BasicStroke(2));
 
                     int labelWidth = gridLabel.getWidth();
@@ -97,8 +97,8 @@ public class PathFinder {
                    }
 
                     //draw path in blue
-                    if (end != null && end.getParent() != null) {
-                       Node currentRef = end.getParent();
+                    if (end != null && end.getParent() != null && !path.isEmpty()) {
+                        Node currentRef = end.getParent();
 
                        while (currentRef != null && currentRef != start) {
                            g2d.setColor(CyderColors.regularBlue);
@@ -113,6 +113,8 @@ public class PathFinder {
                         Node refNode = end.getParent();
 
                         while (refNode != start) {
+                            if (refNode == null)
+                                break;
                             g2d.setColor(new Color(34,216,248));
                             g2d.fillRect(2 + refNode.getX() * squareLen, 2 + refNode.getY() * squareLen,
                                     squareLen - 2, squareLen - 2);
@@ -157,16 +159,15 @@ public class PathFinder {
                         }
                     }
 
-                    //path label
+                    //path label smaller black text
                     int centerX = gridLabel.getX() + gridLabel.getWidth() / 2;
                     int centerY = gridLabel.getY() + gridLabel.getHeight() / 2;
 
                     Font labelFont = new Font("Arial Black",Font.BOLD, 50);
 
-                    Graphics2D g2 = (Graphics2D) g;
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setFont(labelFont);
-                    g2.setColor(CyderColors.navy);
+                    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2d.setFont(labelFont);
+                    g2d.setColor(Color.darkGray);
 
                     FontMetrics fm = g.getFontMetrics();
                     int x = (gridLabel.getWidth() - fm.stringWidth(pathText)) / 2;
@@ -236,17 +237,7 @@ public class PathFinder {
                     end = null;
                 }
 
-                if (sToggled) {
-                    for (Node n : walls) {
-                        if (n.equals(addNode)) {
-                            walls.remove(n);
-                            break;
-                        }
-                    }
-                    start = addNode;
-                    sToggled = false;
-                    gridLabel.repaint();
-                } else if (eToggled) {
+                if (sToggled || eToggled) {
                     for (Node n : walls) {
                         if (n.equals(addNode)) {
                             walls.remove(n);
@@ -254,8 +245,21 @@ public class PathFinder {
                         }
                     }
 
-                    end = addNode;
+                    if (sToggled)
+                        start = addNode;
+                    else
+                        end = addNode;
+
+                    path = new LinkedList<>();
+                    pathIndex = 0;
+                    pathableNodes = new LinkedList<>();
+                    pathText = "";
+
+                    start.setParent(null);
+                    end.setParent(null);
+
                     eToggled = false;
+                    sToggled = false;
                     gridLabel.repaint();
                 } else {
                     boolean contains = false;
@@ -325,13 +329,13 @@ public class PathFinder {
         gridLabel.setFocusable(true);
         pathFindingFrame.getContentPane().add(gridLabel);
 
-        CyderLabel setEndLabel = new CyderLabel("Delete Walls");
-        setEndLabel.setBounds(75 + 70,885,100,30);
-        pathFindingFrame.getContentPane().add(setEndLabel);
+        CyderLabel deleteWallsLabel = new CyderLabel("Delete Walls");
+        deleteWallsLabel.setBounds(105,885,100,30);
+        pathFindingFrame.getContentPane().add(deleteWallsLabel);
 
         deleteWallsCheckBox = new CyderCheckBox();
         deleteWallsCheckBox.setNotSelected();
-        deleteWallsCheckBox.setBounds(170, 920,50,50);
+        deleteWallsCheckBox.setBounds(130, 920,50,50);
         pathFindingFrame.getContentPane().add(deleteWallsCheckBox);
         deleteWallsCheckBox.addMouseListener(new MouseAdapter() {
             @Override
@@ -598,7 +602,8 @@ public class PathFinder {
 
     //distance from node to end
     private static double heuristic(Node n) {
-        return euclideanDistance(n, end);
+        return manhattanDistance(n, end);
+        //todo switcher for this (manhattan distance as default is best)
     }
 
     //distance from node to start

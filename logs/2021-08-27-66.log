@@ -1,0 +1,11 @@
+[23:29:53] [ENTRY]: [WINUSER=Nathan]
+[23:29:53] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[23:29:54] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:29:54] [LOGIN]: [AUTOCYPHER PASS]
+[23:29:56] [CLIENT]: test
+[23:30:13] [ACTION]: CyderButton, text=[Start] CLICKED
+[23:30:13] [ACTION]: [Path finding visualizer] [NOTIFICATION] Start/end nodes not set
+[23:30:17] [ACTION]: CyderButton, text=[Start] CLICKED
+[23:30:33] [LOGOUT]:  [Nathan]
+[23:30:33] [EXIT]: [RUNTIME] 40s
+[23:30:33] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
