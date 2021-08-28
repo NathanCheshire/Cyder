@@ -44,6 +44,11 @@ public class PathFinder {
 
     private static String pathText = "";
 
+    private static CyderButton algorithmSwitcher;
+    private static CyderTextField algorithmField;
+    private static int algorithmIndex;
+    private static String[] algorithms = {"Manhattan","Euclidean"};
+
     public static void showGUI() {
         if (pathFindingFrame != null)
             pathFindingFrame.closeAnimation();
@@ -56,7 +61,7 @@ public class PathFinder {
         start = new Node(0,0);
         end = new Node(25, 25);
 
-        pathFindingFrame = new CyderFrame(1000,1000);
+        pathFindingFrame = new CyderFrame(1000,1040);
         pathFindingFrame.setTitle("Path finding visualizer");
 
         gridLabel = new JLabel() {
@@ -269,8 +274,10 @@ public class PathFinder {
                     pathableNodes = new LinkedList<>();
                     pathText = "";
 
-                    start.setParent(null);
-                    end.setParent(null);
+                    if (start != null)
+                        start.setParent(null);
+                    if (end != null)
+                        end.setParent(null);
 
                     eToggled = false;
                     sToggled = false;
@@ -344,12 +351,12 @@ public class PathFinder {
         pathFindingFrame.getContentPane().add(gridLabel);
 
         CyderLabel deleteWallsLabel = new CyderLabel("Delete Walls");
-        deleteWallsLabel.setBounds(105,885,100,30);
+        deleteWallsLabel.setBounds(95,885,100,30);
         pathFindingFrame.getContentPane().add(deleteWallsLabel);
 
         deleteWallsCheckBox = new CyderCheckBox();
         deleteWallsCheckBox.setNotSelected();
-        deleteWallsCheckBox.setBounds(130, 920,50,50);
+        deleteWallsCheckBox.setBounds(120, 920,50,50);
         pathFindingFrame.getContentPane().add(deleteWallsCheckBox);
         deleteWallsCheckBox.addMouseListener(new MouseAdapter() {
             @Override
@@ -360,7 +367,7 @@ public class PathFinder {
         });
 
         CyderLabel showStepsLabel = new CyderLabel("Steps");
-        showStepsLabel.setBounds(75 + 70 + 70,885,100,30);
+        showStepsLabel.setBounds(75 + 70 + 67,885,100,30);
         pathFindingFrame.getContentPane().add(showStepsLabel);
 
         showStepsBox = new CyderCheckBox();
@@ -369,7 +376,7 @@ public class PathFinder {
         pathFindingFrame.getContentPane().add(showStepsBox);
 
         CyderLabel diagonalStepsLabel = new CyderLabel("Diagonals");
-        diagonalStepsLabel.setBounds(75 + 70 + 75 + 70,885,100,30);
+        diagonalStepsLabel.setBounds(75 + 70 + 75 + 65,885,100,30);
         pathFindingFrame.getContentPane().add(diagonalStepsLabel);
 
         diagonalBox = new CyderCheckBox();
@@ -378,7 +385,7 @@ public class PathFinder {
         pathFindingFrame.getContentPane().add(diagonalBox);
 
         reset = new CyderButton("Reset");
-        reset.setBounds(420,880, 150, 40);
+        reset.setBounds(410,870, 170, 40);
         reset.addActionListener(e -> {
             timer.stop();
             startButton.setText("Start");
@@ -397,7 +404,7 @@ public class PathFinder {
         pathFindingFrame.getContentPane().add(reset);
 
         startButton = new CyderButton("Start");
-        startButton.setBounds(420,935, 150, 40);
+        startButton.setBounds(410,920, 170, 40);
         startButton.addActionListener(e -> {
             if (start == null || end == null) {
                 pathFindingFrame.notify("Start/end nodes not set");
@@ -421,6 +428,24 @@ public class PathFinder {
             }
         });
         pathFindingFrame.getContentPane().add(startButton);
+
+        algorithmField = new CyderTextField(0);
+        algorithmField.setFocusable(false);
+        algorithmField.setBounds(410,970, 140, 40);
+        algorithmField.setEditable(false);
+        pathFindingFrame.getContentPane().add(algorithmField);
+        algorithmField.setText(algorithms[algorithmIndex]);
+
+        algorithmSwitcher = new CyderButton("▼");
+        algorithmSwitcher.setBounds(410 + 130,970,40,40);
+        pathFindingFrame.getContentPane().add(algorithmSwitcher);
+        algorithmSwitcher.addActionListener(e -> {
+            algorithmIndex++;
+            if (algorithmIndex == algorithms.length)
+                algorithmIndex = 0;
+
+            algorithmField.setText(algorithms[algorithmIndex]);
+        });
 
         speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 500);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
@@ -616,8 +641,11 @@ public class PathFinder {
 
     //distance from node to end
     private static double heuristic(Node n) {
-        return manhattanDistance(n, end);
-        //todo switcher for this (manhattan distance as default is best)
+        if (algorithmIndex == 0) {
+            return manhattanDistance(n, end);
+        } else {
+            return euclideanDistance(n, end);
+        }
     }
 
     //distance from node to start
