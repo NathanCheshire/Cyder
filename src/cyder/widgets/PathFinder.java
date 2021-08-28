@@ -35,8 +35,8 @@ public class PathFinder {
     private static int pathIndex;
 
     private static Timer timer;
-    private static int timeoutMS = 500;
-    private static int maxTimeoutMs = 1000;
+    private static int timeoutMS = 150;
+    private static int maxTimeoutMs = 300;
 
     private static boolean eToggled;
     private static boolean sToggled;
@@ -91,14 +91,10 @@ public class PathFinder {
                     g2d.drawLine(drawTo, 1, drawTo, drawTo);
                     g2d.drawLine(1, drawTo, drawTo, drawTo);
 
-                    //draw checked nodes in green but border ones in orangish red
+                    //TODO draw checked nodes in green but border ones in new Color(254, 104, 88)
                     for (Node n : pathableNodes) {
                        if (n.getParent() != null && !n.equals(end) && n.getH() != Integer.MAX_VALUE) {
-                           if (open.contains(n)) {
-                               g2d.setColor(new Color(254, 104, 88));
-                           } else {
-                               g2d.setColor(new Color(121, 236, 135));
-                           }
+                           g2d.setColor(new Color(121, 236, 135));
 
                            g2d.fillRect(2 + n.getX() * squareLen, 2 + n.getY() * squareLen,
                                    squareLen - 2, squareLen - 2);
@@ -392,6 +388,9 @@ public class PathFinder {
             diagonalBox.setNotSelected();
             showStepsBox.setNotSelected();
             deleteWallsCheckBox.setNotSelected();
+            diagonalBox.setEnabled(true);
+            showStepsBox.setEnabled(true);
+            deleteWallsCheckBox.setEnabled(true);
             speedSlider.setValue(500);
             start = null;
             end = null;
@@ -461,14 +460,14 @@ public class PathFinder {
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
-        speedSlider.setValue(500);
+        speedSlider.setValue(150);
         speedSlider.addChangeListener(e -> {
             timeoutMS = (int) (maxTimeoutMs *
                     ((double) speedSlider.getValue() /  (double) speedSlider.getMaximum()));
             timer.setDelay(timeoutMS);
         });
         speedSlider.setOpaque(false);
-        speedSlider.setToolTipText("Speed");
+        speedSlider.setToolTipText("Timeout");
         speedSlider.setFocusable(false);
         speedSlider.repaint();
         pathFindingFrame.getContentPane().add(speedSlider);
@@ -498,6 +497,13 @@ public class PathFinder {
 
     //performs the setup for the A* algorithm so that the timer can call update to interate over the next nodes
     private static void searchSetup() {
+        //get rid of lingering path if exists
+        path = new LinkedList<>();
+        pathText = "";
+        end.setParent(null);
+        start.setParent(null);
+        gridLabel.repaint();
+
         pathableNodes = new LinkedList<>();
         for (int x = 0 ; x < numSquares ; x++) {
             for (int y = 0 ; y < numSquares ; y++) {
@@ -579,6 +585,45 @@ public class PathFinder {
     //timer update action (while loop of a*) for animation purposes
     private static ActionListener pathFindAction = evt -> {
         //todo animation of actually finding the path
+
+
+        if (!open.isEmpty()) {
+            Node min = open.poll();
+            open.remove(min);
+
+            if (min.equals(end)) {
+                end.setParent(min.getParent());
+                pathFound();
+                return;
+            }
+
+            //generate neihbors of this current node
+            LinkedList<Node> neighbors = new LinkedList<>();
+
+            for (Node possibleNeighbor : pathableNodes) {
+                if (areOrthogonalNeighbors(possibleNeighbor, min) ||
+                        (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isSelected())) {
+                    neighbors.add(possibleNeighbor);
+                }
+            }
+
+            for (Node neighbor: neighbors) {
+                //calculate new H
+                double newH = heuristic(neighbor);
+
+                if (newH < neighbor.getH()) {
+                    neighbor.setH(newH);
+                    neighbor.setParent(min);
+                    neighbor.setG(min.getG() + euclideanDistance(min, neighbor));
+
+                    if (!open.contains(neighbor)) {
+                        open.add(neighbor);
+                    }
+                }
+            }
+        } else {
+            pathNotFound();
+        }
     };
 
     //indicates a path was found and finished animating so takes the proper actions given this criteria
