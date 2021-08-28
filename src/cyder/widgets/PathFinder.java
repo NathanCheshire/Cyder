@@ -86,15 +86,20 @@ public class PathFinder {
                     g2d.drawLine(drawTo, 1, drawTo, drawTo);
                     g2d.drawLine(1, drawTo, drawTo, drawTo);
 
-                    //draw checked nodes in green
-                   for (Node n : pathableNodes) {
+                    //draw checked nodes in green but border ones in orangish red
+                    for (Node n : pathableNodes) {
                        if (n.getParent() != null && !n.equals(end) && n.getH() != Integer.MAX_VALUE) {
-                           g2d.setColor(new Color(121,236,135));
+                           if (open.contains(n)) {
+                               g2d.setColor(new Color(254, 104, 88));
+                           } else {
+                               g2d.setColor(new Color(121, 236, 135));
+                           }
+
                            g2d.fillRect(2 + n.getX() * squareLen, 2 + n.getY() * squareLen,
                                    squareLen - 2, squareLen - 2);
                            gridLabel.repaint();
                        }
-                   }
+                    }
 
                     //draw path in blue
                     if (end != null && end.getParent() != null && !path.isEmpty()) {
@@ -124,6 +129,7 @@ public class PathFinder {
                         gridLabel.repaint();
                     }
 
+                    //path animation square draw
                     if (!path.isEmpty()) {
                         g2d.setColor(CyderColors.regularBlue);
                         g2d.fillRect(2 + path.get(pathIndex).getX() * squareLen, 2 +
@@ -139,7 +145,7 @@ public class PathFinder {
                         gridLabel.repaint();
                     }
 
-                    //draw in orange
+                    //draw end in orange
                     if (end != null) {
                         g2d.setColor(CyderColors.calculatorOrange);
                         g2d.fillRect(2 + end.getX() * squareLen, 2 + end.getY() * squareLen,
@@ -158,6 +164,14 @@ public class PathFinder {
                             gridLabel.repaint();
                         }
                     }
+
+                    //draw edges again so that nothing is over them
+                    g2d.setColor(CyderColors.navy);
+
+                    g2d.drawLine(1, 1, 1, drawTo);
+                    g2d.drawLine(1, 1, drawTo, 1);
+                    g2d.drawLine(drawTo, 1, drawTo, drawTo);
+                    g2d.drawLine(1, drawTo, drawTo, drawTo);
 
                     //path label smaller black text
                     int centerX = gridLabel.getX() + gridLabel.getWidth() / 2;
