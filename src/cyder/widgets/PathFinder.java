@@ -35,8 +35,8 @@ public class PathFinder {
     private static int pathIndex;
 
     private static Timer timer;
-    private static int timeoutMS = 150;
-    private static int maxTimeoutMs = 300;
+    private static int timeoutMS = 50;
+    private static int maxTimeoutMs = 100;
 
     private static boolean eToggled;
     private static boolean sToggled;
@@ -49,6 +49,9 @@ public class PathFinder {
     private static int algorithmIndex;
     private static String[] algorithms = {"Manhattan","Euclidean"};
 
+    //todo node out of bounds check for all colored squares on grid
+    //todo move buttons down to ensure grid is never on them
+
     public static void showGUI() {
         if (pathFindingFrame != null)
             pathFindingFrame.closeAnimation();
@@ -60,6 +63,7 @@ public class PathFinder {
         path = new LinkedList<>();
         start = new Node(0,0);
         end = new Node(25, 25);
+        pathText = "";
 
         pathFindingFrame = new CyderFrame(1000,1040);
         pathFindingFrame.setTitle("Path finding visualizer");
@@ -198,10 +202,11 @@ public class PathFinder {
             if (e.isControlDown()) {
                 if (e.getWheelRotation() == -1 && squareLen + 1 < 50) {
                     squareLen += 1;
-                } else if (squareLen -1 > 0){
+                } else if (squareLen - 1 > 9){
                     squareLen -= 1;
                 }
 
+                System.out.println(squareLen);
                 gridLabel.repaint();
             }
         });
@@ -277,7 +282,6 @@ public class PathFinder {
 
                     eToggled = false;
                     sToggled = false;
-                    gridLabel.repaint();
                 } else {
                     boolean contains = false;
                     for (Node wall : walls) {
@@ -298,8 +302,8 @@ public class PathFinder {
                         }
                     }
 
-                    gridLabel.repaint();
                 }
+                gridLabel.repaint();
             }
         });
         gridLabel.addMouseMotionListener(new MouseMotionAdapter() {
@@ -391,7 +395,7 @@ public class PathFinder {
             diagonalBox.setEnabled(true);
             showStepsBox.setEnabled(true);
             deleteWallsCheckBox.setEnabled(true);
-            speedSlider.setValue(500);
+            speedSlider.setValue(50);
             start = null;
             end = null;
             walls = new LinkedList<>();
@@ -446,7 +450,7 @@ public class PathFinder {
             algorithmField.setText(algorithms[algorithmIndex]);
         });
 
-        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 500);
+        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
         UI.setSliderShape(SliderShape.RECT);
@@ -460,14 +464,14 @@ public class PathFinder {
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
-        speedSlider.setValue(150);
+        speedSlider.setValue(50);
         speedSlider.addChangeListener(e -> {
             timeoutMS = (int) (maxTimeoutMs *
                     ((double) speedSlider.getValue() /  (double) speedSlider.getMaximum()));
             timer.setDelay(timeoutMS);
         });
         speedSlider.setOpaque(false);
-        speedSlider.setToolTipText("Timeout");
+        speedSlider.setToolTipText("Pathfinding Animation Timeout");
         speedSlider.setFocusable(false);
         speedSlider.repaint();
         pathFindingFrame.getContentPane().add(speedSlider);
@@ -584,9 +588,6 @@ public class PathFinder {
 
     //timer update action (while loop of a*) for animation purposes
     private static ActionListener pathFindAction = evt -> {
-        //todo animation of actually finding the path
-
-
         if (!open.isEmpty()) {
             Node min = open.poll();
             open.remove(min);
