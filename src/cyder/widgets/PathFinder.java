@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
+import cyder.consts.CyderImages;
 import cyder.enums.SliderShape;
 import cyder.handler.ErrorHandler;
 import cyder.obj.Node;
@@ -49,9 +50,6 @@ public class PathFinder {
     private static int algorithmIndex;
     private static String[] algorithms = {"Manhattan","Euclidean"};
 
-    //todo node out of bounds check for all colored squares on grid
-    //todo move buttons down to ensure grid is never on them
-
     public static void showGUI() {
         if (pathFindingFrame != null)
             pathFindingFrame.closeAnimation();
@@ -65,7 +63,7 @@ public class PathFinder {
         end = new Node(25, 25);
         pathText = "";
 
-        pathFindingFrame = new CyderFrame(1000,1040);
+        pathFindingFrame = new CyderFrame(1000,1050, CyderImages.defaultBackgroundLarge);
         pathFindingFrame.setTitle("Path finding visualizer");
 
         gridLabel = new JLabel() {
@@ -98,8 +96,10 @@ public class PathFinder {
                     //TODO draw checked nodes in green but border ones in new Color(254, 104, 88)
                     for (Node n : pathableNodes) {
                        if (n.getParent() != null && !n.equals(end) && n.getH() != Integer.MAX_VALUE) {
-                           g2d.setColor(new Color(121, 236, 135));
+                           if (outOfBounds(n))
+                               continue;
 
+                           g2d.setColor(new Color(121, 236, 135));
                            g2d.fillRect(2 + n.getX() * squareLen, 2 + n.getY() * squareLen,
                                    squareLen - 2, squareLen - 2);
                            gridLabel.repaint();
@@ -110,7 +110,9 @@ public class PathFinder {
                     if (end != null && end.getParent() != null && !path.isEmpty()) {
                         Node currentRef = end.getParent();
 
-                       while (currentRef != null && currentRef != start) {
+                        while (currentRef != null && currentRef != start) {
+                            if (outOfBounds(currentRef))
+                                break;
                            g2d.setColor(CyderColors.regularBlue);
                            g2d.fillRect(2 + currentRef.getX() * squareLen, 2 + currentRef.getY() * squareLen,
                                    squareLen - 2, squareLen - 2);
@@ -125,6 +127,9 @@ public class PathFinder {
                         while (refNode != start) {
                             if (refNode == null)
                                 break;
+                            if (outOfBounds(refNode))
+                                break;
+
                             g2d.setColor(new Color(34,216,248));
                             g2d.fillRect(2 + refNode.getX() * squareLen, 2 + refNode.getY() * squareLen,
                                     squareLen - 2, squareLen - 2);
@@ -136,14 +141,16 @@ public class PathFinder {
 
                     //path animation square draw
                     if (!path.isEmpty()) {
-                        g2d.setColor(CyderColors.regularBlue);
-                        g2d.fillRect(2 + path.get(pathIndex).getX() * squareLen, 2 +
-                                        path.get(pathIndex).getY() * squareLen,
-                                squareLen - 2, squareLen - 2);
+                        if (!outOfBounds(path.get(pathIndex))) {
+                            g2d.setColor(CyderColors.regularBlue);
+                            g2d.fillRect(2 + path.get(pathIndex).getX() * squareLen, 2 +
+                                            path.get(pathIndex).getY() * squareLen,
+                                    squareLen - 2, squareLen - 2);
+                        }
                     }
 
                     //draw start in pink
-                    if (start != null) {
+                    if (start != null && !outOfBounds(start)) {
                         g2d.setColor(CyderColors.intellijPink);
                         g2d.fillRect(2 + start.getX() * squareLen, 2 + start.getY() * squareLen,
                                 squareLen - 2, squareLen - 2);
@@ -151,7 +158,7 @@ public class PathFinder {
                     }
 
                     //draw end in orange
-                    if (end != null) {
+                    if (end != null && !outOfBounds(end)) {
                         g2d.setColor(CyderColors.calculatorOrange);
                         g2d.fillRect(2 + end.getX() * squareLen, 2 + end.getY() * squareLen,
                                 squareLen - 2, squareLen - 2);
@@ -160,14 +167,13 @@ public class PathFinder {
 
                     //draw walls in black
                     for (Node wall : walls) {
-                        if (wall.getX() >= numSquares || wall.getY() >= numSquares) {
-                            walls.remove(wall);
-                        } else {
-                            g2d.setColor(CyderColors.navy);
-                            g2d.fillRect(2 + wall.getX() * squareLen, 2 + wall.getY() * squareLen,
-                                    squareLen - 2, squareLen - 2);
-                            gridLabel.repaint();
-                        }
+                       if (outOfBounds(wall))
+                           continue;
+
+                        g2d.setColor(CyderColors.navy);
+                        g2d.fillRect(2 + wall.getX() * squareLen, 2 + wall.getY() * squareLen,
+                                squareLen - 2, squareLen - 2);
+                        gridLabel.repaint();
                     }
 
                     //draw edges again so that nothing is over them
@@ -206,7 +212,6 @@ public class PathFinder {
                     squareLen -= 1;
                 }
 
-                System.out.println(squareLen);
                 gridLabel.repaint();
             }
         });
@@ -385,7 +390,7 @@ public class PathFinder {
         pathFindingFrame.getContentPane().add(diagonalBox);
 
         reset = new CyderButton("Reset");
-        reset.setBounds(410,870, 170, 40);
+        reset.setBounds(410,890, 170, 40);
         reset.addActionListener(e -> {
             timer.stop();
             startButton.setText("Start");
@@ -402,12 +407,13 @@ public class PathFinder {
             pathableNodes = new LinkedList<>();
             path = new LinkedList<>();
             pathText = "";
+            squareLen = 30;
             gridLabel.repaint();
         });
         pathFindingFrame.getContentPane().add(reset);
 
         startButton = new CyderButton("Start");
-        startButton.setBounds(410,920, 170, 40);
+        startButton.setBounds(410,940, 170, 40);
         startButton.addActionListener(e -> {
             if (start == null || end == null) {
                 pathFindingFrame.notify("Start/end nodes not set");
@@ -434,13 +440,13 @@ public class PathFinder {
 
         algorithmField = new CyderTextField(0);
         algorithmField.setFocusable(false);
-        algorithmField.setBounds(410,970, 140, 40);
+        algorithmField.setBounds(410,990, 140, 40);
         algorithmField.setEditable(false);
         pathFindingFrame.getContentPane().add(algorithmField);
         algorithmField.setText(algorithms[algorithmIndex]);
 
         algorithmSwitcher = new CyderButton("▼");
-        algorithmSwitcher.setBounds(410 + 130,970,40,40);
+        algorithmSwitcher.setBounds(410 + 130,990,40,40);
         pathFindingFrame.getContentPane().add(algorithmSwitcher);
         algorithmSwitcher.addActionListener(e -> {
             algorithmIndex++;
@@ -725,5 +731,9 @@ public class PathFinder {
                     return 0;
             }
         }
+    }
+
+    private static boolean outOfBounds(Node n1) {
+        return (n1.getX() >= numSquares || n1.getY() >= numSquares);
     }
 }
