@@ -93,13 +93,16 @@ public class PathFinder {
                     g2d.drawLine(drawTo, 1, drawTo, drawTo);
                     g2d.drawLine(1, drawTo, drawTo, drawTo);
 
-                    //TODO draw checked nodes in green but border ones in new Color(254, 104, 88)
                     for (Node n : pathableNodes) {
                        if (n.getParent() != null && !n.equals(end) && n.getH() != Integer.MAX_VALUE) {
                            if (outOfBounds(n))
                                continue;
 
-                           g2d.setColor(new Color(121, 236, 135));
+                           if (open.contains(n))
+                               g2d.setColor(new Color(254, 104, 88));
+                           else
+                               g2d.setColor(new Color(121, 236, 135));
+
                            g2d.fillRect(2 + n.getX() * squareLen, 2 + n.getY() * squareLen,
                                    squareLen - 2, squareLen - 2);
                            gridLabel.repaint();
