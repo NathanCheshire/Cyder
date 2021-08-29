@@ -956,10 +956,12 @@ public class InputHandler {
             new Conways();
         } else if (hasWord("birthday") && hasWord("card") && hasWord("2021")) {
             Cards.Birthday2021();
+        } else if (hasWord("pathfinder") || hasWord("path")) {
+            PathFinder.showGUI();
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-           PathFinder.showGUI();
+            PerlinNoise.showGUI();
         }
         //final attempt at unknown input --------------------------
         else {

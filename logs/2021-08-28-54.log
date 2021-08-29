@@ -1,0 +1,35 @@
+[18:02:42] [ENTRY]: [WINUSER=Nathan]
+[18:02:42] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[18:02:43] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18:02:44] [LOGIN]: [AUTOCYPHER PASS]
+[18:02:45] [CLIENT]: test
+[18:02:50] [CLIENT]: Play https://www.youtube.com/watch?v=IpnnSNK0AHc
+[18:02:51] [CONSOLE_OUT]: [STRING] Starting download of: Graffiti Ghosts - Made For This (Official Audio)
+[18:03:01] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
+[18:04:13] [CLIENT]: prefs
+[18:04:13] [ACTION]: USER EDITOR
+[18:04:23] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:23] [CONSOLE_OUT]: [STRING] Music: Parallel Universe Zyzz Hardstyle Alec Benjamin - Let Me Down Slowly Remix successfully deleted.
+[18:04:26] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:26] [CONSOLE_OUT]: [STRING] Music: Parallel Universe Zyzz Hardstyle Alec Benjamin - Let Me Down Slowly Remix successfully deleted.
+[18:04:29] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:30] [CONSOLE_OUT]: [STRING] Music: Dead Or Alive - Bon Jovi successfully deleted.
+[18:04:31] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:31] [CONSOLE_OUT]: [STRING] Music: Backstreet boys everybody lyrics successfully deleted.
+[18:04:34] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:34] [CONSOLE_OUT]: [STRING] Background: Alpha_Pixelated_Pixel_Size_5 successfully deleted.
+[18:04:36] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:36] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the background you are currently using
+[18:04:41] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:42] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the audio you are currently playing
+[18:04:48] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:48] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the audio you are currently playing
+[18:04:51] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:51] [CONSOLE_OUT]: [STRING] Music: Maroon 5, Julia Michaels - Help Me Out (Lyrics _ Lyric Video) successfully deleted.
+[18:04:53] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:53] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the audio you are currently playing
+[18:04:54] [ACTION]: CyderButton, text=[Delete] CLICKED
+[18:04:55] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the audio you are currently playing
+[18:04:59] [LOGOUT]:  [Nathan]
+[18:04:59] [EXIT]: [RUNTIME] 2m 17s
+[18:04:59] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
