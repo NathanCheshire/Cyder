@@ -14,6 +14,12 @@ public class ColorUtil {
         return new Color(Integer.valueOf(hex.substring(0,2),16),Integer.valueOf(hex.substring(2,4),16),Integer.valueOf(hex.substring(4,6),16));
     }
 
+    public static Color inverse(Color color) {
+        return new Color(255 - color.getRed(),
+                255 - color.getGreen(),
+                255 - color.getBlue());
+    }
+
     public String hextorgbString(String hex) {
         return Integer.valueOf(hex.substring(0,2),16) + "," + Integer.valueOf(hex.substring(2,4),16) + "," + Integer.valueOf(hex.substring(4,6),16);
     }

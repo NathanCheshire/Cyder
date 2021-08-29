@@ -1,0 +1,36 @@
+[12:26:27] [ENTRY]: [WINUSER=Nathan]
+[12:26:27] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[12:26:28] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12:26:28] [LOGIN]: [AUTOCYPHER PASS]
+[12:26:29] [CLIENT]: test
+[12:26:46] [CLIENT]: Path
+[12:27:10] [ACTION]: CyderButton, text=[Reset] CLICKED
+[12:27:39] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:27:51] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:28:00] [ACTION]: CyderButton, text=[▼] CLICKED
+[12:28:01] [ACTION]: CyderButton, text=[▼] CLICKED
+[12:28:02] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:28:09] [ACTION]: CyderButton, text=[▼] CLICKED
+[12:28:11] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:28:24] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:28:38] [ACTION]: CyderButton, text=[▼] CLICKED
+[12:28:43] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:28:45] [ACTION]: CyderButton, text=[Start] CLICKED
+[12:28:49] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:28:54] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:29:04] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:29:11] [ACTION]: CyderButton, text=[▼] CLICKED
+[12:29:11] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:29:19] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:29:27] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:29:36] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:29:45] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:29:55] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:30:03] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:30:10] [ACTION]: CyderButton, text=[▼] CLICKED
+[12:30:10] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:30:17] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:30:25] [ACTION]: CyderButton, text=[Stop] CLICKED
+[12:30:53] [LOGOUT]:  [Nathan]
+[12:30:53] [EXIT]: [RUNTIME] 4m 25s
+[12:30:53] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

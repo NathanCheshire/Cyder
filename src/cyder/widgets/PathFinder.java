@@ -6,6 +6,7 @@ import cyder.enums.SliderShape;
 import cyder.handler.ErrorHandler;
 import cyder.obj.Node;
 import cyder.ui.*;
+import cyder.utilities.ColorUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,6 +45,7 @@ public class PathFinder {
     private static boolean deleteWallsMode;
 
     private static String pathText = "";
+    private static Color pathColor = Color.darkGray;
 
     private static CyderButton algorithmSwitcher;
     private static CyderTextField algorithmField;
@@ -195,7 +197,7 @@ public class PathFinder {
 
                     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                     g2d.setFont(labelFont);
-                    g2d.setColor(Color.darkGray);
+                    g2d.setColor(pathColor);
 
                     FontMetrics fm = g.getFontMetrics();
                     int x = (gridLabel.getWidth() - fm.stringWidth(pathText)) / 2;
@@ -490,6 +492,9 @@ public class PathFinder {
 
         Timer pathDrawingTimer = new Timer(50, pathDrawingAnimation);
         pathDrawingTimer.start();
+
+        Timer pathLabelTimer = new Timer(1000, pathLabelAnimation);
+        pathLabelTimer.start();
     }
 
     private static ActionListener pathDrawingAnimation = evt -> {
@@ -498,6 +503,19 @@ public class PathFinder {
                 pathIndex++;
             else
                 pathIndex = 0;
+
+            gridLabel.repaint();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    };
+
+    private static ActionListener pathLabelAnimation = evt -> {
+        try {
+           if (pathColor == Color.darkGray)
+               pathColor = ColorUtil.inverse(Color.darkGray);
+           else
+               pathColor = Color.darkGray;
 
             gridLabel.repaint();
         } catch (Exception e) {
