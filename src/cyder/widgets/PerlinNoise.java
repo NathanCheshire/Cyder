@@ -7,6 +7,8 @@ import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Random;
 
 public class PerlinNoise {
@@ -30,14 +32,16 @@ public class PerlinNoise {
     private static float[] _1DNoise;
     private static boolean _2DMode = true;
 
-    private static int octaves = 20;
-
     private static Random rand = new Random();
+
+    private static Timer timer;
 
     public static void showGUI() {
         //init with random
         _1DNoise = new float[resolution];
         _2DNoise = new float[resolution][resolution];
+
+        //todotimer = new Timer(, sliderValue);
 
         for (int i = 0 ; i < resolution ; i++) {
             _1DNoise[i] = 0.0F;
@@ -51,7 +55,7 @@ public class PerlinNoise {
 
         //init noises
         _2DNoise = generate2DNoise(_2DNoise);
-        _1DNoise = generate1DNoise(_1DNoise, octaves);
+        _1DNoise = generate1DNoise(_1DNoise);
 
         perlinFrame = new CyderFrame(512 + 200,512 + 300,
                new ImageIcon(ImageUtil.getImageGradient(1000,1100,
@@ -95,28 +99,37 @@ public class PerlinNoise {
                 g2d.drawLine(1, drawTo - 1, drawTo - 1, drawTo - 1);
             }
         };
-       noiseLabel.setBounds(100,100, resolution, resolution);
-       perlinFrame.getContentPane().add(noiseLabel);
+        noiseLabel.setBounds(100,100, resolution, resolution);
+        perlinFrame.getContentPane().add(noiseLabel);
 
-       animateCheckBox = new CyderCheckBox();
-       animateCheckBox.setSelected();
-       animateCheckBox.setBounds(120,650,50,50);
-       perlinFrame.getContentPane().add(animateCheckBox);
+        animateCheckBox = new CyderCheckBox();
+        animateCheckBox.setSelected();
+        animateCheckBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
 
-       CyderLabel animateLable = new CyderLabel("Animate");
-       animateLable.setBounds(95,625, 100, 20);
-       perlinFrame.getContentPane().add(animateLable);
+                if (timer.isRunning())
+                    timer.stop();
+            }
+        });
+        animateCheckBox.setBounds(120,650,50,50);
+        perlinFrame.getContentPane().add(animateCheckBox);
 
-       generate = new CyderButton("Generate");
-       generate.addActionListener(e -> {
+        CyderLabel animateLable = new CyderLabel("Animate");
+        animateLable.setBounds(95,625, 100, 20);
+        perlinFrame.getContentPane().add(animateLable);
 
-       });
-       generate.setBounds(230,630, 150, 40);
-       perlinFrame.getContentPane().add(generate);
+        generate = new CyderButton("Generate");
+        generate.addActionListener(e -> {
+            generate();
+        });
+        generate.setBounds(230,630, 150, 40);
+        perlinFrame.getContentPane().add(generate);
 
         nextIteration = new CyderButton("Next Iteration");
         nextIteration.addActionListener(e -> {
-
+            nextIteration();
         });
         nextIteration.setBounds(400,630, 170, 40);
         perlinFrame.getContentPane().add(nextIteration);
@@ -148,7 +161,7 @@ public class PerlinNoise {
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
-        speedSlider.setValue(50);
+        speedSlider.setValue(500);
         speedSlider.addChangeListener(e -> {
             sliderValue = speedSlider.getValue();
             //todo timer.setdelay
@@ -159,17 +172,32 @@ public class PerlinNoise {
         speedSlider.repaint();
         perlinFrame.getContentPane().add(speedSlider);
 
-       perlinFrame.setVisible(true);
-       ConsoleFrame.getConsoleFrame().setFrameRelative(perlinFrame);
+        perlinFrame.setVisible(true);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(perlinFrame);
+    }
+
+    //generates new noise based on a new random seed
+    private static void generate() {
+        if (animateCheckBox.isSelected()) {
+            //lock ui elements in place and generate noise based off of current value at a
+            // speed corresponding to sliderval * SOME_CONST
+        } else {
+            //simply generate new noise and update
+        }
+    }
+
+    //generates new noise based on the current value
+    private static void nextIteration() {
+        //simply update noise based off of current value, meant to slowly step through,
+        // so user can spam button and see at their own pace the algorithm working
     }
 
     private static float[][] generate2DNoise(float[][] seed) {
         return null;
     }
 
-    private static float[] generate1DNoise(float[] seed, int octaves) {
+    private static float[] generate1DNoise(float[] seed) {
         float[] ret = new float[resolution];
-
 
         return ret;
     }
