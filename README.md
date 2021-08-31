@@ -16,7 +16,6 @@
 # Cyder - A Programmers Swiss Army Knife
 
 ## Screenshots
-Desktop full of Cyder Widgets <br/>
 <img src="https://i.imgur.com/IgwRizU.png" data-canonical-src="https://i.imgur.com/IgwRizU.png"/>
 
 ## Background
