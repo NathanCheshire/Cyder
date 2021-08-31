@@ -1,0 +1,54 @@
+[15:46:29] [ENTRY]: [WINUSER=Nathan]
+[15:46:30] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[15:46:31] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[15:46:32] [LOGIN]: [AUTOCYPHER PASS]
+[15:46:34] [CLIENT]: test
+[15:46:38] [ACTION]: CyderButton, text=[Generate] CLICKED
+[15:47:13] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:14] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:14] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:14] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:14] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:15] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:15] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:15] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:15] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:15] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:15] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:16] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:47:29] [CLIENT]: Path
+[15:47:43] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:47:57] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:48:09] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:48:12] [ACTION]: CyderButton, text=[Start] CLICKED
+[15:48:14] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:48:25] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:48:29] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:48:41] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:48:59] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:48:59] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:49:35] [ACTION]: CyderButton, text=[Reset] CLICKED
+[15:49:58] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:50:11] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:50:24] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:50:28] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:50:30] [ACTION]: CyderButton, text=[Start] CLICKED
+[15:50:32] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:50:44] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:51:20] [ACTION]: CyderButton, text=[Reset] CLICKED
+[15:51:42] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:52:02] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:52:41] [ACTION]: CyderButton, text=[Reset] CLICKED
+[15:53:02] [ACTION]: CyderButton, text=[Start] CLICKED
+[15:53:05] [ACTION]: CyderButton, text=[Start] CLICKED
+[15:53:06] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:53:07] [ACTION]: CyderButton, text=[Start] CLICKED
+[15:53:09] [ACTION]: CyderButton, text=[Start] CLICKED
+[15:53:13] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:53:19] [ACTION]: CyderButton, text=[Start] CLICKED
+[15:53:20] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:53:27] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:53:32] [ACTION]: CyderButton, text=[▼] CLICKED
+[15:53:33] [ACTION]: CyderButton, text=[Stop] CLICKED
+[15:53:42] [ACTION]: CyderButton, text=[Stop] CLICKED
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

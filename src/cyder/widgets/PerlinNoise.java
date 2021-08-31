@@ -7,6 +7,7 @@ import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
@@ -23,6 +24,8 @@ public class PerlinNoise {
     private static String[] dimensions = {"2D","3D"};
     private static JSlider speedSlider;
     private static int sliderValue = 500;
+    private static int sliderMaxValue = 1000;
+    private static int sliderMaxDelay = 500; //ms
 
     private static CyderFrame perlinFrame;
     private static JLabel noiseLabel;
@@ -41,7 +44,7 @@ public class PerlinNoise {
         _1DNoise = new float[resolution];
         _2DNoise = new float[resolution][resolution];
 
-        //todotimer = new Timer(, sliderValue);
+        timer = new Timer((int) ((float) sliderValue / (float) sliderMaxValue * sliderMaxDelay), animationAction);
 
         for (int i = 0 ; i < resolution ; i++) {
             _1DNoise[i] = 0.0F;
@@ -109,7 +112,7 @@ public class PerlinNoise {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
-                if (timer.isRunning())
+                if (timer != null && timer.isRunning())
                     timer.stop();
             }
         });
@@ -121,16 +124,12 @@ public class PerlinNoise {
         perlinFrame.getContentPane().add(animateLable);
 
         generate = new CyderButton("Generate");
-        generate.addActionListener(e -> {
-            generate();
-        });
+        generate.addActionListener(e -> generate());
         generate.setBounds(230,630, 150, 40);
         perlinFrame.getContentPane().add(generate);
 
         nextIteration = new CyderButton("Next Iteration");
-        nextIteration.addActionListener(e -> {
-            nextIteration();
-        });
+        nextIteration.addActionListener(e -> nextIteration());
         nextIteration.setBounds(400,630, 170, 40);
         perlinFrame.getContentPane().add(nextIteration);
 
@@ -147,7 +146,7 @@ public class PerlinNoise {
         dimensionSwitchButton.addActionListener(e -> dimensionField.setText(
                 dimensionField.getText().equals(dimensions[0]) ? dimensions[1] : dimensions[0]));
 
-        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, sliderValue);
+        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, sliderMaxValue, sliderValue);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
         UI.setSliderShape(SliderShape.RECT);
@@ -161,13 +160,14 @@ public class PerlinNoise {
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
-        speedSlider.setValue(500);
+        speedSlider.setValue(sliderValue);
         speedSlider.addChangeListener(e -> {
             sliderValue = speedSlider.getValue();
-            //todo timer.setdelay
+            timer.setDelay((int) ((float) sliderValue / (float) sliderMaxValue * sliderMaxDelay));
+            System.out.println(timer.getDelay());
         });
         speedSlider.setOpaque(false);
-        speedSlider.setToolTipText("Pathfinding Animation Timeout");
+        speedSlider.setToolTipText("Animation Speed");
         speedSlider.setFocusable(false);
         speedSlider.repaint();
         perlinFrame.getContentPane().add(speedSlider);
@@ -182,7 +182,10 @@ public class PerlinNoise {
             //lock ui elements in place and generate noise based off of current value at a
             // speed corresponding to sliderval * SOME_CONST
         } else {
-            //simply generate new noise and update
+            if (timer.isRunning()) {
+                //end exeuction of timer
+            }
+            //generate new noise based on random seed and update
         }
     }
 
@@ -193,12 +196,22 @@ public class PerlinNoise {
     }
 
     private static float[][] generate2DNoise(float[][] seed) {
-        return null;
+        float[][] ret = new float[resolution][resolution];
+
+        //todo
+
+        return ret;
     }
 
     private static float[] generate1DNoise(float[] seed) {
         float[] ret = new float[resolution];
 
+        //todo
+
         return ret;
     }
+
+    private static ActionListener animationAction = evt -> {
+        //todo
+    };
 }
