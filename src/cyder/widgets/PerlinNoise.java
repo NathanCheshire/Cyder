@@ -1,20 +1,27 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
+import cyder.enums.SliderShape;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
-import cyder.utilities.NumberUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class PerlinNoise {
     private static Color maxColor;
     private static Color minColor;
+
     private static CyderCheckBox animateCheckBox;
     private static CyderButton generate;
+    private static CyderButton nextIteration;
     private static CyderTextField dimensionField;
     private static CyderButton dimensionSwitchButton;
+    private static String[] dimensions = {"2D","3D"};
+    private static JSlider speedSlider;
+    private static int sliderValue = 500;
+
     private static CyderFrame perlinFrame;
     private static JLabel noiseLabel;
 
@@ -25,15 +32,20 @@ public class PerlinNoise {
 
     private static int octaves = 20;
 
+    private static Random rand = new Random();
+
     public static void showGUI() {
         //init with random
+        _1DNoise = new float[resolution];
+        _2DNoise = new float[resolution][resolution];
+
         for (int i = 0 ; i < resolution ; i++) {
-            _1DNoise[i] = (float) NumberUtil.randInt(0, Integer.MAX_VALUE) / Float.MAX_VALUE;
+            _1DNoise[i] = 0.0F;
         }
 
         for (int i = 0 ; i < resolution ; i++) {
             for (int j = 0 ; j < resolution ; j++) {
-                _2DNoise[i][j] = (float) NumberUtil.randInt(0, Integer.MAX_VALUE) / Float.MAX_VALUE;
+                _2DNoise[i][j] = 0.0F;
             }
         }
 
@@ -46,7 +58,7 @@ public class PerlinNoise {
                new Color(252,245,255),
                new Color(164,154,187),
                new Color(249, 233, 241))));
-        perlinFrame.setTitle("Perlin noise");
+        perlinFrame.setTitle("Perlin Noise");
 
         noiseLabel = new JLabel() {
             @Override
@@ -63,7 +75,16 @@ public class PerlinNoise {
                 int drawTo = labelWidth;
 
                 //draw noise
+                g2d.setColor(Color.black);
+                for (int x = 0 ; x < resolution ; x++) {
+                    if (x + 1 == resolution)
+                        break;
 
+                    float y = (float) ((_1DNoise[x] * resolution / 2.0) + resolution / 2.0);
+                    float yn = (float) ((_1DNoise[x + 1] * resolution / 2.0) + resolution / 2.0);
+
+                    g2d.drawLine(x,(int) y, x + 1, (int) yn);
+                }
 
                 //draw border lines last
                 g2d.setColor(CyderColors.navy);
@@ -77,6 +98,67 @@ public class PerlinNoise {
        noiseLabel.setBounds(100,100, resolution, resolution);
        perlinFrame.getContentPane().add(noiseLabel);
 
+       animateCheckBox = new CyderCheckBox();
+       animateCheckBox.setSelected();
+       animateCheckBox.setBounds(120,650,50,50);
+       perlinFrame.getContentPane().add(animateCheckBox);
+
+       CyderLabel animateLable = new CyderLabel("Animate");
+       animateLable.setBounds(95,625, 100, 20);
+       perlinFrame.getContentPane().add(animateLable);
+
+       generate = new CyderButton("Generate");
+       generate.addActionListener(e -> {
+
+       });
+       generate.setBounds(230,630, 150, 40);
+       perlinFrame.getContentPane().add(generate);
+
+        nextIteration = new CyderButton("Next Iteration");
+        nextIteration.addActionListener(e -> {
+
+        });
+        nextIteration.setBounds(400,630, 170, 40);
+        perlinFrame.getContentPane().add(nextIteration);
+
+        dimensionField = new CyderTextField(0);
+        dimensionField.setFocusable(false);
+        dimensionField.setBounds(490,680, 50, 40);
+        dimensionField.setEditable(false);
+        perlinFrame.getContentPane().add(dimensionField);
+        dimensionField.setText(dimensions[0]);
+
+        dimensionSwitchButton = new CyderButton("▼");
+        dimensionSwitchButton.setBounds(530,680,40,40);
+        perlinFrame.getContentPane().add(dimensionSwitchButton);
+        dimensionSwitchButton.addActionListener(e -> dimensionField.setText(
+                dimensionField.getText().equals(dimensions[0]) ? dimensions[1] : dimensions[0]));
+
+        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, sliderValue);
+        CyderSliderUI UI = new CyderSliderUI(speedSlider);
+        UI.setThumbStroke(new BasicStroke(2.0f));
+        UI.setSliderShape(SliderShape.RECT);
+        UI.setFillColor(Color.black);
+        UI.setOutlineColor(CyderColors.navy);
+        UI.setNewValColor(CyderColors.regularBlue);
+        UI.setOldValColor(CyderColors.intellijPink);
+        UI.setTrackStroke(new BasicStroke(3.0f));
+        speedSlider.setUI(UI);
+        speedSlider.setBounds(230, 680, 250, 40);
+        speedSlider.setPaintTicks(false);
+        speedSlider.setPaintLabels(false);
+        speedSlider.setVisible(true);
+        speedSlider.setValue(50);
+        speedSlider.addChangeListener(e -> {
+            sliderValue = speedSlider.getValue();
+            //todo timer.setdelay
+        });
+        speedSlider.setOpaque(false);
+        speedSlider.setToolTipText("Pathfinding Animation Timeout");
+        speedSlider.setFocusable(false);
+        speedSlider.repaint();
+        perlinFrame.getContentPane().add(speedSlider);
+
        perlinFrame.setVisible(true);
        ConsoleFrame.getConsoleFrame().setFrameRelative(perlinFrame);
     }
@@ -88,25 +170,6 @@ public class PerlinNoise {
     private static float[] generate1DNoise(float[] seed, int octaves) {
         float[] ret = new float[resolution];
 
-        for (int x = 0 ; x < resolution ; x++) {
-            float fNoise = 0.0f;
-            float fScale = 1.0f;
-            float fScaleAcc = 0.0f;
-
-            for (int o = 0 ; o < octaves ; o++) {
-                int pitch = resolution >> o;
-                int sample1 = (x / pitch) * pitch;
-                int sample2 = (sample1 + pitch) % resolution;
-
-                float fBlend = (float) (x - sample1) / (float) pitch;
-                float fSample = (1.0f - fBlend) * seed[sample1] + fBlend * seed[sample2];
-                fNoise += fSample * fScale;
-                fScaleAcc += fScale;
-                fScale = fScale / 2.0f;
-            }
-
-            ret[x] = fNoise / fScaleAcc;
-        }
 
         return ret;
     }
