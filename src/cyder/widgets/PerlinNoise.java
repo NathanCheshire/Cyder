@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
 import cyder.ui.*;
+import cyder.utilities.ColorUtil;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
@@ -14,8 +15,8 @@ import java.util.Random;
 
 public class PerlinNoise {
     //colors
-    private static Color maxColor;
-    private static Color minColor;
+    private static Color maxColor = Color.black;
+    private static Color minColor = Color.black ;
     private static CyderTextField minColorField;
     private static CyderTextField maxColorField;
 
@@ -45,6 +46,7 @@ public class PerlinNoise {
 
     private static float[][] instanceSeed;
     private static int octaves = 1;
+    private static int maxOctaves = 10;
 
     public static void showGUI() {
         //init with random
@@ -102,13 +104,15 @@ public class PerlinNoise {
                             break;
 
                         float y = (float) ((_2DNoise[x] * resolution / 2.0) + resolution / 2.0);
-                        
-                        //todo figure out color based on y
-                        
+
+                        if (minColor != maxColor) {
+                            //todo figure out color based on interpolation between min and max colors
+                        }
+
                         g2d.fillRect(x, (int) y,2,2);
                     }
                 } else {
-                    //todo
+                    //todo 3D noise
                 }
 
                 //draw border lines last
@@ -200,6 +204,7 @@ public class PerlinNoise {
         minColorField.setRegexMatcher("[0-9A-Fa-f]+");
         minColorField.setBounds(195,720, 120, 40);
         perlinFrame.getContentPane().add(minColorField);
+        minColorField.setText(ColorUtil.rgbtohexString(minColor));
 
         CyderLabel maxColorLabel = new CyderLabel("Max Color:");
         maxColorLabel.setBounds(330,730, 100, 20);
@@ -209,6 +214,7 @@ public class PerlinNoise {
         maxColorField.setRegexMatcher("[0-9A-Fa-f]+");
         maxColorField.setBounds(425,720, 145, 40);
         perlinFrame.getContentPane().add(maxColorField);
+        maxColorField.setText(ColorUtil.rgbtohexString(maxColor));
 
         perlinFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(perlinFrame);
@@ -219,6 +225,8 @@ public class PerlinNoise {
         if (animateCheckBox.isSelected()) {
             //lock ui elements in place and generate noise based off of current value at a
             // speed corresponding to sliderval * SOME_CONST
+
+            //todo
         } else {
             if (timer.isRunning()) {
                 //end exeuction of timer
@@ -252,13 +260,13 @@ public class PerlinNoise {
         //simply update noise based off of current value, meant to slowly step through,
         // so user can spam button and see at their own pace the algorithm working
 
-        //servers no purpose during an animation
+        //serves no purpose during an animation
         if (timer != null && timer.isRunning())
             return;
 
         octaves++;
 
-        if (octaves == 9)
+        if (octaves == maxOctaves)
             octaves = 1;
 
         _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
@@ -302,7 +310,18 @@ public class PerlinNoise {
     }
 
     private static ActionListener animationAction = evt -> {
-        //todo
+        octaves++;
+
+        if (octaves == maxOctaves)
+            octaves = 1;
+
+        if (dimensionField.getText().equals("2D")) {
+            _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
+        } else {
+            _3DNoise = generate3DNoise(resolution, instanceSeed, octaves);
+        }
+
+        noiseLabel.repaint();
     };
 
     private static void lockUI() {
