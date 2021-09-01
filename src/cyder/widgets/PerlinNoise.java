@@ -13,53 +13,63 @@ import java.awt.event.MouseEvent;
 import java.util.Random;
 
 public class PerlinNoise {
+    //colors
     private static Color maxColor;
     private static Color minColor;
 
+    //ui
     private static CyderCheckBox animateCheckBox;
     private static CyderButton generate;
     private static CyderButton nextIteration;
+    private static CyderFrame perlinFrame;
+    private static JLabel noiseLabel;
+
     private static CyderTextField dimensionField;
     private static CyderButton dimensionSwitchButton;
     private static String[] dimensions = {"2D","3D"};
+
     private static JSlider speedSlider;
     private static int sliderValue = 500;
     private static int sliderMaxValue = 1000;
     private static int sliderMaxDelay = 500; //ms
 
-    private static CyderFrame perlinFrame;
-    private static JLabel noiseLabel;
-
     private static int resolution = 512;
-    private static float[][] _2DNoise;
-    private static float[] _1DNoise;
+    private static float[][] _3DNoise;
+    private static float[] _2DNoise;
     private static boolean _2DMode = true;
 
     private static Random rand = new Random();
-
     private static Timer timer;
+
+    private static float[][] instanceSeed;
+    private static int octaves = 1;
 
     public static void showGUI() {
         //init with random
-        _1DNoise = new float[resolution];
-        _2DNoise = new float[resolution][resolution];
+        _2DNoise = new float[resolution];
+        _3DNoise = new float[resolution][resolution];
 
         timer = new Timer((int) ((float) sliderValue / (float) sliderMaxValue * sliderMaxDelay), animationAction);
 
         for (int i = 0 ; i < resolution ; i++) {
-            _1DNoise[i] = 0.0F;
+            _2DNoise[i] = rand.nextFloat();
         }
 
         for (int i = 0 ; i < resolution ; i++) {
             for (int j = 0 ; j < resolution ; j++) {
-                _2DNoise[i][j] = 0.0F;
+                _3DNoise[i][j] = rand.nextFloat();
             }
         }
 
-        //init noises
-        _2DNoise = generate2DNoise(_2DNoise);
-        _1DNoise = generate1DNoise(_1DNoise);
+        //set seed and reset octaves
+        instanceSeed = _3DNoise;
+        octaves = 1;
 
+        //fill noise based on current session's seed
+        _3DNoise = generate3DNoise(resolution, instanceSeed, octaves);
+        _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
+
+        //ui constructions
         perlinFrame = new CyderFrame(512 + 200,512 + 300,
                new ImageIcon(ImageUtil.getImageGradient(1000,1100,
                new Color(252,245,255),
@@ -87,8 +97,8 @@ public class PerlinNoise {
                     if (x + 1 == resolution)
                         break;
 
-                    float y = (float) ((_1DNoise[x] * resolution / 2.0) + resolution / 2.0);
-                    float yn = (float) ((_1DNoise[x + 1] * resolution / 2.0) + resolution / 2.0);
+                    float y = (float) ((_2DNoise[x] * resolution / 2.0) + resolution / 2.0);
+                    float yn = (float) ((_2DNoise[x + 1] * resolution / 2.0) + resolution / 2.0);
 
                     g2d.drawLine(x,(int) y, x + 1, (int) yn);
                 }
@@ -184,8 +194,28 @@ public class PerlinNoise {
         } else {
             if (timer.isRunning()) {
                 //end exeuction of timer
+                //release UI components
             }
+
+            //new seed
+            for (int i = 0 ; i < resolution ; i++) {
+                for (int j = 0 ; j < resolution ; j++) {
+                    instanceSeed[i][j] = rand.nextFloat();
+                }
+            }
+
+            //reset octaves
+            octaves = 1;
+
             //generate new noise based on random seed and update
+            if (dimensionField.getText().equals("2D")) {
+                _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
+            } else {
+                _3DNoise = generate3DNoise(resolution, instanceSeed, octaves);
+            }
+
+           //repaint
+           noiseLabel.repaint();
         }
     }
 
@@ -193,20 +223,47 @@ public class PerlinNoise {
     private static void nextIteration() {
         //simply update noise based off of current value, meant to slowly step through,
         // so user can spam button and see at their own pace the algorithm working
+
+        //servers no purpose during an animation
+        if (timer != null && timer.isRunning())
+            return;
+
+        octaves++;
+
+        if (octaves == 9)
+            octaves = 1;
+
+        _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
+        noiseLabel.repaint();
     }
 
-    private static float[][] generate2DNoise(float[][] seed) {
+    private static float[][] generate3DNoise(int nCount, float[][] fSeed, int nOctaves) {
         float[][] ret = new float[resolution][resolution];
-
-        //todo
-
         return ret;
     }
 
-    private static float[] generate1DNoise(float[] seed) {
-        float[] ret = new float[resolution];
+    public static float[] generate2DNoise(int nCount, float[] fSeed, int nOctaves) {
+        float[] ret = new float[nCount];
 
-        //todo
+        for (int x = 0 ; x < nCount ; x++) {
+           float fNoise = 0.0f;
+           float fScale = 1.0f;
+           float fScaleAcc = 0.0f;
+
+           for (int o = 0 ; o < nOctaves ; o++) {
+               int nPitch = nCount >> o; //assuming octaves is a power of 2
+               int nSample1 =  (x / nPitch) * nPitch;
+               int nSample2 = (nSample1 + nPitch) % nCount;
+
+               float fBlend = (float) (x - nSample1) / (float) nPitch;
+               float fSample = (1.0f - fBlend) * fSeed[nSample1] + fBlend * fSeed[nSample2];
+               fNoise +=  fSample * fScale;
+               fScaleAcc += fScale;
+               fScale = fScale / 2.0f;
+           }
+
+           ret[x] = fNoise / fScaleAcc;
+        }
 
         return ret;
     }
