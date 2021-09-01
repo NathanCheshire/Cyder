@@ -7,6 +7,7 @@ import cyder.handler.SessionLogger;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.metal.MetalButtonUI;
 import java.awt.*;
 
 
@@ -15,6 +16,7 @@ public class CyderButton extends JButton {
     private Color hoverBackgroundColor;
     private Color pressedBackgroundColor;
     private boolean threadsKilled = false;
+    private Color backgroundColor = CyderColors.regularRed;
 
     public CyderButton() {
         this(null);
@@ -29,10 +31,16 @@ public class CyderButton extends JButton {
                 + this.getText() + "] CLICKED"));
 
         setFont(CyderFonts.weatherFontSmall);
-        setBackground(CyderColors.regularRed);
+        setBackground(backgroundColor);
         setColors(CyderColors.regularRed);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
+
+        setUI(new MetalButtonUI() {
+            protected Color getDisabledTextColor() {
+                return Color.black;
+            }
+        });
     }
 
     @Override
@@ -117,6 +125,4 @@ public class CyderButton extends JButton {
                 (this.getText() != null && this.getText().length() > 0 ? ", text=[" + this.getText() + "]" : "") +
                 (frameRep.length() > 0 ? frameRep : "");
     }
-
-
 }

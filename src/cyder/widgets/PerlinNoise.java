@@ -16,6 +16,8 @@ public class PerlinNoise {
     //colors
     private static Color maxColor;
     private static Color minColor;
+    private static CyderTextField minColorField;
+    private static CyderTextField maxColorField;
 
     //ui
     private static CyderCheckBox animateCheckBox;
@@ -92,15 +94,21 @@ public class PerlinNoise {
                 int drawTo = labelWidth;
 
                 //draw noise
-                g2d.setColor(Color.black);
-                for (int x = 0 ; x < resolution ; x++) {
-                    if (x + 1 == resolution)
-                        break;
+                if (dimensionField.getText().equals("2D")) {
+                    g2d.setColor(Color.black);
 
-                    float y = (float) ((_2DNoise[x] * resolution / 2.0) + resolution / 2.0);
-                    float yn = (float) ((_2DNoise[x + 1] * resolution / 2.0) + resolution / 2.0);
+                    for (int x = 0 ; x < resolution ; x++) {
+                        if (x + 1 == resolution)
+                            break;
 
-                    g2d.drawLine(x,(int) y, x + 1, (int) yn);
+                        float y = (float) ((_2DNoise[x] * resolution / 2.0) + resolution / 2.0);
+                        
+                        //todo figure out color based on y
+                        
+                        g2d.fillRect(x, (int) y,2,2);
+                    }
+                } else {
+                    //todo
                 }
 
                 //draw border lines last
@@ -116,7 +124,7 @@ public class PerlinNoise {
         perlinFrame.getContentPane().add(noiseLabel);
 
         animateCheckBox = new CyderCheckBox();
-        animateCheckBox.setSelected();
+        animateCheckBox.setNotSelected();
         animateCheckBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -129,29 +137,31 @@ public class PerlinNoise {
         animateCheckBox.setBounds(120,650,50,50);
         perlinFrame.getContentPane().add(animateCheckBox);
 
-        CyderLabel animateLable = new CyderLabel("Animate");
-        animateLable.setBounds(95,625, 100, 20);
-        perlinFrame.getContentPane().add(animateLable);
+        CyderLabel animateLabel = new CyderLabel("Animate");
+        animateLabel.setBounds(95,625, 100, 20);
+        perlinFrame.getContentPane().add(animateLabel);
 
         generate = new CyderButton("Generate");
         generate.addActionListener(e -> generate());
+        generate.setToolTipText("resets the seed, octaves, and current noise");
         generate.setBounds(230,630, 150, 40);
         perlinFrame.getContentPane().add(generate);
 
         nextIteration = new CyderButton("Next Iteration");
         nextIteration.addActionListener(e -> nextIteration());
+        nextIteration.setToolTipText("increments the octave and displayed the revalidated noise");
         nextIteration.setBounds(400,630, 170, 40);
         perlinFrame.getContentPane().add(nextIteration);
 
         dimensionField = new CyderTextField(0);
         dimensionField.setFocusable(false);
-        dimensionField.setBounds(490,680, 50, 40);
+        dimensionField.setBounds(490,675, 50, 40);
         dimensionField.setEditable(false);
         perlinFrame.getContentPane().add(dimensionField);
         dimensionField.setText(dimensions[0]);
 
         dimensionSwitchButton = new CyderButton("▼");
-        dimensionSwitchButton.setBounds(530,680,40,40);
+        dimensionSwitchButton.setBounds(530,675,40,40);
         perlinFrame.getContentPane().add(dimensionSwitchButton);
         dimensionSwitchButton.addActionListener(e -> dimensionField.setText(
                 dimensionField.getText().equals(dimensions[0]) ? dimensions[1] : dimensions[0]));
@@ -181,6 +191,24 @@ public class PerlinNoise {
         speedSlider.setFocusable(false);
         speedSlider.repaint();
         perlinFrame.getContentPane().add(speedSlider);
+
+        CyderLabel minColorLabel = new CyderLabel("Min Color:");
+        minColorLabel.setBounds(100,730, 100, 20);
+        perlinFrame.getContentPane().add(minColorLabel);
+
+        minColorField = new CyderTextField(6);
+        minColorField.setRegexMatcher("[0-9A-Fa-f]+");
+        minColorField.setBounds(195,720, 120, 40);
+        perlinFrame.getContentPane().add(minColorField);
+
+        CyderLabel maxColorLabel = new CyderLabel("Max Color:");
+        maxColorLabel.setBounds(330,730, 100, 20);
+        perlinFrame.getContentPane().add(maxColorLabel);
+
+        maxColorField = new CyderTextField(6);
+        maxColorField.setRegexMatcher("[0-9A-Fa-f]+");
+        maxColorField.setBounds(425,720, 145, 40);
+        perlinFrame.getContentPane().add(maxColorField);
 
         perlinFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(perlinFrame);
@@ -239,6 +267,11 @@ public class PerlinNoise {
 
     private static float[][] generate3DNoise(int nCount, float[][] fSeed, int nOctaves) {
         float[][] ret = new float[resolution][resolution];
+
+        for (int i = 0 ; i < resolution ; i++) {
+            ret[i] = generate2DNoise(nCount, fSeed[i],nOctaves);
+        }
+
         return ret;
     }
 
@@ -271,4 +304,24 @@ public class PerlinNoise {
     private static ActionListener animationAction = evt -> {
         //todo
     };
+
+    private static void lockUI() {
+        animateCheckBox.setEnabled(false);
+        generate.setEnabled(false);
+        nextIteration.setEnabled(false);
+        speedSlider.setEnabled(false);
+        dimensionSwitchButton.setEnabled(false);
+        minColorField.setEnabled(false);
+        minColorField.setEnabled(false);
+    }
+
+    private static void unlockUI() {
+        animateCheckBox.setEnabled(true);
+        generate.setEnabled(true);
+        nextIteration.setEnabled(true);
+        speedSlider.setEnabled(true);
+        dimensionSwitchButton.setEnabled(true);
+        minColorField.setEnabled(true);
+        minColorField.setEnabled(true);
+    }
 }
