@@ -106,13 +106,13 @@ public class PerlinNoise {
                         float y = (float) ((_2DNoise[x] * resolution / 2.0) + resolution / 2.0);
 
                         if (minColor != maxColor) {
-                            //todo figure out color based on interpolation between min and max colors
+                            g2d.setColor(getColor(_2DNoise[x]));
                         }
 
                         g2d.fillRect(x, (int) y,2,2);
                     }
                 } else {
-                    //todo 3D noise
+                    //todo 3D noise drawing implementation (should be same essentially just with nested for loop)
                 }
 
                 //draw border lines last
@@ -188,7 +188,6 @@ public class PerlinNoise {
         speedSlider.addChangeListener(e -> {
             sliderValue = speedSlider.getValue();
             timer.setDelay((int) ((float) sliderValue / (float) sliderMaxValue * sliderMaxDelay));
-            System.out.println(timer.getDelay());
         });
         speedSlider.setOpaque(false);
         speedSlider.setToolTipText("Animation Speed");
@@ -223,14 +222,12 @@ public class PerlinNoise {
     //generates new noise based on a new random seed
     private static void generate() {
         if (animateCheckBox.isSelected()) {
-            //lock ui elements in place and generate noise based off of current value at a
-            // speed corresponding to sliderval * SOME_CONST
-
-            //todo
+            lockUI();
+            //todo generate noise based off of current value
         } else {
             if (timer.isRunning()) {
-                //end exeuction of timer
-                //release UI components
+                timer.stop();
+                unlockUI();
             }
 
             //new seed
@@ -342,5 +339,10 @@ public class PerlinNoise {
         dimensionSwitchButton.setEnabled(true);
         minColorField.setEnabled(true);
         minColorField.setEnabled(true);
+    }
+
+    //todo return color between max and min color corresponding to val which is in [0,1]
+    private static Color getColor(double val) {
+        return Color.black;
     }
 }
