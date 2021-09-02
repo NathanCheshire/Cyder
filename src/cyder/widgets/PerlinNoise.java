@@ -2,15 +2,14 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
+import cyder.handler.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.Random;
 
 public class PerlinNoise {
@@ -106,6 +105,7 @@ public class PerlinNoise {
                         float y = (float) ((_2DNoise[x] * resolution / 2.0) + resolution / 2.0);
 
                         if (minColor != maxColor) {
+                            System.out.println("here");
                             g2d.setColor(getColor(_2DNoise[x]));
                         }
 
@@ -190,7 +190,7 @@ public class PerlinNoise {
             timer.setDelay((int) ((float) sliderValue / (float) sliderMaxValue * sliderMaxDelay));
         });
         speedSlider.setOpaque(false);
-        speedSlider.setToolTipText("Animation Speed");
+        speedSlider.setToolTipText("Animation Timeout");
         speedSlider.setFocusable(false);
         speedSlider.repaint();
         perlinFrame.getContentPane().add(speedSlider);
@@ -204,6 +204,16 @@ public class PerlinNoise {
         minColorField.setBounds(195,720, 120, 40);
         perlinFrame.getContentPane().add(minColorField);
         minColorField.setText(ColorUtil.rgbtohexString(minColor));
+        minColorField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                try {
+                    minColor = ColorUtil.hextorgbColor(minColorField.getText());
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
 
         CyderLabel maxColorLabel = new CyderLabel("Max Color:");
         maxColorLabel.setBounds(330,730, 100, 20);
@@ -214,6 +224,16 @@ public class PerlinNoise {
         maxColorField.setBounds(425,720, 145, 40);
         perlinFrame.getContentPane().add(maxColorField);
         maxColorField.setText(ColorUtil.rgbtohexString(maxColor));
+        maxColorField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                try {
+                    maxColor = ColorUtil.hextorgbColor(maxColorField.getText());
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
 
         perlinFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(perlinFrame);
@@ -222,12 +242,20 @@ public class PerlinNoise {
     //generates new noise based on a new random seed
     private static void generate() {
         if (animateCheckBox.isSelected()) {
-            lockUI();
-            //todo generate noise based off of current value
+           if (timer.isRunning()) {
+               timer.stop();
+               unlockUI();
+               generate.setText("Generate");
+           } else {
+               lockUI();
+               generate.setText("Stop");
+               timer.start();
+           }
         } else {
             if (timer.isRunning()) {
                 timer.stop();
                 unlockUI();
+                generate.setText("Generate");
             }
 
             //new seed
@@ -309,40 +337,80 @@ public class PerlinNoise {
     private static ActionListener animationAction = evt -> {
         octaves++;
 
-        if (octaves == maxOctaves)
+        if (octaves == maxOctaves) {
             octaves = 1;
 
+            //new seed
+            for (int i = 0 ; i < resolution ; i++) {
+                for (int j = 0 ; j < resolution ; j++) {
+                    instanceSeed[i][j] = rand.nextFloat();
+                }
+            }
+        }
+
+        //generate new noise based on random seed and update
         if (dimensionField.getText().equals("2D")) {
             _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
         } else {
             _3DNoise = generate3DNoise(resolution, instanceSeed, octaves);
         }
 
+        //repaint
         noiseLabel.repaint();
     };
 
     private static void lockUI() {
         animateCheckBox.setEnabled(false);
-        generate.setEnabled(false);
         nextIteration.setEnabled(false);
-        speedSlider.setEnabled(false);
         dimensionSwitchButton.setEnabled(false);
         minColorField.setEnabled(false);
-        minColorField.setEnabled(false);
+        maxColorField.setEnabled(false);
     }
 
     private static void unlockUI() {
         animateCheckBox.setEnabled(true);
-        generate.setEnabled(true);
         nextIteration.setEnabled(true);
-        speedSlider.setEnabled(true);
         dimensionSwitchButton.setEnabled(true);
         minColorField.setEnabled(true);
-        minColorField.setEnabled(true);
+        maxColorField.setEnabled(true);
     }
 
-    //todo return color between max and min color corresponding to val which is in [0,1]
-    private static Color getColor(double val) {
-        return Color.black;
+    private static Color getColor(float val) {
+        float minHue = getHue(minColor);
+        float maxHue = getHue(maxColor);
+
+        float hue = val * maxHue + (1 - val) * minHue;
+        Color c = new Color(Color.HSBtoRGB(hue, 1, 0.5f));
+
+        return c;
+    }
+
+    private static int getHue(Color c) {
+        int red = c.getRed();
+        int green = c.getGreen();
+        int blue = c.getBlue();
+
+        float min = Math.min(Math.min(red, green), blue);
+        float max = Math.max(Math.max(red, green), blue);
+
+        if (min == max) {
+            return 0;
+        }
+
+        float hue = 0f;
+        if (max == red) {
+            hue = (green - blue) / (max - min);
+
+        } else if (max == green) {
+            hue = 2f + (blue - red) / (max - min);
+
+        } else {
+            hue = 4f + (red - green) / (max - min);
+        }
+
+        hue = hue * 60;
+        if (hue < 0) hue = hue + 360;
+
+        return Math.round(hue);
     }
 }
