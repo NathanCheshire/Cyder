@@ -105,14 +105,17 @@ public class PerlinNoise {
                         float y = (float) ((_2DNoise[x] * resolution / 2.0) + resolution / 2.0);
 
                         if (minColor != maxColor) {
-                            System.out.println("here");
                             g2d.setColor(getColor(_2DNoise[x]));
                         }
 
                         g2d.fillRect(x, (int) y,2,2);
                     }
                 } else {
-                    //todo 3D noise drawing implementation (should be same essentially just with nested for loop)
+                    for (int x = 0 ; x < resolution ; x += 2) {
+                       for (int y = 0 ; y < resolution ; y += 2) {
+
+                       }
+                    }
                 }
 
                 //draw border lines last

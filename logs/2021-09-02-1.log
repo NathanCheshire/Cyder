@@ -1,0 +1,38 @@
+[17:37:21] [ENTRY]: [WINUSER=Nathan]
+[17:37:21] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[17:37:22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17:37:23] [LOGIN]: [AUTOCYPHER PASS]
+[17:37:25] [CLIENT]: test
+[17:37:31] [ACTION]: CyderButton, text=[Stop] CLICKED
+[17:37:48] [ACTION]: CyderButton, text=[Generate] CLICKED
+[17:37:49] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:50] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:50] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:50] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:50] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:51] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:51] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:51] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:51] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:51] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:51] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:51] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:54] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:54] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[17:37:54] [ACTION]: CyderButton, text=[▼] CLICKED
+[17:37:55] [ACTION]: CyderButton, text=[Stop] CLICKED
+[17:38:03] [LOGOUT]:  [Nathan]
+[17:38:03] [EXIT]: [RUNTIME] 42s
+[17:38:03] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
