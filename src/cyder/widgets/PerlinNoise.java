@@ -111,9 +111,10 @@ public class PerlinNoise {
                         g2d.fillRect(x, (int) y,2,2);
                     }
                 } else {
-                    for (int x = 0 ; x < resolution ; x += 2) {
-                       for (int y = 0 ; y < resolution ; y += 2) {
-
+                    for (int x = 0 ; x < resolution ; x += 8) {
+                       for (int y = 0 ; y < resolution ; y += 8) {
+                            g2d.setColor(g2d.getColor() == Color.white ? Color.black : Color.white);
+                            g2d.fillRect(x,y,8,8);
                        }
                     }
                 }
