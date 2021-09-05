@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
-import cyder.handler.ErrorHandler;
+import cyder.obj.Node;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.ImageUtil;
@@ -37,6 +37,7 @@ public class PerlinNoise {
 
     private static int resolution = 512;
     private static float[][] _3DNoise;
+    private static Node[][] nodes;
     private static float[] _2DNoise;
     private static boolean _2DMode = true;
 
@@ -111,11 +112,11 @@ public class PerlinNoise {
                         g2d.fillRect(x, (int) y,2,2);
                     }
                 } else {
-                    for (int x = 0 ; x < resolution ; x += 8) {
-                       for (int y = 0 ; y < resolution ; y += 8) {
-                            g2d.setColor(g2d.getColor() == Color.white ? Color.black : Color.white);
-                            g2d.fillRect(x,y,8,8);
-                       }
+                    int len = 4;
+                    for (int i = 0 ; i < resolution ; i += len) {
+                        for (int j = 0 ; j < resolution ; j += len) {
+                            //todo use open simplex noise with pixels equal to a fourth of the resolution
+                        }
                     }
                 }
 
@@ -305,9 +306,7 @@ public class PerlinNoise {
     private static float[][] generate3DNoise(int nCount, float[][] fSeed, int nOctaves) {
         float[][] ret = new float[resolution][resolution];
 
-        for (int i = 0 ; i < resolution ; i++) {
-            ret[i] = generate2DNoise(nCount, fSeed[i],nOctaves);
-        }
+       //todo return open simplex noise
 
         return ret;
     }
