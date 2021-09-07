@@ -95,8 +95,8 @@ public class Weather {
         if (weatherFrame != null)
             weatherFrame.closeAnimation();
 
-        weatherFrame = new CyderFrame(450,600, new ImageIcon(
-                ImageUtil.getImageGradient(450, 600,
+        weatherFrame = new CyderFrame(480,600, new ImageIcon(
+                ImageUtil.getImageGradient(480, 600,
                         new Color(205,119,130),
                         new Color(38,21,75),
                         new Color(89,85,161)))) {
@@ -307,9 +307,6 @@ public class Weather {
             }
         },"Weather Clock Updater").start();
 
-        weatherFrame.initializeResizing();
-        weatherFrame.setResizable(true);
-        weatherFrame.setBackgroundResizing(true);
         weatherFrame.setMinimumSize(new Dimension(450,90));
         weatherFrame.setMaximumSize(new Dimension(450, 600));
         weatherFrame.setSnapSize(new Dimension(1,1));

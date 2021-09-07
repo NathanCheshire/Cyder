@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
+import cyder.genesis.OpenSimplexNoise;
 import cyder.obj.Node;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
@@ -10,12 +11,13 @@ import cyder.utilities.ImageUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class PerlinNoise {
     //colors
     private static Color maxColor = Color.black;
-    private static Color minColor = Color.black ;
+    private static Color minColor = Color.black;
     private static CyderTextField minColorField;
     private static CyderTextField maxColorField;
 
@@ -106,16 +108,19 @@ public class PerlinNoise {
                         float y = (float) ((_2DNoise[x] * resolution / 2.0) + resolution / 2.0);
 
                         if (minColor != maxColor) {
-                            g2d.setColor(getColor(_2DNoise[x]));
+                            Color c = getColor(_2DNoise[x]);
+                            System.out.println(c);
+                            g2d.setColor(c);
                         }
 
                         g2d.fillRect(x, (int) y,2,2);
                     }
                 } else {
-                    int len = 4;
+                    int len = 1;
                     for (int i = 0 ; i < resolution ; i += len) {
                         for (int j = 0 ; j < resolution ; j += len) {
-                            //todo use open simplex noise with pixels equal to a fourth of the resolution
+                            g2d.setColor(Color.decode(String.valueOf(0x010101 * (int)((_3DNoise[i][j] + 1) * 127.5))));
+                            g2d.fillRect(i,j,1,1);
                         }
                     }
                 }
@@ -218,6 +223,22 @@ public class PerlinNoise {
 
                 }
             }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                try {
+                    minColor = ColorUtil.hextorgbColor(minColorField.getText());
+                } catch (Exception ignored) {
+
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                try {
+                    minColor = ColorUtil.hextorgbColor(minColorField.getText());
+                } catch (Exception ignored) {
+
+                }
+            }
         });
 
         CyderLabel maxColorLabel = new CyderLabel("Max Color:");
@@ -232,6 +253,22 @@ public class PerlinNoise {
         maxColorField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
+                try {
+                    maxColor = ColorUtil.hextorgbColor(maxColorField.getText());
+                } catch (Exception ignored) {
+
+                }
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                try {
+                    maxColor = ColorUtil.hextorgbColor(maxColorField.getText());
+                } catch (Exception ignored) {
+
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
                 try {
                     maxColor = ColorUtil.hextorgbColor(maxColorField.getText());
                 } catch (Exception ignored) {
@@ -287,8 +324,7 @@ public class PerlinNoise {
 
     //generates new noise based on the current value
     private static void nextIteration() {
-        //simply update noise based off of current value, meant to slowly step through,
-        // so user can spam button and see at their own pace the algorithm working
+        //todo what if 3D
 
         //serves no purpose during an animation
         if (timer != null && timer.isRunning())
@@ -306,7 +342,20 @@ public class PerlinNoise {
     private static float[][] generate3DNoise(int nCount, float[][] fSeed, int nOctaves) {
         float[][] ret = new float[resolution][resolution];
 
-       //todo return open simplex noise
+        //todo change these
+        int WIDTH = resolution;
+        int HEIGHT = resolution;
+        int FEATURE_SIZE = 12;
+
+        //int rgb = 0x010101 * (int)((value + 1) * 127.5);
+
+        OpenSimplexNoise noise = new OpenSimplexNoise(0);
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
+                ret[x][y] = (float) value;
+            }
+        }
 
         return ret;
     }
@@ -379,41 +428,6 @@ public class PerlinNoise {
     }
 
     private static Color getColor(float val) {
-        float minHue = getHue(minColor);
-        float maxHue = getHue(maxColor);
-
-        float hue = val * maxHue + (1 - val) * minHue;
-        Color c = new Color(Color.HSBtoRGB(hue, 1, 0.5f));
-
-        return c;
-    }
-
-    private static int getHue(Color c) {
-        int red = c.getRed();
-        int green = c.getGreen();
-        int blue = c.getBlue();
-
-        float min = Math.min(Math.min(red, green), blue);
-        float max = Math.max(Math.max(red, green), blue);
-
-        if (min == max) {
-            return 0;
-        }
-
-        float hue = 0f;
-        if (max == red) {
-            hue = (green - blue) / (max - min);
-
-        } else if (max == green) {
-            hue = 2f + (blue - red) / (max - min);
-
-        } else {
-            hue = 4f + (red - green) / (max - min);
-        }
-
-        hue = hue * 60;
-        if (hue < 0) hue = hue + 360;
-
-        return Math.round(hue);
+        return Color.decode(String.valueOf(0x010101 * (int)((val + 1) * 127.5)));
     }
 }
