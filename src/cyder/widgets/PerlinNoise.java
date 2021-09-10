@@ -342,20 +342,7 @@ public class PerlinNoise {
     private static float[][] generate3DNoise(int nCount, float[][] fSeed, int nOctaves) {
         float[][] ret = new float[resolution][resolution];
 
-        //todo change these
-        int WIDTH = resolution;
-        int HEIGHT = resolution;
-        int FEATURE_SIZE = 12;
-
-        //int rgb = 0x010101 * (int)((value + 1) * 127.5);
-
-        OpenSimplexNoise noise = new OpenSimplexNoise(0);
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
-                ret[x][y] = (float) value;
-            }
-        }
+        //todo from opensimplexnoisetest copy over
 
         return ret;
     }
