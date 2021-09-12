@@ -26,7 +26,7 @@ public class CyderSetup {
     }
 
     public static void addCommonExitHook() {
-        addShutdownHook(CyderSetup::addCommonExitHook, "common-exit-hook");
+        addShutdownHook(CyderSetup::commonExitHook, "common-exit-hook");
     }
 
     public static void initFrameChecker() {
@@ -50,6 +50,15 @@ public class CyderSetup {
         UIManager.put("ToolTip.font", CyderFonts.tahoma.deriveFont(22f));
         UIManager.put("ToolTip.foreground", CyderColors.tooltipForegroundColor);
         UIManager.put("Slider.onlyLeftMouseButtonDrag", Boolean.TRUE);
+    }
+
+    public static void commonCyderSetup() {
+        CyderSetup.addCommonExitHook();
+
+        CyderSetup.initSystemProperties();
+        CyderSetup.initUIManager();
+
+        CyderSetup.initFrameChecker();
     }
 
     //todo setup method so that we can have standalone frames without console frame ever starting

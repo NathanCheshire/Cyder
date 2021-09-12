@@ -48,10 +48,15 @@ public class PerlinNoise {
     private static int octaves = 1;
     private static int maxOctaves = 10;
 
+    //todo feature size changer that updates in real time too
+
     public static void showGUI() {
         //init with random
         _2DNoise = new float[resolution];
         _3DNoise = new Node[resolution][resolution];
+
+        noise = new OpenSimplexNoise(0);
+        timeStep = 0;
 
         for (int x = 0 ; x < resolution ; x++) {
             for (int y = 0 ; y < resolution ; y++) {
