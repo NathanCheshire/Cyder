@@ -50,9 +50,9 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [x]  put spotlight inside of the program
 - [ ]  get ImAvg working and put it inside the program
 - [x]  allow users to map up to three internet links and place them on the menu panel
-- [ ]  allow users to rearrange the menu panel and remember what they do
+- [x]  allow users to rearrange the menu panel and remember what they do
 - [x]  change the login animation to actual sliding JLabels with text and not a sliding image
-- [ ]  make a perlin noise widget
+- [x]  make a perlin noise widget
 - [x]  make a Conway's Game of Life widget
 - [x]  make pixelating a picture it's own widget
 - [ ]  add multiple image support (not just PNG)
@@ -82,3 +82,4 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [x]  bin dump function
 - [x]  hex dump function
 - [ ]  ncview functionality
+- [ ]  add quick start functionality for user's in a hurry
