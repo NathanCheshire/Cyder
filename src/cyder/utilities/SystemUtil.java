@@ -207,4 +207,14 @@ public class SystemUtil {
 
         return ret;
     }
+
+    /**
+     * Checks the OS and if it is an OSX build, notifies why we are going to exit
+     * and exits the program. Cyder is built for Windows 10 (as it plainly says),
+     * and also for linux distros. OS X causes Cyder to result in unintended behavior.
+     */
+    public static boolean osxSystem() {
+        String osName = System.getProperty("os.name").toLowerCase();
+        return osName.startsWith("mac os x");
+    }
 }

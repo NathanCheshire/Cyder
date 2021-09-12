@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import com.google.gson.Gson;
-import cyder.genesis.Entry;
+import cyder.genesis.Login;
 import cyder.genesis.GenesisShare;
 import cyder.handler.*;
 import cyder.obj.SystemData;
@@ -381,7 +381,7 @@ public class IOUtil {
             //delete the folder we just zipped since it's a duplicate
             SystemUtil.deleteFolder(mainZipFile);
 
-            Entry.showEntryGUI();
+            Login.showEntryGUI();
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
         }

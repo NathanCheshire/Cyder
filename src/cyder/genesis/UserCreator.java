@@ -291,8 +291,8 @@ public class UserCreator {
 
                         //attempt to log in new user if it's the only user
                         if (new File("users/").listFiles().length == 1) {
-                            Entry.getFrame().closeAnimation();
-                            Entry.recognize(newUserName.getText().trim(), SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)));
+                            Login.getFrame().closeAnimation();
+                            Login.recognize(newUserName.getText().trim(), SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)));
                         }
                     }
 
@@ -315,8 +315,8 @@ public class UserCreator {
 
         if (!ConsoleFrame.getConsoleFrame().isClosed()) {
             ConsoleFrame.getConsoleFrame().setFrameRelative(createUserFrame);
-        } else if (Entry.getFrame() != null && Entry.getFrame().isActive() && Entry.getFrame().isVisible()) {
-            createUserFrame.setLocationRelativeTo(Entry.getFrame());
+        } else if (Login.getFrame() != null && Login.getFrame().isActive() && Login.getFrame().isVisible()) {
+            createUserFrame.setLocationRelativeTo(Login.getFrame());
         } else {
             createUserFrame.setLocationRelativeTo(null);
         }

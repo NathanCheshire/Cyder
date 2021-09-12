@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class Entry {
+public class Login {
     private static CyderFrame loginFrame;
     private static JPasswordField loginField;
     private static boolean doLoginAnimations;
@@ -353,7 +353,7 @@ public class Entry {
             } else if (autoCypherAttempt) {
                 autoCypherAttempt = false;
                 SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
-                Entry.showEntryGUI();
+                Login.showEntryGUI();
             }
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);

@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.ui.*;
-import cyder.utilities.GrahamScan;
+import cyder.algorithoms.GrahamScan;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
-import cyder.genesis.Entry;
+import cyder.genesis.Login;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
@@ -39,6 +39,8 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
+
+//todo checkbox sliding panel that has bounce effects
 
 public class InputHandler {
     private JTextPane outputArea;
@@ -284,7 +286,7 @@ public class InputHandler {
             Weather ww = new Weather();
             SessionLogger.log(SessionLogger.Tag.ACTION, "WEATHER");
         } else if (eic("pin") || eic("login")) {
-            Entry.showEntryGUI();
+            Login.showEntryGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "LOGIN WIDGET");
         } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
             UserCreator.createGUI();
@@ -741,7 +743,7 @@ public class InputHandler {
             }
             IOUtil.stopAudio();
             ConsoleFrame.getConsoleFrame().close();
-            Entry.showEntryGUI();
+            Login.showEntryGUI();
         } else if (hasWord("throw") && hasWord("error")) {
             ConsoleFrame.getConsoleFrame().getInputField().setText("");
             throw new Exception("Error thrown on " + TimeUtil.userTime());

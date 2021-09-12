@@ -1,4 +1,4 @@
-package cyder.utilities;
+package cyder.algorithoms;
 
 import java.awt.Point;
 import java.util.*;
@@ -8,7 +8,7 @@ public final class GrahamScan {
         CLOCKWISE, COUNTER_CLOCKWISE, COLLINEAR
     }
 
-    protected static boolean areAllCollinear(List<Point> points) {
+    private static boolean areAllCollinear(List<Point> points) {
         if (points.size() < 2) {
             return true;
         }
@@ -84,7 +84,7 @@ public final class GrahamScan {
         return new Vector<>(stack);
     }
 
-    protected static Point getLowestPoint(List<Point> points) {
+    private static Point getLowestPoint(List<Point> points) {
         Point lowest = points.get(0);
 
         for (int i = 1 ; i < points.size() ; i++) {
@@ -98,7 +98,7 @@ public final class GrahamScan {
         return lowest;
     }
 
-    protected static Set<Point> getSortedPointSet(List<Point> points) {
+    private static Set<Point> getSortedPointSet(List<Point> points) {
         final Point lowest = getLowestPoint(points);
 
         TreeSet<Point> set = new TreeSet<>((a, b) -> {
@@ -132,7 +132,7 @@ public final class GrahamScan {
         return set;
     }
 
-    protected static Turn getTurn(Point a, Point b, Point c) {
+    private static Turn getTurn(Point a, Point b, Point c) {
         long crossProduct = (((long)b.x - a.x) * ((long)c.y - a.y)) -
                 (((long)b.y - a.y) * ((long)c.x - a.x));
 

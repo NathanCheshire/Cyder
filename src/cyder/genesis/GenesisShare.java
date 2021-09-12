@@ -3,11 +3,16 @@ package cyder.genesis;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.obj.Preference;
+import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 
+import java.awt.*;
 import java.util.LinkedList;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class GenesisShare {
     private GenesisShare() {}
@@ -31,6 +36,24 @@ public class GenesisShare {
 
     public static void cancelFrameCheckerSuspention() {
         suspendFrameChecker = false;
+    }
+
+    public static void startFinalFrameDisposedChecker() {
+        Executors.newSingleThreadScheduledExecutor(
+                new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
+            Frame[] frames = Frame.getFrames();
+            int validFrames = 0;
+
+            for (Frame f : frames) {
+                if (f.isShowing()) {
+                    validFrames++;
+                }
+            }
+
+            if (validFrames < 1 && !GenesisShare.framesSuspended()) {
+                GenesisShare.exit(120);
+            }
+        }, 10, 5, SECONDS);
     }
 
     public static boolean framesSuspended() {
@@ -141,7 +164,7 @@ public class GenesisShare {
             return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
         }
 
-        return Entry.getFrame();
+        return Login.getFrame();
     }
 
     private static boolean quesitonableInternet;

@@ -294,7 +294,6 @@ public class PerlinNoise {
                 octaves = 1;
 
             _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
-            noiseLabel.repaint();
         } else {
             timeStep += 0.1;
             for (int y = 0; y < resolution; y++) {
@@ -306,8 +305,10 @@ public class PerlinNoise {
                 }
             }
 
-            noiseLabel.repaint();
         }
+
+        //repaint
+        noiseLabel.repaint();
     }
 
     /**
