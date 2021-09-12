@@ -18,13 +18,20 @@ import java.util.concurrent.Executors;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class CyderMain {
+//todo common cyder main setup so that tooltips and other stuff that is assumed to be in place
+// so that we can load widgets, make a method
+
+//todo checkbox sliding panel that has bounce effects
+
+//todo rename this class to Cyder, CyderMain should be where assume stuff is done that you can call from anywhere
+
+public class Cyder {
     /**
      * start the best program ever made
      * @param CA - the arguments passed in
      */
     public static void main(String[] CA)  {
-        Runtime.getRuntime().addShutdownHook(new Thread(CyderMain::shutdown, "exit-hook"));
+        Runtime.getRuntime().addShutdownHook(new Thread(Cyder::shutdown, "exit-hook"));
 
         //start the logger
         SessionLogger.SessionLogger();
@@ -116,7 +123,7 @@ public class CyderMain {
     /**
      * Checks the OS and if it is an OSX build, notifies why we are going to exit
      * and exits the program. Cyder is built for Windows 10 (as it plainly says),
-     * and also for some possible linux distros which it might work on.
+     * and also for linux distros. OS X causes Cyder to result in unintended behavior.
      */
     private static boolean osxSystem() {
         String osName = System.getProperty("os.name").toLowerCase();

@@ -4,7 +4,6 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
 import cyder.enums.Direction;
-import cyder.genesis.CyderMain;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;

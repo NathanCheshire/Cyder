@@ -122,13 +122,8 @@ public class PerlinNoise {
                         g2d.fillRect(x, minY + lenDown,2, resolution - (minY + lenDown));
                     }
                 } else {
-                    //todo draw 3D noise
+                    //todo draw 3D noise from node array
                 }
-
-                //todo common cyder main setup so that tooltips and other stuff that is assumed to be in place
-                // so that we can load widgets, make a method
-
-                //todo checkbox sliding panel that has bounce effects
 
                 //draw border lines last
                 g2d.setColor(CyderColors.navy);
