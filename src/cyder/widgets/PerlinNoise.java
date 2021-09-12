@@ -2,7 +2,6 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
-import cyder.obj.Node;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 
@@ -29,8 +28,7 @@ public class PerlinNoise {
     private static int sliderMaxDelay = 500; //ms
 
     private static int resolution = 512;
-    private static float[][] _3DNoise;
-    private static Node[][] nodes;
+    private static Node[][] _3DNoise;
     private static float[] _2DNoise;
     private static boolean _2DMode = true;
 
@@ -44,7 +42,9 @@ public class PerlinNoise {
     public static void showGUI() {
         //init with random
         _2DNoise = new float[resolution];
-        _3DNoise = new float[resolution][resolution];
+        _3DNoise = new Node[resolution][resolution];
+
+        instanceSeed = new float[resolution][resolution];
 
         timer = new Timer((int) ((float) sliderValue / (float) sliderMaxValue * sliderMaxDelay), animationAction);
 
@@ -52,18 +52,16 @@ public class PerlinNoise {
             _2DNoise[i] = rand.nextFloat();
         }
 
+        //set seed and octaves
         for (int i = 0 ; i < resolution ; i++) {
             for (int j = 0 ; j < resolution ; j++) {
-                _3DNoise[i][j] = rand.nextFloat();
+                instanceSeed[i][j] = rand.nextFloat();
             }
         }
 
-        //set seed and reset octaves
-        instanceSeed = _3DNoise;
         octaves = 1;
 
         //fill noise based on current session's seed
-        _3DNoise = generate3DNoise(resolution, instanceSeed, octaves);
         _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
 
         //ui constructions
@@ -126,6 +124,11 @@ public class PerlinNoise {
                 } else {
                     //todo draw 3D noise
                 }
+
+                //todo common cyder main setup so that tooltips and other stuff that is assumed to be in place
+                // so that we can load widgets, make a method
+
+                //todo checkbox sliding panel that has bounce effects
 
                 //draw border lines last
                 g2d.setColor(CyderColors.navy);
@@ -224,31 +227,35 @@ public class PerlinNoise {
                timer.start();
            }
         } else {
-            if (timer.isRunning()) {
-                timer.stop();
-                unlockUI();
-                generate.setText("Generate");
-            }
-
-            //new seed
-            for (int i = 0 ; i < resolution ; i++) {
-                for (int j = 0 ; j < resolution ; j++) {
-                    instanceSeed[i][j] = rand.nextFloat();
-                }
-            }
-
-            //reset octaves
-            octaves = 1;
-
-            //generate new noise based on random seed and update
             if (dimensionField.getText().equals("2D")) {
-                _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
-            } else {
-                _3DNoise = generate3DNoise(resolution, instanceSeed, octaves);
-            }
+                if (timer.isRunning()) {
+                    timer.stop();
+                    unlockUI();
+                    generate.setText("Generate");
+                }
 
-           //repaint
-           noiseLabel.repaint();
+                //new seed
+                for (int i = 0 ; i < resolution ; i++) {
+                    for (int j = 0 ; j < resolution ; j++) {
+                        instanceSeed[i][j] = rand.nextFloat();
+                    }
+                }
+
+                //reset octaves
+                octaves = 1;
+
+                //generate new noise based on random seed and update
+                if (dimensionField.getText().equals("2D")) {
+                    _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
+                } else {
+                    //todo generate new noise based on ramdom seed and put in _3DNoise
+                }
+
+                //repaint
+                noiseLabel.repaint();
+            } else {
+                //todo
+            }
         }
     }
 
@@ -323,7 +330,7 @@ public class PerlinNoise {
         if (dimensionField.getText().equals("2D")) {
             _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
         } else {
-            _3DNoise = generate3DNoise(resolution, instanceSeed, octaves);
+            //todo new noise based on new random seed, assign to _3DNoise
         }
 
         //repaint
@@ -344,5 +351,40 @@ public class PerlinNoise {
 
     private static Color getColor(float val) {
         return Color.decode(String.valueOf(0x010101 * (int)((val + 1) * 127.5)));
+    }
+
+    private static class Node {
+        private int x;
+        private int y;
+        private Color c;
+
+        public Node(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+
+        public Color getC() {
+            return c;
+        }
+
+        public void setC(Color c) {
+            this.c = c;
+        }
     }
 }
