@@ -27,8 +27,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Cyder {
     /**
-     * start the best program ever made
-     * @param CA - the arguments passed in
+     * Setup and start the best program ever made :D
+     * @param CA - possible command line args passed in.
+     *           They serve no purpose yet we'll still log them
      */
     public static void main(String[] CA)  {
         Runtime.getRuntime().addShutdownHook(new Thread(Cyder::shutdown, "exit-hook"));

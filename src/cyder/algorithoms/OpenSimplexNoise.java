@@ -1,4 +1,4 @@
-package cyder.genesis;
+package cyder.algorithoms;
 
 public class OpenSimplexNoise {
 

@@ -1,13 +1,17 @@
 package cyder.widgets;
 
+import cyder.algorithoms.OpenSimplexNoise;
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.NumberUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Random;
 
 public class PerlinNoise {
@@ -21,6 +25,11 @@ public class PerlinNoise {
     private static CyderTextField dimensionField;
     private static CyderButton dimensionSwitchButton;
     private static String[] dimensions = {"2D","3D"};
+
+    //open simplex vars
+    private static final double FEATURE_SIZE = 24.0;
+    private static OpenSimplexNoise noise;
+    private static double timeStep = 0;
 
     private static JSlider speedSlider;
     private static int sliderValue = 500;
@@ -43,6 +52,12 @@ public class PerlinNoise {
         //init with random
         _2DNoise = new float[resolution];
         _3DNoise = new Node[resolution][resolution];
+
+        for (int x = 0 ; x < resolution ; x++) {
+            for (int y = 0 ; y < resolution ; y++) {
+                _3DNoise[x][y] = new Node(x,y);
+            }
+        }
 
         instanceSeed = new float[resolution][resolution];
 
@@ -122,7 +137,12 @@ public class PerlinNoise {
                         g2d.fillRect(x, minY + lenDown,2, resolution - (minY + lenDown));
                     }
                 } else {
-                    //todo draw 3D noise from node array
+                    for (int i = 0 ; i < resolution ; i++) {
+                        for (int j = 0 ; j < resolution ; j++) {
+                            g2d.setColor(_3DNoise[i][j].getColor());
+                            g2d.fillRect(i,j,1,1);
+                        }
+                    }
                 }
 
                 //draw border lines last
@@ -239,18 +259,25 @@ public class PerlinNoise {
                 //reset octaves
                 octaves = 1;
 
-                //generate new noise based on random seed and update
-                if (dimensionField.getText().equals("2D")) {
-                    _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
-                } else {
-                    //todo generate new noise based on ramdom seed and put in _3DNoise
-                }
-
-                //repaint
-                noiseLabel.repaint();
+                //new noise
+                _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
             } else {
-                //todo
+                //reset timeStep
+                timeStep = 0;
+
+                noise = new OpenSimplexNoise(NumberUtil.randInt(0,1000));
+                for (int y = 0; y < resolution; y++) {
+                    for (int x = 0; x < resolution; x++) {
+                        double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
+                        _3DNoise[x][y].setColor(new Color(0x010101 * (int)((value + 1) * 127.5)));
+                        _3DNoise[x][y].setX(x);
+                        _3DNoise[x][y].setY(y);
+                    }
+                }
             }
+
+            //repaint
+            noiseLabel.repaint();
         }
     }
 
@@ -269,18 +296,27 @@ public class PerlinNoise {
             _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
             noiseLabel.repaint();
         } else {
-            //todo
+            timeStep += 0.1;
+            for (int y = 0; y < resolution; y++) {
+                for (int x = 0; x < resolution; x++) {
+                    double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
+                    _3DNoise[x][y].setColor(new Color(0x010101 * (int)((value + 1) * 127.5)));
+                    _3DNoise[x][y].setX(x);
+                    _3DNoise[x][y].setY(y);
+                }
+            }
+
+            noiseLabel.repaint();
         }
     }
 
-    private static float[][] generate3DNoise(int nCount, float[][] fSeed, int nOctaves) {
-        float[][] ret = new float[resolution][resolution];
-
-        //todo from opensimplexnoisetest copy over
-
-        return ret;
-    }
-
+    /**
+     * Generates perlin noise based on common algorithm implementation
+     * @param nCount - the number of points in the line
+     * @param fSeed - the seed value
+     * @param nOctaves - the number of iterations to perform the algorithm on
+     * @return - 2D perlin noise representation (values are between 0 and 1)
+     */
     public static float[] generate2DNoise(int nCount, float[] fSeed, int nOctaves) {
         float[] ret = new float[nCount];
 
@@ -325,7 +361,16 @@ public class PerlinNoise {
         if (dimensionField.getText().equals("2D")) {
             _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
         } else {
-            //todo new noise based on new random seed, assign to _3DNoise
+            timeStep += 0.1;
+
+            for (int y = 0; y < resolution; y++) {
+                for (int x = 0; x < resolution; x++) {
+                    double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
+                    _3DNoise[x][y].setColor(new Color(0x010101 * (int)((value + 1) * 127.5)));
+                    _3DNoise[x][y].setX(x);
+                    _3DNoise[x][y].setY(y);
+                }
+            }
         }
 
         //repaint
@@ -351,7 +396,7 @@ public class PerlinNoise {
     private static class Node {
         private int x;
         private int y;
-        private Color c;
+        private Color color;
 
         public Node(int x, int y) {
             this.x = x;
@@ -374,12 +419,12 @@ public class PerlinNoise {
             this.y = y;
         }
 
-        public Color getC() {
-            return c;
+        public Color getColor() {
+            return color;
         }
 
-        public void setC(Color c) {
-            this.c = c;
+        public void setColor(Color color) {
+            this.color = color;
         }
     }
 }
