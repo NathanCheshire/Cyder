@@ -2,25 +2,16 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
-import cyder.genesis.OpenSimplexNoise;
 import cyder.obj.Node;
 import cyder.ui.*;
-import cyder.utilities.ColorUtil;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class PerlinNoise {
-    //colors
-    private static Color maxColor = Color.black;
-    private static Color minColor = Color.black;
-    private static CyderTextField minColorField;
-    private static CyderTextField maxColorField;
-
     //ui
     private static CyderCheckBox animateCheckBox;
     private static CyderButton generate;
@@ -76,8 +67,8 @@ public class PerlinNoise {
         _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
 
         //ui constructions
-        perlinFrame = new CyderFrame(512 + 200,512 + 300,
-               new ImageIcon(ImageUtil.getImageGradient(1000,1100,
+        perlinFrame = new CyderFrame(512 + 200,750,
+               new ImageIcon(ImageUtil.getImageGradient(1000,750,
                new Color(252,245,255),
                new Color(164,154,187),
                new Color(249, 233, 241))));
@@ -106,23 +97,34 @@ public class PerlinNoise {
                             break;
 
                         float y = (float) ((_2DNoise[x] * resolution / 2.0) + resolution / 2.0);
+                        int minY = (int) y;
+                        int lenDown = 0;
+                        //range is between y and resolution
 
-                        if (minColor != maxColor) {
-                            Color c = getColor(_2DNoise[x]);
-                            System.out.println(c);
-                            g2d.setColor(c);
-                        }
+                        //top line
+                        g2d.setColor(Color.black);
+                        g2d.fillRect(x, minY,2, 2);
 
-                        g2d.fillRect(x, (int) y,2,2);
+                        lenDown += 2;
+
+                        //green grass
+                        g2d.setColor(CyderColors.regularGreen);
+                        g2d.fillRect(x, minY + lenDown,2, 10);
+
+                        lenDown += 10;
+
+                        //brown dirt
+                        g2d.setColor(new Color(131,101,57));
+                        g2d.fillRect(x, minY + lenDown,2, 20);
+
+                        lenDown += 20;
+
+                        //gray stone
+                        g2d.setColor(Color.darkGray);
+                        g2d.fillRect(x, minY + lenDown,2, resolution - (minY + lenDown));
                     }
                 } else {
-                    int len = 1;
-                    for (int i = 0 ; i < resolution ; i += len) {
-                        for (int j = 0 ; j < resolution ; j += len) {
-                            g2d.setColor(Color.decode(String.valueOf(0x010101 * (int)((_3DNoise[i][j] + 1) * 127.5))));
-                            g2d.fillRect(i,j,1,1);
-                        }
-                    }
+                    //todo draw 3D noise
                 }
 
                 //draw border lines last
@@ -205,78 +207,6 @@ public class PerlinNoise {
         speedSlider.repaint();
         perlinFrame.getContentPane().add(speedSlider);
 
-        CyderLabel minColorLabel = new CyderLabel("Min Color:");
-        minColorLabel.setBounds(100,730, 100, 20);
-        perlinFrame.getContentPane().add(minColorLabel);
-
-        minColorField = new CyderTextField(6);
-        minColorField.setRegexMatcher("[0-9A-Fa-f]+");
-        minColorField.setBounds(195,720, 120, 40);
-        perlinFrame.getContentPane().add(minColorField);
-        minColorField.setText(ColorUtil.rgbtohexString(minColor));
-        minColorField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                try {
-                    minColor = ColorUtil.hextorgbColor(minColorField.getText());
-                } catch (Exception ignored) {
-
-                }
-            }
-            @Override
-            public void keyPressed(KeyEvent e) {
-                try {
-                    minColor = ColorUtil.hextorgbColor(minColorField.getText());
-                } catch (Exception ignored) {
-
-                }
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {
-                try {
-                    minColor = ColorUtil.hextorgbColor(minColorField.getText());
-                } catch (Exception ignored) {
-
-                }
-            }
-        });
-
-        CyderLabel maxColorLabel = new CyderLabel("Max Color:");
-        maxColorLabel.setBounds(330,730, 100, 20);
-        perlinFrame.getContentPane().add(maxColorLabel);
-
-        maxColorField = new CyderTextField(6);
-        maxColorField.setRegexMatcher("[0-9A-Fa-f]+");
-        maxColorField.setBounds(425,720, 145, 40);
-        perlinFrame.getContentPane().add(maxColorField);
-        maxColorField.setText(ColorUtil.rgbtohexString(maxColor));
-        maxColorField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                try {
-                    maxColor = ColorUtil.hextorgbColor(maxColorField.getText());
-                } catch (Exception ignored) {
-
-                }
-            }
-            @Override
-            public void keyPressed(KeyEvent e) {
-                try {
-                    maxColor = ColorUtil.hextorgbColor(maxColorField.getText());
-                } catch (Exception ignored) {
-
-                }
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {
-                try {
-                    maxColor = ColorUtil.hextorgbColor(maxColorField.getText());
-                } catch (Exception ignored) {
-
-                }
-            }
-        });
-
         perlinFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(perlinFrame);
     }
@@ -324,19 +254,21 @@ public class PerlinNoise {
 
     //generates new noise based on the current value
     private static void nextIteration() {
-        //todo what if 3D
+        if (dimensionField.getText().equals("2D")) {
+            //serves no purpose during an animation
+            if (timer != null && timer.isRunning())
+                return;
 
-        //serves no purpose during an animation
-        if (timer != null && timer.isRunning())
-            return;
+            octaves++;
 
-        octaves++;
+            if (octaves == maxOctaves)
+                octaves = 1;
 
-        if (octaves == maxOctaves)
-            octaves = 1;
-
-        _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
-        noiseLabel.repaint();
+            _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
+            noiseLabel.repaint();
+        } else {
+            //todo
+        }
     }
 
     private static float[][] generate3DNoise(int nCount, float[][] fSeed, int nOctaves) {
@@ -402,16 +334,12 @@ public class PerlinNoise {
         animateCheckBox.setEnabled(false);
         nextIteration.setEnabled(false);
         dimensionSwitchButton.setEnabled(false);
-        minColorField.setEnabled(false);
-        maxColorField.setEnabled(false);
     }
 
     private static void unlockUI() {
         animateCheckBox.setEnabled(true);
         nextIteration.setEnabled(true);
         dimensionSwitchButton.setEnabled(true);
-        minColorField.setEnabled(true);
-        maxColorField.setEnabled(true);
     }
 
     private static Color getColor(float val) {

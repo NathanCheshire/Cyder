@@ -1,0 +1,36 @@
+[22:28:48] [ENTRY]: [WINUSER=Nathan]
+[22:28:48] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[22:28:49] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22:28:49] [LOGIN]: [AUTOCYPHER PASS]
+[22:28:50] [CLIENT]: test
+[22:28:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:54] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:54] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:54] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:55] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:55] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:55] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:55] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:55] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:56] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:56] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:56] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:56] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:56] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:56] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:57] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:57] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:28:58] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:58] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:28:58] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

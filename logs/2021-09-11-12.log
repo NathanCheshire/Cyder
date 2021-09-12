@@ -1,0 +1,64 @@
+[22:27:28] [ENTRY]: [WINUSER=Nathan]
+[22:27:28] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[22:27:29] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22:27:29] [LOGIN]: [AUTOCYPHER PASS]
+[22:27:30] [CLIENT]: test
+[22:27:35] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:27:36] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:36] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:36] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:36] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:36] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:36] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:37] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:37] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:37] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:37] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:27:38] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:38] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:38] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:38] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:38] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:39] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:39] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:39] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:39] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:39] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:39] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:40] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:27:40] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:27:40] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:40] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:27:41] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:27:41] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:27:41] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:27:41] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:27:41] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:41] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:42] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:42] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:42] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:42] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:42] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:42] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:42] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:43] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:43] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:43] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:43] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:43] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:43] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:43] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:44] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:44] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:44] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:44] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:44] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:44] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:45] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:45] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:45] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[22:27:45] [ACTION]: CyderButton, text=[Generate] CLICKED
+[22:27:47] [LOGOUT]:  [Nathan]
+[22:27:47] [EXIT]: [RUNTIME] 18s
+[22:27:47] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
