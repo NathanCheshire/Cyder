@@ -34,11 +34,23 @@ Since this is a Gradle project, you can simply fork this project via it's GitHub
 
 ## Pull Requests
 
-TODO
+After forking the project and learning Cyder Programming Standard and Cyder API (TODO LINK), you can submit a PR after you have considered ALL the following points:
+
+* Have I used already existing methods from the utilities package?
+* Have I added javadoc comments before any methods I created as well as @param and @return annotations?
+* Have I commented any code that could potentially be confusing (take note of what a magic number is: https://en.wikipedia.org/wiki/Magic_number_(programming))?
+* Have I tested my additions properly and thoroughly? 
+
+Additionally, the PR should contain a description with the following information:
+
+* A description of each file added/modified/removed and why the modification was performed. Walk me and other reviewers through your thought process for each of these changes. Keep it breif and if further information is required, reviewers will request more information before merging the PR. Try to check the state of your un-merged PR at least bi-weekly so that the modifications you made can be merged in ASAP.
+* A breif summary of your PR and what it adds to the program. This should differ from the first in that the first is for developers whilst this is simply a summary for users/enthusiasts to monitor Cyder's progress.
+
+INFORMATION
 
 ## Disclaimers
 
-As of 5.18.21, the program is intended for 2560x1440 resolution displays (my main display). I plan to fix this using SVG and other vector based graphics approaches in the future but currently, seeing as this message is still here, the program will look and operate best using a 2560x1440 display and Windows 10+.
+Currently, the program is intended for 2560x1440 resolution displays (my main display). I plan to fix this using SVG and other vector based graphics approaches in the future but currently, seeing as this message is still here, the program will look and operate best using a 2560x1440 display.
 
 ## TODO
 
@@ -52,7 +64,7 @@ As of 5.18.21, the program is intended for 2560x1440 resolution displays (my mai
 - [x]  move start data to user specific and place in a logs dir for the user. You should zip these logs upon completion
 - [x]  incorporate CyderProgressUI for ProgressBars wherever it might fit
 - [x]  put spotlight inside of the program
-- [ ]  get ImAvg working and put it inside the program
+- [x]  get ImAvg working and put it inside the program
 - [x]  allow users to map up to three internet links and place them on the menu panel
 - [x]  allow users to rearrange the menu panel and remember what they do
 - [x]  change the login animation to actual sliding JLabels with text and not a sliding image
