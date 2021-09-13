@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.FeatureDescriptor;
 import java.util.Random;
 
 public class PerlinNoise {
@@ -27,9 +28,12 @@ public class PerlinNoise {
     private static String[] dimensions = {"2D","3D"};
 
     //open simplex vars
-    private static final double FEATURE_SIZE = 24.0;
+    private static double FEATURE_SIZE = 24.0;
     private static OpenSimplexNoise noise;
     private static double timeStep = 0;
+    private static JSlider featureSlider;
+    private static double minFeatureSize = 24.0;
+    private static double maxFeatureSize = minFeatureSize * 2.0;
 
     private static JSlider speedSlider;
     private static int sliderValue = 500;
@@ -47,8 +51,6 @@ public class PerlinNoise {
     private static float[][] instanceSeed;
     private static int octaves = 1;
     private static int maxOctaves = 10;
-
-    //todo feature size changer that updates in real time too
 
     public static void showGUI() {
         //init with random
@@ -167,10 +169,10 @@ public class PerlinNoise {
         animateCheckBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            super.mouseClicked(e);
 
-                if (timer != null && timer.isRunning())
-                    timer.stop();
+            if (timer != null && timer.isRunning())
+                timer.stop();
             }
         });
         animateCheckBox.setBounds(120,650,50,50);
@@ -229,6 +231,43 @@ public class PerlinNoise {
         speedSlider.setFocusable(false);
         speedSlider.repaint();
         perlinFrame.getContentPane().add(speedSlider);
+
+        featureSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 500);
+        CyderSliderUI UI2 = new CyderSliderUI(featureSlider);
+        UI2.setThumbStroke(new BasicStroke(2.0f));
+        UI2.setSliderShape(SliderShape.RECT);
+        UI2.setFillColor(Color.black);
+        UI2.setOutlineColor(CyderColors.navy);
+        UI2.setNewValColor(CyderColors.regularBlue);
+        UI2.setOldValColor(CyderColors.intellijPink);
+        UI2.setTrackStroke(new BasicStroke(3.0f));
+        featureSlider.setUI(UI2);
+        featureSlider.setBounds(230, 710, 250, 40);
+        featureSlider.setPaintTicks(false);
+        featureSlider.setPaintLabels(false);
+        featureSlider.setVisible(true);
+        featureSlider.setValue(500);
+        featureSlider.addChangeListener(e -> {
+            FEATURE_SIZE = (featureSlider.getValue() / 1000.0) * (maxFeatureSize - minFeatureSize) + minFeatureSize;
+
+            if (dimensionField.getText().equals("3D") && !timer.isRunning()) {
+                for (int y = 0; y < resolution; y++) {
+                    for (int x = 0; x < resolution; x++) {
+                        double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
+                        _3DNoise[x][y].setColor(new Color(0x010101 * (int)((value + 1) * 127.5)));
+                        _3DNoise[x][y].setX(x);
+                        _3DNoise[x][y].setY(y);
+                    }
+                }
+
+                noiseLabel.repaint();
+            }
+        });
+        featureSlider.setOpaque(false);
+        featureSlider.setToolTipText("3D Feature Size");
+        featureSlider.setFocusable(false);
+        featureSlider.repaint();
+        perlinFrame.getContentPane().add(featureSlider);
 
         perlinFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(perlinFrame);
@@ -309,7 +348,6 @@ public class PerlinNoise {
                     _3DNoise[x][y].setY(y);
                 }
             }
-
         }
 
         //repaint
