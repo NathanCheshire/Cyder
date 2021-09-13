@@ -12,7 +12,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.FeatureDescriptor;
 import java.util.Random;
 
 public class PerlinNoise {

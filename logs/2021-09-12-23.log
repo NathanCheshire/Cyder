@@ -1,0 +1,14 @@
+[19:20:08] [ENTRY]: [WINUSER=Nathan]
+[19:20:08] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[19:20:09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:20:09] [LOGIN]: [AUTOCYPHER PASS]
+[19:20:10] [CLIENT]: test
+[19:20:14] [CLIENT]: Image average
+[19:20:15] [ACTION]: CyderButton, text=[Add Image] CLICKED
+[19:20:21] [ACTION]: CyderButton, text=[Add Image] CLICKED
+[19:20:32] [ACTION]: CyderButton, text=[Average Images] CLICKED
+[19:20:41] [ACTION]: [Image Averager] [NOTIFICATION] Average computed and saved to your user's backgrounds/ directory
+[19:20:44] [CLIENT]: Dir
+[19:20:45] [ACTION]: DIR SEARCH
+[19:20:48] [CLIENT]: Prefs
+[19:20:48] [ACTION]: USER EDITOR

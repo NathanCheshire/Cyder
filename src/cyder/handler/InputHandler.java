@@ -237,7 +237,6 @@ public class InputHandler {
         } else if (eic("i hate you")) {
             println("That's not very nice.");
         }
-        //printing components ------------------------------------
         //printing imageicons -------------------------------------
         else if (eic("java")) {
             printlnImage("sys/pictures/print/Duke.png");
@@ -828,6 +827,23 @@ public class InputHandler {
                 println("Sorry, " + UserUtil.getUserData("name") + ", " +
                         "but you do not have permission to perform that operation.");
             }
+        } else if (hasWord("count") && hasWord("logs")) {
+            if (SecurityUtil.nathanLenovo()) {
+                File[] logs = new File("logs").listFiles();
+                int count = 0;
+
+                for (File log : logs) {
+                    if (StringUtil.getExtension(log).equals(".log")
+                            && !log.equals(SessionLogger.getCurrentLog())) {
+                        count++;
+                    }
+                }
+
+                println("Number of logs: " + count);
+            } else {
+                println("Sorry, " + UserUtil.getUserData("name") + ", " +
+                        "but you do not have permission to perform that operation.");
+            }
         } else if (hasWord("open") && hasWord("current") && hasWord("log")) {
             if (SecurityUtil.nathanLenovo()) {
                 IOUtil.openFileOutsideProgram(SessionLogger.getCurrentLog().getAbsolutePath());
@@ -952,7 +968,7 @@ public class InputHandler {
                     println("Improper pastebin url");
                 }
             }
-        } else if (hasWord("average") && (hasWord("image")) || hasWord("picture")) {
+        } else if (has("average") && (has("image")) || hasWord("picture")) {
             new ImageAverager();
         } else if (hasWord("conway") || hasWord("conways")) {
             new Conways();
@@ -960,10 +976,12 @@ public class InputHandler {
             Cards.Birthday2021();
         } else if (hasWord("pathfinder") || hasWord("path")) {
             PathFinder.showGUI();
+        } else if (hasWord("perlin")) {
+            PerlinNoise.showGUI();
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            PerlinNoise.showGUI();
+
         }
         //final attempt at unknown input --------------------------
         else {

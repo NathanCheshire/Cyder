@@ -9,7 +9,6 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.IOUtil;
-import cyder.utilities.SecurityUtil;
 import cyder.utilities.StringUtil;
 
 import javax.imageio.ImageIO;
@@ -169,9 +168,10 @@ public class ImageAverager {
                 save.addActionListener(e -> {
                     try {
                         File outFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() +
-                                "/Backgrounds/" + SecurityUtil.generateUUID() + ".png");
+                                "/Backgrounds/" + combineImageNames() + ".png");
                         ImageIO.write(saveImage, "png", outFile);
                         cf.notify("Average computed and saved to your user's backgrounds/ directory");
+                        drawFrame.closeAnimation();
                     } catch (Exception ex) {
                         ErrorHandler.handle(ex);
                     }
@@ -306,5 +306,15 @@ public class ImageAverager {
         }
 
         return result;
+    }
+
+    private String combineImageNames() {
+        StringBuilder ret = new StringBuilder();
+
+        for (File f : files) {
+            ret.append(StringUtil.getFilename(f.getName())).append("_");
+        }
+
+        return ret.substring(0, ret.toString().length() - 1);
     }
 }
