@@ -39,7 +39,7 @@ After forking the project and learning Cyder Programming Standard and Cyder API 
 * Have I used already existing methods from the utilities package?
 * Have I added javadoc comments before any methods I created as well as @param and @return annotations?
 * Have I commented any code that could potentially be confusing (take note of what a magic number is: https://en.wikipedia.org/wiki/Magic_number_(programming))?
-* Have I tested my additions properly and thoroughly? 
+* Have I tested my modifications properly and thoroughly? 
 
 Additionally, the PR should contain a description with the following information:
 
