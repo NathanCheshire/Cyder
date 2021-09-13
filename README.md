@@ -44,9 +44,7 @@ After forking the project and learning Cyder Programming Standard and Cyder API 
 Additionally, the PR should contain the following information:
 
 * A description of each file added/modified/removed and why the modification was performed. Walk me and other reviewers through your thought process for each of these changes. Keep it breif and if further information is required, reviewers will request more information before merging the PR. Try to check the state of your un-merged PR at least bi-weekly so that the modifications you made can be merged in ASAP.
-* A breif summary of your PR and what it adds to the program. This should differ from the first in that the first is for developers whilst this is simply a summary for users/enthusiasts to monitor Cyder's progress.
-
-INFORMATION
+* A breif summary of your PR and how it affects Cyder. This should differ from the first in that the first is for developers whilst this is simply a summary for users/enthusiasts to monitor Cyder's progress.
 
 ## Disclaimers
 
