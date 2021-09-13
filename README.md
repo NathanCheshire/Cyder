@@ -30,7 +30,11 @@ The name comes from, well, I don't know to be completely transparent. I think it
 
 ## Usage
 
-TODO gradle setup instructions, forking, adding, and PR requests, and Release usage instructions to come.
+Since this is a gradle project, you can simply fork this project via it's GitHub url and run it using your favorite Java IDE (Eclipse, IntelliJ, NetBeans, etc.). If you don't download an official release/build and fork the project, you'll need to change a couple properties to allow the project ot start. First, you'll need to change the released key/value pair in Sys.json. Second, you'll need to make sure that you're running either Windows or a Linux distribution. The program is not intended for OSX based systems and will exit upon starting should a user attempt to start Cyder on OSX.
+
+## Pull Requests
+
+TODO
 
 ## Disclaimers
 
