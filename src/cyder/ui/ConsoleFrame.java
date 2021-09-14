@@ -57,6 +57,14 @@ public final class ConsoleFrame {
     private JButton alternateBackground;
     private JButton close;
 
+    //music controls panel
+    private JLabel musicControlsLabel;
+    private JLabel toggleMusicLabel;
+    private JButton playPauseButton;
+    private JButton forwardButton;
+    private JButton backwardButton;
+    private boolean musicMenuVisible;
+
     //debug ui elements
     private JLabel debugImageLabel;
     private JLabel verticalDebugLine;
@@ -614,6 +622,42 @@ public final class ConsoleFrame {
             menuButton.setBorderPainted(false);
 
             consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> minimizeMenu());
+
+            musicControlsLabel = new JLabel("");
+            musicControlsLabel.setBounds(-88, DragLabel.getDefaultHeight() - 1,100,20);
+            musicControlsLabel.setOpaque(true);
+            musicControlsLabel.setBackground(CyderColors.navy);
+            musicControlsLabel.setVisible(true);
+            consoleCyderFrame.getContentPane().add(musicControlsLabel, JLayeredPane.DRAG_LAYER);
+
+            toggleMusicLabel = new JLabel("");
+            toggleMusicLabel.setBounds(93,3,4,14);
+            musicControlsLabel.add(toggleMusicLabel);
+            toggleMusicLabel.setBackground(CyderColors.vanila);
+            toggleMusicLabel.setToolTipText("Audio Controls");
+            toggleMusicLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (!musicMenuVisible) {
+                        appearMusicControls();
+                    } else {
+                        minimizeMusicControls();
+                    }
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    toggleMusicLabel.setBackground(CyderColors.regularRed);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    toggleMusicLabel.setBackground(CyderColors.vanila);
+                }
+            });
+            toggleMusicLabel.setVisible(true);
+            toggleMusicLabel.setOpaque(true);
+            musicControlsLabel.add(toggleMusicLabel);
 
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
@@ -2476,5 +2520,25 @@ public final class ConsoleFrame {
         menuLabel.setVisible(false);
         menuGenerated = false;
         menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+    }
+
+    public void minimizeMusicControls() {
+        AnimationUtil.componentLeft(0, - 88,
+                10,8,musicControlsLabel);
+        musicMenuVisible = false;
+    }
+
+    public void appearMusicControls() {
+        AnimationUtil.componentRight(musicControlsLabel.getX(), 0,
+                10,8,musicControlsLabel);
+        musicMenuVisible = true;
+    }
+
+    public void hideMusicControls() {
+        musicControlsLabel.setVisible(false);
+    }
+
+    public void setVisibleMusicControls() {
+        musicControlsLabel.setVisible(true);
     }
 }

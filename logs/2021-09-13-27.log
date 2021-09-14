@@ -1,0 +1,9 @@
+[22:31:22] [ENTRY]: [WINUSER=Nathan]
+[22:31:22] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[22:31:23] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22:31:23] [LOGIN]: [AUTOCYPHER PASS]
+[22:31:24] [CLIENT]: test
+[22:31:32] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[22:31:39] [LOGOUT]:  [Nathan]
+[22:31:39] [EXIT]: [RUNTIME] 16s
+[22:31:39] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

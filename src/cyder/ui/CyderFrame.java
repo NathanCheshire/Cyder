@@ -130,7 +130,7 @@ public class CyderFrame extends JFrame {
         leftDrag.setBounds(1, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
         leftDrag.setxOffset(1);
         leftDrag.setyOffset(DragLabel.getDefaultHeight());
-        contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
+        contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER - 1);
         leftDrag.setFocusable(false);
         leftDrag.setButtonsList(null);
 

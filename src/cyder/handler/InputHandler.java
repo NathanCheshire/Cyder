@@ -41,6 +41,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 //todo checkbox sliding panel that has bounce effects
+//todo when playing audio, have an audio bar appear that can slide in and out
 
 public class InputHandler {
     private JTextPane outputArea;
