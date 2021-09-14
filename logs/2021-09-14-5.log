@@ -1,0 +1,9 @@
+[13:41:25] [ENTRY]: [WINUSER=Nathan]
+[13:41:25] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[13:41:26] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:41:26] [LOGIN]: [AUTOCYPHER PASS]
+[13:41:27] [CLIENT]: test
+[13:41:49] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] You only have one background image. Would you like to add more? (Enter yes/no)
+[13:41:51] [LOGOUT]:  [Nathan]
+[13:41:51] [EXIT]: [RUNTIME] 26s
+[13:41:51] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

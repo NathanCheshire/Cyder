@@ -21,6 +21,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
@@ -624,14 +625,14 @@ public final class ConsoleFrame {
             consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> minimizeMenu());
 
             musicControlsLabel = new JLabel("");
-            musicControlsLabel.setBounds(-88, DragLabel.getDefaultHeight() - 1,100,20);
+            musicControlsLabel.setBounds(-88, DragLabel.getDefaultHeight() + 5,100,40);
             musicControlsLabel.setOpaque(true);
             musicControlsLabel.setBackground(CyderColors.navy);
             musicControlsLabel.setVisible(true);
             consoleCyderFrame.getContentPane().add(musicControlsLabel, JLayeredPane.DRAG_LAYER);
 
             toggleMusicLabel = new JLabel("");
-            toggleMusicLabel.setBounds(93,3,4,14);
+            toggleMusicLabel.setBounds(93,4,4,32);
             musicControlsLabel.add(toggleMusicLabel);
             toggleMusicLabel.setBackground(CyderColors.vanila);
             toggleMusicLabel.setToolTipText("Audio Controls");
@@ -658,6 +659,81 @@ public final class ConsoleFrame {
             toggleMusicLabel.setVisible(true);
             toggleMusicLabel.setOpaque(true);
             musicControlsLabel.add(toggleMusicLabel);
+
+            JLabel stopMusicLabel = new JLabel("");
+            stopMusicLabel.setBounds(30,5,30, 30);
+            stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Stop.png"));
+            musicControlsLabel.add(stopMusicLabel);
+            stopMusicLabel.setToolTipText("Stop");
+            stopMusicLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                   //todo stop any audio playing
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/StopHover.png"));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Stop.png"));
+                }
+            });
+            stopMusicLabel.setVisible(true);
+            stopMusicLabel.setOpaque(false);
+            musicControlsLabel.add(stopMusicLabel);
+
+            JLabel nextMusicLabel = new JLabel("");
+            nextMusicLabel.setBounds(60,5,30, 30);
+            nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Skip.png"));
+            musicControlsLabel.add(nextMusicLabel);
+            nextMusicLabel.setToolTipText("Skip");
+            nextMusicLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    //todo next if possible
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipHover.png"));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Skip.png"));
+                }
+            });
+            nextMusicLabel.setVisible(true);
+            nextMusicLabel.setOpaque(false);
+            musicControlsLabel.add(nextMusicLabel);
+
+            JLabel lastMusicLabel = new JLabel("");
+            lastMusicLabel.setBounds(0,5,30, 30);
+            lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBack.png"));
+            musicControlsLabel.add(nextMusicLabel);
+            lastMusicLabel.setToolTipText("Previous");
+            lastMusicLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    //todo last if possible
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBackHover.png"));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBack.png"));
+                }
+            });
+            lastMusicLabel.setVisible(true);
+            lastMusicLabel.setOpaque(false);
+            musicControlsLabel.add(lastMusicLabel);
 
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
