@@ -235,7 +235,7 @@ public class IOUtil {
     }
 
     /**
-     * Returns the cyderplayer
+     * Returns the CyderPlayer
      */
     public static AudioPlayer getCyderPlayer() {
         return CyderPlayer;

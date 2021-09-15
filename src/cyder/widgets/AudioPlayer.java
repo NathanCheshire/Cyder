@@ -160,6 +160,8 @@ public class AudioPlayer {
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
                 ErrorHandler.handle(ex);
+            } finally {
+                refreshAudioFiles(null);
             }
         }, "wait thread for GetterUtil().getFile()").start());
 
@@ -452,6 +454,11 @@ public class AudioPlayer {
      */
     public Player getPlayer() {
         return player;
+    }
+
+    //todo needs to work to let other utils know if cyderplayer is open or not
+    public boolean isPlayerOpen() {
+        return audioFrame != null;
     }
 
     /**

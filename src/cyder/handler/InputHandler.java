@@ -901,7 +901,17 @@ public class InputHandler {
                         if (downloadedFile.get() != null && downloadedFile.get().exists()) {
                             println("Download complete and added to mp3 queue");
 
-                            IOUtil.addToMp3Queue(downloadedFile.get());
+                            //todo this isn't working and I can't test since intellij
+                            // decided to not stop at breakpoints and not show system.out.println output
+
+                            //play the song if the CyderPlayer isn't open, otherwise add it to the queue
+                            if (IOUtil.getCyderPlayer().isPlayerOpen()) {
+                                System.out.println("here1");
+                                IOUtil.addToMp3Queue(downloadedFile.get());
+                            } else {
+                                System.out.println("here2");
+                                IOUtil.mp3(downloadedFile.get().getAbsolutePath());
+                            }
                         }
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
@@ -986,7 +996,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-
+            System.out.println("here");
         }
         //final attempt at unknown input --------------------------
         else {

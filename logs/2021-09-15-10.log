@@ -1,0 +1,42 @@
+[00:13:13] [ENTRY]: [WINUSER=Nathan]
+[00:13:14] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[00:13:14] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:13:15] [EXCEPTION]: 
+off < 0 || len < 0 || off+len > b.length || off+len < 0!
+Thrown from:
+java.desktop/javax.imageio.stream.FileCacheImageInputStream.read(FileCacheImageInputStream.java:180)
+StackTrace:
+java.lang.IndexOutOfBoundsException: off < 0 || len < 0 || off+len > b.length || off+len < 0!
+	at java.desktop/javax.imageio.stream.FileCacheImageInputStream.read(FileCacheImageInputStream.java:180)
+	at java.desktop/com.sun.imageio.plugins.common.SubImageInputStream.read(SubImageInputStream.java:61)
+	at java.desktop/com.sun.imageio.plugins.common.InputStreamAdapter.read(InputStreamAdapter.java:47)
+	at java.base/java.io.SequenceInputStream.read(SequenceInputStream.java:199)
+	at java.base/java.util.zip.InflaterInputStream.fill(InflaterInputStream.java:243)
+	at java.base/java.util.zip.InflaterInputStream.read(InflaterInputStream.java:159)
+	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:286)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:345)
+	at java.base/java.io.DataInputStream.readFully(DataInputStream.java:200)
+	at java.desktop/com.sun.imageio.plugins.png.PNGImageReader.decodePass(PNGImageReader.java:1132)
+	at java.desktop/com.sun.imageio.plugins.png.PNGImageReader.decodeImage(PNGImageReader.java:1228)
+	at java.desktop/com.sun.imageio.plugins.png.PNGImageReader.readImage(PNGImageReader.java:1349)
+	at java.desktop/com.sun.imageio.plugins.png.PNGImageReader.read(PNGImageReader.java:1627)
+	at java.desktop/javax.imageio.ImageIO.read(ImageIO.java:1468)
+	at java.desktop/javax.imageio.ImageIO.read(ImageIO.java:1363)
+	at cyder.utilities.UserUtil.fixBackgrounds(UserUtil.java:224)
+	at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1706)
+	at cyder.utilities.UserUtil.checkPassword(UserUtil.java:389)
+	at cyder.genesis.Login.recognize(Login.java:295)
+	at cyder.genesis.Login.autoCypher(Login.java:371)
+	at cyder.genesis.Cyder.main(Cyder.java:38)
+[00:13:15] [LOGIN]: [AUTOCYPHER PASS]
+[00:13:16] [CLIENT]: test
+[00:13:28] [CLIENT]: prefs
+[00:13:28] [ACTION]: USER EDITOR
+[00:13:30] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:13:30] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the background you are currently using
+[00:13:32] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:13:33] [CONSOLE_OUT]: [STRING] Music: drippin so pretty- Dior successfully deleted.
+[00:13:34] [LOGOUT]:  [Nathan]
+[00:13:34] [EXIT]: [RUNTIME] 20s
+[00:13:34] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 1

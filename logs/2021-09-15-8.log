@@ -1,0 +1,146 @@
+[00:11:21] [ENTRY]: [WINUSER=Nathan]
+[00:11:21] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[00:11:22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:11:22] [LOGIN]: [AUTOCYPHER PASS]
+[00:11:24] [CLIENT]: test
+[00:11:24] [CLIENT]: Prefs
+[00:11:25] [ACTION]: USER EDITOR
+[00:11:28] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:28] [CONSOLE_OUT]: [STRING] Music: Calvin Harris - Outside (Official Video) ft. Ellie Goulding successfully deleted.
+[00:11:29] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:30] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:31] [CONSOLE_OUT]: [STRING] Music: David Guetta - Titanium ft. Sia (Official Video) successfully deleted.
+[00:11:31] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:32] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:33] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:33] [CONSOLE_OUT]: [STRING] Music: FLYBOYELI - Rider (ft. YungDxtti) successfully deleted.
+[00:11:34] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:35] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:35] [CONSOLE_OUT]: [STRING] Music: Joan Jett & The Blackhearts - I Hate Myself for Loving You (Official Video) successfully deleted.
+[00:11:36] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:38] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:39] [CONSOLE_OUT]: [STRING] Music: Shawn Mendes, Camila Cabello - Señorita successfully deleted.
+[00:11:39] [ACTION]: CyderButton, text=[Delete] CLICKED
+[00:11:41] [CONSOLE_OUT]: [STRING] Music: Somebody That I Used To Know - Gotye (Lyrics) ft. Kimbra successfully deleted.
+[00:11:42] [CLIENT]: Cls
+[00:11:43] [CLIENT]: controlc
+[00:11:43] [CONSOLE_OUT]: [STRING] Music: Maroon 5, Julia Michaels - Help Me Out ft. Julia Michaels (Lyric Video) successfully deleted.
+[00:11:43] [CONSOLE_OUT]: [STRING] Music: The Chainsmokers & Coldplay - Something Just Like This (Lyric) successfully deleted.
+[00:11:43] [CONSOLE_OUT]: [STRING] Music: Drippin So Pretty- Loaded feat Brennan Savage (Lyrics) successfully deleted.
+[00:11:43] [CONSOLE_OUT]: [STRING] Music: Figure - Beetlejuice (Dubstep Mix) [Official] successfully deleted.
+[00:11:43] [CONSOLE_OUT]: [STRING] Music: How Can I Be successfully deleted.
+[00:11:43] [CONSOLE_OUT]: [STRING] Escaped
+[00:11:44] [CLIENT]: Cls
+[00:11:48] [CLIENT]: Test
+[00:11:48] [CLIENT]: Cls
+[00:11:53] [CLIENT]: Play drippin so pretty
+[00:11:53] [EXCEPTION]: 
+no protocol: drippin so pretty
+Thrown from:
+java.base/java.net.URL.<init>(URL.java:627)
+StackTrace:
+java.net.MalformedURLException: no protocol: drippin so pretty
+	at java.base/java.net.URL.<init>(URL.java:627)
+	at java.base/java.net.URL.<init>(URL.java:523)
+	at java.base/java.net.URL.<init>(URL.java:470)
+	at cyder.handler.InputHandler.handle(InputHandler.java:878)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:472)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[00:11:53] [CONSOLE_OUT]: [STRING] Searching youtube for: drippin so pretty
+[00:11:54] [CONSOLE_OUT]: [STRING] Starting download of: drippin so pretty- Dior
+[00:12:01] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
+[00:12:24] [CLIENT]: Play drippin so pretty
+[00:12:24] [EXCEPTION]: 
+no protocol: drippin so pretty
+Thrown from:
+java.base/java.net.URL.<init>(URL.java:627)
+StackTrace:
+java.net.MalformedURLException: no protocol: drippin so pretty
+	at java.base/java.net.URL.<init>(URL.java:627)
+	at java.base/java.net.URL.<init>(URL.java:523)
+	at java.base/java.net.URL.<init>(URL.java:470)
+	at cyder.handler.InputHandler.handle(InputHandler.java:878)
+	at cyder.ui.ConsoleFrame.lambda$start$1(ConsoleFrame.java:472)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[00:12:24] [CONSOLE_OUT]: [STRING] Searching youtube for: drippin so pretty
+[00:12:25] [CONSOLE_OUT]: [STRING] Starting download of: drippin so pretty- Dior
+[00:12:32] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
+[00:12:39] [LOGOUT]:  [Nathan]
+[00:12:39] [EXIT]: [RUNTIME] 1m 17s
+[00:12:39] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 2

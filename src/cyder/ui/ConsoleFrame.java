@@ -623,7 +623,15 @@ public final class ConsoleFrame {
 
             //todo move this menu generation to a method
 
+            //todo revalidate icons for this panel too
+
+            //todo audio panel needs to be lower and not on menu panel
+
             //todo fix menuButton gains focus in entire window, make it input field default focus
+            //todo also when pressing it should instantly switch to down white icon
+
+            //todo menu panels are layered over notifications, notifications should be top level so these panels need to
+            // step down a level or two
 
             musicControlsLabel = new JLabel("");
             musicControlsLabel.setBounds(-138, DragLabel.getDefaultHeight() + 5,150,40);
