@@ -448,6 +448,13 @@ public class AudioPlayer {
     }
 
     /**
+     * Returns the associated JLayer player
+     */
+    public Player getPlayer() {
+        return player;
+    }
+
+    /**
      * Refreshes the {@code Port.Info.SPEAKER} or {@code Port.Info.HEADPHONE} volume.
      */
     public void refreshAudio() {
@@ -739,6 +746,14 @@ public class AudioPlayer {
                 ErrorHandler.handle(e);
             }
         },"Flash Player Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+    }
+
+    /**
+     * Resumes audio at the current audio file at the previously paused position.
+     */
+    public void resumeAudio() {
+        System.out.println(pauseLocation);
+        resumeAudio(pauseLocation);
     }
 
     /**

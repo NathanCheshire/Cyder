@@ -235,6 +235,13 @@ public class IOUtil {
     }
 
     /**
+     * Returns the cyderplayer
+     */
+    public static AudioPlayer getCyderPlayer() {
+        return CyderPlayer;
+    }
+
+    /**
      * Ends the current AudioPlayer session if ongoing and starts a new one with the requested file
      * @param FilePath - the path to the audio file to start playing
      */
@@ -291,6 +298,7 @@ public class IOUtil {
 
     /**
      * Plays the requested system audio file using a new JLayer player
+     *      (this cannot be stopped util the mpeg is finished)
      * @param FilePath - the path to the mp3 file to play
      */
     public static void playSystemAudio(String FilePath) {
@@ -313,7 +321,7 @@ public class IOUtil {
     /**
      * Simpler function for playing an audio file
      * @param FilePath - the path to the mp3 file
-     * @param inputHandler - the inputhandler to use hwen appending the stop button
+     * @param inputHandler - the inputhandler to use when appending the stop button
      */
     public static void playAudio(String FilePath, InputHandler inputHandler) {
         playAudio(FilePath, inputHandler, true);
@@ -330,6 +338,46 @@ public class IOUtil {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    /**
+     * Stops any and all audio playing either through flash player or the general IOUtil JLayer player
+     */
+    public static void stopAllAudio() {
+        stopAudio();
+        CyderPlayer.stopAudio();
+    }
+
+    /**
+     * Assuming audio is playing via flash player, skips the audio to the previous track if possible
+     */
+    public static void nextAudio() {
+        if (CyderPlayer != null)
+            CyderPlayer.nextAudio();
+    }
+
+    /**
+     * Assuming audio is playing via flash player, skips the audio to the last track if possible
+     */
+    public static void lastAudio() {
+        if (CyderPlayer != null)
+            CyderPlayer.previousAudio();
+    }
+
+    /**
+     * Pause audio if playing via flash player
+     */
+    public static void pauseAudio() {
+        if (CyderPlayer != null)
+            CyderPlayer.pauseAudio();
+    }
+
+    /**
+     * Resumes audio if playing via flash player
+     */
+    public static void resumeAudio() {
+        if (CyderPlayer != null)
+            CyderPlayer.resumeAudio();
     }
 
     /**

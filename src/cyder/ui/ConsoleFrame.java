@@ -21,7 +21,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
@@ -61,9 +60,7 @@ public final class ConsoleFrame {
     //music controls panel
     private JLabel musicControlsLabel;
     private JLabel toggleMusicLabel;
-    private JButton playPauseButton;
-    private JButton forwardButton;
-    private JButton backwardButton;
+    private JLabel playPauseMusicLabel;
     private boolean musicMenuVisible;
 
     //debug ui elements
@@ -624,15 +621,17 @@ public final class ConsoleFrame {
 
             consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> minimizeMenu());
 
+            //todo move this menu generation to a method
+
             musicControlsLabel = new JLabel("");
-            musicControlsLabel.setBounds(-88, DragLabel.getDefaultHeight() + 5,100,40);
+            musicControlsLabel.setBounds(-138, DragLabel.getDefaultHeight() + 5,150,40);
             musicControlsLabel.setOpaque(true);
             musicControlsLabel.setBackground(CyderColors.navy);
             musicControlsLabel.setVisible(true);
-            consoleCyderFrame.getContentPane().add(musicControlsLabel, JLayeredPane.DRAG_LAYER);
+            consoleCyderFrame.getIconPane().add(musicControlsLabel, JLayeredPane.POPUP_LAYER);
 
             toggleMusicLabel = new JLabel("");
-            toggleMusicLabel.setBounds(93,4,4,32);
+            toggleMusicLabel.setBounds(143,4,4,32);
             musicControlsLabel.add(toggleMusicLabel);
             toggleMusicLabel.setBackground(CyderColors.vanila);
             toggleMusicLabel.setToolTipText("Audio Controls");
@@ -661,14 +660,14 @@ public final class ConsoleFrame {
             musicControlsLabel.add(toggleMusicLabel);
 
             JLabel stopMusicLabel = new JLabel("");
-            stopMusicLabel.setBounds(30,5,30, 30);
+            stopMusicLabel.setBounds(45,5,30, 30);
             stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Stop.png"));
             musicControlsLabel.add(stopMusicLabel);
             stopMusicLabel.setToolTipText("Stop");
             stopMusicLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                   //todo stop any audio playing
+                    IOUtil.stopAllAudio();
                 }
 
                 @Override
@@ -685,15 +684,54 @@ public final class ConsoleFrame {
             stopMusicLabel.setOpaque(false);
             musicControlsLabel.add(stopMusicLabel);
 
+            playPauseMusicLabel = new JLabel("");
+            playPauseMusicLabel.setBounds(80,5,30, 30);
+            if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+            } else {
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+            }
+            musicControlsLabel.add(playPauseMusicLabel);
+            playPauseMusicLabel.setToolTipText("Play/Pause");
+            playPauseMusicLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                   //if audio is playing, pause it
+
+                    //if audio is not playing, this should only be visible if audio is playing so we should try and resume it
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
+                        playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PlayHover.png"));
+                    } else {
+                        playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PauseHover.png"));
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
+                        playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+                    } else {
+                        playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+                    }
+                }
+            });
+            playPauseMusicLabel.setVisible(true);
+            playPauseMusicLabel.setOpaque(false);
+            musicControlsLabel.add(playPauseMusicLabel);
+
             JLabel nextMusicLabel = new JLabel("");
-            nextMusicLabel.setBounds(60,5,30, 30);
+            nextMusicLabel.setBounds(110,5,30, 30);
             nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Skip.png"));
             musicControlsLabel.add(nextMusicLabel);
             nextMusicLabel.setToolTipText("Skip");
             nextMusicLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    //todo next if possible
+                    IOUtil.nextAudio();
                 }
 
                 @Override
@@ -711,14 +749,14 @@ public final class ConsoleFrame {
             musicControlsLabel.add(nextMusicLabel);
 
             JLabel lastMusicLabel = new JLabel("");
-            lastMusicLabel.setBounds(0,5,30, 30);
+            lastMusicLabel.setBounds(10,5,30, 30);
             lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBack.png"));
             musicControlsLabel.add(nextMusicLabel);
             lastMusicLabel.setToolTipText("Previous");
             lastMusicLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    //todo last if possible
+                    IOUtil.lastAudio();
                 }
 
                 @Override
@@ -734,6 +772,8 @@ public final class ConsoleFrame {
             lastMusicLabel.setVisible(true);
             lastMusicLabel.setOpaque(false);
             musicControlsLabel.add(lastMusicLabel);
+
+            //end of menu generation ---------------------------------------------------
 
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
@@ -2599,15 +2639,22 @@ public final class ConsoleFrame {
     }
 
     public void minimizeMusicControls() {
-        AnimationUtil.componentLeft(0, - 88,
+        AnimationUtil.componentLeft(0, - 138,
                 10,8,musicControlsLabel);
         musicMenuVisible = false;
     }
 
     public void appearMusicControls() {
+        if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
+            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+        } else {
+            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+        }
+
         AnimationUtil.componentRight(musicControlsLabel.getX(), 0,
                 10,8,musicControlsLabel);
         musicMenuVisible = true;
+
     }
 
     public void hideMusicControls() {

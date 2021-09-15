@@ -43,6 +43,10 @@ import java.util.concurrent.ThreadLocalRandom;
 //todo checkbox sliding panel that has bounce effects
 //todo when playing audio, have an audio bar appear that can slide in and out
 
+//todo suggestions at end of log summary
+
+//todo console commands that set location of console should move windows pinned to console with it
+
 public class InputHandler {
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;
