@@ -623,6 +623,8 @@ public final class ConsoleFrame {
 
             //todo move this menu generation to a method
 
+            //todo fix menuButton gains focus in entire window, make it input field default focus
+
             musicControlsLabel = new JLabel("");
             musicControlsLabel.setBounds(-138, DragLabel.getDefaultHeight() + 5,150,40);
             musicControlsLabel.setOpaque(true);
@@ -696,9 +698,18 @@ public final class ConsoleFrame {
             playPauseMusicLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                   //if audio is playing, pause it
+                   //is the CyderPlayer open
+                   boolean playerValid = IOUtil.getCyderPlayer() != null;
 
-                    //if audio is not playing, this should only be visible if audio is playing so we should try and resume it
+                   if (playerValid) {
+                       if (IOUtil.getCyderPlayer().getPlayer() == null) {
+                           IOUtil.resumeAudio();
+                           playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+                       } else {
+                           IOUtil.pauseAudio();
+                           playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+                       }
+                   }
                 }
 
                 @Override
