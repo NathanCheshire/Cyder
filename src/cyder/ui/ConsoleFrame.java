@@ -630,15 +630,12 @@ public final class ConsoleFrame {
             //todo fix menuButton gains focus in entire window, make it input field default focus
             //todo also when pressing it should instantly switch to down white icon
 
-            //todo menu panels are layered over notifications, notifications should be top level so these panels need to
-            // step down a level or two
-
             musicControlsLabel = new JLabel("");
             musicControlsLabel.setBounds(-138, DragLabel.getDefaultHeight() + 5,150,40);
             musicControlsLabel.setOpaque(true);
             musicControlsLabel.setBackground(CyderColors.navy);
             musicControlsLabel.setVisible(true);
-            consoleCyderFrame.getIconPane().add(musicControlsLabel, JLayeredPane.POPUP_LAYER);
+            consoleCyderFrame.getIconPane().add(musicControlsLabel, JLayeredPane.MODAL_LAYER);
 
             toggleMusicLabel = new JLabel("");
             toggleMusicLabel.setBounds(143,4,4,32);
@@ -1267,7 +1264,7 @@ public final class ConsoleFrame {
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.navy);
         menuLabel.setVisible(true);
-        consoleCyderFrame.getIconPane().add(menuLabel, JLayeredPane.POPUP_LAYER);
+        consoleCyderFrame.getIconPane().add(menuLabel, JLayeredPane.MODAL_LAYER);
 
         Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
 
