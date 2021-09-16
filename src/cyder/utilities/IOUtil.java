@@ -226,8 +226,12 @@ public class IOUtil {
         Notes = new Notes();
     }
 
+    /**
+     * Adds the given file to the AudioPlayer queue. If the player is not open, then it plays the requested audio.
+     * @param f - the audio to play
+     */
     public static void addToMp3Queue(File f) {
-        if (CyderPlayer != null) {
+        if (CyderPlayer != null && CyderPlayer.isValid()) {
             CyderPlayer.addToQueue(f);
         } else {
             mp3(f.getAbsolutePath());

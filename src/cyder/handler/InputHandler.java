@@ -40,12 +40,13 @@ import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
-//todo checkbox sliding panel that has bounce effects
-//todo when playing audio, have an audio bar appear that can slide in and out
-
+//todo resume audio panel functionality, make panel update buttons dynamically
 //todo suggestions at end of log summary
-
 //todo console commands that set location of console should move windows pinned to console with it
+
+//todo instead of system.out.println, have debug util that will print stuff to a window that opens and stays open
+// for the whole of runtime, when something  is printed to it, it should be brought to the front and make a sound
+// should be a mini console like 400x400 and only a jtextarea since we're only printing strings
 
 public class InputHandler {
     private JTextPane outputArea;
@@ -901,21 +902,8 @@ public class InputHandler {
                         if (downloadedFile.get() != null && downloadedFile.get().exists()) {
                             println("Download complete and added to mp3 queue");
 
-                            //todo this isn't working and I can't test since intellij
-                            // decided to not stop at breakpoints and not show system.out.println output
-
-                            //todo test these cases
-
-                            //open if never opened: check
-                            //add to queue if already playing and open: check
-                            // open if opened and closed: false
-
-                            //play the song if the CyderPlayer isn't open, otherwise add it to the queue
-                            if (IOUtil.getCyderPlayer().isValid()) {
-                                IOUtil.addToMp3Queue(downloadedFile.get());
-                            } else {
-                                IOUtil.mp3(downloadedFile.get().getAbsolutePath());
-                            }
+                            //play the song
+                            IOUtil.addToMp3Queue(downloadedFile.get());
                         }
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
