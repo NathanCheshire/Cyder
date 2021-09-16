@@ -61,6 +61,7 @@ public class AudioPlayer {
 
     //audio list
     private int audioIndex;
+    private static final int pauseAudioReactionOffset = 10000;
     private LinkedList<File> audioFiles;
 
     //JLayer objects
@@ -533,7 +534,7 @@ public class AudioPlayer {
     public void pauseAudio() {
         lastAction = LastAction.PAUSE;
         try {
-            pauseLocation = totalLength - fis.available() - 10000;
+            pauseLocation = totalLength - fis.available() - pauseAudioReactionOffset;
 
             if (player != null)
                 player.close();

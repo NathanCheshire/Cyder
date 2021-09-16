@@ -623,8 +623,7 @@ public final class ConsoleFrame {
             consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> minimizeMenu());
 
             generateAudioMenu();
-
-            //todo make audio controls appear and disappear properly
+            hideAudioControls();
 
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
@@ -830,6 +829,7 @@ public final class ConsoleFrame {
             consoleCyderFrame.setLocationRelativeTo(null);
             //todo should remember where frame was last program
             // if it's off screen pop it back into bounds
+            // todo we'll need a preference for this and dispose listener
 
             //resume frame checker
             GenesisShare.cancelFrameCheckerSuspention();
@@ -1506,9 +1506,9 @@ public final class ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (!musicMenuVisible) {
-                    appearMusicControls();
+                    animateInAudioControls();
                 } else {
-                    minimizeMusicControls();
+                    animateOutAudioControls();
                 }
             }
 
@@ -1536,6 +1536,7 @@ public final class ConsoleFrame {
             public void mouseClicked(MouseEvent e) {
                 IOUtil.stopAllAudio();
                 playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+                revalidateAudioMenu();
             }
 
             @Override
@@ -1555,17 +1556,7 @@ public final class ConsoleFrame {
         playPauseMusicLabel = new JLabel("");
         playPauseMusicLabel.setBounds(80,5,30, 30);
 
-        if (playPauseMusicLabel != null) {
-            if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
-            } else {
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-            }
-        }
-
-        if (IOUtil.generalAudioPlaying()) {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-        }
+        revalidateAudioMenu();
 
         musicControlsLabel.add(playPauseMusicLabel);
         playPauseMusicLabel.setToolTipText("Play/Pause");
@@ -1675,6 +1666,11 @@ public final class ConsoleFrame {
         if (IOUtil.generalAudioPlaying()) {
             playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
         }
+
+        if ((IOUtil.getCyderPlayer() != null && IOUtil.getCyderPlayer().isValid()) || IOUtil.generalAudioPlaying())
+            setVisibleAudioControls();
+        else
+            hideAudioControls();
     }
 
     private KeyListener commandScrolling = new KeyAdapter() {
@@ -2680,24 +2676,14 @@ public final class ConsoleFrame {
         menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
     }
 
-    public void minimizeMusicControls() {
+    public void animateOutAudioControls() {
         AnimationUtil.componentLeft(0, - 138,
                 10,8,musicControlsLabel);
         musicMenuVisible = false;
     }
 
-    public void appearMusicControls() {
-        if (playPauseMusicLabel != null) {
-            if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
-            } else {
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-            }
-        }
-
-        if (IOUtil.generalAudioPlaying()) {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-        }
+    public void animateInAudioControls() {
+        revalidateAudioMenu();
 
         AnimationUtil.componentRight(musicControlsLabel.getX(), 0,
                 10,8,musicControlsLabel);
@@ -2705,11 +2691,23 @@ public final class ConsoleFrame {
 
     }
 
-    public void hideMusicControls() {
-        musicControlsLabel.setVisible(false);
+    public void hideAudioControls() {
+        if (musicMenuVisible) {
+            new Thread(() -> {
+                for (int i = 0 ; i > -138 ; i -= 8) {
+                    musicControlsLabel.setLocation(i,musicControlsLabel.getY());
+                    try {
+                        Thread.sleep(10);
+                    } catch (Exception ignored) {}
+                }
+                musicControlsLabel.setVisible(false);
+            }, "Console Audio Menu Minimizer").start();
+        } else {
+            musicControlsLabel.setVisible(false);
+        }
     }
 
-    public void setVisibleMusicControls() {
+    public void setVisibleAudioControls() {
         musicControlsLabel.setVisible(true);
     }
 }

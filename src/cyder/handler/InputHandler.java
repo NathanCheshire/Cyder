@@ -40,7 +40,6 @@ import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
-//todo resume audio panel functionality, make panel update buttons dynamically
 //todo suggestions at end of log summary
 //todo console commands that set location of console should move windows pinned to console with it
 
