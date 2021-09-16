@@ -28,6 +28,8 @@ public class User {
     private String showbusyicon;
     private String ffmpegpath;
     private String youtubedlpath;
+    private String windowlocx;
+    private String windowlocy;
     private LinkedList<MappedExecutable> executables;
 
     //getters
@@ -136,6 +138,14 @@ public class User {
         return youtubedlpath;
     }
 
+    public String getWindowlocx() {
+        return windowlocx;
+    }
+
+    public String getWindowlocy() {
+        return windowlocy;
+    }
+
     //setters
 
     public void setName(String name) {
@@ -240,6 +250,14 @@ public class User {
 
     public void setYoutubedlpath(String youtubedlpath) {
         this.youtubedlpath = youtubedlpath;
+    }
+
+    public void setWindowlocx(String windowlocx) {
+        this.windowlocx = windowlocx;
+    }
+
+    public void setWindowlocy(String windowlocy) {
+        this.windowlocy = windowlocy;
     }
 
     //inner classes

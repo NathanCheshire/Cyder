@@ -193,7 +193,7 @@ public final class ConsoleFrame {
 
                 @Override
                 public void windowClosing(WindowEvent e) {
-                   GenesisShare.exit(25);
+                    GenesisShare.exit(25);
                 }
             });
 
@@ -717,6 +717,9 @@ public final class ConsoleFrame {
             close = new JButton("");
             close.setToolTipText("Close");
             close.addActionListener(e -> {
+                UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
+                UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
+
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
@@ -826,10 +829,24 @@ public final class ConsoleFrame {
 
             //show frame
             consoleCyderFrame.setVisible(true);
-            consoleCyderFrame.setLocationRelativeTo(null);
-            //todo should remember where frame was last program
-            // if it's off screen pop it back into bounds
-            // todo we'll need a preference for this and dispose listener
+
+            int x = Integer.parseInt(UserUtil.getUserData("windowlocx"));
+            int y = Integer.parseInt(UserUtil.getUserData("windowlocy"));
+
+            if (x != -80000 && y != -80000) {
+                if (x < 0)
+                    x = 0;
+                if (x + consoleCyderFrame.getWidth() > SystemUtil.getScreenWidth())
+                    x = SystemUtil.getScreenWidth() - consoleCyderFrame.getWidth();
+                if (y < 0)
+                    y = 0;
+                if (y + consoleCyderFrame.getHeight() > SystemUtil.getScreenHeight())
+                    y = SystemUtil.getScreenHeight() - consoleCyderFrame.getHeight();
+
+                consoleCyderFrame.setLocation(x,y);
+            } else {
+                consoleCyderFrame.setLocationRelativeTo(null);
+            }
 
             //resume frame checker
             GenesisShare.cancelFrameCheckerSuspention();
@@ -2596,6 +2613,9 @@ public final class ConsoleFrame {
     }
 
     public void minimizeAll() {
+        UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
+        UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
+
         for (Frame f : Frame.getFrames()) {
             if (f instanceof CyderFrame) {
                 ((CyderFrame) f).minimizeAnimation();

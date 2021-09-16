@@ -126,6 +126,8 @@ public class GenesisShare {
         ret.add(new Preference("executables","IGNORE","IGNORE","null"));
         ret.add(new Preference("ffmpegpath","IGNORE","IGNORE",""));
         ret.add(new Preference("youtubedlpath","IGNORE","IGNORE",""));
+        ret.add(new Preference("windowlocx","IGNORE","IGNORE","-80000"));
+        ret.add(new Preference("windowlocy","IGNORE","IGNORE","-80000"));
         //add future default data here
 
         return ret;

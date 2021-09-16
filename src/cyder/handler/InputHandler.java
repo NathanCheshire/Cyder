@@ -40,6 +40,8 @@ import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
+//todo select music dir doesn't make console controls appear
+
 //todo suggestions at end of log summary
 //todo console commands that set location of console should move windows pinned to console with it
 
