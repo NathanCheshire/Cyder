@@ -904,12 +904,16 @@ public class InputHandler {
                             //todo this isn't working and I can't test since intellij
                             // decided to not stop at breakpoints and not show system.out.println output
 
+                            //todo test these cases
+
+                            //open if never opened: check
+                            //add to queue if already playing and open: check
+                            // open if opened and closed: false
+
                             //play the song if the CyderPlayer isn't open, otherwise add it to the queue
-                            if (IOUtil.getCyderPlayer().isPlayerOpen()) {
-                                System.out.println("here1");
+                            if (IOUtil.getCyderPlayer().isValid()) {
                                 IOUtil.addToMp3Queue(downloadedFile.get());
                             } else {
-                                System.out.println("here2");
                                 IOUtil.mp3(downloadedFile.get().getAbsolutePath());
                             }
                         }
@@ -996,7 +1000,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            System.out.println("here");
+
         }
         //final attempt at unknown input --------------------------
         else {

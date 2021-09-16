@@ -72,6 +72,9 @@ public class AudioPlayer {
     private long pauseLocation;
     private long totalLength;
 
+    //valid var for IOUtil to access
+    private boolean isValid;
+
     /**
      * Constructor that launches the AudioPlayer
      * @param startPlaying - the audio file to start playing upon successful launch of the AudioPlayer.
@@ -447,6 +450,12 @@ public class AudioPlayer {
                 ErrorHandler.handle(e);
             }
         }
+
+        //the player is visible so toggle var
+        isValid = true;
+
+        //toggle to false upon dispose of frame
+        audioFrame.addCloseListener(e -> isValid = false);
     }
 
     /**
@@ -456,9 +465,12 @@ public class AudioPlayer {
         return player;
     }
 
-    //todo needs to work to let other utils know if cyderplayer is open or not
-    public boolean isPlayerOpen() {
-        return audioFrame != null;
+    /**
+     * Determines whether or not the cyder player window is valid/visible/accessible
+     * @return - whether or not the cyder player window is valid/visible/accessible
+     */
+    public boolean isValid() {
+        return isValid;
     }
 
     /**

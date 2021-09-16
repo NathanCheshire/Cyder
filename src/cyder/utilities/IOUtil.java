@@ -345,14 +345,17 @@ public class IOUtil {
      */
     public static void stopAllAudio() {
         stopAudio();
-        CyderPlayer.stopAudio();
+
+        if (CyderPlayer != null && CyderPlayer.isValid()) {
+            CyderPlayer.stopAudio();
+        }
     }
 
     /**
      * Assuming audio is playing via flash player, skips the audio to the previous track if possible
      */
     public static void nextAudio() {
-        if (CyderPlayer != null)
+        if (CyderPlayer != null && CyderPlayer.isValid())
             CyderPlayer.nextAudio();
     }
 
@@ -360,7 +363,7 @@ public class IOUtil {
      * Assuming audio is playing via flash player, skips the audio to the last track if possible
      */
     public static void lastAudio() {
-        if (CyderPlayer != null)
+        if (CyderPlayer != null && CyderPlayer.isValid())
             CyderPlayer.previousAudio();
     }
 

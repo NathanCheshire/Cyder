@@ -1,15 +1,16 @@
-[23:34:39] [ENTRY]: [WINUSER=Nathan]
-[23:34:39] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
-[23:34:40] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[23:34:40] [LOGIN]: [AUTOCYPHER PASS]
-[23:34:41] [CLIENT]: test
-[23:37:31] [CLIENT]: Play loaded drippin so pretty lyrics
-[23:37:31] [EXCEPTION]: 
-no protocol: loaded drippin so pretty lyrics
+[19:30:55] [ENTRY]: [WINUSER=Nathan]
+[19:30:56] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[19:30:56] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:30:57] [LOGIN]: [AUTOCYPHER PASS]
+[19:30:58] [CLIENT]: test
+[19:31:00] [CLIENT]: Test
+[19:31:09] [CLIENT]: Play loaded drippin so pretty
+[19:31:09] [EXCEPTION]: 
+no protocol: loaded drippin so pretty
 Thrown from:
 java.base/java.net.URL.<init>(URL.java:627)
 StackTrace:
-java.net.MalformedURLException: no protocol: loaded drippin so pretty lyrics
+java.net.MalformedURLException: no protocol: loaded drippin so pretty
 	at java.base/java.net.URL.<init>(URL.java:627)
 	at java.base/java.net.URL.<init>(URL.java:523)
 	at java.base/java.net.URL.<init>(URL.java:470)
@@ -54,19 +55,7 @@ java.net.MalformedURLException: no protocol: loaded drippin so pretty lyrics
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[23:37:31] [CONSOLE_OUT]: [STRING] Searching youtube for: loaded drippin so pretty lyrics
-[23:37:33] [CONSOLE_OUT]: [STRING] Starting download of: Drippin So Pretty- Loaded feat Brennan Savage (Lyrics)
-[23:37:40] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
-[23:37:43] [CLIENT]: Mp3
-[23:37:44] [ACTION]: AUDIO PLAYER
-[23:39:54] [EXCEPTION]: 
-Index: 30, Size: 0
-Thrown from:
-java.base/java.util.LinkedList.checkElementIndex(LinkedList.java:559)
-StackTrace:
-java.lang.IndexOutOfBoundsException: Index: 30, Size: 0
-	at java.base/java.util.LinkedList.checkElementIndex(LinkedList.java:559)
-	at java.base/java.util.LinkedList.get(LinkedList.java:480)
-	at cyder.widgets.AudioPlayer.lambda$resumeAudio$11(AudioPlayer.java:771)
-	at java.base/java.lang.Thread.run(Thread.java:844)
+[19:31:10] [CONSOLE_OUT]: [STRING] Searching youtube for: loaded drippin so pretty
+[19:31:11] [CONSOLE_OUT]: [STRING] Starting download of: drippin so pretty ft. Brennan Savage- Loaded (official music video)
+[19:31:18] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
 [EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

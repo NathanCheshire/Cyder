@@ -711,8 +711,9 @@ public final class ConsoleFrame {
 
                    if (playerValid) {
                        if (IOUtil.getCyderPlayer().getPlayer() == null) {
-                           IOUtil.resumeAudio();
-                           playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+                           if (IOUtil.getCyderPlayer().isValid()) {
+                               inputHandler.println("Resume audio");
+                           }
                        } else {
                            IOUtil.pauseAudio();
                            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
