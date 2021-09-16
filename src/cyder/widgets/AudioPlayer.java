@@ -541,6 +541,7 @@ public class AudioPlayer {
 
             playPauseAudioButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
             playPauseAudioButton.setToolTipText("Play");
+            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -575,6 +576,7 @@ public class AudioPlayer {
 
            playPauseAudioButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
            playPauseAudioButton.setToolTipText("Play");
+           ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
            refreshAudio();
        } catch (Exception e) {
@@ -712,6 +714,7 @@ public class AudioPlayer {
 
                 playPauseAudioButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
                 playPauseAudioButton.setToolTipText("Pause");
+                ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
                 lastAction = LastAction.PLAY;
 
@@ -811,6 +814,7 @@ public class AudioPlayer {
 
                     playPauseAudioButton.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
                     playPauseAudioButton.setToolTipText("Pause");
+                    ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
                     lastAction = LastAction.PLAY;
 

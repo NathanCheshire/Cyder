@@ -1,0 +1,25 @@
+[20:00:24] [ENTRY]: [WINUSER=Nathan]
+[20:00:24] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[20:00:25] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20:00:25] [LOGIN]: [AUTOCYPHER PASS]
+[20:00:26] [CLIENT]: test
+[20:00:39] [CLIENT]: Map executable
+[20:00:39] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[20:00:41] [CLIENT]: Map executables
+[20:00:43] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[20:00:44] [CLIENT]: Mapped executable
+[20:00:45] [CLIENT]: Mapped executables
+[20:00:47] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[20:00:49] [CLIENT]: Map link
+[20:00:51] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[20:00:55] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[20:02:22] [CLIENT]: prefs
+[20:02:22] [ACTION]: USER EDITOR
+[20:02:25] [ACTION]: CyderButton, text=[>] CLICKED
+[20:02:26] [ACTION]: CyderButton, text=[>] CLICKED
+[20:02:27] [ACTION]: CyderButton, text=[>] CLICKED
+[20:02:31] [ACTION]: CyderButton, text=[Remove] CLICKED
+[20:02:31] [ACTION]: [Edit User] [NOTIFICATION] Exe successfully removed
+[20:02:37] [LOGOUT]:  [Nathan]
+[20:02:37] [EXIT]: [RUNTIME] 2m 12s
+[20:02:37] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
