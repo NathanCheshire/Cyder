@@ -63,30 +63,6 @@ public class StringUtil {
         }
     }
 
-    private static final String ELEM = AbstractDocument.ElementNameAttribute;
-    private static final String ICON = StyleConstants.IconElementName;
-    private static final String COMP = StyleConstants.ComponentElementName;
-
-    /**
-     * Prints the contents of the linked JTextPane in raw text format.
-     * A tree builder will be implemented in the future if needed to better visualize how components,
-     *  icons, text, etc. is stored in the object.
-     */
-    public void printElements() {
-        ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
-        Element element;
-        while ((element = iterator.next()) != null) {
-            System.out.println(element);
-            AttributeSet as = element.getAttributes();
-            if (as.containsAttribute(ELEM, ICON)) {
-                System.out.println(StyleConstants.getIcon(as).getClass());
-            }
-            if (as.containsAttribute(ELEM, COMP)) {
-                System.out.println(StyleConstants.getComponent(as).getClass());
-            }
-        }
-    }
-
     /**
      * Removes the last "thing" addeed to the JTextPane whether it's a component,
      *  icon, or string of multi-llined text.
@@ -536,7 +512,7 @@ public class StringUtil {
      * @return - the boolean result of the comparison
      */
     public static boolean empytStr(String s) {
-        return (s == null ? null: (s == null) || (s.trim().equals("")) || (s.trim().length() == 0));
+        return (s == null ? null: (s == null) || (s.trim().length() == 0));
     }
 
     /**

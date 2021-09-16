@@ -624,12 +624,7 @@ public final class ConsoleFrame {
 
             generateAudioMenu();
 
-            //todo utilize revalidateAudioMenu in ioutil method(s)
-
             //todo make audio controls appear and disappear properly
-
-            //todo fix menuButton gains focus in entire window, make it input field default focus
-            //todo also when pressing it should instantly switch to down white icon
 
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
@@ -1540,6 +1535,7 @@ public final class ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 IOUtil.stopAllAudio();
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
             }
 
             @Override
@@ -1558,11 +1554,19 @@ public final class ConsoleFrame {
 
         playPauseMusicLabel = new JLabel("");
         playPauseMusicLabel.setBounds(80,5,30, 30);
-        if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
-        } else {
+
+        if (playPauseMusicLabel != null) {
+            if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+            } else {
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+            }
+        }
+
+        if (IOUtil.generalAudioPlaying()) {
             playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
         }
+
         musicControlsLabel.add(playPauseMusicLabel);
         playPauseMusicLabel.setToolTipText("Play/Pause");
         playPauseMusicLabel.addMouseListener(new MouseAdapter() {
@@ -1571,22 +1575,23 @@ public final class ConsoleFrame {
                 //is the CyderPlayer open
                 boolean playerValid = IOUtil.getCyderPlayer() != null;
 
-                if (playerValid) {
+                if (playerValid && IOUtil.getCyderPlayer().isValid()) {
                     if (IOUtil.getCyderPlayer().getPlayer() == null) {
                         if (IOUtil.getCyderPlayer().isValid()) {
-                            inputHandler.println("Resume or play audio");
                             IOUtil.resumeAudio();
                         }
                     } else {
                         IOUtil.pauseAudio();
-                        playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
                     }
+                } else if (IOUtil.generalAudioPlaying()) {
+                    IOUtil.stopAllAudio();
                 }
-            }
+             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
+                if ((IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null)
+                    && !IOUtil.generalAudioPlaying()) {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PlayHover.png"));
                 } else {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PauseHover.png"));
@@ -1595,7 +1600,8 @@ public final class ConsoleFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
+                if ((IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null)
+                    && !IOUtil.generalAudioPlaying()) {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
                 } else {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
@@ -1664,6 +1670,10 @@ public final class ConsoleFrame {
             } else {
                 playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
             }
+        }
+
+        if (IOUtil.generalAudioPlaying()) {
+            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
         }
     }
 
@@ -2677,9 +2687,15 @@ public final class ConsoleFrame {
     }
 
     public void appearMusicControls() {
-        if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
-        } else {
+        if (playPauseMusicLabel != null) {
+            if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+            } else {
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+            }
+        }
+
+        if (IOUtil.generalAudioPlaying()) {
             playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
         }
 

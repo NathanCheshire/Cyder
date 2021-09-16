@@ -6,7 +6,6 @@ import cyder.genesis.GenesisShare;
 import cyder.handler.*;
 import cyder.obj.SystemData;
 import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderButton;
 import cyder.widgets.AudioPlayer;
 import cyder.widgets.GenericInform;
 import cyder.widgets.Notes;
@@ -272,9 +271,8 @@ public class IOUtil {
      * Plays the requested mp3 audio file using the general IOUtil JLayer player
      * @param FilePath - the path to the mp3 file to play
      * @param inputHandler - the inputhandler to use when appending the stop button
-     * @param showStopButton - whether or not to print a button to stop the audio.
      */
-    public static void playAudio(String FilePath, InputHandler inputHandler, boolean showStopButton) {
+    public static void playAudio(String FilePath, InputHandler inputHandler) {
         try {
             stopAudio();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
@@ -289,15 +287,14 @@ public class IOUtil {
             }, "mp3 audio thread");
 
             AudioThread.start();
-
-            if (showStopButton) {
-                CyderButton stopMusicButton = new CyderButton("Stop Audio");
-                stopMusicButton.addActionListener((e) -> IOUtil.stopAudio());
-                inputHandler.printlnComponent(stopMusicButton);
-            }
+            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    public static boolean generalAudioPlaying() {
+        return player != null && !player.isComplete();
     }
 
     /**
@@ -323,25 +320,19 @@ public class IOUtil {
     }
 
     /**
-     * Simpler function for playing an audio file
-     * @param FilePath - the path to the mp3 file
-     * @param inputHandler - the inputhandler to use when appending the stop button
-     */
-    public static void playAudio(String FilePath, InputHandler inputHandler) {
-        playAudio(FilePath, inputHandler, true);
-    }
-
-    /**
      * Stops the audio currently playing that is absent of an AudioPlayer object
      */
     public static void stopAudio() {
         try {
             if (player != null && !player.isComplete()) {
                 player.close();
+                player = null;
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+
+        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
     /**
@@ -353,6 +344,8 @@ public class IOUtil {
         if (CyderPlayer != null && CyderPlayer.isValid()) {
             CyderPlayer.stopAudio();
         }
+
+        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
     /**
@@ -361,6 +354,8 @@ public class IOUtil {
     public static void nextAudio() {
         if (CyderPlayer != null && CyderPlayer.isValid())
             CyderPlayer.nextAudio();
+
+        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
     /**
@@ -369,6 +364,8 @@ public class IOUtil {
     public static void lastAudio() {
         if (CyderPlayer != null && CyderPlayer.isValid())
             CyderPlayer.previousAudio();
+
+        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
     /**
@@ -377,6 +374,8 @@ public class IOUtil {
     public static void pauseAudio() {
         if (CyderPlayer != null)
             CyderPlayer.pauseAudio();
+
+        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
     /**
@@ -385,6 +384,8 @@ public class IOUtil {
     public static void resumeAudio() {
         if (CyderPlayer != null)
             CyderPlayer.resumeAudio();
+
+        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
     /**

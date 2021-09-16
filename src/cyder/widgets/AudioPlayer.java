@@ -774,7 +774,6 @@ public class AudioPlayer {
      * Resumes audio at the current audio file at the previously paused position.
      */
     public void resumeAudio() {
-        System.out.println(pauseLocation);
         resumeAudio(pauseLocation);
     }
 
