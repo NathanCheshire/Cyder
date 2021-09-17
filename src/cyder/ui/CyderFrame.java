@@ -1235,6 +1235,14 @@ public class CyderFrame extends JFrame {
         topDrag.addCloseListener(actionListener);
     }
 
+    /**
+     * Adds the specified window listener to the CyderFrame
+     * @param windowListener - the window listener to add
+     */
+    public void addWindowListener(WindowListener windowListener) {
+        super.addWindowListener(windowListener);
+    }
+
     public void addMinimizeListener(ActionListener actionListener) {
         topDrag.addMinimizeListener(actionListener);
     }

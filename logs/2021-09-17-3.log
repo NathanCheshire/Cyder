@@ -1,0 +1,17 @@
+[01:00:55] [ENTRY]: [WINUSER=Nathan]
+[01:00:55] [EXCEPTION]: 
+User music directory does not exist.
+Thrown from:
+cyder.widgets.AudioPlayer.<init>(AudioPlayer.java:434)
+StackTrace:
+java.lang.IllegalArgumentException: User music directory does not exist.
+	at cyder.widgets.AudioPlayer.<init>(AudioPlayer.java:434)
+	at cyder.utilities.IOUtil.<clinit>(IOUtil.java:28)
+	at cyder.genesis.CyderSetup.initSystemProperties(CyderSetup.java:41)
+	at cyder.genesis.Cyder.main(Cyder.java:23)
+[01:00:56] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[01:00:56] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[01:00:57] [LOGIN]: [AUTOCYPHER PASS]
+[01:00:57] [CLIENT]: test
+[01:01:12] [CLIENT]: Mp3
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

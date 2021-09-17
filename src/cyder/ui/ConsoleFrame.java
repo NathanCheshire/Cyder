@@ -1580,26 +1580,16 @@ public final class ConsoleFrame {
         playPauseMusicLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //is the CyderPlayer open
-                boolean playerValid = IOUtil.getCyderPlayer() != null;
+                //todo stop audio if general audio playing
+                //todo pause audio if audio player playing, else resume it if it's showing
 
-                if (playerValid && IOUtil.getCyderPlayer().isValid()) {
-                    if (IOUtil.getCyderPlayer().getPlayer() == null) {
-                        if (IOUtil.getCyderPlayer().isValid()) {
-                            IOUtil.resumeAudio();
-                        }
-                    } else {
-                        IOUtil.pauseAudio();
-                    }
-                } else if (IOUtil.generalAudioPlaying()) {
-                    IOUtil.stopAllAudio();
-                }
+                System.out.println("TODO");
              }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if ((IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null)
-                    && !IOUtil.generalAudioPlaying()) {
+                //TODO conditions here for audio playing
+                if (true) {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PlayHover.png"));
                 } else {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PauseHover.png"));
@@ -1608,8 +1598,8 @@ public final class ConsoleFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if ((IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null)
-                    && !IOUtil.generalAudioPlaying()) {
+                //todo conditions here for audio playing
+                if (true) {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
                 } else {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
@@ -1673,7 +1663,8 @@ public final class ConsoleFrame {
 
     public void revalidateAudioMenu() {
         if (playPauseMusicLabel != null) {
-            if (IOUtil.getCyderPlayer() == null || IOUtil.getCyderPlayer().getPlayer() == null) {
+            //todo conditions here for audio playing
+            if (true) {
                 playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
             } else {
                 playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
@@ -1684,10 +1675,12 @@ public final class ConsoleFrame {
             playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
         }
 
-        if ((IOUtil.getCyderPlayer() != null && IOUtil.getCyderPlayer().isValid()) || IOUtil.generalAudioPlaying())
+        //todo conditions here for audio playing
+        if (true) {
             setVisibleAudioControls();
-        else
+        } else {
             hideAudioControls();
+        }
     }
 
     private KeyListener commandScrolling = new KeyAdapter() {

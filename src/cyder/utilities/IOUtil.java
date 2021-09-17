@@ -25,7 +25,6 @@ public class IOUtil {
 
     private IOUtil() {} //private constructor to avoid object creation
 
-    private static AudioPlayer CyderPlayer;
     private static Notes Notes;
     private static Player player;
 
@@ -230,18 +229,12 @@ public class IOUtil {
      * @param f - the audio to play
      */
     public static void addToMp3Queue(File f) {
-        if (CyderPlayer != null && CyderPlayer.isValid()) {
-            CyderPlayer.addToQueue(f);
+        //todo if cyder player is playing audio: fix this, don't do chained calls like this since get player could be null
+        if (!AudioPlayer.getPlayer().isComplete()) {
+            AudioPlayer.addToQueue(f);
         } else {
             mp3(f.getAbsolutePath());
         }
-    }
-
-    /**
-     * Returns the CyderPlayer
-     */
-    public static AudioPlayer getCyderPlayer() {
-        return CyderPlayer;
     }
 
     /**
@@ -249,11 +242,7 @@ public class IOUtil {
      * @param FilePath - the path to the audio file to start playing
      */
     public static void mp3(String FilePath) {
-        if (CyderPlayer != null)
-            CyderPlayer.kill();
-
-        stopAudio();
-        CyderPlayer = new AudioPlayer(new File(FilePath));
+        AudioPlayer.showGUI(new File(FilePath));
     }
 
     /**
@@ -261,10 +250,7 @@ public class IOUtil {
      * @return - the current audio file being played - null if no file is being played
      */
     public static File getCurrentMP3() {
-        if (CyderPlayer == null)
-            return null;
-         else
-            return CyderPlayer.getCurrentAudio();
+        return AudioPlayer.getCurrentAudio();
     }
 
     /**
@@ -340,11 +326,7 @@ public class IOUtil {
      */
     public static void stopAllAudio() {
         stopAudio();
-
-        if (CyderPlayer != null && CyderPlayer.isValid()) {
-            CyderPlayer.stopAudio();
-        }
-
+        AudioPlayer.stopAudio();
         ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
@@ -352,9 +334,7 @@ public class IOUtil {
      * Assuming audio is playing via flash player, skips the audio to the previous track if possible
      */
     public static void nextAudio() {
-        if (CyderPlayer != null && CyderPlayer.isValid())
-            CyderPlayer.nextAudio();
-
+        AudioPlayer.nextAudio();
         ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
@@ -362,9 +342,7 @@ public class IOUtil {
      * Assuming audio is playing via flash player, skips the audio to the last track if possible
      */
     public static void lastAudio() {
-        if (CyderPlayer != null && CyderPlayer.isValid())
-            CyderPlayer.previousAudio();
-
+        AudioPlayer.previousAudio();
         ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
@@ -372,9 +350,7 @@ public class IOUtil {
      * Pause audio if playing via flash player
      */
     public static void pauseAudio() {
-        if (CyderPlayer != null)
-            CyderPlayer.pauseAudio();
-
+        AudioPlayer.pauseAudio();
         ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
@@ -382,9 +358,7 @@ public class IOUtil {
      * Resumes audio if playing via flash player
      */
     public static void resumeAudio() {
-        if (CyderPlayer != null)
-            CyderPlayer.resumeAudio();
-
+        AudioPlayer.resumeAudio();
         ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 

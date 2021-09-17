@@ -33,55 +33,54 @@ public class AudioPlayer {
         SKIP,PAUSE,STOP,RESUME,PLAY
     }
 
-    private LastAction lastAction;
+    private static LastAction lastAction;
 
-    private File currentAudio;
+    private static File currentAudio;
 
     //ui components
-    private ScrollLabel audioScroll;
-    private AudioLocation audioLocation;
-    private JLabel audioTitleLabel;
-    private CyderFrame audioFrame;
-    private JSlider audioVolumeSlider;
-    private CyderProgressBar audioProgress;
-    private JButton previousAudioButton;
-    private JButton nextAudioButton;
-    private JButton stopAudioButton;
-    private JButton loopAudioButton;
-    private JButton selectAudioDirButton;
-    private JButton playPauseAudioButton;
-    private JButton shuffleAudioButton;
-    private JLabel audioProgressLabel;
+    private static ScrollLabel audioScroll;
+    private static AudioLocation audioLocation;
+    private static JLabel audioTitleLabel;
+    private static CyderFrame audioFrame;
+    private static JSlider audioVolumeSlider;
+    private static CyderProgressBar audioProgress;
+    private static JButton previousAudioButton;
+    private static JButton nextAudioButton;
+    private static JButton stopAudioButton;
+    private static JButton loopAudioButton;
+    private static JButton selectAudioDirButton;
+    private static JButton playPauseAudioButton;
+    private static JButton shuffleAudioButton;
+    private static JLabel audioProgressLabel;
 
     //audio booleans
-    private boolean shuffleAudio;
-    private boolean repeatAudio;
-    private boolean miniPlayer;
-    private boolean pinned;
+    private static boolean shuffleAudio;
+    private static boolean repeatAudio;
+    private static boolean miniPlayer;
+    private static boolean pinned;
 
     //audio list
-    private int audioIndex;
+    private static int audioIndex;
     private static final int pauseAudioReactionOffset = 10000;
-    private LinkedList<File> audioFiles;
+    private static LinkedList<File> audioFiles;
 
     //JLayer objects
-    private Player player;
-    private BufferedInputStream bis;
-    private FileInputStream fis;
+    private static Player player;
+    private static BufferedInputStream bis;
+    private static FileInputStream fis;
 
     //resuming/audio stat vars
-    private long pauseLocation;
-    private long totalLength;
+    private static long pauseLocation;
+    private static long totalLength;
 
-    //valid var for IOUtil to access
-    private boolean isValid;
+    private AudioPlayer() {} // no objects
 
     /**
      * Constructor that launches the AudioPlayer
      * @param startPlaying - the audio file to start playing upon successful launch of the AudioPlayer.
      *                     Pass {@code null} to avoid starting audio upon launch.
      */
-    public AudioPlayer(File startPlaying) {
+    public static void showGUI(File startPlaying) {
         queue = new LinkedList<>();
         
         if (audioFrame != null)
@@ -451,33 +450,19 @@ public class AudioPlayer {
                 ErrorHandler.handle(e);
             }
         }
-
-        //the player is visible so toggle var
-        isValid = true;
-
-        //toggle to false upon dispose of frame
-        audioFrame.addCloseListener(e -> isValid = false);
     }
 
     /**
      * Returns the associated JLayer player
      */
-    public Player getPlayer() {
+    public static Player getPlayer() {
         return player;
-    }
-
-    /**
-     * Determines whether or not the cyder player window is valid/visible/accessible
-     * @return - whether or not the cyder player window is valid/visible/accessible
-     */
-    public boolean isValid() {
-        return isValid;
     }
 
     /**
      * Refreshes the {@code Port.Info.SPEAKER} or {@code Port.Info.HEADPHONE} volume.
      */
-    public void refreshAudio() {
+    public static void refreshAudio() {
         try {
             if (AudioSystem.isLineSupported(Port.Info.SPEAKER)) {
                 Port outline = (Port) AudioSystem.getLine(Port.Info.SPEAKER);
@@ -502,7 +487,7 @@ public class AudioPlayer {
      * When starting pass the file that the user selected using the select audio directory button.
      * On refresh, you may pass null and the program will infer where to look based on the current audioFile dir.
      */
-    public void refreshAudioFiles(File refreshOnFile) {
+    public static void refreshAudioFiles(File refreshOnFile) {
         if (audioFiles == null)
             audioFiles = new LinkedList<>();
 
@@ -531,7 +516,7 @@ public class AudioPlayer {
     /**
      * Pauses the audio if anything is currently playing in preparation to resume at the current location.
      */
-    public void pauseAudio() {
+    public static void pauseAudio() {
         lastAction = LastAction.PAUSE;
         try {
             pauseLocation = totalLength - fis.available() - pauseAudioReactionOffset;
@@ -551,9 +536,9 @@ public class AudioPlayer {
     /**
      * Stops the audio and all threads in their tracks.
      */
-    public void stopAudio() {
+    public static void stopAudio() {
         lastAction = LastAction.STOP;
-       try {
+        try {
            if (audioScroll != null)
                audioScroll.kill();
            audioScroll = null;
@@ -588,7 +573,7 @@ public class AudioPlayer {
     /**
      * Skips to the current audio file's predecesor if it exists in the directory.
      */
-    public void previousAudio() {
+    public static void previousAudio() {
         refreshAudioFiles(null);
         lastAction = LastAction.SKIP;
         try {
@@ -618,7 +603,7 @@ public class AudioPlayer {
     /**
      * Skips to the current audio file's successor if it exists in the directory.
      */
-    public void nextAudio() {
+    public static void nextAudio() {
         refreshAudioFiles(null);
         lastAction = LastAction.SKIP;
         try {
@@ -648,12 +633,12 @@ public class AudioPlayer {
     /**
      * Kills all threads and resets all variables to their defaults before invoking dispose on the audio frame.
      */
-    public void kill() {
+    public static void kill() {
         stopAudio();
 
         //player ending calls
         if (player != null)
-            this.player.close();
+            player.close();
 
         //scrolllabel ending calls
         if (audioScroll != null)
@@ -680,9 +665,7 @@ public class AudioPlayer {
     /**
      * Starts playin audio from the current index.
      */
-    public void startAudio() {
-        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
-
+    public static void startAudio() {
         new Thread(() -> {
             try {
                 refreshAudio();
@@ -776,7 +759,7 @@ public class AudioPlayer {
     /**
      * Resumes audio at the current audio file at the previously paused position.
      */
-    public void resumeAudio() {
+    public static void resumeAudio() {
         resumeAudio(pauseLocation);
     }
 
@@ -784,9 +767,7 @@ public class AudioPlayer {
      * Resumes audio at the current audio file at the passed in byte value.
      * @param startPosition - the byte value to skip to when starting the audio
      */
-    public void resumeAudio(long startPosition) {
-        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
-
+    public static void resumeAudio(long startPosition) {
         if (lastAction == LastAction.STOP) {
             startAudio();
         } else if (lastAction == LastAction.PAUSE) {
@@ -875,7 +856,7 @@ public class AudioPlayer {
     /**
      * private inner class for the audio location slider
      */
-    private class AudioLocation {
+    private static class AudioLocation {
         private CyderProgressBar effectBar;
         boolean update;
         DecimalFormat format = new DecimalFormat("##.#");
@@ -927,7 +908,7 @@ public class AudioPlayer {
     /**
      * private inner class for the scrolling song label
      */
-    private class ScrollLabel {
+    private static class ScrollLabel {
         private JLabel effectLabel;
         boolean scroll;
 
@@ -1021,23 +1002,23 @@ public class AudioPlayer {
      * Sets the value for pinning the frame on top.
      * @param b - the value determining whether or not the frame is always on top
      */
-    public void setPinned(boolean b) {
-        this.pinned = b;
-        audioFrame.setAlwaysOnTop(this.pinned);
+    public static void setPinned(boolean b) {
+        pinned = b;
+        audioFrame.setAlwaysOnTop(pinned);
     }
 
     /**
      * Standard getter for pinned boolean.
      * @return - the boolean of pinned
      */
-    public boolean getPinned() {
-        return this.pinned;
+    public static boolean getPinned() {
+        return pinned;
     }
 
     /**
      * Sets the AudioPlayer to mini mode.
      */
-    public void enterMiniPlayer() {
+    public static void enterMiniPlayer() {
         if (audioScroll != null)
             audioScroll.kill();
         audioScroll = null;
@@ -1066,7 +1047,7 @@ public class AudioPlayer {
     /**
      * Exits mini mode if the player is in mini mode.
      */
-    public void exitMiniPlayer() {
+    public static void exitMiniPlayer() {
         audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
         audioScroll = new ScrollLabel(audioTitleLabel);
         audioLocation = new AudioLocation(audioProgress);
@@ -1088,7 +1069,7 @@ public class AudioPlayer {
         shuffleAudioButton.setLocation(shuffleAudioButton.getX(), 105);
     }
 
-    public File getCurrentAudio() {
+    public static File getCurrentAudio() {
         if (audioFiles == null)
             return null;
         else
@@ -1149,9 +1130,9 @@ public class AudioPlayer {
         return sb.toString();
     }
 
-    private LinkedList<File> queue;
+    private static LinkedList<File> queue;
 
-    public void addToQueue(File f) {
+    public static void addToQueue(File f) {
         queue.push(f);
     }
 }
