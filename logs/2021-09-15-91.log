@@ -1,0 +1,19 @@
+[21:55:26] [ENTRY]: [WINUSER=Nathan]
+[21:55:26] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[21:55:27] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21:55:27] [LOGIN]: [AUTOCYPHER PASS]
+[21:55:28] [CLIENT]: test
+[21:55:29] [CLIENT]: Mp3
+[21:55:29] [ACTION]: AUDIO PLAYER
+[21:55:35] [CLIENT]: Mp3
+[21:55:35] [ACTION]: AUDIO PLAYER
+[21:55:37] [CLIENT]: Prefs
+[21:55:37] [ACTION]: USER EDITOR
+[21:55:38] [ACTION]: CyderButton, text=[Delete] CLICKED
+[21:55:38] [CONSOLE_OUT]: [STRING] Music: drippin so pretty ft. Brennan Savage- Loaded (official music video) successfully deleted.
+[21:55:40] [CLIENT]: Cls
+[21:55:41] [CLIENT]: Mp3
+[21:55:41] [ACTION]: AUDIO PLAYER
+[21:56:36] [LOGOUT]:  [Nathan]
+[21:56:36] [EXIT]: [RUNTIME] 1m 10s
+[21:56:36] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

@@ -1,0 +1,32 @@
+[21:48:38] [ENTRY]: [WINUSER=Nathan]
+[21:48:38] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[21:48:39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21:48:39] [LOGIN]: [AUTOCYPHER PASS]
+[21:48:40] [CLIENT]: test
+[21:48:45] [CLIENT]: Mp3
+[21:48:45] [ACTION]: AUDIO PLAYER
+[21:48:51] [CLIENT]: Prefs
+[21:48:51] [ACTION]: USER EDITOR
+[21:48:53] [ACTION]: CyderButton, text=[Delete] CLICKED
+[21:48:53] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the audio you are currently playing
+[21:48:55] [ACTION]: CyderButton, text=[Delete] CLICKED
+[21:48:55] [CONSOLE_OUT]: [STRING] Music: drippin so pretty ft. Brennan Savage- Loaded (official music video) successfully deleted.
+[21:49:00] [ACTION]: CyderButton, text=[Delete] CLICKED
+[21:49:00] [ACTION]: [Edit User] [NOTIFICATION] Unable to delete the audio you are currently playing
+[21:49:03] [CLIENT]: Mp3
+[21:49:03] [ACTION]: AUDIO PLAYER
+[21:49:05] [CLIENT]: Prefs
+[21:49:05] [ACTION]: USER EDITOR
+[21:49:07] [ACTION]: CyderButton, text=[Delete] CLICKED
+[21:49:07] [CONSOLE_OUT]: [STRING] Music: Maroon 5, Julia Michaels - Help Me Out ft. Julia Michaels (Lyric Video) successfully deleted.
+[21:49:09] [CLIENT]: Cls
+[21:49:11] [CLIENT]: controlc
+[21:49:11] [CONSOLE_OUT]: [STRING] Escaped
+[21:49:11] [CLIENT]: controlc
+[21:49:11] [CLIENT]: controlc
+[21:49:11] [CONSOLE_OUT]: [STRING] Escaped
+[21:49:11] [CONSOLE_OUT]: [STRING] Escaped
+[21:49:12] [CLIENT]: Cls
+[21:49:14] [CLIENT]: Mp3
+[21:49:14] [ACTION]: AUDIO PLAYER
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

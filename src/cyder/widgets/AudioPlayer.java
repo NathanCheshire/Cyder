@@ -681,6 +681,8 @@ public class AudioPlayer {
      * Starts playin audio from the current index.
      */
     public void startAudio() {
+        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+
         new Thread(() -> {
             try {
                 refreshAudio();
@@ -783,6 +785,8 @@ public class AudioPlayer {
      * @param startPosition - the byte value to skip to when starting the audio
      */
     public void resumeAudio(long startPosition) {
+        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+
         if (lastAction == LastAction.STOP) {
             startAudio();
         } else if (lastAction == LastAction.PAUSE) {
