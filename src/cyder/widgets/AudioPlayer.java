@@ -97,8 +97,7 @@ public class AudioPlayer {
                 stopAudio();
 
             kill();
-            audioFrame.setRestoreX(SystemUtil.getScreenWidth() / 2 - audioFrame.getWidth() / 2);
-            audioFrame.setRestoreY( SystemUtil.getScreenHeight() / 2 - audioFrame.getHeight() / 2);
+            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
             }
         });
         audioFrame.initializeResizing();
@@ -478,6 +477,14 @@ public class AudioPlayer {
     }
 
     /**
+     * Returns whether or not the audioplayer widget is currently open
+     * @return - if AudioPlayer is open
+     */
+    public static boolean windowOpen() {
+        return audioFrame != null;
+    }
+
+    /**
      * Refreshes the {@code Port.Info.SPEAKER} or {@code Port.Info.HEADPHONE} volume.
      */
     public static void refreshAudio() {
@@ -616,6 +623,7 @@ public class AudioPlayer {
             }
 
             startAudio();
+            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }
@@ -646,6 +654,7 @@ public class AudioPlayer {
             }
 
             startAudio();
+            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }
@@ -681,10 +690,11 @@ public class AudioPlayer {
 
         //exiting widget
         audioFrame.closeAnimation();
+        audioFrame = null;
     }
 
     /**
-     * Starts playin audio from the current index.
+     * Starts playing audio from the current index.
      */
     public static void startAudio() {
         new Thread(() -> {

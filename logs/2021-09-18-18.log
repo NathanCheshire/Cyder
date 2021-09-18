@@ -1,0 +1,12 @@
+[12:02:35] [ENTRY]: [WINUSER=Nathan]
+[12:02:35] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[12:02:36] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12:02:37] [LOGIN]: [AUTOCYPHER PASS]
+[12:02:39] [CLIENT]: test
+[12:03:20] [CLIENT]: Mp3
+[12:03:20] [ACTION]: AUDIO PLAYER
+[12:03:27] [CLIENT]: Mp3
+[12:03:27] [ACTION]: AUDIO PLAYER
+[12:03:33] [CLIENT]: Mp3
+[12:03:33] [ACTION]: AUDIO PLAYER
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

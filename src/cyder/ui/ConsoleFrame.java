@@ -1570,28 +1570,24 @@ public final class ConsoleFrame {
         playPauseMusicLabel = new JLabel("");
         playPauseMusicLabel.setBounds(80,5,30, 30);
 
-        revalidateAudioMenu();
-
         musicControlsLabel.add(playPauseMusicLabel);
         playPauseMusicLabel.setToolTipText("Play/Pause");
         playPauseMusicLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //todo icon doesn't change
-                //todo on skip menu goes away
-
                 if (IOUtil.generalAudioPlaying()) {
                     IOUtil.stopAudio();
                 } else if (AudioPlayer.audioPlaying()) {
-                    IOUtil.pauseAudio(); //menu goes away : (
+                    IOUtil.pauseAudio();
                 } else if (AudioPlayer.isPaused()) {
                     IOUtil.resumeAudio();
+                } else if (AudioPlayer.windowOpen()) {
+                    AudioPlayer.startAudio();
                 }
              }
-//todo menu play/pause is not initialized correctly
+
             @Override
             public void mouseEntered(MouseEvent e) {
-                //TODO conditions here for audio playing
                 if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PlayHover.png"));
                 } else {
@@ -1601,7 +1597,6 @@ public final class ConsoleFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                //todo conditions here for audio playing
                 if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
                 } else {
@@ -1612,6 +1607,11 @@ public final class ConsoleFrame {
         playPauseMusicLabel.setVisible(true);
         playPauseMusicLabel.setOpaque(false);
         musicControlsLabel.add(playPauseMusicLabel);
+        if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
+            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+        } else {
+            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+        }
 
         JLabel nextMusicLabel = new JLabel("");
         nextMusicLabel.setBounds(110,5,30, 30);
@@ -1664,18 +1664,17 @@ public final class ConsoleFrame {
         musicControlsLabel.add(lastMusicLabel);
     }
 
-    //todo goes away when we skip and press stop when audio player widget is open, should go away as long as this is open
+    //todo make menu button an arrow that pulls it out
+
     public void revalidateAudioMenu() {
         if (playPauseMusicLabel != null) {
-            System.out.println("general audio: " + IOUtil.generalAudioPlaying());
-            System.out.println("audioplayer: " + AudioPlayer.audioPlaying());
             if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
                 setVisibleAudioControls();
             } else {
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
 
-                if (!AudioPlayer.isPaused())
+                if (!AudioPlayer.windowOpen())
                     hideAudioControls();
             }
         }

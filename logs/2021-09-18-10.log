@@ -1,0 +1,26 @@
+[11:49:21] [ENTRY]: [WINUSER=Nathan]
+[11:49:21] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[11:49:22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11:49:23] [LOGIN]: [AUTOCYPHER PASS]
+[11:49:26] [CLIENT]: test
+[11:49:29] [CLIENT]: Press f17
+[11:49:30] [ACTION]: [AUDIO] sys/audio/f17.mp3
+[11:49:35] [CLIENT]: Press f17
+[11:49:35] [ACTION]: [AUDIO] sys/audio/f17.mp3
+[11:49:46] [CLIENT]: Press f17
+[11:49:46] [ACTION]: [AUDIO] sys/audio/f17.mp3
+[11:49:52] [CLIENT]: Stop audio
+[11:49:52] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[11:49:54] [CLIENT]: Stop music
+[11:49:55] [CLIENT]: Stop audio
+[11:49:56] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[11:49:57] [CLIENT]: Press f17
+[11:49:57] [ACTION]: [AUDIO] sys/audio/f17.mp3
+[11:50:00] [CLIENT]: Mp3
+[11:50:00] [ACTION]: AUDIO PLAYER
+[11:50:04] [CLIENT]: Stop audio
+[11:50:04] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[11:50:06] [CLIENT]: Stop music
+[11:50:52] [LOGOUT]:  [Nathan]
+[11:50:52] [EXIT]: [RUNTIME] 1m 31s
+[11:50:52] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

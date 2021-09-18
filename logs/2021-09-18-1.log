@@ -1,0 +1,12 @@
+[09:51:20] [ENTRY]: [WINUSER=Nathan]
+[09:51:21] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[09:51:22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[09:51:23] [LOGIN]: [AUTOCYPHER PASS]
+[09:51:26] [CLIENT]: test
+[09:51:38] [CLIENT]: Press f17
+[09:51:39] [ACTION]: [AUDIO] sys/audio/f17.mp3
+[09:51:53] [CLIENT]: Mp3
+[09:51:53] [ACTION]: AUDIO PLAYER
+[09:52:44] [LOGOUT]:  [Nathan]
+[09:52:44] [EXIT]: [RUNTIME] 1m 23s
+[09:52:44] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

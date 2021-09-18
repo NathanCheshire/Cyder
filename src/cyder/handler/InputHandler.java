@@ -43,12 +43,11 @@ import java.util.concurrent.ThreadLocalRandom;
 //todo update readme picture with better widgets
 //todo making widgets guide, also explain that logic is up to them
 
-//todo select music dir doesn't make console controls appear, don't change anything in music player since this doens't make sense
-//todo also now it just doesn't work at all, it breaks after one use
-
 //todo suggestions at end of log summary
 
 //todo console commands that set location of console should move windows pinned to console with it
+
+//todo toggling show seconds doesn't update it immediately
 
 public class InputHandler {
     private JTextPane outputArea;

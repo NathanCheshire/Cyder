@@ -229,11 +229,14 @@ public class IOUtil {
      * @param f - the audio to play
      */
     public static void addToMp3Queue(File f) {
-        //todo does this work properly?
         if (AudioPlayer.audioPlaying()) {
             AudioPlayer.addToQueue(f);
+        } else if (AudioPlayer.windowOpen()){
+            AudioPlayer.refreshAudioFiles(f);
+            AudioPlayer.startAudio();
         } else {
             mp3(f.getAbsolutePath());
+            //todo test, also make consistent and pass a file or path for all not one for one and another for another
         }
     }
 
@@ -339,7 +342,7 @@ public class IOUtil {
      * Assuming audio is playing via flash player, skips the audio to the previous track if possible
      */
     public static void nextAudio() {
-        if (AudioPlayer.audioPlaying()) {
+        if (AudioPlayer.windowOpen()) {
             AudioPlayer.nextAudio();
         }
     }
@@ -348,7 +351,7 @@ public class IOUtil {
      * Assuming audio is playing via flash player, skips the audio to the last track if possible
      */
     public static void lastAudio() {
-        if (AudioPlayer.audioPlaying()) {
+        if (AudioPlayer.windowOpen()) {
             AudioPlayer.previousAudio();
         }
     }
