@@ -17,28 +17,27 @@ import java.util.List;
 
 public class Notes {
     //main frame
-    private CyderFrame noteFrame;
-    private CyderScrollList cyderScrollList;
-    private CyderButton openNote;
-    private List<String> noteNameList;
-    private List<File> noteList;
-    private JLabel noteScrollLabel;
+    private static CyderFrame noteFrame;
+    private static CyderScrollList cyderScrollList;
+    private static CyderButton openNote;
+    private static List<String> noteNameList;
+    private static List<File> noteList;
+    private static JLabel noteScrollLabel;
 
     //note editor components
-    private CyderFrame noteEditorFrame;
-    private JTextArea noteEditArea;
-    private CyderTextField noteEditField;
-    private File currentUserNote;
-    private CyderFrame newNoteFrame;
-    private CyderTextField newNoteField;
-    private JTextArea newNoteArea;
+    private static CyderFrame noteEditorFrame;
+    private static JTextArea noteEditArea;
+    private static CyderTextField noteEditField;
+    private static File currentUserNote;
+    private static CyderFrame newNoteFrame;
+    private static CyderTextField newNoteField;
+    private static JTextArea newNoteArea;
 
-    private static String UUID = "";
 
-    public Notes() {
-        this.UUID = ConsoleFrame.getConsoleFrame().getUUID();
+    private Notes() {} //no objects
 
-        if (UUID == null)
+    public static void showGUI() {
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             return;
 
         if (noteFrame != null)
@@ -150,7 +149,7 @@ public class Notes {
         ConsoleFrame.getConsoleFrame().setFrameRelative(noteFrame);
     }
 
-    private void addNote() {
+    private static void addNote() {
         if (newNoteFrame != null)
             newNoteFrame.closeAnimation();
 
@@ -203,7 +202,7 @@ public class Notes {
         submitNewNote.addActionListener(e -> {
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(new FileWriter(
-                        "users/" + UUID + "/Notes/" + newNoteField.getText() + ".txt",true));
+                        "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes/" + newNoteField.getText() + ".txt",true));
                 newNoteArea.write(NoteWriter);
                 NoteWriter.close();
             }
@@ -245,8 +244,8 @@ public class Notes {
         newNoteField.requestFocus();
     }
 
-    private void initializeNotesList() {
-        File dir = new File("users/" + UUID + "/Notes");
+    private static void initializeNotesList() {
+        File dir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes");
         noteList = new LinkedList<>();
         noteNameList = new LinkedList<>();
 
@@ -258,7 +257,7 @@ public class Notes {
         }
     }
 
-    private void openNote(File File) {
+    private static void openNote(File File) {
         if (noteEditorFrame != null)
             noteEditorFrame.closeAnimation();
 

@@ -8,7 +8,6 @@ import cyder.obj.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.widgets.AudioPlayer;
 import cyder.widgets.GenericInform;
-import cyder.widgets.Notes;
 import javazoom.jl.player.Player;
 
 import java.awt.*;
@@ -22,10 +21,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class IOUtil {
-
     private IOUtil() {} //private constructor to avoid object creation
 
-    private static Notes Notes;
     private static Player player;
 
     /**
@@ -213,18 +210,6 @@ public class IOUtil {
             }
         }
     }
-
-    /**
-     * Opens the current user's notes; ensoures only one note editor is open at any given time
-     */
-    public static void startNoteEditor() {
-        if (Notes != null)
-            Notes.kill();
-
-        Notes = new Notes();
-    }
-
-    //todo make notes static and then we don't need to go through IOUtil to use it
 
     /**
      * Plays the requested mp3 audio file using the general IOUtil JLayer player

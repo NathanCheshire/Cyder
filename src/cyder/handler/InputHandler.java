@@ -334,7 +334,7 @@ public class InputHandler {
             new TicTacToe().startTicTacToe();
             SessionLogger.log(SessionLogger.Tag.ACTION, "TIC TAC TOE");
         } else if (hasWord("note") || hasWord("notes")) {
-            IOUtil.startNoteEditor();
+            Notes.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "NOTE EDITOR");
         } else if ((hasWord("mp3") || hasWord("music")) && !hasWord("stop")) {
             AudioPlayer.showGUI(null);

@@ -1200,7 +1200,7 @@ public final class ConsoleFrame {
         noteLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                IOUtil.startNoteEditor();
+                Notes.showGUI();
             }
 
             @Override
