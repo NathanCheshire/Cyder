@@ -460,6 +460,24 @@ public class AudioPlayer {
     }
 
     /**
+     * Determines whether or not the audio widget is currently playing audio.
+     * If player is closed, then player is set to null so this will always work.
+     * @return - returns whether or not any AUDIO is playing via AudioPlayer
+     */
+    public static boolean audioPlaying() {
+        return player != null && !player.isComplete();
+    }
+
+    /**
+     * Returns whether or not any audio has been paused. This is indicated via
+     *  a value other than 0 for pauseLocaiton.
+     * @return - whether or not any audio is paused
+     */
+    public static boolean isPaused() {
+        return pauseLocation != 0;
+    }
+
+    /**
      * Refreshes the {@code Port.Info.SPEAKER} or {@code Port.Info.HEADPHONE} volume.
      */
     public static void refreshAudio() {
@@ -556,8 +574,11 @@ public class AudioPlayer {
            pauseLocation = 0;
            totalLength = 0;
 
-           audioTitleLabel.setText("No Audio Playing");
-           audioProgress.setValue(0);
+           if (audioTitleLabel != null)
+                audioTitleLabel.setText("No Audio Playing");
+
+           if (audioProgress != null)
+                audioProgress.setValue(0);
            audioProgressLabel.setText("");
 
            playPauseAudioButton.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
@@ -777,7 +798,8 @@ public class AudioPlayer {
                     refreshAudio();
                     fis = new FileInputStream(audioFiles.get(audioIndex));
                     totalLength = fis.available();
-                    fis.skip(startPosition);
+                    //in case for some weird reason startPosition is before the file then we set startPosition to 0
+                    fis.skip(startPosition < 0 ? 0 : startPosition);
                     bis = new BufferedInputStream(fis);
 
                     if (player != null)

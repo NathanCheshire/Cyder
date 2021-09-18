@@ -439,7 +439,7 @@ public class InputHandler {
                     f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY());
                 }
             }
-        } else if (hasWord("dance")) {
+        } else if (eic("dance")) {
             for (Frame f : Frame.getFrames())
                 if (f instanceof CyderFrame)
                     ((CyderFrame) (f)).dance();
@@ -990,7 +990,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-
+            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         }
         //final attempt at unknown input --------------------------
         else {

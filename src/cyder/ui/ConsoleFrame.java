@@ -11,10 +11,7 @@ import cyder.handler.InputHandler;
 import cyder.handler.SessionLogger;
 import cyder.obj.User;
 import cyder.utilities.*;
-import cyder.widgets.Calculator;
-import cyder.widgets.GenericInform;
-import cyder.widgets.TempConverter;
-import cyder.widgets.Weather;
+import cyder.widgets.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -1663,23 +1660,17 @@ public final class ConsoleFrame {
 
     public void revalidateAudioMenu() {
         if (playPauseMusicLabel != null) {
-            //todo conditions here for audio playing
-            if (true) {
+            System.out.println(IOUtil.generalAudioPlaying());
+            System.out.println(AudioPlayer.audioPlaying());
+            if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
                 playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+                setVisibleAudioControls();
             } else {
                 playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+
+                if (!AudioPlayer.isPaused())
+                    hideAudioControls();
             }
-        }
-
-        if (IOUtil.generalAudioPlaying()) {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-        }
-
-        //todo conditions here for audio playing
-        if (true) {
-            setVisibleAudioControls();
-        } else {
-            hideAudioControls();
         }
     }
 
@@ -2705,7 +2696,7 @@ public final class ConsoleFrame {
     }
 
     public void hideAudioControls() {
-        if (musicMenuVisible) {
+        if (musicMenuVisible && musicControlsLabel.getX() == 0) {
             new Thread(() -> {
                 for (int i = 0 ; i > -138 ; i -= 8) {
                     musicControlsLabel.setLocation(i,musicControlsLabel.getY());

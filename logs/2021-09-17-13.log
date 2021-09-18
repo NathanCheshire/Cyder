@@ -1,0 +1,45 @@
+[21:42:17] [ENTRY]: [WINUSER=Nathan]
+[21:42:18] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[21:42:19] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21:42:20] [LOGIN]: [AUTOCYPHER PASS]
+[21:42:22] [CLIENT]: test
+[21:42:29] [CLIENT]: Cls
+[21:42:30] [CLIENT]: Mp3
+[21:42:30] [ACTION]: AUDIO PLAYER
+[21:43:16] [CLIENT]: Cls
+[21:43:17] [CLIENT]: Press f17
+[21:43:17] [ACTION]: [AUDIO] sys/audio/f17.mp3
+[21:44:47] [CLIENT]: Perlin noise
+[21:44:52] [ACTION]: CyderButton, text=[Generate] CLICKED
+[21:44:52] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:44:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:44:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:44:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:44:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:44:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:44:53] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:44:57] [ACTION]: CyderButton, text=[Stop] CLICKED
+[21:45:03] [ACTION]: CyderButton, text=[Generate] CLICKED
+[21:45:04] [ACTION]: CyderButton, text=[▼] CLICKED
+[21:45:05] [ACTION]: CyderButton, text=[Stop] CLICKED
+[21:45:28] [ACTION]: CyderButton, text=[Generate] CLICKED
+[21:45:28] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:28] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:28] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:29] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:29] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:29] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:29] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:29] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:29] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:29] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:30] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:30] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:30] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:30] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:30] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:30] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:31] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:45:31] [ACTION]: CyderButton, text=[Next Iteration] CLICKED
+[21:46:28] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

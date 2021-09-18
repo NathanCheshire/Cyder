@@ -1,0 +1,18 @@
+[22:04:08] [ENTRY]: [WINUSER=Nathan]
+[22:04:09] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[22:04:10] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22:04:11] [LOGIN]: [AUTOCYPHER PASS]
+[22:04:13] [CLIENT]: test
+[22:04:15] [CLIENT]: Mp3
+[22:04:15] [ACTION]: AUDIO PLAYER
+[22:04:22] [EXCEPTION]: 
+An attempt was made to move the file pointer before the beginning of the file
+Thrown from:
+java.base/java.io.FileInputStream.skip0(Native Method)
+StackTrace:
+java.io.IOException: An attempt was made to move the file pointer before the beginning of the file
+	at java.base/java.io.FileInputStream.skip0(Native Method)
+	at java.base/java.io.FileInputStream.skip(FileInputStream.java:284)
+	at cyder.widgets.AudioPlayer.lambda$resumeAudio$11(AudioPlayer.java:801)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

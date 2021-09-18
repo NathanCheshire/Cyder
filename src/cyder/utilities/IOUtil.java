@@ -229,8 +229,8 @@ public class IOUtil {
      * @param f - the audio to play
      */
     public static void addToMp3Queue(File f) {
-        //todo if cyder player is playing audio: fix this, don't do chained calls like this since get player could be null
-        if (!AudioPlayer.getPlayer().isComplete()) {
+        //todo does this work properly?
+        if (AudioPlayer.audioPlaying()) {
             AudioPlayer.addToQueue(f);
         } else {
             mp3(f.getAbsolutePath());
@@ -313,6 +313,7 @@ public class IOUtil {
             if (player != null && !player.isComplete()) {
                 player.close();
                 player = null;
+                //set to null so that generalAudioPlaying works as intended
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -325,8 +326,12 @@ public class IOUtil {
      * Stops any and all audio playing either through flash player or the general IOUtil JLayer player
      */
     public static void stopAllAudio() {
-        stopAudio();
-        AudioPlayer.stopAudio();
+        if (IOUtil.generalAudioPlaying())
+            stopAudio();
+
+        if (AudioPlayer.audioPlaying())
+            AudioPlayer.stopAudio();
+
         ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
 
@@ -337,7 +342,7 @@ public class IOUtil {
         AudioPlayer.nextAudio();
         ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
     }
-
+//todo disable calling audio player functions if it's not even open, errrrr acutally if audioPlayer.audioPlaying then we do it
     /**
      * Assuming audio is playing via flash player, skips the audio to the last track if possible
      */
