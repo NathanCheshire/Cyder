@@ -452,6 +452,21 @@ public class AudioPlayer {
     }
 
     /**
+     * Adds the given file to the queue. If the player is not open, then it plays the requested audio.
+     * @param f - the audio to play
+     */
+    public static void addToMp3Queue(File f) {
+        if (audioPlaying()) {
+            addToQueue(f);
+        } else if (windowOpen()){
+            refreshAudioFiles(f);
+            startAudio();
+        } else {
+            showGUI(f);
+        }
+    }
+
+    /**
      * Returns the associated JLayer player
      */
     public static Player getPlayer() {

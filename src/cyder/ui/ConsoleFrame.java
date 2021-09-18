@@ -1157,7 +1157,7 @@ public final class ConsoleFrame {
         musicLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                IOUtil.mp3("");
+                AudioPlayer.showGUI(null);
             }
 
             @Override
@@ -1664,7 +1664,7 @@ public final class ConsoleFrame {
         musicControlsLabel.add(lastMusicLabel);
     }
 
-    //todo make menu button an arrow that pulls it out
+    //todo make menu button bigger
 
     public void revalidateAudioMenu() {
         if (playPauseMusicLabel != null) {

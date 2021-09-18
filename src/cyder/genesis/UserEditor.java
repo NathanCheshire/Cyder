@@ -7,6 +7,7 @@ import cyder.handler.ErrorHandler;
 import cyder.obj.User;
 import cyder.ui.*;
 import cyder.utilities.*;
+import cyder.widgets.AudioPlayer;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -397,8 +398,8 @@ public class UserEditor {
                         }
                     }
 
-                    if ((IOUtil.getCurrentMP3() != null
-                            && selectedFile.getAbsoluteFile().toString().equals(IOUtil.getCurrentMP3().getAbsoluteFile().toString())) ||
+                    if ((AudioPlayer.getCurrentAudio() != null
+                            && selectedFile.getAbsoluteFile().toString().equals(AudioPlayer.getCurrentAudio().getAbsoluteFile().toString())) ||
                             selectedFile.getAbsoluteFile().toString().equals(ConsoleFrame.getConsoleFrame()
                                     .getCurrentBackgroundFile().getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
@@ -459,8 +460,8 @@ public class UserEditor {
                 if (selectedFile.getAbsolutePath().equalsIgnoreCase(ConsoleFrame.getConsoleFrame()
                         .getCurrentBackgroundFile().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the background you are currently using");
-                } else if (IOUtil.getCurrentMP3() != null &&
-                        selectedFile.getAbsolutePath().equalsIgnoreCase(IOUtil.getCurrentMP3().getAbsolutePath())) {
+                } else if (AudioPlayer.getCurrentAudio() != null &&
+                        selectedFile.getAbsolutePath().equalsIgnoreCase(AudioPlayer.getCurrentAudio().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the audio you are currently playing");
                 } else {
                     selectedFile.delete();

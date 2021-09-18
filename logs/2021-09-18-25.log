@@ -1,0 +1,14 @@
+[12:23:44] [ENTRY]: [WINUSER=Nathan]
+[12:23:44] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[12:23:45] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12:23:46] [LOGIN]: [AUTOCYPHER PASS]
+[12:23:48] [CLIENT]: test
+[12:23:48] [CLIENT]: Mp3
+[12:23:49] [ACTION]: AUDIO PLAYER
+[12:23:53] [CLIENT]: Prefs
+[12:23:53] [ACTION]: USER EDITOR
+[12:23:56] [ACTION]: CyderButton, text=[Delete] CLICKED
+[12:23:56] [CONSOLE_OUT]: [STRING] Music: The Lyrics Of The Bee Gees- How Deep Is Your Love successfully deleted.
+[12:24:04] [LOGOUT]:  [Nathan]
+[12:24:04] [EXIT]: [RUNTIME] 19s
+[12:24:04] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

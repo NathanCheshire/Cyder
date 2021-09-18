@@ -193,7 +193,7 @@ public class IOUtil {
         }
         //use our own mp3 player
         else if (FilePath.endsWith(".mp3")) {
-            mp3(FilePath);
+            AudioPlayer.showGUI(new File(FilePath));
         }
         //welp just open it outside of the program :(
         else {
@@ -224,37 +224,7 @@ public class IOUtil {
         Notes = new Notes();
     }
 
-    /**
-     * Adds the given file to the AudioPlayer queue. If the player is not open, then it plays the requested audio.
-     * @param f - the audio to play
-     */
-    public static void addToMp3Queue(File f) {
-        if (AudioPlayer.audioPlaying()) {
-            AudioPlayer.addToQueue(f);
-        } else if (AudioPlayer.windowOpen()){
-            AudioPlayer.refreshAudioFiles(f);
-            AudioPlayer.startAudio();
-        } else {
-            mp3(f.getAbsolutePath());
-            //todo test, also make consistent and pass a file or path for all not one for one and another for another
-        }
-    }
-
-    /**
-     * Ends the current AudioPlayer session if ongoing and starts a new one with the requested file
-     * @param FilePath - the path to the audio file to start playing
-     */
-    public static void mp3(String FilePath) {
-        AudioPlayer.showGUI(new File(FilePath));
-    }
-
-    /**
-     * Gets the current audio file playing through the AudioPlayer if any
-     * @return - the current audio file being played - null if no file is being played
-     */
-    public static File getCurrentMP3() {
-        return AudioPlayer.getCurrentAudio();
-    }
+    //todo make notes static and then we don't need to go through IOUtil to use it
 
     /**
      * Plays the requested mp3 audio file using the general IOUtil JLayer player

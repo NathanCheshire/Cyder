@@ -337,7 +337,7 @@ public class InputHandler {
             IOUtil.startNoteEditor();
             SessionLogger.log(SessionLogger.Tag.ACTION, "NOTE EDITOR");
         } else if ((hasWord("mp3") || hasWord("music")) && !hasWord("stop")) {
-            IOUtil.mp3("");
+            AudioPlayer.showGUI(null);
             SessionLogger.log(SessionLogger.Tag.ACTION, "AUDIO PLAYER");
         } else if (hasWord("phone") || hasWord("dialer") || hasWord("call")) {
             new Phone(outputArea);
@@ -904,7 +904,7 @@ public class InputHandler {
                             println("Download complete and added to mp3 queue");
 
                             //play the song
-                            IOUtil.addToMp3Queue(downloadedFile.get());
+                            AudioPlayer.addToMp3Queue(downloadedFile.get());
                         }
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
@@ -932,7 +932,7 @@ public class InputHandler {
                         if (downloadedFile.get() != null && downloadedFile.get().exists()) {
                             println("Download complete and added to mp3 queue");
 
-                            IOUtil.addToMp3Queue(downloadedFile.get());
+                            AudioPlayer.addToMp3Queue(downloadedFile.get());
                         }
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
