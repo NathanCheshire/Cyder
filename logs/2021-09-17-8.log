@@ -59,3 +59,4 @@ java.net.MalformedURLException: no protocol: f17
 [01:19:20] [CONSOLE_OUT]: [STRING] Searching youtube for: f17
 [01:19:21] [CONSOLE_OUT]: [STRING] Starting download of: Vexento - F17
 [01:19:30] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

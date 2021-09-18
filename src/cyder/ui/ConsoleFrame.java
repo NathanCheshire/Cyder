@@ -1577,16 +1577,22 @@ public final class ConsoleFrame {
         playPauseMusicLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //todo stop audio if general audio playing
-                //todo pause audio if audio player playing, else resume it if it's showing
+                //todo icon doesn't change
+                //todo on skip menu goes away
 
-                System.out.println("TODO");
+                if (IOUtil.generalAudioPlaying()) {
+                    IOUtil.stopAudio();
+                } else if (AudioPlayer.audioPlaying()) {
+                    IOUtil.pauseAudio(); //menu goes away : (
+                } else if (AudioPlayer.isPaused()) {
+                    IOUtil.resumeAudio();
+                }
              }
-
+//todo menu play/pause is not initialized correctly
             @Override
             public void mouseEntered(MouseEvent e) {
                 //TODO conditions here for audio playing
-                if (true) {
+                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PlayHover.png"));
                 } else {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PauseHover.png"));
@@ -1596,7 +1602,7 @@ public final class ConsoleFrame {
             @Override
             public void mouseExited(MouseEvent e) {
                 //todo conditions here for audio playing
-                if (true) {
+                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
                 } else {
                     playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
@@ -1658,10 +1664,11 @@ public final class ConsoleFrame {
         musicControlsLabel.add(lastMusicLabel);
     }
 
+    //todo goes away when we skip and press stop when audio player widget is open, should go away as long as this is open
     public void revalidateAudioMenu() {
         if (playPauseMusicLabel != null) {
-            System.out.println(IOUtil.generalAudioPlaying());
-            System.out.println(AudioPlayer.audioPlaying());
+            System.out.println("general audio: " + IOUtil.generalAudioPlaying());
+            System.out.println("audioplayer: " + AudioPlayer.audioPlaying());
             if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
                 playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
                 setVisibleAudioControls();

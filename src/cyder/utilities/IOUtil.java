@@ -339,32 +339,40 @@ public class IOUtil {
      * Assuming audio is playing via flash player, skips the audio to the previous track if possible
      */
     public static void nextAudio() {
-        AudioPlayer.nextAudio();
-        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+        if (AudioPlayer.audioPlaying()) {
+            AudioPlayer.nextAudio();
+        }
     }
-//todo disable calling audio player functions if it's not even open, errrrr acutally if audioPlayer.audioPlaying then we do it
+
     /**
      * Assuming audio is playing via flash player, skips the audio to the last track if possible
      */
     public static void lastAudio() {
-        AudioPlayer.previousAudio();
-        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+        if (AudioPlayer.audioPlaying()) {
+            AudioPlayer.previousAudio();
+        }
     }
 
     /**
      * Pause audio if playing via flash player
      */
     public static void pauseAudio() {
-        AudioPlayer.pauseAudio();
-        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+        if (AudioPlayer.audioPlaying()) {
+            AudioPlayer.pauseAudio();
+        } else if (IOUtil.generalAudioPlaying()) {
+            stopAudio();
+            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+        }
     }
 
     /**
      * Resumes audio if playing via flash player
      */
     public static void resumeAudio() {
-        AudioPlayer.resumeAudio();
-        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+        if (AudioPlayer.isPaused()) {
+            AudioPlayer.resumeAudio();
+            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+        }
     }
 
     /**
