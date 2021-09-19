@@ -1509,6 +1509,7 @@ public final class ConsoleFrame {
                 150,40);
         audioControlsLabel.setOpaque(true);
         audioControlsLabel.setBackground(CyderColors.navy);
+        audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
         audioControlsLabel.setVisible(true);
         consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);
 
@@ -2662,7 +2663,6 @@ public final class ConsoleFrame {
         new Thread(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, i);
-                System.out.println(i);
                 try {
                     Thread.sleep(10);
                 } catch (Exception ignored) {}
@@ -2679,9 +2679,8 @@ public final class ConsoleFrame {
         new Thread(() -> {
             audioControlsLabel.setVisible(true);
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 150 - 5, -40);
-            for (int i = -40 ; i < DragLabel.getDefaultHeight() - 1 ; i += 8) {
+            for (int i = -40 ; i < DragLabel.getDefaultHeight() + 3 ; i += 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, i);
-                System.out.println(i);
                 try {
                     Thread.sleep(10);
                 } catch (Exception ignored) {}
@@ -2693,9 +2692,8 @@ public final class ConsoleFrame {
 
     public void hideAudioControls() {
         if (audioMenuVisible) {
-            System.out.println("menu is visible");
             new Thread(() -> {
-                for (int i = DragLabel.getDefaultHeight() - 1 ; i > -40 ; i -= 8) {
+                for (int i = DragLabel.getDefaultHeight() + 3 ; i > -40 ; i -= 8) {
                     audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, i);
                     try {
                         Thread.sleep(10);
@@ -2707,6 +2705,7 @@ public final class ConsoleFrame {
             audioControlsLabel.setVisible(false);
         }
 
+        //todo on close this doesn't work
         if (consoleCyderFrame.getTopDragLabel().getButtonsList().size() > 3)
             consoleCyderFrame.getTopDragLabel().removeButton(0);
     }
@@ -2718,15 +2717,12 @@ public final class ConsoleFrame {
         toggleAudioControls.setToolTipText("Audio Controls");
         toggleAudioControls.addActionListener(e -> {
             if (audioMenuVisible) {
-                System.out.println("coming out");
                 animateOutAudioControls();
             } else {
-                System.out.println("coming in");
                 animateInAudioControls();
             }
         });
 
-        //todo if open should be inverted colors
         toggleAudioControls.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {

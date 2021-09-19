@@ -223,3 +223,4 @@ java.net.MalformedURLException: no protocol: god's not dead news boys lyrics
 [16:29:39] [CONSOLE_OUT]: [STRING] Searching youtube for: god's not dead news boys lyrics
 [16:29:41] [CONSOLE_OUT]: [STRING] Starting download of: The Newsboys God's not dead lyrics
 [16:29:51] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
