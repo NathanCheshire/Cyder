@@ -62,7 +62,7 @@ public class YoutubeUtil {
                     ret = new File(response.getDirectory() + outName);
 
                 } catch (YoutubeDLException e) {
-                    ErrorHandler.handle(e);
+                    ErrorHandler.silentHandle(e);
                     ConsoleFrame.getConsoleFrame().getInputHandler().println("Could not download video's audio at this time");
                 }
             } else {

@@ -149,7 +149,15 @@ public class UserUtil {
         if (UUID == null)
             return;
 
+        File userBackgroundsFile = new File("users/" + UUID + "/Backgrounds");
+        File userMusicFile = new File("users/" + UUID + "/Music");
         File userJsonFile = new File("users/" + UUID + "/userdata.json");
+
+        if (!userBackgroundsFile.exists())
+            userBackgroundsFile.mkdir();
+
+        if (!userMusicFile.exists())
+            userMusicFile.mkdir();
 
         if (!userJsonFile.exists())
             IOUtil.corruptedUser();

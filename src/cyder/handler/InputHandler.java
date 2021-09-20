@@ -40,6 +40,15 @@ import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
+//TODO audio menu appearing and going away is STILL broken FIX NOW
+
+
+
+
+//todo priority is using all image types throughout the program
+
+//todo when setting cyder frame titles, if it's bigger than 3/4 the width of the frame, cut it off
+
 //todo update readme picture with better widgets
 //todo making widgets guide, also explain that logic is up to them
 

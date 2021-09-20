@@ -428,8 +428,10 @@ public class AudioPlayer {
             try {
                 File userAudioDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" );
 
-                if (!userAudioDir.exists())
-                    throw new IllegalArgumentException("User music directory does not exist.");
+                if (!userAudioDir.exists()) {
+                    userAudioDir.mkdir();
+                    return;
+                }
 
                 File[] userFiles = userAudioDir.listFiles();
 
