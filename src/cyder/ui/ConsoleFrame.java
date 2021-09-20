@@ -750,14 +750,14 @@ public final class ConsoleFrame {
             close.setFocusable(true);
             consoleDragButtonList.add(close);
 
-            //audio controls
-            generateAudioMenu();
-
             //set top drag's button list and others to none
             consoleCyderFrame.getTopDragLabel().setButtonsList(consoleDragButtonList);
             consoleCyderFrame.getBottomDragLabel().setButtonsList(null);
             consoleCyderFrame.getLeftDragLabel().setButtonsList(null);
             consoleCyderFrame.getRightDragLabel().setButtonsList(null);
+
+            //audio controls
+            generateAudioMenu();
 
             //this turns into setting a center title
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
@@ -1510,7 +1510,7 @@ public final class ConsoleFrame {
         audioControlsLabel.setOpaque(true);
         audioControlsLabel.setBackground(CyderColors.navy);
         audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
-        audioControlsLabel.setVisible(true);
+        audioControlsLabel.setVisible(false);
         consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);
 
         JLabel stopMusicLabel = new JLabel("");
@@ -1595,6 +1595,7 @@ public final class ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 IOUtil.nextAudio();
+                revalidateAudioMenu();
             }
 
             @Override
@@ -1620,6 +1621,7 @@ public final class ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 IOUtil.lastAudio();
+                revalidateAudioMenu();
             }
 
             @Override
@@ -1641,14 +1643,22 @@ public final class ConsoleFrame {
         if (playPauseMusicLabel != null) {
             if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
                 playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-                setVisibleAudioControls();
+                setVisibleAudioControlsToggleButton();
             } else {
                 playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
 
-                if (!AudioPlayer.windowOpen())
-                    hideAudioControls();
+                if (!AudioPlayer.windowOpen() && audioControlsLabel.isVisible()) {
+                    animateOutAudioControls();
+                    audioControlsLabel.setVisible(false);
+
+                    while (consoleCyderFrame.getTopDragLabel().getButtonsList().size() > 3) {
+                        consoleCyderFrame.getTopDragLabel().removeButton(0);
+                    }
+                }
             }
         }
+
+        consoleCyderFrame.getTopDragLabel().refreshButtons();
     }
 
     private KeyListener commandScrolling = new KeyAdapter() {
@@ -2658,8 +2668,6 @@ public final class ConsoleFrame {
     }
 
     public void animateOutAudioControls() {
-        revalidateAudioMenu();
-
         new Thread(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, i);
@@ -2669,54 +2677,32 @@ public final class ConsoleFrame {
             }
             audioControlsLabel.setVisible(false);
         }, "Console Audio Menu Minimizer").start();
-
-        audioMenuVisible = false;
     }
 
     public void animateInAudioControls() {
         revalidateAudioMenu();
 
         new Thread(() -> {
-            audioControlsLabel.setVisible(true);
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 150 - 5, -40);
+            audioControlsLabel.setVisible(true);
             for (int i = -40 ; i < DragLabel.getDefaultHeight() + 3 ; i += 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, i);
                 try {
                     Thread.sleep(10);
                 } catch (Exception ignored) {}
             }
+            audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, DragLabel.getDefaultHeight() + 3);
         }, "Console Audio Menu Minimizer").start();
-
-        audioMenuVisible = true;
     }
 
-    public void hideAudioControls() {
-        if (audioMenuVisible) {
-            new Thread(() -> {
-                for (int i = DragLabel.getDefaultHeight() + 3 ; i > -40 ; i -= 8) {
-                    audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, i);
-                    try {
-                        Thread.sleep(10);
-                    } catch (Exception ignored) {}
-                }
-                audioControlsLabel.setVisible(false);
-            }, "Console Audio Menu Minimizer").start();
-        } else {
-            audioControlsLabel.setVisible(false);
-        }
 
-        //todo on close this doesn't work
-        if (consoleCyderFrame.getTopDragLabel().getButtonsList().size() > 3)
-            consoleCyderFrame.getTopDragLabel().removeButton(0);
-    }
-
-    public void setVisibleAudioControls() {
-        audioControlsLabel.setVisible(true);
+    public void setVisibleAudioControlsToggleButton() {
+        audioControlsLabel.setLocation(audioControlsLabel.getX(),-40);
 
         toggleAudioControls = new JButton("");
         toggleAudioControls.setToolTipText("Audio Controls");
         toggleAudioControls.addActionListener(e -> {
-            if (audioMenuVisible) {
+            if (audioControlsLabel.isVisible()) {
                 animateOutAudioControls();
             } else {
                 animateInAudioControls();
@@ -2734,13 +2720,16 @@ public final class ConsoleFrame {
                 toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
             }
         });
-        toggleAudioControls.setIcon(new ImageIcon(""));
+        toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
         toggleAudioControls.setContentAreaFilled(false);
         toggleAudioControls.setBorderPainted(false);
         toggleAudioControls.setFocusPainted(false);
         toggleAudioControls.setFocusable(false);
 
+        while (consoleCyderFrame.getTopDragLabel().getButtonsList().size() > 3)
+            consoleCyderFrame.getTopDragLabel().removeButton(0);
+
         consoleCyderFrame.getTopDragLabel().addButton(toggleAudioControls,0);
-        //todo this doesn't show up
+        consoleCyderFrame.getTopDragLabel().refreshButtons();
     }
 }
