@@ -52,48 +52,8 @@ Currently, the program is intended for 2560x1440 resolution displays (my main di
 
 ## TODO
 
-- [x]  take into account possible secondary/tertiary monitors and know which one you're on
-- [ ]  be able to adapt to different screen resolutions and maintain relative size
-- [ ]  add a device manager so that you can see what's connected to the PC through the program
-- [ ]  add @return, @param, @args, etc. to most methods
-- [x]  comment the code
-- [x]  log exit codes at what time and by whom
-- [x]  make chat IO logs for each session
-- [x]  move start data to user specific and place in a logs dir for the user. You should zip these logs upon completion
-- [x]  incorporate CyderProgressUI for ProgressBars wherever it might fit
-- [x]  put spotlight inside of the program
-- [x]  get ImAvg working and put it inside the program
-- [x]  allow users to map up to three internet links and place them on the menu panel
-- [x]  allow users to rearrange the menu panel and remember what they do
-- [x]  change the login animation to actual sliding JLabels with text and not a sliding image
-- [x]  make a perlin noise widget
-- [x]  make a Conway's Game of Life widget
-- [x]  make pixelating a picture it's own widget
-- [ ]  add multiple image support (not just PNG)
-- [ ]  add a light/dark mode toggle
-- [ ]  be able to change the CyderFrame/ConsolFrame border color from navy to some other color and repaint it. Rememeber this change
-- [x]  if your location cannot be found, restrict features that rely on IP data and inform the user of this
-- [x]  get start animations working and use them for CyderFrame instanceof objects
-- [x]  utilize system.exit more and give more data on why the program was exited
-- [x]  be able to download missing files from the internet and if you cannot and you need them, inform the user and exit the program
-- [x]  move file.txt, string.txt, and inputmessage.txt to the tmp directory (removed in 6.22.21)
-- [x]  utilze html inside of notifications (line breaks, color, bold, italics, etc.)
-- [x]  be able to set the background to a solid color. On doing so, save the background
-- [ ]  Algorithms package with euclidian algorithm: Algorithms.euclidian(47,63) should return ints in same order to multiply alpha and beta inputs by to get the gcd
-- [x]  make an entire minecraft widget which can launch minecraft via the offical launcher, lunar client, or any other client provided the user can provide a path to the executable
-- [x]  allow starting executables to be mapped to links within the menu
-- [ ]  convert all non vector based images to SVGs or other vector based data structures
-- [x]  exit the program if in OSX (program not intended for OSX and should only run on Windows 10+ and possible Linux distros)
-- [x]  implement convex hull algorithm and visualizer
-- [x]  implement path finding visualizer
-- [x]  make certain classes final, don't let people instantiate the class by making the constructor private like "private Math() {}"
-- [x]  take and recongize a pastebin link or UUID and print the contents to the console, should be reading from the RAW paste
-- [x]  allow one instance of console frame
-- [x]  make launching and testing easier
-- [ ]  make a music lab using lines that correspond to notes; inspired by Wintergatan Marble Machine
-- [x]  add work with binary files (read/write to/from bin files)
-- [x]  determine common files even without extension based on meta data binary reader
-- [x]  bin dump function
-- [x]  hex dump function
-- [ ]  ncview functionality
-- [ ]  add quick start functionality for user's in a hurry
+Cyder utilizes the agile development model. For features you would like to see implmeneted, please create an issue and describe the feature in as much detail as you can. Issues are addressed by assigned priority based on issue create data, idea originality, and idea relevance. 
+
+
+## Deveopment Model: Agile
+<img src="https://i.imgur.com/VKeVG4F.png" data-canonical-src="https://i.imgur.com/VKeVG4F.png"/>
