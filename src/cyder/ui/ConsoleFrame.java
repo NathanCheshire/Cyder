@@ -649,7 +649,6 @@ public final class ConsoleFrame {
             toggleAudioControls.setFocusPainted(false);
             toggleAudioControls.setFocusable(false);
             consoleDragButtonList.add(toggleAudioControls);
-            toggleAudioControls.setVisible(false);
 
             minimize = new JButton("");
             minimize.setToolTipText("Minimize");
@@ -856,6 +855,7 @@ public final class ConsoleFrame {
             //show frame
             consoleCyderFrame.setVisible(true);
 
+            //position window from last location if in bounds
             int x = Integer.parseInt(UserUtil.getUserData("windowlocx"));
             int y = Integer.parseInt(UserUtil.getUserData("windowlocy"));
 

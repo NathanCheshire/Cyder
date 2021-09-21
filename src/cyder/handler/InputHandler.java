@@ -40,12 +40,12 @@ import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
+//todo upon launch, audio controls button is visible, fix
+
 //todo when setting cyder frame titles, if it's bigger than 3/4 the width of the frame, cut it off
 
 //todo update readme picture with better widgets and black background
 //todo making widgets guide, also explain that logic is up to them
-
-//todo suggestions at end of log summary, hold in memory until EOL call
 
 //todo console commands that set location of console should move windows pinned to console with it
 
@@ -1307,7 +1307,7 @@ public class InputHandler {
     }
 
     public void logSuggestion(String suggestion) {
-        SessionLogger.log(SessionLogger.Tag.SUGGESTION, suggestion);
+        SessionLogger.log(SessionLogger.Tag.SUGGESTION,  suggestion);
     }
 
     public void setOutputArea(JTextPane outputArea) {

@@ -1,0 +1,24 @@
+[23:38:13] [ENTRY]: [WINUSER=Nathan]
+[23:38:14] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[23:38:14] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:38:15] [LOGIN]: [AUTOCYPHER PASS]
+[23:38:16] [CLIENT]: test
+[23:38:26] [CLIENT]: Test
+[23:38:28] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
+[23:38:33] [SUGGESTION ADDED]
+[23:38:34] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] Suggestion logged; please remember to send your logs directory to Nathan so that he can make Cyder better for us all
+[23:38:34] [CLIENT]: controlc
+[23:38:34] [CONSOLE_OUT]: [STRING] Escaped
+[23:38:35] [CLIENT]: Cls
+[23:38:37] [CLIENT]: Thanks
+[23:38:37] [CONSOLE_OUT]: [STRING] You're welcome.
+[23:38:41] [CLIENT]: Cls
+[23:38:45] [CLIENT]: Open current log
+[23:38:51] [CLIENT]: Cls
+[23:38:52] [CLIENT]: Mp3
+[23:38:52] [ACTION]: AUDIO PLAYER
+[23:38:56] [LOGOUT]:  [Nathan]
+[23:38:56] [EXIT]: [RUNTIME] 43s
+[23:38:56] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
+[23:38:56] [SUGGESTIONS]: 
+	[23:38:56][OPERATION]: I want something to work properly

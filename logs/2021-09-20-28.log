@@ -1,0 +1,14 @@
+[23:30:54] [ENTRY]: [WINUSER=Nathan]
+[23:30:55] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[23:30:56] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:30:57] [LOGIN]: [AUTOCYPHER PASS]
+[23:30:59] [CLIENT]: test
+[23:31:02] [CLIENT]: Test
+[23:31:04] [CLIENT]: Log suggestion
+[23:31:04] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[23:31:04] [CLIENT]: Cls
+[23:31:06] [CLIENT]: controlc
+[23:31:06] [CONSOLE_OUT]: [STRING] Escaped
+[23:31:06] [CLIENT]: Cls
+[23:31:08] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

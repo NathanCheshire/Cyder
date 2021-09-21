@@ -1,0 +1,21 @@
+[23:31:53] [ENTRY]: [WINUSER=Nathan]
+[23:31:53] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[23:31:54] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:31:54] [LOGIN]: [AUTOCYPHER PASS]
+[23:31:56] [CLIENT]: test
+[23:31:59] [CLIENT]: Test
+[23:32:00] [CLIENT]: Jskdfjs
+[23:32:00] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[23:32:00] [CLIENT]: controlc
+[23:32:00] [CONSOLE_OUT]: [STRING] Escaped
+[23:32:01] [CLIENT]: Cls
+[23:32:03] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
+[23:32:06]
+[23:32:09] [CLIENT]: Open current log
+[23:32:09] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] Suggestion logged; please remember to send your logs directory to Nathan so that he can make Cyder better for us all
+[23:33:29] [CLIENT]: Close
+[23:33:29] [LOGOUT]:  [Nathan]
+[23:33:29] [EXIT]: [RUNTIME] 1m 36s
+[23:33:29] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
+[SUGGESTIONS]: 	[OPERATION]: Cls
+	[SUGGESTION]: So basic test here
