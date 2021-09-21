@@ -284,30 +284,12 @@ public class IOUtil {
      * Stops any and all audio playing either through flash player or the general IOUtil JLayer player
      */
     public static void stopAllAudio() {
-        if (IOUtil.generalAudioPlaying())
+        if (IOUtil.generalAudioPlaying()) {
             stopAudio();
-
-        if (AudioPlayer.audioPlaying())
-            AudioPlayer.stopAudio();
-
-        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
-    }
-
-    /**
-     * Assuming audio is playing via flash player, skips the audio to the previous track if possible
-     */
-    public static void nextAudio() {
-        if (AudioPlayer.windowOpen()) {
-            AudioPlayer.nextAudio();
         }
-    }
 
-    /**
-     * Assuming audio is playing via flash player, skips the audio to the last track if possible
-     */
-    public static void lastAudio() {
-        if (AudioPlayer.windowOpen()) {
-            AudioPlayer.previousAudio();
+        if (AudioPlayer.audioPlaying()) {
+            AudioPlayer.stopAudio();
         }
     }
 
@@ -319,17 +301,6 @@ public class IOUtil {
             AudioPlayer.pauseAudio();
         } else if (IOUtil.generalAudioPlaying()) {
             stopAudio();
-            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
-        }
-    }
-
-    /**
-     * Resumes audio if playing via flash player
-     */
-    public static void resumeAudio() {
-        if (AudioPlayer.isPaused()) {
-            AudioPlayer.resumeAudio();
-            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         }
     }
 

@@ -622,6 +622,35 @@ public final class ConsoleFrame {
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
 
+            toggleAudioControls = new JButton("");
+            toggleAudioControls.setToolTipText("Audio Controls");
+            toggleAudioControls.addActionListener(e -> {
+                if (audioControlsLabel.isVisible()) {
+                    animateOutAudioControls();
+                } else {
+                    animateInAudioControls();
+                }
+            });
+
+            toggleAudioControls.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
+                }
+            });
+            toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
+            toggleAudioControls.setContentAreaFilled(false);
+            toggleAudioControls.setBorderPainted(false);
+            toggleAudioControls.setFocusPainted(false);
+            toggleAudioControls.setFocusable(false);
+            consoleDragButtonList.add(toggleAudioControls);
+            toggleAudioControls.setVisible(false);
+
             minimize = new JButton("");
             minimize.setToolTipText("Minimize");
             minimize.addActionListener(e -> {
@@ -1500,165 +1529,6 @@ public final class ConsoleFrame {
                 },"minimize menu thread").start();
             }
         }
-    }
-
-    private void generateAudioMenu() {
-        audioControlsLabel = new JLabel("");
-        audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - 150 - 5, //width of console so need's to be revalidated
-                -40, //negative height
-                150,40);
-        audioControlsLabel.setOpaque(true);
-        audioControlsLabel.setBackground(CyderColors.navy);
-        audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
-        audioControlsLabel.setVisible(false);
-        consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);
-
-        JLabel stopMusicLabel = new JLabel("");
-        stopMusicLabel.setBounds(45,5,30, 30);
-        stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Stop.png"));
-        audioControlsLabel.add(stopMusicLabel);
-        stopMusicLabel.setToolTipText("Stop");
-        stopMusicLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                IOUtil.stopAllAudio();
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
-                revalidateAudioMenu();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/StopHover.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Stop.png"));
-            }
-        });
-        stopMusicLabel.setVisible(true);
-        stopMusicLabel.setOpaque(false);
-        audioControlsLabel.add(stopMusicLabel);
-
-        playPauseMusicLabel = new JLabel("");
-        playPauseMusicLabel.setBounds(80,5,30, 30);
-
-        audioControlsLabel.add(playPauseMusicLabel);
-        playPauseMusicLabel.setToolTipText("Play/Pause");
-        playPauseMusicLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (IOUtil.generalAudioPlaying()) {
-                    IOUtil.stopAudio();
-                } else if (AudioPlayer.audioPlaying()) {
-                    IOUtil.pauseAudio();
-                } else if (AudioPlayer.isPaused()) {
-                    IOUtil.resumeAudio();
-                } else if (AudioPlayer.windowOpen()) {
-                    AudioPlayer.startAudio();
-                }
-             }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
-                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PlayHover.png"));
-                } else {
-                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PauseHover.png"));
-                }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
-                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
-                } else {
-                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-                }
-            }
-        });
-        playPauseMusicLabel.setVisible(true);
-        playPauseMusicLabel.setOpaque(false);
-        audioControlsLabel.add(playPauseMusicLabel);
-        if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
-        } else {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-        }
-
-        JLabel nextMusicLabel = new JLabel("");
-        nextMusicLabel.setBounds(110,5,30, 30);
-        nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Skip.png"));
-        audioControlsLabel.add(nextMusicLabel);
-        nextMusicLabel.setToolTipText("Skip");
-        nextMusicLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                IOUtil.nextAudio();
-                revalidateAudioMenu();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipHover.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Skip.png"));
-            }
-        });
-        nextMusicLabel.setVisible(true);
-        nextMusicLabel.setOpaque(false);
-        audioControlsLabel.add(nextMusicLabel);
-
-        JLabel lastMusicLabel = new JLabel("");
-        lastMusicLabel.setBounds(10,5,30, 30);
-        lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBack.png"));
-        audioControlsLabel.add(nextMusicLabel);
-        lastMusicLabel.setToolTipText("Previous");
-        lastMusicLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                IOUtil.lastAudio();
-                revalidateAudioMenu();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBackHover.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBack.png"));
-            }
-        });
-        lastMusicLabel.setVisible(true);
-        lastMusicLabel.setOpaque(false);
-        audioControlsLabel.add(lastMusicLabel);
-    }
-
-    public void revalidateAudioMenu() {
-        if (playPauseMusicLabel != null) {
-            if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-                setVisibleAudioControlsToggleButton();
-            } else {
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
-
-                if (!AudioPlayer.windowOpen() && audioControlsLabel.isVisible()) {
-                    animateOutAudioControls();
-                    audioControlsLabel.setVisible(false);
-
-                    while (consoleCyderFrame.getTopDragLabel().getButtonsList().size() > 3) {
-                        consoleCyderFrame.getTopDragLabel().removeButton(0);
-                    }
-                }
-            }
-        }
-
-        consoleCyderFrame.getTopDragLabel().refreshButtons();
     }
 
     private KeyListener commandScrolling = new KeyAdapter() {
@@ -2596,6 +2466,17 @@ public final class ConsoleFrame {
         }
     }
 
+    public void minimizeAllCyderFrames() {
+        UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
+        UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
+
+        for (Frame f : Frame.getFrames()) {
+            if (f instanceof CyderFrame) {
+                ((CyderFrame) f).minimizeAnimation();
+            }
+        }
+    }
+
     public void barrelRoll() {
         consoleCyderFrame.barrelRoll();
     }
@@ -2680,8 +2561,6 @@ public final class ConsoleFrame {
     }
 
     public void animateInAudioControls() {
-        revalidateAudioMenu();
-
         new Thread(() -> {
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 150 - 5, -40);
             audioControlsLabel.setVisible(true);
@@ -2695,41 +2574,169 @@ public final class ConsoleFrame {
         }, "Console Audio Menu Minimizer").start();
     }
 
-
-    public void setVisibleAudioControlsToggleButton() {
-        audioControlsLabel.setLocation(audioControlsLabel.getX(),-40);
-
-        toggleAudioControls = new JButton("");
-        toggleAudioControls.setToolTipText("Audio Controls");
-        toggleAudioControls.addActionListener(e -> {
-            if (audioControlsLabel.isVisible()) {
-                animateOutAudioControls();
-            } else {
-                animateInAudioControls();
+    public void revalidateAudioMenu() {
+        if (audioControlsLabel.isVisible()) {
+            if (!AudioPlayer.windowOpen()) {
+                 if (!IOUtil.generalAudioPlaying()) {
+                    if (audioControlsLabel.isVisible()) {
+                        animateOutAudioControls();
+                        removeAudioControls();
+                    }
+                }
             }
-        });
+        } else {
+            audioControlsLabel.setLocation(audioControlsLabel.getX(), -40);
+            toggleAudioControls.setVisible(true);
+        }
 
-        toggleAudioControls.addMouseListener(new MouseAdapter() {
+        if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
+            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+        } else {
+            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+        }
+    }
+
+    public void removeAudioControls() {
+        audioControlsLabel.setVisible(false);
+        toggleAudioControls.setVisible(false);
+        consoleCyderFrame.getTopDragLabel().refreshButtons();
+    }
+
+    private void generateAudioMenu() {
+        audioControlsLabel = new JLabel("");
+        audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - 150 - 5, //width of console so need's to be revalidated
+                -40, //negative height
+                150,40);
+        audioControlsLabel.setOpaque(true);
+        audioControlsLabel.setBackground(CyderColors.navy);
+        audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
+        audioControlsLabel.setVisible(false);
+        consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);
+
+        JLabel stopMusicLabel = new JLabel("");
+        stopMusicLabel.setBounds(45,5,30, 30);
+        stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Stop.png"));
+        audioControlsLabel.add(stopMusicLabel);
+        stopMusicLabel.setToolTipText("Stop");
+        stopMusicLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                IOUtil.stopAllAudio();
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+            }
+
             @Override
             public void mouseEntered(MouseEvent e) {
-                toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
+                stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/StopHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
+                stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Stop.png"));
             }
         });
-        toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
-        toggleAudioControls.setContentAreaFilled(false);
-        toggleAudioControls.setBorderPainted(false);
-        toggleAudioControls.setFocusPainted(false);
-        toggleAudioControls.setFocusable(false);
+        stopMusicLabel.setVisible(true);
+        stopMusicLabel.setOpaque(false);
+        audioControlsLabel.add(stopMusicLabel);
 
-        while (consoleCyderFrame.getTopDragLabel().getButtonsList().size() > 3)
-            consoleCyderFrame.getTopDragLabel().removeButton(0);
+        playPauseMusicLabel = new JLabel("");
+        playPauseMusicLabel.setBounds(80,5,30, 30);
 
-        consoleCyderFrame.getTopDragLabel().addButton(toggleAudioControls,0);
-        consoleCyderFrame.getTopDragLabel().refreshButtons();
+        audioControlsLabel.add(playPauseMusicLabel);
+        playPauseMusicLabel.setToolTipText("Play/Pause");
+        playPauseMusicLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (IOUtil.generalAudioPlaying()) {
+                    IOUtil.stopAudio();
+                } else if (AudioPlayer.audioPlaying()) {
+                    IOUtil.pauseAudio();
+                } else if (AudioPlayer.isPaused()) {
+                    AudioPlayer.resumeAudio();
+                } else if (AudioPlayer.windowOpen()) {
+                    AudioPlayer.startAudio();
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
+                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PlayHover.png"));
+                } else {
+                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PauseHover.png"));
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
+                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+                } else {
+                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+                }
+            }
+        });
+        playPauseMusicLabel.setVisible(true);
+        playPauseMusicLabel.setOpaque(false);
+        audioControlsLabel.add(playPauseMusicLabel);
+        if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
+            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+        } else {
+            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+        }
+
+        JLabel nextMusicLabel = new JLabel("");
+        nextMusicLabel.setBounds(110,5,30, 30);
+        nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Skip.png"));
+        audioControlsLabel.add(nextMusicLabel);
+        nextMusicLabel.setToolTipText("Skip");
+        nextMusicLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (AudioPlayer.windowOpen()) {
+                    AudioPlayer.nextAudio();
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipHover.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Skip.png"));
+            }
+        });
+        nextMusicLabel.setVisible(true);
+        nextMusicLabel.setOpaque(false);
+        audioControlsLabel.add(nextMusicLabel);
+
+        JLabel lastMusicLabel = new JLabel("");
+        lastMusicLabel.setBounds(10,5,30, 30);
+        lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBack.png"));
+        audioControlsLabel.add(nextMusicLabel);
+        lastMusicLabel.setToolTipText("Previous");
+        lastMusicLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (AudioPlayer.windowOpen()) {
+                    AudioPlayer.previousAudio();
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBackHover.png"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBack.png"));
+            }
+        });
+        lastMusicLabel.setVisible(true);
+        lastMusicLabel.setOpaque(false);
+        audioControlsLabel.add(lastMusicLabel);
     }
 }

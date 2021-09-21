@@ -91,15 +91,23 @@ public class AudioPlayer {
         audioFrame.setBackground(new Color(8,23,52));
         audioFrame.setTitle("Flash Player");
         audioFrame.addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosed(WindowEvent e) {
-            if (player != null)
-                stopAudio();
-
-            kill();
-            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (player != null)
+                    stopAudio();
+                kill();
+                ConsoleFrame.getConsoleFrame().removeAudioControls();
             }
-        });
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (player != null)
+                    stopAudio();
+                kill();
+                ConsoleFrame.getConsoleFrame().removeAudioControls();
+            }
+        }
+        );
         audioFrame.initializeResizing();
         audioFrame.setResizable(true);
         audioFrame.setMinimumSize(new Dimension(500, 155));
@@ -640,7 +648,6 @@ public class AudioPlayer {
             }
 
             startAudio();
-            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }
@@ -671,7 +678,6 @@ public class AudioPlayer {
             }
 
             startAudio();
-            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }
