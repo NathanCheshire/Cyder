@@ -3,6 +3,7 @@ package cyder.handler;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.enums.ScreenPosition;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
 import cyder.genesis.GenesisShare;
@@ -42,12 +43,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //todo upon launch, audio controls button is visible
 
-//todo open last log is broken
-
 //todo update readme picture with better widgets and black background
 //todo making widgets guide, also explain that logic is up to them
-
-//todo console commands that set location of console should move windows pinned to console with it
 
 public class InputHandler {
     private JTextPane outputArea;
@@ -358,16 +355,15 @@ public class InputHandler {
             println("The text color has been reset.");
             UserUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.defaultColor));
         } else if (eic("top left")) {
-            ConsoleFrame.getConsoleFrame().setLocation(0, 0);
+            ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_LEFT);
         } else if (eic("top right")) {
-            ConsoleFrame.getConsoleFrame().setLocation(SystemUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(), 0);
+            ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_RIGHT);
         } else if (eic("bottom left")) {
-            ConsoleFrame.getConsoleFrame().setLocation(0, SystemUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
+            ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.BOTTOM_LEFT);
         } else if (eic("bottom right")) {
-            ConsoleFrame.getConsoleFrame().setLocation(SystemUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(),
-                    SystemUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
+            ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.BOTTOM_RIGHT);
         } else if (eic("middle") || eic("center")) {
-            ConsoleFrame.getConsoleFrame().setLocationRelativeTo(null);
+            ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.CENTER);
         } else if (hasWord("frame") && has("title")) {
             Frame[] frames = Frame.getFrames();
             for (Frame f : frames)

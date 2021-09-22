@@ -5,6 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
+import cyder.enums.ScreenPosition;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.handler.InputHandler;
@@ -2742,5 +2743,94 @@ public final class ConsoleFrame {
         lastMusicLabel.setVisible(true);
         lastMusicLabel.setOpaque(false);
         audioControlsLabel.add(lastMusicLabel);
+    }
+
+    /**
+     * Sets the console frame to a provided ScreenPosition and moves any pinned CyderFrame windows with it
+     * @param screenPos - the screen position to move the ConsoleFrame to
+     */
+    public void setLocationOnScreen(ScreenPosition screenPos) {
+        LinkedList<RelativeFrame> frames = getPinnedFrames();
+
+        switch(screenPos) {
+            case CENTER:
+                consoleCyderFrame.setLocationRelativeTo(null);
+                break;
+            case TOP_LEFT:
+                consoleCyderFrame.setLocation(0, 0);
+                break;
+            case TOP_RIGHT:
+                consoleCyderFrame.setLocation(SystemUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(), 0);
+                break;
+            case BOTTOM_LEFT:
+                consoleCyderFrame.setLocation(0, SystemUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
+                break;
+            case BOTTOM_RIGHT:
+                consoleCyderFrame.setLocation(SystemUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(),
+                        SystemUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
+                break;
+        }
+
+        for (RelativeFrame rf : frames) {
+            rf.getFrame().setLocation(rf.getxRelative() + consoleCyderFrame.getX(), rf.getyRelative() + consoleCyderFrame.getY());
+        }
+    }
+
+    private static class RelativeFrame {
+        private CyderFrame frame;
+        private int xRelative;
+        private int yRelative;
+
+        public RelativeFrame(CyderFrame frame, int xRelative, int yRelative) {
+            this.frame = frame;
+            this.xRelative = xRelative;
+            this.yRelative = yRelative;
+        }
+
+        public CyderFrame getFrame() {
+            return frame;
+        }
+
+        public void setFrame(CyderFrame frame) {
+            this.frame = frame;
+        }
+
+        public int getxRelative() {
+            return xRelative;
+        }
+
+        public void setxRelative(int xRelative) {
+            this.xRelative = xRelative;
+        }
+
+        public int getyRelative() {
+            return yRelative;
+        }
+
+        public void setyRelative(int yRelative) {
+            this.yRelative = yRelative;
+        }
+    }
+
+    //returns all frames pinned to the ConsoleFrame
+    private LinkedList<RelativeFrame> getPinnedFrames() {
+        LinkedList<RelativeFrame> frames = new LinkedList<>();
+
+        Rectangle consoleRect = new Rectangle(consoleCyderFrame.getX(), consoleCyderFrame.getY(),
+                consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
+
+        for (Frame f : Frame.getFrames()) {
+            if (f instanceof CyderFrame && ((CyderFrame) f).getPinned() &&
+                    !f.getTitle().equals(consoleCyderFrame.getTitle())) {
+                Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+
+                if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
+                    frames.add(new RelativeFrame((CyderFrame) f,
+                            f.getX() - consoleCyderFrame.getX(), f.getY() - consoleCyderFrame.getY()));
+                }
+            }
+        }
+
+        return frames;
     }
 }
