@@ -327,19 +327,10 @@ public class ManualTestingWidgets {
         ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
 
-    //todo title set to right initially -> buttons don't snap to left and title snaps back to left upon repaint
-
-    //todo make sure title works in all cases including non visible ones before pushing
-    // (right and left titles before frame visible and test dragging on those too)
-
-    //todo open last log is broken
-
-    //todo test left buttons with right and center title updates
-
     public static void frameTitleLengthTest() {
         CyderFrame cf = new CyderFrame( 600, 200);
         cf.setTitle("Title Length Test");
-        cf.setTitlePosition(CyderFrame.TitlePosition.RIGHT);
+        cf.setTitlePosition(CyderFrame.TitlePosition.LEFT);
 
         CyderTextField ctf = new CyderTextField(0);
         ctf.setBounds(40,40, 600 - 80, 40);

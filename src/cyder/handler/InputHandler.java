@@ -5,12 +5,11 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.games.Hangman;
 import cyder.games.TicTacToe;
-import cyder.genesis.Login;
 import cyder.genesis.GenesisShare;
+import cyder.genesis.Login;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
-import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
@@ -43,7 +42,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //todo upon launch, audio controls button is visible
 
-//todo when setting cyder frame titles, if it's bigger than 3/4 the width of the frame, cut it off
+//todo open last log is broken
 
 //todo update readme picture with better widgets and black background
 //todo making widgets guide, also explain that logic is up to them
@@ -990,7 +989,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            ManualTestingWidgets.frameTitleLengthTest();
+
         }
         //final attempt at unknown input --------------------------
         else {

@@ -382,22 +382,21 @@ public class CyderFrame extends JFrame {
         super.setTitle(paintSuperTitle ? title : "");
 
         if (paintWindowTitle && title != null && title.length() != 0 && titleLabel != null) {
-            int titleWidth = getMinWidth(title);
+            int titleWidth = getTitleWidth(title);
             String shortenedTitle = title;
 
             while (titleWidth > this.width * 0.70) {
                 shortenedTitle = shortenedTitle.substring(0, shortenedTitle.length() - 1);
-                System.out.println(shortenedTitle);
-                titleWidth = getMinWidth(shortenedTitle + "...");
+                titleWidth = getTitleWidth(shortenedTitle + "...");
             }
 
-            if (titleWidth != getMinWidth(title))
+            if (titleWidth != getTitleWidth(title))
                 shortenedTitle += "...";
 
             this.title = shortenedTitle;
             titleLabel.setText(this.title);
 
-            titleWidth = getMinWidth(this.title) - 10;
+            titleWidth = getTitleWidth(this.title);
 
             switch (titlePosition) {
                 case CENTER:
@@ -414,8 +413,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns the minimum width required for the given String using the font of the title label.
-     *
+     * Returns the minimum width required for the given String using notificationFont.
      * @param title - the text you want to determine the width of
      * @return - an interger value determining the minimum width of a string of text (10 is added to avoid ... bug)
      */
@@ -428,8 +426,8 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the minimum width required for the given String using the given font.
-     *
      * @param title - the text you want to determine the width of
+     * @param f - the font for the text
      * @return - an interger value determining the minimum width of a string of text (10 is added to avoid ... bug)
      */
     public static int getMinWidth(String title, Font f) {
@@ -439,8 +437,18 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Returns the minimum width required for the given String using the given font without adding 10 to the result.
+     * @param title - the text you want to determine the width of
+     * @return - an interger value determining the minimum width of a string of text
+     */
+    public int getTitleWidth(String title) {
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform, false, false);
+        return (int) this.titleLabel.getFont().getStringBounds(title, frc).getWidth() + 10;
+    }
+
+    /**
      * Returns the minimum height required for the given String using the given font.
-     *
      * @param title - the text you want to determine the height of
      * @return - an interger value determining the minimum height of a string of text (10 is added to avoid ... bug)
      */
@@ -448,6 +456,17 @@ public class CyderFrame extends JFrame {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) f.getStringBounds(title, frc).getHeight() + 10;
+    }
+
+    /**
+     * Returns the minimum height required for the given String using the given font without adding 10.
+     * @param title - the text you want to determine the height of
+     * @return - an interger value determining the minimum height of a string of text
+     */
+    public static int getAbsoluteMinHeight(String title, Font f) {
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        return (int) f.getStringBounds(title, frc).getHeight();
     }
 
     /**
