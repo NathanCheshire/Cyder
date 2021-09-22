@@ -328,12 +328,13 @@ public class ManualTestingWidgets {
     }
 
     //todo right title is too far from the right, need to be same dist as from left titles
-    //todo button position messing up here some how
+    //todo title somehow snaps to other side upon set, make sure this works in all cases in cluding non visible ones before pushing
 
     public static void frameTitleLengthTest() {
         CyderFrame cf = new CyderFrame( 600, 200);
-        cf.setTitle("Title Length Test");
         cf.setTitlePosition(CyderFrame.TitlePosition.RIGHT);
+        cf.setTitle("Title Length Test");
+
 
         CyderTextField ctf = new CyderTextField(0);
         ctf.setBounds(40,40, 600 - 80, 40);

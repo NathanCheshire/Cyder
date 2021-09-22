@@ -1,0 +1,14 @@
+[19:59:01] [ENTRY]: [WINUSER=Nathan]
+[19:59:01] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[19:59:02] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:59:02] [LOGIN]: [AUTOCYPHER PASS]
+[19:59:03] [CLIENT]: test
+[19:59:17] [ACTION]: CyderButton, text=[Set Title] CLICKED
+[19:59:24] [ACTION]: CyderButton, text=[Set Title] CLICKED
+[19:59:27] [ACTION]: CyderButton, text=[Set Title] CLICKED
+[20:00:14] [ACTION]: [SYSTEM AUDIO] sys/audio/chime.mp3
+[20:01:01] [CLIENT]: Test
+[20:01:02] [ACTION]: CyderButton, text=[Set Title] CLICKED
+[20:01:05] [LOGOUT]:  [Nathan]
+[20:01:05] [EXIT]: [RUNTIME] 2m 3s
+[20:01:05] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

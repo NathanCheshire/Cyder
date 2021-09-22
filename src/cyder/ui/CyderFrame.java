@@ -287,19 +287,18 @@ public class CyderFrame extends JFrame {
                 getTopDragLabel().setButtonPosition(DragLabel.ButtonPosition.RIGHT);
             }
         } else {
+            this.titlePosition = titlePosition;
+
             switch (titlePosition) {
                 case LEFT:
                     titleLabel.setLocation(4, 2);
                     break;
                 case RIGHT:
-                    titleLabel.setLocation(this.width - getMinWidth(titleLabel.getText()) + 8, 2);
                     break;
                 case CENTER:
                     titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2), 2);
                     break;
             }
-
-            this.titlePosition = titlePosition;
         }
     }
 
@@ -914,10 +913,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Repaints the title position in the correct location. To be used on resize events where we don't
-     * want to set button position or title position differently. We simply want to revalidate the title position
+     * Repaints the title position and button positions in the correct location.
      */
-    public void refreshTitlePosition() {
+    public void refreshTitleAndButtonPosition() {
         switch (titlePosition) {
             case LEFT:
                 titleLabel.setLocation(4,2);
@@ -927,6 +925,15 @@ public class CyderFrame extends JFrame {
                 break;
             case CENTER:
                 titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2), 2);
+                break;
+        }
+
+        switch (buttonPosition) {
+            case LEFT:
+                getTopDragLabel().setButtonPosition(DragLabel.ButtonPosition.LEFT);
+                break;
+            case RIGHT:
+                getTopDragLabel().setButtonPosition(DragLabel.ButtonPosition.RIGHT);
                 break;
         }
     }
@@ -946,7 +953,7 @@ public class CyderFrame extends JFrame {
             getLeftDragLabel().setHeight(height);
             getRightDragLabel().setHeight(height);
 
-            refreshTitlePosition();
+            refreshTitleAndButtonPosition();
 
             topDrag.setBounds(0, 1, width, DragLabel.getDefaultHeight() - 1);
             leftDrag.setBounds(1, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
