@@ -41,10 +41,11 @@ import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
-//todo upon launch, audio controls button is visible
-
 //todo update readme picture with better widgets and black background
+
 //todo making widgets guide, also explain that logic is up to them
+
+//todo implement debug console
 
 public class InputHandler {
     private JTextPane outputArea;

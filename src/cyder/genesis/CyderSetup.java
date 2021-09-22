@@ -42,7 +42,8 @@ public class CyderSetup {
     }
 
     /**
-     * Initializes UIManager.put key/value pairs
+     * Initializes UIManager.put key/value pairs. Call this method before
+     * loading a frame if bypassing Cyder.java's main method
      */
     public static void initUIManager() {
         UIManager.put("ToolTip.background", CyderColors.tooltipBackgroundColor);
@@ -60,8 +61,6 @@ public class CyderSetup {
 
         CyderSetup.initFrameChecker();
     }
-
-    //todo setup method so that we can have standalone frames without console frame ever starting
 
     public static void osxExit() {
         SessionLogger.log(SessionLogger.Tag.LOGIN, "IMPROPER OS");

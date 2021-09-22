@@ -206,7 +206,7 @@ public class YoutubeUtil {
             }
 
             catch (Exception exc) {
-                uuidFrame.notify("Invalid URL");
+                uuidFrame.notify("Invalid YouTube UUID");
             }
         });
 

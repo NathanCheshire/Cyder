@@ -699,6 +699,9 @@ public class CyderFrame extends JFrame {
      * simply dispose of a frame like normal.
      */
     public void closeAnimation() {
+        if (this == null)
+            return;
+
         this.disableDragging();
 
         try {

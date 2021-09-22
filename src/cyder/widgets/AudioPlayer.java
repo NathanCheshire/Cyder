@@ -712,7 +712,8 @@ public class AudioPlayer {
         audioProgressLabel.setText("");
 
         //exiting widget
-        audioFrame.closeAnimation();
+        if (audioFrame != null)
+            audioFrame.closeAnimation();
         audioFrame = null;
     }
 

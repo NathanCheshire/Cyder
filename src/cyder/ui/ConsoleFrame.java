@@ -653,6 +653,7 @@ public final class ConsoleFrame {
             toggleAudioControls.setBorderPainted(false);
             toggleAudioControls.setFocusPainted(false);
             toggleAudioControls.setFocusable(false);
+            toggleAudioControls.setVisible(false);
             consoleDragButtonList.add(toggleAudioControls);
 
             minimize = new JButton("");
