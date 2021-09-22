@@ -50,9 +50,9 @@ Additionally, the PR should contain the following information:
 
 Currently, the program is intended for 2560x1440 resolution displays (my main display). I plan to fix this using SVG and other vector based graphics approaches in the future but currently, seeing as this message is still here, the program will look and operate best using a 2560x1440 display.
 
-## TODO
+## Contributing
 
-Cyder utilizes the agile development model. For features you would like to see implmeneted, please create an issue and describe the feature in as much detail as you can. Issues are addressed by assigned priority based on issue create data, idea originality, and idea relevance. 
+Cyder utilizes the agile development model. For features you would like to see implmeneted, please create an issue and describe the feature in as much detail as you can. Issues are addressed by assigned priority based on issue create data, idea originality, and idea relevance. Please do NOT add todos in the code. Utilize GitHub Issues as a todo list instead.
 
 
 ## Deveopment Model: Agile
