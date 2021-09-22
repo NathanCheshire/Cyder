@@ -63,6 +63,8 @@ public class CyderFrame extends JFrame {
 
     private LinkedList<Gluster> notificationList = new LinkedList<>();
 
+    private String title = "";
+
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
      * and a drag label with minimize and close buttons
@@ -85,7 +87,6 @@ public class CyderFrame extends JFrame {
         setUndecorated(true);
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
-
 
         setShape(new RoundRectangle2D.Double(0, 0,
                 getWidth(), getHeight(), 20, 20));
@@ -227,7 +228,7 @@ public class CyderFrame extends JFrame {
                 new Thread(() -> {
                     switch (oldPosition) {
                         case RIGHT:
-                            for (int i = titleLabel.getX() ; i > (getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i--) {
+                            for (int i = titleLabel.getX() ; i > (getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2); i--) {
                                 if (this.control_c_threads)
                                     break;
 
@@ -241,7 +242,7 @@ public class CyderFrame extends JFrame {
                             }
                             break;
                         case LEFT:
-                            for (int i = titleLabel.getX(); i < (getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2); i++) {
+                            for (int i = titleLabel.getX(); i < (getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2); i++) {
                                 if (this.control_c_threads)
                                     break;
 
@@ -255,14 +256,14 @@ public class CyderFrame extends JFrame {
                             }
                             break;
                     }
-                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2), 2);
+                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2), 2);
                     this.titlePosition = TitlePosition.CENTER;
                     //set final bounds
                 },"title position animater").start();
             } else {
                 //right
                 new Thread(() -> {
-                    for (int i = titleLabel.getX() ; i < this.width - getMinWidth(titleLabel.getText()) - 8; i++) {
+                    for (int i = titleLabel.getX() ; i < this.width -getMinWidth(this.title) - 8; i++) {
                         if (this.control_c_threads)
                             break;
 
@@ -274,7 +275,7 @@ public class CyderFrame extends JFrame {
                             ErrorHandler.handle(e);
                         }
                     }
-                    titleLabel.setLocation(this.width - getMinWidth(titleLabel.getText()) + 8, 2);
+                    titleLabel.setLocation(this.width -getMinWidth(this.title), 2);
                     this.titlePosition = TitlePosition.RIGHT;
                 },"title position animater").start();
             }
@@ -292,11 +293,14 @@ public class CyderFrame extends JFrame {
             switch (titlePosition) {
                 case LEFT:
                     titleLabel.setLocation(4, 2);
+                    setButtonPosition(ButtonPosition.RIGHT);
                     break;
                 case RIGHT:
+                    titleLabel.setLocation(this.width -getMinWidth(this.title), 2);
+                    setButtonPosition(ButtonPosition.LEFT);
                     break;
                 case CENTER:
-                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2), 2);
+                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2), 2);
                     break;
             }
         }
@@ -328,7 +332,7 @@ public class CyderFrame extends JFrame {
             titleLabel.setLocation(4, 2);
         } else if (buttonPosition == ButtonPosition.LEFT && titlePosition == TitlePosition.LEFT) {
             this.titlePosition = TitlePosition.RIGHT;
-            titleLabel.setLocation(this.width - getMinWidth(titleLabel.getText()) + 8, 2);
+            titleLabel.setLocation(this.width -getMinWidth(this.title), 2);
         }
     }
 
@@ -378,29 +382,33 @@ public class CyderFrame extends JFrame {
         super.setTitle(paintSuperTitle ? title : "");
 
         if (paintWindowTitle && title != null && title.length() != 0 && titleLabel != null) {
-            //check title length to ensure it isn't too long
             int titleWidth = getMinWidth(title);
+            String shortenedTitle = title;
 
-            boolean titleShortened = false;
-
-            while (titleWidth > this.width * 0.75) {
-                title = title.substring(0, title.length() - 1);
-                titleWidth = getMinWidth(title);
-                titleShortened = true;
+            while (titleWidth > this.width * 0.70) {
+                shortenedTitle = shortenedTitle.substring(0, shortenedTitle.length() - 1);
+                System.out.println(shortenedTitle);
+                titleWidth = getMinWidth(shortenedTitle + "...");
             }
 
-            if (titleShortened)
-                title += "...";
+            if (titleWidth != getMinWidth(title))
+                shortenedTitle += "...";
 
-            titleLabel.setText(title);
+            this.title = shortenedTitle;
+            titleLabel.setText(this.title);
+
+            titleWidth = getMinWidth(this.title) - 10;
 
             switch (titlePosition) {
                 case CENTER:
-                    titleLabel.setBounds((getTopDragLabel().getWidth() / 2) - (getMinWidth(title) / 2), 2, getMinWidth(title), 25);
+                    titleLabel.setBounds((getTopDragLabel().getWidth() / 2) - (titleWidth / 2), 2, titleWidth, 25);
                     break;
-
-                default:
-                    titleLabel.setBounds(5, 2, getMinWidth(title), 25);
+                case RIGHT:
+                    titleLabel.setBounds(this.width - titleWidth, 2, titleWidth, 25);
+                    break;
+                case LEFT:
+                    titleLabel.setBounds(5, 2, titleWidth, 25);
+                    break;
             }
         }
     }
@@ -921,10 +929,10 @@ public class CyderFrame extends JFrame {
                 titleLabel.setLocation(4,2);
                 break;
             case RIGHT:
-                titleLabel.setLocation(this.width - getMinWidth(titleLabel.getText()) + 8, 2);
+                titleLabel.setLocation(this.width -getMinWidth(this.title), 2);
                 break;
             case CENTER:
-                titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(titleLabel.getText()) / 2), 2);
+                titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2), 2);
                 break;
         }
 
@@ -1163,8 +1171,8 @@ public class CyderFrame extends JFrame {
 
     @Override
     public String toString() {
-        String title = titleLabel.getText() == null ||
-                titleLabel.getText().length() == 0 ? super.getTitle() : titleLabel.getText();
+        String title = this.title == null ||
+                this.title.length() == 0 ? super.getTitle() : this.title;
         return "Name: " + title + "[" + this.getTitlePosition() + "],(" +
                 this.getX() + "," + this.getY() + "," + this.getWidth() + "x" + this.getHeight() + ")";
     }

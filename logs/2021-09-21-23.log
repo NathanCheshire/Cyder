@@ -5,3 +5,6 @@
 [20:07:50] [CLIENT]: test
 [20:07:59] [ACTION]: CyderButton, text=[Set Title] CLICKED
 [20:08:03] [ACTION]: CyderButton, text=[Set Title] CLICKED
+[22:21:08] [LOGOUT]:  [Nathan]
+[22:21:08] [EXIT]: [RUNTIME] 2h 13m 20s
+[22:21:08] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

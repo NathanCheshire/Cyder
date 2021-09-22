@@ -1,0 +1,11 @@
+[23:47:07] [ENTRY]: [WINUSER=Nathan]
+[23:47:08] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[23:47:09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:47:09] [LOGIN]: [AUTOCYPHER PASS]
+[23:47:10] [CLIENT]: test
+[23:47:13] [ACTION]: CyderButton, text=[Set Title] CLICKED
+[23:47:15] [ACTION]: CyderButton, text=[Set Title] CLICKED
+[23:47:17] [ACTION]: CyderButton, text=[Set Title] CLICKED
+[23:47:19] [ACTION]: CyderButton, text=[Set Title] CLICKED
+[23:47:21] [ACTION]: CyderButton, text=[Set Title] CLICKED
+[23:47:22] [ACTION]: CyderButton, text=[Set Title] CLICKED

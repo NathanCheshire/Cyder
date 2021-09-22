@@ -129,3 +129,4 @@ java.net.MalformedURLException: no protocol: stolen dance
 [14:55:10] [CLIENT]: Cls
 [14:55:12] [CLIENT]: Threads
 [14:55:24] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

@@ -327,28 +327,29 @@ public class ManualTestingWidgets {
         ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
 
-    //todo right title is too far from the right, need to be same dist as from left titles
-    //todo title somehow snaps to other side upon set, make sure this works in all cases in cluding non visible ones before pushing
+    //todo title set to right initially -> buttons don't snap to left and title snaps back to left upon repaint
+
+    //todo make sure title works in all cases including non visible ones before pushing
+    // (right and left titles before frame visible and test dragging on those too)
+
+    //todo open last log is broken
+
+    //todo test left buttons with right and center title updates
 
     public static void frameTitleLengthTest() {
         CyderFrame cf = new CyderFrame( 600, 200);
-        cf.setTitlePosition(CyderFrame.TitlePosition.RIGHT);
         cf.setTitle("Title Length Test");
-
+        cf.setTitlePosition(CyderFrame.TitlePosition.RIGHT);
 
         CyderTextField ctf = new CyderTextField(0);
         ctf.setBounds(40,40, 600 - 80, 40);
         cf.getContentPane().add(ctf);
-        ctf.addActionListener(e -> {
-            cf.setTitle(ctf.getText().trim());
-        });
+        ctf.addActionListener(e -> cf.setTitle(ctf.getText().trim()));
 
         CyderButton cb = new CyderButton("Set Title");
         cb.setBounds(40,100, 600 - 80, 40);
         cf.getContentPane().add(cb);
-        cb.addActionListener(e -> {
-            cf.setTitle(ctf.getText().trim());
-        });
+        cb.addActionListener(e -> cf.setTitle(ctf.getText().trim()));
 
         cf.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
