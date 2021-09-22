@@ -223,6 +223,7 @@ public final class ConsoleFrame {
                 @Override
                 public void focusGained(FocusEvent e) {
                     minimizeMenu();
+                    animateOutAudioControls();
                 }
 
                 @Override
@@ -617,7 +618,10 @@ public final class ConsoleFrame {
             menuButton.setContentAreaFilled(false);
             menuButton.setBorderPainted(false);
 
-            consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> minimizeMenu());
+            consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> {
+                minimizeMenu();
+                animateOutAudioControls();
+            });
 
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();

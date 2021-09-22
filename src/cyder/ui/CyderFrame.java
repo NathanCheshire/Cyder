@@ -379,6 +379,20 @@ public class CyderFrame extends JFrame {
         super.setTitle(paintSuperTitle ? title : "");
 
         if (paintWindowTitle && title != null && title.length() != 0 && titleLabel != null) {
+            //check title length to ensure it isn't too long
+            int titleWidth = getMinWidth(title);
+
+            boolean titleShortened = false;
+
+            while (titleWidth > this.width * 0.75) {
+                title = title.substring(0, title.length() - 1);
+                titleWidth = getMinWidth(title);
+                titleShortened = true;
+            }
+
+            if (titleShortened)
+                title += "...";
+
             titleLabel.setText(title);
 
             switch (titlePosition) {

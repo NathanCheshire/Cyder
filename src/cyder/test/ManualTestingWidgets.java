@@ -326,4 +326,30 @@ public class ManualTestingWidgets {
         testFrame.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
     }
+
+    //todo right title is too far from the right, need to be same dist as from left titles
+    //todo button position messing up here some how
+
+    public static void frameTitleLengthTest() {
+        CyderFrame cf = new CyderFrame( 600, 200);
+        cf.setTitle("Title Length Test");
+        cf.setTitlePosition(CyderFrame.TitlePosition.RIGHT);
+
+        CyderTextField ctf = new CyderTextField(0);
+        ctf.setBounds(40,40, 600 - 80, 40);
+        cf.getContentPane().add(ctf);
+        ctf.addActionListener(e -> {
+            cf.setTitle(ctf.getText().trim());
+        });
+
+        CyderButton cb = new CyderButton("Set Title");
+        cb.setBounds(40,100, 600 - 80, 40);
+        cf.getContentPane().add(cb);
+        cb.addActionListener(e -> {
+            cf.setTitle(ctf.getText().trim());
+        });
+
+        cf.setVisible(true);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
+    }
 }

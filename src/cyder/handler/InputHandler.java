@@ -10,6 +10,7 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.obj.Preference;
+import cyder.test.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
@@ -40,7 +41,7 @@ import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
-//todo upon launch, audio controls button is visible, fix
+//todo upon launch, audio controls button is visible
 
 //todo when setting cyder frame titles, if it's bigger than 3/4 the width of the frame, cut it off
 
@@ -989,7 +990,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+            ManualTestingWidgets.frameTitleLengthTest();
         }
         //final attempt at unknown input --------------------------
         else {
