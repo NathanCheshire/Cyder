@@ -11,9 +11,11 @@ public class ColorUtil {
     private ColorUtil() {} //private constructor to avoid object creation
 
     public static Color hextorgbColor(String hex) {
-        if (hex.length() < 6) {
-            System.out.println(hex);
-            return null;
+        if (hex.length() < 6)
+            hex = String.valueOf(hex.charAt(0));
+
+        while (hex.length() < 6) {
+            hex += hex.charAt(0);
         }
 
         return new Color(Integer.valueOf(hex.substring(0,2),16),Integer.valueOf(hex.substring(2,4),16),Integer.valueOf(hex.substring(4,6),16));

@@ -1,7 +1,107 @@
 package cyder.test;
 
+import cyder.consts.CyderColors;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderScrollPane;
+import cyder.utilities.ImageUtil;
+import cyder.utilities.StringUtil;
+import cyder.utilities.SystemUtil;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.LinkedList;
+
 public class DebugConsole {
-    //todo instead of system.out.println, have debug util that will print stuff to a window that opens and stays open
-    // for the whole of runtime, when something  is printed to it, it should be brought to the front and make a sound
-    // should be a mini console like 400x400 and only a jtextarea since we're only printing strings
+    private static boolean open = false;
+    private static JTextPane printArea = new JTextPane();
+    private static CyderScrollPane printScroll;
+    private static StringUtil printingUtil = new StringUtil(printArea);
+    private static CyderFrame debugFrame;
+
+    //here incase we close the window so we can open it back up and be in the same place
+    private static LinkedList<String> lines = new LinkedList<>();
+
+    public static <T> void print(T objMaybe) {
+        //this should be the only System.out.print call in the whole program
+        System.out.print(objMaybe);
+
+        if (!open) {
+            initDebugWindow();
+
+            printArea.setText("");
+
+            //append everything needed to frame
+            for (String str : lines) {
+                printingUtil.print(str);
+            }
+        } else {
+            bringMenuToFront();
+        }
+
+        //add new to lines and print
+        lines.add(objMaybe.toString());
+        printingUtil.print(objMaybe.toString());
+    }
+
+    public static <T> void println(T objMaybe) {
+       print(objMaybe + "\n");
+    }
+
+    private static void bringMenuToFront() {
+        if (debugFrame == null)
+            throw new IllegalArgumentException("Frame is null");
+
+        if (debugFrame.getState() == JFrame.ICONIFIED) {
+            initDebugWindow();
+        }
+    }
+
+    private static void initDebugWindow() {
+        if (debugFrame != null)
+            debugFrame.dispose();
+
+        debugFrame = new CyderFrame(500,500, ImageUtil.imageIconFromColor(new Color(21,23,24)));
+        debugFrame.setTitle("Prints");
+        debugFrame.setBackground(new Color(21,23,24));
+
+        printArea.setBounds(20, 40, 500 - 40, 500 - 80);
+        printArea.setBackground(new Color(21,23,24));
+        printArea.setBorder(null);
+        printArea.setFocusable(false);
+        printArea.setEditable(false);
+        printArea.setFont(new Font("Agency FB",Font.BOLD, 26));
+        printArea.setForeground(new Color(85,181,219));
+        printArea.setCaretColor(printArea.getForeground());
+
+        printScroll = new CyderScrollPane(printArea,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        printScroll.setThumbColor(CyderColors.intellijPink);
+        printScroll.setBounds(20, 40, 560, 280);
+        printScroll.getViewport().setOpaque(false);
+        printScroll.setOpaque(false);
+        printScroll.setBorder(null);
+        printArea.setAutoscrolls(true);
+
+        debugFrame.getContentPane().add(printScroll);
+
+        debugFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                open = false;
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                open = false;
+            }
+        });
+        debugFrame.setVisible(true);
+        debugFrame.setAlwaysOnTop(true);
+        debugFrame.setLocation(SystemUtil.getScreenWidth() - 500, SystemUtil.getScreenHeight() - 500);
+
+        open = true;
+    }
 }

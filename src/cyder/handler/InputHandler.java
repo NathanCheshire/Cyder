@@ -42,10 +42,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 //todo update readme picture with better widgets and black background
-
 //todo making widgets guide, also explain that logic is up to them
-
-//todo implement debug console
 
 public class InputHandler {
     private JTextPane outputArea;
@@ -986,7 +983,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-
+            StringUtil.RotatingTorusAscii();
         }
         //final attempt at unknown input --------------------------
         else {

@@ -891,4 +891,8 @@ public class StringUtil {
             return ret;
         }
     }
+
+    public static void RotatingTorusAscii() {
+
+    }
 }

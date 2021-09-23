@@ -2,6 +2,7 @@ package cyder.handler;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.test.DebugConsole;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.SystemUtil;
@@ -43,7 +44,7 @@ public class ErrorHandler {
             if (ConsoleFrame.getConsoleFrame().getUUID() != null &&
                     !ConsoleFrame.getConsoleFrame().isClosed() &&
                     UserUtil.getUserData("SilenceErrors").equals("0")) {
-                System.out.println("\nOriginal error:\n");
+                DebugConsole.println("\nOriginal error:\n");
                 e.printStackTrace();
                 windowedError(message, write);
             }
@@ -108,7 +109,7 @@ public class ErrorHandler {
 
     private static void windowedError(String title, String message) {
         if ((title == null || title.length() == 0) && (message == null || message.length() == 0)) {
-            System.out.println("Windowed error was passed null");
+            DebugConsole.println("Windowed error was passed null");
             return;
         }
 
