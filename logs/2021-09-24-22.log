@@ -1,0 +1,19 @@
+[17:54:56] [ENTRY]: [WINUSER=Nathan]
+[17:54:57] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[17:54:58] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17:54:58] [LOGIN]: [AUTOCYPHER PASS]
+[17:55:00] [CLIENT]: test
+[17:55:05] [CLIENT]: Alwaysontop
+[17:55:05] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[17:55:08] [CLIENT]: Always on top
+[17:55:09] [CLIENT]: controlc
+[17:55:09] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[17:55:09] [CONSOLE_OUT]: [STRING] Escaped
+[17:55:10] [CLIENT]: Cls
+[17:55:13] [CLIENT]: Demo mode
+[17:55:18] [CLIENT]: Jsdfkl
+[17:55:18] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[17:55:19] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
+[17:55:24] [LOGOUT]:  [Nathan]
+[17:55:24] [EXIT]: [RUNTIME] 27s
+[17:55:24] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

@@ -1,0 +1,15 @@
+[17:57:42] [ENTRY]: [WINUSER=Nathan]
+[17:57:43] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[17:57:44] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17:57:44] [LOGIN]: [AUTOCYPHER PASS]
+[17:57:45] [CLIENT]: test
+[17:57:48] [CLIENT]: Demo
+[17:57:48] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[17:57:50] [CLIENT]: Demo mode
+[17:57:57] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[17:58:32] [CLIENT]: Path
+[17:58:57] [ACTION]: CyderButton, text=[Stop] CLICKED
+[17:59:10] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] Screen shot successfully saved to your downloads folder
+[17:59:13] [LOGOUT]:  [Nathan]
+[17:59:13] [EXIT]: [RUNTIME] 1m 30s
+[17:59:13] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

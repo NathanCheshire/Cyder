@@ -989,9 +989,7 @@ public class InputHandler {
                     CyderColors.consoleColor);
             background.setTitle(StringUtil.capsFirst(IOUtil.getSystemData().getVersion()) + " Demo");
 
-            //todo button to snap back to middle on taskbar
-
-            JButton snapButton = new JButton("Snap");
+            JButton snapButton = new JButton("Center");
             snapButton.setForeground(CyderColors.vanila);
             snapButton.setFont(CyderFonts.defaultFontSmall);
             snapButton.addActionListener(e -> {
@@ -1010,11 +1008,46 @@ public class InputHandler {
                 }
             });
 
+            JButton pictureButton = new JButton("Shoot");
+            pictureButton.setForeground(CyderColors.vanila);
+            pictureButton.setFont(CyderFonts.defaultFontSmall);
+            pictureButton.addActionListener(e -> {
+                try {
+                    Rectangle rectangle = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+                    BufferedImage bufferedImage = null;
+                    bufferedImage = new Robot().createScreenCapture(rectangle);
+                    File file = new File("c:/users/"
+                            + SystemUtil.getWindowsUsername() + "/downloads/CyderCapture_" + TimeUtil.logFileTime() + ".png");
+                    boolean status = ImageIO.write(bufferedImage, "png", file);
+                    ConsoleFrame.getConsoleFrame().notify("Screen shot " +
+                            (status ? "successfully" : "unsuccessfully") + " saved to your downloads folder");
+                } catch (Exception ex) {
+                    ErrorHandler.handle(ex);
+                }
+            });
+            pictureButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    pictureButton.setForeground(CyderColors.regularRed);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    pictureButton.setForeground(CyderColors.vanila);
+                }
+            });
+
+            pictureButton.setContentAreaFilled(false);
+            pictureButton.setBorderPainted(false);
+            pictureButton.setFocusPainted(false);
+            background.getTopDragLabel().addButton(pictureButton, 0);
+
             snapButton.setContentAreaFilled(false);
             snapButton.setBorderPainted(false);
             snapButton.setFocusPainted(false);
             background.getTopDragLabel().addButton(snapButton, 0);
 
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().setAlwaysOnTop(true);
             background.initializeResizing();
             background.setFrameResizing(false);
             background.setVisible(true);
