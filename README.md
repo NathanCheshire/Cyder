@@ -54,6 +54,8 @@ Currently, the program is intended for 2560x1440 resolution displays (my main di
 
 Cyder utilizes the agile development model. For features you would like to see implmeneted, please create an issue and describe the feature in as much detail as you can. Issues are addressed by assigned priority based on issue create data, idea originality, and idea relevance. Please do NOT add todos in the code. Utilize GitHub Issues as a todo list instead.
 
+If you would like to create your own widget, see the wiki page titled "Creating Your First Widget." The period is a part of the title which is why it's in the quotes :P
+
 
 ## Deveopment Model: Agile
 <img src="https://i.imgur.com/VKeVG4F.png" data-canonical-src="https://i.imgur.com/VKeVG4F.png"/>
