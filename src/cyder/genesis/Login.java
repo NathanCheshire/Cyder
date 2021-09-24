@@ -38,7 +38,7 @@ public class Login {
         printingList.clear();
         printingList.add("Cyder version: " + IOUtil.getSystemData().getReleasedate() + "\n");
         printingList.add("Type \"h\" for a list of valid commands\n");
-        printingList.add("Build: Soultree\n");
+        printingList.add("Build: " + IOUtil.getSystemData().getVersion() +"\n");
         printingList.add("Author: Nathan Cheshire\n");
         printingList.add("Design OS: Windows 10+\n");
         printingList.add("Design JVM: 8+\n");

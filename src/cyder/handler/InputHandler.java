@@ -25,6 +25,8 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.InetAddress;
@@ -292,7 +294,8 @@ public class InputHandler {
         } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
             UserCreator.createGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "USER CREATOR");
-        } else if (hasWord("resize") && (hasWord("image") || hasWord("picture"))) {
+        } else if ((hasWord("resize") && (hasWord("image")) ||
+                (hasWord("picture") && hasWord("resize")))) {
             ImageResizer IR = new ImageResizer();
             SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE RESIZER");
         } else if (hasWord("temperature") || eic("temp")) {
@@ -319,7 +322,8 @@ public class InputHandler {
         } else if (hasWord("pizza")) {
             new Pizza();
             SessionLogger.log(SessionLogger.Tag.ACTION, "PIZZA");
-        } else if ((has("pixelate") || hasWord("distort")) && (hasWord("image") || hasWord("picture"))) {
+        } else if ((hasWord("pixelate") || hasWord("distort")) &&
+                (hasWord("image") || hasWord("picture"))) {
             new ImagePixelator(null);
             SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE PIXELATOR");
         } else if (hasWord("file") && hasWord("signature")) {
@@ -340,6 +344,20 @@ public class InputHandler {
         } else if ((hasWord("calculator") || hasWord("calc")) && !has("graphing")) {
             new Calculator();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CALCULATOR");
+        } else if (eic("spotlight")) {
+            Spotlight.SpotlightGUI();
+        } else if (hasWord("convex") && hasWord("hull")) {
+            ConvexHull.ShowVisualizer();
+        } else if (has("average") && (has("image") || hasWord("picture"))) {
+            new ImageAverager();
+        } else if (hasWord("conway") || hasWord("conways")) {
+            new Conways();
+        } else if (hasWord("birthday") && hasWord("card") && hasWord("2021")) {
+            Cards.Birthday2021();
+        } else if (hasWord("pathfinder") || hasWord("path")) {
+            PathFinder.showGUI();
+        } else if (hasWord("perlin")) {
+            PerlinNoise.showGUI();
         }
         //ui and settings -----------------------------------------
         else if (hasWord("font") && hasWord("reset")) {
@@ -933,15 +951,11 @@ public class InputHandler {
                     }
                 }, "Youtube Audio Download Waiter").start();
             }
-        } else if (eic("spotlight")) {
-            Spotlight.SpotlightGUI();
         } else if (hasWord("steal") && hasWord("windows") && hasWord("backgrounds")) {
             Spotlight.saveSpotlights(new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds"));
             ConsoleFrame.getConsoleFrame().resizeBackgrounds();
             ConsoleFrame.getConsoleFrame().getInputHandler()
                     .println("Spotlight images saved to your user's background/ directory");
-        } else if (hasWord("convex") && hasWord("hull")) {
-            ConvexHull.ShowVisualizer();
         } else if (firstWord.equalsIgnoreCase("pastebin")) {
             String[] parts = op.split(" ");
 
@@ -970,20 +984,45 @@ public class InputHandler {
                     println("Improper pastebin url");
                 }
             }
-        } else if (has("average") && (has("image")) || hasWord("picture")) {
-            new ImageAverager();
-        } else if (hasWord("conway") || hasWord("conways")) {
-            new Conways();
-        } else if (hasWord("birthday") && hasWord("card") && hasWord("2021")) {
-            Cards.Birthday2021();
-        } else if (hasWord("pathfinder") || hasWord("path")) {
-            PathFinder.showGUI();
-        } else if (hasWord("perlin")) {
-            PerlinNoise.showGUI();
+        } else if (eic("Demo mode")) {
+            CyderFrame background = new CyderFrame(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight(),
+                    CyderColors.consoleColor);
+            background.setTitle(StringUtil.capsFirst(IOUtil.getSystemData().getVersion()) + " Demo");
+
+            //todo button to snap back to middle on taskbar
+
+            JButton snapButton = new JButton("Snap");
+            snapButton.setForeground(CyderColors.vanila);
+            snapButton.setFont(CyderFonts.defaultFontSmall);
+            snapButton.addActionListener(e -> {
+                background.setSize(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight());
+                background.setLocationRelativeTo(null);
+            });
+            snapButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    snapButton.setForeground(CyderColors.regularRed);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    snapButton.setForeground(CyderColors.vanila);
+                }
+            });
+
+            snapButton.setContentAreaFilled(false);
+            snapButton.setBorderPainted(false);
+            snapButton.setFocusPainted(false);
+            background.getTopDragLabel().addButton(snapButton, 0);
+
+            background.initializeResizing();
+            background.setFrameResizing(false);
+            background.setVisible(true);
+            background.setLocationRelativeTo(null);
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            StringUtil.RotatingTorusAscii();
+
         }
         //final attempt at unknown input --------------------------
         else {

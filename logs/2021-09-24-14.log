@@ -1,0 +1,11 @@
+[17:37:36] [ENTRY]: [WINUSER=Nathan]
+[17:37:37] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[17:37:38] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17:37:38] [LOGIN]: [AUTOCYPHER PASS]
+[17:37:40] [CLIENT]: test
+[17:37:46] [CLIENT]: Picture mode
+[17:37:46] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[17:37:48] [CLIENT]: Demo mode
+[17:38:12] [LOGOUT]:  [Nathan]
+[17:38:12] [EXIT]: [RUNTIME] 35s
+[17:38:12] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

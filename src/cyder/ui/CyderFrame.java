@@ -1115,10 +1115,16 @@ public class CyderFrame extends JFrame {
     /**
      * @param allow - sets/disables resizing of the frame.
      */
-    public void setFrameResizing(Boolean allow) {
+    public void setFrameResizing(boolean allow) {
         cr.setResizing(allow);
     }
     ImageIcon currentOrigIcon;
+
+    @Override
+    public void setResizable(boolean allow) {
+        if (cr != null)
+            cr.setResizing(allow);
+    }
 
     /**
      * Refresh the background in the event of a frame size change or background image change.
