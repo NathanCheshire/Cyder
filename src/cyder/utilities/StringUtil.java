@@ -2,7 +2,6 @@ package cyder.utilities;
 
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
-import cyder.ui.ConsoleFrame;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -887,83 +886,6 @@ public class StringUtil {
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
             ret = "Wiki article not found";
-        } finally {
-            return ret;
-        }
-    }
-
-    public static void RotatingTorusAscii() {
-        if (pythonInstalled()) {
-            try {
-                String[] lines = new String[48];
-                lines[0] = "import os";
-                lines[1] = "from math import sin, cos";
-                lines[2] = "def main():";
-                lines[3] = "    a=0";
-                lines[4] = "    b=0";
-                lines[5] = "    height=24";
-                lines[6] = "    width=80";
-                lines[7] = "    clear = \"cls\"";
-                lines[8] = "    if os.name == \"posix\":";
-                lines[9] = "        clear = \"clear\"";
-                lines[10] = "    os.system(clear)";
-                lines[11] = "    while True:";
-                lines[12] = "        z = [0 for _ in range(4*height*width)]";
-                lines[13] = "        screen = [' ' for _ in range(height*width)]";
-                lines[14] = "        j=0";
-                lines[15] = "        while j<6.28:";
-                lines[16] = "            j+=0.07";
-                lines[17] = "            i=0";
-                lines[18] = "            while i<6.28:";
-                lines[19] = "                i+=0.02";
-                lines[20] = "                sinA=sin(a)";
-                lines[21] = "                cosA=cos(a)";
-                lines[22] = "                cosB=cos(b)";
-                lines[23] = "                sinB=sin(b)";
-                lines[24] = "                sini=sin(i)";
-                lines[25] = "                cosi=cos(i)";
-                lines[26] = "                cosj=cos(j)";
-                lines[27] = "                sinj=sin(j)";
-                lines[28] = "                cosj2=cosj+2";
-                lines[29] = "                mess=1/(sini*cosj2*sinA+sinj*cosA+5)";
-                lines[30] = "                t=sini*cosj2*cosA-sinj* sinA";
-                lines[31] = "                x = int(40+30*mess*(cosi*cosj2*cosB-t*sinB))";
-                lines[32] = "                y = int(11+15*mess*(cosi*cosj2*sinB +t*cosB))";
-                lines[33] = "                o = int(x+width*y)";
-                lines[34] = "                N = int(8*((sinj*sinA-sini*cosj*cosA)*cosB-sini*cosj*sinA-sinj*cosA-cosi *cosj*sinB))";
-                lines[35] = "                if 0<y<height and 0<x<width and z[o] < mess:";
-                lines[36] = "                    z[o]=mess";
-                lines[37] = "                    screen[o]=\".,-~:;=!*#$@\"[N if N>0 else 0]";
-                lines[38] = "        os.system(clear)";
-                lines[39] = "        for index, char in enumerate(screen):";
-                lines[40] = "            if index % width == 0:";
-                lines[41] = "                print()";
-                lines[42] = "            else:";
-                lines[43] = "                print(char, end='')";
-                lines[44] = "        a+=0.04";
-                lines[45] = "        b+=0.02";
-                lines[46] = "if __name__ == \"__main__\":";
-                lines[47] = "    main()";
-                IOUtil.createAndOpenTmpFile("donut", "py",lines);
-                //todo how to run this with command prompt window?
-            } catch (Exception e) {
-                ErrorHandler.silentHandle(e);
-            }
-        } else {
-            ConsoleFrame.getConsoleFrame().getInputHandler().println("python is not installed; please install it");
-        }
-    }
-
-    public static boolean pythonInstalled() {
-        boolean ret = true;
-
-        try {
-            Runtime rt = Runtime.getRuntime();
-            String command = "python";
-            Process proc = rt.exec(command);
-        } catch (Exception e) {
-            ret = false;
-            ErrorHandler.silentHandle(e);
         } finally {
             return ret;
         }

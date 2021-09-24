@@ -217,4 +217,24 @@ public class SystemUtil {
         String osName = System.getProperty("os.name").toLowerCase();
         return osName.startsWith("mac os x");
     }
+
+    /**
+     * Confirms whether or not the command is valid. e.g. pass "python" or "ffmpeg" and if the returned value is false,
+     * ffmpeg/python are not installed.
+     * @param command - the command to run in the terminal
+     * @return - whether or not the command is valid
+     */
+    public static boolean shellCommandValid(String command) {
+        boolean ret = true;
+
+        try {
+            Runtime rt = Runtime.getRuntime();
+            Process proc = rt.exec(command);
+        } catch (Exception e) {
+            ret = false;
+            ErrorHandler.silentHandle(e);
+        } finally {
+            return ret;
+        }
+    }
 }
