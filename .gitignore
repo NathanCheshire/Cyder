@@ -2,3 +2,6 @@
 out/
 *.iml
 *.git
+.gradle/
+build/
+gradle/
