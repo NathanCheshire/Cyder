@@ -1,9 +1,0 @@
-[21:49:02] [ENTRY]: [WINUSER=Nathan]
-[21:49:03] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
-[21:49:03] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[21:49:04] [LOGIN]: [AUTOCYPHER PASS]
-[21:49:05] [CLIENT]: test
-[21:49:08] [ACTION]: CyderButton, text=[Start] CLICKED
-[21:53:38] [LOGOUT]:  [Nathan]
-[21:53:38] [EXIT]: [RUNTIME] 4m 35s
-[21:53:38] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

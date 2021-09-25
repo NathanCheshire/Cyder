@@ -43,9 +43,6 @@ import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
-//todo update readme picture with better widgets and black background
-//todo making widgets guide, also explain that logic is up to them
-
 public class InputHandler {
     private JTextPane outputArea;
     private MasterYoutube masterYoutube;

@@ -1,9 +1,0 @@
-[23:02:27] [ENTRY]: [WINUSER=Nathan]
-[23:02:28] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
-[23:02:29] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[23:02:29] [LOGIN]: [AUTOCYPHER PASS]
-[23:02:31] [CLIENT]: test
-[23:02:33] [ACTION]: CyderButton, text=[▼] CLICKED
-[23:02:34] [ACTION]: CyderButton, text=[Generate] CLICKED
-[23:03:55] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] What feature would you like to suggest? (Please include as much detail as possible such as how the feature should be triggered and how the program should responded; be detailed)
-[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

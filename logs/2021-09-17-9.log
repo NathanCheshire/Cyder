@@ -1,9 +1,0 @@
-[21:27:46] [ENTRY]: [WINUSER=Nathan]
-[21:27:46] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
-[21:27:48] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[21:27:49] [LOGIN]: [AUTOCYPHER PASS]
-[21:27:53] [CLIENT]: test
-[21:28:04] [CLIENT]: Play dance of the pixies
-[21:28:07] [CLIENT]: controlc
-[21:28:07] [CONSOLE_OUT]: [STRING] Escaped
-[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
