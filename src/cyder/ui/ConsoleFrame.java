@@ -1029,10 +1029,12 @@ public final class ConsoleFrame {
                             }
 
                             if (busyThreads == 0) {
-                                consoleCyderFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
+                                SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIcon());
                             } else {
-                                consoleCyderFrame.setIconImage(SystemUtil.getCyderIconBlink().getImage());
+                                SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIconBlink());
                             }
+
+                            consoleCyderFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
                         }
 
                         //sleep 3 seconds
@@ -1048,7 +1050,8 @@ public final class ConsoleFrame {
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             } finally {
-                consoleCyderFrame.setIconImage(SystemUtil.getCyderIcon().getImage());
+                SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIcon());
+                consoleCyderFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
             }
         }, "Cyder Busy Checker");
         busyCheckerThread.start();

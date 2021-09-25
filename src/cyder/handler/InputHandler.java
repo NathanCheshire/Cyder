@@ -1049,6 +1049,10 @@ public class InputHandler {
             background.setFrameResizing(false);
             background.setVisible(true);
             background.setLocationRelativeTo(null);
+        } else if (hasWord("xxx") || hasWord("tentacion") || has("rip x")) {
+            SystemUtil.setCurrentCyderIcon(new ImageIcon("sys/pictures/print/x.png"));
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
+                    .setIconImage(new ImageIcon("sys/pictures/print/x.png").getImage());
         }
         //testing -------------------------------------------------
         else if (eic("test")) {

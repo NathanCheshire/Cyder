@@ -38,6 +38,16 @@ public class SystemUtil {
         return cyderIconBlink;
     }
 
+    private static ImageIcon currentCyderIcon;
+
+    public static ImageIcon getCurrentCyderIcon() {
+        return currentCyderIcon;
+    }
+
+    public static void setCurrentCyderIcon(ImageIcon currentCyderIcon) {
+        SystemUtil.currentCyderIcon = currentCyderIcon;
+    }
+
     public ImageIcon getScaledCyderIcon() {return this.scaledCyderIcon;}
 
     public ImageIcon getScaledCyderIconBlink() {return this.scaledCyderIconBlink;}
