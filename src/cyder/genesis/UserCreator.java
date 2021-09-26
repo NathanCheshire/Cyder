@@ -224,7 +224,25 @@ public class UserCreator {
                     char[] pass = newUserPassword.getPassword();
                     char[] passconf = newUserPasswordconf.getPassword();
 
-                    if (StringUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
+                    boolean userNameExists = false;
+
+                    for (File f : folder.getParentFile().listFiles()) {
+                        String currentName = UserUtil.extractUserData(new File(
+                                f.getAbsolutePath() + "/userdata.json"), "name");
+
+                        if (currentName.equalsIgnoreCase(newUserName.getText())) {
+                            userNameExists = true;
+                            break;
+                        }
+                    }
+
+                    if (userNameExists) {
+                        createUserFrame.inform("Sorry, but that username is already in use." +
+                                "\nPlease choose a different one.", "");
+                        newUserName.setText("");
+                        newUserPassword.setText("");
+                        newUserPasswordconf.setText("");
+                    } else if (StringUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
                             || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
                         createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.", "");
                         newUserPassword.setText("");

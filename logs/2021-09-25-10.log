@@ -1,0 +1,9 @@
+[21:03:15] [ENTRY]: [WINUSER=Nathan]
+[21:03:16] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[21:03:16] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21:03:17] [LOGIN]: [AUTOCYPHER PASS]
+[21:03:18] [CLIENT]: test
+[21:03:20] [CLIENT]: Logout
+[21:03:20] [LOGOUT]:  [Nathan]
+[21:03:21] [CLIENT_IO]: [LOGIN FRAME] create
+[21:03:32] [ACTION]: CyderButton, text=[Create User] CLICKED
