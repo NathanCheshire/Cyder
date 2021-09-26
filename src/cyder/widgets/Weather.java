@@ -155,7 +155,7 @@ public class Weather {
                 changeLocationFrame.setTitle("Change Location");
 
                 JLabel explenation = new JLabel("<html><div style='text-align: center;'>Enter your city, state, and country code separated by a comma" +
-                        "<br/>Example: <p style=\"font-family:verdana\"><p style=\"color:rgb(45, 100, 220)\">New Orleans,LA,US</p></p></div></html>");
+                        "<br/>Example: <p style=\"font-family:verdana\"><p style=\"color:rgb(45, 100, 220)\">New Orleans, LA, US</p></p></div></html>");
 
                 explenation.setFont(CyderFonts.weatherFontSmall);
                 explenation.setForeground(CyderColors.navy);
@@ -179,8 +179,18 @@ public class Weather {
                 changeLoc.addActionListener(e12 -> {
                     try {
                         oldLocation = locationString;
-                        locationString = changeLocField.getText();
+                        String[] parts = changeLocField.getText().split(",");
 
+                        StringBuilder sb = new StringBuilder();
+
+                        for (int i = 0 ; i < parts.length ; i++) {
+                            sb.append(parts[i].trim());
+
+                            if (i != parts.length - 1)
+                                sb.append(",");
+                        }
+
+                        locationString = sb.toString();
                         useCustomLoc = true;
 
                         AnimationUtil.closeAnimation(changeLocationFrame);
@@ -418,11 +428,12 @@ public class Weather {
                         weatherIcon = weatherIcon.replace("d", "n");
                     }
                 }
-            } catch (FileNotFoundException ignored) {
+            } catch (FileNotFoundException e) {
                 //invalid custom location so go back to the old one
                 weatherFrame.notify("Sorry, but that location is invalid");
                 locationString = oldLocation;
                 useCustomLoc = false;
+                ErrorHandler.silentHandle(e);
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             } finally {

@@ -1,0 +1,24 @@
+[21:14:12] [ENTRY]: [WINUSER=Nathan]
+[21:14:13] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[21:14:13] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21:14:13] [LOGIN]: [AUTOCYPHER PASS]
+[21:14:15] [CLIENT]: test
+[21:14:27] [CLIENT]: Weather
+[21:14:27] [ACTION]: WEATHER
+[21:14:28] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[21:14:33] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[21:14:34] [ACTION]: [Weather] [NOTIFICATION] Sorry, but that location is invalid
+[21:14:34] [EXCEPTION]: 
+https://api.openweathermap.org/data/2.5/weather?q=neworleans,la,usa&appid=2d790dd0766f1da62af488f101380c75&units=imperial
+Thrown from:
+java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1909)
+StackTrace:
+java.io.FileNotFoundException: https://api.openweathermap.org/data/2.5/weather?q=neworleans,la,usa&appid=2d790dd0766f1da62af488f101380c75&units=imperial
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1909)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1509)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:245)
+	at java.base/java.net.URL.openStream(URL.java:1117)
+	at cyder.widgets.Weather.lambda$repullWeatherStats$2(Weather.java:387)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21:14:39] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

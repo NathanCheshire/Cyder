@@ -1,0 +1,26 @@
+[21:12:09] [ENTRY]: [WINUSER=Nathan]
+[21:12:09] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[21:12:10] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21:12:10] [LOGIN]: [AUTOCYPHER PASS]
+[21:12:12] [CLIENT]: test
+[21:12:24] [CLIENT]: Weather
+[21:12:24] [ACTION]: WEATHER
+[21:12:26] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[21:12:46] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[21:12:47] [ACTION]: [Weather] [NOTIFICATION] Sorry, but that location is invalid
+[21:12:53] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[21:12:55] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[21:12:56] [ACTION]: [Weather] [NOTIFICATION] Sorry, but that location is invalid
+[21:12:58] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[21:13:03] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[21:13:04] [ACTION]: [Weather] [NOTIFICATION] Sorry, but that location is invalid
+[21:13:09] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[21:13:12] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[21:13:13] [ACTION]: [Weather] [NOTIFICATION] Sorry, but that location is invalid
+[21:13:18] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[21:13:19] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[21:13:22] [ACTION]: [Weather] [NOTIFICATION] Sorry, but that location is invalid
+[21:13:27] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[21:13:34] [LOGOUT]:  [Nathan]
+[21:13:34] [EXIT]: [RUNTIME] 1m 24s
+[21:13:34] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

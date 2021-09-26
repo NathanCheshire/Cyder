@@ -1,0 +1,28 @@
+[21:18:10] [ENTRY]: [WINUSER=Nathan]
+[21:18:10] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[21:18:11] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21:18:11] [LOGIN]: [AUTOCYPHER PASS]
+[21:18:12] [CLIENT]: test
+[21:18:14] [CLIENT]: Weather
+[21:18:14] [ACTION]: WEATHER
+[21:18:15] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[21:18:19] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[21:18:20] [ACTION]: [Weather] [NOTIFICATION] Sorry, but that location is invalid
+[21:18:20] [EXCEPTION]: 
+https://api.openweathermap.org/data/2.5/weather?q=new york,ny&appid=2d790dd0766f1da62af488f101380c75&units=imperial
+Thrown from:
+java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1909)
+StackTrace:
+java.io.FileNotFoundException: https://api.openweathermap.org/data/2.5/weather?q=new york,ny&appid=2d790dd0766f1da62af488f101380c75&units=imperial
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1909)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1509)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:245)
+	at java.base/java.net.URL.openStream(URL.java:1117)
+	at cyder.widgets.Weather.lambda$repullWeatherStats$2(Weather.java:397)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21:18:26] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[21:18:28] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[21:18:29] [ACTION]: [Weather] [NOTIFICATION] Refreshed
+[21:18:36] [LOGOUT]:  [Nathan]
+[21:18:36] [EXIT]: [RUNTIME] 25s
+[21:18:36] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 1
