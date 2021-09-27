@@ -578,9 +578,6 @@ public class IOUtil {
                         Files.write(Paths.get(log.getAbsolutePath()),
                                 ("[EXTERNAL STOP] Cyder was force closed by an external entity such " +
                                         "as an IDE stop or the OS' Task Manager\n").getBytes(), StandardOpenOption.APPEND);
-
-                        //todo now we need to search for suggestions and
-                        // we shouldn't hold them in memory in case of a force close
                     }
                 }
             }
