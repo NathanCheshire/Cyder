@@ -3,8 +3,8 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
-import cyder.obj.Preference;
-import cyder.obj.User;
+import cyder.genobjects.Preference;
+import cyder.genobjects.User;
 import cyder.ui.ConsoleFrame;
 
 import javax.imageio.ImageIO;

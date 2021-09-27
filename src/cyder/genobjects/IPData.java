@@ -1,4 +1,4 @@
-package cyder.obj;
+package cyder.genobjects;
 
 import com.google.gson.annotations.SerializedName;
 

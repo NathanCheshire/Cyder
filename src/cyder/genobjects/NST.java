@@ -1,4 +1,4 @@
-package cyder.obj;
+package cyder.genobjects;
 
 public class NST {
 

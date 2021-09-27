@@ -1,7 +1,7 @@
 package cyder.widgets;
 
 
-import cyder.obj.User;
+import cyder.genobjects.User;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;

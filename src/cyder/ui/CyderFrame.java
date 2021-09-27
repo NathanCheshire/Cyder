@@ -6,7 +6,7 @@ import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
-import cyder.obj.Gluster;
+import cyder.genobjects.Gluster;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;

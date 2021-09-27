@@ -4,7 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.enums.SliderShape;
 import cyder.handler.ErrorHandler;
-import cyder.obj.Node;
+import cyder.genobjects.Node;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
 

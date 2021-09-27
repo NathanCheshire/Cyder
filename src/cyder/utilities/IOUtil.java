@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import cyder.genesis.Login;
 import cyder.genesis.GenesisShare;
 import cyder.handler.*;
-import cyder.obj.SystemData;
+import cyder.genobjects.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.widgets.AudioPlayer;
 import cyder.widgets.GenericInform;

@@ -1,7 +1,7 @@
 package cyder.threads;
 
 import cyder.handler.ErrorHandler;
-import cyder.obj.SystemData;
+import cyder.genobjects.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;

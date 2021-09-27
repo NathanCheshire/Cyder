@@ -6,7 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
-import cyder.obj.WeatherData;
+import cyder.genobjects.WeatherData;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;

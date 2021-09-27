@@ -10,7 +10,7 @@ import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.handler.InputHandler;
 import cyder.handler.SessionLogger;
-import cyder.obj.User;
+import cyder.genobjects.User;
 import cyder.utilities.*;
 import cyder.widgets.*;
 

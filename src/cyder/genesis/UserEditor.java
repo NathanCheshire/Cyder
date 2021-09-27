@@ -4,7 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
-import cyder.obj.User;
+import cyder.genobjects.User;
 import cyder.ui.*;
 import cyder.utilities.*;
 import cyder.widgets.AudioPlayer;

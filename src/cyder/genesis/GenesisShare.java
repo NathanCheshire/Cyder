@@ -2,7 +2,7 @@ package cyder.genesis;
 
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
-import cyder.obj.Preference;
+import cyder.genobjects.Preference;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;

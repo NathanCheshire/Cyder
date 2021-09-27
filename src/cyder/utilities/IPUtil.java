@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import cyder.handler.ErrorHandler;
-import cyder.obj.IPData;
+import cyder.genobjects.IPData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
