@@ -66,6 +66,18 @@ public class Stack<T> {
         }
     }
 
+    public int size() {
+        int ret = 0;
+
+        Node tmp = top;
+        while (tmp != null) {
+            ret++;
+            tmp = tmp.getBelow();
+        }
+
+        return ret;
+    }
+
     //node class to be used
     private static class Node<T> {
         private T data;

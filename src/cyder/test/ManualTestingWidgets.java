@@ -6,6 +6,7 @@ import cyder.enums.AnimationDirection;
 import cyder.enums.Direction;
 import cyder.enums.SliderShape;
 import cyder.handler.ErrorHandler;
+import cyder.structobjects.Stack;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 
@@ -341,6 +342,50 @@ public class ManualTestingWidgets {
         cb.setBounds(40,100, 600 - 80, 40);
         cf.getContentPane().add(cb);
         cb.addActionListener(e -> cf.setTitle(ctf.getText().trim()));
+
+        cf.setVisible(true);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
+    }
+
+    public static void stackTest() {
+        Stack<String> stringStack = new Stack<>();
+
+        CyderFrame cf = new CyderFrame( 280, 350);
+        cf.setTitle("Stack Test");
+        cf.setTitlePosition(CyderFrame.TitlePosition.RIGHT);
+
+        CyderButton peekButton = new CyderButton("Peek");
+        peekButton.setBounds(40,40,200,40);
+        peekButton.addActionListener(e -> cf.notify(stringStack.peek().toString()));
+        cf.getContentPane().add(peekButton);
+
+        //pop data notify
+        CyderButton popButton = new CyderButton("Pop");
+        popButton.setBounds(40,100,200,40);
+        popButton.addActionListener(e -> cf.notify(stringStack.pop().toString()));
+        cf.getContentPane().add(popButton);
+
+        //push data
+        CyderTextField ctf = new CyderTextField(0);
+        ctf.setBounds(40,160,200,40);
+        ctf.addActionListener(e -> {
+            stringStack.push(ctf.getText());
+            ctf.setText("");
+            cf.notify("Data added");
+        });
+        cf.getContentPane().add(ctf);
+
+        //isEmpty notify
+        CyderButton isEmptyButton = new CyderButton("isEmpty");
+        isEmptyButton.setBounds(40,220,200,40);
+        isEmptyButton.addActionListener(e -> cf.notify(String.valueOf(stringStack.isEmpty())));
+        cf.getContentPane().add(isEmptyButton);
+
+        //stack size
+        CyderButton sizeButton = new CyderButton("Size");
+        sizeButton.setBounds(40,280,200,40);
+        sizeButton.addActionListener(e -> cf.notify(String.valueOf(stringStack.size())));
+        cf.getContentPane().add(sizeButton);
 
         cf.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(cf);

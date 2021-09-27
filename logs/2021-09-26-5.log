@@ -1,0 +1,73 @@
+[19:58:00] [ENTRY]: [WINUSER=Nathan]
+[19:58:01] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[19:58:01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:58:01] [LOGIN]: [AUTOCYPHER PASS]
+[19:58:03] [CLIENT]: test
+[19:58:12] [ACTION]: CyderButton, text=[Size] CLICKED
+[19:58:12] [ACTION]: [Stack Test] [NOTIFICATION] 0
+[19:58:14] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[19:58:14] [ACTION]: [Stack Test] [NOTIFICATION] true
+[19:58:19] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[19:58:21] [ACTION]: CyderButton, text=[Peek] CLICKED
+[19:58:21] [ACTION]: [Stack Test] [NOTIFICATION] asdf
+[19:58:23] [ACTION]: CyderButton, text=[Pop] CLICKED
+[19:58:23] [ACTION]: [Stack Test] [NOTIFICATION] asdf
+[19:58:24] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[19:58:24] [ACTION]: [Stack Test] [NOTIFICATION] true
+[19:58:26] [ACTION]: CyderButton, text=[Size] CLICKED
+[19:58:26] [ACTION]: [Stack Test] [NOTIFICATION] 0
+[19:58:32] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[19:58:34] [ACTION]: CyderButton, text=[Peek] CLICKED
+[19:58:34] [ACTION]: [Stack Test] [NOTIFICATION] cls
+[19:58:34] [ACTION]: CyderButton, text=[Peek] CLICKED
+[19:58:36] [ACTION]: [Stack Test] [NOTIFICATION] cls
+[19:58:37] [ACTION]: CyderButton, text=[Size] CLICKED
+[19:58:37] [ACTION]: [Stack Test] [NOTIFICATION] 1
+[19:58:38] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[19:58:38] [ACTION]: [Stack Test] [NOTIFICATION] false
+[19:58:42] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[19:58:46] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[19:58:47] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[19:58:48] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[19:58:49] [ACTION]: CyderButton, text=[Size] CLICKED
+[19:58:49] [ACTION]: [Stack Test] [NOTIFICATION] 5
+[19:58:51] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[19:58:51] [ACTION]: [Stack Test] [NOTIFICATION] false
+[19:58:52] [ACTION]: CyderButton, text=[Peek] CLICKED
+[19:58:52] [ACTION]: [Stack Test] [NOTIFICATION] fifth
+[19:58:53] [ACTION]: CyderButton, text=[Pop] CLICKED
+[19:58:53] [ACTION]: [Stack Test] [NOTIFICATION] fifth
+[19:58:55] [ACTION]: CyderButton, text=[Pop] CLICKED
+[19:58:55] [ACTION]: [Stack Test] [NOTIFICATION] fourth
+[19:58:57] [ACTION]: CyderButton, text=[Size] CLICKED
+[19:58:57] [ACTION]: [Stack Test] [NOTIFICATION] 3
+[19:58:59] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[19:58:59] [ACTION]: [Stack Test] [NOTIFICATION] false
+[19:59:00] [ACTION]: CyderButton, text=[Peek] CLICKED
+[19:59:00] [ACTION]: [Stack Test] [NOTIFICATION] third
+[19:59:01] [ACTION]: CyderButton, text=[Pop] CLICKED
+[19:59:01] [ACTION]: [Stack Test] [NOTIFICATION] third
+[19:59:03] [ACTION]: CyderButton, text=[Pop] CLICKED
+[19:59:03] [ACTION]: [Stack Test] [NOTIFICATION] second
+[19:59:05] [ACTION]: CyderButton, text=[Size] CLICKED
+[19:59:05] [ACTION]: [Stack Test] [NOTIFICATION] 1
+[19:59:06] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[19:59:06] [ACTION]: [Stack Test] [NOTIFICATION] false
+[19:59:07] [ACTION]: CyderButton, text=[Peek] CLICKED
+[19:59:07] [ACTION]: [Stack Test] [NOTIFICATION] cls
+[19:59:10] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[19:59:11] [ACTION]: CyderButton, text=[Size] CLICKED
+[19:59:11] [ACTION]: [Stack Test] [NOTIFICATION] 2
+[19:59:13] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[19:59:13] [ACTION]: [Stack Test] [NOTIFICATION] false
+[19:59:14] [ACTION]: CyderButton, text=[Peek] CLICKED
+[19:59:14] [ACTION]: [Stack Test] [NOTIFICATION] second
+[19:59:15] [ACTION]: CyderButton, text=[Pop] CLICKED
+[19:59:15] [ACTION]: [Stack Test] [NOTIFICATION] second
+[19:59:16] [ACTION]: CyderButton, text=[Pop] CLICKED
+[19:59:16] [ACTION]: [Stack Test] [NOTIFICATION] cls
+[19:59:17] [ACTION]: CyderButton, text=[Size] CLICKED
+[19:59:17] [ACTION]: [Stack Test] [NOTIFICATION] 0
+[19:59:18] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[19:59:18] [ACTION]: [Stack Test] [NOTIFICATION] true
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
