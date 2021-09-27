@@ -18,7 +18,6 @@ public class SessionLogger {
 
     private static File currentLog;
     private static long start;
-    private static LinkedList<String> suggestions = new LinkedList<>();
 
     public enum Tag {
         CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION,
@@ -81,15 +80,6 @@ public class SessionLogger {
                 logBuilder.append(representation);
                 break;
             case EOL:
-                if (suggestions.size() > 0) {
-                    logBuilder = new StringBuilder();
-
-                    for (String sug : suggestions) {
-                        logBuilder.append("\n" + "[").append(TimeUtil.logTime())
-                                .append("]").append(" [SUGGESTION]: ").append(sug).append("\n");
-                    }
-                }
-
                 logBuilder.append("[EOL]: Log completed, exiting program with code: ");
                 logBuilder.append(representation);
                 logBuilder.append(" [");
@@ -100,12 +90,7 @@ public class SessionLogger {
 
                 break;
             case SUGGESTION:
-                if (representation instanceof String) {
-                    suggestions.add((String) representation);
-                }
-
-                logBuilder.append("[SUGGESTION ADDED]");
-
+                logBuilder.append("[SUGGESTION]: ").append(representation);
                 break;
             case CLIENT_IO:
                 //userdata read or write
