@@ -92,20 +92,28 @@ public class Queue<T> {
 
     //add first
     public void addFirst(T data) {
-        Node add = new Node(data, null, front);
-        front = add;
-
-        if (back == null)
-            back = front;
+       //empty tree
+        if (front == null) {
+            Node frontAndBack = new Node(data, null, null);
+            front = frontAndBack;
+            back = frontAndBack;
+        } else {
+            Node newFront = new Node(data, null, front);
+            front = newFront;
+        }
     }
 
     //add last
     public void addLast(T data) {
-        Node add = new Node(data, back, null);
-        back = add;
-
-        if (front == null)
-            front = back;
+        //empty tree
+        if (back == null) {
+            Node frontAndBack = new Node(data,null,null);
+            front = frontAndBack;
+            back = frontAndBack;
+        } else {
+            Node newBack = new Node(data, back,null);
+            back = newBack;
+        }
     }
 
     //enqueue

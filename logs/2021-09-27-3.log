@@ -5,3 +5,4 @@
 [19:49:48] [CLIENT]: test
 [19:49:54] [ACTION]: CyderButton, text=[Size] CLICKED
 [19:49:54] [ACTION]: [Queue test] [NOTIFICATION] 1
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
