@@ -160,13 +160,13 @@ public class Queue<T> {
         } else {
             Node ref = back;
 
-            while (ref.getPrevious().getPrevious() != null) {
-                ret.append(ref.getData()).append(" -> ");
+            while (ref != null) {
+                ret.append(ref.getData());
                 ref = ref.getPrevious();
-            }
 
-            ref = ref.getPrevious();
-            ret.append(ref.getData());
+                if (ref != null)
+                    ret.append(" -> ");
+            }
         }
 
         return ret.toString();
@@ -182,14 +182,13 @@ public class Queue<T> {
         } else {
             Node ref = front;
 
-            //okay so we can't do a double next next approach for ANY data struct methods
-            while (ref.getNext().getNext() != null) {
-                ret.append(ref.getData()).append(" -> ");
+            while (ref != null) {
+                ret.append(ref.getData());
                 ref = ref.getNext();
-            }
 
-            ref = ref.getNext();
-            ret.append(ref.getData());
+                if (ref != null)
+                    ret.append(" -> ");
+            }
         }
 
         return ret.toString();
