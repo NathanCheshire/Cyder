@@ -390,4 +390,8 @@ public class ManualTestingWidgets {
         cf.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
     }
+
+    public static void queueTest() {
+        //todo test operations on the queue
+    }
 }

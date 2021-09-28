@@ -54,7 +54,7 @@ public class Stack<T> {
 
             Node ptr = top;
 
-            while (ptr.getBelow() != null) {
+            while (ptr.getBelow().getBelow() != null) {
                 sb.append(top.getData());
                 sb.append(" -> ");
                 ptr = ptr.getBelow();

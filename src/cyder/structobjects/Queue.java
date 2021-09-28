@@ -102,6 +102,16 @@ public class Queue<T> {
         back = add;
     }
 
+    //enqueue
+    public void enqueue(T data) {
+        addLast(data);
+    }
+
+    //dequeue
+    public Object dequeue() {
+        return removeFirst();
+    }
+
     //contains data
     public boolean contains(T data) {
         boolean ret = false;
@@ -130,6 +140,52 @@ public class Queue<T> {
         }
 
         return ret;
+    }
+
+    public String forwardTraversal() {
+        return this.toString();
+    }
+
+    public String reverseTraversal() {
+        StringBuilder ret = new StringBuilder();
+
+        if (back == null) {
+            ret.append("Emtpy queue");
+        } else {
+            Node ref = back;
+
+            while (ref.getPrevious().getPrevious() != null) {
+                ret.append(ref.getData()).append(" -> ");
+                ref = ref.getPrevious();
+            }
+
+            ref = ref.getPrevious();
+            ret.append(ref.getData());
+        }
+
+        return ret.toString();
+    }
+
+    //toString
+    @Override
+    public String toString() {
+        StringBuilder ret = new StringBuilder();
+
+        if (front == null) {
+            ret.append("Empty queue");
+        } else {
+            Node ref = front;
+
+            while (ref.getNext().getNext() != null) {
+                ret.append(ref.getData()).append(" -> ");
+                ref = ref.getNext();
+            }
+
+            ref = ref.getNext();
+            ret.append(ref.getData());
+        }
+
+        return ret.toString();
     }
 
     public static class Node<T> {

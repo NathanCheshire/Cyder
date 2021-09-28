@@ -1057,7 +1057,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-
+            ManualTestingWidgets.queueTest();
         }
         //final attempt at unknown input --------------------------
         else {
