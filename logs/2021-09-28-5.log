@@ -1,0 +1,24 @@
+[11:34:38] [ENTRY]: [WINUSER=Nathan]
+[11:34:38] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[11:34:39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11:34:39] [LOGIN]: [AUTOCYPHER PASS]
+[11:34:42] [CLIENT]: test
+[11:34:46] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[11:34:51] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[11:34:54] [ACTION]: CyderButton, text=[Size] CLICKED
+[11:34:54] [ACTION]: [Queue test] [NOTIFICATION] 1
+[11:35:03] [ACTION]: CyderButton, text=[Remove Last] CLICKED
+[11:35:03] [ACTION]: [Queue test] [NOTIFICATION] 1
+[11:36:00] [ACTION]: CyderButton, text=[Forward Traversal] CLICKED
+[11:36:00] [ACTION]: [Queue test] [NOTIFICATION] Empty queue
+[11:36:02] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[11:36:06] [ACTION]: CyderButton, text=[Forward Traversal] CLICKED
+[11:36:08] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[11:36:09] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[11:36:10] [ACTION]: [Queue test] [NOTIFICATION] 1
+[11:36:26] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[11:36:29] [ACTION]: CyderButton, text=[Size] CLICKED
+[11:36:29] [ACTION]: [Queue test] [NOTIFICATION] 1
+[11:36:30] [LOGOUT]:  [Nathan]
+[11:36:30] [EXIT]: [RUNTIME] 1m 52s
+[11:36:30] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

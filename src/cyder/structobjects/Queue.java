@@ -106,13 +106,19 @@ public class Queue<T> {
     //add last
     public void addLast(T data) {
         //empty tree
+
         if (back == null) {
             Node frontAndBack = new Node(data,null,null);
             front = frontAndBack;
             back = frontAndBack;
         } else {
-            Node newBack = new Node(data, back,null);
-            back = newBack;
+            if (size() == 1) {
+                Node newBack = new Node(data, front,null);
+                back = newBack;
+            } else {
+                Node newBack = new Node(data, back, null);
+                back = newBack;
+            }
         }
     }
 

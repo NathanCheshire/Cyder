@@ -1,0 +1,24 @@
+[12:08:04] [ENTRY]: [WINUSER=Nathan]
+[12:08:05] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[12:08:05] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12:08:06] [LOGIN]: [AUTOCYPHER PASS]
+[12:08:08] [CLIENT]: test
+[12:08:10] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[12:08:13] [ACTION]: CyderButton, text=[Reverse Traversal] CLICKED
+[12:08:13] [ACTION]: [Queue test] [NOTIFICATION] one
+[12:08:16] [ACTION]: CyderButton, text=[Size] CLICKED
+[12:08:16] [ACTION]: [Queue test] [NOTIFICATION] 1
+[12:08:17] [ACTION]: CyderButton, text=[Remove Last] CLICKED
+[12:08:18] [ACTION]: [Queue test] [NOTIFICATION] one
+[12:08:22] [ACTION]: CyderButton, text=[Size] CLICKED
+[12:08:22] [ACTION]: [Queue test] [NOTIFICATION] 0
+[12:08:24] [ACTION]: CyderButton, text=[Reverse Traversal] CLICKED
+[12:08:24] [ACTION]: [Queue test] [NOTIFICATION] Empty queue
+[12:08:28] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[12:08:30] [ACTION]: CyderButton, text=[Size] CLICKED
+[12:08:30] [ACTION]: [Queue test] [NOTIFICATION] 1
+[12:08:31] [ACTION]: CyderButton, text=[Reverse Traversal] CLICKED
+[12:08:32] [ACTION]: [Queue test] [NOTIFICATION] two
+[12:08:34] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[12:08:34] [ACTION]: [Queue test] [NOTIFICATION] two
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

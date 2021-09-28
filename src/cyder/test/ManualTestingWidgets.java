@@ -403,6 +403,7 @@ public class ManualTestingWidgets {
         enqueueField.addActionListener(e -> {
             queue.enqueue(enqueueField.getText());
             enqueueField.setText("");
+            cf.notify("Data added");
         });
         enqueueField.setBounds(40,40, 220, 40);
         cf.getContentPane().add(enqueueField);
@@ -418,6 +419,7 @@ public class ManualTestingWidgets {
         addFirstField.addActionListener(e -> {
             queue.addFirst(enqueueField.getText());
             addFirstField.setText("");
+            cf.notify("Data added");
         });
         addFirstField.setBounds(40,160, 220, 40);
         cf.getContentPane().add(addFirstField);
