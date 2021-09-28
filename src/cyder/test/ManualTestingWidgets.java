@@ -6,6 +6,7 @@ import cyder.enums.AnimationDirection;
 import cyder.enums.Direction;
 import cyder.enums.SliderShape;
 import cyder.handler.ErrorHandler;
+import cyder.structobjects.Queue;
 import cyder.structobjects.Stack;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
@@ -392,6 +393,59 @@ public class ManualTestingWidgets {
     }
 
     public static void queueTest() {
-        //todo test operations on the queue
+        Queue<String> queue = new Queue<>();
+
+        CyderFrame cf = new CyderFrame(300,480);
+        cf.setTitle("Queue test");
+
+        //enqueue
+        CyderTextField enqueueField = new CyderTextField(0);
+        enqueueField.addActionListener(e -> {
+            queue.enqueue(enqueueField.getText());
+            enqueueField.setText("");
+        });
+        enqueueField.setBounds(40,40, 220, 40);
+        cf.getContentPane().add(enqueueField);
+
+        //dequeue
+        CyderButton dequeueButton = new CyderButton("Dequeue");
+        dequeueButton.addActionListener(e -> cf.notify(String.valueOf(queue.dequeue())));
+        dequeueButton.setBounds(40,100, 220, 40);
+        cf.getContentPane().add(dequeueButton);
+
+        //add first field
+        CyderTextField addFirstField = new CyderTextField(0);
+        addFirstField.addActionListener(e -> {
+            queue.addFirst(enqueueField.getText());
+            addFirstField.setText("");
+        });
+        addFirstField.setBounds(40,160, 220, 40);
+        cf.getContentPane().add(addFirstField);
+
+        //remove last button
+        CyderButton removeLast = new CyderButton("Remove Last");
+        removeLast.addActionListener(e -> cf.notify(String.valueOf(queue.dequeue())));
+        removeLast.setBounds(40,220, 220, 40);
+        cf.getContentPane().add(removeLast);
+
+        //forward traversal button
+        CyderButton forwardTraversalButton = new CyderButton("Forward Traversal");
+        forwardTraversalButton.addActionListener(e -> cf.notify(String.valueOf(queue.forwardTraversal())));
+        forwardTraversalButton.setBounds(40,280, 220, 40);
+        cf.getContentPane().add(forwardTraversalButton);
+
+        //reverse traversal button
+        CyderButton reverseTraversalButton = new CyderButton("Reverse Traversal");
+        reverseTraversalButton.addActionListener(e -> cf.notify(String.valueOf(queue.forwardTraversal())));
+        reverseTraversalButton.setBounds(40,340, 220, 40);
+        cf.getContentPane().add(reverseTraversalButton);
+
+        CyderButton sizeButton = new CyderButton("Size");
+        sizeButton.addActionListener(e -> cf.notify(String.valueOf(queue.size())));
+        sizeButton.setBounds(40,400,220,40);
+        cf.getContentPane().add(sizeButton);
+
+        cf.setVisible(true);
+        ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
     }
 }

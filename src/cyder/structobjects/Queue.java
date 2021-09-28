@@ -94,12 +94,18 @@ public class Queue<T> {
     public void addFirst(T data) {
         Node add = new Node(data, null, front);
         front = add;
+
+        if (back == null)
+            back = front;
     }
 
     //add last
     public void addLast(T data) {
         Node add = new Node(data, back, null);
         back = add;
+
+        if (front == null)
+            front = back;
     }
 
     //enqueue
@@ -176,6 +182,7 @@ public class Queue<T> {
         } else {
             Node ref = front;
 
+            //okay so we can't do a double next next approach for ANY data struct methods
             while (ref.getNext().getNext() != null) {
                 ret.append(ref.getData()).append(" -> ");
                 ref = ref.getNext();
