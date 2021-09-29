@@ -1,0 +1,44 @@
+[15:16:45] [ENTRY]: [WINUSER=Nathan]
+[15:16:46] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[15:16:46] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[15:16:47] [LOGIN]: [AUTOCYPHER PASS]
+[15:16:48] [CLIENT]: test
+[15:16:52] [ACTION]: CyderButton, text=[Forward Traversal] CLICKED
+[15:16:52] [ACTION]: [Queue test] [NOTIFICATION] 1 -> 2 -> 3
+[15:16:53] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[15:16:53] [ACTION]: [Queue test] [NOTIFICATION] 1
+[15:16:55] [ACTION]: CyderButton, text=[Forward Traversal] CLICKED
+[15:16:55] [ACTION]: [Queue test] [NOTIFICATION] 2 -> 3
+[15:16:57] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[15:16:57] [ACTION]: [Queue test] [NOTIFICATION] 2
+[15:16:58] [ACTION]: CyderButton, text=[Forward Traversal] CLICKED
+[15:16:58] [ACTION]: [Queue test] [NOTIFICATION] 3
+[15:16:59] [ACTION]: CyderButton, text=[Reverse Traversal] CLICKED
+[15:16:59] [ACTION]: [Queue test] [NOTIFICATION] 3 -> 2 -> 1
+[15:17:02] [ACTION]: CyderButton, text=[Reverse Traversal] CLICKED
+[15:17:02] [ACTION]: [Queue test] [NOTIFICATION] 3 -> 2 -> 1
+[15:17:11] [ACTION]: CyderButton, text=[Size] CLICKED
+[15:17:11] [ACTION]: [Queue test] [NOTIFICATION] 1
+[15:17:12] [ACTION]: CyderButton, text=[Reverse Traversal] CLICKED
+[15:17:12] [ACTION]: [Queue test] [NOTIFICATION] 3 -> 2 -> 1
+[15:17:14] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[15:17:14] [ACTION]: [Queue test] [NOTIFICATION] 3
+[15:17:16] [ACTION]: CyderButton, text=[Reverse Traversal] CLICKED
+[15:17:16] [ACTION]: [Queue test] [NOTIFICATION] 3 -> 2 -> 1
+[15:17:22] [ACTION]: CyderButton, text=[Size] CLICKED
+[15:17:22] [ACTION]: [Queue test] [NOTIFICATION] 1
+[15:17:24] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[15:17:24] [ACTION]: [Queue test] [NOTIFICATION] 3
+[15:17:25] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[15:17:25] [ACTION]: [Queue test] [NOTIFICATION] 3
+[15:17:26] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[15:17:26] [ACTION]: [Queue test] [NOTIFICATION] 3
+[15:17:27] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[15:17:27] [ACTION]: [Queue test] [NOTIFICATION] 3
+[15:17:28] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[15:17:28] [ACTION]: [Queue test] [NOTIFICATION] 3
+[15:17:28] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[15:17:28] [ACTION]: [Queue test] [NOTIFICATION] 3
+[15:17:30] [ACTION]: CyderButton, text=[Size] CLICKED
+[15:17:30] [ACTION]: [Queue test] [NOTIFICATION] 1
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

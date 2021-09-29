@@ -41,6 +41,7 @@ public class Queue<T> {
         front = front.next;
         Object data = tmp.data;
         tmp = null;
+
         return data;
     }
 
@@ -53,6 +54,7 @@ public class Queue<T> {
         back = back.previous;
         Object data = tmp.data;
         tmp = null;
+
         return data;
     }
 
@@ -68,7 +70,13 @@ public class Queue<T> {
 
     //add last
     public void addLast(T data) {
-
+        final Node b = back;
+        final Node newNode = new Node(data, b, null);
+        back = newNode;
+        if (b == null)
+            front = newNode;
+        else
+            b.next = newNode;
     }
 
     //enqueue
@@ -115,6 +123,7 @@ public class Queue<T> {
         return toString();
     }
 
+    //todo removing elements doesn't update ones behind it and what they think are their neighbors or some
     public String reverseTraversal() {
         if (front == null || back == null) {
             return "Empty tree";
