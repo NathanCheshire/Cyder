@@ -1,0 +1,25 @@
+[14:31:39] [ENTRY]: [WINUSER=Nathan]
+[14:31:40] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[14:31:40] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[14:31:41] [LOGIN]: [AUTOCYPHER PASS]
+[14:31:42] [CLIENT]: test
+[14:31:43] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[14:31:46] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[14:31:47] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[14:31:49] [ACTION]: CyderButton, text=[Size] CLICKED
+[14:31:49] [ACTION]: [Queue test] [NOTIFICATION] 1
+[14:31:51] [ACTION]: CyderButton, text=[Reverse Traversal] CLICKED
+[14:31:51] [ACTION]: [Queue test] [NOTIFICATION] 1
+[14:31:52] [ACTION]: CyderButton, text=[Forward Traversal] CLICKED
+[14:31:52] [ACTION]: [Queue test] [NOTIFICATION] 1
+[14:31:54] [ACTION]: CyderButton, text=[Dequeue] CLICKED
+[14:31:54] [ACTION]: [Queue test] [NOTIFICATION] 1
+[14:31:55] [ACTION]: CyderButton, text=[Reverse Traversal] CLICKED
+[14:31:55] [ACTION]: [Queue test] [NOTIFICATION] Empty queue
+[14:31:57] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[14:31:59] [ACTION]: [Queue test] [NOTIFICATION] Data added
+[14:32:01] [ACTION]: CyderButton, text=[Reverse Traversal] CLICKED
+[14:32:01] [ACTION]: [Queue test] [NOTIFICATION] 2
+[14:32:05] [LOGOUT]:  [Nathan]
+[14:32:05] [EXIT]: [RUNTIME] 25s
+[14:32:05] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

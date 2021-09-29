@@ -372,7 +372,6 @@ public class ManualTestingWidgets {
         ctf.addActionListener(e -> {
             stringStack.push(ctf.getText());
             ctf.setText("");
-            cf.notify("Data added");
         });
         cf.getContentPane().add(ctf);
 
@@ -400,10 +399,10 @@ public class ManualTestingWidgets {
 
         //enqueue
         CyderTextField enqueueField = new CyderTextField(0);
+        enqueueField.setToolTipText("Enqueue");
         enqueueField.addActionListener(e -> {
             queue.enqueue(enqueueField.getText());
             enqueueField.setText("");
-            cf.notify("Data added");
         });
         enqueueField.setBounds(40,40, 220, 40);
         cf.getContentPane().add(enqueueField);
@@ -416,10 +415,10 @@ public class ManualTestingWidgets {
 
         //add first field
         CyderTextField addFirstField = new CyderTextField(0);
+        addFirstField.setToolTipText("Add first");
         addFirstField.addActionListener(e -> {
-            queue.addFirst(enqueueField.getText());
+            queue.addFirst(addFirstField.getText());
             addFirstField.setText("");
-            cf.notify("Data added");
         });
         addFirstField.setBounds(40,160, 220, 40);
         cf.getContentPane().add(addFirstField);
@@ -438,7 +437,7 @@ public class ManualTestingWidgets {
 
         //reverse traversal button
         CyderButton reverseTraversalButton = new CyderButton("Reverse Traversal");
-        reverseTraversalButton.addActionListener(e -> cf.notify(String.valueOf(queue.forwardTraversal())));
+        reverseTraversalButton.addActionListener(e -> cf.notify(String.valueOf(queue.reverseTraversal())));
         reverseTraversalButton.setBounds(40,340, 220, 40);
         cf.getContentPane().add(reverseTraversalButton);
 

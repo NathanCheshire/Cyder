@@ -16,7 +16,7 @@ public class Stack<T> {
     }
 
     public void push(T data) {
-        top = new Node(data, top); //possible bug from here so test
+        top = new Node(data, top);
     }
 
     //pop removes and returns top value
