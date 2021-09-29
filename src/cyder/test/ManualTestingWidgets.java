@@ -383,10 +383,10 @@ public class ManualTestingWidgets {
         cf.getContentPane().add(isEmptyButton);
 
         //stack size
-        CyderButton sizeButton = new CyderButton("Size");
-        sizeButton.setBounds(40,280,200,40);
-        sizeButton.addActionListener(e -> cf.notify(String.valueOf(stringStack.size())));
-        cf.getContentPane().add(sizeButton);
+        CyderButton printButton = new CyderButton("Print");
+        printButton.setBounds(40,280,200,40);
+        printButton.addActionListener(e -> cf.notify(String.valueOf(stringStack.toString())));
+        cf.getContentPane().add(printButton);
 
         cf.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(cf);

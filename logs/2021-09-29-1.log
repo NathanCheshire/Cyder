@@ -1,0 +1,24 @@
+[14:12:39] [ENTRY]: [WINUSER=Nathan]
+[14:12:41] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[14:12:43] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[14:12:43] [LOGIN]: [AUTOCYPHER PASS]
+[14:12:45] [CLIENT]: test
+[14:13:33] [CLIENT]: Demo mode
+[14:13:40] [CLIENT]: Path finding
+[14:14:16] [ACTION]: CyderButton, text=[Stop] CLICKED
+[14:14:28] [ACTION]: CyderButton, text=[▼] CLICKED
+[14:14:28] [ACTION]: CyderButton, text=[Stop] CLICKED
+[14:14:37] [ACTION]: CyderButton, text=[Stop] CLICKED
+[14:14:39] [ACTION]: CyderButton, text=[Start] CLICKED
+[14:14:40] [ACTION]: CyderButton, text=[Stop] CLICKED
+[14:14:42] [ACTION]: CyderButton, text=[Reset] CLICKED
+[14:14:49] [ACTION]: CyderButton, text=[Stop] CLICKED
+[14:14:55] [ACTION]: CyderButton, text=[▼] CLICKED
+[14:14:55] [ACTION]: CyderButton, text=[Stop] CLICKED
+[14:15:02] [ACTION]: CyderButton, text=[Stop] CLICKED
+[14:15:12] [ACTION]: CyderButton, text=[▼] CLICKED
+[14:15:13] [ACTION]: CyderButton, text=[Start] CLICKED
+[14:15:17] [ACTION]: CyderButton, text=[Start] CLICKED
+[14:15:36] [LOGOUT]:  [Nathan]
+[14:15:36] [EXIT]: [RUNTIME] 2m 56s
+[14:15:36] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

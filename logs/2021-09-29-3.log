@@ -1,0 +1,26 @@
+[14:22:16] [ENTRY]: [WINUSER=Nathan]
+[14:22:16] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[14:22:17] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[14:22:17] [LOGIN]: [AUTOCYPHER PASS]
+[14:22:18] [CLIENT]: test
+[14:22:23] [ACTION]: CyderButton, text=[Print] CLICKED
+[14:22:23] [ACTION]: [Stack Test] [NOTIFICATION] Empty tree
+[14:22:31] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[14:22:33] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[14:22:34] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[14:22:39] [ACTION]: CyderButton, text=[Peek] CLICKED
+[14:22:39] [ACTION]: [Stack Test] [NOTIFICATION] 3
+[14:22:41] [ACTION]: CyderButton, text=[Pop] CLICKED
+[14:22:41] [ACTION]: [Stack Test] [NOTIFICATION] 3
+[14:22:42] [ACTION]: CyderButton, text=[Pop] CLICKED
+[14:22:42] [ACTION]: [Stack Test] [NOTIFICATION] 2
+[14:22:43] [ACTION]: CyderButton, text=[Pop] CLICKED
+[14:22:43] [ACTION]: [Stack Test] [NOTIFICATION] 1
+[14:22:44] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[14:22:44] [ACTION]: [Stack Test] [NOTIFICATION] true
+[14:22:47] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[14:22:48] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[14:22:49] [ACTION]: CyderButton, text=[Peek] CLICKED
+[14:22:49] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[14:22:50] [ACTION]: [Stack Test] [NOTIFICATION] 3
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

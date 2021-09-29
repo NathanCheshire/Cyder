@@ -1,0 +1,33 @@
+[14:23:45] [ENTRY]: [WINUSER=Nathan]
+[14:23:46] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[14:23:46] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[14:23:47] [LOGIN]: [AUTOCYPHER PASS]
+[14:23:48] [CLIENT]: test
+[14:24:05] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[14:24:06] [ACTION]: CyderButton, text=[Print] CLICKED
+[14:24:07] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[14:24:07] [ACTION]: [Stack Test] [NOTIFICATION] Data added
+[14:24:08] [ACTION]: [Stack Test] [NOTIFICATION] 3 -> 2 -> 1
+[14:24:11] [ACTION]: CyderButton, text=[Pop] CLICKED
+[14:24:11] [ACTION]: [Stack Test] [NOTIFICATION] 3
+[14:24:11] [ACTION]: CyderButton, text=[Print] CLICKED
+[14:24:12] [ACTION]: [Stack Test] [NOTIFICATION] 2 -> 1
+[14:24:18] [ACTION]: CyderButton, text=[Peek] CLICKED
+[14:24:18] [ACTION]: [Stack Test] [NOTIFICATION] 2
+[14:24:19] [ACTION]: CyderButton, text=[Pop] CLICKED
+[14:24:19] [ACTION]: [Stack Test] [NOTIFICATION] 2
+[14:24:20] [ACTION]: CyderButton, text=[Print] CLICKED
+[14:24:21] [ACTION]: [Stack Test] [NOTIFICATION] 1
+[14:24:22] [ACTION]: CyderButton, text=[Print] CLICKED
+[14:24:22] [ACTION]: [Stack Test] [NOTIFICATION] 1
+[14:24:23] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[14:24:24] [ACTION]: [Stack Test] [NOTIFICATION] false
+[14:24:25] [ACTION]: CyderButton, text=[Pop] CLICKED
+[14:24:25] [ACTION]: [Stack Test] [NOTIFICATION] 1
+[14:24:28] [ACTION]: CyderButton, text=[isEmpty] CLICKED
+[14:24:28] [ACTION]: [Stack Test] [NOTIFICATION] true
+[14:24:29] [ACTION]: CyderButton, text=[Print] CLICKED
+[14:24:29] [ACTION]: [Stack Test] [NOTIFICATION] Empty tree
+[14:24:31] [LOGOUT]:  [Nathan]
+[14:24:31] [EXIT]: [RUNTIME] 46s
+[14:24:31] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
