@@ -43,12 +43,21 @@ public class Queue<T> {
     }
 
     private Object remove(Node n) {
-        //todo remove node and return it's data
-        // if front, we need to fix it's next if it exists
-        // if back, we need to fix it's previous if it exists
-        // if a node in the middle, we need to fix it's previous and next if not null
+        if (n == null)
+            throw new IllegalArgumentException("Given Node is null");
 
-        return null;
+        Object ret = null;
+
+        if (n == front) {
+            //removing front and setting it's next's previous to null
+        } else if (n == back) {
+            //removing back, and setting it's previous' next to null
+        } else {
+            //remove node and set it's previous's next to it's next
+            // also set it's next's previous to it's own previous
+        }
+
+        return ret;
     }
 
     public void addFirst(T data) {
