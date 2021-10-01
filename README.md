@@ -20,9 +20,9 @@
 
 ## Background
 
-Cyder started as a way to test my basic java skills and have fun while taking AP Computer Science in 2017. As I continued to grow, work piled up and I had college and internships. Recently, however, I have begun to work on it in my free time as a hobby. I know so much more now than when I started and hope to keep adding features for quite some time. Ideally I should recreate this in electron-js but I doubt I'll ever get around it since I use Java for this project as a challenge since I've also built my own GUI library.
+Cyder started as a way to test my basic Java skills and have fun while taking AP Computer Science in 2017. As I continued to grow, work piled up and I had college and internships. Recently, however, I have begun to work on it in my free time as a hobby. I know so much more now than when I started and hope to keep adding features for quite some time. Ideally I should recreate this in electron-js but I doubt I'll ever get around it since I use Java for this project as a challenge since I've also built my own GUI library.
 
-The best way I can describe Cyder is a multipurpose tool that launches all of the java projects I have done, are currently working on, or will do. I know certain ways I do things are not great and PLEASE do not comment about me building a Java LAF from scratch essentailly and not using JavaFX. I am aware of this (I should hope I know since I'm the developer behind Cyder) and consider it a fun challenge to not work with modern UI depdencies.
+The best way I can describe Cyder is a multipurpose tool that launches all of the Java projects I have done, are currently working on, or will do. I know certain ways I do things are not great and PLEASE do not comment about me building a Java LAF from scratch essentailly and not using JavaFX. I am aware of this (I should hope I know since I'm the developer behind Cyder) and consider it a fun challenge to not work with modern UI depdencies.
 
 tl;dr Cyder is a virtual assistant and chatbot that performs tasks you might need on a PC.
 
@@ -35,7 +35,7 @@ Since this is a Gradle project, you can simply fork this project via it's GitHub
 After forking the project and learning Cyder Programming Standard and Cyder API (TODO LINK), you can submit a PR after you have considered ALL the following points:
 
 * Have I used already existing methods from the utilities package?
-* Have I added javadoc comments before any methods I created as well as @param and @return annotations?
+* Have I added Javadoc comments before any methods I created as well as @param and @return annotations?
 * Have I commented any code that could potentially be confusing (take note of what a magic number is: https://en.wikipedia.org/wiki/Magic_number_(programming))?
 * Have I tested my modifications properly and thoroughly? 
 
