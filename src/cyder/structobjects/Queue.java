@@ -50,11 +50,37 @@ public class Queue<T> {
 
         if (n == front) {
             //removing front and setting it's next's previous to null
+            if (front.next != null) {
+                //has a next
+                front = front.next;
+                front.previous = null;
+            } else {
+                //no next so removing means empty tree
+                ret = front.data;
+                front = null;
+                back = null;
+            }
         } else if (n == back) {
             //removing back, and setting it's previous' next to null
+            if (back.previous != null) {
+                //has a previous
+            } else {
+                //no previous so removing means empty tree
+                ret = back.data;
+                front = null;
+                back = null;
+            }
         } else {
             //remove node and set it's previous's next to it's next
             // also set it's next's previous to it's own previous
+            ret = n.data;
+
+            //not front and not back here so we should have at least 3 elements in queue
+            final Node prev = n.previous;
+            final Node next = n.next;
+
+            n.previous.next = next;
+            n.next.previous = prev;
         }
 
         return ret;
