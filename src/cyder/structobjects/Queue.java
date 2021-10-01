@@ -52,6 +52,7 @@ public class Queue<T> {
             //removing front and setting it's next's previous to null
             if (front.next != null) {
                 //has a next
+                ret = front.data;
                 front = front.next;
                 front.previous = null;
             } else {
@@ -64,6 +65,9 @@ public class Queue<T> {
             //removing back, and setting it's previous' next to null
             if (back.previous != null) {
                 //has a previous
+                ret = back.data;
+                back = null;
+                front = null;
             } else {
                 //no previous so removing means empty tree
                 ret = back.data;
