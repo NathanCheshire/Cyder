@@ -6,8 +6,8 @@ import cyder.enums.AnimationDirection;
 import cyder.enums.Direction;
 import cyder.enums.SliderShape;
 import cyder.handler.ErrorHandler;
-import cyder.structobjects.Queue;
-import cyder.structobjects.Stack;
+import cyder.structobjects.CyderQueue;
+import cyder.structobjects.CyderStack;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 
@@ -349,7 +349,7 @@ public class ManualTestingWidgets {
     }
 
     public static void stackTest() {
-        Stack<String> stringStack = new Stack<>();
+        CyderStack<String> stringStack = new CyderStack<>();
 
         CyderFrame cf = new CyderFrame( 280, 350);
         cf.setTitle("Stack Test");
@@ -392,7 +392,7 @@ public class ManualTestingWidgets {
     }
 
     public static void queueTest() {
-        Queue<String> queue = new Queue<>();
+        CyderQueue<String> queue = new CyderQueue<>();
 
         CyderFrame cf = new CyderFrame(300,520);
         cf.setTitle("Queue test");

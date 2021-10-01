@@ -1,4 +1,5 @@
 package cyder.structobjects;
 
-public class LinkedList {
+public class CyderBST {
+
 }

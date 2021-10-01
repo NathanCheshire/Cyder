@@ -2,16 +2,16 @@ package cyder.structobjects;
 
 import java.util.EmptyStackException;
 
-public class Stack<T> {
+public class CyderStack<T> {
     private Node top = null;
 
     //null constructgor
-    public Stack() {
+    public CyderStack() {
         this.top = null;
     }
 
     //initial data constructor
-    public Stack(T data) {
+    public CyderStack(T data) {
         top = new Node(data, top);
     }
 

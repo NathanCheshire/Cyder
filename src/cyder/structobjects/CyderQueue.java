@@ -1,17 +1,17 @@
 package cyder.structobjects;
 
-public class Queue<T> {
+public class CyderQueue<T> {
     transient Node front;
     transient Node back;
 
     //null constructor
-    public Queue() {
+    public CyderQueue() {
         this.front = null;
         this.back = null;
     }
 
     //initial data constructor
-    public Queue(T data) {
+    public CyderQueue(T data) {
         this.front = new Node(data, null, null);
         this.back = front;
     }
@@ -52,7 +52,7 @@ public class Queue<T> {
                 front = front.next;
                 front.previous = null;
             } else {
-                //no next so removing means empty tree
+                //no next so removing means empty queue
                 ret = front.data;
                 front = null;
                 back = null;
@@ -65,7 +65,7 @@ public class Queue<T> {
                 back = null;
                 front = null;
             } else {
-                //no previous so removing means empty tree
+                //no previous so removing means empty queue
                 ret = back.data;
                 front = null;
                 back = null;
@@ -148,7 +148,7 @@ public class Queue<T> {
 
     public String reverseTraversal() {
         if (front == null || back == null) {
-            return "Empty tree";
+            return "Empty Queue";
         } else {
             StringBuilder sb = new StringBuilder();
 
@@ -169,7 +169,7 @@ public class Queue<T> {
     @Override
     public String toString() {
         if (front == null || back == null) {
-            return "Empty tree";
+            return "Empty Queue";
         } else {
             StringBuilder sb = new StringBuilder();
 
@@ -188,9 +188,9 @@ public class Queue<T> {
     }
 
     public static class Node<T> {
-        T data;
-        Node previous;
-        Node next;
+        public T data;
+        public Node previous;
+        public Node next;
 
         public Node(T data, Node previous, Node next) {
             this.data = data;

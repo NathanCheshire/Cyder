@@ -1,4 +1,4 @@
 package cyder.structobjects;
 
-public class AVL {
+public class CyderAVL {
 }
