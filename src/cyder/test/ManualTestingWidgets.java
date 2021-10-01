@@ -394,7 +394,7 @@ public class ManualTestingWidgets {
     public static void queueTest() {
         Queue<String> queue = new Queue<>();
 
-        CyderFrame cf = new CyderFrame(300,480);
+        CyderFrame cf = new CyderFrame(300,520);
         cf.setTitle("Queue test");
 
         //enqueue
@@ -445,6 +445,15 @@ public class ManualTestingWidgets {
         sizeButton.addActionListener(e -> cf.notify(String.valueOf(queue.size())));
         sizeButton.setBounds(40,400,220,40);
         cf.getContentPane().add(sizeButton);
+
+        CyderTextField containsField = new CyderTextField(0);
+        containsField.setToolTipText("Contains");
+        containsField.addActionListener(e -> {
+            cf.notify(String.valueOf(queue.contains(containsField.getText())));
+            containsField.setText("");
+        });
+        containsField.setBounds(40,460, 220, 40);
+        cf.getContentPane().add(containsField);
 
         cf.setVisible(true);
         ConsoleFrame.getConsoleFrame().setFrameRelative(cf);

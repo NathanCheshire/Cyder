@@ -16,7 +16,6 @@ public class Queue<T> {
         this.back = front;
     }
 
-    //peekFirst
     public Object peekFirst() {
         if (front == null)
             throw new EmptyQueueException();
@@ -24,7 +23,6 @@ public class Queue<T> {
         return front.data;
     }
 
-    //peekLast
     public Object peekLast() {
         if (back == null)
             throw new EmptyQueueException();
@@ -32,12 +30,10 @@ public class Queue<T> {
         return back.data;
     }
 
-    //remove first
     public Object removeFirst() {
         return remove(front);
     }
 
-    //remove last
     public Object removeLast() {
        return remove(front);
     }
@@ -100,7 +96,6 @@ public class Queue<T> {
             f.previous = newNode;
     }
 
-    //add last
     public void addLast(T data) {
         final Node b = back;
         final Node newNode = new Node(data, b, null);
@@ -111,23 +106,20 @@ public class Queue<T> {
             b.next = newNode;
     }
 
-    //enqueue
     public void enqueue(T data) {
         addLast(data);
     }
 
-    //dequeue
     public Object dequeue() {
         return removeFirst();
     }
 
-    //contains data todo test
     public boolean contains(T data) {
         boolean ret = false;
 
         Node tmp = front;
         while (tmp != null) {
-            if (tmp.data == data) {
+            if (tmp.data.equals(data)) {
                 ret = true;
                 break;
             }
@@ -138,7 +130,6 @@ public class Queue<T> {
         return ret;
     }
 
-    //size
     public int size() {
         int ret = 0;
 
@@ -155,8 +146,6 @@ public class Queue<T> {
         return toString();
     }
 
-    //todo removing elements doesn't update ones behind it and what they think are their neighbors or some
-    // why does forward work but back doens't
     public String reverseTraversal() {
         if (front == null || back == null) {
             return "Empty tree";
@@ -177,7 +166,6 @@ public class Queue<T> {
         }
     }
 
-    //toString
     @Override
     public String toString() {
         if (front == null || back == null) {
