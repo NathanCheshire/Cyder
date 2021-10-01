@@ -34,28 +34,21 @@ public class Queue<T> {
 
     //remove first
     public Object removeFirst() {
-        if (front == null)
-            throw new EmptyQueueException();
-
-        Node tmp = front;
-        front = front.next;
-        Object data = tmp.data;
-        tmp = null;
-
-        return data;
+        return remove(front);
     }
 
     //remove last
     public Object removeLast() {
-        if (back == null)
-            throw new EmptyQueueException();
+       return remove(front);
+    }
 
-        Node tmp = back;
-        back = back.previous;
-        Object data = tmp.data;
-        tmp = null;
+    private Object remove(Node n) {
+        //todo remove node and return it's data
+        // if front, we need to fix it's next if it exists
+        // if back, we need to fix it's previous if it exists
+        // if a node in the middle, we need to fix it's previous and next if not null
 
-        return data;
+        return null;
     }
 
     public void addFirst(T data) {
@@ -89,7 +82,7 @@ public class Queue<T> {
         return removeFirst();
     }
 
-    //contains data
+    //contains data todo test
     public boolean contains(T data) {
         boolean ret = false;
 
@@ -124,6 +117,7 @@ public class Queue<T> {
     }
 
     //todo removing elements doesn't update ones behind it and what they think are their neighbors or some
+    // why does forward work but back doens't
     public String reverseTraversal() {
         if (front == null || back == null) {
             return "Empty tree";
