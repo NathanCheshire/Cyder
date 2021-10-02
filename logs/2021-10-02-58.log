@@ -1,0 +1,12 @@
+[13:20:39] [ENTRY]: [WINUSER=Nathan]
+[13:20:39] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[13:20:40] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:20:41] [LOGIN]: [AUTOCYPHER PASS]
+[13:20:42] [CLIENT]: test
+[13:20:42] [CLIENT]: weather
+[13:20:42] [ACTION]: WEATHER
+[13:20:44] [ACTION]: [Starkville's weather] [NOTIFICATION] Refreshed
+[13:20:50] [ACTION]: CyderButton, text=[Change Location] CLICKED
+[13:20:50] [ACTION]: [Starkville's weather] [NOTIFICATION] Attempting to refresh weather stats for location "Miami,Fl,Usa"
+[13:20:53] [ACTION]: [Starkville's weather] [NOTIFICATION] Refreshed
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

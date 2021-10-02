@@ -597,9 +597,9 @@ public class StringUtil {
             return word;
 
         StringBuilder SB = new StringBuilder(word.length());
-        String[] Words = word.split(" ");
+        String[] words = word.split(" ");
 
-        for (String wordy : Words) {
+        for (String wordy : words) {
             SB.append(Character.toUpperCase(wordy.charAt(0))).append(wordy.substring(1)).append(" ");
         }
 

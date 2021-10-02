@@ -1,0 +1,20 @@
+[13:12:08] [ENTRY]: [WINUSER=Nathan]
+[13:12:08] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[13:12:09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:12:10] [LOGIN]: [AUTOCYPHER PASS]
+[13:12:11] [CLIENT]: test
+[13:12:11] [CLIENT]: weather
+[13:12:11] [ACTION]: WEATHER
+[13:12:12] [EXCEPTION]: 
+String index out of range: 0
+Thrown from:
+java.base/java.lang.StringLatin1.charAt(StringLatin1.java:44)
+StackTrace:
+java.lang.StringIndexOutOfBoundsException: String index out of range: 0
+	at java.base/java.lang.StringLatin1.charAt(StringLatin1.java:44)
+	at java.base/java.lang.String.charAt(String.java:704)
+	at cyder.utilities.StringUtil.capsFirst(StringUtil.java:603)
+	at cyder.widgets.Weather.refreshWeather(Weather.java:343)
+	at cyder.widgets.Weather.lambda$repullWeatherStats$5(Weather.java:450)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

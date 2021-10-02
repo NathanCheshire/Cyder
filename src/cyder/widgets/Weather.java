@@ -103,7 +103,6 @@ public class Weather {
                 super.dispose();
             }
         };
-        weatherFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         weatherFrame.setTitle("Weather");
 
         currentTimeLabel = new JLabel(getWeatherTime(), SwingConstants.CENTER);
@@ -122,9 +121,6 @@ public class Weather {
         currentWeatherIconLabel.setBounds(480 / 2 - 50, 130, 100, 100);
         currentWeatherIconLabel.setBorder(new LineBorder(CyderColors.navy,5,false));
         weatherFrame.getContentPane().add(currentWeatherIconLabel);
-
-        //todo make title: "Slidell's weather"
-        //todo location label needs to have caps first for each word and have a space after commands, parse away when using in api
 
         sunriseLabel = new JLabel(sunrise + "am", SwingConstants.CENTER);
         sunriseLabel.setForeground(CyderColors.vanila);
@@ -192,7 +188,7 @@ public class Weather {
                     StringBuilder sb = new StringBuilder();
 
                     for (int i = 0 ; i < parts.length ; i++) {
-                        sb.append(parts[i].trim());
+                        sb.append(StringUtil.capsFirst(parts[i].trim()).trim());
 
                         if (i != parts.length - 1)
                             sb.append(",");
@@ -203,6 +199,7 @@ public class Weather {
 
                     AnimationUtil.closeAnimation(changeLocationFrame);
                     weatherFrame.notify("Attempting to refresh weather stats for location \"" + locationString + "\"");
+
                     repullWeatherStats();
                 } catch (Exception ex) {
                     ErrorHandler.handle(ex);
@@ -334,7 +331,23 @@ public class Weather {
 
     private void refreshWeather() {
         try {
-            locationLabel.setText(locationString);
+            if (locationString.length() > 1) {
+                String[] parts = locationString.split(",");
+                StringBuilder sb = new StringBuilder();
+
+                for (int i = 0 ; i < parts.length ; i++) {
+                    sb.append(StringUtil.capsFirst(parts[i].trim()).trim());
+
+                    if (i != parts.length - 1)
+                        sb.append(", ");
+                }
+
+                locationLabel.setText(sb.toString());
+            } else {
+                locationLabel.setText("");
+            }
+
+
             currentWeatherIconLabel.setIcon(new ImageIcon("sys/pictures/weather/" + weatherIcon + ".png"));
             currentWeatherLabel.setText(StringUtil.capsFirst(weatherCondition));
             temperatureLabel.setText("Temperature: " + temperature + "F");
@@ -346,6 +359,16 @@ public class Weather {
             timezoneLabel.setText("Timezone: " + getTimezoneLabel());
             sunriseLabel.setText(correctedSunTime(sunrise) + "am");
             sunsetLabel.setText(correctedSunTime(sunset) + "pm");
+
+            String[] parts = locationString.split(",");
+
+            //frame title
+            if (parts[0].trim().length() > 0) {
+                String city = StringUtil.capsFirst(parts[0].trim()).trim();
+                weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
+            } else {
+                weatherFrame.setTitle("Weather");
+            }
 
             if (weatherFrame != null)
                 weatherFrame.notify("Refreshed", 2000, Direction.RIGHT);
@@ -377,7 +400,7 @@ public class Weather {
                 userCountry = IPUtil.getIpdata().getCountry_name();
 
                 if (!useCustomLoc)
-                    locationString = userCity + "," + userState + "," + userCountry;
+                    locationString = userCity + ", " + userState + ", " + userCountry;
 
                 String OpenString = "";
 
@@ -419,6 +442,16 @@ public class Weather {
                     //check for night/day icon
                     if (new Date().getTime() > SunsetTime.getTime()) {
                         weatherIcon = weatherIcon.replace("d", "n");
+                    }
+
+                    String[] parts = locationString.split(",");
+
+                    //frame title
+                    if (parts[0].trim().length() > 0) {
+                        String city = StringUtil.capsFirst(parts[0].trim()).trim();
+                        weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
+                    } else {
+                        weatherFrame.setTitle("Weather");
                     }
                 }
             } catch (FileNotFoundException e) {
