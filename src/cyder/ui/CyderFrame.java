@@ -59,7 +59,7 @@ public class CyderFrame extends JFrame {
     private JLayeredPane contentLabel;
     private JLayeredPane iconPane;
 
-    private Color backgroundColor = CyderColors.navy;
+    private Color backgroundColor = CyderColors.guiThemeColor;
 
     private LinkedList<Gluster> notificationList = new LinkedList<>();
 
@@ -117,7 +117,7 @@ public class CyderFrame extends JFrame {
 
         contentLabel.add(iconPane,JLayeredPane.DEFAULT_LAYER);
 
-        contentLabel.setBorder(new LineBorder(CyderColors.navy, 3, false));
+        contentLabel.setBorder(new LineBorder(CyderColors.guiThemeColor, 3, false));
         setContentPane(contentLabel);
 
         topDrag = new DragLabel(width, DragLabel.getDefaultHeight() - 1, this);

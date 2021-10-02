@@ -16,8 +16,15 @@ public class CyderColors {
     public static final Color vanila = new Color(252, 252, 252);
     public static final Color defaultColor = new Color(252, 252, 252);
     public static final Color tttblue = new Color(71, 81, 117);
-    public static final Color navy = new Color(26, 32, 51);
     public static final Color nul = new Color(0,0,0,0);
     public static final Color textWhite = Color.decode("#f0f0f0");
     public static final Color textBlack = Color.decode("#101010");
+
+    public static final Color navy = new Color(26, 32, 51);
+    public static Color guiThemeColor = navy;
+    //todo be able to change this via a preference
+    //todo add rounded windows pref back in and a failsafe if preferences return null
+
+    //todo weather: centered stuff
+    // caps first the location string and add a location tag to it
 }

@@ -1150,7 +1150,7 @@ public final class ConsoleFrame {
         menuLabel.setBounds(-150, DragLabel.getDefaultHeight(),
                 CyderFrame.getMinWidth("TEMP CONV", menuFont) + 10, menuHeight);
         menuLabel.setOpaque(true);
-        menuLabel.setBackground(CyderColors.navy);
+        menuLabel.setBackground(CyderColors.guiThemeColor);
         menuLabel.setVisible(true);
         consoleCyderFrame.getIconPane().add(menuLabel, JLayeredPane.MODAL_LAYER);
 
@@ -1162,7 +1162,7 @@ public final class ConsoleFrame {
         menuPane.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight);
         menuPane.setFocusable(true);
         menuPane.setOpaque(false);
-        menuPane.setBackground(CyderColors.navy);
+        menuPane.setBackground(CyderColors.guiThemeColor);
 
         //adding components
         StringUtil printingUtil = new StringUtil(menuPane);
@@ -1482,7 +1482,7 @@ public final class ConsoleFrame {
         menuScroll.setFocusable(true);
         menuScroll.setOpaque(false);
         menuScroll.setThumbColor(CyderColors.intellijPink);
-        menuScroll.setBackground(CyderColors.navy);
+        menuScroll.setBackground(CyderColors.guiThemeColor);
         menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         menuScroll.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight);
@@ -2617,7 +2617,7 @@ public final class ConsoleFrame {
                 -40, //negative height
                 150,40);
         audioControlsLabel.setOpaque(true);
-        audioControlsLabel.setBackground(CyderColors.navy);
+        audioControlsLabel.setBackground(CyderColors.guiThemeColor);
         audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
         audioControlsLabel.setVisible(false);
         consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);

@@ -49,7 +49,7 @@ public class DragLabel extends JLabel {
         setSize(width,height);
         setOpaque(true);
         setFocusable(false);
-        setBackground(CyderColors.navy);
+        setBackground(CyderColors.guiThemeColor);
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {

@@ -45,7 +45,7 @@ public class PhotoViewer {
         newImage = checkImage(currentImage);
 
         pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
-        pictureFrame.setBackground(CyderColors.navy);
+        pictureFrame.setBackground(CyderColors.guiThemeColor);
         pictureFrame.setTitle(currentImage.getName().replace(".png", ""));
         pictureFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         pictureFrame.initializeResizing();
@@ -54,6 +54,7 @@ public class PhotoViewer {
         pictureFrame.setMinimumSize(new Dimension(newImage.getIconWidth() / 2, newImage.getIconHeight() / 2));
         pictureFrame.setMaximumSize(new Dimension(newImage.getIconWidth(), newImage.getIconHeight()));
         pictureFrame.setVisible(true);
+
         ConsoleFrame.getConsoleFrame().setFrameRelative(pictureFrame);
 
         renameButton = new JButton("Rename");
