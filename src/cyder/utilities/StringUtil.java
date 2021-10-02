@@ -593,6 +593,9 @@ public class StringUtil {
      * @return - the resultant wtring
      */
     public static String capsFirst(String word) {
+        if (word.length() == 0)
+            return word;
+
         StringBuilder SB = new StringBuilder(word.length());
         String[] Words = word.split(" ");
 

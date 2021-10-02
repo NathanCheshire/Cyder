@@ -24,7 +24,4 @@ public class CyderColors {
     public static Color guiThemeColor = navy;
     //todo be able to change this via a preference
     //todo add rounded windows pref back in and a failsafe if preferences return null
-
-    //todo weather: centered stuff
-    // caps first the location string and add a location tag to it
 }
