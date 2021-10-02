@@ -1,6 +1,6 @@
 package cyder.structobjects;
 
-public class CyderBST<T> {
+public class CyderBST {
     private Node root;
 
     public Node getRoot() {
@@ -11,11 +11,12 @@ public class CyderBST<T> {
         this.root = null;
     }
 
-    public CyderBST(T data) {
+    public CyderBST(String data) {
         this.root = new Node(data, null, null);
     }
 
-    public boolean contains(Object o) {
+    public boolean contains(String data) {
+        //todo traverse tree via comparisons until we find it or come to null
         return false;
     }
 
@@ -52,18 +53,18 @@ public class CyderBST<T> {
         return Math.max(leftDepth, rightDepth);
     }
 
-    public void insert(T data) {
+    public void insert(String data) {
         //todo have to find where data goes to left or right until we get to null then we can make that the child
     }
 
-    public Object remove(Node n) {
-        Object ret = n.data;
-        innerRemove(root, n);
-        return ret;
+    public Object remove(String data) {
+        return innerRemove(root, data);
     }
 
-    private void innerRemove(Node currentNode, Node lookingFor) {
-        //todo should be a child of currentNode so that we can set the chilren to it if it has children
+    private String innerRemove(Node currentNode, String data) {
+        //todo we should be checking children so that we can link the node we are removing's
+        // parent to it's own children. We don't have a way to go back
+        return null;
     }
 
     public String toString() {
@@ -86,12 +87,12 @@ public class CyderBST<T> {
         }
     }
 
-    private static class Node<T> {
+    private static class Node {
         public Node leftChild;
         public Node rightChild;
-        public T data;
+        public String data;
 
-        public Node(T data, Node left, Node right) {
+        public Node(String data, Node left, Node right) {
             this.data = data;
             this.leftChild = left;
             this.rightChild = right;
