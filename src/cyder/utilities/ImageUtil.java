@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.enums.Direction;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 
@@ -237,16 +238,16 @@ public class ImageUtil {
 
     public static void drawBufferedImage(BufferedImage bi) {
         CyderFrame frame = new CyderFrame(bi.getWidth(), bi.getHeight(), new ImageIcon(bi));
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void drawImageIcon(ImageIcon icon) {
         CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight(), icon);
         frame.setTitle(icon.getDescription() == null || icon.getDescription().length() == 0 ? "" : icon.getDescription());
         frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {

@@ -731,7 +731,7 @@ public class UserEditor {
         printingUtil.printlnComponent(prefsTitle);
 
         for (int i = 0 ; i < GenesisShare.getPrefs().size() ; i++) {
-            if (GenesisShare.getPrefs().get(i).getTooltip().equals("IGNORE"))
+            if (GenesisShare.getPrefs().get(i).getDisplayName().equals("IGNORE"))
                 continue;
 
             int localIndex = i;

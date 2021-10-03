@@ -4,18 +4,14 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
-
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
-import cyder.ui.CyderTextField;
+import cyder.genesis.GenesisShare;
+import cyder.ui.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -92,8 +88,7 @@ public class NumberUtil {
         numFrame.getContentPane().add(find);
 
         numFrame.setVisible(true);
-        numFrame.enterAnimation();
-        numFrame.setLocationRelativeTo(null);
+        numFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     private static void toWords(String wordRep) {

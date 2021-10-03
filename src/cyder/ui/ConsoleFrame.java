@@ -2498,12 +2498,9 @@ public final class ConsoleFrame {
         consoleCyderFrame.setLocationRelativeTo(c);
     }
 
+    //todo get rid of this method
     public void setFrameRelative(Frame f) {
-        if (consoleCyderFrame == null) {
-            f.setLocationRelativeTo(null);
-        } else {
-            f.setLocationRelativeTo(consoleCyderFrame);
-        }
+        f.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public void setTitle(String title) {

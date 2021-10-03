@@ -297,10 +297,13 @@ public class UserCreator {
                                 SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)).toCharArray())));
 
                         for (Preference pref : GenesisShare.getPrefs()) {
-                            if (!pref.getDisplayName().equals("IGNORE"))
+                            //as per convention, IGNORE for tooltip means ignore when creating user
+                            // whilst IGNORE for default value means ignore for edit user
+                            if (!pref.getTooltip().equals("IGNORE"))
                                 UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
                         }
 
+                        user.setExecutables(null);
                         UserUtil.setUserData(dataFile, user);
 
                         createUserFrame.closeAnimation();
@@ -331,13 +334,7 @@ public class UserCreator {
         createNewUser.setBounds(60, 390, 240, 40);
         createUserFrame.getContentPane().add(createNewUser);
 
-        if (!ConsoleFrame.getConsoleFrame().isClosed()) {
-            ConsoleFrame.getConsoleFrame().setFrameRelative(createUserFrame);
-        } else if (Login.getFrame() != null && Login.getFrame().isActive() && Login.getFrame().isVisible()) {
-            createUserFrame.setLocationRelativeTo(Login.getFrame());
-        } else {
-            createUserFrame.setLocationRelativeTo(null);
-        }
+        createUserFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
         createUserFrame.setVisible(true);
         newUserName.requestFocus();

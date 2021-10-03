@@ -78,27 +78,6 @@ public class AnimationUtil {
     }
 
     /**
-     * Moves the specified frame object from the top down until it is in the center of the screen
-     * @param frame - the frame object to display
-     */
-    public static void enterAnimation(JFrame frame) {
-        frame.setVisible(true);
-        frame.setLocation(SystemUtil.getScreenWidth() / 2 - frame.getWidth() / 2, - frame.getHeight());
-
-        for (int i = -frame.getHeight(); i < SystemUtil.getScreenHeight() / 2 - frame.getHeight() / 2; i += 15) {
-            frame.setLocation(frame.getX(), i);
-            try {
-                Thread.sleep(0,500);
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }
-
-        frame.setLocation(SystemUtil.getScreenWidth() / 2 - frame.getWidth() / 2,
-                SystemUtil.getScreenHeight() / 2 - frame.getHeight() / 2);
-    }
-
-    /**
      * Master method to animate any component up in a separate thread
      * @param start - the starting y value
      * @param stop - the ending y value

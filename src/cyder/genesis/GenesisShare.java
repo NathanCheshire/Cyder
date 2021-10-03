@@ -69,14 +69,11 @@ public class GenesisShare {
     private static LinkedList<Preference> initPreferencesList() {
         LinkedList<Preference> ret = new LinkedList<>();
 
-        //todo should all these be ignore? what do we use it for
-        // we use it to know if we should allow a user to change certain ones in user editor
-        // but also to know if we should add it to initial user
         ret.add(new Preference("name","IGNORE","IGNORE","IGNORE"));
         ret.add(new Preference("pass","IGNORE","IGNORE","IGNORE"));
-        ret.add(new Preference("font","IGNORE","IGNORE","tahoma"));
-        ret.add(new Preference("foreground","IGNORE","IGNORE","000000"));
-        ret.add(new Preference("background","IGNORE","IGNORE","FFFFFF"));
+        ret.add(new Preference("font","IGNORE","","tahoma"));
+        ret.add(new Preference("foreground","IGNORE","","000000"));
+        ret.add(new Preference("background","IGNORE","","FFFFFF"));
         ret.add(new Preference("intromusic",
                 "Intro Music","" +
                 "Play intro music on start","0"));
@@ -118,7 +115,7 @@ public class GenesisShare {
                 "Filter foul language","1"));
         ret.add(new Preference("menudirection", "Menu Minimize Direction",
                 "Console Menu Minimize Direction","1"));
-        ret.add(new Preference("laststart","IGNORE","IGNORE",
+        ret.add(new Preference("laststart","IGNORE","",
                 System.currentTimeMillis() + ""));
         ret.add(new Preference("minimizeonclose","Minimize On Close",
                 "Minimize the application instead of exiting whenever a close action is requested","0"));
@@ -126,17 +123,20 @@ public class GenesisShare {
                 "Typing Animation on console for non-vital outputs", "1"));
         ret.add(new Preference("showbusyicon", "Show Cyder Busy Icon",
                 "Show when Cyder is busy by changing the tray icon","0"));
-        ret.add(new Preference("executables","IGNORE","IGNORE","null"));
-        ret.add(new Preference("ffmpegpath","IGNORE","IGNORE",""));
-        ret.add(new Preference("youtubedlpath","IGNORE","IGNORE",""));
-        ret.add(new Preference("windowlocx","IGNORE","IGNORE","-80000"));
-        ret.add(new Preference("windowlocy","IGNORE","IGNORE","-80000"));
+        ret.add(new Preference("ffmpegpath","IGNORE","",""));
+        ret.add(new Preference("youtubedlpath","IGNORE","",""));
+        ret.add(new Preference("windowlocx","IGNORE","","-80000"));
+        ret.add(new Preference("windowlocy","IGNORE","","-80000"));
         ret.add(new Preference("roundedwindows","Rounded Windows",
                 "Make certain windows rounded","false"));
-        //add future default data here
+
+        // IGNORE for display name means ignore for UserEditor,
+        // IGNORE for tooltip means don't write when creating user since it was already set
 
         return ret;
     }
+
+    //todo default user method
 
     /**
      * Controled program exit that performs closing actions

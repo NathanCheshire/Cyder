@@ -269,7 +269,7 @@ public class Login {
         });
 
         loginFrame.setVisible(true);
-        loginFrame.enterAnimation();
+        loginFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
         if (directories != null && directories.length == 0)
             priorityPrintingList.add("No users found; please type \"create\"\n");

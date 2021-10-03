@@ -747,27 +747,6 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    /**
-     * Animates the window from offscreen top to the center of the screen.
-     * This should be called in place of {@code this.setLocationRelativeTo(null);}
-     */
-    public void enterAnimation() {
-        setVisible(true);
-        setLocation(SystemUtil.getScreenWidth() / 2 - getWidth() / 2, - getHeight());
-
-        for (int i = -getHeight(); i < SystemUtil.getScreenHeight() / 2 - getHeight() / 2; i += animationInc) {
-            setLocation(getX(), i);
-            try {
-                Thread.sleep(0, animationNano);
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }
-
-        setLocation(SystemUtil.getScreenWidth() / 2 - getWidth() / 2,
-                SystemUtil.getScreenHeight() / 2 - getHeight() / 2);
-    }
-
     @Override
     public void dispose() {
         killThreads();

@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderButton;
 import cyder.utilities.ImageUtil;
@@ -446,7 +447,7 @@ public class TicTacToe {
         tttFrame.getContentPane().add(tttReset);
 
         tttFrame.setVisible(true);
-        tttFrame.enterAnimation();
+        tttFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
         CurrentPlayerTurn = PlayerX;
 

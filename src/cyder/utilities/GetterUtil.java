@@ -3,6 +3,7 @@ package cyder.utilities;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -96,7 +97,7 @@ public class GetterUtil {
 
                 inputFrame.setVisible(true);
                 inputFrame.setAlwaysOnTop(true);
-                inputFrame.setLocationRelativeTo(null);
+                inputFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
