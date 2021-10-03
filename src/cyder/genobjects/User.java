@@ -31,6 +31,7 @@ public class User {
     private String windowlocx;
     private String windowlocy;
     private String roundedwindows;
+    private String windowColor;
     private LinkedList<MappedExecutable> executables;
 
     //getters
@@ -151,6 +152,10 @@ public class User {
         return roundedwindows;
     }
 
+    public String getWindowColor() {
+        return windowColor;
+    }
+
     //setters
 
     public void setName(String name) {
@@ -267,6 +272,10 @@ public class User {
 
     public void setRoundedwindows(String roundedwindows) {
         this.roundedwindows = roundedwindows;
+    }
+
+    public void setWindowColor(String windowColor) {
+        this.windowColor = windowColor;
     }
 
     //inner classes

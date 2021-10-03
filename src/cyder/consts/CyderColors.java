@@ -22,5 +22,8 @@ public class CyderColors {
 
     public static final Color navy = new Color(26, 32, 51);
     public static Color guiThemeColor = navy;
-    //todo be able to change this in UserEditor
+
+    public static void setGuiThemeColor(Color c) {
+        guiThemeColor = c;
+    }
 }

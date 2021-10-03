@@ -1592,6 +1592,7 @@ public final class ConsoleFrame {
         UUID = uuid;
         UserUtil.fixUser();
         UserUtil.fixBackgrounds();
+        CyderColors.setGuiThemeColor(ColorUtil.hextorgbColor(UserUtil.getUserData("windowcolor")));
     }
 
     public String getUUID() {

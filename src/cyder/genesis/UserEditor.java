@@ -52,6 +52,10 @@ public class UserEditor {
     private int prefsPanelIndex;
 
     public UserEditor() {
+        this(0);
+    }
+
+    public UserEditor(int startingIndex) {
         if (editUserFrame != null)
             editUserFrame.closeAnimation();
 
@@ -71,7 +75,23 @@ public class UserEditor {
         switchingLabel.setBackground(new Color(255, 255, 255));
         editUserFrame.getContentPane().add(switchingLabel);
 
-        switchToMusicAndBackgrounds();
+        prefsPanelIndex = startingIndex;
+
+        switch (prefsPanelIndex) {
+            case 0:
+                switchToMusicAndBackgrounds();
+                break;
+            case 1:
+                switchToFontAndColor();
+                break;
+
+            case 2:
+                switchToPreferences();
+                break;
+            case 3:
+                switchToMappingLinks();
+                break;
+        }
 
         backwardPanel = new CyderButton("<");
         backwardPanel.setBackground(CyderColors.regularRed);
@@ -587,7 +607,7 @@ public class UserEditor {
         windowColorBlock.setBackground(CyderColors.navy);
         windowColorBlock.setFocusable(false);
         windowColorBlock.setCursor(null);
-        windowColorBlock.setBackground(CyderColors.navy); //todo
+        windowColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("windowcolor")));
         windowColorBlock.setToolTipText("Color Preview");
         windowColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         windowColorBlock.setBounds(330 + colorOffsetX, 240 + colorOffsetY, 40, 50);
@@ -595,12 +615,26 @@ public class UserEditor {
 
         CyderTextField themeHexField = new CyderTextField(6);
         themeHexField.setRegexMatcher("[A-Fa-f0-9]+");
-        themeHexField.setText("");//todo
+        themeHexField.setText(UserUtil.getUserData("windowcolor"));
         themeHexField.setFont(CyderFonts.weatherFontBig);
         themeHexField.setToolTipText("Window border color");
         themeHexField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                //todo
+                try {
+                    Color c = ColorUtil.hextorgbColor(themeHexField.getText());
+                    windowColorBlock.setBackground(c);
+                    UserUtil.setUserData("windowcolor", themeHexField.getText());
+
+                    CyderColors.setGuiThemeColor(c);
+
+                    //todo make instantly repaint
+
+                    //todo perhaps a reset values button would be nice for this
+                    for (Frame f : Frame.getFrames()) {
+                        if (f instanceof CyderFrame)
+                            f.repaint();
+                    }
+                } catch (Exception ignored) {}
             }
         });
         themeHexField.setBounds(100 + colorOffsetX, 240 + colorOffsetY, 220, 50);
