@@ -1,13 +1,15 @@
 package cyder.genesis;
 
+import cyder.genobjects.Preference;
+import cyder.genobjects.User;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
-import cyder.genobjects.Preference;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 
 import java.awt.*;
+import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -133,12 +135,48 @@ public class GenesisShare {
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set
 
+        //adding future prefs: you'll need to add the preference here and also the data in user.java
+        // since gson parses the userdata.json into a user object.
+        // some rare cases might require deeper manipulation such as the case for executables
+
         return ret;
     }
 
     //todo method to parse an old json file and add default new prefs to it
 
-    //todo default user method, loop through prefs and
+    public User getDefaultUser() {
+        User ret = new User();
+
+        //get all methods of user
+        for (Method m : ret.getClass().getMethods()) {
+            //make sure it's a setter with one parameter
+            if (m.getName().startsWith("set") && m.getParameterTypes().length == 1) {
+                //parse away set from method name and find default preference from list above
+                String methodName = m.getName().replace("set","");
+                String data = null;
+
+                //methods should follow set standards so that this will work
+                // (method names should be sub-names of other methods)
+                for (Preference pref : getPrefs()) {
+                    if (pref.getID().equalsIgnoreCase(methodName)); {
+                        data = pref.getDefaultValue();
+                    }
+                }
+
+                try {
+                    m.invoke(ret, data);
+                } catch (Exception e) {
+                    // :/ not sure what happened here
+                    ErrorHandler.silentHandle(e);
+                }
+            }
+        }
+
+        //exernal things stored in a user aside from preferences
+        ret.setExecutables(null);
+
+        return ret;
+    }
 
     /**
      * Controled program exit that performs closing actions
