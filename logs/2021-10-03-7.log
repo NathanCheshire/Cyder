@@ -1,0 +1,10 @@
+[00:19:10] [ENTRY]: [WINUSER=Nathan]
+[00:19:11] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[00:19:12] [ACTION]: User file: "users\8657469f-418b-348f-ab79-8993fb4c2b84\userdata.json" was found to be an older userdata file; preference injection performed
+[00:19:13] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:19:13] [LOGIN]: [AUTOCYPHER PASS]
+[00:19:16] [CLIENT]: test
+[00:19:34] [CLIENT]: Prefs
+[00:19:34] [ACTION]: USER EDITOR
+[00:19:37] [ACTION]: CyderButton, text=[>] CLICKED
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

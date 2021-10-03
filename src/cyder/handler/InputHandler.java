@@ -1056,7 +1056,7 @@ public class InputHandler {
         }
         //t3sting -------------------------------------------------
         else if (eic("test")) {
-
+            handle("prefs");
         }
         //final attempt at unknown input --------------------------
         else {

@@ -536,12 +536,6 @@ public class UserEditor {
         hexLabel.setBounds(30 + colorOffsetX, 110 + colorOffsetY, 70, 30);
         switchingLabel.add(hexLabel);
 
-        JLabel rgbLabel = new JLabel("RGB:");
-        rgbLabel.setFont(CyderFonts.weatherFontSmall);
-        rgbLabel.setForeground(CyderColors.navy);
-        rgbLabel.setBounds(30 + colorOffsetX, 180 + colorOffsetY, 70, 30);
-        switchingLabel.add(rgbLabel);
-
         JTextField colorBlock = new JTextField();
         colorBlock.setBackground(CyderColors.navy);
         colorBlock.setFocusable(false);
@@ -549,23 +543,27 @@ public class UserEditor {
         colorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Foreground")));
         colorBlock.setToolTipText("Color Preview");
         colorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        colorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 120);
+        colorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 50);
         switchingLabel.add(colorBlock);
 
-        CyderTextField rgbField = new CyderTextField(0);
-
-        CyderTextField hexField = new CyderTextField(0);
+        CyderTextField hexField = new CyderTextField(6);
+        hexField.setRegexMatcher("[A-Fa-f0-9]+");
         hexField.setText(UserUtil.getUserData("Foreground"));
         hexField.setFont(CyderFonts.weatherFontBig);
         hexField.setToolTipText("Hex Value");
         JTextField finalHexField1 = hexField;
-        JTextField finalRgbField = rgbField;
         hexField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
                     Color c = ColorUtil.hextorgbColor(finalHexField1.getText());
-                    finalRgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
                     colorBlock.setBackground(c);
+                    UserUtil.setUserData("Foreground", hexField.getText());
+                    Color updateC = ColorUtil.hextorgbColor(hexField.getText());
+
+                    ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(updateC);
+                    ConsoleFrame.getConsoleFrame().getInputField().setForeground(updateC);
+                    ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(updateC);
+                    ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(updateC));
                 } catch (Exception ignored) {}
             }
         });
@@ -573,51 +571,41 @@ public class UserEditor {
         hexField.setOpaque(false);
         switchingLabel.add(hexField);
 
+        JLabel windowThemeColorLabel = new JLabel("Window Color");
+        windowThemeColorLabel.setFont(CyderFonts.weatherFontBig);
+        windowThemeColorLabel.setForeground(CyderColors.navy);
+        windowThemeColorLabel.setBounds(105 + colorOffsetX, 200, 300, 30);
+        switchingLabel.add(windowThemeColorLabel);
 
-        rgbField.setFont(CyderFonts.weatherFontBig);
-        rgbField.setToolTipText("RGB Value");
-        rgbField.setBackground(Color.white);
-        Color c = ColorUtil.hextorgbColor(UserUtil.getUserData("Foreground"));
-        rgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
-        JTextField finalRgbField1 = rgbField;
-        rgbField.addKeyListener(new KeyAdapter() {
+        JLabel hexWindowLabel = new JLabel("HEX:");
+        hexWindowLabel.setFont(CyderFonts.weatherFontSmall);
+        hexWindowLabel.setForeground(CyderColors.navy);
+        hexWindowLabel.setBounds(30 + colorOffsetX, 255, 70, 30);
+        switchingLabel.add(hexWindowLabel);
+
+        JTextField windowColorBlock = new JTextField();
+        windowColorBlock.setBackground(CyderColors.navy);
+        windowColorBlock.setFocusable(false);
+        windowColorBlock.setCursor(null);
+        windowColorBlock.setBackground(CyderColors.navy); //todo
+        windowColorBlock.setToolTipText("Color Preview");
+        windowColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        windowColorBlock.setBounds(330 + colorOffsetX, 240 + colorOffsetY, 40, 50);
+        switchingLabel.add(windowColorBlock);
+
+        CyderTextField themeHexField = new CyderTextField(6);
+        themeHexField.setRegexMatcher("[A-Fa-f0-9]+");
+        themeHexField.setText("");//todo
+        themeHexField.setFont(CyderFonts.weatherFontBig);
+        themeHexField.setToolTipText("Window border color");
+        themeHexField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                try {
-                    String[] parts = finalRgbField1.getText().split(",");
-                    Color c = new Color(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-                    hexField.setText(ColorUtil.rgbtohexString(c));
-                    colorBlock.setBackground(c);
-                } catch (Exception e) {
-                    ErrorHandler.silentHandle(e);
-                }
+                //todo
             }
         });
-        rgbField.setBounds(100 + colorOffsetX, 170 + colorOffsetY, 220, 50);
-        rgbField.setOpaque(false);
-        switchingLabel.add(rgbField);
-
-        CyderButton applyColor = new CyderButton("Apply Color");
-        applyColor.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        applyColor.setColors(CyderColors.regularRed);
-        applyColor.setToolTipText("Apply");
-        applyColor.setFont(CyderFonts.weatherFontSmall);
-        applyColor.setFocusPainted(false);
-        applyColor.setBackground(CyderColors.regularRed);
-        applyColor.addActionListener(e -> {
-            UserUtil.setUserData("Foreground", hexField.getText());
-            Color updateC = ColorUtil.hextorgbColor(hexField.getText());
-
-            ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(updateC);
-            ConsoleFrame.getConsoleFrame().getInputField().setForeground(updateC);
-            ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(updateC);
-            ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(updateC));
-
-            ConsoleFrame.getConsoleFrame().getInputHandler()
-                    .println("The Color [" + updateC.getRed() + "," + updateC.getGreen() + ","
-                            + updateC.getBlue() + "] has been applied.");
-        });
-        applyColor.setBounds(450, 240 + colorOffsetY, 200, 40);
-        switchingLabel.add(applyColor);
+        themeHexField.setBounds(100 + colorOffsetX, 240 + colorOffsetY, 220, 50);
+        themeHexField.setOpaque(false);
+        switchingLabel.add(themeHexField);
 
         JLabel FillLabel = new JLabel("Fill Color");
         FillLabel.setFont(CyderFonts.weatherFontBig);
@@ -638,10 +626,11 @@ public class UserEditor {
         colorBlockFill.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
         colorBlockFill.setToolTipText("Color Preview");
         colorBlockFill.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        colorBlockFill.setBounds(330 + colorOffsetX, 340 + colorOffsetY, 40, 120);
+        colorBlockFill.setBounds(330 + colorOffsetX, 380 + colorOffsetY, 40, 50);
         switchingLabel.add(colorBlockFill);
 
-        CyderTextField hexFieldFill = new CyderTextField(0);
+        CyderTextField hexFieldFill = new CyderTextField(6);
+        hexFieldFill.setRegexMatcher("[A-Fa-f0-9]+");
         hexFieldFill.setText(UserUtil.getUserData("Background"));
         hexFieldFill.setFont(CyderFonts.weatherFontBig);
         hexFieldFill.setToolTipText("Input field and output area fill color if enabled");
