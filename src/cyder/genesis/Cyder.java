@@ -20,9 +20,11 @@ public class Cyder {
         SessionLogger.SessionLogger();
         SessionLogger.log(SessionLogger.Tag.ENTRY, SystemUtil.getWindowsUsername());
 
+        //CyderSetup subroutines
         CyderSetup.initSystemProperties();
         CyderSetup.initUIManager();
 
+        //IOUtil subroutines
         IOUtil.cleanUsers();
         IOUtil.deleteTempDir();
         IOUtil.logArgs(CA);
@@ -30,8 +32,10 @@ public class Cyder {
         IOUtil.fixLogs();
         IOUtil.fixUsers();
 
+        //start exiting failsafe
         CyderSetup.initFrameChecker();
 
+        //figure out how to enter program
         if (SystemUtil.osxSystem()) {
            CyderSetup.osxExit();
         } else if (SecurityUtil.nathanLenovo() && IOUtil.getSystemData().isAutocypher()) {
@@ -42,6 +46,7 @@ public class Cyder {
         } else {
             try {
                 GenesisShare.getExitingSem().acquire();
+                //make sure nothing is holding the lock
                 GenesisShare.getExitingSem().release();
                 GenesisShare.exit(-600);
             } catch (Exception e) {

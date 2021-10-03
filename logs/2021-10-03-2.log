@@ -1,0 +1,9 @@
+[00:04:18] [ENTRY]: [WINUSER=Nathan]
+[00:04:19] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[00:04:19] [ACTION]: User file: "{"name":"Nathan","pass":"a1ed49ffc79fec196dcc25555352cba3e74ddc0e474af08736a4410e0dfd695d","font":"Agency FB","foreground":"F0F0F0","background":"000000","intromusic":"0","debugwindows":"0","randombackground":"0","outputborder":"0","inputborder":"0","hourlychimes":"1","silenceerrors":"0","fullscreen":"0","outputfill":"0","inputfill":"0","clockonconsole":"1","showseconds":"0","filterchat":"0","menudirection":"1","laststart":"1633237282343","minimizeonclose":"0","typinganimation":"1","showbusyicon":"0","ffmpegpath":"C:\\FFmpeg\\bin\\ffmpeg.exe","youtubedlpath":"C:\\Program Files\\youtube-dl\\youtube-dl.exe","windowlocx":"1466","windowlocy":"285","executables":[]}" was found to be an older userdata file; preference injection performed
+[00:04:20] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:04:20] [LOGIN]: [AUTOCYPHER PASS]
+[00:04:21] [CLIENT]: test
+[00:04:30] [CLIENT]: Open currentl og
+[00:04:30] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[00:04:32] [CLIENT]: Open current log
