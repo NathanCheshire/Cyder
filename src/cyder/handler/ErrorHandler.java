@@ -1,15 +1,9 @@
 package cyder.handler;
 
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
 import cyder.test.DebugConsole;
 import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderFrame;
-import cyder.utilities.SystemUtil;
 import cyder.utilities.UserUtil;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -113,42 +107,7 @@ public class ErrorHandler {
             return;
         }
 
-        //bounds calculation for centered text
-        String displayText = message.substring(0, Math.min(message.length(), 500));
-        displayText = "<html><div style='text-align: center;'>" + displayText + "</div></html>";
-        int w = CyderFrame.getMinWidth(displayText, CyderFonts.defaultFontSmall) + 10; //extra 10 to be safe
-        int h = CyderFrame.getMinHeight(displayText, CyderFonts.defaultFontSmall) + 2; //1 pixel for top and bottom
-        int heightIncrement = h;
-
-        //move dimensions from width to height if needed
-        while (w > SystemUtil.getScreenWidth() / 2) {
-            w /= 2;
-            h += heightIncrement;
-        }
-
-        h += heightIncrement;
-
-        //window needs to be bigger than the label
-        int windowWidth = w + 2 * 5;
-        int windowHeight = h + 5 + 35;
-
-        CyderFrame errorFrame = new CyderFrame(windowWidth, windowHeight, Color.white);
-        errorFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        errorFrame.setTitle(title.length() == 0 ? "Null error message" : title);
-
-        //label setup
-        JLabel displayLabel = new JLabel(displayText);
-        displayLabel.setForeground(CyderColors.navy);
-        displayLabel.setFont(CyderFonts.defaultFontSmall);
-        displayLabel.setHorizontalAlignment(JLabel.CENTER);
-        displayLabel.setVerticalAlignment(JLabel.CENTER);
-        displayLabel.setSize(w, h);
-        displayLabel.setLocation(5, 35);
-        errorFrame.getContentPane().add(displayLabel);
-
-        errorFrame.setVisible(true);
-        errorFrame.setAlwaysOnTop(true);
-        errorFrame.setLocation(SystemUtil.getScreenWidth() - windowWidth,
-                SystemUtil.getScreenHeight() - windowHeight);
+        DebugConsole.println(title.length() == 0 ? "Null error message" : title);
+        DebugConsole.println(message);
     }
 }

@@ -11,6 +11,7 @@ import cyder.genesis.Login;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.genobjects.Preference;
+import cyder.test.DebugConsole;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
@@ -1056,7 +1057,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-
+            DebugConsole.println("test");
         }
         //final attempt at unknown input --------------------------
         else {

@@ -62,7 +62,7 @@ public class DebugConsole {
         if (debugFrame != null)
             debugFrame.dispose();
 
-        debugFrame = new CyderFrame(500,500, ImageUtil.imageIconFromColor(new Color(21,23,24)));
+        debugFrame = new CyderFrame(1050,400, ImageUtil.imageIconFromColor(new Color(21,23,24)));
         debugFrame.setTitle("Prints");
         debugFrame.setBackground(new Color(21,23,24));
 
@@ -79,7 +79,7 @@ public class DebugConsole {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         printScroll.setThumbColor(CyderColors.intellijPink);
-        printScroll.setBounds(20, 40, 560, 280);
+        printScroll.setBounds(20, 40, 1050 - 40, 400 - 80);
         printScroll.getViewport().setOpaque(false);
         printScroll.setOpaque(false);
         printScroll.setBorder(null);
@@ -100,7 +100,7 @@ public class DebugConsole {
         });
         debugFrame.setVisible(true);
         debugFrame.setAlwaysOnTop(true);
-        debugFrame.setLocation(SystemUtil.getScreenWidth() - 500, SystemUtil.getScreenHeight() - 500);
+        debugFrame.setLocation(0, SystemUtil.getScreenHeight() - debugFrame.getHeight());
 
         open = true;
     }
