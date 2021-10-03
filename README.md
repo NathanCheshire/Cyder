@@ -32,7 +32,7 @@ Since this is a Gradle project, you can simply fork this project via it's GitHub
 
 ## Pull Requests
 
-After forking the project and learning how to make your own widget (see: https://github.com/NathanCheshire/Cyder/wiki/Creating-Your-First-Widget), you can submit a PR after you have considered ALL the following points:
+After forking the project and contributing in any way such as making your own widget (see: https://github.com/NathanCheshire/Cyder/wiki/Creating-Your-First-Widget), you can submit a PR after you have considered ALL the following points:
 
 * Have I used already existing methods from the utilities package?
 * Have I added Javadoc comments before any methods I created as well as @param and @return annotations?
