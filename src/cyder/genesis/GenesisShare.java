@@ -136,7 +136,9 @@ public class GenesisShare {
         return ret;
     }
 
-    //todo default user method
+    //todo method to parse an old json file and add default new prefs to it
+
+    //todo default user method, loop through prefs and
 
     /**
      * Controled program exit that performs closing actions

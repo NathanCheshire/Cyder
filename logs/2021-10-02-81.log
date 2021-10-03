@@ -1,0 +1,20 @@
+[19:51:20] [ENTRY]: [WINUSER=Nathan]
+[19:51:21] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[19:51:22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:51:23] [LOGIN]: [AUTOCYPHER PASS]
+[19:51:24] [CLIENT]: test
+[19:51:48] [CLIENT]: Tmep
+[19:51:48] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[19:51:49] [CLIENT]: Temp
+[19:51:49] [ACTION]: TEMPERATURE CONVERTER
+[19:51:57] [ACTION]: CyderButton, text=[Calculate] CLICKED
+[19:51:57] [ACTION]: [Temperature Converter] [NOTIFICATION] 9.2384092314E10 Celsius converted to Kelvin equals: 92384092587.15
+[19:52:04] [ACTION]: CyderButton, text=[Calculate] CLICKED
+[19:52:04] [ACTION]: [Temperature Converter] [NOTIFICATION] Get out of here with that. Your value is already in Fahrenheit.
+[19:52:07] [ACTION]: CyderButton, text=[Calculate] CLICKED
+[19:52:07] [ACTION]: [Temperature Converter] [NOTIFICATION] 234.0 Fahrenheit converted to Kelvin equals: 385.3722
+[19:52:10] [ACTION]: CyderButton, text=[Calculate] CLICKED
+[19:52:10] [ACTION]: [Temperature Converter] [NOTIFICATION] Please enter a starting value.
+[19:52:16] [LOGOUT]:  [Nathan]
+[19:52:16] [EXIT]: [RUNTIME] 55s
+[19:52:16] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
