@@ -128,7 +128,7 @@ public class GenesisShare {
         ret.add(new Preference("windowlocx","IGNORE","","-80000"));
         ret.add(new Preference("windowlocy","IGNORE","","-80000"));
         ret.add(new Preference("roundedwindows","Rounded Windows",
-                "Make certain windows rounded","false"));
+                "Make certain windows rounded","0"));
 
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set

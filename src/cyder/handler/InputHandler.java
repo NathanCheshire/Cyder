@@ -1056,7 +1056,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-
+            UserUtil.updateOldJson(ConsoleFrame.getConsoleFrame().getUserJson());
         }
         //final attempt at unknown input --------------------------
         else {

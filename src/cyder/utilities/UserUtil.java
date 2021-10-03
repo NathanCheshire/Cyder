@@ -5,6 +5,7 @@ import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.genobjects.Preference;
 import cyder.genobjects.User;
+import cyder.test.DebugConsole;
 import cyder.ui.ConsoleFrame;
 
 import javax.imageio.ImageIO;
@@ -421,7 +422,7 @@ public class UserUtil {
         return false;
     }
 
-    public User getDefaultUser() {
+    public static User getDefaultUser() {
         User ret = new User();
 
         //get all methods of user
@@ -455,8 +456,47 @@ public class UserUtil {
         return ret;
     }
 
-    //todo method to parse an old json file and inject new prefs to it if it doesn't have any
-    public void updateOldJson(File f) {
+    public static void updateOldJson(File f) {
+        if (!StringUtil.getExtension(f).equals(".json")) {
+            throw new IllegalArgumentException("Provided file is not a json");
+        } else if (!StringUtil.getFilename(f).equals("userdata")) {
+            throw new IllegalArgumentException("Provided file is not a userdata file");
+        }
 
+        try {
+            //get contents of json
+            BufferedReader jsonReader = new BufferedReader(new FileReader(f));
+            String masterJson = jsonReader.readLine();
+
+            //remove closing curly brace
+            masterJson = masterJson.substring(0 ,masterJson.length() - 1);
+
+            //loop through default perferences
+            for (Preference pref : GenesisShare.getPrefs()) {
+                //old json detected and we found a pref that doesn't exist
+                if (!masterJson.contains(pref.getID())) {
+                    //inject into json
+                    StringBuilder injectionBuilder = new StringBuilder();
+                    injectionBuilder.append("\"");
+                    injectionBuilder.append(pref.getID());
+                    injectionBuilder.append("\":\"");
+                    injectionBuilder.append(pref.getDefaultValue());
+                    injectionBuilder.append("\",");
+                    //adding a trailing comma is fine since it will be parsed away by gson upon
+                    // serialization of a user object
+                }
+            }
+
+            //add closing curly brace back in
+            masterJson += "}";
+
+            //write back to file
+            BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(f,false));
+            jsonWriter.write(masterJson);
+            jsonWriter.close();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+            DebugConsole.println("Something horrible happened while trying to fix an old userdata.json file");
+        }
     }
 }

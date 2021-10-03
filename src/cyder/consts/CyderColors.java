@@ -23,4 +23,7 @@ public class CyderColors {
     public static final Color navy = new Color(26, 32, 51);
     public static Color guiThemeColor = navy;
     //todo be able to change this in UserEditor
+
+    //todo error popups should be in debug console from now on, also it's dimensions
+    // should be as long as error frame and twice as tall
 }

@@ -1606,6 +1606,13 @@ public final class ConsoleFrame {
             return name;
     }
 
+    public File getUserJson() {
+        if (UUID == null)
+            throw new RuntimeException("UUID not set");
+
+        return new File("users/" + UUID + "/userdata.json");
+    }
+
     public void setFontBold() {
         fontMetric = Font.BOLD;
     }
