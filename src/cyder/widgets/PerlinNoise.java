@@ -425,12 +425,14 @@ public class PerlinNoise {
         animateCheckBox.setEnabled(false);
         nextIteration.setEnabled(false);
         dimensionSwitchButton.setEnabled(false);
+        featureSlider.setEnabled(false);
     }
 
     private static void unlockUI() {
         animateCheckBox.setEnabled(true);
         nextIteration.setEnabled(true);
         dimensionSwitchButton.setEnabled(true);
+        featureSlider.setEnabled(true);
     }
 
     private static Color getColor(float val) {
