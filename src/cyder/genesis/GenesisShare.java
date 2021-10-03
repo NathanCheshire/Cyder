@@ -69,6 +69,9 @@ public class GenesisShare {
     private static LinkedList<Preference> initPreferencesList() {
         LinkedList<Preference> ret = new LinkedList<>();
 
+        //todo should all these be ignore? what do we use it for
+        // we use it to know if we should allow a user to change certain ones in user editor
+        // but also to know if we should add it to initial user
         ret.add(new Preference("name","IGNORE","IGNORE","IGNORE"));
         ret.add(new Preference("pass","IGNORE","IGNORE","IGNORE"));
         ret.add(new Preference("font","IGNORE","IGNORE","tahoma"));
@@ -128,6 +131,8 @@ public class GenesisShare {
         ret.add(new Preference("youtubedlpath","IGNORE","IGNORE",""));
         ret.add(new Preference("windowlocx","IGNORE","IGNORE","-80000"));
         ret.add(new Preference("windowlocy","IGNORE","IGNORE","-80000"));
+        ret.add(new Preference("roundedwindows","Rounded Windows",
+                "Make certain windows rounded","false"));
         //add future default data here
 
         return ret;

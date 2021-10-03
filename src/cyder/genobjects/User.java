@@ -30,6 +30,7 @@ public class User {
     private String youtubedlpath;
     private String windowlocx;
     private String windowlocy;
+    private String roundedwindows;
     private LinkedList<MappedExecutable> executables;
 
     //getters
@@ -146,6 +147,10 @@ public class User {
         return windowlocy;
     }
 
+    public String getRoundedwindows() {
+        return roundedwindows;
+    }
+
     //setters
 
     public void setName(String name) {
@@ -258,6 +263,10 @@ public class User {
 
     public void setWindowlocy(String windowlocy) {
         this.windowlocy = windowlocy;
+    }
+
+    public void setRoundedwindows(String roundedwindows) {
+        this.roundedwindows = roundedwindows;
     }
 
     //inner classes

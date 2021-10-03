@@ -13,6 +13,8 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 
+//todo make preference getters return a default value instead of null
+
 public class UserUtil {
     public static void setUserData(String name, String value) {
        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
@@ -342,7 +344,19 @@ public class UserUtil {
             throw new IllegalArgumentException("userdata.json does not exist");
 
         User user = extractUser(userJsonFile);
-        return extractUserData(user, name);
+        String retData = extractUserData(user, name);
+
+        String defaultValue = "";
+
+        //find default value as a fail safe
+        for (Preference pref : GenesisShare.getPrefs()) {
+            if (pref.getID().equalsIgnoreCase(name)) {
+                defaultValue = pref.getDefaultValue();
+                break;
+            }
+        }
+
+        return retData != null ? retData : defaultValue;
     }
 
     /**

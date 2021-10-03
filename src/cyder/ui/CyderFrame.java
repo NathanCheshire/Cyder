@@ -10,6 +10,7 @@ import cyder.genobjects.Gluster;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
+import cyder.utilities.UserUtil;
 import cyder.widgets.GenericInform;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -88,8 +89,15 @@ public class CyderFrame extends JFrame {
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
-        setShape(new RoundRectangle2D.Double(0, 0,
-                getWidth(), getHeight(), 20, 20));
+        //try and get preference
+        if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
+            if (UserUtil.extractUser().getRoundedwindows().equals("1")) {
+                setShape(new RoundRectangle2D.Double(0, 0,
+                        getWidth(), getHeight(), 20, 20));
+            } else {
+                setShape(null);
+            }
+        }
 
         contentLabel = new JLayeredPane() {
             @Override
@@ -1275,8 +1283,14 @@ public class CyderFrame extends JFrame {
     @Override
     public void repaint() {
         if (cr == null) {
-            setShape(new RoundRectangle2D.Double(0, 0,
-                    getWidth(), getHeight(), 20, 20));
+            if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
+                if (UserUtil.extractUser().getRoundedwindows().equals("1")) {
+                    setShape(new RoundRectangle2D.Double(0, 0,
+                            getWidth(), getHeight(), 20, 20));
+                } else {
+                    setShape(null);
+                }
+            }
         } else {
             setShape(null);
         }

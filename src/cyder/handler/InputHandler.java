@@ -1056,7 +1056,7 @@ public class InputHandler {
         }
         //testing -------------------------------------------------
         else if (eic("test")) {
-            handle("weather");
+
         }
         //final attempt at unknown input --------------------------
         else {

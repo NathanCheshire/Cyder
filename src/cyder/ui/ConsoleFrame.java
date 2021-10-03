@@ -39,7 +39,7 @@ public final class ConsoleFrame {
     private ConsoleFrame() {} //no instantiation this way
 
     //program driver
-    private String UUID;
+    private String UUID = null;
     private CyderFrame consoleCyderFrame;
     private InputHandler inputHandler;
 

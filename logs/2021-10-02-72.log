@@ -1,0 +1,29 @@
+[19:17:42] [ENTRY]: [WINUSER=Nathan]
+[19:17:42] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[19:17:43] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:17:44] [LOGIN]: [AUTOCYPHER PASS]
+[19:17:45] [CLIENT]: test
+[19:17:55] [CLIENT]: Prefs
+[19:17:55] [ACTION]: USER EDITOR
+[19:17:57] [ACTION]: CyderButton, text=[>] CLICKED
+[19:17:58] [ACTION]: CyderButton, text=[>] CLICKED
+[19:18:00] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[19:18:01] [ACTION]: CyderButton, text=[      Off      ] CLICKED
+[19:18:01] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[19:18:01] [ACTION]: CyderButton, text=[      Off      ] CLICKED
+[19:18:02] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[19:18:02] [ACTION]: CyderButton, text=[      Off      ] CLICKED
+[19:18:03] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[19:18:04] [ACTION]: CyderButton, text=[      Off      ] CLICKED
+[19:18:12] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[19:18:13] [ACTION]: CyderButton, text=[      Off      ] CLICKED
+[19:18:14] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[19:18:14] [ACTION]: CyderButton, text=[      Off      ] CLICKED
+[19:18:18] [CLIENT]: prefs
+[19:18:18] [ACTION]: USER EDITOR
+[19:18:23] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[19:18:24] [ACTION]: CyderButton, text=[      Off      ] CLICKED
+[19:18:25] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[19:18:25] [ACTION]: CyderButton, text=[      Off      ] CLICKED
+[19:18:26] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[19:18:27] [ACTION]: CyderButton, text=[      Off      ] CLICKED
