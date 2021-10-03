@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;
@@ -223,7 +224,7 @@ public class ImageResizer {
         resizeFrame.getContentPane().add(approve);
 
         resizeFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(resizeFrame);
+        resizeFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     private double getAspectRatio(ImageIcon im) {

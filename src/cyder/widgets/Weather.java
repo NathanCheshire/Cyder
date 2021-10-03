@@ -274,7 +274,7 @@ public class Weather {
         weatherFrame.getContentPane().add(timezoneLabel);
 
         weatherFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(weatherFrame);
+        weatherFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
         update = true;
 

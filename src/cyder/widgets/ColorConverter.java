@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.ui.ConsoleFrame;
+import cyder.genesis.GenesisShare;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
 import cyder.utilities.ColorUtil;
@@ -86,6 +86,6 @@ public class ColorConverter {
         colorFrame.getContentPane().add(rgbField);
 
         colorFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(colorFrame);
+        colorFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 }

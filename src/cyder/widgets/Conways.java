@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
@@ -228,7 +229,7 @@ public class Conways {
         cf.getContentPane().add(gliderButton);
 
         cf.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
+        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
         cf.addCloseListener(e -> simulationRunning = false);
     }
 

@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
+import cyder.genesis.GenesisShare;
 import cyder.ui.*;
 import cyder.algorithoms.GrahamScan;
 
@@ -116,7 +117,7 @@ public class ConvexHull {
         hullFrame.getContentPane().add(computeButton);
 
         hullFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(hullFrame);
+        hullFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     private static void solveAndUpdate() {

@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.algorithoms.OpenSimplexNoise;
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
+import cyder.genesis.GenesisShare;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.NumberUtil;
@@ -269,7 +270,7 @@ public class PerlinNoise {
         perlinFrame.getContentPane().add(featureSlider);
 
         perlinFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(perlinFrame);
+        perlinFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     //generates new noise based on a new random seed

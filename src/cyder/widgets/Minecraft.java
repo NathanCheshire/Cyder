@@ -1,8 +1,8 @@
 package cyder.widgets;
 
 
+import cyder.genesis.GenesisShare;
 import cyder.genobjects.User;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;
@@ -124,7 +124,7 @@ public class Minecraft {
         minecraftFrame.getContentPane().add(hamLabel);
 
         minecraftFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(minecraftFrame);
+        minecraftFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         minecraftFrame.setIconImage(new ImageIcon("sys/pictures/minecraft/Block.png").getImage());
 
         //open minecraft if map exists

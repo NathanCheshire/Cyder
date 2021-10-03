@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -337,6 +338,6 @@ public class Pizza {
         pizzaFrame.getContentPane().add(resetPizza);
 
         pizzaFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(pizzaFrame);
+        pizzaFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 }

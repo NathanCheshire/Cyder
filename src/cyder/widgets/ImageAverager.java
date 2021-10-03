@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
@@ -100,7 +101,7 @@ public class ImageAverager {
         average.addActionListener(e -> compute());
 
         cf.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
+        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     private void revalidateScroll() {

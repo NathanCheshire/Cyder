@@ -6,6 +6,7 @@ import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.*;
@@ -211,6 +212,6 @@ public class YoutubeUtil {
         });
 
         uuidFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(uuidFrame);
+        uuidFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 }

@@ -5,6 +5,7 @@ import cyder.consts.CyderImages;
 import cyder.enums.AnimationDirection;
 import cyder.enums.Direction;
 import cyder.enums.SliderShape;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.structobjects.CyderQueue;
 import cyder.structobjects.CyderStack;
@@ -45,7 +46,7 @@ public class ManualTestingWidgets {
         testFrame.getContentPane().add(addPinFirst);
 
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void ButtonAndTitlePositionsTest() {
@@ -81,7 +82,7 @@ public class ManualTestingWidgets {
         testFrame.initializeResizing();
         testFrame.setResizable(true);
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void NotificationsTest() {
@@ -117,7 +118,7 @@ public class ManualTestingWidgets {
         testFrame.initializeResizing();
         testFrame.setResizable(true);
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void AskewTest() {
@@ -134,7 +135,7 @@ public class ManualTestingWidgets {
         cb.addActionListener(e -> testFrame.rotateBackground(Integer.parseInt(ctf.getText())));
 
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void IconLabelSlidingTest() {
@@ -222,7 +223,7 @@ public class ManualTestingWidgets {
         testFrame.getContentPane().add(slideRight);
 
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void CheckboxTest() {
@@ -240,7 +241,7 @@ public class ManualTestingWidgets {
         testFrame.getContentPane().add(cb1);
 
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void InformTest() {
@@ -257,7 +258,7 @@ public class ManualTestingWidgets {
         informButton.addActionListener(e -> testFrame.inform(textField.getText(),"Inform"));
 
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void ProgressBarTest() {
@@ -275,7 +276,7 @@ public class ManualTestingWidgets {
         jpb.setValue(50);
         cf.getContentPane().add(jpb);
         cf.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
+        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
         new Thread( () -> {
             for (int i = 0 ; i <= jpb.getMaximum() / 2; i++) {
@@ -326,7 +327,7 @@ public class ManualTestingWidgets {
         testFrame.getContentPane().add(audioVolumeSlider);
 
         testFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(testFrame);
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void frameTitleLengthTest() {
@@ -345,7 +346,7 @@ public class ManualTestingWidgets {
         cb.addActionListener(e -> cf.setTitle(ctf.getText().trim()));
 
         cf.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
+        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void stackTest() {
@@ -388,7 +389,7 @@ public class ManualTestingWidgets {
         cf.getContentPane().add(printButton);
 
         cf.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
+        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void queueTest() {
@@ -456,6 +457,6 @@ public class ManualTestingWidgets {
         cf.getContentPane().add(containsField);
 
         cf.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(cf);
+        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 }

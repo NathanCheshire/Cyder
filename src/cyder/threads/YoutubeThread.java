@@ -1,5 +1,6 @@
 package cyder.threads;
 
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.genobjects.SystemData;
 import cyder.ui.ConsoleFrame;
@@ -82,7 +83,7 @@ public class YoutubeThread {
                     thumbnailFrame.getContentPane().add(pictureLabel);
 
                     thumbnailFrame.setVisible(true);
-                    ConsoleFrame.getConsoleFrame().setFrameRelative(thumbnailFrame);
+                    thumbnailFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
                     this.kill();
                 } catch (Exception ignored) {

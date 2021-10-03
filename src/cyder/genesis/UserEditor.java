@@ -198,7 +198,7 @@ public class UserEditor {
         editUserFrame.getContentPane().add(changePassword);
         editUserFrame.setVisible(true);
 
-        ConsoleFrame.getConsoleFrame().setFrameRelative(editUserFrame);
+        editUserFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     private void initMusicBackgroundList() {

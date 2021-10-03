@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.ui.*;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SystemUtil;
@@ -195,7 +196,7 @@ public class DirectorySearch {
         dirScrollLabel.setBounds(10,120,600, 340);
         dirFrame.getContentPane().add(dirScrollLabel);
 
-        ConsoleFrame.getConsoleFrame().setFrameRelative(dirFrame);
+        dirFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         dirFrame.setVisible(true);
         dirField.requestFocus();
     }

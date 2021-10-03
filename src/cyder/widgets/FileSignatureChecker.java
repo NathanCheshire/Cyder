@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;
@@ -86,7 +87,7 @@ public class FileSignatureChecker {
         signatureFrame.getContentPane().add(resultLabel);
 
         signatureFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(signatureFrame);
+        signatureFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     private void validate() {

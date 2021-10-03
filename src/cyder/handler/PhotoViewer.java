@@ -2,6 +2,7 @@ package cyder.handler;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.genesis.GenesisShare;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
@@ -55,7 +56,7 @@ public class PhotoViewer {
         pictureFrame.setMaximumSize(new Dimension(newImage.getIconWidth(), newImage.getIconHeight()));
         pictureFrame.setVisible(true);
 
-        ConsoleFrame.getConsoleFrame().setFrameRelative(pictureFrame);
+        pictureFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
         renameButton = new JButton("Rename");
         renameButton.setForeground(CyderColors.vanila);

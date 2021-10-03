@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.enums.SliderShape;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.genobjects.Node;
 import cyder.ui.*;
@@ -488,7 +489,7 @@ public class PathFinder {
         pathFindingFrame.getContentPane().add(speedSlider);
 
         pathFindingFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(pathFindingFrame);
+        pathFindingFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
         Timer pathDrawingTimer = new Timer(50, pathDrawingAnimation);
         pathDrawingTimer.start();

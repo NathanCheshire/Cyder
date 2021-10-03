@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.StringUtil;
@@ -146,7 +147,7 @@ public class Notes {
         noteFrame.getContentPane().add(deleteNote);
 
         noteFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(noteFrame);
+        noteFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     private static void addNote() {
@@ -239,7 +240,7 @@ public class Notes {
         submitNewNote.setBounds(50,180 + 390,600 - 50 - 50,40);
         newNoteFrame.getContentPane().add(submitNewNote);
 
-        ConsoleFrame.getConsoleFrame().setFrameRelative(newNoteFrame);
+        newNoteFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         newNoteFrame.setVisible(true);
         newNoteField.requestFocus();
     }
@@ -369,7 +370,7 @@ public class Notes {
 
         noteEditorFrame.setVisible(true);
         noteEditArea.requestFocus();
-        ConsoleFrame.getConsoleFrame().setFrameRelative(noteEditorFrame);
+        noteEditorFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public void kill() {

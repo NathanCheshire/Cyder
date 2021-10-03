@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.consts.CyderFonts;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.SystemUtil;
@@ -50,7 +51,7 @@ public class Spotlight {
         spotlightFrame.getContentPane().add(stealButton);
 
         spotlightFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(spotlightFrame);
+       spotlightFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
     public static void saveSpotlights(File saveDir) {

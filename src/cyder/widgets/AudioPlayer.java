@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
@@ -425,7 +426,7 @@ public class AudioPlayer {
             }
         });
 
-        ConsoleFrame.getConsoleFrame().setFrameRelative(audioFrame);
+        audioFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 

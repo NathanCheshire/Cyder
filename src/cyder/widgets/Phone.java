@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -240,7 +241,7 @@ public class Phone {
             }
         });
 
-        ConsoleFrame.getConsoleFrame().setFrameRelative(phoneFrame);
+        phoneFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         phoneFrame.setVisible(true);
     }
 

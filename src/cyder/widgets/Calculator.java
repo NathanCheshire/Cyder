@@ -5,6 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
@@ -308,6 +309,6 @@ public class Calculator {
         });
 
         calculatorFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(calculatorFrame);
+        calculatorFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 }

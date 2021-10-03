@@ -3,8 +3,8 @@ package cyder.games;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -120,7 +120,7 @@ public class Hangman {
         HangmanReset.setBounds(80,750,712 - 80 - 80, 40);
         HangmanFrame.getContentPane().add(HangmanReset);
 
-        ConsoleFrame.getConsoleFrame().setFrameRelative(HangmanFrame);
+        HangmanFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         HangmanFrame.setVisible(true);
         HangmanFrame.requestFocus();
 

@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.ui.*;
 import cyder.utilities.SecurityUtil;
 
@@ -87,7 +88,7 @@ public class Hasher {
             hashAlgorithmField.setText(algorithms.get(algorithmIndex));
         });
 
-        ConsoleFrame.getConsoleFrame().setFrameRelative(hashFrame);
+        hashFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         hashFrame.setVisible(true);
     }
 }

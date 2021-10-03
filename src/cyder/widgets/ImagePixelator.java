@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;
@@ -140,7 +141,7 @@ public class ImagePixelator {
         pixelFrame.getContentPane().add(previewLabel);
 
         pixelFrame.setVisible(true);
-        ConsoleFrame.getConsoleFrame().setFrameRelative(pixelFrame);
+        pixelFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
         if (startPNG != null && StringUtil.getExtension(startPNG).equalsIgnoreCase(".png")) {
             try {
