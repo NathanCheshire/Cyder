@@ -28,6 +28,7 @@ public class Cyder {
         IOUtil.logArgs(CA);
         IOUtil.cleanSandbox();
         IOUtil.fixLogs();
+        IOUtil.fixUsers();
 
         CyderSetup.initFrameChecker();
 

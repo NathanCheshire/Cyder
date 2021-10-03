@@ -5,6 +5,7 @@ import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.genobjects.Preference;
 import cyder.genobjects.User;
+import cyder.handler.SessionLogger;
 import cyder.test.DebugConsole;
 import cyder.ui.ConsoleFrame;
 
@@ -13,8 +14,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
-
-//todo make preference getters return a default value instead of null
 
 public class UserUtil {
     public static void setUserData(String name, String value) {
@@ -471,6 +470,9 @@ public class UserUtil {
             //remove closing curly brace
             masterJson = masterJson.substring(0 ,masterJson.length() - 1);
 
+            //keep track of if we injected anything
+            boolean injectionPerformed = false;
+
             //loop through default perferences
             for (Preference pref : GenesisShare.getPrefs()) {
                 //old json detected and we found a pref that doesn't exist
@@ -484,6 +486,7 @@ public class UserUtil {
                     injectionBuilder.append("\",");
                     //adding a trailing comma is fine since it will be parsed away by gson upon
                     // serialization of a user object
+                    injectionPerformed = true;
                 }
             }
 
@@ -494,6 +497,10 @@ public class UserUtil {
             BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(f,false));
             jsonWriter.write(masterJson);
             jsonWriter.close();
+
+            //log the injection
+            SessionLogger.log(SessionLogger.Tag.ACTION, "User file: \"" + f +
+                    "\" was found to be an older userdata file; preference injection performed");
         } catch (Exception e) {
             ErrorHandler.handle(e);
             DebugConsole.println("Something horrible happened while trying to fix an old userdata.json file");

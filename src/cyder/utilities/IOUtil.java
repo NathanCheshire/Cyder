@@ -176,6 +176,21 @@ public class IOUtil {
     }
 
     /**
+     * Fixes any user files that may be outdated via preference injection
+     */
+    public static void fixUsers() {
+        File users = new File("users");
+
+        for (File user : users.listFiles()) {
+            File json = new File(user + "/userdata.json");
+
+            if (json.exists()) {
+                UserUtil.updateOldJson(json);
+            }
+        }
+     }
+
+    /**
      * Opens the provided file, possibly inside of the program if a handler exists for it
      * @param FilePath - the path to the file to open
      */
