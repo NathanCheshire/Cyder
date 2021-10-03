@@ -420,4 +420,43 @@ public class UserUtil {
 
         return false;
     }
+
+    public User getDefaultUser() {
+        User ret = new User();
+
+        //get all methods of user
+        for (Method m : ret.getClass().getMethods()) {
+            //make sure it's a setter with one parameter
+            if (m.getName().startsWith("set") && m.getParameterTypes().length == 1) {
+                //parse away set from method name and find default preference from list above
+                String methodName = m.getName().replace("set","");
+                String data = null;
+
+                //methods should follow set standards so that this will work
+                // (method names should be sub-names of other methods)
+                for (Preference pref : GenesisShare.getPrefs()) {
+                    if (pref.getID().equalsIgnoreCase(methodName)); {
+                        data = pref.getDefaultValue();
+                    }
+                }
+
+                try {
+                    m.invoke(ret, data);
+                } catch (Exception e) {
+                    // :/ not sure what happened here
+                    ErrorHandler.silentHandle(e);
+                }
+            }
+        }
+
+        //exernal things stored in a user aside from preferences
+        ret.setExecutables(null);
+
+        return ret;
+    }
+
+    //todo method to parse an old json file and inject new prefs to it if it doesn't have any
+    public void updateOldJson(File f) {
+
+    }
 }
