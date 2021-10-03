@@ -1,6 +1,6 @@
 package cyder.ui;
 
-import cyder.test.DebugConsole;
+import cyder.testing.DebugConsole;
 import cyder.utilities.IOUtil;
 
 import javax.swing.*;

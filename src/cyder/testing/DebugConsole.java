@@ -1,4 +1,4 @@
-package cyder.test;
+package cyder.testing;
 
 import cyder.consts.CyderColors;
 import cyder.ui.CyderFrame;

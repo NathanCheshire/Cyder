@@ -6,7 +6,7 @@ import cyder.handler.ErrorHandler;
 import cyder.genobjects.Preference;
 import cyder.genobjects.User;
 import cyder.handler.SessionLogger;
-import cyder.test.DebugConsole;
+import cyder.testing.DebugConsole;
 import cyder.ui.ConsoleFrame;
 
 import javax.imageio.ImageIO;
