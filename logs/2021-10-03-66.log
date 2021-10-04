@@ -1,0 +1,21 @@
+[20:14:55] [ENTRY]: [WINUSER=Nathan]
+[20:14:56] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[20:14:57] [ACTION]: User file: "users\8657469f-418b-348f-ab79-8993fb4c2b84\userdata.json" was found to be an older userdata file; preference injection performed
+[20:14:57] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20:14:58] [LOGIN]: [AUTOCYPHER PASS]
+[20:15:00] [CLIENT]: test
+[20:15:06] [ACTION]: CyderButton, text=[Apply Font] CLICKED
+[20:15:06] [CONSOLE_OUT]: [STRING] The font "Arial Narrow" has been applied.
+[20:15:28] [ACTION]: CyderButton, text=[Reset ALL] CLICKED
+[20:16:43] [ACTION]: CyderButton, text=[Reset ALL] CLICKED
+[20:16:45] [ACTION]: CyderButton, text=[Apply Font] CLICKED
+[20:16:45] [CONSOLE_OUT]: [STRING] The font "Algerian" has been applied.
+[20:16:47] [ACTION]: CyderButton, text=[Reset ALL] CLICKED
+[20:16:51] [ACTION]: CyderButton, text=[Reset ALL] CLICKED
+[20:16:52] [ACTION]: CyderButton, text=[Apply Font] CLICKED
+[20:16:52] [CONSOLE_OUT]: [STRING] The font "Castellar" has been applied.
+[20:16:53] [ACTION]: CyderButton, text=[Reset ALL] CLICKED
+[20:17:00] [ACTION]: CyderButton, text=[Apply Font] CLICKED
+[20:17:00] [CONSOLE_OUT]: [STRING] The font "Agency FB" has been applied.
+[20:17:01] [ACTION]: CyderButton, text=[Reset ALL] CLICKED
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

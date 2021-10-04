@@ -164,6 +164,9 @@ public final class ConsoleFrame {
                 }
             };
 
+            //set background to non-navy color
+            consoleCyderFrame.setBackground(Color.black);
+
             //this has to be here since we need consoleCyderFrame to not be null
             if (fullscreen) {
                 consoleCyderFrame.disableDragging();
@@ -961,8 +964,8 @@ public final class ConsoleFrame {
             try {
                 OUTER:
                     while (true) {
-                        if (UserUtil.getUserData("ClockOnConsole").equalsIgnoreCase("1")) {
-                            if (UserUtil.getUserData("ShowSeconds").equalsIgnoreCase("1")) {
+                        if (UserUtil.extractUser().getClockonconsole().equalsIgnoreCase("1")) {
+                            if (UserUtil.extractUser().getShowseconds().equalsIgnoreCase("1")) {
                                 String time = TimeUtil.consoleSecondTime();
                                 int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
                                 int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());

@@ -90,6 +90,13 @@ public class DragLabel extends JLabel {
         });
     }
 
+    //override so we can change the background color if needed
+    @Override
+    public void repaint() {
+        setBackground(CyderColors.guiThemeColor);
+        super.repaint();
+    }
+
     public void setWidth(int width) {
         super.setSize(width,getHeight());
         this.width = width;

@@ -314,7 +314,7 @@ public class InputHandler {
             new Hangman().startHangman();
             SessionLogger.log(SessionLogger.Tag.ACTION, "HANGMAN");
         } else if (hasWord("rgb") || hasWord("hex") || (hasWord("color") && hasWord("converter"))) {
-            ColorConverter.colorConverter();
+            ColorConverter.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "COLOR CONVERTER");
         } else if (hasWord("pizza")) {
             new Pizza();

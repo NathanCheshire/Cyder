@@ -60,7 +60,7 @@ public class CyderFrame extends JFrame {
     private JLayeredPane contentLabel;
     private JLayeredPane iconPane;
 
-    private Color backgroundColor = CyderColors.guiThemeColor;
+    private Color backgroundColor = CyderColors.navy;
 
     private LinkedList<Gluster> notificationList = new LinkedList<>();
 
@@ -891,8 +891,6 @@ public class CyderFrame extends JFrame {
      * transforms the content pane by an incremental angle of 2 degrees emulating Google's barrel roll easter egg
      */
     public void barrelRoll() {
-        setBackground(CyderColors.navy);
-
         ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
         BufferedImage master = ImageUtil.getBi(masterIcon);
 
@@ -1261,6 +1259,7 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void repaint() {
+        //we need to fix the shape on repaints
         if (cr == null) {
             if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
                 if (UserUtil.extractUser().getRoundedwindows().equals("1")) {
@@ -1273,6 +1272,16 @@ public class CyderFrame extends JFrame {
         } else {
             setShape(null);
         }
+
+        //possibly update the ui
+        contentLabel.setBorder(new LineBorder(
+                CyderColors.guiThemeColor, 3, false));
+        getContentPane().repaint();
+        getTrueContentPane().repaint();
+        getTopDragLabel().repaint();
+        getLeftDragLabel().repaint();
+        getBottomDragLabel().repaint();
+        getRightDragLabel().repaint();
 
         super.repaint();
     }

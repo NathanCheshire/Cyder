@@ -15,7 +15,7 @@ import java.awt.event.KeyAdapter;
 import static cyder.consts.CyderColors.navy;
 
 public class ColorConverter {
-    public static void colorConverter() {
+    public static void showGUI() {
         CyderFrame colorFrame = new CyderFrame(400,300, CyderImages.defaultBackground);
         colorFrame.setTitle("Color Converter");
 

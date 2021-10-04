@@ -1,0 +1,10 @@
+[19:23:30] [ENTRY]: [WINUSER=Nathan]
+[19:23:30] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[19:23:31] [ACTION]: User file: "users\8657469f-418b-348f-ab79-8993fb4c2b84\userdata.json" was found to be an older userdata file; preference injection performed
+[19:23:31] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19:23:32] [LOGIN]: [AUTOCYPHER PASS]
+[19:23:33] [CLIENT]: test
+[19:23:44] [ACTION]: CyderButton, text=[Reset ALL] CLICKED
+[19:23:49] [LOGOUT]:  [Nathan]
+[19:23:49] [EXIT]: [RUNTIME] 19s
+[19:23:49] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

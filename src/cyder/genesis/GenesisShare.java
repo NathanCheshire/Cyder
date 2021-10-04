@@ -71,9 +71,9 @@ public class GenesisShare {
 
         ret.add(new Preference("name","IGNORE","IGNORE","IGNORE"));
         ret.add(new Preference("pass","IGNORE","IGNORE","IGNORE"));
-        ret.add(new Preference("font","IGNORE","","tahoma"));
-        ret.add(new Preference("foreground","IGNORE","","000000"));
-        ret.add(new Preference("background","IGNORE","","FFFFFF"));
+        ret.add(new Preference("font","IGNORE","","Agency FB"));
+        ret.add(new Preference("foreground","IGNORE","","f0f0f0"));
+        ret.add(new Preference("background","IGNORE","","101010"));
         ret.add(new Preference("intromusic",
                 "Intro Music","" +
                 "Play intro music on start","0"));
