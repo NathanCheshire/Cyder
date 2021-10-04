@@ -306,11 +306,6 @@ public class Weather {
                 ErrorHandler.handle(e);
             }
         },"Weather Clock Updater").start();
-
-        weatherFrame.initializeResizing();
-        weatherFrame.setMinimumSize(new Dimension(450,90));
-        weatherFrame.setMaximumSize(new Dimension(450, 600));
-        weatherFrame.setSnapSize(new Dimension(1,1));
     }
 
     public String getWeatherTime() {

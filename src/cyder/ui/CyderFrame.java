@@ -160,7 +160,7 @@ public class CyderFrame extends JFrame {
         bottomDrag.setButtonsList(null);
 
         titleLabel = new JLabel("");
-        titleLabel.setFont(new Font("Agency FB", Font.BOLD, 22));
+        titleLabel.setFont(CyderFonts.frameTitleFont);
         titleLabel.setForeground(CyderColors.vanila);
         titleLabel.setFocusable(false);
 
