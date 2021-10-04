@@ -3,6 +3,7 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.enums.Direction;
 import cyder.genobjects.User;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
@@ -28,6 +29,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class UserEditor {
     private CyderFrame editUserFrame;
@@ -751,29 +753,33 @@ public class UserEditor {
         FontLabel.setBounds(50, 60, 300, 30);
         switchingLabel.add(FontLabel);
 
-        //todo load fonts in separate thread and then update fonts and notify "fonts loaded" when completed
-        String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        Collections.addAll(fontList, Fonts);
-
         CyderScrollList fontScrollList = new CyderScrollList(300, 300, CyderScrollList.SelectionPolicy.SINGLE);
         fontScrollList.setItemAlignemnt(StyleConstants.ALIGN_LEFT);
 
-        for (int i = 0 ; i < fontList.size() ; i++) {
-            int finalI = i;
-            class thisAction implements CyderScrollList.ScrollAction {
-                @Override
-                public void fire() {
-                    FontLabel.setFont(new Font(fontList.get(finalI),Font.BOLD, 30));
+        AtomicReference<JLabel> fontScrollLabel = new AtomicReference<>(fontScrollList.generateScrollList());
+
+        editUserFrame.notify("Loading fonts...", 2000, Direction.RIGHT);
+        new Thread(() -> {
+            String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+            Collections.addAll(fontList, Fonts);
+
+            for (int i = 0 ; i < fontList.size() ; i++) {
+                int finalI = i;
+                class thisAction implements CyderScrollList.ScrollAction {
+                    @Override
+                    public void fire() {
+                        FontLabel.setFont(new Font(fontList.get(finalI),Font.BOLD, 30));
+                    }
                 }
+
+                thisAction action = new thisAction();
+                fontScrollList.addElementWithSingleCLickAction(fontList.get(i), action);
             }
 
-            thisAction action = new thisAction();
-            fontScrollList.addElementWithSingleCLickAction(fontList.get(i), action);
-        }
-
-        JLabel fontScrollLabel = fontScrollList.generateScrollList();
-        fontScrollLabel.setBounds(50, 100, 300, 300);
-        switchingLabel.add(fontScrollLabel);
+            fontScrollLabel.set(fontScrollList.generateScrollList());
+            fontScrollLabel.get().setBounds(50, 100, 300, 300);
+            switchingLabel.add(fontScrollLabel.get());
+        },"Preference Font Loader").start();
 
         CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -783,7 +789,7 @@ public class UserEditor {
         applyFont.setFocusPainted(false);
         applyFont.setBackground(CyderColors.regularRed);
         applyFont.addActionListener(e -> {
-            if (fontScrollList.getSelectedElements().size() == 0)
+            if (fontScrollList == null || fontScrollList.getSelectedElements().size() == 0)
                 return;
 
             String selectedFont = fontScrollList.getSelectedElements().get(0);
@@ -821,7 +827,8 @@ public class UserEditor {
             Font ApplyFont = new Font(UserUtil.getDefaultUser().getFont(), Font.BOLD, 30);
             ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ApplyFont);
             ConsoleFrame.getConsoleFrame().getInputField().setFont(ApplyFont);
-            //todo clear selections on list
+            if (fontScrollList != null)
+                fontScrollList.clearSelectedElements();
             FontLabel.setFont(ApplyFont);
 
             //background

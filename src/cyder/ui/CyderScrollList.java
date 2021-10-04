@@ -18,6 +18,8 @@ public class CyderScrollList {
     private int width;
     private int height;
 
+    private JTextPane listPane;
+
     private int itemAlignemnt = StyleConstants.ALIGN_LEFT;
 
     public void setItemAlignemnt(int itemAlignment) {
@@ -73,7 +75,7 @@ public class CyderScrollList {
         retLabel.setOpaque(true);
         retLabel.setVisible(true);
 
-        JTextPane listPane = new JTextPane();
+        listPane = new JTextPane();
         listPane.setEditable(false);
         listPane.setAutoscrolls(false);
         listPane.setBounds(0, 0, this.width , this.height);
@@ -242,6 +244,9 @@ public class CyderScrollList {
         this.height = height;
     }
 
+    public JTextPane getListPane() {
+        return listPane;
+    }
 
     public void setSelectionPolicy(SelectionPolicy selectionPolicy) {
         this.selectionPolicy = selectionPolicy;
