@@ -1,6 +1,10 @@
-[00:01:18] [ENTRY]: [WINUSER=Nathan]
-[00:01:18] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
-[00:01:20] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[00:01:21] [LOGIN]: [AUTOCYPHER PASS]
-[00:01:22] [CLIENT]: test
-[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
+[21:41:14] [ENTRY]: [WINUSER=Nathan]
+[21:41:15] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[21:41:15] [ACTION]: User 8657469f-418b-348f-ab79-8993fb4c2b84 was found to have an outdated userdata.json; preference injection performed on the following: roundedwindows, windowcolor
+[21:41:15] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21:41:16] [LOGIN]: [AUTOCYPHER PASS]
+[21:41:17] [CLIENT]: [SIMULATED INPUT] test
+[21:41:25] [CLIENT]: Open current log
+[21:41:47] [LOGOUT]:  [Nathan]
+[21:41:47] [EXIT]: [RUNTIME] 32s
+[21:41:47] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

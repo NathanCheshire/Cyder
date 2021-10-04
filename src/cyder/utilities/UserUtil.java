@@ -2,9 +2,9 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
 import cyder.genobjects.Preference;
 import cyder.genobjects.User;
+import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.testing.DebugConsole;
 import cyder.ui.ConsoleFrame;
@@ -470,12 +470,12 @@ public class UserUtil {
             masterJson = masterJson.substring(0 ,masterJson.length() - 1);
 
             //keep track of if we injected anything
-            boolean injectionPerformed = false;
+            LinkedList<String> injections = new LinkedList<>();
 
             //loop through default perferences
             for (Preference pref : GenesisShare.getPrefs()) {
                 //old json detected and we found a pref that doesn't exist
-                if (!masterJson.contains(pref.getID())) {
+                if (!masterJson.toLowerCase().contains(pref.getID().toLowerCase())) {
                     //inject into json
                     StringBuilder injectionBuilder = new StringBuilder();
                     injectionBuilder.append("\"");
@@ -485,7 +485,7 @@ public class UserUtil {
                     injectionBuilder.append("\",");
                     //adding a trailing comma is fine since it will be parsed away by gson upon
                     // serialization of a user object
-                    injectionPerformed = true;
+                    injections.add(pref.getID() + "=" + pref.getDefaultValue());
                 }
             }
 
@@ -497,9 +497,21 @@ public class UserUtil {
             jsonWriter.write(masterJson);
             jsonWriter.close();
 
-            //log the injection
-            SessionLogger.log(SessionLogger.Tag.ACTION, "User file: \"" + f +
-                    "\" was found to be an older userdata file; preference injection performed");
+            if (!injections.isEmpty()) {
+                StringBuilder appendBuilder = new StringBuilder();
+
+                for (int i = 0 ; i < injections.size() ; i++) {
+                    appendBuilder.append(injections.get(i));
+
+                    if (i != injections.size() - 1)
+                        appendBuilder.append(", ");
+                }
+
+                //log the injection
+                SessionLogger.log(SessionLogger.Tag.ACTION, "User " + f.getParentFile().getName() +
+                        " was found to have an outdated userdata.json; preference injection " +
+                        "performed on the following: [" + appendBuilder + "]");
+            }
         } catch (Exception e) {
             ErrorHandler.handle(e);
             DebugConsole.println("Something horrible happened while trying to fix an old userdata.json file");

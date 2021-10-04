@@ -309,7 +309,7 @@ public final class ConsoleFrame {
                     //escaping
                     if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                         try {
-                            inputHandler.handle("controlc");
+                            inputHandler.handle("controlc", true);
                         } catch (Exception exception) {
                             ErrorHandler.handle(exception);
                         }
@@ -472,7 +472,7 @@ public final class ConsoleFrame {
 
                         //calls to linked inputhandler
                         if (!inputHandler.getUserInputMode()) {
-                            inputHandler.handle(op);
+                            inputHandler.handle(op, true);
                         } else if (inputHandler.getUserInputMode()) {
                             inputHandler.setUserInputMode(false);
                             inputHandler.handleSecond(op);
@@ -1090,7 +1090,7 @@ public final class ConsoleFrame {
         //Auto test in upon start debug mode
         if (SecurityUtil.nathanLenovo()) {
             try {
-                inputHandler.handle("test");
+                inputHandler.handle("test", false);
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
@@ -1263,7 +1263,7 @@ public final class ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    inputHandler.handle("prefs");
+                    inputHandler.handle("prefs", true);
                 } catch (Exception exception) {
                     ErrorHandler.handle(exception);
                 }
@@ -1437,7 +1437,7 @@ public final class ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    inputHandler.handle("logout");
+                    inputHandler.handle("logout", true);
                 } catch (Exception exception) {
                     ErrorHandler.handle(exception);
                 }
@@ -1462,7 +1462,7 @@ public final class ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    inputHandler.handle("quit");
+                    inputHandler.handle("quit", true);
                 } catch (Exception exception) {
                     ErrorHandler.handle(exception);
                 }
@@ -2172,7 +2172,7 @@ public final class ConsoleFrame {
 
             //fix foreground if needed
             if (ImageUtil.solidColor(getCurrentBackgroundFile())) {
-                getInputHandler().handle("fix foreground");
+                getInputHandler().handle("fix foreground", true);
             }
 
             //fix frame out of bounds if needed

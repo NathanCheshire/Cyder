@@ -1,9 +1,0 @@
-[12:47:15] [ENTRY]: [WINUSER=Nathan]
-[12:47:15] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
-[12:47:16] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[12:47:16] [LOGIN]: [AUTOCYPHER PASS]
-[12:47:18] [CLIENT]: test
-[12:47:18] [CLIENT]: weather
-[12:47:18] [ACTION]: WEATHER
-[12:47:19] [ACTION]: [Weather] [NOTIFICATION] Refreshed
-[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

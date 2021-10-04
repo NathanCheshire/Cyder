@@ -64,7 +64,7 @@ public class InputHandler {
 
     //handle methods ----------------------------------------------
 
-    public void handle(String op) throws Exception{
+    public void handle(String op, boolean userTriggered) throws Exception{
         //check for null link
         if (outputArea == null)
             throw new IllegalArgumentException("Output area not set");
@@ -73,8 +73,11 @@ public class InputHandler {
         this.operation = op;
         String firstWord = StringUtil.firstWord(operation);
 
-        //log CLIENT
-        SessionLogger.log(SessionLogger.Tag.CLIENT, operation);
+        //log CLIENT input
+        if (userTriggered)
+            SessionLogger.log(SessionLogger.Tag.CLIENT, operation);
+        else
+            SessionLogger.log(SessionLogger.Tag.CLIENT, "[SIMULATED INPUT] " + operation);
 
         //pre-process checks --------------------------------------
         if (StringUtil.filterLanguage(operation) && UserUtil.getUserData("filterchat").equals("1")) {
@@ -229,7 +232,7 @@ public class InputHandler {
         } else if (hasWord("I") && hasWord("love")) {
             println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I don't understand human emotions or affections.");
         } else if (eic("loop")) {
-            println("InputHandler.handle(\"loop\");");
+            println("InputHandler.handle(\"loop\", true);");
         } else if (hasWord("story") && hasWord("tell")) {
             println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + ConsoleFrame.getConsoleFrame().getUsername() + " started talking to Cyder."
                     + " It was at this moment that Cyder knew its day had been ruined.");
@@ -1056,7 +1059,7 @@ public class InputHandler {
         }
         //t3sting -------------------------------------------------
         else if (eic("test")) {
-            new UserEditor(1);
+
         }
         //final attempt at unknown input --------------------------
         else {

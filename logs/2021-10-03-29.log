@@ -1,9 +1,0 @@
-[18:12:31] [ENTRY]: [WINUSER=Nathan]
-[18:12:31] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
-[18:12:32] [ACTION]: User file: "users\8657469f-418b-348f-ab79-8993fb4c2b84\userdata.json" was found to be an older userdata file; preference injection performed
-[18:12:32] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[18:12:33] [LOGIN]: [AUTOCYPHER PASS]
-[18:12:34] [CLIENT]: test
-[18:12:45] [LOGOUT]:  [Nathan]
-[18:12:45] [EXIT]: [RUNTIME] 14s
-[18:12:45] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
