@@ -7,7 +7,6 @@ import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -24,12 +23,11 @@ public class Calculator {
         CyderFrame calculatorFrame = new CyderFrame(400,595, CyderImages.defaultBackground);
         calculatorFrame.setTitle("Calculator");
 
-        CyderTextField calculatorField = new CyderTextField(20);
+        CyderTextField calculatorField = new CyderTextField(0);
         calculatorField.setBackground(Color.WHITE);
-        calculatorField.setCharLimit(Integer.MAX_VALUE);
         calculatorField.setSelectionColor(CyderColors.selectionColor);
-        calculatorField.setToolTipText("Use radians and not degree for any trig functions");
-        calculatorField.setFont(CyderFonts.weatherFontSmall.deriveFont(26));
+        calculatorField.setToolTipText("Use radians and not degrees for any trig functions");
+        calculatorField.setFont(CyderFonts.weatherFontBig);
         calculatorField.setBounds(50,50,300,50);
         calculatorFrame.getContentPane().add(calculatorField);
 

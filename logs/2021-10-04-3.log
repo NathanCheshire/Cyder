@@ -1,0 +1,14 @@
+[23:25:57] [ENTRY]: [WINUSER=Nathan]
+[23:25:57] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[23:25:58] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:25:59] [LOGIN]: [AUTOCYPHER PASS]
+[23:26:00] [CLIENT]: [SIMULATED INPUT] test
+[23:26:05] [CLIENT]: Calc
+[23:26:05] [ACTION]: CALCULATOR
+[23:26:12] [ACTION]: CyderButton, text=[8] CLICKED
+[23:26:12] [ACTION]: CyderButton, text=[9] CLICKED
+[23:26:13] [ACTION]: CyderButton, text=[*] CLICKED
+[23:26:13] [ACTION]: CyderButton, text=[9] CLICKED
+[23:26:14] [ACTION]: CyderButton, text=[=] CLICKED
+[23:26:14] [ACTION]: [Calculator] [NOTIFICATION] 801.0
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
