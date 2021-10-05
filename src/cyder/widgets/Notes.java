@@ -26,7 +26,6 @@ public class Notes {
     private static JLabel noteScrollLabel;
 
     //note editor components
-    private static CyderFrame noteEditorFrame;
     private static JTextArea noteEditArea;
     private static CyderTextField noteEditField;
     private static File currentUserNote;
@@ -66,7 +65,7 @@ public class Notes {
         }
 
         noteScrollLabel = cyderScrollList.generateScrollList();
-        noteScrollLabel.setBounds(40,40,520, 500);
+        noteScrollLabel.setBounds(40,40,520, 510);
         noteFrame.getContentPane().add(noteScrollLabel);
 
         CyderButton addNote = new CyderButton("Add Note");
@@ -76,7 +75,7 @@ public class Notes {
         addNote.setBackground(CyderColors.regularRed);
         addNote.setFont(CyderFonts.weatherFontSmall);
         addNote.addActionListener(e -> addNote());
-        addNote.setBounds(50,550,150,50);
+        addNote.setBounds(40,560,160,40);
         noteFrame.getContentPane().add(addNote);
 
         openNote = new CyderButton("Open Note");
@@ -96,7 +95,7 @@ public class Notes {
                 }
             }
         });
-        openNote.setBounds(225,550,150,50);
+        openNote.setBounds(220,560,160,40);
         noteFrame.getContentPane().add(openNote);
 
         CyderButton deleteNote = new CyderButton("Delete Note");
@@ -111,10 +110,9 @@ public class Notes {
 
             for (int i = 0 ; i < noteNameList.size() ; i++) {
                 if (noteNameList.get(i).equals(selectedName)) {
-                    SystemUtil.deleteFolder(noteList.get(i));
-                    if (noteEditorFrame != null)
-                        noteEditorFrame.closeAnimation();
+                    //todo close the frame if it's open to edit this one, make a list to keep track of cyderframes for notes
 
+                    SystemUtil.deleteFolder(noteList.get(i));
                     initializeNotesList();
 
                     cyderScrollList.removeAllElements();
@@ -143,12 +141,14 @@ public class Notes {
                 }
             }
         });
-        deleteNote.setBounds(400,550,150,50);
+        deleteNote.setBounds(400,560,160,40);
         noteFrame.getContentPane().add(deleteNote);
 
         noteFrame.setVisible(true);
         noteFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
+
+    //todo don't close windows that have unsaved changes without confirming
 
     private static void addNote() {
         if (newNoteFrame != null)
@@ -157,24 +157,14 @@ public class Notes {
         newNoteFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
         newNoteFrame.setTitle("New note");
 
-        JLabel FileNameLabel = new JLabel("Note Title");
-        FileNameLabel.setFont(CyderFonts.weatherFontSmall);
-        FileNameLabel.setForeground(CyderColors.navy);
-        FileNameLabel.setBounds(240,40,150,40);
-        newNoteFrame.getContentPane().add(FileNameLabel);
-
         newNoteField = new CyderTextField(0);
-        newNoteField.setBounds(150,80,300,40);
+        newNoteField.setToolTipText("Title");
+        newNoteField.setBounds(40,50,510,40);
         newNoteFrame.getContentPane().add(newNoteField);
-
-        JLabel contentLabel = new JLabel("Contents");
-        contentLabel.setFont(CyderFonts.weatherFontSmall);
-        contentLabel.setForeground(CyderColors.navy);
-        contentLabel.setBounds(245,140,150,40);
-        newNoteFrame.getContentPane().add(contentLabel);
 
         newNoteArea = new JTextArea(20,20);
         newNoteArea.setFont(CyderFonts.weatherFontSmall);
+        newNoteArea.setToolTipText("Note contents");
         newNoteArea.setAutoscrolls(false);
         newNoteArea.setLineWrap(true);
         newNoteArea.setWrapStyleWord(true);
@@ -191,7 +181,7 @@ public class Notes {
         NewNoteScroll.setViewportBorder(null);
 
         NewNoteScroll.setBorder(new LineBorder(CyderColors.navy,5,false));
-        NewNoteScroll.setBounds(50,180,600 - 50 - 50,380);
+        NewNoteScroll.setBounds(40,120,510,440);
         newNoteFrame.getContentPane().add(NewNoteScroll);
 
         CyderButton submitNewNote = new CyderButton("Create Note");
@@ -237,7 +227,7 @@ public class Notes {
             noteFrame.revalidate();
             noteFrame.repaint();
         });
-        submitNewNote.setBounds(50,180 + 390,600 - 50 - 50,40);
+        submitNewNote.setBounds(50,570,600 - 50 - 50,40);
         newNoteFrame.getContentPane().add(submitNewNote);
 
         newNoteFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
@@ -259,10 +249,7 @@ public class Notes {
     }
 
     private static void openNote(File File) {
-        if (noteEditorFrame != null)
-            noteEditorFrame.closeAnimation();
-
-        noteEditorFrame = newNoteFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
+        CyderFrame noteEditorFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
 
         noteEditField = new CyderTextField(0);

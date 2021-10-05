@@ -1,0 +1,10 @@
+[23:48:17] [ENTRY]: [WINUSER=Nathan]
+[23:48:18] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[23:48:20] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:48:20] [LOGIN]: [AUTOCYPHER PASS]
+[23:48:22] [CLIENT]: [SIMULATED INPUT] test
+[23:48:27] [CLIENT]: Note
+[23:48:27] [ACTION]: NOTE EDITOR
+[23:48:29] [ACTION]: CyderButton, text=[Add Note] CLICKED
+[23:48:40] [ACTION]: [Stella Cyder [Nathan]] [NOTIFICATION] You only have one background image. Would you like to add more? (Enter yes/no)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
