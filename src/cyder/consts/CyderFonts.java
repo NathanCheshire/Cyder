@@ -9,5 +9,6 @@ public class CyderFonts {
     public static final Font defaultFont = new Font("Agency FB", Font.BOLD, 30);
     public static final Font tahoma = new Font("tahoma", Font.BOLD, 20);
     public static final Font frameTitleFont = new Font("Agency FB", Font.BOLD, 22);
-    //todo does agency fb always come with OS? if not, bundle it with Cyder
+    //todo only use fonts that are in the fonts/ dir, download all .tff files that you need
+    //todo all fonts should be accessed from here, none created on the fly, only derived from here
 }

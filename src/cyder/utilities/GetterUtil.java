@@ -323,6 +323,40 @@ public class GetterUtil {
         fileFrameTitle = null;
     }
 
+    /**
+     * Confirmation dialog
+     */
+
+    //todo implement confirmation getter with message and a yes or no button
+    public boolean getConfirmation(String message) {
+        String retString = null;
+
+        new Thread(() -> {
+            try {
+                //frame
+
+                //message
+
+                //submit button that closes this and sets ret to value needed
+
+                //close listener to say no if confirmation window is closed
+
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, this + "getConfirmation thread").start();
+
+        try {
+            while (retString == null) {
+                Thread.onSpinWait();
+            }
+        } catch (Exception ex) {
+            ErrorHandler.handle(ex);
+        } finally {
+            return retString.equals("true");
+        }
+    }
+
     /*
     CLEAR ALL
      */

@@ -7,10 +7,7 @@ import cyder.enums.Direction;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.genobjects.Gluster;
-import cyder.utilities.ImageUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.SystemUtil;
-import cyder.utilities.UserUtil;
+import cyder.utilities.*;
 import cyder.widgets.GenericInform;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -710,6 +707,8 @@ public class CyderFrame extends JFrame {
         if (this == null)
             return;
 
+        //todo what if we have a closing confirmation
+
         this.disableDragging();
 
         try {
@@ -1304,6 +1303,26 @@ public class CyderFrame extends JFrame {
 
     public void addMinimizeListener(ActionListener actionListener) {
         topDrag.addMinimizeListener(actionListener);
+    }
+
+    /**
+     * Displays a confirmation dialog to the user to confirm whether or not they intended to exit the frame
+     * @param message - the message to display to the user
+     */
+    public void addClosingConfirmation(String message) {
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("here " + message);
+                //todo now we can show a popup and if confirmed,
+            }
+        });
+
+        //todo remove close listeners and re-work so that it's a window listener
+        this.addCloseListener(e -> {
+            System.out.println("here " + message);
+        });
     }
 
     public void addDragListener(MouseMotionListener actionListener) {

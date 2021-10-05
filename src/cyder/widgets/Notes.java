@@ -12,6 +12,8 @@ import cyder.utilities.SystemUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class Notes {
     private static CyderTextField newNoteField;
     private static JTextArea newNoteArea;
 
+    private static LinkedList<CyderFrame> noteFrames;
 
     private Notes() {} //no objects
 
@@ -42,6 +45,8 @@ public class Notes {
 
         if (noteFrame != null)
             noteFrame.closeAnimation();
+
+        noteFrames = new LinkedList<>();
 
         noteFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
         noteFrame.setTitle(ConsoleFrame.getConsoleFrame().getUsername() +
@@ -86,6 +91,10 @@ public class Notes {
         openNote.setFont(CyderFonts.weatherFontSmall);
         openNote.addActionListener(e -> {
             LinkedList<String> selectedNames = cyderScrollList.getSelectedElements();
+
+            if (selectedNames.size() == 0)
+                return;
+
             String selectedName = selectedNames.get(0);
 
             for (int i = 0 ; i < noteNameList.size() ; i++) {
@@ -106,17 +115,30 @@ public class Notes {
         deleteNote.setFont(CyderFonts.weatherFontSmall);
         deleteNote.addActionListener(e -> {
             LinkedList<String> selectedNames = cyderScrollList.getSelectedElements();
+
+            if (selectedNames.size() == 0)
+                return;
+
             String selectedName = selectedNames.get(0);
 
             for (int i = 0 ; i < noteNameList.size() ; i++) {
                 if (noteNameList.get(i).equals(selectedName)) {
-                    //todo close the frame if it's open to edit this one, make a list to keep track of cyderframes for notes
+                    for (CyderFrame cf : noteFrames) {
+                        if (cf != null) {
+                            if (cf.getTitle().contains(selectedName)) {
+                                noteFrames.remove(cf);
+                                cf.closeAnimation();
+                            }
+                        }
+                    }
 
                     SystemUtil.deleteFolder(noteList.get(i));
                     initializeNotesList();
 
                     cyderScrollList.removeAllElements();
                     noteFrame.remove(noteScrollLabel);
+
+                    initializeNotesList();
 
                     for (int j = 0 ; j < noteNameList.size() ; j++) {
                         int finalJ = j;
@@ -128,7 +150,7 @@ public class Notes {
                         }
 
                         thisAction action = new thisAction();
-                        cyderScrollList.addElement(noteNameList.get(i), action);
+                        cyderScrollList.addElement(noteNameList.get(j), action);
                     }
 
                     noteScrollLabel = cyderScrollList.generateScrollList();
@@ -149,6 +171,9 @@ public class Notes {
     }
 
     //todo don't close windows that have unsaved changes without confirming
+
+    //todo adding a method to CyderFrame called "closing confirmation" with a string input
+    // would be beneficial in this senario
 
     private static void addNote() {
         if (newNoteFrame != null)
@@ -290,9 +315,7 @@ public class Notes {
             }
 
             InitReader.close();
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
 
@@ -339,9 +362,7 @@ public class Notes {
                     noteFrame.getContentPane().add(noteScrollLabel);
                     noteFrame.revalidate();
                     noteFrame.repaint();
-                }
-
-                else {
+                } else {
                     GenericInform.inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved","Saved");
                 }
 
@@ -358,6 +379,15 @@ public class Notes {
         noteEditorFrame.setVisible(true);
         noteEditArea.requestFocus();
         noteEditorFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+
+        noteFrames.add(noteEditorFrame);
+        noteEditorFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                noteFrames.remove(noteEditorFrame);
+            }
+        });
+        noteEditorFrame.addClosingConfirmation("Are you sure you wish to exit? Any unsaved work will be lost.");
     }
 
     public void kill() {
