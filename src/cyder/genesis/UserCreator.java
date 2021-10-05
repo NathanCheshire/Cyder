@@ -312,7 +312,7 @@ public class UserCreator {
 
                         //attempt to log in new user if it's the only user
                         if (new File("users/").listFiles().length == 1) {
-                            Login.getFrame().closeAnimation();
+                            Login.getLoginFrame().closeAnimation();
                             Login.recognize(newUserName.getText().trim(), SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)));
                         }
                     }

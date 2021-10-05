@@ -54,7 +54,7 @@ public class InputHandler {
     private String anagram;
     private UserEditor userEditor;
 
-    //todo custom date pattern for console clock
+    //todo custom date pattern for console clock, make another window for preferences
 
     private InputHandler() {} //no instantiation without a valid JTextPane to use
 

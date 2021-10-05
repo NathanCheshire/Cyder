@@ -1,0 +1,9 @@
+[13:52:10] [ENTRY]: [WINUSER=Nathan]
+[13:52:11] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[13:52:12] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:52:12] [LOGIN]: [AUTOCYPHER PASS]
+[13:52:14] [CLIENT]: [SIMULATED INPUT] test
+[13:52:14] [ACTION]: [AUDIO] users/8657469f-418b-348f-ab79-8993fb4c2b84/Music/91nova - What Color Is The Sky.mp3
+[13:52:23] [CLIENT]: Logout
+[13:52:23] [LOGOUT]:  [Nathan]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

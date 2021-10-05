@@ -171,11 +171,17 @@ public class GenesisShare {
 
     //todo error: this returns consoleframe at top left when closed, see logout bug
     public static CyderFrame getDominantFrame() {
+        System.out.println(ConsoleFrame.getConsoleFrame().isClosed());
+        System.out.println(ConsoleFrame.getConsoleFrame());
+        System.out.println(Login.getLoginFrame());
+
         if (!ConsoleFrame.getConsoleFrame().isClosed() && ConsoleFrame.getConsoleFrame() != null) {
             return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
-        } else if (Login.getFrame() != null) {
-            return Login.getFrame();
-        } else {
+        } else if (!Login.isClosed() && Login.getLoginFrame() != null){
+            return Login.getLoginFrame();
+        }
+        //other possibly dominant/stand-alone frame checks here
+        else {
             return null;
         }
     }

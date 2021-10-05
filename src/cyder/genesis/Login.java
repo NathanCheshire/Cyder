@@ -375,7 +375,12 @@ public class Login {
         }
     }
 
-    public static CyderFrame getFrame() {
+    public static boolean isClosed() {
+        //todo implement me
+        return false;
+    }
+
+    public static CyderFrame getLoginFrame() {
         return loginFrame;
     }
 }
