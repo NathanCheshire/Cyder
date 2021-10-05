@@ -1,0 +1,21 @@
+[15:51:36] [ENTRY]: [WINUSER=Nathan]
+[15:51:38] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[15:51:39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[15:51:40] [LOGIN]: [AUTOCYPHER PASS]
+[15:51:42] [CLIENT]: [SIMULATED INPUT] test
+[15:51:46] [CLIENT]: Logout
+[15:51:46] [LOGOUT]:  [Nathan]
+[15:51:52] [CLIENT_IO]: [LOGIN FRAME] login
+[15:51:53] [CLIENT_IO]: [LOGIN FRAME] nathan
+[15:51:54] [LOGIN]: [STD LOGIN]
+[15:51:55] [CLIENT]: [SIMULATED INPUT] test
+[15:51:56] [CLIENT]: Logion
+[15:51:56] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[15:51:57] [CLIENT]: Logio
+[15:51:59] [CLIENT]: Login
+[15:51:59] [ACTION]: LOGIN WIDGET
+[15:52:00] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[15:52:01] [CLIENT]: Logout
+[15:52:02] [LOGOUT]:  [Nathan]
+[15:52:03] [EXIT]: [RUNTIME] 26s
+[15:52:03] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

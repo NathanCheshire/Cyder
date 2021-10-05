@@ -28,6 +28,7 @@ public class Login {
     private static String username;
     private static final String bashString = SystemUtil.getWindowsUsername() + "@Cyder:~$ ";
     private static String consoleBashString;
+    private static boolean closed = true;
 
     private static boolean autoCypherAttempt;
 
@@ -123,6 +124,17 @@ public class Login {
         loginFrame.setTitle(IOUtil.getSystemData().getVersion() + " Cyder login");
         loginFrame.setBackground(new Color(21,23,24));
 
+        //close handling
+        closed = false;
+        loginFrame.addCloseListener(e -> closed = true);
+        loginFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                closed = true;
+            }
+        });
+
+        //exiting handler if console frame isn't active
         if (ConsoleFrame.getConsoleFrame().isClosed()) {
             loginFrame.addCloseListener(e -> GenesisShare.exit(25));
         }
@@ -269,7 +281,7 @@ public class Login {
         });
 
         loginFrame.setVisible(true);
-        loginFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        loginFrame.setLocationRelativeTo(GenesisShare.getDominantFrame() == loginFrame ? null : GenesisShare.getDominantFrame());
 
         if (directories != null && directories.length == 0)
             priorityPrintingList.add("No users found; please type \"create\"\n");
@@ -376,8 +388,7 @@ public class Login {
     }
 
     public static boolean isClosed() {
-        //todo implement me
-        return false;
+        return closed;
     }
 
     public static CyderFrame getLoginFrame() {
