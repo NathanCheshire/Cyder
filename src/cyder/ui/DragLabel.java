@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
+import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,9 +74,22 @@ public class DragLabel extends JLabel {
         effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowDeiconified(WindowEvent e) {
-            effectFrame.setLocation(effectFrame.getRestoreX(),effectFrame.getRestoreY());
-            effectFrame.setVisible(true);
-            effectFrame.requestFocus();
+                int restoreX = effectFrame.getRestoreX();
+                int restoreY = effectFrame.getRestoreY();
+
+                if (restoreX > SystemUtil.getScreenWidth())
+                    restoreX = SystemUtil.getScreenWidth() - effectFrame.getWidth();
+                if (restoreX < - effectFrame.getWidth())
+                    restoreX = 0;
+
+                if (restoreY > SystemUtil.getScreenHeight())
+                    restoreY = SystemUtil.getScreenHeight() - effectFrame.getHeight();
+                if (restoreY < - effectFrame.getHeight())
+                    restoreY = 0;
+
+                effectFrame.setLocation(restoreX, restoreY);
+                effectFrame.setVisible(true);
+                effectFrame.requestFocus();
             }
         });
 
