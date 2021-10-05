@@ -96,6 +96,14 @@ public class CyderFrame extends JFrame {
             }
         }
 
+        //listener to ensure the close button was always pressed essentially
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
@@ -699,37 +707,6 @@ public class CyderFrame extends JFrame {
     private int animationInc = 40;
 
     /**
-     * Close animation moves the window up until the CyderFrame is off screen. this.dispose() is then invoked
-     * perhaps you might re-write this to override dispose so that closeanimation is always called and you can
-     * simply dispose of a frame like normal.
-     */
-    public void closeAnimation() {
-        if (this == null)
-            return;
-
-        //todo what if we have a closing confirmation
-
-        this.disableDragging();
-
-        try {
-            if (this != null && isVisible()) {
-                Point point = getLocationOnScreen();
-                int x = (int) point.getX();
-                int y = (int) point.getY();
-
-                for (int i = y; i >= -getHeight(); i -= animationInc) {
-                    Thread.sleep(0, animationNano);
-                    setLocation(x, i);
-                }
-
-                dispose();
-            }
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
-
-    /**
      * Moves the window down until it is off screen before setting the state to ICONIFIED.
      * The original position of the frame will be remembered and set when the window is deiconified.
      */
@@ -748,11 +725,47 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void dispose() {
-        killThreads();
-        super.dispose();
+        new Thread(() -> {
+              try {
+                  if (this == null)
+                      return;
 
-        if (currentNotification != null)
-            currentNotification.kill();
+                  //if closing confirmation exists and the user decides they do not want to exit the frame
+                  if (closingConfirmationMessage != null && new GetterUtil().getConfirmation(closingConfirmationMessage)) {
+                      return;
+                  }
+
+                  //run all preCloseActions if any exists, this is performed after the confirmation check
+                  // since now we are sure that we wish to close the frame
+                  for (PreCloseAction action : preCloseActions)
+                      action.invokeAction();
+
+                  //todo remove me
+                  System.out.println("Inside dispose: make there only be one print statement per frame close");
+
+                  this.disableDragging();
+
+                  if (this != null && isVisible()) {
+                      Point point = getLocationOnScreen();
+                      int x = (int) point.getX();
+                      int y = (int) point.getY();
+
+                      for (int i = y; i >= -getHeight(); i -= animationInc) {
+                          Thread.sleep(0, animationNano);
+                          setLocation(x, i);
+                      }
+
+                      killThreads();
+
+                      if (currentNotification != null)
+                          currentNotification.kill();
+
+                      super.dispose();
+                  }
+              } catch (Exception e) {
+                  ErrorHandler.handle(e);
+              }
+        }, "wait thread for GetterUtil().getConfirmation()").start();
     }
 
     /**
@@ -1191,7 +1204,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Kills all threads associated with this CyderFrame instance. An irreversible action. This
-     * method is actomatically called when {@link CyderFrame#closeAnimation()} or {@link CyderFrame#dispose()} is invokekd.
+     * method is actomatically called when {@link CyderFrame#dispose()} is invokekd.
      */
     public void killThreads() {
         this.control_c_threads = true;
@@ -1286,43 +1299,51 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Adds an action listener hook to the frame to execute whenever the close button is pressed.
-     * @param actionListener - the action listener to add to the close button
+     * Action to perform upon a minimiztion request from the minimize button
+     * @param actionListener - the action to take
      */
-    public void addCloseListener(ActionListener actionListener) {
-        topDrag.addCloseListener(actionListener);
+    public void addMinimizeListener(ActionListener actionListener) {
+        actionListener.actionPerformed(null);
     }
+
+    private LinkedList<PreCloseAction> preCloseActions = new LinkedList<>();
 
     /**
-     * Adds the specified window listener to the CyderFrame
-     * @param windowListener - the window listener to add
+     * Performs the given action right before closing the frame. This action is invoked right before an animation
+     * and sequential dispose call. Usage:
+     *
+     *   class action implements PreCloseAction {
+     *         {@code @Override}
+     *         public void invokeAction() {
+     *             //logic here
+     *         }
+     *   }
+     *
+     *     addPreCloseAction(new action());
+     *
+     * @param action - the action to perform before closing/disposing
      */
-    public void addWindowListener(WindowListener windowListener) {
-        super.addWindowListener(windowListener);
+    public void addPreCloseAction(PreCloseAction action) {
+        preCloseActions.add(action);
     }
 
-    public void addMinimizeListener(ActionListener actionListener) {
-        topDrag.addMinimizeListener(actionListener);
+    //interface to be used for preCloseActions
+    public interface PreCloseAction {
+        void invokeAction();
     }
+
+    private String closingConfirmationMessage = null;
 
     /**
      * Displays a confirmation dialog to the user to confirm whether or not they intended to exit the frame
      * @param message - the message to display to the user
      */
-    public void addClosingConfirmation(String message) {
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.out.println("here " + message);
-                //todo now we can show a popup and if confirmed,
-            }
-        });
+    public void setClosingConfirmation(String message) {
+       this.closingConfirmationMessage = message;
+    }
 
-        //todo remove close listeners and re-work so that it's a window listener
-        this.addCloseListener(e -> {
-            System.out.println("here " + message);
-        });
+    public void removeClosingConfirmation() {
+        this.closingConfirmationMessage = null;
     }
 
     public void addDragListener(MouseMotionListener actionListener) {

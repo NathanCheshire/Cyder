@@ -40,7 +40,7 @@ public class PhotoViewer {
         File currentImage = validImages.get(currentIndex);
 
         if (pictureFrame != null)
-            pictureFrame.closeAnimation();
+            pictureFrame.dispose();
 
         ImageIcon newImage = null;
         newImage = checkImage(currentImage);

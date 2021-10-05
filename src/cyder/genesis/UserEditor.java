@@ -62,7 +62,7 @@ public class UserEditor {
 
     public UserEditor(int startingIndex) {
         if (editUserFrame != null)
-            editUserFrame.closeAnimation();
+            editUserFrame.dispose();
 
         editUserFrame = new CyderFrame(900, 700, CyderImages.defaultBackground);
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
@@ -70,7 +70,7 @@ public class UserEditor {
         editUserFrame.initializeResizing();
         editUserFrame.setMaximumSize(new Dimension(900,700));
         editUserFrame.setResizable(true);
-        editUserFrame.addCloseListener(e -> ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs());
+        editUserFrame.addPreCloseAction(() -> ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs());
 
         switchingLabel = new JLabel();
         switchingLabel.setForeground(new Color(255, 255, 255));

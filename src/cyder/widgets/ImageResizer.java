@@ -211,7 +211,7 @@ public class ImageResizer {
                     ImageIO.write(replace, "png", resizeImage);
                     GenericInform.inform("The image \"" + resizeImage.getName() + "\" was successfully resized to " +
                             xdim.getText() + "x" + ydim.getText(),"Success");
-                    resizeFrame.closeAnimation();
+                    resizeFrame.dispose();
                 }
 
                 catch (Exception ex) {

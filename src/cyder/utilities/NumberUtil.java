@@ -52,7 +52,7 @@ public class NumberUtil {
 
     public static void numberToWord() {
         if (numFrame != null)
-            numFrame.closeAnimation();
+            numFrame.dispose();
 
         numFrame = new CyderFrame(600, 230, CyderImages.defaultBackground);
         numFrame.setTitle("Number To Words");

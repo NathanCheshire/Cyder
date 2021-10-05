@@ -36,7 +36,7 @@ public class UserCreator {
         createUserBackground = null;
 
         if (createUserFrame != null)
-            createUserFrame.closeAnimation();
+            createUserFrame.dispose();
 
         createUserFrame = new CyderFrame(356, 473, CyderImages.defaultBackground);
         createUserFrame.setTitle("Create User");
@@ -306,13 +306,13 @@ public class UserCreator {
                         user.setExecutables(null);
                         UserUtil.setUserData(dataFile, user);
 
-                        createUserFrame.closeAnimation();
+                        createUserFrame.dispose();
                         createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "");
-                        createUserFrame.closeAnimation();
+                        createUserFrame.dispose();
 
                         //attempt to log in new user if it's the only user
                         if (new File("users/").listFiles().length == 1) {
-                            Login.getLoginFrame().closeAnimation();
+                            Login.getLoginFrame().dispose();
                             Login.recognize(newUserName.getText().trim(), SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)));
                         }
                     }
@@ -342,6 +342,6 @@ public class UserCreator {
 
     public static void close() {
         if (createUserFrame != null)
-            createUserFrame.closeAnimation();
+            createUserFrame.dispose();
     }
 }

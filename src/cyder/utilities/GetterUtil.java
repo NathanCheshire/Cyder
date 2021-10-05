@@ -88,12 +88,12 @@ public class GetterUtil {
                 submit.setForeground(CyderColors.navy);
                 submit.addActionListener(e12 -> {
                     returnString = (inputField.getText() == null || inputField.getText().length() == 0 ? "NULL" : inputField.getText());
-                    inputFrame.closeAnimation();
+                    inputFrame.dispose();
                 });
                 submit.setBounds(40,100,320,40);
                 inputFrame.getContentPane().add(submit);
 
-                inputFrame.addCloseListener(e -> submit.doClick());
+                inputFrame.addPreCloseAction(submit::doClick);
 
                 inputFrame.setVisible(true);
                 inputFrame.setAlwaysOnTop(true);
@@ -167,12 +167,12 @@ public class GetterUtil {
                 submit.setForeground(CyderColors.navy);
                 submit.addActionListener(e12 -> {
                     returnString = (inputField.getText() == null || inputField.getText().length() == 0 ? "NULL" : inputField.getText());
-                    inputFrame.closeAnimation();
+                    inputFrame.dispose();
                 });
                 submit.setBounds(40,100,320,40);
                 inputFrame.getContentPane().add(submit);
 
-                inputFrame.addCloseListener(e -> submit.doClick());
+                inputFrame.addPreCloseAction(submit::doClick);
 
                 inputFrame.setVisible(true);
                 inputFrame.setAlwaysOnTop(true);

@@ -102,7 +102,7 @@ public final class ConsoleFrame {
 
     public void start() {
         if (consoleCyderFrame != null)
-            consoleCyderFrame.closeAnimation();
+            consoleCyderFrame.dispose();
 
         resizeBackgrounds();
         initBackgrounds();
@@ -754,7 +754,7 @@ public final class ConsoleFrame {
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
-                    consoleCyderFrame.closeAnimation();
+                    consoleCyderFrame.dispose();
                     GenesisShare.exit(25);
                 }
             });
@@ -2419,7 +2419,7 @@ public final class ConsoleFrame {
     public void close() {
         inputHandler.close();
         inputHandler = null;
-        consoleCyderFrame.closeAnimation();
+        consoleCyderFrame.dispose();
         closed = true;
         SessionLogger.log(SessionLogger.Tag.LOGOUT, " [" + getUsername() + "]");
     }

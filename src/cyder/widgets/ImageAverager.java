@@ -172,7 +172,7 @@ public class ImageAverager {
                                 "/Backgrounds/" + combineImageNames() + ".png");
                         ImageIO.write(saveImage, "png", outFile);
                         cf.notify("Average computed and saved to your user's backgrounds/ directory");
-                        drawFrame.closeAnimation();
+                        drawFrame.dispose();
                     } catch (Exception ex) {
                         ErrorHandler.handle(ex);
                     }

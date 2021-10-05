@@ -24,7 +24,7 @@ public class TextEditor {
 
     private void openTextFile(File File) {
         if (textEditorFrame != null)
-            textEditorFrame.closeAnimation();
+            textEditorFrame.dispose();
 
         textEditorFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
         textEditorFrame.setTitle("Editing: " + File.getName().replace(".txt", ""));
@@ -93,7 +93,7 @@ public class TextEditor {
                     GenericInform.inform(File.getName().replace(".txt", "") + " has been successfully saved","Saved");
                 }
 
-                textEditorFrame.closeAnimation();
+                textEditorFrame.dispose();
             }
 
             catch (Exception exc) {

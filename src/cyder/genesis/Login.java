@@ -108,7 +108,7 @@ public class Login {
         loginMode = 0;
 
         if (loginFrame != null)
-            loginFrame.closeAnimation();
+            loginFrame.dispose();
 
         IOUtil.cleanUsers();
 
@@ -126,7 +126,7 @@ public class Login {
 
         //close handling
         closed = false;
-        loginFrame.addCloseListener(e -> closed = true);
+        loginFrame.addPreCloseAction(() -> closed = true);
         loginFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -136,7 +136,7 @@ public class Login {
 
         //exiting handler if console frame isn't active
         if (ConsoleFrame.getConsoleFrame().isClosed()) {
-            loginFrame.addCloseListener(e -> GenesisShare.exit(25));
+            loginFrame.addPreCloseAction(() -> GenesisShare.exit(25));
         }
 
         JTextPane loginArea = new JTextPane();
@@ -214,7 +214,7 @@ public class Login {
                                     priorityPrintingList.add("Feature not yet implemented\n");
                                     loginMode = 0;
                                 } else if (Arrays.equals(input,"quit".toCharArray())) {
-                                    loginFrame.closeAnimation();
+                                    loginFrame.dispose();
                                     if (ConsoleFrame.getConsoleFrame().isClosed())
                                         GenesisShare.exit(25);
 
@@ -274,7 +274,7 @@ public class Login {
         File Users = new File("users/");
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
 
-        loginFrame.addCloseListener(e -> {
+        loginFrame.addPreCloseAction(() -> {
             if (ConsoleFrame.getConsoleFrame().isClosed()) {
                 UserCreator.close();
             }
@@ -322,7 +322,7 @@ public class Login {
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
                 // and exiting the program when we have just logged in
                 if (loginFrame != null) {
-                    loginFrame.closeAnimation();
+                    loginFrame.dispose();
                 }
 
                 //this if block needs to be in console, stuff to do specifically for user on first login

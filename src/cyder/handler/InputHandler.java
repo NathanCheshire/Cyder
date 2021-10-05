@@ -757,7 +757,7 @@ public class InputHandler {
             GenesisShare.suspendFrameChecker();
             for (Frame f : Frame.getFrames()) {
                 if (f instanceof CyderFrame)
-                    ((CyderFrame) f).closeAnimation();
+                    ((CyderFrame) f).dispose();
                 else
                     f.dispose();
             }

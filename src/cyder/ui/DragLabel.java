@@ -247,9 +247,7 @@ public class DragLabel extends JLabel {
 
         close = new JButton("");
         close.setToolTipText("Close");
-        close.addActionListener(e -> {
-            effectFrame.closeAnimation();
-        });
+        close.addActionListener(e -> effectFrame.dispose());
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -462,10 +460,6 @@ public class DragLabel extends JLabel {
 
     public ButtonPosition getButtonPosition() {
         return this.buttonPosition;
-    }
-
-    protected void addCloseListener(ActionListener al) {
-        close.addActionListener(al);
     }
 
     protected void addMinimizeListener(ActionListener al) {

@@ -42,7 +42,7 @@ public class Pizza {
 
     public Pizza() {
         if (pizzaFrame != null)
-            pizzaFrame.closeAnimation();
+            pizzaFrame.dispose();
 
         pizzaFrame = new CyderFrame(600,800, CyderImages.defaultBackground);
         pizzaFrame.setTitle("Pizza");

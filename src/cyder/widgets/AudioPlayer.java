@@ -85,7 +85,7 @@ public class AudioPlayer {
         queue = new LinkedList<>();
         
         if (audioFrame != null)
-            audioFrame.closeAnimation();
+            audioFrame.dispose();
 
         audioFrame = new CyderFrame(500,225,
                 new ImageIcon(ImageUtil.bufferedImageFromColor(500,225,new Color(8,23,52))));
@@ -714,7 +714,7 @@ public class AudioPlayer {
 
         //exiting widget
         if (audioFrame != null)
-            audioFrame.closeAnimation();
+            audioFrame.dispose();
         audioFrame = null;
     }
 

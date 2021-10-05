@@ -25,7 +25,7 @@ public class TempConverter {
 
     public TempConverter() {
         if (temperatureFrame != null)
-            temperatureFrame.closeAnimation();
+            temperatureFrame.dispose();
 
         temperatureFrame = new CyderFrame(600,340, CyderImages.defaultBackground);
         temperatureFrame.setTitle("Temperature Converter");

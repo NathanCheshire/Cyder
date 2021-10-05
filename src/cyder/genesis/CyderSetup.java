@@ -94,7 +94,7 @@ public class CyderSetup {
 
         CyderFrame retFrame = GenericInform.informRet("System OS not intended for Cyder use. You should" +
                 " install a dual boot or a VM or something.","OS Exception");
-        retFrame.addCloseListener(e -> GenesisShare.exit(178));
+        retFrame.addPreCloseAction(() -> GenesisShare.exit(178));
         retFrame.setVisible(true);
         retFrame.setLocationRelativeTo(null);
     }

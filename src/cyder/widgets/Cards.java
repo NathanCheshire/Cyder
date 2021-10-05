@@ -18,7 +18,7 @@ public class Cards {
 
     public static void Christmas2020() {
         if (christmas2020Frame != null)
-            christmas2020Frame.closeAnimation();
+            christmas2020Frame.dispose();
 
         christmas2020Frame = new CyderFrame(498,490, new ImageIcon("sys/pictures/cards/Santa.gif"));
         christmas2020Frame.setTitle("Merry Christmas!");
@@ -57,7 +57,7 @@ public class Cards {
 
     public static void FathersDay2021() {
         if (fathersDay2021Frame != null)
-            fathersDay2021Frame.closeAnimation();
+            fathersDay2021Frame.dispose();
 
         fathersDay2021Frame = new CyderFrame(800,721, new ImageIcon("sys/pictures/cards/Philmont.png"));
         fathersDay2021Frame.setTitle("Happy Father's Day!");
@@ -85,7 +85,7 @@ public class Cards {
     }
     public static void Birthday2021() {
         if (birthday2021Frame != null)
-            birthday2021Frame.closeAnimation();
+            birthday2021Frame.dispose();
 
         birthday2021Frame = new CyderFrame(800,600, new ImageIcon("sys/pictures/cards/Confetti.png"));
         birthday2021Frame.setTitle("Happy Birthday Day!");

@@ -21,7 +21,7 @@ public class Minecraft {
 
     public Minecraft() {
         if (minecraftFrame != null)
-            minecraftFrame.closeAnimation();
+            minecraftFrame.dispose();
 
         minecraftFrame = new CyderFrame(1263,160, new ImageIcon("sys/pictures/minecraft/Minecraft.png"));
         minecraftFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);

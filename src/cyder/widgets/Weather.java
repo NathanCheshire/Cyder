@@ -90,7 +90,7 @@ public class Weather {
         repullWeatherStats();
 
         if (weatherFrame != null)
-            weatherFrame.closeAnimation();
+            weatherFrame.dispose();
 
         weatherFrame = new CyderFrame(480,600, new ImageIcon(
                 ImageUtil.getImageGradient(480, 600,

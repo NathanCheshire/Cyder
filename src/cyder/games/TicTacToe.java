@@ -37,7 +37,7 @@ public class TicTacToe {
 
     public void startTicTacToe() {
         if (tttFrame != null)
-            tttFrame.closeAnimation();
+            tttFrame.dispose();
 
         tttFrame = new CyderFrame(400,500, CyderImages.defaultBackground);
         tttFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);

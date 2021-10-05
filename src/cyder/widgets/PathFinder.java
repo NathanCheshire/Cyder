@@ -55,7 +55,7 @@ public class PathFinder {
 
     public static void showGUI() {
         if (pathFindingFrame != null)
-            pathFindingFrame.closeAnimation();
+            pathFindingFrame.dispose();
 
         timer = new Timer(timeoutMS, pathFindAction);
         timer.setDelay(timeoutMS);

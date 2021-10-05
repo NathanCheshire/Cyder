@@ -32,7 +32,7 @@ public class Hangman {
 
     public void startHangman() {
         if (HangmanFrame != null)
-            HangmanFrame.closeAnimation();
+            HangmanFrame.dispose();
 
         HangmanFrame = new CyderFrame(712,812, CyderImages.defaultBackground);
         HangmanFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);

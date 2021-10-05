@@ -34,7 +34,7 @@ public class DirectorySearch {
 
     public DirectorySearch() {
         if (dirFrame != null)
-            dirFrame.closeAnimation();
+            dirFrame.dispose();
 
         dirFrame = new CyderFrame(620,470, CyderImages.defaultBackground);
         dirFrame.setTitle(currentDirectory.getName());

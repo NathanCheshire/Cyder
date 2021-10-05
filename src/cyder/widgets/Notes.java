@@ -44,7 +44,7 @@ public class Notes {
             return;
 
         if (noteFrame != null)
-            noteFrame.closeAnimation();
+            noteFrame.dispose();
 
         noteFrames = new LinkedList<>();
 
@@ -127,7 +127,7 @@ public class Notes {
                         if (cf != null) {
                             if (cf.getTitle().contains(selectedName)) {
                                 noteFrames.remove(cf);
-                                cf.closeAnimation();
+                                cf.dispose();
                             }
                         }
                     }
@@ -172,12 +172,9 @@ public class Notes {
 
     //todo don't close windows that have unsaved changes without confirming
 
-    //todo adding a method to CyderFrame called "closing confirmation" with a string input
-    // would be beneficial in this senario
-
     private static void addNote() {
         if (newNoteFrame != null)
-            newNoteFrame.closeAnimation();
+            newNoteFrame.dispose();
 
         newNoteFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
         newNoteFrame.setTitle("New note");
@@ -227,7 +224,7 @@ public class Notes {
                 ErrorHandler.handle(ex);
             }
 
-            newNoteFrame.closeAnimation();
+            newNoteFrame.dispose();
 
             initializeNotesList();
 
@@ -366,7 +363,7 @@ public class Notes {
                     GenericInform.inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved","Saved");
                 }
 
-                noteEditorFrame.closeAnimation();
+                noteEditorFrame.dispose();
             }
 
             catch (Exception exc) {
@@ -387,7 +384,7 @@ public class Notes {
                 noteFrames.remove(noteEditorFrame);
             }
         });
-        noteEditorFrame.addClosingConfirmation("Are you sure you wish to exit? Any unsaved work will be lost.");
+        noteEditorFrame.setClosingConfirmation("Are you sure you wish to exit? Any unsaved work will be lost.");
     }
 
     public void kill() {

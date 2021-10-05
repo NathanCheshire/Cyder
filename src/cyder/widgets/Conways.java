@@ -4,7 +4,6 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -230,7 +229,9 @@ public class Conways {
 
         cf.setVisible(true);
         cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
-        cf.addCloseListener(e -> simulationRunning = false);
+        cf.addPreCloseAction(() -> {
+
+        });
     }
 
     @SuppressWarnings("ForLoopReplaceableByForEach")
