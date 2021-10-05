@@ -731,17 +731,17 @@ public class CyderFrame extends JFrame {
                       return;
 
                   //if closing confirmation exists and the user decides they do not want to exit the frame
-                  if (closingConfirmationMessage != null && new GetterUtil().getConfirmation(closingConfirmationMessage)) {
-                      return;
+                  if (closingConfirmationMessage != null ) {
+                      boolean exit = new GetterUtil().getConfirmation(closingConfirmationMessage, this);
+
+                      if (!exit)
+                          return;
                   }
 
                   //run all preCloseActions if any exists, this is performed after the confirmation check
                   // since now we are sure that we wish to close the frame
                   for (PreCloseAction action : preCloseActions)
                       action.invokeAction();
-
-                  //todo remove me
-                  System.out.println("Inside dispose: make there only be one print statement per frame close");
 
                   this.disableDragging();
 

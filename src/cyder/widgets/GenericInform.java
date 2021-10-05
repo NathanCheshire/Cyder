@@ -58,7 +58,7 @@ public class GenericInform {
 
             textLabel.setBounds(10,35, w, h);
 
-            CyderFrame informFrame = new CyderFrame(w + 20, h + 40, CyderImages.defaultBackgroundLarge);
+            CyderFrame informFrame = new CyderFrame(w + 40, h + 40, CyderImages.defaultBackgroundLarge);
             informFrame.setTitle(title);
             informFrame.add(textLabel);
 

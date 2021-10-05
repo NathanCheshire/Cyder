@@ -7,6 +7,7 @@ import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -15,10 +16,14 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -327,19 +332,77 @@ public class GetterUtil {
      * Confirmation dialog
      */
 
-    //todo implement confirmation getter with message and a yes or no button
     public boolean getConfirmation(String message) {
-        String retString = null;
+        return getConfirmation(message, null);
+    }
+
+    public boolean getConfirmation(String message, CyderFrame relativeFrame) {
+        final String[] retString = {null};
+        final CyderFrame[] confirmationFrame = {null};
 
         new Thread(() -> {
             try {
-                //frame
+                CyderLabel textLabel = new CyderLabel(message);
 
-                //message
+                //start of font width and height calculation
+                int w = 0;
+                Font notificationFont = CyderFonts.defaultFontSmall;
+                AffineTransform affinetransform = new AffineTransform();
+                FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
 
-                //submit button that closes this and sets ret to value needed
+                //get minimum width for whole parsed string
+                w = (int) notificationFont.getStringBounds(message, frc).getWidth() + 5;
 
-                //close listener to say no if confirmation window is closed
+                //get height of a line and set it as height increment too
+                int h = (int) notificationFont.getStringBounds(message, frc).getHeight();
+                int heightInc = h;
+
+                while (w > SystemUtil.getScreenWidth() / 2) {
+                    int area = w * h;
+                    w /= 2;
+                    h = area / w;
+                }
+
+                String[] breakOccurences = message.split("<br/>");
+                h += (breakOccurences.length * heightInc);
+
+                if (h != heightInc)
+                    h += 10;
+
+                //in case we're too short from html breaks, find the max width line and set it to w
+                if (message.contains("<br/>"))
+                    w = 0;
+
+                for (String line : message.split("<br/>")) {
+                    int thisW = (int) notificationFont.getStringBounds(Jsoup.clean(line, Safelist.none()), frc).getWidth() + 5;
+
+                    if (thisW > w) {
+                        w = thisW;
+                    }
+                }
+
+                confirmationFrame[0] = new CyderFrame(w + 40, h + 25 + 20 + 40 + 40);
+                confirmationFrame[0].setTitle("Confirmation");
+                confirmationFrame[0].addPreCloseAction(() -> retString[0] = "false");
+
+                textLabel.setBounds(10,35, w, h);
+                confirmationFrame[0].getContentPane().add(textLabel);
+
+                //accounting for offset above
+                w += 40;
+
+                CyderButton yes = new CyderButton("Yes");
+                yes.addActionListener(e -> retString[0] = "true");
+                yes.setBounds(20,35 + h + 20, (w - 60) / 2, 40);
+                confirmationFrame[0].getContentPane().add(yes);
+
+                CyderButton no = new CyderButton("No");
+                no.addActionListener(e -> retString[0] = "true");
+                no.setBounds(20 + 20 + ((w - 60) / 2),35 + h + 20, (w - 60) / 2, 40);
+                confirmationFrame[0].getContentPane().add(no);
+
+                confirmationFrame[0].setVisible(true);
+                confirmationFrame[0].setLocationRelativeTo(relativeFrame);
 
             } catch (Exception e) {
                 ErrorHandler.handle(e);
@@ -347,13 +410,15 @@ public class GetterUtil {
         }, this + "getConfirmation thread").start();
 
         try {
-            while (retString == null) {
+            while (retString[0] == null) {
                 Thread.onSpinWait();
             }
+
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         } finally {
-            return retString.equals("true");
+            confirmationFrame[0].dispose();
+            return retString[0].equals("true");
         }
     }
 

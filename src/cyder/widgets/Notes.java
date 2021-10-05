@@ -170,8 +170,6 @@ public class Notes {
         noteFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    //todo don't close windows that have unsaved changes without confirming
-
     private static void addNote() {
         if (newNoteFrame != null)
             newNoteFrame.dispose();
@@ -215,7 +213,8 @@ public class Notes {
         submitNewNote.addActionListener(e -> {
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(new FileWriter(
-                        "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes/" + newNoteField.getText() + ".txt",true));
+                        "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes/" +
+                                newNoteField.getText() + ".txt",true));
                 newNoteArea.write(NoteWriter);
                 NoteWriter.close();
             }
@@ -318,7 +317,7 @@ public class Notes {
 
         currentUserNote = File;
 
-        CyderButton saveNote = new CyderButton("Save & Resign");
+        CyderButton saveNote = new CyderButton("Save");
         saveNote.setColors(CyderColors.regularRed);
         saveNote.setBorder(new LineBorder(CyderColors.navy,5,false));
         saveNote.setFocusPainted(false);
@@ -335,7 +334,8 @@ public class Notes {
                 if (noteEditField.getText().length() > 0) {
                     newName = new File(File.getAbsolutePath().replace(File.getName(),noteEditField.getText() + ".txt"));
                     File.renameTo(newName);
-                    GenericInform.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved");
+                    GenericInform.informRelative(newName.getName().replace(".txt", "") +
+                            " has been successfully saved","Saved", noteEditorFrame);
                     initializeNotesList();
 
                     cyderScrollList.removeAllElements();
@@ -360,10 +360,8 @@ public class Notes {
                     noteFrame.revalidate();
                     noteFrame.repaint();
                 } else {
-                    GenericInform.inform(currentUserNote.getName().replace(".txt", "") + " has been successfully saved","Saved");
+                    GenericInform.informRelative(currentUserNote.getName().replace(".txt", "") + " has been successfully saved","Saved", noteEditorFrame);
                 }
-
-                noteEditorFrame.dispose();
             }
 
             catch (Exception exc) {
