@@ -1,0 +1,25 @@
+[13:44:17] [ENTRY]: [WINUSER=Nathan]
+[13:44:19] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[13:44:19] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:44:20] [LOGIN]: [AUTOCYPHER PASS]
+[13:44:22] [CLIENT]: [SIMULATED INPUT] test
+[13:44:22] [ACTION]: [AUDIO] users/8657469f-418b-348f-ab79-8993fb4c2b84/Music/Euphoria - Sacred.mp3
+[13:44:31] [CLIENT]: Prefs
+[13:44:31] [ACTION]: USER EDITOR
+[13:44:34] [CLIENT]: Logout
+[13:44:34] [LOGOUT]:  [Nathan]
+[13:44:37] [CLIENT_IO]: [LOGIN FRAME] login
+[13:44:39] [CLIENT_IO]: [LOGIN FRAME] nathan
+[13:44:40] [LOGIN]: [STD LOGIN]
+[13:44:41] [ACTION]: [AUDIO] users/8657469f-418b-348f-ab79-8993fb4c2b84/Music/Buckethead - Soothsayer.mp3
+[13:44:41] [CLIENT]: [SIMULATED INPUT] test
+[13:44:45] [CLIENT]: Logout
+[13:44:46] [LOGOUT]:  [Nathan]
+[13:44:47] [CLIENT_IO]: [LOGIN FRAME] login
+[13:44:48] [CLIENT_IO]: [LOGIN FRAME] nathan
+[13:44:50] [LOGIN]: [STD LOGIN]
+[13:44:50] [ACTION]: [AUDIO] users/8657469f-418b-348f-ab79-8993fb4c2b84/Music/Euphoria - Sacred.mp3
+[13:44:51] [CLIENT]: [SIMULATED INPUT] test
+[13:44:53] [CLIENT]: Logout
+[13:44:53] [LOGOUT]:  [Nathan]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

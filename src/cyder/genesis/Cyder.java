@@ -21,6 +21,7 @@ public class Cyder {
         SessionLogger.log(SessionLogger.Tag.ENTRY, SystemUtil.getWindowsUsername());
 
         //CyderSetup subroutines
+        CyderSetup.registerFonts();
         CyderSetup.initSystemProperties();
         CyderSetup.initUIManager();
 

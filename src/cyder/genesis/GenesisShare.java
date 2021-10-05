@@ -169,12 +169,15 @@ public class GenesisShare {
         }
     }
 
+    //todo error: this returns consoleframe at top left when closed, see logout bug
     public static CyderFrame getDominantFrame() {
-        if (!ConsoleFrame.getConsoleFrame().isClosed()) {
+        if (!ConsoleFrame.getConsoleFrame().isClosed() && ConsoleFrame.getConsoleFrame() != null) {
             return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
+        } else if (Login.getFrame() != null) {
+            return Login.getFrame();
+        } else {
+            return null;
         }
-
-        return Login.getFrame();
     }
 
     private static boolean quesitonableInternet;

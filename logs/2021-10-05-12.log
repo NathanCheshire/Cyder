@@ -1,0 +1,28 @@
+[13:41:43] [ENTRY]: [WINUSER=Nathan]
+[13:41:46] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[13:41:47] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:41:47] [LOGIN]: [AUTOCYPHER PASS]
+[13:41:49] [CLIENT]: [SIMULATED INPUT] test
+[13:41:52] [CLIENT]: Font
+[13:41:53] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[13:41:55] [CLIENT]: Prefs
+[13:41:55] [ACTION]: USER EDITOR
+[13:41:57] [ACTION]: CyderButton, text=[>] CLICKED
+[13:41:57] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[13:42:10] [ACTION]: CyderButton, text=[Apply Font] CLICKED
+[13:42:10] [CONSOLE_OUT]: [STRING] The font "BEYNO" has been applied.
+[13:42:19] [CLIENT]: Reset
+[13:42:19] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[13:42:21] [CLIENT]: Cls
+[13:42:24] [ACTION]: CyderButton, text=[Apply Font] CLICKED
+[13:42:24] [CONSOLE_OUT]: [STRING] The font "Agency FB" has been applied.
+[13:42:26] [CLIENT]: controlc
+[13:42:26] [CONSOLE_OUT]: [STRING] Escaped
+[13:42:27] [CLIENT]: Cls
+[13:42:48] [ACTION]: CyderButton, text=[Reset ALL] CLICKED
+[13:42:48] [ACTION]: [Edit User] [NOTIFICATION] Default fonts and colors set
+[13:42:56] [ACTION]: CyderButton, text=[>] CLICKED
+[13:43:09] [ACTION]: CyderButton, text=[      On      ] CLICKED
+[13:43:12] [CLIENT]: logout
+[13:43:13] [LOGOUT]:  [Nathan]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

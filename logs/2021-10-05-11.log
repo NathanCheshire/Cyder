@@ -1,0 +1,18 @@
+[13:39:45] [ENTRY]: [WINUSER=Nathan]
+[13:39:46] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[13:39:47] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13:39:48] [LOGIN]: [AUTOCYPHER PASS]
+[13:39:49] [CLIENT]: [SIMULATED INPUT] test
+[13:40:07] [CLIENT]: Font
+[13:40:07] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[13:40:09] [CLIENT]: Prefs
+[13:40:09] [ACTION]: USER EDITOR
+[13:40:10] [ACTION]: CyderButton, text=[>] CLICKED
+[13:40:10] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[13:40:27] [ACTION]: CyderButton, text=[Apply Font] CLICKED
+[13:40:27] [CONSOLE_OUT]: [STRING] The font "AgencyFB" has been applied.
+[13:40:30] [ACTION]: CyderButton, text=[Apply Font] CLICKED
+[13:40:30] [CONSOLE_OUT]: [STRING] The font "Agency FB" has been applied.
+[13:40:58] [LOGOUT]:  [Nathan]
+[13:40:58] [EXIT]: [RUNTIME] 1m 13s
+[13:40:58] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
