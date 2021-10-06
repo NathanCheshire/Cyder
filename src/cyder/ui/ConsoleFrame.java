@@ -59,7 +59,7 @@ public final class ConsoleFrame {
     //music controls panel
     private JLabel audioControlsLabel;
     private JLabel playPauseMusicLabel;
-    private boolean audioMenuVisible;
+
 
     //debug ui elements
     private JLabel debugImageLabel;
@@ -151,10 +151,22 @@ public final class ConsoleFrame {
                 public void setBounds(int x, int y, int w, int h) {
                     super.setBounds(x,y,w,h);
 
+                    //set pane component bounds
                     if (outputScroll != null && inputField != null) {
                         outputScroll.setBounds(10, 62, w - 20, h - 204);
                         inputField.setBounds(10, 62 + outputScroll.getHeight() + 20,w - 20,
                                 h - (62 + outputScroll.getHeight() + 20 + 20));
+                    }
+
+                    //menu label bounds
+                    if (menuLabel != null && menuLabel.isVisible()) {
+                        menuLabel.setBounds(0,DragLabel.getDefaultHeight() - 5,
+                                menuLabel.getWidth(), menuLabel.getHeight());
+                    }
+                    //audio menu bounds
+                    if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
+                        audioControlsLabel.setBounds(w - 155, DragLabel.getDefaultHeight() + 3,
+                                audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
                     }
                 }
 
@@ -2616,7 +2628,7 @@ public final class ConsoleFrame {
 
     private void generateAudioMenu() {
         audioControlsLabel = new JLabel("");
-        audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - 150 - 5, //width of console so need's to be revalidated
+        audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - 150 - 5,
                 -40, //negative height
                 150,40);
         audioControlsLabel.setOpaque(true);

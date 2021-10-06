@@ -59,6 +59,8 @@ public class InputHandler {
     //todo popup button list for informs and confirmations and such to only show a close button
     // actually make a boolean for the frame too since the frame should alway be on top
 
+    //todo get centering text for confirmation dialog working
+
     private InputHandler() {} //no instantiation without a valid JTextPane to use
 
     public InputHandler(JTextPane outputArea) {
