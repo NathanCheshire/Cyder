@@ -56,6 +56,9 @@ public class InputHandler {
 
     //todo custom date pattern for console clock, make another window for preferences
 
+    //todo popup button list for informs and confirmations and such to only show a close button
+    // actually make a boolean for the frame too since the frame should alway be on top
+
     private InputHandler() {} //no instantiation without a valid JTextPane to use
 
     public InputHandler(JTextPane outputArea) {
@@ -757,8 +760,6 @@ public class InputHandler {
             GenesisShare.suspendFrameChecker();
             for (Frame f : Frame.getFrames()) {
                 if (f instanceof CyderFrame)
-                    ((CyderFrame) f).dispose();
-                else
                     f.dispose();
             }
             IOUtil.stopAudio();

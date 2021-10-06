@@ -397,7 +397,7 @@ public class GetterUtil {
                 confirmationFrame[0].getContentPane().add(yes);
 
                 CyderButton no = new CyderButton("No");
-                no.addActionListener(e -> retString[0] = "true");
+                no.addActionListener(e -> retString[0] = "false");
                 no.setBounds(20 + 20 + ((w - 60) / 2),35 + h + 20, (w - 60) / 2, 40);
                 confirmationFrame[0].getContentPane().add(no);
 

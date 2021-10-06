@@ -12,6 +12,8 @@ import cyder.utilities.SystemUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -288,6 +290,27 @@ public class Notes {
         noteEditArea.setLineWrap(true);
         noteEditArea.setWrapStyleWord(true);
         noteEditArea.setFocusable(true);
+        noteEditArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                try {
+                    BufferedReader sameReader = new BufferedReader(new FileReader(currentUserNote));
+                    StringBuilder contents = new StringBuilder();
+                    String line;
+
+                    while ((line = sameReader.readLine()) != null)
+                        contents.append(line).append("\n");
+
+                    //add closing confirmation if changes are not saved
+                    if (!noteEditArea.getText().contentEquals(contents))
+                        noteEditorFrame.setClosingConfirmation("Are you sure you wish to exit? Any unsaved work will be lost.");
+                    else
+                        noteEditorFrame.removeClosingConfirmation();
+                } catch (Exception ex) {
+                    ErrorHandler.handle(ex);
+                }
+            }
+        });
 
         CyderScrollPane noteScroll = new CyderScrollPane(noteEditArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -317,6 +340,8 @@ public class Notes {
 
         currentUserNote = File;
 
+        //todo title changing and updating is broken
+
         CyderButton saveNote = new CyderButton("Save");
         saveNote.setColors(CyderColors.regularRed);
         saveNote.setBorder(new LineBorder(CyderColors.navy,5,false));
@@ -325,9 +350,25 @@ public class Notes {
         saveNote.setFont(CyderFonts.weatherFontSmall);
         saveNote.addActionListener(e -> {
             try {
+                BufferedReader sameReader = new BufferedReader(new FileReader(currentUserNote));
+                StringBuilder contents = new StringBuilder();
+                String line;
+
+                while ((line = sameReader.readLine()) != null)
+                    contents.append(line).append("\n");
+
+                //contents are equal so there is nothing to save so return
+                if (noteEditArea.getText().contentEquals(contents)) {
+                    noteEditorFrame.removeClosingConfirmation();
+                    return;
+                }
+
                 BufferedWriter SaveWriter = new BufferedWriter(new FileWriter(currentUserNote, false));
                 SaveWriter.write(noteEditArea.getText());
                 SaveWriter.close();
+
+                //saved so remove closing confirmation
+                noteEditorFrame.removeClosingConfirmation();
 
                 File newName = null;
 
@@ -382,7 +423,6 @@ public class Notes {
                 noteFrames.remove(noteEditorFrame);
             }
         });
-        noteEditorFrame.setClosingConfirmation("Are you sure you wish to exit? Any unsaved work will be lost.");
     }
 
     public void kill() {
