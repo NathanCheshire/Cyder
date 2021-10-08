@@ -1,0 +1,12 @@
+[21:57:01] [ENTRY]: [WINUSER=Nathan]
+[21:57:02] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[21:57:03] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21:57:04] [LOGIN]: [AUTOCYPHER PASS]
+[21:57:06] [CLIENT]: [SIMULATED INPUT] test
+[21:57:33] [CLIENT]: Screen size
+[21:57:33] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[21:57:37] [CLIENT]: Mp3
+[21:57:37] [ACTION]: AUDIO PLAYER
+[21:57:41] [LOGOUT]:  [Nathan]
+[21:57:41] [EXIT]: [RUNTIME] 39s
+[21:57:41] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

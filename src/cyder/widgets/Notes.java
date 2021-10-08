@@ -357,8 +357,9 @@ public class Notes {
                 while ((line = sameReader.readLine()) != null)
                     contents.append(line).append("\n");
 
-                //contents are equal so there is nothing to save so return
-                if (noteEditArea.getText().contentEquals(contents)) {
+                //contents are equal and name is same so there is nothing to save so return
+                if (noteEditArea.getText().contentEquals(contents) &&
+                        noteEditField.getText().trim().equals(StringUtil.getFilename(currentUserNote))) {
                     noteEditorFrame.removeClosingConfirmation();
                     return;
                 }
@@ -370,13 +371,18 @@ public class Notes {
                 //saved so remove closing confirmation
                 noteEditorFrame.removeClosingConfirmation();
 
-                File newName = null;
+                if (noteEditField.getText().length() > 0 && !StringUtil.getFilename(currentUserNote).equals(noteEditField.getText().trim())) {
+                    File newName = new File(currentUserNote.getAbsolutePath().replace(
+                            currentUserNote.getName(),noteEditField.getText().trim() + ".txt"));
+                    boolean updated = File.renameTo(newName);
 
-                if (noteEditField.getText().length() > 0) {
-                    newName = new File(File.getAbsolutePath().replace(File.getName(),noteEditField.getText() + ".txt"));
-                    File.renameTo(newName);
-                    GenericInform.informRelative(newName.getName().replace(".txt", "") +
-                            " has been successfully saved","Saved", noteEditorFrame);
+                    if (updated) {
+                        GenericInform.informRelative(newName.getName().replace(".txt", "") +
+                                " has been successfully saved","Saved", noteEditorFrame);
+                    } else {
+                        GenericInform.informRelative("Could not rename note at this time","Saved", noteEditorFrame);
+                    }
+
                     initializeNotesList();
 
                     cyderScrollList.removeAllElements();

@@ -1,0 +1,19 @@
+[22:13:50] [ENTRY]: [WINUSER=Nathan]
+[22:13:51] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[22:13:52] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22:13:52] [LOGIN]: [AUTOCYPHER PASS]
+[22:13:54] [CLIENT]: [SIMULATED INPUT] test
+[22:14:09] [CLIENT]: Prefs
+[22:14:09] [ACTION]: USER EDITOR
+[22:14:13] [ACTION]: CyderButton, text=[Delete] CLICKED
+[22:14:13] [CONSOLE_OUT]: [STRING] Music: 1990nowhere - Asteroid (Official Music Video) successfully deleted.
+[22:15:04] [CLIENT]: Cls
+[22:15:05] [CLIENT]: Note
+[22:15:05] [ACTION]: NOTE EDITOR
+[22:15:14] [ACTION]: CyderButton, text=[Save] CLICKED
+[22:15:16] [ACTION]: CyderButton, text=[Save] CLICKED
+[22:15:26] [ACTION]: CyderButton, text=[No] CLICKED
+[22:15:43] [ACTION]: CyderButton, text=[Save] CLICKED
+[22:17:46] [LOGOUT]:  [Nathan]
+[22:17:46] [EXIT]: [RUNTIME] 3m 56s
+[22:17:46] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
