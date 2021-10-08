@@ -340,8 +340,6 @@ public class Notes {
 
         currentUserNote = File;
 
-        //todo title changing and updating is broken
-
         CyderButton saveNote = new CyderButton("Save");
         saveNote.setColors(CyderColors.regularRed);
         saveNote.setBorder(new LineBorder(CyderColors.navy,5,false));

@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
-
 public class GenericInform {
     public static CyderFrame informRet(String text, String title) {
         try {
@@ -126,5 +125,41 @@ public class GenericInform {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    /**
+     * Given the provided text, returns a bouding box for the text, not the window.
+     * @param text - the text to be used for the calculaiton
+     * @return - the width and height for the provided text
+     */
+    public static Dimension getBoundingBox(String text) {
+
+
+        return null;
+    }
+
+    /**
+     * Given the provided text, returns the width needed to fit the text onto a frame with the provided height
+     * @param text - the text to be used for the calculaiton
+     * @param height - the decided upon height for the text bounds
+     * @return - the width for the provided text
+     */
+    public static int getTextWidth(String text, int height) {
+
+
+        return 0;
+    }
+
+
+    /**
+     * Given the provided text, returns the height needed to fit the text onto a frame with the provided width
+     * @param text - the tex to be used for the calculation
+     * @param width - the decided upon width for the text bouds
+     * @return - the height for the provided text
+     */
+    public static int getTextHeight(String text, int width) {
+
+
+        return 0;
     }
 }
