@@ -7,7 +7,7 @@ import cyder.handler.SessionLogger;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.StringUtil;
-import cyder.widgets.GenericInform;
+import cyder.widgets.GenericInformer;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -92,7 +92,7 @@ public class CyderSetup {
         SessionLogger.log(SessionLogger.Tag.LOGIN, "IMPROPER OS");
         GenesisShare.cancelFrameCheckerSuspention();
 
-        CyderFrame retFrame = GenericInform.informRet("System OS not intended for Cyder use. You should" +
+        CyderFrame retFrame = GenericInformer.informRet("System OS not intended for Cyder use. You should" +
                 " install a dual boot or a VM or something.","OS Exception");
         retFrame.addPreCloseAction(() -> GenesisShare.exit(178));
         retFrame.setVisible(true);

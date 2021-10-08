@@ -7,7 +7,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.StringUtil;
-import cyder.widgets.GenericInform;
+import cyder.widgets.GenericInformer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -251,7 +251,7 @@ public class PhotoViewer {
                    File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
                    File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
                    oldName.renameTo(newName);
-                   GenericInform.inform("Successfully renamed to " + name,"");
+                   GenericInformer.inform("Successfully renamed to " + name,"");
 
                    initFiles();
 

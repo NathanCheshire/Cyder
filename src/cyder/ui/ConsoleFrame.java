@@ -1705,7 +1705,7 @@ public final class ConsoleFrame {
 
                 //inform the user we are changing the size of the image.
                 if (backgroundWidth > SystemUtil.getScreenWidth() || backgroundHeight > SystemUtil.getScreenHeight())
-                    GenericInform.inform("Resizing the background image \"" + currentFile.getName() +
+                    GenericInformer.inform("Resizing the background image \"" + currentFile.getName() +
                                     "\" since it's too big.", "System Action");
 
                 //while the image dimensions are greater than the screen dimensions,
@@ -1718,7 +1718,7 @@ public final class ConsoleFrame {
 
                 //inform the user we are changing the size of the image
                 if (backgroundWidth < 600 || backgroundHeight < 600)
-                    GenericInform.inform("Resizing the background image \"" + getBackgrounds().get(i).getName()
+                    GenericInformer.inform("Resizing the background image \"" + getBackgrounds().get(i).getName()
                             + "\" since it's too small.", "System Action");
 
                 //while the image dimensions are less than 800x800, multiply the image dimensions by the

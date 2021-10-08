@@ -7,7 +7,7 @@ import cyder.handler.*;
 import cyder.genobjects.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.widgets.AudioPlayer;
-import cyder.widgets.GenericInform;
+import cyder.widgets.GenericInformer;
 import javazoom.jl.player.Player;
 
 import java.awt.*;
@@ -343,7 +343,7 @@ public class IOUtil {
                 return;
 
             //confirmed that the user was corrupted so we inform the user
-            GenericInform.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
+            GenericInformer.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
                     "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User :(");
 
             //delete the stuff we don't care about

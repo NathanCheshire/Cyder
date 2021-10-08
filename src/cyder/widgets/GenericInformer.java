@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
-public class GenericInform {
+public class GenericInformer {
     public static CyderFrame informRet(String text, String title) {
         try {
             CyderLabel textLabel = new CyderLabel(text);

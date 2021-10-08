@@ -235,7 +235,7 @@ public class Phone {
                 }
 
                 else {
-                    GenericInform.inform("Dialing: " + numberLabel.getText(),"");
+                    GenericInformer.inform("Dialing: " + numberLabel.getText(),"");
                     phoneNum = "";
                 }
             }

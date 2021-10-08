@@ -8,7 +8,7 @@ import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.genobjects.Gluster;
 import cyder.utilities.*;
-import cyder.widgets.GenericInform;
+import cyder.widgets.GenericInformer;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -595,7 +595,7 @@ public class CyderFrame extends JFrame {
                                 h += heightInc + metrics.getAscent();
 
                             if (w > this.width * 0.9|| h > this.height * 0.9) {
-                                GenericInform.informRelative(currentGluster.getHtmlText(),"Notification",this);
+                                GenericInformer.informRelative(currentGluster.getHtmlText(),"Notification",this);
                                 continue;
                             }
 
@@ -700,7 +700,7 @@ public class CyderFrame extends JFrame {
      * @param title - The title of the CyderFrame which will be opened to display the text
      */
     public void inform(String text, String title) {
-        GenericInform.informRelative(text, title, this);
+        GenericInformer.informRelative(text, title, this);
     }
 
     private int animationNano = 500;

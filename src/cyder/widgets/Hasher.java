@@ -46,19 +46,19 @@ public class Hasher {
             if (Hash.length > 0) {
                 if (algorithmIndex == 0) {
                     String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
-                    GenericInform.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", hashFrame);
+                    GenericInformer.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", hashFrame);
                     StringSelection selection = new StringSelection(PrintHash);
                     java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                     clipboard.setContents(selection, selection);
                 } else if (algorithmIndex == 1) {
                     String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA1(hashField.getPassword()));
-                    GenericInform.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA1","", hashFrame);
+                    GenericInformer.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA1","", hashFrame);
                     StringSelection selection = new StringSelection(PrintHash);
                     java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                     clipboard.setContents(selection, selection);
                 } else if (algorithmIndex == 2) {
                     String PrintHash = SecurityUtil.toHexString(SecurityUtil.getMD5(hashField.getPassword()));
-                    GenericInform.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by MD5","", hashFrame);
+                    GenericInformer.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by MD5","", hashFrame);
                     StringSelection selection = new StringSelection(PrintHash);
                     java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                     clipboard.setContents(selection, selection);

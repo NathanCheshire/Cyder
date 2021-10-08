@@ -253,7 +253,7 @@ public class Pizza {
         placeOrder.setBackground(CyderColors.regularRed);
         placeOrder.addActionListener(e -> {
             if (nameField.getText().length() <= 0)
-                GenericInform.inform("Sorry, but you must enter a name.","");
+                GenericInformer.inform("Sorry, but you must enter a name.","");
 
             else {
                 String Name = nameField.getText().substring(0, 1).toUpperCase() + nameField.getText().substring(1) + "<br/>";
@@ -308,7 +308,7 @@ public class Pizza {
 
                 Comments = Comments.trim().length() == 0 ? "" : "<br/>Comments: " + "<br/>" + Comments;
 
-                GenericInform.inform("Customer Name: " + "<br/>" + Name + "<br/>" + "Size: "
+                GenericInformer.inform("Customer Name: " + "<br/>" + Name + "<br/>" + "Size: "
                     + "<br/>" + Size + "<br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/>" + ToppingsChosen
                         + Extras + Comments,"");
 
