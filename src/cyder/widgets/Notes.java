@@ -357,6 +357,8 @@ public class Notes {
                 while ((line = sameReader.readLine()) != null)
                     contents.append(line).append("\n");
 
+                sameReader.close();
+
                 //contents are equal and name is same so there is nothing to save so return
                 if (noteEditArea.getText().contentEquals(contents) &&
                         noteEditField.getText().trim().equals(StringUtil.getFilename(currentUserNote))) {
