@@ -141,25 +141,47 @@ public class GenericInformer {
     /**
      * Given the provided text, returns the width needed to fit the text onto a frame with the provided height
      * @param text - the text to be used for the calculaiton
+     * @param font - the font to use for the text label
      * @param height - the decided upon height for the text bounds
      * @return - the width for the provided text
      */
-    public static int getTextWidth(String text, int height) {
+    public static int getTextWidth(String text, Font font, int height) {
+        //whitespace safety
+        text = text.trim();
 
+        if (text.length() == 0)
+            throw new IllegalArgumentException("Text contains no chars (aside from possible whitespace)");
+        else if (height < CyderFrame.getMinHeight(text, font) || height > SystemUtil.getScreenHeight())
+            throw new IllegalArgumentException("Invalid height parameter:");
 
-        return 0;
+        int ret = 0;
+
+        //todo make the height exactly "height" and figure out the minimum width of the box needed
+
+        return ret;
     }
 
 
     /**
      * Given the provided text, returns the height needed to fit the text onto a frame with the provided width
      * @param text - the tex to be used for the calculation
+     * @param font - the font to use for the text label
      * @param width - the decided upon width for the text bouds
      * @return - the height for the provided text
      */
-    public static int getTextHeight(String text, int width) {
+    public static int getTextHeight(String text, Font font, int width) {
+        text = text.trim();
+        int minimumAllowedTextWidth = 100;
 
+        if (text.length() == 0)
+            throw new IllegalArgumentException("Text contains no chars (aside from possible whitespace)");
+        else if (width < minimumAllowedTextWidth || width > SystemUtil.getScreenWidth())
+            throw new IllegalArgumentException("Invalid width parameter");
 
-        return 0;
+        int ret = 0;
+
+       //todo now make sure all lines are of width "width" or close to it, break line if possible
+
+        return ret;
     }
 }
