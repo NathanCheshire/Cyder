@@ -6,8 +6,6 @@ import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.SystemUtil;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Safelist;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -64,43 +62,62 @@ public class GenericInformer {
      *           for the provided display string.
      */
     private static int[] widthHeightCalculation(String text) {
-        //start of font width and height calculation
-        int w = 0;
+        //needed width
+        int width = 0;
+
+        //font, transform, and rendercontext vars
         Font notificationFont = CyderFonts.defaultFontSmall;
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
 
         //get minimum width for whole parsed string
-        w = (int) notificationFont.getStringBounds(text, frc).getWidth() + 5;
+        width = (int) notificationFont.getStringBounds(text, frc).getWidth() + 5;
 
-        //get height of a line and set it as height increment too
-        int h = (int) notificationFont.getStringBounds(text, frc).getHeight();
-        int heightInc = h;
+        //the height of a singular line of text
+        int lineHeight = (int) notificationFont.getStringBounds(text, frc).getHeight() + 2;
+        //cumulative height needed
+        int cumulativeHeight = lineHeight;
 
-        while (w > SystemUtil.getScreenWidth() / 2) {
-            int area = w * h;
-            w /= 2;
-            h = area / w;
+        //width may never be greater than half of the screen width
+        while (width > SystemUtil.getScreenWidth() / 2) {
+            int area = width * cumulativeHeight;
+            width /= 2;
+            cumulativeHeight = area / width;
         }
 
-        String[] breakOccurences = text.split("<br/>");
-        h += (breakOccurences.length * heightInc);
+        //todo figuring out where to add breaks and if need to split in the middle of a word or not
 
-        if (h != heightInc)
-            h += 10;
+        //width without html: fail/pass? idk since breaks aren't added in yet
+        //height wihtout html: fail
 
-        //in case we're too short from html breaks, find the max width line and set it to w
-        if (text.contains("<br/>"))
-            w = 0;
+        //account for html line breaks
+        if (text.contains("<br/>")) {
+            //account for breaks in the height
+            String[] breakOccurences = text.split("<br/>");
+            cumulativeHeight += (breakOccurences.length * lineHeight);
 
-        for (String line : text.split("<br/>")) {
-            int thisW = (int) notificationFont.getStringBounds(Jsoup.clean(line, Safelist.none()), frc).getWidth() + 5;
+            //reset width
+            width = 0;
 
-            if (thisW > w) {
-                w = thisW;
+            //get the maximum width after accounting for line breaks
+            String lines[] = text.split("<br/>");
+            for (String line : lines) {
+                System.out.println(line);
+                int currentWidth = (int) notificationFont.getStringBounds(line, frc).getWidth() + 5;
+
+                if (currentWidth > width) {
+                    width = currentWidth;
+                }
             }
-        }
 
-        return new int[]{w,h};
+            //fix height
+            cumulativeHeight = lines.length * lineHeight;
+        } //else width and height are fine
+
+        //if no extra height was needed, add 10 anyway so that the line of text isn't cut off
+        if (cumulativeHeight == lineHeight)
+            cumulativeHeight += 20;
+
+        return new int[]{width,cumulativeHeight};
     }
 }
