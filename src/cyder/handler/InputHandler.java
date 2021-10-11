@@ -1,6 +1,7 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import cyder.annotations.Showcase;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.ScreenPosition;
@@ -966,6 +967,7 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().getInputHandler()
                     .println("Spotlight images saved to your user's background/ directory");
         } else if (firstWord.equalsIgnoreCase("pastebin")) {
+            @Showcase("pastebin")
             String[] parts = op.split(" ");
 
             if (parts.length != 2) {
@@ -1085,6 +1087,7 @@ public class InputHandler {
         }
     }
 
+    @Showcase("secondary console input")
     public void handleSecond(String input) {
         if (outputArea == null)
             throw new IllegalArgumentException("Output area not set");
