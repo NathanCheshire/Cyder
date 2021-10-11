@@ -158,6 +158,9 @@ public class GenericInformer {
 
         //todo make the height exactly "height" and figure out the minimum width of the box needed
 
+        //todo great idea; just use a text area basically as a JLabel, make a cyder object for this such as CyderCenteredLabel or something
+        // make params for alignment of text area
+
         return ret;
     }
 

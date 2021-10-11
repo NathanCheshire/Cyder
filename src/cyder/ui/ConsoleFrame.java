@@ -1334,27 +1334,6 @@ public final class ConsoleFrame {
             }
         });
 
-        JLabel twitterLabel = new JLabel("Twitter");
-        twitterLabel.setFont(menuFont);
-        twitterLabel.setForeground(CyderColors.vanila);
-        printingUtil.printlnComponent(twitterLabel);
-        twitterLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                NetworkUtil.internetConnect("https://twitter.com");
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                twitterLabel.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                twitterLabel.setForeground(CyderColors.vanila);
-            }
-        });
-
         JLabel sepLabel = new JLabel("SEPARATOR") {
             @Override
             public void paintComponent(Graphics g) {
