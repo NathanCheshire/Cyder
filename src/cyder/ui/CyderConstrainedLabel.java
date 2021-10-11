@@ -1,5 +1,7 @@
 package cyder.ui;
 
+import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -9,7 +11,9 @@ public class CyderConstrainedLabel extends JLabel {
     private CyderConstrainedLabel() {}
 
     public CyderConstrainedLabel(String text) {
-
+        super(text);
+        this.setText(innerLogic(text));
+        installDefaults();
     }
 
     @Override
@@ -17,6 +21,7 @@ public class CyderConstrainedLabel extends JLabel {
         super.setText(innerLogic(text));
     }
 
+    //strips away any existing html and adds in the width or height constraints
     private String innerLogic(String text) {
         String ret = "";
 
@@ -57,5 +62,15 @@ public class CyderConstrainedLabel extends JLabel {
     public void setConstrainedHeight(int constrainedHeight) {
         this.constrainedHeight = constrainedHeight;
         this.constrainedWidth = 0;
+    }
+
+    /**
+     * Sets the color, font, and alignment defaults
+     */
+    public void installDefaults() {
+        setForeground(CyderColors.navy);
+        setFont(CyderFonts.weatherFontSmall);
+        setHorizontalAlignment(JLabel.CENTER);
+        setVerticalAlignment(JLabel.CENTER);
     }
 }
