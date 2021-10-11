@@ -85,10 +85,52 @@ public class GenericInformer {
             cumulativeHeight = area / width;
         }
 
-        //todo figuring out where to add breaks and if need to split in the middle of a word or not
+        int numHeights = (int) Math.ceil(cumulativeHeight / lineHeight);
+        int numChars = text.length();
+        int splitEveryNthChar = (int) Math.floor(numChars / numHeights);
 
-        //width without html: fail/pass? idk since breaks aren't added in yet
-        //height wihtout html: fail
+        //tolerance character limit
+        int breakInsertionTol = 7;
+
+        //todo adding breaks isn't exactly working
+        for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
+
+            if (text.charAt(i) == ' ') {
+                text = text.substring(0, splitEveryNthChar).trim() + "<br/>" + text.substring(splitEveryNthChar).trim();
+            } else {
+                boolean spaceFound = false;
+
+                for (int j = splitEveryNthChar ; j > splitEveryNthChar - 8 ; j--) {
+                    if (j == ' ') {
+                        if (j < 0 || j > numChars)
+                            break;
+
+                        text = text.substring(0, splitEveryNthChar - j) + "<br/>" + text.substring(splitEveryNthChar - j);
+                        spaceFound = true;
+                        break;
+                    }
+                }
+
+                if (spaceFound)
+                    continue;
+
+                for (int j = splitEveryNthChar ; j < splitEveryNthChar + 8 ; j++) {
+                    if (j == ' ') {
+                        if (j < 0 || j > numChars)
+                            break;
+                        text = text.substring(0, splitEveryNthChar + j) + "<br/>" + text.substring(splitEveryNthChar + j);
+                        spaceFound = true;
+                        break;
+                    }
+                }
+
+                if (!spaceFound) {
+                    //last restort just insert a break here in between the chars
+                    text = text.substring(0, splitEveryNthChar) + "<br/>" + text.substring(splitEveryNthChar);
+                    System.out.println(text);
+                }
+            }
+        }
 
         //account for html line breaks
         if (text.contains("<br/>")) {
@@ -102,7 +144,6 @@ public class GenericInformer {
             //get the maximum width after accounting for line breaks
             String lines[] = text.split("<br/>");
             for (String line : lines) {
-                System.out.println(line);
                 int currentWidth = (int) notificationFont.getStringBounds(line, frc).getWidth() + 5;
 
                 if (currentWidth > width) {
@@ -112,6 +153,11 @@ public class GenericInformer {
 
             //fix height
             cumulativeHeight = lines.length * lineHeight;
+
+            //fix html if needed
+            if (!text.startsWith("<html>")) {
+                text = "<html>" + text + "</html>";
+            }
         } //else width and height are fine
 
         //if no extra height was needed, add 10 anyway so that the line of text isn't cut off
