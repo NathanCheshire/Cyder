@@ -665,18 +665,14 @@ public class InputHandler {
         } else if (eic("hide")) {
             ConsoleFrame.getConsoleFrame().minimize();
         } else if (hasWord("analyze") && hasWord("code")) {
-            println("Lines of code: " +
-                    StatUtil.totalJavaLines(new File("src")));
-            println("Number of java files: " +
-                    StatUtil.totalJavaFiles(new File("src")));
-            println("Number of comments: " +
-                    StatUtil.totalComments(new File("src")));
-            println("Blank lines: " +
-                    StatUtil.totalBlankLines(new File("src")));
-            println("Total: " +
-                    (StatUtil.totalBlankLines(new File("src"))
-                            + StatUtil.totalJavaLines(new File("src"))));
+            @Showcase("Code analyzing")
+            File startDir = new File("src");
 
+            println("Lines of code: " + StatUtil.totalJavaLines(startDir));
+            println("Number of java files: " + StatUtil.totalJavaFiles(startDir));
+            println("Number of comments: " + StatUtil.totalComments(startDir));
+            println("Blank lines: " + StatUtil.totalBlankLines(startDir));
+            println("Total: " + (StatUtil.totalBlankLines(startDir) + StatUtil.totalJavaLines(startDir)));
         } else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
             new Robot().keyPress(KeyEvent.VK_F17);
         }  else if (hasWord("debug") && hasWord("windows")) {
@@ -722,6 +718,7 @@ public class InputHandler {
             }
         } else if (hasWord("hexdump")) {
             if (has("-f")) {
+                @Showcase("Showcase dumping a file after creating it using note editor")
                 String[] parts = operation.split("-f");
 
                 if (parts.length != 2) {
@@ -799,7 +796,7 @@ public class InputHandler {
             }
 
             println("");
-        } else if (hasWord("ip")) {
+        } else if (eic("ip")) {
             println(InetAddress.getLocalHost().getHostAddress());
         }  else if (hasWord("computer") && hasWord("properties")) {
             println("This may take a second, since this feature counts your PC's free memory");
@@ -894,6 +891,7 @@ public class InputHandler {
                         "to perform that operation.");
             }
         } else if (firstWord.equalsIgnoreCase("play")) {
+            @Showcase("YouTube downloading through word search")
             boolean isURL = true;
 
             String input = operation.replaceAll("(?i)play","").trim();
@@ -962,12 +960,14 @@ public class InputHandler {
                 }, "Youtube Audio Download Waiter").start();
             }
         } else if (hasWord("steal") && hasWord("windows") && hasWord("backgrounds")) {
-            Spotlight.saveSpotlights(new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds"));
+            @Showcase("Spotlight stealing")
+            File saveDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
+            Spotlight.saveSpotlights(saveDir);
             ConsoleFrame.getConsoleFrame().resizeBackgrounds();
             ConsoleFrame.getConsoleFrame().getInputHandler()
                     .println("Spotlight images saved to your user's background/ directory");
         } else if (firstWord.equalsIgnoreCase("pastebin")) {
-            @Showcase("pastebin")
+           @Showcase("Pastebin")
             String[] parts = op.split(" ");
 
             if (parts.length != 2) {
