@@ -1188,7 +1188,7 @@ public final class ConsoleFrame {
         calculatorLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Calculator c = new Calculator();
+                Calculator.showGUI();
             }
 
             @Override

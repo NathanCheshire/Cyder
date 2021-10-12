@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genobjects.BoundsString;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -16,11 +17,12 @@ public class GenericInformer {
     public static CyderFrame informRet(String text, String title) {
         try {
             CyderLabel textLabel = new CyderLabel(text);
-            int[] widthHeight = widthHeightCalculation(text);
-            textLabel.setBounds(10,35, widthHeight[0], widthHeight[1]);
+            BoundsString boundsString = widthHeightCalculation(text);
+            textLabel.setText(boundsString.getText());
+            textLabel.setBounds(10,35, boundsString.getWidth(), boundsString.getHeight());
 
-            CyderFrame informFrame = new CyderFrame(widthHeight[0] + 40,
-                    widthHeight[1] + 40, CyderImages.defaultBackgroundLarge);
+            CyderFrame informFrame = new CyderFrame(boundsString.getWidth() + 40,
+                    boundsString.getHeight() + 40, CyderImages.defaultBackgroundLarge);
             informFrame.setTitle(title);
             informFrame.add(textLabel);
 
@@ -39,11 +41,12 @@ public class GenericInformer {
     public static void informRelative(String text, String title, Component relativeTo) {
         try {
             CyderLabel textLabel = new CyderLabel(text);
-            int[] widthHeight = widthHeightCalculation(text);
-            textLabel.setBounds(10,35, widthHeight[0], widthHeight[1]);
+            BoundsString boundsString = widthHeightCalculation(text);
+            textLabel.setText(boundsString.getText());
+            textLabel.setBounds(10,35, boundsString.getWidth(), boundsString.getHeight());
 
-            CyderFrame informFrame = new CyderFrame(widthHeight[0] + 20,
-                    widthHeight[1] + 40, CyderImages.defaultBackgroundLarge);
+            CyderFrame informFrame = new CyderFrame(boundsString.getWidth() + 20,
+                    boundsString.getHeight() + 40, CyderImages.defaultBackgroundLarge);
             informFrame.setTitle(title);
             informFrame.add(textLabel);
 
@@ -58,10 +61,10 @@ public class GenericInformer {
      * Inner logic to calculate the needed width and height of an inform/dialog window.
      * Typically more width is favored over height
      * @param text - the string to display
-     * @return - an array composed of the width followed by the height to form the bounding box
+     * @return - an object composed of the width, height, and possibly corrected text to form the bounding box
      *           for the provided display string.
      */
-    private static int[] widthHeightCalculation(String text) {
+    private static BoundsString widthHeightCalculation(String text) {
         //needed width
         int width = 0;
 
@@ -80,9 +83,9 @@ public class GenericInformer {
 
         //width may never be greater than half of the screen width
         while (width > SystemUtil.getScreenWidth() / 2) {
-            int area = width * cumulativeHeight;
-            width /= 2;
-            cumulativeHeight = area / width;
+            int beforeArea = width * cumulativeHeight;
+            cumulativeHeight += lineHeight;
+            width = beforeArea / cumulativeHeight;
         }
 
         int numHeights = (int) Math.ceil(cumulativeHeight / lineHeight);
@@ -92,42 +95,24 @@ public class GenericInformer {
         //tolerance character limit
         int breakInsertionTol = 7;
 
-        //todo adding breaks isn't exactly working
+        System.out.println(numHeights);
+        System.out.println(numChars);
+        System.out.println(splitEveryNthChar);
+
         for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
+            System.out.println(i);
 
             if (text.charAt(i) == ' ') {
                 text = text.substring(0, splitEveryNthChar).trim() + "<br/>" + text.substring(splitEveryNthChar).trim();
             } else {
                 boolean spaceFound = false;
 
-                for (int j = splitEveryNthChar ; j > splitEveryNthChar - 8 ; j--) {
-                    if (j == ' ') {
-                        if (j < 0 || j > numChars)
-                            break;
-
-                        text = text.substring(0, splitEveryNthChar - j) + "<br/>" + text.substring(splitEveryNthChar - j);
-                        spaceFound = true;
-                        break;
-                    }
-                }
-
-                if (spaceFound)
-                    continue;
-
-                for (int j = splitEveryNthChar ; j < splitEveryNthChar + 8 ; j++) {
-                    if (j == ' ') {
-                        if (j < 0 || j > numChars)
-                            break;
-                        text = text.substring(0, splitEveryNthChar + j) + "<br/>" + text.substring(splitEveryNthChar + j);
-                        spaceFound = true;
-                        break;
-                    }
-                }
+               //chars to left or right a space?
 
                 if (!spaceFound) {
                     //last restort just insert a break here in between the chars
                     text = text.substring(0, splitEveryNthChar) + "<br/>" + text.substring(splitEveryNthChar);
-                    System.out.println(text);
+                    //below will account for handling breaks and add html tags if needed
                 }
             }
         }
@@ -164,6 +149,8 @@ public class GenericInformer {
         if (cumulativeHeight == lineHeight)
             cumulativeHeight += 20;
 
-        return new int[]{width,cumulativeHeight};
+        System.out.println(text);
+
+        return new BoundsString(width, cumulativeHeight, text);
     }
 }
