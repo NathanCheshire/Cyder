@@ -55,16 +55,6 @@ public class InputHandler {
     private String anagram;
     private UserEditor userEditor;
 
-    //todo custom date pattern for console clock, make another window for preferences
-
-    //todo popup button list for informs and confirmations and such should only show a close button on its drag label
-    // make a boolean for information/popup/getter dialog for CyderFrames that does this and also sets it to always be on top
-
-    //todo preference for showing song length vs time left in music player
-    //todo if skip back is pressed in first 3 seconds of audio, start current audio from begining
-
-    //todo figure out how to flag stuff that you should showcase in the README/Widget Showcases/YouTube videos
-
     private InputHandler() {} //no instantiation without a valid JTextPane to use
 
     public InputHandler(JTextPane outputArea) {
