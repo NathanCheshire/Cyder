@@ -14,28 +14,29 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class TicTacToe {
+    private static CyderFrame tttFrame;
 
-    private CyderFrame tttFrame;
+    private static CyderButton ttt9;
+    private static CyderButton ttt8;
+    private static CyderButton ttt7;
+    private static CyderButton ttt6;
+    private static CyderButton ttt5;
+    private static CyderButton ttt4;
+    private static CyderButton ttt3;
+    private static CyderButton ttt2;
+    private static CyderButton ttt1;
+    private static CyderButton tttReset;
 
-    private CyderButton ttt9;
-    private CyderButton ttt8;
-    private CyderButton ttt7;
-    private CyderButton ttt6;
-    private CyderButton ttt5;
-    private CyderButton ttt4;
-    private CyderButton ttt3;
-    private CyderButton ttt2;
-    private CyderButton ttt1;
-    private CyderButton tttReset;
+    private static int CurrentPlayerTurn;
 
-    private int CurrentPlayerTurn;
+    private static final int PlayerX = 0;
+    private static final int PlayerO = 1;
 
-    private final int PlayerX = 0;
-    private final int PlayerO = 1;
+    private static JLabel tttLabel;
 
-    private JLabel tttLabel;
+    private TicTacToe() {}
 
-    public void startTicTacToe() {
+    public static void showGUI() {
         if (tttFrame != null)
             tttFrame.dispose();
 
@@ -454,7 +455,7 @@ public class TicTacToe {
         UpdatePlayerTurnLabel();
     }
 
-    private void UpdatePlayerTurnLabel() {
+    private static void UpdatePlayerTurnLabel() {
         if (CurrentPlayerTurn == PlayerX) {
             tttLabel.setText("Player Turn: X");
         }
@@ -464,7 +465,7 @@ public class TicTacToe {
         }
     }
 
-    private void TTTBoardReset() {
+    private static void TTTBoardReset() {
         CurrentPlayerTurn = PlayerX;
         UpdatePlayerTurnLabel();
 
@@ -479,7 +480,7 @@ public class TicTacToe {
         ttt9.setText("");
     }
 
-    private void TTTCheckWin() {
+    private static void TTTCheckWin() {
         if (HasPlayerWon("X")) {
             tttFrame.inform("X's have won the game! Congratulations!","");
             tttReset.doClick();
@@ -496,7 +497,7 @@ public class TicTacToe {
         }
     }
 
-    private boolean HasPlayerWon(String Player) {
+    private static boolean HasPlayerWon(String Player) {
         if (ttt1.getText().equals(Player) && ttt2.getText().equals(Player) && ttt3.getText().equals(Player)) {
             return true;
         }
@@ -529,7 +530,7 @@ public class TicTacToe {
         return ttt3.getText().equals(Player) && ttt5.getText().equals(Player) && ttt7.getText().equals(Player);
     }
 
-    private boolean TTTBoardIsFull() {
+    private static boolean TTTBoardIsFull() {
         return !ttt1.getText().isEmpty() && !ttt2.getText().isEmpty() &&
                 !ttt3.getText().isEmpty() && !ttt4.getText().isEmpty() &&
                 !ttt5.getText().isEmpty() && !ttt6.getText().isEmpty() &&

@@ -146,7 +146,7 @@ public class YoutubeUtil {
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadYoutubeDL);
     }
 
-    public static void ThumbnailStealer() {
+    public static void showGUI() {
         CyderFrame uuidFrame = new CyderFrame(400,240, CyderImages.defaultBackground);
         uuidFrame.setTitle("Thumbnail Stealer");
         uuidFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);

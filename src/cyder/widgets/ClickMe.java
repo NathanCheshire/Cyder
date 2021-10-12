@@ -12,7 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ClickMe {
-    public static void clickMe() {
+    public static void showGUI() {
         try {
             CyderFrame clickMeFrame = new CyderFrame(220,100);
             clickMeFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -29,7 +29,7 @@ public class ClickMe {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     clickMeFrame.dispose();
-                    clickMe();
+                    showGUI();
                 }
 
                 @Override

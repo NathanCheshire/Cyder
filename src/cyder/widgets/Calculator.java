@@ -15,9 +15,11 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class Calculator {
-    private String calculatorExpression = "";
+    private static String calculatorExpression = "";
+
+    private Calculator() {}
     
-    public Calculator() {
+    public static void showGUI() {
         calculatorExpression = "";
 
         CyderFrame calculatorFrame = new CyderFrame(400,595, CyderImages.defaultBackground);

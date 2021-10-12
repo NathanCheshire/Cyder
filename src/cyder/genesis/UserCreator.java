@@ -32,7 +32,7 @@ public class UserCreator {
     private static CyderButton chooseBackground;
     private static File createUserBackground;
 
-    public static void createGUI() {
+    public static void showGUI() {
         createUserBackground = null;
 
         if (createUserFrame != null)

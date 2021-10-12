@@ -16,12 +16,14 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 public class FileSignatureChecker {
-    private File currentFile = null;
-    private CyderFrame signatureFrame;
-    private CyderTextField signatureField;
-    private CyderLabel resultLabel;
+    private static File currentFile = null;
+    private static CyderFrame signatureFrame;
+    private static CyderTextField signatureField;
+    private static CyderLabel resultLabel;
 
-    public FileSignatureChecker() {
+    private FileSignatureChecker() {}
+
+    public static void showGUI() {
         signatureFrame = new CyderFrame(400,420, CyderImages.defaultBackground);
         signatureFrame.setTitle("File Signature Checker");
 
@@ -90,7 +92,7 @@ public class FileSignatureChecker {
         signatureFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    private void validate() {
+    private static void validate() {
         try {
             if (currentFile == null) {
                 signatureFrame.notify("Please choose a file");

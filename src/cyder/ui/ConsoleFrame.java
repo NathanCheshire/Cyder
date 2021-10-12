@@ -1232,7 +1232,7 @@ public final class ConsoleFrame {
         weatherLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Weather ww = new Weather();
+                new Weather().showGUI();
             }
 
             @Override

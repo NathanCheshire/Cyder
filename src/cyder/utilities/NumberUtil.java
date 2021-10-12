@@ -16,7 +16,6 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class NumberUtil {
-
     private NumberUtil() {} //private constructor to avoid object creation
 
     private static CyderFrame numFrame;
@@ -50,7 +49,7 @@ public class NumberUtil {
         return ret;
     }
 
-    public static void numberToWord() {
+    public static void showGUI() {
         if (numFrame != null)
             numFrame.dispose();
 

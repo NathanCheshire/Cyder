@@ -23,7 +23,9 @@ public class TempConverter {
     private CyderCheckBox oldKelvin;
     private CyderCheckBox newKelvin;
 
-    public TempConverter() {
+    public TempConverter() {}
+
+    public void showGUI() {
         if (temperatureFrame != null)
             temperatureFrame.dispose();
 

@@ -13,13 +13,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Minecraft {
-    private CyderFrame minecraftFrame;
-    private JLabel realmsLabel;
-    private JLabel chestLabel;
-    private JLabel hamLabel;
-    private JLabel blockLabel;
+    private static CyderFrame minecraftFrame;
+    private static JLabel realmsLabel;
+    private static JLabel chestLabel;
+    private static JLabel hamLabel;
+    private static JLabel blockLabel;
 
-    public Minecraft() {
+    private Minecraft() {}
+
+    public static void showGUI() {
         if (minecraftFrame != null)
             minecraftFrame.dispose();
 

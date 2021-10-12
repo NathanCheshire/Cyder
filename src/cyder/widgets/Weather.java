@@ -80,7 +80,11 @@ public class Weather {
     private int currentLocationGMTOffset;
     private boolean GMTset;
 
-    public Weather() {
+    //nothing on constructor
+    public Weather() {}
+
+    //show gui method as per standard
+    public void showGUI() {
         if (GenesisShare.isQuesitonableInternet()) {
             ConsoleFrame.getConsoleFrame().notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but" +
                     " this feature is suspended until a stable internet connection can be established");

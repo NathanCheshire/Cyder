@@ -26,7 +26,7 @@ public class ConvexHull {
     private static String[] algorithms = new String[] {"Jarvis (wrapping)","Graham Scan"};
     private static int algorithmIndex;
 
-    public static void ShowVisualizer() {
+    public static void showGUI() {
         boardPoints = new Vector<>();
 
         hullFrame = new CyderFrame(800,800);

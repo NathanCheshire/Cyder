@@ -32,35 +32,33 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class UserEditor {
-    private CyderFrame editUserFrame;
+    private static CyderFrame editUserFrame;
 
-    private CyderButton addMusicBackground;
-    private CyderButton openMusicBackground;
-    private CyderButton deleteMusicBackground;
-    private CyderButton renameMusicBackground;
+    private static CyderButton addMusicBackground;
+    private static CyderButton openMusicBackground;
+    private static CyderButton deleteMusicBackground;
+    private static CyderButton renameMusicBackground;
 
-    private List<String> musicBackgroundNameList;
-    private List<File> musicBackgroundList;
+    private static List<String> musicBackgroundNameList;
+    private static List<File> musicBackgroundList;
 
-    private JLabel musicBackgroundLabel;
-    private CyderScrollList musicBackgroundScroll;
+    private static JLabel musicBackgroundLabel;
+    private static CyderScrollList musicBackgroundScroll;
 
-    private LinkedList<String> fontList = new LinkedList<>();
+    private static LinkedList<String> fontList = new LinkedList<>();
 
-    private CyderButton changeUsername;
-    private CyderButton changePassword;
+    private static CyderButton changeUsername;
+    private static CyderButton changePassword;
 
-    private CyderButton forwardPanel;
-    private CyderButton backwardPanel;
+    private static CyderButton forwardPanel;
+    private static CyderButton backwardPanel;
 
-    private JLabel switchingLabel;
-    private int prefsPanelIndex;
+    private static JLabel switchingLabel;
+    private static int prefsPanelIndex;
 
-    public UserEditor() {
-        this(0);
-    }
+    private UserEditor() {}
 
-    public UserEditor(int startingIndex) {
+    public static void showGUI(int startingIndex) {
         if (editUserFrame != null)
             editUserFrame.dispose();
 
@@ -226,7 +224,7 @@ public class UserEditor {
         editUserFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    private void initMusicBackgroundList() {
+    private static void initMusicBackgroundList() {
         File backgroundDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
         File musicDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
 
@@ -251,7 +249,7 @@ public class UserEditor {
         BackgroundsArray = musicBackgroundNameList.toArray(BackgroundsArray);
     }
 
-    private void nextEditUser() {
+    private static void nextEditUser() {
         switchingLabel.removeAll();
         switchingLabel.revalidate();
         switchingLabel.repaint();
@@ -280,7 +278,7 @@ public class UserEditor {
         }
     }
 
-    private void lastEditUser() {
+    private static void lastEditUser() {
         switchingLabel.removeAll();
         switchingLabel.revalidate();
         switchingLabel.repaint();
@@ -309,7 +307,7 @@ public class UserEditor {
         }
     }
 
-    private void switchToMusicAndBackgrounds() {
+    private static void switchToMusicAndBackgrounds() {
         JLabel BackgroundLabel = new JLabel("Music & Backgrounds", SwingConstants.CENTER);
         BackgroundLabel.setFont(CyderFonts.weatherFontBig);
         BackgroundLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
@@ -514,7 +512,7 @@ public class UserEditor {
         switchingLabel.revalidate();
     }
 
-    private void revalidateMusicBackgroundScroll() {
+    private static void revalidateMusicBackgroundScroll() {
         initMusicBackgroundList();
 
         musicBackgroundScroll.removeAllElements();
@@ -540,7 +538,7 @@ public class UserEditor {
         switchingLabel.revalidate();
     }
 
-    private void switchToFontAndColor() {
+    private static void switchToFontAndColor() {
         JLabel TitleLabel = new JLabel("Colors & Font", SwingConstants.CENTER);
         TitleLabel.setFont(CyderFonts.weatherFontBig);
         TitleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
@@ -876,7 +874,7 @@ public class UserEditor {
         switchingLabel.revalidate();
     }
 
-    private void switchToPreferences() {
+    private static void switchToPreferences() {
         JTextPane preferencePane = new JTextPane();
         preferencePane.setEditable(false);
         preferencePane.setAutoscrolls(false);
@@ -947,7 +945,7 @@ public class UserEditor {
         switchingLabel.revalidate();
     }
 
-    private void switchToMappingLinks() {
+    private static void switchToMappingLinks() {
         CyderLabel TitleLabel = new CyderLabel("Map Executables");
         TitleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
         TitleLabel.setFont(CyderFonts.weatherFontBig);

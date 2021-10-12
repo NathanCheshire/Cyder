@@ -368,7 +368,7 @@ public class IOUtil {
             //delete the folder we just zipped since it's a duplicate
             SystemUtil.deleteFolder(mainZipFile);
 
-            Login.showEntryGUI();
+            Login.showGUI();
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
         }

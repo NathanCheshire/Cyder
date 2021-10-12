@@ -16,31 +16,32 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Pizza {
+    private static CyderFrame pizzaFrame;
+    private static CyderTextField nameField;
+    private static CyderCheckBox smallPizza;
+    private static CyderCheckBox mediumPizza;
+    private static CyderCheckBox largePizza;
 
-    private CyderFrame pizzaFrame;
-    private CyderTextField nameField;
-    private CyderCheckBox smallPizza;
-    private CyderCheckBox mediumPizza;
-    private CyderCheckBox largePizza;
+    private static CyderScrollList pizzaToppingsScroll;
+    private static CyderScrollList crustTypeScroll;
+    private static JLabel pizzaToppingsLabel;
+    private static JLabel crustTypeLabel;
 
-    private CyderScrollList pizzaToppingsScroll;
-    private CyderScrollList crustTypeScroll;
-    private JLabel pizzaToppingsLabel;
-    private JLabel crustTypeLabel;
+    private static LinkedList<String> pizzaToppingsList;
+    private static LinkedList<String> crustTypeList;
 
-    private LinkedList<String> pizzaToppingsList;
-    private LinkedList<String> crustTypeList;
+    private static JTextArea orderComments;
 
-    private JTextArea orderComments;
+    private static CyderCheckBox breadSticks;
+    private static CyderCheckBox salad;
+    private static CyderCheckBox soda;
 
-    private CyderCheckBox breadSticks;
-    private CyderCheckBox salad;
-    private CyderCheckBox soda;
+    private static CyderButton placeOrder;
+    private static CyderButton resetValues;
 
-    private CyderButton placeOrder;
-    private CyderButton resetValues;
+    private Pizza() {}
 
-    public Pizza() {
+    public static void showGUI() {
         if (pizzaFrame != null)
             pizzaFrame.dispose();
 

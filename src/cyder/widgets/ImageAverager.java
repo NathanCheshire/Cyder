@@ -27,13 +27,15 @@ import java.util.LinkedList;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class ImageAverager {
-    private LinkedList<File> files;
-    private JLabel imagesScrollLabel;
-    private CyderScrollList imagesScroll;
-    private CyderFrame cf;
-    private JLabel imageScrollLabelHolder;
+    private static LinkedList<File> files;
+    private static JLabel imagesScrollLabel;
+    private static CyderScrollList imagesScroll;
+    private static CyderFrame cf;
+    private static JLabel imageScrollLabelHolder;
 
-    public ImageAverager() {
+    private ImageAverager() {}
+
+    public static void showGUI() {
         files = new LinkedList<>();
 
         cf = new CyderFrame(600,640);
@@ -104,7 +106,7 @@ public class ImageAverager {
         cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    private void revalidateScroll() {
+    private static void revalidateScroll() {
         imagesScroll.removeAllElements();
         imageScrollLabelHolder.remove(imagesScrollLabel);
 
@@ -131,7 +133,7 @@ public class ImageAverager {
         cf.revalidate();
     }
 
-    private void compute() {
+    private static void compute() {
         if (files.size() > 1) {
             try {
                 int width = 0;
@@ -205,7 +207,7 @@ public class ImageAverager {
         }
     }
 
-    private void ComputeAverage(int width, int height, BufferedImage saveImage) {
+    private static void ComputeAverage(int width, int height, BufferedImage saveImage) {
         try {
             //running add array
             int[][] pixels = new int[height][width];
@@ -264,7 +266,7 @@ public class ImageAverager {
         }
     }
 
-    private int[][] get2DRGBArr(BufferedImage image) {
+    private static int[][] get2DRGBArr(BufferedImage image) {
         final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         final int width = image.getWidth();
         final int height = image.getHeight();
@@ -309,7 +311,7 @@ public class ImageAverager {
         return result;
     }
 
-    private String combineImageNames() {
+    private static String combineImageNames() {
         StringBuilder ret = new StringBuilder();
 
         for (File f : files) {

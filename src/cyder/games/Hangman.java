@@ -20,17 +20,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class Hangman {
-    private CyderFrame HangmanFrame;
-    private String HangmanWord;
-    private CyderButton HangmanReset;
-    private CyderTextField letterField;
-    private JLabel HangmanImageLabel;
-    private JLabel HangmanLabel;
+    private static CyderFrame HangmanFrame;
+    private static String HangmanWord;
+    private static CyderButton HangmanReset;
+    private static CyderTextField letterField;
+    private static JLabel HangmanImageLabel;
+    private static JLabel HangmanLabel;
 
-    private int HangmanWrongGuesses = 1;
-    private String chosenLetters = "";
+    private static int HangmanWrongGuesses = 1;
+    private static String chosenLetters = "";
 
-    public void startHangman() {
+    private Hangman() {}
+
+    public static void showGUI() {
         if (HangmanFrame != null)
             HangmanFrame.dispose();
 
@@ -127,7 +129,7 @@ public class Hangman {
         setup();
     }
 
-    private void setup() {
+    private static void setup() {
         HangmanLabel.setFont(CyderFonts.weatherFontSmall);
         HangmanReset.setText("Reset");
 
@@ -152,7 +154,7 @@ public class Hangman {
         HangmanWrongGuesses = 0;
     }
 
-    private void letterChosen(char letter) {
+    private static void letterChosen(char letter) {
         if (chosenLetters.contains(String.valueOf(letter)))
             return;
 

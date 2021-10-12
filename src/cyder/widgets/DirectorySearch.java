@@ -18,21 +18,23 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 public class DirectorySearch {
-    private CyderFrame dirFrame;
-    private CyderTextField dirField;
-    private CyderScrollList cyderScrollList;
-    private JLabel dirScrollLabel;
+    private static CyderFrame dirFrame;
+    private static CyderTextField dirField;
+    private static CyderScrollList cyderScrollList;
+    private static JLabel dirScrollLabel;
 
-    private LinkedList<String> directoryNameList = new LinkedList<>();
-    private LinkedList<File> directoryFileList = new LinkedList<>();
+    private static LinkedList<String> directoryNameList = new LinkedList<>();
+    private static LinkedList<File> directoryFileList = new LinkedList<>();
 
-    private Stack<File> backward = new Stack<>();
-    private Stack<File> forward = new Stack<>();
+    private static Stack<File> backward = new Stack<>();
+    private static Stack<File> forward = new Stack<>();
 
-    private File currentDirectory = new File("c:\\users\\"
+    private static File currentDirectory = new File("c:\\users\\"
             + SystemUtil.getWindowsUsername() + "\\");
 
-    public DirectorySearch() {
+    private DirectorySearch() {}
+
+    public static void showGUI() {
         if (dirFrame != null)
             dirFrame.dispose();
 
@@ -201,7 +203,7 @@ public class DirectorySearch {
         dirField.requestFocus();
     }
 
-    private ActionListener directoryEnterListener = new ActionListener() {
+    private static ActionListener directoryEnterListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             File ChosenDir = new File(dirField.getText());
@@ -214,7 +216,7 @@ public class DirectorySearch {
         }
     };
 
-    private void refreshBasedOnDir(File directory) {
+    private static void refreshBasedOnDir(File directory) {
         //clear forward since a new path
         forward.clear();
 

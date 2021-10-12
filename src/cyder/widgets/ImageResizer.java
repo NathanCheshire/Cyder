@@ -22,20 +22,22 @@ import java.nio.file.Paths;
 
 public class ImageResizer {
 
-    private CyderTextField xdim;
-    private CyderTextField ydim;
+    private static CyderTextField xdim;
+    private static CyderTextField ydim;
 
-    private double aspectRatio;
+    private static double aspectRatio;
 
-    private JLabel previewLabel;
-    private CyderCheckBox maintainAspectRatioLab;
+    private static JLabel previewLabel;
+    private static CyderCheckBox maintainAspectRatioLab;
 
-    private File resizeImage;
+    private static File resizeImage;
 
-    private boolean leftLastEdited;
-    private boolean maintainAspectRatio = true;
+    private static boolean leftLastEdited;
+    private static boolean maintainAspectRatio = true;
 
-    public ImageResizer() {
+    private ImageResizer() {}
+
+    public static void showGUI() {
         CyderFrame resizeFrame = new CyderFrame(800,800, CyderImages.defaultBackground);
         resizeFrame.setTitle("Image Resizer");
 
@@ -227,11 +229,11 @@ public class ImageResizer {
         resizeFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    private double getAspectRatio(ImageIcon im) {
+    private static double getAspectRatio(ImageIcon im) {
         return ((double) im.getIconWidth() / (double) im.getIconHeight());
     }
 
-    private ImageIcon checkImage(File im) {
+    private static ImageIcon checkImage(File im) {
         try {
             Dimension dim = SystemUtil.getScreenSize();
             double screenX = dim.getWidth();
@@ -265,7 +267,7 @@ public class ImageResizer {
         return null;
     }
 
-    private BufferedImage resizeImage(File originalImage, int img_width, int img_height) {
+    private static BufferedImage resizeImage(File originalImage, int img_width, int img_height) {
         BufferedImage resizedImage = null;
 
         try {

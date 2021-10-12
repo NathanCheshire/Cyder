@@ -174,9 +174,9 @@ public class InputHandler {
         } else if (hasWord("helpful") && hasWord("you")) {
             println("I will always do my best to serve you.");
         } else if (eic("k")) {
-            println("Fun Fact: the letter 'K' comes from the Greek letter kappa, which was taken "
+            println("Fun Fact: the letter \"K\" comes from the Greek letter kappa, which was taken "
                     + "from the Semitic kap, the symbol for an open hand. It is this very hand which "
-                    + "will be slapping you in the face for saying 'k' to me.");
+                    + "will be slapping you in the face for saying \"k\" to me.");
         } else if (eic("no")) {
             println("Yes");
         } else if (eic("nope")) {
@@ -188,7 +188,7 @@ public class InputHandler {
         } else if (has("how can I help")) {
             println("That's my line :P");
         } else if (hasWord("siri") || hasWord("jarvis") || hasWord("alexa")) {
-            println("Whata bunch of losers.");
+            println("*scoffs in Java* primitive loser AI");
         } else if (hasWord("when") && hasWord("thanksgiving")) {
             int year = Calendar.getInstance().get(Calendar.YEAR);
             LocalDate RealTG = LocalDate.of(year, 11, 1)
@@ -201,18 +201,19 @@ public class InputHandler {
         } else if (hasWord("fibonacci")) {
             for (long i : NumberUtil.fib(0, 1, 100))
                 println(i);
-        } else if ((hasWord("how") && hasWord("are") && hasWord("you")) && !hasWord("age") && !hasWord("old")) {
+        } else if ((hasWord("how") && hasWord("are") &&
+                hasWord("you")) && !hasWord("age") && !hasWord("old")) {
             println("I am feeling like a programmed response. Thank you for asking.");
         } else if (hasWord("how") && hasWord("day")) {
             println("I was having fun until you started asking me questions.");
         } else if (eic("break;")) {
-            println("Thankfully I am over my infinite while loop days.");
+            println("Thankfully my pure console based infinite while loop days are over. <3 Nathan");
         } else if (hasWord("why")) {
             println("Why not?");
         } else if (hasWord("why not")) {
             println("Why?");
         } else if (hasWord("groovy")) {
-            println("Alright Scooby Doo.");
+            println("Kotlin is the best JVM lang.... I mean, Java is obviously the best!");
         } else if (hasWord("luck")) {
             if (Math.random() * 100 <= 0.001) {
                 println("YOU WON!!");
@@ -233,8 +234,8 @@ public class InputHandler {
             println("|");
         } else if (eic("|")) {
             println("&");
-        } else if (hasWord("imposible")) {
-            println("¿Lo es?");
+        } else if (hasWord("espanol")) {
+            println("Tu Hablo Espanol? Yo estudio Espanol.");
         } else if (eic("look")) {
             println("L()()K ---->> !FREE STUFF! <<---- L()()K");
         } else if (eic("Cyder?")) {
@@ -283,38 +284,38 @@ public class InputHandler {
         }
         //widgets -------------------------------------------------
         else if ((hasWord("youtube") && hasWord("thumbnail"))) {
-            YoutubeUtil.ThumbnailStealer();
+            YoutubeUtil.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
         } else if (hasWord("minecraft")) {
-            new Minecraft();
+            Minecraft.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "MINECRAFT");
         } else if ((hasWord("edit") && hasWord("user")) || eic("prefs")) {
-            userEditor = new UserEditor();
+            UserEditor.showGUI(0);
             SessionLogger.log(SessionLogger.Tag.ACTION, "USER EDITOR");
         } else if (hasWord("hash") || hasWord("hashser")) {
-            new Hasher();
+            new Hasher().showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "SHA256 HASHER");
         }  else if (eic("search") || eic("dir") || (hasWord("file") && hasWord("search")) || eic("directory") || eic("ls")) {
-            new DirectorySearch();
+            DirectorySearch.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "DIR SEARCH");
         } else if (hasWord("weather")) {
-            Weather ww = new Weather();
+            new Weather().showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "WEATHER");
         } else if (eic("pin") || eic("login")) {
-            Login.showEntryGUI();
+            Login.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "LOGIN WIDGET");
         } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
-            UserCreator.createGUI();
+            UserCreator.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "USER CREATOR");
         } else if ((hasWord("resize") && (hasWord("image")) ||
                 (hasWord("picture") && hasWord("resize")))) {
-            ImageResizer IR = new ImageResizer();
+            ImageResizer.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE RESIZER");
         } else if (hasWord("temperature") || eic("temp")) {
-            TempConverter tc = new TempConverter();
+            new TempConverter().showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "TEMPERATURE CONVERTER");
         } else if (has("click me")) {
-            ClickMe.clickMe();
+            ClickMe.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CLICK ME");
         } else if (has("Father") && hasWord("day") && has("2021")) {
             Cards.FathersDay2021();
@@ -323,26 +324,26 @@ public class InputHandler {
             Cards.Christmas2020();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CARD");
         } else if (hasWord("number") && hasWord("word")) {
-            NumberUtil.numberToWord();
+            NumberUtil.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "NUMBER TO WORD");
         } else if (hasWord("hangman")) {
-            new Hangman().startHangman();
+            Hangman.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "HANGMAN");
         } else if (hasWord("rgb") || hasWord("hex") || (hasWord("color") && hasWord("converter"))) {
             ColorConverter.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "COLOR CONVERTER");
         } else if (hasWord("pizza")) {
-            new Pizza();
+            Pizza.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "PIZZA");
         } else if ((hasWord("pixelate") || hasWord("distort")) &&
                 (hasWord("image") || hasWord("picture"))) {
-            new ImagePixelator(null);
+            ImagePixelator.showGUI(null);
             SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE PIXELATOR");
         } else if (hasWord("file") && hasWord("signature")) {
-            new FileSignatureChecker();
+            FileSignatureChecker.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "FILE SIGNATURE");
         } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
-            new TicTacToe().startTicTacToe();
+            TicTacToe.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "TIC TAC TOE");
         } else if (hasWord("note") || hasWord("notes")) {
             Notes.showGUI();
@@ -351,38 +352,34 @@ public class InputHandler {
             AudioPlayer.showGUI(null);
             SessionLogger.log(SessionLogger.Tag.ACTION, "AUDIO PLAYER");
         } else if (hasWord("phone") || hasWord("dialer") || hasWord("call")) {
-            new Phone(outputArea);
+            Phone.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "PHONE");
         } else if ((hasWord("calculator") || hasWord("calc")) && !has("graphing")) {
-            new Calculator();
+            Calculator.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CALCULATOR");
         } else if (eic("spotlight")) {
-            Spotlight.SpotlightGUI();
+            Spotlight.showGUI();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "SPOTLIGHT");
         } else if (hasWord("convex") && hasWord("hull")) {
-            ConvexHull.ShowVisualizer();
+            ConvexHull.showGUI();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "CONVEX HULL");
         } else if (has("average") && (has("image") || hasWord("picture"))) {
-            new ImageAverager();
+            ImageAverager.showGUI();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE AVERAGER");
         } else if (hasWord("conway") || hasWord("conways")) {
-            new Conways();
+            Conways.showGUI();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "CONWAYS");
         } else if (hasWord("birthday") && hasWord("card") && hasWord("2021")) {
             Cards.Birthday2021();
         } else if (hasWord("pathfinder") || hasWord("path")) {
             PathFinder.showGUI();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "PATHFINDER");
         } else if (hasWord("perlin")) {
             PerlinNoise.showGUI();
+            SessionLogger.log(SessionLogger.Tag.ACTION, "PERLIN");
         }
         //ui and settings -----------------------------------------
-        else if (hasWord("font") && hasWord("reset")) {
-            ConsoleFrame.getConsoleFrame().getInputField().setFont(CyderFonts.defaultFont);
-            outputArea.setFont(CyderFonts.defaultFont);
-            println("The font has been reset.");
-            UserUtil.setUserData("Fonts", outputArea.getFont().getName());
-        } else if (hasWord("reset") && hasWord("color")) {
-            outputArea.setForeground(CyderColors.vanila);
-            ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.vanila);
-            println("The text color has been reset.");
-            UserUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.defaultColor));
-        } else if (eic("top left")) {
+        else if (eic("top left")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_LEFT);
         } else if (eic("top right")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_RIGHT);
@@ -469,7 +466,7 @@ public class InputHandler {
         }
         //program outsourcing ------------------------------------
         else if (hasWord("cyder") && has("dir")) {
-            if (SecurityUtil.compMACAddress(SecurityUtil.getMACAddress())) {
+            if (SecurityUtil.nathanLenovo()) {
                 String CurrentDir = System.getProperty("user.dir");
                 IOUtil.openFile(CurrentDir);
             } else {
@@ -634,9 +631,13 @@ public class InputHandler {
         } else if (hasWord("close cd")) {
             SystemUtil.closeCD("D:\\");
         } else if (firstWord.equalsIgnoreCase("define")) {
-            println(StringUtil.define(operation.replaceAll("(?i)define","").trim()));
+            @Showcase("Defining a word")
+            String defineWord = operation.replaceAll("(?i)define","").trim();
+            println(StringUtil.define(defineWord));
         } else if (firstWord.equalsIgnoreCase("wikisum")) {
-            println(StringUtil.wikiSummary(operation.replaceAll("(?i)wikisum","").trim()));
+            @Showcase("Wikipedia summary")
+            String summaryWord = operation.replaceAll("(?i)wikisum","").trim();
+            println(StringUtil.wikiSummary(summaryWord));
         } else if (hasWord("debug") && hasWord("menu")) {
             StatUtil.debugMenu();
         } else if (hasWord("pixelate") && hasWord("background")) {
@@ -657,7 +658,8 @@ public class InputHandler {
             setUserInputMode(true);
             ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
             setUserInputDesc("deleteuser");
-        } else if (has("alphabet") && (hasWord("sort") || hasWord("organize") || hasWord("arrange"))) {
+        } else if (has("alphabet") && (hasWord("sort") ||
+                hasWord("organize") || hasWord("arrange"))) {
             println("Enter your word to be alphabetically rearranged");
             ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
             setUserInputMode(true);
@@ -768,7 +770,7 @@ public class InputHandler {
             }
             IOUtil.stopAudio();
             ConsoleFrame.getConsoleFrame().close();
-            Login.showEntryGUI();
+            Login.showGUI();
         } else if (hasWord("throw") && hasWord("error")) {
             ConsoleFrame.getConsoleFrame().getInputField().setText("");
             throw new Exception("Error thrown on " + TimeUtil.userTime());
@@ -1182,7 +1184,7 @@ public class InputHandler {
                         " he can make Cyder better for us all");
             } else if (desc.equalsIgnoreCase("addbackgrounds")) {
                 if (StringUtil.isConfirmation(input)) {
-                    userEditor = new UserEditor();
+                    UserEditor.showGUI(0);
                     NetworkUtil.internetConnect("https://images.google.com/");
                 } else
                     println("Okay nevermind then");

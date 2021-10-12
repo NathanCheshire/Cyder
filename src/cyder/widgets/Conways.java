@@ -15,22 +15,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 public class Conways {
-    private int[][] grid;
-    private boolean simulationRunning;
+    private static int[][] grid;
+    private static boolean simulationRunning;
     private static int framesPerSecond = 10;
-    private JLabel gridLabel;
-    private CyderButton simulateButton;
-    private CyderFrame cf;
+    private static JLabel gridLabel;
+    private static CyderButton simulateButton;
+    private static CyderFrame cf;
 
-    private CyderLabel iterationLabel;
-    private CyderLabel populationLabel;
-    private CyderLabel maxPopulationLabel;
+    private static CyderLabel iterationLabel;
+    private static CyderLabel populationLabel;
+    private static CyderLabel maxPopulationLabel;
 
-    private int generationCount = 0;
-    private int populationCount = 0;
-    private int maxPopulation = 0;
+    private static int generationCount = 0;
+    private static int populationCount = 0;
+    private static int maxPopulation = 0;
 
-    public Conways() {
+    private Conways() {}
+
+    public static void showGUI() {
         grid = new int[45][45];
         cf = new CyderFrame(940,1050, CyderImages.defaultBackgroundLarge);
         cf.setTitle("Conway's Game of Life");
@@ -235,8 +237,7 @@ public class Conways {
     }
 
     @SuppressWarnings("ForLoopReplaceableByForEach")
-    private void start() {
-
+    private static void start() {
         new Thread(() -> {
             while (simulationRunning) {
                 try {
@@ -270,7 +271,7 @@ public class Conways {
         },"Conway's Game of Life game thread").start();
     }
 
-    private int[][] nextGeneration(int[][] currentGeneration) {
+    private static int[][] nextGeneration(int[][] currentGeneration) {
         if (currentGeneration == null || currentGeneration.length < 3 || currentGeneration[0].length < 3)
             throw new IllegalArgumentException("Null or invalid board");
 

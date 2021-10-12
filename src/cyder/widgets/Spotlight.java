@@ -14,7 +14,7 @@ import java.nio.file.StandardCopyOption;
 
 public class Spotlight {
 
-    public static void SpotlightGUI() {
+    public static void showGUI() {
         CyderFrame spotlightFrame = new CyderFrame(400,250);
         spotlightFrame.setTitle("Spotlight Stealer");
 

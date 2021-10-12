@@ -18,7 +18,10 @@ public class Hasher {
     private int algorithmIndex = 0;
     private ArrayList<String> algorithms = new ArrayList<>();
 
-    public Hasher() {
+    //empty constructor
+    public Hasher() {}
+
+    public void showGUI() {
         algorithms.add("SHA-256");
         algorithms.add("SHA-1");
         algorithms.add("MD5");

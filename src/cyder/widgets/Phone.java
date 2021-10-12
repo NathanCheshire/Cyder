@@ -13,10 +13,12 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 public class Phone {
-    private JLabel numberLabel;
-    private String phoneNum;
+    private static JLabel numberLabel;
+    private static String phoneNum;
 
-    public Phone(JTextPane outputArea) {
+    private Phone() {}
+
+    public static void showGUI() {
         CyderFrame phoneFrame = new CyderFrame(320,500, CyderImages.defaultBackground);
         phoneFrame.setTitle("Phone");
 
@@ -245,7 +247,7 @@ public class Phone {
         phoneFrame.setVisible(true);
     }
 
-    private String phoneNumFormat(String num) {
+    private static String phoneNumFormat(String num) {
         num = num.replaceAll("[^\\d.]", "");
         int len = num.length();
 
@@ -299,12 +301,12 @@ public class Phone {
         }
     }
 
-    private boolean checkForSuicideHotline() {
+    private static boolean checkForSuicideHotline() {
         String num = numberLabel.getText().replace("-","").replace("(","").replace(")","").replace(" ","").trim();
         return num.equals("18002738255");
     }
 
-    private boolean checkFor223() {
+    private static boolean checkFor223() {
         String num = numberLabel.getText().replace("-","").replace("(","").replace(")","").replace(" ","").trim();
         return num.equals("223");
     }

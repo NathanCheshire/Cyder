@@ -21,13 +21,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class ImagePixelator {
-    private ImageIcon displayIcon;
-    private ImageIcon originalIcon;
-    private File currentFile;
-    private JLabel previewLabel;
-    CyderTextField integerField;
+    private static ImageIcon displayIcon;
+    private static ImageIcon originalIcon;
+    private static File currentFile;
+    private static JLabel previewLabel;
+    private static CyderTextField integerField;
 
-    public ImagePixelator(File startPNG) {
+    private ImagePixelator() {}
+
+    public static void showGUI(File startPNG) {
         CyderFrame pixelFrame = new CyderFrame(800,800, CyderImages.defaultBackground);
         pixelFrame.setTitle("Image Pixelator");
 
@@ -158,7 +160,7 @@ public class ImagePixelator {
         }
     }
 
-    private ImageIcon checkImage(File icon) {
+    private static ImageIcon checkImage(File icon) {
         ImageIcon ret = null;
 
         try {
@@ -177,7 +179,7 @@ public class ImagePixelator {
         }
     }
 
-    private BufferedImage checkImageBi(File icon) {
+    private static BufferedImage checkImageBi(File icon) {
         BufferedImage ret = null;
 
         try {

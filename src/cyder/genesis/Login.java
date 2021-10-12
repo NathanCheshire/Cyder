@@ -101,7 +101,7 @@ public class Login {
         },"Login Input Caret Position Updater").start();
     }
 
-    public static void showEntryGUI() {
+    public static void showGUI() {
         printingList.clear();
         priorityPrintingList.clear();
         doLoginAnimations = true;
@@ -202,7 +202,7 @@ public class Login {
                         case 0:
                             try {
                                 if (Arrays.equals(input,"create".toCharArray())) {
-                                    UserCreator.createGUI();
+                                    UserCreator.showGUI();
                                     loginField.setText(bashString);
                                     loginMode = 0;
                                 } else if (Arrays.equals(input,"login".toCharArray())) {
@@ -365,7 +365,7 @@ public class Login {
             } else if (autoCypherAttempt) {
                 autoCypherAttempt = false;
                 SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
-                Login.showEntryGUI();
+                Login.showGUI();
             }
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
@@ -383,7 +383,7 @@ public class Login {
             recognize(cypherHash.getName(), cypherHash.getHashpass());
         } catch (Exception e) {
             ErrorHandler.handle(e);
-            showEntryGUI();
+            showGUI();
         }
     }
 

@@ -43,7 +43,7 @@ public class Cyder {
             SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
             Login.autoCypher();
         } else if (IOUtil.getSystemData().isReleased()|| SecurityUtil.nathanLenovo()) {
-            Login.showEntryGUI();
+            Login.showGUI();
         } else {
             try {
                 GenesisShare.getExitingSem().acquire();
