@@ -1,0 +1,25 @@
+[11:17:57] [ENTRY]: [WINUSER=Nathan]
+[11:17:58] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[11:17:59] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11:17:59] [LOGIN]: [AUTOCYPHER PASS]
+[11:18:00] [CLIENT]: [SIMULATED INPUT] test
+[11:18:06] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:09] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:12] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:15] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:18] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:20] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:23] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:30] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:31] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:33] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:36] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:38] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:40] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:42] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:45] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:47] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:18:50] [ACTION]: CyderButton, text=[Inform] CLICKED
+[11:19:50] [LOGOUT]:  [Nathan]
+[11:19:50] [EXIT]: [RUNTIME] 1m 53s
+[11:19:50] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

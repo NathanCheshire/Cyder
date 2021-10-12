@@ -7,6 +7,8 @@ import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.SystemUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -99,21 +101,64 @@ public class GenericInformer {
         System.out.println(numChars);
         System.out.println(splitEveryNthChar);
 
-        for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
-            System.out.println(i);
+        //if splitting, strip away any line breaks in there already
+        // only split though if we have no breaks needed in the text
+        if (splitEveryNthChar < numChars && !text.contains("<br/>")) {
+            text = Jsoup.clean(text, Safelist.none());
+        }
 
+        for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
+            //is index a space? if so, replace it with a break
             if (text.charAt(i) == ' ') {
-                text = text.substring(0, splitEveryNthChar).trim() + "<br/>" + text.substring(splitEveryNthChar).trim();
+                StringBuilder sb = new StringBuilder(text);
+                sb.deleteCharAt(i);
+                sb.insert(i - 1,"<br/>");
+                text = sb.toString();
             } else {
                 boolean spaceFound = false;
 
-               //chars to left or right a space?
-
-                if (!spaceFound) {
-                    //last restort just insert a break here in between the chars
-                    text = text.substring(0, splitEveryNthChar) + "<br/>" + text.substring(splitEveryNthChar);
-                    //below will account for handling breaks and add html tags if needed
+                //check right for a space
+                for (int j = i ; j < i + breakInsertionTol ; j++) {
+                    //is j valid
+                    if (j < numChars) {
+                        //is it a space
+                        if (text.charAt(j) == ' ') {
+                            StringBuilder sb = new StringBuilder(text);
+                            sb.deleteCharAt(j);
+                            sb.insert(j,"<br/>");
+                            text = sb.toString();
+                            spaceFound = true;
+                            break;
+                        }
+                    }
                 }
+
+                if (spaceFound)
+                    continue;
+
+                //check left for a space
+                for (int j = i ; j > i - breakInsertionTol ; j--) {
+                    //is j valid
+                    if (j > 0) {
+                        //is it a space
+                        if (text.charAt(j) == ' ') {
+                            StringBuilder sb = new StringBuilder(text);
+                            sb.deleteCharAt(j);
+                            sb.insert(j,"<br/>");
+                            text = sb.toString();
+                            spaceFound = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (spaceFound)
+                    continue;
+
+                //final resort to just put it at the current index
+                StringBuilder sb = new StringBuilder(text);
+                sb.insert(i,"<br/>");
+                text = sb.toString();
             }
         }
 
@@ -143,7 +188,7 @@ public class GenericInformer {
             if (!text.startsWith("<html>")) {
                 text = "<html>" + text + "</html>";
             }
-        } //else width and height are fine
+        }
 
         //if no extra height was needed, add 10 anyway so that the line of text isn't cut off
         if (cumulativeHeight == lineHeight)
