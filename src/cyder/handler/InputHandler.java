@@ -1,7 +1,6 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import cyder.annotations.Showcase;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.ScreenPosition;
@@ -61,10 +60,10 @@ public class InputHandler {
     //todo popup button list for informs and confirmations and such should only show a close button on its drag label
     // make a boolean for information/popup/getter dialog for CyderFrames that does this and also sets it to always be on top
 
-    //todo get centering text for confirmation dialog working
-
     //todo preference for showing song length vs time left in music player
     //todo if skip back is pressed in first 3 seconds of audio, start current audio from begining
+
+    //todo figure out how to flag stuff that you should showcase in the README/Widget Showcases/YouTube videos
 
     private InputHandler() {} //no instantiation without a valid JTextPane to use
 
@@ -631,11 +630,9 @@ public class InputHandler {
         } else if (hasWord("close cd")) {
             SystemUtil.closeCD("D:\\");
         } else if (firstWord.equalsIgnoreCase("define")) {
-            @Showcase("Defining a word")
             String defineWord = operation.replaceAll("(?i)define","").trim();
             println(StringUtil.define(defineWord));
         } else if (firstWord.equalsIgnoreCase("wikisum")) {
-            @Showcase("Wikipedia summary")
             String summaryWord = operation.replaceAll("(?i)wikisum","").trim();
             println(StringUtil.wikiSummary(summaryWord));
         } else if (hasWord("debug") && hasWord("menu")) {
@@ -667,7 +664,6 @@ public class InputHandler {
         } else if (eic("hide")) {
             ConsoleFrame.getConsoleFrame().minimize();
         } else if (hasWord("analyze") && hasWord("code")) {
-            @Showcase("Code analyzing")
             File startDir = new File("src");
 
             println("Lines of code: " + StatUtil.totalJavaLines(startDir));
@@ -720,7 +716,6 @@ public class InputHandler {
             }
         } else if (hasWord("hexdump")) {
             if (has("-f")) {
-                @Showcase("Showcase dumping a file after creating it using note editor")
                 String[] parts = operation.split("-f");
 
                 if (parts.length != 2) {
@@ -893,7 +888,6 @@ public class InputHandler {
                         "to perform that operation.");
             }
         } else if (firstWord.equalsIgnoreCase("play")) {
-            @Showcase("YouTube downloading through word search")
             boolean isURL = true;
 
             String input = operation.replaceAll("(?i)play","").trim();
@@ -962,14 +956,12 @@ public class InputHandler {
                 }, "Youtube Audio Download Waiter").start();
             }
         } else if (hasWord("steal") && hasWord("windows") && hasWord("backgrounds")) {
-            @Showcase("Spotlight stealing")
             File saveDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
             Spotlight.saveSpotlights(saveDir);
             ConsoleFrame.getConsoleFrame().resizeBackgrounds();
             ConsoleFrame.getConsoleFrame().getInputHandler()
                     .println("Spotlight images saved to your user's background/ directory");
         } else if (firstWord.equalsIgnoreCase("pastebin")) {
-           @Showcase("Pastebin")
             String[] parts = op.split(" ");
 
             if (parts.length != 2) {
@@ -1089,7 +1081,6 @@ public class InputHandler {
         }
     }
 
-    @Showcase("secondary console input")
     public void handleSecond(String input) {
         if (outputArea == null)
             throw new IllegalArgumentException("Output area not set");
