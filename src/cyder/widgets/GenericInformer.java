@@ -97,9 +97,6 @@ public class GenericInformer {
         //tolerance character limit
         int breakInsertionTol = 7;
 
-        System.out.println(numHeights);
-        System.out.println(numChars);
-        System.out.println(splitEveryNthChar);
 
         //if splitting, strip away any line breaks in there already
         // only split though if we have no breaks needed in the text
@@ -155,9 +152,13 @@ public class GenericInformer {
                 if (spaceFound)
                     continue;
 
-                //final resort to just put it at the current index
+                //final resort to just put it at the current index as long as we're not in the middle of a line break
+                int insertionIndex = i;
+
+                //make sure insertionIndex isn't in between an already existing line break, if so, move backwards
+
                 StringBuilder sb = new StringBuilder(text);
-                sb.insert(i,"<br/>");
+                sb.insert(insertionIndex,"<br/>");
                 text = sb.toString();
             }
         }
@@ -194,8 +195,32 @@ public class GenericInformer {
         if (cumulativeHeight == lineHeight)
             cumulativeHeight += 20;
 
-        System.out.println(text);
-
         return new BoundsString(width, cumulativeHeight, text);
+    }
+
+    private static class BreakPosition {
+        private int start;
+        private int end;
+
+        public BreakPosition(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+
+        public int getStart() {
+            return start;
+        }
+
+        public void setStart(int start) {
+            this.start = start;
+        }
+
+        public int getEnd() {
+            return end;
+        }
+
+        public void setEnd(int end) {
+            this.end = end;
+        }
     }
 }
