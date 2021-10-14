@@ -107,101 +107,116 @@ public class GenericInformer {
             text = Jsoup.clean(text, Safelist.none());
         }
 
-        for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
-            //is index a space? if so, replace it with a break
-            if (text.charAt(i) == ' ') {
-                StringBuilder sb = new StringBuilder(text);
-                sb.deleteCharAt(i);
-                sb.insert(i - 1,"<br/>");
-                text = sb.toString();
-            } else {
-                boolean spaceFound = false;
+        SPLITTING:
+            for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
+                //is index a space? if so, replace it with a break
+                if (text.charAt(i) == ' ') {
+                    StringBuilder sb = new StringBuilder(text);
+                    sb.deleteCharAt(i);
+                    sb.insert(i - 1,"<br/>");
+                    text = sb.toString();
+                } else {
+                    boolean spaceFound = false;
 
-                //check right for a space
-                for (int j = i ; j < i + breakInsertionTol ; j++) {
-                    //is j valid
-                    if (j < numChars) {
-                        //is it a space
-                        if (text.charAt(j) == ' ') {
-                            StringBuilder sb = new StringBuilder(text);
-                            sb.deleteCharAt(j);
-                            sb.insert(j,"<br/>");
-                            text = sb.toString();
-                            spaceFound = true;
+                    //check right for a space
+                    for (int j = i ; j < i + breakInsertionTol ; j++) {
+                        //is j valid
+                        if (j < numChars) {
+                            //is it a space
+                            if (text.charAt(j) == ' ') {
+                                StringBuilder sb = new StringBuilder(text);
+                                sb.deleteCharAt(j);
+                                sb.insert(j,"<br/>");
+                                text = sb.toString();
+                                spaceFound = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (spaceFound)
+                        continue;
+
+                    //check left for a space
+                    for (int j = i ; j > i - breakInsertionTol ; j--) {
+                        //is j valid
+                        if (j > 0) {
+                            //is it a space
+                            if (text.charAt(j) == ' ') {
+                                StringBuilder sb = new StringBuilder(text);
+                                sb.deleteCharAt(j);
+                                sb.insert(j,"<br/>");
+                                text = sb.toString();
+                                spaceFound = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (spaceFound)
+                        continue;
+
+                    //final resort to just put it at the current index as long as we're not in the middle of a line break
+                    String breakString = "<br/>";
+                    int brLen = breakString.length();
+                    String[] breaks = text.split("<br/>");
+                    int breaksPassed = 0;
+
+                    LinkedList<BreakPosition> breakPositions = new LinkedList<>();
+
+                    for (int j = 0 ; j < breaks.length ; j++) {
+                        //first
+                        if (j == 0) {
+                            //first break starts after first element's length and lasts from that value + the length of a break string
+                            breakPositions.add(new BreakPosition(breaks[j].length(), breaks[j].length() + brLen - 1));
+                        }
+                        //stuff before this exists so we can save computation time
+                        else {
+                            //start of this current break is the end of the last break position + our current length
+                            int startingIndex = breakPositions.get(j - 1).getEnd() + breaks[j].length();
+                            int endIndex = startingIndex + brLen - 1;
+                            breakPositions.add(new BreakPosition(startingIndex, endIndex));
+                        }
+                    }
+
+                    boolean insideBreak = false;
+
+                    //now we have all the breakPositions, let's print them to make sure they're correct
+                    for (BreakPosition bp : breakPositions) {
+                        //are we inside of this current break
+                        if (i >= bp.getStart() + brLen && i <= bp.getEnd() + brLen) {
+                            //we're inside so we don't need to check the other breaks
+                            insideBreak = true;
                             break;
                         }
                     }
-                }
 
-                if (spaceFound)
-                    continue;
+                    //if we're inside of a break, then we don't need to add one here
+                    if (insideBreak)
+                        continue;
 
-                //check left for a space
-                for (int j = i ; j > i - breakInsertionTol ; j--) {
-                    //is j valid
-                    if (j > 0) {
-                        //is it a space
-                        if (text.charAt(j) == ' ') {
-                            StringBuilder sb = new StringBuilder(text);
-                            sb.deleteCharAt(j);
-                            sb.insert(j,"<br/>");
-                            text = sb.toString();
-                            spaceFound = true;
-                            break;
+
+                    //we don't actually need to add this break or any other ones if the last line length is short enough
+                    String[] lines = text.split("<br/>");
+
+                    for (int j = 1 ; j < lines.length ; j++) {
+                        int maxBefore = lines[1].length();
+                        for (int k = 1 ; k < j ; k++) {
+                            if (lines[k].length() > maxBefore) {
+                                maxBefore = lines[k].length();
+                            }
+                        }
+
+                        if (maxBefore > lines[j].length()) {
+                            break SPLITTING;
                         }
                     }
+
+                    StringBuilder sb = new StringBuilder(text);
+                    sb.insert(i,"<br/>");
+                    text = sb.toString();
                 }
-
-                if (spaceFound)
-                    continue;
-
-                //final resort to just put it at the current index as long as we're not in the middle of a line break
-                String breakString = "<br/>";
-                int brLen = breakString.length();
-                String[] breaks = text.split("<br/>");
-                int breaksPassed = 0;
-
-                LinkedList<BreakPosition> breakPositions = new LinkedList<>();
-
-                for (int j = 0 ; j < breaks.length ; j++) {
-                    //first
-                    if (j == 0) {
-                        //first break starts after first element's length and lasts from that value + the length of a break string
-                        breakPositions.add(new BreakPosition(breaks[j].length(), breaks[j].length() + brLen - 1));
-                    }
-                    //stuff before this exists so we can save computation time
-                    else {
-                        //start of this current break is the end of the last break position + our current length
-                        int startingIndex = breakPositions.get(j - 1).getEnd() + breaks[j].length();
-                        int endIndex = startingIndex + brLen - 1;
-                        breakPositions.add(new BreakPosition(startingIndex, endIndex));
-                    }
-                }
-
-                boolean insideBreak = false;
-
-                //now we have all the breakPositions, let's print them to make sure they're correct
-                for (BreakPosition bp : breakPositions) {
-                    //are we inside of this current break
-                    if (i >= bp.getStart() + brLen && i <= bp.getEnd() + brLen) {
-                        //we're inside so we don't need to check the other breaks
-                        insideBreak = true;
-                        break;
-                    }
-                }
-
-                //if we're inside of a break, then we don't need to add one here
-                if (insideBreak)
-                    continue;
-
-                StringBuilder sb = new StringBuilder(text);
-                sb.insert(i,"<br/>");
-                text = sb.toString();
-
-               //todo fix bug resulting from:
-                //asdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdf
             }
-        }
 
         //account for html line breaks
         if (text.contains("<br/>")) {
