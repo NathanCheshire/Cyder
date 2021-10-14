@@ -13,6 +13,7 @@ import org.jsoup.safety.Safelist;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.util.LinkedList;
 
 public class GenericInformer {
     //returns the CyderFrame instance to be shown elsewhere
@@ -58,6 +59,8 @@ public class GenericInformer {
             ErrorHandler.handle(e);
         }
     }
+
+    //todo same as below method but with a max width param
 
     /**
      * Inner logic to calculate the needed width and height of an inform/dialog window.
@@ -155,7 +158,36 @@ public class GenericInformer {
                 //final resort to just put it at the current index as long as we're not in the middle of a line break
                 int insertionIndex = i;
 
-                //todo make sure insertionIndex isn't in between an already existing line break, if so, skip adding this break
+                String breakString = "<br/>";
+                String[] breaks = text.split("<br/>");
+                int breaksPassed = 0;
+
+                LinkedList<BreakPosition> breakPositions = new LinkedList<>();
+
+                for (int j = 0 ; j < breaks.length ; j++) {
+                    //first
+                    if (j > 0) {
+                        //first break starts after first element's length and lasts from that value + the length of a break string
+                        breakPositions.add(new BreakPosition(breaks[j].length(), breaks[j].length() + breakString.length()));
+                    }
+                    //stuff before this exists so we can save computation time
+                    else {
+                        //start of this current break is the end of the last break position + our current length
+                        int startingIndex = breakPositions.get(j - 1).getEnd() + breaks[j].length();
+                        int endIndex = startingIndex + breakString.length();
+                        breakPositions.add(new BreakPosition(startingIndex, endIndex));
+                    }
+                }
+
+                //now we have all the breakPositions, let's print them to make sure they're correct
+                for (BreakPosition bp : breakPositions) {
+                    System.out.println("break found starting at: " + bp.getStart() + " -> " + bp.getEnd());
+                }
+
+                System.out.println("\ntext for reference:\n" + text);
+
+                //now we have all the breakpositions, loop through them and compare them with insertionIndex
+                // to make sure we're not in between any
 
                 StringBuilder sb = new StringBuilder(text);
                 sb.insert(insertionIndex,"<br/>");
