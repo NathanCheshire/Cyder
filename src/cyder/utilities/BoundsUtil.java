@@ -18,30 +18,34 @@ public class BoundsUtil {
      *           for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text) {
-        return widthHeightCalculation(text, SystemUtil.getScreenWidth() / 2);
+        return widthHeightCalculation(text, SystemUtil.getScreenWidth() / 2, CyderFonts.defaultFontSmall);
+    }
+
+    public static BoundsString widthHeightCalculation(String text, Font font) {
+        return widthHeightCalculation(text, SystemUtil.getScreenWidth() / 2, font);
     }
 
     /**
      * Calculates the needed height for an inform/dialog window given the prefered width and text.
      * @param text - the string to display
      * @param maxWidth - the maximum width allowed
+     * @param font - the font to be used
      * @return - an object composed of the width, height, and possibly corrected text to form the bounding box
      *           for the provided display string.
      */
-    public static BoundsString widthHeightCalculation(String text, int maxWidth) {
+    public static BoundsString widthHeightCalculation(String text, int maxWidth, Font font) {
         //needed width
         int width = 0;
 
         //font, transform, and rendercontext vars
-        Font notificationFont = CyderFonts.defaultFontSmall;
         AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
+        FontRenderContext frc = new FontRenderContext(affinetransform, font.isItalic(), true);
 
         //get minimum width for whole parsed string
-        width = (int) notificationFont.getStringBounds(text, frc).getWidth() + 5;
+        width = (int) font.getStringBounds(text, frc).getWidth() + 5;
 
         //the height of a singular line of text
-        int lineHeight = (int) notificationFont.getStringBounds(text, frc).getHeight() + 2;
+        int lineHeight = (int) font.getStringBounds(text, frc).getHeight() + 2;
         //cumulative height needed
         int cumulativeHeight = lineHeight;
 
@@ -189,7 +193,7 @@ public class BoundsUtil {
             //get the maximum width after accounting for line breaks
             String lines[] = text.split("<br/>");
             for (String line : lines) {
-                int currentWidth = (int) notificationFont.getStringBounds(line, frc).getWidth() + 5;
+                int currentWidth = (int) font.getStringBounds(line, frc).getWidth() + 5;
 
                 if (currentWidth > width) {
                     width = currentWidth;

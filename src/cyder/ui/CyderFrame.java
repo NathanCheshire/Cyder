@@ -4,9 +4,10 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
+import cyder.genobjects.BoundsString;
+import cyder.genobjects.Gluster;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
-import cyder.genobjects.Gluster;
 import cyder.utilities.*;
 import cyder.widgets.GenericInformer;
 import org.jsoup.Jsoup;
@@ -568,31 +569,14 @@ public class CyderFrame extends JFrame {
                             //use html so that it can line break when we need it to
                             text.setText("<html>" + currentGluster.getHtmlText() + "</html>");
 
-                            //start of font width and height calculation
-                            int w = 0;
                             Font notificationFont = CyderFonts.weatherFontSmall;
-                            AffineTransform affinetransform = new AffineTransform();
-                            FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
 
-                            //parse away html
-                            String parsedHTML = Jsoup.clean(currentGluster.getHtmlText(), Safelist.none());
+                            BoundsString bs = BoundsUtil.widthHeightCalculation(currentGluster.getHtmlText(),
+                                    (int) (this.width * 0.9), notificationFont);
 
-                            //get minimum width for whole parsed string
-                            w = (int) notificationFont.getStringBounds(parsedHTML, frc).getWidth() + 5;
-
-                            //get height of a line and set it as height increment too
-                            int h = (int) notificationFont.getStringBounds(parsedHTML, frc).getHeight();
-                            int heightInc = h;
-                            FontMetrics metrics = getGraphics().getFontMetrics();
-
-                            while (w > 0.9 * this.width) {
-                                int area = w * h;
-                                w /= 2;
-                                h = area / w;
-                            }
-
-                            if (h != heightInc)
-                                h += heightInc + metrics.getAscent();
+                            int w = bs.getWidth();
+                            int h = bs.getHeight();
+                            text.setText(bs.getText());
 
                             if (w > this.width * 0.9|| h > this.height * 0.9) {
                                 GenericInformer.informRelative(currentGluster.getHtmlText(),"Notification",this);
@@ -616,7 +600,7 @@ public class CyderFrame extends JFrame {
                             disposeLabel.addMouseListener(new MouseAdapter() {
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
-                                currentNotification.kill();
+                                    currentNotification.kill();
                                 }
                             });
                             currentNotification.add(disposeLabel);
@@ -640,7 +624,9 @@ public class CyderFrame extends JFrame {
                                     this.getTitle() + "] [NOTIFICATION] " + currentGluster.getHtmlText());
 
                             //duration is always 300ms per word unless less than 5 seconds
-                            int duration = 300 * StringUtil.countWords(parsedHTML);
+                            int duration = 300 * StringUtil.countWords(
+                                    Jsoup.clean(bs.getText(), Safelist.none())
+                            );
                             duration = Math.max(duration, 5000);
                             duration = currentGluster.getDuration() == 0 ?
                                     duration : currentGluster.getDuration();

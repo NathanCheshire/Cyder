@@ -1054,7 +1054,7 @@ public class InputHandler {
         }
         //t3sting -------------------------------------------------
         else if (eic("test")) {
-            ManualTestingWidgets.InformTest();
+            ManualTestingWidgets.NotificationsTest();
         }
         //final attempt at unknown input --------------------------
         else {

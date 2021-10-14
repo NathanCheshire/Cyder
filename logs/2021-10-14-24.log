@@ -1,0 +1,20 @@
+[17:44:09] [ENTRY]: [WINUSER=Nathan]
+[17:44:11] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[17:44:11] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17:44:11] [LOGIN]: [AUTOCYPHER PASS]
+[17:44:12] [CLIENT]: [SIMULATED INPUT] test
+[17:44:15] [ACTION]: CyderButton, text=[Top] CLICKED
+[17:44:15] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf
+[17:44:16] [ACTION]: CyderButton, text=[Right] CLICKED
+[17:44:16] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf
+[17:44:20] [ACTION]: CyderButton, text=[Top] CLICKED
+[17:44:20] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdfasdfasdfasdf
+[17:44:22] [ACTION]: CyderButton, text=[Top] CLICKED
+[17:44:22] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdfasdfasdfasasdfasdfasdfasdfdf
+[17:44:30] [ACTION]: CyderButton, text=[Top] CLICKED
+[17:44:30] [ACTION]: [Notification Test] [NOTIFICATION] the quick brown fox jumps over the lazy dogs
+[17:44:38] [ACTION]: CyderButton, text=[Top] CLICKED
+[17:44:38] [ACTION]: [Notification Test] [NOTIFICATION] the quick brown fox jumps over the lazy dogs what else would he do and why
+[17:46:29] [LOGOUT]:  [Nathan]
+[17:46:29] [EXIT]: [RUNTIME] 2m 19s
+[17:46:29] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
