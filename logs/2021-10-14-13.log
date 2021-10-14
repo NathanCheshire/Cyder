@@ -1,0 +1,8 @@
+[17:04:23] [ENTRY]: [WINUSER=Nathan]
+[17:04:24] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[17:04:25] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17:04:25] [LOGIN]: [AUTOCYPHER PASS]
+[17:04:26] [CLIENT]: [SIMULATED INPUT] test
+[17:04:34] [LOGOUT]:  [Nathan]
+[17:04:34] [EXIT]: [RUNTIME] 11s
+[17:04:34] [EOL]: Log completed, exiting program with code: 120 [Final Frame Disposed], exceptions thrown: 0

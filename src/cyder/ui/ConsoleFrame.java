@@ -176,6 +176,9 @@ public final class ConsoleFrame {
                 }
             };
 
+            //closing consoleframe should always result in a program exit
+            consoleCyderFrame.addPostCloseAction(() -> GenesisShare.exit(25));
+
             //set background to non-navy color
             consoleCyderFrame.setBackground(Color.black);
 
@@ -202,11 +205,6 @@ public final class ConsoleFrame {
                 public void windowOpened(WindowEvent e) {
                     inputField.requestFocus();
                     onLaunch();
-                }
-
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    GenesisShare.exit(25);
                 }
             });
 
@@ -767,7 +765,6 @@ public final class ConsoleFrame {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
                     consoleCyderFrame.dispose();
-                    GenesisShare.exit(25);
                 }
             });
             close.addMouseListener(new MouseAdapter() {

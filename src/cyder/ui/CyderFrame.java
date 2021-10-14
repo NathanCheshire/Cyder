@@ -761,6 +761,9 @@ public class CyderFrame extends JFrame {
                           currentNotification.kill();
 
                       super.dispose();
+
+                      for (PostCloseAction action : postCloseActions)
+                          action.invokeAction();
                   }
               } catch (Exception e) {
                   ErrorHandler.handle(e);
@@ -1307,6 +1310,7 @@ public class CyderFrame extends JFrame {
     }
 
     private LinkedList<PreCloseAction> preCloseActions = new LinkedList<>();
+    private LinkedList<PostCloseAction> postCloseActions = new LinkedList<>();
 
     /**
      * Performs the given action right before closing the frame. This action is invoked right before an animation
@@ -1319,7 +1323,7 @@ public class CyderFrame extends JFrame {
      *         }
      *   }
      *
-     *     addPreCloseAction(new action());
+     *   addPreCloseAction(new action());
      *
      * @param action - the action to perform before closing/disposing
      */
@@ -1327,8 +1331,32 @@ public class CyderFrame extends JFrame {
         preCloseActions.add(action);
     }
 
+    /**
+     * Performs the given action right after closing the frame. This action is invoked right after an animation
+     * and sequential dispose call. Usage:
+     *
+     *   class action implements PostCloseAction {
+     *         {@code @Override}
+     *         public void invokeAction() {
+     *             //logic here
+     *         }
+     *   }
+     *
+     *   addPostCloseAction(new action());
+     *
+     * @param action - the action to perform before closing/disposing
+     */
+    public void addPostCloseAction(PostCloseAction action) {
+        postCloseActions.add(action);
+    }
+
     //interface to be used for preCloseActions
     public interface PreCloseAction {
+        void invokeAction();
+    }
+
+    //interface to be used for postCloseActions
+    public interface PostCloseAction {
         void invokeAction();
     }
 
