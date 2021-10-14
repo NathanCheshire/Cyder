@@ -155,7 +155,7 @@ public class GenericInformer {
                 //final resort to just put it at the current index as long as we're not in the middle of a line break
                 int insertionIndex = i;
 
-                //make sure insertionIndex isn't in between an already existing line break, if so, move backwards
+                //todo make sure insertionIndex isn't in between an already existing line break, if so, skip adding this break
 
                 StringBuilder sb = new StringBuilder(text);
                 sb.insert(insertionIndex,"<br/>");
