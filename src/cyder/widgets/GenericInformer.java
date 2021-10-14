@@ -61,6 +61,7 @@ public class GenericInformer {
     }
 
     //todo same as below method but with a max width param
+    //todo: bug found, consoleframe doesn't show a closing animation
 
     /**
      * Inner logic to calculate the needed width and height of an inform/dialog window.
@@ -99,7 +100,6 @@ public class GenericInformer {
 
         //tolerance character limit
         int breakInsertionTol = 7;
-
 
         //if splitting, strip away any line breaks in there already
         // only split though if we have no breaks needed in the text
@@ -156,8 +156,6 @@ public class GenericInformer {
                     continue;
 
                 //final resort to just put it at the current index as long as we're not in the middle of a line break
-                int insertionIndex = i;
-
                 String breakString = "<br/>";
                 int brLen = breakString.length();
                 String[] breaks = text.split("<br/>");
@@ -180,20 +178,28 @@ public class GenericInformer {
                     }
                 }
 
+                boolean insideBreak = false;
+
                 //now we have all the breakPositions, let's print them to make sure they're correct
                 for (BreakPosition bp : breakPositions) {
-                    System.out.println("break found starting at: " + bp.getStart() + " -> " + bp.getEnd());
+                    //are we inside of this current break
+                    if (i >= bp.getStart() + brLen && i <= bp.getEnd() + brLen) {
+                        //we're inside so we don't need to check the other breaks
+                        insideBreak = true;
+                        break;
+                    }
                 }
 
-                System.out.println("\ntext for reference:\n" + text);
-
-                //now we have all the breakpositions, loop through them and compare them with insertionIndex
-                // to make sure we're not in between any
+                //if we're inside of a break, then we don't need to add one here
+                if (insideBreak)
+                    continue;
 
                 StringBuilder sb = new StringBuilder(text);
-                System.out.println("adding break at index: " + insertionIndex);
-                sb.insert(insertionIndex,"<br/>");
+                sb.insert(i,"<br/>");
                 text = sb.toString();
+
+               //todo fix bug resulting from:
+                //asdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdfasdfasdf<br/>asdfasdf
             }
         }
 
