@@ -159,6 +159,7 @@ public class GenericInformer {
                 int insertionIndex = i;
 
                 String breakString = "<br/>";
+                int brLen = breakString.length();
                 String[] breaks = text.split("<br/>");
                 int breaksPassed = 0;
 
@@ -166,15 +167,15 @@ public class GenericInformer {
 
                 for (int j = 0 ; j < breaks.length ; j++) {
                     //first
-                    if (j > 0) {
+                    if (j == 0) {
                         //first break starts after first element's length and lasts from that value + the length of a break string
-                        breakPositions.add(new BreakPosition(breaks[j].length(), breaks[j].length() + breakString.length()));
+                        breakPositions.add(new BreakPosition(breaks[j].length(), breaks[j].length() + brLen - 1));
                     }
                     //stuff before this exists so we can save computation time
                     else {
                         //start of this current break is the end of the last break position + our current length
                         int startingIndex = breakPositions.get(j - 1).getEnd() + breaks[j].length();
-                        int endIndex = startingIndex + breakString.length();
+                        int endIndex = startingIndex + brLen - 1;
                         breakPositions.add(new BreakPosition(startingIndex, endIndex));
                     }
                 }
@@ -190,6 +191,7 @@ public class GenericInformer {
                 // to make sure we're not in between any
 
                 StringBuilder sb = new StringBuilder(text);
+                System.out.println("adding break at index: " + insertionIndex);
                 sb.insert(insertionIndex,"<br/>");
                 text = sb.toString();
             }
