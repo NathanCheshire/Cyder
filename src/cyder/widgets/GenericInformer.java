@@ -60,17 +60,28 @@ public class GenericInformer {
         }
     }
 
-    //todo same as below method but with a max width param
     //todo: bug found, consoleframe doesn't show a closing animation
+    //todo: should there be a max height method?
+    //todo: bounds util method?
 
     /**
-     * Inner logic to calculate the needed width and height of an inform/dialog window.
-     * Typically more width is favored over height
+     * Calculates the needed height of an inform/dialog window.
      * @param text - the string to display
      * @return - an object composed of the width, height, and possibly corrected text to form the bounding box
      *           for the provided display string.
      */
-    private static BoundsString widthHeightCalculation(String text) {
+    public static BoundsString widthHeightCalculation(String text) {
+        return widthHeightCalculation(text, SystemUtil.getScreenWidth() / 2);
+    }
+
+    /**
+     * Calculates the needed height for an inform/dialog window given the prefered width and text.
+     * @param text - the string to display
+     * @param maxWidth - the maximum width allowed
+     * @return - an object composed of the width, height, and possibly corrected text to form the bounding box
+     *           for the provided display string.
+     */
+    public static BoundsString widthHeightCalculation(String text, int maxWidth) {
         //needed width
         int width = 0;
 
@@ -88,7 +99,7 @@ public class GenericInformer {
         int cumulativeHeight = lineHeight;
 
         //width may never be greater than half of the screen width
-        while (width > SystemUtil.getScreenWidth() / 2) {
+        while (width > maxWidth) {
             int beforeArea = width * cumulativeHeight;
             cumulativeHeight += lineHeight;
             width = beforeArea / cumulativeHeight;
@@ -207,12 +218,13 @@ public class GenericInformer {
                             }
                         }
 
-                        if (maxBefore > lines[j].length()) {
+                        if (maxBefore + brLen > lines[j].length()) {
                             break SPLITTING;
                         }
                     }
 
                     StringBuilder sb = new StringBuilder(text);
+                    System.out.println("adding break at: " + i);
                     sb.insert(i,"<br/>");
                     text = sb.toString();
                 }

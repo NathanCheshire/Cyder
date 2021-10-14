@@ -10,3 +10,4 @@
 [00:10:51] [ACTION]: CyderButton, text=[Inform] CLICKED
 [00:10:54] [ACTION]: CyderButton, text=[Inform] CLICKED
 [00:10:56] [ACTION]: CyderButton, text=[Inform] CLICKED
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
