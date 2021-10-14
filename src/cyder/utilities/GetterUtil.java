@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
+import cyder.genobjects.BoundsString;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -16,14 +17,10 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -342,44 +339,12 @@ public class GetterUtil {
 
         new Thread(() -> {
             try {
-                CyderLabel textLabel = new CyderLabel(message);
+                CyderLabel textLabel = new CyderLabel();
 
-                //start of font width and height calculation
-                int w = 0;
-                Font notificationFont = CyderFonts.defaultFontSmall;
-                AffineTransform affinetransform = new AffineTransform();
-                FontRenderContext frc = new FontRenderContext(affinetransform, notificationFont.isItalic(), true);
-
-                //get minimum width for whole parsed string
-                w = (int) notificationFont.getStringBounds(message, frc).getWidth() + 5;
-
-                //get height of a line and set it as height increment too
-                int h = (int) notificationFont.getStringBounds(message, frc).getHeight();
-                int heightInc = h;
-
-                while (w > SystemUtil.getScreenWidth() / 2) {
-                    int area = w * h;
-                    w /= 2;
-                    h = area / w;
-                }
-
-                String[] breakOccurences = message.split("<br/>");
-                h += (breakOccurences.length * heightInc);
-
-                if (h != heightInc)
-                    h += 10;
-
-                //in case we're too short from html breaks, find the max width line and set it to w
-                if (message.contains("<br/>"))
-                    w = 0;
-
-                for (String line : message.split("<br/>")) {
-                    int thisW = (int) notificationFont.getStringBounds(Jsoup.clean(line, Safelist.none()), frc).getWidth() + 5;
-
-                    if (thisW > w) {
-                        w = thisW;
-                    }
-                }
+                BoundsString bs = BoundsUtil.widthHeightCalculation(message);
+                int w = bs.getWidth();
+                int h = bs.getHeight();
+                textLabel.setText(bs.getText());
 
                 confirmationFrame[0] = new CyderFrame(w + 40, h + 25 + 20 + 40 + 40);
                 confirmationFrame[0].setTitle("Confirmation");
