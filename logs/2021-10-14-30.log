@@ -1,0 +1,38 @@
+[18:40:48] [ENTRY]: [WINUSER=Nathan]
+[18:40:49] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[18:40:50] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18:40:50] [LOGIN]: [AUTOCYPHER PASS]
+[18:40:51] [CLIENT]: [SIMULATED INPUT] test
+[18:41:03] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:41:04] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf
+[18:41:08] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:41:08] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:41:23] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:41:23] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:00] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:00] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:20] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:20] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:27] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:27] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:28] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:28] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:29] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:29] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:31] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:31] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:36] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:36] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:36] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:37] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:37] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:37] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:37] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:42:39] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:43] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:47] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:50] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:42:51] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf asdfasdf asdfasdf asdfasdf
+[18:43:15] [LOGOUT]:  [Nathan]
+[18:43:15] [EXIT]: [RUNTIME] 2m 26s
+[18:43:15] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

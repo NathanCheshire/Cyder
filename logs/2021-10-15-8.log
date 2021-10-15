@@ -1,0 +1,26 @@
+[18:10:37] [ENTRY]: [WINUSER=Nathan]
+[18:10:38] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[18:10:39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18:10:39] [LOGIN]: [AUTOCYPHER PASS]
+[18:10:40] [CLIENT]: [SIMULATED INPUT] test
+[18:10:45] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:10:45] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf <br/> asdfasdf
+[18:10:50] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:10:50] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf <br/> asdfasdf
+[18:10:55] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:10:55] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf <br/> asdfasdf
+[18:10:59] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:10:59] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf <br/> asdfasdf
+[18:11:01] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:11:01] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf <br/> asdfasdf
+[18:11:03] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:11:03] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf <br/> asdfasdf
+[18:11:04] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:11:04] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf <br/> asdfasdf
+[18:11:11] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:11:11] [ACTION]: [Notification Test] [NOTIFICATION] asdf<br/>asdf
+[18:11:13] [ACTION]: CyderButton, text=[Top] CLICKED
+[18:11:13] [ACTION]: [Notification Test] [NOTIFICATION] asdf<br/>asdf
+[18:11:20] [LOGOUT]:  [Nathan]
+[18:11:20] [EXIT]: [RUNTIME] 42s
+[18:11:20] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
