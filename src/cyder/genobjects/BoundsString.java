@@ -34,4 +34,9 @@ public class BoundsString {
     public void setText(String text) {
         this.text = text;
     }
+
+    @Override
+    public String toString() {
+        return "[" + this.width + "x" + this.height + "]\nText:\n" + this.text;
+    }
 }

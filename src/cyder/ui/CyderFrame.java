@@ -578,10 +578,7 @@ public class CyderFrame extends JFrame {
                             int h = bs.getHeight();
                             text.setText(bs.getText());
 
-                            if (w > this.width * 0.9|| h > this.height * 0.9) {
-                                GenericInformer.informRelative(currentGluster.getHtmlText(),"Notification",this);
-                                continue;
-                            }
+
 
                             //set the text bounds to the proper x,y and theest
                             // calculated width and height

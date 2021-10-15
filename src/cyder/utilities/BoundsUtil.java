@@ -63,8 +63,7 @@ public class BoundsUtil {
         //tolerance character limit
         int breakInsertionTol = 7;
 
-        //if splitting, strip away any line breaks in there already
-        // only split though if we have no breaks needed in the text
+        //if splitting, strip away html
         if (splitEveryNthChar < numChars && !text.contains("<br/>")) {
             text = Jsoup.clean(text, Safelist.none());
         }
@@ -75,7 +74,7 @@ public class BoundsUtil {
             if (text.charAt(i) == ' ') {
                 StringBuilder sb = new StringBuilder(text);
                 sb.deleteCharAt(i);
-                sb.insert(i - 1,"<br/>");
+                sb.insert(i,"<br/>");
                 text = sb.toString();
             } else {
                 boolean spaceFound = false;
@@ -175,7 +174,6 @@ public class BoundsUtil {
                 }
 
                 StringBuilder sb = new StringBuilder(text);
-                System.out.println("adding break at: " + i);
                 sb.insert(i,"<br/>");
                 text = sb.toString();
             }
@@ -239,6 +237,11 @@ public class BoundsUtil {
 
         public void setEnd(int end) {
             this.end = end;
+        }
+
+        @Override
+        public String toString() {
+            return "[" + this.start + " -> " + this.end + "]";
         }
     }
 }
