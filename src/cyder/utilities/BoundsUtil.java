@@ -58,7 +58,7 @@ public class BoundsUtil {
 
         int numHeights = (int) Math.ceil(cumulativeHeight / lineHeight);
         int numChars = text.length();
-        int splitEveryNthChar = (int) Math.floor(numChars / numHeights);
+        int splitEveryNthChar = (int) Math.ceil(numChars / numHeights);
 
         //tolerance character limit
         int breakInsertionTol = 7;
@@ -82,7 +82,7 @@ public class BoundsUtil {
 
         //number of chars might have changed so revalidate the following vars
         numChars = text.length();
-        splitEveryNthChar = (int) Math.floor(numChars / numHeights);
+        splitEveryNthChar = (int) Math.ceil(numChars / numHeights);
         width = (int) font.getStringBounds(text, frc).getWidth() + 5;
         lineHeight = (int) font.getStringBounds(text, frc).getHeight() + 2;
         cumulativeHeight = lineHeight;
@@ -93,8 +93,15 @@ public class BoundsUtil {
             width = beforeArea / cumulativeHeight;
         }
 
+        int currentLineCount = text.split("<br/>").length;
+
         SPLITTING:
             for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
+                if (currentLineCount == numHeights)
+                    break;
+                else
+                    currentLineCount++;
+
                 //is index a space? if so, replace it with a break
                 if (text.charAt(i) == ' ') {
                     StringBuilder sb = new StringBuilder(text);

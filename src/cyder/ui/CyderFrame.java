@@ -578,8 +578,6 @@ public class CyderFrame extends JFrame {
                             int h = bs.getHeight();
                             text.setText(bs.getText());
 
-
-
                             //set the text bounds to the proper x,y and theest
                             // calculated width and height
                             text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);

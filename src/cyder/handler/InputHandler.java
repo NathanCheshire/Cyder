@@ -1058,16 +1058,15 @@ public class InputHandler {
         }
         //final attempt at unknown input --------------------------
         else {
-            if (handleMath(operation))
-                return;
+            if (handleMath(operation)) {
 
-            if (evaluateExpression(operation))
-                return;
+            } else if (evaluateExpression(operation)) {
 
-            if (preferenceCheck(operation))
-                return;
+            } else if (preferenceCheck(operation)) {
 
-            unknownInput();
+            } else {
+                unknownInput();
+            }
         }
     }
 
