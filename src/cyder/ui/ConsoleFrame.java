@@ -973,6 +973,7 @@ public final class ConsoleFrame {
             try {
                 OUTER:
                     while (true) {
+                        //todo why does this throw an error occasionally?
                         if (UserUtil.extractUser().getClockonconsole().equalsIgnoreCase("1")) {
                             if (UserUtil.extractUser().getShowseconds().equalsIgnoreCase("1")) {
                                 String time = TimeUtil.consoleSecondTime();

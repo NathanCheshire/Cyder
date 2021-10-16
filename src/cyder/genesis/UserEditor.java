@@ -21,6 +21,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.GeneralPath;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -903,23 +904,99 @@ public class UserEditor {
             preferenceLabel.setFont(CyderFonts.defaultFontSmall);
             printingUtil.printlnComponent(preferenceLabel);
 
-            CyderButton preferenceButton = new CyderButton(
-                    UserUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? "      On      " :
-                            "      Off      ");
-            preferenceButton.setColors(UserUtil.getUserData(GenesisShare.getPrefs().get(i).getID()).equals("1") ? CyderColors.regularGreen : CyderColors.regularRed);
-            preferenceButton.setToolTipText(GenesisShare.getPrefs().get(i).getTooltip());
-            preferenceButton.addActionListener(e -> {
-                boolean wasSelected = UserUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
-                UserUtil.setUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
+            //separate the components
+            printingUtil.print("\n");
 
-                preferenceButton.setColors(wasSelected ? CyderColors.regularRed : CyderColors.regularGreen);
-                preferenceButton.setText(wasSelected ? "      Off      " : "      On      ");
+            //check boxes to toggle preferences
+            JLabel togglePrefLabel = new JLabel("<html>SEPARATOR<br/>SEPARATOR<br/>SEPARATOR<br/>SEPARATOR</html>") {
+                @Override
+                public void paintComponent(Graphics g) {
+                    boolean setSelected = UserUtil.getUserData(
+                            (GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
 
-                ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
+                    int xOffset = switchingLabel.getWidth() / 2 - 35;
+                    Color background = CyderColors.navy;
+                    int sideLength = 50;
+                    int borderWidth = 3;
+
+                    Graphics2D graphics2D = (Graphics2D) g;
+
+                    if (setSelected) {
+                        graphics2D.setPaint(background);
+                        GeneralPath outlinePath = new GeneralPath();
+                        outlinePath.moveTo(xOffset, 0);
+                        outlinePath.lineTo(sideLength + xOffset,0);
+                        outlinePath.lineTo(sideLength + xOffset,sideLength);
+                        outlinePath.lineTo(xOffset,sideLength);
+                        outlinePath.lineTo(xOffset,0);
+                        outlinePath.closePath();
+                        graphics2D.fill(outlinePath);
+
+                        //move enter check down
+                        int yTranslate = 4;
+
+                        graphics2D.setColor(CyderColors.intellijPink);
+
+                        //thickness of line drawn
+                        graphics2D.setStroke(new BasicStroke(5));
+
+                        int cornerOffset = 5;
+                        graphics2D.drawLine(xOffset + sideLength - borderWidth - cornerOffset,
+                                borderWidth + cornerOffset + yTranslate,
+                                xOffset + sideLength / 2, sideLength / 2 + yTranslate);
+
+                        //length from center to bottom most check point
+                        int secondaryDip = 5;
+                        graphics2D.drawLine(xOffset + sideLength / 2,
+                                sideLength / 2 + yTranslate,
+                                xOffset + sideLength / 2 - secondaryDip,
+                                sideLength / 2 + secondaryDip + yTranslate);
+
+                        //length from bottom most part back up
+                        int lengthUp = 9;
+                        graphics2D.drawLine(xOffset + sideLength / 2 - secondaryDip,
+                                sideLength / 2 + secondaryDip + yTranslate,
+                                xOffset + sideLength / 2 - secondaryDip - lengthUp,
+                                sideLength / 2 + secondaryDip - lengthUp + yTranslate);
+
+                    } else {
+                        graphics2D.setPaint(background);
+                        GeneralPath outlinePath = new GeneralPath();
+                        outlinePath.moveTo(xOffset, 0);
+                        outlinePath.lineTo(xOffset + sideLength,0);
+                        outlinePath.lineTo(xOffset + sideLength,sideLength);
+                        outlinePath.lineTo(xOffset,50);
+                        outlinePath.lineTo(xOffset,0);
+                        outlinePath.closePath();
+                        graphics2D.fill(outlinePath);
+
+                        graphics2D.setPaint(CyderColors.vanila);
+                        GeneralPath fillPath = new GeneralPath();
+                        fillPath.moveTo(borderWidth + xOffset, borderWidth);
+                        fillPath.lineTo(xOffset + sideLength - borderWidth,borderWidth);
+                        fillPath.lineTo(xOffset + sideLength - borderWidth,sideLength - borderWidth);
+                        fillPath.lineTo(xOffset + borderWidth,sideLength - borderWidth);
+                        fillPath.lineTo(xOffset + borderWidth,borderWidth);
+                        fillPath.closePath();
+                        graphics2D.fill(fillPath);
+                    }
+                }
+            };
+            togglePrefLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    boolean wasSelected = UserUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
+                    UserUtil.setUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
+
+                    ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
+                    togglePrefLabel.repaint();
+                }
             });
-
-            printingUtil.printlnComponent(preferenceButton);
+            printingUtil.printlnComponent(togglePrefLabel);
         }
+
+        //todo bug found: switching quickly between windows results in fonts appearing where they shouldn't
+        // before adding after loading complete, make sure the index is still what it should be, else, remove
 
         CyderScrollPane preferenceScroll = new CyderScrollPane(preferencePane);
         preferenceScroll.setThumbSize(7);

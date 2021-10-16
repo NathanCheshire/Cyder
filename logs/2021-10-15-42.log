@@ -1,0 +1,18 @@
+[22:33:56] [ENTRY]: [WINUSER=Nathan]
+[22:33:57] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[22:33:57] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22:33:58] [LOGIN]: [AUTOCYPHER PASS]
+[22:33:59] [CLIENT]: [SIMULATED INPUT] test
+[22:34:00] [CLIENT]: Prefs
+[22:34:00] [ACTION]: USER EDITOR
+[22:34:01] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1784897553, text=[<] parentFrame=[Edit User]
+[22:34:02] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1784897553, text=[<] parentFrame=[Edit User]
+[22:34:11] [CLIENT]: Temp
+[22:34:11] [ACTION]: TEMPERATURE CONVERTER
+[22:34:33] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1660880739, text=[Calculate] parentFrame=[Temperature Converter]
+[22:34:33] [ACTION]: [Temperature Converter] [NOTIFICATION] Please enter a starting value.
+[22:34:35] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1660880739, text=[Calculate] parentFrame=[Temperature Converter]
+[22:34:35] [ACTION]: [Temperature Converter] [NOTIFICATION] Please enter a starting value.
+[22:34:40] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[22:34:40] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1784897553, text=[<] parentFrame=[Edit User]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

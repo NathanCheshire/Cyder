@@ -14,7 +14,6 @@ import cyder.genobjects.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderButton;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.utilities.*;
