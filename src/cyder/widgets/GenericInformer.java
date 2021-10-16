@@ -15,7 +15,7 @@ public class GenericInformer {
         try {
             CyderLabel textLabel = new CyderLabel(text);
             BoundsString boundsString = BoundsUtil.widthHeightCalculation(text);
-            textLabel.setText(boundsString.getText());
+            textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
             textLabel.setBounds(10,35, boundsString.getWidth(), boundsString.getHeight());
 
             CyderFrame informFrame = new CyderFrame(boundsString.getWidth() + 40,
@@ -39,7 +39,7 @@ public class GenericInformer {
         try {
             CyderLabel textLabel = new CyderLabel(text);
             BoundsString boundsString = BoundsUtil.widthHeightCalculation(text);
-            textLabel.setText(boundsString.getText());
+            textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
             textLabel.setBounds(10,35, boundsString.getWidth(), boundsString.getHeight());
 
             CyderFrame informFrame = new CyderFrame(boundsString.getWidth() + 20,

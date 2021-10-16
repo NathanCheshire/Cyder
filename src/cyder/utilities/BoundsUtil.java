@@ -277,4 +277,18 @@ public class BoundsUtil {
             return "[" + this.start + " -> " + this.end + "]";
         }
     }
+
+    //adds <div style='text-align: center;'> to the provided html string
+    public static String addCenteringToHTML(String html) {
+        StringBuilder ret = new StringBuilder();
+
+        if (html.startsWith("<html>")) {
+            ret.append("<html><div style='text-align: center;'>")
+                    .append(html, 6, html.length() - 6).append("</html>");
+        } else {
+            ret.append("<html><div style='text-align: center;'>").append(html).append("</html>");
+        }
+
+        return ret.toString();
+    }
 }
