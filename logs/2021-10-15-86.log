@@ -1,0 +1,15 @@
+[23:45:58] [ENTRY]: [WINUSER=Nathan]
+[23:45:59] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[23:45:59] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:46:00] [LOGIN]: [AUTOCYPHER PASS]
+[23:46:01] [CLIENT]: [SIMULATED INPUT] test
+[23:46:01] [ACTION]: [AUDIO] users/8657469f-418b-348f-ab79-8993fb4c2b84/Music/Buckethead - Soothsayer.mp3
+[23:46:05] [CLIENT]: Logout
+[23:46:05] [LOGOUT]:  [Nathan]
+[23:46:07] [CLIENT_IO]: [LOGIN FRAME] login
+[23:46:08] [CLIENT_IO]: [LOGIN FRAME] nathan
+[23:46:09] [LOGIN]: [STD LOGIN]
+[23:46:09] [LOGOUT]:  [Nathan]
+[23:46:09] [EXIT]: [RUNTIME] 11s
+[23:46:09] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
+[23:46:09] [ACTION]: [AUDIO] users/8657469f-418b-348f-ab79-8993fb4c2b84/Music/Euphoria - Sacred.mp3

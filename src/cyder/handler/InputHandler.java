@@ -753,6 +753,7 @@ public class InputHandler {
                     f.dispose();
             }
             IOUtil.stopAudio();
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().removePostCloseActions();
             ConsoleFrame.getConsoleFrame().close();
             Login.showGUI();
         } else if (hasWord("throw") && hasWord("error")) {

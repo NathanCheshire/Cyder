@@ -928,12 +928,14 @@ public class UserEditor {
 
                     Graphics2D graphics2D = (Graphics2D) g;
 
+                    //common part extracted
+                    graphics2D.setPaint(background);
+                    GeneralPath outlinePath = new GeneralPath();
+                    outlinePath.moveTo(xOffset, 0);
+                    outlinePath.lineTo(sideLength + xOffset,0);
+                    outlinePath.lineTo(sideLength + xOffset,sideLength);
+
                     if (setSelected) {
-                        graphics2D.setPaint(background);
-                        GeneralPath outlinePath = new GeneralPath();
-                        outlinePath.moveTo(xOffset, 0);
-                        outlinePath.lineTo(sideLength + xOffset,0);
-                        outlinePath.lineTo(sideLength + xOffset,sideLength);
                         outlinePath.lineTo(xOffset,sideLength);
                         outlinePath.lineTo(xOffset,0);
                         outlinePath.closePath();
@@ -967,11 +969,6 @@ public class UserEditor {
                                 sideLength / 2 + secondaryDip - lengthUp + yTranslate);
 
                     } else {
-                        graphics2D.setPaint(background);
-                        GeneralPath outlinePath = new GeneralPath();
-                        outlinePath.moveTo(xOffset, 0);
-                        outlinePath.lineTo(xOffset + sideLength,0);
-                        outlinePath.lineTo(xOffset + sideLength,sideLength);
                         outlinePath.lineTo(xOffset,50);
                         outlinePath.lineTo(xOffset,0);
                         outlinePath.closePath();

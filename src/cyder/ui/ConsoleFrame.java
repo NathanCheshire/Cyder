@@ -1426,7 +1426,7 @@ public final class ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    inputHandler.handle("logout", true);
+                    inputHandler.handle("logout", false);
                 } catch (Exception exception) {
                     ErrorHandler.handle(exception);
                 }

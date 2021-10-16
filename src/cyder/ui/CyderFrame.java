@@ -1293,6 +1293,14 @@ public class CyderFrame extends JFrame {
     private LinkedList<PreCloseAction> preCloseActions = new LinkedList<>();
     private LinkedList<PostCloseAction> postCloseActions = new LinkedList<>();
 
+    public void removePreCloseActions() {
+        preCloseActions = new LinkedList<>();
+    }
+
+    public void removePostCloseActions() {
+        postCloseActions = new LinkedList<>();
+    }
+
     /**
      * Performs the given action right before closing the frame. This action is invoked right before an animation
      * and sequential dispose call. Usage:

@@ -173,7 +173,6 @@ public class GenesisShare {
         if (!ConsoleFrame.getConsoleFrame().isClosed() && ConsoleFrame.getConsoleFrame() != null) {
             return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
         } else if (!Login.isClosed() && Login.getLoginFrame() != null){
-            System.out.println(Login.isClosed());
             return Login.getLoginFrame();
         }
         //other possibly dominant/stand-alone frame checks here

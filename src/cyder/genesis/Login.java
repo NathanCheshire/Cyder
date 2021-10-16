@@ -107,8 +107,10 @@ public class Login {
         doLoginAnimations = true;
         loginMode = 0;
 
-        if (loginFrame != null)
+        if (loginFrame != null) {
+            loginFrame.removePostCloseActions();
             loginFrame.dispose();
+        }
 
         IOUtil.cleanUsers();
 
@@ -136,7 +138,7 @@ public class Login {
 
         //exiting handler if console frame isn't active
         if (ConsoleFrame.getConsoleFrame().isClosed()) {
-            loginFrame.addPreCloseAction(() -> GenesisShare.exit(25));
+            loginFrame.addPostCloseAction(() -> GenesisShare.exit(25));
         }
 
         JTextPane loginArea = new JTextPane();
@@ -314,6 +316,7 @@ public class Login {
                 }
 
                 if (!ConsoleFrame.getConsoleFrame().isClosed()) {
+                    ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().removePostCloseActions();
                     ConsoleFrame.getConsoleFrame().close();
                 }
 
@@ -322,6 +325,7 @@ public class Login {
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
                 // and exiting the program when we have just logged in
                 if (loginFrame != null) {
+                    loginFrame.removePostCloseActions();
                     loginFrame.dispose();
                 }
 
