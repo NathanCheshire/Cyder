@@ -36,6 +36,9 @@ public class Login {
     private static LinkedList<String> priorityPrintingList = new LinkedList<>();
 
     private static void loginTypingAnimation(JTextPane refArea) {
+        //apparently we need it a second time to fix a bug :/
+        doLoginAnimations = true;
+
         printingList.clear();
         printingList.add("Cyder version: " + IOUtil.getSystemData().getReleasedate() + "\n");
         printingList.add("Type \"h\" for a list of valid commands\n");

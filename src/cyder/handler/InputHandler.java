@@ -1054,7 +1054,7 @@ public class InputHandler {
         } else if (hasWord("issue") || hasWord("issues")) {
             GitHubUtil.Issue[] issues = GitHubUtil.getIssues();
             println(issues.length + " issue" + (issues.length == 1 ? "" : "s") + " found:\n");
-            System.out.println("----------------------------------------");
+            println("----------------------------------------");
 
             for (GitHubUtil.Issue issue: issues) {
                 println(issue.title);

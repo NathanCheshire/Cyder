@@ -48,3 +48,4 @@ Caused by: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was BEGIN_
 	at com.google.gson.stream.JsonReader.beginObject(JsonReader.java:384)
 	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:215)
 	... 34 more
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
