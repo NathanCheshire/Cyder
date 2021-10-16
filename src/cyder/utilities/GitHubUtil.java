@@ -1,20 +1,39 @@
 package cyder.utilities;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import cyder.handler.ErrorHandler;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.LinkedList;
 
 public class GitHubUtil {
-    public static LinkedList<Issue> getIssues() {
-        LinkedList<Issue> ret = new LinkedList<>();
+    public static Issue[] getIssues() {
+        Issue[] ret = null;
 
-        //todo https://api.github.com/repos/nathancheshire/cyder/issues
+        try {
+            String urlString = "https://api.github.com/repos/nathancheshire/cyder/issues";
+            URL url = new URL(urlString);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+
+            reader.close();
+            String rawJSON = sb.toString();
+
+            ret = new Gson().fromJson(rawJSON, Issue[].class);
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
 
         return ret;
-    }
-
-    public static class Issues {
-        public LinkedList<Issue> issues;
     }
 
     public static class Issue {

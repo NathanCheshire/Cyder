@@ -1055,22 +1055,12 @@ public class InputHandler {
         }
         //t3sting -------------------------------------------------
         else if (eic("test")) {
-            String urlString = "https://api.github.com/repos/nathancheshire/cyder/issues";
-            URL url = new URL(urlString);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
+            //todo menu breaks when logout and log back in
 
-            reader.close();
-            String rawJSON = sb.toString();
+            //todo make a param for a widget as well as how to call it so that you can have a widget to
+            // find all the widgets
 
-            System.out.println(rawJSON);
-
-            GitHubUtil.Issues issues = new Gson().fromJson(rawJSON, GitHubUtil.Issues.class);
-            System.out.println(issues.issues.size());
+            GitHubUtil.getIssues();
         }
         //final attempt at unknown input --------------------------
         else {
