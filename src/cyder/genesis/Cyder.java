@@ -9,21 +9,30 @@ import cyder.utilities.SystemUtil;
 public class Cyder {
     /**
      * Setup and start the best program ever made :D
-     * @param CA - possible command line args passed in.
-     *           They serve no purpose yet we'll still log them
+     * @param CA possible command line args passed in. They serve no purpose yet
+     *           but we shall log them regardless (just like Big Brother would want)
      */
     public static void main(String[] CA)  {
         //set shutdown hook
         CyderSetup.addCommonExitHook();
 
-        //start the logger
+        //start session logger
         SessionLogger.SessionLogger();
         SessionLogger.log(SessionLogger.Tag.ENTRY, SystemUtil.getWindowsUsername());
 
         //CyderSetup subroutines
-        CyderSetup.registerFonts();
         CyderSetup.initSystemProperties();
         CyderSetup.initUIManager();
+
+        //possibly fatal subroutines
+        boolean continueSetup = CyderSetup.registerFonts();
+        //&& with other methods in the future
+
+        //if there was a fatal error and Cyder cannot continue
+        if (!continueSetup) {
+            CyderSetup.exceptionExit("Font required by system could not be loaded","Font failure");
+            return;
+        }
 
         //IOUtil subroutines
         IOUtil.cleanUsers();

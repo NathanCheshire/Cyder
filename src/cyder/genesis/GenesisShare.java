@@ -34,7 +34,7 @@ public class GenesisShare {
         suspendFrameChecker = true;
     }
 
-    public static void cancelFrameCheckerSuspention() {
+    public static void resumeFrameChecker() {
         suspendFrameChecker = false;
     }
 
@@ -50,14 +50,10 @@ public class GenesisShare {
                 }
             }
 
-            if (validFrames < 1 && !GenesisShare.framesSuspended()) {
+            if (validFrames < 1 && !suspendFrameChecker) {
                 GenesisShare.exit(120);
             }
         }, 10, 5, SECONDS);
-    }
-
-    public static boolean framesSuspended() {
-        return suspendFrameChecker;
     }
 
     private static final LinkedList<Preference> prefs = initPreferencesList();

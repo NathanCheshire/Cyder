@@ -1,0 +1,41 @@
+[18:25:42] [ENTRY]: [WINUSER=Nathan]
+[18:25:42] [EXCEPTION]: 
+t
+Thrown from:
+cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+StackTrace:
+java.lang.Exception: t
+	at cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+	at cyder.genesis.Cyder.main(Cyder.java:24)
+[18:25:42] [LOGIN]: [SYSTEM FAILURE]
+[18:25:42] [EXCEPTION]: 
+t
+Thrown from:
+cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+StackTrace:
+java.lang.Exception: t
+	at cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+	at cyder.genesis.Cyder.main(Cyder.java:24)
+[18:25:42] [LOGIN]: [SYSTEM FAILURE]
+[18:25:43] [EXCEPTION]: 
+t
+Thrown from:
+cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+StackTrace:
+java.lang.Exception: t
+	at cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+	at cyder.genesis.Cyder.main(Cyder.java:24)
+[18:25:43] [LOGIN]: [SYSTEM FAILURE]
+[18:25:43] [EXIT]: [RUNTIME]
+[18:25:43] [EXCEPTION]: 
+t
+Thrown from:
+cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+StackTrace:
+java.lang.Exception: t
+	at cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+	at cyder.genesis.Cyder.main(Cyder.java:24)
+[18:25:43] [LOGIN]: [SYSTEM FAILURE]
+[18:25:43] [EXIT]: [RUNTIME]
+[18:25:43] [EOL]: Log completed, exiting program with code: 278 [Corrupted System File(s)], exceptions thrown: 4
+[18:25:43] [EOL]: Log completed, exiting program with code: 278 [Corrupted System File(s)], exceptions thrown: 4

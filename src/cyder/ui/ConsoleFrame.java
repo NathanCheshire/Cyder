@@ -893,7 +893,7 @@ public final class ConsoleFrame {
             }
 
             //resume frame checker
-            GenesisShare.cancelFrameCheckerSuspention();
+            GenesisShare.resumeFrameChecker();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -973,7 +973,7 @@ public final class ConsoleFrame {
             try {
                 OUTER:
                     while (true) {
-                        //todo why does this throw an error occasionally?
+                        //why does this throw an error occasionally?
                         if (UserUtil.extractUser().getClockonconsole().equalsIgnoreCase("1")) {
                             if (UserUtil.extractUser().getShowseconds().equalsIgnoreCase("1")) {
                                 String time = TimeUtil.consoleSecondTime();

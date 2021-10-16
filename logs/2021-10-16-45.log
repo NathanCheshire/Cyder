@@ -1,0 +1,44 @@
+[18:25:54] [ENTRY]: [WINUSER=Nathan]
+[18:25:54] [EXCEPTION]: 
+t
+Thrown from:
+cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+StackTrace:
+java.lang.Exception: t
+	at cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+	at cyder.genesis.Cyder.main(Cyder.java:24)
+[18:25:54] [LOGIN]: [SYSTEM FAILURE]
+[18:25:55] [EXCEPTION]: 
+t
+Thrown from:
+cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+StackTrace:
+java.lang.Exception: t
+	at cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+	at cyder.genesis.Cyder.main(Cyder.java:24)
+[18:25:55] [LOGIN]: [SYSTEM FAILURE]
+[18:25:55] [EXCEPTION]: 
+t
+Thrown from:
+cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+StackTrace:
+java.lang.Exception: t
+	at cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+	at cyder.genesis.Cyder.main(Cyder.java:24)
+[18:25:55] [LOGIN]: [SYSTEM FAILURE]
+[18:25:55] [EXCEPTION]: 
+t
+Thrown from:
+cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+StackTrace:
+java.lang.Exception: t
+	at cyder.genesis.CyderSetup.registerFonts(CyderSetup.java:72)
+	at cyder.genesis.Cyder.main(Cyder.java:24)
+[18:25:55] [LOGIN]: [SYSTEM FAILURE]
+[18:25:56] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[18:25:56] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18:25:56] [LOGIN]: [AUTOCYPHER PASS]
+[18:25:57] [CLIENT]: [SIMULATED INPUT] test
+[18:26:24] [LOGOUT]:  [Nathan]
+[18:26:24] [EXIT]: [RUNTIME] 29s
+[18:26:24] [EOL]: Log completed, exiting program with code: 278 [Corrupted System File(s)], exceptions thrown: 4

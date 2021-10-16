@@ -61,8 +61,12 @@ public class CyderSetup {
      * Registers the fonts within the fonts/ directory. These fonts are then serialized into objects inside of consts.CyderFonts.
      * These fonts may ONLY be derived throughout the program. No other fonts may be used aside from the user selected font which
      * is guaranteed to work since we pull the list of fonts from the GraphicsEnvironment.
+     *
+     * @return - boolean informing whether or not all the fonts were loaded properly
      */
-    public static void registerFonts() {
+    public static boolean registerFonts() {
+        boolean ret = true;
+
         //loop through fonts dir
         for (File f : new File("fonts").listFiles()) {
             //if it's a valid font file
@@ -73,28 +77,39 @@ public class CyderSetup {
                     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,f));
                 } catch (Exception e) {
                     ErrorHandler.silentHandle(e);
-                    //todo maybe we should exit if we can't load a font
+                    ret = false;
+                    break;
                 }
             }
         }
+
+        return ret;
     }
 
     public static void commonCyderSetup() {
-        CyderSetup.addCommonExitHook();
+        addCommonExitHook();
+        initSystemProperties();
+        initUIManager();
+        initFrameChecker();
+    }
 
-        CyderSetup.initSystemProperties();
-        CyderSetup.initUIManager();
+    public static void exceptionExit(String message, String title) {
+        SessionLogger.log(SessionLogger.Tag.LOGIN, "SYSTEM FAILURE");
+        GenesisShare.suspendFrameChecker();
 
-        CyderSetup.initFrameChecker();
+        CyderFrame retFrame = GenericInformer.informRet(message, title);
+        retFrame.addPostCloseAction(() -> GenesisShare.exit(278));
+        retFrame.setVisible(true);
+        retFrame.setLocationRelativeTo(null);
     }
 
     public static void osxExit() {
         SessionLogger.log(SessionLogger.Tag.LOGIN, "IMPROPER OS");
-        GenesisShare.cancelFrameCheckerSuspention();
+        GenesisShare.suspendFrameChecker();
 
         CyderFrame retFrame = GenericInformer.informRet("System OS not intended for Cyder use. You should" +
                 " install a dual boot or a VM or something.","OS Exception");
-        retFrame.addPreCloseAction(() -> GenesisShare.exit(178));
+        retFrame.addPostCloseAction(() -> GenesisShare.exit(178));
         retFrame.setVisible(true);
         retFrame.setLocationRelativeTo(null);
     }

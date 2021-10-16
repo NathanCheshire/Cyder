@@ -16,7 +16,7 @@ public class CyderBST {
     }
 
     public boolean contains(String data) {
-        //todo traverse tree via comparisons until we find it or come to null
+        //traverse tree via comparisons until we find it or come to null
         return false;
     }
 
@@ -48,13 +48,13 @@ public class CyderBST {
 
         //end of tree so starting here
         if (start.leftChild == null && start.rightChild == null)
-            return 1; //todo does this logic even work
+            return 1; //does this logic even work
 
         return Math.max(leftDepth, rightDepth);
     }
 
     public void insert(String data) {
-        //todo have to find where data goes to left or right until we get to null then we can make that the child
+        //have to find where data goes to left or right until we get to null then we can make that the child
     }
 
     public Object remove(String data) {
@@ -62,7 +62,7 @@ public class CyderBST {
     }
 
     private String innerRemove(Node currentNode, String data) {
-        //todo we should be checking children so that we can link the node we are removing's
+        //we should be checking children so that we can link the node we are removing's
         // parent to it's own children. We don't have a way to go back
         return null;
     }
