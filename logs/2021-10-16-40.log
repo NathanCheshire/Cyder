@@ -1,0 +1,22 @@
+[18:08:54] [ENTRY]: [WINUSER=Nathan]
+[18:08:55] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[18:08:56] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18:08:56] [LOGIN]: [AUTOCYPHER PASS]
+[18:08:57] [CLIENT]: [SIMULATED INPUT] test
+[18:09:04] [CLIENT]: [SIMULATED INPUT] logout
+[18:09:04] [LOGOUT]:  [Nathan]
+[18:09:06] [CLIENT_IO]: [LOGIN FRAME] login
+[18:09:07] [CLIENT_IO]: [LOGIN FRAME] nathan
+[18:09:08] [LOGIN]: [STD LOGIN]
+[18:09:08] [CLIENT]: [SIMULATED INPUT] test
+[18:09:13] [CLIENT]: Logout
+[18:09:14] [LOGOUT]:  [Nathan]
+[18:09:15] [CLIENT_IO]: [LOGIN FRAME] logion
+[18:09:15] [CLIENT_IO]: [LOGIN FRAME] nathan
+[18:09:20] [CLIENT_IO]: [LOGIN FRAME] login
+[18:09:21] [CLIENT_IO]: [LOGIN FRAME] nathan
+[18:09:22] [LOGIN]: [STD LOGIN]
+[18:09:23] [CLIENT]: [SIMULATED INPUT] test
+[18:09:27] [LOGOUT]:  [Nathan]
+[18:09:27] [EXIT]: [RUNTIME] 32s
+[18:09:27] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

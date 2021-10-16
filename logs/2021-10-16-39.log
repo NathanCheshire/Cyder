@@ -1,0 +1,66 @@
+[18:06:49] [ENTRY]: [WINUSER=Nathan]
+[18:06:50] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[18:06:51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18:06:51] [LOGIN]: [AUTOCYPHER PASS]
+[18:06:52] [CLIENT]: [SIMULATED INPUT] test
+[18:06:54] [CLIENT]: Issues
+[18:06:54] [CONSOLE_OUT]: [STRING] 16 issues found:
+[18:06:55] [CONSOLE_OUT]: [STRING] Path finder optimal path
+[18:06:56] [CONSOLE_OUT]: [STRING] Add a checkbox for the path finding widget to find the optimal path instead of the first one it comes across.
+[18:07:00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:00] [CLIENT]: controlc
+[18:07:00] [CONSOLE_OUT]: [STRING] Email client
+[18:07:00] [CONSOLE_OUT]: [STRING] Make an email client using CyderComponents and using javax.mail library. Should be able to add attachments and view formatted content of the email. Use JTextPane possibly.
+[18:07:00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:00] [CONSOLE_OUT]: [STRING] CyderFrame types
+[18:07:00] [CONSOLE_OUT]: [STRING] Add methods to CyderFrame to determine which buttons show be visible. For example, if it's a dialog/popup/getter,  only the close button should be visible and the window itself should be set to be always on top.
+[18:07:00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:00] [CONSOLE_OUT]: [STRING] Flags for showcasing
+[18:07:00] [CONSOLE_OUT]: [STRING] Figure out how to flag stuff that you should showcase in the README/Widget Showcases/YouTube videos. I tried using an annotation but this did not work.
+[18:07:00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:00] [CONSOLE_OUT]: [STRING] Date pattern for console clock
+[18:07:00] [CONSOLE_OUT]: [STRING] Add a new page to preferences for possible field inputs. The first thing on this page should be a custom string for the consoleclock. If the user enters a valid and acceptable datetime string, use this for consoleclock instead of the default.
+[18:07:00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Preference for song length vs time left
+[18:07:01] [CONSOLE_OUT]: [STRING] Add a preference for showing song length vs time left in the audio player.
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Downloading youtube playlists
+[18:07:01] [CONSOLE_OUT]: [STRING] Be able to download a whole youtube playlist. Make sure that it's a playlist, download the first second, add it to the queue, and repeat the process. until all songs have been downloaded and added to the queue.
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] JNI
+[18:07:01] [CONSOLE_OUT]: [STRING] Utilize JNI within Cyder and write some C++ code to use. Also use to interface with the kernel to get the laptop's battery life if available.
+
+See:
+
+https://stackoverflow.com/questions/3434719/how-to-get-the-remaining-battery-life-in-a-windows-system?answertab=oldest#tab-top
+
+https://stackoverflow.com/questions/3434719/how-to-get-the-remaining-battery-life-in-a-windows-system?answertab=oldest#tab-top
+
+https://www.jetbrains.com/help/idea/setting-up-jni-development-in-gradle-project.html#adding_jni_support
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Quick Start
+[18:07:01] [CONSOLE_OUT]: [STRING] Implement a quick start function for user's in a hurry that will always skip the login method and use a default user account. Try to make sure cyder loads in < 1s after opening the jar file.
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Spectrum Analyzer
+[18:07:01] [CONSOLE_OUT]: [STRING] Implement a simple spectrum analyzer.
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Dark Mode
+[18:07:01] [CONSOLE_OUT]: [STRING] Implement a dark/light mode preference
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Multiple Image Support
+[18:07:01] [CONSOLE_OUT]: [STRING] Anywhere a PNG is accepted, be able to accept JPEG and JPG image types.
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Screen Sizing
+[18:07:01] [CONSOLE_OUT]: [STRING] Be able to adapt to different screen resolutions and maintain the same relative size. See ImAvg as an example.
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Method params
+[18:07:01] [CONSOLE_OUT]: [STRING] Add @return and @param args to public methods.
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Device Manager
+[18:07:01] [CONSOLE_OUT]: [STRING] Be able to see devices connected to the computer through Cyder.
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Multiple Monitors
+[18:07:01] [CONSOLE_OUT]: [STRING] Take into account multiple monitors and be able to swap from screen to screen.
+[18:07:01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18:07:01] [CONSOLE_OUT]: [STRING] Escaped
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

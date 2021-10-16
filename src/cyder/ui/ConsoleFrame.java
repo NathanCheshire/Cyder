@@ -2410,6 +2410,7 @@ public final class ConsoleFrame {
         inputHandler = null;
         consoleCyderFrame.dispose();
         closed = true;
+        consoleMenuGenerated = false;
         SessionLogger.log(SessionLogger.Tag.LOGOUT, " [" + getUsername() + "]");
     }
 

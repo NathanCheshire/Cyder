@@ -1,7 +1,6 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import com.google.gson.Gson;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.ScreenPosition;
@@ -1052,15 +1051,21 @@ public class InputHandler {
             SystemUtil.setCurrentCyderIcon(new ImageIcon("sys/pictures/print/x.png"));
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("sys/pictures/print/x.png").getImage());
+        } else if (hasWord("issue") || hasWord("issues")) {
+            GitHubUtil.Issue[] issues = GitHubUtil.getIssues();
+            println(issues.length + " issue" + (issues.length == 1 ? "" : "s") + " found:\n");
+            System.out.println("----------------------------------------");
+
+            for (GitHubUtil.Issue issue: issues) {
+                println(issue.title);
+                println(issue.body);
+                println("----------------------------------------");
+            }
         }
         //t3sting -------------------------------------------------
         else if (eic("test")) {
-            //todo menu breaks when logout and log back in
-
             //todo make a param for a widget as well as how to call it so that you can have a widget to
             // find all the widgets
-
-            GitHubUtil.getIssues();
         }
         //final attempt at unknown input --------------------------
         else {
