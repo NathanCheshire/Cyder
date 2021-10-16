@@ -1,6 +1,7 @@
 package cyder.handler;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import com.google.gson.Gson;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.ScreenPosition;
@@ -1054,7 +1055,22 @@ public class InputHandler {
         }
         //t3sting -------------------------------------------------
         else if (eic("test")) {
+            String urlString = "https://api.github.com/repos/nathancheshire/cyder/issues";
+            URL url = new URL(urlString);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
 
+            reader.close();
+            String rawJSON = sb.toString();
+
+            System.out.println(rawJSON);
+
+            GitHubUtil.Issues issues = new Gson().fromJson(rawJSON, GitHubUtil.Issues.class);
+            System.out.println(issues.issues.size());
         }
         //final attempt at unknown input --------------------------
         else {

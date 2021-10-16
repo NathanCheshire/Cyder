@@ -1,0 +1,22 @@
+[11:01:38] [ENTRY]: [WINUSER=Nathan]
+[11:01:39] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[11:01:39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11:01:40] [LOGIN]: [AUTOCYPHER PASS]
+[11:01:41] [CLIENT]: [SIMULATED INPUT] test
+[11:01:43] [CLIENT]: Prefs
+[11:01:44] [ACTION]: USER EDITOR
+[11:01:46] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=241722350, text=[<] parentFrame=[Edit User]
+[11:01:48] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=241722350, text=[<] parentFrame=[Edit User]
+[11:04:17] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=118602479, text=[>] parentFrame=[Edit User]
+[11:04:17] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=118602479, text=[>] parentFrame=[Edit User]
+[11:04:29] [EXCEPTION]: 
+Index: 2, Size: 0
+Thrown from:
+java.base/java.util.LinkedList.checkElementIndex(LinkedList.java:559)
+StackTrace:
+java.lang.IndexOutOfBoundsException: Index: 2, Size: 0
+	at java.base/java.util.LinkedList.checkElementIndex(LinkedList.java:559)
+	at java.base/java.util.LinkedList.get(LinkedList.java:480)
+	at cyder.widgets.AudioPlayer.lambda$resumeAudio$11(AudioPlayer.java:834)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

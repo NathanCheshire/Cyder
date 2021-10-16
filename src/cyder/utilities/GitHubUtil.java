@@ -13,68 +13,76 @@ public class GitHubUtil {
         return ret;
     }
 
-    private static class Issue {
-        private String url;
-        private String repository_url;
-        private String labels_url;
-        private String comments_url;
-        private String events_url;
-        private String html_url;
-        private int id;
-        private String node_id;
-        private int number;
-        private String title;
-        private Issue.User user;
-        private LinkedList<String> labels;
-        private boolean milestone;
-        private int comments;
-        private String created_at;
-        private String updated_at;
-        private String closed_at;
-        private String author_association;
-        private boolean active_lock_reason;
-        private String body;
-        private Reaction reactions;
-        private String timeline_url;
-        private boolean performed_via_github_app;
+    public static class Issues {
+        public LinkedList<Issue> issues;
+    }
 
-        private static class User {
-            private String login;
-            private int id;
-            private String node_id;
-            private String avatar_url;
-            private String gravatar_id;
-            private String url;
-            private String html_url;
-            private String following_url;
-            private String followers_url;
-            private String gists_url;
-            private String starred_url;
-            private String subscriptions_url;
-            private String organizations_url;
-            private String repos_url;
-            private String events_url;
-            private String received_events_url;
-            private String type;
-            private boolean site_admin;
+    public static class Issue {
+        public String url;
+        public String repository_url;
+        public String labels_url;
+        public String comments_url;
+        public String events_url;
+        public String html_url;
+        public int id;
+        public String node_id;
+        public int number;
+        public String title;
+        public Issue.User user;
+        public LinkedList<String> labels;
+        public String state;
+        public boolean locked;
+        public String assignee;
+        public LinkedList<String> assignees;
+        public boolean milestone;
+        public int comments;
+        public String created_at;
+        public String updated_at;
+        public String closed_at;
+        public String author_association;
+        public boolean active_lock_reason;
+        public String body;
+        public Reaction reactions;
+        public String timeline_url;
+        public boolean performed_via_github_app;
+
+        public static class User {
+            public String login;
+            public int id;
+            public String node_id;
+            public String avatar_url;
+            public String gravatar_id;
+            public String url;
+            public String html_url;
+            public String following_url;
+            public String followers_url;
+            public String gists_url;
+            public String starred_url;
+            public String subscriptions_url;
+            public String organizations_url;
+            public String repos_url;
+            public String events_url;
+            public String received_events_url;
+            public String type;
+            public boolean site_admin;
         }
 
-        private static class Reaction {
-            private String url;
-            private int total_count;
+        public static class Reaction {
+            public String url;
+            public int total_count;
 
             @SerializedName("+1")
-            private int plusOne;
+            public int plusOne;
 
             @SerializedName("-1")
-            private int minusOne;
+            public int minusOne;
 
-            private int laugh;
-            private int hooray;
-            private int confused;
-            private int heart;
-            private int rocket;
-            private int eyes;
+            public int laugh;
+            public int hooray;
+            public int confused;
+            public int heart;
+            public int rocket;
+            public int eyes;
         }
     }
 }
