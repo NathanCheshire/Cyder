@@ -96,8 +96,8 @@ public class Weather {
         if (weatherFrame != null)
             weatherFrame.dispose();
 
-        weatherFrame = new CyderFrame(480,600, new ImageIcon(
-                ImageUtil.getImageGradient(480, 600,
+        weatherFrame = new CyderFrame(480,640, new ImageIcon(
+                ImageUtil.getImageGradient(480, 640,
                         new Color(205,119,130),
                         new Color(38,21,75),
                         new Color(89,85,161)))) {
@@ -151,7 +151,6 @@ public class Weather {
         currentWeatherLabel.setFont(CyderFonts.weatherFontSmall);
         currentWeatherLabel.setBounds(0, 255, 480, 30);
         weatherFrame.getContentPane().add(currentWeatherLabel);
-
 
         JButton changeLocButton = new JButton("Location");
         changeLocButton.setForeground(CyderColors.vanila);
@@ -251,30 +250,50 @@ public class Weather {
         windSpeedLabel.setBounds(0, 390, 480, 30);
         weatherFrame.getContentPane().add(windSpeedLabel);
 
-        windDirectionLabel = new JLabel("Wind Direction: " + windBearing + " Deg, " + getWindDirection(windBearing),
-                SwingConstants.CENTER);
-        windDirectionLabel.setForeground(CyderColors.vanila);
-        windDirectionLabel.setFont(CyderFonts.weatherFontSmall);
-        windDirectionLabel.setBounds(0, 430, 480, 30);
+        windDirectionLabel = new JLabel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                g.setColor(CyderColors.navy);
+                g.fillRect(0,0, 50, 50);
+
+                g.setColor(CyderColors.tttblue);
+                g.fillRect(3, 3, this.getWidth() - 6, this.getHeight() - 6);
+
+                int radius = 20;
+                double theta = Double.parseDouble(windBearing) * Math.PI / 180.0;
+                double x = radius * Math.cos(theta);
+                double y = radius * Math.sin(theta);
+
+                int drawToX = (int) Math.round(x);
+                int drawToY = - (int) Math.round(y);
+
+                ((Graphics2D) g).setStroke(new BasicStroke(3));
+                g.setColor(CyderColors.intellijPink);
+                g.drawLine(this.getWidth() / 2, this.getHeight() / 2,
+                        this.getWidth() / 2 + drawToX,  this.getWidth() / 2 + drawToY);
+            }
+        };
+        windDirectionLabel.setToolTipText("Wind direction");
+        windDirectionLabel.setBounds(weatherFrame.getWidth() / 2 - 50 / 2, 430, 50, 50);
         weatherFrame.getContentPane().add(windDirectionLabel);
 
         humidityLabel = new JLabel("Humidity: " + humidity + "%", SwingConstants.CENTER);
         humidityLabel.setForeground(CyderColors.vanila);
         humidityLabel.setFont(CyderFonts.weatherFontSmall);
-        humidityLabel.setBounds(0, 470, 480, 30);
+        humidityLabel.setBounds(0, 500, 480, 30);
         weatherFrame.getContentPane().add(humidityLabel);
 
         pressureLabel = new JLabel("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm",
                 SwingConstants.CENTER);
         pressureLabel.setForeground(CyderColors.vanila);
         pressureLabel.setFont(CyderFonts.weatherFontSmall);
-        pressureLabel.setBounds(0, 510, 480, 30);
+        pressureLabel.setBounds(0, 540, 480, 30);
         weatherFrame.getContentPane().add(pressureLabel);
 
         timezoneLabel = new JLabel("Timezone: " + getTimezoneLabel(), SwingConstants.CENTER);
         timezoneLabel.setForeground(CyderColors.vanila);
         timezoneLabel.setFont(CyderFonts.weatherFontSmall);
-        timezoneLabel.setBounds(0, 550, 480, 30);
+        timezoneLabel.setBounds(0, 580, 480, 30);
         weatherFrame.getContentPane().add(timezoneLabel);
 
         weatherFrame.setVisible(true);
@@ -352,12 +371,13 @@ public class Weather {
             temperatureLabel.setText("Temperature: " + temperature + "F");
             feelsLikeLabel.setText("Feels like: " + feelsLike + "F");
             windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
-            windDirectionLabel.setText("Wind Direction: " + windBearing + " Deg, " + getWindDirection(windBearing));
             humidityLabel.setText("Humidity: " + humidity + "%");
             pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
             timezoneLabel.setText("Timezone: " + getTimezoneLabel());
             sunriseLabel.setText(correctedSunTime(sunrise) + "am");
             sunsetLabel.setText(correctedSunTime(sunset) + "pm");
+
+            windDirectionLabel.repaint();
 
             String[] parts = locationString.split(",");
 
