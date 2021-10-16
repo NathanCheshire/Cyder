@@ -106,8 +106,8 @@ public class YoutubeUtil {
 
     /**
      * Retreives the first valid UUID (if one exists)
-     * @param youtubeQuery - the user friendly query on youtube. Example: "Gryffin Digital Mirage"
-     * @return - the first UUID obtained from the raw html page youtube returns corresponding to the desired query
+     * @param youtubeQuery the user friendly query on youtube. Example: "Gryffin Digital Mirage"
+     * @return the first UUID obtained from the raw html page youtube returns corresponding to the desired query
      */
     public static String getFirstUUID(String youtubeQuery) {
         String ret = null;

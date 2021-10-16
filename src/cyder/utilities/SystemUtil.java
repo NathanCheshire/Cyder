@@ -194,9 +194,9 @@ public class SystemUtil {
     /**
      * Returns a list of all files contained within the startDir and sub directories
      * that have the specified extension
-     * @param startDir - the starting directory
-     * @param extension - the specified extension. Ex. ".java"
-     * @return - an ArrayList of all files with the given extension found within the startDir and
+     * @param startDir the starting directory
+     * @param extension the specified extension. Ex. ".java"
+     * @return an ArrayList of all files with the given extension found within the startDir and
      * sub directories
      */
     public static ArrayList<File> getFiles(File startDir, String extension) {
@@ -231,8 +231,8 @@ public class SystemUtil {
     /**
      * Confirms whether or not the command is valid. e.g. pass "python" or "ffmpeg" and if the returned value is false,
      * ffmpeg/python are not installed.
-     * @param command - the command to run in the terminal
-     * @return - whether or not the command is valid
+     * @param command the command to run in the terminal
+     * @return whether or not the command is valid
      */
     public static boolean shellCommandValid(String command) {
         boolean ret = true;

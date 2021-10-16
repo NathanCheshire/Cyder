@@ -11,11 +11,11 @@ public class Gluster {
 
     /**
      * A gluster is a notification that hasn't been notified to the user yet and is waiting in a CyderFrame's queue.
-     * @param text - the html text for the eventual notification to display
-     * @param dur - the duration in miliseconds the notification should last for. Use 0 for auto-calculation
-     * @param arrow - the arrow direction
-     * @param start - the start direction
-     * @param vanish - the vanish direction
+     * @param text the html text for the eventual notification to display
+     * @param dur the duration in miliseconds the notification should last for. Use 0 for auto-calculation
+     * @param arrow the arrow direction
+     * @param start the start direction
+     * @param vanish the vanish direction
      */
     public Gluster(String text, int dur, Direction arrow, Direction start, Direction vanish) {
         this.htmlText = text;

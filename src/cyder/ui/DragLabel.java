@@ -291,9 +291,9 @@ public class DragLabel extends JLabel {
     /**
      * Adds the button at the given index, 0 means add to the start and {@link DragLabel#getButton(int)#getSize()}
      *  means add to the end
-     * @param button - the JButton with all the properties already set such as listeners, visuals, etc. to add
+     * @param button the JButton with all the properties already set such as listeners, visuals, etc. to add
      *                 to the button list
-     * @param addIndex - the index to append the button to in the button list
+     * @param addIndex the index to append the button to in the button list
      */
     public void addButton(JButton button, int addIndex) {
         //to avoid a weird visual bug, don't let a button that's already been added be added again
@@ -310,8 +310,8 @@ public class DragLabel extends JLabel {
 
     /**
      * Moves the provided button the specified index.
-     * @param button - the button to move to the specified index
-     * @param newIndex - the index to move the specified button to
+     * @param button the button to move to the specified index
+     * @param newIndex the index to move the specified button to
      */
     public void setButtonIndex(JButton button, int newIndex) {
         if (!buttonsList.contains(button))
@@ -336,8 +336,8 @@ public class DragLabel extends JLabel {
 
     /**
      * Moves the button at the oldIndex to the new Index and pushes any other buttons out of the way.
-     * @param oldIndex - the position of the button to target
-     * @param newIndex - the index to move the targeted button to
+     * @param oldIndex the position of the button to target
+     * @param newIndex the index to move the targeted button to
      */
     public void setButtonIndex(int oldIndex, int newIndex) {
         JButton popButton = buttonsList.remove(oldIndex);

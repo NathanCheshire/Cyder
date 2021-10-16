@@ -62,7 +62,7 @@ public class CyderSetup {
      * These fonts may ONLY be derived throughout the program. No other fonts may be used aside from the user selected font which
      * is guaranteed to work since we pull the list of fonts from the GraphicsEnvironment.
      *
-     * @return - boolean informing whether or not all the fonts were loaded properly
+     * @return boolean informing whether or not all the fonts were loaded properly
      */
     public static boolean registerFonts() {
         boolean ret = true;

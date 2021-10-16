@@ -36,7 +36,7 @@ public class StringUtil {
 
     /**
      * Standard getter for this object's possible JTextPane
-     * @return - The resultant output area if one is connected
+     * @return The resultant output area if one is connected
      */
     public JTextPane getOutputArea() {
         return outputArea;
@@ -44,7 +44,7 @@ public class StringUtil {
 
     /**
      * Sets the output area for this instance of StringUtil.
-     * @param jTextPane - the JTextPane which we will append to when needed
+     * @param jTextPane the JTextPane which we will append to when needed
      */
     public void setOutputArea(JTextPane jTextPane) {
         this.outputArea = jTextPane;
@@ -163,9 +163,9 @@ public class StringUtil {
     /**
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
      *  modifiers, etc. have been set before printing the component.
-     * @param c - the component to append to the pane
-     * @param nm - the name identifier for the style
-     * @param str - the string identifier for the underlying insert string call
+     * @param c the component to append to the pane
+     * @param nm the name identifier for the style
+     * @param str the string identifier for the underlying insert string call
      */
     public void printComponent(Component c, String nm, String str) {
         try {
@@ -180,7 +180,7 @@ public class StringUtil {
     /**
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
      *  modifiers, etc. have been set before printing the component.
-     * @param c - the component to append to the pane
+     * @param c the component to append to the pane
      */
     public void printComponent(Component c) {
         try {
@@ -197,7 +197,7 @@ public class StringUtil {
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
      *  modifiers, etc. have been set before printing the component. Following the component print,
      *  a new line is appended to the pane.
-     * @param c - the component to append to the pane
+     * @param c the component to append to the pane
      */
     public void printlnComponent(Component c) {
         try {
@@ -213,9 +213,9 @@ public class StringUtil {
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
      *  modifiers, etc. have been set before printing the component. Following the component print,
      *  a new line is appended to the pane.
-     * @param c - the component to append to the pane
-     * @param nm - the name identifier for the style
-     * @param str - the string identifier for the underlying insert string call
+     * @param c the component to append to the pane
+     * @param nm the name identifier for the style
+     * @param str the string identifier for the underlying insert string call
      */
     public void printlnComponent(Component c, String nm, String str) {
         try {
@@ -420,8 +420,8 @@ public class StringUtil {
 
     /**
      * Reverses the given array
-     * @param Array - the array to reverse
-     * @return - the reversed array
+     * @param Array the array to reverse
+     * @return the reversed array
      */
     public static char[] reverseArray(char[] Array) {
         String reverse = new StringBuilder(new String(Array)).reverse().toString();
@@ -430,9 +430,9 @@ public class StringUtil {
 
     /**
      * Determines if the provided string starts with the provided prefix
-     * @param string - the string to see if it starts with the given prefix
-     * @param prefix - the prefix to search the array for
-     * @return - the boolean result of the comparison
+     * @param string the string to see if it starts with the given prefix
+     * @param prefix the prefix to search the array for
+     * @return the boolean result of the comparison
      */
     public static boolean startsWith(String string, String prefix) {
         char[] opA = string.toLowerCase().toCharArray();
@@ -459,9 +459,9 @@ public class StringUtil {
 
     /**
      * Determines if the provided string ends with the provided suffix
-     * @param string - the string to to see if it ends with the given suffix
-     * @param suffix - the suffix to search the array for
-     * @return - the boolean result of the comparison
+     * @param string the string to to see if it ends with the given suffix
+     * @param suffix the suffix to search the array for
+     * @return the boolean result of the comparison
      */
     public static boolean endsWith(String string, String suffix) {
         char[] opA = reverseArray(string.toLowerCase().toCharArray());
@@ -486,7 +486,7 @@ public class StringUtil {
 
     /**
      * Prints the object array to {@link this} object's connected output area
-     * @param arr - the array of objects to print
+     * @param arr the array of objects to print
      */
     public void printArr(Object[] arr) {
         for (Object o : arr)
@@ -496,8 +496,8 @@ public class StringUtil {
     /**
      * Determines the proper english grammer when attempting to use possession on a string that typically
      * represents a noun.
-     * @param name - the proper name of the noun
-     * @return - the string to be appended to the proper noun ('s or simply ')
+     * @param name the proper name of the noun
+     * @return the string to be appended to the proper noun ('s or simply ')
      */
     public static String getApostrophe(String name) {
         if (name.endsWith("s"))
@@ -508,8 +508,8 @@ public class StringUtil {
 
     /**
      * Determines if the given string is empty
-     * @param s - the string to compare for emptiness (self.Soul() usually returns true)
-     * @return - the boolean result of the comparison
+     * @param s the string to compare for emptiness (self.Soul() usually returns true)
+     * @return the boolean result of the comparison
      */
     public static boolean empytStr(String s) {
         return (s == null ? null: (s == null) || (s.trim().length() == 0));
@@ -517,9 +517,9 @@ public class StringUtil {
 
     /**
      * Fills a string with the provided character to result in a string of the specified length
-     * @param count - the length of the resultant string
-     * @param c - the character to fill the string with
-     * @return - the resultant filled array
+     * @param count the length of the resultant string
+     * @param c the character to fill the string with
+     * @return the resultant filled array
      */
     public static String fillString(int count, String c) {
         StringBuilder sb = new StringBuilder(count);
@@ -533,8 +533,8 @@ public class StringUtil {
 
     /**
      * Finds the first word in a given string.
-     * @param sentence - the string to search for
-     * @return - the resultant first word found
+     * @param sentence the string to search for
+     * @return the resultant first word found
      */
     public static String firstWord(String sentence) {
         String[] sentences = sentence.split(" ");
@@ -543,8 +543,8 @@ public class StringUtil {
 
     /**
      * Determines if a word is palindrome (spelled the same forward and backwards like ogopogo and racecar).
-     * @param word - the word to check
-     * @return - the result of the comparison
+     * @param word the word to check
+     * @return the result of the comparison
      */
     public static boolean isPalindrome(String word) {
         return Arrays.equals(word.toLowerCase().toCharArray(), reverseArray(word.toLowerCase().toCharArray()));
@@ -552,8 +552,8 @@ public class StringUtil {
 
     /**
      * Uses a regex to find the first occurence of a digit and follows until no more digits.
-     * @param search - the string to search for digits in
-     * @return - the reusltant number found, if any
+     * @param search the string to search for digits in
+     * @return the reusltant number found, if any
      */
     public static String firstNumber(String search) {
         Pattern Pat = Pattern.compile("\\d+");
@@ -563,9 +563,9 @@ public class StringUtil {
 
     /**
      * Matches a given string with the provided regex and returns the result.
-     * @param search - the string to use the regex on
-     * @param regex - the regex to compare to the given string
-     * @return - the resultant match of the string to the regex
+     * @param search the string to use the regex on
+     * @param regex the regex to compare to the given string
+     * @return the resultant match of the string to the regex
      */
     public static String match(String search, String regex) {
         Pattern pat = Pattern.compile(regex);
@@ -575,9 +575,9 @@ public class StringUtil {
 
     /**
      * Concatinates two arrays together.
-     * @param a - the first array
-     * @param b - the second array
-     * @return - the resultant array
+     * @param a the first array
+     * @param b the second array
+     * @return the resultant array
      */
     public static String[] combineArrays(String[] a, String[] b) {
         int length = a.length + b.length;
@@ -589,8 +589,8 @@ public class StringUtil {
 
     /**
      * Converts the first character in a string to the capital version of it if it is a standard latin letter
-     * @param word - the word to capitalize the first letter of
-     * @return - the resultant wtring
+     * @param word the word to capitalize the first letter of
+     * @return the resultant wtring
      */
     public static String capsFirst(String word) {
         if (word.length() == 0)
@@ -609,8 +609,8 @@ public class StringUtil {
 
     /**
      * Filters out simple leet speech from the provided string.
-     * @param filter - the word to filter leet out of
-     * @return - the resultant string after filtering
+     * @param filter the word to filter leet out of
+     * @return the resultant string after filtering
      */
     public static String filterLeet(String filter) {
         if (filter == null || filter.length() == 0)
@@ -633,8 +633,8 @@ public class StringUtil {
 
     /**
      * Inner filtering of leet speach for words specifically, this is the main driver method that does the magic.
-     * @param word - the word to filter leet out of.
-     * @return - the word having leet removed to the best of our abilities
+     * @param word the word to filter leet out of.
+     * @return the word having leet removed to the best of our abilities
      */
     private static String wordLeet(String word) {
         char[] chars = word.toLowerCase().toCharArray();
@@ -689,9 +689,9 @@ public class StringUtil {
 
     /**
      * Tests whether or not the provided string has the provided word inside of it.
-     * @param userInput - the master string to search through
-     * @param word - the word to search the master string for
-     * @return - a boolean depicting whether or not the given string contains the test word
+     * @param userInput the master string to search through
+     * @param word the word to search the master string for
+     * @return a boolean depicting whether or not the given string contains the test word
      */
     public static boolean hasWord(String userInput, String word) {
         userInput.toLowerCase();
@@ -705,8 +705,8 @@ public class StringUtil {
 
     /**
      * Tests a given string to see if it contains any blocked words contained in the v.txt system file
-     * @param userInput - the provided string to test against
-     * @return - a boolean describing whether or not the filter was triggered by the input
+     * @param userInput the provided string to test against
+     * @return a boolean describing whether or not the filter was triggered by the input
      */
     public static boolean filterLanguage(String userInput) {
         try {
@@ -739,8 +739,8 @@ public class StringUtil {
 
     /**
      * Provides the exact string object but with the first character converted to lowercase.
-     * @param str - the string to convert the first character to lowercase
-     * @return - the resultant string
+     * @param str the string to convert the first character to lowercase
+     * @return the resultant string
      */
     public static String firstCharToLowerCase(String str) {
         if (str == null || str.length() == 0)
@@ -753,8 +753,8 @@ public class StringUtil {
 
     /**
      * Count the number of words of the provided string.
-     * @param str - the string ot count the words of
-     * @return - the word count of the requested string
+     * @param str the string ot count the words of
+     * @return the word count of the requested string
      */
     public static int countWords(String str) {
         return (str == null || str.isEmpty()) ? 0 : str.split("\\s+").length;
@@ -762,9 +762,9 @@ public class StringUtil {
 
     /**
      * Uses a regex to get the file name of the provided file, does not return the period.
-     * @param file - the file of which to return the name of (this does not include the
+     * @param file the file of which to return the name of (this does not include the
      *             extension; use {@link File#getName()} )} to get the full filename + extension)
-     * @return - the file name requested
+     * @return the file name requested
      */
     public static String getFilename(String file) {
         return file.replaceAll("\\.([^.]+)$", "");
@@ -772,8 +772,8 @@ public class StringUtil {
 
     /**
      * Uses a regex to get the file extension of the provided file, returns the period too.
-     * @param file - the name of the file of which to return the extension of
-     * @return - the file extension requested
+     * @param file the name of the file of which to return the extension of
+     * @return the file extension requested
      */
     public static String getExtension(String file) {
         return file.replace(getFilename(file), "");
@@ -781,9 +781,9 @@ public class StringUtil {
 
     /**
      * Uses a regex to get the file name of the provided file, does not return the period.
-     * @param file - the name of the file of which to return the name of (this does not include the
+     * @param file the name of the file of which to return the name of (this does not include the
      *             extension; use {@link File#getName()})} to get the full filename + extension)
-     * @return - the file name requested
+     * @return the file name requested
      */
     public static String getFilename(File file) {
         return file.getName().replaceAll("\\.([^.]+)$", "");
@@ -791,8 +791,8 @@ public class StringUtil {
 
     /**
      * Uses a regex to get the file extension of the provided file, returns the period too.
-     * @param file - the file of which to return the extension of
-     * @return - the file extension requested
+     * @param file the file of which to return the extension of
+     * @return the file extension requested
      */
     public static String getExtension(File file) {
         return file.getName().replace(getFilename(file), "");
@@ -800,8 +800,8 @@ public class StringUtil {
 
     /**
      * Determines if a string is confirming a question or denying it
-     * @param input - the input string to check for verifcation key words
-     * @return - the boolean result of the confirmation
+     * @param input the input string to check for verifcation key words
+     * @return the boolean result of the confirmation
      */
     public static boolean isConfirmation(String input) {
         return (input.equalsIgnoreCase("yes") ||
@@ -839,8 +839,8 @@ public class StringUtil {
 
     /**
      * Ensures that there is a space after every comma within the input.
-     * @param input - the potentially wrongly formatted string
-     * @return = the corrected string
+     * @param input the potentially wrongly formatted string
+     * @return the corrected string
      */
     public String formatCommas(String input) {
         if (!input.contains(","))

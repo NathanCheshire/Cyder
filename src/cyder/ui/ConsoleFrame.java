@@ -1577,7 +1577,7 @@ public final class ConsoleFrame {
     /**
      * Set the UUID for this Cyder session. Everything else relies on this being set and not null.
      * Once set, a one time check is performed to fix any possibly corrupted userdata.
-     * @param uuid - the user uuid that we will use to determine our output dir and other
+     * @param uuid the user uuid that we will use to determine our output dir and other
      *             information specific to this instance of the console frame
      */
     public void setUUID(String uuid) {
@@ -1630,7 +1630,7 @@ public final class ConsoleFrame {
 
     /**
      * Sets the font size for the user to be used when {@link ConsoleFrame#getUserFont()} is called.
-     * @param size - the size of the font
+     * @param size the size of the font
      */
     public void setFontSize(int size) {
         fontSize = size;
@@ -1638,7 +1638,7 @@ public final class ConsoleFrame {
 
     /**
      * Get the desired user font in combination with the set font metric and font size.
-     * @return - the font to use for the input and output areas
+     * @return the font to use for the input and output areas
      */
     public Font getUserFont() {
         return new Font(UserUtil.getUserData("Font"), fontMetric, fontSize);
@@ -1646,7 +1646,7 @@ public final class ConsoleFrame {
 
     /**
      * Get the user's foreground color from Userdata
-     * @return - a Color object representing the chosen foreground
+     * @return a Color object representing the chosen foreground
      */
     public Color getUserForegroundColor() {
         return ColorUtil.hextorgbColor(UserUtil.getUserData("Foreground"));
@@ -1654,7 +1654,7 @@ public final class ConsoleFrame {
 
     /**
      * Get the user's background color from Userdata
-     * @return - a Color object representing the chosen background
+     * @return a Color object representing the chosen background
      */
     public Color getUserBackgroundColor() {
         return ColorUtil.hextorgbColor(UserUtil.getUserData("Background"));
@@ -2221,7 +2221,7 @@ public final class ConsoleFrame {
     /**
      * Smoothly transitions the background icon to the specified degrees.
      * Use set console direction for console flipping and not this.
-     * @param deg - the degree by which to smoothly rotate
+     * @param deg the degree by which to smoothly rotate
      */
     private void rotateConsole(int deg) {
         ImageIcon masterIcon = (ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon();
@@ -2253,7 +2253,7 @@ public final class ConsoleFrame {
     /**
      * Repaints the ConsoleFrame based on the console flip diretion and regardless of whether fullscreen is turned on.
      * Use this method as a repaint essentially.
-     * @param enable - the fullscreen value of the frame
+     * @param enable the fullscreen value of the frame
      */
     public void setFullscreen(Boolean enable) {
         try {
@@ -2744,7 +2744,7 @@ public final class ConsoleFrame {
 
     /**
      * Sets the console frame to a provided ScreenPosition and moves any pinned CyderFrame windows with it
-     * @param screenPos - the screen position to move the ConsoleFrame to
+     * @param screenPos the screen position to move the ConsoleFrame to
      */
     public void setLocationOnScreen(ScreenPosition screenPos) {
         LinkedList<RelativeFrame> frames = getPinnedFrames();

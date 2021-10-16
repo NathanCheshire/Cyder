@@ -47,12 +47,12 @@ public class ImageUtil {
 
     /**
      * Crops the specified bufferedImage to the new bounds and returns a new buffered image
-     * @param image - the buffered image to crop
-     * @param startx - the starting x pixel within the image
-     * @param starty - the starting y pixel within the image
-     * @param width - the width of the new image
-     * @param height - the height of the new image
-     * @return - the requested cropped image
+     * @param image the buffered image to crop
+     * @param startx the starting x pixel within the image
+     * @param starty the starting y pixel within the image
+     * @param width the width of the new image
+     * @param height the height of the new image
+     * @return the requested cropped image
      */
     public static BufferedImage getCroppedImage(BufferedImage image, int startx, int starty, int width, int height) {
         if (startx < 0)
@@ -188,9 +188,9 @@ public class ImageUtil {
      * is left this method will return a left rotated image. Use {@link cyder.ui.ConsoleFrame#getCurrentBackgroundImageIcon}
      * to get the image without possible rotations applied. This method is used to set the console background when the background
      * is altered or updated.
-     * @param bufferedImage - the path to the file
-     * @param consoleDirection - the cardinal direction of rotation
-     * @return - the rotated image
+     * @param bufferedImage the path to the file
+     * @param consoleDirection the cardinal direction of rotation
+     * @return the rotated image
      */
     public static BufferedImage getRotatedImage(String bufferedImage, Direction consoleDirection) {
         switch(consoleDirection) {
@@ -280,10 +280,10 @@ public class ImageUtil {
 
     /** the two images must be of the same size in order to merge them into one image
      *
-     * @param newImage - the new image (image to be placed to the dir[ection] of the old image)
-     * @param oldImage - the old image (image to be placed center)
-     * @param dir - the direction to place the newImage relative to the oldImage
-     * @return - the combined image
+     * @param newImage the new image (image to be placed to the dir[ection] of the old image)
+     * @param oldImage the old image (image to be placed center)
+     * @param dir the direction to place the newImage relative to the oldImage
+     * @return the combined image
      */
     public static ImageIcon combineImages(ImageIcon oldImage, ImageIcon newImage, Direction dir) {
         ImageIcon ret = null;

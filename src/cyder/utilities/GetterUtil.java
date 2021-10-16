@@ -59,10 +59,10 @@ public class GetterUtil {
      *  }, "wait thread for GetterUtil().getString()").start();
      *  }
      *  </pre>
-     * @param title - the title of the frame
-     * @param tooltip - the tooltip of the input field
-     * @param buttonText - the text of the submit button
-     * @return - the user entered input string. NOTE: if any improper input is ateempted to be returned,
+     * @param title the title of the frame
+     * @param tooltip the tooltip of the input field
+     * @param buttonText the text of the submit button
+     * @return the user entered input string. NOTE: if any improper input is ateempted to be returned,
      *  this function returns the string literal of "NULL" instead of {@code null}
      */
     public String getString(String title, String tooltip, String buttonText) {
@@ -136,11 +136,11 @@ public class GetterUtil {
      *  }, "wait thread for GetterUtil().getString()").start();
      *  }
      *  </pre>
-     * @param title - the title of the frame
-     * @param tooltip - the tooltip of the input field
-     * @param buttonText - the text of the submit button
-     * @param initialString - the initial text in the input field
-     * @return - the user entered input string. NOTE: if any improper input is ateempted to be returned,
+     * @param title the title of the frame
+     * @param tooltip the tooltip of the input field
+     * @param buttonText the text of the submit button
+     * @param initialString the initial text in the input field
+     * @return the user entered input string. NOTE: if any improper input is ateempted to be returned,
      *  this function returns the string literal of "NULL" instead of {@code null}
      */
     public String getString(String title, String tooltip, String buttonText, String initialString) {
@@ -255,8 +255,8 @@ public class GetterUtil {
      *  }, "wait thread for GetterUtil().getFile()").start();
      * }
      * </pre>
-     * @param title - the title of the JavaFX FileChooser
-     * @return - the user-chosen file
+     * @param title the title of the JavaFX FileChooser
+     * @return the user-chosen file
      */
     public File getFile(String title) {
         AtomicReference<File> ret = new AtomicReference<>();

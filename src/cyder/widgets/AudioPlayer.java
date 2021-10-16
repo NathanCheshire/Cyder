@@ -78,7 +78,7 @@ public class AudioPlayer {
 
     /**
      * Constructor that launches the AudioPlayer
-     * @param startPlaying - the audio file to start playing upon successful launch of the AudioPlayer.
+     * @param startPlaying the audio file to start playing upon successful launch of the AudioPlayer.
      *                     Pass {@code null} to avoid starting audio upon launch.
      */
     public static void showGUI(File startPlaying) {
@@ -464,7 +464,7 @@ public class AudioPlayer {
 
     /**
      * Adds the given file to the queue. If the player is not open, then it plays the requested audio.
-     * @param f - the audio to play
+     * @param f the audio to play
      */
     public static void addToMp3Queue(File f) {
         if (audioPlaying()) {
@@ -487,7 +487,7 @@ public class AudioPlayer {
     /**
      * Determines whether or not the audio widget is currently playing audio.
      * If player is closed, then player is set to null so this will always work.
-     * @return - returns whether or not any AUDIO is playing via AudioPlayer
+     * @return returns whether or not any AUDIO is playing via AudioPlayer
      */
     public static boolean audioPlaying() {
         return player != null && !player.isComplete();
@@ -496,7 +496,7 @@ public class AudioPlayer {
     /**
      * Returns whether or not any audio has been paused. This is indicated via
      *  a value other than 0 for pauseLocaiton.
-     * @return - whether or not any audio is paused
+     * @return whether or not any audio is paused
      */
     public static boolean isPaused() {
         return pauseLocation != 0;
@@ -504,7 +504,7 @@ public class AudioPlayer {
 
     /**
      * Returns whether or not the audioplayer widget is currently open
-     * @return - if AudioPlayer is open
+     * @return if AudioPlayer is open
      */
     public static boolean windowOpen() {
         return audioFrame != null;
@@ -821,7 +821,7 @@ public class AudioPlayer {
 
     /**
      * Resumes audio at the current audio file at the passed in byte value.
-     * @param startPosition - the byte value to skip to when starting the audio
+     * @param startPosition the byte value to skip to when starting the audio
      */
     public static void resumeAudio(long startPosition) {
         if (lastAction == LastAction.STOP) {
@@ -1041,7 +1041,7 @@ public class AudioPlayer {
 
     /**
      * Sets the value of miniPlayer, the boolean determining whether the player is in smaller view or not.
-     * @param b - the boolean value of miniPlayer
+     * @param b the boolean value of miniPlayer
      */
     public void setMiniPlayer(boolean b) {
         this.miniPlayer = b;
@@ -1049,7 +1049,7 @@ public class AudioPlayer {
 
     /**
      * Standard getter for miniPlayer value.
-     * @return - miniPlayer value
+     * @return miniPlayer value
      */
     public boolean getMiniPlayer() {
         return this.miniPlayer;
@@ -1057,7 +1057,7 @@ public class AudioPlayer {
 
     /**
      * Sets the value for pinning the frame on top.
-     * @param b - the value determining whether or not the frame is always on top
+     * @param b the value determining whether or not the frame is always on top
      */
     public static void setPinned(boolean b) {
         pinned = b;
@@ -1066,7 +1066,7 @@ public class AudioPlayer {
 
     /**
      * Standard getter for pinned boolean.
-     * @return - the boolean of pinned
+     * @return the boolean of pinned
      */
     public static boolean getPinned() {
         return pinned;

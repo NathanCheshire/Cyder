@@ -13,7 +13,7 @@ public class AnimationUtil {
 
     /**
      * Moves the specified frame object up until it is no longer visible then invokes dispose
-     * @param frame - the frame object to close
+     * @param frame the frame object to close
      */
     public static void closeAnimation(Frame frame) {
         if (frame instanceof CyderFrame) {
@@ -44,7 +44,7 @@ public class AnimationUtil {
     /**
      * Moves the specified frame object down until it is no longer visible then sets the frame's state
      * to Frame.ICONIFIED
-     * @param frame - the frame object to minimize and iconify
+     * @param frame the frame object to minimize and iconify
      */
     public static void minimizeAnimation(JFrame frame) {
         if (frame instanceof CyderFrame) {
@@ -79,11 +79,11 @@ public class AnimationUtil {
 
     /**
      * Master method to animate any component up in a separate thread
-     * @param start - the starting y value
-     * @param stop - the ending y value
-     * @param delay - the ms delay in between increments
-     * @param increment - the increment value
-     * @param comp - the component to move
+     * @param start the starting y value
+     * @param stop the ending y value
+     * @param delay the ms delay in between increments
+     * @param increment the increment value
+     * @param comp the component to move
      */
     public static void componentUp(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getY() == start)
@@ -102,11 +102,11 @@ public class AnimationUtil {
 
     /**
      * Master method to animate any component down in a separate thread
-     * @param start - the starting y value
-     * @param stop - the ending y value
-     * @param delay - the ms delay in between increments
-     * @param increment - the increment value
-     * @param comp - the component to move
+     * @param start the starting y value
+     * @param stop the ending y value
+     * @param delay the ms delay in between increments
+     * @param increment the increment value
+     * @param comp the component to move
      */
     public static void componentDown(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getY() == start)
@@ -125,11 +125,11 @@ public class AnimationUtil {
 
     /**
      * Master method to animate any component left in a separate thread
-     * @param start - the starting x value
-     * @param stop - the ending x value
-     * @param delay - the ms delay in between increments
-     * @param increment - the increment value
-     * @param comp - the component to move
+     * @param start the starting x value
+     * @param stop the ending x value
+     * @param delay the ms delay in between increments
+     * @param increment the increment value
+     * @param comp the component to move
      */
     public static void componentLeft(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getX() == start)
@@ -148,11 +148,11 @@ public class AnimationUtil {
 
     /**
      * Master method to animate any component right in a separate thread
-     * @param start - the starting x value
-     * @param stop - the ending x value
-     * @param delay - the ms delay in between increments
-     * @param increment - the increment value
-     * @param comp - the component to move
+     * @param start the starting x value
+     * @param stop the ending x value
+     * @param delay the ms delay in between increments
+     * @param increment the increment value
+     * @param comp the component to move
      */
     public static void componentRight(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getX() == start)
@@ -171,11 +171,11 @@ public class AnimationUtil {
 
     /**
      *
-     * @param start - the starting y value
-     * @param stop - the ending y value
-     * @param delay - the ms delay in between increments
-     * @param increment - the increment value
-     * @param jLabel - the jlabel to animate
+     * @param start the starting y value
+     * @param stop the ending y value
+     * @param delay the ms delay in between increments
+     * @param increment the increment value
+     * @param jLabel the jlabel to animate
      * @deprecated use {@link AnimationUtil#componentUp(int, int, int, int, Component)}
      */
     @Deprecated
@@ -186,7 +186,7 @@ public class AnimationUtil {
     /**
      * This method takes in a width and outputs the increment and delay to obtain a near 1s animation time
      * Used purely for console background switching animations.
-     * @param len - the length of the side of which want to find an increment for
+     * @param len the length of the side of which want to find an increment for
      * @return an array representing the delay in ms followed by the width increment
      */
     public static int[] getDelayIncrement(int len) {

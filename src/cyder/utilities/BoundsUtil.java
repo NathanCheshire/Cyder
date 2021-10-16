@@ -13,8 +13,8 @@ import java.util.LinkedList;
 public class BoundsUtil {
     /**
      * Calculates the needed height of an inform/dialog window.
-     * @param text - the string to display
-     * @return - an object composed of the width, height, and possibly corrected text to form the bounding box
+     * @param text the string to display
+     * @return an object composed of the width, height, and possibly corrected text to form the bounding box
      *           for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text) {
@@ -27,10 +27,10 @@ public class BoundsUtil {
 
     /**
      * Calculates the needed height for an inform/dialog window given the prefered width and text.
-     * @param text - the string to display
-     * @param maxWidth - the maximum width allowed
-     * @param font - the font to be used
-     * @return - an object composed of the width, height, and possibly corrected text to form the bounding box
+     * @param text the string to display
+     * @param maxWidth the maximum width allowed
+     * @param font the font to be used
+     * @return an object composed of the width, height, and possibly corrected text to form the bounding box
      *           for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text, int maxWidth, Font font) {

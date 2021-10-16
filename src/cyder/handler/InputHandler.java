@@ -1065,7 +1065,10 @@ public class InputHandler {
         //t3sting -------------------------------------------------
         else if (eic("test")) {
             //todo make a param for a widget as well as how to call it so that you can have a widget to
-            // find all the widgets
+            // find all the widgets, you can pass in a string that can be sent to handler to activate the widget
+            // add this param to all showGUI methods for widgets
+
+            //todo remove all - from before method params
         }
         //final attempt at unknown input --------------------------
         else {
@@ -1403,7 +1406,7 @@ public class InputHandler {
 
     /**
      * Getter for this instance's input mode
-     * @return - the value of user input mode
+     * @return the value of user input mode
      */
     public boolean getUserInputMode() {
         return this.userInputMode;
@@ -1411,7 +1414,7 @@ public class InputHandler {
 
     /**
      * Set the value of secondary input mode
-     * @param b - the value of input mode
+     * @param b the value of input mode
      */
     public void setUserInputMode(boolean b) {
         this.userInputMode = b;
@@ -1419,7 +1422,7 @@ public class InputHandler {
 
     /**
      * Returns the expected secondary input description
-     * @return - the input description
+     * @return the input description
      */
     public String getUserInputDesc() {
         return this.userInputDesc;
@@ -1427,7 +1430,7 @@ public class InputHandler {
 
     /**
      * Sets this instance's secondary input description
-     * @param s - the description of the input we expect to receive next
+     * @param s the description of the input we expect to receive next
      */
     public void setUserInputDesc(String s) {
         this.userInputDesc = s;

@@ -26,9 +26,9 @@ public class SessionLogger {
 
     /**
      * The main log method to log an action associated with a type tag.
-     * @param tag - the type of data we are logging
-     * @param representation - the representation of the object
-     * @param <T> - the object instance of representation
+     * @param tag the type of data we are logging
+     * @param representation the representation of the object
+     * @param <T> the object instance of representation
      */
     public static <T> void log(Tag tag, T representation) {
         StringBuilder logBuilder = new StringBuilder("[" + TimeUtil.logTime() + "] ");
@@ -152,8 +152,8 @@ public class SessionLogger {
 
     /**
      * Attempt to figure out what Tag representation should be and log it.
-     * @param representation - the object we are trying to log
-     * @param <T> - any object
+     * @param representation the object we are trying to log
+     * @param <T> any object
      */
     public static <T> void log(T representation) {
         if (representation instanceof JComponent) {
@@ -194,7 +194,7 @@ public class SessionLogger {
 
     /**
      * Constructor that accepts a file in case we want to use a different file.
-     * @param outputFile - the file to write the log to
+     * @param outputFile the file to write the log to
      */
     public static void SessionLogger(File outputFile) {
         try {
@@ -238,7 +238,7 @@ public class SessionLogger {
 
     /**
      * Getter for current log file
-     * @return - the log file associated with the current session
+     * @return the log file associated with the current session
      */
     public static File getCurrentLog() {
         return currentLog;
@@ -246,7 +246,7 @@ public class SessionLogger {
 
     /**
      * Writes the line to the current log file and releases resources once done.
-     * @param line - the single line to write
+     * @param line the single line to write
      */
     private static void writeLine(String line) {
         try {
@@ -263,7 +263,7 @@ public class SessionLogger {
     /**
      * Counts the exceptions in the current log folder. This is used when closing the log to provide
      *  an exceptions summary.
-     * @return - the int number of exceptions thrown in this Cyder session
+     * @return the int number of exceptions thrown in this Cyder session
      */
     private static int countExceptions() {
         int ret = 0;

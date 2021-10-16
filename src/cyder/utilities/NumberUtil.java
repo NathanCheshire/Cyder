@@ -194,11 +194,11 @@ public class NumberUtil {
 
     /**
      * Returns "number" amount of random numbers within the provided range.
-     * @param min - the minimum random number possible
-     * @param max - the maximum random number possible
-     * @param number - the number of random elements desired
-     * @param allowDuplicates - allow duplicate random values for a pure random experience vs unique random elements
-     * @return - an array of ints of the desired size of random elements from min to max
+     * @param min the minimum random number possible
+     * @param max the maximum random number possible
+     * @param number the number of random elements desired
+     * @param allowDuplicates allow duplicate random values for a pure random experience vs unique random elements
+     * @return an array of ints of the desired size of random elements from min to max
      */
     public static int[] randInt(int min, int max, int number, boolean allowDuplicates) {
         if (max - min < number && !allowDuplicates)

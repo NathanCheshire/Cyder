@@ -299,8 +299,8 @@ public class Login {
 
     /**
      * Attempts to log in a user based on the inputed name and already hashed password
-     * @param name - the provided user account name
-     * @param hashedPass - the password already having been hashed (we hash it again in checkPassword method)
+     * @param name the provided user account name
+     * @param hashedPass the password already having been hashed (we hash it again in checkPassword method)
      */
     public static void recognize(String name, String hashedPass) {
         try {

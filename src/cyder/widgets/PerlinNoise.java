@@ -356,10 +356,10 @@ public class PerlinNoise {
 
     /**
      * Generates perlin noise based on common algorithm implementation
-     * @param nCount - the number of points in the line
-     * @param fSeed - the seed value
-     * @param nOctaves - the number of iterations to perform the algorithm on
-     * @return - 2D perlin noise representation (values are between 0 and 1)
+     * @param nCount he number of points in the line
+     * @param fSeed the seed value
+     * @param nOctaves the number of iterations to perform the algorithm on
+     * @return 2D perlin noise representation (values are between 0 and 1)
      */
     public static float[] generate2DNoise(int nCount, float[] fSeed, int nOctaves) {
         float[] ret = new float[nCount];

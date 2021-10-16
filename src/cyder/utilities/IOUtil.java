@@ -28,7 +28,7 @@ public class IOUtil {
     /**
      * Opens the provided file outside of the program regardless of whether or not a
      * handler exists for the file type
-     * @param filePath - the path to the file to open
+     * @param filePath the path to the file to open
      */
     public static void openFileOutsideProgram(String filePath) {
         Desktop OpenFile = Desktop.getDesktop();
@@ -49,9 +49,9 @@ public class IOUtil {
 
     /**
      * Creates the provided temporary file in the temp directory and writes the given string lines to it
-     * @param filename - the name of the file to create
-     * @param extension - the extension of the file to create
-     * @param lines - the Strings to write to the file
+     * @param filename the name of the file to create
+     * @param extension the extension of the file to create
+     * @param lines the Strings to write to the file
      */
     public static void createAndOpenTmpFile(String filename, String extension, String[] lines) {
         try {
@@ -96,7 +96,7 @@ public class IOUtil {
 
     /**
      * Returns the SystemData object representing all the system data located in sys.json
-     * @return - the SystemData object
+     * @return the SystemData object
      */
     public static SystemData getSystemData() {
         SystemData ret = null;
@@ -128,7 +128,7 @@ public class IOUtil {
     /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
      * Appends JVM Command Line Arguments along with the start location to the log
-     * @param cyderArgs - command line arguments passed in
+     * @param cyderArgs command line arguments passed in
      */
     public static void logArgs(String[] cyderArgs) {
         try {
@@ -192,7 +192,7 @@ public class IOUtil {
 
     /**
      * Opens the provided file, possibly inside of the program if a handler exists for it
-     * @param FilePath - the path to the file to open
+     * @param FilePath the path to the file to open
      */
     public static void openFile(String FilePath) {
         //use our custom text editor
@@ -228,8 +228,8 @@ public class IOUtil {
 
     /**
      * Plays the requested mp3 audio file using the general IOUtil JLayer player
-     * @param FilePath - the path to the mp3 file to play
-     * @param inputHandler - the inputhandler to use when appending the stop button
+     * @param FilePath the path to the mp3 file to play
+     * @param inputHandler the inputhandler to use when appending the stop button
      */
     public static void playAudio(String FilePath, InputHandler inputHandler) {
         try {
@@ -259,7 +259,7 @@ public class IOUtil {
     /**
      * Plays the requested system audio file using a new JLayer player
      *      (this cannot be stopped util the mpeg is finished)
-     * @param FilePath - the path to the mp3 file to play
+     * @param FilePath the path to the mp3 file to play
      */
     public static void playSystemAudio(String FilePath) {
         try {
@@ -376,9 +376,9 @@ public class IOUtil {
 
     /**
      * Zips the provided file with the given name using hte provided ZOS
-     * @param fileToZip - the file/dir to zip
-     * @param fileName - the name of the resulting file (path included)
-     * @param zipOut - the Zip Output Stream
+     * @param fileToZip the file/dir to zip
+     * @param fileName the name of the resulting file (path included)
+     * @param zipOut the Zip Output Stream
      */
     private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
         try {
@@ -419,7 +419,7 @@ public class IOUtil {
 
     /**
      * Changes the current user from console frame's name to the provided name.
-     * @param newName - the new name of the user
+     * @param newName the new name of the user
      */
     public static void changeUsername(String newName) {
         try {
@@ -431,7 +431,7 @@ public class IOUtil {
 
     /**
      * Changes the current user from console frame's password to the provided password
-     * @param newPassword - the raw char[] new password to hash and store
+     * @param newPassword the raw char[] new password to hash and store
      */
     public static void changePassword(char[] newPassword) {
         try {
@@ -444,8 +444,8 @@ public class IOUtil {
 
     /**
      * Gets DOS attributes of the provided file
-     * @param file - the file to obtain the attributes of
-     * @return - the DOS attributes in the following order: isArchive, isHidden,
+     * @param file the file to obtain the attributes of
+     * @return the DOS attributes in the following order: isArchive, isHidden,
      *              isReadOnly, isSystem, creationTime, isDirectory, isOther, isSymbolicLink,
      *              lastAccessTime, lastModifiedTime
      */
@@ -473,8 +473,8 @@ public class IOUtil {
 
     /**
      * Returns the size of the provided file in bytes
-     * @param f - the file to calculate the size of
-     * @return - the size in bytes of the file
+     * @param f the file to calculate the size of
+     * @return the size in bytes of the file
      */
     public static long getFileSize(File f) {
         long ret = 0;
@@ -489,8 +489,8 @@ public class IOUtil {
 
     /**
      * Returns a binary string from the provided binary file
-     * @param f - the binary file of pure binary contents
-     * @return - the String of binary data from the file
+     * @param f the binary file of pure binary contents
+     * @return the String of binary data from the file
      */
     public static String getBinaryString(File f) {
         if (!f.exists())
@@ -515,8 +515,8 @@ public class IOUtil {
 
     /**
      * Returns a hex string from the provided binary file
-     * @param f - the binary file of pure binary contents
-     * @return - the String of hex data from the file
+     * @param f the binary file of pure binary contents
+     * @return the String of hex data from the file
      */
     public static String getHexString(File f) {
         if (!f.exists())

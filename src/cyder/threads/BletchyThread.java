@@ -17,7 +17,7 @@ public class BletchyThread {
 
     /**
      * Class instantiation requires a JTextPane so that we may use a StringUtil to append to the profvided JTextPane
-     * @param outputArea - the JTextPane belonging to a ConsoleFrame to print to
+     * @param outputArea the JTextPane belonging to a ConsoleFrame to print to
      */
     public BletchyThread(JTextPane outputArea) {
         this.outputArea = outputArea;
@@ -27,10 +27,10 @@ public class BletchyThread {
     /**
      * Invoke the bletchy decode animtion with the following  parameters.
      *
-     * @param decodeString - the final string to decode and display after the bletchy animation has finished
-     * @param useNumbers - a boolean depicting whether or not to use numbers in the alphabetic characters for the animation
-     * @param miliDelay - the milisecond delay in between animation frames
-     * @param useUnicode - a boolean depicting whether or not to use more than just latin letters and possibly numbers
+     * @param decodeString the final string to decode and display after the bletchy animation has finished
+     * @param useNumbers a boolean depicting whether or not to use numbers in the alphabetic characters for the animation
+     * @param miliDelay the milisecond delay in between animation frames
+     * @param useUnicode a boolean depicting whether or not to use more than just latin letters and possibly numbers
      */
     public void bletchy(String decodeString, boolean useNumbers, int miliDelay, boolean useUnicode) {
         if (ConsoleFrame.getConsoleFrame().getInputHandler().getBletchyThread().isActive() ||
@@ -95,10 +95,10 @@ public class BletchyThread {
 
     /**
      * Returns an array of strings abiding by the parameters for a bletchy thread to print out
-     * @param decodeString - the string to decode
-     * @param useNumbers - a boolean turning on number usage
-     * @param useUnicode - a boolean turning on random unicode chars
-     * @return - the string array to be used by a bletchy thread
+     * @param decodeString the string to decode
+     * @param useNumbers a boolean turning on number usage
+     * @param useUnicode a boolean turning on random unicode chars
+     * @return the string array to be used by a bletchy thread
      */
     public String[] bletchy(String decodeString, boolean useNumbers, boolean useUnicode) {
         LinkedList<String> retList = new LinkedList<>();

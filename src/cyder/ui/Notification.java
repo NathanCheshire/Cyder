@@ -68,7 +68,7 @@ public class Notification extends JLabel {
 
     /**
      * Custom width getter since this is a custom paint component.
-     * @return - the width plus the x-offset of 14 twice for both sides with the arrow size
+     * @return the width plus the x-offset of 14 twice for both sides with the arrow size
      * added in if the arrow is on the left or right.
      */
     @Override
@@ -78,7 +78,7 @@ public class Notification extends JLabel {
 
     /**
      * Custom height getter since this is a custom paint component.
-     * @return - the height plus the y-offset of 16 twice for both sides with the arrow size
+     * @return the height plus the y-offset of 16 twice for both sides with the arrow size
      * added in if the arrow is on the top or bottom.
      */
     @Override
@@ -228,8 +228,8 @@ public class Notification extends JLabel {
     /**
      * This method to be used with an already initialized component. Expected that the component's starting
      * location is already set.
-     * @param startDir - the direction for the notification to enter from.
-     * @param parent - the component the notification is placed on. Used for bounds calculations.
+     * @param startDir the direction for the notification to enter from.
+     * @param parent the component the notification is placed on. Used for bounds calculations.
      */
     public void appear(Direction startDir, Direction vanishDir, Component parent, int delay) {
         new Thread(() -> {
@@ -312,9 +312,9 @@ public class Notification extends JLabel {
 
     /**
      * This method to be used in combination with an already visible notification.
-     * @param vanishDir - the direction to exit to.
-     * @param parent - the component the notification is on. Used for bounds calculations.
-     * @param delay - the delay before vanish.
+     * @param vanishDir the direction to exit to.
+     * @param parent the component the notification is on. Used for bounds calculations.
+     * @param delay the delay before vanish.
      */
     private void vanish(Direction vanishDir, Component parent, int delay) {
         new Thread(() -> {

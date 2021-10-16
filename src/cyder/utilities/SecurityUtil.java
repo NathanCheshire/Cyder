@@ -49,8 +49,8 @@ public class SecurityUtil {
      * Remember to use Arrays.fill(bytes, (byte) 0) for bytes or Arrays.fill(chars, '\u0000') for chars
      * when finished with the byte/char array.
      *
-     * @param chars - the char array to be converted to byte array
-     * @return - the byte array representing the given char array
+     * @param chars the char array to be converted to byte array
+     * @return the byte array representing the given char array
      */
     public static byte[] toBytes(char[] chars) {
         CharBuffer charBuffer = CharBuffer.wrap(chars);

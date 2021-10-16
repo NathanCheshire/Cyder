@@ -106,8 +106,8 @@ public class UserUtil {
 
     /**
      * Writes the provided user after being converted to JSON format to the provided file.
-     * @param f - the file to write to
-     * @param u - the user object to write to the file
+     * @param f the file to write to
+     * @param u the user object to write to the file
      */
     public static void setUserData(File f, User u) {
         if (!f.exists())
@@ -246,8 +246,8 @@ public class UserUtil {
 
     /**
      * Extracts the user from the provided json file
-     * @param f - the json file to extract a user object from
-     * @return - the resulting user object
+     * @param f the json file to extract a user object from
+     * @return the resulting user object
      */
     public static User extractUser(File f) {
         if (!f.exists())
@@ -269,8 +269,8 @@ public class UserUtil {
 
     /**
      * Extracts the user from the provided json file
-     * @param UUID - the uuid if the user we want to obtain
-     * @return - the resulting user object
+     * @param UUID the uuid if the user we want to obtain
+     * @return the resulting user object
      */
     public static User extractUser(String UUID) {
         File f = new File("users/" + UUID + "/userdata.json");
@@ -292,7 +292,7 @@ public class UserUtil {
 
     /**
      * Extracts the user from the the currently logged in user.
-     * @return - the resulting user object
+     * @return the resulting user object
      */
     public static User extractUser() {
         File f = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
@@ -314,9 +314,9 @@ public class UserUtil {
 
     /**
      * Extracts the requested data from the provided json file
-     * @param f - the json file to extract data from
-     * @param data - the data type to extract from the file
-     * @return - the requested data
+     * @param f the json file to extract data from
+     * @param data the data type to extract from the file
+     * @return the requested data
      */
     public static String extractUserData(File f, String data) {
         if (!StringUtil.getExtension(f).equals(".json"))
@@ -331,8 +331,8 @@ public class UserUtil {
      * Gets the requested data from the currently logged in user.
      * This method exists purely for legacy calls such as getUserData("foreground").
      * Ideally the call should be extractUser().getForeground()
-     * @param name - the ID of the data we want to obtain
-     * @return - the resulting data
+     * @param name the ID of the data we want to obtain
+     * @return the resulting data
      */
     public static String getUserData(String name) {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
@@ -363,9 +363,9 @@ public class UserUtil {
      * Assuming the corresponding getter and setter functions exist in User.java,
      * this method will call the getter method that matches the provided data.
      * This method exists purely for legacy calls such as extractUserData("font")
-     * @param u - the initialized user containing the data we want to obtain
-     * @param data - the data id for which to return
-     * @return - the requested data
+     * @param u the initialized user containing the data we want to obtain
+     * @param data the data id for which to return
+     * @return the requested data
      */
     public static String extractUserData(User u, String data) {
         String ret = null;

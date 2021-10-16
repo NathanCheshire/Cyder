@@ -69,9 +69,9 @@ public class CyderFrame extends JFrame {
      * and a drag label with minimize and close buttons
      * the specified ImageIcon is used for the background (you can enable resizing and rescaling of the image should you choose)
      *
-     * @param width      - the specified width of the cyder frame
-     * @param height     - the specified height of the cyder frame
-     * @param background - the specified background image. You can choose to leave the image in the same place upon
+     * @param width the specified width of the cyder frame
+     * @param height the specified height of the cyder frame
+     * @param background the specified background image. You can choose to leave the image in the same place upon
      *                   frame resizing events or you can configure the frame instance to rescale the original background
      *                   image to fit to the new frame dimensions.
      */
@@ -192,8 +192,8 @@ public class CyderFrame extends JFrame {
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
      * and a drag label with minimize and close buttons
      *
-     * @param width  - the specified width of the cyder frame
-     * @param height - the specified height of the cyder frame
+     * @param width the specified width of the cyder frame
+     * @param height the specified height of the cyder frame
      */
     public CyderFrame(int width, int height) {
         this(width, height, CyderImages.defaultBackground);
@@ -322,7 +322,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Getter for the title position
-     * @return - position representing the title position
+     * @return position representing the title position
      */
     public TitlePosition getTitlePosition() {
         return this.titlePosition;
@@ -354,7 +354,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Determines whether or not to paint the default windows title. The CyderFrame label title is always painted.
-     * @param enable - boolean variable of your chosen value for paintWindowTitle
+     * @param enable boolean variable of your chosen value for paintWindowTitle
      */
     public void paintWindowTitle(boolean enable) {
         paintWindowTitle = enable;
@@ -362,7 +362,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the value of paintWindowTitle which determines whether ot not the windows title is painted.
-     * @return - boolean describing the value of paintWindowTitle
+     * @return boolean describing the value of paintWindowTitle
      */
     public boolean getPaintWindowTitle() {
         return paintWindowTitle;
@@ -372,7 +372,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Determines whether or not to paint the windowed title. The CyderFrame label title is always painted.
-     * @param enable - boolean variable of your chosen value for paintSuperTitle
+     * @param enable boolean variable of your chosen value for paintSuperTitle
      */
     public void paintSuperTitle(boolean enable) {
         paintSuperTitle = enable;
@@ -380,7 +380,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the value of paintSuperTitle which determines whether ot not the windowed title is painted.
-     * @return - boolean describing the value of paintSuperTitle
+     * @return boolean describing the value of paintSuperTitle
      */
     public boolean getPaintSuperTitle() {
         return paintSuperTitle;
@@ -389,7 +389,7 @@ public class CyderFrame extends JFrame {
     /**
      * Set the title of the label painted on the drag label of the CyderFrame instance. You can also configure the instance
      * to paint the windowed title as well.
-     * @param title - the String representing the chosen CyderFrame title
+     * @param title the String representing the chosen CyderFrame title
      */
     @Override
     public void setTitle(String title) {
@@ -428,8 +428,8 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the minimum width required for the given String using notificationFont.
-     * @param title - the text you want to determine the width of
-     * @return - an interger value determining the minimum width of a string of text (10 is added to avoid ... bug)
+     * @param title the text you want to determine the width of
+     * @return an interger value determining the minimum width of a string of text (10 is added to avoid ... bug)
      */
     private int getMinWidth(String title) {
         Font notificationFont = titleLabel.getFont();
@@ -440,9 +440,9 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the minimum width required for the given String using the given font.
-     * @param title - the text you want to determine the width of
-     * @param f - the font for the text
-     * @return - an interger value determining the minimum width of a string of text (10 is added to avoid ... bug)
+     * @param title the text you want to determine the width of
+     * @param f the font for the text
+     * @return an interger value determining the minimum width of a string of text (10 is added to avoid ... bug)
      */
     public static int getMinWidth(String title, Font f) {
         AffineTransform affinetransform = new AffineTransform();
@@ -452,8 +452,8 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the minimum width required for the given String using the given font without adding 10 to the result.
-     * @param title - the text you want to determine the width of
-     * @return - an interger value determining the minimum width of a string of text
+     * @param title the text you want to determine the width of
+     * @return an interger value determining the minimum width of a string of text
      */
     public int getTitleWidth(String title) {
         AffineTransform affinetransform = new AffineTransform();
@@ -463,8 +463,8 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the minimum height required for the given String using the given font.
-     * @param title - the text you want to determine the height of
-     * @return - an interger value determining the minimum height of a string of text (10 is added to avoid ... bug)
+     * @param title the text you want to determine the height of
+     * @return an interger value determining the minimum height of a string of text (10 is added to avoid ... bug)
      */
     public static int getMinHeight(String title, Font f) {
         AffineTransform affinetransform = new AffineTransform();
@@ -474,8 +474,8 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the minimum height required for the given String using the given font without adding 10.
-     * @param title - the text you want to determine the height of
-     * @return - an interger value determining the minimum height of a string of text
+     * @param title the text you want to determine the height of
+     * @return an interger value determining the minimum height of a string of text
      */
     public static int getAbsoluteMinHeight(String title, Font f) {
         AffineTransform affinetransform = new AffineTransform();
@@ -485,8 +485,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * This method is to be used for a quick notify. view direction is five seconds
-     *
-     * @param htmlText - the text you want to notify on the callilng from
+     * @param htmlText the text you want to notify on the callilng from
      */
     public void notify(String htmlText) {
         notify(htmlText, 5000, Direction.TOP);
@@ -495,9 +494,9 @@ public class CyderFrame extends JFrame {
     /**
      * This method is to be used for a more controled notify. You may choose the duration and the arrow direction
      *
-     * @param htmltext     - the text you want to display (may include HTML tags)
-     * @param viewDuration - time in ms that the notification should stay on screen
-     * @param direction    - the enter and vanish direction for the notification
+     * @param htmltext the text you want to display (may include HTML tags)
+     * @param viewDuration time in ms that the notification should stay on screen
+     * @param direction the enter and vanish direction for the notification
      */
     public void notify(String htmltext, int viewDuration, Direction direction) {
         Notification frameNotification = new Notification();
@@ -538,12 +537,12 @@ public class CyderFrame extends JFrame {
      * Full control over the notification function of a {@link CyderFrame}.
      * See {@link CyderFrame#notify(String, int, Direction)} for a simpler notify function
      *
-     * @param htmltext     - the text you want to display (may include HTML tags)
-     * @param viewDuration - the time in ms the notification should be visible for. Pass in 0
+     * @param htmltext the text you want to display (may include HTML tags)
+     * @param viewDuration the time in ms the notification should be visible for. Pass in 0
      *                     to be auto calculated based on word count
-     * @param arrowDir     - the direction of the arrow on the notification
-     * @param startDir     - the enter direction of the notification
-     * @param vanishDir    - the exit direction of the notification
+     * @param arrowDir the direction of the arrow on the notification
+     * @param startDir the enter direction of the notification
+     * @param vanishDir the exit direction of the notification
      */
     public void notify(String htmltext, int viewDuration, Direction arrowDir, Direction startDir, Direction vanishDir) {
         //make a gluster and add to queue, queue will automatically process any notifications so no further actions needed
@@ -644,7 +643,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Getter for the top drag label associated with this CyderFrame instance. Used for frame resizing.
-     * @return - The associated DragLabel
+     * @return The associated DragLabel
      */
     public DragLabel getTopDragLabel() {
         return topDrag;
@@ -652,7 +651,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Getter for the bottom drag label associated with this CyderFrame instance. Used for frame resizing.
-     * @return - The associated DragLabel
+     * @return The associated DragLabel
      */
     public DragLabel getBottomDragLabel() {
         return bottomDrag;
@@ -660,7 +659,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Getter for the left drag label associated with this CyderFrame instance. Used for frame resizing.
-     * @return - The associated DragLabel
+     * @return The associated DragLabel
      */
     public DragLabel getLeftDragLabel() {
         return leftDrag;
@@ -668,7 +667,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Getter for the right drag label associated with this CyderFrame instance. Used for frame resizing.
-     * @return - The associated DragLabel
+     * @return The associated DragLabel
      */
     public DragLabel getRightDragLabel() {
         return rightDrag;
@@ -677,8 +676,8 @@ public class CyderFrame extends JFrame {
     /**
      * Pops open a window relative to this with the provided text
      *
-     * @param text  - the String you wish to display
-     * @param title - The title of the CyderFrame which will be opened to display the text
+     * @param text  the String you wish to display
+     * @param title The title of the CyderFrame which will be opened to display the text
      */
     public void inform(String text, String title) {
         GenericInformer.informRelative(text, title, this);
@@ -754,7 +753,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Allow or disable moving the window.
-     * @param relocatable - the boolean value determining if the window may be repositioned
+     * @param relocatable the boolean value determining if the window may be repositioned
      */
     public void setRelocatable(boolean relocatable) {
         if (relocatable) {
@@ -914,7 +913,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Rotates the currently content pane by the specified degrees from the top left corner.
-     * @param degrees - the degrees to be rotated by; 360deg = 0deg.
+     * @param degrees the degrees to be rotated by; 360deg = 0deg.
      */
     public void rotateBackground(int degrees) {
         ImageIcon masterIcon = currentOrigIcon;
@@ -1018,7 +1017,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the minimum window size if resizing is allowed.
-     * @param minSize - the Dimension of the minimum allowed size
+     * @param minSize the Dimension of the minimum allowed size
      */
     public void setMinimumSize(Dimension minSize) {
         this.minimumSize = minSize;
@@ -1027,7 +1026,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the maximum window size if resizing is allowed.
-     * @param maxSize - the Dimension of the minimum allowed size
+     * @param maxSize the Dimension of the minimum allowed size
      */
     public void setMaximumSize(Dimension maxSize) {
         this.maximumSize = maxSize;
@@ -1037,7 +1036,7 @@ public class CyderFrame extends JFrame {
     /**
      * Sets the snap size for the window if resizing is allowed.
      *
-     * @param snap - the dimension of the snap size
+     * @param snap the dimension of the snap size
      */
     public void setSnapSize(Dimension snap) {
         this.snapSize = snap;
@@ -1045,21 +1044,21 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * @return - the minimum window size if resizing is allowed
+     * @return the minimum window size if resizing is allowed
      */
     public Dimension getMinimumSize() {
         return minimumSize;
     }
 
     /**
-     * @return - the maximum window size if resizing is allowed
+     * @return the maximum window size if resizing is allowed
      */
     public Dimension getMaximumSize() {
         return maximumSize;
     }
 
     /**
-     * @return - the snap size for the window if resizing is allowed
+     * @return the snap size for the window if resizing is allowed
      */
     public Dimension getSnapSize() {
         return snapSize;
@@ -1069,7 +1068,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Choose to allow/disable background image reisizing if window resizing is allowed.
-     * @param allowed - the value determining background resizing
+     * @param allowed the value determining background resizing
      */
     public void setBackgroundResizing(Boolean allowed) {
         cr.enableBackgroundResize(allowed);
@@ -1094,7 +1093,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * @param allow - sets/disables resizing of the frame.
+     * @param allow sets/disables resizing of the frame.
      */
     public void setFrameResizing(boolean allow) {
         cr.setResizing(allow);
@@ -1132,7 +1131,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Set the background to a new icon and refresh the frame.
-     * @param icon - the ImageIcon you want the frame background to be
+     * @param icon the ImageIcon you want the frame background to be
      */
     public void setBackground(ImageIcon icon) {
         try {
@@ -1160,7 +1159,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the background color of the Frame's content pane
-     * @param background - the Color object value of the content pane's desired background
+     * @param background the Color object value of the content pane's desired background
      */
     @Override
     public void setBackground(Color background) {
@@ -1171,7 +1170,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the background color of the contentPane.
-     * @return - Color object of the background color
+     * @return Color object of the background color
      */
     @Override
     public Color getBackground() {
@@ -1284,7 +1283,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Action to perform upon a minimiztion request from the minimize button
-     * @param actionListener - the action to take
+     * @param actionListener the action to take
      */
     public void addMinimizeListener(ActionListener actionListener) {
         actionListener.actionPerformed(null);
@@ -1314,7 +1313,7 @@ public class CyderFrame extends JFrame {
      *
      *   addPreCloseAction(new action());
      *
-     * @param action - the action to perform before closing/disposing
+     * @param action the action to perform before closing/disposing
      */
     public void addPreCloseAction(PreCloseAction action) {
         preCloseActions.add(action);
@@ -1333,7 +1332,7 @@ public class CyderFrame extends JFrame {
      *
      *   addPostCloseAction(new action());
      *
-     * @param action - the action to perform before closing/disposing
+     * @param action the action to perform before closing/disposing
      */
     public void addPostCloseAction(PostCloseAction action) {
         postCloseActions.add(action);
@@ -1353,7 +1352,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Displays a confirmation dialog to the user to confirm whether or not they intended to exit the frame
-     * @param message - the message to display to the user
+     * @param message the message to display to the user
      */
     public void setClosingConfirmation(String message) {
        this.closingConfirmationMessage = message;
@@ -1381,7 +1380,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the value for pinning the frame on top.
-     * @param b - the value determining whether or not the frame is always on top
+     * @param b the value determining whether or not the frame is always on top
      */
     public void setPinned(boolean b) {
         this.pinned = b;
@@ -1390,7 +1389,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Standard getter for pinned boolean.
-     * @return - the boolean of pinned
+     * @return the boolean of pinned
      */
     public boolean getPinned() {
         return this.pinned;

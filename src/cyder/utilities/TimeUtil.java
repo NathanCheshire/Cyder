@@ -217,7 +217,7 @@ public class TimeUtil {
     /**
      * Returns a string detailing how many years/months/days/hours/minutes/seconds
      *  are represented by the given input parameter
-     * @param msTime - the raw long of ms
+     * @param msTime the raw long of ms
      */
     public static String milisToFormattedString(long msTime) {
         StringBuilder sb = new StringBuilder();
@@ -281,7 +281,7 @@ public class TimeUtil {
     /**
      * Returns a string detailing how many years/months/days/hours/minutes/seconds
      *  are represented by the given input parameter
-     * @param msTime - the raw long of ms
+     * @param msTime the raw long of ms
      */
     public static String milisToFormattedString(double msTime) {
         StringBuilder sb = new StringBuilder();

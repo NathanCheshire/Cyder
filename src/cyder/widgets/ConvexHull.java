@@ -135,9 +135,9 @@ public class ConvexHull {
 
     /**
      * Function to find the orientation of a triplet pair
-     * @param p - first point p
-     * @param q - second point q
-     * @param r - third point r
+     * @param p first point p
+     * @param q second point q
+     * @param r third point r
      * @return 0 if the points are co-linear, 1 if the points go clockwise, 2 if they go counter-clockwise
      */
     private static int orientation(Point p, Point q, Point r) {
