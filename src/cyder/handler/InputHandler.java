@@ -1067,8 +1067,6 @@ public class InputHandler {
             //todo make a param for a widget as well as how to call it so that you can have a widget to
             // find all the widgets, you can pass in a string that can be sent to handler to activate the widget
             // add this param to all showGUI methods for widgets
-
-            //todo remove all - from before method params
         }
         //final attempt at unknown input --------------------------
         else {

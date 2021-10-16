@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.algorithoms.OpenSimplexNoise;
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
@@ -52,6 +53,7 @@ public class PerlinNoise {
     private static int octaves = 1;
     private static int maxOctaves = 10;
 
+    @Widget("perlin")
     public static void showGUI() {
         //init with random
         _2DNoise = new float[resolution];

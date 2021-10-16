@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -25,6 +26,7 @@ public class TempConverter {
 
     public TempConverter() {}
 
+    @Widget("temperature")
     public void showGUI() {
         if (temperatureFrame != null)
             temperatureFrame.dispose();

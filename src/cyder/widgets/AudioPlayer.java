@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.AnimationDirection;
@@ -81,6 +82,7 @@ public class AudioPlayer {
      * @param startPlaying the audio file to start playing upon successful launch of the AudioPlayer.
      *                     Pass {@code null} to avoid starting audio upon launch.
      */
+    @Widget("mp3")
     public static void showGUI(File startPlaying) {
         queue = new LinkedList<>();
         

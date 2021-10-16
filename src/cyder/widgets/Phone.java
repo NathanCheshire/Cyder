@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -18,6 +19,7 @@ public class Phone {
 
     private Phone() {}
 
+    @Widget("phone")
     public static void showGUI() {
         CyderFrame phoneFrame = new CyderFrame(320,500, CyderImages.defaultBackground);
         phoneFrame.setTitle("Phone");

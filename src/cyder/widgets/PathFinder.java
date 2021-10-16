@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.enums.SliderShape;
@@ -16,6 +17,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+@Widget("path")
 public class PathFinder {
     private static int squareLen = 30;
     private static int numSquares;

@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderFonts;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
@@ -14,6 +15,7 @@ import java.nio.file.StandardCopyOption;
 
 public class Spotlight {
 
+    @Widget("spotlight")
     public static void showGUI() {
         CyderFrame spotlightFrame = new CyderFrame(400,250);
         spotlightFrame.setTitle("Spotlight Stealer");

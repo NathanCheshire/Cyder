@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -41,6 +42,7 @@ public class Notes {
 
     private Notes() {} //no objects
 
+    @Widget("note")
     public static void showGUI() {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             return;

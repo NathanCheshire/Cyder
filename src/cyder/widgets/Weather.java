@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import com.google.gson.Gson;
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.Direction;
@@ -84,6 +85,7 @@ public class Weather {
     public Weather() {}
 
     //show gui method as per standard
+    @Widget("weather")
     public void showGUI() {
         if (GenesisShare.isQuesitonableInternet()) {
             ConsoleFrame.getConsoleFrame().notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but" +

@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 
+import cyder.annotations.Widget;
 import cyder.genesis.GenesisShare;
 import cyder.genobjects.User;
 import cyder.ui.CyderFrame;
@@ -21,6 +22,7 @@ public class Minecraft {
 
     private Minecraft() {}
 
+    @Widget("minecraft")
     public static void showGUI() {
         if (minecraftFrame != null)
             minecraftFrame.dispose();

@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -37,6 +38,7 @@ public class ImageResizer {
 
     private ImageResizer() {}
 
+    @Widget("resize pictures")
     public static void showGUI() {
         CyderFrame resizeFrame = new CyderFrame(800,800, CyderImages.defaultBackground);
         resizeFrame.setTitle("Image Resizer");

@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -41,6 +42,7 @@ public class Pizza {
 
     private Pizza() {}
 
+    @Widget("pizza")
     public static void showGUI() {
         if (pizzaFrame != null)
             pizzaFrame.dispose();
