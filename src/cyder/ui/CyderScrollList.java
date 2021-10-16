@@ -97,7 +97,7 @@ public class CyderScrollList {
         }
 
 
-        CyderScrollPane scrollPane = new CyderScrollPane(listPane);
+        scrollPane = new CyderScrollPane(listPane);
         scrollPane.setThumbSize(5);
         scrollPane.getViewport().setOpaque(false);
         scrollPane.setFocusable(true);
@@ -114,6 +114,12 @@ public class CyderScrollList {
         listPane.setCaretPosition(0);
 
         return retLabel;
+    }
+
+    private CyderScrollPane scrollPane;
+
+    public CyderScrollPane getScrollPane() {
+        return scrollPane;
     }
 
     public void addElement(String labelText, ScrollAction sa) {
@@ -230,7 +236,6 @@ public class CyderScrollList {
     public int getHeight() {
         return height;
     }
-
 
     public SelectionPolicy getSelectionPolicy() {
         return selectionPolicy;

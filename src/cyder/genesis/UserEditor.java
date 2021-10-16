@@ -776,8 +776,11 @@ public class UserEditor {
             }
 
             fontScrollLabel.set(fontScrollList.generateScrollList());
-            fontScrollLabel.get().setBounds(50, 100, 300, 300);
-            switchingLabel.add(fontScrollLabel.get());
+
+            if (prefsPanelIndex == 1) {
+                fontScrollLabel.get().setBounds(50, 100, 300, 300);
+                switchingLabel.add(fontScrollLabel.get());
+            }
         },"Preference Font Loader").start();
 
         CyderButton applyFont = new CyderButton("Apply Font");
@@ -862,6 +865,10 @@ public class UserEditor {
                 if (f instanceof CyderFrame)
                     f.repaint();
             }
+
+            //reset font scroll position
+            fontScrollList.getScrollPane().getVerticalScrollBar().setValue(
+                    fontScrollList.getScrollPane().getVerticalScrollBar().getMinimum());
 
             //other defaults colors below
 
@@ -994,9 +1001,6 @@ public class UserEditor {
             });
             printingUtil.printlnComponent(togglePrefLabel);
         }
-
-        //todo bug found: switching quickly between windows results in fonts appearing where they shouldn't
-        // before adding after loading complete, make sure the index is still what it should be, else, remove
 
         CyderScrollPane preferenceScroll = new CyderScrollPane(preferencePane);
         preferenceScroll.setThumbSize(7);
