@@ -1,0 +1,8 @@
+[00:01:22] [ENTRY]: [WINUSER=Nathan]
+[00:01:23] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[00:01:23] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:01:24] [LOGIN]: [AUTOCYPHER PASS]
+[00:01:25] [CLIENT]: [SIMULATED INPUT] test
+[00:01:27] [CLIENT]: Prefs
+[00:01:27] [ACTION]: USER EDITOR
+[00:01:28] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=921042581, text=[<] parentFrame=[Edit User]

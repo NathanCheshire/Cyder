@@ -1033,127 +1033,6 @@ public class UserEditor {
         TitleLabel.setFont(CyderFonts.weatherFontBig);
         switchingLabel.add(TitleLabel);
 
-        CyderLabel add = new CyderLabel("Add Map");
-        add.setBounds(110,70,100,40);
-        add.setFont(CyderFonts.weatherFontSmall);
-        switchingLabel.add(add);
-
-        CyderLabel remove = new CyderLabel("Remove Map");
-        remove.setBounds(720 - 110 - 150,70,150,40);
-        remove.setFont(CyderFonts.weatherFontSmall);
-        switchingLabel.add(remove);
-
-        CyderTextField addField = new CyderTextField(0);
-
-        CyderButton addButton = new CyderButton("Add");
-        addButton.setBounds(80,160,200,40);
-        addButton.addActionListener(e -> {
-            if (addField.getText().trim().length() > 0) {
-                if (!addField.getText().trim().contains(",")) {
-                    editUserFrame.notify("Invalid exe map format");
-                } else {
-                    String[] parts = addField.getText().trim().split(",");
-
-                    if (parts.length != 2) {
-                        editUserFrame.notify("Too many arguments");
-                    } else {
-                        String name = parts[0].trim();
-                        String path = parts[1].trim();
-
-                        File pointerFile = new File(path);
-
-                        if (!pointerFile.exists() || !pointerFile.isFile()) {
-                            editUserFrame.notify("File does not exist or is not a file");
-                        } else {
-                            if (name.length() > 0) {
-                                LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
-                                boolean exists = false;
-
-                                for (User.MappedExecutable exe : exes) {
-                                    if (exe.getName().equalsIgnoreCase(name)) {
-                                        exists = true;
-                                        break;
-                                    }
-                                }
-
-                                if (exists) {
-                                    editUserFrame.notify("Mapped exe name already in use");
-                                } else {
-                                    User.MappedExecutable addExe = new User.MappedExecutable(name, path);
-                                    User user = UserUtil.extractUser();
-                                    LinkedList<User.MappedExecutable> currentExes = user.getExecutables();
-                                    currentExes.add(addExe);
-                                    user.setExecutables(currentExes);
-                                    UserUtil.setUserData(user);
-                                    editUserFrame.notify("Mapped exe successfully added");
-                                    ConsoleFrame.getConsoleFrame().revaliateMenu();
-                                }
-                            } else {
-                                editUserFrame.notify("Invalid exe name");
-                            }
-                        }
-                    }
-
-                    addField.setText("");
-                }
-            }
-        });
-        switchingLabel.add(addButton);
-
-        addField.setToolTipText("Add format: \"map name, PATH/TO/EXE OR FILE\"");
-        addField.addActionListener(e -> addButton.doClick());
-        addField.setBounds(80,110,200,40);
-        switchingLabel.add(addField);
-
-        CyderTextField removeField = new CyderTextField(0);
-
-        CyderButton removeButton = new CyderButton("Remove");
-        removeButton.setBounds(720 - 80 - 200,160,200,40);
-        removeButton.addActionListener(e -> {
-            String text = removeField.getText().trim();
-
-            if (text.length() > 0) {
-                LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
-                boolean found = false;
-
-                for (User.MappedExecutable exe : exes) {
-                    if (exe.getName().equalsIgnoreCase(text)) {
-                        found = true;
-                        exes.remove(exe);
-                        break;
-                    }
-                }
-
-                if (found) {
-                    User user = UserUtil.extractUser();
-                    user.setExecutables(exes);
-                    UserUtil.setUserData(user);
-                    editUserFrame.notify("Exe successfully removed");
-                    ConsoleFrame.getConsoleFrame().revaliateMenu();
-                } else {
-                    editUserFrame.notify("Could not locate specified exe");
-                }
-
-                removeField.setText("");
-            }
-        });
-        switchingLabel.add(removeButton);
-
-        removeField.setToolTipText("Name of already mapped executable to remove");
-        removeField.addActionListener(e -> removeButton.doClick());
-        removeField.setBounds(720 - 80 - 200,110,200,40);
-        switchingLabel.add(removeField);
-
-        CyderLabel ffmpegLabel = new CyderLabel("FFMPEG Path");
-        ffmpegLabel.setBounds(80,300,200,40);
-        ffmpegLabel.setFont(CyderFonts.weatherFontSmall);
-        switchingLabel.add(ffmpegLabel);
-
-        CyderLabel youtubedlLabel = new CyderLabel("YouTube-DL Path");
-        youtubedlLabel.setBounds(720 - 80 - 200,300,200,40);
-        youtubedlLabel.setFont(CyderFonts.weatherFontSmall);
-        switchingLabel.add(youtubedlLabel);
-
         CyderTextField ffmpegField = new CyderTextField(0);
         CyderTextField youtubedlField = new CyderTextField(0);
 
@@ -1242,9 +1121,7 @@ public class UserEditor {
 
         CyderButton validateDatePatternButton = new CyderButton("   Validate   ");
         JTextField consoleDatePatternField = new JTextField(0);
-        consoleDatePatternField.addActionListener(e -> {
-            validateDatePatternButton.doClick();
-        });
+        consoleDatePatternField.addActionListener(e -> validateDatePatternButton.doClick());
         consoleDatePatternLabel.setToolTipText("Java date/time pattern to use for the console clock");
         consoleDatePatternField.setBackground(CyderColors.vanila);
         consoleDatePatternField.setSelectionColor(CyderColors.selectionColor);
@@ -1270,10 +1147,9 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
+        CyderButton addMapButton = new CyderButton("Add Map");
         JTextField addMapField = new JTextField(0);
-        addMapField.addActionListener(e -> {
-
-        });
+        addMapField.addActionListener(e -> addMapButton.doClick());
         addMapField.setToolTipText("Add format: \"map name, PATH/TO/EXE OR FILE\"");
         addMapField.setBackground(CyderColors.vanila);
         addMapField.setSelectionColor(CyderColors.selectionColor);
@@ -1285,17 +1161,71 @@ public class UserEditor {
         addMapField.setOpaque(true);
         printingUtil.printlnComponent(addMapField);
 
+        printingUtil.print("\n");
+
+        addMapButton.addActionListener(e -> {
+            if (addMapField.getText().trim().length() > 0) {
+                if (!addMapField.getText().trim().contains(",")) {
+                    editUserFrame.notify("Invalid exe map format");
+                } else {
+                    String[] parts = addMapField.getText().trim().split(",");
+
+                    if (parts.length != 2) {
+                        editUserFrame.notify("Too many arguments");
+                    } else {
+                        String name = parts[0].trim();
+                        String path = parts[1].trim();
+
+                        File pointerFile = new File(path);
+
+                        if (!pointerFile.exists() || !pointerFile.isFile()) {
+                            editUserFrame.notify("File does not exist or is not a file");
+                        } else {
+                            if (name.length() > 0) {
+                                LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
+                                boolean exists = false;
+
+                                for (User.MappedExecutable exe : exes) {
+                                    if (exe.getName().equalsIgnoreCase(name)) {
+                                        exists = true;
+                                        break;
+                                    }
+                                }
+
+                                if (exists) {
+                                    editUserFrame.notify("Mapped exe name already in use");
+                                } else {
+                                    User.MappedExecutable addExe = new User.MappedExecutable(name, path);
+                                    User user = UserUtil.extractUser();
+                                    LinkedList<User.MappedExecutable> currentExes = user.getExecutables();
+                                    currentExes.add(addExe);
+                                    user.setExecutables(currentExes);
+                                    UserUtil.setUserData(user);
+                                    editUserFrame.notify("Mapped exe successfully added");
+                                    ConsoleFrame.getConsoleFrame().revaliateMenu();
+                                }
+                            } else {
+                                editUserFrame.notify("Invalid exe name");
+                            }
+                        }
+                    }
+
+                    addMapField.setText("");
+                }
+            }
+        });
+        printingUtil.printlnComponent(addMapButton);
+
         printingUtil.print("\n\n");
 
-        CyderLabel removeMap = new CyderLabel("Remove Mapped Execuatable");
+        CyderLabel removeMap = new CyderLabel("Remove Map");
         printingUtil.printlnComponent(removeMap);
 
         printingUtil.print("\n");
 
+        CyderButton removeMapButton = new CyderButton("Remove Mapped Execuatable");
         JTextField removeMapField = new JTextField(0);
-        removeMapField.addActionListener(e -> {
-
-        });
+        removeMapField.addActionListener(e -> removeMapButton.doClick());
         removeMapField.setToolTipText("Name of already mapped executable to remove");
         removeMapField.setBackground(CyderColors.vanila);
         removeMapField.setSelectionColor(CyderColors.selectionColor);
@@ -1306,6 +1236,40 @@ public class UserEditor {
         removeMapField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         removeMapField.setOpaque(true);
         printingUtil.printlnComponent(removeMapField);
+
+        printingUtil.print("\n");
+
+        removeMapButton.addActionListener(e -> {
+            String text = removeMapField.getText().trim();
+
+            if (text.length() > 0) {
+                LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
+                boolean found = false;
+
+                for (User.MappedExecutable exe : exes) {
+                    if (exe.getName().equalsIgnoreCase(text)) {
+                        found = true;
+                        exes.remove(exe);
+                        break;
+                    }
+                }
+
+                if (found) {
+                    User user = UserUtil.extractUser();
+                    user.setExecutables(exes);
+                    UserUtil.setUserData(user);
+                    editUserFrame.notify("Exe successfully removed");
+                    ConsoleFrame.getConsoleFrame().revaliateMenu();
+                } else {
+                    editUserFrame.notify("Could not locate specified exe");
+                }
+
+                removeMapField.setText("");
+            }
+        });
+        printingUtil.printlnComponent(removeMapButton);
+
+
 
         CyderScrollPane fieldInputsScroll = new CyderScrollPane(fieldInputsPane);
         fieldInputsScroll.setThumbSize(7);
