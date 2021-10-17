@@ -8,3 +8,6 @@
 [00:51:24] [ACTION]: USER EDITOR
 [00:51:26] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1082195012, text=[>] parentFrame=[Edit User]
 [00:51:26] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[00:53:35] [LOGOUT]:  [Nathan]
+[00:53:35] [EXIT]: [RUNTIME] 2m 18s
+[00:53:35] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

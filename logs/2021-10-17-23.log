@@ -1,0 +1,118 @@
+[00:53:46] [ENTRY]: [WINUSER=Nathan]
+[00:53:48] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[00:53:48] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:53:49] [LOGIN]: [AUTOCYPHER PASS]
+[00:53:50] [CLIENT]: [SIMULATED INPUT] test
+[00:53:53] [CLIENT]: Analyze code
+[00:53:53] [CONSOLE_OUT]: [STRING] Lines of code: 26634
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [CONSOLE_OUT]: [STRING] Number of java files: 108
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:54] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [CONSOLE_OUT]: [STRING] Number of comments: 1978
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:55] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [CONSOLE_OUT]: [STRING] Blank lines: 5246
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:56] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [CONSOLE_OUT]: [STRING] Total: 31880
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:57] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:58] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:58] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:53:58] [ACTION]: [SYSTEM AUDIO] sys/audio/Typing.mp3
+[00:54:18] [CLIENT]: Cls
+[00:54:22] [CLIENT]: Mp3
+[00:54:22] [ACTION]: AUDIO PLAYER
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

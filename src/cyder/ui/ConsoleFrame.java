@@ -1297,7 +1297,7 @@ public final class ConsoleFrame {
         temperatureLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                TempConverter tc = new TempConverter();
+                new TempConverter().showGUI();
             }
 
             @Override
