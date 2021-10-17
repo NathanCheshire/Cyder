@@ -24,9 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -1063,6 +1062,18 @@ public class UserEditor {
 
         validateDatePatternButton.addActionListener(e -> {
             //attempt to validate and if valid, write, and set as clock pattern, update clock
+            String defaultString = "EEEEEEEEE h:mmaa";
+            String fieldText = consoleDatePatternField.getText();
+
+            try {
+                Date Time = new Date();
+                SimpleDateFormat dateFormatter = new SimpleDateFormat(fieldText);
+                String formatted =  dateFormatter.format(Time);
+
+                //valid so write and set as clock
+            } catch (Exception ex) {
+                ErrorHandler.silentHandle(ex);
+            }
         });
         printingUtil.printlnComponent(validateDatePatternButton);
 

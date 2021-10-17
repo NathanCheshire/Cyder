@@ -32,6 +32,7 @@ public class User {
     private String windowlocy;
     private String roundedwindows;
     private String windowColor;
+    private String consoleclockformat;
     private LinkedList<MappedExecutable> executables;
 
     //getters
@@ -156,6 +157,10 @@ public class User {
         return windowColor;
     }
 
+    public String getConsoleclockformat() {
+        return consoleclockformat;
+    }
+
     //setters
 
     public void setName(String name) {
@@ -276,6 +281,10 @@ public class User {
 
     public void setWindowColor(String windowColor) {
         this.windowColor = windowColor;
+    }
+
+    public void setConsoleclockformat(String consoleclockformat) {
+        this.consoleclockformat = consoleclockformat;
     }
 
     //inner classes

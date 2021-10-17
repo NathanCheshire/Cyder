@@ -152,6 +152,7 @@ public class TimeUtil {
 
     public static String consoleTime() {
         Date Time = new Date();
+        //get string here from pref
         SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mmaa");
         return dateFormatter.format(Time);
     }
