@@ -1,0 +1,27 @@
+[00:39:28] [ENTRY]: [WINUSER=Nathan]
+[00:39:29] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[00:39:30] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:39:30] [LOGIN]: [AUTOCYPHER PASS]
+[00:39:31] [CLIENT]: [SIMULATED INPUT] test
+[00:39:32] [CLIENT]: Prefs
+[00:39:32] [ACTION]: USER EDITOR
+[00:39:34] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1855815633, text=[>] parentFrame=[Edit User]
+[00:39:34] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[00:39:34] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1855815633, text=[>] parentFrame=[Edit User]
+[00:39:35] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1855815633, text=[>] parentFrame=[Edit User]
+[00:39:35] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1855815633, text=[>] parentFrame=[Edit User]
+[00:39:36] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=898701917, text=[<] parentFrame=[Edit User]
+[00:39:37] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=898701917, text=[<] parentFrame=[Edit User]
+[00:39:37] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=898701917, text=[<] parentFrame=[Edit User]
+[00:39:38] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=898701917, text=[<] parentFrame=[Edit User]
+[00:39:38] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[00:39:38] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=898701917, text=[<] parentFrame=[Edit User]
+[00:39:48] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=797256894, text=[   Validate   ] parentFrame=[Edit User]
+[00:39:51] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=797256894, text=[   Validate   ] parentFrame=[Edit User]
+[00:39:53] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=797256894, text=[   Validate   ] parentFrame=[Edit User]
+[00:39:59] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=797256894, text=[   Validate   ] parentFrame=[Edit User]
+[00:40:04] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=797256894, text=[   Validate   ] parentFrame=[Edit User]
+[00:40:07] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=797256894, text=[   Validate   ] parentFrame=[Edit User]
+[00:40:15] [LOGOUT]:  [Nathan]
+[00:40:15] [EXIT]: [RUNTIME] 47s
+[00:40:15] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

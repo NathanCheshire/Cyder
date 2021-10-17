@@ -85,7 +85,6 @@ public class UserEditor {
             case 1:
                 switchToFontAndColor();
                 break;
-
             case 2:
                 switchToPreferences();
                 break;
@@ -256,7 +255,7 @@ public class UserEditor {
 
         prefsPanelIndex++;
 
-        if (prefsPanelIndex == 5)
+        if (prefsPanelIndex == 4)
             prefsPanelIndex = 0;
 
         switch (prefsPanelIndex) {
@@ -266,7 +265,6 @@ public class UserEditor {
             case 1:
                 switchToFontAndColor();
                 break;
-
             case 2:
                 switchToPreferences();
                 break;
@@ -286,7 +284,7 @@ public class UserEditor {
         prefsPanelIndex--;
 
         if (prefsPanelIndex == -1)
-            prefsPanelIndex = 4;
+            prefsPanelIndex = 3;
 
         switch (prefsPanelIndex) {
             case 0:
@@ -295,7 +293,6 @@ public class UserEditor {
             case 1:
                 switchToFontAndColor();
                 break;
-
             case 2:
                 switchToPreferences();
                 break;
@@ -1057,20 +1054,21 @@ public class UserEditor {
         consoleDatePatternField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         consoleDatePatternField.setOpaque(true);
         printingUtil.printlnComponent(consoleDatePatternField);
+        consoleDatePatternField.setText(UserUtil.extractUser().getConsoleclockformat());
 
         printingUtil.print("\n");
 
         validateDatePatternButton.addActionListener(e -> {
-            //attempt to validate and if valid, write, and set as clock pattern, update clock
-            String defaultString = "EEEEEEEEE h:mmaa";
-            String fieldText = consoleDatePatternField.getText();
+            String fieldText = consoleDatePatternField.getText().trim();
 
             try {
                 Date Time = new Date();
                 SimpleDateFormat dateFormatter = new SimpleDateFormat(fieldText);
                 String formatted =  dateFormatter.format(Time);
 
-                //valid so write and set as clock
+                //valid so write and refresh consoleclock
+                UserUtil.setUserData("consoleclockformat",fieldText);
+                ConsoleFrame.getConsoleFrame().refreshClockText();
             } catch (Exception ex) {
                 ErrorHandler.silentHandle(ex);
             }

@@ -2830,4 +2830,9 @@ public final class ConsoleFrame {
 
         return frames;
     }
+
+    public void refreshClockText() {
+        String time = TimeUtil.consoleSecondTime();
+        consoleClockLabel.setText(time);
+    }
 }
