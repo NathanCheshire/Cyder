@@ -1,0 +1,14 @@
+[23:29:11] [ENTRY]: [WINUSER=Nathan]
+[23:29:12] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[23:29:12] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:29:13] [LOGIN]: [AUTOCYPHER PASS]
+[23:29:14] [CLIENT]: [SIMULATED INPUT] test
+[23:29:22] [CLIENT]: Efs
+[23:29:22] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[23:29:24] [CLIENT]: Prefs
+[23:29:24] [ACTION]: USER EDITOR
+[23:29:25] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=757744711, text=[<] parentFrame=[Edit User]
+[23:29:25] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=757744711, text=[<] parentFrame=[Edit User]
+[23:29:43] [LOGOUT]:  [Nathan]
+[23:29:43] [EXIT]: [RUNTIME] 32s
+[23:29:43] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

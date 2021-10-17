@@ -13,9 +13,7 @@ import cyder.widgets.ColorConverter;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -259,7 +257,7 @@ public class UserEditor {
 
         prefsPanelIndex++;
 
-        if (prefsPanelIndex == 4)
+        if (prefsPanelIndex == 5)
             prefsPanelIndex = 0;
 
         switch (prefsPanelIndex) {
@@ -276,6 +274,9 @@ public class UserEditor {
             case 3:
                 switchToMappingLinks();
                 break;
+            case 4:
+                switchToFieldInputs();
+                break;
         }
     }
 
@@ -289,7 +290,7 @@ public class UserEditor {
         prefsPanelIndex--;
 
         if (prefsPanelIndex == -1)
-            prefsPanelIndex = 3;
+            prefsPanelIndex = 4;
 
         switch (prefsPanelIndex) {
             case 0:
@@ -304,6 +305,9 @@ public class UserEditor {
                 break;
             case 3:
                 switchToMappingLinks();
+                break;
+            case 4:
+                switchToFieldInputs();
                 break;
         }
     }
@@ -1210,5 +1214,120 @@ public class UserEditor {
 
         //switchingLabel.add(stuff);
         switchingLabel.revalidate(); //720x500
+    }
+
+    private static void switchToFieldInputs() {
+        JTextPane fieldInputsPane = new JTextPane();
+        fieldInputsPane.setEditable(false);
+        fieldInputsPane.setAutoscrolls(false);
+        fieldInputsPane.setBounds(0, 0, 720, 500);
+        fieldInputsPane.setFocusable(true);
+        fieldInputsPane.setOpaque(false);
+        fieldInputsPane.setBackground(Color.white);
+
+        //adding components
+        StringUtil printingUtil = new StringUtil(fieldInputsPane);
+
+        //print pairs here
+        CyderLabel prefsTitle = new CyderLabel("Field Inputs");
+        prefsTitle.setFont(CyderFonts.weatherFontBig);
+        printingUtil.printlnComponent(prefsTitle);
+
+        printingUtil.println("\n");
+
+        CyderLabel consoleDatePatternLabel = new CyderLabel("ConsoleClock Date Pattern");
+        printingUtil.printlnComponent(consoleDatePatternLabel);
+
+        printingUtil.print("\n");
+
+        CyderButton validateDatePatternButton = new CyderButton("   Validate   ");
+        JTextField consoleDatePatternField = new JTextField(0);
+        consoleDatePatternField.addActionListener(e -> {
+            validateDatePatternButton.doClick();
+        });
+        consoleDatePatternLabel.setToolTipText("Java date/time pattern to use for the console clock");
+        consoleDatePatternField.setBackground(CyderColors.vanila);
+        consoleDatePatternField.setSelectionColor(CyderColors.selectionColor);
+        consoleDatePatternField.setFont(CyderFonts.weatherFontSmall);
+        consoleDatePatternField.setForeground(CyderColors.navy);
+        consoleDatePatternField.setCaretColor(CyderColors.navy);
+        consoleDatePatternField.setCaret(new CyderCaret(CyderColors.navy));
+        consoleDatePatternField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        consoleDatePatternField.setOpaque(true);
+        printingUtil.printlnComponent(consoleDatePatternField);
+
+        printingUtil.print("\n");
+
+        validateDatePatternButton.addActionListener(e -> {
+            //attempt to validate and if valid, write, and set as clock pattern, update clock
+        });
+        printingUtil.printlnComponent(validateDatePatternButton);
+
+        printingUtil.print("\n\n");
+
+        CyderLabel addMap = new CyderLabel("Add Mapped Execuatable");
+        printingUtil.printlnComponent(addMap);
+
+        printingUtil.print("\n");
+
+        JTextField addMapField = new JTextField(0);
+        addMapField.addActionListener(e -> {
+
+        });
+        addMapField.setToolTipText("Add format: \"map name, PATH/TO/EXE OR FILE\"");
+        addMapField.setBackground(CyderColors.vanila);
+        addMapField.setSelectionColor(CyderColors.selectionColor);
+        addMapField.setFont(CyderFonts.weatherFontSmall);
+        addMapField.setForeground(CyderColors.navy);
+        addMapField.setCaretColor(CyderColors.navy);
+        addMapField.setCaret(new CyderCaret(CyderColors.navy));
+        addMapField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        addMapField.setOpaque(true);
+        printingUtil.printlnComponent(addMapField);
+
+        printingUtil.print("\n\n");
+
+        CyderLabel removeMap = new CyderLabel("Remove Mapped Execuatable");
+        printingUtil.printlnComponent(removeMap);
+
+        printingUtil.print("\n");
+
+        JTextField removeMapField = new JTextField(0);
+        removeMapField.addActionListener(e -> {
+
+        });
+        removeMapField.setToolTipText("Name of already mapped executable to remove");
+        removeMapField.setBackground(CyderColors.vanila);
+        removeMapField.setSelectionColor(CyderColors.selectionColor);
+        removeMapField.setFont(CyderFonts.weatherFontSmall);
+        removeMapField.setForeground(CyderColors.navy);
+        removeMapField.setCaretColor(CyderColors.navy);
+        removeMapField.setCaret(new CyderCaret(CyderColors.navy));
+        removeMapField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        removeMapField.setOpaque(true);
+        printingUtil.printlnComponent(removeMapField);
+
+        CyderScrollPane fieldInputsScroll = new CyderScrollPane(fieldInputsPane);
+        fieldInputsScroll.setThumbSize(7);
+        fieldInputsScroll.getViewport().setOpaque(false);
+        fieldInputsScroll.setFocusable(true);
+        fieldInputsScroll.setOpaque(false);
+        fieldInputsScroll.setThumbColor(CyderColors.intellijPink);
+        fieldInputsScroll.setBackground(Color.white);
+        fieldInputsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        fieldInputsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        fieldInputsScroll.setBounds(6, 5, 708, 490);
+
+        //after everything is on pane, use this to center it
+        StyledDocument doc = fieldInputsPane.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
+        //set menu location to top
+        fieldInputsPane.setCaretPosition(0);
+
+        switchingLabel.add(fieldInputsScroll);
+        switchingLabel.revalidate();
     }
 }

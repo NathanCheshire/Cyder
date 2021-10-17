@@ -1,0 +1,11 @@
+[23:18:13] [ENTRY]: [WINUSER=Nathan]
+[23:18:14] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[23:18:15] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23:18:15] [LOGIN]: [AUTOCYPHER PASS]
+[23:18:16] [CLIENT]: [SIMULATED INPUT] test
+[23:18:17] [CLIENT]: Efs
+[23:18:17] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[23:18:18] [CLIENT]: Prefs
+[23:18:19] [ACTION]: USER EDITOR
+[23:18:20] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=279534994, text=[<] parentFrame=[Edit User]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

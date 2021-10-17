@@ -110,4 +110,12 @@ public class CyderTextField extends JTextField {
     public String toString() {
         return "CyderTextField object, hash=" + this.hashCode();
     }
+
+    public void informValidData() {
+        this.setBorder(new LineBorder(CyderColors.regularGreen, 5, false));
+    }
+
+    public void informInvalidData() {
+        this.setBorder(new LineBorder(CyderColors.regularRed, 5, false));
+    }
 }
