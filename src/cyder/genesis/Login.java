@@ -357,6 +357,10 @@ public class Login {
                                 ConsoleFrame.getConsoleFrame().getInputHandler());
                     }
                 }
+                //play cool startup audio as long as released
+                else if (IOUtil.getSystemData().isReleased()) {
+                    IOUtil.playSystemAudio("sys/audio/startup.mp3");
+                }
             } else if (loginFrame != null && loginFrame.isVisible()) {
                 loginField.setText("");
 

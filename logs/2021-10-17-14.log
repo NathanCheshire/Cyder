@@ -1,0 +1,16 @@
+[00:41:43] [ENTRY]: [WINUSER=Nathan]
+[00:41:44] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[00:41:44] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:41:44] [LOGIN]: [AUTOCYPHER PASS]
+[00:41:45] [CLIENT]: [SIMULATED INPUT] test
+[00:41:48] [CLIENT]: Issue
+[00:41:49] [CONSOLE_OUT]: [STRING] 16 issues found:
+[00:41:50] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[00:41:51] [CONSOLE_OUT]: [STRING] Issue: 48
+[00:41:52] [CONSOLE_OUT]: [STRING] Path finder optimal path
+[00:41:53] [CONSOLE_OUT]: [STRING] Add a checkbox for the path finding widget to find the optimal path instead of the first one it comes across.
+[00:41:56] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[00:41:58] [CONSOLE_OUT]: [STRING] Issue: 46
+[00:41:58] [CONSOLE_OUT]: [STRING] Email client
+[00:41:59] [CONSOLE_OUT]: [STRING] Make an email client using CyderComponents and using javax.mail library. Should be able to add attachments and view formatted content of the email. Use JTextPane possibly.
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

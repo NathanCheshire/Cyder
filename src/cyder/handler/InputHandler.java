@@ -1057,6 +1057,7 @@ public class InputHandler {
             println("----------------------------------------");
 
             for (GitHubUtil.Issue issue: issues) {
+                println("Issue #" + issue.number);
                 println(issue.title);
                 println(issue.body);
                 println("----------------------------------------");
@@ -1541,6 +1542,7 @@ public class InputHandler {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), String.valueOf(c), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
+            IOUtil.playSystemAudio("sys/audio/Typing.mp3");
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -1901,6 +1903,6 @@ public class InputHandler {
         //finish printing anything in printing queue
         finishPrinting = true;
         //inform user we escaped
-        println("Escaped");
+        consolePriorityPrintingList.add("Escaped\n");
     }
 }
