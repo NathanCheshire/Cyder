@@ -1,0 +1,12 @@
+[00:15:59] [ENTRY]: [WINUSER=Nathan]
+[00:16:00] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
+[00:16:01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00:16:01] [LOGIN]: [AUTOCYPHER PASS]
+[00:16:03] [CLIENT]: [SIMULATED INPUT] test
+[00:16:50] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=224507767, text=[Validate Path] parentFrame=[Edit User]
+[00:16:50] [ACTION]: [Edit User] [NOTIFICATION] ffmpeg path sucessfully set
+[00:16:54] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=224507767, text=[Validate Path] parentFrame=[Edit User]
+[00:16:54] [ACTION]: [Edit User] [NOTIFICATION] ffmpeg does not exist at the provided path
+[00:17:00] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1793392239, text=[<] parentFrame=[Edit User]
+[00:17:00] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=1531099935, text=[>] parentFrame=[Edit User]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

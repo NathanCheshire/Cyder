@@ -6,3 +6,4 @@
 [00:01:27] [CLIENT]: Prefs
 [00:01:27] [ACTION]: USER EDITOR
 [00:01:28] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=921042581, text=[<] parentFrame=[Edit User]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

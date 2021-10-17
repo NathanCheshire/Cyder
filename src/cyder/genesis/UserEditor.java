@@ -91,7 +91,7 @@ public class UserEditor {
                 switchToPreferences();
                 break;
             case 3:
-                switchToMappingLinks();
+                switchToFieldInputs();
                 break;
         }
 
@@ -272,9 +272,6 @@ public class UserEditor {
                 switchToPreferences();
                 break;
             case 3:
-                switchToMappingLinks();
-                break;
-            case 4:
                 switchToFieldInputs();
                 break;
         }
@@ -304,9 +301,6 @@ public class UserEditor {
                 switchToPreferences();
                 break;
             case 3:
-                switchToMappingLinks();
-                break;
-            case 4:
                 switchToFieldInputs();
                 break;
         }
@@ -1027,74 +1021,6 @@ public class UserEditor {
         switchingLabel.revalidate();
     }
 
-    private static void switchToMappingLinks() {
-        CyderLabel TitleLabel = new CyderLabel("Map Executables");
-        TitleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
-        TitleLabel.setFont(CyderFonts.weatherFontBig);
-        switchingLabel.add(TitleLabel);
-
-        CyderTextField ffmpegField = new CyderTextField(0);
-        CyderTextField youtubedlField = new CyderTextField(0);
-
-        CyderButton validateFFMPEG = new CyderButton("Validate");
-        validateFFMPEG.setBounds(80,390,200,40);
-        validateFFMPEG.addActionListener(e -> {
-            String text = ffmpegField.getText().trim();
-
-            if (text.length() > 0) {
-                File ffmpegMaybe = new File(text);
-                if (ffmpegMaybe.exists() && ffmpegMaybe.isFile() &&
-                        StringUtil.getExtension(ffmpegMaybe).equals(".exe")) {
-                    User user = UserUtil.extractUser();
-                    user.setFfmpegpath(text);
-                    UserUtil.setUserData(user);
-                    editUserFrame.notify("ffmpeg path sucessfully set");
-                } else {
-                    editUserFrame.notify("ffmpeg does not exist at the provided path");
-                    ffmpegField.setText("");
-                }
-            }
-        });
-        switchingLabel.add(validateFFMPEG);
-
-        CyderButton validateYoutubeDL = new CyderButton("Validate");
-        validateYoutubeDL.setBounds(720 - 80 - 200,390,200,40);
-        validateYoutubeDL.addActionListener(e -> {
-            String text = youtubedlField.getText().trim();
-
-            if (text.length() > 0) {
-                File youtubeDLMaybe = new File(text);
-                if (youtubeDLMaybe.exists() && youtubeDLMaybe.isFile() &&
-                        StringUtil.getExtension(youtubeDLMaybe).equals(".exe")) {
-                    User user = UserUtil.extractUser();
-                    user.setYoutubedlpath(text);
-                    UserUtil.setUserData(user);
-                    editUserFrame.notify("youtube-dl path sucessfully set");
-                } else {
-                    editUserFrame.notify("youtube-dl does not exist at the provided path");
-                    youtubedlField.setText("");
-                }
-            }
-        });
-        switchingLabel.add(validateYoutubeDL);
-
-        ffmpegField.setToolTipText("Path to ffmpeg.exe");
-        ffmpegField.addActionListener(e -> validateFFMPEG.doClick());
-        ffmpegField.setBounds(80,340,200,40);
-        switchingLabel.add(ffmpegField);
-
-        youtubedlField.setToolTipText("Path to YouTube-dl.exe");
-        youtubedlField.addActionListener(e -> validateYoutubeDL.doClick());
-        youtubedlField.setBounds(720 - 80 - 200,340,200,40);
-        switchingLabel.add(youtubedlField);
-
-        ffmpegField.setText(UserUtil.getUserData("ffmpegpath"));
-        youtubedlField.setText(UserUtil.getUserData("youtubedlpath"));
-
-        //switchingLabel.add(stuff);
-        switchingLabel.revalidate(); //720x500
-    }
-
     private static void switchToFieldInputs() {
         JTextPane fieldInputsPane = new JTextPane();
         fieldInputsPane.setEditable(false);
@@ -1269,7 +1195,95 @@ public class UserEditor {
         });
         printingUtil.printlnComponent(removeMapButton);
 
+        printingUtil.print("\n\n");
 
+        CyderLabel ffmpegLabel = new CyderLabel("FFMPEG Path");
+        printingUtil.printlnComponent(ffmpegLabel);
+
+        printingUtil.print("\n");
+
+        CyderButton validateFfmpegButton = new CyderButton("Validate Path");
+        JTextField ffmpegField = new JTextField(0);
+        ffmpegField.addActionListener(e -> validateFfmpegButton.doClick());
+        ffmpegField.setToolTipText("Path to ffmpeg.exe");
+        ffmpegField.setBackground(CyderColors.vanila);
+        ffmpegField.setSelectionColor(CyderColors.selectionColor);
+        ffmpegField.setFont(CyderFonts.weatherFontSmall);
+        ffmpegField.setForeground(CyderColors.navy);
+        ffmpegField.setCaretColor(CyderColors.navy);
+        ffmpegField.setCaret(new CyderCaret(CyderColors.navy));
+        ffmpegField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        ffmpegField.setOpaque(true);
+        printingUtil.printlnComponent(ffmpegField);
+        ffmpegField.setText(UserUtil.getUserData("ffmpegpath"));
+
+        printingUtil.print("\n");
+
+        validateFfmpegButton.addActionListener(e -> {
+            String text = ffmpegField.getText().trim();
+
+            if (text.length() > 0) {
+                File ffmpegMaybe = new File(text);
+                if (ffmpegMaybe.exists() && ffmpegMaybe.isFile() &&
+                        StringUtil.getExtension(ffmpegMaybe).equals(".exe")) {
+                    User user = UserUtil.extractUser();
+                    user.setFfmpegpath(text);
+                    UserUtil.setUserData(user);
+                    editUserFrame.notify("ffmpeg path sucessfully set");
+                } else {
+                    editUserFrame.notify("ffmpeg does not exist at the provided path");
+                    ffmpegField.setText(UserUtil.getUserData("ffmpegpath"));
+                }
+            }
+        });
+        printingUtil.printlnComponent(validateFfmpegButton);
+
+        printingUtil.print("\n\n");
+
+        CyderLabel youtubeDLLabel = new CyderLabel("YouTubeDL Path");
+        printingUtil.printlnComponent(youtubeDLLabel);
+
+        printingUtil.print("\n");
+
+        CyderButton validateYouTubeDL = new CyderButton("Validate Path");
+        JTextField youtubedlField = new JTextField(0);
+        youtubedlField.addActionListener(e -> validateYouTubeDL.doClick());
+        youtubedlField.setToolTipText("Path to youtubedl.exe");
+        youtubedlField.setBackground(CyderColors.vanila);
+        youtubedlField.setSelectionColor(CyderColors.selectionColor);
+        youtubedlField.setFont(CyderFonts.weatherFontSmall);
+        youtubedlField.setForeground(CyderColors.navy);
+        youtubedlField.setCaretColor(CyderColors.navy);
+        youtubedlField.setCaret(new CyderCaret(CyderColors.navy));
+        youtubedlField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        youtubedlField.setOpaque(true);
+        printingUtil.printlnComponent(youtubedlField);
+        youtubedlField.setText(UserUtil.getUserData("youtubedlpath"));
+
+        printingUtil.print("\n");
+
+        validateYouTubeDL.addActionListener(e -> {
+            String text = youtubedlField.getText().trim();
+
+            if (text.length() > 0) {
+                File youtubeDLMaybe = new File(text);
+                if (youtubeDLMaybe.exists() && youtubeDLMaybe.isFile() &&
+                        StringUtil.getExtension(youtubeDLMaybe).equals(".exe")) {
+                    User user = UserUtil.extractUser();
+                    user.setYoutubedlpath(text);
+                    UserUtil.setUserData(user);
+                    editUserFrame.notify("youtube-dl path sucessfully set");
+                } else {
+                    editUserFrame.notify("youtube-dl does not exist at the provided path");
+                    youtubedlField.setText(UserUtil.getUserData("youtubedlpath"));
+                }
+            }
+        });
+        printingUtil.printlnComponent(validateYouTubeDL);
+
+        printingUtil.print("\n\n");
+
+        //more labels, fields, and if applicable, validation buttons here
 
         CyderScrollPane fieldInputsScroll = new CyderScrollPane(fieldInputsPane);
         fieldInputsScroll.setThumbSize(7);
