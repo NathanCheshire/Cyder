@@ -68,7 +68,7 @@ public class CyderSetup {
         boolean ret = true;
 
         //loop through fonts dir
-        for (File f : new File("fonts").listFiles()) {
+        for (File f : new File("sys/fonts").listFiles()) {
             //if it's a valid font file
             if (StringUtil.getExtension(f).equals(".ttf")) {
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();

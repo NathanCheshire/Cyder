@@ -1158,7 +1158,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton removeMapButton = new CyderButton("Remove Mapped Execuatable");
+        CyderButton removeMapButton = new CyderButton("Remove Map");
         JTextField removeMapField = new JTextField(0);
         removeMapField.addActionListener(e -> removeMapButton.doClick());
         removeMapField.setToolTipText("Name of already mapped executable to remove");

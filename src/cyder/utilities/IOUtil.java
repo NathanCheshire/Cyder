@@ -553,7 +553,7 @@ public class IOUtil {
         if (!SecurityUtil.nathanLenovo()) {
             wipeSandbox();
         } else {
-            File sandbox = new File("Sandbox");
+            File sandbox = new File("sys/sandbox");
 
             if (!sandbox.exists()) {
                 sandbox.mkdir();
@@ -565,7 +565,7 @@ public class IOUtil {
      * Wipes the Sandbox of files if we are not in developer mode, ensures the folder stays though.
      */
     public static void wipeSandbox() {
-        File sandbox = new File("Sandbox");
+        File sandbox = new File("sys/sandbox");
 
         if (sandbox.exists()) {
             SystemUtil.deleteFolder(sandbox);
