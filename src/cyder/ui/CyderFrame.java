@@ -36,6 +36,14 @@ public class CyderFrame extends JFrame {
         RIGHT,
     }
 
+    public enum FrameType {
+        DEFAULT,
+        INPUT_GETTER,
+        POPUP
+    }
+
+    private FrameType frameType = FrameType.DEFAULT;
+
     private TitlePosition titlePosition = TitlePosition.LEFT;
     private ButtonPosition buttonPosition = ButtonPosition.RIGHT;
     private int width = 1;
@@ -80,14 +88,15 @@ public class CyderFrame extends JFrame {
         this.height = height;
         this.background = background;
         currentOrigIcon = background;
-        setSize(new Dimension(width, height));
 
+        //this . methods
+        setSize(new Dimension(width, height));
         setResizable(false);
         setUndecorated(true);
         setBackground(backgroundColor);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
-        //try and get preference
+        //try and get preference for frame shape
         if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
             if (UserUtil.extractUser().getRoundedwindows().equals("1")) {
                 setShape(new RoundRectangle2D.Double(0, 0,
@@ -97,7 +106,8 @@ public class CyderFrame extends JFrame {
             }
         }
 
-        //listener to ensure the close button was always pressed essentially
+        //listener to ensure the close button was always pressed which ensures
+        // things like closeAnimation are always performed
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -105,6 +115,7 @@ public class CyderFrame extends JFrame {
             }
         });
 
+        //master contentlabel
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
@@ -119,6 +130,7 @@ public class CyderFrame extends JFrame {
         };
         contentLabel.setFocusable(false);
 
+        //adding pane (getcontentpane.add components are added here)
         iconLabel = new JLabel();
         iconLabel.setIcon(background);
         iconLabel.setBounds(0,0,width - 2,height - 2);
@@ -128,12 +140,12 @@ public class CyderFrame extends JFrame {
         iconPane.setBounds(1,1, width - 2, height - 2);
         iconPane.add(iconLabel,JLayeredPane.DEFAULT_LAYER);
         iconPane.setFocusable(false);
-
         contentLabel.add(iconPane,JLayeredPane.DEFAULT_LAYER);
 
         contentLabel.setBorder(new LineBorder(CyderColors.guiThemeColor, 3, false));
         setContentPane(contentLabel);
 
+        //top frame drag
         topDrag = new DragLabel(width, DragLabel.getDefaultHeight() - 1, this);
         topDrag.setBounds(0, 1, width, DragLabel.getDefaultHeight() - 1);
         topDrag.setxOffset(0);
@@ -141,6 +153,7 @@ public class CyderFrame extends JFrame {
         contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
         topDrag.setFocusable(false);
 
+        //left frame drag
         leftDrag = new DragLabel(4, height - DragLabel.getDefaultHeight() - 2, this);
         leftDrag.setBounds(1, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
         leftDrag.setxOffset(1);
@@ -149,6 +162,7 @@ public class CyderFrame extends JFrame {
         leftDrag.setFocusable(false);
         leftDrag.setButtonsList(null);
 
+        //right frame drag
         rightDrag = new DragLabel(4, height - DragLabel.getDefaultHeight() - 2, this);
         rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
         rightDrag.setxOffset(width - 5);
@@ -157,6 +171,7 @@ public class CyderFrame extends JFrame {
         rightDrag.setFocusable(false);
         rightDrag.setButtonsList(null);
 
+        //bottom frame drag
         bottomDrag = new DragLabel(width, 4, this);
         bottomDrag.setBounds(0, height - 5, width, 4);
         bottomDrag.setxOffset(0);
@@ -165,14 +180,18 @@ public class CyderFrame extends JFrame {
         bottomDrag.setFocusable(false);
         bottomDrag.setButtonsList(null);
 
+        //title label on drag label
         titleLabel = new JLabel("");
         titleLabel.setFont(CyderFonts.frameTitleFont);
         titleLabel.setForeground(CyderColors.vanila);
         titleLabel.setFocusable(false);
-
         topDrag.add(titleLabel);
 
+        //default boolean values
         this.threadsKilled = false;
+
+        //frame type handling
+        setFrameType(this.frameType);
     }
 
     @Override
@@ -347,6 +366,32 @@ public class CyderFrame extends JFrame {
         } else if (buttonPosition == ButtonPosition.LEFT && titlePosition == TitlePosition.LEFT) {
             this.titlePosition = TitlePosition.RIGHT;
             titleLabel.setLocation(this.width -getMinWidth(this.title), 2);
+        }
+    }
+
+    public FrameType getFrameType() {
+        return frameType;
+    }
+
+    public void setFrameType(FrameType frameType) {
+        this.frameType = frameType;
+
+        switch (this.frameType) {
+            case DEFAULT:
+                this.setAlwaysOnTop(false);
+                break;
+            case POPUP:
+                this.setAlwaysOnTop(true);
+                //remove minimize
+                topDrag.removeButton(0);
+                //remove pin
+                topDrag.removeButton(0);
+                break;
+            case INPUT_GETTER:
+                this.setAlwaysOnTop(true);
+                //remove pin
+                topDrag.removeButton(1);
+                break;
         }
     }
 
