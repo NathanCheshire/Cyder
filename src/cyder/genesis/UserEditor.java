@@ -980,6 +980,7 @@ public class UserEditor {
                     }
                 }
             };
+            //todo typinganimation and typinganimationsound still linked somehow and toggled together
             togglePrefLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {

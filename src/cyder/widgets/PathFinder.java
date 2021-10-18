@@ -26,6 +26,7 @@ public class PathFinder {
     private static CyderCheckBox showStepsBox;
     private static CyderCheckBox diagonalBox;
     private static CyderCheckBox deleteWallsCheckBox;
+    private static CyderCheckBox optimalPathCheckBox;
     private static CyderFrame pathFindingFrame;
     private static CyderButton reset;
     private static CyderButton startButton;
@@ -364,12 +365,12 @@ public class PathFinder {
         pathFindingFrame.getContentPane().add(gridLabel);
 
         CyderLabel deleteWallsLabel = new CyderLabel("Delete Walls");
-        deleteWallsLabel.setBounds(95,885,100,30);
+        deleteWallsLabel.setBounds(70,885,100,30);
         pathFindingFrame.getContentPane().add(deleteWallsLabel);
 
         deleteWallsCheckBox = new CyderCheckBox();
         deleteWallsCheckBox.setNotSelected();
-        deleteWallsCheckBox.setBounds(120, 920,50,50);
+        deleteWallsCheckBox.setBounds(100, 920,50,50);
         pathFindingFrame.getContentPane().add(deleteWallsCheckBox);
         deleteWallsCheckBox.addMouseListener(new MouseAdapter() {
             @Override
@@ -378,6 +379,15 @@ public class PathFinder {
                 deleteWallsMode = !deleteWallsMode;
             }
         });
+
+        CyderLabel optimalPathLabel = new CyderLabel("Optimal");
+        optimalPathLabel.setBounds(150,885,100,30);
+        pathFindingFrame.getContentPane().add(optimalPathLabel);
+
+        optimalPathCheckBox = new CyderCheckBox();
+        optimalPathCheckBox.setNotSelected();
+        optimalPathCheckBox.setBounds(175, 920,50,50);
+        pathFindingFrame.getContentPane().add(optimalPathCheckBox);
 
         CyderLabel showStepsLabel = new CyderLabel("Steps");
         showStepsLabel.setBounds(75 + 70 + 67,885,100,30);
