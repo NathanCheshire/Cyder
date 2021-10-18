@@ -20,6 +20,7 @@ public class GenericInformer {
 
             CyderFrame informFrame = new CyderFrame(boundsString.getWidth() + 40,
                     boundsString.getHeight() + 40, CyderImages.defaultBackgroundLarge);
+            informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(title);
             informFrame.add(textLabel);
 
@@ -44,6 +45,7 @@ public class GenericInformer {
 
             CyderFrame informFrame = new CyderFrame(boundsString.getWidth() + 20,
                     boundsString.getHeight() + 40, CyderImages.defaultBackgroundLarge);
+            informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(title);
             informFrame.add(textLabel);
 

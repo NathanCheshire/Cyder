@@ -73,6 +73,7 @@ public class GetterUtil {
         new Thread(() -> {
             try {
                 CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
+                inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(getStringFrameTitle());
 
                 CyderTextField inputField = new CyderTextField(0);
@@ -151,6 +152,7 @@ public class GetterUtil {
         new Thread(() -> {
             try {
                 CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
+                inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(getStringFrameTitle());
 
                 CyderTextField inputField = new CyderTextField(0);
@@ -264,6 +266,7 @@ public class GetterUtil {
         new Thread(() -> {
             try {
                 CyderFrame frame = new CyderFrame(1,1, new ImageIcon(""));
+                frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 frame.setTitle("");
                 final JFXPanel fxPanel = new JFXPanel();
                 frame.add(fxPanel);
@@ -347,6 +350,7 @@ public class GetterUtil {
                 textLabel.setText(bs.getText());
 
                 confirmationFrame[0] = new CyderFrame(w + 40, h + 25 + 20 + 40 + 40);
+                confirmationFrame[0].setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 confirmationFrame[0].setTitle("Confirmation");
                 confirmationFrame[0].addPreCloseAction(() -> retString[0] = "false");
 
