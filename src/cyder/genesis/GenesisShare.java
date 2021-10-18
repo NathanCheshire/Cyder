@@ -116,7 +116,9 @@ public class GenesisShare {
         ret.add(new Preference("minimizeonclose","Minimize On Close",
                 "Minimize the application instead of exiting whenever a close action is requested","0"));
         ret.add(new Preference("typinganimation","Typing Animation",
-                "Typing Animation on console for non-vital outputs", "1"));
+                "Typing animation on console for non-vital outputs", "1"));
+        ret.add(new Preference("typinganimationsound","Typing Animation Sound",
+                "Typing animation sound effect to play if typing animation is enabled","1"));
         ret.add(new Preference("showbusyicon", "Show Cyder Busy Icon",
                 "Show when Cyder is busy by changing the tray icon","0"));
         ret.add(new Preference("ffmpegpath","IGNORE","",""));

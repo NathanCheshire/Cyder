@@ -1052,16 +1052,18 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("sys/pictures/print/x.png").getImage());
         } else if (hasWord("issue") || hasWord("issues")) {
-            GitHubUtil.Issue[] issues = GitHubUtil.getIssues();
-            println(issues.length + " issue" + (issues.length == 1 ? "" : "s") + " found:\n");
-            println("----------------------------------------");
-
-            for (GitHubUtil.Issue issue: issues) {
-                println("Issue #" + issue.number);
-                println(issue.title);
-                println(issue.body);
+            new Thread(() -> {
+                GitHubUtil.Issue[] issues = GitHubUtil.getIssues();
+                println(issues.length + " issue" + (issues.length == 1 ? "" : "s") + " found:\n");
                 println("----------------------------------------");
-            }
+
+                for (GitHubUtil.Issue issue: issues) {
+                    println("Issue #" + issue.number);
+                    println(issue.title);
+                    println(issue.body);
+                    println("----------------------------------------");
+                }
+            }, "GitHub issue printer").start();
         }
         //t3sting -------------------------------------------------
         else if (eic("test")) {
@@ -1325,8 +1327,7 @@ public class InputHandler {
         boolean ret = false;
 
         for (Preference pref : GenesisShare.getPrefs()) {
-
-            if (op.toLowerCase().contains(pref.getID().toLowerCase()) && !pref.getDisplayName().equals("IGNORE")) {
+            if (op.equalsIgnoreCase(pref.getID()) && !pref.getDisplayName().equals("IGNORE")) {
                 if (op.contains("1") || op.toLowerCase().contains("true")) {
                     UserUtil.setUserData(pref.getID(), "1");
                     println(pref.getDisplayName() + " set to true");
@@ -1537,12 +1538,23 @@ public class InputHandler {
         }, "Console Printing Animation").start();
     }
 
+    private int playInc = 0;
+    private int playRate = 2;
+
     private void innerConsolePrint(char c) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(), String.valueOf(c), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
-            IOUtil.playSystemAudio("sys/audio/Typing.mp3");
+
+            if (playInc == playRate - 1) {
+                if (!finishPrinting && UserUtil.extractUser().getTypinganimationsound().equals("1")) {
+                    IOUtil.playSystemAudio("sys/audio/Typing.mp3");
+                    playInc = 0;
+                }
+            } else {
+                playInc++;
+            }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

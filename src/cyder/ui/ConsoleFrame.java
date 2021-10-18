@@ -2832,7 +2832,10 @@ public final class ConsoleFrame {
     }
 
     public void refreshClockText() {
-        String time = TimeUtil.consoleSecondTime();
+        String time = TimeUtil.consoleTime();
+        int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont());
+        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
+        consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2, consoleClockLabel.getY(), w, h);
         consoleClockLabel.setText(time);
     }
 }

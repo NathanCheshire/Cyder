@@ -983,7 +983,9 @@ public class UserEditor {
             togglePrefLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    boolean wasSelected = UserUtil.getUserData((GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
+                    System.out.println("clicked");
+                    boolean wasSelected = UserUtil.getUserData(
+                            (GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
                     UserUtil.setUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
 
                     ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
