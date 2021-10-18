@@ -1894,7 +1894,7 @@ public class InputHandler {
         //kill system threads
         SystemUtil.killThreads();
         //stop music
-        IOUtil.stopAudio();
+        IOUtil.stopAllAudio();
         //cancel dancing threads
         for (Frame f : Frame.getFrames()) {
             if (f instanceof CyderFrame)
