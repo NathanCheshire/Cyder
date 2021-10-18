@@ -265,7 +265,9 @@ public class IOUtil {
         try {
             FileInputStream FileInputStream = new FileInputStream(FilePath);
             Player systemPlayer = new Player(FileInputStream);
-            SessionLogger.log(SessionLogger.Tag.ACTION,"[SYSTEM AUDIO] " + FilePath);
+
+            if (!FilePath.equals("sys/audio/Typing.mp3"))
+                SessionLogger.log(SessionLogger.Tag.ACTION,"[SYSTEM AUDIO] " + FilePath);
             new Thread(() -> {
                 try {
                     systemPlayer.play();
