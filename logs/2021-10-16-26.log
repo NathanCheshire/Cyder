@@ -1,9 +1,0 @@
-[00:45:43] [ENTRY]: [WINUSER=Nathan]
-[00:45:44] [JAVA ARGS]: [LOCATION] [400 S. Monroe St. Tallahassee, FL]
-[00:45:45] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[00:45:45] [LOGIN]: [AUTOCYPHER PASS]
-[00:45:46] [CLIENT]: [SIMULATED INPUT] test
-[00:45:50] [CLIENT]: Hash
-[00:45:50] [ACTION]: SHA256 HASHER
-[00:45:51] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=557721043, text=[Hash] parentFrame=[Hasher]
-[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
