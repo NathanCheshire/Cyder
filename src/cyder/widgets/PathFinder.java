@@ -47,6 +47,7 @@ public class PathFinder {
     private static boolean eToggled;
     private static boolean sToggled;
     private static boolean deleteWallsMode;
+    private static boolean optimalPath;
 
     private static String pathText = "";
     private static Color pathColor = Color.darkGray;
@@ -116,7 +117,8 @@ public class PathFinder {
                     }
 
                     //draw path in blue
-                    if (end != null && end.getParent() != null && !path.isEmpty()) {
+                    if (end != null && end.getParent() != null
+                            && !path.isEmpty() && !timer.isRunning()) {
                         Node currentRef = end.getParent();
 
                         while (currentRef != null && currentRef != start) {
@@ -130,7 +132,8 @@ public class PathFinder {
                     }
 
                     //path drawing
-                    if (end != null && end.getParent() != null) {
+                    if (end != null && end.getParent() != null
+                            && !path.isEmpty() && !timer.isRunning()) {
                         Node refNode = end.getParent();
 
                         while (refNode != start) {
@@ -387,6 +390,13 @@ public class PathFinder {
         optimalPathCheckBox = new CyderCheckBox();
         optimalPathCheckBox.setNotSelected();
         optimalPathCheckBox.setBounds(175, 920,50,50);
+        optimalPathCheckBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                optimalPath = !optimalPath;
+            }
+        });
         pathFindingFrame.getContentPane().add(optimalPathCheckBox);
 
         CyderLabel showStepsLabel = new CyderLabel("Steps");
@@ -590,7 +600,9 @@ public class PathFinder {
                 Node min = open.poll();
                 open.remove(min);
 
-                if (min.equals(end)) {
+                if (min.equals(end) && optimalPath) {
+                    end.setParent(min.getParent());
+                } else if (min.equals(end)) {
                     end.setParent(min.getParent());
                     pathFound();
                     return;
@@ -622,7 +634,11 @@ public class PathFinder {
                 }
             }
 
-            pathNotFound();
+            if (end.getParent() != null) {
+                pathFound();
+            } else {
+                pathNotFound();
+            }
         }
     }
 
@@ -632,7 +648,9 @@ public class PathFinder {
             Node min = open.poll();
             open.remove(min);
 
-            if (min.equals(end)) {
+            if (min.equals(end) && optimalPath) {
+                end.setParent(min.getParent());
+            } else if (min.equals(end)) {
                 end.setParent(min.getParent());
                 pathFound();
                 return;
@@ -663,7 +681,11 @@ public class PathFinder {
                 }
             }
         } else {
-            pathNotFound();
+            if (end.getParent() != null) {
+                pathFound();
+            } else {
+                pathNotFound();
+            }
         }
     };
 
