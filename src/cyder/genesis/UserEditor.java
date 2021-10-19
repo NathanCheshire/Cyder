@@ -980,12 +980,14 @@ public class UserEditor {
                     }
                 }
             };
-            //todo typinganimation and typinganimationsound still linked somehow and toggled together
+
             togglePrefLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     boolean wasSelected = UserUtil.getUserData(
                             (GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
+                    //correct pref is found here, error must result in setting use data
+                    System.out.println("found: " + GenesisShare.getPrefs().get(localIndex).getID());
                     UserUtil.setUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
 
                     ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();

@@ -34,7 +34,7 @@ public class UserUtil {
             for (Method m : user.getClass().getMethods()) {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
-                        && m.getName().toLowerCase().contains(name.toLowerCase())) {
+                        && m.getName().replace("set","").equalsIgnoreCase(name)) {
                     m.invoke(user, value);
                     break;
                 }
@@ -56,7 +56,7 @@ public class UserUtil {
             for (Method m : user.getClass().getMethods()) {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
-                        && m.getName().toLowerCase().contains(name.toLowerCase())) {
+                        && m.getName().replace("set","").equalsIgnoreCase(name)) {
                     m.invoke(user, value);
                     break;
                 }
@@ -86,7 +86,7 @@ public class UserUtil {
             for (Method m : user.getClass().getMethods()) {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
-                        && m.getName().toLowerCase().contains(name.toLowerCase())) {
+                        && m.getName().replace("set","").equalsIgnoreCase(name)) {
                     m.invoke(user, value);
                     break;
                 }
@@ -124,6 +124,10 @@ public class UserUtil {
         }
     }
 
+    /**
+     * Writes the given user to the current user's Json file
+     * @param u - the user to serialize and write to a file
+     */
     public static void setUserData(User u) {
         File f = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
 
