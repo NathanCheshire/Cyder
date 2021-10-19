@@ -437,7 +437,7 @@ public class IOUtil {
      */
     public static void changePassword(char[] newPassword) {
         try {
-            UserUtil.setUserData("password", SecurityUtil.toHexString(SecurityUtil.getSHA256(
+            UserUtil.setUserData("pass", SecurityUtil.toHexString(SecurityUtil.getSHA256(
                     SecurityUtil.toHexString(SecurityUtil.getSHA256(newPassword)).toCharArray())));
         } catch (Exception e) {
             ErrorHandler.handle(e);

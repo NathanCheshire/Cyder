@@ -147,4 +147,29 @@ public class CyderTextField extends JTextField {
             //todo remove somehow
         }
     }
+
+    public static void addAutoCapitalizationAdapter(JTextField tf) {
+        tf.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (tf.getText().length() == 1) {
+                    tf.setText(tf.getText().toUpperCase());
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (tf.getText().length() == 1) {
+                    tf.setText(tf.getText().toUpperCase());
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (tf.getText().length() == 1) {
+                    tf.setText(tf.getText().toUpperCase());
+                }
+            }
+        });
+    }
 }

@@ -18,7 +18,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
@@ -103,6 +102,7 @@ public class UserEditor {
         backwardPanel.setBounds(20, 260, 50, 120);
         editUserFrame.getContentPane().add(backwardPanel);
 
+        //todo better place for this and have to enter your password?
         forwardPanel = new CyderButton(">");
         forwardPanel.setBackground(CyderColors.regularRed);
         forwardPanel.setColors(CyderColors.regularRed);
@@ -127,51 +127,7 @@ public class UserEditor {
         deleteUser.setBounds(375, 590, 150, 90);
         editUserFrame.getContentPane().add(deleteUser);
 
-        CyderPasswordField changePasswordField = new CyderPasswordField();
-        changePasswordField.setToolTipText("New Password");
-        changePasswordField.setBounds(550, 590, 120, 40);
-        editUserFrame.getContentPane().add(changePasswordField);
-
-        CyderPasswordField changePasswordConfField = new CyderPasswordField();
-        changePasswordConfField.addActionListener(e -> changePassword.doClick());
-        changePasswordConfField.setToolTipText("New Password Confirmation");
-        changePasswordConfField.setBounds(680, 590, 130, 40);
-        editUserFrame.getContentPane().add(changePasswordConfField);
-
-        changePassword = new CyderButton("Change Password");
-        changePassword.setBackground(CyderColors.regularRed);
-        changePassword.setColors(CyderColors.regularRed);
-        changePassword.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        changePassword.setFont(CyderFonts.weatherFontSmall);
-        changePassword.addActionListener(e -> {
-            char[] newPassword = changePasswordField.getPassword();
-            char[] newPasswordConf = changePasswordConfField.getPassword();
-
-            if (newPassword.length > 4) {
-                if (!Arrays.equals(newPasswordConf,newPassword)) {
-                    editUserFrame.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
-                            "but your provided passwords were not equal", "");
-                    changePasswordField.setText("");
-                    changePasswordConfField.setText("");
-                } else {
-                    IOUtil.changePassword(newPassword);
-                    editUserFrame.inform("Password successfully changed", "");
-                }
-            } else {
-                editUserFrame.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
-                        "but your password must be greater than 4 characters for security reasons.", "");
-            }
-            changePasswordField.setText("");
-            changePasswordConfField.setText("");
-
-            for (char c : newPassword) {
-                c = '\0';
-            }
-        });
-        changePassword.setBounds(550, 640, 260, 40);
-        editUserFrame.getContentPane().add(changePassword);
         editUserFrame.setVisible(true);
-
         editUserFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
@@ -1009,28 +965,7 @@ public class UserEditor {
         changeUsernameField.setCaret(new CyderCaret(CyderColors.navy));
         changeUsernameField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         changeUsernameField.setOpaque(true);
-        changeUsernameField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if (changeUsernameField.getText().length() == 1) {
-                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (changeUsernameField.getText().length() == 1) {
-                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (changeUsernameField.getText().length() == 1) {
-                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
-                }
-            }
-        });
+        CyderTextField.addAutoCapitalizationAdapter(changeUsernameField);
         printingUtil.printlnComponent(changeUsernameField);
         changeUsernameField.setText(UserUtil.extractUser().getName());
 
@@ -1050,6 +985,60 @@ public class UserEditor {
             }
         });
         printingUtil.printlnComponent(changeUsernameButton);
+
+        printingUtil.print("\n\n");
+
+        CyderLabel changePasswordLabel = new CyderLabel("Change password");
+        printingUtil.printlnComponent(changePasswordLabel);
+
+        printingUtil.print("\n");
+
+        //needed for focus traversal
+        CyderPasswordField changePasswordConfField = new CyderPasswordField();
+
+        CyderPasswordField changePasswordField = new CyderPasswordField();
+        changePasswordField.setFont(changeUsernameField.getFont());
+        changePasswordField.addActionListener(e -> changePasswordConfField.requestFocus());
+        changePasswordField.setToolTipText("New Password");
+        printingUtil.printlnComponent(changePasswordField);
+
+        printingUtil.print("\n");
+
+        changePasswordConfField.addActionListener(e -> changePassword.doClick());
+        changePasswordConfField.setFont(changePasswordField.getFont());
+        changePasswordConfField.setToolTipText("New Password Confirmation");
+        printingUtil.printlnComponent(changePasswordConfField);
+
+        printingUtil.print("\n");
+
+        changePassword = new CyderButton("  Change Password ");
+        changePassword.addActionListener(e -> {
+            char[] newPassword = changePasswordField.getPassword();
+            char[] newPasswordConf = changePasswordConfField.getPassword();
+
+            if (newPassword.length > 4) {
+                if (!Arrays.equals(newPasswordConf,newPassword)) {
+                    editUserFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
+                            "but your provided passwords were not equal");
+                    changePasswordField.setText("");
+                    changePasswordConfField.setText("");
+                } else {
+                    IOUtil.changePassword(newPassword);
+                    editUserFrame.notify("Password successfully changed");
+                }
+            } else {
+                editUserFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
+                        "but your password must be greater than 4 characters for security reasons.");
+            }
+
+            changePasswordField.setText("");
+            changePasswordConfField.setText("");
+
+            for (char c : newPassword) {
+                c = '\0';
+            }
+        });
+        printingUtil.printlnComponent(changePassword);
 
         printingUtil.print("\n\n");
 
