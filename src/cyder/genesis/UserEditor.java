@@ -959,7 +959,7 @@ public class UserEditor {
         changeUsernameField.setToolTipText("Change account username to a valid alternative");
         changeUsernameField.setBackground(CyderColors.vanila);
         changeUsernameField.setSelectionColor(CyderColors.selectionColor);
-        changeUsernameField.setFont(CyderFonts.weatherFontSmall);
+        changeUsernameField.setFont(new Font("Agency FB",Font.BOLD, 20));
         changeUsernameField.setForeground(CyderColors.navy);
         changeUsernameField.setCaretColor(CyderColors.navy);
         changeUsernameField.setCaret(new CyderCaret(CyderColors.navy));
