@@ -13,7 +13,9 @@ import cyder.widgets.ColorConverter;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.text.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -25,8 +27,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class UserEditor {
@@ -45,7 +47,6 @@ public class UserEditor {
 
     private static LinkedList<String> fontList = new LinkedList<>();
 
-    private static CyderButton changeUsername;
     private static CyderButton changePassword;
 
     private static CyderButton forwardPanel;
@@ -110,53 +111,6 @@ public class UserEditor {
         forwardPanel.addActionListener(e -> nextEditUser());
         forwardPanel.setBounds(830, 260, 50, 120);
         editUserFrame.getContentPane().add(forwardPanel);
-
-        CyderTextField changeUsernameField = new CyderTextField(0);
-        changeUsernameField.addActionListener(e -> changeUsername.doClick());
-        changeUsernameField.setToolTipText("New Username");
-        changeUsernameField.setBackground(Color.white);
-        changeUsernameField.setFont(CyderFonts.weatherFontSmall);
-        changeUsernameField.setBounds(90, 590, 260, 40);
-        editUserFrame.getContentPane().add(changeUsernameField);
-
-        changeUsername = new CyderButton("Change Username");
-        changeUsername.setBackground(CyderColors.regularRed);
-        changeUsername.setColors(CyderColors.regularRed);
-        changeUsername.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        changeUsername.setFont(CyderFonts.weatherFontSmall);
-        changeUsername.addActionListener(e -> {
-            String newUsername = changeUsernameField.getText();
-            if (!StringUtil.empytStr(newUsername) && !newUsername.equalsIgnoreCase(ConsoleFrame.getConsoleFrame().getUsername())) {
-                IOUtil.changeUsername(newUsername);
-                editUserFrame.inform("Username successfully changed to \"" + newUsername + "\"", "");
-                ConsoleFrame.getConsoleFrame().setTitle(IOUtil.getSystemData().getVersion() + " Cyder [" + newUsername + "]");
-                changeUsernameField.setText("");
-            }
-        });
-        changeUsernameField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if (changeUsernameField.getText().length() == 1) {
-                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (changeUsernameField.getText().length() == 1) {
-                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (changeUsernameField.getText().length() == 1) {
-                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
-                }
-            }
-        });
-        changeUsername.setBounds(90, 640, 260, 40);
-        editUserFrame.getContentPane().add(changeUsername);
 
         CyderButton deleteUser = new CyderButton("Delete User");
         deleteUser.setBackground(CyderColors.regularRed);
@@ -986,8 +940,6 @@ public class UserEditor {
                 public void mouseClicked(MouseEvent e) {
                     boolean wasSelected = UserUtil.getUserData(
                             (GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
-                    //correct pref is found here, error must result in setting use data
-                    System.out.println("found: " + GenesisShare.getPrefs().get(localIndex).getID());
                     UserUtil.setUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
 
                     ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
@@ -1038,7 +990,68 @@ public class UserEditor {
         prefsTitle.setFont(CyderFonts.weatherFontBig);
         printingUtil.printlnComponent(prefsTitle);
 
-        printingUtil.println("\n");
+        printingUtil.print("\n\n");
+
+        CyderLabel changeUsernameLabel = new CyderLabel("Change username");
+        printingUtil.printlnComponent(changeUsernameLabel);
+
+        printingUtil.print("\n");
+
+        CyderButton changeUsernameButton = new CyderButton("   Change Username   ");
+        JTextField changeUsernameField = new JTextField(0);
+        changeUsernameField.addActionListener(e -> changeUsernameButton.doClick());
+        changeUsernameField.setToolTipText("Change account username to a valid alternative");
+        changeUsernameField.setBackground(CyderColors.vanila);
+        changeUsernameField.setSelectionColor(CyderColors.selectionColor);
+        changeUsernameField.setFont(CyderFonts.weatherFontSmall);
+        changeUsernameField.setForeground(CyderColors.navy);
+        changeUsernameField.setCaretColor(CyderColors.navy);
+        changeUsernameField.setCaret(new CyderCaret(CyderColors.navy));
+        changeUsernameField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        changeUsernameField.setOpaque(true);
+        changeUsernameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (changeUsernameField.getText().length() == 1) {
+                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (changeUsernameField.getText().length() == 1) {
+                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (changeUsernameField.getText().length() == 1) {
+                    changeUsernameField.setText(changeUsernameField.getText().toUpperCase());
+                }
+            }
+        });
+        printingUtil.printlnComponent(changeUsernameField);
+        changeUsernameField.setText(UserUtil.extractUser().getName());
+
+        printingUtil.print("\n");
+
+        changeUsernameButton.setBackground(CyderColors.regularRed);
+        changeUsernameButton.setColors(CyderColors.regularRed);
+        changeUsernameButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        changeUsernameButton.setFont(CyderFonts.weatherFontSmall);
+        changeUsernameButton.addActionListener(e -> {
+            String newUsername = changeUsernameField.getText();
+            if (!StringUtil.empytStr(newUsername) && !newUsername.equalsIgnoreCase(ConsoleFrame.getConsoleFrame().getUsername())) {
+                IOUtil.changeUsername(newUsername);
+                editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
+                ConsoleFrame.getConsoleFrame().setTitle(IOUtil.getSystemData().getVersion() + " Cyder [" + newUsername + "]");
+                changeUsernameField.setText(UserUtil.extractUser().getName());
+            }
+        });
+        printingUtil.printlnComponent(changeUsernameButton);
+
+        printingUtil.print("\n\n");
 
         CyderLabel consoleDatePatternLabel = new CyderLabel("ConsoleClock Date Pattern");
         printingUtil.printlnComponent(consoleDatePatternLabel);
