@@ -60,11 +60,11 @@ public class UserEditor {
         if (editUserFrame != null)
             editUserFrame.dispose();
 
-        editUserFrame = new CyderFrame(900, 700, CyderImages.defaultBackground);
+        editUserFrame = new CyderFrame(900, 620, CyderImages.defaultBackground);
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
         editUserFrame.initializeResizing();
-        editUserFrame.setMaximumSize(new Dimension(900,700));
+        editUserFrame.setMaximumSize(new Dimension(900,620));
         editUserFrame.setResizable(true);
         editUserFrame.addPreCloseAction(() -> ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs());
 
@@ -102,7 +102,9 @@ public class UserEditor {
         backwardPanel.setBounds(20, 260, 50, 120);
         editUserFrame.getContentPane().add(backwardPanel);
 
-        //todo better place for this and have to enter your password?
+        //todo make universal color for button to be changed too
+        // (in preparation for dark mode, white buttons and gray backgrounds) wih black frame borders
+
         forwardPanel = new CyderButton(">");
         forwardPanel.setBackground(CyderColors.regularRed);
         forwardPanel.setColors(CyderColors.regularRed);
@@ -112,20 +114,7 @@ public class UserEditor {
         forwardPanel.setBounds(830, 260, 50, 120);
         editUserFrame.getContentPane().add(forwardPanel);
 
-        CyderButton deleteUser = new CyderButton("Delete User");
-        deleteUser.setBackground(CyderColors.regularRed);
-        deleteUser.setColors(CyderColors.regularRed);
-        deleteUser.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        deleteUser.setFont(CyderFonts.weatherFontSmall);
-        deleteUser.addActionListener(e -> {
-            ConsoleFrame.getConsoleFrame().getInputHandler().println("Are you sure you want to permanently " +
-                    "delete this account? This action cannot be undone! (yes/no)");
-            ConsoleFrame.getConsoleFrame().getInputHandler().setUserInputMode(true);
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            ConsoleFrame.getConsoleFrame().getInputHandler().setUserInputDesc("deleteuser");
-        });
-        deleteUser.setBounds(375, 590, 150, 90);
-        editUserFrame.getContentPane().add(deleteUser);
+        //todo shrink frame
 
         editUserFrame.setVisible(true);
         editUserFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
@@ -1011,7 +1000,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        changePassword = new CyderButton("  Change Password ");
+        changePassword = new CyderButton("    Change Password    ");
         changePassword.addActionListener(e -> {
             char[] newPassword = changePasswordField.getPassword();
             char[] newPasswordConf = changePasswordConfField.getPassword();
@@ -1088,7 +1077,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton addMapButton = new CyderButton("Add Map");
+        CyderButton addMapButton = new CyderButton("    Add Map    ");
         JTextField addMapField = new JTextField(0);
         addMapField.addActionListener(e -> addMapButton.doClick());
         addMapField.setToolTipText("Add format: \"map name, PATH/TO/EXE OR FILE\"");
@@ -1164,7 +1153,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton removeMapButton = new CyderButton("Remove Map");
+        CyderButton removeMapButton = new CyderButton("    Remove Map   ");
         JTextField removeMapField = new JTextField(0);
         removeMapField.addActionListener(e -> removeMapButton.doClick());
         removeMapField.setToolTipText("Name of already mapped executable to remove");
@@ -1217,7 +1206,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton validateFfmpegButton = new CyderButton("Validate Path");
+        CyderButton validateFfmpegButton = new CyderButton("    Validate Path   ");
         JTextField ffmpegField = new JTextField(0);
         ffmpegField.addActionListener(e -> validateFfmpegButton.doClick());
         ffmpegField.setToolTipText("Path to ffmpeg.exe");
@@ -1260,7 +1249,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        CyderButton validateYouTubeDL = new CyderButton("Validate Path");
+        CyderButton validateYouTubeDL = new CyderButton("   Validate Path  ");
         JTextField youtubedlField = new JTextField(0);
         youtubedlField.addActionListener(e -> validateYouTubeDL.doClick());
         youtubedlField.setToolTipText("Path to youtubedl.exe");
@@ -1297,6 +1286,49 @@ public class UserEditor {
         printingUtil.printlnComponent(validateYouTubeDL);
 
         printingUtil.print("\n\n");
+
+        CyderLabel deleteUserLabel = new CyderLabel("Delete User");
+        printingUtil.printlnComponent(deleteUserLabel);
+
+        CyderButton deleteUserButton = new CyderButton("    Delete user    ");
+        CyderPasswordField deletePasswordField = new CyderPasswordField();
+        deletePasswordField.setToolTipText("Enter password to confirm account deletion");
+        deletePasswordField.addActionListener(e -> deleteUserButton.doClick());
+        printingUtil.printlnComponent(deletePasswordField);
+
+        printingUtil.print("\n");
+
+        deleteUserButton.addActionListener(e -> {
+            String hashed = SecurityUtil.toHexString(SecurityUtil.getSHA256(deletePasswordField.getPassword()));
+
+            if (!SecurityUtil.toHexString(SecurityUtil.getSHA256(hashed.toCharArray())).equals(UserUtil.extractUser().getPass())) {
+                editUserFrame.notify("Sorry, but the password you entered was incorrect; user not deleted");
+                deletePasswordField.setText("");
+                return;
+            }
+
+            ConsoleFrame.getConsoleFrame().close();
+            SystemUtil.deleteFolder(new File("users/" + ConsoleFrame.getConsoleFrame().getUUID()));
+
+            String dep = SecurityUtil.getDeprecatedUUID();
+
+            File renamed = new File("users/" + dep);
+            while (renamed.exists()) {
+                dep = SecurityUtil.getDeprecatedUUID();
+                renamed = new File("users/" + dep);
+            }
+
+            File old = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID());
+            old.renameTo(renamed);
+
+            Frame[] frames = Frame.getFrames();
+
+            for (Frame f : frames)
+                f.dispose();
+
+            GenesisShare.exit(-56);
+        });
+        printingUtil.printlnComponent(deleteUserButton);
 
         //more labels, fields, and if applicable, validation buttons here
 
