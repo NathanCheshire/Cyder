@@ -4,7 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
-import cyder.genobjects.Preference;
+import cyder.genesis.GenesisShare.Preference;
 import cyder.genobjects.User;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;

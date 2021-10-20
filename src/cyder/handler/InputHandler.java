@@ -10,7 +10,7 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.Login;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
-import cyder.genobjects.Preference;
+import cyder.genesis.GenesisShare.Preference;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;

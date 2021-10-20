@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
-import cyder.genobjects.Preference;
+import cyder.genesis.GenesisShare.Preference;
 import cyder.genobjects.User;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;

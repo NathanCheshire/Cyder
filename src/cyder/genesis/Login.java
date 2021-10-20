@@ -3,7 +3,7 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
-import cyder.genobjects.SystemData;
+import cyder.utilities.IOUtil.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;

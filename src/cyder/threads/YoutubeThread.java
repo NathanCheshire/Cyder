@@ -2,7 +2,7 @@ package cyder.threads;
 
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
-import cyder.genobjects.SystemData;
+import cyder.utilities.IOUtil.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
