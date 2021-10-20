@@ -93,7 +93,7 @@ public class CyderFrame extends JFrame {
         setSize(new Dimension(width, height));
         setResizable(false);
         setUndecorated(true);
-        setBackground(backgroundColor);
+        setBackground(CyderColors.regularRed);
         setIconImage(SystemUtil.getCyderIcon().getImage());
 
         //try and get preference for frame shape

@@ -105,6 +105,8 @@ public class UserEditor {
         //todo make universal color for button to be changed too
         // (in preparation for dark mode, white buttons and gray backgrounds) wih black frame borders
 
+        //todo resizing easier make 2 pixels instead of 1
+
         forwardPanel = new CyderButton(">");
         forwardPanel.setBackground(CyderColors.regularRed);
         forwardPanel.setColors(CyderColors.regularRed);
@@ -113,8 +115,6 @@ public class UserEditor {
         forwardPanel.addActionListener(e -> nextEditUser());
         forwardPanel.setBounds(830, 260, 50, 120);
         editUserFrame.getContentPane().add(forwardPanel);
-
-        //todo shrink frame
 
         editUserFrame.setVisible(true);
         editUserFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
@@ -883,9 +883,11 @@ public class UserEditor {
             togglePrefLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    boolean wasSelected = UserUtil.getUserData(
-                            (GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
-                    UserUtil.setUserData(GenesisShare.getPrefs().get(localIndex).getID(), wasSelected ? "0" : "1");
+                    super.mouseClicked(e);
+                    //todo possibly some weird bugs with this still
+                    String localID = GenesisShare.getPrefs().get(localIndex).getID();
+                    boolean wasSelected = UserUtil.getUserData(localID).equalsIgnoreCase("1");
+                    UserUtil.setUserData(localID, wasSelected ? "0" : "1");
 
                     ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
                     togglePrefLabel.repaint();
