@@ -119,13 +119,13 @@ public class CyderFrame extends JFrame {
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
-            if (index == JLayeredPane.DRAG_LAYER) {
-                return super.add(comp, index);
-            } else if (index == JLayeredPane.POPUP_LAYER) {
-                return super.add(comp, index);
-            }
+                if (index == JLayeredPane.DRAG_LAYER) {
+                    return super.add(comp, index);
+                } else if (index == JLayeredPane.POPUP_LAYER) {
+                    return super.add(comp, index);
+                }
 
-            return super.add(comp, 0);
+                return super.add(comp, 0);
             }
         };
         contentLabel.setFocusable(false);
@@ -1003,18 +1003,17 @@ public class CyderFrame extends JFrame {
         this.height = height;
 
         if (getTopDragLabel() != null) {
-           topDrag.setWidth(width - 4);
-           topDrag.setHeight(DragLabel.getDefaultHeight() - 2);
-           leftDrag.setWidth(3);
-           leftDrag.setHeight(height - DragLabel.getDefaultHeight() - 2);
-           rightDrag.setWidth(3);
-           rightDrag.setHeight(height - DragLabel.getDefaultHeight() - 2);
-           bottomDrag.setWidth(width - 4);
-           bottomDrag.setHeight(3);
+            topDrag.setWidth(width - 4);
+            topDrag.setHeight(DragLabel.getDefaultHeight() - 2);
+            leftDrag.setWidth(3);
+            leftDrag.setHeight(height - DragLabel.getDefaultHeight() - 2);
+            rightDrag.setWidth(3);
+            rightDrag.setHeight(height - DragLabel.getDefaultHeight() - 2);
+            bottomDrag.setWidth(width - 4);
+            bottomDrag.setHeight(3);
 
             refreshTitleAndButtonPosition();
 
-            //todo change all here
             topDrag.setBounds(2, 2, width - 4, DragLabel.getDefaultHeight() - 2);
             leftDrag.setBounds(2, DragLabel.getDefaultHeight(), 3, height - DragLabel.getDefaultHeight() - 2);
             rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 3, height - DragLabel.getDefaultHeight() - 2);
@@ -1169,8 +1168,8 @@ public class CyderFrame extends JFrame {
                         .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
             }
 
-            iconLabel.setBounds(0,0,width - 2,height - 2);
-            iconPane.setBounds(1,1, width - 2, height - 2);
+            iconLabel.setBounds(2,2,width - 4,height - 4);
+            iconPane.setBounds(2,2, width - 4, height - 4);
 
             revalidate();
             repaint();
@@ -1192,8 +1191,8 @@ public class CyderFrame extends JFrame {
             currentOrigIcon = icon;
             iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                     .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
-            iconLabel.setBounds(0,0,width - 2,height - 2);
-            iconPane.setBounds(1,1, width - 2, height - 2);
+            iconLabel.setBounds(2,2,width - 4,height - 4);
+            iconPane.setBounds(2,2, width - 4, height - 4);
 
             if (cr != null) {
                 cr.setMinimumSize(new Dimension(600,600));
@@ -1261,8 +1260,8 @@ public class CyderFrame extends JFrame {
 
         iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
-        iconLabel.setBounds(0,0,width - 2,height - 2);
-        iconPane.setBounds(1,1, width - 2, height - 2);
+        iconLabel.setBounds(2,2,width - 4,height - 4);
+        iconPane.setBounds(2,2, width - 4, height - 4);
     }
 
     public int getRestoreX() {

@@ -105,8 +105,6 @@ public class UserEditor {
         //todo make universal color for button to be changed too
         // (in preparation for dark mode, white buttons and gray backgrounds) wih black frame borders
 
-        //todo resizing easier make 2 pixels instead of 1
-
         //todo move needed objects to inner classes if they're only used there
 
         //todo update to java 16 if possible? why is it so hard?
