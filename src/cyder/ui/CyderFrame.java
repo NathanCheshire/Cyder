@@ -148,27 +148,23 @@ public class CyderFrame extends JFrame {
         //top frame drag
         topDrag = new DragLabel(width - 4, DragLabel.getDefaultHeight() - 2, this);
         topDrag.setBounds(2, 2, width - 4, DragLabel.getDefaultHeight() - 2);
-        topDrag.setColor(CyderColors.intellijPink);
         topDrag.setxOffset(2);
         topDrag.setyOffset(2);
         contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
         topDrag.setFocusable(false);
 
         //left frame drag
-        leftDrag = new DragLabel(3, height - 4 - DragLabel.getDefaultHeight(), this);
+        leftDrag = new DragLabel(3, height - 2 - DragLabel.getDefaultHeight(), this);
         leftDrag.setBounds(2, DragLabel.getDefaultHeight(), 3, height - DragLabel.getDefaultHeight() - 2);
-        leftDrag.setColor(CyderColors.intellijPink);
         leftDrag.setxOffset(2);
         leftDrag.setyOffset(DragLabel.getDefaultHeight());
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
         leftDrag.setFocusable(false);
         leftDrag.setButtonsList(null);
 
-        //todo
-
         //right frame drag
-        rightDrag = new DragLabel(4, height - DragLabel.getDefaultHeight() - 2, this);
-        rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
+        rightDrag = new DragLabel(3, height - 2 - DragLabel.getDefaultHeight(), this);
+        rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 3, height - DragLabel.getDefaultHeight() - 2);
         rightDrag.setxOffset(width - 5);
         rightDrag.setyOffset(DragLabel.getDefaultHeight());
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
@@ -176,9 +172,9 @@ public class CyderFrame extends JFrame {
         rightDrag.setButtonsList(null);
 
         //bottom frame drag
-        bottomDrag = new DragLabel(width, 4, this);
-        bottomDrag.setBounds(0, height - 5, width, 4);
-        bottomDrag.setxOffset(0);
+        bottomDrag = new DragLabel(width - 4, 3, this);
+        bottomDrag.setBounds(2, height - 5, width - 4, 3);
+        bottomDrag.setxOffset(2);
         bottomDrag.setyOffset(height - 5);
         contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
         bottomDrag.setFocusable(false);
@@ -1011,14 +1007,18 @@ public class CyderFrame extends JFrame {
            topDrag.setHeight(DragLabel.getDefaultHeight() - 2);
            leftDrag.setWidth(3);
            leftDrag.setHeight(height - DragLabel.getDefaultHeight() - 2);
+           rightDrag.setWidth(3);
+           rightDrag.setHeight(height - DragLabel.getDefaultHeight() - 2);
+           bottomDrag.setWidth(width - 4);
+           bottomDrag.setHeight(3);
 
             refreshTitleAndButtonPosition();
 
             //todo change all here
             topDrag.setBounds(2, 2, width - 4, DragLabel.getDefaultHeight() - 2);
             leftDrag.setBounds(2, DragLabel.getDefaultHeight(), 3, height - DragLabel.getDefaultHeight() - 2);
-            rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 4, height - DragLabel.getDefaultHeight() - 2);
-            bottomDrag.setBounds(0, height - 5, width, 4);
+            rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 3, height - DragLabel.getDefaultHeight() - 2);
+            bottomDrag.setBounds(2, height - 5, width - 4, 3);
 
             topDrag.setxOffset(2);
             topDrag.setyOffset(2);
@@ -1029,7 +1029,7 @@ public class CyderFrame extends JFrame {
             rightDrag.setxOffset(width - 5);
             rightDrag.setyOffset(DragLabel.getDefaultHeight());
 
-            bottomDrag.setxOffset(0);
+            bottomDrag.setxOffset(2);
             bottomDrag.setyOffset(height - 5);
         }
 
