@@ -5,7 +5,6 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.genobjects.BoundsString;
-import cyder.genobjects.Gluster;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.utilities.*;
@@ -68,7 +67,7 @@ public class CyderFrame extends JFrame {
 
     private Color backgroundColor = CyderColors.navy;
 
-    private LinkedList<Gluster> notificationList = new LinkedList<>();
+    private LinkedList<WaitingNotification> notificationList = new LinkedList<>();
 
     private String title = "";
 
@@ -590,8 +589,8 @@ public class CyderFrame extends JFrame {
      * @param vanishDir the exit direction of the notification
      */
     public void notify(String htmltext, int viewDuration, Direction arrowDir, Direction startDir, Direction vanishDir) {
-        //make a gluster and add to queue, queue will automatically process any notifications so no further actions needed
-        notificationList.add(new Gluster(htmltext, viewDuration, arrowDir, startDir, vanishDir));
+        //make a WaitingNotification and add to queue, queue will automatically process any notifications so no further actions needed
+        notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, startDir, vanishDir));
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
@@ -600,22 +599,22 @@ public class CyderFrame extends JFrame {
                 try {
                     while (this != null && !threadsKilled) {
                         if (notificationList.size() > 0) {
-                            Gluster currentGluster = notificationList.poll();
+                            WaitingNotification currentNotif = notificationList.poll();
 
                             //init notification object
                             currentNotification = new Notification();
 
                             //set the arrow direction
-                            currentNotification.setArrow(currentGluster.getArrowDir());
+                            currentNotification.setArrow(currentNotif.getArrowDir());
 
                             //create text label to go on top of notification label
                             JLabel text = new JLabel();
                             //use html so that it can line break when we need it to
-                            text.setText("<html>" + currentGluster.getHtmlText() + "</html>");
+                            text.setText("<html>" + currentNotif.getHtmlText() + "</html>");
 
                             Font notificationFont = CyderFonts.weatherFontSmall;
 
-                            BoundsString bs = BoundsUtil.widthHeightCalculation(currentGluster.getHtmlText(),
+                            BoundsString bs = BoundsUtil.widthHeightCalculation(currentNotif.getHtmlText(),
                                     (int) (this.width * 0.9), notificationFont);
 
                             int w = bs.getWidth();
@@ -644,11 +643,11 @@ public class CyderFrame extends JFrame {
                             });
                             currentNotification.add(disposeLabel);
 
-                            if (currentGluster.getStartDir() == Direction.LEFT)
+                            if (currentNotif.getStartDir() == Direction.LEFT)
                                 currentNotification.setLocation(-currentNotification.getWidth() + 5, topDrag.getHeight());
-                            else if (currentGluster.getStartDir() == Direction.RIGHT)
+                            else if (currentNotif.getStartDir() == Direction.RIGHT)
                                 currentNotification.setLocation(getContentPane().getWidth() - 5, topDrag.getHeight());
-                            else if (currentGluster.getStartDir() == Direction.BOTTOM)
+                            else if (currentNotif.getStartDir() == Direction.BOTTOM)
                                 currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
                                         getHeight());
                             else
@@ -660,16 +659,16 @@ public class CyderFrame extends JFrame {
 
                             //log the notification
                             SessionLogger.log(SessionLogger.Tag.ACTION, "[" +
-                                    this.getTitle() + "] [NOTIFICATION] " + currentGluster.getHtmlText());
+                                    this.getTitle() + "] [NOTIFICATION] " + currentNotif.getHtmlText());
 
                             //duration is always 300ms per word unless less than 5 seconds
                             int duration = 300 * StringUtil.countWords(
                                     Jsoup.clean(bs.getText(), Safelist.none())
                             );
                             duration = Math.max(duration, 5000);
-                            duration = currentGluster.getDuration() == 0 ?
-                                    duration : currentGluster.getDuration();
-                            currentNotification.appear(currentGluster.getStartDir(), currentGluster.getVanishDir(),
+                            duration = currentNotif.getDuration() == 0 ?
+                                    duration : currentNotif.getDuration();
+                            currentNotification.appear(currentNotif.getStartDir(), currentNotif.getVanishDir(),
                                     getContentPane(), duration);
 
                             while (getCurrentNotification().isVisible())
@@ -1484,5 +1483,83 @@ public class CyderFrame extends JFrame {
 
     public void setyPercent(double yPercent) {
         this.yPercent = yPercent;
+    }
+
+    //inner classes
+
+    //inner classes
+    private static class WaitingNotification {
+        private String htmlText;
+        private int duration;
+        private Direction arrowDir;
+        private Direction startDir;
+        private Direction vanishDir;
+
+        /**
+         * A notification that hasn't been notified to the user yet and is waiting in a CyderFrame's queue.
+         * @param text the html text for the eventual notification to display
+         * @param dur the duration in miliseconds the notification should last for. Use 0 for auto-calculation
+         * @param arrow the arrow direction
+         * @param start the start direction
+         * @param vanish the vanish direction
+         */
+        public WaitingNotification(String text, int dur, Direction arrow, Direction start, Direction vanish) {
+            this.htmlText = text;
+            this.duration = dur;
+            this.arrowDir = arrow;
+            this.startDir = start;
+            this.vanishDir = vanish;
+        }
+
+        public void setHtmlText(String htmlText) {
+            this.htmlText = htmlText;
+        }
+
+        public void setDuration(int duration) {
+            this.duration = duration;
+        }
+
+        public void setArrowDir(Direction arrowDir) {
+            this.arrowDir = arrowDir;
+        }
+
+        public void setStartDir(Direction startDir) {
+            this.startDir = startDir;
+        }
+
+        public void setVanishDir(Direction vanishDir) {
+            this.vanishDir = vanishDir;
+        }
+
+        public String getHtmlText() {
+            return htmlText;
+        }
+
+        public int getDuration() {
+            return duration;
+        }
+
+        public Direction getArrowDir() {
+            return arrowDir;
+        }
+
+        public Direction getStartDir() {
+            return startDir;
+        }
+
+        public Direction getVanishDir() {
+            return vanishDir;
+        }
+
+        @Override
+        public String toString() {
+            return "WaitingNotification object: (" +
+                    this.getHtmlText() + "," +
+                    this.getDuration() + "," +
+                    this.getArrowDir() + "," +
+                    this.getStartDir() + "," +
+                    this.getVanishDir() + "," +
+                    "), hash=" + this.hashCode();
+        }
     }
 }

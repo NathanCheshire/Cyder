@@ -60,7 +60,6 @@ public final class ConsoleFrame {
     private JLabel audioControlsLabel;
     private JLabel playPauseMusicLabel;
 
-
     //debug ui elements
     private JLabel debugImageLabel;
     private JLabel verticalDebugLine;
