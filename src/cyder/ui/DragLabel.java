@@ -26,6 +26,8 @@ public class DragLabel extends JLabel {
     private int xMouse;
     private int yMouse;
 
+    private Color backgroundColor = CyderColors.guiThemeColor;
+
     ImageIcon minimizeIcon = CyderImages.minimizeIcon;
     ImageIcon minimizeIconHover = CyderImages.minimizeIconHover;
 
@@ -50,7 +52,7 @@ public class DragLabel extends JLabel {
         setSize(width,height);
         setOpaque(true);
         setFocusable(false);
-        setBackground(CyderColors.guiThemeColor);
+        setBackground(backgroundColor);
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -107,7 +109,7 @@ public class DragLabel extends JLabel {
     //override so we can change the background color if needed
     @Override
     public void repaint() {
-        setBackground(CyderColors.guiThemeColor);
+        setBackground(backgroundColor);
         super.repaint();
     }
 
@@ -141,7 +143,10 @@ public class DragLabel extends JLabel {
         return this.height;
     }
 
-    public void setColor(Color c) {this.setBackground(c);}
+    public void setColor(Color c) {
+        this.backgroundColor = c;
+        this.repaint();
+    }
 
     public JFrame getEffectFrame() {
         return this.effectFrame;

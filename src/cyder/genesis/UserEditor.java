@@ -107,6 +107,10 @@ public class UserEditor {
 
         //todo resizing easier make 2 pixels instead of 1
 
+        //todo move needed objects to inner classes if they're only used there
+
+        //todo update to java 16 if possible? why is it so hard?
+
         forwardPanel = new CyderButton(">");
         forwardPanel.setBackground(CyderColors.regularRed);
         forwardPanel.setColors(CyderColors.regularRed);
