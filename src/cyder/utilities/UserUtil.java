@@ -68,8 +68,10 @@ public class UserUtil {
         Gson gson = new Gson();
 
         try (FileWriter writer = new FileWriter(f)) {
+            GenesisShare.getExitingSem().acquire();
             gson.toJson(user, writer);
-        } catch (IOException e) {
+            GenesisShare.getExitingSem().release();
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -98,8 +100,10 @@ public class UserUtil {
         Gson gson = new Gson();
 
         try (FileWriter writer = new FileWriter(f)) {
+            GenesisShare.getExitingSem().acquire();
             gson.toJson(user, writer);
-        } catch (IOException e) {
+            GenesisShare.getExitingSem().release();
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -118,8 +122,10 @@ public class UserUtil {
         Gson gson = new Gson();
 
         try (FileWriter writer = new FileWriter(f)) {
+            GenesisShare.getExitingSem().acquire();
             gson.toJson(u, writer);
-        } catch (IOException e) {
+            GenesisShare.getExitingSem().release();
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
@@ -139,8 +145,10 @@ public class UserUtil {
         Gson gson = new Gson();
 
         try (FileWriter writer = new FileWriter(f)) {
+            GenesisShare.getExitingSem().acquire();
             gson.toJson(u, writer);
-        } catch (IOException e) {
+            GenesisShare.getExitingSem().release();
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }

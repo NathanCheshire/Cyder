@@ -883,9 +883,10 @@ public class UserEditor {
             togglePrefLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
-                    //todo possibly some weird bugs with this still
+                    //clicks make it here, but not toggled properly and not updated in menu
+
                     String localID = GenesisShare.getPrefs().get(localIndex).getID();
+
                     boolean wasSelected = UserUtil.getUserData(localID).equalsIgnoreCase("1");
                     UserUtil.setUserData(localID, wasSelected ? "0" : "1");
 
@@ -893,6 +894,7 @@ public class UserEditor {
                     togglePrefLabel.repaint();
                 }
             });
+            togglePrefLabel.setToolTipText(GenesisShare.getPrefs().get(localIndex).getTooltip());
             printingUtil.printlnComponent(togglePrefLabel);
         }
 
