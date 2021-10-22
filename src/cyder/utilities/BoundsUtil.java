@@ -242,7 +242,7 @@ public class BoundsUtil {
 
         //if no extra height was needed, add 10 anyway so that the line of text isn't cut off
         if (cumulativeHeight == lineHeight)
-            cumulativeHeight += 20;
+            cumulativeHeight += 10;
 
         return new BoundsString(width, cumulativeHeight, text);
     }

@@ -14,13 +14,19 @@ public class IPUtil {
     private IPUtil() {}
 
     private static IPData ipdata;
+    private static boolean fetched = false;
 
     public static IPData getIpdata() {
-        parseData();
+        if (!fetched) {
+            parseData();
+            fetched = true;
+        }
         return ipdata;
     }
 
-    //todo optimize me
+    /**
+     * Refreshes this object's IPData var
+     */
     public static void parseData() {
         Gson gson = new Gson();
         String url = "https://api.ipdata.co/?api-key=" + IOUtil.getSystemData().getIpkey();

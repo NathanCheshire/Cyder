@@ -107,6 +107,11 @@ public class UserEditor {
 
         //todo update to java 16 if possible? why is it so hard?
 
+        //todo notification single lines need to be smaller
+
+        //todo add more notification directions, bottom left, bottom right, center left, center right
+        //todo notification enum needed for this
+
         forwardPanel = new CyderButton(">");
         forwardPanel.setBackground(CyderColors.regularRed);
         forwardPanel.setColors(CyderColors.regularRed);
