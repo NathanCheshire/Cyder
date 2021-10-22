@@ -247,6 +247,59 @@ public class BoundsUtil {
         return new BoundsString(width, cumulativeHeight, text);
     }
 
+    /**
+     * Calculates the needed height for an inform/dialog window given the prefered width and text.
+     * @param text the string to display
+     * @param maxWidth the maximum width allowed
+     * @param font the font to be used
+     * @return an object composed of the width, height, and possibly corrected text to form the bounding box
+     *           for the provided display string.
+     */
+    public static BoundsString widthHeightCalculationNewLogic(String text, int maxWidth, Font font) {
+        BoundsString ret = new BoundsString();
+
+        //pseudo code: still want to return a minimum bounding box less than max width no matter what
+        // this bounding box should try to make all the lines the same length, thus, we should split
+        // at exiting line breaks and then figure out line lengths from there
+
+        //does the string contain any html? if so we have to be careful where we insert needed line breaks
+        String[] parts = text.split("<br/>");
+        StringBuilder sb = new StringBuilder();
+
+        for (int j = 0 ; j < parts.length ; j++) {
+            sb.append(Jsoup.clean(parts[j], Safelist.none()));
+
+            if (j != parts.length - 1)
+                sb.append("<br/>");
+        }
+
+        String htmlParsedAway = sb.toString();
+        boolean containsHtml = text.length() == htmlParsedAway.length();
+
+        //unfortunate
+        if (containsHtml) {
+            //somehow split into separate arrays of html and pure text
+            // then we can essentially follow the procedure below but with
+            // adding back in the html as needed
+        }
+        //nice, we can just add line breaks wherever we need
+        else {
+            StringBuilder nonHtmlBuilder = new StringBuilder();
+            String[] lines = text.split("<br/>");
+
+            // for each line
+            // if it's too long
+            //      figure out how many breaks to insert and insert them into the string
+            //      then append the string to the nonHtmlBuilder
+            // if it's not too long
+            //  simply appent the line to nonHtmlBuilder
+
+            //finally figure out the width and height based on the amount of lines and the longest line
+        }
+
+        return ret;
+    }
+
     private static class BreakPosition {
         private int start;
         private int end;

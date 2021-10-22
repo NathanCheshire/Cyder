@@ -621,6 +621,12 @@ public class CyderFrame extends JFrame {
                             int h = bs.getHeight();
                             text.setText(bs.getText());
 
+                            //failsafe incase bounds util messes up
+                            if (w > this.width * 0.9 || h > this.height * 0.9) {
+                                this.inform(bs.getText(), "Notification");
+                                continue;
+                            }
+
                             //set the text bounds to the proper x,y and theest
                             // calculated width and height
                             text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);

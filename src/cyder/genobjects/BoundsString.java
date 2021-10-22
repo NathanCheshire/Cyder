@@ -11,6 +11,8 @@ public class BoundsString {
         this.text = text;
     }
 
+    public BoundsString() {}
+
     public int getWidth() {
         return width;
     }
