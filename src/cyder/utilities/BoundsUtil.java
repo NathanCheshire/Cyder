@@ -302,29 +302,30 @@ public class BoundsUtil {
             StringBuilder nonHtmlBuilder = new StringBuilder();
             String[] lines = text.split("<br/>");
 
-            //there were some line breaks already in here
-            if (lines.length > 1) {
-                //we need to loop through all the lines and evaluate
+            for (int i = 0 ; i < lines.length ; i++) {
+                int fullLineWidth = (int) (font.getStringBounds(lines[i], frc).getWidth() + widthAddition);
 
-                for (int i = 0 ; i < lines.length ; i++) {
-                    //evluate if the line is too long
-                    if ((int) (font.getStringBounds(lines[i], frc).getWidth() + widthAddition) > maxWidth) {
-                        //line is too long, figure out how many breaks to add
-                    } else {
-                        //line isn't too long, simply append it
-                        nonHtmlBuilder.append(lines[i]);
-                    }
+                //evluate if the line is too long
+                if (fullLineWidth > maxWidth) {
+                    //line is too long, figure out how many breaks to add
+                    //first, how many multiples of current width does it take to get to max width?
+                    int neededLines = (int) Math.ceil(fullLineWidth / maxWidth);
 
-                    //if we're not on the last line, add the original break we split at back in
-                    if (i != lines.length - 1) {
-                        nonHtmlBuilder.append("<br/>");
-                    }
+                    System.out.println(neededLines);
+
+                    //if only one line is the result somehow, ensure it's 2
+                    neededLines = Math.max(2, neededLines);
+
+                    nonHtmlBuilder.append(insertBreaks(lines[i], neededLines));
+                } else {
+                    //line isn't too long, simply append it
+                    nonHtmlBuilder.append(lines[i]);
                 }
-            }
-            //there were no line breaks already existing
-            else {
-                int desiredLineCount = 1;
-                nonHtmlBuilder.append(insertBreaks(text, desiredLineCount));
+
+                //if we're not on the last line, add the original break we split at back in
+                if (i != lines.length - 1) {
+                    nonHtmlBuilder.append("<br/>");
+                }
             }
 
             //more lines might exist now since we added breaks

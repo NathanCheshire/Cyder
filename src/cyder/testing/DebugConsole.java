@@ -1,13 +1,13 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
-import cyder.genesis.GenesisShare;
+import cyder.consts.CyderFonts;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
+import cyder.utilities.BoundsUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
-import cyder.widgets.GenericInformer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -108,7 +108,9 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        String str = "asdf asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd asdf asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd asdf asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd";
-        GenericInformer.informRelative(str,"Testing", GenesisShare.getDominantFrame());
+        String str = "asdf asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd" +
+                " asdf asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd asdf" +
+                " asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd";
+        System.out.println(BoundsUtil.widthHeightCalculationNewLogic(str, 400, CyderFonts.defaultFontSmall));
     }
 }
