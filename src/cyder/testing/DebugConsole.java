@@ -4,10 +4,10 @@ import cyder.consts.CyderColors;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
-import cyder.utilities.IOUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
+import cyder.widgets.GenericInformer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -104,16 +104,11 @@ public class DebugConsole {
         debugFrame.setAlwaysOnTop(true);
         debugFrame.setLocation(0, SystemUtil.getScreenHeight() - debugFrame.getHeight());
 
-        //if in testing mode, exiting debug menu means exit Cyder
-        if (IOUtil.getSystemData().isTestingmode()) {
-            debugFrame.addPostCloseAction(() -> GenesisShare.exit(25));
-        }
-
         open = true;
     }
 
     public static void launchTests() {
-        DebugConsole.println("Beginning tests:");
-        //now perform any tests here without Cyder Console and everything else launching
+        String str = "asdf asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd asdf asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd asdf asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd";
+        GenericInformer.informRelative(str,"Testing", GenesisShare.getDominantFrame());
     }
 }

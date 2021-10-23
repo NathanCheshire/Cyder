@@ -33,7 +33,7 @@ public class BoundsUtil {
      * @return an object composed of the width, height, and possibly corrected text to form the bounding box
      *           for the provided display string.
      */
-    public static BoundsString widthHeightCalculation(String text, int maxWidth, Font font) {
+    public static BoundsString widthHeightCalculationOld(String text, int maxWidth, Font font) {
         //needed width
         int width = 0;
 
@@ -247,6 +247,11 @@ public class BoundsUtil {
         return new BoundsString(width, cumulativeHeight, text);
     }
 
+    //todo above and this is placeholder, when logic is done, rename NewLogic to this method and remove upper method
+    public static BoundsString widthHeightCalculation(String text, int maxWidth, Font font) {
+        return widthHeightCalculationNewLogic(text, maxWidth, font);
+    }
+
     /**
      * Calculates the needed height for an inform/dialog window given the prefered width and text.
      * @param text the string to display
@@ -280,7 +285,7 @@ public class BoundsUtil {
         }
 
         String htmlParsedAway = sb.toString();
-        boolean containsHtml = text.length() == htmlParsedAway.length();
+        boolean containsHtml = text.length() != htmlParsedAway.length();
 
         //unfortunate
         if (containsHtml) {
@@ -290,38 +295,45 @@ public class BoundsUtil {
             //somehow split into separate arrays of html and pure text
             // then we can essentially follow the procedure below but with
             // adding back in the html as needed
-
-
         }
         //nice, we can just add line breaks wherever we need
         else {
-            //only contains some line breaks so split at those
+            //only contains possible line breaks so split at those
             StringBuilder nonHtmlBuilder = new StringBuilder();
             String[] lines = text.split("<br/>");
 
-            //for all of the already pre-defined lines determined by breaks already in the code
-            for (int i = 0 ; i < lines.length ; i++) {
-                int currentWidth = (int) (font.getStringBounds(lines[i], frc).getWidth() + widthAddition);
+            //there were some line breaks already in here
+            if (lines.length > 1) {
+                //we need to loop through all the lines and evaluate
 
-                //if it's too big, insert breaks
-                if (currentWidth > maxWidth) {
-                    int insertXBreaks = (int) Math.ceil(currentWidth / maxWidth);
-                    nonHtmlBuilder.append(insertBreaks(lines[i], insertXBreaks)).append("<br/>");
-                } else {
-                    nonHtmlBuilder.append(lines[i]);
-                }
+                for (int i = 0 ; i < lines.length ; i++) {
+                    //evluate if the line is too long
+                    if ((int) (font.getStringBounds(lines[i], frc).getWidth() + widthAddition) > maxWidth) {
+                        //line is too long, figure out how many breaks to add
+                    } else {
+                        //line isn't too long, simply append it
+                        nonHtmlBuilder.append(lines[i]);
+                    }
 
-                //if it's not the last line, add the break separator for the line back in
-                if (i != lines.length - 1) {
-                    sb.append("<br/>");
+                    //if we're not on the last line, add the original break we split at back in
+                    if (i != lines.length - 1) {
+                        nonHtmlBuilder.append("<br/>");
+                    }
                 }
             }
+            //there were no line breaks already existing
+            else {
+                int desiredLineCount = 1;
+                nonHtmlBuilder.append(insertBreaks(text, desiredLineCount));
+            }
+
+            //more lines might exist now since we added breaks
+            lines = nonHtmlBuilder.toString().split("<br/>");
 
             //finally figure out the width and height based on the amount of lines and the longest line
             int w = 0;
-            int h = heightAddition * lines.length;
+            int h = singleLineHeight * lines.length;
             String correctedNonHtml = nonHtmlBuilder.toString();
-            lines = correctedNonHtml.split("<br/>");
 
             for (String line : lines) {
                 int currentWidth = (int) (font.getStringBounds(line, frc).getWidth() + widthAddition);
@@ -337,6 +349,9 @@ public class BoundsUtil {
     }
 
     public static String insertBreaks(String rawText, int numLines) {
+        if (numLines == 1)
+            return rawText;
+
         String ret = rawText;
 
         int splitEveryNthChar = (int) Math.ceil(rawText.length() / numLines);

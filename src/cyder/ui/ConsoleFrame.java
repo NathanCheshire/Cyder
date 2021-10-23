@@ -11,6 +11,7 @@ import cyder.handler.ErrorHandler;
 import cyder.handler.InputHandler;
 import cyder.handler.SessionLogger;
 import cyder.genobjects.User;
+import cyder.testing.DebugConsole;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
@@ -1094,6 +1095,12 @@ public final class ConsoleFrame {
             StatUtil.computerProperties();
             StatUtil.javaProperties();
             StatUtil.debugMenu();
+        }
+
+        //testing mode
+        if (IOUtil.getSystemData().isTestingmode()) {
+            SessionLogger.log(SessionLogger.Tag.ENTRY, "TESTING MODE");
+            DebugConsole.launchTests();
         }
 
         //last start time operations

@@ -53,10 +53,7 @@ public class Cyder {
 
         //figure out how to enter program
         if (SecurityUtil.nathanLenovo())  {
-            if (IOUtil.getSystemData().isTestingmode()) {
-                SessionLogger.log(SessionLogger.Tag.ENTRY, "TESTING MODE");
-                DebugConsole.launchTests();
-            } else if (IOUtil.getSystemData().isAutocypher()) {
+            if (IOUtil.getSystemData().isAutocypher()) {
                 SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
                 Login.autoCypher();
             } else {
