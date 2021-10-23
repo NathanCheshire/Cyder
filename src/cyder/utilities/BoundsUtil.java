@@ -255,7 +255,7 @@ public class BoundsUtil {
      * @return an object composed of the width, height, and possibly corrected text to form the bounding box
      *           for the provided display string.
      */
-    public static BoundsString widthHeightCalculationNewLogic(String text, int maxWidth, Font font) {
+    public static BoundsString widthHeightCalculationNewLogic(final String text, int maxWidth, Font font) {
         BoundsString ret = new BoundsString();
 
         //pseudo code: still want to return a minimum bounding box less than max width no matter what
@@ -284,37 +284,57 @@ public class BoundsUtil {
 
         //unfortunate
         if (containsHtml) {
+            LinkedList<TaggedString> taggedStrings = new LinkedList<>();
+            String textCopy = text;
+
             //somehow split into separate arrays of html and pure text
             // then we can essentially follow the procedure below but with
             // adding back in the html as needed
         }
         //nice, we can just add line breaks wherever we need
         else {
+            //only contains some line breaks so split at those
             StringBuilder nonHtmlBuilder = new StringBuilder();
             String[] lines = text.split("<br/>");
 
+            //for all of the already pre-defined lines determined by breaks already in the code
             for (int i = 0 ; i < lines.length ; i++) {
                 int currentWidth = (int) (font.getStringBounds(lines[i], frc).getWidth() + widthAddition);
 
+                //if it's too big, insert breaks
                 if (currentWidth > maxWidth) {
                     int insertXBreaks = (int) Math.ceil(currentWidth / maxWidth) - 1;
-                    nonHtmlBuilder.append(insertXBreaks(lines[i], insertXBreaks)).append("<br/>");
+                    nonHtmlBuilder.append(insertBreaks(lines[i], insertXBreaks)).append("<br/>");
                 } else {
                     nonHtmlBuilder.append(lines[i]);
                 }
 
+                //if it's not the last line, add the break separator for the line back in
                 if (i != lines.length - 1) {
                     sb.append("<br/>");
                 }
             }
 
             //finally figure out the width and height based on the amount of lines and the longest line
+            int w = 0;
+            int h = heightAddition * lines.length;
+            String correctedNonHtml = nonHtmlBuilder.toString();
+            lines = correctedNonHtml.split("<br/>");
+
+            for (String line : lines) {
+                int currentWidth = (int) (font.getStringBounds(line, frc).getWidth() + widthAddition);
+
+                if (currentWidth > w)
+                    w = currentWidth;
+            }
+
+            ret = new BoundsString(w, h, correctedNonHtml);
         }
 
         return ret;
     }
 
-    private static String insertXBreaks(String rawText, int numBreaks) {
+    private static String insertBreaks(String rawText, int numBreaks) {
         String ret = rawText;
 
         int splitEveryNthChar = (int) Math.ceil(rawText.length() / numBreaks);
@@ -381,6 +401,52 @@ public class BoundsUtil {
         return ret;
     }
 
+    //adds <div style='text-align: center;'> to the provided html string
+    public static String addCenteringToHTML(String html) {
+        StringBuilder ret = new StringBuilder();
+
+        if (html.startsWith("<html>")) {
+            ret.append("<html><div style='text-align: center;'>")
+                    .append(html, 6, html.length() - 6).append("</html>");
+        } else {
+            ret.append("<html><div style='text-align: center;'>").append(html).append("</html>");
+        }
+
+        return ret.toString();
+    }
+
+    //inner classes and enums
+
+    public static class TaggedString {
+        private String string;
+        private StringType type;
+
+        public TaggedString(String string, StringType type) {
+            this.string = string;
+            this.type = type;
+        }
+
+        public String getString() {
+            return string;
+        }
+
+        public void setString(String string) {
+            this.string = string;
+        }
+
+        public StringType getType() {
+            return type;
+        }
+
+        public void setType(StringType type) {
+            this.type = type;
+        }
+    }
+
+    public enum StringType {
+        HTML, TEXT
+    }
+
     private static class BreakPosition {
         private int start;
         private int end;
@@ -410,19 +476,5 @@ public class BoundsUtil {
         public String toString() {
             return "[" + this.start + " -> " + this.end + "]";
         }
-    }
-
-    //adds <div style='text-align: center;'> to the provided html string
-    public static String addCenteringToHTML(String html) {
-        StringBuilder ret = new StringBuilder();
-
-        if (html.startsWith("<html>")) {
-            ret.append("<html><div style='text-align: center;'>")
-                    .append(html, 6, html.length() - 6).append("</html>");
-        } else {
-            ret.append("<html><div style='text-align: center;'>").append(html).append("</html>");
-        }
-
-        return ret.toString();
     }
 }
