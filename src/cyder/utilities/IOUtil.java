@@ -603,6 +603,20 @@ public class IOUtil {
         }
     }
 
+    public static void checkForExitCollisions() {
+        //if there are exit conditions with the same number exit and inform
+        LinkedList<Integer> exitCodes = new LinkedList<>();
+
+        for (SystemData.ExitCondition exitCondition : IOUtil.getSystemData().getExitconditions()) {
+            if (!exitCodes.contains(exitCondition.getCode())) {
+                exitCodes.add(exitCondition.getCode());
+            } else {
+                //you're an idiot
+
+            }
+        }
+    }
+
     //system data class
     public static class SystemData {
         private boolean released;
@@ -617,6 +631,7 @@ public class IOUtil {
         private boolean consoleresizable;
         private boolean autocypher;
         private Hash cypherhash;
+        private boolean testingmode;
         private LinkedList<ExitCondition> exitconditions;
 
         public boolean isReleased() {
@@ -721,6 +736,14 @@ public class IOUtil {
 
         public void setExitconditions(LinkedList<ExitCondition> exitconditions) {
             this.exitconditions = exitconditions;
+        }
+
+        public boolean isTestingmode() {
+            return testingmode;
+        }
+
+        public void setTestingmode(boolean testingmode) {
+            this.testingmode = testingmode;
         }
 
         public static class Hash {

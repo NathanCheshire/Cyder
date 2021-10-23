@@ -356,7 +356,6 @@ public class BoundsUtil {
                 sb.deleteCharAt(i);
                 sb.insert(i,"<br/>");
                 ret = sb.toString();
-                currentLines++;
             } else {
                 boolean spaceFound = false;
 
@@ -406,8 +405,8 @@ public class BoundsUtil {
                 StringBuilder sb = new StringBuilder(ret);
                 sb.insert(i,"<br/>");
                 ret = sb.toString();
-                currentLines++;
             }
+            currentLines++;
         }
 
         return ret;

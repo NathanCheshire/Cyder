@@ -2,6 +2,7 @@ package cyder.genesis;
 
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
+import cyder.testing.DebugConsole;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SecurityUtil;
 import cyder.utilities.SystemUtil;
@@ -35,6 +36,7 @@ public class Cyder {
         }
 
         //IOUtil subroutines
+        IOUtil.checkForExitCollisions();
         IOUtil.cleanUsers();
         IOUtil.deleteTempDir();
         IOUtil.logArgs(CA);
@@ -48,10 +50,17 @@ public class Cyder {
         //figure out how to enter program
         if (SystemUtil.osxSystem()) {
            CyderSetup.osxExit();
-        } else if (SecurityUtil.nathanLenovo() && IOUtil.getSystemData().isAutocypher()) {
-            SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
-            Login.autoCypher();
-        } else if (IOUtil.getSystemData().isReleased()|| SecurityUtil.nathanLenovo()) {
+        } else if (SecurityUtil.nathanLenovo())  {
+            if (IOUtil.getSystemData().isTestingmode()) {
+                SessionLogger.log(SessionLogger.Tag.ENTRY, "TESTING MODE");
+                DebugConsole.launchTests();
+            } else if (IOUtil.getSystemData().isAutocypher()) {
+                SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
+                Login.autoCypher();
+            } else {
+                Login.showGUI();
+            }
+        } else if (IOUtil.getSystemData().isReleased()) {
             Login.showGUI();
         } else {
             try {

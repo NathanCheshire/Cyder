@@ -1064,6 +1064,10 @@ public class InputHandler {
                     println("----------------------------------------");
                 }
             }, "GitHub issue printer").start();
+        } else if ((hasWord("code") || hasWord("codes")) && hasWord("exit")) {
+            for (IOUtil.SystemData.ExitCondition exitCondition : IOUtil.getSystemData().getExitconditions()) {
+               println(exitCondition.getCode() + ": " + exitCondition.getDescription());
+            }
         }
         //final attempt at unknown input --------------------------
         else {
