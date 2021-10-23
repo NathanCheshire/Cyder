@@ -343,13 +343,20 @@ public class BoundsUtil {
         int numChars = rawText.length();
         int breakInsertionTol = 7;
 
+        int currentLines = 1;
+
         for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
+            //if line goal is reached, exit
+            if (currentLines == numLines)
+                break;
+
             //is index a space? if so, replace it with a break
             if (ret.charAt(i) == ' ') {
                 StringBuilder sb = new StringBuilder(ret);
                 sb.deleteCharAt(i);
                 sb.insert(i,"<br/>");
                 ret = sb.toString();
+                currentLines++;
             } else {
                 boolean spaceFound = false;
 
@@ -364,6 +371,7 @@ public class BoundsUtil {
                             sb.insert(j,"<br/>");
                             ret = sb.toString();
                             spaceFound = true;
+                            currentLines++;
                             break;
                         }
                     }
@@ -383,6 +391,7 @@ public class BoundsUtil {
                             sb.insert(j,"<br/>");
                             ret = sb.toString();
                             spaceFound = true;
+                            currentLines++;
                             break;
                         }
                     }
@@ -397,6 +406,7 @@ public class BoundsUtil {
                 StringBuilder sb = new StringBuilder(ret);
                 sb.insert(i,"<br/>");
                 ret = sb.toString();
+                currentLines++;
             }
         }
 
