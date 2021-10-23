@@ -290,6 +290,8 @@ public class BoundsUtil {
             //somehow split into separate arrays of html and pure text
             // then we can essentially follow the procedure below but with
             // adding back in the html as needed
+
+
         }
         //nice, we can just add line breaks wherever we need
         else {
@@ -303,7 +305,7 @@ public class BoundsUtil {
 
                 //if it's too big, insert breaks
                 if (currentWidth > maxWidth) {
-                    int insertXBreaks = (int) Math.ceil(currentWidth / maxWidth) - 1;
+                    int insertXBreaks = (int) Math.ceil(currentWidth / maxWidth);
                     nonHtmlBuilder.append(insertBreaks(lines[i], insertXBreaks)).append("<br/>");
                 } else {
                     nonHtmlBuilder.append(lines[i]);
@@ -334,10 +336,11 @@ public class BoundsUtil {
         return ret;
     }
 
-    private static String insertBreaks(String rawText, int numBreaks) {
+    //todo not working, inserts and replaces chars
+    public static String insertBreaks(String rawText, int numLines) {
         String ret = rawText;
 
-        int splitEveryNthChar = (int) Math.ceil(rawText.length() / numBreaks);
+        int splitEveryNthChar = (int) Math.ceil(rawText.length() / numLines);
         int numChars = rawText.length();
         int breakInsertionTol = 7;
 

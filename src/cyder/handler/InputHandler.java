@@ -11,6 +11,7 @@ import cyder.genesis.Login;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.genesis.GenesisShare.Preference;
+import cyder.testing.DebugConsole;
 import cyder.testing.ManualTestingWidgets;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
@@ -1068,7 +1069,9 @@ public class InputHandler {
         }
         //t3sting -------------------------------------------------
         else if (eic("test")) {
-            ManualTestingWidgets.NotificationsTest();
+            System.out.println(BoundsUtil.insertBreaks("hello you lords of kings",2));
+            System.out.println(BoundsUtil.insertBreaks("hello you lords of kings of some weird people",3));
+            System.out.println(BoundsUtil.insertBreaks("hello you lords of kings of some weird people hello you lords of kings of some weird people hello you lords of kings of some weird people",8));
         }
         //final attempt at unknown input --------------------------
         else {
