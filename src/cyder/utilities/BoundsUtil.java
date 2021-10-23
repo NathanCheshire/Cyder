@@ -262,6 +262,12 @@ public class BoundsUtil {
         // this bounding box should try to make all the lines the same length, thus, we should split
         // at exiting line breaks and then figure out line lengths from there
 
+        int widthAddition = 5;
+        int heightAddition = 2;
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform, font.isItalic(), true);
+        int singleLineHeight = (int) font.getStringBounds(text, frc).getHeight() + heightAddition;
+
         //does the string contain any html? if so we have to be careful where we insert needed line breaks
         String[] parts = text.split("<br/>");
         StringBuilder sb = new StringBuilder();
@@ -287,14 +293,89 @@ public class BoundsUtil {
             StringBuilder nonHtmlBuilder = new StringBuilder();
             String[] lines = text.split("<br/>");
 
-            // for each line
-            // if it's too long
-            //      figure out how many breaks to insert and insert them into the string
-            //      then append the string to the nonHtmlBuilder
-            // if it's not too long
-            //  simply appent the line to nonHtmlBuilder
+            for (int i = 0 ; i < lines.length ; i++) {
+                int currentWidth = (int) (font.getStringBounds(lines[i], frc).getWidth() + widthAddition);
+
+                if (currentWidth > maxWidth) {
+                    int insertXBreaks = (int) Math.ceil(currentWidth / maxWidth) - 1;
+                    nonHtmlBuilder.append(insertXBreaks(lines[i], insertXBreaks)).append("<br/>");
+                } else {
+                    nonHtmlBuilder.append(lines[i]);
+                }
+
+                if (i != lines.length - 1) {
+                    sb.append("<br/>");
+                }
+            }
 
             //finally figure out the width and height based on the amount of lines and the longest line
+        }
+
+        return ret;
+    }
+
+    private static String insertXBreaks(String rawText, int numBreaks) {
+        String ret = rawText;
+
+        int splitEveryNthChar = (int) Math.ceil(rawText.length() / numBreaks);
+        int numChars = rawText.length();
+        int breakInsertionTol = 7;
+
+        for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
+            //is index a space? if so, replace it with a break
+            if (rawText.charAt(i) == ' ') {
+                StringBuilder sb = new StringBuilder(ret);
+                sb.deleteCharAt(i);
+                sb.insert(i,"<br/>");
+                ret = sb.toString();
+            } else {
+                boolean spaceFound = false;
+
+                //check right for a space
+                for (int j = i ; j < i + breakInsertionTol ; j++) {
+                    //is j valid
+                    if (j < numChars) {
+                        //is it a space
+                        if (ret.charAt(j) == ' ') {
+                            StringBuilder sb = new StringBuilder(ret);
+                            sb.deleteCharAt(j);
+                            sb.insert(j,"<br/>");
+                            ret = sb.toString();
+                            spaceFound = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (spaceFound)
+                    continue;
+
+                //check left for a space
+                for (int j = i ; j > i - breakInsertionTol ; j--) {
+                    //is j valid
+                    if (j > 0) {
+                        //is it a space
+                        if (ret.charAt(j) == ' ') {
+                            StringBuilder sb = new StringBuilder(ret);
+                            sb.deleteCharAt(j);
+                            sb.insert(j,"<br/>");
+                            ret = sb.toString();
+                            spaceFound = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (spaceFound)
+                    continue;
+
+                //final resort to just put it at the current index as long as we're not in the middle of a line break
+                //we shouldn't be in a line break since this is for html having been parsed away
+
+                StringBuilder sb = new StringBuilder(ret);
+                sb.insert(i,"<br/>");
+                ret = sb.toString();
+            }
         }
 
         return ret;
