@@ -603,7 +603,13 @@ public class IOUtil {
         }
     }
 
-    public static void checkForExitCollisions() {
+    /**
+     * Used to test for Nathan being an idiot and having duplicate exit condition codes
+     * @return - boolean describing whether or not Nathan messed up
+     */
+    public static boolean checkForExitCollisions() {
+        boolean ret = false;
+
         //if there are exit conditions with the same number exit and inform
         LinkedList<Integer> exitCodes = new LinkedList<>();
 
@@ -612,9 +618,12 @@ public class IOUtil {
                 exitCodes.add(exitCondition.getCode());
             } else {
                 //you're an idiot
-
+                ret = true;
+                break;
             }
         }
+
+        return ret;
     }
 
     //system data class

@@ -113,4 +113,14 @@ public class CyderSetup {
         retFrame.setVisible(true);
         retFrame.setLocationRelativeTo(null);
     }
+
+    public static void duplicateExitCodesExit() {
+        SessionLogger.log(SessionLogger.Tag.LOGIN, "DUPLICATE EXIT CODEs");
+        GenesisShare.suspendFrameChecker();
+
+        CyderFrame retFrame = GenericInformer.informRet("You messed up exit codes :/","Exit Codes Exception");
+        retFrame.addPostCloseAction(() -> GenesisShare.exit(-78));
+        retFrame.setVisible(true);
+        retFrame.setLocationRelativeTo(null);
+    }
 }

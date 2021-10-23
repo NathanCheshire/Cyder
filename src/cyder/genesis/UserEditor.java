@@ -110,6 +110,16 @@ public class UserEditor {
         //todo add more notification directions, bottom left, bottom right, center left, center right
         //todo notification enum needed for this
 
+        //todo note confirmation is broken due to bounds util, fix
+
+        //todo all windows should be added to an animated stack which will replace the menu
+        // should be similar to music controls panel, slide in and out and move input/output fields out of the way
+        // should be full height of consoleFrame too
+
+        //todo field text "nathan@Cyder~$: " perhaps use key listeners instead of a thread
+
+        //todo add ignore threads to sys.json which will be loaded once upon startup
+
         forwardPanel = new CyderButton(">");
         forwardPanel.setBackground(CyderColors.regularRed);
         forwardPanel.setColors(CyderColors.regularRed);

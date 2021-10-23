@@ -1,6 +1,5 @@
 package cyder.genesis;
 
-import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.testing.DebugConsole;
 import cyder.utilities.IOUtil;
@@ -26,17 +25,22 @@ public class Cyder {
         CyderSetup.initUIManager();
 
         //possibly fatal subroutines
-        boolean continueSetup = CyderSetup.registerFonts();
-        //&& with other methods in the future
-
-        //if there was a fatal error and Cyder cannot continue
-        if (!continueSetup) {
+        if (!CyderSetup.registerFonts()) {
             CyderSetup.exceptionExit("Font required by system could not be loaded","Font failure");
             return;
         }
 
+        if (IOUtil.checkForExitCollisions()) {
+            CyderSetup.duplicateExitCodesExit();
+            return;
+        }
+
+        if (SystemUtil.osxSystem()) {
+            CyderSetup.osxExit();
+            return;
+        }
+
         //IOUtil subroutines
-        IOUtil.checkForExitCollisions();
         IOUtil.cleanUsers();
         IOUtil.deleteTempDir();
         IOUtil.logArgs(CA);
@@ -48,9 +52,7 @@ public class Cyder {
         CyderSetup.initFrameChecker();
 
         //figure out how to enter program
-        if (SystemUtil.osxSystem()) {
-           CyderSetup.osxExit();
-        } else if (SecurityUtil.nathanLenovo())  {
+        if (SecurityUtil.nathanLenovo())  {
             if (IOUtil.getSystemData().isTestingmode()) {
                 SessionLogger.log(SessionLogger.Tag.ENTRY, "TESTING MODE");
                 DebugConsole.launchTests();
@@ -63,14 +65,7 @@ public class Cyder {
         } else if (IOUtil.getSystemData().isReleased()) {
             Login.showGUI();
         } else {
-            try {
-                GenesisShare.getExitingSem().acquire();
-                //make sure nothing is holding the lock
-                GenesisShare.getExitingSem().release();
-                GenesisShare.exit(-600);
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
+            GenesisShare.exit(-600);
         }
     }
 }
