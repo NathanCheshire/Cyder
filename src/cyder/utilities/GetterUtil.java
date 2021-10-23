@@ -344,7 +344,7 @@ public class GetterUtil {
             try {
                 CyderLabel textLabel = new CyderLabel();
 
-                BoundsString bs = BoundsUtil.widthHeightCalculation(message);
+                BoundsString bs = BoundsUtil.widthHeightCalculation(message, textLabel.getFont());
                 int w = bs.getWidth();
                 int h = bs.getHeight();
                 textLabel.setText(bs.getText());

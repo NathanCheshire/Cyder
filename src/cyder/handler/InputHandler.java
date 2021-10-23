@@ -11,6 +11,7 @@ import cyder.genesis.GenesisShare.Preference;
 import cyder.genesis.Login;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
+import cyder.testing.DebugConsole;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
@@ -1068,6 +1069,8 @@ public class InputHandler {
             for (IOUtil.SystemData.ExitCondition exitCondition : IOUtil.getSystemData().getExitconditions()) {
                println(exitCondition.getCode() + ": " + exitCondition.getDescription());
             }
+        } else if (hasWord("test")) {
+            DebugConsole.launchTests();
         }
         //final attempt at unknown input --------------------------
         else {

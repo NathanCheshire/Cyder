@@ -526,7 +526,7 @@ public final class ConsoleFrame {
             suggestionButton.addActionListener(e -> {
                 consoleCyderFrame.notify("What feature would you like to suggest? " +
                         "(Please include as much detail as possible such as " +
-                        "how the feature should be triggered and how the program should responded; be detailed)");
+                        "how the feature should be triggered and how the program should respond; be detailed)");
                 inputHandler.setUserInputDesc("suggestion");
                 inputHandler.setUserInputMode(true);
                 inputField.requestFocus();

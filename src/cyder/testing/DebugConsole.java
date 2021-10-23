@@ -1,10 +1,8 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
-import cyder.utilities.BoundsUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -108,10 +106,6 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        System.out.println(BoundsUtil.widthHeightCalculationNewLogic(
-                "lolol<html>penises</html>", 400, CyderFonts.defaultFontSmall));
-
-        System.out.println(BoundsUtil.widthHeightCalculationNewLogic(
-                "lolol<html>penises</html>more text?", 400, CyderFonts.defaultFontSmall));
+        //tests here to be tested upon cyder launching
     }
 }
