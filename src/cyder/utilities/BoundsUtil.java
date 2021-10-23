@@ -292,9 +292,35 @@ public class BoundsUtil {
             LinkedList<TaggedString> taggedStrings = new LinkedList<>();
             String textCopy = text;
 
-            //somehow split into separate arrays of html and pure text
-            // then we can essentially follow the procedure below but with
-            // adding back in the html as needed
+            //while we still have text....
+            while ((textCopy.contains("<") && textCopy.contains(">"))) {
+                int firstOpeningTag = textCopy.indexOf("<");
+                int firstClosingTag = textCopy.indexOf(">");
+
+                String regularText = textCopy.substring(0, firstOpeningTag);
+                String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
+
+                if (regularText.length() > 0)
+                    taggedStrings.add(new TaggedString(regularText, StringType.TEXT));
+                if (firstHtml.length() > 0)
+                    taggedStrings.add(new TaggedString(firstHtml, StringType.HTML));
+
+                textCopy = textCopy.substring(firstClosingTag + 1);
+            }
+
+            //if there's remaining text, it's just non-html
+            if (textCopy.length() > 0)
+                taggedStrings.add(new TaggedString(textCopy,StringType.TEXT));
+
+            for (TaggedString ts : taggedStrings) {
+                System.out.println(ts.string);
+            }
+
+            //now add breaks into the lines that are needed
+
+            //recombine text into string
+            //figure out w and h
+            //return BoundsString
         }
         //nice, we can just add line breaks wherever we need
         else {
@@ -310,8 +336,6 @@ public class BoundsUtil {
                     //line is too long, figure out how many breaks to add
                     //first, how many multiples of current width does it take to get to max width?
                     int neededLines = (int) Math.ceil(fullLineWidth / maxWidth);
-
-                    System.out.println(neededLines);
 
                     //if only one line is the result somehow, ensure it's 2
                     neededLines = Math.max(2, neededLines);

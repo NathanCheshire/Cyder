@@ -108,9 +108,10 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        String str = "asdf asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd" +
-                " asdf asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd asdf" +
-                " asdfasdfa asdfa sdfas dfasdfasdfasdfasdf asdfasdfasdfa sdfasd";
-        System.out.println(BoundsUtil.widthHeightCalculationNewLogic(str, 400, CyderFonts.defaultFontSmall));
+        System.out.println(BoundsUtil.widthHeightCalculationNewLogic(
+                "lolol<html>penises</html>", 400, CyderFonts.defaultFontSmall));
+
+        System.out.println(BoundsUtil.widthHeightCalculationNewLogic(
+                "lolol<html>penises</html>more text?", 400, CyderFonts.defaultFontSmall));
     }
 }
