@@ -1065,10 +1065,6 @@ public class InputHandler {
                 }
             }, "GitHub issue printer").start();
         }
-        //t3sting -------------------------------------------------
-        else if (eic("test")) {
-
-        }
         //final attempt at unknown input --------------------------
         else {
             if (handleMath(operation)) {

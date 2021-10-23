@@ -1096,15 +1096,6 @@ public final class ConsoleFrame {
             StatUtil.debugMenu();
         }
 
-        //Auto test in upon start debug mode
-        if (SecurityUtil.nathanLenovo()) {
-            try {
-                inputHandler.handle("test", false);
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }
-
         //last start time operations
         if (TimeUtil.milisToDays(System.currentTimeMillis() -
                 Long.parseLong(UserUtil.getUserData("laststart"))) > 1) {
