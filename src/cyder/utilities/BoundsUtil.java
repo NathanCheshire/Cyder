@@ -336,7 +336,6 @@ public class BoundsUtil {
         return ret;
     }
 
-    //todo not working, inserts and replaces chars
     public static String insertBreaks(String rawText, int numLines) {
         String ret = rawText;
 
@@ -346,7 +345,7 @@ public class BoundsUtil {
 
         for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
             //is index a space? if so, replace it with a break
-            if (rawText.charAt(i) == ' ') {
+            if (ret.charAt(i) == ' ') {
                 StringBuilder sb = new StringBuilder(ret);
                 sb.deleteCharAt(i);
                 sb.insert(i,"<br/>");
