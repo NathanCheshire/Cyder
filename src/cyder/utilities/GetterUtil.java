@@ -10,15 +10,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.File;
@@ -265,14 +257,7 @@ public class GetterUtil {
 
         new Thread(() -> {
             try {
-                CyderFrame frame = new CyderFrame(1,1, new ImageIcon(""));
-                frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                frame.setTitle("");
-                final JFXPanel fxPanel = new JFXPanel();
-                frame.add(fxPanel);
-                frame.setVisible(true);
-                Platform.setImplicitExit(false);
-                Platform.runLater(() -> ret.set(innerGetFile(fxPanel, title, frame)));
+                //todo custom FileGetter
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
@@ -287,32 +272,6 @@ public class GetterUtil {
             clearString();
             return ret.get().getName().equals("NULL") ? null : ret.get();
         }
-    }
-
-    private File innerGetFile(JFXPanel fxPanel, String title, CyderFrame frame) {
-        try {
-            Stage primaryStage = new Stage();
-            HBox root = new HBox();
-            Scene scene = new Scene(root, 1, 1);
-            fxPanel.setScene(scene);
-
-            primaryStage.initStyle(StageStyle.TRANSPARENT);
-            primaryStage.setScene(scene);
-            FileChooser fc = new FileChooser();
-            fc.setTitle(title);
-            returnFile = fc.showOpenDialog(primaryStage);
-
-            if (returnFile == null)
-                returnFile = new File("NULL");
-
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-
-        File ret = returnFile;
-        clearFile();
-        frame.dispose();
-        return ret;
     }
 
     public String getFileFrameTitle() {
