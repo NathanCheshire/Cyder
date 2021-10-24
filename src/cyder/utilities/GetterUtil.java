@@ -17,14 +17,6 @@ import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GetterUtil {
-    private String fileFrameTitle;
-    private File returnFile = null;
-
-    private String stringFrameTitle;
-    private String stringTooltipText;
-    private String stringButtonText;
-    private String returnString = null;
-
     public GetterUtil() {}
     //instantiation does nothing but we still want to allow object creation for multiple instances
     //should we require multiple string/file getteres at the same time.
@@ -58,23 +50,21 @@ public class GetterUtil {
      *  this function returns the string literal of "NULL" instead of {@code null}
      */
     public String getString(String title, String tooltip, String buttonText) {
-        stringFrameTitle = title;
-        stringTooltipText = tooltip;
-        stringButtonText = buttonText;
+        AtomicReference<String> returnString = new AtomicReference<>();
 
         new Thread(() -> {
             try {
                 CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                inputFrame.setTitle(getStringFrameTitle());
+                inputFrame.setTitle(title);
 
                 CyderTextField inputField = new CyderTextField(0);
                 inputField.setBackground(Color.white);
-                inputField.setToolTipText(getStringTooltipText());
+                inputField.setToolTipText(tooltip);
                 inputField.setBounds(40,40,320,40);
                 inputFrame.getContentPane().add(inputField);
 
-                CyderButton submit = new CyderButton(getStringButtonText());
+                CyderButton submit = new CyderButton(buttonText);
                 submit.setBackground(CyderColors.regularRed);
                 submit.setColors(CyderColors.regularRed);
                 inputField.addActionListener(e1 -> submit.doClick());
@@ -82,7 +72,8 @@ public class GetterUtil {
                 submit.setFont(CyderFonts.weatherFontSmall);
                 submit.setForeground(CyderColors.navy);
                 submit.addActionListener(e12 -> {
-                    returnString = (inputField.getText() == null || inputField.getText().length() == 0 ? "NULL" : inputField.getText());
+                    returnString.set((inputField.getText() == null || inputField.getText().length() == 0 ?
+                            "NULL" : inputField.getText()));
                     inputFrame.dispose();
                 });
                 submit.setBounds(40,100,320,40);
@@ -99,15 +90,13 @@ public class GetterUtil {
         }, this + "getString thread").start();
 
         try {
-            while (returnString == null) {
+            while (returnString.get() == null) {
                 Thread.onSpinWait();
             }
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         } finally {
-            String ret = returnString;
-            clearString();
-            return ret;
+            return returnString.get();
         }
     }
 
@@ -137,24 +126,22 @@ public class GetterUtil {
      *  this function returns the string literal of "NULL" instead of {@code null}
      */
     public String getString(String title, String tooltip, String buttonText, String initialString) {
-        stringFrameTitle = title;
-        stringTooltipText = tooltip;
-        stringButtonText = buttonText;
+        AtomicReference<String> returnString = new AtomicReference<>();
 
         new Thread(() -> {
             try {
                 CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                inputFrame.setTitle(getStringFrameTitle());
+                inputFrame.setTitle(title);
 
                 CyderTextField inputField = new CyderTextField(0);
                 inputField.setBackground(Color.white);
                 inputField.setText(initialString);
-                inputField.setToolTipText(getStringTooltipText());
+                inputField.setToolTipText(tooltip);
                 inputField.setBounds(40,40,320,40);
                 inputFrame.getContentPane().add(inputField);
 
-                CyderButton submit = new CyderButton(getStringButtonText());
+                CyderButton submit = new CyderButton(buttonText);
                 submit.setBackground(CyderColors.regularRed);
                 submit.setColors(CyderColors.regularRed);
                 inputField.addActionListener(e1 -> submit.doClick());
@@ -162,7 +149,8 @@ public class GetterUtil {
                 submit.setFont(CyderFonts.weatherFontSmall);
                 submit.setForeground(CyderColors.navy);
                 submit.addActionListener(e12 -> {
-                    returnString = (inputField.getText() == null || inputField.getText().length() == 0 ? "NULL" : inputField.getText());
+                    returnString.set((inputField.getText() == null || inputField.getText().length() == 0 ?
+                            "NULL" : inputField.getText()));
                     inputFrame.dispose();
                 });
                 submit.setBounds(40,100,320,40);
@@ -179,15 +167,13 @@ public class GetterUtil {
         }, this + "getString thread").start();
 
         try {
-            while (returnString == null) {
+            while (returnString.get() == null) {
                 Thread.onSpinWait();
             }
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         } finally {
-            String ret = returnString;
-            clearString();
-            return ret;
+            return returnString.get();
         }
     }
 
@@ -197,36 +183,6 @@ public class GetterUtil {
         this.relativeFrame = relativeFrame;
     }
 
-    public void setStringFrameTitle(String title) {
-        stringFrameTitle = title;
-    }
-
-    public void setStringTooltipText(String text) {
-        stringTooltipText = text;
-    }
-
-    public void setStringButtonText(String text) {
-        stringButtonText = text;
-    }
-
-    public String getStringFrameTitle() {
-        return stringFrameTitle;
-    }
-
-    public String getStringTooltipText() {
-        return stringTooltipText;
-    }
-
-    public String getStringButtonText() {
-        return stringButtonText;
-    }
-
-    public void clearString() {
-        returnString = null;
-        stringFrameTitle = null;
-        stringTooltipText = null;
-        stringButtonText = null;
-    }
 
     /*
     FILE GETTER
@@ -269,30 +225,8 @@ public class GetterUtil {
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         } finally {
-            clearString();
             return ret.get().getName().equals("NULL") ? null : ret.get();
         }
-    }
-
-    public String getFileFrameTitle() {
-        return this.fileFrameTitle;
-    }
-
-    public void setFileFrameTitle(String title) {
-        this.fileFrameTitle = title;
-    }
-
-    public void clearFile() {
-        returnFile = null;
-        fileFrameTitle = null;
-    }
-
-    /**
-     * Confirmation dialog
-     */
-
-    public boolean getConfirmation(String message) {
-        return getConfirmation(message, null);
     }
 
     public boolean getConfirmation(String message, CyderFrame relativeFrame) {
@@ -348,14 +282,5 @@ public class GetterUtil {
             confirmationFrame[0].dispose();
             return retString[0].equals("true");
         }
-    }
-
-    /*
-    CLEAR ALL
-     */
-
-    public void clearAll() {
-        clearFile();
-        clearString();
     }
 }

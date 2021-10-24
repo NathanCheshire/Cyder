@@ -4,8 +4,10 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.ui.*;
-import cyder.widgets.GenericInformer;
+import cyder.ui.CyderButton;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderScrollPane;
+import cyder.ui.CyderTextField;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -86,11 +88,13 @@ public class TextEditor {
                 if (textNameEditField.getText().length() > 0) {
                     newName = new File(File.getAbsolutePath().replace(File.getName(), textNameEditField.getText() + ".txt"));
                     File.renameTo(newName);
-                    GenericInformer.inform(newName.getName().replace(".txt", "") + " has been successfully saved","Saved");
+                    textEditorFrame.notify(newName.getName().replace(".txt", "")
+                            + " has been successfully saved");
                 }
 
                 else {
-                    GenericInformer.inform(File.getName().replace(".txt", "") + " has been successfully saved","Saved");
+                    textEditorFrame.notify(File.getName().replace(".txt", "")
+                            + " has been successfully saved");
                 }
 
                 textEditorFrame.dispose();

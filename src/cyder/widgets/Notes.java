@@ -379,10 +379,10 @@ public class Notes {
                     boolean updated = File.renameTo(newName);
 
                     if (updated) {
-                        GenericInformer.informRelative(newName.getName().replace(".txt", "") +
-                                " has been successfully saved","Saved", noteEditorFrame);
+                        noteEditorFrame.notify(newName.getName().replace(".txt", "") +
+                                " has been successfully saved");
                     } else {
-                        GenericInformer.informRelative("Could not rename note at this time","Saved", noteEditorFrame);
+                         noteEditorFrame.notify("Could not rename note at this time");
                     }
 
                     initializeNotesList();
@@ -409,7 +409,8 @@ public class Notes {
                     noteFrame.revalidate();
                     noteFrame.repaint();
                 } else {
-                    GenericInformer.informRelative(currentUserNote.getName().replace(".txt", "") + " has been successfully saved","Saved", noteEditorFrame);
+                    noteEditorFrame.notify(currentUserNote.getName().replace(".txt", "")
+                            + " has been successfully saved");
                 }
             }
 
