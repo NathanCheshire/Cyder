@@ -38,14 +38,14 @@ public class DirectorySearch {
         if (dirFrame != null)
             dirFrame.dispose();
 
-        dirFrame = new CyderFrame(620,470, CyderImages.defaultBackground);
+        dirFrame = new CyderFrame(630,510, CyderImages.defaultBackground);
         dirFrame.setTitle(currentDirectory.getName());
 
         dirField = new CyderTextField(0);
         dirField.setBackground(Color.white);
         dirField.setText(currentDirectory.getAbsolutePath());
         dirField.addActionListener(directoryEnterListener);
-        dirField.setBounds(15 + 40 + 15,60,620 - 160,40);
+        dirField.setBounds(60,40,500,40);
         dirFrame.getContentPane().add(dirField);
 
         CyderButton last = new CyderButton(" < ");
@@ -74,7 +74,7 @@ public class DirectorySearch {
                     directoryNameList.add(file.getName());
                 }
 
-                cyderScrollList = new CyderScrollList(600, 340, CyderScrollList.SelectionPolicy.SINGLE);
+                cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
                 cyderScrollList.setScrollFont(CyderFonts.weatherFontSmall.deriveFont(16f));
 
                 for (int i = 0 ; i < directoryNameList.size() ; i++) {
@@ -95,7 +95,7 @@ public class DirectorySearch {
                 }
 
                 dirScrollLabel = cyderScrollList.generateScrollList();
-                dirScrollLabel.setBounds(10,120,600, 340);
+                dirScrollLabel.setBounds(10,90,600, 400);
                 dirFrame.getContentPane().add(dirScrollLabel);
                 dirFrame.revalidate();
                 dirFrame.repaint();
@@ -103,7 +103,7 @@ public class DirectorySearch {
                 dirField.setText(currentDirectory.getAbsolutePath());
             }
         });
-        last.setBounds(15,50,40,60);
+        last.setBounds(10,40,40,40);
         dirFrame.getContentPane().add(last);
 
         CyderButton next = new CyderButton(" > ");
@@ -132,7 +132,7 @@ public class DirectorySearch {
                     directoryNameList.add(file.getName());
                 }
 
-                cyderScrollList = new CyderScrollList(600, 340, CyderScrollList.SelectionPolicy.SINGLE);
+                cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
                 cyderScrollList.setScrollFont(CyderFonts.weatherFontSmall.deriveFont(16f));
 
                 for (int i = 0 ; i < directoryNameList.size() ; i++) {
@@ -153,7 +153,7 @@ public class DirectorySearch {
                 }
 
                 dirScrollLabel = cyderScrollList.generateScrollList();
-                dirScrollLabel.setBounds(10,120,600, 340);
+                dirScrollLabel.setBounds(10,90,600, 400);
                 dirFrame.getContentPane().add(dirScrollLabel);
                 dirFrame.revalidate();
                 dirFrame.repaint();
@@ -161,7 +161,7 @@ public class DirectorySearch {
                 dirField.setText(currentDirectory.getAbsolutePath());
             }
         });
-        next.setBounds(620 - 15 - 15 - 40,50,40,60);
+        next.setBounds(620 - 50,40,40, 40);
         dirFrame.getContentPane().add(next);
 
         File chosenDir = new File("c:/users/"
@@ -174,7 +174,7 @@ public class DirectorySearch {
             directoryNameList.add(file.getName());
         }
 
-        cyderScrollList = new CyderScrollList(600, 340, CyderScrollList.SelectionPolicy.SINGLE);
+        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
         cyderScrollList.setScrollFont(CyderFonts.weatherFontSmall.deriveFont(16f));
 
         for (int i = 0 ; i < directoryNameList.size() ; i++) {
@@ -195,7 +195,7 @@ public class DirectorySearch {
         }
 
         dirScrollLabel = cyderScrollList.generateScrollList();
-        dirScrollLabel.setBounds(10,120,600, 340);
+        dirScrollLabel.setBounds(10,90,600, 400);
         dirFrame.getContentPane().add(dirScrollLabel);
 
         dirFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
@@ -242,7 +242,7 @@ public class DirectorySearch {
             directoryNameList.add(file.getName());
         }
 
-        cyderScrollList = new CyderScrollList(600, 340, CyderScrollList.SelectionPolicy.SINGLE);
+        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
         cyderScrollList.setScrollFont(CyderFonts.weatherFontSmall.deriveFont(16f));
 
         for (int i = 0 ; i < directoryNameList.size() ; i++) {
@@ -263,7 +263,7 @@ public class DirectorySearch {
         }
 
         dirScrollLabel = cyderScrollList.generateScrollList();
-        dirScrollLabel.setBounds(10,120,600, 340);
+        dirScrollLabel.setBounds(10,90,600, 400);
         dirFrame.getContentPane().add(dirScrollLabel);
         dirFrame.revalidate();
         dirFrame.repaint();

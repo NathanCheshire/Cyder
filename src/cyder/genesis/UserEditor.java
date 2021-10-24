@@ -120,6 +120,8 @@ public class UserEditor {
 
         //todo add ignore threads to sys.json which will be loaded once upon startup
 
+        //todo fix bug resulting from logger error logger error recursion
+
         forwardPanel = new CyderButton(">");
         forwardPanel.setBackground(CyderColors.regularRed);
         forwardPanel.setColors(CyderColors.regularRed);
