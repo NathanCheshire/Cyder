@@ -102,15 +102,14 @@ public class UserEditor {
         backwardPanel.setBounds(20, 260, 50, 120);
         editUserFrame.getContentPane().add(backwardPanel);
 
+        //todo adding in a background that is set to the current index because of it's name
+        // makes you unable to delete your current background if it's at that index
+
         //todo make universal color for button to be changed too
         // (in preparation for dark mode, white buttons and gray backgrounds) wih black frame borders
 
-        //todo update to java 16 if possible? why is it so hard?
-
         //todo add more notification directions, bottom left, bottom right, center left, center right
         //todo notification enum needed for this
-
-        //todo note confirmation is broken due to bounds util, fix
 
         //todo all windows should be added to an animated stack which will replace the menu
         // should be similar to music controls panel, slide in and out and move input/output fields out of the way
@@ -121,6 +120,11 @@ public class UserEditor {
         //todo add ignore threads to sys.json which will be loaded once upon startup
 
         //todo fix bug resulting from logger error logger error recursion
+
+        //todo figure out how storage is going to work for dynamic files such as user files, shouldn't just be plain
+        // folder and accessible, maybe a zip writer or some other format
+
+        //todo anything set during a user session that resides in sys.json needs to be moved to user data
 
         forwardPanel = new CyderButton(">");
         forwardPanel.setBackground(CyderColors.regularRed);
@@ -278,7 +282,7 @@ public class UserEditor {
                             Files.copy(copyPath, Destination.toPath());
                             revalidateMusicBackgroundScroll();
                         } else {
-                            editUserFrame.inform("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you can only add PNGs and MP3s", "Error");
+                            editUserFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you can only add PNGs and MP3s");
                         }
 
                         ConsoleFrame.getConsoleFrame().resizeBackgrounds();

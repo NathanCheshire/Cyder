@@ -215,6 +215,7 @@ public class SessionLogger {
      */
     public static void SessionLogger() {
         try {
+            //make logs file if it DNE
             File logsDir = new File("logs");
             if (!logsDir.exists())
                 logsDir.mkdir();
