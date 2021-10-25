@@ -96,6 +96,9 @@ public class PerlinNoise {
                new Color(249, 233, 241))));
         perlinFrame.setTitle("Perlin Noise");
 
+        //stop the animation when we are trying to close the frame if it's running
+        perlinFrame.addPreCloseAction(() -> timer.stop());
+
         noiseLabel = new JLabel() {
             @Override
             public void paint(Graphics g) {

@@ -1300,24 +1300,68 @@ public final class ConsoleFrame {
             }
         });
 
-        JLabel youtubeLabel = new JLabel("YouTube");
-        youtubeLabel.setFont(menuFont);
-        youtubeLabel.setForeground(CyderColors.vanila);
-        printingUtil.printlnComponent(youtubeLabel);
-        youtubeLabel.addMouseListener(new MouseAdapter() {
+        //
+
+        JLabel pathfinderLabel = new JLabel("Pathfinder");
+        pathfinderLabel.setFont(menuFont);
+        pathfinderLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(pathfinderLabel);
+        pathfinderLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.internetConnect("https://youtube.com");
+               PathFinder.showGUI();
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                youtubeLabel.setForeground(CyderColors.regularRed);
+                pathfinderLabel.setForeground(CyderColors.regularRed);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                youtubeLabel.setForeground(CyderColors.vanila);
+                pathfinderLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel perlinLabel = new JLabel("Perlin");
+        perlinLabel.setFont(menuFont);
+        perlinLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(perlinLabel);
+        perlinLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                PerlinNoise.showGUI();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                perlinLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                perlinLabel.setForeground(CyderColors.vanila);
+            }
+        });
+
+        JLabel hasherLabel = new JLabel("Hasher");
+        hasherLabel.setFont(menuFont);
+        hasherLabel.setForeground(CyderColors.vanila);
+        printingUtil.printlnComponent(hasherLabel);
+        hasherLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Hasher().showGUI();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                hasherLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                hasherLabel.setForeground(CyderColors.vanila);
             }
         });
 
