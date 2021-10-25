@@ -3,6 +3,7 @@ package cyder.testing;
 import cyder.consts.CyderColors;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
+import cyder.utilities.IOUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -107,5 +108,6 @@ public class DebugConsole {
 
     public static void launchTests() {
         //tests here to be tested upon cyder launching
+        IOUtil.playAudio("sys/audio/startup.mp3");
     }
 }

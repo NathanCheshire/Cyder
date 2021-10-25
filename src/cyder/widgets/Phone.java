@@ -5,7 +5,6 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
@@ -217,17 +216,15 @@ public class Phone {
                 checkForSuicideHotline();
 
                 if (checkForSuicideHotline()) {
-                    IOUtil.playAudio("sys/audio/1800.mp3",
-                            ConsoleFrame.getConsoleFrame().getInputHandler());
+                    IOUtil.playAudio("sys/audio/1800.mp3");
                 }
 
                 else if (checkFor223()) {
-                    IOUtil.playAudio("sys/audio/223.mp3",
-                            ConsoleFrame.getConsoleFrame().getInputHandler());
+                    IOUtil.playAudio("sys/audio/223.mp3");
                 }
 
                 else {
-                    GenericInformer.inform("Dialing: " + numberLabel.getText(),"");
+                    phoneFrame.notify("Dialing: " + numberLabel.getText());
                     phoneNum = "";
                 }
             }
@@ -243,37 +240,21 @@ public class Phone {
 
         if (len == 0) {
             return "#";
-        }
-
-        else if (len > 0 && len <= 4) {
+        } else if (len > 0 && len <= 4) {
             return num;
-        }
-
-        else if (len == 5) {
+        } else if (len == 5) {
             return (num.charAt(0) + "-" + num.substring(1,len));
-        }
-
-        else if (len == 6) {
+        } else if (len == 6) {
             return (num.substring(0,2) + "-" + num.substring(2,len));
-        }
-
-        else if (len == 7) {
+        } else if (len == 7) {
             return (num.substring(0,3) + "-" + num.substring(3,len));
-        }
-
-        else if (len == 8) {
+        } else if (len == 8) {
             return ("(" + num.charAt(0) + ") " + num.substring(1,4) + " " + num.substring(4,len));
-        }
-
-        else if (len == 9) {
+        } else if (len == 9) {
             return ("(" + num.substring(0,2) + ") " + num.substring(2,5) + " " + num.substring(5,len));
-        }
-
-        else if (len == 10) {
+        } else if (len == 10) {
             return ("(" + num.substring(0,3) + ") " + num.substring(3,6) + " " + num.substring(6,len));
-        }
-
-        else if (len > 10) {
+        } else if (len > 10) {
             if (len > 15) {
                 phoneNum = numberLabel.getText();
                 return numberLabel.getText();
@@ -284,9 +265,7 @@ public class Phone {
             int offset = leadingDigits.length();
 
             return (leadingDigits + " (" + num.substring(offset,3 + offset) + ") " + num.substring(3 + offset,6 + offset) + " " + num.substring(6 + offset,len));
-        }
-
-        else {
+        } else {
             return null;
         }
     }

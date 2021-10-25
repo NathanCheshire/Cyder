@@ -516,23 +516,23 @@ public class InputHandler {
         }
         //playing audio -------------------------------------------
         else if (eic("hey")) {
-            IOUtil.playAudio("sys/audio/heyya.mp3",this);
+            IOUtil.playAudio("sys/audio/heyya.mp3");
         }  else if (eic("windows")) {
-            IOUtil.playAudio("sys/audio/windows.mp3",this);
+            IOUtil.playAudio("sys/audio/windows.mp3");
         }  else if (hasWord("light") && hasWord("saber")) {
-            IOUtil.playAudio("sys/audio/Lightsaber.mp3",this);
+            IOUtil.playAudio("sys/audio/Lightsaber.mp3");
         } else if (hasWord("xbox")) {
-            IOUtil.playAudio("sys/audio/xbox.mp3",this);
+            IOUtil.playAudio("sys/audio/xbox.mp3");
         } else if (has("star") && has("trek")) {
-            IOUtil.playAudio("sys/audio/StarTrek.mp3",this);
+            IOUtil.playAudio("sys/audio/StarTrek.mp3");
         } else if (has("toy") && has("story")) {
-            IOUtil.playAudio("sys/audio/TheClaw.mp3",this);
+            IOUtil.playAudio("sys/audio/TheClaw.mp3");
         } else if (has("stop") && has("music")) {
             IOUtil.stopAudio();
         } else if (eic("logic")) {
-            IOUtil.playAudio("sys/audio/commando.mp3",this);
+            IOUtil.playAudio("sys/audio/commando.mp3");
         } else if (eic("1-800-273-8255") || eic("18002738255")) {
-            IOUtil.playAudio("sys/audio/1800.mp3",this);
+            IOUtil.playAudio("sys/audio/1800.mp3");
         }
         //console commands ----------------------------------------
         else if (hasWord("background") && hasWord("color")) {

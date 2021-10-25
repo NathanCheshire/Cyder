@@ -350,11 +350,9 @@ public class Login {
 
                     if (!musicList.isEmpty()) {
                         IOUtil.playAudio("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
-                                        (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]),
-                                ConsoleFrame.getConsoleFrame().getInputHandler());
+                                        (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]));
                     } else {
-                        IOUtil.playAudio("sys/audio/Ride.mp3",
-                                ConsoleFrame.getConsoleFrame().getInputHandler());
+                        IOUtil.playAudio("sys/audio/Ride.mp3");
                     }
                 }
                 //play cool startup audio as long as released

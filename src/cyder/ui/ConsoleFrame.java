@@ -1125,11 +1125,11 @@ public final class ConsoleFrame {
                     if (correct) {
                         int rand = NumberUtil.randInt(0,2);
                         if (rand == 0) {
-                            IOUtil.playAudio("sys/audio/BadApple.mp3", inputHandler);
+                            IOUtil.playAudio("sys/audio/BadApple.mp3");
                         } else if (rand == 1){
-                            IOUtil.playAudio("sys/audio/BeetleJuice.mp3", inputHandler);
+                            IOUtil.playAudio("sys/audio/BeetleJuice.mp3");
                         } else {
-                            IOUtil.playAudio("sys/audio/BlackOrWhite.mp3", inputHandler);
+                            IOUtil.playAudio("sys/audio/BlackOrWhite.mp3");
                         }
                     }
                 } catch (Exception e) {
@@ -1594,7 +1594,7 @@ public final class ConsoleFrame {
                     for (int i = 61440; i < 61452; i++) {
                         if (code == i) {
                             if (i - 61427 == 17) {
-                                IOUtil.playAudio("sys/audio/f17.mp3", inputHandler);
+                                IOUtil.playAudio("sys/audio/f17.mp3");
                             } else {
                                 inputHandler.println("Interesting F" + (i - 61427) + " key");
                             }
@@ -2601,6 +2601,19 @@ public final class ConsoleFrame {
         }, "Console Audio Menu Minimizer").start();
     }
 
+    public void animateOutAndRemoveAudioControls() {
+        new Thread(() -> {
+            for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
+                audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, i);
+                try {
+                    Thread.sleep(10);
+                } catch (Exception ignored) {}
+            }
+            audioControlsLabel.setVisible(false);
+            removeAudioControls();
+        }, "Console Audio Menu Minimizer").start();
+    }
+
     public void animateInAudioControls() {
         new Thread(() -> {
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 150 - 5, -40);
@@ -2616,24 +2629,23 @@ public final class ConsoleFrame {
     }
 
     public void revalidateAudioMenu() {
-        if (audioControlsLabel.isVisible()) {
-            if (!AudioPlayer.windowOpen()) {
-                 if (!IOUtil.generalAudioPlaying()) {
-                    if (audioControlsLabel.isVisible()) {
-                        animateOutAudioControls();
-                        removeAudioControls();
-                    }
-                }
+        if (!AudioPlayer.windowOpen() && !IOUtil.generalAudioPlaying()) {
+            if (audioControlsLabel.isVisible()) {
+                animateOutAndRemoveAudioControls();
+            } else {
+                removeAudioControls();
             }
         } else {
-            audioControlsLabel.setLocation(audioControlsLabel.getX(), -40);
-            toggleAudioControls.setVisible(true);
-        }
+            if (!audioControlsLabel.isVisible()) {
+                audioControlsLabel.setLocation(audioControlsLabel.getX(), -40);
+                toggleAudioControls.setVisible(true);
+            }
 
-        if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
-        } else {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+            if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+            } else {
+                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+            }
         }
     }
 

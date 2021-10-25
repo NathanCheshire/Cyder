@@ -229,9 +229,8 @@ public class IOUtil {
     /**
      * Plays the requested mp3 audio file using the general IOUtil JLayer player
      * @param FilePath the path to the mp3 file to play
-     * @param inputHandler the inputhandler to use when appending the stop button
      */
-    public static void playAudio(String FilePath, InputHandler inputHandler) {
+    public static void playAudio(String FilePath) {
         try {
             stopAudio();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
@@ -243,6 +242,8 @@ public class IOUtil {
                     player.play();
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
+                } finally {
+                    ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
                 }
             }, "ioutil audio thread").start();
 

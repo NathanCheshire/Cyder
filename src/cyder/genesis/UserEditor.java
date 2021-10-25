@@ -100,9 +100,7 @@ public class UserEditor {
         backwardButton.setBounds(20, 50, 50, 500);
         editUserFrame.getContentPane().add(backwardButton);
 
-        //todo adding in a background that is set to the current index because of it's name
-        // makes you unable to delete your current background if it's at that index
-        // so basically what music/background index we're at doesn't work
+        //todo fix lots of old generic inform and inform calls where it could be notify calls
 
         //todo use NotificationDirection for notification directions and add in unimplemented ones
 
