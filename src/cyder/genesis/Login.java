@@ -323,6 +323,10 @@ public class Login {
                     ConsoleFrame.getConsoleFrame().close();
                 }
 
+                //close all frames first
+                for (Frame f : Frame.getFrames())
+                    f.dispose();
+
                 ConsoleFrame.getConsoleFrame().start();
 
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
