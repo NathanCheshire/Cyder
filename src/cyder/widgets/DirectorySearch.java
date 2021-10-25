@@ -61,7 +61,7 @@ public class DirectorySearch {
             File ChosenDir = new File(dirField.getText());
 
             if (ChosenDir.isDirectory()) {
-                refreshBasedOnDir(ChosenDir);
+                refreshBasedOnDir(ChosenDir, true);
             } else if (ChosenDir.isFile()) {
                 IOUtil.openFile(ChosenDir.getAbsolutePath());
             }
@@ -87,7 +87,7 @@ public class DirectorySearch {
                 currentDirectory = backward.pop();
 
                 //now simply refresh based on currentDir
-                refreshFromTraversalButton();
+                refreshBasedOnDir(null, false);
             }
         });
         last.setBounds(10,40,40,40);
@@ -111,7 +111,7 @@ public class DirectorySearch {
                 currentDirectory = forward.pop();
 
                 //refresh based on where we should go
-                refreshFromTraversalButton();
+                refreshBasedOnDir(null, false);
             }
         });
         next.setBounds(620 - 50,40,40, 40);
@@ -138,7 +138,7 @@ public class DirectorySearch {
                 @Override
                 public void fire() {
                     if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI));
+                        refreshBasedOnDir(directoryFileList.get(finalI), true);
                     } else {
                         IOUtil.openFile(directoryFileList.get(finalI).getAbsolutePath());
                     }
@@ -160,124 +160,47 @@ public class DirectorySearch {
         dirField.requestFocus();
     }
 
-    //general refresh method that doesn't clear the stacks
-    private static void refreshFromTraversalButton() {
-        //get files
-        File[] files = currentDirectory.listFiles();
+    private static void refreshBasedOnDir(File directory, boolean wipeForward) {
+        if (wipeForward) {
+            forward.clear();
+            if (backward.isEmpty() || !backward.peek().equals(currentDirectory)) {
+                backward.push(currentDirectory);
+            }
+            currentDirectory = directory;
+        }
 
-        //remove old files
+        File[] files = currentDirectory.listFiles();
         cyderScrollList.removeAllElements();
         dirFrame.remove(dirScrollLabel);
-
-        //wipe name and files lists
         directoryFileList.clear();
         directoryNameList.clear();
-
-        //add new files arr to LL
         Collections.addAll(directoryFileList, files);
-
-        //get corresponding names for name list
         for (File file : directoryFileList) {
             directoryNameList.add(file.getName());
         }
-
-        //setup scroll
         cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
         cyderScrollList.setScrollFont(CyderFonts.weatherFontSmall.deriveFont(16f));
-
-        //add new items to scroll and actions
         for (int i = 0 ; i < directoryNameList.size() ; i++) {
             int finalI = i;
             class thisAction implements CyderScrollList.ScrollAction {
                 @Override
                 public void fire() {
                     if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI));
+                        refreshBasedOnDir(directoryFileList.get(finalI), true);
                     } else {
                         IOUtil.openFile(directoryFileList.get(finalI).getAbsolutePath());
                     }
                 }
             }
-
             thisAction action = new thisAction();
             cyderScrollList.addElement(directoryNameList.get(i), action);
         }
-
-        //regenerate scroll
         dirScrollLabel = cyderScrollList.generateScrollList();
         dirScrollLabel.setBounds(10,90,600, 400);
         dirFrame.getContentPane().add(dirScrollLabel);
-
-        //frame revalidation
         dirFrame.revalidate();
         dirFrame.repaint();
         dirFrame.setTitle(currentDirectory.getName());
         dirField.setText(currentDirectory.getAbsolutePath());
-    }
-
-    //refresh button that clears the back stack
-    private static void refreshBasedOnDir(File directory) {
-        //clear forward since a new path
-        forward.clear();
-
-        //before where we were is wiped, put it in backwards if it's not the last
-        if (backward.isEmpty() || !backward.peek().equals(currentDirectory)) {
-            backward.push(currentDirectory);
-        }
-
-        //this is our current now
-        currentDirectory = directory;
-
-        //get files to display
-        File[] files = directory.listFiles();
-
-        //remove old list
-        cyderScrollList.removeAllElements();
-        dirFrame.remove(dirScrollLabel);
-
-        //clear display lists
-        directoryFileList.clear();
-        directoryNameList.clear();
-
-        //add array files to LL files
-        Collections.addAll(directoryFileList, files);
-
-        //add corresponding names of files to names list
-        for (File file : directoryFileList) {
-            directoryNameList.add(file.getName());
-        }
-
-        //regenerate scroll
-        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
-        cyderScrollList.setScrollFont(CyderFonts.weatherFontSmall.deriveFont(16f));
-
-        //add items with coresponding actions to scroll
-        for (int i = 0 ; i < directoryNameList.size() ; i++) {
-            int finalI = i;
-            class thisAction implements CyderScrollList.ScrollAction {
-                @Override
-                public void fire() {
-                    if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI));
-                    } else {
-                        IOUtil.openFile(directoryFileList.get(finalI).getAbsolutePath());
-                    }
-                }
-            }
-
-            thisAction action = new thisAction();
-            cyderScrollList.addElement(directoryNameList.get(i), action);
-        }
-
-        //generate scroll and add it
-        dirScrollLabel = cyderScrollList.generateScrollList();
-        dirScrollLabel.setBounds(10,90,600, 400);
-        dirFrame.getContentPane().add(dirScrollLabel);
-
-        //frame revalidation
-        dirFrame.revalidate();
-        dirFrame.repaint();
-        dirFrame.setTitle(directory.getName());
-        dirField.setText(directory.getAbsolutePath());
     }
 }
