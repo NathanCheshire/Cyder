@@ -72,7 +72,6 @@ public class TextEditor {
         }
 
         CyderButton saveText = new CyderButton("Save & Resign");
-        saveText.setColors(CyderColors.regularRed);
         saveText.setBorder(new LineBorder(CyderColors.navy,5,false));
         saveText.setFocusPainted(false);
         saveText.setBackground(CyderColors.regularRed);

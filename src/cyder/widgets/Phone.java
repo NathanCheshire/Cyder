@@ -92,18 +92,6 @@ public class Phone {
         dialNumber.setBounds(220, 400, 80, 80);
         phoneFrame.getContentPane().add(dialNumber);
 
-        one.setColors(CyderColors.regularRed);
-        two.setColors(CyderColors.regularRed);
-        three.setColors(CyderColors.regularRed);
-        four.setColors(CyderColors.regularRed);
-        five.setColors(CyderColors.regularRed);
-        six.setColors(CyderColors.regularRed);
-        seven.setColors(CyderColors.regularRed);
-        eight.setColors(CyderColors.regularRed);
-        nine.setColors(CyderColors.regularRed);
-        dialNumber.setColors(CyderColors.regularRed);
-        zero.setColors(CyderColors.regularRed);
-        back.setColors(CyderColors.regularRed);
 
         one.setFocusPainted(false);
         two.setFocusPainted(false);

@@ -95,7 +95,6 @@ public class UserEditor {
 
         backwardPanel = new CyderButton("<");
         backwardPanel.setBackground(CyderColors.regularRed);
-        backwardPanel.setColors(CyderColors.regularRed);
         backwardPanel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         backwardPanel.setFont(CyderFonts.weatherFontSmall);
         backwardPanel.addActionListener(e -> lastEditUser());
@@ -104,9 +103,6 @@ public class UserEditor {
 
         //todo adding in a background that is set to the current index because of it's name
         // makes you unable to delete your current background if it's at that index
-
-        //todo make universal color for button to be changed too
-        // (in preparation for dark mode, white buttons and gray backgrounds) wih black frame borders
 
         //todo add more notification directions, bottom left, bottom right, center left, center right
         //todo notification enum needed for this
@@ -121,12 +117,10 @@ public class UserEditor {
 
         //todo figure out how storage is going to work for dynamic files such as user files, shouldn't just be plain
         // folder and accessible, maybe a zip writer or some other format
-
         //todo anything set during a user session that resides in sys.json needs to be moved to user data
 
         forwardPanel = new CyderButton(">");
         forwardPanel.setBackground(CyderColors.regularRed);
-        forwardPanel.setColors(CyderColors.regularRed);
         forwardPanel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         forwardPanel.setFont(CyderFonts.weatherFontSmall);
         forwardPanel.addActionListener(e -> nextEditUser());
@@ -249,7 +243,6 @@ public class UserEditor {
 
         addMusicBackground = new CyderButton("Add");
         addMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        addMusicBackground.setColors(CyderColors.regularRed);
         addMusicBackground.setFocusPainted(false);
         addMusicBackground.setBackground(CyderColors.regularRed);
         addMusicBackground.addActionListener(e -> {
@@ -299,7 +292,6 @@ public class UserEditor {
 
         openMusicBackground = new CyderButton("Open");
         openMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        openMusicBackground.setColors(CyderColors.regularRed);
         openMusicBackground.setFocusPainted(false);
         openMusicBackground.setBackground(CyderColors.regularRed);
         openMusicBackground.setFont(CyderFonts.weatherFontSmall);
@@ -318,7 +310,6 @@ public class UserEditor {
 
         renameMusicBackground = new CyderButton("Rename");
         renameMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        renameMusicBackground.setColors(CyderColors.regularRed);
         renameMusicBackground.addActionListener(e -> new Thread(() -> {
             try {
                 if (!musicBackgroundScroll.getSelectedElements().isEmpty()) {
@@ -378,7 +369,6 @@ public class UserEditor {
 
         deleteMusicBackground = new CyderButton("Delete");
         deleteMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        deleteMusicBackground.setColors(CyderColors.regularRed);
         deleteMusicBackground.addActionListener(e -> {
             if (!musicBackgroundScroll.getSelectedElements().isEmpty()) {
                 String clickedSelection = musicBackgroundScroll.getSelectedElements().get(0);
@@ -695,7 +685,6 @@ public class UserEditor {
 
         CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        applyFont.setColors(CyderColors.regularRed);
         applyFont.setToolTipText("Apply");
         applyFont.setFont(CyderFonts.weatherFontSmall);
         applyFont.setFocusPainted(false);
@@ -719,7 +708,6 @@ public class UserEditor {
 
         CyderButton resetValues = new CyderButton("Reset ALL");
         resetValues.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        resetValues.setColors(CyderColors.regularRed);
         resetValues.setToolTipText("Reset font and all colors");
         resetValues.setFont(CyderFonts.weatherFontSmall);
         resetValues.setFocusPainted(false);
@@ -982,7 +970,6 @@ public class UserEditor {
         printingUtil.print("\n");
 
         changeUsernameButton.setBackground(CyderColors.regularRed);
-        changeUsernameButton.setColors(CyderColors.regularRed);
         changeUsernameButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         changeUsernameButton.setFont(CyderFonts.weatherFontSmall);
         changeUsernameButton.addActionListener(e -> {

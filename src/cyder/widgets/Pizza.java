@@ -252,8 +252,6 @@ public class Pizza {
 
         CyderButton placeOrder = new CyderButton("Place Order");
         placeOrder.setFont(CyderFonts.weatherFontSmall);
-        placeOrder.setColors(CyderColors.regularRed);
-        placeOrder.setBackground(CyderColors.regularRed);
         placeOrder.addActionListener(e -> {
             if (nameField.getText().length() <= 0)
                 GenericInformer.inform("Sorry, but you must enter a name.","");
@@ -321,8 +319,6 @@ public class Pizza {
         pizzaFrame.getContentPane().add(placeOrder);
 
         CyderButton resetPizza = new CyderButton("Reset");
-        resetPizza.setBackground(CyderColors.regularRed);
-        resetPizza.setColors(CyderColors.regularRed);
         resetPizza.setFont(CyderFonts.weatherFontSmall);
         resetPizza.addActionListener(e -> {
             nameField.setText("");

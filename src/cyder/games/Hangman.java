@@ -118,7 +118,6 @@ public class Hangman {
         HangmanReset.setFont(CyderFonts.weatherFontSmall);
         HangmanReset.addActionListener(e -> setup());
         HangmanReset.setBorder(new LineBorder(CyderColors.navy,5,false));
-        HangmanReset.setColors(CyderColors.regularRed);
         HangmanReset.setBounds(80,750,712 - 80 - 80, 40);
         HangmanFrame.getContentPane().add(HangmanReset);
 

@@ -49,7 +49,6 @@ public class ImageResizer {
         chooseFile.setFont(CyderFonts.weatherFontSmall);
         chooseFile.setForeground(CyderColors.navy);
         chooseFile.setBackground(CyderColors.regularRed);
-        chooseFile.setColors(CyderColors.regularRed);
         chooseFile.addActionListener(e -> {
             try {
                 new Thread(() -> {
@@ -202,7 +201,6 @@ public class ImageResizer {
         approve.setForeground(CyderColors.navy);
         approve.setFont(CyderFonts.weatherFontSmall);
         approve.setBackground(CyderColors.regularRed);
-        approve.setColors(CyderColors.regularRed);
         approve.setFocusPainted(false);
         approve.addActionListener(e -> {
             if (resizeImage == null) {

@@ -67,7 +67,6 @@ public class GetterUtil {
 
                 CyderButton submit = new CyderButton(buttonText);
                 submit.setBackground(CyderColors.regularRed);
-                submit.setColors(CyderColors.regularRed);
                 inputField.addActionListener(e1 -> submit.doClick());
                 submit.setBorder(new LineBorder(CyderColors.navy,5,false));
                 submit.setFont(CyderFonts.weatherFontSmall);
@@ -144,7 +143,6 @@ public class GetterUtil {
 
                 CyderButton submit = new CyderButton(buttonText);
                 submit.setBackground(CyderColors.regularRed);
-                submit.setColors(CyderColors.regularRed);
                 inputField.addActionListener(e1 -> submit.doClick());
                 submit.setBorder(new LineBorder(CyderColors.navy,5,false));
                 submit.setFont(CyderFonts.weatherFontSmall);
@@ -253,7 +251,6 @@ public class GetterUtil {
                 last.setBackground(CyderColors.regularRed);
                 last.setFont(CyderFonts.weatherFontSmall);
                 last.setBorder(new LineBorder(CyderColors.navy,5,false));
-                last.setColors(CyderColors.regularRed);
                 last.addActionListener(e -> {
                     //we may only go back if there's something in the back and it's different from where we are now
                     if (backward != null && !backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
@@ -277,7 +274,6 @@ public class GetterUtil {
                 next.setBackground(CyderColors.regularRed);
                 next.setFont(CyderFonts.weatherFontSmall);
                 next.setBorder(new LineBorder(CyderColors.navy,5,false));
-                next.setColors(CyderColors.regularRed);
                 next.addActionListener(e -> {
                     //only traverse forward if the stack is not empty and forward is different from where we are
                     if (forward != null && !forward.isEmpty() && !forward.peek().equals(currentDirectory)) {

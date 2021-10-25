@@ -182,12 +182,7 @@ public class Weather {
             changeLocationFrame.getContentPane().add(changeLocField);
 
             CyderButton changeLoc = new CyderButton("Change Location");
-            changeLoc.setBorder(new LineBorder(CyderColors.navy,5,false));
             changeLocField.addActionListener(e1 -> changeLoc.doClick());
-            changeLoc.setFont(CyderFonts.weatherFontSmall);
-            changeLoc.setForeground(CyderColors.navy);
-            changeLoc.setColors(CyderColors.regularRed);
-            changeLoc.setBackground(CyderColors.regularRed);
             changeLoc.addActionListener(e12 -> {
                 try {
                     oldLocation = locationString;

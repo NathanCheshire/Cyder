@@ -12,11 +12,10 @@ import java.awt.*;
 
 
 public class CyderButton extends JButton {
-
     private Color hoverBackgroundColor;
     private Color pressedBackgroundColor;
     private boolean threadsKilled = false;
-    private Color backgroundColor = CyderColors.regularRed;
+    private Color backgroundColor = CyderColors.buttonColor;
 
     public CyderButton() {
         this(null);
@@ -32,7 +31,7 @@ public class CyderButton extends JButton {
 
         setFont(CyderFonts.weatherFontSmall);
         setBackground(backgroundColor);
-        setColors(CyderColors.regularRed);
+        setColors(CyderColors.buttonColor);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
 

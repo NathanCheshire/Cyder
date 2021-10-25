@@ -274,8 +274,6 @@ public class TempConverter {
 
         CyderButton resetValues = new CyderButton("Reset Values");
         resetValues.setBorder(new LineBorder(CyderColors.navy,5,false));
-        resetValues.setColors(CyderColors.regularRed);
-        calculate.setColors(CyderColors.regularRed);
         resetValues.addActionListener(e -> {
             startingValue.setText("");
             oldCelsius.setNotSelected();

@@ -78,7 +78,6 @@ public class Notes {
         noteFrame.getContentPane().add(noteScrollLabel);
 
         CyderButton addNote = new CyderButton("Add Note");
-        addNote.setColors(CyderColors.regularRed);
         addNote.setBorder(new LineBorder(CyderColors.navy,5,false));
         addNote.setFocusPainted(false);
         addNote.setBackground(CyderColors.regularRed);
@@ -88,7 +87,6 @@ public class Notes {
         noteFrame.getContentPane().add(addNote);
 
         openNote = new CyderButton("Open Note");
-        openNote.setColors(CyderColors.regularRed);
         openNote.setFocusPainted(false);
         openNote.setBorder(new LineBorder(CyderColors.navy,5,false));
         openNote.setBackground(CyderColors.regularRed);
@@ -112,7 +110,6 @@ public class Notes {
         noteFrame.getContentPane().add(openNote);
 
         CyderButton deleteNote = new CyderButton("Delete Note");
-        deleteNote.setColors(CyderColors.regularRed);
         deleteNote.setBorder(new LineBorder(CyderColors.navy,5,false));
         deleteNote.setFocusPainted(false);
         deleteNote.setBackground(CyderColors.regularRed);
@@ -211,7 +208,6 @@ public class Notes {
         CyderButton submitNewNote = new CyderButton("Create Note");
         submitNewNote.setBorder(new LineBorder(CyderColors.navy,5,false));
         submitNewNote.setFocusPainted(false);
-        submitNewNote.setColors(CyderColors.regularRed);
         submitNewNote.setBackground(CyderColors.regularRed);
         submitNewNote.setFont(CyderFonts.weatherFontSmall);
         submitNewNote.addActionListener(e -> {
@@ -343,7 +339,6 @@ public class Notes {
         currentUserNote = File;
 
         CyderButton saveNote = new CyderButton("Save");
-        saveNote.setColors(CyderColors.regularRed);
         saveNote.setBorder(new LineBorder(CyderColors.navy,5,false));
         saveNote.setFocusPainted(false);
         saveNote.setBackground(CyderColors.regularRed);

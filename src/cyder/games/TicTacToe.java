@@ -42,7 +42,7 @@ public class TicTacToe {
 
         tttFrame = new CyderFrame(400,500, CyderImages.defaultBackground);
         tttFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        tttFrame.setTitle("Tic Tac Toe");
+        tttFrame.setTitle("TicTacToe");
 
         tttLabel = new JLabel();
         tttLabel.setFont(CyderFonts.weatherFontSmall);
@@ -63,15 +63,10 @@ public class TicTacToe {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt1.setText("X");
 
-                    ttt1.setForeground(CyderColors.regularRed);
-
                     ttt1.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
 
                 else {
@@ -83,10 +78,9 @@ public class TicTacToe {
 
                     CurrentPlayerTurn = PlayerX;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
+                UpdatePlayerTurnLabel();
+                TTTCheckWin();
             }
         });
 
@@ -105,15 +99,10 @@ public class TicTacToe {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt2.setText("X");
 
-                    ttt2.setForeground(CyderColors.regularRed);
-
                     ttt2.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
 
                 else {
@@ -125,10 +114,9 @@ public class TicTacToe {
 
                     CurrentPlayerTurn = PlayerX;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
+                UpdatePlayerTurnLabel();
+                TTTCheckWin();
             }
         });
 
@@ -154,15 +142,10 @@ public class TicTacToe {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt3.setText("X");
 
-                    ttt3.setForeground(CyderColors.regularRed);
-
                     ttt3.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
 
                 else {
@@ -174,10 +157,9 @@ public class TicTacToe {
 
                     CurrentPlayerTurn = PlayerX;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
+                UpdatePlayerTurnLabel();
+                TTTCheckWin();
             }
         });
 
@@ -196,15 +178,10 @@ public class TicTacToe {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt4.setText("X");
 
-                    ttt4.setForeground(CyderColors.regularRed);
-
                     ttt4.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
 
                 else {
@@ -216,10 +193,9 @@ public class TicTacToe {
 
                     CurrentPlayerTurn = PlayerX;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
+                UpdatePlayerTurnLabel();
+                TTTCheckWin();
             }
         });
 
@@ -238,15 +214,10 @@ public class TicTacToe {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt5.setText("X");
 
-                    ttt5.setForeground(CyderColors.regularRed);
-
                     ttt5.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
 
                 else {
@@ -258,10 +229,9 @@ public class TicTacToe {
 
                     CurrentPlayerTurn = PlayerX;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
+                UpdatePlayerTurnLabel();
+                TTTCheckWin();
             }
         });
 
@@ -280,15 +250,10 @@ public class TicTacToe {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt6.setText("X");
 
-                    ttt6.setForeground(CyderColors.regularRed);
-
                     ttt6.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
 
                 else {
@@ -300,10 +265,9 @@ public class TicTacToe {
 
                     CurrentPlayerTurn = PlayerX;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
+                UpdatePlayerTurnLabel();
+                TTTCheckWin();
             }
         });
 
@@ -322,15 +286,10 @@ public class TicTacToe {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt7.setText("X");
 
-                    ttt7.setForeground(CyderColors.regularRed);
-
                     ttt7.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
 
                 else {
@@ -342,10 +301,9 @@ public class TicTacToe {
 
                     CurrentPlayerTurn = PlayerX;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
+                UpdatePlayerTurnLabel();
+                TTTCheckWin();
             }
         });
 
@@ -364,15 +322,10 @@ public class TicTacToe {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt8.setText("X");
 
-                    ttt8.setForeground(CyderColors.regularRed);
-
                     ttt8.setFont(CyderFonts.weatherFontBig);
 
                     CurrentPlayerTurn = PlayerO;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
 
                 else {
@@ -384,10 +337,9 @@ public class TicTacToe {
 
                     CurrentPlayerTurn = PlayerX;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
+                UpdatePlayerTurnLabel();
+                TTTCheckWin();
             }
         });
 
@@ -406,15 +358,8 @@ public class TicTacToe {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt9.setText("X");
 
-                    ttt9.setForeground(CyderColors.regularRed);
-
-                    ttt9.setFont(CyderFonts.weatherFontBig);
-
                     CurrentPlayerTurn = PlayerO;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
 
                 else {
@@ -426,10 +371,9 @@ public class TicTacToe {
 
                     CurrentPlayerTurn = PlayerX;
 
-                    UpdatePlayerTurnLabel();
-
-                    TTTCheckWin();
                 }
+                UpdatePlayerTurnLabel();
+                TTTCheckWin();
             }
         });
 
@@ -440,7 +384,6 @@ public class TicTacToe {
         tttReset.setFocusPainted(false);
         tttReset.setBackground(CyderColors.regularRed);
         tttReset.setFont(CyderFonts.weatherFontBig);
-        tttReset.setColors(CyderColors.regularRed);
         tttReset.setBorder(new LineBorder(CyderColors.navy,5,false));
         tttReset.addActionListener(e -> TTTBoardReset());
 
@@ -482,17 +425,17 @@ public class TicTacToe {
 
     private static void TTTCheckWin() {
         if (HasPlayerWon("X")) {
-            tttFrame.inform("X's have won the game! Congratulations!","");
+            tttFrame.notify("X's have won the game! Congratulations!");
             tttReset.doClick();
         }
 
         else if (HasPlayerWon("O")) {
-            tttFrame.inform("O's have won the game! Congratulations!","");
+            tttFrame.notify("O's have won the game! Congratulations!");
             tttReset.doClick();
         }
 
         else if (TTTBoardIsFull()) {
-            tttFrame.inform("The game ended with no winners.","");
+            tttFrame.notify("The game ended with no winners.");
             tttReset.doClick();
         }
     }

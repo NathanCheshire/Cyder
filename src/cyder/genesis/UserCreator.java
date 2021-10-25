@@ -148,7 +148,6 @@ public class UserCreator {
         chooseBackground.setToolTipText("ClickMe me to choose a background");
         chooseBackground.setFont(CyderFonts.weatherFontSmall);
         chooseBackground.setBackground(CyderColors.regularRed);
-        chooseBackground.setColors(CyderColors.regularRed);
         chooseBackground.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -208,7 +207,6 @@ public class UserCreator {
         createNewUser = new CyderButton("Create User");
         createNewUser.setFont(CyderFonts.weatherFontSmall);
         createNewUser.setBackground(CyderColors.regularRed);
-        createNewUser.setColors(CyderColors.regularRed);
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {

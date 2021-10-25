@@ -79,7 +79,6 @@ public class NumberUtil {
         });
 
         CyderButton find = new CyderButton("Find");
-        find.setColors(CyderColors.regularRed);
         find.setFont(CyderFonts.weatherFontSmall);
         find.setBackground(CyderColors.regularRed);
         find.setBounds(40, 170, 600 - 80, 40);
