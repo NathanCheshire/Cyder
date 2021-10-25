@@ -6,7 +6,6 @@ import cyder.genesis.GenesisShare.Preference;
 import cyder.genobjects.User;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
-import cyder.testing.DebugConsole;
 import cyder.ui.ConsoleFrame;
 
 import javax.imageio.ImageIO;
@@ -526,7 +525,6 @@ public class UserUtil {
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
-            DebugConsole.println("Something horrible happened while trying to fix an old userdata.json file");
         }
     }
 }

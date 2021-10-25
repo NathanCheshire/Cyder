@@ -38,33 +38,13 @@ public class ErrorHandler {
             if (ConsoleFrame.getConsoleFrame().getUUID() != null &&
                     !ConsoleFrame.getConsoleFrame().isClosed() &&
                     UserUtil.getUserData("SilenceErrors").equals("0")) {
-                DebugConsole.println("\nOriginal error:\n");
-                e.printStackTrace();
-                windowedError(message, write);
+                silentHandleWithoutLogging(e);
             }
         }
 
         //uh oh; error was thrown inside of here so we'll just generic inform the user of it
         catch (Exception ex) {
-            if (!ConsoleFrame.getConsoleFrame().isClosed()) {
-                ex.printStackTrace();
-
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
-
-                ex.printStackTrace(pw);
-                ex.printStackTrace();
-
-                String stackTrack = sw.toString();
-                int lineNumber = ex.getStackTrace()[0].getLineNumber();
-                Class c = ex.getClass();
-
-                String write = e.getMessage() == null ? "" :
-                        "\n" + e.getMessage() + "\nThrown from:\n" + stackTrack.split("\\s+at\\s+")[1] + "\n"
-                                + "StackTrace:\n" + stackTrack;
-
-                windowedError(ex.getMessage(), write);
-            }
+            silentHandleWithoutLogging(ex);
         }
     }
 
@@ -92,7 +72,7 @@ public class ErrorHandler {
             if (write.trim().length() > 0)
                 SessionLogger.log(SessionLogger.Tag.EXCEPTION, write);
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            silentHandleWithoutLogging(ex);
         }
     }
 
@@ -101,13 +81,20 @@ public class ErrorHandler {
         return "ErrorHandler object, hash=" + this.hashCode();
     }
 
-    private static void windowedError(String title, String message) {
-        if ((title == null || title.length() == 0) && (message == null || message.length() == 0)) {
-            DebugConsole.println("Windowed error was passed null");
-            return;
-        }
+    /**
+     * Handles the exception by displaying a CyderFrame with the exception on it
+     * (does not log the message. As such, this method should only be used in rare scenarios)
+     * @param e the exception to be displayed
+     */
+    private static void silentHandleWithoutLogging(Exception e) {
+        String title = e.getMessage();
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        String stackTrack = sw.toString();
 
-        DebugConsole.println(title.length() == 0 ? "Null error message" : title);
-        DebugConsole.println(message);
+        if (title != null && title.length() != 0 && stackTrack != null || stackTrack.length() != 0) {
+            DebugConsole.println(title + "\n" + stackTrack);
+        }
     }
 }

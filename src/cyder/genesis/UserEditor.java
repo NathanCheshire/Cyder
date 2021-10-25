@@ -119,8 +119,6 @@ public class UserEditor {
 
         //todo add ignore threads to sys.json which will be loaded once upon startup
 
-        //todo fix bug resulting from logger error logger error recursion
-
         //todo figure out how storage is going to work for dynamic files such as user files, shouldn't just be plain
         // folder and accessible, maybe a zip writer or some other format
 
