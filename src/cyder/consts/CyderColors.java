@@ -29,6 +29,9 @@ public class CyderColors {
 
     public static Color buttonColor = regularRed;
 
+    public static Color darkModeButtonColor = CyderColors.vanila;
+    public static Color darkModeButtonTextColor = CyderColors.navy;
+
     public static void setGuiThemeColor(Color c) {
         guiThemeColor = c;
     }

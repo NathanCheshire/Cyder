@@ -642,6 +642,7 @@ public class IOUtil {
         private Hash cypherhash;
         private boolean testingmode;
         private LinkedList<ExitCondition> exitconditions;
+        private LinkedList<String> ignorethreads;
 
         public boolean isReleased() {
             return released;
@@ -753,6 +754,14 @@ public class IOUtil {
 
         public void setTestingmode(boolean testingmode) {
             this.testingmode = testingmode;
+        }
+
+        public LinkedList<String> getIgnorethreads() {
+            return ignorethreads;
+        }
+
+        public void setIgnorethreads(LinkedList<String> ignorethreads) {
+            this.ignorethreads = ignorethreads;
         }
 
         public static class Hash {

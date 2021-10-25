@@ -1023,19 +1023,7 @@ public final class ConsoleFrame {
                             Thread[] printThreads = new Thread[num];
                             threadGroup.enumerate(printThreads);
 
-                            LinkedList<String> ignoreNames = new LinkedList<>();
-                            //todo get from sys.json
-
-                            ignoreNames.add("Cyder Busy Checker");
-                            ignoreNames.add("AWT-EventQueue-0");
-                            ignoreNames.add("Console Clock Updater");
-                            ignoreNames.add("Hourly Chime Checker");
-                            ignoreNames.add("Stable Network Connection Checker");
-                            ignoreNames.add("Final Frame Disposed Checker");
-                            ignoreNames.add("DestroyJavaVM");
-                            ignoreNames.add("JavaFX Application Thread");
-                            ignoreNames.add("Console Input Caret Position Updater");
-                            ignoreNames.add("Console Printing Animation");
+                            LinkedList<String> ignoreNames = IOUtil.getSystemData().getIgnorethreads();
 
                             int busyThreads = 0;
 

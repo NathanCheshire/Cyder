@@ -103,15 +103,13 @@ public class UserEditor {
 
         //todo adding in a background that is set to the current index because of it's name
         // makes you unable to delete your current background if it's at that index
+        // so basically what music/background index we're at doesn't work
 
-        //todo add more notification directions, bottom left, bottom right, center left, center right
-        //todo notification enum needed for this
+        //todo use NotificationDirection for notification directions and add in unimplemented ones
 
         //todo all windows should be added to an animated stack which will replace the menu
         // should be similar to music controls panel, slide in and out and move input/output fields out of the way
         // should be full height of consoleFrame too
-
-        //todo add ignore threads to sys.json which will be loaded once upon startup
 
         //todo figure out how storage is going to work for dynamic files such as user files, shouldn't just be plain
         // folder and accessible, maybe a zip writer or some other format
