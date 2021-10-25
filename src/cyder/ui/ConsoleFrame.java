@@ -2562,11 +2562,17 @@ public final class ConsoleFrame {
         setFullscreen(fullscreen);
     }
 
+    /**
+     * Figures out the index of where the current background is in case some files in that
+     * directory were deleted/added. We cannot rely on the current background file or index
+     */
     public void refreshBackgroundIndex() {
         LinkedList<File> backgroundFiles = ConsoleFrame.getConsoleFrame().getBackgrounds();
+        String currentBackground = ((JLabel) consoleCyderFrame.getContentPane()).getToolTipText();
 
         for (int i = 0; i < backgroundFiles.size(); i++) {
-            if (StringUtil.getFilename(backgroundFiles.get(i)).contains(((JLabel) consoleCyderFrame.getContentPane()).getToolTipText())) {
+            String thisname = StringUtil.getFilename(backgroundFiles.get(i));
+            if (currentBackground.equalsIgnoreCase(thisname)) {
                 ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
                 break;
             }
@@ -2631,6 +2637,9 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Simply removes the audio controls, no questions asked
+     */
     public void removeAudioControls() {
         audioControlsLabel.setVisible(false);
         toggleAudioControls.setVisible(false);

@@ -38,7 +38,7 @@ public class DirectorySearch {
 
     //where we currently are
     private static File currentDirectory = new File("c:\\users\\"
-            + SystemUtil.getWindowsUsername() + "\\");
+            + SystemUtil.getWindowsUsername() + "\\Downloads");
 
     //private constructor since static
     private DirectorySearch() {}

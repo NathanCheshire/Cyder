@@ -116,6 +116,9 @@ public class UserEditor {
         // folder and accessible, maybe a zip writer or some other format
         //todo anything set during a user session that resides in sys.json needs to be moved to user data
 
+        //todo make cypher hashes a list so that it can be empty upon compilation,
+        // also make autocypher attempt all of them and log attempts for usernames
+
         forwardButton = new CyderButton(">");
         forwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         forwardButton.setFont(CyderFonts.weatherFontSmall);
@@ -350,7 +353,6 @@ public class UserEditor {
                         }
 
                         revalidateMusicBackgroundScroll();
-                        ConsoleFrame.getConsoleFrame().refreshBackgroundIndex();
                     }
                 }
             } catch (Exception ex) {
@@ -394,8 +396,6 @@ public class UserEditor {
                     else if (StringUtil.getExtension(selectedFile).equals(".png")) {
                         ConsoleFrame.getConsoleFrame().getInputHandler()
                                 .println("Background: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
-
-                        ConsoleFrame.getConsoleFrame().refreshBackgroundIndex();
                     }
                 }
             }
@@ -433,6 +433,7 @@ public class UserEditor {
         switchingLabel.add(musicBackgroundLabel);
 
         switchingLabel.revalidate();
+        ConsoleFrame.getConsoleFrame().refreshBackgroundIndex();
     }
 
     private static void switchToFontAndColor() {

@@ -237,15 +237,15 @@ public class IOUtil {
             FileInputStream FileInputStream = new FileInputStream(FilePath);
             player = new Player(FileInputStream);
             SessionLogger.log(SessionLogger.Tag.ACTION,"[AUDIO] " + FilePath);
-            Thread AudioThread = new Thread(() -> {
+
+            new Thread(() -> {
                 try {
                     player.play();
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
-            }, "mp3 audio thread");
+            }, "ioutil audio thread").start();
 
-            AudioThread.start();
             ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception e) {
             ErrorHandler.handle(e);

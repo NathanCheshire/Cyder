@@ -99,7 +99,9 @@ public class AudioPlayer {
                 if (player != null)
                     stopAudio();
                 kill();
-                ConsoleFrame.getConsoleFrame().removeAudioControls();
+
+                if (!IOUtil.generalAudioPlaying())
+                    ConsoleFrame.getConsoleFrame().removeAudioControls();
             }
 
             @Override
@@ -107,7 +109,9 @@ public class AudioPlayer {
                 if (player != null)
                     stopAudio();
                 kill();
-                ConsoleFrame.getConsoleFrame().removeAudioControls();
+
+                if (!IOUtil.generalAudioPlaying())
+                    ConsoleFrame.getConsoleFrame().removeAudioControls();
             }
         }
         );
