@@ -111,8 +111,6 @@ public class UserEditor {
         // should be similar to music controls panel, slide in and out and move input/output fields out of the way
         // should be full height of consoleFrame too
 
-        //todo field text "nathan@Cyder~$: " perhaps use key listeners instead of a thread
-
         //todo add ignore threads to sys.json which will be loaded once upon startup
 
         //todo figure out how storage is going to work for dynamic files such as user files, shouldn't just be plain

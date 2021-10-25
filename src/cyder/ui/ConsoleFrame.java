@@ -313,7 +313,8 @@ public final class ConsoleFrame {
                     //capitalization
                     if (inputField.getPassword().length == consoleBashString.length() + 1) {
                         inputField.setText(consoleBashString + String.valueOf(
-                                inputField.getPassword()).substring(consoleBashString.length()).toUpperCase());
+                                inputField.getPassword()).substring(consoleBashString.length())
+                                .toUpperCase().replace(consoleBashString, ""));
                     }
 
                     //escaping
@@ -350,7 +351,8 @@ public final class ConsoleFrame {
                     //capitalization
                     if (inputField.getPassword().length == consoleBashString.length() + 1) {
                         inputField.setText(consoleBashString +
-                                String.valueOf(inputField.getPassword()).substring(consoleBashString.length()).toUpperCase());
+                                String.valueOf(inputField.getPassword())
+                                        .substring(consoleBashString.length()).toUpperCase().replace(consoleBashString, ""));
                     }
                 }
 
@@ -359,7 +361,8 @@ public final class ConsoleFrame {
                     //capitalization
                     if (inputField.getPassword().length == consoleBashString.length() + 1) {
                         inputField.setText(consoleBashString + String.valueOf(
-                                inputField.getPassword()).substring(consoleBashString.length()).toUpperCase());
+                                inputField.getPassword())
+                                .substring(consoleBashString.length()).toUpperCase().replace(consoleBashString, ""));
                     }
                     //bashstring checker
                     if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
@@ -461,8 +464,7 @@ public final class ConsoleFrame {
             inputField.setToolTipText("Input Field");
             inputField.setSelectionColor(CyderColors.selectionColor);
             inputField.addKeyListener(commandScrolling);
-            inputField.setCaretPosition(consoleBashString.length());
-
+            inputField.setCaretPosition(inputField.getPassword().length);
 
             inputField.setBounds(10, 62 + outputArea.getHeight() + 20,w - 20,
                     h - (62 + outputArea.getHeight() + 20 + 20));
@@ -1022,6 +1024,8 @@ public final class ConsoleFrame {
                             threadGroup.enumerate(printThreads);
 
                             LinkedList<String> ignoreNames = new LinkedList<>();
+                            //todo get from sys.json
+
                             ignoreNames.add("Cyder Busy Checker");
                             ignoreNames.add("AWT-EventQueue-0");
                             ignoreNames.add("Console Clock Updater");
@@ -1540,14 +1544,14 @@ public final class ConsoleFrame {
                     if (code == KeyEvent.VK_UP) {
                         if (scrollingIndex - 1 >= 0) {
                             scrollingIndex -= 1;
-                            inputField.setText(consoleBashString +  operationList.get(scrollingIndex));
+                            inputField.setText(consoleBashString +  operationList.get(scrollingIndex).replace(consoleBashString, ""));
                         }
                     }
                     //scroll to subsequent command if exist
                     else if (code == KeyEvent.VK_DOWN) {
                         if (scrollingIndex + 1 < operationList.size()) {
                             scrollingIndex += 1;
-                            inputField.setText(consoleBashString + operationList.get(scrollingIndex));
+                            inputField.setText(consoleBashString + operationList.get(scrollingIndex).replace(consoleBashString, ""));
                         } else if (scrollingIndex + 1 == operationList.size()) {
                             scrollingIndex += 1;
                             inputField.setText(consoleBashString);
