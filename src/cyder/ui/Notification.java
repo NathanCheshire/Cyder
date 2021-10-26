@@ -333,7 +333,6 @@ public class Notification extends JLabel {
             try {
                 Thread.sleep(delay);
 
-                //todo figure out more vanish dirs logic
                 switch(notificationDirection) {
                     case TOP:
                         for (int i = getY() ; i > - getHeight() ; i -= this.increment) {
@@ -353,42 +352,8 @@ public class Notification extends JLabel {
                             Thread.sleep(this.delay);
                         }
                         break;
-                    case TOP_RIGHT:
-                        for (int i = getX() ; i < parent.getWidth() - 5 ; i += this.increment) {
-                            if (killed)
-                                break;
-
-                            setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
-                        }
-                        break;
                     case TOP_LEFT:
-                        for (int i = getX() ; i > -getWidth() + 5 ; i -= this.increment) {
-                            if (killed)
-                                break;
-
-                            setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
-                        }
-                        break;
                     case CENTER_LEFT:
-                        for (int i = getX() ; i > -getWidth() + 5 ; i -= this.increment) {
-                            if (killed)
-                                break;
-
-                            setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
-                        }
-                        break;
-                    case CENTER_RIGHT:
-                        for (int i = getX() ; i < parent.getWidth() - 5 ; i += this.increment) {
-                            if (killed)
-                                break;
-
-                            setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
-                        }
-                        break;
                     case BOTTOM_LEFT:
                         for (int i = getX() ; i > -getWidth() + 5 ; i -= this.increment) {
                             if (killed)
@@ -398,7 +363,9 @@ public class Notification extends JLabel {
                             Thread.sleep(this.delay);
                         }
                         break;
+                    case CENTER_RIGHT:
                     case BOTTOM_RIGHT:
+                    case TOP_RIGHT:
                         for (int i = getX() ; i < parent.getWidth() - 5 ; i += this.increment) {
                             if (killed)
                                 break;
