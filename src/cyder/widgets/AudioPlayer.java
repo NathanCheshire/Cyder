@@ -133,16 +133,16 @@ public class AudioPlayer {
         changeSize.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                changeSize.setIcon(new ImageIcon("static/icons/ChangeSize2.png"));
+                changeSize.setIcon(new ImageIcon("static/pictures/icons/ChangeSize2.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                changeSize.setIcon(new ImageIcon("static/icons/ChangeSize1.png"));
+                changeSize.setIcon(new ImageIcon("static/pictures/icons/ChangeSize1.png"));
             }
         });
 
-        changeSize.setIcon(new ImageIcon("static/icons/ChangeSize1.png"));
+        changeSize.setIcon(new ImageIcon("static/pictures/icons/ChangeSize1.png"));
         changeSize.setContentAreaFilled(false);
         changeSize.setBorderPainted(false);
         changeSize.setFocusPainted(false);
@@ -185,24 +185,24 @@ public class AudioPlayer {
         selectAudioDirButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                selectAudioDirButton.setIcon(new ImageIcon("static/music/SelectFileHover.png"));
+                selectAudioDirButton.setIcon(new ImageIcon("static/pictures/music/SelectFileHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                selectAudioDirButton.setIcon(new ImageIcon("static/music/SelectFile.png"));
+                selectAudioDirButton.setIcon(new ImageIcon("static/pictures/music/SelectFile.png"));
             }
         });
 
         selectAudioDirButton.setBounds(55, 105, 30, 30);
-        ImageIcon File = new ImageIcon("static/music/SelectFile.png");
+        ImageIcon File = new ImageIcon("static/pictures/music/SelectFile.png");
         selectAudioDirButton.setIcon(File);
         audioFrame.getContentPane().add(selectAudioDirButton);
 
         loopAudioButton = new JButton("");
         loopAudioButton.setToolTipText("Loop audio");
         loopAudioButton.addActionListener(e -> {
-            loopAudioButton.setIcon(new ImageIcon(repeatAudio ? "static/music/Repeat.png" : "static/music/RepeatHover.png"));
+            loopAudioButton.setIcon(new ImageIcon(repeatAudio ? "static/pictures/music/Repeat.png" : "static/pictures/music/RepeatHover.png"));
             loopAudioButton.setToolTipText("Loop Audio");
             repeatAudio = !repeatAudio;
         });
@@ -210,17 +210,17 @@ public class AudioPlayer {
         loopAudioButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                loopAudioButton.setIcon(new ImageIcon(repeatAudio ? "static/music/Repeat.png" : "static/music/RepeatHover.png"));
+                loopAudioButton.setIcon(new ImageIcon(repeatAudio ? "static/pictures/music/Repeat.png" : "static/pictures/music/RepeatHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                loopAudioButton.setIcon(new ImageIcon(repeatAudio ? "static/music/RepeatHover.png" : "static/music/Repeat.png"));
+                loopAudioButton.setIcon(new ImageIcon(repeatAudio ? "static/pictures/music/RepeatHover.png" : "static/pictures/music/Repeat.png"));
             }
         });
 
         loopAudioButton.setBounds(115, 105, 30, 30);
-        loopAudioButton.setIcon(new ImageIcon("static/music/Repeat.png"));
+        loopAudioButton.setIcon(new ImageIcon("static/pictures/music/Repeat.png"));
         audioFrame.getContentPane().add(loopAudioButton);
         loopAudioButton.setFocusPainted(false);
         loopAudioButton.setOpaque(false);
@@ -234,17 +234,17 @@ public class AudioPlayer {
         previousAudioButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                previousAudioButton.setIcon(new ImageIcon("static/music/SkipBackHover.png"));
+                previousAudioButton.setIcon(new ImageIcon("static/pictures/music/SkipBackHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                previousAudioButton.setIcon(new ImageIcon("static/music/SkipBack.png"));
+                previousAudioButton.setIcon(new ImageIcon("static/pictures/music/SkipBack.png"));
             }
         });
 
         previousAudioButton.setBounds(175, 105, 30, 30);
-        previousAudioButton.setIcon(new ImageIcon("static/music/SkipBack.png"));
+        previousAudioButton.setIcon(new ImageIcon("static/pictures/music/SkipBack.png"));
         audioFrame.getContentPane().add(previousAudioButton);
         previousAudioButton.setFocusPainted(false);
         previousAudioButton.setOpaque(false);
@@ -264,17 +264,17 @@ public class AudioPlayer {
         stopAudioButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                stopAudioButton.setIcon(new ImageIcon("static/music/StopHover.png"));
+                stopAudioButton.setIcon(new ImageIcon("static/pictures/music/StopHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                stopAudioButton.setIcon(new ImageIcon("static/music/Stop.png"));
+                stopAudioButton.setIcon(new ImageIcon("static/pictures/music/Stop.png"));
             }
         });
 
         stopAudioButton.setBounds(235, 105, 30, 30);
-        stopAudioButton.setIcon(new ImageIcon("static/music/Stop.png"));
+        stopAudioButton.setIcon(new ImageIcon("static/pictures/music/Stop.png"));
         audioFrame.getContentPane().add(stopAudioButton);
         stopAudioButton.setFocusPainted(false);
         stopAudioButton.setOpaque(false);
@@ -298,17 +298,17 @@ public class AudioPlayer {
         playPauseAudioButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                playPauseAudioButton.setIcon(new ImageIcon(player == null ? "static/music/PlayHover.png" : "static/music/PauseHover.png"));
+                playPauseAudioButton.setIcon(new ImageIcon(player == null ? "static/pictures/music/PlayHover.png" : "static/pictures/music/PauseHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                playPauseAudioButton.setIcon(new ImageIcon(player == null ? "static/music/Play.png" : "static/music/Pause.png"));
+                playPauseAudioButton.setIcon(new ImageIcon(player == null ? "static/pictures/music/Play.png" : "static/pictures/music/Pause.png"));
             }
         });
 
         playPauseAudioButton.setBounds(295, 105, 30, 30);
-        playPauseAudioButton.setIcon(new ImageIcon("static/music/Play.png"));
+        playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Play.png"));
         audioFrame.getContentPane().add(playPauseAudioButton);
         playPauseAudioButton.setFocusPainted(false);
         playPauseAudioButton.setOpaque(false);
@@ -322,17 +322,17 @@ public class AudioPlayer {
         nextAudioButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                nextAudioButton.setIcon(new ImageIcon("static/music/SkipHover.png"));
+                nextAudioButton.setIcon(new ImageIcon("static/pictures/music/SkipHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                nextAudioButton.setIcon(new ImageIcon("static/music/Skip.png"));
+                nextAudioButton.setIcon(new ImageIcon("static/pictures/music/Skip.png"));
             }
         });
 
         nextAudioButton.setBounds(355, 105, 30, 30);
-        nextAudioButton.setIcon(new ImageIcon("static/music/Skip.png"));
+        nextAudioButton.setIcon(new ImageIcon("static/pictures/music/Skip.png"));
         audioFrame.getContentPane().add(nextAudioButton);
         nextAudioButton.setFocusPainted(false);
         nextAudioButton.setOpaque(false);
@@ -343,10 +343,10 @@ public class AudioPlayer {
         shuffleAudioButton.setToolTipText("Shuffle audio");
         shuffleAudioButton.addActionListener(e -> {
             if (!shuffleAudio) {
-                shuffleAudioButton.setIcon(new ImageIcon("static/music/Shuffle.png"));
+                shuffleAudioButton.setIcon(new ImageIcon("static/pictures/music/Shuffle.png"));
                 shuffleAudio = true;
             } else {
-                shuffleAudioButton.setIcon(new ImageIcon("static/music/ShuffleHover.png"));
+                shuffleAudioButton.setIcon(new ImageIcon("static/pictures/music/ShuffleHover.png"));
                 shuffleAudio = false;
             }
         });
@@ -354,17 +354,17 @@ public class AudioPlayer {
         shuffleAudioButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                shuffleAudioButton.setIcon(new ImageIcon(shuffleAudio ? "static/music/Shuffle.png" : "static/music/ShuffleHover.png"));
+                shuffleAudioButton.setIcon(new ImageIcon(shuffleAudio ? "static/pictures/music/Shuffle.png" : "static/pictures/music/ShuffleHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                shuffleAudioButton.setIcon(new ImageIcon(shuffleAudio ? "static/music/ShuffleHover.png" : "static/music/Shuffle.png"));
+                shuffleAudioButton.setIcon(new ImageIcon(shuffleAudio ? "static/pictures/music/ShuffleHover.png" : "static/pictures/music/Shuffle.png"));
             }
         });
 
         shuffleAudioButton.setBounds(405, 105, 30, 30);
-        shuffleAudioButton.setIcon(new ImageIcon("static/music/Shuffle.png"));
+        shuffleAudioButton.setIcon(new ImageIcon("static/pictures/music/Shuffle.png"));
         audioFrame.getContentPane().add(shuffleAudioButton);
         shuffleAudioButton.setFocusPainted(false);
         shuffleAudioButton.setOpaque(false);
@@ -441,7 +441,7 @@ public class AudioPlayer {
             startAudio();
         } else {
             try {
-                File userAudioDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" );
+                File userAudioDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" );
 
                 if (!userAudioDir.exists()) {
                     userAudioDir.mkdir();
@@ -582,7 +582,7 @@ public class AudioPlayer {
                 player.close();
             player = null;
 
-            playPauseAudioButton.setIcon(new ImageIcon("static/music/Play.png"));
+            playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Play.png"));
             playPauseAudioButton.setToolTipText("Play");
             ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception e) {
@@ -620,7 +620,7 @@ public class AudioPlayer {
                 audioProgress.setValue(0);
            audioProgressLabel.setText("");
 
-           playPauseAudioButton.setIcon(new ImageIcon("static/music/Play.png"));
+           playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Play.png"));
            playPauseAudioButton.setToolTipText("Play");
            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
@@ -760,7 +760,7 @@ public class AudioPlayer {
                     audioLocation = new AudioLocation(audioProgress);
                 }
 
-                playPauseAudioButton.setIcon(new ImageIcon("static/music/Pause.png"));
+                playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
                 playPauseAudioButton.setToolTipText("Pause");
                 ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
@@ -860,7 +860,7 @@ public class AudioPlayer {
                         audioLocation = new AudioLocation(audioProgress);
                     }
 
-                    playPauseAudioButton.setIcon(new ImageIcon("static/music/Pause.png"));
+                    playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
                     playPauseAudioButton.setToolTipText("Pause");
                     ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 

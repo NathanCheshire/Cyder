@@ -213,7 +213,7 @@ public class Notes {
         submitNewNote.addActionListener(e -> {
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(new FileWriter(
-                        "users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes/" +
+                        "dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes/" +
                                 newNoteField.getText() + ".txt",true));
                 newNoteArea.write(NoteWriter);
                 NoteWriter.close();
@@ -257,7 +257,7 @@ public class Notes {
     }
 
     private static void initializeNotesList() {
-        File dir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes");
+        File dir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes");
         noteList = new LinkedList<>();
         noteNameList = new LinkedList<>();
 

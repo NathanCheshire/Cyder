@@ -158,7 +158,7 @@ public class IOUtil {
      * Clean the users/ dir of any possibly corrupted or invalid user folders
      */
     public static void cleanUsers() {
-        File users = new File("users");
+        File users = new File("dynamic/users");
 
         if (!users.exists()) {
             users.mkdirs();
@@ -179,7 +179,7 @@ public class IOUtil {
      * Fixes any user files that may be outdated via preference injection
      */
     public static void fixUsers() {
-        File users = new File("users");
+        File users = new File("dynamic/users");
 
         for (File user : users.listFiles()) {
             File json = new File(user + "/userdata.json");
@@ -341,7 +341,7 @@ public class IOUtil {
                 f.dispose();
 
             //if it's already gone then it really wasn't a corrupted user, possibly a user deleting their account
-            File mainZipFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID());
+            File mainZipFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
             if (mainZipFile == null || mainZipFile.listFiles() == null || mainZipFile.listFiles().length == 0)
                 return;
 

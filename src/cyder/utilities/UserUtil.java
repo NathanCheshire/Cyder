@@ -19,7 +19,7 @@ public class UserUtil {
        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
            throw new IllegalArgumentException("UUID is null");
 
-       File userJsonFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID()
+       File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
                                     + "/userdata.json");
 
        if (!userJsonFile.exists())
@@ -76,7 +76,7 @@ public class UserUtil {
     }
 
     public static <T> void setUserData(String name, T value) {
-        File f = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
+        File f = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
 
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
@@ -134,7 +134,7 @@ public class UserUtil {
      * @param u - the user to serialize and write to a file
      */
     public static void setUserData(User u) {
-        File f = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
+        File f = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
 
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
@@ -162,9 +162,9 @@ public class UserUtil {
         if (UUID == null)
             return;
 
-        File userBackgroundsFile = new File("users/" + UUID + "/Backgrounds");
-        File userMusicFile = new File("users/" + UUID + "/Music");
-        File userJsonFile = new File("users/" + UUID + "/userdata.json");
+        File userBackgroundsFile = new File("dynamic/users/" + UUID + "/Backgrounds");
+        File userMusicFile = new File("dynamic/users/" + UUID + "/Music");
+        File userJsonFile = new File("dynamic/users/" + UUID + "/userdata.json");
 
         if (!userBackgroundsFile.exists())
             userBackgroundsFile.mkdir();
@@ -238,7 +238,7 @@ public class UserUtil {
     }
 
     public static void fixBackgrounds() {
-        for (File f : new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds").listFiles()) {
+        for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds").listFiles()) {
            boolean valid = true;
 
             try (FileInputStream fi = new FileInputStream(f)) {
@@ -284,7 +284,7 @@ public class UserUtil {
      * @return the resulting user object
      */
     public static User extractUser(String UUID) {
-        File f = new File("users/" + UUID + "/userdata.json");
+        File f = new File("dynamic/users/" + UUID + "/userdata.json");
 
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");
@@ -306,7 +306,7 @@ public class UserUtil {
      * @return the resulting user object
      */
     public static User extractUser() {
-        File f = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
+        File f = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
 
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");
@@ -348,7 +348,7 @@ public class UserUtil {
     public static String getUserData(String name) {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             throw new IllegalArgumentException("UUID not yet set");
-        File userJsonFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID()
+        File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
                 + "/userdata.json");
 
         if (!userJsonFile.exists())
@@ -405,7 +405,7 @@ public class UserUtil {
             hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
 
             //get all users
-            File[] UUIDs = new File("users").listFiles();
+            File[] UUIDs = new File("dynamic/users").listFiles();
             LinkedList<File> userDataFiles = new LinkedList<>();
 
             //get all valid users

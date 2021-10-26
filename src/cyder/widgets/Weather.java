@@ -126,7 +126,7 @@ public class Weather {
         locationLabel.setBounds(0, 85, 480, 30);
         weatherFrame.getContentPane().add(locationLabel);
 
-        currentWeatherIconLabel = new JLabel(new ImageIcon("static/weather/" + weatherIcon + ".png"));
+        currentWeatherIconLabel = new JLabel(new ImageIcon("static/pictures/weather/" + weatherIcon + ".png"));
         currentWeatherIconLabel.setBounds(480 / 2 - 50, 130, 100, 100);
         currentWeatherIconLabel.setBorder(new LineBorder(CyderColors.navy,5,false));
         weatherFrame.getContentPane().add(currentWeatherIconLabel);

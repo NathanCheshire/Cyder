@@ -121,5 +121,8 @@ public class DebugConsole {
         //todo update to java 17 and fix all gradle issues
 
         //todo embed TOR and send logs to "me" before exiting program
+
+        //todo add typing animation to login frame
+        //todo make typing sound one tick and play every char append
     }
 }

@@ -212,11 +212,11 @@ public class UserCreator {
             public void mouseReleased(MouseEvent e) {
                 try {
                     String uuid = SecurityUtil.generateUUID();
-                    File folder = new File("users/" + uuid);
+                    File folder = new File("dynamic/users/" + uuid);
 
                     while (folder.exists()) {
                         uuid = SecurityUtil.generateUUID();
-                        folder = new File("users/" + uuid);
+                        folder = new File("dynamic/users/" + uuid);
                     }
 
                     char[] pass = newUserPassword.getPassword();
@@ -265,15 +265,15 @@ public class UserCreator {
                             Graphics2D g2 = bi.createGraphics();
                             g2.drawImage(img, 0, 0, null);
                             g2.dispose();
-                            File backgroundFile = new File("users/" + uuid + "/Backgrounds/Default.png");
+                            File backgroundFile = new File("dynamic/users/" + uuid + "/Backgrounds/Default.png");
                             backgroundFile.mkdirs();
                             ImageIO.write(bi, "png", backgroundFile);
                         }
 
-                        File NewUserFolder = new File("users/" + uuid);
-                        File backgrounds = new File("users/" + uuid + "/Backgrounds");
-                        File music = new File("users/" + uuid + "/Music");
-                        File notes = new File("users/" + uuid + "/Notes");
+                        File NewUserFolder = new File("dynamic/users/" + uuid);
+                        File backgrounds = new File("dynamic/users/" + uuid + "/Backgrounds");
+                        File music = new File("dynamic/users/" + uuid + "/Music");
+                        File notes = new File("dynamic/users/" + uuid + "/Notes");
 
                         NewUserFolder.mkdirs();
                         backgrounds.mkdir();
@@ -282,10 +282,10 @@ public class UserCreator {
 
                         if (createUserBackground != null) {
                             ImageIO.write(ImageIO.read(createUserBackground), "png",
-                                    new File("users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
+                                    new File("dynamic/users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
                         }
 
-                        File dataFile = new File("users/" + uuid + "/userdata.json");
+                        File dataFile = new File("dynamic/users/" + uuid + "/userdata.json");
                         dataFile.createNewFile();
 
                         User user = new User();
@@ -309,7 +309,7 @@ public class UserCreator {
                         createUserFrame.dispose();
 
                         //attempt to log in new user if it's the only user
-                        if (new File("users/").listFiles().length == 1) {
+                        if (new File("dynamic/users/").listFiles().length == 1) {
                             Login.getLoginFrame().dispose();
                             Login.recognize(newUserName.getText().trim(), SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)));
                         }

@@ -112,8 +112,8 @@ public class UserEditor {
     }
 
     private static void initMusicBackgroundList() {
-        File backgroundDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
-        File musicDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
+        File backgroundDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
+        File musicDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
 
         musicBackgroundList = new LinkedList<>();
         musicBackgroundNameList = new LinkedList<>();
@@ -245,11 +245,11 @@ public class UserEditor {
                         Path copyPath = new File(addFile.getAbsolutePath()).toPath();
 
                         if (addFile != null && addFile.getName().endsWith(".png")) {
-                            File Destination = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds/" + addFile.getName());
+                            File Destination = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds/" + addFile.getName());
                             Files.copy(copyPath, Destination.toPath());
                             revalidateMusicBackgroundScroll();
                         } else if (addFile != null && addFile.getName().endsWith(".mp3")) {
-                            File Destination = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" + addFile.getName());
+                            File Destination = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" + addFile.getName());
                             Files.copy(copyPath, Destination.toPath());
                             revalidateMusicBackgroundScroll();
                         } else {
@@ -1294,17 +1294,17 @@ public class UserEditor {
             }
 
             ConsoleFrame.getConsoleFrame().close();
-            SystemUtil.deleteFolder(new File("users/" + ConsoleFrame.getConsoleFrame().getUUID()));
+            SystemUtil.deleteFolder(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
 
             String dep = SecurityUtil.getDeprecatedUUID();
 
-            File renamed = new File("users/" + dep);
+            File renamed = new File("dynamic/users/" + dep);
             while (renamed.exists()) {
                 dep = SecurityUtil.getDeprecatedUUID();
-                renamed = new File("users/" + dep);
+                renamed = new File("dynamic/users/" + dep);
             }
 
-            File old = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID());
+            File old = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
             old.renameTo(renamed);
 
             Frame[] frames = Frame.getFrames();

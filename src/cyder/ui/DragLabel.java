@@ -227,23 +227,23 @@ public class DragLabel extends JLabel {
             boolean pinned = !effectFrame.getPinned();
             effectFrame.setPinned(pinned);
             if (pinned)
-                pinButton.setIcon(new ImageIcon("static/icons/pin2.png"));
+                pinButton.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
             else
-                pinButton.setIcon(new ImageIcon("static/icons/pin.png"));
+                pinButton.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
         });
         pinButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                pinButton.setIcon(new ImageIcon(effectFrame.getPinned() ? "static/icons/pin.png" : "static/icons/pin2.png"));
+                pinButton.setIcon(new ImageIcon(effectFrame.getPinned() ? "static/pictures/icons/pin.png" : "static/pictures/icons/pin2.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                pinButton.setIcon(new ImageIcon(effectFrame.getPinned() ? "static/icons/pin2.png" : "static/icons/pin.png"));
+                pinButton.setIcon(new ImageIcon(effectFrame.getPinned() ? "static/pictures/icons/pin2.png" : "static/pictures/icons/pin.png"));
             }
         });
 
-        pinButton.setIcon(new ImageIcon("static/icons/pin.png"));
+        pinButton.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
         pinButton.setContentAreaFilled(false);
         pinButton.setBorderPainted(false);
         pinButton.setFocusPainted(false);

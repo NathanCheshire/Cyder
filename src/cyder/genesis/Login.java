@@ -276,7 +276,7 @@ public class Login {
             }
         });
 
-        File Users = new File("users/");
+        File Users = new File("dynamic/users/");
         String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
 
         loginFrame.addPreCloseAction(() -> {

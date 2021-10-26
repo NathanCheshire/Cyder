@@ -548,7 +548,7 @@ public class InputHandler {
 
                 String saveName = "Solid_" + colorInput + "Generated_Background.png";
 
-                File saveFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() +
+                File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
                         "/Backgrounds/" + saveName);
 
                 ImageIO.write(saveImage, "png", saveFile);
@@ -896,7 +896,7 @@ public class InputHandler {
                 new Thread(() -> {
                     try {
                         String videoURL = input;
-                        Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "users/"
+                        Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "dynamic/users/"
                                 + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
                         String videoTitle = NetworkUtil.getURLTitle(videoURL)
@@ -925,7 +925,7 @@ public class InputHandler {
                         println("Searching youtube for: " + userQuery);
                         String UUID = YoutubeUtil.getFirstUUID(userQuery);
                         String videoURL = "https://www.youtube.com/watch?v=" + UUID;
-                        Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "users/"
+                        Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "dynamic/users/"
                                 + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
                         String videoTitle = NetworkUtil.getURLTitle(videoURL)
@@ -947,7 +947,7 @@ public class InputHandler {
                 }, "Youtube Audio Download Waiter").start();
             }
         } else if (hasWord("steal") && hasWord("windows") && hasWord("backgrounds")) {
-            File saveDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
+            File saveDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
             Spotlight.saveSpotlights(saveDir);
             ConsoleFrame.getConsoleFrame().resizeBackgrounds();
             ConsoleFrame.getConsoleFrame().getInputHandler()
@@ -1049,9 +1049,9 @@ public class InputHandler {
             background.setVisible(true);
             background.setLocationRelativeTo(null);
         } else if (hasWord("xxx") || hasWord("tentacion") || has("rip x")) {
-            SystemUtil.setCurrentCyderIcon(new ImageIcon("static/print/x.png"));
+            SystemUtil.setCurrentCyderIcon(new ImageIcon("static/pictures/print/x.png"));
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
-                    .setIconImage(new ImageIcon("static/print/x.png").getImage());
+                    .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
         } else if (hasWord("issue") || hasWord("issues")) {
             new Thread(() -> {
                 GitHubUtil.Issue[] issues = GitHubUtil.getIssues();
@@ -1197,17 +1197,17 @@ public class InputHandler {
                 }
 
                 ConsoleFrame.getConsoleFrame().close();
-                SystemUtil.deleteFolder(new File("users/" + ConsoleFrame.getConsoleFrame().getUUID()));
+                SystemUtil.deleteFolder(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
 
                 String dep = SecurityUtil.getDeprecatedUUID();
 
-                File renamed = new File("users/" + dep);
+                File renamed = new File("dynamic/users/" + dep);
                 while (renamed.exists()) {
                     dep = SecurityUtil.getDeprecatedUUID();
-                    renamed = new File("users/" + dep);
+                    renamed = new File("dynamic/users/" + dep);
                 }
 
-                File old = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID());
+                File old = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
                 old.renameTo(renamed);
 
                 Frame[] frames = Frame.getFrames();
@@ -1223,7 +1223,7 @@ public class InputHandler {
                 String searchName = ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getName()
                         .replace(".png", "") + "_Pixelated_Pixel_Size_" + Integer.parseInt(input) + ".png";
 
-                File saveFile = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() +
+                File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
                         "/Backgrounds/" + searchName);
 
                 ImageIO.write(img, "png", saveFile);
