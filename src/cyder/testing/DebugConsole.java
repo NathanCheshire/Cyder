@@ -107,5 +107,17 @@ public class DebugConsole {
 
     public static void launchTests() {
         //tests here to be tested upon cyder launching
+
+        ManualTestingWidgets.NotificationsTest();
+
+        //todo all windows should be added to an animated stack which will replace the menu
+        // should be similar to music controls panel, slide in and out and move input/output fields out of the way
+        // should be full height of consoleFrame too
+        // should be using labels on labels that have a priority the same as notifications but slightly lower so that
+        // notifications are always on top, could also have drag listoners on these "tiles"
+
+        //todo figure out how storage is going to work for dynamic files such as user files, shouldn't just be plain
+        // folder and accessible, maybe a zip writer or some other format
+        //todo anything set during a user session that resides in sys.json needs to be moved to user data
     }
 }

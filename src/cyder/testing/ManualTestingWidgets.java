@@ -86,7 +86,7 @@ public class ManualTestingWidgets {
     }
 
     public static void NotificationsTest() {
-        CyderFrame testFrame = new CyderFrame(350,350,CyderImages.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(350,600,CyderImages.defaultBackground);
         testFrame.setTitle("Notification Test");
 
         int miliDelay = 3000;
@@ -100,7 +100,7 @@ public class ManualTestingWidgets {
         topNotifiy.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.TOP.TOP));
         testFrame.getContentPane().add(topNotifiy);
 
-        CyderButton rightNotify = new CyderButton("Right");
+        CyderButton rightNotify = new CyderButton("Top Right");
         rightNotify.setBounds(100,170,150,40);
         rightNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.TOP_RIGHT));
         testFrame.getContentPane().add(rightNotify);
@@ -110,10 +110,30 @@ public class ManualTestingWidgets {
         bottomNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.BOTTOM));
         testFrame.getContentPane().add(bottomNotify);
 
-        CyderButton leftNotify = new CyderButton("Left");
+        CyderButton leftNotify = new CyderButton("Top Left");
         leftNotify.setBounds(100,290,150,40);
         leftNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.TOP_LEFT));
         testFrame.getContentPane().add(leftNotify);
+
+        CyderButton centerLeftNotify = new CyderButton("Center Left");
+        centerLeftNotify.setBounds(100,350,150,40);
+        centerLeftNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.CENTER_LEFT));
+        testFrame.getContentPane().add(centerLeftNotify);
+
+        CyderButton centerRightNotify = new CyderButton("Center Right");
+        centerRightNotify.setBounds(100,410,150,40);
+        centerRightNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.CENTER_RIGHT));
+        testFrame.getContentPane().add(centerRightNotify);
+
+        CyderButton bottomLeftNotify = new CyderButton("Bottom Left");
+        bottomLeftNotify.setBounds(100,470,150,40);
+        bottomLeftNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.BOTTOM_LEFT));
+        testFrame.getContentPane().add(bottomLeftNotify);
+
+        CyderButton bottomRightNotify = new CyderButton("Bottom Right");
+        bottomRightNotify.setBounds(100,530,170,40);
+        bottomRightNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.BOTTOM_RIGHT));
+        testFrame.getContentPane().add(bottomRightNotify);
 
         testFrame.initializeResizing();
         testFrame.setResizable(true);
