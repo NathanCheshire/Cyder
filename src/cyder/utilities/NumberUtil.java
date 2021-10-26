@@ -3,9 +3,11 @@ package cyder.utilities;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.enums.Direction;
 import cyder.genesis.GenesisShare;
-import cyder.ui.*;
+import cyder.ui.CyderButton;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderLabel;
+import cyder.ui.CyderTextField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -95,7 +97,7 @@ public class NumberUtil {
 
         BigInteger num = new BigInteger(wordRep);
         if (num.compareTo(BigInteger.ZERO) == 0) {
-            numFrame.notify("Zero you idiot", 3000, Direction.TOP);
+            numFrame.notify("Zero you idiot");
             return;
         }
 

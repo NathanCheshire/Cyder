@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
+import cyder.enums.NotificationDirection;
 import cyder.genobjects.BoundsString;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
@@ -328,12 +329,11 @@ public class CyderFrame extends JFrame {
                     setButtonPosition(ButtonPosition.RIGHT);
                     break;
                 case RIGHT:
-                    titleLabel.setLocation(this.width -getMinWidth(this.title), 2);
+                    titleLabel.setLocation(this.width - getMinWidth(this.title), 2);
                     setButtonPosition(ButtonPosition.LEFT);
                     break;
                 case CENTER:
                     titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2), 2);
-                    break;
             }
         }
     }
@@ -532,7 +532,7 @@ public class CyderFrame extends JFrame {
      * @param htmlText the text you want to notify on the callilng from
      */
     public void notify(String htmlText) {
-        notify(htmlText, 5000, Direction.TOP);
+        notify(htmlText, 5000, NotificationDirection.TOP);
     }
 
     /**
@@ -542,32 +542,30 @@ public class CyderFrame extends JFrame {
      * @param viewDuration time in ms that the notification should stay on screen
      * @param direction the enter and vanish direction for the notification
      */
-    public void notify(String htmltext, int viewDuration, Direction direction) {
+    public void notify(String htmltext, int viewDuration, NotificationDirection direction) {
         Notification frameNotification = new Notification();
 
-        Direction startDir;
-        Direction vanishDir;
+        Direction arrowDir;
 
         switch (direction) {
-            case LEFT:
-                startDir = Direction.LEFT;
-                vanishDir = Direction.LEFT;
+            case TOP_LEFT:
+            case CENTER_LEFT:
+            case BOTTOM_LEFT:
+                arrowDir = Direction.LEFT;
                 break;
-            case RIGHT:
-                startDir = Direction.RIGHT;
-                vanishDir = Direction.RIGHT;
+            case TOP_RIGHT:
+            case CENTER_RIGHT:
+            case BOTTOM_RIGHT:
+                arrowDir =Direction.RIGHT;
                 break;
             case BOTTOM:
-                startDir = Direction.BOTTOM;
-                vanishDir = Direction.BOTTOM;
+                arrowDir =Direction.BOTTOM;
                 break;
-            default:
-                startDir = Direction.TOP;
-                vanishDir = Direction.TOP;
-                break;
+            default: //top
+                arrowDir = Direction.TOP;
         }
 
-        notify(htmltext, viewDuration, direction, startDir, vanishDir);
+        notify(htmltext, viewDuration, arrowDir, direction);
     }
 
     private Notification currentNotification;
@@ -579,18 +577,17 @@ public class CyderFrame extends JFrame {
 
     /**
      * Full control over the notification function of a {@link CyderFrame}.
-     * See {@link CyderFrame#notify(String, int, Direction)} for a simpler notify function
+     * See {@link CyderFrame#notify(String, int, NotificationDirection)} for a simpler notify function
      *
      * @param htmltext the text you want to display (may include HTML tags)
      * @param viewDuration the time in ms the notification should be visible for. Pass in 0
      *                     to be auto calculated based on word count
      * @param arrowDir the direction of the arrow on the notification
-     * @param startDir the enter direction of the notification
-     * @param vanishDir the exit direction of the notification
+     * @param notificationDirection the enter/exit direction of the notification
      */
-    public void notify(String htmltext, int viewDuration, Direction arrowDir, Direction startDir, Direction vanishDir) {
+    public void notify(String htmltext, int viewDuration, Direction arrowDir, NotificationDirection notificationDirection) {
         //make a WaitingNotification and add to queue, queue will automatically process any notifications so no further actions needed
-        notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, startDir, vanishDir));
+        notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection));
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
@@ -647,16 +644,39 @@ public class CyderFrame extends JFrame {
                             });
                             currentNotification.add(disposeLabel);
 
-                            if (currentNotif.getStartDir() == Direction.LEFT)
-                                currentNotification.setLocation(-currentNotification.getWidth() + 5, topDrag.getHeight());
-                            else if (currentNotif.getStartDir() == Direction.RIGHT)
-                                currentNotification.setLocation(getContentPane().getWidth() - 5, topDrag.getHeight());
-                            else if (currentNotif.getStartDir() == Direction.BOTTOM)
-                                currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
-                                        getHeight());
-                            else
-                                currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
-                                        DragLabel.getDefaultHeight() - currentNotification.getHeight());
+                            //todo are these right?
+                            switch (currentNotif.getNotificationDirection()) {
+                                case TOP_LEFT:
+                                    currentNotification.setLocation(-currentNotification.getWidth() + 5, topDrag.getHeight());
+                                    break;
+                                case TOP_RIGHT:
+                                    currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
+                                        topDrag.getHeight());
+                                    break;
+                                case BOTTOM:
+                                    currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
+                                        getHeight() - 5);
+                                    break;
+                                case CENTER_LEFT:
+                                    currentNotification.setLocation(-currentNotification.getWidth() + 5,
+                                        getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
+                                    break;
+                                case CENTER_RIGHT:
+                                    currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
+                                        getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
+                                    break;
+                                case BOTTOM_LEFT:
+                                    currentNotification.setLocation(-currentNotification.getWidth() + 5,
+                                        getHeight() - 5);
+                                    break;
+                                case BOTTOM_RIGHT:
+                                    currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
+                                        getHeight() - 5);
+                                    break;
+                                default:  //top
+                                        currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
+                                                DragLabel.getDefaultHeight() - currentNotification.getHeight());
+                            }
 
                             iconPane.add(currentNotification, JLayeredPane.POPUP_LAYER);
                             getContentPane().repaint();
@@ -672,8 +692,7 @@ public class CyderFrame extends JFrame {
                             duration = Math.max(duration, 5000);
                             duration = currentNotif.getDuration() == 0 ?
                                     duration : currentNotif.getDuration();
-                            currentNotification.appear(currentNotif.getStartDir(), currentNotif.getVanishDir(),
-                                    getContentPane(), duration);
+                            currentNotification.appear(currentNotif.getNotificationDirection(), getContentPane(), duration);
 
                             while (getCurrentNotification().isVisible())
                                 Thread.onSpinWait();
@@ -976,10 +995,10 @@ public class CyderFrame extends JFrame {
     public void refreshTitleAndButtonPosition() {
         switch (titlePosition) {
             case LEFT:
-                titleLabel.setLocation(4,2);
+                titleLabel.setLocation(4, 2);
                 break;
             case RIGHT:
-                titleLabel.setLocation(this.width -getMinWidth(this.title), 2);
+                titleLabel.setLocation(this.width - getMinWidth(this.title), 2);
                 break;
             case CENTER:
                 titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2), 2);
@@ -1039,23 +1058,18 @@ public class CyderFrame extends JFrame {
             switch (getCurrentNotification().getArrow()) {
                 case TOP:
                     currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
-                            currentNotification.getY());
+                        currentNotification.getY());
                     break;
-
                 case RIGHT:
                     currentNotification.setLocation(getWidth() - currentNotification.getWidth() + 5,
-                            currentNotification.getY());
-
+                        currentNotification.getY());
                     break;
-
                 case LEFT:
                     currentNotification.setLocation(5, currentNotification.getY());
-
                     break;
-
                 case BOTTOM:
                     currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
-                            currentNotification.getY());
+                        currentNotification.getY());
                     break;
             }
 
@@ -1496,23 +1510,20 @@ public class CyderFrame extends JFrame {
         private String htmlText;
         private int duration;
         private Direction arrowDir;
-        private Direction startDir;
-        private Direction vanishDir;
+        private NotificationDirection notificationDirection;
 
         /**
          * A notification that hasn't been notified to the user yet and is waiting in a CyderFrame's queue.
          * @param text the html text for the eventual notification to display
          * @param dur the duration in miliseconds the notification should last for. Use 0 for auto-calculation
-         * @param arrow the arrow direction
-         * @param start the start direction
-         * @param vanish the vanish direction
+         * @param arrowDir the arrow direction
+         * @param notificationDirection the notification direction
          */
-        public WaitingNotification(String text, int dur, Direction arrow, Direction start, Direction vanish) {
+        public WaitingNotification(String text, int dur, Direction arrowDir, NotificationDirection notificationDirection) {
             this.htmlText = text;
             this.duration = dur;
-            this.arrowDir = arrow;
-            this.startDir = start;
-            this.vanishDir = vanish;
+            this.arrowDir = arrowDir;
+            this.notificationDirection = notificationDirection;
         }
 
         public void setHtmlText(String htmlText) {
@@ -1527,12 +1538,8 @@ public class CyderFrame extends JFrame {
             this.arrowDir = arrowDir;
         }
 
-        public void setStartDir(Direction startDir) {
-            this.startDir = startDir;
-        }
-
-        public void setVanishDir(Direction vanishDir) {
-            this.vanishDir = vanishDir;
+        public void setNotificationDirection(NotificationDirection notificationDirection) {
+            this.notificationDirection = notificationDirection;
         }
 
         public String getHtmlText() {
@@ -1547,12 +1554,8 @@ public class CyderFrame extends JFrame {
             return arrowDir;
         }
 
-        public Direction getStartDir() {
-            return startDir;
-        }
-
-        public Direction getVanishDir() {
-            return vanishDir;
+        public NotificationDirection getNotificationDirection() {
+            return notificationDirection;
         }
 
         @Override
@@ -1561,8 +1564,7 @@ public class CyderFrame extends JFrame {
                     this.getHtmlText() + "," +
                     this.getDuration() + "," +
                     this.getArrowDir() + "," +
-                    this.getStartDir() + "," +
-                    this.getVanishDir() + "," +
+                    this.getNotificationDirection() + "," +
                     "), hash=" + this.hashCode();
         }
     }

@@ -3,7 +3,7 @@ package cyder.testing;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.enums.AnimationDirection;
-import cyder.enums.Direction;
+import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
@@ -97,22 +97,22 @@ public class ManualTestingWidgets {
 
         CyderButton topNotifiy = new CyderButton("Top");
         topNotifiy.setBounds(100,110,150,40);
-        topNotifiy.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, Direction.TOP));
+        topNotifiy.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.TOP.TOP));
         testFrame.getContentPane().add(topNotifiy);
 
         CyderButton rightNotify = new CyderButton("Right");
         rightNotify.setBounds(100,170,150,40);
-        rightNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, Direction.RIGHT));
+        rightNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.TOP_RIGHT));
         testFrame.getContentPane().add(rightNotify);
 
         CyderButton bottomNotify = new CyderButton("Bottom");
         bottomNotify.setBounds(100,230,150,40);
-        bottomNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, Direction.BOTTOM));
+        bottomNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.BOTTOM));
         testFrame.getContentPane().add(bottomNotify);
 
         CyderButton leftNotify = new CyderButton("Left");
         leftNotify.setBounds(100,290,150,40);
-        leftNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, Direction.LEFT));
+        leftNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.TOP_LEFT));
         testFrame.getContentPane().add(leftNotify);
 
         testFrame.initializeResizing();

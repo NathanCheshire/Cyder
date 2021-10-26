@@ -3,7 +3,7 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.enums.Direction;
+import cyder.enums.NotificationDirection;
 import cyder.genobjects.User;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
@@ -111,9 +111,6 @@ public class UserEditor {
         //todo figure out how storage is going to work for dynamic files such as user files, shouldn't just be plain
         // folder and accessible, maybe a zip writer or some other format
         //todo anything set during a user session that resides in sys.json needs to be moved to user data
-
-        //todo make cypher hashes a list so that it can be empty upon compilation,
-        // also make autocypher attempt all of them and log attempts for usernames
 
         forwardButton = new CyderButton(">");
         forwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -650,7 +647,7 @@ public class UserEditor {
 
         AtomicReference<JLabel> fontScrollLabel = new AtomicReference<>(fontScrollList.generateScrollList());
 
-        editUserFrame.notify("Loading fonts...", 2000, Direction.RIGHT);
+        editUserFrame.notify("Loading fonts...", 2000, NotificationDirection.TOP_RIGHT);
         new Thread(() -> {
             String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
             Collections.addAll(fontList, Fonts);

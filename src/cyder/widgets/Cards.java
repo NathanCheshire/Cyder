@@ -2,8 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-
-import cyder.enums.Direction;
+import cyder.enums.NotificationDirection;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -119,10 +118,10 @@ public class Cards {
                     ErrorHandler.handle(e);
                 }
 
-                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, Direction.TOP);
-                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, Direction.LEFT);
-                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, Direction.BOTTOM);
-                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, Direction.RIGHT);
+                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, NotificationDirection.TOP);
+                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, NotificationDirection.TOP_LEFT);
+                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, NotificationDirection.BOTTOM);
+                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, NotificationDirection.TOP_RIGHT);
             },"Birthday card 2021 notification wait thread").start();
         } catch (Exception e) {
             ErrorHandler.handle(e);

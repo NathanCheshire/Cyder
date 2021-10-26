@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.enums.Direction;
+import cyder.enums.NotificationDirection;
 import cyder.handler.ErrorHandler;
 
 import javax.swing.*;
@@ -120,43 +121,35 @@ public class Notification extends JLabel {
         switch (ArrowType) {
             case TOP:
                 outlinePath.moveTo(6 + this.width / 2, 6 + 2);
-                outlinePath.lineTo(14 + this.width / 2,-2 + 2);
-                outlinePath.lineTo(22 + this.width / 2,6 + 2);
+                outlinePath.lineTo(14 + this.width / 2, -2 + 2);
+                outlinePath.lineTo(22 + this.width / 2, 6 + 2);
                 outlinePath.lineTo(6 + this.width / 2, 6 + 2);
-
                 outlinePath.closePath();
                 graphics2D.fill(outlinePath);
-
                 break;
             case LEFT:
-                outlinePath.moveTo(8, 2 + height/2 + 2);
-                outlinePath.lineTo(2, 10 + height/2 + 2);
-                outlinePath.lineTo(8, 18 + height/2 + 2);
-                outlinePath.lineTo(8, 2 + height/2 + 2);
-
+                outlinePath.moveTo(8, 2 + height / 2 + 2);
+                outlinePath.lineTo(2, 10 + height / 2 + 2);
+                outlinePath.lineTo(8, 18 + height / 2 + 2);
+                outlinePath.lineTo(8, 2 + height / 2 + 2);
                 outlinePath.closePath();
                 graphics2D.fill(outlinePath);
-
                 break;
             case RIGHT:
-                outlinePath.moveTo(18 + this.width, 2 + height/2 + 2);
-                outlinePath.lineTo(26 + this.width, 10 + height/2 + 2);
-                outlinePath.lineTo(18 + this.width, 18 + height/2 + 2);
-                outlinePath.lineTo(18 + this.width, 2 + height/2 + 2);
-
+                outlinePath.moveTo(18 + this.width, 2 + height / 2 + 2);
+                outlinePath.lineTo(26 + this.width, 10 + height / 2 + 2);
+                outlinePath.lineTo(18 + this.width, 18 + height / 2 + 2);
+                outlinePath.lineTo(18 + this.width, 2 + height / 2 + 2);
                 outlinePath.closePath();
                 graphics2D.fill(outlinePath);
-
                 break;
             case BOTTOM:
-                outlinePath.moveTo(8 + width/2, 16 + height + 2);
-                outlinePath.lineTo(14 + width/2, 22 + height + 2);
-                outlinePath.lineTo(20 + width/2, 16 + height + 2);
-                outlinePath.lineTo(8 + width/2, 16 + height + 2);
-
+                outlinePath.moveTo(8 + width / 2, 16 + height + 2);
+                outlinePath.lineTo(14 + width / 2, 22 + height + 2);
+                outlinePath.lineTo(20 + width / 2, 16 + height + 2);
+                outlinePath.lineTo(8 + width / 2, 16 + height + 2);
                 outlinePath.closePath();
                 graphics2D.fill(outlinePath);
-
                 break;
         }
 
@@ -185,113 +178,92 @@ public class Notification extends JLabel {
             case TOP:
                 fillPath.moveTo(8 + this.width / 2, 6 + 2);
                 fillPath.lineTo(14 + this.width / 2, 2);
-                fillPath.lineTo(20 + this.width / 2,6 + 2);
+                fillPath.lineTo(20 + this.width / 2, 6 + 2);
                 fillPath.lineTo(8 + this.width / 2, 6 + 2);
-
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
-
                 break;
             case LEFT:
-                fillPath.moveTo(10, 4 + height/2 + 2);
-                fillPath.lineTo(4, 10 + height/2 + 2);
-                fillPath.lineTo(10, 16 + height/2 + 2);
-                fillPath.lineTo(10, 4 + height/2 + 2);
-
+                fillPath.moveTo(10, 4 + height / 2 + 2);
+                fillPath.lineTo(4, 10 + height / 2 + 2);
+                fillPath.lineTo(10, 16 + height / 2 + 2);
+                fillPath.lineTo(10, 4 + height / 2 + 2);
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
-
                 break;
             case RIGHT:
-                fillPath.moveTo(18 + this.width, 4 + height/2 + 2);
-                fillPath.lineTo(24 + this.width, 10 + height/2 + 2);
-                fillPath.lineTo(18 + this.width, 16 + height/2 + 2);
-                fillPath.lineTo(18 + this.width, 4 + height/2 + 2);
-
+                fillPath.moveTo(18 + this.width, 4 + height / 2 + 2);
+                fillPath.lineTo(24 + this.width, 10 + height / 2 + 2);
+                fillPath.lineTo(18 + this.width, 16 + height / 2 + 2);
+                fillPath.lineTo(18 + this.width, 4 + height / 2 + 2);
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
-
                 break;
             case BOTTOM:
-                fillPath.moveTo(8 + width/2, 14 + height + 2);
-                fillPath.lineTo(14 + width/2, 20 + height + 2);
-                fillPath.lineTo(20 + width/2, 14 + height + 2);
-                fillPath.lineTo(8 + width/2, 14 + height + 2);
-
+                fillPath.moveTo(8 + width / 2, 14 + height + 2);
+                fillPath.lineTo(14 + width / 2, 20 + height + 2);
+                fillPath.lineTo(20 + width / 2, 14 + height + 2);
+                fillPath.lineTo(8 + width / 2, 14 + height + 2);
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
-
-                break;
         }
     }
 
     /**
      * This method to be used with an already initialized component. Expected that the component's starting
      * location is already set.
-     * @param startDir the direction for the notification to enter from.
-     * @param parent the component the notification is placed on. Used for bounds calculations.
+     * @param notificationDirection the direction for the notification to enter and exit from.
      */
-    public void appear(Direction startDir, Direction vanishDir, Component parent, int delay) {
+    public void appear(NotificationDirection notificationDirection, Component parent, int delay) {
         new Thread(() -> {
             try {
                 setVisible(true);
-
-                switch(startDir) {
+                //todo implement rest of enters
+                switch (notificationDirection) {
                     case TOP:
-                        for (int i = getY() ; i < DragLabel.getDefaultHeight() ; i += this.increment) {
+                        for (int i = getY(); i < DragLabel.getDefaultHeight(); i += this.increment) {
                             if (killed)
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
                             Thread.sleep(this.delay);
                         }
-
                         setBounds(getX(), DragLabel.getDefaultHeight() - 1, getWidth(), getHeight());
-
                         break;
-
-                    case RIGHT:
-                        for (int i = getX() ; i > parent.getWidth() - this.getWidth() + 5 ; i -= this.increment) {
+                    case TOP_RIGHT:
+                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= this.increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(this.delay);
                         }
-
                         setBounds(parent.getWidth() - this.getWidth() + 5, getY(), getWidth(), getHeight());
-
                         break;
-
-                    case LEFT:
-                        for (int i = getX() ; i < 5 ; i += this.increment) {
+                    case TOP_LEFT:
+                        for (int i = getX(); i < 5; i += this.increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(this.delay);
                         }
-
                         setBounds(2, getY(), getWidth(), getHeight());
-
                         break;
-
                     case BOTTOM:
-                        for (int i = getY() ; i > parent.getHeight() - this.getHeight() + 5 ; i -= this.increment) {
+                        for (int i = getY(); i > parent.getHeight() - this.getHeight() + 5; i -= this.increment) {
                             if (killed)
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
                             Thread.sleep(this.delay);
                         }
-
                         setBounds(getX(), parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
-
                         break;
                 }
 
                 //now that it's visible, call vanish with the proper delay
-                this.vanish(vanishDir, parent, delay);
+                this.vanish(notificationDirection, parent, delay);
             }
 
             catch (Exception e) {
@@ -312,15 +284,17 @@ public class Notification extends JLabel {
 
     /**
      * This method to be used in combination with an already visible notification.
-     * @param vanishDir the direction to exit to.
+     * @param notificationDirection the direction to exit to.
      * @param parent the component the notification is on. Used for bounds calculations.
      * @param delay the delay before vanish.
      */
-    private void vanish(Direction vanishDir, Component parent, int delay) {
+    private void vanish(NotificationDirection notificationDirection, Component parent, int delay) {
         new Thread(() -> {
             try {
                 Thread.sleep(delay);
-                switch(vanishDir) {
+
+                //todo figure out more vanish dirs logic
+                switch(notificationDirection) {
                     case TOP:
                         for (int i = getY() ; i > - getHeight() ; i -= this.increment) {
                             if (killed)
@@ -343,7 +317,7 @@ public class Notification extends JLabel {
 
                         break;
 
-                    case RIGHT:
+                    case TOP_RIGHT:
                         for (int i = getX() ; i < parent.getWidth() - 5 ; i += this.increment) {
                             if (killed)
                                 break;
@@ -354,7 +328,7 @@ public class Notification extends JLabel {
 
                         break;
 
-                    case LEFT:
+                    case TOP_LEFT:
                         for (int i = getX() ; i > -getWidth() + 5 ; i -= this.increment) {
                             if (killed)
                                 break;

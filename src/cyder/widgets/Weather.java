@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.enums.Direction;
+import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
@@ -390,7 +390,7 @@ public class Weather {
             }
 
             if (weatherFrame != null)
-                weatherFrame.notify("Refreshed", 2000, Direction.RIGHT);
+                weatherFrame.notify("Refreshed", 2000, NotificationDirection.TOP_RIGHT);
         }
 
         catch (Exception e) {

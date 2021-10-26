@@ -4,7 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.enums.Direction;
+import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderButton;
@@ -138,14 +138,14 @@ public class Calculator {
                 double result = new DoubleEvaluator().evaluate(calcText);
 
                 if (result == Double.MAX_VALUE) {
-                    calculatorFrame.notify("Positive Inf",2000,Direction.RIGHT);
+                    calculatorFrame.notify("Positive Inf",2000, NotificationDirection.TOP_RIGHT);
                 } else if (result == Double.MIN_VALUE) {
-                    calculatorFrame.notify("Negative Inf",2000,Direction.RIGHT);
+                    calculatorFrame.notify("Negative Inf",2000,NotificationDirection.TOP_RIGHT);
                 } else {
-                    calculatorFrame.notify(String.valueOf(result),5000,Direction.RIGHT);
+                    calculatorFrame.notify(String.valueOf(result),5000,NotificationDirection.TOP_RIGHT);
                 }
             } catch (Exception exc) {
-                calculatorFrame.notify("Could not parse expression",2000, Direction.RIGHT);
+                calculatorFrame.notify("Could not parse expression",2000, NotificationDirection.TOP_RIGHT);
                 ErrorHandler.silentHandle(exc);
             }
         });
