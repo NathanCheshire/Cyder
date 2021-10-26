@@ -218,7 +218,6 @@ public class Notification extends JLabel {
         new Thread(() -> {
             try {
                 setVisible(true);
-                //todo these are all semi-correct but text offsets need to be used
                 switch (notificationDirection) {
                     case TOP:
                         for (int i = getY(); i < DragLabel.getDefaultHeight(); i += this.increment) {

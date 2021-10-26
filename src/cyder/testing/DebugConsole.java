@@ -110,6 +110,8 @@ public class DebugConsole {
 
         ManualTestingWidgets.NotificationsTest();
 
+        //todo frame should never be smaller than 100x100, implement that
+
         //todo notification bounds are broken
 
         //todo all windows should be added to an animated stack which will replace the menu

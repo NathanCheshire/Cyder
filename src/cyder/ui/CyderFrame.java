@@ -606,12 +606,7 @@ public class CyderFrame extends JFrame {
 
                             //create text label to go on top of notification label
                             JLabel text = new JLabel();
-
-                            //add html tags if needed, contains and not startsWith
-                            // since the following is valid: hello<html>blah</html>
-                            if (!currentNotif.getHtmlText().contains("<html>")) {
-                                text.setText("<html>" + currentNotif.getHtmlText() + "</html>");
-                            }
+                            text.setText(currentNotif.getHtmlText());
 
                             Font notificationFont = CyderFonts.weatherFontSmall;
 
@@ -621,6 +616,11 @@ public class CyderFrame extends JFrame {
                             int w = bs.getWidth();
                             int h = bs.getHeight();
                             text.setText(bs.getText());
+
+                            if (h > this.height) {
+                                this.inform(text.getText(),"Notification");
+                                continue;
+                            }
 
                             //set the text bounds to the proper x,y and theest
                             // calculated width and height

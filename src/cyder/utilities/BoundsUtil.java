@@ -36,10 +36,6 @@ public class BoundsUtil {
     public static BoundsString widthHeightCalculation(final String text, int maxWidth, Font font) {
         BoundsString ret = new BoundsString();
 
-        //pseudo code: still want to return a minimum bounding box less than max width no matter what
-        // this bounding box should try to make all the lines the same length, thus, we should split
-        // at exiting line breaks and then figure out line lengths from there
-
         int widthAddition = 5;
         int heightAddition = 2;
         AffineTransform affinetransform = new AffineTransform();
@@ -122,6 +118,9 @@ public class BoundsUtil {
             int w = 0;
 
             for (TaggedString ts : taggedStrings) {
+                if (ts.getType() == StringType.HTML)
+                    continue;
+
                 String[] tsLines = ts.getString().split("<br/>");
 
                 for (String line : tsLines) {
@@ -176,6 +175,11 @@ public class BoundsUtil {
 
                 if (currentWidth > w)
                     w = currentWidth;
+            }
+
+            //this should always run but to be safe check first
+            if (!correctedNonHtml.startsWith("<html>")) {
+                correctedNonHtml = "<html>" + correctedNonHtml + "</html>";
             }
 
             ret = new BoundsString(w, h, correctedNonHtml);
