@@ -1,7 +1,6 @@
 package cyder.genesis;
 
 import cyder.handler.SessionLogger;
-import cyder.testing.DebugConsole;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SecurityUtil;
 import cyder.utilities.SystemUtil;
@@ -26,17 +25,21 @@ public class Cyder {
 
         //possibly fatal subroutines
         if (!CyderSetup.registerFonts()) {
+            SessionLogger.log(SessionLogger.Tag.LOGIN, "SYSTEM FAILURE");
             CyderSetup.exceptionExit("Font required by system could not be loaded","Font failure");
             return;
         }
 
         if (IOUtil.checkForExitCollisions()) {
-            CyderSetup.duplicateExitCodesExit();
+            SessionLogger.log(SessionLogger.Tag.LOGIN, "DUPLICATE EXIT CODES");
+            CyderSetup.exceptionExit("You messed up exit codes :/","Exit Codes Exception");
             return;
         }
 
         if (SystemUtil.osxSystem()) {
-            CyderSetup.osxExit();
+            SessionLogger.log(SessionLogger.Tag.LOGIN, "IMPROPER OS");
+            CyderSetup.exceptionExit("System OS not intended for Cyder use. You should" +
+                    " install a dual boot or a VM or something.","OS Exception");
             return;
         }
 

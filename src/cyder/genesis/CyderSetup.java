@@ -3,7 +3,6 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.handler.ErrorHandler;
-import cyder.handler.SessionLogger;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.StringUtil;
@@ -94,32 +93,10 @@ public class CyderSetup {
     }
 
     public static void exceptionExit(String message, String title) {
-        SessionLogger.log(SessionLogger.Tag.LOGIN, "SYSTEM FAILURE");
         GenesisShare.suspendFrameChecker();
 
         CyderFrame retFrame = GenericInformer.informRet(message, title);
         retFrame.addPostCloseAction(() -> GenesisShare.exit(278));
-        retFrame.setVisible(true);
-        retFrame.setLocationRelativeTo(null);
-    }
-
-    public static void osxExit() {
-        SessionLogger.log(SessionLogger.Tag.LOGIN, "IMPROPER OS");
-        GenesisShare.suspendFrameChecker();
-
-        CyderFrame retFrame = GenericInformer.informRet("System OS not intended for Cyder use. You should" +
-                " install a dual boot or a VM or something.","OS Exception");
-        retFrame.addPostCloseAction(() -> GenesisShare.exit(178));
-        retFrame.setVisible(true);
-        retFrame.setLocationRelativeTo(null);
-    }
-
-    public static void duplicateExitCodesExit() {
-        SessionLogger.log(SessionLogger.Tag.LOGIN, "DUPLICATE EXIT CODEs");
-        GenesisShare.suspendFrameChecker();
-
-        CyderFrame retFrame = GenericInformer.informRet("You messed up exit codes :/","Exit Codes Exception");
-        retFrame.addPostCloseAction(() -> GenesisShare.exit(-78));
         retFrame.setVisible(true);
         retFrame.setLocationRelativeTo(null);
     }
