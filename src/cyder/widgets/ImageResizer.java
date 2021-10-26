@@ -204,16 +204,15 @@ public class ImageResizer {
         approve.setFocusPainted(false);
         approve.addActionListener(e -> {
             if (resizeImage == null) {
-                GenericInformer.inform("Sorry, but you have no image selected to resize","Exception");
+                resizeFrame.notify("Sorry, but you have no image selected to resize");
             }
 
             else if (xdim.getText().length() > 0 && ydim.getText().length() > 0) {
                 try {
                     BufferedImage replace = resizeImage(resizeImage, Integer.parseInt(xdim.getText()), Integer.parseInt(ydim.getText()));
                     ImageIO.write(replace, "png", resizeImage);
-                    GenericInformer.inform("The image \"" + resizeImage.getName() + "\" was successfully resized to " +
-                            xdim.getText() + "x" + ydim.getText(),"Success");
-                    resizeFrame.dispose();
+                    resizeFrame.notify("The image \"" + resizeImage.getName() + "\" was successfully resized to " +
+                            xdim.getText() + "x" + ydim.getText());
                 }
 
                 catch (Exception ex) {

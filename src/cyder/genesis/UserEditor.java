@@ -100,8 +100,6 @@ public class UserEditor {
         backwardButton.setBounds(20, 50, 50, 500);
         editUserFrame.getContentPane().add(backwardButton);
 
-        //todo fix lots of old generic inform and inform calls where it could be notify calls
-
         //todo use NotificationDirection for notification directions and add in unimplemented ones
 
         //todo all windows should be added to an animated stack which will replace the menu

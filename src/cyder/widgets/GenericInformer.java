@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
 import cyder.genobjects.BoundsString;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
@@ -33,7 +34,7 @@ public class GenericInformer {
     }
 
     public static void inform(String text, String title) {
-        informRelative(text, title, null);
+        informRelative(text, title, GenesisShare.getDominantFrame());
     }
 
     public static void informRelative(String text, String title, Component relativeTo) {

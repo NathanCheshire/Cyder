@@ -254,7 +254,7 @@ public class Pizza {
         placeOrder.setFont(CyderFonts.weatherFontSmall);
         placeOrder.addActionListener(e -> {
             if (nameField.getText().length() <= 0)
-                GenericInformer.inform("Sorry, but you must enter a name.","");
+                pizzaFrame.notify("Sorry, but you must enter a name.");
 
             else {
                 String Name = nameField.getText().substring(0, 1).toUpperCase() + nameField.getText().substring(1) + "<br/>";
@@ -309,7 +309,7 @@ public class Pizza {
 
                 Comments = Comments.trim().length() == 0 ? "" : "<br/>Comments: " + "<br/>" + Comments;
 
-                GenericInformer.inform("Customer Name: " + "<br/>" + Name + "<br/>" + "Size: "
+                pizzaFrame.inform("Customer Name: " + "<br/>" + Name + "<br/>" + "Size: "
                     + "<br/>" + Size + "<br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/>" + ToppingsChosen
                         + Extras + Comments,"");
 
