@@ -102,7 +102,7 @@ public class IOUtil {
         SystemData ret = null;
         Gson gson = new Gson();
 
-        try (Reader reader = new FileReader("sys.json")) {
+        try (Reader reader = new FileReader("static/sys.json")) {
             ret = gson.fromJson(reader, SystemData.class);
         } catch (IOException e) {
             ErrorHandler.handle(e);
@@ -118,7 +118,7 @@ public class IOUtil {
     public static void setSystemData(SystemData sd) {
         Gson gson = new Gson();
 
-        try (FileWriter writer = new FileWriter("sys.json")) {
+        try (FileWriter writer = new FileWriter("static/sys.json")) {
             gson.toJson(sd, writer);
         } catch (IOException e) {
             ErrorHandler.handle(e);
@@ -267,7 +267,7 @@ public class IOUtil {
             FileInputStream FileInputStream = new FileInputStream(FilePath);
             Player systemPlayer = new Player(FileInputStream);
 
-            if (!FilePath.equals("sys/audio/Typing.mp3"))
+            if (!FilePath.equals("static/audio/Typing.mp3"))
                 SessionLogger.log(SessionLogger.Tag.ACTION,"[SYSTEM AUDIO] " + FilePath);
             new Thread(() -> {
                 try {
@@ -554,7 +554,7 @@ public class IOUtil {
         if (!SecurityUtil.nathanLenovo()) {
             wipeSandbox();
         } else {
-            File sandbox = new File("sys/sandbox");
+            File sandbox = new File("static/sandbox");
 
             if (!sandbox.exists()) {
                 sandbox.mkdir();
@@ -566,7 +566,7 @@ public class IOUtil {
      * Wipes the Sandbox of files if we are not in developer mode, ensures the folder stays though.
      */
     public static void wipeSandbox() {
-        File sandbox = new File("sys/sandbox");
+        File sandbox = new File("static/sandbox");
 
         if (sandbox.exists()) {
             SystemUtil.deleteFolder(sandbox);

@@ -750,8 +750,9 @@ public class CyderFrame extends JFrame {
         GenericInformer.informRelative(text, title, this);
     }
 
-    private int animationNano = 500;
-    private int animationInc = 40;
+    //todo figure out issues here, can't actually speed it up?
+    private int animationNano = 250;
+    private int animationInc = 40; //typically is about 1/25th of animationNano so there are 25 frames
 
     /**
      * Moves the window down until it is off screen before setting the state to ICONIFIED.

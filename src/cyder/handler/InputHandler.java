@@ -245,15 +245,15 @@ public class InputHandler {
         }
         //printing imageicons -------------------------------------
         else if (eic("java")) {
-            printlnImage("sys/pictures/print/Duke.png");
+            printlnImage("static/pictures/print/Duke.png");
         } else if ((hasWord("mississippi") && hasWord("state") && hasWord("university")) || eic("msu")) {
-            printlnImage("sys/pictures/print/msu.png");
+            printlnImage("static/pictures/print/msu.png");
         } else if (eic("nathan")) {
-            printlnImage("sys/pictures/print/me.png");
+            printlnImage("static/pictures/print/me.png");
         } else if (hasWord("html") || hasWord("html5")) {
-            printlnImage("sys/pictures/print/html5.png");
+            printlnImage("static/pictures/print/html5.png");
         } else if (hasWord("css")) {
-            printlnImage("sys/pictures/print/css.png");
+            printlnImage("static/pictures/print/css.png");
         }
         //threads -------------------------------------------------
         else if (hasWord("random") && hasWord("youtube")) {
@@ -504,7 +504,7 @@ public class InputHandler {
         } else if (has("occam") && hasWord("razor")) {
             NetworkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
         } else if (eic("netsh")) {
-            Desktop.getDesktop().open(new File("C:\\Windows\\system32\\netsh.exe"));
+            Desktop.getDesktop().open(new File("C:/Windows/system32/netsh.exe"));
         } else if (hasWord("paint")) {
             String param = "C:/Windows/system32/mspaint.exe";
             Runtime.getRuntime().exec(param);
@@ -516,23 +516,23 @@ public class InputHandler {
         }
         //playing audio -------------------------------------------
         else if (eic("hey")) {
-            IOUtil.playAudio("sys/audio/heyya.mp3");
+            IOUtil.playAudio("static/audio/heyya.mp3");
         }  else if (eic("windows")) {
-            IOUtil.playAudio("sys/audio/windows.mp3");
+            IOUtil.playAudio("static/audio/windows.mp3");
         }  else if (hasWord("light") && hasWord("saber")) {
-            IOUtil.playAudio("sys/audio/Lightsaber.mp3");
+            IOUtil.playAudio("static/audio/Lightsaber.mp3");
         } else if (hasWord("xbox")) {
-            IOUtil.playAudio("sys/audio/xbox.mp3");
+            IOUtil.playAudio("static/audio/xbox.mp3");
         } else if (has("star") && has("trek")) {
-            IOUtil.playAudio("sys/audio/StarTrek.mp3");
+            IOUtil.playAudio("static/audio/StarTrek.mp3");
         } else if (has("toy") && has("story")) {
-            IOUtil.playAudio("sys/audio/TheClaw.mp3");
+            IOUtil.playAudio("static/audio/TheClaw.mp3");
         } else if (has("stop") && has("music")) {
             IOUtil.stopAudio();
         } else if (eic("logic")) {
-            IOUtil.playAudio("sys/audio/commando.mp3");
+            IOUtil.playAudio("static/audio/commando.mp3");
         } else if (eic("1-800-273-8255") || eic("18002738255")) {
-            IOUtil.playAudio("sys/audio/1800.mp3");
+            IOUtil.playAudio("static/audio/1800.mp3");
         }
         //console commands ----------------------------------------
         else if (hasWord("background") && hasWord("color")) {
@@ -1049,9 +1049,9 @@ public class InputHandler {
             background.setVisible(true);
             background.setLocationRelativeTo(null);
         } else if (hasWord("xxx") || hasWord("tentacion") || has("rip x")) {
-            SystemUtil.setCurrentCyderIcon(new ImageIcon("sys/pictures/print/x.png"));
+            SystemUtil.setCurrentCyderIcon(new ImageIcon("static/print/x.png"));
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
-                    .setIconImage(new ImageIcon("sys/pictures/print/x.png").getImage());
+                    .setIconImage(new ImageIcon("static/print/x.png").getImage());
         } else if (hasWord("issue") || hasWord("issues")) {
             new Thread(() -> {
                 GitHubUtil.Issue[] issues = GitHubUtil.getIssues();
@@ -1552,7 +1552,7 @@ public class InputHandler {
 
             if (playInc == playRate - 1) {
                 if (!finishPrinting && UserUtil.extractUser().getTypinganimationsound().equals("1")) {
-                    IOUtil.playSystemAudio("sys/audio/Typing.mp3");
+                    IOUtil.playSystemAudio("static/audio/Typing.mp3");
                     playInc = 0;
                 }
             } else {

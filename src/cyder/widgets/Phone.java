@@ -216,11 +216,11 @@ public class Phone {
                 checkForSuicideHotline();
 
                 if (checkForSuicideHotline()) {
-                    IOUtil.playAudio("sys/audio/1800.mp3");
+                    IOUtil.playAudio("static/audio/1800.mp3");
                 }
 
                 else if (checkFor223()) {
-                    IOUtil.playAudio("sys/audio/223.mp3");
+                    IOUtil.playAudio("static/audio/223.mp3");
                 }
 
                 else {

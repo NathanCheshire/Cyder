@@ -47,7 +47,7 @@ public class Hangman {
         HangmanFrame.getContentPane().add(HangmanLabel);
 
         HangmanImageLabel = new JLabel();
-        HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman/hangman.png"));
+        HangmanImageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman.png"));
         HangmanImageLabel.setBounds(100,50,712,712);
         HangmanFrame.getContentPane().add(HangmanImageLabel);
 
@@ -136,7 +136,7 @@ public class Hangman {
 
         chosenLetters = "";
 
-        try (BufferedReader br = new BufferedReader(new FileReader("sys/text/hangman.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("static/text/hangman.csv"))) {
             String[] doc = br.readLine().split(",");
             HangmanWord = doc[NumberUtil.randInt(0, doc.length - 1)].toLowerCase().trim();
 
@@ -148,7 +148,7 @@ public class Hangman {
 
         HangmanLabel.setText("<html>" + StringUtil.fillString(HangmanWord.length(), " _ ") + "</html>");
 
-        HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman/hangman.png"));
+        HangmanImageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman.png"));
 
         HangmanWrongGuesses = 0;
     }
@@ -191,7 +191,7 @@ public class Hangman {
 
         else {
             if (HangmanWrongGuesses == 7) {
-                HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman/hangman8.png"));
+                HangmanImageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman8.png"));
                 HangmanLabel.setFont(CyderFonts.weatherFontSmall);
                 HangmanLabel.setText("<html>Game over! You were unable to guess \"" + HangmanWord + "\" Would you like to startAudio again?</html>");
 
@@ -202,7 +202,7 @@ public class Hangman {
 
             else {
                 HangmanWrongGuesses++;
-                HangmanImageLabel.setIcon(new ImageIcon("sys/pictures/hangman/hangman" + HangmanWrongGuesses + ".png"));
+                HangmanImageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman" + HangmanWrongGuesses + ".png"));
             }
         }
     }

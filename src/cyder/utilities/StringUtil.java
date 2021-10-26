@@ -710,7 +710,7 @@ public class StringUtil {
      */
     public static boolean filterLanguage(String userInput) {
         try {
-            BufferedReader vReader = new  BufferedReader(new FileReader("sys/text/v.txt"));
+            BufferedReader vReader = new  BufferedReader(new FileReader("static/text/v.txt"));
             String blockedWord = vReader.readLine();
             userInput = filterLeet(userInput.toLowerCase());
 

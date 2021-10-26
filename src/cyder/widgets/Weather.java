@@ -126,7 +126,7 @@ public class Weather {
         locationLabel.setBounds(0, 85, 480, 30);
         weatherFrame.getContentPane().add(locationLabel);
 
-        currentWeatherIconLabel = new JLabel(new ImageIcon("sys/pictures/weather/" + weatherIcon + ".png"));
+        currentWeatherIconLabel = new JLabel(new ImageIcon("static/weather/" + weatherIcon + ".png"));
         currentWeatherIconLabel.setBounds(480 / 2 - 50, 130, 100, 100);
         currentWeatherIconLabel.setBorder(new LineBorder(CyderColors.navy,5,false));
         weatherFrame.getContentPane().add(currentWeatherIconLabel);
@@ -143,11 +143,11 @@ public class Weather {
         sunsetLabel.setBounds(290, 200, 480 - 290, 30);
         weatherFrame.getContentPane().add(sunsetLabel);
 
-        JLabel sunriseLabelIcon = new JLabel(new ImageIcon("sys/pictures/weather/sunrise.png"));
+        JLabel sunriseLabelIcon = new JLabel(new ImageIcon("static/pictures/weather/sunrise.png"));
         sunriseLabelIcon.setBounds(60, 145, 55, 48);
         weatherFrame.getContentPane().add(sunriseLabelIcon);
 
-        JLabel sunsetLabelIcon = new JLabel(new ImageIcon("sys/pictures/weather/sunset.png"));
+        JLabel sunsetLabelIcon = new JLabel(new ImageIcon("static/pictures/weather/sunset.png"));
         sunsetLabelIcon.setBounds(480 - 55 - 60, 145, 55, 48);
         weatherFrame.getContentPane().add(sunsetLabelIcon);
 
@@ -366,7 +366,7 @@ public class Weather {
             }
 
 
-            currentWeatherIconLabel.setIcon(new ImageIcon("sys/pictures/weather/" + weatherIcon + ".png"));
+            currentWeatherIconLabel.setIcon(new ImageIcon("static/pictures/weather/" + weatherIcon + ".png"));
             currentWeatherLabel.setText(StringUtil.capsFirst(weatherCondition));
             temperatureLabel.setText("Temperature: " + temperature + "F");
             feelsLikeLabel.setText("Feels like: " + feelsLike + "F");

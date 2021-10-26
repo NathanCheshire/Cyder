@@ -536,27 +536,27 @@ public final class ConsoleFrame {
             suggestionButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion2.png"));
+                    suggestionButton.setIcon(new ImageIcon("static/pictures/icons/suggestion2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion1.png"));
+                    suggestionButton.setIcon(new ImageIcon("static/pictures/icons/suggestion1.png"));
                 }
             });
             suggestionButton.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion2.png"));
+                    suggestionButton.setIcon(new ImageIcon("static/pictures/icons/suggestion2.png"));
                 }
 
                 @Override
                 public void focusLost(FocusEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion1.png"));
+                    suggestionButton.setIcon(new ImageIcon("static/pictures/icons/suggestion1.png"));
                 }
             });
             suggestionButton.setBounds(32, 4, 22, 22);
-            suggestionButton.setIcon(new ImageIcon("sys/pictures/icons/suggestion1.png"));
+            suggestionButton.setIcon(new ImageIcon("static/pictures/icons/suggestion1.png"));
             consoleCyderFrame.getTopDragLabel().add(suggestionButton);
             suggestionButton.setFocusPainted(false);
             suggestionButton.setOpaque(false);
@@ -572,18 +572,18 @@ public final class ConsoleFrame {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     if (menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
+                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
                     } else {
-                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide2.png"));
+                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide2.png"));
                     }
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
                     if (menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
+                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
                     } else {
-                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
                     }
                 }
             });
@@ -607,24 +607,24 @@ public final class ConsoleFrame {
                 }
             });
             menuButton.setBounds(4, 4, 22, 22);
-            menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+            menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
             consoleCyderFrame.getTopDragLabel().add(menuButton);
             menuButton.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
                     if (menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
+                        menuButton.setIcon(new ImageIcon("static/icons/menu2.png"));
                     } else {
-                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide2.png"));
+                        menuButton.setIcon(new ImageIcon("static/icons/menuSide2.png"));
                     }
                 }
 
                 @Override
                 public void focusLost(FocusEvent e) {
                     if (menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
+                        menuButton.setIcon(new ImageIcon("static/icons/menu1.png"));
                     } else {
-                        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+                        menuButton.setIcon(new ImageIcon("static/icons/menuSide1.png"));
                     }
                 }
             });
@@ -655,15 +655,15 @@ public final class ConsoleFrame {
             toggleAudioControls.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
+                    toggleAudioControls.setIcon(new ImageIcon("static/icons/menu2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
+                    toggleAudioControls.setIcon(new ImageIcon("static/icons/menu1.png"));
                 }
             });
-            toggleAudioControls.setIcon(new ImageIcon("sys/pictures/icons/menu1.png"));
+            toggleAudioControls.setIcon(new ImageIcon("static/icons/menu1.png"));
             toggleAudioControls.setContentAreaFilled(false);
             toggleAudioControls.setBorderPainted(false);
             toggleAudioControls.setFocusPainted(false);
@@ -712,12 +712,12 @@ public final class ConsoleFrame {
             alternateBackground.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize2.png"));
+                    alternateBackground.setIcon(new ImageIcon("static/icons/ChangeSize2.png"));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
+                    alternateBackground.setIcon(new ImageIcon("static/icons/ChangeSize1.png"));
                 }
             });
             alternateBackground.addActionListener(e -> {
@@ -742,15 +742,15 @@ public final class ConsoleFrame {
             alternateBackground.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize2.png"));
+                    alternateBackground.setIcon(new ImageIcon("static/icons/ChangeSize2.png"));
                 }
 
                 @Override
                 public void focusLost(FocusEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
+                    alternateBackground.setIcon(new ImageIcon("static/icons/ChangeSize1.png"));
                 }
             });
-            alternateBackground.setIcon(new ImageIcon("sys/pictures/icons/ChangeSize1.png"));
+            alternateBackground.setIcon(new ImageIcon("static/icons/ChangeSize1.png"));
             alternateBackground.setFocusPainted(false);
             alternateBackground.setOpaque(false);
             alternateBackground.setContentAreaFilled(false);
@@ -951,7 +951,7 @@ public final class ConsoleFrame {
                 OUTER:
                     while (true) {
                         if (UserUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
-                            IOUtil.playSystemAudio("sys/audio/chime.mp3");
+                            IOUtil.playSystemAudio("static/audio/chime.mp3");
                         }
 
                         //sleep 60 minutes
@@ -1127,11 +1127,11 @@ public final class ConsoleFrame {
                     if (correct) {
                         int rand = NumberUtil.randInt(0,2);
                         if (rand == 0) {
-                            IOUtil.playAudio("sys/audio/BadApple.mp3");
+                            IOUtil.playAudio("static/audio/BadApple.mp3");
                         } else if (rand == 1){
-                            IOUtil.playAudio("sys/audio/BeetleJuice.mp3");
+                            IOUtil.playAudio("static/audio/BeetleJuice.mp3");
                         } else {
-                            IOUtil.playAudio("sys/audio/BlackOrWhite.mp3");
+                            IOUtil.playAudio("static/audio/BlackOrWhite.mp3");
                         }
                     }
                 } catch (Exception e) {
@@ -1162,10 +1162,10 @@ public final class ConsoleFrame {
                 IOUtil.playAudio("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
                         (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]));
             } else {
-                IOUtil.playAudio("sys/audio/Ride.mp3");
+                IOUtil.playAudio("static/audio/Ride.mp3");
             }
         } else if (IOUtil.getSystemData().isReleased()) {
-            IOUtil.playSystemAudio("sys/audio/startup.mp3");
+            IOUtil.playSystemAudio("static/audio/startup.mp3");
         }
     }
 
@@ -1174,7 +1174,7 @@ public final class ConsoleFrame {
         int menuHeight = 250;
         int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
 
-        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menu2.png"));
+        menuButton.setIcon(new ImageIcon("static/icons/menu2.png"));
 
         menuLabel = new JLabel("");
         menuLabel.setBounds(-150, DragLabel.getDefaultHeight(),
@@ -1567,7 +1567,7 @@ public final class ConsoleFrame {
                     menuLabel.setLocation(-150, y);
 
                     menuLabel.setVisible(false);
-                    menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+                    menuButton.setIcon(new ImageIcon("static/icons/menuSide1.png"));
                 },"minimize menu thread").start();
             } else {
                 menuLabel.setLocation(0, DragLabel.getDefaultHeight() - 5);
@@ -1587,7 +1587,7 @@ public final class ConsoleFrame {
                     menuLabel.setLocation(x, -250);
 
                     menuLabel.setVisible(false);
-                    menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+                    menuButton.setIcon(new ImageIcon("static/icons/menuSide1.png"));
                 },"minimize menu thread").start();
             }
         }
@@ -1622,7 +1622,7 @@ public final class ConsoleFrame {
                     for (int i = 61440; i < 61452; i++) {
                         if (code == i) {
                             if (i - 61427 == 17) {
-                                IOUtil.playAudio("sys/audio/f17.mp3");
+                                IOUtil.playAudio("static/audio/f17.mp3");
                             } else {
                                 inputHandler.println("Interesting F" + (i - 61427) + " key");
                             }
@@ -2571,8 +2571,8 @@ public final class ConsoleFrame {
     public void flashSuggestionButton() {
         new Thread(() -> {
             try {
-                ImageIcon blinkIcon = new ImageIcon("sys/pictures/icons/suggestion2.png");
-                ImageIcon regularIcon = new ImageIcon("sys/pictures/icons/suggestion1.png");
+                ImageIcon blinkIcon = new ImageIcon("static/icons/suggestion2.png");
+                ImageIcon regularIcon = new ImageIcon("static/icons/suggestion1.png");
 
                 for (int i = 0 ; i < 4 ; i++) {
                     suggestionButton.setIcon(blinkIcon);
@@ -2614,7 +2614,7 @@ public final class ConsoleFrame {
     public void revaliateMenu() {
         menuLabel.setVisible(false);
         consoleMenuGenerated = false;
-        menuButton.setIcon(new ImageIcon("sys/pictures/icons/menuSide1.png"));
+        menuButton.setIcon(new ImageIcon("static/icons/menuSide1.png"));
     }
 
     public void animateOutAudioControls() {
@@ -2670,9 +2670,9 @@ public final class ConsoleFrame {
             }
 
             if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+                playPauseMusicLabel.setIcon(new ImageIcon("static/music/Pause.png"));
             } else {
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+                playPauseMusicLabel.setIcon(new ImageIcon("static/music/Play.png"));
             }
         }
     }
@@ -2699,24 +2699,24 @@ public final class ConsoleFrame {
 
         JLabel stopMusicLabel = new JLabel("");
         stopMusicLabel.setBounds(45,5,30, 30);
-        stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Stop.png"));
+        stopMusicLabel.setIcon(new ImageIcon("static/music/Stop.png"));
         audioControlsLabel.add(stopMusicLabel);
         stopMusicLabel.setToolTipText("Stop");
         stopMusicLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 IOUtil.stopAllAudio();
-                playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+                playPauseMusicLabel.setIcon(new ImageIcon("static/music/Play.png"));
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/StopHover.png"));
+                stopMusicLabel.setIcon(new ImageIcon("static/music/StopHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                stopMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Stop.png"));
+                stopMusicLabel.setIcon(new ImageIcon("static/music/Stop.png"));
             }
         });
         stopMusicLabel.setVisible(true);
@@ -2745,18 +2745,18 @@ public final class ConsoleFrame {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
-                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PlayHover.png"));
+                    playPauseMusicLabel.setIcon(new ImageIcon("static/music/PlayHover.png"));
                 } else {
-                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/PauseHover.png"));
+                    playPauseMusicLabel.setIcon(new ImageIcon("static/music/PauseHover.png"));
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
-                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+                    playPauseMusicLabel.setIcon(new ImageIcon("static/music/Play.png"));
                 } else {
-                    playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+                    playPauseMusicLabel.setIcon(new ImageIcon("static/music/Pause.png"));
                 }
             }
         });
@@ -2764,14 +2764,14 @@ public final class ConsoleFrame {
         playPauseMusicLabel.setOpaque(false);
         audioControlsLabel.add(playPauseMusicLabel);
         if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Play.png"));
+            playPauseMusicLabel.setIcon(new ImageIcon("static/music/Play.png"));
         } else {
-            playPauseMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Pause.png"));
+            playPauseMusicLabel.setIcon(new ImageIcon("static/music/Pause.png"));
         }
 
         JLabel nextMusicLabel = new JLabel("");
         nextMusicLabel.setBounds(110,5,30, 30);
-        nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Skip.png"));
+        nextMusicLabel.setIcon(new ImageIcon("static/music/Skip.png"));
         audioControlsLabel.add(nextMusicLabel);
         nextMusicLabel.setToolTipText("Skip");
         nextMusicLabel.addMouseListener(new MouseAdapter() {
@@ -2784,12 +2784,12 @@ public final class ConsoleFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipHover.png"));
+                nextMusicLabel.setIcon(new ImageIcon("static/music/SkipHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                nextMusicLabel.setIcon(new ImageIcon("sys/pictures/music/Skip.png"));
+                nextMusicLabel.setIcon(new ImageIcon("static/music/Skip.png"));
             }
         });
         nextMusicLabel.setVisible(true);
@@ -2798,7 +2798,7 @@ public final class ConsoleFrame {
 
         JLabel lastMusicLabel = new JLabel("");
         lastMusicLabel.setBounds(10,5,30, 30);
-        lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBack.png"));
+        lastMusicLabel.setIcon(new ImageIcon("static/music/SkipBack.png"));
         audioControlsLabel.add(nextMusicLabel);
         lastMusicLabel.setToolTipText("Previous");
         lastMusicLabel.addMouseListener(new MouseAdapter() {
@@ -2811,12 +2811,12 @@ public final class ConsoleFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBackHover.png"));
+                lastMusicLabel.setIcon(new ImageIcon("static/music/SkipBackHover.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                lastMusicLabel.setIcon(new ImageIcon("sys/pictures/music/SkipBack.png"));
+                lastMusicLabel.setIcon(new ImageIcon("static/music/SkipBack.png"));
             }
         });
         lastMusicLabel.setVisible(true);

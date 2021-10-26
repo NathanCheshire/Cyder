@@ -19,7 +19,7 @@ public class Cards {
         if (christmas2020Frame != null)
             christmas2020Frame.dispose();
 
-        christmas2020Frame = new CyderFrame(498,490, new ImageIcon("sys/pictures/cards/Santa.gif"));
+        christmas2020Frame = new CyderFrame(498,490, new ImageIcon("static/cards/Santa.gif"));
         christmas2020Frame.setTitle("Merry Christmas!");
         christmas2020Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
@@ -58,7 +58,7 @@ public class Cards {
         if (fathersDay2021Frame != null)
             fathersDay2021Frame.dispose();
 
-        fathersDay2021Frame = new CyderFrame(800,721, new ImageIcon("sys/pictures/cards/Philmont.png"));
+        fathersDay2021Frame = new CyderFrame(800,721, new ImageIcon("static/cards/Philmont.png"));
         fathersDay2021Frame.setTitle("Happy Father's Day!");
         fathersDay2021Frame.setBackground(CyderColors.navy);
         fathersDay2021Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -86,7 +86,7 @@ public class Cards {
         if (birthday2021Frame != null)
             birthday2021Frame.dispose();
 
-        birthday2021Frame = new CyderFrame(800,600, new ImageIcon("sys/pictures/cards/Confetti.png"));
+        birthday2021Frame = new CyderFrame(800,600, new ImageIcon("static/cards/Confetti.png"));
         birthday2021Frame.setTitle("Happy Birthday Day!");
         birthday2021Frame.setBackground(CyderColors.navy);
         birthday2021Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);

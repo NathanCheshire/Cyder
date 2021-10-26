@@ -85,16 +85,16 @@ public class PhotoViewer {
         nextImage.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture2.png"));
+                nextImage.setIcon(new ImageIcon("static/pictures/icons/nextPicture2.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
+                nextImage.setIcon(new ImageIcon("static/pictures/icons/nextPicture1.png"));
             }
         });
 
-        nextImage.setIcon(new ImageIcon("sys/pictures/icons/nextPicture1.png"));
+        nextImage.setIcon(new ImageIcon("static/pictures/icons/nextPicture1.png"));
         nextImage.setContentAreaFilled(false);
         nextImage.setBorderPainted(false);
         nextImage.setFocusPainted(false);
@@ -106,16 +106,16 @@ public class PhotoViewer {
         lastImage.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture2.png"));
+                lastImage.setIcon(new ImageIcon("static/pictures/icons/lastPicture2.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
+                lastImage.setIcon(new ImageIcon("static/pictures/icons/lastPicture1.png"));
             }
         });
 
-        lastImage.setIcon(new ImageIcon("sys/pictures/icons/lastPicture1.png"));
+        lastImage.setIcon(new ImageIcon("static/pictures/icons/lastPicture1.png"));
         lastImage.setContentAreaFilled(false);
         lastImage.setBorderPainted(false);
         lastImage.setFocusPainted(false);

@@ -27,11 +27,11 @@ public class Minecraft {
         if (minecraftFrame != null)
             minecraftFrame.dispose();
 
-        minecraftFrame = new CyderFrame(1263,160, new ImageIcon("sys/pictures/minecraft/Minecraft.png"));
+        minecraftFrame = new CyderFrame(1263,160, new ImageIcon("static/minecraft/Minecraft.png"));
         minecraftFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         minecraftFrame.setTitle("Minecraft Widget");
 
-        blockLabel = new JLabel(new ImageIcon("sys/pictures/minecraft/Block.png"));
+        blockLabel = new JLabel(new ImageIcon("static/minecraft/Block.png"));
         blockLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -40,14 +40,14 @@ public class Minecraft {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ImageIcon BlockIcon = new ImageIcon("sys/pictures/minecraft/BlockEnter.gif");
+                ImageIcon BlockIcon = new ImageIcon("static/minecraft/BlockEnter.gif");
                 BlockIcon.getImage().flush();
                 blockLabel.setIcon(BlockIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ImageIcon BlockIcon = new ImageIcon("sys/pictures/minecraft/BlockExit.gif");
+                ImageIcon BlockIcon = new ImageIcon("static/minecraft/BlockExit.gif");
                 BlockIcon.getImage().flush();
                 blockLabel.setIcon(BlockIcon);
             }
@@ -56,7 +56,7 @@ public class Minecraft {
         blockLabel.setBounds(83, 46, 50, 45);
         minecraftFrame.getContentPane().add(blockLabel);
 
-        realmsLabel = new JLabel(new ImageIcon("sys/pictures/minecraft/Realms.png"));
+        realmsLabel = new JLabel(new ImageIcon("static/minecraft/Realms.png"));
         realmsLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) { NetworkUtil.internetConnect("https://minecraft.net/en-us/realms/?ref=m");
@@ -64,14 +64,14 @@ public class Minecraft {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ImageIcon RealmsIcon = new ImageIcon("sys/pictures/minecraft/RealmsEnter.gif");
+                ImageIcon RealmsIcon = new ImageIcon("static/minecraft/RealmsEnter.gif");
                 RealmsIcon.getImage().flush();
                 realmsLabel.setIcon(RealmsIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ImageIcon RealmsIcon = new ImageIcon("sys/pictures/minecraft/RealmsExit.gif");
+                ImageIcon RealmsIcon = new ImageIcon("static/minecraft/RealmsExit.gif");
                 RealmsIcon.getImage().flush();
                 realmsLabel.setIcon(RealmsIcon);
             }
@@ -79,7 +79,7 @@ public class Minecraft {
         realmsLabel.setBounds(196, 51, 70, 45);
         minecraftFrame.getContentPane().add(realmsLabel);
 
-        chestLabel = new JLabel(new ImageIcon("sys/pictures/minecraft/Chest.png"));
+        chestLabel = new JLabel(new ImageIcon("static/pictures/minecraft/Chest.png"));
         chestLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -88,14 +88,14 @@ public class Minecraft {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ImageIcon ChestIcon = new ImageIcon("sys/pictures/minecraft/ChestEnter.gif");
+                ImageIcon ChestIcon = new ImageIcon("static/pictures/minecraft/ChestEnter.gif");
                 ChestIcon.getImage().flush();
                 chestLabel.setIcon(ChestIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ImageIcon ChestIcon = new ImageIcon("sys/pictures/minecraft/ChestExit.gif");
+                ImageIcon ChestIcon = new ImageIcon("static/pictures/minecraft/ChestExit.gif");
                 ChestIcon.getImage().flush();
                 chestLabel.setIcon(ChestIcon);
             }
@@ -103,7 +103,7 @@ public class Minecraft {
         chestLabel.setBounds(1009, 44, 60, 50);
         minecraftFrame.getContentPane().add(chestLabel);
 
-        hamLabel = new JLabel(new ImageIcon("sys/pictures/minecraft/Hamburger.png"));
+        hamLabel = new JLabel(new ImageIcon("static/pictures/minecraft/Hamburger.png"));
         hamLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -112,14 +112,14 @@ public class Minecraft {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ImageIcon HamIcon = new ImageIcon("sys/pictures/minecraft/HamburgerEnter.gif");
+                ImageIcon HamIcon = new ImageIcon("static/minecraft/HamburgerEnter.gif");
                 HamIcon.getImage().flush();
                 hamLabel.setIcon(HamIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ImageIcon HamIcon = new ImageIcon("sys/pictures/minecraft/HamburgerExit.gif");
+                ImageIcon HamIcon = new ImageIcon("static/minecraft/HamburgerExit.gif");
                 HamIcon.getImage().flush();
                 hamLabel.setIcon(HamIcon);
             }
@@ -129,7 +129,7 @@ public class Minecraft {
 
         minecraftFrame.setVisible(true);
         minecraftFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
-        minecraftFrame.setIconImage(new ImageIcon("sys/pictures/minecraft/Block.png").getImage());
+        minecraftFrame.setIconImage(new ImageIcon("static/minecraft/Block.png").getImage());
 
         //open minecraft if map exists
         for (User.MappedExecutable exe : UserUtil.extractUser().getExecutables()) {

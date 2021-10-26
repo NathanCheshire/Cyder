@@ -66,18 +66,24 @@ public class CyderSetup {
     public static boolean registerFonts() {
         boolean ret = true;
 
-        //loop through fonts dir
-        for (File f : new File("sys/fonts").listFiles()) {
-            //if it's a valid font file
-            if (StringUtil.getExtension(f).equals(".ttf")) {
-                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                try {
-                    //register the font so we can use it throughout Cyder
-                    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,f));
-                } catch (Exception e) {
-                    ErrorHandler.silentHandle(e);
-                    ret = false;
-                    break;
+        File[] fontsDir = new File("static/fonts").listFiles();
+
+        if (!new File("static/fonts").exists()) {
+            ret = false;
+        } else {
+            //loop through fonts dir
+            for (File f : fontsDir) {
+                //if it's a valid font file
+                if (StringUtil.getExtension(f).equals(".ttf")) {
+                    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                    try {
+                        //register the font so we can use it throughout Cyder
+                        ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,f));
+                    } catch (Exception e) {
+                        ErrorHandler.silentHandle(e);
+                        ret = false;
+                        break;
+                    }
                 }
             }
         }
