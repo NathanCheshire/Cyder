@@ -1103,6 +1103,8 @@ public final class ConsoleFrame {
 
         UserUtil.setUserData("laststart",System.currentTimeMillis() + "");
 
+        introMusicCheck();
+
         //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
         try {
             new Thread(() -> {
@@ -1138,6 +1140,32 @@ public final class ConsoleFrame {
             },"Black or White Checker").start();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        }
+    }
+
+    //plays intro music if the user has the preference selected, otherwise, plays the default startup sound
+    private void introMusicCheck() {
+        if (UserUtil.getUserData("IntroMusic").equals("1")) {
+            LinkedList<String> musicList = new LinkedList<>();
+            File userMusicDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
+            String[] fileNames = userMusicDir.list();
+
+            if (fileNames != null) {
+                for (String fileName : fileNames) {
+                    if (fileName.endsWith(".mp3")) {
+                        musicList.add(fileName);
+                    }
+                }
+            }
+
+            if (!musicList.isEmpty()) {
+                IOUtil.playAudio("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
+                        (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]));
+            } else {
+                IOUtil.playAudio("sys/audio/Ride.mp3");
+            }
+        } else if (IOUtil.getSystemData().isReleased()) {
+            IOUtil.playSystemAudio("sys/audio/startup.mp3");
         }
     }
 

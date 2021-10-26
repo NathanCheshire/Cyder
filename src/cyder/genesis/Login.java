@@ -301,8 +301,11 @@ public class Login {
      * Attempts to log in a user based on the inputed name and already hashed password
      * @param name the provided user account name
      * @param hashedPass the password already having been hashed (we hash it again in checkPassword method)
+     * @return whether or not the name and pass combo was authenticated and logged in
      */
-    public static void recognize(String name, String hashedPass) {
+    public static boolean recognize(String name, String hashedPass) {
+        boolean ret = false;
+
         try {
             if (loginFrame != null) {
                 loginField.setEchoChar((char)0);
@@ -310,7 +313,13 @@ public class Login {
             }
 
             if (UserUtil.checkPassword(name, hashedPass)) {
+                //set ret var
+                ret = true;
+
+                //stop animations
                 doLoginAnimations = false;
+
+                //log the success login
                 if (autoCypherAttempt) {
                     SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER PASS");
                     autoCypherAttempt = false;
@@ -318,15 +327,17 @@ public class Login {
                     SessionLogger.log(SessionLogger.Tag.LOGIN, "STD LOGIN");
                 }
 
+                //reset console frame if it's already open
                 if (!ConsoleFrame.getConsoleFrame().isClosed()) {
                     ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().removePostCloseActions();
                     ConsoleFrame.getConsoleFrame().close();
                 }
 
-                //close all frames first
+                //close all frames
                 for (Frame f : Frame.getFrames())
                     f.dispose();
 
+                //open the console frame
                 ConsoleFrame.getConsoleFrame().start();
 
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
@@ -334,34 +345,6 @@ public class Login {
                 if (loginFrame != null) {
                     loginFrame.removePostCloseActions();
                     loginFrame.dispose();
-                }
-
-                //this if block needs to be in console, stuff to do specifically for user on first login
-                if (UserUtil.getUserData("IntroMusic").equals("1")) {
-                    LinkedList<String> musicList = new LinkedList<>();
-
-                    File userMusicDir = new File("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
-
-                    String[] fileNames = userMusicDir.list();
-
-                    if (fileNames != null) {
-                        for (String fileName : fileNames) {
-                            if (fileName.endsWith(".mp3")) {
-                                musicList.add(fileName);
-                            }
-                        }
-                    }
-
-                    if (!musicList.isEmpty()) {
-                        IOUtil.playAudio("users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
-                                        (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]));
-                    } else {
-                        IOUtil.playAudio("sys/audio/Ride.mp3");
-                    }
-                }
-                //play cool startup audio as long as released
-                else if (IOUtil.getSystemData().isReleased()) {
-                    IOUtil.playSystemAudio("sys/audio/startup.mp3");
                 }
             } else if (loginFrame != null && loginFrame.isVisible()) {
                 loginField.setText("");
@@ -382,6 +365,8 @@ public class Login {
             }
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
+        } finally {
+            return ret;
         }
     }
 
@@ -391,9 +376,15 @@ public class Login {
      */
     public static void autoCypher() {
         try {
-            SystemData.Hash cypherHash = IOUtil.getSystemData().getCypherhash();
+            LinkedList<SystemData.Hash> cypherHashes = IOUtil.getSystemData().getCypherhashes();
             autoCypherAttempt = true;
-            recognize(cypherHash.getName(), cypherHash.getHashpass());
+
+            //for all cypher hashes, attempt to log in using one
+            for (SystemData.Hash hash : cypherHashes) {
+                //if the login works, stop trying hashes
+                if (recognize(hash.getName(), hash.getHashpass()))
+                    break;
+            }
         } catch (Exception e) {
             ErrorHandler.handle(e);
             showGUI();

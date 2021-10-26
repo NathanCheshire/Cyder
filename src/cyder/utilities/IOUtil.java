@@ -640,7 +640,7 @@ public class IOUtil {
         private double uiscale;
         private boolean consoleresizable;
         private boolean autocypher;
-        private Hash cypherhash;
+        private LinkedList<Hash> cypherhashes;
         private boolean testingmode;
         private LinkedList<ExitCondition> exitconditions;
         private LinkedList<String> ignorethreads;
@@ -733,12 +733,12 @@ public class IOUtil {
             this.autocypher = autocypher;
         }
 
-        public Hash getCypherhash() {
-            return cypherhash;
+        public LinkedList<Hash> getCypherhashes() {
+            return cypherhashes;
         }
 
-        public void setCypherhash(Hash cypherhash) {
-            this.cypherhash = cypherhash;
+        public void setCypherhashes(LinkedList<Hash> cypherhashes) {
+            this.cypherhashes = cypherhashes;
         }
 
         public LinkedList<ExitCondition> getExitconditions() {
