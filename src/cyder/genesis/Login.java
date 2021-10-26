@@ -3,12 +3,12 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
-import cyder.utilities.IOUtil.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.*;
+import cyder.utilities.IOUtil.SystemData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,6 +54,9 @@ public class Login {
         new Thread(() -> {
             StringUtil su = new StringUtil(refArea);
 
+            int playInc = 0;
+            int playRate = 2;
+
             try {
                 while (doLoginAnimations && loginFrame != null)  {
                     if (priorityPrintingList.size() > 0) {
@@ -61,6 +64,16 @@ public class Login {
 
                         for (char c : line.toCharArray()) {
                             su.print(String.valueOf(c));
+
+                            if (playInc == playRate - 1) {
+                                if (UserUtil.extractUser().getTypingsound().equals("1")) {
+                                    IOUtil.playSystemAudio("static/audio/Typing.mp3");
+                                    playInc = 0;
+                                }
+                            } else {
+                                playInc++;
+                            }
+
                             Thread.sleep(charTimeout);
                         }
                     } else if (printingList.size() > 0) {
@@ -68,6 +81,16 @@ public class Login {
 
                         for (char c : line.toCharArray()) {
                             su.print(String.valueOf(c));
+
+                            if (playInc == playRate - 1) {
+                                if (UserUtil.extractUser().getTypingsound().equals("1")) {
+                                    IOUtil.playSystemAudio("static/audio/Typing.mp3");
+                                    playInc = 0;
+                                }
+                            } else {
+                                playInc++;
+                            }
+
                             Thread.sleep(charTimeout);
                         }
                     }

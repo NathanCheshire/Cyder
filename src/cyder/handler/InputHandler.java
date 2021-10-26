@@ -1551,7 +1551,7 @@ public class InputHandler {
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
 
             if (playInc == playRate - 1) {
-                if (!finishPrinting && UserUtil.extractUser().getTypinganimationsound().equals("1")) {
+                if (!finishPrinting && UserUtil.extractUser().getTypingsound().equals("1")) {
                     IOUtil.playSystemAudio("static/audio/Typing.mp3");
                     playInc = 0;
                 }

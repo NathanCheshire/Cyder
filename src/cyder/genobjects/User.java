@@ -33,7 +33,7 @@ public class User {
     private String roundedwindows;
     private String windowColor;
     private String consoleclockformat;
-    private String typinganimationsound;
+    private String typingsound;
     private LinkedList<MappedExecutable> executables;
 
     //getters
@@ -162,8 +162,8 @@ public class User {
         return consoleclockformat;
     }
 
-    public String getTypinganimationsound() {
-        return typinganimationsound;
+    public String getTypingsound() {
+        return typingsound;
     }
 
     //setters
@@ -292,8 +292,8 @@ public class User {
         this.consoleclockformat = consoleclockformat;
     }
 
-    public void setTypinganimationsound(String typinganimationsound) {
-        this.typinganimationsound = typinganimationsound;
+    public void setTypingsound(String typingsound) {
+        this.typingsound = typingsound;
     }
 
     //inner classes

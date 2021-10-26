@@ -398,6 +398,13 @@ public class UserUtil {
         }
     }
 
+    /**
+     * Checks whether or not the given name/pass combo is valid and if so, sets the
+     * ConsoleFrame UUID to it
+     * @param name the username given
+     * @param hashedPass the already once SHA256 hashed password
+     * @return whether or not the name/pass combo was valid
+     */
     public static boolean checkPassword(String name, String hashedPass) {
         try {
             IOUtil.cleanUsers();

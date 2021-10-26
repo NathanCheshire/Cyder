@@ -106,8 +106,6 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //tests here to be tested upon cyder launching
-
         //todo all windows should be added to an animated stack which will replace the menu
         // should be similar to music controls panel, slide in and out and move input/output fields out of the way
         // should be full height of consoleFrame too
@@ -121,8 +119,5 @@ public class DebugConsole {
         //todo update to java 17 and fix all gradle issues
 
         //todo embed TOR and send logs to "me" before exiting program
-
-        //todo add typing animation to login frame
-        //todo make typing sound one tick and play every char append
     }
 }

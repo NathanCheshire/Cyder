@@ -13,10 +13,10 @@ public class SystemUtil {
 
     private SystemUtil () {}
 
-    private static ImageIcon cyderIcon = new ImageIcon("static/CyderIcon.png");
-    private static ImageIcon cyderIconBlink = new ImageIcon("static/CyderIconBlink.png");
-    private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("static/CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
-    private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("static/CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+    private static ImageIcon cyderIcon = new ImageIcon("static/pictures/CyderIcon.png");
+    private static ImageIcon cyderIconBlink = new ImageIcon("static/pictures/CyderIconBlink.png");
+    private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("static/pictures/CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+    private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("static/pictures/CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 
     public static Dimension getScreenSize() {
         return Toolkit.getDefaultToolkit().getScreenSize();
