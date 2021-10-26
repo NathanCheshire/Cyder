@@ -644,7 +644,6 @@ public class CyderFrame extends JFrame {
                             });
                             currentNotification.add(disposeLabel);
 
-                            //todo are these right?
                             switch (currentNotif.getNotificationDirection()) {
                                 case TOP_LEFT:
                                     currentNotification.setLocation(-currentNotification.getWidth() + 5, topDrag.getHeight());
@@ -666,12 +665,13 @@ public class CyderFrame extends JFrame {
                                         getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
                                     break;
                                 case BOTTOM_LEFT:
+                                    //parent.getHeight() - this.getHeight() + 10
                                     currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                        getHeight() - 5);
+                                        getHeight() - currentNotification.getHeight() + 5);
                                     break;
                                 case BOTTOM_RIGHT:
                                     currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
-                                        getHeight() - 5);
+                                            getHeight() - currentNotification.getHeight() + 5);
                                     break;
                                 default:  //top
                                         currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),

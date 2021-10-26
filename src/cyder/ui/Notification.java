@@ -218,7 +218,7 @@ public class Notification extends JLabel {
         new Thread(() -> {
             try {
                 setVisible(true);
-                //todo implement rest of enters
+                //todo these are all semi-correct but text offsets need to be used
                 switch (notificationDirection) {
                     case TOP:
                         for (int i = getY(); i < DragLabel.getDefaultHeight(); i += this.increment) {
@@ -250,6 +250,26 @@ public class Notification extends JLabel {
                         }
                         setBounds(2, getY(), getWidth(), getHeight());
                         break;
+                    case CENTER_LEFT:
+                        for (int i = getX() ; i < 5 ; i+= this.increment) {
+                            if (killed)
+                                break;
+
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(this.delay);
+                        }
+                        setBounds(2, parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
+                        break;
+                    case CENTER_RIGHT:
+                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= this.increment) {
+                            if (killed)
+                                break;
+
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(this.delay);
+                        }
+                        setBounds(parent.getWidth() - this.getWidth() + 5, parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
+                        break;
                     case BOTTOM:
                         for (int i = getY(); i > parent.getHeight() - this.getHeight() + 5; i -= this.increment) {
                             if (killed)
@@ -259,6 +279,26 @@ public class Notification extends JLabel {
                             Thread.sleep(this.delay);
                         }
                         setBounds(getX(), parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
+                        break;
+                    case BOTTOM_LEFT:
+                        for (int i = getX(); i < 5; i += this.increment) {
+                            if (killed)
+                                break;
+
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(this.delay);
+                        }
+                        setBounds(2, parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
+                        break;
+                    case BOTTOM_RIGHT:
+                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= this.increment) {
+                            if (killed)
+                                break;
+
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(this.delay);
+                        }
+                        setBounds(parent.getWidth() - this.getWidth() + 5, parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
                         break;
                 }
 
@@ -303,9 +343,7 @@ public class Notification extends JLabel {
                             setBounds(getX(), i, getWidth(), getHeight());
                             Thread.sleep(this.delay);
                         }
-
                         break;
-
                     case BOTTOM:
                         for (int i = getY() ; i < parent.getHeight() - 5 ; i += this.increment) {
                             if (killed)
@@ -314,9 +352,7 @@ public class Notification extends JLabel {
                             setBounds(getX(), i, getWidth(), getHeight());
                             Thread.sleep(this.delay);
                         }
-
                         break;
-
                     case TOP_RIGHT:
                         for (int i = getX() ; i < parent.getWidth() - 5 ; i += this.increment) {
                             if (killed)
@@ -325,9 +361,7 @@ public class Notification extends JLabel {
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(this.delay);
                         }
-
                         break;
-
                     case TOP_LEFT:
                         for (int i = getX() ; i > -getWidth() + 5 ; i -= this.increment) {
                             if (killed)
@@ -336,7 +370,42 @@ public class Notification extends JLabel {
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(this.delay);
                         }
+                        break;
+                    case CENTER_LEFT:
+                        for (int i = getX() ; i > -getWidth() + 5 ; i -= this.increment) {
+                            if (killed)
+                                break;
 
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(this.delay);
+                        }
+                        break;
+                    case CENTER_RIGHT:
+                        for (int i = getX() ; i < parent.getWidth() - 5 ; i += this.increment) {
+                            if (killed)
+                                break;
+
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(this.delay);
+                        }
+                        break;
+                    case BOTTOM_LEFT:
+                        for (int i = getX() ; i > -getWidth() + 5 ; i -= this.increment) {
+                            if (killed)
+                                break;
+
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(this.delay);
+                        }
+                        break;
+                    case BOTTOM_RIGHT:
+                        for (int i = getX() ; i < parent.getWidth() - 5 ; i += this.increment) {
+                            if (killed)
+                                break;
+
+                            setBounds(i, getY(), getWidth(), getHeight());
+                            Thread.sleep(this.delay);
+                        }
                         break;
                 }
 
