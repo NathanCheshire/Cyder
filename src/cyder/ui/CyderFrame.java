@@ -596,17 +596,17 @@ public class CyderFrame extends JFrame {
                 try {
                     while (this != null && !threadsKilled) {
                         if (notificationList.size() > 0) {
-                            WaitingNotification currentNotif = notificationList.poll();
+                            WaitingNotification currentWaitingNotification = notificationList.poll();
 
                             //init notification object
                             currentNotification = new Notification();
 
                             //set the arrow direction
-                            currentNotification.setArrow(currentNotif.getArrowDir());
+                            currentNotification.setArrow(currentWaitingNotification.getArrowDir());
 
                             //create text label to go on top of notification label
                             JLabel text = new JLabel();
-                            text.setText(currentNotif.getHtmlText());
+                            text.setText(currentWaitingNotification.getHtmlText());
 
                             Font notificationFont = CyderFonts.weatherFontSmall;
 
@@ -644,7 +644,7 @@ public class CyderFrame extends JFrame {
                             });
                             currentNotification.add(disposeLabel);
 
-                            switch (currentNotif.getNotificationDirection()) {
+                            switch (currentWaitingNotification.getNotificationDirection()) {
                                 case TOP_LEFT:
                                     currentNotification.setLocation(-currentNotification.getWidth() + 5, topDrag.getHeight());
                                     break;
@@ -683,16 +683,16 @@ public class CyderFrame extends JFrame {
 
                             //log the notification
                             SessionLogger.log(SessionLogger.Tag.ACTION, "[" +
-                                    this.getTitle() + "] [NOTIFICATION] " + currentNotif.getHtmlText());
+                                    this.getTitle() + "] [NOTIFICATION] " + currentWaitingNotification.getHtmlText());
 
                             //duration is always 300ms per word unless less than 5 seconds
                             int duration = 300 * StringUtil.countWords(
                                     Jsoup.clean(bs.getText(), Safelist.none())
                             );
                             duration = Math.max(duration, 5000);
-                            duration = currentNotif.getDuration() == 0 ?
-                                    duration : currentNotif.getDuration();
-                            currentNotification.appear(currentNotif.getNotificationDirection(), getContentPane(), duration);
+                            duration = currentWaitingNotification.getDuration() == 0 ?
+                                    duration : currentWaitingNotification.getDuration();
+                            currentNotification.appear(currentWaitingNotification.getNotificationDirection(), getContentPane(), duration);
 
                             while (getCurrentNotification().isVisible())
                                 Thread.onSpinWait();
@@ -1015,31 +1015,44 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    @Override
+    public void setSize(int width, int height) {
+        super.setSize(innerBoundsCheck(width,height)[0], innerBoundsCheck(width,height)[1]);
+    }
+
+    private static int[] innerBoundsCheck(int width, int height) {
+        int[] ret = new int[2];
+        ret[0] = Math.max(100, width);
+        ret[1] = Math.max(100, height);
+        return ret;
+    }
+
     /**
      * Sets the frame bounds and also changes the underlying drag label's bounds which is why this method is overridden.
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
-        super.setBounds(x, y, width, height);
-        this.width = width;
-        this.height = height;
+        super.setBounds(x, y, innerBoundsCheck(width,height)[0], innerBoundsCheck(width,height)[1]);
+        int[] widthHeight = innerBoundsCheck(width,height);
+        this.width = widthHeight[0];
+        this.height = widthHeight[1];
 
         if (getTopDragLabel() != null) {
-            topDrag.setWidth(width - 4);
+            topDrag.setWidth(this.width - 4);
             topDrag.setHeight(DragLabel.getDefaultHeight() - 2);
             leftDrag.setWidth(3);
-            leftDrag.setHeight(height - DragLabel.getDefaultHeight() - 2);
+            leftDrag.setHeight(this.height - DragLabel.getDefaultHeight() - 2);
             rightDrag.setWidth(3);
-            rightDrag.setHeight(height - DragLabel.getDefaultHeight() - 2);
-            bottomDrag.setWidth(width - 4);
+            rightDrag.setHeight(this.height - DragLabel.getDefaultHeight() - 2);
+            bottomDrag.setWidth(this.width - 4);
             bottomDrag.setHeight(3);
 
             refreshTitleAndButtonPosition();
 
-            topDrag.setBounds(2, 2, width - 4, DragLabel.getDefaultHeight() - 2);
-            leftDrag.setBounds(2, DragLabel.getDefaultHeight(), 3, height - DragLabel.getDefaultHeight() - 2);
-            rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 3, height - DragLabel.getDefaultHeight() - 2);
-            bottomDrag.setBounds(2, height - 5, width - 4, 3);
+            topDrag.setBounds(2, 2, this.width - 4, DragLabel.getDefaultHeight() - 2);
+            leftDrag.setBounds(2, DragLabel.getDefaultHeight(), 3, this.height - DragLabel.getDefaultHeight() - 2);
+            rightDrag.setBounds(this.width - 5, DragLabel.getDefaultHeight(), 3, this.height - DragLabel.getDefaultHeight() - 2);
+            bottomDrag.setBounds(2, this.height - 5, this.width - 4, 3);
 
             topDrag.setxOffset(2);
             topDrag.setyOffset(2);
@@ -1047,11 +1060,11 @@ public class CyderFrame extends JFrame {
             leftDrag.setxOffset(2);
             leftDrag.setyOffset(DragLabel.getDefaultHeight());
 
-            rightDrag.setxOffset(width - 5);
+            rightDrag.setxOffset(this.width - 5);
             rightDrag.setyOffset(DragLabel.getDefaultHeight());
 
             bottomDrag.setxOffset(2);
-            bottomDrag.setyOffset(height - 5);
+            bottomDrag.setyOffset(this.height - 5);
         }
 
         if (getCurrentNotification() != null)

@@ -108,11 +108,7 @@ public class DebugConsole {
     public static void launchTests() {
         //tests here to be tested upon cyder launching
 
-        ManualTestingWidgets.NotificationsTest();
-
-        //todo frame should never be smaller than 100x100, implement that
-
-        //todo notification bounds are broken
+        //todo look into slow frame dispose animations
 
         //todo all windows should be added to an animated stack which will replace the menu
         // should be similar to music controls panel, slide in and out and move input/output fields out of the way
