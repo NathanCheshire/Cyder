@@ -2346,7 +2346,6 @@ public final class ConsoleFrame {
             fullscreen = enable;
 
             UserUtil.setUserData("fullscreen", enable ? "1" : "0");
-            inputHandler.println("Fullscreen set to " + (enable ? "true" : "false"));
 
             int w = 0;
             int h = 0;

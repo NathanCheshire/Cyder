@@ -541,10 +541,15 @@ public class InputHandler {
                     .replace(" ", "");
             try {
                 Color color = Color.decode("#" + colorInput);
-                BufferedImage saveImage = ImageUtil.bufferedImageFromColor(
-                        ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconWidth(),
-                        ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconHeight(),
-                        color);
+                int w = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconWidth();
+                int h = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconHeight();
+
+                if (UserUtil.extractUser().getFullscreen().equals("1")) {
+                    w = SystemUtil.getScreenWidth();
+                    h = SystemUtil.getScreenHeight();
+                }
+
+                BufferedImage saveImage = ImageUtil.bufferedImageFromColor(w, h, color);
 
                 String saveName = "Solid_" + colorInput + "Generated_Background.png";
 
@@ -554,7 +559,6 @@ public class InputHandler {
                 ImageIO.write(saveImage, "png", saveFile);
 
                 LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
-                ConsoleFrame.getConsoleFrame().setFullscreen(false);
 
                 for (int i = 0; i < backgrounds.size(); i++) {
                     if (backgrounds.get(i).getName().equals(saveName)) {

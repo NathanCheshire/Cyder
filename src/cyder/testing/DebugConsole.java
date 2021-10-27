@@ -112,8 +112,6 @@ public class DebugConsole {
         // should be using labels on labels that have a priority the same as notifications but slightly lower so that
         // notifications are always on top, could also have drag listoners on these "tiles"
 
-        //todo update to java 17 and fix all gradle issues
-
         //todo embed TOR and send logs to "me" before exiting program
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
