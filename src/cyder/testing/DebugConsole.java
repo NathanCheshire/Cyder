@@ -11,6 +11,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.Socket;
 import java.util.LinkedList;
 
 public class DebugConsole {
@@ -106,14 +110,38 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //todo all windows should be added to an animated stack which will replace the menu
-        // should be similar to music controls panel, slide in and out and move input/output fields out of the way
-        // should be full height of consoleFrame too
-        // should be using labels on labels that have a priority the same as notifications but slightly lower so that
-        // notifications are always on top, could also have drag listoners on these "tiles"
+        //todo frames should be simply printed icons, of cyder logo but first letter of frame there
+        // generate the icon image for this as needed and choose from different colors (from intellij logo red, blue, orange)
+        // and print to scrolling pane, limit defaults and print those first, they don't go away.
+        // when you spawn a new frame, link it to the menu pane so that a post close action is to remove itself from the pane
 
-        //todo embed TOR and send logs to "me" before exiting program
+        //todo chat feature between online users, must have a token for who to connect to? (this would be secure
+        // but would force communication outside of Cyder)
+        //https://www.youtube.com/watch?v=gLfuZrrfKes
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
+
+        //how to send an already selected file to a server instance
+        try {
+            File sendingFile = new File("static/audio/223.mp3");
+            FileInputStream fis = new FileInputStream(sendingFile.getAbsolutePath());
+            //users will need to give their ip's to the other one to start the FTP process or chat maybe?
+            Socket socket = new Socket("localhost",31415); //the server's IP and the port it's listening on
+            DataOutputStream dis = new DataOutputStream(socket.getOutputStream());
+
+            String filename = sendingFile.getName();
+            byte[] fileNameBytes = filename.getBytes();
+
+            byte[] fileContentBytes = new byte[(int) sendingFile.length()];
+            fis.read(fileContentBytes);
+
+            dis.writeInt(fileNameBytes.length);
+            dis.write(fileNameBytes);
+
+            dis.writeInt(fileContentBytes.length);
+            dis.write(fileContentBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
