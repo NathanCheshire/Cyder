@@ -498,32 +498,46 @@ public class Weather {
         },"Weather Stats Updater").start();
     }
 
-    //todo unit test this
-    public String getWindDirection(String wb) {
-        double bear = Double.parseDouble(wb);
+    public static String getWindDirection(String wb) {
+        return getWindDirection(Double.parseDouble(wb));
+    }
 
-        if (bear > 360)
-            bear -= 360;
+    public static String getWindDirection(double bear) {
+        while (bear > 360.0)
+            bear -= 360.0;
+        while (bear < 0.0)
+            bear += 360.0;
 
         String ret = "";
 
-        if (bear > 0 || bear < 180)
-            ret += "N";
-        else if (bear == 180)
-            return "W";
-        else if (bear == 0)
-            return "E";
-        else
-            ret += "S";
+        //northern hemisphere
+       if (bear >= 0.0 && bear <= 180.0) {
+           if (bear == 0.0)
+               ret = "E";
+           else if (bear == 180.0)
+               ret = "W";
+           else {
+               //we now know it's north something
+               ret += "N";
 
-        if (bear < 90 || bear > 270)
-            ret += "E";
-        else if (bear == 180)
-            return "W";
-        else if (bear == 270)
-            return "S";
-        else
-            ret += "W";
+               if (bear > 90.0) {
+                   ret += "W";
+               } else if (bear < 90.0){
+                   ret += "E";
+               }
+           }
+       }
+       //southern hemisphere excluding east and west directions
+       else {
+           //already know it must be S appended
+           ret = "S";
+
+           //is it east
+           if (bear < 270.0)
+               ret += "W";
+           if (bear > 270.0)
+               ret += "E";
+       }
 
         return ret;
     }
