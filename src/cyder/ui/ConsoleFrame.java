@@ -146,8 +146,6 @@ public final class ConsoleFrame {
                         getCurrentBackgroundFile().toString(),getConsoleDirection()));
             }
 
-            //todo background color making doesn't work for fullscreen
-            //todo exiting fullscreen should setfullscreen to false
             consoleCyderFrame = new CyderFrame(w, h, usage) {
                 @Override
                 public void setBounds(int x, int y, int w, int h) {
@@ -2346,6 +2344,9 @@ public final class ConsoleFrame {
     public void setFullscreen(Boolean enable) {
         try {
             fullscreen = enable;
+
+            UserUtil.setUserData("fullscreen", enable ? "1" : "0");
+            inputHandler.println("Fullscreen set to " + (enable ? "true" : "false"));
 
             int w = 0;
             int h = 0;
