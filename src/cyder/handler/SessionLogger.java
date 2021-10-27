@@ -126,7 +126,7 @@ public class SessionLogger {
             case ENTRY:
                 //[ENTRY]: [WINUSER=NATHAN]
                 start = System.currentTimeMillis();
-                logBuilder.append("[ENTRY]: [WINUSER=");
+                logBuilder.append("[ENTRY]: [");
                 logBuilder.append(representation);
                 logBuilder.append("]");
                 break;

@@ -1351,12 +1351,19 @@ public class CyderFrame extends JFrame {
         //possibly update the ui
         contentLabel.setBorder(new LineBorder(
                 CyderColors.guiThemeColor, 3, false));
+
+        topDrag.setBackground(CyderColors.guiThemeColor);
+        bottomDrag.setBackground(CyderColors.guiThemeColor);
+        leftDrag.setBackground(CyderColors.guiThemeColor);
+        rightDrag.setBackground(CyderColors.guiThemeColor);
+
         getContentPane().repaint();
         getTrueContentPane().repaint();
-        getTopDragLabel().repaint();
-        getLeftDragLabel().repaint();
-        getBottomDragLabel().repaint();
-        getRightDragLabel().repaint();
+
+        topDrag.repaint();
+        leftDrag.repaint();
+        bottomDrag.repaint();
+        rightDrag.repaint();
 
         super.repaint();
     }

@@ -151,6 +151,7 @@ public final class ConsoleFrame {
                 public void setBounds(int x, int y, int w, int h) {
                     super.setBounds(x,y,w,h);
 
+                    //todo change to be out of way if menu label is showing
                     //set pane component bounds
                     if (outputScroll != null && inputField != null) {
                         outputScroll.setBounds(10, 62, w - 20, h - 204);
@@ -160,9 +161,10 @@ public final class ConsoleFrame {
 
                     //menu label bounds
                     if (menuLabel != null && menuLabel.isVisible()) {
-                        menuLabel.setBounds(0,DragLabel.getDefaultHeight() - 5,
+                        menuLabel.setBounds(3, DragLabel.getDefaultHeight() - 3,
                                 menuLabel.getWidth(), menuLabel.getHeight());
                     }
+
                     //audio menu bounds
                     if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
                         audioControlsLabel.setBounds(w - 155, DragLabel.getDefaultHeight() + 3,
@@ -242,7 +244,6 @@ public final class ConsoleFrame {
             outputArea.addFocusListener(new FocusListener() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    minimizeMenu();
                     animateOutAudioControls();
                 }
 
@@ -595,18 +596,19 @@ public final class ConsoleFrame {
             });
             menuButton.addActionListener(e -> {
                 if (!menuLabel.isVisible()) {
+                    //todo generated needs to be set to false on resize events
                     if (!consoleMenuGenerated) {
                         generateConsoleMenu();
                     }
 
-                    menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 5);
+                    menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 3);
                     menuLabel.setVisible(true);
 
                     if (UserUtil.getUserData("menudirection").equals("1")) {
-                        AnimationUtil.componentRight(-150, 0, 10, 8, menuLabel);
+                        AnimationUtil.componentRight(-150, 2, 10, 8, menuLabel);
                     } else {
                         menuLabel.setLocation(0, -250);
-                        AnimationUtil.componentDown(-250, DragLabel.getDefaultHeight() - 5, 10, 8, menuLabel);
+                        AnimationUtil.componentDown(-250, DragLabel.getDefaultHeight() - 3, 10, 8, menuLabel);
                     }
                 } else {
                     minimizeMenu();
@@ -640,10 +642,7 @@ public final class ConsoleFrame {
             menuButton.setContentAreaFilled(false);
             menuButton.setBorderPainted(false);
 
-            consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> {
-                minimizeMenu();
-                animateOutAudioControls();
-            });
+            consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> animateOutAudioControls());
 
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
@@ -1177,17 +1176,18 @@ public final class ConsoleFrame {
 
     private void generateConsoleMenu() {
         Font menuFont = CyderFonts.defaultFontSmall;
-        int menuHeight = 250;
+        int menuHeight = consoleCyderFrame.getHeight() - DragLabel.getDefaultHeight() - 5;
         int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
 
         menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
 
         menuLabel = new JLabel("");
-        menuLabel.setBounds(-150, DragLabel.getDefaultHeight(),
+        menuLabel.setBounds(-150, DragLabel.getDefaultHeight() - 3,
                 CyderFrame.getMinWidth("TEMP CONV", menuFont) + 10, menuHeight);
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.guiThemeColor);
         menuLabel.setVisible(true);
+        menuLabel.setBorder(new LineBorder(Color.black, 5));
         consoleCyderFrame.getIconPane().add(menuLabel, JLayeredPane.MODAL_LAYER);
 
         Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());

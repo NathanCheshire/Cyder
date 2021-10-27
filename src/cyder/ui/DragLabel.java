@@ -109,7 +109,6 @@ public class DragLabel extends JLabel {
     //override so we can change the background color if needed
     @Override
     public void repaint() {
-        setBackground(backgroundColor);
         super.repaint();
     }
 
