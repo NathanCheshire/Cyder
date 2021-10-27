@@ -938,7 +938,7 @@ public class UserEditor {
         changeUsernameField.setToolTipText("Change account username to a valid alternative");
         changeUsernameField.setBackground(CyderColors.vanila);
         changeUsernameField.setSelectionColor(CyderColors.selectionColor);
-        changeUsernameField.setFont(new Font("Agency FB",Font.BOLD, 20));
+        changeUsernameField.setFont(new Font("Agency FB",Font.BOLD, 26));
         changeUsernameField.setForeground(CyderColors.navy);
         changeUsernameField.setCaretColor(CyderColors.navy);
         changeUsernameField.setCaret(new CyderCaret(CyderColors.navy));
@@ -1387,6 +1387,71 @@ public class UserEditor {
             }
         }, "Weather key validator").start());
         printingUtil.printlnComponent(validateWeatherKey);
+
+        printingUtil.print("\n\n");
+
+        CyderLabel ipKeyLabel = new CyderLabel("IP Key (Click me to get a key)");
+        ipKeyLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NetworkUtil.internetConnect("https://ipdata.co/");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ipKeyLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ipKeyLabel.setForeground(CyderColors.navy);
+            }
+        });
+
+        printingUtil.print("\n");
+
+        JTextField ipKeyField = new JTextField(0);
+        CyderButton validateIpKey = new CyderButton("   Validate Key  ");
+        ipKeyField.setToolTipText("Your personal IPData key");
+        ipKeyField.setBackground(CyderColors.vanila);
+        ipKeyField.setSelectionColor(CyderColors.selectionColor);
+        ipKeyField.setFont(CyderFonts.weatherFontSmall);
+        ipKeyField.setForeground(CyderColors.navy);
+        ipKeyField.setCaretColor(CyderColors.navy);
+        ipKeyField.setCaret(new CyderCaret(CyderColors.navy));
+        ipKeyField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        ipKeyField.setOpaque(true);
+        printingUtil.printlnComponent(ipKeyField);
+        ipKeyField.setText(UserUtil.extractUser().getIpkey());
+
+        printingUtil.print("\n");
+
+        validateIpKey.addActionListener(e -> new Thread(() -> {
+            String text = ipKeyField.getText().trim();
+
+            if (text.length() > 0) {
+                String url = "https://api.ipdata.co/?api-key=" + text;
+
+                boolean valid = false;
+
+                try {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
+                    valid = true;
+                    reader.close();
+                } catch (Exception ex) {
+                    ErrorHandler.silentHandle(ex);
+                }
+
+                if (valid) {
+                    UserUtil.setUserData("ipkey",text);
+                    editUserFrame.notify("IP key validated and set");
+                } else {
+                    editUserFrame.notify("Invalid IP key");
+                    ipKeyField.setText("");
+                }
+            }
+        }, "IP key validator").start());
+        printingUtil.printlnComponent(validateIpKey);
 
         //more labels, fields, and if applicable, validation buttons here
 

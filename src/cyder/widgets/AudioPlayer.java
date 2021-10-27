@@ -954,7 +954,7 @@ public class AudioPlayer {
                                     + formatSeconds(secondsLeft) + " left");
                             Thread.sleep(250);
                         } catch (Exception e) {
-                            ErrorHandler.handle(e);
+                            ErrorHandler.silentHandle(e);
                         }
                     }
                 },"Flash Player Progress Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
