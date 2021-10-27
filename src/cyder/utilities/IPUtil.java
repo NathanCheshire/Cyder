@@ -29,7 +29,7 @@ public class IPUtil {
      */
     public static void parseData() {
         Gson gson = new Gson();
-        String url = "https://api.ipdata.co/?api-key=" + IOUtil.getSystemData().getIpkey();
+        String url = "https://api.ipdata.co/?api-key=" + UserUtil.extractUser().getIpkey();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             ipdata = gson.fromJson(reader, IPData.class);

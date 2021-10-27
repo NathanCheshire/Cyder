@@ -129,6 +129,8 @@ public class GenesisShare {
         ret.add(new Preference("windowcolor","IGNORE","","1A2033"));
         ret.add(new Preference("consoleclockformat","IGNORE","","EEEEEEEEE h:mmaa"));
         ret.add(new Preference("youtubeuuid","IGNORE","","aaaaaaaaaaa"));
+        ret.add(new Preference("ipkey","IGNORE","",""));
+        ret.add(new Preference("weatherkey","IGNORE","",""));
 
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set

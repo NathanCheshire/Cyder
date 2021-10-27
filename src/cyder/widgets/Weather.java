@@ -421,10 +421,8 @@ public class Weather {
                 if (!useCustomLoc)
                     locationString = userCity + ", " + userState + ", " + userCountry;
 
-                String OpenString = "";
-
-                OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
-                        locationString + "&appid=" + IOUtil.getSystemData().getWeatherkey() + "&units=imperial";
+                String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                        locationString + "&appid=" + UserUtil.extractUser().getWeatherkey() + "&units=imperial";
 
                 Gson gson = new Gson();
                 WeatherData wd = null;

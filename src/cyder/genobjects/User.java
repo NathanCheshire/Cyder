@@ -35,6 +35,8 @@ public class User {
     private String consoleclockformat;
     private String typingsound;
     private String youtubeuuid;
+    private String ipkey;
+    private String weatherkey;
     private LinkedList<MappedExecutable> executables;
 
     //getters
@@ -171,6 +173,14 @@ public class User {
         return youtubeuuid;
     }
 
+    public String getIpkey() {
+        return ipkey;
+    }
+
+    public String getWeatherkey() {
+        return weatherkey;
+    }
+
     //setters
 
     public void setName(String name) {
@@ -303,6 +313,14 @@ public class User {
 
     public void setYoutubeuuid(String youtubeuuid) {
         this.youtubeuuid = youtubeuuid;
+    }
+
+    public void setIpkey(String ipkey) {
+        this.ipkey = ipkey;
+    }
+
+    public void setWeatherkey(String weatherkey) {
+        this.weatherkey = weatherkey;
     }
 
     //inner classes

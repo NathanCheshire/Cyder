@@ -21,8 +21,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
@@ -1315,6 +1318,75 @@ public class UserEditor {
             GenesisShare.exit(-56);
         });
         printingUtil.printlnComponent(deleteUserButton);
+
+        printingUtil.print("\n\n");
+
+        CyderLabel weatherKeylabel = new CyderLabel("Weather Key (Click me to get a key)");
+        weatherKeylabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NetworkUtil.internetConnect("https://home.openweathermap.org/users/sign_up");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                weatherKeylabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                weatherKeylabel.setForeground(CyderColors.navy);
+            }
+        });
+        printingUtil.printlnComponent(weatherKeylabel);
+
+        printingUtil.print("\n");
+
+        JTextField weatherKeyField = new JTextField(0);
+        CyderButton validateWeatherKey = new CyderButton("   Validate Key  ");
+        weatherKeyField.setToolTipText("Your personal OpenWeatherAPI key");
+        weatherKeyField.setBackground(CyderColors.vanila);
+        weatherKeyField.setSelectionColor(CyderColors.selectionColor);
+        weatherKeyField.setFont(CyderFonts.weatherFontSmall);
+        weatherKeyField.setForeground(CyderColors.navy);
+        weatherKeyField.setCaretColor(CyderColors.navy);
+        weatherKeyField.setCaret(new CyderCaret(CyderColors.navy));
+        weatherKeyField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        weatherKeyField.setOpaque(true);
+        printingUtil.printlnComponent(weatherKeyField);
+        weatherKeyField.setText(UserUtil.extractUser().getWeatherkey());
+
+        printingUtil.print("\n");
+
+        validateWeatherKey.addActionListener(e -> new Thread(() -> {
+            String text = weatherKeyField.getText().trim();
+
+            if (text.length() > 0) {
+                String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                        //default location
+                        "Austin,Tx,USA" + "&appid=" + text + "&units=imperial";
+
+                boolean valid = false;
+
+                try {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()));
+                    reader.read();
+                    valid = true;
+                    reader.close();
+                } catch (Exception ex) {
+                    ErrorHandler.silentHandle(ex);
+                }
+
+                if (valid) {
+                    UserUtil.setUserData("weatherkey",text);
+                    editUserFrame.notify("Weather key validated and set");
+                } else {
+                    editUserFrame.notify("Invalid weather key");
+                    weatherKeyField.setText("");
+                }
+            }
+        }, "Weather key validator").start());
+        printingUtil.printlnComponent(validateWeatherKey);
 
         //more labels, fields, and if applicable, validation buttons here
 

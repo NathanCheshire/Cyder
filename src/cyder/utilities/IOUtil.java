@@ -633,8 +633,6 @@ public class IOUtil {
         private String version;
         private String releasedate;
         private String mastermac;
-        private String ipkey;
-        private String weatherkey;
         private boolean uiloc;
         private String ytt;
         private double uiscale;
@@ -675,22 +673,6 @@ public class IOUtil {
 
         public void setMastermac(String mastermac) {
             this.mastermac = mastermac;
-        }
-
-        public String getIpkey() {
-            return ipkey;
-        }
-
-        public void setIpkey(String ipkey) {
-            this.ipkey = ipkey;
-        }
-
-        public String getWeatherkey() {
-            return weatherkey;
-        }
-
-        public void setWeatherkey(String weatherkey) {
-            this.weatherkey = weatherkey;
         }
 
         public boolean isUiloc() {
