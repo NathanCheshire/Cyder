@@ -101,7 +101,7 @@ public class AudioPlayer {
                 kill();
 
                 if (!IOUtil.generalAudioPlaying())
-                    ConsoleFrame.getConsoleFrame().removeAudioControls();
+                    ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
             }
 
             @Override
@@ -111,7 +111,7 @@ public class AudioPlayer {
                 kill();
 
                 if (!IOUtil.generalAudioPlaying())
-                    ConsoleFrame.getConsoleFrame().removeAudioControls();
+                    ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
             }
         }
         );

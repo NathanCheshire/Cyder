@@ -124,8 +124,6 @@ public class DebugConsole {
 
         //todo login typing animation sound lingers when we're logging in, end it as soon as checkPassword returns successful
 
-        //todo closing audioplayer doesn't let music panel animate away
-
         //todo factor DST into weather util and add a function "is it dst"
     }
 }
