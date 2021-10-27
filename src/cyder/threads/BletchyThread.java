@@ -40,7 +40,7 @@ public class BletchyThread {
             return;
         }
 
-        String[] print = bletchy(decodeString, useNumbers, useUnicode);
+        String[] print = getBletchyArray(decodeString, useNumbers, useUnicode);
         bletchThread = new bletchyThread(print, miliDelay);
     }
 
@@ -100,7 +100,7 @@ public class BletchyThread {
      * @param useUnicode a boolean turning on random unicode chars
      * @return the string array to be used by a bletchy thread
      */
-    public String[] bletchy(String decodeString, boolean useNumbers, boolean useUnicode) {
+    public static String[] getBletchyArray(String decodeString, boolean useNumbers, boolean useUnicode) {
         LinkedList<String> retList = new LinkedList<>();
 
         decodeString = decodeString.toLowerCase();

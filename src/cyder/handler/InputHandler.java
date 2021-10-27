@@ -1071,15 +1071,31 @@ public class InputHandler {
             }
         } else if (hasWord("test")) {
             DebugConsole.launchTests();
+        } else if ((has("black") && has("panther")) || (hasWord("chadwick") && hasWord("boseman"))) {
+            new Thread(() -> {
+                IOUtil.playAudio("static/audio/Kendrick Lamar - All The Stars.mp3");
+                Font oldFont = outputArea.getFont();
+                outputArea.setFont(new Font("BEYNO", Font.BOLD, oldFont.getSize()));
+
+                new BletchyThread(outputArea).bletchy("RIP CHADWICK BOSEMAN",false, 15, false);
+
+                try {
+                    Thread.sleep(4000);
+                } catch (Exception e) {
+                    ErrorHandler.silentHandle(e);
+                }
+
+                outputArea.setFont(oldFont);
+            },"Chadwick Boseman Thread").start();
         }
         //final attempt at unknown input --------------------------
         else {
             if (handleMath(operation)) {
-
+                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE MATH FUNCTION HANDLED");
             } else if (evaluateExpression(operation)) {
-
+                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE MATH HANDLED");
             } else if (preferenceCheck(operation)) {
-
+                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE PREFERENCE TOGGLE HANDLED");
             } else {
                 unknownInput();
             }

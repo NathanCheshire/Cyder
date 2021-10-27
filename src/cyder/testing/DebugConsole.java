@@ -120,7 +120,8 @@ public class DebugConsole {
 
         //todo embed TOR and send logs to "me" before exiting program
 
-        //todo black panther beyno easter egg with bletchy to say "RIP Chadwick Boseman"
+        //todo if font is beyno, everything should be capitalized
+        //todo add an all caps preference for printing
 
         //todo factor DST into weather util and add a function "is it dst"
     }
