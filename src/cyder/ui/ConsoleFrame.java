@@ -174,6 +174,12 @@ public final class ConsoleFrame {
                 public void setSize(int x, int y) {
                     super.setSize(x, y);
                 }
+
+                @Override
+                public void dispose() {
+                    super.dispose();
+                    inputField.requestFocus();
+                }
             };
 
             //closing consoleframe should always result in a program exit
