@@ -123,6 +123,8 @@ public class DebugConsole {
         //todo if font is beyno, everything should be capitalized
         //todo add an all caps preference for printing
 
+        //test commit after branching
+
         //todo factor DST into weather util and add a function "is it dst"
     }
 }
