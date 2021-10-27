@@ -750,9 +750,9 @@ public class CyderFrame extends JFrame {
         GenericInformer.informRelative(text, title, this);
     }
 
-    //todo figure out issues here, can't actually speed it up?
-    private int animationNano = 250;
-    private int animationInc = 40; //typically is about 1/25th of animationNano so there are 25 frames
+    private int animationNano = 1;
+    private int animationMili = 0;
+    private int animationInc = 30; //typically is about 1/25th of animationNano so there are 25 frames
 
     /**
      * Moves the window down until it is off screen before setting the state to ICONIFIED.
@@ -762,7 +762,7 @@ public class CyderFrame extends JFrame {
         try {
             long start = System.currentTimeMillis();
             for (int i = this.getY(); i <= SystemUtil.getScreenHeight(); i += animationInc) {
-                Thread.sleep(0, animationNano);
+                Thread.sleep(animationMili, animationNano);
                 setLocation(this.getX(), i);
             }
             setState(JFrame.ICONIFIED);
@@ -799,7 +799,7 @@ public class CyderFrame extends JFrame {
                       int y = (int) point.getY();
 
                       for (int i = y; i >= -getHeight(); i -= animationInc) {
-                          Thread.sleep(0, animationNano);
+                          Thread.sleep(animationMili, animationNano);
                           setLocation(x, i);
                       }
 
