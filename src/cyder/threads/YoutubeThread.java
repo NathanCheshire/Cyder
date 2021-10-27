@@ -2,13 +2,12 @@ package cyder.threads;
 
 import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
-import cyder.utilities.IOUtil.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
-import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.TimeUtil;
+import cyder.utilities.UserUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -34,7 +33,7 @@ public class YoutubeThread {
         new Thread(() -> {
             String Start = "https://www.youtube.com/watch?v=";
             String thumbnailURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
-            UUID = IOUtil.getSystemData().getYtt();
+            UUID = UserUtil.extractUser().getYoutubeuuid();
 
             try {
                 if (UUID.length() != 11)
@@ -187,9 +186,7 @@ public class YoutubeThread {
      */
     public void kill() {
         this.exit = true;
-        SystemData sd = IOUtil.getSystemData();
-        sd.setYtt(UUID);
-        IOUtil.setSystemData(sd);
+        UserUtil.setUserData("youtubeuuid",UUID);
     }
 
     @Override

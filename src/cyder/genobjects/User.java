@@ -34,6 +34,7 @@ public class User {
     private String windowColor;
     private String consoleclockformat;
     private String typingsound;
+    private String youtubeuuid;
     private LinkedList<MappedExecutable> executables;
 
     //getters
@@ -166,6 +167,10 @@ public class User {
         return typingsound;
     }
 
+    public String getYoutubeuuid() {
+        return youtubeuuid;
+    }
+
     //setters
 
     public void setName(String name) {
@@ -294,6 +299,10 @@ public class User {
 
     public void setTypingsound(String typingsound) {
         this.typingsound = typingsound;
+    }
+
+    public void setYoutubeuuid(String youtubeuuid) {
+        this.youtubeuuid = youtubeuuid;
     }
 
     //inner classes
