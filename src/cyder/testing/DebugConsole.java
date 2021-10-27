@@ -112,18 +112,11 @@ public class DebugConsole {
         // should be using labels on labels that have a priority the same as notifications but slightly lower so that
         // notifications are always on top, could also have drag listoners on these "tiles"
 
-        //todo figure out how storage is going to work for dynamic files such as user files, shouldn't just be plain
-        // folder and accessible, maybe a zip writer or some other format
-        //todo anything set during a user session that resides in sys.json needs to be moved to user data
-
         //todo update to java 17 and fix all gradle issues
 
         //todo embed TOR and send logs to "me" before exiting program
 
-        //todo if font is beyno, everything should be capitalized
-        //todo add an all caps preference for printing
-
-        //test commit after branching
+        //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
 
         //todo factor DST into weather util and add a function "is it dst"
     }

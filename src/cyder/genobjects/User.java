@@ -37,290 +37,295 @@ public class User {
     private String youtubeuuid;
     private String ipkey;
     private String weatherkey;
+    private String capsmode;
     private LinkedList<MappedExecutable> executables;
-
-    //getters
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPass() {
         return pass;
     }
 
-    public String getFont() {
-        return font;
-    }
-
-    public String getForeground() {
-        return foreground;
-    }
-
-    public String getBackground() {
-        return background;
-    }
-
-    public String getIntromusic() {
-        return intromusic;
-    }
-
-    public String getDebugwindows() {
-        return debugwindows;
-    }
-
-    public String getRandombackground() {
-        return randombackground;
-    }
-
-    public String getOutputborder() {
-        return outputborder;
-    }
-
-    public String getInputborder() {
-        return inputborder;
-    }
-
-    public String getHourlychimes() {
-        return hourlychimes;
-    }
-
-    public String getSilenceerrors() {
-        return silenceerrors;
-    }
-
-    public String getFullscreen() {
-        return fullscreen;
-    }
-
-    public String getOutputfill() {
-        return outputfill;
-    }
-
-    public String getInputfill() {
-        return inputfill;
-    }
-
-    public String getClockonconsole() {
-        return clockonconsole;
-    }
-
-    public String getShowseconds() {
-        return showseconds;
-    }
-
-    public String getFilterchat() {
-        return filterchat;
-    }
-
-    public String getMenudirection() {
-        return menudirection;
-    }
-
-    public String getLaststart() {
-        return laststart;
-    }
-
-    public String getMinimizeonclose() {
-        return minimizeonclose;
-    }
-
-    public String getTypinganimation() {
-        return typinganimation;
-    }
-
-    public String getShowbusyicon() {
-        return showbusyicon;
-    }
-
-    public LinkedList<MappedExecutable> getExecutables() {
-        return executables;
-    }
-
-    public String getFfmpegpath() {
-        return ffmpegpath;
-    }
-
-    public String getYoutubedlpath() {
-        return youtubedlpath;
-    }
-
-    public String getWindowlocx() {
-        return windowlocx;
-    }
-
-    public String getWindowlocy() {
-        return windowlocy;
-    }
-
-    public String getRoundedwindows() {
-        return roundedwindows;
-    }
-
-    public String getWindowColor() {
-        return windowColor;
-    }
-
-    public String getConsoleclockformat() {
-        return consoleclockformat;
-    }
-
-    public String getTypingsound() {
-        return typingsound;
-    }
-
-    public String getYoutubeuuid() {
-        return youtubeuuid;
-    }
-
-    public String getIpkey() {
-        return ipkey;
-    }
-
-    public String getWeatherkey() {
-        return weatherkey;
-    }
-
-    //setters
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public String getFont() {
+        return font;
     }
 
     public void setFont(String font) {
         this.font = font;
     }
 
+    public String getForeground() {
+        return foreground;
+    }
+
     public void setForeground(String foreground) {
         this.foreground = foreground;
+    }
+
+    public String getBackground() {
+        return background;
     }
 
     public void setBackground(String background) {
         this.background = background;
     }
 
+    public String getIntromusic() {
+        return intromusic;
+    }
+
     public void setIntromusic(String intromusic) {
         this.intromusic = intromusic;
+    }
+
+    public String getDebugwindows() {
+        return debugwindows;
     }
 
     public void setDebugwindows(String debugwindows) {
         this.debugwindows = debugwindows;
     }
 
+    public String getRandombackground() {
+        return randombackground;
+    }
+
     public void setRandombackground(String randombackground) {
         this.randombackground = randombackground;
+    }
+
+    public String getOutputborder() {
+        return outputborder;
     }
 
     public void setOutputborder(String outputborder) {
         this.outputborder = outputborder;
     }
 
+    public String getInputborder() {
+        return inputborder;
+    }
+
     public void setInputborder(String inputborder) {
         this.inputborder = inputborder;
+    }
+
+    public String getHourlychimes() {
+        return hourlychimes;
     }
 
     public void setHourlychimes(String hourlychimes) {
         this.hourlychimes = hourlychimes;
     }
 
+    public String getSilenceerrors() {
+        return silenceerrors;
+    }
+
     public void setSilenceerrors(String silenceerrors) {
         this.silenceerrors = silenceerrors;
+    }
+
+    public String getFullscreen() {
+        return fullscreen;
     }
 
     public void setFullscreen(String fullscreen) {
         this.fullscreen = fullscreen;
     }
 
+    public String getOutputfill() {
+        return outputfill;
+    }
+
     public void setOutputfill(String outputfill) {
         this.outputfill = outputfill;
+    }
+
+    public String getInputfill() {
+        return inputfill;
     }
 
     public void setInputfill(String inputfill) {
         this.inputfill = inputfill;
     }
 
+    public String getClockonconsole() {
+        return clockonconsole;
+    }
+
     public void setClockonconsole(String clockonconsole) {
         this.clockonconsole = clockonconsole;
+    }
+
+    public String getShowseconds() {
+        return showseconds;
     }
 
     public void setShowseconds(String showseconds) {
         this.showseconds = showseconds;
     }
 
+    public String getFilterchat() {
+        return filterchat;
+    }
+
     public void setFilterchat(String filterchat) {
         this.filterchat = filterchat;
+    }
+
+    public String getMenudirection() {
+        return menudirection;
     }
 
     public void setMenudirection(String menudirection) {
         this.menudirection = menudirection;
     }
 
+    public String getLaststart() {
+        return laststart;
+    }
+
     public void setLaststart(String laststart) {
         this.laststart = laststart;
+    }
+
+    public String getMinimizeonclose() {
+        return minimizeonclose;
     }
 
     public void setMinimizeonclose(String minimizeonclose) {
         this.minimizeonclose = minimizeonclose;
     }
 
+    public String getTypinganimation() {
+        return typinganimation;
+    }
+
     public void setTypinganimation(String typinganimation) {
         this.typinganimation = typinganimation;
+    }
+
+    public String getShowbusyicon() {
+        return showbusyicon;
     }
 
     public void setShowbusyicon(String showbusyicon) {
         this.showbusyicon = showbusyicon;
     }
 
-    public void setExecutables(LinkedList<MappedExecutable> executables) {
-        this.executables = executables;
+    public String getFfmpegpath() {
+        return ffmpegpath;
     }
 
     public void setFfmpegpath(String ffmpegpath) {
         this.ffmpegpath = ffmpegpath;
     }
 
+    public String getYoutubedlpath() {
+        return youtubedlpath;
+    }
+
     public void setYoutubedlpath(String youtubedlpath) {
         this.youtubedlpath = youtubedlpath;
+    }
+
+    public String getWindowlocx() {
+        return windowlocx;
     }
 
     public void setWindowlocx(String windowlocx) {
         this.windowlocx = windowlocx;
     }
 
+    public String getWindowlocy() {
+        return windowlocy;
+    }
+
     public void setWindowlocy(String windowlocy) {
         this.windowlocy = windowlocy;
+    }
+
+    public String getRoundedwindows() {
+        return roundedwindows;
     }
 
     public void setRoundedwindows(String roundedwindows) {
         this.roundedwindows = roundedwindows;
     }
 
+    public String getWindowColor() {
+        return windowColor;
+    }
+
     public void setWindowColor(String windowColor) {
         this.windowColor = windowColor;
+    }
+
+    public String getConsoleclockformat() {
+        return consoleclockformat;
     }
 
     public void setConsoleclockformat(String consoleclockformat) {
         this.consoleclockformat = consoleclockformat;
     }
 
+    public String getTypingsound() {
+        return typingsound;
+    }
+
     public void setTypingsound(String typingsound) {
         this.typingsound = typingsound;
+    }
+
+    public String getYoutubeuuid() {
+        return youtubeuuid;
     }
 
     public void setYoutubeuuid(String youtubeuuid) {
         this.youtubeuuid = youtubeuuid;
     }
 
+    public String getIpkey() {
+        return ipkey;
+    }
+
     public void setIpkey(String ipkey) {
         this.ipkey = ipkey;
     }
 
+    public String getWeatherkey() {
+        return weatherkey;
+    }
+
     public void setWeatherkey(String weatherkey) {
         this.weatherkey = weatherkey;
+    }
+
+    public String getCapsmode() {
+        return capsmode;
+    }
+
+    public void setCapsmode(String capsmode) {
+        this.capsmode = capsmode;
+    }
+
+    public LinkedList<MappedExecutable> getExecutables() {
+        return executables;
+    }
+
+    public void setExecutables(LinkedList<MappedExecutable> executables) {
+        this.executables = executables;
     }
 
     //inner classes

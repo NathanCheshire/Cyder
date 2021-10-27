@@ -1563,7 +1563,8 @@ public class InputHandler {
     private void innerConsolePrint(char c) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
-            document.insertString(document.getLength(), String.valueOf(c), null);
+            document.insertString(document.getLength(),
+                    UserUtil.extractUser().getCapsmode().equals("1") ? String.valueOf(c).toUpperCase() : String.valueOf(c), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
 
             if (playInc == playRate - 1) {
