@@ -21,7 +21,6 @@ public class User {
     private String clockonconsole;
     private String showseconds;
     private String filterchat;
-    private String menudirection;
     private String laststart;
     private String minimizeonclose;
     private String typinganimation;
@@ -182,14 +181,6 @@ public class User {
 
     public void setFilterchat(String filterchat) {
         this.filterchat = filterchat;
-    }
-
-    public String getMenudirection() {
-        return menudirection;
-    }
-
-    public void setMenudirection(String menudirection) {
-        this.menudirection = menudirection;
     }
 
     public String getLaststart() {

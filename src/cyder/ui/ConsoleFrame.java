@@ -146,22 +146,28 @@ public final class ConsoleFrame {
                         getCurrentBackgroundFile().toString(),getConsoleDirection()));
             }
 
+            //todo background color making doesn't work for fullscreen
+            //todo exiting fullscreen should setfullscreen to false
             consoleCyderFrame = new CyderFrame(w, h, usage) {
                 @Override
                 public void setBounds(int x, int y, int w, int h) {
                     super.setBounds(x,y,w,h);
 
-                    //todo change to be out of way if menu label is showing
                     //set pane component bounds
                     if (outputScroll != null && inputField != null) {
-                        outputScroll.setBounds(10, 62, w - 20, h - 204);
-                        inputField.setBounds(10, 62 + outputScroll.getHeight() + 20,w - 20,
+                        int addX = 0;
+
+                        if (menuLabel.isVisible())
+                            addX = 2 + menuLabel.getWidth();
+
+                        outputScroll.setBounds(addX + 15, 62, w - 40 - addX, h - 204);
+                        inputField.setBounds(addX + 15, 62 + outputScroll.getHeight() + 20,w - 40 - addX,
                                 h - (62 + outputScroll.getHeight() + 20 + 20));
                     }
 
                     //menu label bounds
                     if (menuLabel != null && menuLabel.isVisible()) {
-                        menuLabel.setBounds(3, DragLabel.getDefaultHeight() - 3,
+                        menuLabel.setBounds(3, DragLabel.getDefaultHeight() - 2,
                                 menuLabel.getWidth(), menuLabel.getHeight());
                     }
 
@@ -268,7 +274,8 @@ public final class ConsoleFrame {
 
                 @Override
                 public void focusLost(FocusEvent e) {
-                    outputScroll.setBorder(BorderFactory.createEmptyBorder());
+                    if (UserUtil.extractUser().getOutputborder().equals("0"))
+                        outputScroll.setBorder(BorderFactory.createEmptyBorder());
                 }
             });
             outputArea.setSelectionColor(CyderColors.selectionColor);
@@ -298,7 +305,7 @@ public final class ConsoleFrame {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
             }
 
-            outputScroll.setBounds(10, 62, getBackgroundWidth() - 20, getBackgroundHeight() - 204);
+            outputScroll.setBounds(15, 62, consoleCyderFrame.getWidth() - 40, getBackgroundHeight() - 204);
             consoleCyderFrame.getContentPane().add(outputScroll);
 
             //output area settings complete; starting input field
@@ -473,7 +480,7 @@ public final class ConsoleFrame {
             inputField.addKeyListener(commandScrolling);
             inputField.setCaretPosition(inputField.getPassword().length);
 
-            inputField.setBounds(10, 62 + outputArea.getHeight() + 20,w - 20,
+            inputField.setBounds(15, 62 + outputArea.getHeight() + 20,w - 40,
                     h - (62 + outputArea.getHeight() + 20 + 20));
             inputField.setOpaque(false);
             consoleCyderFrame.getContentPane().add(inputField);
@@ -596,22 +603,32 @@ public final class ConsoleFrame {
             });
             menuButton.addActionListener(e -> {
                 if (!menuLabel.isVisible()) {
-                    //todo generated needs to be set to false on resize events
                     if (!consoleMenuGenerated) {
                         generateConsoleMenu();
                     }
 
-                    menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 3);
+                    menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 2);
                     menuLabel.setVisible(true);
+                    AnimationUtil.componentRight(-150, 2, 10, 8, menuLabel);
 
-                    if (UserUtil.getUserData("menudirection").equals("1")) {
-                        AnimationUtil.componentRight(-150, 2, 10, 8, menuLabel);
-                    } else {
-                        menuLabel.setLocation(0, -250);
-                        AnimationUtil.componentDown(-250, DragLabel.getDefaultHeight() - 3, 10, 8, menuLabel);
-                    }
+                    int addX = 0;
+                    int width = consoleCyderFrame.getWidth();
+                    int height = consoleCyderFrame.getHeight();
+
+                    if (menuLabel.isVisible())
+                        addX = 2 + menuLabel.getWidth();
+
+                    outputScroll.setBounds(addX + 15, 62, width - 40 - addX, height - 204);
+                    inputField.setBounds(addX + 15, 62 + outputScroll.getHeight() + 20,width - 40 - addX,
+                            height - (62 + outputScroll.getHeight() + 20 + 20));
                 } else {
                     minimizeMenu();
+
+                    int width = consoleCyderFrame.getWidth();
+                    int height = consoleCyderFrame.getHeight();
+                    outputScroll.setBounds(15, 62, width - 40, height - 204);
+                    inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
+                            height - (62 + outputScroll.getHeight() + 20 + 20));
                 }
             });
             menuButton.setBounds(4, 4, 22, 22);
@@ -1181,8 +1198,12 @@ public final class ConsoleFrame {
 
         menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
 
+        if (menuLabel != null) {
+            menuLabel.setVisible(false);
+        }
+
         menuLabel = new JLabel("");
-        menuLabel.setBounds(-150, DragLabel.getDefaultHeight() - 3,
+        menuLabel.setBounds(-150, DragLabel.getDefaultHeight() - 2,
                 CyderFrame.getMinWidth("TEMP CONV", menuFont) + 10, menuHeight);
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.guiThemeColor);
@@ -1555,48 +1576,27 @@ public final class ConsoleFrame {
 
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
-            if (UserUtil.getUserData("menudirection").equals("1")) {
-                menuLabel.setLocation(0, menuLabel.getY());
+            menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
 
-                new Thread(() -> {
-                    int y = menuLabel.getY();
+            new Thread(() -> {
+                int y = menuLabel.getY();
 
-                    for (int i = 0 ; i > -150 ; i-= 8) {
-                        menuLabel.setLocation(i, y);
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            ErrorHandler.handle(e);
-                        }
+                for (int i = 0 ; i > -150 ; i-= 8) {
+                    menuLabel.setLocation(i, y);
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        ErrorHandler.handle(e);
                     }
+                }
 
-                    menuLabel.setLocation(-150, y);
+                menuLabel.setLocation(-150, y);
 
-                    menuLabel.setVisible(false);
-                    menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
-                },"minimize menu thread").start();
-            } else {
-                menuLabel.setLocation(0, DragLabel.getDefaultHeight() - 5);
-
-                new Thread(() -> {
-                    int x = menuLabel.getX();
-
-                    for (int i = 30 ; i > -250 ; i-= 8) {
-                        menuLabel.setLocation(x, i);
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            ErrorHandler.handle(e);
-                        }
-                    }
-
-                    menuLabel.setLocation(x, -250);
-
-                    menuLabel.setVisible(false);
-                    menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
-                },"minimize menu thread").start();
-            }
+                menuLabel.setVisible(false);
+                menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
+            },"minimize menu thread").start();
         }
+
     }
 
     private KeyListener commandScrolling = new KeyAdapter() {
@@ -2219,12 +2219,15 @@ public final class ConsoleFrame {
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
 
             //set input and output bounds
-            outputScroll.setBounds(10, 62, width - 20, height - 204);
-            inputField.setBounds(10, 62 + outputScroll.getHeight() + 20,width - 20,
+            outputScroll.setBounds(15, 62, width - 40, height - 204);
+            inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
                     height - (62 + outputScroll.getHeight() + 20 + 20));
 
             //request focus
             inputField.requestFocus();
+
+            //fix menu
+            revalidateConsoleMenu();
 
             //fix foreground if needed
             if (ImageUtil.solidColor(getCurrentBackgroundFile())) {
@@ -2249,6 +2252,24 @@ public final class ConsoleFrame {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    public void revalidateConsoleMenu() {
+        if (menuLabel.isVisible()) {
+            generateConsoleMenu();
+            menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
+        }
+
+        int addX = 0;
+        int w = consoleCyderFrame.getWidth();
+        int h = consoleCyderFrame.getHeight();
+
+        if (menuLabel.isVisible())
+            addX = 2 + menuLabel.getWidth();
+
+        outputScroll.setBounds(addX + 15, 62, w - 40 - addX, h - 204);
+        inputField.setBounds(addX + 15, 62 + outputScroll.getHeight() + 20,w - 40 - addX,
+                h - (62 + outputScroll.getHeight() + 20 + 20));
     }
 
     /**
@@ -2371,11 +2392,13 @@ public final class ConsoleFrame {
 
             consoleCyderFrame.setLocation(relativeX - w / 2, relativeY - h / 2);
 
-            outputScroll.setBounds(10, 62, w - 20, h - 204);
-            inputField.setBounds(10, 62 + outputScroll.getHeight() + 20,w - 20,
+            outputScroll.setBounds(15, 62, w - 40, h - 204);
+            inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,w - 40,
                     h - (62 + outputScroll.getHeight() + 20 + 20));
 
             consoleCyderFrame.setMaximumSize(new Dimension(w, h));
+
+            revalidateConsoleMenu();
 
             if (fullscreen) {
                 consoleCyderFrame.setLocationRelativeTo(null);
