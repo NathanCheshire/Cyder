@@ -266,22 +266,23 @@ public class Login {
                             priorityPrintingList.add("Awaiting Password\n");
 
                             break;
-
                         case 2:
                             loginField.setEchoChar((char)0);
-                            recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA256(input)));
+                            if (recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA256(input)))) {
+                                doLoginAnimations = false;
+                            } else {
+                                loginField.setText(bashString);
+                                loginField.setCaretPosition(loginField.getPassword().length);
+                                priorityPrintingList.add("Could not recognize user\n");
 
-                            loginField.setText(bashString);
-                            loginField.setCaretPosition(loginField.getPassword().length);
-                            priorityPrintingList.add("Could not recognize user\n");
+                                if (input != null)
+                                    for (char c: input)
+                                        c = '\0';
 
-                            if (input != null)
-                                for (char c: input)
-                                    c = '\0';
+                                loginMode = 0;
+                            }
 
-                            loginMode = 0;
                             break;
-
                         default:
                             loginField.setText(bashString);
                             throw new IllegalArgumentException("Error resulting from login shell");
