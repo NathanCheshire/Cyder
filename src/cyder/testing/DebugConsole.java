@@ -117,7 +117,5 @@ public class DebugConsole {
         //todo embed TOR and send logs to "me" before exiting program
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
-
-        //todo factor DST into weather util and add a function "is it dst"
     }
 }

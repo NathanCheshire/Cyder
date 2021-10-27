@@ -1087,6 +1087,18 @@ public class InputHandler {
 
                 outputArea.setFont(oldFont);
             },"Chadwick Boseman Thread").start();
+        } else if (eic("dst") || has("daylight") && has("savings") && has("time")) {
+            new Thread(() -> {
+                String location = IPUtil.getIpdata().getCity() + ", "
+                        + IPUtil.getIpdata().getRegion() + ", "
+                        +  IPUtil.getIpdata().getCountry_name();
+
+                if (IPUtil.getIpdata().getTime_zone().isIs_dst()) {
+                    println("Yes, in " + location + ", DST is underway.");
+                } else {
+                    println("no, in " + location + ", DST is currently not underway");
+                }
+            }, "DST Checker").start();
         }
         //final attempt at unknown input --------------------------
         else {

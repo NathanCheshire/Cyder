@@ -377,7 +377,11 @@ public class Weather {
             sunriseLabel.setText(correctedSunTime(sunrise) + "am");
             sunsetLabel.setText(correctedSunTime(sunset) + "pm");
 
+            //redraw arrow
             windDirectionLabel.repaint();
+
+            //reset tooltip
+            windDirectionLabel.setToolTipText(windBearing + "deg, " + getWindDirection(windBearing));
 
             String[] parts = locationString.split(",");
 
@@ -390,7 +394,7 @@ public class Weather {
             }
 
             if (weatherFrame != null)
-                weatherFrame.notify("Refreshed", 2000, NotificationDirection.TOP_RIGHT);
+                weatherFrame.notify("Refreshed", 2000, NotificationDirection.BOTTOM_LEFT);
         }
 
         catch (Exception e) {
@@ -399,7 +403,7 @@ public class Weather {
     }
 
     private String getTimezoneLabel() {
-        return "GMT" + (Integer.parseInt(gmtOffset)/3600);
+        return "GMT" + (Integer.parseInt(gmtOffset)/3600) + (IPUtil.getIpdata().getTime_zone().isIs_dst() ? " [DST Active]" : "");
     }
 
     private String correctedSunTime(String absoluteTime) {
@@ -494,6 +498,7 @@ public class Weather {
         },"Weather Stats Updater").start();
     }
 
+    //todo unit test this
     public String getWindDirection(String wb) {
         double bear = Double.parseDouble(wb);
 
@@ -502,21 +507,21 @@ public class Weather {
 
         String ret = "";
 
-        if (bear > 270 || bear < 90)
+        if (bear > 0 || bear < 180)
             ret += "N";
-        else if (bear == 270)
+        else if (bear == 180)
             return "W";
-        else if (bear == 90)
+        else if (bear == 0)
             return "E";
         else
             ret += "S";
 
-        if (bear > 0 && bear < 180)
+        if (bear < 90 || bear > 270)
             ret += "E";
         else if (bear == 180)
+            return "W";
+        else if (bear == 270)
             return "S";
-        else if (bear == 0 || bear == 360)
-            return "N";
         else
             ret += "W";
 
