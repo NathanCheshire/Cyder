@@ -120,8 +120,6 @@ public class DebugConsole {
 
         //todo embed TOR and send logs to "me" before exiting program
 
-        //todo add checks for ipkey and weatherkey being invalid and inform user they need to be set
-
         //todo black panther beyno easter egg with bletchy to say "RIP Chadwick Boseman"
 
         //todo login typing animation sound lingers when we're logging in, end it as soon as checkPassword returns successful

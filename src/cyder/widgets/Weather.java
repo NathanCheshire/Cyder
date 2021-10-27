@@ -421,8 +421,17 @@ public class Weather {
                 if (!useCustomLoc)
                     locationString = userCity + ", " + userState + ", " + userCountry;
 
+                String key = UserUtil.extractUser().getWeatherkey();
+
+                if (key.trim().length() == 0) {
+                    ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the Weather Key has not been set or is invalid" +
+                            ", as a result, many features of Cyder will not work as intended. Please see the fields panel of the" +
+                            " user editor to learn how to acquire a key and set it.","Weather Key Not Set");
+                    return;
+                }
+
                 String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
-                        locationString + "&appid=" + UserUtil.extractUser().getWeatherkey() + "&units=imperial";
+                        locationString + "&appid=" + key + "&units=imperial";
 
                 Gson gson = new Gson();
                 WeatherData wd = null;

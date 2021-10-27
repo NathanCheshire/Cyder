@@ -3,6 +3,7 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import cyder.handler.ErrorHandler;
+import cyder.ui.ConsoleFrame;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,17 +25,28 @@ public class IPUtil {
         return ipdata;
     }
 
+    //todo what if not set
+
     /**
      * Refreshes this object's IPData var
      */
     public static void parseData() {
         Gson gson = new Gson();
-        String url = "https://api.ipdata.co/?api-key=" + UserUtil.extractUser().getIpkey();
+        String key = UserUtil.extractUser().getIpkey();
+
+        if (key.trim().length() == 0) {
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the IP Key has not been set or is invalid" +
+                    ", as a result, many features of Cyder will not work as intended. Please see the fields panel of the" +
+                    " user editor to learn how to acquire a key and set it.","IP Key Not Set");
+            return;
+        }
+
+        String url = "https://api.ipdata.co/?api-key=" + key;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             ipdata = gson.fromJson(reader, IPData.class);
         } catch (IOException e) {
-            ErrorHandler.handle(e);
+            ErrorHandler.silentHandle(e);
         }
     }
 

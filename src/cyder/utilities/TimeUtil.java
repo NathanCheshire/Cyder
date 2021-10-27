@@ -68,9 +68,18 @@ public class TimeUtil {
 
     private void initGMTOffset() {
         try {
+            String key = UserUtil.extractUser().getWeatherkey();
+
+            if (key.trim().length() == 0) {
+                ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the Weather Key has not been set or is invalid" +
+                        ", as a result, many features of Cyder will not work as intended. Please see the fields panel of the" +
+                        " user editor to learn how to acquire a key and set it.","Weather Key Not Set");
+                return;
+            }
+
             String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
                     IPUtil.getIpdata().getCity() + "," + IPUtil.getIpdata().getRegion()+ "," +
-                    IPUtil.getIpdata().getCountry_name() + "&appid=" + UserUtil.extractUser().getWeatherkey() + "&units=imperial";
+                    IPUtil.getIpdata().getCountry_name() + "&appid=" + key + "&units=imperial";
 
             URL URL = new URL(OpenString);
             BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));

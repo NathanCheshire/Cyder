@@ -1407,6 +1407,7 @@ public class UserEditor {
                 ipKeyLabel.setForeground(CyderColors.navy);
             }
         });
+        printingUtil.printlnComponent(ipKeyLabel);
 
         printingUtil.print("\n");
 
