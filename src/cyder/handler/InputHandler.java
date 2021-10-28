@@ -1103,6 +1103,8 @@ public class InputHandler {
                     println("no, in " + location + ", DST is currently not underway");
                 }
             }, "DST Checker").start();
+        } else if (eic("test")) {
+            DebugConsole.launchTests();
         }
         //final attempt at unknown input --------------------------
         else {

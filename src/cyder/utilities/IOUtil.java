@@ -366,7 +366,7 @@ public class IOUtil {
             zipOut.close();
             fos.close();
 
-            SessionLogger.log(SessionLogger.Tag.CORRUPTION,fileName);
+            SessionLogger.log(SessionLogger.Tag.CORRUPTION, fileName);
 
             //delete the folder we just zipped since it's a duplicate
             SystemUtil.deleteFolder(mainZipFile);

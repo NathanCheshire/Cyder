@@ -21,7 +21,8 @@ public class SessionLogger {
 
     public enum Tag {
         CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION,
-        SYSTEM_IO, CLIENT_IO, LOGIN, LOGOUT, JAVA_ARGS, ENTRY, EXIT, CORRUPTION
+        SYSTEM_IO, CLIENT_IO, LOGIN, LOGOUT, JAVA_ARGS, ENTRY, EXIT, CORRUPTION,
+        PRIVATE_MESSAGE
     }
 
     /**
@@ -139,6 +140,11 @@ public class SessionLogger {
             case CORRUPTION:
                 //before user corruption method is called
                 //[CORRUPTION]: [FILE] c:/users/nathan/downloads/CyderCorruptedUserData.zip
+                logBuilder.append("[CORRUPTION]: userdir saved to: ").append(representation);
+                break;
+            case PRIVATE_MESSAGE:
+                //[PRIVATE MESSAGE]: [RECEIVED FROM SAM (UUID here)] Check discord.
+                logBuilder.append("[PRIVATE MESSAGE]: ");
                 break;
             case UNKNOWN:
                 //[UNKNOWN]: CyderString.instance really anything that doesn't get caught above

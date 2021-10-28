@@ -1,7 +1,7 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
-import cyder.handler.ErrorHandler;
+import cyder.messaging.ClientFileHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -12,10 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.net.Socket;
 import java.util.LinkedList;
 
 public class DebugConsole {
@@ -111,6 +108,8 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
+        //todo notifications should be that red color from snapchat for errors and text should be white
+
         //todo frames should be simply printed icons, of cyder logo but first letter of frame there
         // generate the icon image for this as needed and choose from different colors (from intellij logo red, blue, orange)
         // and print to scrolling pane, limit defaults and print those first, they don't go away.
@@ -122,29 +121,16 @@ public class DebugConsole {
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
 
-        //user needs to know where to send file
-        sendFile(new File("static/audio/223.mp3"), "localhost",31415);
-    }
+        //on cyder startup, we need to start the server and upon exiting, end server
 
-    private static void sendFile(File sendFile, String host, int port) {
-        try {
-            FileInputStream fis = new FileInputStream(sendFile.getAbsolutePath());
-            Socket socket = new Socket(host, port);
-            DataOutputStream dis = new DataOutputStream(socket.getOutputStream());
+        //user needs to know where to send file, dm window should ask for IP and host,
+        // recommend using a vpn and direct to where to download
 
-            String filename = sendFile.getName();
-            byte[] fileNameBytes = filename.getBytes();
+        //anytime a chat is open, spawn a file listener on each end
+        ClientFileHandler.listenForFile();
 
-            byte[] fileContentBytes = new byte[(int) sendFile.length()];
-            fis.read(fileContentBytes);
-
-            dis.writeInt(fileNameBytes.length);
-            dis.write(fileNameBytes);
-
-            dis.writeInt(fileContentBytes.length);
-            dis.write(fileContentBytes);
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        //now we can send the file that the client is listening
+        ClientFileHandler.sendFile(new File("dynamic/users/8657469f-418b-348f-ab79-" +
+                "8993fb4c2b84/Backgrounds/Roses.png"), "localhost");
     }
 }
