@@ -16,8 +16,7 @@ public class MessagingWidget {
 
     private void connect() {
        try {
-           Socket socket = new Socket("ip", Client.TOR_PORT);
-           Client client = new Client(socket, ConsoleFrame.getConsoleFrame().getUUID(),
+           Client client = new Client(ConsoleFrame.getConsoleFrame().getUUID(),
                    UserUtil.extractUser().getName());
        } catch (Exception e) {
            ErrorHandler.silentHandle(e);

@@ -10,47 +10,48 @@ public class ClientFileHandler {
     static ServerSocket serverSocket;
 
     public static void listenForFile() {
-        new Thread(() -> {
-            try {
-                serverSocket = new ServerSocket(Server.TOR_PORT);
-                while (!serverSocket.isClosed()) {
-                    System.out.println("waiting... listening on port: " + Server.TOR_PORT);
-                    Socket socket = serverSocket.accept();
-                    System.out.println(socket.getLocalAddress() + ":" + socket.getLocalPort());
-                    DataInputStream dis = new DataInputStream(socket.getInputStream());
-
-                    int fileNameLength = dis.readInt();
-
-                    if (fileNameLength > 0) {
-                        byte[] filenameBytes = new byte[fileNameLength];
-                        dis.readFully(filenameBytes, 0, fileNameLength);
-                        String filename = new String(filenameBytes);
-
-                        int contentLength = dis.readInt();
-
-                        if (contentLength > 0) {
-                            byte[] fileBytes = new byte[contentLength];
-                            dis.readFully(fileBytes, 0, contentLength);
-
-                            File downloadedContent =
-                                    new File("static/sandbox/" + filename);
-                            FileOutputStream fis = new FileOutputStream(downloadedContent);
-                            fis.write(fileBytes);
-                            fis.close();
-                            System.out.println("File " + filename + " received, saved to: " + downloadedContent.getPath());
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }, "Clist File Receiver Thread").start();
+//        new Thread(() -> {
+//            try {
+//                //this should be another client
+//                serverSocket = new ServerSocket(Server.TOR_PORT);
+//                while (!serverSocket.isClosed()) {
+//                    System.out.println("waiting... listening on port: " + Server.TOR_PORT);
+//                    Socket socket = serverSocket.accept();
+//                    System.out.println(socket.getLocalAddress() + ":" + socket.getLocalPort());
+//                    DataInputStream dis = new DataInputStream(socket.getInputStream());
+//
+//                    int fileNameLength = dis.readInt();
+//
+//                    if (fileNameLength > 0) {
+//                        byte[] filenameBytes = new byte[fileNameLength];
+//                        dis.readFully(filenameBytes, 0, fileNameLength);
+//                        String filename = new String(filenameBytes);
+//
+//                        int contentLength = dis.readInt();
+//
+//                        if (contentLength > 0) {
+//                            byte[] fileBytes = new byte[contentLength];
+//                            dis.readFully(fileBytes, 0, contentLength);
+//
+//                            File downloadedContent =
+//                                    new File("static/sandbox/" + filename);
+//                            FileOutputStream fis = new FileOutputStream(downloadedContent);
+//                            fis.write(fileBytes);
+//                            fis.close();
+//                            System.out.println("File " + filename + " received, saved to: " + downloadedContent.getPath());
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                ErrorHandler.handle(e);
+//            }
+//        }, "Clist File Receiver Thread").start();
     }
 
     public static void sendFile(File sendFile, String host) {
         try {
             FileInputStream fis = new FileInputStream(sendFile.getAbsolutePath());
-            Socket socket = new Socket(host, Server.TOR_PORT);
+            Socket socket = new Socket(host, Client.TOR_PORT);
             DataOutputStream dis = new DataOutputStream(socket.getOutputStream());
 
             String filename = sendFile.getName();
