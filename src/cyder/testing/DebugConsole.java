@@ -1,6 +1,7 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
+import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -121,18 +122,20 @@ public class DebugConsole {
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
 
-        //how to send an already selected file to a server instance
+        //user needs to know where to send file
+        sendFile(new File("static/audio/223.mp3"), "localhost",31415);
+    }
+
+    private static void sendFile(File sendFile, String host, int port) {
         try {
-            File sendingFile = new File("static/audio/223.mp3");
-            FileInputStream fis = new FileInputStream(sendingFile.getAbsolutePath());
-            //users will need to give their ip's to the other one to start the FTP process or chat maybe?
-            Socket socket = new Socket("localhost",31415); //the server's IP and the port it's listening on
+            FileInputStream fis = new FileInputStream(sendFile.getAbsolutePath());
+            Socket socket = new Socket(host, port);
             DataOutputStream dis = new DataOutputStream(socket.getOutputStream());
 
-            String filename = sendingFile.getName();
+            String filename = sendFile.getName();
             byte[] fileNameBytes = filename.getBytes();
 
-            byte[] fileContentBytes = new byte[(int) sendingFile.length()];
+            byte[] fileContentBytes = new byte[(int) sendFile.length()];
             fis.read(fileContentBytes);
 
             dis.writeInt(fileNameBytes.length);
@@ -141,7 +144,7 @@ public class DebugConsole {
             dis.writeInt(fileContentBytes.length);
             dis.write(fileContentBytes);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         }
     }
 }
