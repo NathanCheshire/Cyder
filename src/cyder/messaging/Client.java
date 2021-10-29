@@ -1,6 +1,7 @@
 package cyder.messaging;
 
 import cyder.handler.ErrorHandler;
+import cyder.handler.SessionLogger;
 import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.IPUtil;
@@ -39,9 +40,10 @@ public class Client {
 
     //GENERAL DATA
 
-    //our name and uuid
+    //our name, uuid, and frame
     private String clientUUID;
     private String clientName;
+    private CyderFrame messagingWidgetFrame;
 
     //connected uuid and name
     private String connectedClientUUID;
@@ -61,6 +63,7 @@ public class Client {
             //setups
             this.clientName = clientName;
             this.clientUUID = clientUUID;
+            this.messagingWidgetFrame = messagingWidgetFrame;
 
             //init our socket, and IO objects since now we are a client ready to connect to a server but also
             // ready to listen for a connection attempt
@@ -113,14 +116,18 @@ public class Client {
 
                     //start listening for their messages
                     listenToClient();
+
+                    //log connection
+                    SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+                            "[PRIVATE MESSAGE]: [SECURED CONNECTION WITH " + clientName.toUpperCase()
+                                    + "(" + clientUUID +  ")]");
                 }
                 //if the hash is not set or does not match, then it's someone new trying to connect
                 else {
                     String connectionMessage = StringUtil.capsFirst(potentiallyConnectedClientName) +
                             "(" + potentiallyConnectedClientUUID + ")";
 
-                    //todo we need to be given a frame for this
-                    boolean connect = new GetterUtil().getConfirmation(connectionMessage, null);
+                    boolean connect = new GetterUtil().getConfirmation(connectionMessage, messagingWidgetFrame);
 
                     if (connect) {
                         //setup socket and vars since we're choosing to connect to them officially
@@ -140,6 +147,10 @@ public class Client {
 
                         //listen for their messages assumping their server still wants to connect
                         listenToClient();
+
+                        SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+                                "[PRIVATE MESSAGE]: [ATTEMPTING CLIENT CONNECTION WITH " + clientName.toUpperCase()
+                                        + "(" + clientUUID +  ")]");
                     }
                 }
             }
@@ -177,7 +188,11 @@ public class Client {
                 try {
                     //read from the connected client, this is a blocking method
                     receivedMessage = connectedServerSocketReader.readLine();
+                    //instead of printing, append to frame's outputarea
                     System.out.println("[" + connectedClientName + "]: " + receivedMessage);
+                    SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+                            "[PRIVATE MESSAGE]: [ RECEIVED FROM " + clientName.toUpperCase()
+                                    + "(" + clientUUID +  ")] " + receivedMessage);
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
@@ -215,6 +230,11 @@ public class Client {
 
             //flush stream
             attemptingConnectionWriter.flush();
+
+            //log
+            SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+                    "[PRIVATE MESSAGE]: [ATTEMPTING SERVER CONNECTION WITH " + clientName.toUpperCase()
+                            + "(" + clientUUID +  ")]");
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -229,6 +249,8 @@ public class Client {
             //if there's a connection
             if (connectedServerSocket != null) {
                 sendMessage(clientName + " has disconnected");
+                SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+                        "[DISCONNECT]: " + clientName + "(" + clientUUID +  ")" + " terminated session");
                 connectedServerSocket.close();
                 connectedServerSocket = null;
             }
