@@ -43,6 +43,11 @@ public class Client {
             this.clientName = clientName;
             this.clientUUID = clientUUID;
 
+            //init our socket, and IO objects since now we are a client trying to connect to a server
+            ourSocket = new Socket(IPUtil.getIpdata().getIp(), TOR_PORT);
+            this.bw = new BufferedWriter(new OutputStreamWriter(ourSocket.getOutputStream()));
+            this.br = new BufferedReader(new InputStreamReader(ourSocket.getInputStream()));
+
             //start listning for connection requests
             startServer();
         } catch (Exception e) {
@@ -58,9 +63,12 @@ public class Client {
             //exiting this while loop means that Cyder has exited so we don't need
             // to worry about that conditions
             while (!serverSocket.isClosed()) {
+                //wrong condition here, we should always accept but then set it as connected client if it
+                // completed the handshake for us
                 if (connectedClient == null) {
                     //accept the connection
                     connectedClient = serverSocket.accept();
+                    //todo how do you even connect in the first place to server? does this work?
 
                     //get name and uuid
                     connectedClientUUID = br.readLine();
@@ -69,9 +77,17 @@ public class Client {
                     //start listening for messages
                     listenToClient();
 
-                    //now they're connected to us, we need to connect to their server
+                    //todo there's some massive error here think about logic and going to and from server
+                    // might need two socket instances?
 
-                    //todo
+                    //also the handshake should be sending some random sha256 hash over and they need to hash it and send it back
+                    // if a client has that hash hashed, then we can accept it here so we know it's who we connected to and now they're trying to connect to us
+                    // this is where the process stops
+                    // we're given an ip, we connect to their server, and then they connect to our server right here
+
+                    //now they're connected to us, we need to connect to them, this method
+                    // wont' run if we're already connected to them so no that condition can be ignored
+                    connect(String.valueOf(connectedClient.getLocalAddress()));
                 }
             }
         } catch (Exception e) {
@@ -109,11 +125,6 @@ public class Client {
     //connect to a client (connect to it's server)
     public void connect(String ip) {
         try {
-            //init our socket, and IO objects since now we are a client trying to connect to a server
-            ourSocket = new Socket(IPUtil.getIpdata().getIp(), TOR_PORT);
-            this.bw = new BufferedWriter(new OutputStreamWriter(ourSocket.getOutputStream()));
-            this.br = new BufferedReader(new InputStreamReader(ourSocket.getInputStream()));
-
             //initialize connection to server via provided ip
             connectedClient = new Socket(ip, TOR_PORT);
 

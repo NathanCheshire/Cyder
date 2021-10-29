@@ -5,8 +5,6 @@ import cyder.messaging.Client;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.UserUtil;
 
-import java.net.Socket;
-
 public class MessagingWidget {
     //todo spawn off connection windows to other Cyder users provided this user knows an ip and port they're trying to reach
 
