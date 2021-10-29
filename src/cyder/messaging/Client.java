@@ -2,6 +2,7 @@ package cyder.messaging;
 
 import cyder.handler.ErrorHandler;
 import cyder.utilities.IPUtil;
+import cyder.utilities.SecurityUtil;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,41 +15,43 @@ import java.net.Socket;
 public class Client {
     public static final int TOR_PORT = 8118;
 
-    //server socket to receive a single socket to connect to
-    // this should never close unless Cyder exits
-    private ServerSocket serverSocket;
+    //our server socket that receives messages
+    private ServerSocket ourServerSocket;
 
-    //our socket
-    private Socket ourSocket;
+    //our client socket that we use to send messages
+    private Socket ourClientSocket;
 
     //io for client
-    private BufferedReader br;
-    private BufferedWriter bw;
+    private BufferedReader ourClientReader;
+    private BufferedWriter ourClientWriter;
 
     //our name and uuid
     private String clientUUID;
     private String clientName;
 
-    //connected to socket via the server socket
-    private Socket connectedClient;
+    //the server we're connected that will receive our messages
+    private Socket connectedServerSocket;
 
     //connected uuid and name
     private String connectedClientUUID;
     private String connectedClientName;
 
-    //sets up readers and writers for client IO, starts up server socket to attempt to get a connection
+    //handshake data to listen for to make sure the IP we want to connect to is the one we connect to
+    String handshakeHash = null;
+
     public Client(String clientUUID, String clientName) {
         try {
             //setups
             this.clientName = clientName;
             this.clientUUID = clientUUID;
 
-            //init our socket, and IO objects since now we are a client trying to connect to a server
-            ourSocket = new Socket(IPUtil.getIpdata().getIp(), TOR_PORT);
-            this.bw = new BufferedWriter(new OutputStreamWriter(ourSocket.getOutputStream()));
-            this.br = new BufferedReader(new InputStreamReader(ourSocket.getInputStream()));
+            //init our socket, and IO objects since now we are a client ready to connect to a server but also
+            // ready to listen for a connection attempt
+            ourClientSocket = new Socket(IPUtil.getIpdata().getIp(), TOR_PORT);
+            this.ourClientWriter = new BufferedWriter(new OutputStreamWriter(ourClientSocket.getOutputStream()));
+            this.ourClientReader = new BufferedReader(new InputStreamReader(ourClientSocket.getInputStream()));
 
-            //start listning for connection requests
+            //start our server to listen for connections
             startServer();
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -58,36 +61,33 @@ public class Client {
     //used to accept a socket to connect to (connect to a client)
     private void startServer() {
         try {
-            serverSocket = new ServerSocket(TOR_PORT);
+            //initialize our socket which uses our IP
+            ourServerSocket = new ServerSocket(TOR_PORT);
 
-            //exiting this while loop means that Cyder has exited so we don't need
-            // to worry about that conditions
-            while (!serverSocket.isClosed()) {
-                //wrong condition here, we should always accept but then set it as connected client if it
-                // completed the handshake for us
-                if (connectedClient == null) {
-                    //accept the connection
-                    connectedClient = serverSocket.accept();
-                    //todo how do you even connect in the first place to server? does this work?
+            //we exit this while loop when Cyder exits
+            while (!ourServerSocket.isClosed()) {
+                //accept a connection to check if it's who we want to connect to
+                Socket potentiallyConnectedSocket = ourServerSocket.accept();
 
-                    //get name and uuid
-                    connectedClientUUID = br.readLine();
-                    connectedClientName = br.readLine();
+                //make a reader to receive data coming from this new connection
+                BufferedReader potentiallyConnectedSocketReader = new BufferedReader(
+                        new InputStreamReader(potentiallyConnectedSocket.getInputStream()));
 
-                    //start listening for messages
-                    listenToClient();
+                //get the handshake data
+                String receivedHashedHandshake = potentiallyConnectedSocketReader.readLine();
 
-                    //todo there's some massive error here think about logic and going to and from server
-                    // might need two socket instances?
-
-                    //also the handshake should be sending some random sha256 hash over and they need to hash it and send it back
-                    // if a client has that hash hashed, then we can accept it here so we know it's who we connected to and now they're trying to connect to us
-                    // this is where the process stops
-                    // we're given an ip, we connect to their server, and then they connect to our server right here
-
-                    //now they're connected to us, we need to connect to them, this method
-                    // wont' run if we're already connected to them so no that condition can be ignored
-                    connect(String.valueOf(connectedClient.getLocalAddress()));
+                //if the handshake is what we sent out, they're who we requested to connect to
+                //handhake hash being null means we're trying to be connected to,
+                // not null means we tried to connect to foreign server already and now are
+                // receiving a return that may or may not be them
+                if (handshakeHash != null && receivedHashedHandshake.equals(
+                        SecurityUtil.toHexString(SecurityUtil.getSHA256(handshakeHash.toCharArray())))) {
+                    //get name and uuid from
+                    connectedClientUUID = potentiallyConnectedSocketReader.readLine();
+                    connectedClientName = potentiallyConnectedSocketReader.readLine();
+                } else {
+                    //they're some random other person trying to connect to us, should we allow it?
+                    // who are they too?
                 }
             }
         } catch (Exception e) {
@@ -95,25 +95,32 @@ public class Client {
         }
     }
 
-    //writes a message to the writer and flushes it, the other client will pick it up
+    /**
+     * Writes a string to our client's socket's buffered writer
+     * @param message the string to write
+     */
     public void sendMessage(String message) {
         try {
-            bw.write(message);
-            bw.newLine();
-            bw.flush();
+            //write message using our socket's writer that their server will pickup
+            ourClientWriter.write(message);
+            ourClientWriter.newLine();
+            ourClientWriter.flush();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
-    //maybe sent a jtextpane here to append to?
+    /**
+     * Called once when this client instance launches
+     */
     public void listenToClient() {
         new Thread(() -> {
             String receivedMessage;
 
-            while (ourSocket.isConnected()) {
+            while (ourClientSocket.isConnected()) {
                 try {
-                    receivedMessage = br.readLine();
+                    //wrong reader here?
+                    receivedMessage = ourClientReader.readLine();
                     System.out.println("[" + connectedClientName + "]: " + receivedMessage);
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
@@ -122,15 +129,34 @@ public class Client {
         },clientName + " DM Listener").start();
     }
 
-    //connect to a client (connect to it's server)
+    /**
+     * Attempts to connect to a client. We're given an IP to try and connect to
+     * so we set a message to the IP with our handshake data, uuid, and our name
+     * @param ip the provided ip to attempt to connect to (their server)
+     */
     public void connect(String ip) {
         try {
             //initialize connection to server via provided ip
-            connectedClient = new Socket(ip, TOR_PORT);
+            Socket attemptingConnection = new Socket(ip, TOR_PORT);
 
-            //send handshake data
-            sendMessage(clientUUID);
-            sendMessage(clientName);
+            //buffered writer to send handshake and other needed data
+            BufferedWriter attemptingConnectionWriter = new BufferedWriter(
+                    new OutputStreamWriter(attemptingConnection.getOutputStream()));
+
+            //we're trying to connect to them so give them some data
+            this.handshakeHash = SecurityUtil.toHexString(SecurityUtil.getSHA256(SecurityUtil.getMACAddress().toCharArray()));
+
+            //send handshake
+            ourClientWriter.write(handshakeHash);
+            ourClientWriter.newLine();
+            //send our uuid and name
+            ourClientWriter.write(this.clientUUID);
+            ourClientWriter.newLine();
+            ourClientWriter.write(this.clientName);
+            ourClientWriter.newLine();
+
+            //flush stream
+            ourClientWriter.flush();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -140,33 +166,13 @@ public class Client {
     public void terminateConnection() {
         try {
             //if there's a connection
-            if (connectedClient != null) {
+            if (connectedServerSocket != null) {
                 sendMessage(clientName + " has disconnected");
-                connectedClient.close();
-                connectedClient = null;
+                connectedServerSocket.close();
+                connectedServerSocket = null;
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
-    }
-
-    public Socket getOurSocket() {
-        return ourSocket;
-    }
-
-    public BufferedReader getBr() {
-        return br;
-    }
-
-    public BufferedWriter getBw() {
-        return bw;
-    }
-
-    public String getClientUUID() {
-        return clientUUID;
-    }
-
-    public String getClientName() {
-        return clientName;
     }
 }
