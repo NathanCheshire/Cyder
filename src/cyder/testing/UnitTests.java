@@ -70,10 +70,22 @@ public class UnitTests {
     @Test
     public void testIPv4RegexMatcher() {
         String ipv6Pattern = ""; //todo
-        String ipv4Pattern = "\\s+[0-9]{1,3}\\s+"; //this is for one group, if multiple, need a trailing period unless last
+        String ipv4Pattern = "\\s*[0-9]{1,3}(\\s*|\\.[0-9]{1,3}\\s*|\\.[0-9]{1,3}\\.[0-9]{1,3}\\s*|\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\s*)";
 
         LinkedList<String> ipv4Tests = new LinkedList<>();
         ipv4Tests.add("  127.045.04.1  ");
+        ipv4Tests.add("  127.045.04.1");
+        ipv4Tests.add("123");
+        ipv4Tests.add("123.123");
+        ipv4Tests.add("123.123.123");
+        ipv4Tests.add("123.123.123.123");
+        ipv4Tests.add("127.045.04.1   ");
+        ipv4Tests.add("0.0.0.0");
+        ipv4Tests.add("045.450.330.340");
+        ipv4Tests.add("045.450.330");
+        ipv4Tests.add("045.450");
+        ipv4Tests.add("045");
+
 
         LinkedList<String> ipv6Tests = new LinkedList<>();
         //add to here
