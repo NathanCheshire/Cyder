@@ -22,6 +22,15 @@ public class CyderLabel extends JLabel {
         setVerticalAlignment(JLabel.CENTER);
     }
 
+    public CyderLabel(String text, int horizontalAlignment) {
+        setText(text);
+        setForeground(CyderColors.navy);
+        setFont(CyderFonts.defaultFontSmall);
+        setHorizontalAlignment(JLabel.CENTER);
+        setVerticalAlignment(JLabel.CENTER);
+        setHorizontalAlignment(horizontalAlignment);
+    }
+
     @Override
     public void setText(String text) {
         if (!text.startsWith("<html>")) {

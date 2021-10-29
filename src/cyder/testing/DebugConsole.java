@@ -6,6 +6,7 @@ import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
+import cyder.widgets.MessagingWidget;
 
 import javax.swing.*;
 import java.awt.*;
@@ -113,8 +114,17 @@ public class DebugConsole {
         // and print to scrolling pane, limit defaults and print those first, they don't go away.
         // when you spawn a new frame, link it to the menu pane so that a post close action is to remove itself from the pane
 
+        //todo use reflect API to trigger manual tests with key words
+
+        //ipv4: at most 4 sets of 3 chars (1-3) separated by a .
+        //ipv6: at most 8 sets of 4 chars (1-4) separated by a :
+
+        //log Connection-specific DNS Suffix: msstate local for example
+
         //https://www.youtube.com/watch?v=gLfuZrrfKes
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
+
+        MessagingWidget.showGUI();
     }
 }
