@@ -4,6 +4,8 @@ import cyder.utilities.BoundsUtil;
 import cyder.widgets.Weather;
 import org.junit.Test;
 
+import java.util.LinkedList;
+
 import static org.junit.Assert.assertEquals;
 
 public class UnitTests {
@@ -63,5 +65,25 @@ public class UnitTests {
         assertEquals(Weather.getWindDirection(315.0), "SE");
         assertEquals(Weather.getWindDirection(315.0 + 360.0), "SE");
         assertEquals(Weather.getWindDirection(315.0 - 360.0), "SE");
+    }
+
+    @Test
+    public void testIPv4RegexMatcher() {
+        String ipv6Pattern = ""; //todo
+        String ipv4Pattern = "\\s+[0-9]{1,3}\\s+"; //this is for one group, if multiple, need a trailing period unless last
+
+        LinkedList<String> ipv4Tests = new LinkedList<>();
+        ipv4Tests.add("  127.045.04.1  ");
+
+        LinkedList<String> ipv6Tests = new LinkedList<>();
+        //add to here
+
+        for (String ipv4Address : ipv4Tests) {
+            assert ipv4Address.matches(ipv4Pattern);
+        }
+
+        for (String ipv6Address : ipv6Tests) {
+            assert ipv6Address.matches(ipv6Pattern);
+        }
     }
 }
