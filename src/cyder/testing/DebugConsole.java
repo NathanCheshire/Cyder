@@ -1,7 +1,6 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
-import cyder.messaging.ClientFileHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -12,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.LinkedList;
 
 public class DebugConsole {
@@ -115,22 +113,8 @@ public class DebugConsole {
         // and print to scrolling pane, limit defaults and print those first, they don't go away.
         // when you spawn a new frame, link it to the menu pane so that a post close action is to remove itself from the pane
 
-        //todo chat feature between online users, must have a token for who to connect to? (this would be secure
-        // but would force communication outside of Cyder)
         //https://www.youtube.com/watch?v=gLfuZrrfKes
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
-
-        //on cyder startup, we need to start the server and upon exiting, end server
-
-        //user needs to know where to send file, dm window should ask for IP and host,
-        // recommend using a vpn and direct to where to download
-
-        //anytime a chat is open, spawn a file listener on each end
-        ClientFileHandler.listenForFile();
-
-        //now we can send the file that the client is listening
-        ClientFileHandler.sendFile(new File("dynamic/users/8657469f-418b-348f-ab79-" +
-                "8993fb4c2b84/Backgrounds/Roses.png"), "localhost");
     }
 }

@@ -1,6 +1,7 @@
 package cyder.messaging;
 
 import cyder.handler.ErrorHandler;
+import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.IPUtil;
 import cyder.utilities.SecurityUtil;
@@ -15,26 +16,32 @@ import java.net.Socket;
 
 //a client instance may exist without a connection
 public class Client {
+    //default TOR port
     public static final int TOR_PORT = 8118;
+
+    //SERVER TO ESTABLISH CONNECTION AFTER HANDSHAKES
 
     //our server socket that receives connection requests
     private ServerSocket ourServerSocket;
 
-    //our client socket that we use to send messages
-    private Socket ourClientSocket;
+    //GENERAL IO
 
-    //io for client
-    private BufferedReader ourClientReader;
+    //our client socket, really only needed for the below writer
+    // so that we can send message's to the connected client's server
+    private Socket ourClientSocket;
     private BufferedWriter ourClientWriter;
+
+    //the server we're connected that will
+    // receive our messages and that we also receive from
+    // this is our client's input essentially
+    private Socket connectedServerSocket;
+    private BufferedReader connectedServerSocketReader;
+
+    //GENERAL DATA
 
     //our name and uuid
     private String clientUUID;
     private String clientName;
-
-    //the server we're connected that will
-    // receive our messages and that we also receive from
-    private Socket connectedServerSocket;
-    private BufferedReader connectedServerSocketReader;
 
     //connected uuid and name
     private String connectedClientUUID;
@@ -43,7 +50,13 @@ public class Client {
     //handshake data to listen for to make sure the IP we want to connect to is the one we connect to
     String handshakeHash = null;
 
-    public Client(String clientUUID, String clientName) {
+    /**
+     * Default constructor for client, sets up our socket and our writer
+     * @param clientUUID our client's uuid
+     * @param clientName our client's name
+     * @param messagingWidgetFrame the CyderFrame this Client should be associated with to be used for the confirmation window
+     */
+    public Client(String clientUUID, String clientName, CyderFrame messagingWidgetFrame) {
         try {
             //setups
             this.clientName = clientName;
@@ -61,7 +74,9 @@ public class Client {
         }
     }
 
-    //used to accept a socket to connect to (connect to a client)
+    /**
+     * Starts listening for clients wanting to connect to us, this is ran as soon as a dm window is opened
+     */
     private void startServer() {
         try {
             //initialize our socket which uses our IP
@@ -190,22 +205,25 @@ public class Client {
             this.handshakeHash = SecurityUtil.toHexString(SecurityUtil.getSHA256(SecurityUtil.getMACAddress().toCharArray()));
 
             //send handshake
-            ourClientWriter.write(handshakeHash);
-            ourClientWriter.newLine();
+            attemptingConnectionWriter.write(handshakeHash);
+            attemptingConnectionWriter.newLine();
             //send our uuid and name
-            ourClientWriter.write(this.clientUUID);
-            ourClientWriter.newLine();
-            ourClientWriter.write(this.clientName);
-            ourClientWriter.newLine();
+            attemptingConnectionWriter.write(this.clientUUID);
+            attemptingConnectionWriter.newLine();
+            attemptingConnectionWriter.write(this.clientName);
+            attemptingConnectionWriter.newLine();
 
             //flush stream
-            ourClientWriter.flush();
+            attemptingConnectionWriter.flush();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
-    //ends session with currently connected client
+    /**
+     * Terminates the connection that this Client has with another
+     * Client and informs that client that we have disconnected
+     */
     public void terminateConnection() {
         try {
             //if there's a connection

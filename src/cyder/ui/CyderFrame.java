@@ -543,8 +543,6 @@ public class CyderFrame extends JFrame {
      * @param direction the enter and vanish direction for the notification
      */
     public void notify(String htmltext, int viewDuration, NotificationDirection direction) {
-        Notification frameNotification = new Notification();
-
         Direction arrowDir;
 
         switch (direction) {
@@ -599,7 +597,7 @@ public class CyderFrame extends JFrame {
                             WaitingNotification currentWaitingNotification = notificationList.poll();
 
                             //init notification object
-                            currentNotification = new Notification();
+                            currentNotification = new Notification(CyderColors.snapchatRed);
 
                             //set the arrow direction
                             currentNotification.setArrow(currentWaitingNotification.getArrowDir());
@@ -608,7 +606,7 @@ public class CyderFrame extends JFrame {
                             JLabel text = new JLabel();
                             text.setText(currentWaitingNotification.getHtmlText());
 
-                            Font notificationFont = CyderFonts.weatherFontSmall;
+                            Font notificationFont = new Font("Segoe UI Black", Font.BOLD, 20);
 
                             BoundsString bs = BoundsUtil.widthHeightCalculation(text.getText(),
                                     (int) (this.width * 0.8), notificationFont);
@@ -630,7 +628,7 @@ public class CyderFrame extends JFrame {
                             currentNotification.setHeight(h);
 
                             text.setFont(notificationFont);
-                            text.setForeground(CyderColors.navy);
+                            text.setForeground(CyderColors.vanila);
                             currentNotification.add(text);
 
                             JLabel disposeLabel = new JLabel();

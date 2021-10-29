@@ -3,22 +3,25 @@ package cyder.widgets;
 import cyder.handler.ErrorHandler;
 import cyder.messaging.Client;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderFrame;
 import cyder.utilities.UserUtil;
 
 public class MessagingWidget {
-    //todo spawn off connection windows to other Cyder users provided this user knows an ip and port they're trying to reach
+    CyderFrame messagingFrame;
+    Client ourClient;
 
     public static void showGUI() {
 
     }
 
-    private void connect() {
+    private void connect(String ip) {
        try {
-           Client client = new Client(ConsoleFrame.getConsoleFrame().getUUID(),
-                   UserUtil.extractUser().getName());
+           ourClient = new Client(ConsoleFrame.getConsoleFrame().getUUID(),
+                   UserUtil.extractUser().getName(), messagingFrame);
+           ourClient.connect(ip);
        } catch (Exception e) {
            ErrorHandler.silentHandle(e);
-           //inform we were unable to connect at this time
+           messagingFrame.notify("Sorry, but we were unable to connect to that Cyder user at this time");
        }
     }
 }

@@ -11,7 +11,7 @@ import java.awt.geom.GeneralPath;
 public class Notification extends JLabel {
 
     private int arrowSize = 6;
-    private Color fillColor = new Color(236,64,122);
+    private Color fillColor;
     private int width = 300;
     private int height = 300;
     private Direction ArrowType = Direction.TOP;
@@ -19,8 +19,9 @@ public class Notification extends JLabel {
     private static int delay = 10;
     private static int increment = 8;
 
-    public Notification() {
+    public Notification(Color fillColor) {
         killed = false;
+        this.fillColor = fillColor;
     }
 
     public static int getIncrement() {
@@ -100,7 +101,7 @@ public class Notification extends JLabel {
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 
-        graphics2D.setPaint(fillColor.darker().darker());
+        graphics2D.setPaint(fillColor.darker());
 
         GeneralPath outlinePath = new GeneralPath();
 

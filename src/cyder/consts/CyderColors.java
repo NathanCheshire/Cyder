@@ -9,6 +9,7 @@ public class CyderColors {
     public static final Color calculatorOrange = new Color(255,140,0);
     public static final Color regularRed = new Color(223,85,83);
     public static final Color intellijPink = new Color(236,64,122);
+    public static final Color snapchatRed = new Color(242,59,87);
 
     public static final Color consoleColor = new Color(39, 40, 34);
     public static final Color tooltipBorderColor = new Color(26, 32, 51);
