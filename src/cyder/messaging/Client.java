@@ -1,8 +1,10 @@
 package cyder.messaging;
 
 import cyder.handler.ErrorHandler;
+import cyder.utilities.GetterUtil;
 import cyder.utilities.IPUtil;
 import cyder.utilities.SecurityUtil;
+import cyder.utilities.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,7 +17,7 @@ import java.net.Socket;
 public class Client {
     public static final int TOR_PORT = 8118;
 
-    //our server socket that receives messages
+    //our server socket that receives connection requests
     private ServerSocket ourServerSocket;
 
     //our client socket that we use to send messages
@@ -29,8 +31,10 @@ public class Client {
     private String clientUUID;
     private String clientName;
 
-    //the server we're connected that will receive our messages
+    //the server we're connected that will
+    // receive our messages and that we also receive from
     private Socket connectedServerSocket;
+    private BufferedReader connectedServerSocketReader;
 
     //connected uuid and name
     private String connectedClientUUID;
@@ -49,7 +53,6 @@ public class Client {
             // ready to listen for a connection attempt
             ourClientSocket = new Socket(IPUtil.getIpdata().getIp(), TOR_PORT);
             this.ourClientWriter = new BufferedWriter(new OutputStreamWriter(ourClientSocket.getOutputStream()));
-            this.ourClientReader = new BufferedReader(new InputStreamReader(ourClientSocket.getInputStream()));
 
             //start our server to listen for connections
             startServer();
@@ -76,18 +79,53 @@ public class Client {
                 //get the handshake data
                 String receivedHashedHandshake = potentiallyConnectedSocketReader.readLine();
 
+                //get name and uuid from unknown client
+                String potentiallyConnectedClientUUID = potentiallyConnectedSocketReader.readLine();
+                String potentiallyConnectedClientName = potentiallyConnectedSocketReader.readLine();
+
                 //if the handshake is what we sent out, they're who we requested to connect to
                 //handhake hash being null means we're trying to be connected to,
                 // not null means we tried to connect to foreign server already and now are
                 // receiving a return that may or may not be them
                 if (handshakeHash != null && receivedHashedHandshake.equals(
                         SecurityUtil.toHexString(SecurityUtil.getSHA256(handshakeHash.toCharArray())))) {
-                    //get name and uuid from
-                    connectedClientUUID = potentiallyConnectedSocketReader.readLine();
-                    connectedClientName = potentiallyConnectedSocketReader.readLine();
-                } else {
-                    //they're some random other person trying to connect to us, should we allow it?
-                    // who are they too?
+                    //setup the reader so that we can receive more messages from this client
+                    connectedServerSocketReader = potentiallyConnectedSocketReader;
+
+                    //set received name and uuid data to our global vars
+                    connectedClientUUID = potentiallyConnectedClientUUID;
+                    connectedClientName = potentiallyConnectedClientName;
+
+                    //start listening for their messages
+                    listenToClient();
+                }
+                //if the hash is not set or does not match, then it's someone new trying to connect
+                else {
+                    String connectionMessage = StringUtil.capsFirst(potentiallyConnectedClientName) +
+                            "(" + potentiallyConnectedClientUUID + ")";
+
+                    //todo we need to be given a frame for this
+                    boolean connect = new GetterUtil().getConfirmation(connectionMessage, null);
+
+                    if (connect) {
+                        //setup socket and vars since we're choosing to connect to them officially
+                        connectedServerSocket = potentiallyConnectedSocket;
+                        connectedServerSocketReader = potentiallyConnectedSocketReader;
+
+                        String sendinghash = SecurityUtil.toHexString(SecurityUtil.getSHA256(handshakeHash.toCharArray()));
+
+                        //make a writer to send handshake data back
+                        BufferedWriter potentiallyConnectedSocketWriter = new BufferedWriter(
+                                new OutputStreamWriter(potentiallyConnectedSocket.getOutputStream()));
+
+                        //send over data, now it's up to their server to connect to us as well
+                        potentiallyConnectedSocketWriter.write(sendinghash);
+                        potentiallyConnectedSocketWriter.write(clientUUID);
+                        potentiallyConnectedSocketWriter.write(clientName);
+
+                        //listen for their messages assumping their server still wants to connect
+                        listenToClient();
+                    }
                 }
             }
         } catch (Exception e) {
@@ -102,6 +140,8 @@ public class Client {
     public void sendMessage(String message) {
         try {
             //write message using our socket's writer that their server will pickup
+            //to them, "ourClientWriter" is connectedServerSocket.
+            // Their listenToClient method will pickup this data
             ourClientWriter.write(message);
             ourClientWriter.newLine();
             ourClientWriter.flush();
@@ -117,16 +157,19 @@ public class Client {
         new Thread(() -> {
             String receivedMessage;
 
-            while (ourClientSocket.isConnected()) {
+            //while connection to a client is established
+            while (connectedServerSocket.isConnected()) {
                 try {
-                    //wrong reader here?
-                    receivedMessage = ourClientReader.readLine();
+                    //read from the connected client, this is a blocking method
+                    receivedMessage = connectedServerSocketReader.readLine();
                     System.out.println("[" + connectedClientName + "]: " + receivedMessage);
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
             }
         },clientName + " DM Listener").start();
+        //this method spins off after we've established a connection and completed handshakes
+        // so it's safe to start the thread and name it using their clientName
     }
 
     /**
