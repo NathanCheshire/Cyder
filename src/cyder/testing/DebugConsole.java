@@ -116,7 +116,6 @@ public class DebugConsole {
 
         //todo use reflect API to trigger manual tests with key words
 
-        //ipv4: at most 4 sets of 3 chars (1-3) separated by a .
         //ipv6: at most 8 sets of 4 chars (1-4) separated by a :
 
         //log Connection-specific DNS Suffix: msstate local for example

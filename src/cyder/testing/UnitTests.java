@@ -1,5 +1,6 @@
 package cyder.testing;
 
+import cyder.consts.CyderRegexPatterns;
 import cyder.utilities.BoundsUtil;
 import cyder.widgets.Weather;
 import org.junit.Test;
@@ -69,9 +70,6 @@ public class UnitTests {
 
     @Test
     public void testIPv4RegexMatcher() {
-        String ipv6Pattern = ""; //todo
-        String ipv4Pattern = "\\s*[0-9]{1,3}(\\s*|\\.[0-9]{1,3}\\s*|\\.[0-9]{1,3}\\.[0-9]{1,3}\\s*|\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\s*)";
-
         LinkedList<String> ipv4Tests = new LinkedList<>();
         ipv4Tests.add("  127.045.04.1  ");
         ipv4Tests.add("  127.045.04.1");
@@ -86,16 +84,8 @@ public class UnitTests {
         ipv4Tests.add("045.450");
         ipv4Tests.add("045");
 
-
-        LinkedList<String> ipv6Tests = new LinkedList<>();
-        //add to here
-
         for (String ipv4Address : ipv4Tests) {
-            assert ipv4Address.matches(ipv4Pattern);
-        }
-
-        for (String ipv6Address : ipv6Tests) {
-            assert ipv6Address.matches(ipv6Pattern);
+            assert ipv4Address.matches(CyderRegexPatterns.ipv4Pattern);
         }
     }
 }
