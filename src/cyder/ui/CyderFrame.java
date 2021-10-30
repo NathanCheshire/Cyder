@@ -748,9 +748,7 @@ public class CyderFrame extends JFrame {
         GenericInformer.informRelative(text, title, this);
     }
 
-    private int animationNano = 1;
-    private int animationMili = 0;
-    private int animationInc = 30; //typically is about 1/25th of animationNano so there are 25 frames
+    private double animationFrames = 15.0;
 
     /**
      * Moves the window down until it is off screen before setting the state to ICONIFIED.
@@ -758,9 +756,13 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAnimation() {
         try {
-            long start = System.currentTimeMillis();
+            //figure out increment for 25 frames
+            int distanceToTravel = SystemUtil.getScreenHeight() - this.getY();
+            //25 frames to animate
+            int animationInc = (int) ((double ) distanceToTravel / animationFrames);
+
             for (int i = this.getY(); i <= SystemUtil.getScreenHeight(); i += animationInc) {
-                Thread.sleep(animationMili, animationNano);
+                Thread.sleep(1);
                 setLocation(this.getX(), i);
             }
             setState(JFrame.ICONIFIED);
@@ -796,8 +798,13 @@ public class CyderFrame extends JFrame {
                       int x = (int) point.getX();
                       int y = (int) point.getY();
 
+                      //figure out increment for 25 frames
+                      int distanceToTravel = this.getY();
+                      //25 frames to animate
+                      int animationInc = (int) ((double ) distanceToTravel / animationFrames);
+
                       for (int i = y; i >= -getHeight(); i -= animationInc) {
-                          Thread.sleep(animationMili, animationNano);
+                          Thread.sleep(1);
                           setLocation(x, i);
                       }
 
