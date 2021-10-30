@@ -2,6 +2,7 @@ package cyder.testing;
 
 import cyder.consts.CyderRegexPatterns;
 import cyder.utilities.BoundsUtil;
+import cyder.utilities.StringUtil;
 import cyder.widgets.Weather;
 import org.junit.Test;
 
@@ -87,5 +88,18 @@ public class UnitTests {
         for (String ipv4Address : ipv4Tests) {
             assert ipv4Address.matches(CyderRegexPatterns.ipv4Pattern);
         }
+    }
+
+    @Test
+    public void testPluralConversion() {
+        assertEquals(StringUtil.getPlural(-1, "dog"),"dogs");
+        assertEquals(StringUtil.getPlural(0, "dog"),"dogs");
+        assertEquals(StringUtil.getPlural(1, "dog"),"dog");
+        assertEquals(StringUtil.getPlural(2, "dog"),"dogs");
+
+        assertEquals(StringUtil.getPlural(-1, "bus"),"buses");
+        assertEquals(StringUtil.getPlural(0, "bus"),"buses");
+        assertEquals(StringUtil.getPlural(1, "bus"),"bus");
+        assertEquals(StringUtil.getPlural(2, "bus"),"buses");
     }
 }

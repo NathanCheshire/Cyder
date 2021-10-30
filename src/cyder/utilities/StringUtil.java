@@ -507,6 +507,20 @@ public class StringUtil {
     }
 
     /**
+     * Returns the plural form of the word. A singular item doesn't need to be made plural
+     * whilst any number of objects other than 1 should be converted to plural using English Language rules.
+     * @param num the number of items associated with the word
+     * @param word the word to be converted to plural
+     * @return the plural form of the word
+     */
+    public static String getPlural(int num, String word) {
+        if (num == 1) {
+            return word;
+        } else {
+            return word.endsWith("s") ? word + "es" : word + "s";
+        }
+    }
+    /**
      * Determines if the given string is empty
      * @param s the string to compare for emptiness (self.Soul() usually returns true)
      * @return the boolean result of the comparison

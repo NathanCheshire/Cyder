@@ -346,12 +346,14 @@ public class InputHandler {
         } else if ((hasWord("calculator") || hasWord("calc")) && !has("graphing")) {
             Calculator.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CALCULATOR");
-        } else if (eic("spotlight") || (has("spotlight") && has("steal"))) {
+        } else if (eic("spotlight") || (has("spotlight") && has("steal") && !has("wipe"))) {
             File saveDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
             Spotlight.saveSpotlights(saveDir);
             ConsoleFrame.getConsoleFrame().resizeBackgrounds();
             ConsoleFrame.getConsoleFrame().getInputHandler()
                     .println("Spotlight images saved to your user's background/ directory");
+        } else if (has("spotlight") && hasWord("wipe")) {
+            Spotlight.wipe();
         } else if (hasWord("convex") && hasWord("hull")) {
             ConvexHull.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CONVEX HULL");
