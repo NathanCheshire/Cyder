@@ -6,13 +6,19 @@ import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
-import cyder.widgets.MessagingWidget;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.LinkedList;
+
+import static java.lang.System.out;
 
 public class DebugConsole {
     private static boolean open = false;
@@ -26,7 +32,7 @@ public class DebugConsole {
 
     public static <T> void print(T objMaybe) {
         //this should be the only System.out.print call in the whole program
-        System.out.print(objMaybe);
+        out.print(objMaybe);
 
         if (!open) {
             initDebugWindow();
@@ -114,13 +120,11 @@ public class DebugConsole {
 
         //todo use reflect API to trigger manual tests with key words
 
-        //todo WHY IS CLOSING ANIMATION SLOW STILL? just dispose it reguarly if it's lasted over 500ms
-
         //todo bug with duplicate threads for each thread
 
         //todo test out notificatoins that copy from tooltips?
 
-        //log Connection-specific DNS Suffix: msstate local for example
+        //todo there should be a cool menu/window for debug stats pane
 
         //https://www.youtube.com/watch?v=gLfuZrrfKes
 
@@ -128,6 +132,26 @@ public class DebugConsole {
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
 
-        MessagingWidget.showGUI();
+        //todo animations are still glitchy, maybe go back to super old commit for minimize/close animations?
+        // loggin in when console frame is already open makes the console frame move really slow
+
+        //todo make function for this
+        Enumeration<NetworkInterface> nets = null;
+        try {
+            nets = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        for (NetworkInterface netint : Collections.list(nets)) {
+            out.printf("Display name: %s\n", netint.getDisplayName());
+            out.printf("Name: %s\n", netint.getName());
+            Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+            for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+                out.printf("InetAddress: %s\n", inetAddress);
+            }
+            out.printf("\n");
+        }
+
+        //MessagingWidget.showGUI();
     }
 }

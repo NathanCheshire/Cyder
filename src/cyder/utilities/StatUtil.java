@@ -102,56 +102,59 @@ public class StatUtil {
     }
 
     public static void debugMenu() {
-        try {
-            if (GenesisShare.isQuesitonableInternet()) {
-                throw new RuntimeException("Stable connection not established");
+        new Thread(() -> {
+            try {
+                if (GenesisShare.isQuesitonableInternet()) {
+                    throw new RuntimeException("Stable connection not established");
+                }
+
+                DecimalFormat gFormater = new DecimalFormat("##.###");
+                double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
+                InetAddress address = InetAddress.getLocalHost();
+                NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
+
+                BufferedImage flag = ImageIO.read(new URL(IPUtil.getIpdata().getFlag()));
+
+                double x = flag.getWidth();
+                double y = flag.getHeight();
+
+                ConsoleFrame.getConsoleFrame().getInputHandler().println("Country: " + IPUtil.getIpdata().getCountry_name() + "\nCountry Flag: ");
+                ConsoleFrame.getConsoleFrame().getInputHandler().printlnImage(new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
+
+                String[] lines = {"Time requested: " + TimeUtil.weatherTime(),
+                        "ISP: " + IPUtil.getIpdata().getAsn().getName(),
+                        "IP: " + IPUtil.getIpdata().getIp(),
+                        "Postal Code: " + IPUtil.getIpdata().getPostal(),
+                        "City: " + IPUtil.getIpdata().getCity(),
+                        "State: " + IPUtil.getIpdata().getRegion(),
+                        "Country: " + IPUtil.getIpdata().getCountry_name() + " (" + IPUtil.getIpdata().getCountry_code() + ")",
+                        "Latitude: " + IPUtil.getIpdata().getLatitude() + " Degrees N",
+                        "Longitude: " + IPUtil.getIpdata().getLongitude() + " Degrees W",
+                        "latency: " + NetworkUtil.latency(10000) + " ms",
+                        "Google Reachable: " + NetworkUtil.siteReachable("https://www.google.com"),
+                        "YouTube Reachable: " + NetworkUtil.siteReachable("https://www.youtube.com"),
+                        "Apple Reachable: " + NetworkUtil.siteReachable("https://www.apple.com"),
+                        "Microsoft Reachable: " + NetworkUtil.siteReachable("https://www.microsoft.com//en-us//"),
+                        "User Name: " + SystemUtil.getWindowsUsername(),
+                        "Computer Name: " + SystemUtil.getComputerName(),
+                        "Available Cores: " + Runtime.getRuntime().availableProcessors(),
+                        "Available Memory: " + gBytes + " GigaBytes",
+                        "Operating System: " + SystemUtil.getOS(),
+                        "Java Version: " + System.getProperty("java.version"),
+                        "Network Interface Name: " + netIn.getName(),
+                        "Network Interface Display Name: " + netIn.getDisplayName(),
+                        "Network MTU: " + netIn.getMTU(),
+                        "Host Address: " + address.getHostAddress(),
+                        "Local Host Address: " + address.getLocalHost(),
+                        "Loopback Address: " + address.getLoopbackAddress()};
+
+                IOUtil.createAndOpenTmpFile("DebugProperties",".txt",lines);
             }
 
-            DecimalFormat gFormater = new DecimalFormat("##.###");
-            double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
-            InetAddress address = InetAddress.getLocalHost();
-            NetworkInterface netIn = NetworkInterface.getByInetAddress(address);
-
-            BufferedImage flag = ImageIO.read(new URL(IPUtil.getIpdata().getFlag()));
-
-            double x = flag.getWidth();
-            double y = flag.getHeight();
-
-            ConsoleFrame.getConsoleFrame().getInputHandler().printlnImage(new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
-
-            String[] lines = {"Time requested: " + TimeUtil.weatherTime(),
-                    "ISP: " + IPUtil.getIpdata().getAsn().getName(),
-                    "IP: " + IPUtil.getIpdata().getIp(),
-                    "Postal Code: " + IPUtil.getIpdata().getPostal(),
-                    "City: " + IPUtil.getIpdata().getCity(),
-                    "State: " + IPUtil.getIpdata().getRegion(),
-                    "Country: " + IPUtil.getIpdata().getCountry_name() + " (" + IPUtil.getIpdata().getCountry_code() + ")",
-                    "Latitude: " + IPUtil.getIpdata().getLatitude() + " Degrees N",
-                    "Longitude: " + IPUtil.getIpdata().getLongitude() + " Degrees W",
-                    "latency: " + NetworkUtil.latency(10000) + " ms",
-                    "Google Reachable: " + NetworkUtil.siteReachable("https://www.google.com"),
-                    "YouTube Reachable: " + NetworkUtil.siteReachable("https://www.youtube.com"),
-                    "Apple Reachable: " + NetworkUtil.siteReachable("https://www.apple.com"),
-                    "Microsoft Reachable: " + NetworkUtil.siteReachable("https://www.microsoft.com//en-us//"),
-                    "User Name: " + SystemUtil.getWindowsUsername(),
-                    "Computer Name: " + SystemUtil.getComputerName(),
-                    "Available Cores: " + Runtime.getRuntime().availableProcessors(),
-                    "Available Memory: " + gBytes + " GigaBytes",
-                    "Operating System: " + SystemUtil.getOS(),
-                    "Java Version: " + System.getProperty("java.version"),
-                    "Network Interface Name: " + netIn.getName(),
-                    "Network Interface Display Name: " + netIn.getDisplayName(),
-                    "Network MTU: " + netIn.getMTU(),
-                    "Host Address: " + address.getHostAddress(),
-                    "Local Host Address: " + address.getLocalHost(),
-                    "Loopback Address: " + address.getLoopbackAddress()};
-
-            IOUtil.createAndOpenTmpFile("DebugProperties",".txt",lines);
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+            catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        },"Debug Stat Thread").start();
     }
 
     public static String fileByFileAnalyze(File startDir) {
