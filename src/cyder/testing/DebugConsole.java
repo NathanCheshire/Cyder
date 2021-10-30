@@ -107,8 +107,6 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //todo notifications should be that red color from snapchat for errors and text should be white
-
         //todo frames should be simply printed icons, of cyder logo but first letter of frame there
         // generate the icon image for this as needed and choose from different colors (from intellij logo red, blue, orange)
         // and print to scrolling pane, limit defaults and print those first, they don't go away.
@@ -116,11 +114,11 @@ public class DebugConsole {
 
         //todo use reflect API to trigger manual tests with key words
 
-        //ipv6: at most 8 sets of 4 chars (1-4) separated by a :
-
         //log Connection-specific DNS Suffix: msstate local for example
 
         //https://www.youtube.com/watch?v=gLfuZrrfKes
+
+        //todo things that could be all console and have no gui interaction, make issues for htose
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
 

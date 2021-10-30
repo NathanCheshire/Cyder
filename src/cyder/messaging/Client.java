@@ -88,7 +88,7 @@ public class Client {
             //we exit this while loop when Cyder exits
             while (!ourServerSocket.isClosed()) {
                 //accept a connection to check if it's who we want to connect to
-                Socket potentiallyConnectedSocket = ourServerSocket.accept();
+                Socket potentiallyConnectedSocket = ourServerSocket.accept(); //blocking method
 
                 //make a reader to receive data coming from this new connection
                 BufferedReader potentiallyConnectedSocketReader = new BufferedReader(
