@@ -61,7 +61,8 @@ public class MessagingWidget {
             String ip = ipField.getText().trim();
 
             if (ip.matches(CyderRegexPatterns.ipv4Pattern)) {
-                messagingFrame.notify("Sending chat request to: " + ip + ":" + Client.TOR_PORT);
+                //todo instead of notifying, pop into a waiting lobby frame that will exit if the other client denies it or timesout
+                messagingFrame.notify("Sending request to: " + ip + ":" + Client.TOR_PORT);
                 ourClient.connect(ip);
             } else {
                 messagingFrame.notify("Sorry, but the entered ipv4 address is invalid");
@@ -82,7 +83,6 @@ public class MessagingWidget {
            ourClient.connect(ip);
        } catch (Exception e) {
            ErrorHandler.silentHandle(e);
-           messagingFrame.notify("Sorry, but we were unable to connect to that Cyder user at this time");
        }
     }
 }

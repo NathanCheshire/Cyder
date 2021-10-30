@@ -116,11 +116,15 @@ public class DebugConsole {
 
         //todo WHY IS CLOSING ANIMATION SLOW STILL? just dispose it reguarly if it's lasted over 500ms
 
+        //todo bug with duplicate threads for each thread
+
+        //todo test out notificatoins that copy from tooltips?
+
         //log Connection-specific DNS Suffix: msstate local for example
 
         //https://www.youtube.com/watch?v=gLfuZrrfKes
 
-        //todo things that could be all console and have no gui interaction, make issues for htose
+        //todo things that could be all console and have no gui interaction, make issues for those
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
 

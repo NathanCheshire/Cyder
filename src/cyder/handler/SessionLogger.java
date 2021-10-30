@@ -257,11 +257,35 @@ public class SessionLogger {
      */
     private static void writeLine(String line) {
         try {
-            FileWriter fw = new FileWriter(currentLog,true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(line.trim());
-            bw.newLine();
-            bw.close();
+            if (!getCurrentLog().exists()) {
+                File logsDir = new File("logs");
+                logsDir.mkdir();
+
+                String uniqueLogString = TimeUtil.logFileTime();
+
+                int number = 1;
+                File logFile = new File("logs/" + uniqueLogString + "-" + number + ".log");
+
+                while (logFile.exists()) {
+                    number++;
+                    logFile = new File("logs/" + uniqueLogString + "-" + number + ".log");
+                }
+
+                logFile.createNewFile();
+                currentLog = logFile;
+
+                FileWriter fw = new FileWriter(currentLog,true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write("[log file/directory was deleted during runtime, recreating and restarting log: " + TimeUtil.userTime() + "]");
+                bw.newLine();
+                bw.close();
+            } else {
+                FileWriter fw = new FileWriter(currentLog,true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(line.trim());
+                bw.newLine();
+                bw.close();
+            }
         } catch(Exception e) {
             ErrorHandler.handle(e);
         }

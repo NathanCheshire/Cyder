@@ -123,7 +123,7 @@ public class Client {
                     //if the hash is not set or does not match, then it's someone new trying to connect
                     else {
                         String connectionMessage = StringUtil.capsFirst(potentiallyConnectedClientName) +
-                                "(" + potentiallyConnectedClientUUID + ")";
+                                "(" + potentiallyConnectedClientUUID + ") would like to private message with you. Would you like to connect?";
 
                         boolean connect = new GetterUtil().getConfirmation(connectionMessage, messagingWidgetFrame);
 
@@ -182,11 +182,14 @@ public class Client {
                 try {
                     //read from the connected client, this is a blocking method
                     receivedMessage = connectedServerSocketReader.readLine();
-                    //instead of printing, append to frame's outputarea
-                    System.out.println("[" + connectedClientName + "]: " + receivedMessage);
-                    SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
-                            "[PRIVATE MESSAGE]: [ RECEIVED FROM " + clientName.toUpperCase()
-                                    + "(" + clientUUID +  ")] " + receivedMessage);
+
+                    if (receivedMessage != null) {
+                        //instead of printing, append to frame's outputarea
+                        System.out.println("[" + connectedClientName + "]: " + receivedMessage);
+                        SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+                                "[PRIVATE MESSAGE]: [ RECEIVED FROM " + clientName.toUpperCase()
+                                        + "(" + clientUUID +  ")] " + receivedMessage);
+                    }
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
