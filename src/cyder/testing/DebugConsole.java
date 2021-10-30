@@ -6,7 +6,6 @@ import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
-import cyder.widgets.Spotlight;
 
 import javax.swing.*;
 import java.awt.*;
@@ -131,11 +130,7 @@ public class DebugConsole {
         // closing perlin is laggy if we animated at any point, perhaps threads aren't properly exited?
         // make each frame keep a list of threads and use a kill condition so before animation we can kill all threads accodiated with the frame
 
-        Spotlight.getWindowsContentDeliveryManagerDir();
-
         //todo reorganize triggers for input handler and think about a better way to do it
-
-        //todo setting showbusy icon to false doesn't make the old icon go away
 
         //todo debug menu opened twice bug, should never happen, perhaps lock method?
 

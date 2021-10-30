@@ -38,7 +38,7 @@ public class SystemUtil {
         return cyderIconBlink;
     }
 
-    private static ImageIcon currentCyderIcon;
+    private static ImageIcon currentCyderIcon = cyderIcon;
 
     public static ImageIcon getCurrentCyderIcon() {
         return currentCyderIcon;

@@ -611,17 +611,43 @@ public final class ConsoleFrame {
                     if (menuLabel.isVisible())
                         addX = 2 + menuLabel.getWidth();
 
-                    outputScroll.setBounds(addX + 15, 62, width - 40 - addX, height - 204);
-                    inputField.setBounds(addX + 15, 62 + outputScroll.getHeight() + 20,width - 40 - addX,
-                            height - (62 + outputScroll.getHeight() + 20 + 20));
+                    int finalAddX = addX;
+                    new Thread(() -> {
+                        for (int i = inputField.getX(); i < finalAddX + 15 ; i += 4) {
+                            outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1, outputScroll.getHeight());
+                            inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
+                            try {
+                                Thread.sleep(2);
+                            } catch (Exception ex) {
+                                ErrorHandler.handle(ex);
+                            }
+                        }
+
+                        outputScroll.setBounds(finalAddX + 15, 62, width - 40 - finalAddX, height - 204);
+                        inputField.setBounds(finalAddX + 15, 62 + outputScroll.getHeight() + 20,width - 40 - finalAddX,
+                                height - (62 + outputScroll.getHeight() + 20 + 20));
+                    },"Console field animator").start();
                 } else {
                     minimizeMenu();
 
                     int width = consoleCyderFrame.getWidth();
                     int height = consoleCyderFrame.getHeight();
-                    outputScroll.setBounds(15, 62, width - 40, height - 204);
-                    inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
-                            height - (62 + outputScroll.getHeight() + 20 + 20));
+
+                    new Thread(() -> {
+                        for (int i = inputField.getX() ; i > 15 ; i -= 4) {
+                            outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1, outputScroll.getHeight());
+                            inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
+                            try {
+                                Thread.sleep(2);
+                            } catch (Exception ex) {
+                                ErrorHandler.handle(ex);
+                            }
+                        }
+
+                        outputScroll.setBounds(15, 62, width - 40, height - 204);
+                        inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
+                                height - (62 + outputScroll.getHeight() + 20 + 20));
+                    },"Console field animator").start();
                 }
             });
             menuButton.setBounds(4, 4, 22, 22);
@@ -1051,9 +1077,11 @@ public final class ConsoleFrame {
                             } else {
                                 SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIconBlink());
                             }
-
-                            consoleCyderFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+                        } else {
+                            SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIcon());
                         }
+
+                        consoleCyderFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
 
                         //sleep 3 seconds
                         int i = 0;
