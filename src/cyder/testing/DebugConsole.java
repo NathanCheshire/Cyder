@@ -114,6 +114,8 @@ public class DebugConsole {
 
         //todo use reflect API to trigger manual tests with key words
 
+        //todo WHY IS CLOSING ANIMATION SLOW STILL? just dispose it reguarly if it's lasted over 500ms
+
         //log Connection-specific DNS Suffix: msstate local for example
 
         //https://www.youtube.com/watch?v=gLfuZrrfKes
