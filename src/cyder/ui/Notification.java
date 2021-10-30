@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.consts.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handler.ErrorHandler;
@@ -11,7 +12,6 @@ import java.awt.geom.GeneralPath;
 public class Notification extends JLabel {
 
     private int arrowSize = 6;
-    private Color fillColor;
     private int width = 300;
     private int height = 300;
     private Direction ArrowType = Direction.TOP;
@@ -19,9 +19,8 @@ public class Notification extends JLabel {
     private static int delay = 10;
     private static int increment = 8;
 
-    public Notification(Color fillColor) {
+    public Notification() {
         killed = false;
-        this.fillColor = fillColor;
     }
 
     public static int getIncrement() {
@@ -46,10 +45,6 @@ public class Notification extends JLabel {
 
     public int getArrowSize() {
         return this.arrowSize;
-    }
-
-    public void setFillColor(Color c) {
-        this.fillColor = c;
     }
 
     public void setWidth(int w) {
@@ -101,7 +96,7 @@ public class Notification extends JLabel {
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 
-        graphics2D.setPaint(fillColor.darker());
+        graphics2D.setPaint(CyderColors.tooltipBorderColor);
 
         GeneralPath outlinePath = new GeneralPath();
 
@@ -154,7 +149,7 @@ public class Notification extends JLabel {
                 break;
         }
 
-        graphics2D.setPaint(fillColor);
+        graphics2D.setPaint(CyderColors.tooltipBackgroundColor);
 
         GeneralPath fillPath = new GeneralPath();
 

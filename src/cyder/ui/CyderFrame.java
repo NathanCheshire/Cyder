@@ -597,7 +597,7 @@ public class CyderFrame extends JFrame {
                             WaitingNotification currentWaitingNotification = notificationList.poll();
 
                             //init notification object
-                            currentNotification = new Notification(CyderColors.snapchatRed);
+                            currentNotification = new Notification();
 
                             //set the arrow direction
                             currentNotification.setArrow(currentWaitingNotification.getArrowDir());
@@ -628,7 +628,7 @@ public class CyderFrame extends JFrame {
                             currentNotification.setHeight(h);
 
                             text.setFont(notificationFont);
-                            text.setForeground(CyderColors.vanila);
+                            text.setForeground(CyderColors.tooltipForegroundColor);
                             currentNotification.add(text);
 
                             JLabel disposeLabel = new JLabel();

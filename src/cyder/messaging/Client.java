@@ -73,7 +73,7 @@ public class Client {
                 //initialize our socket which uses our IP
                 ourServerSocket = new ServerSocket(TOR_PORT);
 
-                //we exit this while loop when Cyder exits
+                //we exit this while loop when Cyder exits, TODO on logout end this too
                 while (!ourServerSocket.isClosed()) {
                     //accept a connection to check if it's who we want to connect to
                     Socket potentiallyConnectedSocket = ourServerSocket.accept(); //blocking method
