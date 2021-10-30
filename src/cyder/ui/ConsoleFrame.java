@@ -245,12 +245,7 @@ public final class ConsoleFrame {
                     return "JTextPane outputArea used for ConsoleFrame instance: " + consoleCyderFrame;
                 }
             };
-            outputArea.addFocusListener(new FocusListener() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    animateOutAudioControls();
-                }
-
+            outputArea.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusLost(FocusEvent e) {
                     inputField.requestFocusInWindow();
@@ -656,8 +651,6 @@ public final class ConsoleFrame {
             menuButton.setOpaque(false);
             menuButton.setContentAreaFilled(false);
             menuButton.setBorderPainted(false);
-
-            consoleCyderFrame.getTopDragLabel().addMinimizeListener(e -> animateOutAudioControls());
 
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();

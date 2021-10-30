@@ -133,6 +133,12 @@ public class DebugConsole {
 
         Spotlight.getWindowsContentDeliveryManagerDir();
 
+        //todo reorganize triggers for input handler and think about a better way to do it
+
+        //todo setting showbusy icon to false doesn't make the old icon go away
+
+        //todo debug menu opened twice bug, should never happen, perhaps lock method?
+
         //MessagingWidget.showGUI();
     }
 }

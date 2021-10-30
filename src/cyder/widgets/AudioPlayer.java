@@ -89,6 +89,9 @@ public class AudioPlayer {
         if (audioFrame != null)
             audioFrame.dispose();
 
+        if (IOUtil.generalAudioPlaying())
+            IOUtil.stopAudio();
+
         audioFrame = new CyderFrame(500,225,
                 new ImageIcon(ImageUtil.bufferedImageFromColor(500,225,new Color(8,23,52))));
         audioFrame.setBackground(new Color(8,23,52));
