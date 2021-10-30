@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.handler.ErrorHandler;
 import cyder.ui.ConsoleFrame;
+import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
@@ -12,6 +13,31 @@ import java.nio.file.StandardCopyOption;
 
 public class Spotlight {
     /**
+     * Gets the windows spotlight directory. I'm not sure if it could chane since according to Google
+     * source it's staticly set at Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy. To be safe, however
+     * this method exists
+     * @return the name of the directory containing the Windows spotlight images
+     */
+    public static String getWindowsContentDeliveryManagerDir() {
+        if (!System.getProperty("os.name").toLowerCase().contains("windows")) {
+            throw new IllegalArgumentException("Host OS is not windows");
+        }
+
+        String ret = "";
+
+        File spotlightsParentDir = new File("C:/Users/" + SystemUtil.getWindowsUsername() + "/AppData/Local/Packages");
+
+        for (File possibleSpotlightDir : spotlightsParentDir.listFiles()) {
+            if (possibleSpotlightDir.getName().contains("Microsoft.Windows.ContentDeliveryManager_")) {
+                ret = possibleSpotlightDir.getName();
+                break;
+            }
+        }
+
+        return ret;
+    }
+
+    /**
      * Wipes the windows spotlight directory, windows will download new ones eventually
      */
     public static void wipe() {
@@ -21,7 +47,7 @@ public class Spotlight {
 
         File spotlightsDir = new File("C:/Users/" +
                 SystemUtil.getWindowsUsername() + "/AppData/Local/Packages/" +
-                "Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets");
+                getWindowsContentDeliveryManagerDir() + "/LocalState/Assets");
 
         try {
             int filesFound = 0;
@@ -31,7 +57,15 @@ public class Spotlight {
                 filesFound++;
             }
 
-            ConsoleFrame.getConsoleFrame().getInputHandler().println("Found " + filesFound + " spotlights");
+            int filesLeft = 0;
+
+            for (File spotlight : spotlightsDir.listFiles()) {
+                filesLeft++;
+            }
+
+            ConsoleFrame.getConsoleFrame().getInputHandler().println("Found " + filesFound + " " +
+                    StringUtil.getPlural(filesFound, "spotlight") + "\nDeleted " + filesLeft +
+                    " " + StringUtil.getPlural(filesLeft, "spotlight"));
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -49,7 +83,7 @@ public class Spotlight {
         try {
             File spotlightsDir = new File("C:/Users/" +
                     SystemUtil.getWindowsUsername() + "/AppData/Local/Packages/" +
-                    "Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets");
+                    getWindowsContentDeliveryManagerDir() + "/LocalState/Assets");
 
             File[] spotlights = spotlightsDir.listFiles();
 

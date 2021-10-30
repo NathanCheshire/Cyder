@@ -6,16 +6,12 @@ import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
+import cyder.widgets.Spotlight;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.LinkedList;
 
 import static java.lang.System.out;
@@ -70,7 +66,7 @@ public class DebugConsole {
             debugFrame.dispose();
 
         debugFrame = new CyderFrame(1050,400, ImageUtil.imageIconFromColor(new Color(21,23,24)));
-        debugFrame.setTitle("Prints");
+        debugFrame.setTitle("Debug");
         debugFrame.setBackground(new Color(21,23,24));
 
         printArea.setBounds(20, 40, 500 - 40, 500 - 80);
@@ -122,7 +118,7 @@ public class DebugConsole {
 
         //todo bug with duplicate threads for each thread
 
-        //todo test out notificatoins that copy from tooltips?
+        //todo smoothly animate output area/input field moving in/out with menu
 
         //todo there should be a cool menu/window for debug stats pane
 
@@ -132,25 +128,10 @@ public class DebugConsole {
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
 
-        //todo animations are still glitchy, maybe go back to super old commit for minimize/close animations?
-        // loggin in when console frame is already open makes the console frame move really slow
+        // closing perlin is laggy if we animated at any point, perhaps threads aren't properly exited?
+        // make each frame keep a list of threads and use a kill condition so before animation we can kill all threads accodiated with the frame
 
-        //todo make function for this
-        Enumeration<NetworkInterface> nets = null;
-        try {
-            nets = NetworkInterface.getNetworkInterfaces();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        for (NetworkInterface netint : Collections.list(nets)) {
-            out.printf("Display name: %s\n", netint.getDisplayName());
-            out.printf("Name: %s\n", netint.getName());
-            Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
-            for (InetAddress inetAddress : Collections.list(inetAddresses)) {
-                out.printf("InetAddress: %s\n", inetAddress);
-            }
-            out.printf("\n");
-        }
+        Spotlight.getWindowsContentDeliveryManagerDir();
 
         //MessagingWidget.showGUI();
     }

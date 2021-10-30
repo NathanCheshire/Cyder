@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.consts.CyderColors;
+import cyder.consts.CyderStrings;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -10,6 +11,7 @@ import java.awt.*;
 public class CyderPasswordField extends JPasswordField {
     public CyderPasswordField() {
         setFont(new Font("Agency FB",Font.BOLD, 20));
+        setEchoChar(CyderStrings.ECHO_CHAR);
         setSelectionColor(CyderColors.selectionColor);
         setBorder(new LineBorder(CyderColors.navy, 5, false));
         setForeground(CyderColors.navy);

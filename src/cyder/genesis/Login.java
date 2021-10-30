@@ -1,9 +1,13 @@
 package cyder.genesis;
 
 import cyder.consts.CyderColors;
+import cyder.consts.CyderStrings;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
-import cyder.ui.*;
+import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderCaret;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderScrollPane;
 import cyder.utilities.*;
 import cyder.utilities.IOUtil.SystemData;
 
@@ -258,7 +262,7 @@ public class Login {
                         case 1:
                             username = new String(input);
                             loginMode = 2;
-                            loginField.setEchoChar(new CyderPasswordField().getEchoChar());
+                            loginField.setEchoChar(CyderStrings.ECHO_CHAR);
                             loginField.setText("");
                             priorityPrintingList.add("Awaiting Password\n");
 

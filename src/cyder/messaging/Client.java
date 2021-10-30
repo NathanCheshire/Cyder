@@ -73,7 +73,8 @@ public class Client {
                 //initialize our socket which uses our IP
                 ourServerSocket = new ServerSocket(TOR_PORT);
 
-                //we exit this while loop when Cyder exits, TODO on logout end this too
+                //we exit this while loop when Cyder exits,
+                // TODO on logout end this since on startup we try to start it again which throws
                 while (!ourServerSocket.isClosed()) {
                     //accept a connection to check if it's who we want to connect to
                     Socket potentiallyConnectedSocket = ourServerSocket.accept(); //blocking method
@@ -118,7 +119,8 @@ public class Client {
 
                         //we requested, they accepted and returned, now both of us may start the chat window
                         //todo send signal to tell them to launch the chat window?
-                        //todo load up chat window
+
+                        //todo load up chat window for us
                     }
                     //if the hash is not set or does not match, then it's someone new trying to connect
                     else {

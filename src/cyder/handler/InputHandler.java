@@ -30,19 +30,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.InetAddress;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static java.lang.System.out;
 
 public class InputHandler {
     private JTextPane outputArea;
@@ -1076,6 +1072,8 @@ public class InputHandler {
             DebugConsole.launchTests();
         } else if ((has("black") && has("panther")) || (hasWord("chadwick") && hasWord("boseman"))) {
             new Thread(() -> {
+                clc();
+
                 IOUtil.playAudio("static/audio/Kendrick Lamar - All The Stars.mp3");
                 Font oldFont = outputArea.getFont();
                 outputArea.setFont(new Font("BEYNO", Font.BOLD, oldFont.getSize()));
@@ -1104,6 +1102,18 @@ public class InputHandler {
             }, "DST Checker").start();
         } else if (eic("test")) {
             DebugConsole.launchTests();
+        } else if (has("network") && has("addresses")) {
+            Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+
+            for (NetworkInterface netint : Collections.list(nets)) {
+                println("Display name: " + netint.getDisplayName());
+                println("Name: " + netint.getName());
+
+                Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+                for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+                    println("InetAddress: " + inetAddress);
+                }
+            }
         }
         //final attempt at unknown input --------------------------
         else {

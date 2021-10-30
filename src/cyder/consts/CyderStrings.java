@@ -1,5 +1,7 @@
 package cyder.consts;
 
+import cyder.ui.CyderPasswordField;
+
 public class CyderStrings {
     public static final String HERE = "here";
     public static final String LENGTH_ZERO = "";
@@ -13,4 +15,5 @@ public class CyderStrings {
     public static final String LENGTH_EIGHT = "01234567";
     public static final String LENGTH_NINE = "012345678";
     public static final String QUICK_BROWN_FOX = "The quick brown fox jumps over the lazy dog";
+    public static final char ECHO_CHAR = new CyderPasswordField().getEchoChar();
 }
