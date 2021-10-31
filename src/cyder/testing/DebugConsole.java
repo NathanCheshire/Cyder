@@ -135,6 +135,8 @@ public class DebugConsole {
 
         //https://www.youtube.com/watch?v=gLfuZrrfKes
 
+        //todo make the minimizing and appearing menu thread itself also move fields so they move in snyc
+
         //todo things that could be all console and have no gui interaction, make issues for those
 
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types

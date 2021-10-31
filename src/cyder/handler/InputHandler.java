@@ -1069,8 +1069,6 @@ public class InputHandler {
             for (IOUtil.SystemData.ExitCondition exitCondition : IOUtil.getSystemData().getExitconditions()) {
                println(exitCondition.getCode() + ": " + exitCondition.getDescription());
             }
-        } else if (hasWord("test")) {
-            DebugConsole.launchTests();
         } else if ((has("black") && has("panther")) || (hasWord("chadwick") && hasWord("boseman"))) {
             new Thread(() -> {
                 clc();
@@ -1132,16 +1130,21 @@ public class InputHandler {
         }
     }
 
-    public static boolean testCheck(String operation) {
+    public boolean testCheck(String operation) {
+        operation = operation.toLowerCase();
+
         if (operation.contains("test")) {
             boolean ret = false;
 
-            operation = operation.replace("test","").trim();
+            operation = operation.toLowerCase().replace("test","").trim();
 
-            for (Method m : UnitTests.class.getMethods()) {
+            UnitTests tests = new UnitTests();
+
+            for (Method m : tests.getClass().getMethods()) {
                 if (m.getName().toLowerCase().contains(operation.toLowerCase()) && m.getParameterTypes().length == 0) {
                     try {
-                        m.invoke(UnitTests.class);
+                        m.invoke(tests);
+                        println("Invoking test: " + m.getName());
                         ret = true;
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
