@@ -122,6 +122,7 @@ public class Client {
 
                         //todo load up chat window for us
                     }
+                    //todo what if hash is wrong? that means we were the ones that sent it
                     //if the hash is not set or does not match, then it's someone new trying to connect
                     else {
                         String connectionMessage = StringUtil.capsFirst(potentiallyConnectedClientName) +

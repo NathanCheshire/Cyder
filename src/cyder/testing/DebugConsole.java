@@ -1,17 +1,20 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
+import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
+import cyder.widgets.MessagingWidget;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 import static java.lang.System.out;
 
@@ -60,51 +63,64 @@ public class DebugConsole {
         }
     }
 
+    public static Semaphore debugWindowOpeningSem = new Semaphore(1);
+
     private static void initDebugWindow() {
-        if (debugFrame != null)
-            debugFrame.dispose();
+        try {
+            debugWindowOpeningSem.acquire();
 
-        debugFrame = new CyderFrame(1050,400, ImageUtil.imageIconFromColor(new Color(21,23,24)));
-        debugFrame.setTitle("Debug");
-        debugFrame.setBackground(new Color(21,23,24));
+            //just acquired sem so make sure that it isn't already open again
+            if (!open) {
+                if (debugFrame != null)
+                    debugFrame.dispose();
 
-        printArea.setBounds(20, 40, 500 - 40, 500 - 80);
-        printArea.setBackground(new Color(21,23,24));
-        printArea.setBorder(null);
-        printArea.setFocusable(false);
-        printArea.setEditable(false);
-        printArea.setFont(new Font("Agency FB",Font.BOLD, 26));
-        printArea.setForeground(new Color(85,181,219));
-        printArea.setCaretColor(printArea.getForeground());
+                debugFrame = new CyderFrame(1050,400, ImageUtil.imageIconFromColor(new Color(21,23,24)));
+                debugFrame.setTitle("Debug");
+                debugFrame.setBackground(new Color(21,23,24));
 
-        printScroll = new CyderScrollPane(printArea,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        printScroll.setThumbColor(CyderColors.intellijPink);
-        printScroll.setBounds(20, 40, 1050 - 40, 400 - 80);
-        printScroll.getViewport().setOpaque(false);
-        printScroll.setOpaque(false);
-        printScroll.setBorder(null);
-        printArea.setAutoscrolls(true);
+                printArea.setBounds(20, 40, 500 - 40, 500 - 80);
+                printArea.setBackground(new Color(21,23,24));
+                printArea.setBorder(null);
+                printArea.setFocusable(false);
+                printArea.setEditable(false);
+                printArea.setFont(new Font("Agency FB",Font.BOLD, 26));
+                printArea.setForeground(new Color(85,181,219));
+                printArea.setCaretColor(printArea.getForeground());
 
-        debugFrame.getContentPane().add(printScroll);
+                printScroll = new CyderScrollPane(printArea,
+                        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
+                        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                printScroll.setThumbColor(CyderColors.intellijPink);
+                printScroll.setBounds(20, 40, 1050 - 40, 400 - 80);
+                printScroll.getViewport().setOpaque(false);
+                printScroll.setOpaque(false);
+                printScroll.setBorder(null);
+                printArea.setAutoscrolls(true);
 
-        debugFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                open = false;
+                debugFrame.getContentPane().add(printScroll);
+
+                debugFrame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        open = false;
+                    }
+
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        open = false;
+                    }
+                });
+                debugFrame.setVisible(true);
+                debugFrame.setAlwaysOnTop(true);
+                debugFrame.setLocation(0, SystemUtil.getScreenHeight() - debugFrame.getHeight());
+
+                open = true;
             }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-                open = false;
-            }
-        });
-        debugFrame.setVisible(true);
-        debugFrame.setAlwaysOnTop(true);
-        debugFrame.setLocation(0, SystemUtil.getScreenHeight() - debugFrame.getHeight());
-
-        open = true;
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            debugWindowOpeningSem.release();
+        }
     }
 
     public static void launchTests() {
@@ -132,8 +148,6 @@ public class DebugConsole {
 
         //todo reorganize triggers for input handler and think about a better way to do it
 
-        //todo debug menu opened twice bug, should never happen, perhaps lock method?
-
-        //MessagingWidget.showGUI();
+        MessagingWidget.showGUI();
     }
 }
