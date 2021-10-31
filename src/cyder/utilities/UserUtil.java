@@ -544,7 +544,20 @@ public class UserUtil {
         }
 
         try {
-            //todo first should ensure all on one line too
+            //read and write data so that it's all on one line
+            jsonIOSem.acquire();
+
+            Gson gson = new Gson();
+
+            Reader reader = new FileReader(f);
+            User writeBack = gson.fromJson(reader, User.class);
+            reader.close();
+
+            Writer writer = new FileWriter(f);
+            gson.toJson(writeBack, writer);
+            writer.close();
+
+            jsonIOSem.release();
 
             //get contents of json (single line)
             jsonIOSem.acquire();

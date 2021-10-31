@@ -38,7 +38,7 @@ public class TempConverter {
         ValueLabel.setFont(CyderFonts.weatherFontSmall);
         
         startingValue = new CyderTextField(0);
-        startingValue.setRegexMatcher("[0-9.]+");
+        startingValue.setRegexMatcher("[0-9.\\-]+");
         
         ValueLabel.setBounds(60,40, 200, 30);
         
