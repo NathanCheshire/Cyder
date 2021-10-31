@@ -58,8 +58,6 @@ public class UserUtil {
         }
     }
 
-    //todo use sem
-
     /**
      * Sets the user data of the provided file using the given data and name
      * @param f the file to write the json data to
@@ -90,16 +88,17 @@ public class UserUtil {
 
         Gson gson = new Gson();
 
-        try (FileWriter writer = new FileWriter(f)) {
-            GenesisShare.getExitingSem().acquire();
+
+        try  {
+            FileWriter writer = new FileWriter(f);
+            jsonIOSem.acquire();
             gson.toJson(user, writer);
-            GenesisShare.getExitingSem().release();
+            writer.close();
+            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
-
-    //todo use sem
 
     /**
      * Templated set function for the current user.
@@ -130,16 +129,16 @@ public class UserUtil {
 
         Gson gson = new Gson();
 
-        try (FileWriter writer = new FileWriter(f)) {
-            GenesisShare.getExitingSem().acquire();
+        try  {
+            FileWriter writer = new FileWriter(f);
+            jsonIOSem.acquire();
             gson.toJson(user, writer);
-            GenesisShare.getExitingSem().release();
+            writer.close();
+            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
-
-    //todo use sem
 
     /**
      * Writes the provided user after being converted to JSON format to the provided file.
@@ -154,16 +153,16 @@ public class UserUtil {
 
         Gson gson = new Gson();
 
-        try (FileWriter writer = new FileWriter(f)) {
-            GenesisShare.getExitingSem().acquire();
+        try  {
+            FileWriter writer = new FileWriter(f);
+            jsonIOSem.acquire();
             gson.toJson(u, writer);
-            GenesisShare.getExitingSem().release();
+            writer.close();
+            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
-
-    //todo use sem
 
     /**
      * Writes the given user to the current user's Json file
@@ -179,16 +178,16 @@ public class UserUtil {
 
         Gson gson = new Gson();
 
-        try (FileWriter writer = new FileWriter(f)) {
-            GenesisShare.getExitingSem().acquire();
+        try  {
+            FileWriter writer = new FileWriter(f);
+            jsonIOSem.acquire();
             gson.toJson(u, writer);
-            GenesisShare.getExitingSem().release();
+            writer.close();
+            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
-
-    //todo use sem
 
     /**
      * Function called upon UUID being set for consoleFrame to attempt to fix any user data
@@ -297,8 +296,6 @@ public class UserUtil {
         }
     }
 
-    //todo use sem
-
     /**
      * Extracts the user from the provided json file
      * @param f the json file to extract a user object from
@@ -313,16 +310,18 @@ public class UserUtil {
         User ret = null;
         Gson gson = new Gson();
 
-        try (Reader reader = new FileReader(f)) {
+        try {
+            jsonIOSem.acquire();
+            Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
+            reader.close();
+            jsonIOSem.release();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         } finally {
             return ret;
         }
     }
-
-    //todo use sem
 
     /**
      * Extracts the user from the provided json file
@@ -338,16 +337,18 @@ public class UserUtil {
         User ret = null;
         Gson gson = new Gson();
 
-        try (Reader reader = new FileReader(f)) {
+        try {
+            jsonIOSem.acquire();
+            Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
+            reader.close();
+            jsonIOSem.release();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         } finally {
             return ret;
         }
     }
-
-    //todo use sem
 
     /**
      * Extracts the user from the the currently logged in user.
@@ -362,8 +363,12 @@ public class UserUtil {
         User ret = null;
         Gson gson = new Gson();
 
-        try (Reader reader = new FileReader(f)) {
+        try {
+            jsonIOSem.acquire();
+            Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
+            reader.close();
+            jsonIOSem.release();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         } finally {
@@ -418,8 +423,7 @@ public class UserUtil {
         return retData != null ? retData : defaultValue;
     }
 
-    //todo lots of errors are thrown here, perahps the actual IO to the json file needs a sem? then rigrously test
-    // changing data thousands of time with multiple threads
+    //todo rigrously test changing data thousands of time with multiple threads
 
     /**
      * Assuming the corresponding getter and setter functions exist in User.java,
@@ -528,7 +532,10 @@ public class UserUtil {
         return ret;
     }
 
-    //todo use sem
+    /**
+     * Injects new preferences and their default values into an old json if it is found to not contain all the required user data.
+     * @param f the file to check for corrections
+     */
     public static void updateOldJson(File f) {
         if (!StringUtil.getExtension(f).equals(".json")) {
             throw new IllegalArgumentException("Provided file is not a json");
@@ -537,9 +544,14 @@ public class UserUtil {
         }
 
         try {
-            //get contents of json
+            //todo first should ensure all on one line too
+
+            //get contents of json (single line)
+            jsonIOSem.acquire();
             BufferedReader jsonReader = new BufferedReader(new FileReader(f));
             String masterJson = jsonReader.readLine();
+            jsonReader.close();
+            jsonIOSem.release();
 
             //remove closing curly brace
             masterJson = masterJson.substring(0 ,masterJson.length() - 1);
@@ -568,9 +580,11 @@ public class UserUtil {
             masterJson += "}";
 
             //write back to file
+            jsonIOSem.acquire();
             BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(f,false));
             jsonWriter.write(masterJson);
             jsonWriter.close();
+            jsonIOSem.release();
 
             if (!injections.isEmpty()) {
                 StringBuilder appendBuilder = new StringBuilder();
