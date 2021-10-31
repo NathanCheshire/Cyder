@@ -131,8 +131,6 @@ public class DebugConsole {
 
         //todo use reflect API to trigger manual tests with key words
 
-        //todo bug with duplicate threads for each thread
-
         //todo smoothly animate output area/input field moving in/out with menu
 
         //todo there should be a cool menu/window for debug stats pane

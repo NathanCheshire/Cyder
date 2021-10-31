@@ -210,7 +210,6 @@ public final class ConsoleFrame {
                 @Override
                 public void windowDeiconified(WindowEvent e) {
                     inputField.requestFocus();
-                    startExecutors();
                 }
 
                 @Override
