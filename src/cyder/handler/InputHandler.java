@@ -12,6 +12,7 @@ import cyder.genesis.Login;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.testing.DebugConsole;
+import cyder.testing.UnitTests;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
 import cyder.ui.ConsoleFrame;
@@ -30,6 +31,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -37,8 +40,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static java.lang.System.out;
 
 public class InputHandler {
     private JTextPane outputArea;
@@ -1123,10 +1124,34 @@ public class InputHandler {
                 SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE MATH HANDLED");
             } else if (preferenceCheck(operation)) {
                 SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE PREFERENCE TOGGLE HANDLED");
+            } else if (testCheck(operation)) {
+                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE TEST REFLECTION FIRE HANDLED");
             } else {
                 unknownInput();
             }
         }
+    }
+
+    public static boolean testCheck(String operation) {
+        if (operation.contains("test")) {
+            boolean ret = false;
+
+            operation = operation.replace("test","").trim();
+
+            for (Method m : UnitTests.class.getMethods()) {
+                if (m.getName().toLowerCase().contains(operation.toLowerCase()) && m.getParameterTypes().length == 0) {
+                    try {
+                        m.invoke(UnitTests.class);
+                        ret = true;
+                    } catch (Exception e) {
+                        ErrorHandler.handle(e);
+                    }
+                    break;
+                }
+            }
+
+            return ret;
+        } else return false;
     }
 
     public void handleSecond(String input) {
