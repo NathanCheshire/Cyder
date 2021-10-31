@@ -62,6 +62,7 @@ public class MessagingWidget {
 
             if (ip.matches(CyderRegexPatterns.ipv4Pattern)) {
                 //todo instead of notifying, pop into a waiting lobby frame that will exit if the other client denies it or timesout
+                // this should be a completely separate chat window
                 messagingFrame.notify("Sending request to: " + ip + ":" + Client.TOR_PORT);
                 ourClient.connect(ip);
             } else {

@@ -118,11 +118,10 @@ public class Client {
                                         + "(" + clientUUID +  ")]");
 
                         //we requested, they accepted and returned, now both of us may start the chat window
-                        //todo send signal to tell them to launch the chat window?
-
-                        //todo load up chat window for us
+                        //we already started the chat window so we need to return that a connection was successful and print
+                        // that to our user's window. The other client should have popped into a chat window already
+                        // since they had to accept our invite
                     }
-                    //todo what if hash is wrong? that means we were the ones that sent it
                     //if the hash is not set or does not match, then it's someone new trying to connect
                     else {
                         String connectionMessage = StringUtil.capsFirst(potentiallyConnectedClientName) +
@@ -149,6 +148,9 @@ public class Client {
                             SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
                                     "[PRIVATE MESSAGE]: [ATTEMPTING CLIENT CONNECTION WITH " + clientName.toUpperCase()
                                             + "(" + clientUUID +  ")]");
+
+                            //pop into our own chat window, if they still want to ocnnect we'll listen for a special message that we're about
+                            // to send. If they send it back then the connection is secure and ready for our clients to communicate now
                         }
                     }
                 }
