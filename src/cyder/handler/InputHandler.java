@@ -31,7 +31,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.*;
 import java.time.DayOfWeek;
@@ -347,8 +346,7 @@ public class InputHandler {
             File saveDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
             Spotlight.saveSpotlights(saveDir);
             ConsoleFrame.getConsoleFrame().resizeBackgrounds();
-            ConsoleFrame.getConsoleFrame().getInputHandler()
-                    .println("Spotlight images saved to your user's background/ directory");
+            println("Spotlight images saved to your user's background/ directory");
         } else if (has("spotlight") && hasWord("wipe")) {
             Spotlight.wipe();
         } else if (hasWord("convex") && hasWord("hull")) {

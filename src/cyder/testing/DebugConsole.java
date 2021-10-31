@@ -129,8 +129,6 @@ public class DebugConsole {
         // and print to scrolling pane, limit defaults and print those first, they don't go away.
         // when you spawn a new frame, link it to the menu pane so that a post close action is to remove itself from the pane
 
-        //todo use reflect API to trigger manual tests with key words
-
         //todo there should be a cool menu/window for debug stats pane
 
         //https://www.youtube.com/watch?v=gLfuZrrfKes
@@ -145,6 +143,10 @@ public class DebugConsole {
         // make each frame keep a list of threads and use a kill condition so before animation we can kill all threads accodiated with the frame
 
         //todo reorganize triggers for input handler and think about a better way to do it
+
+        //todo don't allow a user to be logged in multiple times, technically it's possible
+
+        //ceating a null note is possible and it displys in the list, make both of these impossible
 
         MessagingWidget.showGUI();
     }

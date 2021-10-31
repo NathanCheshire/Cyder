@@ -13,8 +13,17 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 public class UserUtil {
+    //the semaphore to use when reading or writing from/to a JSON file
+    private static Semaphore jsonIOSem = new Semaphore(1);
+
+    /**
+     * Default setter function to set the current user's data to the given value
+     * @param name the name of the data to set
+     * @param value the data value to use
+     */
     public static void setUserData(String name, String value) {
        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
            throw new IllegalArgumentException("UUID is null");
@@ -28,6 +37,12 @@ public class UserUtil {
        setUserData(userJsonFile, name, value);
     }
 
+    /**
+     * Sets the given user's data using the provided name and data value
+     * @param user the user object to call the setter on
+     * @param name the name of the data to change
+     * @param value the data value to set it to
+     */
     public static void setUserData(User user, String name, String value) {
         try {
             for (Method m : user.getClass().getMethods()) {
@@ -43,6 +58,15 @@ public class UserUtil {
         }
     }
 
+    //todo use sem
+
+    /**
+     * Sets the user data of the provided file using the given data and name
+     * @param f the file to write the json data to
+     * @param name the data name
+     * @param value the value of the data to update
+     * @param <T> templated function
+     */
     public static <T> void setUserData(File f, String name, T value) {
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
@@ -75,6 +99,14 @@ public class UserUtil {
         }
     }
 
+    //todo use sem
+
+    /**
+     * Templated set function for the current user.
+     * @param name the name of the data to update
+     * @param value of the data
+     * @param <T> templated function
+     */
     public static <T> void setUserData(String name, T value) {
         File f = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
 
@@ -107,6 +139,8 @@ public class UserUtil {
         }
     }
 
+    //todo use sem
+
     /**
      * Writes the provided user after being converted to JSON format to the provided file.
      * @param f the file to write to
@@ -128,6 +162,8 @@ public class UserUtil {
             ErrorHandler.handle(e);
         }
     }
+
+    //todo use sem
 
     /**
      * Writes the given user to the current user's Json file
@@ -151,6 +187,8 @@ public class UserUtil {
             ErrorHandler.handle(e);
         }
     }
+
+    //todo use sem
 
     /**
      * Function called upon UUID being set for consoleFrame to attempt to fix any user data
@@ -237,6 +275,10 @@ public class UserUtil {
         }
     }
 
+    /**
+     * Attempts to read backgrounds that Cyder would use for a user.
+     * If it fails, the image is corrupted so we delete it in the calling function.
+     */
     public static void fixBackgrounds() {
         for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds").listFiles()) {
            boolean valid = true;
@@ -254,6 +296,8 @@ public class UserUtil {
             }
         }
     }
+
+    //todo use sem
 
     /**
      * Extracts the user from the provided json file
@@ -278,6 +322,8 @@ public class UserUtil {
         }
     }
 
+    //todo use sem
+
     /**
      * Extracts the user from the provided json file
      * @param UUID the uuid if the user we want to obtain
@@ -300,6 +346,8 @@ public class UserUtil {
             return ret;
         }
     }
+
+    //todo use sem
 
     /**
      * Extracts the user from the the currently logged in user.
@@ -370,10 +418,15 @@ public class UserUtil {
         return retData != null ? retData : defaultValue;
     }
 
+    //todo lots of errors are thrown here, perahps the actual IO to the json file needs a sem? then rigrously test
+    // changing data thousands of time with multiple threads
+
     /**
      * Assuming the corresponding getter and setter functions exist in User.java,
      * this method will call the getter method that matches the provided data.
      * This method exists purely for legacy calls such as extractUserData("font")
+     * Ideally this method should be done away with if possible, perhaps adding a default function
+     * o the {@code Preference} object could lead to a new path of thinking about user prefs/data.
      * @param u the initialized user containing the data we want to obtain
      * @param data the data id for which to return
      * @return the requested data
@@ -439,6 +492,9 @@ public class UserUtil {
         return false;
     }
 
+    /**
+     * @return a user object with all of the default values found in {@code GenesisShare}
+     */
     public static User getDefaultUser() {
         User ret = new User();
 
@@ -472,6 +528,7 @@ public class UserUtil {
         return ret;
     }
 
+    //todo use sem
     public static void updateOldJson(File f) {
         if (!StringUtil.getExtension(f).equals(".json")) {
             throw new IllegalArgumentException("Provided file is not a json");
