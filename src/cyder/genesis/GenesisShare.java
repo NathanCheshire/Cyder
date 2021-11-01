@@ -5,6 +5,7 @@ import cyder.handler.SessionLogger;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
+import cyder.utilities.UserUtil;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -158,9 +159,11 @@ public class GenesisShare {
             SessionLogger.log(SessionLogger.Tag.EXIT,null);
             SessionLogger.log(SessionLogger.Tag.EOL, code);
 
-            //acquire and release to ensure no IO is currently underway
+            //acquire and release sems to ensure no IO is currently underway
             GenesisShare.getExitingSem().acquire();
             GenesisShare.getExitingSem().release();
+            UserUtil.getJsonIOSem().acquire();
+            UserUtil.getJsonIOSem().release();
 
         } catch (Exception e) {
             ErrorHandler.handle(e);

@@ -7,7 +7,6 @@ import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
-import cyder.widgets.MessagingWidget;
 
 import javax.swing.*;
 import java.awt.*;
@@ -146,8 +145,6 @@ public class DebugConsole {
 
         //todo don't allow a user to be logged in multiple times, technically it's possible
 
-        //ceating a null note is possible and it displys in the list, make both of these impossible
-
-        MessagingWidget.showGUI();
+        //MessagingWidget.showGUI();
     }
 }

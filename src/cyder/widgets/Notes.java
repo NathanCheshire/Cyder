@@ -211,6 +211,11 @@ public class Notes {
         submitNewNote.setBackground(CyderColors.regularRed);
         submitNewNote.setFont(CyderFonts.weatherFontSmall);
         submitNewNote.addActionListener(e -> {
+            if (newNoteField.getText().trim().length() == 0 || newNoteArea.getText().trim().length() == 0) {
+                newNoteFrame.notify("Please enter both a title and contents");
+                return;
+            }
+
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(new FileWriter(
                         "dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes/" +

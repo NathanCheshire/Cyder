@@ -19,6 +19,11 @@ public class UserUtil {
     //the semaphore to use when reading or writing from/to a JSON file
     private static Semaphore jsonIOSem = new Semaphore(1);
 
+    //getter so exiting method can make sure jsonIOSem is not locked
+    public static Semaphore getJsonIOSem() {
+        return jsonIOSem;
+    }
+
     /**
      * Default setter function to set the current user's data to the given value
      * @param name the name of the data to set
@@ -422,8 +427,6 @@ public class UserUtil {
 
         return retData != null ? retData : defaultValue;
     }
-
-    //todo rigrously test changing data thousands of time with multiple threads
 
     /**
      * Assuming the corresponding getter and setter functions exist in User.java,

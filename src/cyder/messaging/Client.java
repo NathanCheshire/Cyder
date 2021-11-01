@@ -125,7 +125,7 @@ public class Client {
                     //if the hash is not set or does not match, then it's someone new trying to connect
                     else {
                         String connectionMessage = StringUtil.capsFirst(potentiallyConnectedClientName) +
-                                "(" + potentiallyConnectedClientUUID + ") would like to private message with you. Would you like to connect?";
+                                "(" + potentiallyConnectedClientUUID + ") would like to open a private messaging session with you. Would you like to connect?";
 
                         boolean connect = new GetterUtil().getConfirmation(connectionMessage, messagingWidgetFrame);
 
