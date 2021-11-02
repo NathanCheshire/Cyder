@@ -1020,7 +1020,23 @@ public class UserEditor {
 
         printingUtil.print("\n\n");
 
-        CyderLabel consoleDatePatternLabel = new CyderLabel("ConsoleClock Date Pattern");
+        CyderLabel consoleDatePatternLabel = new CyderLabel("Console Clock Date Pattern");
+        consoleDatePatternLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NetworkUtil.internetConnect("https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                consoleDatePatternLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                consoleDatePatternLabel.setForeground(CyderColors.navy);
+            }
+        });
         printingUtil.printlnComponent(consoleDatePatternLabel);
 
         printingUtil.print("\n");
@@ -1293,29 +1309,39 @@ public class UserEditor {
             if (!SecurityUtil.toHexString(SecurityUtil.getSHA256(hashed.toCharArray())).equals(UserUtil.extractUser().getPass())) {
                 editUserFrame.notify("Sorry, but the password you entered was incorrect; user not deleted");
                 deletePasswordField.setText("");
-                return;
+            } else {
+               new Thread(() -> {
+                   boolean delete = new GetterUtil().getConfirmation("Final warning: you are about to" +
+                           " delete your Cyder account. All files, pictures, downloaded music, notes, etc. will be deleted." +
+                           " Are you ABSOLUTELY sure you wish to continue?", editUserFrame);
+
+                   if (delete) {
+                       ConsoleFrame.getConsoleFrame().close();
+                       SystemUtil.deleteFolder(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
+
+                       String dep = SecurityUtil.getDeprecatedUUID();
+
+                       File renamed = new File("dynamic/users/" + dep);
+                       while (renamed.exists()) {
+                           dep = SecurityUtil.getDeprecatedUUID();
+                           renamed = new File("dynamic/users/" + dep);
+                       }
+
+                       File old = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
+                       old.renameTo(renamed);
+
+                       Frame[] frames = Frame.getFrames();
+
+                       for (Frame f : frames)
+                           f.dispose();
+
+                       GenesisShare.exit(-56);
+                   } else {
+                       deletePasswordField.setText("");
+                       editUserFrame.notify("Account not deleted");
+                   }
+               },"Account deletion confirmation").start();
             }
-
-            ConsoleFrame.getConsoleFrame().close();
-            SystemUtil.deleteFolder(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
-
-            String dep = SecurityUtil.getDeprecatedUUID();
-
-            File renamed = new File("dynamic/users/" + dep);
-            while (renamed.exists()) {
-                dep = SecurityUtil.getDeprecatedUUID();
-                renamed = new File("dynamic/users/" + dep);
-            }
-
-            File old = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
-            old.renameTo(renamed);
-
-            Frame[] frames = Frame.getFrames();
-
-            for (Frame f : frames)
-                f.dispose();
-
-            GenesisShare.exit(-56);
         });
         printingUtil.printlnComponent(deleteUserButton);
 

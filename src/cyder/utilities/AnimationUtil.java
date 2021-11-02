@@ -43,7 +43,7 @@ public class AnimationUtil {
 
     /**
      * Moves the specified frame object down until it is no longer visible then sets the frame's state
-     * to Frame.ICONIFIED
+     * to Frame.ICONIFIED. This method works for anything that inherits from JFrame
      * @param frame the frame object to minimize and iconify
      */
     public static void minimizeAnimation(JFrame frame) {

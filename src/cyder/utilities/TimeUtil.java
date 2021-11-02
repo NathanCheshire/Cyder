@@ -4,8 +4,8 @@ import cyder.genesis.GenesisShare;
 import cyder.handler.ErrorHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderFrame;
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -108,7 +108,7 @@ public class TimeUtil {
         }
     }
 
-    public static void closeAtHourMinute(int Hour, int Minute, JFrame consoleFrame) {
+    public static void closeAtHourMinute(int Hour, int Minute, CyderFrame consoleFrame) {
         Calendar CloseCalendar = Calendar.getInstance();
 
         CloseCalendar.add(Calendar.DAY_OF_MONTH, 0);

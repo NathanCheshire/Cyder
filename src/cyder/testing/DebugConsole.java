@@ -130,10 +130,6 @@ public class DebugConsole {
 
         //todo there should be a cool menu/window for debug stats pane
 
-        //https://www.youtube.com/watch?v=gLfuZrrfKes
-
-        //todo things that could be all console and have no gui interaction, make issues for those
-
         //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
 
         //todo closing perlin is laggy if we animated at any point, perhaps threads aren't properly exited?

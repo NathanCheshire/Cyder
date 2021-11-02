@@ -513,7 +513,7 @@ public class GetterUtil {
                 int h = bs.getHeight();
                 textLabel.setText(bs.getText());
 
-                confirmationFrame[0] = new CyderFrame(w + 40, h + 25 + 20 + 40 + 40);
+                confirmationFrame[0] = new CyderFrame(w + 40, h + 25 + 20 + 40 + 40, CyderImages.defaultBackgroundLarge);
                 confirmationFrame[0].setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 confirmationFrame[0].setTitle("Confirmation");
                 confirmationFrame[0].addPreCloseAction(() -> retString[0] = "false");

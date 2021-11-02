@@ -641,14 +641,6 @@ public class InputHandler {
                 setUserInputMode(true);
                 ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
             }
-        }  else if ((hasWord("delete") ||
-                hasWord("remove")) &&
-                (hasWord("user") ||
-                        hasWord("account"))) {
-            println("Are you sure you want to permanently delete this account? This action cannot be undone! (yes/no)");
-            setUserInputMode(true);
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputDesc("deleteuser");
         } else if (has("alphabet") && (hasWord("sort") ||
                 hasWord("organize") || hasWord("arrange"))) {
             println("Enter your word to be alphabetically rearranged");
@@ -1259,32 +1251,6 @@ public class InputHandler {
                     Runtime.getRuntime().exec(shutdownCmd);
                 } else
                     println("Okay nevermind then");
-            } else if (desc.equalsIgnoreCase("deleteuser")) {
-                if (!StringUtil.isConfirmation(input)) {
-                    println("User " + ConsoleFrame.getConsoleFrame().getUsername() + " was not removed.");
-                    return;
-                }
-
-                ConsoleFrame.getConsoleFrame().close();
-                SystemUtil.deleteFolder(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
-
-                String dep = SecurityUtil.getDeprecatedUUID();
-
-                File renamed = new File("dynamic/users/" + dep);
-                while (renamed.exists()) {
-                    dep = SecurityUtil.getDeprecatedUUID();
-                    renamed = new File("dynamic/users/" + dep);
-                }
-
-                File old = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
-                old.renameTo(renamed);
-
-                Frame[] frames = Frame.getFrames();
-
-                for (Frame f : frames)
-                    f.dispose();
-
-                GenesisShare.exit(-56);
             } else if (desc.equalsIgnoreCase("pixelatebackground")) {
                 BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getConsoleFrame().
                         getCurrentBackgroundFile().getAbsoluteFile()), Integer.parseInt(input));
