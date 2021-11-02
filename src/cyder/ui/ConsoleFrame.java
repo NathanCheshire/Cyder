@@ -601,6 +601,7 @@ public final class ConsoleFrame {
 
                     menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 2);
                     menuLabel.setVisible(true);
+                    //todo entering for all 3 components should be in same thread
                     AnimationUtil.componentRight(-150, 2, 10, 8, menuLabel);
 
                     int addX = 0;
@@ -611,12 +612,13 @@ public final class ConsoleFrame {
                         addX = 2 + menuLabel.getWidth();
 
                     int finalAddX = addX;
+
                     new Thread(() -> {
-                        for (int i = inputField.getX(); i < finalAddX + 15 ; i += 4) {
+                        for (int i = inputField.getX(); i < finalAddX + 15 ; i += 8) {
                             outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1, outputScroll.getHeight());
                             inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
                             try {
-                                Thread.sleep(2);
+                                Thread.sleep(10);
                             } catch (Exception ex) {
                                 ErrorHandler.handle(ex);
                             }
@@ -628,25 +630,6 @@ public final class ConsoleFrame {
                     },"Console field animator").start();
                 } else {
                     minimizeMenu();
-
-                    int width = consoleCyderFrame.getWidth();
-                    int height = consoleCyderFrame.getHeight();
-
-                    new Thread(() -> {
-                        for (int i = inputField.getX() ; i > 15 ; i -= 4) {
-                            outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1, outputScroll.getHeight());
-                            inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
-                            try {
-                                Thread.sleep(2);
-                            } catch (Exception ex) {
-                                ErrorHandler.handle(ex);
-                            }
-                        }
-
-                        outputScroll.setBounds(15, 62, width - 40, height - 204);
-                        inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
-                                height - (62 + outputScroll.getHeight() + 20 + 20));
-                    },"Console field animator").start();
                 }
             });
             menuButton.setBounds(4, 4, 22, 22);
@@ -1594,9 +1577,28 @@ public final class ConsoleFrame {
 
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
-            menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
+            new Thread(() -> {
+                int width = consoleCyderFrame.getWidth();
+                int height = consoleCyderFrame.getHeight();
+
+                for (int i = inputField.getX() ; i > 15 ; i -= 8) {
+                    outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1, outputScroll.getHeight());
+                    inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
+
+                    try {
+                        Thread.sleep(10);
+                    } catch (Exception ex) {
+                        ErrorHandler.handle(ex);
+                    }
+                }
+
+                outputScroll.setBounds(15, 62, width - 40, height - 204);
+                inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
+                        height - (62 + outputScroll.getHeight() + 20 + 20));
+            },"Console field animator").start();
 
             new Thread(() -> {
+                menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
                 int y = menuLabel.getY();
 
                 for (int i = 0 ; i > -150 ; i-= 8) {
@@ -1614,7 +1616,6 @@ public final class ConsoleFrame {
                 menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
             },"minimize menu thread").start();
         }
-
     }
 
     private KeyListener commandScrolling = new KeyAdapter() {
@@ -2249,7 +2250,7 @@ public final class ConsoleFrame {
 
             //fix foreground if needed
             if (ImageUtil.solidColor(getCurrentBackgroundFile())) {
-                getInputHandler().handle("fix foreground", true);
+                getInputHandler().handle("fix foreground", false);
             }
 
             //fix frame out of bounds if needed
