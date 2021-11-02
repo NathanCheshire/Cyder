@@ -200,13 +200,13 @@ public class GenesisShare {
 
     //pref class
 
-    public static class Preference {
+    public static class Preference<T> {
         private String ID;
         private String displayName;
         private String tooltip;
-        private String defaultValue;
+        private T defaultValue;
 
-        public Preference(String id, String displayName, String tooltip, String defaultValue) {
+        public Preference(String id, String displayName, String tooltip, T defaultValue) {
             this.ID = id;
             this.displayName = displayName;
             this.tooltip = tooltip;
@@ -225,7 +225,7 @@ public class GenesisShare {
             return tooltip;
         }
 
-        public String getDefaultValue() {
+        public T getDefaultValue() {
             return defaultValue;
         }
 
@@ -241,7 +241,7 @@ public class GenesisShare {
             this.tooltip = tooltip;
         }
 
-        public void setDefaultValue(String defaultValue) {
+        public void setDefaultValue(T defaultValue) {
             this.defaultValue = defaultValue;
         }
 

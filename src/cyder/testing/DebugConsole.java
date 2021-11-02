@@ -139,9 +139,6 @@ public class DebugConsole {
 
         //todo finish and test messaging client
 
-        //todo attempting to login when already logged in, then logging out throws exeptions, what are we doing when we
-        // show that notificaiton?
-
         //todo class naming consistency
 
         //MessagingWidget.showGUI();

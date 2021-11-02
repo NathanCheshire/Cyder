@@ -420,7 +420,7 @@ public class UserUtil {
         //find default value as a fail safe
         for (Preference pref : GenesisShare.getPrefs()) {
             if (pref.getID().equalsIgnoreCase(name)) {
-                defaultValue = pref.getDefaultValue();
+                defaultValue = (String) pref.getDefaultValue();
                 break;
             }
         }
