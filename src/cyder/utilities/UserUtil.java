@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
-public class UserUtil {
+public class UserUtil <T> {
     //the semaphore to use when reading or writing from/to a JSON file
     private static Semaphore jsonIOSem = new Semaphore(1);
 
@@ -25,30 +25,12 @@ public class UserUtil {
     }
 
     /**
-     * Default setter function to set the current user's data to the given value
-     * @param name the name of the data to set
-     * @param value the data value to use
-     */
-    public static void setUserData(String name, String value) {
-       if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-           throw new IllegalArgumentException("UUID is null");
-
-       File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                                    + "/userdata.json");
-
-       if (!userJsonFile.exists())
-           throw new IllegalArgumentException("userdata.json does not exist");
-
-       setUserData(userJsonFile, name, value);
-    }
-
-    /**
      * Sets the given user's data using the provided name and data value
      * @param user the user object to call the setter on
      * @param name the name of the data to change
      * @param value the data value to set it to
      */
-    public static void setUserData(User user, String name, String value) {
+    public static <T> void setUserData(User user, String name, T value) {
         try {
             for (Method m : user.getClass().getMethods()) {
                 if (m.getName().startsWith("set")
@@ -384,16 +366,16 @@ public class UserUtil {
     /**
      * Extracts the requested data from the provided json file
      * @param f the json file to extract data from
-     * @param data the data type to extract from the file
+     * @param name the data to extract from the file
      * @return the requested data
      */
-    public static String extractUserData(File f, String data) {
+    public static String extractUserData(File f, String name) {
         if (!StringUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("File is not a json type");
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
 
-        return extractUserData(extractUser(f), data);
+        return extractUserData(extractUser(f), name);
     }
 
     /**
@@ -403,7 +385,7 @@ public class UserUtil {
      * @param name the ID of the data we want to obtain
      * @return the resulting data
      */
-    public static String getUserData(String name) {
+    public static <T> T getUserData(String name) {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             throw new IllegalArgumentException("UUID not yet set");
         File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
@@ -413,14 +395,14 @@ public class UserUtil {
             throw new IllegalArgumentException("userdata.json does not exist");
 
         User user = extractUser(userJsonFile);
-        String retData = extractUserData(user, name);
+        T retData = extractUserData(user, name);
 
-        String defaultValue = "";
+        T defaultValue = null;
 
         //find default value as a fail safe
         for (Preference pref : GenesisShare.getPrefs()) {
             if (pref.getID().equalsIgnoreCase(name)) {
-                defaultValue = (String) pref.getDefaultValue();
+                defaultValue = (T) pref.getDefaultValue();
                 break;
             }
         }
@@ -435,19 +417,19 @@ public class UserUtil {
      * Ideally this method should be done away with if possible, perhaps adding a default function
      * o the {@code Preference} object could lead to a new path of thinking about user prefs/data.
      * @param u the initialized user containing the data we want to obtain
-     * @param data the data id for which to return
+     * @param name the data id for which to return
      * @return the requested data
      */
-    public static String extractUserData(User u, String data) {
-        String ret = null;
+    public static <T> T extractUserData(User u, String name) {
+        T ret = null;
 
         try {
             for (Method m : u.getClass().getMethods()) {
                 if (m.getName().startsWith("get")
                         && m.getParameterTypes().length == 0
-                        && m.getName().toLowerCase().contains(data.toLowerCase())) {
+                        && m.getName().toLowerCase().contains(name.toLowerCase())) {
                     final Object r = m.invoke(u);
-                    ret = (String) r;
+                    ret = (T) r;
                     break;
                 }
             }

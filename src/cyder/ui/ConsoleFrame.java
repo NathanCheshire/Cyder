@@ -134,7 +134,7 @@ public final class ConsoleFrame {
             int h = 0;
             ImageIcon usage = null;
 
-            if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+            if (((String) UserUtil.getUserData("FullScreen")).equalsIgnoreCase("1")) {
                 w = (int) SystemUtil.getScreenSize().getWidth();
                 h = (int) SystemUtil.getScreenSize().getHeight();
                 usage = new ImageIcon(ImageUtil.resizeImage(w,h,getCurrentBackgroundFile()));
@@ -290,7 +290,7 @@ public final class ConsoleFrame {
             outputScroll.setOpaque(false);
             outputScroll.setFocusable(false);
 
-            if (UserUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
+            if (((String) UserUtil.getUserData("OutputBorder")).equalsIgnoreCase("1")) {
                 outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),
                         3, false));
             } else {
@@ -305,7 +305,7 @@ public final class ConsoleFrame {
             inputField.setEchoChar((char)0);
             inputField.setText(consoleBashString);
 
-            if (UserUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
+            if (((String) UserUtil.getUserData("InputBorder")).equalsIgnoreCase("1")) {
                 inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor
                         (UserUtil.getUserData("Background")), 3, false));
             } else {
@@ -971,7 +971,7 @@ public final class ConsoleFrame {
 
                 OUTER:
                     while (true) {
-                        if (UserUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
+                        if (((String) UserUtil.getUserData("HourlyChimes")).equalsIgnoreCase("1")) {
                             IOUtil.playSystemAudio("static/audio/chime.mp3");
                         }
 
@@ -2298,7 +2298,7 @@ public final class ConsoleFrame {
      * @return returns the current background with using the current background ImageIcon and regardless of whether full screen is active
      */
     public int getBackgroundWidth() {
-        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
+        if (((String) UserUtil.getUserData("FullScreen")).equalsIgnoreCase("1"))
             return (int) SystemUtil.getScreenSize().getWidth();
         else
             return getCurrentBackgroundImageIcon().getIconWidth();
@@ -2308,7 +2308,7 @@ public final class ConsoleFrame {
      * @return returns the current background height using the current background ImageIcon and regardless of whether full screen is active
      */
     public int getBackgroundHeight() {
-        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
+        if (((String) UserUtil.getUserData("FullScreen")).equalsIgnoreCase("1"))
             return (int) SystemUtil.getScreenSize().getHeight();
         else
             return getCurrentBackgroundImageIcon().getIconHeight();
