@@ -466,9 +466,6 @@ public class UserUtil {
     public static boolean isLoggedIn(String uuid) {
         boolean ret = false;
 
-        //first we ensure all user's logged in values accurately describe their state
-        fixLoggedInValues();
-
         File userJsonFile = new File("dynamic/users/" + uuid + "/userdata.json");
 
         //should be impossible to not exists but I'll still check it regardless
@@ -485,7 +482,66 @@ public class UserUtil {
      * to what it actually is regardless of what it says
      */
     public static void fixLoggedInValues() {
-        //todo implement me before running
+        try {
+            File usersDir = new File("dynamic/users");
+
+            if (usersDir.exists()) {
+                File[] users = usersDir.listFiles();
+
+                if (users.length > 0) {
+                    for (File userFile : users) {
+                        File userJsonFile = new File(userFile.getAbsolutePath() + "/userdata.json");
+                        String currentUUID = StringUtil.getFilename(userJsonFile.getParentFile().getName());
+
+                        //what we'll write to this json file
+                        String loggedIn = "false";
+
+                        File logsDir = new File("logs");
+
+                        if (logsDir.exists()) {
+                            File[] logs = logsDir.listFiles();
+
+                            //we've started a Cyder instance already so there will always be one
+                            if (logs.length > 1) {
+                                //loop through logs backwards
+                                for (int i = logs.length - 2; i >= 0 ; i--) {
+                                    BufferedReader logReader = new BufferedReader(new FileReader(logs[i]));
+                                    String line;
+                                    String lineBeforeNull = "";
+                                    boolean lastLoggedInuser = false;
+                                    boolean breakAfter = false;
+
+                                    while ((line = logReader.readLine()) != null) {
+                                        if (line.contains("STD LOGIN") || line.contains("AUTOCYPHER PASS")){
+                                            //this user we're on now was the last logged in if we get to the end of the file
+                                            // and the last login tag we find has their uuid associated wit hit
+                                            lastLoggedInuser = line.contains(currentUUID);
+                                            breakAfter = true;
+                                        }
+
+                                        lineBeforeNull = line;
+                                    }
+
+                                    //now we have the last line as well so check if it contains the tags
+                                    if (!(lineBeforeNull.contains("[EOL]") || lineBeforeNull.contains("EXTERNAL STOP"))) {
+                                        //they're logged in then since this is the last time this user was logged in
+                                        // and that log doesn't conclude properly
+                                        loggedIn = "true";
+                                    }
+
+                                    if (breakAfter)
+                                        break;
+                                }
+                            }
+                        }
+
+                        UserUtil.setUserData(userJsonFile,"loggedin", loggedIn);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     /**

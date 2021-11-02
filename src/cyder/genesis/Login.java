@@ -318,7 +318,7 @@ public class Login {
                 if (UserUtil.isLoggedIn(ConsoleFrame.getConsoleFrame().getUUID())) {
                     loginFrame.notify("Sorry, but that user is already logged in");
 
-                    if (!ConsoleFrame.getConsoleFrame().isClosed())
+                    if (ConsoleFrame.getConsoleFrame().isClosed())
                         ConsoleFrame.getConsoleFrame().setUUID(null);
 
                     return false;
@@ -334,10 +334,10 @@ public class Login {
 
                 //log the success login
                 if (autoCypherAttempt) {
-                    SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER PASS");
+                    SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER PASS, " + ConsoleFrame.getConsoleFrame().getUUID());
                     autoCypherAttempt = false;
                 } else {
-                    SessionLogger.log(SessionLogger.Tag.LOGIN, "STD LOGIN");
+                    SessionLogger.log(SessionLogger.Tag.LOGIN, "STD LOGIN, " + ConsoleFrame.getConsoleFrame().getUUID());
                 }
 
                 //reset console frame if it's already open

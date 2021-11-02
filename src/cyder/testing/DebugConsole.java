@@ -139,10 +139,8 @@ public class DebugConsole {
 
         //todo finish and test messaging client
 
-        //todo don't allow a user to be logged in multiple times, technically it's possible
-        // method: constantly update last terminated milisecond with "running" for a user (add pref)
-        // then we can check this when starting and make sure that this isn't set to running, if it's set to a time
-        // then we may start, we'll also need to update this data when necessary
+        //todo attempting to login when already logged in, then logging out throws exeptions, what are we doing when we
+        // show that notificaiton?
 
         //todo class naming consistency
 

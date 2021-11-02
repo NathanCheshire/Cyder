@@ -599,6 +599,9 @@ public class IOUtil {
                     }
                 }
             }
+
+            //now fix userdata associated with the logs
+            UserUtil.fixLoggedInValues();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

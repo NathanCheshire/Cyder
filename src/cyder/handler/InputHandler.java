@@ -752,6 +752,7 @@ public class InputHandler {
             IOUtil.stopAudio();
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().removePostCloseActions();
             ConsoleFrame.getConsoleFrame().close();
+            UserUtil.setUserData("loggedin","false");
             Login.showGUI();
         } else if (hasWord("throw") && hasWord("error")) {
             ConsoleFrame.getConsoleFrame().getInputField().setText("");

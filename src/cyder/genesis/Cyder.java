@@ -25,19 +25,19 @@ public class Cyder {
 
         //possibly fatal subroutines
         if (!CyderSetup.registerFonts()) {
-            SessionLogger.log(SessionLogger.Tag.LOGIN, "SYSTEM FAILURE");
+            SessionLogger.log(SessionLogger.Tag.EXCEPTION, "SYSTEM FAILURE");
             CyderSetup.exceptionExit("Font required by system could not be loaded","Font failure");
             return;
         }
 
         if (IOUtil.checkForExitCollisions()) {
-            SessionLogger.log(SessionLogger.Tag.LOGIN, "DUPLICATE EXIT CODES");
+            SessionLogger.log(SessionLogger.Tag.EXCEPTION, "DUPLICATE EXIT CODES");
             CyderSetup.exceptionExit("You messed up exit codes :/","Exit Codes Exception");
             return;
         }
 
         if (SystemUtil.osxSystem()) {
-            SessionLogger.log(SessionLogger.Tag.LOGIN, "IMPROPER OS");
+            SessionLogger.log(SessionLogger.Tag.EXCEPTION, "IMPROPER OS");
             CyderSetup.exceptionExit("System OS not intended for Cyder use. You should" +
                     " install a dual boot or a VM or something.","OS Exception");
             return;
