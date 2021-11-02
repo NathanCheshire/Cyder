@@ -781,8 +781,8 @@ public final class ConsoleFrame {
             close = new JButton("");
             close.setToolTipText("Close");
             close.addActionListener(e -> {
-                UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
-                UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
+                UserUtil.setUserData("windowlocx",consoleCyderFrame.getX());
+                UserUtil.setUserData("windowlocy",consoleCyderFrame.getY());
 
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
@@ -897,8 +897,8 @@ public final class ConsoleFrame {
             consoleCyderFrame.setVisible(true);
 
             //position window from last location if in bounds
-            int x = Integer.parseInt(UserUtil.getUserData("windowlocx"));
-            int y = Integer.parseInt(UserUtil.getUserData("windowlocy"));
+            int x = UserUtil.getUserData("windowlocx");
+            int y = UserUtil.getUserData("windowlocy");
 
             if (x != -80000 && y != -80000) {
                 if (x < 0)

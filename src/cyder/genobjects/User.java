@@ -8,36 +8,36 @@ public class User {
     private String font;
     private String foreground;
     private String background;
-    private String intromusic;
-    private String debugwindows;
-    private String randombackground;
-    private String outputborder;
-    private String inputborder;
-    private String hourlychimes;
-    private String silenceerrors;
-    private String fullscreen;
-    private String outputfill;
-    private String inputfill;
-    private String clockonconsole;
-    private String showseconds;
-    private String filterchat;
-    private String laststart;
-    private String minimizeonclose;
-    private String typinganimation;
-    private String showbusyicon;
+    private String intromusic; //boolean
+    private String debugwindows; //boolean
+    private String randombackground; //boolean
+    private String outputborder; //boolean
+    private String inputborder; //boolean
+    private String hourlychimes; //boolean
+    private String silenceerrors; //boolean
+    private String fullscreen; //boolean
+    private String outputfill; //boolean
+    private String inputfill; //boolean
+    private String clockonconsole; //boolean
+    private String showseconds; //boolean
+    private String filterchat; //boolean
+    private String laststart; //long
+    private String minimizeonclose; //boolean
+    private String typinganimation; //boolean
+    private String showbusyicon; //boolean
     private String ffmpegpath;
     private String youtubedlpath;
-    private String windowlocx;
-    private String windowlocy;
-    private String roundedwindows;
+    private int windowlocx;
+    private int windowlocy;
+    private String roundedwindows; //boolean
     private String windowColor;
     private String consoleclockformat;
-    private String typingsound;
+    private String typingsound; //boolean
     private String youtubeuuid;
     private String ipkey;
     private String weatherkey;
-    private String capsmode;
-    private String loggedin;
+    private String capsmode; //boolean
+    private String loggedin; //boolean
     private LinkedList<MappedExecutable> executables;
 
     public String getName() {
@@ -232,19 +232,19 @@ public class User {
         this.youtubedlpath = youtubedlpath;
     }
 
-    public String getWindowlocx() {
+    public int getWindowlocx() {
         return windowlocx;
     }
 
-    public void setWindowlocx(String windowlocx) {
+    public void setWindowlocx(int windowlocx) {
         this.windowlocx = windowlocx;
     }
 
-    public String getWindowlocy() {
+    public int getWindowlocy() {
         return windowlocy;
     }
 
-    public void setWindowlocy(String windowlocy) {
+    public void setWindowlocy(int windowlocy) {
         this.windowlocy = windowlocy;
     }
 

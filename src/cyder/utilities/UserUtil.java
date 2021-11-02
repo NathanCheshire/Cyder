@@ -36,7 +36,14 @@ public class UserUtil <T> {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
                         && m.getName().replace("set","").equalsIgnoreCase(name)) {
-                    m.invoke(user, value);
+
+                    Class<?> castTo = m.getParameterTypes()[0];
+                    if (castTo.isPrimitive()) {
+                        m.invoke(user, value);
+                    } else {
+                        m.invoke(user, castTo.cast(value));
+                    }
+
                     break;
                 }
             }
@@ -65,7 +72,14 @@ public class UserUtil <T> {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
                         && m.getName().replace("set","").equalsIgnoreCase(name)) {
-                    m.invoke(user, value);
+
+                    Class<?> castTo = m.getParameterTypes()[0];
+                    if (castTo.isPrimitive()) {
+                        m.invoke(user, value);
+                    } else {
+                        m.invoke(user, castTo.cast(value));
+                    }
+
                     break;
                 }
             }
@@ -106,7 +120,13 @@ public class UserUtil <T> {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
                         && m.getName().replace("set","").equalsIgnoreCase(name)) {
-                    m.invoke(user, value);
+                    Class<?> castTo = m.getParameterTypes()[0];
+                    if (castTo.isPrimitive()) {
+                        m.invoke(user, value);
+                    } else {
+                        m.invoke(user, castTo.cast(value));
+                    }
+
                     break;
                 }
             }
@@ -369,7 +389,7 @@ public class UserUtil <T> {
      * @param name the data to extract from the file
      * @return the requested data
      */
-    public static String extractUserData(File f, String name) {
+    public static <T> T extractUserData(File f, String name) {
         if (!StringUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("File is not a json type");
         if (!f.exists())
@@ -587,7 +607,13 @@ public class UserUtil <T> {
                     //find default value to match
                     if (methodName.equalsIgnoreCase(pref.getID())) {
                         try {
-                            m.invoke(ret, pref.getDefaultValue());
+                            Class<?> castTo = m.getParameterTypes()[0];
+                            if (castTo.isPrimitive()) {
+                                m.invoke(ret, pref.getDefaultValue());
+                            } else {
+                                m.invoke(ret, castTo.cast(pref.getDefaultValue()));
+                            }
+
                             //we've invoked this setter with the preference so next preference
                             break;
                         } catch (Exception e) {
