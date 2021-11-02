@@ -1668,9 +1668,12 @@ public final class ConsoleFrame {
      */
     public void setUUID(String uuid) {
         UUID = uuid;
-        UserUtil.fixUser();
-        UserUtil.fixBackgrounds();
-        CyderColors.setGuiThemeColor(ColorUtil.hextorgbColor(UserUtil.getUserData("windowcolor")));
+
+        if (uuid != null) {
+            UserUtil.fixUser();
+            UserUtil.fixBackgrounds();
+            CyderColors.setGuiThemeColor(ColorUtil.hextorgbColor(UserUtil.getUserData("windowcolor")));
+        }
     }
 
     public String getUUID() {
@@ -2522,7 +2525,7 @@ public final class ConsoleFrame {
         consoleCyderFrame.dispose();
         closed = true;
         consoleMenuGenerated = false;
-        SessionLogger.log(SessionLogger.Tag.LOGOUT, " [" + getUsername() + "]");
+        SessionLogger.log(SessionLogger.Tag.LOGOUT, "[" + getUsername() + "]");
     }
 
     public boolean isClosed() {

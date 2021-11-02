@@ -707,6 +707,22 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Ends the current notification on screen. If more are behind it, the queue will immediately pull and display.
+     */
+    public void revokeCurrentNotification() {
+        currentNotification.kill();
+    }
+
+    /**
+     * Removes all currently displayed notifications and wipes the notification queue.
+     */
+    public void revokeAllNotifications() {
+        currentNotification.kill();
+        notificationList.clear();
+        notificationCheckerStarted = false;
+    }
+
+    /**
      * Getter for the top drag label associated with this CyderFrame instance. Used for frame resizing.
      * @return The associated DragLabel
      */

@@ -135,9 +135,16 @@ public class DebugConsole {
         //todo closing perlin is laggy if we animated at any point, perhaps threads aren't properly exited?
         // make each frame keep a list of threads and use a kill condition so before animation we can kill all threads accodiated with the frame
 
-        //todo reorganize triggers for input handler and think about a better way to do it
+        //todo implement context engine
+
+        //todo finish and test messaging client
 
         //todo don't allow a user to be logged in multiple times, technically it's possible
+        // method: constantly update last terminated milisecond with "running" for a user (add pref)
+        // then we can check this when starting and make sure that this isn't set to running, if it's set to a time
+        // then we may start, we'll also need to update this data when necessary
+
+        //todo class naming consistency
 
         //MessagingWidget.showGUI();
     }

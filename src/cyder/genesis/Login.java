@@ -55,9 +55,6 @@ public class Login {
         new Thread(() -> {
             StringUtil su = new StringUtil(refArea);
 
-            int playInc = 0;
-            int playRate = 2;
-
             try {
                 while (doLoginAnimations && loginFrame != null)  {
                     if (priorityPrintingList.size() > 0) {
@@ -65,16 +62,6 @@ public class Login {
 
                         for (char c : line.toCharArray()) {
                             su.print(String.valueOf(c));
-
-                            if (playInc == playRate - 1) {
-                                if (UserUtil.extractUser().getTypingsound().equals("1")) {
-                                    IOUtil.playSystemAudio("static/audio/Typing.mp3");
-                                    playInc = 0;
-                                }
-                            } else {
-                                playInc++;
-                            }
-
                             Thread.sleep(charTimeout);
                         }
                     } else if (printingList.size() > 0) {
@@ -82,16 +69,6 @@ public class Login {
 
                         for (char c : line.toCharArray()) {
                             su.print(String.valueOf(c));
-
-                            if (playInc == playRate - 1) {
-                                if (UserUtil.extractUser().getTypingsound().equals("1")) {
-                                    IOUtil.playSystemAudio("static/audio/Typing.mp3");
-                                    playInc = 0;
-                                }
-                            } else {
-                                playInc++;
-                            }
-
                             Thread.sleep(charTimeout);
                         }
                     }
@@ -338,6 +315,17 @@ public class Login {
             }
 
             if (UserUtil.checkPassword(name, hashedPass)) {
+                if (UserUtil.isLoggedIn(ConsoleFrame.getConsoleFrame().getUUID())) {
+                    loginFrame.notify("Sorry, but that user is already logged in");
+
+                    if (!ConsoleFrame.getConsoleFrame().isClosed())
+                        ConsoleFrame.getConsoleFrame().setUUID(null);
+
+                    return false;
+                } else {
+                    UserUtil.setUserData("loggedin","true");
+                }
+
                 //set ret var
                 ret = true;
 

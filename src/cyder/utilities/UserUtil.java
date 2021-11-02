@@ -459,6 +459,36 @@ public class UserUtil {
     }
 
     /**
+     * Determines whether the provided uuid is already logged in
+     * @param uuid the uuid to test for
+     * @return boolean describing whether or not the provided uuid assocaited with a cyder user is currently logged in
+     */
+    public static boolean isLoggedIn(String uuid) {
+        boolean ret = false;
+
+        //first we ensure all user's logged in values accurately describe their state
+        fixLoggedInValues();
+
+        File userJsonFile = new File("dynamic/users/" + uuid + "/userdata.json");
+
+        //should be impossible to not exists but I'll still check it regardless
+        if (userJsonFile.exists()) {
+            User u = extractUser(userJsonFile);
+            ret = u.isLoggedin().equalsIgnoreCase("true");
+        }
+
+        return ret;
+    }
+
+    /**
+     * For all the user's in the users/ dir, sets their loggedin data
+     * to what it actually is regardless of what it says
+     */
+    public static void fixLoggedInValues() {
+        //todo implement me before running
+    }
+
+    /**
      * Checks whether or not the given name/pass combo is valid and if so, sets the
      * ConsoleFrame UUID to it
      * @param name the username given
@@ -466,6 +496,8 @@ public class UserUtil {
      * @return whether or not the name/pass combo was valid
      */
     public static boolean checkPassword(String name, String hashedPass) {
+        boolean ret = false;
+
         try {
             IOUtil.cleanUsers();
 
@@ -487,7 +519,7 @@ public class UserUtil {
                 //if it's the one we're looking for, set consoel UUID, free resources, and return true
                 if (name.equalsIgnoreCase(user.getName()) && hashedPass.equals(user.getPass())) {
                     ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
-                    return true;
+                    ret = true;
                 }
             }
         }
@@ -496,7 +528,7 @@ public class UserUtil {
             ErrorHandler.handle(e);
         }
 
-        return false;
+        return ret;
     }
 
     /**

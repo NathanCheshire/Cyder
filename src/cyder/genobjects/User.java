@@ -37,6 +37,7 @@ public class User {
     private String ipkey;
     private String weatherkey;
     private String capsmode;
+    private String loggedin;
     private LinkedList<MappedExecutable> executables;
 
     public String getName() {
@@ -317,6 +318,14 @@ public class User {
 
     public void setExecutables(LinkedList<MappedExecutable> executables) {
         this.executables = executables;
+    }
+
+    public String isLoggedin() {
+        return loggedin;
+    }
+
+    public void setLoggedin(String loggedin) {
+        this.loggedin = loggedin;
     }
 
     //inner classes

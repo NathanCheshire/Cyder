@@ -131,6 +131,7 @@ public class GenesisShare {
         ret.add(new Preference("ipkey","IGNORE","",""));
         ret.add(new Preference("weatherkey","IGNORE","",""));
         ret.add(new Preference("capsmode","Capital Letters Mode","Capitalize all console output","0"));
+        ret.add(new Preference("loggedin","IGNORE","","false"));
 
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set
@@ -158,6 +159,9 @@ public class GenesisShare {
             //log exit code and end of log tag
             SessionLogger.log(SessionLogger.Tag.EXIT,null);
             SessionLogger.log(SessionLogger.Tag.EOL, code);
+
+            //sign user out in logs
+            UserUtil.setUserData("loggedin","false");
 
             //acquire and release sems to ensure no IO is currently underway
             GenesisShare.getExitingSem().acquire();

@@ -42,6 +42,7 @@ public class CyderLabel extends JLabel {
 
     @Override
     public String toString() {
-        return "CyderLabel object, hash=" + this.hashCode();
+        return "CyderLabel object, hash=" + this.hashCode() + ", parent=" +
+                (this.getParent() == null ? this.getParent() : " no parent");
     }
 }
