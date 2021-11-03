@@ -797,8 +797,8 @@ public class UserEditor {
             JLabel togglePrefLabel = new JLabel("<html>SEPARATOR<br/>SEPARATOR<br/>SEPARATOR<br/>SEPARATOR</html>") {
                 @Override
                 public void paintComponent(Graphics g) {
-                    boolean setSelected = UserUtil.getUserData(
-                            (GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
+                    boolean setSelected = ((String) UserUtil.getUserData((
+                            GenesisShare.getPrefs().get(localIndex).getID()))).equalsIgnoreCase("1");
 
                     int xOffset = switchingLabel.getWidth() / 2 - 35;
                     Color background = CyderColors.navy;
@@ -873,7 +873,7 @@ public class UserEditor {
 
                     String localID = GenesisShare.getPrefs().get(localIndex).getID();
 
-                    boolean wasSelected = UserUtil.getUserData(localID).equalsIgnoreCase("1");
+                    boolean wasSelected = ((String) UserUtil.getUserData(localID)).equalsIgnoreCase("1");
                     UserUtil.setUserData(localID, wasSelected ? "0" : "1");
 
                     ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();

@@ -298,7 +298,7 @@ public class UserCreator {
                             //as per convention, IGNORE for tooltip means ignore when creating user
                             // whilst IGNORE for default value means ignore for edit user
                             if (!pref.getTooltip().equals("IGNORE"))
-                                UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
+                                UserUtil.setUserData(user, pref.getID(), (String) pref.getDefaultValue());
                         }
 
                         user.setExecutables(null);
