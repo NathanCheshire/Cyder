@@ -130,8 +130,6 @@ public class DebugConsole {
 
         //todo there should be a cool menu/window for debug stats pane
 
-        //todo change data that can be a boolean/other types in sys.json and userdata.json to their respective types
-
         //todo closing perlin is laggy if we animated at any point, perhaps threads aren't properly exited?
         // make each frame keep a list of threads and use a kill condition so before animation we can kill all threads accodiated with the frame
 
