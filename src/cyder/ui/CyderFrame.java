@@ -829,6 +829,9 @@ public class CyderFrame extends JFrame {
                       if (currentNotification != null)
                           currentNotification.kill();
 
+                      //remove from consoelFrame, if we're even in it, it will handle that case
+                      ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
+
                       super.dispose();
 
                       for (PostCloseAction action : postCloseActions)
@@ -1609,17 +1612,15 @@ public class CyderFrame extends JFrame {
         int y = (fm.getAscent() + (taskbarIconLength - (fm.getAscent() + fm.getDescent())) / 2);
         g.drawString(text, x, y);
 
-        final CyderFrame refFrame = this;
-
         ret.setToolTipText(this.getTitle());
         ret.setIcon(new ImageIcon(bufferedImage));
         ret.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (refFrame != null && refFrame.isVisible() && refFrame.isActive()) {
-                    refFrame.minimizeAnimation();
-                } else if (refFrame != null) {
-                    refFrame.setState(Frame.NORMAL);
+                if (getState() == 0) {
+                    minimizeAnimation();
+                } else {
+                    setState(Frame.NORMAL);
                 }
             }
         });

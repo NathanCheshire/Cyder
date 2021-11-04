@@ -121,6 +121,7 @@ public final class ConsoleFrame {
             scrollingIndex = 0;
             fullscreen = false;
             closed = false;
+            consoleMenuGenerated = false;
             menuTaskbarFrames.clear();
 
             //handle random background by setting a random background index
@@ -1307,13 +1308,17 @@ public final class ConsoleFrame {
     }
 
     public void removeTaskbarIcon(CyderFrame associatedFrame) {
+        System.out.println(menuTaskbarFrames.size());
         menuTaskbarFrames.remove(associatedFrame);
+        System.out.println(menuTaskbarFrames.size());
         revalidateConsoleMenu();
     }
-    //todo revalidations need to work even if open
+
     public void addTaskbarIcon(CyderFrame associatedFrame) {
-        menuTaskbarFrames.add(associatedFrame);
-        revalidateConsoleMenu();
+        if (!menuTaskbarFrames.contains(associatedFrame)) {
+            menuTaskbarFrames.add(associatedFrame);
+            revalidateConsoleMenu();
+        }
     }
 
     private void minimizeMenu() {
