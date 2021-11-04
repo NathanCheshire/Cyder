@@ -28,7 +28,7 @@ public final class GrahamScan {
         return true;
     }
 
-    public static List<Point> getConvexHull(int[] xs, int[] ys) throws IllegalArgumentException {
+    public static List<Point> getConvexHull(int[] xs, int[] ys) {
         if (xs.length != ys.length) {
             throw new IllegalArgumentException("xs and ys don't have the same size");
         }
@@ -42,7 +42,7 @@ public final class GrahamScan {
         return getConvexHull(points);
     }
 
-    public static Vector<Point> getConvexHull(List<Point> points) throws IllegalArgumentException {
+    public static Vector<Point> getConvexHull(List<Point> points) {
         List<Point> sorted = new ArrayList<>(getSortedPointSet(points));
 
         if (sorted.size() < 3) {

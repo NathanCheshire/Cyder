@@ -1545,7 +1545,158 @@ public class CyderFrame extends JFrame {
         this.yPercent = yPercent;
     }
 
-    //inner classes
+    private static Color blueBorderColor = new Color(22,124,237);
+    private static Color redBorderColor = new Color(254,49,93);
+    private static Color orangeBorderColor = new Color(249,122,18);
+
+    private static int colorIndex = 0;
+
+    public static void incrementColorIndex() {
+        colorIndex++;
+
+        if (colorIndex == 3)
+            colorIndex = 0;
+    }
+
+    public static final int taskbarIconLength = 75;
+    public static final int taskbarBorderLength = 5;
+
+    public JLabel getTaskbarButton() {
+        if (this.getTitle() == null || this.getTitle().length() == 0)
+            throw new IllegalArgumentException("Title not set or long enough");
+
+        JLabel ret = new JLabel();
+
+        Color ourBorderColor = null;
+
+        switch (colorIndex) {
+            case 0:
+                ourBorderColor = blueBorderColor;
+                break;
+            case 1:
+                ourBorderColor = redBorderColor;
+                break;
+            case 2:
+                ourBorderColor = orangeBorderColor;
+                break;
+        }
+
+        incrementColorIndex();
+
+        BufferedImage bufferedImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
+        Graphics g = bufferedImage.getGraphics();
+
+        //set border color
+        g.setColor(ourBorderColor);
+        g.fillRect(0,0,taskbarIconLength,taskbarIconLength);
+
+        //draw center color
+        g.setColor(Color.black);
+        g.fillRect(taskbarBorderLength,taskbarBorderLength,
+                taskbarIconLength - taskbarBorderLength * 2,
+                taskbarIconLength - taskbarBorderLength * 2);
+
+        g.setColor(CyderColors.vanila);
+
+        String text = this.getTitle().substring(0, Math.min(4, this.getTitle().length()));
+
+        Font labelFont = new Font("Arial Black",Font.BOLD, 22);
+        g.setFont(labelFont);
+        g.setColor(CyderColors.vanila);
+
+        FontMetrics fm = g.getFontMetrics();
+        int x = (taskbarIconLength - fm.stringWidth(text)) / 2;
+        int y = (fm.getAscent() + (taskbarIconLength - (fm.getAscent() + fm.getDescent())) / 2);
+        g.drawString(text, x, y);
+
+        final CyderFrame refFrame = this;
+
+        ret.setToolTipText(this.getTitle());
+        ret.setIcon(new ImageIcon(bufferedImage));
+        ret.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (refFrame != null && refFrame.isVisible() && refFrame.isActive()) {
+                    refFrame.minimizeAnimation();
+                } else if (refFrame != null) {
+                    refFrame.setState(Frame.NORMAL);
+                }
+            }
+        });
+
+        return ret;
+    }
+
+    public static JLabel generateDefaultTaskbarComponent(String title, ClickAction clickAction) {
+        JLabel ret = new JLabel();
+
+        Color ourBorderColor = null;
+
+        switch (colorIndex) {
+            case 0:
+                ourBorderColor = blueBorderColor;
+                break;
+            case 1:
+                ourBorderColor = redBorderColor;
+                break;
+            case 2:
+                ourBorderColor = orangeBorderColor;
+                break;
+        }
+
+        incrementColorIndex();
+
+        BufferedImage bufferedImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
+        Graphics g = bufferedImage.getGraphics();
+
+        //set border color
+        g.setColor(ourBorderColor);
+        g.fillRect(0,0,taskbarIconLength,taskbarIconLength);
+
+        //draw center color
+        g.setColor(Color.black);
+        g.fillRect(taskbarBorderLength,taskbarBorderLength,
+                taskbarIconLength - taskbarBorderLength * 2,
+                taskbarIconLength - taskbarBorderLength * 2);
+
+        g.setColor(CyderColors.vanila);
+
+        Font labelFont = new Font("Arial Black",Font.BOLD, 22);
+        g.setFont(labelFont);
+        g.setColor(CyderColors.vanila);
+
+        String iconTitle = title.substring(0, Math.min(4, title.length()));
+        FontMetrics fm = g.getFontMetrics();
+        int x = (taskbarIconLength - fm.stringWidth(iconTitle)) / 2;
+        int y = (fm.getAscent() + (taskbarIconLength - (fm.getAscent() + fm.getDescent())) / 2);
+        g.drawString(iconTitle, x, y);
+
+        ret.setToolTipText(title);
+        ret.setIcon(new ImageIcon(bufferedImage));
+        ret.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                clickAction.fire();
+            }
+        });
+
+        return ret;
+    }
+
+    //used for icon frame actions in ConsoleFrame
+    public interface ClickAction {
+        void fire();
+    }
+
+    //overridden so we can add to ConsoleFrame's menu
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b);
+
+        if (b && !ConsoleFrame.getConsoleFrame().isClosed() && this != ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()) {
+            ConsoleFrame.getConsoleFrame().addTaskbarIcon(this);
+        }
+    }
 
     //inner classes
     private static class WaitingNotification {

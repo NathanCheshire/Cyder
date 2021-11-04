@@ -61,7 +61,7 @@ public class InputHandler {
 
     //handle methods ----------------------------------------------
 
-    public void handle(String op, boolean userTriggered) throws Exception{
+    public void handle(String op, boolean userTriggered) throws Exception {
         //check for null link
         if (outputArea == null)
             throw new IllegalArgumentException("Output area not set");

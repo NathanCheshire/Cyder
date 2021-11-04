@@ -123,11 +123,6 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //todo frames should be simply printed icons, of cyder logo but first letter of frame there
-        // generate the icon image for this as needed and choose from different colors (from intellij logo red, blue, orange)
-        // and print to scrolling pane, limit defaults and print those first, they don't go away.
-        // when you spawn a new frame, link it to the menu pane so that a post close action is to remove itself from the pane
-
         //todo there should be a cool menu/window for debug stats pane
 
         //todo closing perlin is laggy if we animated at any point, perhaps threads aren't properly exited?
