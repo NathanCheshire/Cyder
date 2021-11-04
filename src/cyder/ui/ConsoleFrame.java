@@ -8,17 +8,21 @@ import cyder.enums.Direction;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.UserEditor;
+import cyder.genobjects.User;
 import cyder.handler.ErrorHandler;
 import cyder.handler.InputHandler;
 import cyder.handler.SessionLogger;
-import cyder.genobjects.User;
 import cyder.testing.DebugConsole;
 import cyder.utilities.*;
-import cyder.widgets.*;
+import cyder.widgets.AudioPlayer;
+import cyder.widgets.GenericInformer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -1220,7 +1224,6 @@ public final class ConsoleFrame {
 
         Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
 
-        //todo need to print centered
         JTextPane menuPane = new JTextPane();
         menuPane.setEditable(false);
         menuPane.setAutoscrolls(false);
@@ -1228,6 +1231,11 @@ public final class ConsoleFrame {
         menuPane.setFocusable(true);
         menuPane.setOpaque(false);
         menuPane.setBackground(CyderColors.guiThemeColor);
+
+        StyledDocument doc = menuPane.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
         //adding components
         StringUtil printingUtil = new StringUtil(menuPane);
