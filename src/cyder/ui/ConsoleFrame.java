@@ -1231,50 +1231,40 @@ public final class ConsoleFrame {
         //adding components
         StringUtil printingUtil = new StringUtil(menuPane);
 
-        //todo this should draw backwards
+        //todo redrawing these shouldn't change a frame's color, it should stick until disposed
         if (menuTaskbarFrames != null && menuTaskbarFrames.size() > 0) {
-            for (CyderFrame frame : menuTaskbarFrames) {
-                printingUtil.printlnComponent(frame.getTaskbarButton());
+            for (int i = menuTaskbarFrames.size() - 1 ; i > -1 ; i--) {
+                printingUtil.printlnComponent(menuTaskbarFrames.get(i).getTaskbarButton());
                 printingUtil.println("");
             }
         }
 
-        //todo implement maps
-
-        printingUtil.printlnComponent(
-                CyderFrame.generateDefaultTaskbarComponent("Prefs", () -> UserEditor.showGUI(0)));
-        printingUtil.println("");
-
+        //mapped executables
         LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
 
         if (exes != null && !exes.isEmpty()) {
-            for (User.MappedExecutable exe : exes) {
-                JLabel label = new JLabel(StringUtil.capsFirst(exe.getName()));
-                label.setFont(menuFont);
-                label.setForeground(CyderColors.vanila);
-                printingUtil.printlnComponent(label);
-                label.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        IOUtil.openFileOutsideProgram(exe.getFilepath());
-                        consoleCyderFrame.notify("Opening: " + exe.getName());
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        label.setForeground(CyderColors.regularRed);
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        label.setForeground(CyderColors.vanila);
-                    }
-                });
+            if (!menuTaskbarFrames.isEmpty()) {
+                printingUtil.printlnComponent(generateMenuSep());
+                printingUtil.println("");
             }
 
-            //sep
+            for (User.MappedExecutable exe : exes) {
+                printingUtil.printlnComponent(
+                        CyderFrame.generateDefaultTaskbarComponent(exe.getName(), () -> {
+                            IOUtil.openFileOutsideProgram(exe.getFilepath());
+                            consoleCyderFrame.notify("Opening: " + exe.getName());
+                }, CyderColors.vanila));
+                printingUtil.println("");
+            }
+
+            printingUtil.printlnComponent(generateMenuSep());
             printingUtil.println("");
         }
+
+        //default menu items
+        printingUtil.printlnComponent(
+                CyderFrame.generateDefaultTaskbarComponent("Prefs", () -> UserEditor.showGUI(0)));
+        printingUtil.println("");
 
         printingUtil.printlnComponent(
                 CyderFrame.generateDefaultTaskbarComponent("Logout", () -> {
@@ -1308,9 +1298,7 @@ public final class ConsoleFrame {
     }
 
     public void removeTaskbarIcon(CyderFrame associatedFrame) {
-        System.out.println(menuTaskbarFrames.size());
         menuTaskbarFrames.remove(associatedFrame);
-        System.out.println(menuTaskbarFrames.size());
         revalidateConsoleMenu();
     }
 
@@ -1319,6 +1307,20 @@ public final class ConsoleFrame {
             menuTaskbarFrames.add(associatedFrame);
             revalidateConsoleMenu();
         }
+    }
+
+    public JLabel generateMenuSep() {
+        JLabel sepLabel = new JLabel("9021090210") {
+            @Override
+            public void paintComponent(Graphics g) {
+                //draw 5 high line 150 width across
+                g.setColor(getForeground());
+                g.fillRect(0, 7, 150, 5);
+                g.dispose();
+            }
+        };
+        sepLabel.setForeground(CyderColors.vanila);
+        return sepLabel;
     }
 
     private void minimizeMenu() {

@@ -814,6 +814,9 @@ public class CyderFrame extends JFrame {
                       int x = (int) point.getX();
                       int y = (int) point.getY();
 
+                      //remove from consoelFrame, if we're even in it, it will handle that case
+                      ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
+
                       //figure out increment for 25 frames
                       int distanceToTravel = this.getY();
                       //25 frames to animate
@@ -828,9 +831,6 @@ public class CyderFrame extends JFrame {
 
                       if (currentNotification != null)
                           currentNotification.kill();
-
-                      //remove from consoelFrame, if we're even in it, it will handle that case
-                      ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
 
                       super.dispose();
 
@@ -1568,8 +1568,6 @@ public class CyderFrame extends JFrame {
         if (this.getTitle() == null || this.getTitle().length() == 0)
             throw new IllegalArgumentException("Title not set or long enough");
 
-        JLabel ret = new JLabel();
-
         Color ourBorderColor = null;
 
         switch (colorIndex) {
@@ -1586,11 +1584,20 @@ public class CyderFrame extends JFrame {
 
         incrementColorIndex();
 
+        return getTaskbarButton(ourBorderColor);
+    }
+
+    public JLabel getTaskbarButton(Color borderColor) {
+        if (this.getTitle() == null || this.getTitle().length() == 0)
+            throw new IllegalArgumentException("Title not set or long enough");
+
+        JLabel ret = new JLabel();
+
         BufferedImage bufferedImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
         Graphics g = bufferedImage.getGraphics();
 
         //set border color
-        g.setColor(ourBorderColor);
+        g.setColor(borderColor);
         g.fillRect(0,0,taskbarIconLength,taskbarIconLength);
 
         //draw center color
@@ -1622,6 +1629,46 @@ public class CyderFrame extends JFrame {
                 } else {
                     setState(Frame.NORMAL);
                 }
+            }
+        });
+
+        return ret;
+    }
+
+    public static JLabel generateDefaultTaskbarComponent(String title, ClickAction clickAction, Color borderColor) {
+        JLabel ret = new JLabel();
+
+        BufferedImage bufferedImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
+        Graphics g = bufferedImage.getGraphics();
+
+        //set border color
+        g.setColor(borderColor);
+        g.fillRect(0,0,taskbarIconLength,taskbarIconLength);
+
+        //draw center color
+        g.setColor(Color.black);
+        g.fillRect(taskbarBorderLength,taskbarBorderLength,
+                taskbarIconLength - taskbarBorderLength * 2,
+                taskbarIconLength - taskbarBorderLength * 2);
+
+        g.setColor(CyderColors.vanila);
+
+        Font labelFont = new Font("Arial Black",Font.BOLD, 22);
+        g.setFont(labelFont);
+        g.setColor(CyderColors.vanila);
+
+        String iconTitle = title.substring(0, Math.min(4, title.length()));
+        FontMetrics fm = g.getFontMetrics();
+        int x = (taskbarIconLength - fm.stringWidth(iconTitle)) / 2;
+        int y = (fm.getAscent() + (taskbarIconLength - (fm.getAscent() + fm.getDescent())) / 2);
+        g.drawString(iconTitle, x, y);
+
+        ret.setToolTipText(title);
+        ret.setIcon(new ImageIcon(bufferedImage));
+        ret.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                clickAction.fire();
             }
         });
 
