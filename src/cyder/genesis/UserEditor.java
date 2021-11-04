@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
@@ -1112,9 +1113,19 @@ public class UserEditor {
                         String path = parts[1].trim();
 
                         File pointerFile = new File(path);
+                        boolean validLink = false;
 
-                        if (!pointerFile.exists() || !pointerFile.isFile()) {
-                            editUserFrame.notify("File does not exist or is not a file");
+                        try {
+                            URL url = new URL(path);
+                            URLConnection conn = url.openConnection();
+                            conn.connect();
+                            validLink = true;
+                        } catch (Exception ex) {
+                            validLink = false;
+                        }
+
+                        if ((!pointerFile.exists() || !pointerFile.isFile()) && !validLink) {
+                            editUserFrame.notify("File does not exist or link is invalid");
                         } else {
                             if (name.length() > 0) {
                                 LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();

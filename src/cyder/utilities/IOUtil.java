@@ -12,6 +12,8 @@ import javazoom.jl.player.Player;
 import java.awt.*;
 import java.io.*;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -44,6 +46,29 @@ public class IOUtil {
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
             }
+        }
+    }
+
+    /**
+     * Determines whether or not the provided string is a link or a file/directory path and then opens it
+     * @param fileOrLink the link/file to open
+     */
+    public static void openOutsideProgram(String fileOrLink) {
+        boolean validLink = false;
+
+        try {
+            URL url = new URL(fileOrLink);
+            URLConnection conn = url.openConnection();
+            conn.connect();
+            validLink = true;
+        } catch (Exception ex) {
+            validLink = false;
+        }
+
+        if (validLink) {
+            NetworkUtil.internetConnect(fileOrLink);
+        } else {
+            openFileOutsideProgram(fileOrLink);
         }
     }
 

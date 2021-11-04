@@ -25,8 +25,6 @@ public class IPUtil {
         return ipdata;
     }
 
-    //todo what if not set
-
     /**
      * Refreshes this object's IPData var
      */

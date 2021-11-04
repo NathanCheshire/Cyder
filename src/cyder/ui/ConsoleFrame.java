@@ -1259,7 +1259,7 @@ public final class ConsoleFrame {
             for (User.MappedExecutable exe : exes) {
                 printingUtil.printlnComponent(
                         CyderFrame.generateDefaultTaskbarComponent(exe.getName(), () -> {
-                            IOUtil.openFileOutsideProgram(exe.getFilepath());
+                            IOUtil.openOutsideProgram(exe.getFilepath());
                             consoleCyderFrame.notify("Opening: " + exe.getName());
                 }, CyderColors.vanila));
                 printingUtil.println("");

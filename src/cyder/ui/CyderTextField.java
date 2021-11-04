@@ -119,32 +119,38 @@ public class CyderTextField extends JTextField {
         this.setBorder(new LineBorder(CyderColors.regularRed, 5, false));
     }
 
+    private KeyAdapter autoCapitalizerListener = new KeyAdapter() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            if (getText().length() == 1) {
+                setText(getText().toUpperCase());
+            }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (getText().length() == 1) {
+                setText(getText().toUpperCase());
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (getText().length() == 1) {
+                setText(getText().toUpperCase());
+            }
+        }
+    };
+
+    private boolean autoCapitalize = false;
+
     public void setAutoCapitalization(boolean enable) {
-        if (enable) {
-            addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-                    if (getText().length() == 1) {
-                        setText(getText().toUpperCase());
-                    }
-                }
-
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    if (getText().length() == 1) {
-                        setText(getText().toUpperCase());
-                    }
-                }
-
-                @Override
-                public void keyReleased(KeyEvent e) {
-                    if (getText().length() == 1) {
-                        setText(getText().toUpperCase());
-                    }
-                }
-            });
+        if (enable && !autoCapitalize) {
+            addKeyListener(autoCapitalizerListener);
+            autoCapitalize = true;
         } else {
-            //todo remove somehow
+            removeKeyListener(autoCapitalizerListener);
+            autoCapitalize = false;
         }
     }
 
