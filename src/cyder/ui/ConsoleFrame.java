@@ -1220,6 +1220,7 @@ public final class ConsoleFrame {
 
         Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
 
+        //todo need to print centered
         JTextPane menuPane = new JTextPane();
         menuPane.setEditable(false);
         menuPane.setAutoscrolls(false);
@@ -1231,7 +1232,6 @@ public final class ConsoleFrame {
         //adding components
         StringUtil printingUtil = new StringUtil(menuPane);
 
-        //todo redrawing these shouldn't change a frame's color, it should stick until disposed
         if (menuTaskbarFrames != null && menuTaskbarFrames.size() > 0) {
             for (int i = menuTaskbarFrames.size() - 1 ; i > -1 ; i--) {
                 printingUtil.printlnComponent(menuTaskbarFrames.get(i).getTaskbarButton());
@@ -1257,6 +1257,11 @@ public final class ConsoleFrame {
                 printingUtil.println("");
             }
 
+            printingUtil.printlnComponent(generateMenuSep());
+            printingUtil.println("");
+        }
+
+        if (exes != null && exes.isEmpty() && !menuTaskbarFrames.isEmpty()) {
             printingUtil.printlnComponent(generateMenuSep());
             printingUtil.println("");
         }
@@ -1310,12 +1315,12 @@ public final class ConsoleFrame {
     }
 
     public JLabel generateMenuSep() {
-        JLabel sepLabel = new JLabel("9021090210") {
+        JLabel sepLabel = new JLabel("90210  90210") {
             @Override
             public void paintComponent(Graphics g) {
                 //draw 5 high line 150 width across
                 g.setColor(getForeground());
-                g.fillRect(0, 7, 150, 5);
+                g.fillRect(0, 7, 175, 5);
                 g.dispose();
             }
         };

@@ -89,6 +89,9 @@ public class CyderFrame extends JFrame {
         this.background = background;
         currentOrigIcon = background;
 
+        //border color for consoleframe menu pane set in instantiation of object
+        taskbarIconBorderColor = getTaskbarBorderColor();
+
         //this . methods
         setSize(new Dimension(width, height));
         setResizable(false);
@@ -1553,6 +1556,22 @@ public class CyderFrame extends JFrame {
     private static Color orangeBorderColor = new Color(249,122,18);
 
     private static int colorIndex = 0;
+    private Color taskbarIconBorderColor;
+
+    //initializes this frame instance's border color to be used for drawing/redrawing until object is disposed
+    private Color getTaskbarBorderColor() {
+        switch (colorIndex) {
+            case 0:
+                colorIndex++;
+                return blueBorderColor;
+            case 1:
+                colorIndex++;
+                return redBorderColor;
+            default:
+                colorIndex = 0;
+                return orangeBorderColor;
+        }
+    }
 
     public static void incrementColorIndex() {
         colorIndex++;
@@ -1568,23 +1587,7 @@ public class CyderFrame extends JFrame {
         if (this.getTitle() == null || this.getTitle().length() == 0)
             throw new IllegalArgumentException("Title not set or long enough");
 
-        Color ourBorderColor = null;
-
-        switch (colorIndex) {
-            case 0:
-                ourBorderColor = blueBorderColor;
-                break;
-            case 1:
-                ourBorderColor = redBorderColor;
-                break;
-            case 2:
-                ourBorderColor = orangeBorderColor;
-                break;
-        }
-
-        incrementColorIndex();
-
-        return getTaskbarButton(ourBorderColor);
+        return getTaskbarButton(taskbarIconBorderColor);
     }
 
     public JLabel getTaskbarButton(Color borderColor) {
