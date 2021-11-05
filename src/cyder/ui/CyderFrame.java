@@ -798,7 +798,7 @@ public class CyderFrame extends JFrame {
                       return;
 
                   //if closing confirmation exists and the user decides they do not want to exit the frame
-                  if (closingConfirmationMessage != null ) {
+                  if (closingConfirmationMessage != null) {
                       boolean exit = new GetterUtil().getConfirmation(closingConfirmationMessage, this);
 
                       if (!exit)
@@ -810,14 +810,17 @@ public class CyderFrame extends JFrame {
                   for (PreCloseAction action : preCloseActions)
                       action.invokeAction();
 
-                  this.disableDragging();
+                  //kill all threads
+                  killThreads();
+
+                  disableDragging();
 
                   if (this != null && isVisible()) {
                       Point point = getLocationOnScreen();
                       int x = (int) point.getX();
                       int y = (int) point.getY();
 
-                      //remove from consoelFrame, if we're even in it, it will handle that case
+                      //remove from consoleframe
                       ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
 
                       //figure out increment for 25 frames
@@ -829,8 +832,6 @@ public class CyderFrame extends JFrame {
                           Thread.sleep(0, 500);
                           setLocation(x, i);
                       }
-
-                      killThreads();
 
                       if (currentNotification != null)
                           currentNotification.kill();

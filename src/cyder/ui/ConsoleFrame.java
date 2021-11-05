@@ -189,6 +189,12 @@ public final class ConsoleFrame {
                     if (menuLabel != null)
                         revalidateConsoleMenu();
                 }
+
+                @Override
+                public void dispose() {
+                    inputField.requestFocus();
+                    super.dispose();
+                }
             };
 
             //after closing the frame exit the program is typical function
@@ -1295,8 +1301,10 @@ public final class ConsoleFrame {
     }
 
     public void removeTaskbarIcon(CyderFrame associatedFrame) {
-        menuTaskbarFrames.remove(associatedFrame);
-        revalidateConsoleMenu();
+        if (menuTaskbarFrames.contains(associatedFrame)) {
+            menuTaskbarFrames.remove(associatedFrame);
+            revalidateConsoleMenu();
+        }
     }
 
     public void addTaskbarIcon(CyderFrame associatedFrame) {
@@ -2022,6 +2030,9 @@ public final class ConsoleFrame {
     }
 
     public void revalidateConsoleMenu() {
+        if (closed)
+            return;
+
         if (menuLabel != null && menuLabel.isVisible()) {
             generateConsoleMenu();
             menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
@@ -2710,6 +2721,7 @@ public final class ConsoleFrame {
         consoleClockLabel.setText(time);
     }
 
+    //WHY THE FUCK does the menu being open affect this
     public void closeConsoleFrame(boolean exit) {
         //save window location
         UserUtil.setUserData("windowlocx",consoleCyderFrame.getX());
@@ -2734,10 +2746,11 @@ public final class ConsoleFrame {
             consoleCyderFrame.addPostCloseAction(() -> GenesisShare.exit(25));
         }
 
-        consoleCyderFrame.dispose();
         closed = true;
+        consoleCyderFrame.dispose();
     }
 
+    //does this work test all cases
     public void logout() {
         GenesisShare.suspendFrameChecker();
 
