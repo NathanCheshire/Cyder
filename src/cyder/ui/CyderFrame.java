@@ -824,13 +824,13 @@ public class CyderFrame extends JFrame {
                       ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
 
                       //figure out increment for 25 frames
-                      int distanceToTravel = this.getY();
+                      int distanceToTravel = Math.abs(this.getY()) + Math.abs(this.getHeight());
                       //25 frames to animate
-                      int animationInc = (int) ((double ) distanceToTravel / animationFrames);
+                      int animationInc = (int) ((double) distanceToTravel / animationFrames);
 
-                      for (int i = y; i >= -getHeight(); i -= animationInc) {
-                          Thread.sleep(0, 500);
-                          setLocation(x, i);
+                      for (int i = this.getY(); i >= -this.getHeight() ; i -= animationInc) {
+                          Thread.sleep(1);
+                          setLocation(this.getX(), i);
                       }
 
                       if (currentNotification != null)
