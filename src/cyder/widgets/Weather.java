@@ -200,7 +200,7 @@ public class Weather {
                     locationString = sb.toString();
                     useCustomLoc = true;
 
-                    AnimationUtil.closeAnimation(changeLocationFrame);
+                    changeLocationFrame.dispose();
                     weatherFrame.notify("Attempting to refresh weather stats for location \"" + locationString + "\"");
 
                     repullWeatherStats();

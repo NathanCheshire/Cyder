@@ -358,7 +358,7 @@ public class IOUtil {
     public static void corruptedUser() {
         try {
             GenesisShare.suspendFrameChecker();
-            ConsoleFrame.getConsoleFrame().close();
+            ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
 
             //close all open frames
             Frame[] frames = Frame.getFrames();

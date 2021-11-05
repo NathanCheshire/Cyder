@@ -108,7 +108,7 @@ public class TimeUtil {
         }
     }
 
-    public static void closeAtHourMinute(int Hour, int Minute, CyderFrame consoleFrame) {
+    public static void closeAtHourMinute(int Hour, int Minute, CyderFrame cf) {
         Calendar CloseCalendar = Calendar.getInstance();
 
         CloseCalendar.add(Calendar.DAY_OF_MONTH, 0);
@@ -119,7 +119,7 @@ public class TimeUtil {
 
         Executors.newSingleThreadScheduledExecutor(
                 new CyderThreadFactory("Scheduled Close Waiter [hour=" + Hour + ", minute=" + Minute + "]")).schedule(() -> {
-            AnimationUtil.closeAnimation(consoleFrame);
+            cf.dispose();
 
             try {
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {

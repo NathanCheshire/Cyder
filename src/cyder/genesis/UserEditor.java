@@ -1327,7 +1327,7 @@ public class UserEditor {
                            " Are you ABSOLUTELY sure you wish to continue?", editUserFrame);
 
                    if (delete) {
-                       ConsoleFrame.getConsoleFrame().close();
+                       ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
                        SystemUtil.deleteFolder(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
 
                        String dep = SecurityUtil.getDeprecatedUUID();

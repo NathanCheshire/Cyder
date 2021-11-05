@@ -295,7 +295,7 @@ public class Login {
 
         loginTypingAnimation(loginArea);
 
-        //in case this is after a corruption, start frame checker again
+        //in case this is after a corruption or logout, start frame checker again
         GenesisShare.resumeFrameChecker();
     }
 
@@ -343,7 +343,7 @@ public class Login {
                 //reset console frame if it's already open
                 if (!ConsoleFrame.getConsoleFrame().isClosed()) {
                     ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().removePostCloseActions();
-                    ConsoleFrame.getConsoleFrame().close();
+                    ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
                 }
 
                 //close all frames

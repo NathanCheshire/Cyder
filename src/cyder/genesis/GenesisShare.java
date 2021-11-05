@@ -144,18 +144,12 @@ public class GenesisShare {
     }
 
     /**
-     * Controled program exit that performs closing actions
-     * and then calls System.exit which will also invoke the shutdown hook
+     * Controled program exit that calls System.exit which will also invoke the shutdown hook
      * @param code the exiting code to describe why the program exited (0 is standard
      *             but for this program, the key/value pairs in Sys.json are followed)
      */
     public static void exit(int code) {
         try {
-            //reset console frame, input handler, bletchy thread, YouTube thread,
-            // and other stuff linked to console frame
-            if (!ConsoleFrame.getConsoleFrame().isClosed())
-                ConsoleFrame.getConsoleFrame().close();
-
             //log exit code and end of log tag
             SessionLogger.log(SessionLogger.Tag.EXIT,null);
             SessionLogger.log(SessionLogger.Tag.EOL, code);
@@ -168,7 +162,6 @@ public class GenesisShare {
             GenesisShare.getExitingSem().release();
             UserUtil.getJsonIOSem().acquire();
             UserUtil.getJsonIOSem().release();
-
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {

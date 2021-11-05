@@ -185,10 +185,13 @@ public final class ConsoleFrame {
                         audioControlsLabel.setBounds(w - 155, DragLabel.getDefaultHeight() + 3,
                                 audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
                     }
+
+                    if (menuLabel != null)
+                        revalidateConsoleMenu();
                 }
             };
 
-            //closing consoleframe should always result in a program exit
+            //after closing the frame exit the program is typical function
             consoleCyderFrame.addPostCloseAction(() -> GenesisShare.exit(25));
 
             //set background to non-navy color
@@ -784,7 +787,7 @@ public final class ConsoleFrame {
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
-                    close();
+                    closeConsoleFrame(true);
                 }
             });
             close.addMouseListener(new MouseAdapter() {
@@ -1270,7 +1273,7 @@ public final class ConsoleFrame {
                 CyderFrame.generateDefaultTaskbarComponent("Logout", this::logout));
         printingUtil.println("");
 
-        printingUtil.printlnComponent(CyderFrame.generateDefaultTaskbarComponent("Quit", () -> GenesisShare.exit(25)));
+        printingUtil.printlnComponent(CyderFrame.generateDefaultTaskbarComponent("Quit", () -> closeConsoleFrame(true)));
         printingUtil.println("");
 
         CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
@@ -2019,7 +2022,7 @@ public final class ConsoleFrame {
     }
 
     public void revalidateConsoleMenu() {
-        if (menuLabel.isVisible()) {
+        if (menuLabel != null && menuLabel.isVisible()) {
             generateConsoleMenu();
             menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
         }
@@ -2707,27 +2710,41 @@ public final class ConsoleFrame {
         consoleClockLabel.setText(time);
     }
 
-    public void close() {
+    public void closeConsoleFrame(boolean exit) {
+        //save window location
         UserUtil.setUserData("windowlocx",consoleCyderFrame.getX());
         UserUtil.setUserData("windowlocy",consoleCyderFrame.getY());
 
+        //stop any audio
+        IOUtil.stopAudio();
+
+        //close the input handler
         inputHandler.close();
         inputHandler = null;
+
+        //logs
+        SessionLogger.log(SessionLogger.Tag.LOGOUT, "[" + getUsername() + "]");
+        UserUtil.setUserData("loggedin","false");
+
+        //remove closing actions
+        consoleCyderFrame.removePostCloseActions();
+
+        //dispose and set closed var as true
+        if (exit) {
+            consoleCyderFrame.addPostCloseAction(() -> GenesisShare.exit(25));
+        }
+
         consoleCyderFrame.dispose();
         closed = true;
-
-        SessionLogger.log(SessionLogger.Tag.LOGOUT, "[" + getUsername() + "]");
     }
 
     public void logout() {
         GenesisShare.suspendFrameChecker();
 
-        IOUtil.stopAudio();
-        ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().removePostCloseActions();
-        close();
+        //close the consoleframe if it's still open
+        closeConsoleFrame(false);
 
-        UserUtil.setUserData("loggedin","false");
-
+        //close all residual cyderframes
         for (Frame f : Frame.getFrames()) {
             if (f instanceof CyderFrame)
                 f.dispose();

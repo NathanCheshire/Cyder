@@ -826,7 +826,7 @@ public class CyderFrame extends JFrame {
                       int animationInc = (int) ((double ) distanceToTravel / animationFrames);
 
                       for (int i = y; i >= -getHeight(); i -= animationInc) {
-                          Thread.sleep(1);
+                          Thread.sleep(0, 500);
                           setLocation(x, i);
                       }
 
@@ -1588,6 +1588,15 @@ public class CyderFrame extends JFrame {
             throw new IllegalArgumentException("Title not set or long enough");
 
         return getTaskbarButton(taskbarIconBorderColor);
+    }
+
+    //todo why are the buttons still not working properly for menu
+    //todo use me
+    public JLabel getTaskbarButtonHover() {
+        if (this.getTitle() == null || this.getTitle().length() == 0)
+            throw new IllegalArgumentException("Title not set or long enough");
+
+        return getTaskbarButton(taskbarIconBorderColor.darker());
     }
 
     public JLabel getTaskbarButton(Color borderColor) {
