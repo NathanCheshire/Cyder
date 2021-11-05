@@ -185,17 +185,6 @@ public final class ConsoleFrame {
                                 audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
                     }
                 }
-
-                @Override
-                public void setSize(int x, int y) {
-                    super.setSize(x, y);
-                }
-
-                @Override
-                public void dispose() {
-                    super.dispose();
-                    inputField.requestFocus();
-                }
             };
 
             //closing consoleframe should always result in a program exit
@@ -1282,6 +1271,7 @@ public final class ConsoleFrame {
         printingUtil.printlnComponent(
                 CyderFrame.generateDefaultTaskbarComponent("Logout", () -> {
                     try {
+                        //this breaks the menu and consoleframe somehow?
                         inputHandler.handle("logout",false);
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
@@ -2285,7 +2275,6 @@ public final class ConsoleFrame {
         inputHandler = null;
         consoleCyderFrame.dispose();
         closed = true;
-        consoleMenuGenerated = false;
         SessionLogger.log(SessionLogger.Tag.LOGOUT, "[" + getUsername() + "]");
     }
 
