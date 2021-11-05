@@ -131,7 +131,7 @@ public class GenesisShare {
         ret.add(new Preference("ipkey","IGNORE","",""));
         ret.add(new Preference("weatherkey","IGNORE","",""));
         ret.add(new Preference("capsmode","Capital Letters Mode","Capitalize all console output","0"));
-        ret.add(new Preference("loggedin","IGNORE","","false"));
+        ret.add(new Preference("loggedin","IGNORE","","0"));
 
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set

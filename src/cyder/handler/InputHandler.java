@@ -744,16 +744,7 @@ public class InputHandler {
         } else if (eic("askew")) {
             ConsoleFrame.getConsoleFrame().rotateBackground(5);
         } else if (hasWord("logout")) {
-            GenesisShare.suspendFrameChecker();
-            for (Frame f : Frame.getFrames()) {
-                if (f instanceof CyderFrame)
-                    f.dispose();
-            }
-            IOUtil.stopAudio();
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().removePostCloseActions();
-            ConsoleFrame.getConsoleFrame().close();
-            UserUtil.setUserData("loggedin","false");
-            Login.showGUI();
+           ConsoleFrame.getConsoleFrame().logout();
         } else if (hasWord("throw") && hasWord("error")) {
             ConsoleFrame.getConsoleFrame().getInputField().setText("");
             throw new Exception("Error thrown on " + TimeUtil.userTime());

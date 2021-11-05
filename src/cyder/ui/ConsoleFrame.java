@@ -7,6 +7,7 @@ import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.GenesisShare;
+import cyder.genesis.Login;
 import cyder.genesis.UserEditor;
 import cyder.genobjects.User;
 import cyder.handler.ErrorHandler;
@@ -780,13 +781,10 @@ public final class ConsoleFrame {
             close = new JButton("");
             close.setToolTipText("Close");
             close.addActionListener(e -> {
-                UserUtil.setUserData("windowlocx",consoleCyderFrame.getX());
-                UserUtil.setUserData("windowlocy",consoleCyderFrame.getY());
-
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
-                    consoleCyderFrame.dispose();
+                    close();
                 }
             });
             close.addMouseListener(new MouseAdapter() {
@@ -1269,14 +1267,7 @@ public final class ConsoleFrame {
         printingUtil.println("");
 
         printingUtil.printlnComponent(
-                CyderFrame.generateDefaultTaskbarComponent("Logout", () -> {
-                    try {
-                        //this breaks the menu and consoleframe somehow?
-                        inputHandler.handle("logout",false);
-                    } catch (Exception e) {
-                        ErrorHandler.handle(e);
-                    }
-                }));
+                CyderFrame.generateDefaultTaskbarComponent("Logout", this::logout));
         printingUtil.println("");
 
         printingUtil.printlnComponent(CyderFrame.generateDefaultTaskbarComponent("Quit", () -> GenesisShare.exit(25)));
@@ -2270,14 +2261,6 @@ public final class ConsoleFrame {
         return backgroundFiles.size() > 1;
     }
 
-    public void close() {
-        inputHandler.close();
-        inputHandler = null;
-        consoleCyderFrame.dispose();
-        closed = true;
-        SessionLogger.log(SessionLogger.Tag.LOGOUT, "[" + getUsername() + "]");
-    }
-
     public boolean isClosed() {
         return closed;
     }
@@ -2722,5 +2705,34 @@ public final class ConsoleFrame {
         int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
         consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2, consoleClockLabel.getY(), w, h);
         consoleClockLabel.setText(time);
+    }
+
+    public void close() {
+        UserUtil.setUserData("windowlocx",consoleCyderFrame.getX());
+        UserUtil.setUserData("windowlocy",consoleCyderFrame.getY());
+
+        inputHandler.close();
+        inputHandler = null;
+        consoleCyderFrame.dispose();
+        closed = true;
+
+        SessionLogger.log(SessionLogger.Tag.LOGOUT, "[" + getUsername() + "]");
+    }
+
+    public void logout() {
+        GenesisShare.suspendFrameChecker();
+
+        IOUtil.stopAudio();
+        ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().removePostCloseActions();
+        close();
+
+        UserUtil.setUserData("loggedin","false");
+
+        for (Frame f : Frame.getFrames()) {
+            if (f instanceof CyderFrame)
+                f.dispose();
+        }
+
+        Login.showGUI();
     }
 }
