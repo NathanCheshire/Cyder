@@ -48,6 +48,7 @@ public class CyderFrame extends JFrame {
     private int width = 1;
     private int height = 1;
 
+    //threads belonging to this instance: notification queuer and dance thread may be ctrl + c'd away
     private boolean threadsKilled;
 
     private ImageIcon background;
@@ -64,6 +65,9 @@ public class CyderFrame extends JFrame {
     private JLabel iconLabel;
     private JLayeredPane contentLabel;
     private JLayeredPane iconPane;
+
+    //upon disposing this will be set to true so the inner content pane is not repainted to speed up any animations
+    private boolean disableContentRepainting = false;
 
     private Color backgroundColor = CyderColors.navy;
 
@@ -132,8 +136,16 @@ public class CyderFrame extends JFrame {
         };
         contentLabel.setFocusable(false);
 
-        //adding pane (getcontentpane.add components are added here)
-        iconLabel = new JLabel();
+        //adding pane (getContentPane().add(component))
+        iconLabel = new JLabel() {
+            @Override
+            public void repaint() {
+                //as long as we should repaint, repaint it
+                if (!disableContentRepainting) {
+                    super.repaint();
+                }
+            }
+        };
         iconLabel.setIcon(background);
         iconLabel.setBounds(2,2,width - 4,height - 4);
         iconLabel.setFocusable(false);
@@ -812,7 +824,11 @@ public class CyderFrame extends JFrame {
                   //kill all threads
                   killThreads();
 
+                  //disable dragging
                   disableDragging();
+
+                  //disable content pane REPAINTING not paint to speed up the animation
+                  disableContentRepainting = true;
 
                   if (this != null && isVisible()) {
                       Point point = getLocationOnScreen();
@@ -874,7 +890,6 @@ public class CyderFrame extends JFrame {
      */
     public void dance() {
         this.control_c_threads = false;
-        int delay = 10;
 
         Thread DanceThread = new Thread(() -> {
             boolean wasEnabled = false;
@@ -901,61 +916,65 @@ public class CyderFrame extends JFrame {
                     else if (restoreX > SystemUtil.getScreenWidth())
                         setLocation(SystemUtil.getScreenWidth() - this.getWidth(), restoreY);
 
+                    int increment = 10;
+                    int miliTimeout = 1;
+                    int nanoTimeout = 0;
+
                     //moves frame up to top of screen
-                    for (int y = getY(); y >= 0; y -= 10) {
+                    for (int y = getY(); y >= 0; y -= increment) {
                         if (this.control_c_threads)
                             break control_c_exit;
-                        Thread.sleep(delay);
+                        Thread.sleep(miliTimeout, nanoTimeout);
                         setLocation(this.getX(), y);
                     }
 
                     //move from right to left
-                    for (int x = getX(); x >= 0; x -= 10) {
+                    for (int x = getX(); x >= 0; x -= increment) {
                         if (this.control_c_threads)
                             break control_c_exit;
-                        Thread.sleep(delay);
+                        Thread.sleep(miliTimeout, nanoTimeout);
                         setLocation(x, this.getY());
                     }
 
                     //move from top to bottom
-                    for (int y = getY(); y <= SystemUtil.getScreenHeight() - this.getHeight(); y += 10) {
+                    for (int y = getY(); y <= SystemUtil.getScreenHeight() - this.getHeight(); y += increment) {
                         if (this.control_c_threads)
                             break control_c_exit;
-                        Thread.sleep(delay);
+                        Thread.sleep(miliTimeout, nanoTimeout);
                         setLocation(this.getX(), y);
                     }
 
                     //move from left to right
-                    for (int x = getX(); x <= SystemUtil.getScreenWidth() - this.getWidth(); x += 10) {
+                    for (int x = getX(); x <= SystemUtil.getScreenWidth() - this.getWidth(); x += increment) {
                         if (this.control_c_threads)
                             break control_c_exit;
-                        Thread.sleep(delay);
+                        Thread.sleep(miliTimeout, nanoTimeout);
                         setLocation(x, this.getY());
                     }
 
                     //move from bottom to top
-                    for (int y = getY(); y > 0; y -= 10) {
+                    for (int y = getY(); y > 0; y -= increment) {
                         if (this.control_c_threads)
                             break control_c_exit;
-                        Thread.sleep(delay);
+                        Thread.sleep(miliTimeout, nanoTimeout);
                         setLocation(this.getX(), y);
                     }
 
                     //move from top to restoreX
-                    for (int x = getX(); x >= restoreX; x -= 10) {
+                    for (int x = getX(); x >= restoreX; x -= increment) {
                         if (this.control_c_threads)
                             break control_c_exit;
-                        Thread.sleep(delay);
+                        Thread.sleep(miliTimeout, nanoTimeout);
                         setLocation(x, this.getY());
                     }
 
                     setLocation(restoreX, this.getY());
 
                     //move from top to restoreY
-                    for (int y = getY(); y <= restoreY; y += 10) {
+                    for (int y = getY(); y <= restoreY; y += increment) {
                         if (this.control_c_threads)
                             break control_c_exit;
-                        Thread.sleep(delay);
+                        Thread.sleep(miliTimeout, nanoTimeout);
                         setLocation(this.getX(), y);
                     }
 
@@ -1048,6 +1067,10 @@ public class CyderFrame extends JFrame {
         super.setSize(innerBoundsCheck(width,height)[0], innerBoundsCheck(width,height)[1]);
     }
 
+    /*
+    This is a bodge essentially since we need to make sure the width and height passed for CyderFrame
+    is at least 100x100 but the super call must be first. Thus, this thing was spawned
+     */
     private static int[] innerBoundsCheck(int width, int height) {
         int[] ret = new int[2];
         ret[0] = Math.max(100, width);

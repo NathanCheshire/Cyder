@@ -123,7 +123,10 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //todo be able to stop frame's inner pane from repainting on dragging if desired
+        //todo offset for dragging area vs drag label should be variable. This is more or less
+        // to make that portion of code readable
+
+        //todo try and make frame dancing universal so they move in a synchronous way
 
         //todo implement context engine
 
