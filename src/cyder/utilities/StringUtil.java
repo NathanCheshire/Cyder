@@ -907,4 +907,19 @@ public class StringUtil {
             return ret;
         }
     }
+
+    /**
+     * Determines whether the given words are anagrams of each other
+     * @param wordOne the first word
+     * @param wordTwo the second word
+     * @return a boolean describing whether or not these words are anagrams
+     */
+    public static boolean areAnagrams(String wordOne, String wordTwo) {
+        char[] W1C = wordOne.toLowerCase().toCharArray();
+        char[] W2C = wordTwo.toLowerCase().toCharArray();
+        Arrays.sort(W1C);
+        Arrays.sort(W2C);
+
+        return Arrays.equals(W1C, W2C);
+    }
 }

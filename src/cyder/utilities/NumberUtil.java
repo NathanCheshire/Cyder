@@ -36,6 +36,25 @@ public class NumberUtil {
         return Numbers.isEmpty();
     }
 
+    public static ArrayList<Integer> primeFactors(int num) {
+        if (isPrime(num)) {
+            ArrayList<Integer> numbers = new ArrayList<>();
+            numbers.add(1);
+            numbers.add(num);
+            return numbers;
+        } else {
+            ArrayList<Integer> numbers = new ArrayList<>();
+
+            for (int i = 3; i < Math.ceil(Math.sqrt(num)); i += 2) {
+                if (num % i == 0) {
+                    numbers.add(i);
+                }
+            }
+
+            return numbers;
+        }
+    }
+
     public static LinkedList<Long> fib(long a, long b, int numFibs) {
         LinkedList<Long> ret = new LinkedList();
         ret.add(a);

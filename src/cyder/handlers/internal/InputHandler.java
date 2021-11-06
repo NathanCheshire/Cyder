@@ -51,7 +51,6 @@ public class InputHandler {
     private boolean finishPrinting;
     private String userInputDesc;
     private String operation;
-    private String anagram;
     private UserEditor userEditor;
 
     private InputHandler() {} //no instantiation without a valid JTextPane to use
@@ -111,9 +110,8 @@ public class InputHandler {
                 println("It's Tails!");
             }
         } else if ((eic("hello") || has("whats up") || hasWord("hi"))
-                && (!hasWord("print") && !hasWord("bletchy") && !hasWord("echo") &&
-                !hasWord("youtube") && !hasWord("google") && !hasWord("wikipedia") &&
-                !hasWord("synonym") && !hasWord("define"))) {
+                && (!hasWord("print") && !hasWord("bletchy") && !hasWord("echo")
+                && !hasWord("wikipedia") && !hasWord("synonym") && !hasWord("define"))) {
             int choice = NumberUtil.randInt(1, 7);
 
             switch (choice) {
@@ -600,11 +598,9 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().repaint();
             println("ConsoleFrame repainted");
         } else if (hasWord("disco")) {
-            println("How many iterations would you like to disco for? (Enter a positive integer)");
-            setUserInputMode(true);
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputDesc("disco");
-        }   else if (hasWord("java") && hasWord("properties")) {
+            println("I hope you're not the only one at this party.");
+            SystemUtil.disco(10);
+        } else if (hasWord("java") && hasWord("properties")) {
             StatUtil.javaProperties();
         } else if (eic("panic")) {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
@@ -637,17 +633,41 @@ public class InputHandler {
                 println("Silly " + ConsoleFrame.getConsoleFrame().getUsername() + "; your background " +
                         "is a solid color :P");
             } else {
-                println("Enter your pixel size (a positive integer)");
-                setUserInputDesc("pixelatebackground");
-                setUserInputMode(true);
-                ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
+                new Thread(() -> {
+                    String input = new GetterUtil().getString("Pixel size","Enter any integer", "Pixelate");
+
+                    try {
+                        int pixelSize = Integer.parseInt(input);
+
+                        if (pixelSize > 0) {
+                            BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getConsoleFrame().
+                                    getCurrentBackgroundFile().getAbsoluteFile()), pixelSize);
+
+                            String searchName = ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getName()
+                                    .replace(".png", "") + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
+
+                            File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
+                                    "/Backgrounds/" + searchName);
+
+                            ImageIO.write(img, "png", saveFile);
+
+                            LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
+
+                            println("Background pixelated and saved as a separate background file.");
+                            ConsoleFrame.getConsoleFrame().setFullscreen(false);
+
+                            for (int i = 0; i < backgrounds.size(); i++) {
+                                if (backgrounds.get(i).getName().equals(searchName)) {
+                                    ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
+                                    ConsoleFrame.getConsoleFrame().repaint();
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        ErrorHandler.handle(e);
+                    }
+                },"Image Pixelator Getter thread").start();
             }
-        } else if (has("alphabet") && (hasWord("sort") ||
-                hasWord("organize") || hasWord("arrange"))) {
-            println("Enter your word to be alphabetically rearranged");
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputMode(true);
-            setUserInputDesc("alphabetize");
         } else if (eic("hide")) {
             ConsoleFrame.getConsoleFrame().minimize();
         } else if (hasWord("analyze") && hasWord("code")) {
@@ -663,15 +683,36 @@ public class InputHandler {
         }  else if (hasWord("debug") && hasWord("windows")) {
             StatUtil.allStats();
         } else if (hasWord("binary") && !has("dump")) {
-            println("Enter a decimal number to be converted to binary.");
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputMode(true);
-            setUserInputDesc("binary");
+            new Thread(() -> {
+                String input = new GetterUtil().getString("Enter an Interger","Enter any iteger to be converted to binary", "Submit");
+
+                try {
+                    if (input.matches("[0-9]+") && !StringUtil.empytStr(input)) {
+                        println(input + " converted to binary equals: " + Integer.toBinaryString(Integer.parseInt(input)));
+                    } else {
+                        println("Your value must only contain numbers.");
+                    }
+                } catch (Exception ignored) {}
+            },"Binary Converter Getter Thread").start();
         } else if (hasWord("prime")) {
-            println("Enter any positive integer and I will tell you if it's prime and what it's divisible by.");
-            setUserInputDesc("prime");
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputMode(true);
+            try {
+                String[] parts = operation.split(" ");
+
+                if (parts.length == 2) {
+                    int num = Integer.parseInt(parts[1]);
+
+                    if (NumberUtil.isPrime(num)) {
+                        println(num + " is a prime");
+                    } else {
+                        println(num + " is not a prime because it is divisible by: " + NumberUtil.primeFactors(num));
+                    }
+                } else {
+                    println("Prime usage: prime number");
+                }
+            } catch (Exception e) {
+                println("Prime usage: prime number");
+                ErrorHandler.silentHandle(e);
+            }
         } else if ((eic("quit") || eic("exit") || eic("leave") || eic("close")) &&
                 (!has("music") && !has("dance") && !has("script"))) {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
@@ -781,24 +822,21 @@ public class InputHandler {
         } else if (hasWord("system") && hasWord("properties")) {
             StatUtil.systemProperties();
         } else if (hasWord("anagram")) {
-            println("This function will tell you if two"
-                    + " words are anagrams of each other."
-                    + "\nEnter your first word...");
-            setUserInputDesc("anagram1");
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputMode(true);
-        } else if (hasWord("url")) {
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputMode(true);
-            setUserInputDesc("url");
-            println("Enter your desired URL");
-        } else if (hasWord("reset") && hasWord("mouse")) {
+            String[] parts = operation.split(" ");
+
+            if (parts.length != 3) {
+                println("Anagram usage: anagram word1 word2");
+            } else if (parts[0].trim().length() == 0 || parts[1].trim().length() == 0 || parts[2].trim().length() == 0) {
+                println("Anagram usage: anagram word1 word2");
+            } else {
+                if (StringUtil.areAnagrams(parts[1], parts[2])) {
+                    println(parts[1] + " and " + parts[2] + " are anagrams of each other");
+                } else {
+                    println(parts[1] + " and " + parts[2] + " are not anagrams of each other");
+                }
+            }
+        }  else if (hasWord("reset") && hasWord("mouse")) {
             SystemUtil.resetMouse();
-        } else if (eic("logoff")) {
-            println("Are you sure you want to log off your computer? This is not Cyder we are talking about (Enter yes/no)");
-            setUserInputDesc("logoff");
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputMode(true);
         } else if (eic("clc") || eic("cls") || eic("clear") || (hasWord("clear") && hasWord("screen"))) {
             clc();
         }  else if (hasWord("reset") && hasWord("clipboard")) {
@@ -1099,7 +1137,9 @@ public class InputHandler {
         }
         //final attempt at unknown input --------------------------
         else {
-            if (handleMath(operation)) {
+            if (isURLCheck(operation)) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE URL FUNCTION HANDLED");
+            } else if (handleMath(operation)) {
                 SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH FUNCTION HANDLED");
             } else if (evaluateExpression(operation)) {
                 SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH HANDLED");
@@ -1167,128 +1207,29 @@ public class InputHandler {
         } else return false;
     }
 
-    public void handleSecond(String input) {
-        if (outputArea == null)
-            throw new IllegalArgumentException("Output area not set");
+    public boolean isURLCheck(String operation) {
+        boolean ret = false;
 
+        try {
+            URL url = new URL(operation);
+            HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+            ret = true;
+            NetworkUtil.internetConnect(operation);
+        } catch (Exception ignored) {
+            ret = false;
+        }
+
+        return ret;
+    }
+
+    public void handleSecond(String input) {
         try {
             String desc = getUserInputDesc();
 
-            if (desc.equalsIgnoreCase("url") && !StringUtil.empytStr(input)) {
-                NetworkUtil.internetConnect(new URI(input));
-            } else if (desc.equalsIgnoreCase("prime") && input != null && !input.equals("")) {
-                int num = Integer.parseInt(input);
-
-                if (num <= 0) {
-                    println("The inger " + num + " is not a prime number because it is negative.");
-                } else if (num == 1) {
-                    println("The inger 1 is not a prime number by the definition of a prime number.");
-                } else if (num == 2) {
-                    println("The integer 2 is indeed a prime number.");
-                }
-
-                ArrayList<Integer> Numbers = new ArrayList<>();
-
-                for (int i = 3; i < Math.ceil(Math.sqrt(num)); i += 2) {
-                    if (num % i == 0) {
-                        Numbers.add(i);
-                    }
-                }
-
-                if (Numbers.isEmpty()) {
-                    println("The integer " + num + " is indeed a prime number.");
-                } else {
-                    println("The integer " + num + " is not a prime number because it is divisible by " + Numbers);
-                }
-            } else if (desc.equalsIgnoreCase("google") && input != null && !input.equals("")) {
-                input = input.replace("'", "").replace(" ", "+");
-                println("Attempting to connect...");
-                NetworkUtil.internetConnect("https://www.google.com/search?q=" + input);
-            } else if (desc.equalsIgnoreCase("youtube") && input != null && !input.equals("")) {
-                input = input.replace("'", "").replace(" ", "+");
-                println("Attempting to connect...");
-                NetworkUtil.internetConnect("https://www.youtube.com/results?search_query=" + input);
-            } else if (desc.equalsIgnoreCase("math") && input != null && !input.equals("")) {
-                input = input.replace("'", "").replace(" ", "+");
-                println("Attempting to connect...");
-                NetworkUtil.internetConnect("https://www.wolframalpha.com/input/?i=" + input);
-            } else if (desc.equalsIgnoreCase("binary")) {
-                if (input.matches("[0-9]+") && !StringUtil.empytStr(input)) {
-                    println(input + " converted to binary equals: " + Integer.toBinaryString(Integer.parseInt(input)));
-                } else {
-                    println("Your value must only contain numbers.");
-                }
-            } else if (desc.equalsIgnoreCase("disco") && input != null && !input.equals("")) {
-                println("I hope you're not the only one at this party.");
-                SystemUtil.disco(Integer.parseInt(input));
-            } else if (desc.equalsIgnoreCase("youtube word search") && input != null && !input.equals("")) {
+            if (desc.equalsIgnoreCase("youtube word search") && input != null && !input.equals("")) {
                 String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
                 browse = browse.replace("REPLACE", input).replace(" ", "+");
                 NetworkUtil.internetConnect(browse);
-            } else if (desc.equalsIgnoreCase("anagram1")) {
-                println("Enter your second word");
-                anagram = input;
-                ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-                setUserInputMode(true);
-                setUserInputDesc("anagram2");
-            } else if (desc.equalsIgnoreCase("anagram2")) {
-                if (anagram.length() != input.length()) {
-                    println("These words are not anagrams of each other.");
-                } else if (anagram.equalsIgnoreCase(input)) {
-                    println("These words are in fact anagrams of each other.");
-                } else {
-                    char[] W1C = anagram.toLowerCase().toCharArray();
-                    char[] W2C = input.toLowerCase().toCharArray();
-                    Arrays.sort(W1C);
-                    Arrays.sort(W2C);
-
-                    if (Arrays.equals(W1C, W2C)) {
-                        println("These words are in fact anagrams of each other.");
-                    } else {
-                        println("These words are not anagrams of each other.");
-                    }
-                }
-
-                anagram = "";
-            } else if (desc.equalsIgnoreCase("alphabetize")) {
-                char[] Sorted = input.toCharArray();
-                Arrays.sort(Sorted);
-                println("\"" + input + "\" alphabetically organized is \"" + new String(Sorted) + "\".");
-            } else if (desc.equalsIgnoreCase("addbackgrounds")) {
-                if (StringUtil.isConfirmation(input)) {
-                    UserEditor.showGUI(0);
-                    NetworkUtil.internetConnect("https://images.google.com/");
-                } else
-                    println("Okay nevermind then");
-            } else if (desc.equalsIgnoreCase("logoff")) {
-                if (StringUtil.isConfirmation(input)) {
-                    String shutdownCmd = "shutdown -l";
-                    Runtime.getRuntime().exec(shutdownCmd);
-                } else
-                    println("Okay nevermind then");
-            } else if (desc.equalsIgnoreCase("pixelatebackground")) {
-                BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getConsoleFrame().
-                        getCurrentBackgroundFile().getAbsoluteFile()), Integer.parseInt(input));
-
-                String searchName = ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getName()
-                        .replace(".png", "") + "_Pixelated_Pixel_Size_" + Integer.parseInt(input) + ".png";
-
-                File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
-                        "/Backgrounds/" + searchName);
-
-                ImageIO.write(img, "png", saveFile);
-
-                LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
-
-                println("Background pixelated and saved as a separate background file.");
-                ConsoleFrame.getConsoleFrame().setFullscreen(false);
-
-                for (int i = 0; i < backgrounds.size(); i++) {
-                    if (backgrounds.get(i).getName().equals(searchName)) {
-                        ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
-                        ConsoleFrame.getConsoleFrame().repaint();
-                    }
-                }
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
