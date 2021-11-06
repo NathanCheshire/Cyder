@@ -123,8 +123,6 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //todo be able to run test from manual testing widgets using reflection API too
-
         //todo be able to stop frame's inner pane from repainting on dragging if desired
 
         //todo implement context engine

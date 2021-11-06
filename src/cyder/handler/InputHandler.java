@@ -12,6 +12,7 @@ import cyder.genesis.Login;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.testing.DebugConsole;
+import cyder.testing.ManualTestingWidgets;
 import cyder.testing.UnitTests;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutube;
@@ -1104,29 +1105,56 @@ public class InputHandler {
                 SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE MATH HANDLED");
             } else if (preferenceCheck(operation)) {
                 SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE PREFERENCE TOGGLE HANDLED");
-            } else if (testCheck(operation)) {
-                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE TEST REFLECTION FIRE HANDLED");
+            } else if (manualTestCheck(operation)) {
+                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
+            } else if (unitTestCheck(operation)) {
+                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
             } else {
                 unknownInput();
             }
         }
     }
 
-    public boolean testCheck(String operation) {
+    public boolean manualTestCheck(String operation) {
         operation = operation.toLowerCase();
 
         if (operation.contains("test")) {
             boolean ret = false;
 
-            operation = operation.toLowerCase().replace("test","").trim();
+            operation = operation.replace("test","").trim();
+            ManualTestingWidgets mtw = new ManualTestingWidgets();
 
+            for (Method m : mtw.getClass().getMethods()) {
+                if (m.getName().toLowerCase().contains(operation.toLowerCase()) && m.getParameterTypes().length == 0) {
+                    try {
+                        m.invoke(mtw);
+                        println("Invoking manual test: " + m.getName());
+                        ret = true;
+                    } catch (Exception e) {
+                        ErrorHandler.handle(e);
+                    }
+                    break;
+                }
+            }
+
+            return ret;
+        } else return false;
+    }
+
+    public boolean unitTestCheck(String operation) {
+        operation = operation.toLowerCase();
+
+        if (operation.contains("test")) {
+            boolean ret = false;
+
+            operation = operation.replace("test","").trim();
             UnitTests tests = new UnitTests();
 
             for (Method m : tests.getClass().getMethods()) {
                 if (m.getName().toLowerCase().contains(operation.toLowerCase()) && m.getParameterTypes().length == 0) {
                     try {
                         m.invoke(tests);
-                        println("Invoking test: " + m.getName());
+                        println("Invoking unit test: " + m.getName());
                         ret = true;
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
