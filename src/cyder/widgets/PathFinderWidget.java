@@ -61,7 +61,7 @@ public class PathFinderWidget {
         if (pathFindingFrame != null)
             pathFindingFrame.dispose();
 
-        timer = new Timer(timeoutMS, pathFindAction);
+        timer = new Timer(timeoutMS, evt -> pathStep());
         timer.setDelay(timeoutMS);
         walls = new LinkedList<>();
         pathableNodes = new LinkedList<>();
@@ -439,6 +439,10 @@ public class PathFinderWidget {
             squareLen = 30;
             gridLabel.repaint();
             paused = false;
+
+            optimalPathCheckBox.setEnabled(true);
+            diagonalBox.setEnabled(true);
+            algorithmSwitcher.setEnabled(true);
         });
         pathFindingFrame.getContentPane().add(reset);
 
@@ -448,12 +452,15 @@ public class PathFinderWidget {
             if (start == null || end == null) {
                 pathFindingFrame.notify("Start/end nodes not set");
             } else if (!timer.isRunning()) {
+                optimalPathCheckBox.setEnabled(false);
+                diagonalBox.setEnabled(false);
+                algorithmSwitcher.setEnabled(false);
+                diagonalBox.setEnabled(false);
+                deleteWallsCheckBox.setEnabled(false);
+                showStepsBox.setEnabled(false);
+
                 startButton.setText("Stop");
                 pathText = "";
-
-                diagonalBox.setEnabled(false);
-                showStepsBox.setEnabled(false);
-                deleteWallsCheckBox.setEnabled(false);
 
                 if (paused)
                     timer.start();
@@ -463,10 +470,6 @@ public class PathFinderWidget {
                 timer.stop();
                 startButton.setText("Start");
                 pathText = "";
-
-                diagonalBox.setEnabled(true);
-                showStepsBox.setEnabled(true);
-                deleteWallsCheckBox.setEnabled(true);
 
                 paused = showStepsBox.isSelected();
             }
@@ -605,41 +608,7 @@ public class PathFinderWidget {
             // use a separate thread though to avoid lag
             new Thread(() -> {
                 while (!open.isEmpty()) {
-                    Node min = open.poll();
-                    open.remove(min);
-
-                    if (min.equals(end) && optimalPath) {
-                        end.setParent(min.getParent());
-                    } else if (min.equals(end)) {
-                        end.setParent(min.getParent());
-                        pathFound();
-                        return;
-                    }
-
-                    //generate neihbors of this current node
-                    LinkedList<Node> neighbors = new LinkedList<>();
-
-                    for (Node possibleNeighbor : pathableNodes) {
-                        if (areOrthogonalNeighbors(possibleNeighbor, min) ||
-                                (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isSelected())) {
-                            neighbors.add(possibleNeighbor);
-                        }
-                    }
-
-                    for (Node neighbor: neighbors) {
-                        //calculate new H
-                        double newH = heuristic(neighbor);
-
-                        if (newH < neighbor.getH()) {
-                            neighbor.setH(newH);
-                            neighbor.setParent(min);
-                            neighbor.setG(min.getG() + euclideanDistance(min, neighbor));
-
-                            if (!open.contains(neighbor)) {
-                                open.add(neighbor);
-                            }
-                        }
-                    }
+                    pathStep();
                 }
 
                 if (end.getParent() != null) {
@@ -651,14 +620,13 @@ public class PathFinderWidget {
         }
     }
 
-    //todo optimal path check continues even after node is found but doesn't find the correct best path
-
-    //timer update action (while loop of a*) for animation purposes
-    private static ActionListener pathFindAction = evt -> {
+    //a singular iteration of the while loop of the A* algorithm
+    private static void pathStep() {
         if (!open.isEmpty()) {
             Node min = open.poll();
             open.remove(min);
 
+            //todo optimal doesn't work yet
             if (min.equals(end) && optimalPath) {
                 end.setParent(min.getParent());
             } else if (min.equals(end)) {
@@ -698,15 +666,17 @@ public class PathFinderWidget {
                 pathNotFound();
             }
         }
-    };
+    }
 
     //indicates a path was found and finished animating so takes the proper actions given this criteria
     private static void pathFound() {
         timer.stop();
         startButton.setText("Start");
         diagonalBox.setEnabled(true);
+        optimalPathCheckBox.setEnabled(true);
         showStepsBox.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
+        algorithmSwitcher.setEnabled(true);
         paused = false;
 
         pathText = "PATH FOUND";
@@ -734,7 +704,9 @@ public class PathFinderWidget {
         timer.stop();
         startButton.setText("Start");
         diagonalBox.setEnabled(true);
+        optimalPathCheckBox.setEnabled(true);
         showStepsBox.setEnabled(true);
+        algorithmSwitcher.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
         paused = false;
 
