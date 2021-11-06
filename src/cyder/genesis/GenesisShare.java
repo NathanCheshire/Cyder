@@ -155,7 +155,7 @@ public class GenesisShare {
             SessionLogger.log(SessionLogger.Tag.EOL, code);
 
             //sign user out in logs
-            UserUtil.setUserData("loggedin","false");
+            UserUtil.setUserData("loggedin","0");
 
             //acquire and release sems to ensure no IO is currently underway
             GenesisShare.getExitingSem().acquire();
@@ -193,13 +193,13 @@ public class GenesisShare {
 
     //pref class
 
-    public static class Preference<T> {
+    public static class Preference {
         private String ID;
         private String displayName;
         private String tooltip;
-        private T defaultValue;
+        private String defaultValue;
 
-        public Preference(String id, String displayName, String tooltip, T defaultValue) {
+        public Preference(String id, String displayName, String tooltip, String defaultValue) {
             this.ID = id;
             this.displayName = displayName;
             this.tooltip = tooltip;
@@ -218,7 +218,7 @@ public class GenesisShare {
             return tooltip;
         }
 
-        public T getDefaultValue() {
+        public String getDefaultValue() {
             return defaultValue;
         }
 
@@ -234,7 +234,7 @@ public class GenesisShare {
             this.tooltip = tooltip;
         }
 
-        public void setDefaultValue(T defaultValue) {
+        public void setDefaultValue(String defaultValue) {
             this.defaultValue = defaultValue;
         }
 

@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
-public class UserUtil <T> {
+public class UserUtil {
     //the semaphore to use when reading or writing from/to a JSON file
     private static Semaphore jsonIOSem = new Semaphore(1);
 
@@ -30,20 +30,13 @@ public class UserUtil <T> {
      * @param name the name of the data to change
      * @param value the data value to set it to
      */
-    public static <T> void setUserData(User user, String name, T value) {
+    public static void setUserData(User user, String name, String value) {
         try {
             for (Method m : user.getClass().getMethods()) {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
                         && m.getName().replace("set","").equalsIgnoreCase(name)) {
-
-                    Class<?> castTo = m.getParameterTypes()[0];
-                    if (castTo.isPrimitive()) {
                         m.invoke(user, value);
-                    } else {
-                        m.invoke(user, castTo.cast(value));
-                    }
-
                     break;
                 }
             }
@@ -57,9 +50,8 @@ public class UserUtil <T> {
      * @param f the file to write the json data to
      * @param name the data name
      * @param value the value of the data to update
-     * @param <T> templated function
      */
-    public static <T> void setUserData(File f, String name, T value) {
+    public static void setUserData(File f, String name, String value) {
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
         if (!StringUtil.getExtension(f).equals(".json"))
@@ -72,14 +64,7 @@ public class UserUtil <T> {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
                         && m.getName().replace("set","").equalsIgnoreCase(name)) {
-
-                    Class<?> castTo = m.getParameterTypes()[0];
-                    if (castTo.isPrimitive()) {
-                        m.invoke(user, value);
-                    } else {
-                        m.invoke(user, castTo.cast(value));
-                    }
-
+                    m.invoke(user, value);
                     break;
                 }
             }
@@ -101,13 +86,7 @@ public class UserUtil <T> {
         }
     }
 
-    /**
-     * Templated set function for the current user.
-     * @param name the name of the data to update
-     * @param value of the data
-     * @param <T> templated function
-     */
-    public static <T> void setUserData(String name, T value) {
+    public static void setUserData(String name, String value) {
         File f = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
 
         if (!f.exists())
@@ -120,13 +99,7 @@ public class UserUtil <T> {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
                         && m.getName().replace("set","").equalsIgnoreCase(name)) {
-                    Class<?> castTo = m.getParameterTypes()[0];
-                    if (castTo.isPrimitive()) {
-                        m.invoke(user, value);
-                    } else {
-                        m.invoke(user, castTo.cast(value));
-                    }
-
+                    m.invoke(user, value);
                     break;
                 }
             }
@@ -389,7 +362,7 @@ public class UserUtil <T> {
      * @param name the data to extract from the file
      * @return the requested data
      */
-    public static <T> T extractUserData(File f, String name) {
+    public static String extractUserData(File f, String name) {
         if (!StringUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("File is not a json type");
         if (!f.exists())
@@ -405,7 +378,7 @@ public class UserUtil <T> {
      * @param name the ID of the data we want to obtain
      * @return the resulting data
      */
-    public static <T> T getUserData(String name) {
+    public static String getUserData(String name) {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             throw new IllegalArgumentException("UUID not yet set");
         File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
@@ -415,14 +388,14 @@ public class UserUtil <T> {
             throw new IllegalArgumentException("userdata.json does not exist");
 
         User user = extractUser(userJsonFile);
-        T retData = extractUserData(user, name);
+        String retData = extractUserData(user, name);
 
-        T defaultValue = null;
+        String defaultValue = null;
 
         //find default value as a fail safe
         for (Preference pref : GenesisShare.getPrefs()) {
             if (pref.getID().equalsIgnoreCase(name)) {
-                defaultValue = (T) pref.getDefaultValue();
+                defaultValue = pref.getDefaultValue();
                 break;
             }
         }
@@ -440,8 +413,8 @@ public class UserUtil <T> {
      * @param name the data id for which to return
      * @return the requested data
      */
-    public static <T> T extractUserData(User u, String name) {
-        T ret = null;
+    public static String extractUserData(User u, String name) {
+        String ret = null;
 
         try {
             for (Method m : u.getClass().getMethods()) {
@@ -449,7 +422,7 @@ public class UserUtil <T> {
                         && m.getParameterTypes().length == 0
                         && m.getName().toLowerCase().contains(name.toLowerCase())) {
                     final Object r = m.invoke(u);
-                    ret = (T) r;
+                    ret = (String) r;
                     break;
                 }
             }
@@ -496,7 +469,7 @@ public class UserUtil <T> {
                         String currentUUID = StringUtil.getFilename(userJsonFile.getParentFile().getName());
 
                         //what we'll write to this json file
-                        String loggedIn = "false";
+                        String loggedIn = "0";
 
                         File logsDir = new File("logs");
 
@@ -528,7 +501,7 @@ public class UserUtil <T> {
                                     if (!(lineBeforeNull.contains("[EOL]") || lineBeforeNull.contains("EXTERNAL STOP"))) {
                                         //they're logged in then since this is the last time this user was logged in
                                         // and that log doesn't conclude properly
-                                        loggedIn = "true";
+                                        loggedIn = "1";
                                     }
 
                                     if (breakAfter)
@@ -537,7 +510,7 @@ public class UserUtil <T> {
                             }
                         }
 
-                        UserUtil.setUserData(userJsonFile,"loggedin", loggedIn);
+                        setUserData(userJsonFile,"loggedin", loggedIn);
                     }
                 }
             }

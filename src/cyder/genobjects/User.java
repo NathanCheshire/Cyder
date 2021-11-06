@@ -27,8 +27,8 @@ public class User {
     private String showbusyicon; //boolean
     private String ffmpegpath;
     private String youtubedlpath;
-    private int windowlocx;
-    private int windowlocy;
+    private String windowlocx;
+    private String windowlocy;
     private String roundedwindows; //boolean
     private String windowColor;
     private String consoleclockformat;
@@ -232,19 +232,19 @@ public class User {
         this.youtubedlpath = youtubedlpath;
     }
 
-    public int getWindowlocx() {
+    public String getWindowlocx() {
         return windowlocx;
     }
 
-    public void setWindowlocx(int windowlocx) {
+    public void setWindowlocx(String windowlocx) {
         this.windowlocx = windowlocx;
     }
 
-    public int getWindowlocy() {
+    public String getWindowlocy() {
         return windowlocy;
     }
 
-    public void setWindowlocy(int windowlocy) {
+    public void setWindowlocy(String windowlocy) {
         this.windowlocy = windowlocy;
     }
 

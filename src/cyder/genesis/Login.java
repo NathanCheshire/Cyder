@@ -323,7 +323,7 @@ public class Login {
 
                     return false;
                 } else {
-                    UserUtil.setUserData("loggedin","true");
+                    UserUtil.setUserData("loggedin","1");
                 }
 
                 //set ret var

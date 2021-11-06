@@ -127,6 +127,7 @@ public final class ConsoleFrame {
             fullscreen = false;
             closed = false;
             consoleMenuGenerated = false;
+            menuLabel = null;
             menuTaskbarFrames.clear();
 
             //handle random background by setting a random background index
@@ -145,7 +146,7 @@ public final class ConsoleFrame {
             int h = 0;
             ImageIcon usage = null;
 
-            if (((String) UserUtil.getUserData("FullScreen")).equalsIgnoreCase("1")) {
+            if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                 w = (int) SystemUtil.getScreenSize().getWidth();
                 h = (int) SystemUtil.getScreenSize().getHeight();
                 usage = new ImageIcon(ImageUtil.resizeImage(w,h,getCurrentBackgroundFile()));
@@ -166,7 +167,7 @@ public final class ConsoleFrame {
                     if (outputScroll != null && inputField != null) {
                         int addX = 0;
 
-                        if (menuLabel.isVisible())
+                        if (menuLabel != null && menuLabel.isVisible())
                             addX = 2 + menuLabel.getWidth();
 
                         outputScroll.setBounds(addX + 15, 62, w - 40 - addX, h - 204);
@@ -299,7 +300,7 @@ public final class ConsoleFrame {
             outputScroll.setOpaque(false);
             outputScroll.setFocusable(false);
 
-            if (((String) UserUtil.getUserData("OutputBorder")).equalsIgnoreCase("1")) {
+            if (UserUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
                 outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),
                         3, false));
             } else {
@@ -314,7 +315,7 @@ public final class ConsoleFrame {
             inputField.setEchoChar((char)0);
             inputField.setText(consoleBashString);
 
-            if (((String) UserUtil.getUserData("InputBorder")).equalsIgnoreCase("1")) {
+            if (UserUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
                 inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor
                         (UserUtil.getUserData("Background")), 3, false));
             } else {
@@ -904,8 +905,8 @@ public final class ConsoleFrame {
             consoleCyderFrame.setVisible(true);
 
             //position window from last location if in bounds
-            int x = UserUtil.getUserData("windowlocx");
-            int y = UserUtil.getUserData("windowlocy");
+            int x = Integer.parseInt(UserUtil.getUserData("windowlocx"));
+            int y = Integer.parseInt(UserUtil.getUserData("windowlocy"));
 
             if (x != -80000 && y != -80000) {
                 if (x < 0)
@@ -978,7 +979,7 @@ public final class ConsoleFrame {
 
                 OUTER:
                     while (true) {
-                        if (((String) UserUtil.getUserData("HourlyChimes")).equalsIgnoreCase("1")) {
+                        if (UserUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
                             IOUtil.playSystemAudio("static/audio/chime.mp3");
                         }
 
@@ -2028,7 +2029,7 @@ public final class ConsoleFrame {
     }
 
     public void revalidateConsoleMenu() {
-        if (closed)
+        if (closed || menuLabel == null)
             return;
 
         if (menuLabel != null && menuLabel.isVisible()) {
@@ -2052,7 +2053,7 @@ public final class ConsoleFrame {
      * @return returns the current background with using the current background ImageIcon and regardless of whether full screen is active
      */
     public int getBackgroundWidth() {
-        if (((String) UserUtil.getUserData("FullScreen")).equalsIgnoreCase("1"))
+        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
             return (int) SystemUtil.getScreenSize().getWidth();
         else
             return getCurrentBackgroundImageIcon().getIconWidth();
@@ -2062,7 +2063,7 @@ public final class ConsoleFrame {
      * @return returns the current background height using the current background ImageIcon and regardless of whether full screen is active
      */
     public int getBackgroundHeight() {
-        if (((String) UserUtil.getUserData("FullScreen")).equalsIgnoreCase("1"))
+        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
             return (int) SystemUtil.getScreenSize().getHeight();
         else
             return getCurrentBackgroundImageIcon().getIconHeight();
@@ -2722,8 +2723,8 @@ public final class ConsoleFrame {
     //WHY THE FUCK does the menu being open affect this
     public void closeConsoleFrame(boolean exit) {
         //save window location
-        UserUtil.setUserData("windowlocx",consoleCyderFrame.getX());
-        UserUtil.setUserData("windowlocy",consoleCyderFrame.getY());
+        UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
+        UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
 
         //stop any audio
         IOUtil.stopAudio();
@@ -2734,7 +2735,7 @@ public final class ConsoleFrame {
 
         //logs
         SessionLogger.log(SessionLogger.Tag.LOGOUT, "[" + getUsername() + "]");
-        UserUtil.setUserData("loggedin","false");
+        UserUtil.setUserData("loggedin","0");
 
         //remove closing actions
         consoleCyderFrame.removePostCloseActions();
