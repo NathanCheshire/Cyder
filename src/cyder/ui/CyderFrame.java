@@ -75,6 +75,9 @@ public class CyderFrame extends JFrame {
 
     private String title = "";
 
+    //determines area of resizing trigger vs dragging
+    private static int frameResizingLen = 2;
+
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
      * and a drag label with minimize and close buttons
@@ -147,11 +150,13 @@ public class CyderFrame extends JFrame {
             }
         };
         iconLabel.setIcon(background);
-        iconLabel.setBounds(2,2,width - 4,height - 4);
+        iconLabel.setBounds(frameResizingLen,frameResizingLen,
+                width - 2 * frameResizingLen,height - 2 * frameResizingLen);
         iconLabel.setFocusable(false);
 
         iconPane = new JLayeredPane();
-        iconPane.setBounds(2,2, width - 4, height - 4);
+        iconPane.setBounds(frameResizingLen,frameResizingLen,
+                width - 2 * frameResizingLen, height - 2 * frameResizingLen);
         iconPane.add(iconLabel,JLayeredPane.DEFAULT_LAYER);
         iconPane.setFocusable(false);
         contentLabel.add(iconPane,JLayeredPane.DEFAULT_LAYER);
@@ -160,25 +165,25 @@ public class CyderFrame extends JFrame {
         setContentPane(contentLabel);
 
         //top frame drag
-        topDrag = new DragLabel(width - 4, DragLabel.getDefaultHeight() - 2, this);
-        topDrag.setBounds(2, 2, width - 4, DragLabel.getDefaultHeight() - 2);
-        topDrag.setxOffset(2);
-        topDrag.setyOffset(2);
+        topDrag = new DragLabel(width - 2 * frameResizingLen, DragLabel.getDefaultHeight() - 2, this);
+        topDrag.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen, DragLabel.getDefaultHeight() - 2);
+        topDrag.setxOffset(frameResizingLen);
+        topDrag.setyOffset(frameResizingLen);
         contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
         topDrag.setFocusable(false);
 
         //left frame drag
-        leftDrag = new DragLabel(3, height - 2 - DragLabel.getDefaultHeight(), this);
-        leftDrag.setBounds(2, DragLabel.getDefaultHeight(), 3, height - DragLabel.getDefaultHeight() - 2);
-        leftDrag.setxOffset(2);
+        leftDrag = new DragLabel(5 - frameResizingLen, height - frameResizingLen - DragLabel.getDefaultHeight(), this);
+        leftDrag.setBounds(frameResizingLen, DragLabel.getDefaultHeight(), 5 - frameResizingLen, height - DragLabel.getDefaultHeight() - frameResizingLen);
+        leftDrag.setxOffset(frameResizingLen);
         leftDrag.setyOffset(DragLabel.getDefaultHeight());
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
         leftDrag.setFocusable(false);
         leftDrag.setButtonsList(null);
 
         //right frame drag
-        rightDrag = new DragLabel(3, height - 2 - DragLabel.getDefaultHeight(), this);
-        rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 3, height - DragLabel.getDefaultHeight() - 2);
+        rightDrag = new DragLabel(5 - frameResizingLen, height - frameResizingLen - DragLabel.getDefaultHeight(), this);
+        rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 5 - frameResizingLen, height - DragLabel.getDefaultHeight() - frameResizingLen);
         rightDrag.setxOffset(width - 5);
         rightDrag.setyOffset(DragLabel.getDefaultHeight());
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
@@ -186,9 +191,9 @@ public class CyderFrame extends JFrame {
         rightDrag.setButtonsList(null);
 
         //bottom frame drag
-        bottomDrag = new DragLabel(width - 4, 3, this);
-        bottomDrag.setBounds(2, height - 5, width - 4, 3);
-        bottomDrag.setxOffset(2);
+        bottomDrag = new DragLabel(width - 2 * frameResizingLen, 5 - frameResizingLen, this);
+        bottomDrag.setBounds(frameResizingLen, height - 5, width - 4, 5 - frameResizingLen);
+        bottomDrag.setxOffset(frameResizingLen);
         bottomDrag.setyOffset(height - 5);
         contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
         bottomDrag.setFocusable(false);
@@ -1051,32 +1056,35 @@ public class CyderFrame extends JFrame {
         this.height = widthHeight[1];
 
         if (getTopDragLabel() != null) {
-            topDrag.setWidth(this.width - 4);
-            topDrag.setHeight(DragLabel.getDefaultHeight() - 2);
-            leftDrag.setWidth(3);
-            leftDrag.setHeight(this.height - DragLabel.getDefaultHeight() - 2);
-            rightDrag.setWidth(3);
-            rightDrag.setHeight(this.height - DragLabel.getDefaultHeight() - 2);
-            bottomDrag.setWidth(this.width - 4);
-            bottomDrag.setHeight(3);
+            topDrag.setWidth(this.width - 2 * frameResizingLen);
+            topDrag.setHeight(DragLabel.getDefaultHeight() - frameResizingLen);
+            leftDrag.setWidth(5 - frameResizingLen);
+            leftDrag.setHeight(this.height - DragLabel.getDefaultHeight() - frameResizingLen);
+            rightDrag.setWidth(5 - frameResizingLen);
+            rightDrag.setHeight(this.height - DragLabel.getDefaultHeight() - frameResizingLen);
+            bottomDrag.setWidth(this.width - frameResizingLen * 2);
+            bottomDrag.setHeight(5 - frameResizingLen);
 
             refreshTitleAndButtonPosition();
 
-            topDrag.setBounds(2, 2, this.width - 4, DragLabel.getDefaultHeight() - 2);
-            leftDrag.setBounds(2, DragLabel.getDefaultHeight(), 3, this.height - DragLabel.getDefaultHeight() - 2);
-            rightDrag.setBounds(this.width - 5, DragLabel.getDefaultHeight(), 3, this.height - DragLabel.getDefaultHeight() - 2);
-            bottomDrag.setBounds(2, this.height - 5, this.width - 4, 3);
+            topDrag.setBounds(frameResizingLen, frameResizingLen, this.width - 2 * frameResizingLen,
+                    DragLabel.getDefaultHeight() - frameResizingLen);
+            leftDrag.setBounds(frameResizingLen, DragLabel.getDefaultHeight(), 5 - frameResizingLen,
+                    this.height - DragLabel.getDefaultHeight() - frameResizingLen);
+            rightDrag.setBounds(this.width - 5, DragLabel.getDefaultHeight(),
+                    5 - frameResizingLen, this.height - DragLabel.getDefaultHeight() - 2);
+            bottomDrag.setBounds(frameResizingLen, this.height - 5, this.width - 4, 5 - frameResizingLen);
 
-            topDrag.setxOffset(2);
-            topDrag.setyOffset(2);
+            topDrag.setxOffset(frameResizingLen);
+            topDrag.setyOffset(frameResizingLen);
 
-            leftDrag.setxOffset(2);
+            leftDrag.setxOffset(frameResizingLen);
             leftDrag.setyOffset(DragLabel.getDefaultHeight());
 
             rightDrag.setxOffset(this.width - 5);
             rightDrag.setyOffset(DragLabel.getDefaultHeight());
 
-            bottomDrag.setxOffset(2);
+            bottomDrag.setxOffset(frameResizingLen);
             bottomDrag.setyOffset(this.height - 5);
         }
 
@@ -1103,7 +1111,7 @@ public class CyderFrame extends JFrame {
             refreshBackground();
     }
 
-    private Dimension minimumSize = new Dimension(200, 200);
+    private Dimension minimumSize = new Dimension(100, 100);
     private Dimension maximumSize = new Dimension(800, 800);
     private Dimension snapSize = new Dimension(1, 1);
 
@@ -1211,8 +1219,8 @@ public class CyderFrame extends JFrame {
                         .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
             }
 
-            iconLabel.setBounds(2,2,width - 4,height - 4);
-            iconPane.setBounds(2,2, width - 4, height - 4);
+            iconLabel.setBounds(frameResizingLen,frameResizingLen,width - 2 * frameResizingLen,height - 2 * frameResizingLen);
+            iconPane.setBounds(frameResizingLen,frameResizingLen, width - 2 * frameResizingLen, height - 2 * frameResizingLen);
 
             revalidate();
             repaint();
@@ -1234,8 +1242,8 @@ public class CyderFrame extends JFrame {
             currentOrigIcon = icon;
             iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                     .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
-            iconLabel.setBounds(2,2,width - 4,height - 4);
-            iconPane.setBounds(2,2, width - 4, height - 4);
+            iconLabel.setBounds(frameResizingLen,frameResizingLen,width - 2 * frameResizingLen,height - 2 * frameResizingLen);
+            iconPane.setBounds(frameResizingLen,frameResizingLen, width - 2 * frameResizingLen, height - 2 * frameResizingLen);
 
             if (cr != null) {
                 cr.setMinimumSize(new Dimension(600,600));
@@ -1303,8 +1311,9 @@ public class CyderFrame extends JFrame {
 
         iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                 .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
-        iconLabel.setBounds(2,2,width - 4,height - 4);
-        iconPane.setBounds(2,2, width - 4, height - 4);
+        iconLabel.setBounds(frameResizingLen,frameResizingLen,width - 2 * frameResizingLen,height - 2 * frameResizingLen);
+        iconPane.setBounds(frameResizingLen,frameResizingLen, width - 2 * frameResizingLen, height - 2 * frameResizingLen);
+
     }
 
     public int getRestoreX() {
@@ -1362,7 +1371,7 @@ public class CyderFrame extends JFrame {
 
         //possibly update the ui
         contentLabel.setBorder(new LineBorder(
-                CyderColors.guiThemeColor, 3, false));
+                CyderColors.guiThemeColor, 5 - frameResizingLen, false));
 
         topDrag.setBackground(CyderColors.guiThemeColor);
         bottomDrag.setBackground(CyderColors.guiThemeColor);

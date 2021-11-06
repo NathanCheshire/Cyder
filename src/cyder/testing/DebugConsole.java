@@ -123,9 +123,6 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //todo offset for dragging area vs drag label should be variable. This is more or less
-        // to make that portion of code readable
-
         //todo finish and test messaging client
         // MessagingWidget.showGUI();
     }
