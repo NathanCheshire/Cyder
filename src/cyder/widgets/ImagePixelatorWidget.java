@@ -4,7 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.ImageUtil;
@@ -20,14 +20,14 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class ImagePixelator {
+public class ImagePixelatorWidget {
     private static ImageIcon displayIcon;
     private static ImageIcon originalIcon;
     private static File currentFile;
     private static JLabel previewLabel;
     private static CyderTextField integerField;
 
-    private ImagePixelator() {}
+    private ImagePixelatorWidget() {}
 
     public static void showGUI(File startPNG) {
         CyderFrame pixelFrame = new CyderFrame(800,800, CyderImages.defaultBackground);

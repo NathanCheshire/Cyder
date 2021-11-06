@@ -4,11 +4,11 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.NotificationDirection;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
-import cyder.widgets.AudioPlayer;
-import cyder.widgets.ColorConverter;
+import cyder.handlers.AudioPlayer;
+import cyder.widgets.ColorConverterWidget;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -443,7 +443,7 @@ public class UserEditor {
         hexLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ColorConverter.showGUI();
+                ColorConverterWidget.showGUI();
             }
 
             @Override
@@ -506,7 +506,7 @@ public class UserEditor {
         hexWindowLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ColorConverter.showGUI();
+                ColorConverterWidget.showGUI();
             }
 
             @Override
@@ -569,7 +569,7 @@ public class UserEditor {
         hexLabelFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ColorConverter.showGUI();
+                ColorConverterWidget.showGUI();
             }
 
             @Override

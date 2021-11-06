@@ -1,4 +1,4 @@
-package cyder.widgets;
+package cyder.handlers;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Stack;
 
-public class DirectorySearch {
+public class DirectoryNavigator {
     //all ui elements
     private static CyderFrame dirFrame;
     private static CyderTextField dirField;
@@ -41,7 +41,7 @@ public class DirectorySearch {
             + SystemUtil.getWindowsUsername() + "\\Downloads");
 
     //private constructor since static
-    private DirectorySearch() {}
+    private DirectoryNavigator() {}
 
     //as per standard, method
     public static void showGUI() {

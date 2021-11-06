@@ -3,14 +3,14 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.NotificationDirection;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Cards {
+public class CardWidget {
     private static CyderFrame christmas2020Frame;
     private static CyderFrame fathersDay2021Frame;
     private static CyderFrame birthday2021Frame;

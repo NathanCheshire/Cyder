@@ -1,7 +1,7 @@
 package cyder.messaging;
 
-import cyder.handler.ErrorHandler;
-import cyder.handler.SessionLogger;
+import cyder.handlers.ErrorHandler;
+import cyder.handlers.SessionLogger;
 import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.SecurityUtil;

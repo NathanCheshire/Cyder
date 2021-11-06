@@ -1,6 +1,6 @@
 package cyder.utilities;
 
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;

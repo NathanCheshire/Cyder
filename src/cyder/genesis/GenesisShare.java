@@ -1,7 +1,7 @@
 package cyder.genesis;
 
-import cyder.handler.ErrorHandler;
-import cyder.handler.SessionLogger;
+import cyder.handlers.ErrorHandler;
+import cyder.handlers.SessionLogger;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;

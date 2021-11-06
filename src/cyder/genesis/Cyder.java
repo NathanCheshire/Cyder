@@ -1,6 +1,6 @@
 package cyder.genesis;
 
-import cyder.handler.SessionLogger;
+import cyder.handlers.SessionLogger;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SecurityUtil;
 import cyder.utilities.SystemUtil;

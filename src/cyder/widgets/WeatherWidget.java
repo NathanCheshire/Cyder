@@ -6,7 +6,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.TimeZone;
 
-public class Weather {
+public class WeatherWidget {
     private JLabel locationLabel;
     private JLabel currentWeatherLabel;
     private JLabel changeLocationLabel;
@@ -85,7 +85,7 @@ public class Weather {
     private boolean GMTset;
 
     //nothing on constructor
-    public Weather() {}
+    public WeatherWidget() {}
 
     //show gui method as per standard
     @Widget("weather")

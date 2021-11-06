@@ -1,8 +1,7 @@
-package cyder.widgets;
+package cyder.handlers;
 
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.BoundsUtil;

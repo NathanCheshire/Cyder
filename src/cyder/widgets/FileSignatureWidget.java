@@ -4,7 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.NetworkUtil;
@@ -15,13 +15,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-public class FileSignatureChecker {
+public class FileSignatureWidget {
     private static File currentFile = null;
     private static CyderFrame signatureFrame;
     private static CyderTextField signatureField;
     private static CyderLabel resultLabel;
 
-    private FileSignatureChecker() {}
+    private FileSignatureWidget() {}
 
     public static void showGUI() {
         signatureFrame = new CyderFrame(400,420, CyderImages.defaultBackground);

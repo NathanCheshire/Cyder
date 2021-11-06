@@ -1,4 +1,4 @@
-package cyder.handler;
+package cyder.handlers;
 
 public class ContextHandler {
     //todo to be used to determine the meaning behind what a user enters and extract keywords

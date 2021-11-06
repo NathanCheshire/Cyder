@@ -12,11 +12,11 @@ import cyder.utilities.IOUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-public class Phone {
+public class PhoneWidget {
     private static JLabel numberLabel;
     private static String phoneNum;
 
-    private Phone() {}
+    private PhoneWidget() {}
 
     @Widget("phone")
     public static void showGUI() {

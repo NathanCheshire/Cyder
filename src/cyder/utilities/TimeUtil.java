@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;

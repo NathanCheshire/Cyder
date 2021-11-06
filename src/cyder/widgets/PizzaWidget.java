@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Pizza {
+public class PizzaWidget {
     private static CyderFrame pizzaFrame;
     private static CyderTextField nameField;
     private static CyderCheckBox smallPizza;
@@ -40,7 +40,7 @@ public class Pizza {
     private static CyderButton placeOrder;
     private static CyderButton resetValues;
 
-    private Pizza() {}
+    private PizzaWidget() {}
 
     @Widget("pizza")
     public static void showGUI() {

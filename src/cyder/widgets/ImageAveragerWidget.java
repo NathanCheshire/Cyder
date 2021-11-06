@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -26,14 +26,14 @@ import java.util.LinkedList;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
-public class ImageAverager {
+public class ImageAveragerWidget {
     private static LinkedList<File> files;
     private static JLabel imagesScrollLabel;
     private static CyderScrollList imagesScroll;
     private static CyderFrame cf;
     private static JLabel imageScrollLabelHolder;
 
-    private ImageAverager() {}
+    private ImageAveragerWidget() {}
 
     public static void showGUI() {
         files = new LinkedList<>();

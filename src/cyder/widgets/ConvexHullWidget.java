@@ -12,7 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
-public class ConvexHull {
+public class ConvexHullWidget {
     private static JLabel hullLabel;
     private static Vector<Point> boardPoints;
     private static Vector<Point> hullPoints;

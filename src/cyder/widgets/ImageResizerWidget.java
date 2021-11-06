@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.SystemUtil;
@@ -21,7 +21,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class ImageResizer {
+public class ImageResizerWidget {
 
     private static CyderTextField xdim;
     private static CyderTextField ydim;
@@ -36,7 +36,7 @@ public class ImageResizer {
     private static boolean leftLastEdited;
     private static boolean maintainAspectRatio = true;
 
-    private ImageResizer() {}
+    private ImageResizerWidget() {}
 
     @Widget("resize pictures")
     public static void showGUI() {

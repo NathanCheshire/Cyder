@@ -3,10 +3,10 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.Login;
-import cyder.handler.*;
+import cyder.handlers.*;
 import cyder.ui.ConsoleFrame;
-import cyder.widgets.AudioPlayer;
-import cyder.widgets.GenericInformer;
+import cyder.handlers.AudioPlayer;
+import cyder.handlers.GenericInformer;
 import javazoom.jl.player.Player;
 
 import java.awt.*;

@@ -1,4 +1,4 @@
-package cyder.handler;
+package cyder.handlers;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;

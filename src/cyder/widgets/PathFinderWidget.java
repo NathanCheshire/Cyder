@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
 
@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 @Widget("path")
-public class PathFinder {
+public class PathFinderWidget {
     private static int squareLen = 30;
     private static int numSquares;
     private static JLabel gridLabel;

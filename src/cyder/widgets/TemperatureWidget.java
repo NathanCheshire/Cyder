@@ -13,7 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 
-public class TempConverter {
+public class TemperatureWidget {
     private CyderFrame temperatureFrame;
     private CyderTextField startingValue;
 
@@ -24,7 +24,7 @@ public class TempConverter {
     private CyderCheckBox oldKelvin;
     private CyderCheckBox newKelvin;
 
-    public TempConverter() {}
+    public TemperatureWidget() {}
 
     @Widget("temperature")
     public void showGUI() {

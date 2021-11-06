@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
+import cyder.handlers.GenericInformer;
 import cyder.ui.*;
 import cyder.utilities.SecurityUtil;
 
@@ -12,14 +13,14 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 
-public class Hasher {
+public class HashingWidget {
     private CyderButton hashButton;
     private CyderPasswordField hashField;
     private int algorithmIndex = 0;
     private ArrayList<String> algorithms = new ArrayList<>();
 
     //empty constructor
-    public Hasher() {}
+    public HashingWidget() {}
 
     public void showGUI() {
         algorithms.add("SHA-256");

@@ -2,8 +2,8 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.handler.ErrorHandler;
-import cyder.handler.SessionLogger;
+import cyder.handlers.ErrorHandler;
+import cyder.handlers.SessionLogger;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

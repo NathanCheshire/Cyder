@@ -10,13 +10,13 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.Login;
 import cyder.genesis.UserEditor;
 import cyder.genesis.User;
-import cyder.handler.ErrorHandler;
-import cyder.handler.InputHandler;
-import cyder.handler.SessionLogger;
+import cyder.handlers.ErrorHandler;
+import cyder.handlers.InputHandler;
+import cyder.handlers.SessionLogger;
 import cyder.testing.DebugConsole;
 import cyder.utilities.*;
-import cyder.widgets.AudioPlayer;
-import cyder.widgets.GenericInformer;
+import cyder.handlers.AudioPlayer;
+import cyder.handlers.GenericInformer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -1,7 +1,7 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;

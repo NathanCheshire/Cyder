@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -21,7 +21,7 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Notes {
+public class NotesWidget {
     //main frame
     private static CyderFrame noteFrame;
     private static CyderScrollList cyderScrollList;
@@ -40,7 +40,7 @@ public class Notes {
 
     private static LinkedList<CyderFrame> noteFrames;
 
-    private Notes() {} //no objects
+    private NotesWidget() {} //no objects
 
     @Widget("note")
     public static void showGUI() {

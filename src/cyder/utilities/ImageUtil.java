@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.enums.Direction;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.CyderFrame;
 
 import javax.imageio.ImageIO;

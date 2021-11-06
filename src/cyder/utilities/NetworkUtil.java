@@ -1,7 +1,7 @@
 package cyder.utilities;
 
-import cyder.handler.ErrorHandler;
-import cyder.handler.SessionLogger;
+import cyder.handlers.ErrorHandler;
+import cyder.handlers.SessionLogger;
 import org.jsoup.Jsoup;
 
 import java.awt.*;

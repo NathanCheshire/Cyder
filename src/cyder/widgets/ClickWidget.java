@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.utilities.NumberUtil;
 
@@ -11,12 +11,13 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ClickMe {
+public class ClickWidget {
     public static void showGUI() {
         try {
             CyderFrame clickMeFrame = new CyderFrame(220,100);
             clickMeFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
             clickMeFrame.setTitle("Click Me");
+            clickMeFrame.setFrameType(CyderFrame.FrameType.POPUP);
             clickMeFrame.setBackground(CyderColors.vanila);
 
             JLabel dismiss = new JLabel("Click Me!");
@@ -44,7 +45,6 @@ public class ClickMe {
             });
 
             clickMeFrame.getContentPane().add(dismiss);
-
             clickMeFrame.setVisible(true);
 
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -52,9 +52,7 @@ public class ClickMe {
             Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
             clickMeFrame.setLocation(NumberUtil.randInt(0, (int) (rect.getMaxX() - 200)),NumberUtil.randInt(0,(int) rect.getMaxY() - 200));
             clickMeFrame.setAlwaysOnTop(true);
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }

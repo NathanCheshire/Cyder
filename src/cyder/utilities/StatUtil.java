@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 
 import javax.imageio.ImageIO;

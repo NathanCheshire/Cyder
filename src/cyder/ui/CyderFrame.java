@@ -5,10 +5,10 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.handler.ErrorHandler;
-import cyder.handler.SessionLogger;
+import cyder.handlers.ErrorHandler;
+import cyder.handlers.SessionLogger;
 import cyder.utilities.*;
-import cyder.widgets.GenericInformer;
+import cyder.handlers.GenericInformer;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 

@@ -1,4 +1,4 @@
-package cyder.handler;
+package cyder.handlers;
 
 import cyder.testing.DebugConsole;
 import cyder.ui.ConsoleFrame;

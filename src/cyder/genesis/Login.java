@@ -2,8 +2,8 @@ package cyder.genesis;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
-import cyder.handler.ErrorHandler;
-import cyder.handler.SessionLogger;
+import cyder.handlers.ErrorHandler;
+import cyder.handlers.SessionLogger;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;

@@ -1,6 +1,6 @@
 package cyder.widgets;
 
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;

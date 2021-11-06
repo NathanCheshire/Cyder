@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -14,7 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-public class Conways {
+public class GameOfLifeWidget {
     private static int[][] grid;
     private static boolean simulationRunning;
     private static int framesPerSecond = 10;
@@ -30,7 +30,7 @@ public class Conways {
     private static int populationCount = 0;
     private static int maxPopulation = 0;
 
-    private Conways() {}
+    private GameOfLifeWidget() {}
 
     public static void showGUI() {
         grid = new int[45][45];

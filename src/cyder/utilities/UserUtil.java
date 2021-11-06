@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.genesis.User;
-import cyder.handler.ErrorHandler;
-import cyder.handler.SessionLogger;
+import cyder.handlers.ErrorHandler;
+import cyder.handlers.SessionLogger;
 import cyder.ui.ConsoleFrame;
 
 import javax.imageio.ImageIO;

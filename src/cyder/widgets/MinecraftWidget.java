@@ -13,14 +13,14 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Minecraft {
+public class MinecraftWidget {
     private static CyderFrame minecraftFrame;
     private static JLabel realmsLabel;
     private static JLabel chestLabel;
     private static JLabel hamLabel;
     private static JLabel blockLabel;
 
-    private Minecraft() {}
+    private MinecraftWidget() {}
 
     @Widget("minecraft")
     public static void showGUI() {

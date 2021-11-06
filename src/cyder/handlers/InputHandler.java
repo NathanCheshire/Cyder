@@ -1,4 +1,4 @@
-package cyder.handler;
+package cyder.handlers;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
@@ -273,19 +273,19 @@ public class InputHandler {
             YoutubeUtil.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
         } else if (hasWord("minecraft")) {
-            Minecraft.showGUI();
+            MinecraftWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "MINECRAFT");
         } else if ((hasWord("edit") && hasWord("user")) || eic("prefs")) {
             UserEditor.showGUI(0);
             SessionLogger.log(SessionLogger.Tag.ACTION, "USER EDITOR");
         } else if (hasWord("hash") || hasWord("hashser")) {
-            new Hasher().showGUI();
+            new HashingWidget().showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "SHA256 HASHER");
         }  else if (eic("search") || eic("dir") || (hasWord("file") && hasWord("search")) || eic("directory") || eic("ls")) {
-            DirectorySearch.showGUI();
+            DirectoryNavigator.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "DIR SEARCH");
         } else if (hasWord("weather")) {
-            new Weather().showGUI();
+            new WeatherWidget().showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "WEATHER");
         } else if (eic("pin") || eic("login")) {
             Login.showGUI();
@@ -295,19 +295,19 @@ public class InputHandler {
             SessionLogger.log(SessionLogger.Tag.ACTION, "USER CREATOR");
         } else if ((hasWord("resize") && (hasWord("image")) ||
                 (hasWord("picture") && hasWord("resize")))) {
-            ImageResizer.showGUI();
+            ImageResizerWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE RESIZER");
         } else if (hasWord("temperature") || eic("temp")) {
-            new TempConverter().showGUI();
+            new TemperatureWidget().showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "TEMPERATURE CONVERTER");
         } else if (has("click me")) {
-            ClickMe.showGUI();
+            ClickWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CLICK ME");
         } else if (has("Father") && hasWord("day") && has("2021")) {
-            Cards.FathersDay2021();
+            CardWidget.FathersDay2021();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CARD");
         } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
-            Cards.Christmas2020();
+            CardWidget.Christmas2020();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CARD");
         } else if (hasWord("number") && hasWord("word")) {
             NumberUtil.showGUI();
@@ -316,32 +316,32 @@ public class InputHandler {
             HangmanGame.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "HANGMAN");
         } else if (hasWord("rgb") || hasWord("hex") || (hasWord("color") && hasWord("converter"))) {
-            ColorConverter.showGUI();
+            ColorConverterWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "COLOR CONVERTER");
         } else if (hasWord("pizza")) {
-            Pizza.showGUI();
+            PizzaWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "PIZZA");
         } else if ((hasWord("pixelate") || hasWord("distort")) &&
                 (hasWord("image") || hasWord("picture"))) {
-            ImagePixelator.showGUI(null);
+            ImagePixelatorWidget.showGUI(null);
             SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE PIXELATOR");
         } else if (hasWord("file") && hasWord("signature")) {
-            FileSignatureChecker.showGUI();
+            FileSignatureWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "FILE SIGNATURE");
         } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
             TTTGame.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "TIC TAC TOE");
         } else if (hasWord("note") || hasWord("notes")) {
-            Notes.showGUI();
+            NotesWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "NOTE EDITOR");
         } else if ((hasWord("mp3") || hasWord("music")) && !hasWord("stop")) {
             AudioPlayer.showGUI(null);
             SessionLogger.log(SessionLogger.Tag.ACTION, "AUDIO PLAYER");
         } else if (hasWord("phone") || hasWord("dialer") || hasWord("call")) {
-            Phone.showGUI();
+            PhoneWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "PHONE");
         } else if ((hasWord("calculator") || hasWord("calc")) && !has("graphing")) {
-            Calculator.showGUI();
+            CalculatorWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CALCULATOR");
         } else if (eic("spotlight") || (has("spotlight") && has("steal") && !has("wipe"))) {
             File saveDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
@@ -351,21 +351,21 @@ public class InputHandler {
         } else if (has("spotlight") && hasWord("wipe")) {
             Spotlight.wipe();
         } else if (hasWord("convex") && hasWord("hull")) {
-            ConvexHull.showGUI();
+            ConvexHullWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CONVEX HULL");
         } else if (has("average") && (has("image") || hasWord("picture"))) {
-            ImageAverager.showGUI();
+            ImageAveragerWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE AVERAGER");
         } else if (hasWord("conway") || hasWord("conways")) {
-            Conways.showGUI();
+            GameOfLifeWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "CONWAYS");
         } else if (hasWord("birthday") && hasWord("card") && hasWord("2021")) {
-            Cards.Birthday2021();
+            CardWidget.Birthday2021();
         } else if (hasWord("pathfinder") || hasWord("path")) {
-            PathFinder.showGUI();
+            PathFinderWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "PATHFINDER");
         } else if (hasWord("perlin")) {
-            PerlinNoise.showGUI();
+            PerlinWidget.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "PERLIN");
         }
         //ui and settings -----------------------------------------

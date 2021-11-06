@@ -6,7 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -14,10 +14,10 @@ import cyder.ui.CyderTextField;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class Calculator {
+public class CalculatorWidget {
     private static String calculatorExpression = "";
 
-    private Calculator() {}
+    private CalculatorWidget() {}
     
     public static void showGUI() {
         calculatorExpression = "";

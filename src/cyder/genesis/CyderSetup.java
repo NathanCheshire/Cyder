@@ -2,11 +2,11 @@ package cyder.genesis;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.StringUtil;
-import cyder.widgets.GenericInformer;
+import cyder.handlers.GenericInformer;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;

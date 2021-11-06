@@ -1,4 +1,4 @@
-package cyder.handler;
+package cyder.handlers;
 
 import cyder.utilities.IOUtil.SystemData;
 import cyder.ui.ConsoleFrame;

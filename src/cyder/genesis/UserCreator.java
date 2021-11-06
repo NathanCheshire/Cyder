@@ -3,7 +3,7 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.handler.ErrorHandler;
+import cyder.handlers.ErrorHandler;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;
