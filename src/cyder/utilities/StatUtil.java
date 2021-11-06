@@ -148,7 +148,11 @@ public class StatUtil {
                         "Local Host Address: " + address.getLocalHost(),
                         "Loopback Address: " + address.getLoopbackAddress()};
 
-                IOUtil.createAndOpenTmpFile("DebugProperties",".txt",lines);
+                if (ConsoleFrame.getConsoleFrame().isClosed()) {
+                    IOUtil.createAndOpenTmpFile("DebugProperties",".txt",lines);
+                } else {
+                    ConsoleFrame.getConsoleFrame().getInputHandler().printlns(lines);
+                }
             }
 
             catch (Exception e) {

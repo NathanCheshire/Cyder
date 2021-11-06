@@ -1708,6 +1708,12 @@ public class InputHandler {
         print(usage + "\n");
     }
 
+    //print lines method
+    public void printlns(String[] lines) {
+        for (String line : lines)
+            println(line);
+    }
+
     //repeat above methods but for priority queue should an object need quick printing
 
     public void printlnImagePriority(ImageIcon icon) {

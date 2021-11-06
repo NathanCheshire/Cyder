@@ -123,10 +123,9 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //todo there should be a cool menu/window for debug stats pane
-
         //todo closing perlin is laggy if we animated at any point, perhaps threads aren't properly exited?
-        // make each frame keep a list of threads and use a kill condition so before animation we can kill all threads accodiated with the frame
+        // try and fix this by adding frames to the frames list already in CyderFrame
+        // and allowing outside access to this to thinks that implement Runnable
 
         //todo implement context engine
 
