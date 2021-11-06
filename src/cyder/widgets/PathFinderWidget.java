@@ -47,6 +47,7 @@ public class PathFinderWidget {
     private static boolean sToggled;
     private static boolean deleteWallsMode;
     private static boolean optimalPath;
+    private static boolean paused;
 
     private static String pathText = "";
     private static Color pathColor = Color.darkGray;
@@ -68,6 +69,7 @@ public class PathFinderWidget {
         start = new Node(0,0);
         end = new Node(25, 25);
         pathText = "";
+        paused = false;
 
         pathFindingFrame = new CyderFrame(1000,1050, CyderImages.defaultBackgroundLarge);
         pathFindingFrame.setTitle("Path finding visualizer");
@@ -436,6 +438,7 @@ public class PathFinderWidget {
             pathText = "";
             squareLen = 30;
             gridLabel.repaint();
+            paused = false;
         });
         pathFindingFrame.getContentPane().add(reset);
 
@@ -452,7 +455,10 @@ public class PathFinderWidget {
                 showStepsBox.setEnabled(false);
                 deleteWallsCheckBox.setEnabled(false);
 
-                searchSetup();
+                if (paused)
+                    timer.start();
+                else
+                    searchSetup();
             } else {
                 timer.stop();
                 startButton.setText("Start");
@@ -461,6 +467,8 @@ public class PathFinderWidget {
                 diagonalBox.setEnabled(true);
                 showStepsBox.setEnabled(true);
                 deleteWallsCheckBox.setEnabled(true);
+
+                paused = showStepsBox.isSelected();
             }
         });
         pathFindingFrame.getContentPane().add(startButton);
@@ -594,52 +602,56 @@ public class PathFinderWidget {
             //spins off below action listener to update grid until path found or no path found or user intervention
         } else {
             //instantly solve and paint grid and animate path if found and show words PATH or NO PATH
+            // use a separate thread though to avoid lag
+            new Thread(() -> {
+                while (!open.isEmpty()) {
+                    Node min = open.poll();
+                    open.remove(min);
 
-            while (!open.isEmpty()) {
-                Node min = open.poll();
-                open.remove(min);
-
-                if (min.equals(end) && optimalPath) {
-                    end.setParent(min.getParent());
-                } else if (min.equals(end)) {
-                    end.setParent(min.getParent());
-                    pathFound();
-                    return;
-                }
-
-                //generate neihbors of this current node
-                LinkedList<Node> neighbors = new LinkedList<>();
-
-                for (Node possibleNeighbor : pathableNodes) {
-                    if (areOrthogonalNeighbors(possibleNeighbor, min) ||
-                            (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isSelected())) {
-                        neighbors.add(possibleNeighbor);
+                    if (min.equals(end) && optimalPath) {
+                        end.setParent(min.getParent());
+                    } else if (min.equals(end)) {
+                        end.setParent(min.getParent());
+                        pathFound();
+                        return;
                     }
-                }
 
-                for (Node neighbor: neighbors) {
-                    //calculate new H
-                    double newH = heuristic(neighbor);
+                    //generate neihbors of this current node
+                    LinkedList<Node> neighbors = new LinkedList<>();
 
-                    if (newH < neighbor.getH()) {
-                        neighbor.setH(newH);
-                        neighbor.setParent(min);
-                        neighbor.setG(min.getG() + euclideanDistance(min, neighbor));
+                    for (Node possibleNeighbor : pathableNodes) {
+                        if (areOrthogonalNeighbors(possibleNeighbor, min) ||
+                                (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isSelected())) {
+                            neighbors.add(possibleNeighbor);
+                        }
+                    }
 
-                        if (!open.contains(neighbor)) {
-                            open.add(neighbor);
+                    for (Node neighbor: neighbors) {
+                        //calculate new H
+                        double newH = heuristic(neighbor);
+
+                        if (newH < neighbor.getH()) {
+                            neighbor.setH(newH);
+                            neighbor.setParent(min);
+                            neighbor.setG(min.getG() + euclideanDistance(min, neighbor));
+
+                            if (!open.contains(neighbor)) {
+                                open.add(neighbor);
+                            }
                         }
                     }
                 }
-            }
 
-            if (end.getParent() != null) {
-                pathFound();
-            } else {
-                pathNotFound();
-            }
+                if (end.getParent() != null) {
+                    pathFound();
+                } else {
+                    pathNotFound();
+                }
+            },"Pathfinder Thread").start();
         }
     }
+
+    //todo optimal path check continues even after node is found but doesn't find the correct best path
 
     //timer update action (while loop of a*) for animation purposes
     private static ActionListener pathFindAction = evt -> {
@@ -695,6 +707,7 @@ public class PathFinderWidget {
         diagonalBox.setEnabled(true);
         showStepsBox.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
+        paused = false;
 
         pathText = "PATH FOUND";
 
@@ -723,6 +736,7 @@ public class PathFinderWidget {
         diagonalBox.setEnabled(true);
         showStepsBox.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
+        paused = false;
 
         pathText = "PATH NOT FOUND";
 

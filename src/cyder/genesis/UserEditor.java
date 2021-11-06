@@ -97,14 +97,14 @@ public class UserEditor {
         backwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         backwardButton.setFont(CyderFonts.weatherFontBig);
         backwardButton.addActionListener(e -> lastEditUser());
-        backwardButton.setBounds(20, 50, 50, 500);
+        backwardButton.setBounds(20, 50 + 125, 50, 250);
         editUserFrame.getContentPane().add(backwardButton);
 
         forwardButton = new CyderButton(">");
         forwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         forwardButton.setFont(CyderFonts.weatherFontBig);
         forwardButton.addActionListener(e -> nextEditUser());
-        forwardButton.setBounds(830, 50, 50, 500);
+        forwardButton.setBounds(830, 50 + 125, 50, 250);
         editUserFrame.getContentPane().add(forwardButton);
 
         editUserFrame.setVisible(true);
