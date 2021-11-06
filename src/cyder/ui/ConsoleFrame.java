@@ -2764,4 +2764,90 @@ public final class ConsoleFrame {
 
         Login.showGUI();
     }
+
+    private boolean currentlyDancing = false;
+
+    /**
+     * Invokes dance in a synchronous way on all CyderFrame instances
+     */
+    public void dance() {
+        //anonymous inner class
+        class RestoreFrame {
+            int restoreX;
+            int restoreY;
+            CyderFrame frame;
+            boolean draggingWasEnabled;
+
+            public RestoreFrame(CyderFrame frame, int restoreX, int restoreY, boolean draggingWasEnabled) {
+                this.restoreX = restoreX;
+                this.restoreY = restoreY;
+                this.frame = frame;
+                this.draggingWasEnabled = draggingWasEnabled;
+            }
+        }
+
+
+        //list of frames for restoration purposes
+        LinkedList<RestoreFrame> restoreFrames = new LinkedList<>();
+
+        //add frame's to list for restoration coords and dragging restoration
+        for (Frame f : Frame.getFrames()) {
+            if (f instanceof CyderFrame) {
+                restoreFrames.add(new RestoreFrame((CyderFrame) f,
+                        f.getX(), f.getY(), ((CyderFrame) f).draggingEnabled()));
+                ((CyderFrame) f).disableDragging();
+            }
+        }
+
+        //set var to true so we can terminate dancing
+        currentlyDancing = true;
+
+        //invoke dance step on all threads which currently dancing is true and all frames are not in the finished state
+        while (currentlyDancing && !allFramesFinishedDancing()) {
+            for (Frame f : Frame.getFrames()) {
+                if (f instanceof CyderFrame) {
+                   ((CyderFrame) f).danceStep();
+                }
+            }
+        }
+
+       stopDancing();
+
+        //reset frame's locations and dragging vars
+        for (RestoreFrame f : restoreFrames) {
+            f.frame.setLocation(f.restoreX, f.restoreY);
+            f.frame.setDancingFinished(false);
+            if (f.draggingWasEnabled) {
+                f.frame.enableDragging();
+            }
+        }
+    }
+
+    /**
+     * Ends the dancing sequence if on-going
+     */
+    public void stopDancing() {
+        //end dancing sequence
+        currentlyDancing = false;
+
+        //reset all frames to dance again
+        for (Frame f : Frame.getFrames()) {
+            if (f instanceof CyderFrame) {
+                ((CyderFrame) f).setDancingDirection(CyderFrame.DancingDirection.INITIAL_UP);
+            }
+        }
+    }
+
+    private boolean allFramesFinishedDancing() {
+        boolean ret = true;
+
+        for (Frame f : Frame.getFrames()) {
+            if (!((CyderFrame) f).isDancingFinished()) {
+                ret = false;
+                break;
+            }
+        }
+
+        return ret;
+    }
 }

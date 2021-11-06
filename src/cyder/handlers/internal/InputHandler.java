@@ -452,9 +452,7 @@ public class InputHandler {
                 }
             }
         } else if (eic("dance")) {
-            for (Frame f : Frame.getFrames())
-                if (f instanceof CyderFrame)
-                    ((CyderFrame) (f)).dance();
+            ConsoleFrame.getConsoleFrame().dance();
         }
         //program outsourcing ------------------------------------
         else if (hasWord("cyder") && has("dir")) {
@@ -1966,10 +1964,7 @@ public class InputHandler {
         //stop music
         IOUtil.stopAllAudio();
         //cancel dancing threads
-        for (Frame f : Frame.getFrames()) {
-            if (f instanceof CyderFrame)
-                ((CyderFrame) (f)).setControl_c_threads(true);
-        }
+        ConsoleFrame.getConsoleFrame().stopDancing();
         //finish printing anything in printing queue
         finishPrinting = true;
         //inform user we escaped

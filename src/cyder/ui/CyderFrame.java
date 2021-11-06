@@ -885,116 +885,78 @@ public class CyderFrame extends JFrame {
         return this.control_c_threads;
     }
 
-    /**
-     * moves the frame around the user's monitor before returning to the initial location.
-     */
-    public void dance() {
-        this.control_c_threads = false;
+    //dancing ------------------------------------------------------------------------------
 
-        Thread DanceThread = new Thread(() -> {
-            boolean wasEnabled = false;
-            boolean wasOnTop = this.isAlwaysOnTop();
-
-            if (topDrag.isDraggingEnabled()) {
-                this.disableDragging();
-                wasEnabled = true;
-            }
-
-            setAlwaysOnTop(true);
-            int restoreX = this.getX();
-            int restoreY = this.getY();
-
-            control_c_exit:
-                try {
-                    //if out of bounds, bring just in bounds
-                    if (restoreY < 0)
-                        setLocation(restoreX, 0);
-                    else if (restoreY > SystemUtil.getScreenHeight())
-                        setLocation(restoreX, SystemUtil.getScreenHeight() - this.getHeight());
-                    if (restoreX < 0)
-                        setLocation(0, restoreY);
-                    else if (restoreX > SystemUtil.getScreenWidth())
-                        setLocation(SystemUtil.getScreenWidth() - this.getWidth(), restoreY);
-
-                    int increment = 10;
-                    int miliTimeout = 1;
-                    int nanoTimeout = 0;
-
-                    //moves frame up to top of screen
-                    for (int y = getY(); y >= 0; y -= increment) {
-                        if (this.control_c_threads)
-                            break control_c_exit;
-                        Thread.sleep(miliTimeout, nanoTimeout);
-                        setLocation(this.getX(), y);
-                    }
-
-                    //move from right to left
-                    for (int x = getX(); x >= 0; x -= increment) {
-                        if (this.control_c_threads)
-                            break control_c_exit;
-                        Thread.sleep(miliTimeout, nanoTimeout);
-                        setLocation(x, this.getY());
-                    }
-
-                    //move from top to bottom
-                    for (int y = getY(); y <= SystemUtil.getScreenHeight() - this.getHeight(); y += increment) {
-                        if (this.control_c_threads)
-                            break control_c_exit;
-                        Thread.sleep(miliTimeout, nanoTimeout);
-                        setLocation(this.getX(), y);
-                    }
-
-                    //move from left to right
-                    for (int x = getX(); x <= SystemUtil.getScreenWidth() - this.getWidth(); x += increment) {
-                        if (this.control_c_threads)
-                            break control_c_exit;
-                        Thread.sleep(miliTimeout, nanoTimeout);
-                        setLocation(x, this.getY());
-                    }
-
-                    //move from bottom to top
-                    for (int y = getY(); y > 0; y -= increment) {
-                        if (this.control_c_threads)
-                            break control_c_exit;
-                        Thread.sleep(miliTimeout, nanoTimeout);
-                        setLocation(this.getX(), y);
-                    }
-
-                    //move from top to restoreX
-                    for (int x = getX(); x >= restoreX; x -= increment) {
-                        if (this.control_c_threads)
-                            break control_c_exit;
-                        Thread.sleep(miliTimeout, nanoTimeout);
-                        setLocation(x, this.getY());
-                    }
-
-                    setLocation(restoreX, this.getY());
-
-                    //move from top to restoreY
-                    for (int y = getY(); y <= restoreY; y += increment) {
-                        if (this.control_c_threads)
-                            break control_c_exit;
-                        Thread.sleep(miliTimeout, nanoTimeout);
-                        setLocation(this.getX(), y);
-                    }
-
-                } catch (Exception e) {
-                    ErrorHandler.handle(e);
-                }
-
-            setLocation(restoreX, restoreY);
-            setAlwaysOnTop(false);
-
-            if (wasEnabled) {
-               this.enableDragging();
-            }
-
-            if (wasOnTop)
-                this.setAlwaysOnTop(true);
-        },this + " [dance thread]");
-
-        DanceThread.start();
+    public enum DancingDirection {
+        INITIAL_UP, LEFT, DOWN, RIGHT, UP
     }
+
+    private DancingDirection dancingDirection = DancingDirection.INITIAL_UP;
+    private int dancingIncrement = 10;
+    private boolean dancingFinished = false;
+
+    public void setDancingDirection(DancingDirection dancingDirection) {
+        this.dancingDirection = dancingDirection;
+    }
+
+    public boolean isDancingFinished() {
+        return dancingFinished;
+    }
+
+    public void setDancingFinished(boolean dancingFinished) {
+        this.dancingFinished = dancingFinished;
+    }
+
+    /**
+     * Takes a step in the right direction for the dance routine
+     */
+    public void danceStep() {
+        switch (dancingDirection) {
+            case INITIAL_UP:
+                this.setLocation(this.getX(), this.getY() - dancingIncrement);
+
+                if (this.getY() < 0) {
+                    this.setLocation(this.getX(), 0);
+                    dancingDirection = DancingDirection.LEFT;
+                }
+                break;
+            case LEFT:
+                this.setLocation(this.getX() - 10, this.getY());
+
+                if (this.getX() < 0) {
+                    this.setLocation(0, 0);
+                    dancingDirection = DancingDirection.DOWN;
+                }
+                break;
+            case DOWN:
+                this.setLocation(this.getX(), this.getY() + 10);
+
+                if (this.getY() > SystemUtil.getScreenHeight() - this.getHeight()) {
+                    this.setLocation(this.getX(), SystemUtil.getScreenHeight() - this.getHeight());
+                    dancingDirection = DancingDirection.RIGHT;
+                }
+                break;
+            case RIGHT:
+                this.setLocation(this.getX() + 10, this.getY());
+
+                if (this.getX() > SystemUtil.getScreenWidth() - this.getWidth()) {
+                    this.setLocation(SystemUtil.getScreenWidth() - this.getWidth(), this.getY());
+                    dancingDirection = DancingDirection.UP;
+                }
+                break;
+            case UP:
+                this.setLocation(this.getX(), this.getY() - 10);
+
+                if (this.getY() < 0) {
+                    this.setLocation(this.getX(), 0);
+                    dancingFinished = true;
+                    dancingDirection = DancingDirection.LEFT;
+                }
+                break;
+        }
+    }
+
+    // ------------------------------------------------------------------------------
 
     /**
      * transforms the content pane by an incremental angle of 2 degrees emulating Google's barrel roll easter egg

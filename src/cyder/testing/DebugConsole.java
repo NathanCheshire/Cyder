@@ -126,8 +126,6 @@ public class DebugConsole {
         //todo offset for dragging area vs drag label should be variable. This is more or less
         // to make that portion of code readable
 
-        //todo try and make frame dancing universal so they move in a synchronous way
-
         //todo finish and test messaging client
         // MessagingWidget.showGUI();
     }
