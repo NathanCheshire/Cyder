@@ -1591,15 +1591,6 @@ public class CyderFrame extends JFrame {
         return getTaskbarButton(taskbarIconBorderColor);
     }
 
-    //todo why are the buttons still not working properly for menu
-    //todo use me
-    public JLabel getTaskbarButtonHover() {
-        if (this.getTitle() == null || this.getTitle().length() == 0)
-            throw new IllegalArgumentException("Title not set or long enough");
-
-        return getTaskbarButton(taskbarIconBorderColor.darker());
-    }
-
     public JLabel getTaskbarButton(Color borderColor) {
         String title = this.getTitle().substring(0, Math.min(4, this.getTitle().length()));
 
@@ -1640,12 +1631,46 @@ public class CyderFrame extends JFrame {
         int y = (fm.getAscent() + (taskbarIconLength - (fm.getAscent() + fm.getDescent())) / 2);
         g.drawString(iconTitle, x, y);
 
+        //draw darker image
+
+        BufferedImage darkerBufferdImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
+        Graphics g2 = darkerBufferdImage.getGraphics();
+
+        //set border color
+        g2.setColor(borderColor.darker());
+        g2.fillRect(0,0,taskbarIconLength,taskbarIconLength);
+
+        //draw center color
+        g2.setColor(Color.black);
+        g2.fillRect(taskbarBorderLength,taskbarBorderLength,
+                taskbarIconLength - taskbarBorderLength * 2,
+                taskbarIconLength - taskbarBorderLength * 2);
+
+        g2.setColor(CyderColors.vanila);
+        g2.setFont(labelFont);
+        g2.setColor(CyderColors.vanila);
+
+        FontMetrics fm2 = g2.getFontMetrics();
+        int x2 = (taskbarIconLength - fm2.stringWidth(iconTitle)) / 2;
+        int y2 = (fm.getAscent() + (taskbarIconLength - (fm2.getAscent() + fm2.getDescent())) / 2);
+        g2.drawString(iconTitle, x2, y2);
+
         ret.setToolTipText(title);
         ret.setIcon(new ImageIcon(bufferedImage));
         ret.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 clickAction.fire();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ret.setIcon(new ImageIcon(darkerBufferdImage));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ret.setIcon(new ImageIcon(bufferedImage));
             }
         });
 
