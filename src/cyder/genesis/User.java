@@ -1,4 +1,4 @@
-package cyder.genobjects;
+package cyder.genesis;
 
 import java.util.LinkedList;
 

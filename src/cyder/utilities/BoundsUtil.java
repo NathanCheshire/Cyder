@@ -1,7 +1,6 @@
 package cyder.utilities;
 
 import cyder.consts.CyderFonts;
-import cyder.genobjects.BoundsString;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -282,6 +281,49 @@ public class BoundsUtil {
     }
 
     //inner classes and enums
+
+    public static class BoundsString {
+        private int width;
+        private int height;
+        private String text;
+
+        public BoundsString(int width, int height, String text) {
+            this.width = width;
+            this.height = height;
+            this.text = text;
+        }
+
+        public BoundsString() {}
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return "[" + this.width + "x" + this.height + "]\nText:\n" + this.text;
+        }
+    }
 
     public static class TaggedString {
         private String string;

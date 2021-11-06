@@ -5,7 +5,6 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.handler.ErrorHandler;
 import cyder.genesis.GenesisShare.Preference;
-import cyder.genobjects.User;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.SecurityUtil;

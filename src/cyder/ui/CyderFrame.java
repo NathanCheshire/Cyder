@@ -5,7 +5,6 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.genobjects.BoundsString;
 import cyder.handler.ErrorHandler;
 import cyder.handler.SessionLogger;
 import cyder.utilities.*;
@@ -611,7 +610,7 @@ public class CyderFrame extends JFrame {
 
                             Font notificationFont = new Font("Segoe UI Black", Font.BOLD, 20);
 
-                            BoundsString bs = BoundsUtil.widthHeightCalculation(text.getText(),
+                            BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(text.getText(),
                                     (int) (this.width * 0.8), notificationFont);
 
                             int w = bs.getWidth();

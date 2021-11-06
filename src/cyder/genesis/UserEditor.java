@@ -4,7 +4,6 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.NotificationDirection;
-import cyder.genobjects.User;
 import cyder.handler.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.*;

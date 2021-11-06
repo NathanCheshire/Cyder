@@ -3,7 +3,7 @@ package cyder.widgets;
 
 import cyder.annotations.Widget;
 import cyder.genesis.GenesisShare;
-import cyder.genobjects.User;
+import cyder.genesis.User;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;

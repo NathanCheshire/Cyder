@@ -9,7 +9,7 @@ import cyder.enums.ScreenPosition;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.Login;
 import cyder.genesis.UserEditor;
-import cyder.genobjects.User;
+import cyder.genesis.User;
 import cyder.handler.ErrorHandler;
 import cyder.handler.InputHandler;
 import cyder.handler.SessionLogger;

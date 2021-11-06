@@ -2,7 +2,6 @@ package cyder.widgets;
 
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.genobjects.BoundsString;
 import cyder.handler.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -15,7 +14,7 @@ public class GenericInformer {
     public static CyderFrame informRet(String text, String title) {
         try {
             CyderLabel textLabel = new CyderLabel(text);
-            BoundsString boundsString = BoundsUtil.widthHeightCalculation(text);
+            BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(text);
             textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
             textLabel.setBounds(10,30, boundsString.getWidth(), boundsString.getHeight());
 
@@ -40,7 +39,7 @@ public class GenericInformer {
     public static void informRelative(String text, String title, Component relativeTo) {
         try {
             CyderLabel textLabel = new CyderLabel(text);
-            BoundsString boundsString = BoundsUtil.widthHeightCalculation(text);
+            BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(text);
             textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
             textLabel.setBounds(10,30, boundsString.getWidth(), boundsString.getHeight());
 

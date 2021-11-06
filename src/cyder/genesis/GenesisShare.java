@@ -191,7 +191,7 @@ public class GenesisShare {
         GenesisShare.quesitonableInternet = quesitonableInternet;
     }
 
-    //pref class
+    //inner classes
 
     public static class Preference {
         private String ID;
