@@ -1,7 +1,7 @@
 package cyder.utilities;
 
-import cyder.handlers.ErrorHandler;
-import cyder.handlers.SessionLogger;
+import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import org.jsoup.Jsoup;
 
 import java.awt.*;
@@ -19,7 +19,7 @@ public class NetworkUtil {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(new URI(URL));
-            SessionLogger.log(SessionLogger.Tag.LINK, URL);
+            SessionHandler.log(SessionHandler.Tag.LINK, URL);
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }
@@ -73,7 +73,7 @@ public class NetworkUtil {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(URI);
-            SessionLogger.log(SessionLogger.Tag.LINK, URI.getPath());
+            SessionHandler.log(SessionHandler.Tag.LINK, URI.getPath());
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }

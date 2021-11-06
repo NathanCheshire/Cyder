@@ -1,4 +1,4 @@
-package cyder.handlers;
+package cyder.handlers.internal;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
@@ -11,6 +11,8 @@ import cyder.genesis.GenesisShare.Preference;
 import cyder.genesis.Login;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
+import cyder.handlers.external.AudioPlayer;
+import cyder.handlers.external.DirectoryViewer;
 import cyder.testing.DebugConsole;
 import cyder.testing.ManualTests;
 import cyder.testing.UnitTests;
@@ -73,9 +75,9 @@ public class InputHandler {
 
         //log CLIENT input
         if (userTriggered)
-            SessionLogger.log(SessionLogger.Tag.CLIENT, operation);
+            SessionHandler.log(SessionHandler.Tag.CLIENT, operation);
         else
-            SessionLogger.log(SessionLogger.Tag.CLIENT, "[SIMULATED INPUT] " + operation);
+            SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + operation);
 
         //pre-process checks --------------------------------------
         if (StringUtil.filterLanguage(operation) && UserUtil.getUserData("filterchat").equals("1")) {
@@ -271,102 +273,102 @@ public class InputHandler {
         //widgets -------------------------------------------------
         else if ((hasWord("youtube") && hasWord("thumbnail"))) {
             YoutubeUtil.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
         } else if (hasWord("minecraft")) {
             MinecraftWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "MINECRAFT");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "MINECRAFT");
         } else if ((hasWord("edit") && hasWord("user")) || eic("prefs")) {
             UserEditor.showGUI(0);
-            SessionLogger.log(SessionLogger.Tag.ACTION, "USER EDITOR");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "USER EDITOR");
         } else if (hasWord("hash") || hasWord("hashser")) {
             new HashingWidget().showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "SHA256 HASHER");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "SHA256 HASHER");
         }  else if (eic("search") || eic("dir") || (hasWord("file") && hasWord("search")) || eic("directory") || eic("ls")) {
-            DirectoryNavigator.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "DIR SEARCH");
+            DirectoryViewer.showGUI();
+            SessionHandler.log(SessionHandler.Tag.ACTION, "DIR SEARCH");
         } else if (hasWord("weather")) {
             new WeatherWidget().showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "WEATHER");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "WEATHER");
         } else if (eic("pin") || eic("login")) {
             Login.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "LOGIN WIDGET");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "LOGIN WIDGET");
         } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
             UserCreator.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "USER CREATOR");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "USER CREATOR");
         } else if ((hasWord("resize") && (hasWord("image")) ||
                 (hasWord("picture") && hasWord("resize")))) {
             ImageResizerWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE RESIZER");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE RESIZER");
         } else if (hasWord("temperature") || eic("temp")) {
             new TemperatureWidget().showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "TEMPERATURE CONVERTER");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "TEMPERATURE CONVERTER");
         } else if (has("click me")) {
             ClickWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "CLICK ME");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "CLICK ME");
         } else if (has("Father") && hasWord("day") && has("2021")) {
             CardWidget.FathersDay2021();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "CARD");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
         } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
             CardWidget.Christmas2020();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "CARD");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
         } else if (hasWord("number") && hasWord("word")) {
             NumberUtil.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "NUMBER TO WORD");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "NUMBER TO WORD");
         } else if (hasWord("hangman")) {
             HangmanGame.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "HANGMAN");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "HANGMAN");
         } else if (hasWord("rgb") || hasWord("hex") || (hasWord("color") && hasWord("converter"))) {
             ColorConverterWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "COLOR CONVERTER");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "COLOR CONVERTER");
         } else if (hasWord("pizza")) {
             PizzaWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "PIZZA");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "PIZZA");
         } else if ((hasWord("pixelate") || hasWord("distort")) &&
                 (hasWord("image") || hasWord("picture"))) {
             ImagePixelatorWidget.showGUI(null);
-            SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE PIXELATOR");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE PIXELATOR");
         } else if (hasWord("file") && hasWord("signature")) {
             FileSignatureWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "FILE SIGNATURE");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "FILE SIGNATURE");
         } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
             TTTGame.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "TIC TAC TOE");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "TIC TAC TOE");
         } else if (hasWord("note") || hasWord("notes")) {
             NotesWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "NOTE EDITOR");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "NOTE EDITOR");
         } else if ((hasWord("mp3") || hasWord("music")) && !hasWord("stop")) {
             AudioPlayer.showGUI(null);
-            SessionLogger.log(SessionLogger.Tag.ACTION, "AUDIO PLAYER");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "AUDIO PLAYER");
         } else if (hasWord("phone") || hasWord("dialer") || hasWord("call")) {
             PhoneWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "PHONE");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "PHONE");
         } else if ((hasWord("calculator") || hasWord("calc")) && !has("graphing")) {
             CalculatorWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "CALCULATOR");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "CALCULATOR");
         } else if (eic("spotlight") || (has("spotlight") && has("steal") && !has("wipe"))) {
             File saveDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
-            Spotlight.saveSpotlights(saveDir);
+            SpotlightUtil.saveSpotlights(saveDir);
             ConsoleFrame.getConsoleFrame().resizeBackgrounds();
             println("Spotlight images saved to your user's background/ directory");
         } else if (has("spotlight") && hasWord("wipe")) {
-            Spotlight.wipe();
+            SpotlightUtil.wipe();
         } else if (hasWord("convex") && hasWord("hull")) {
             ConvexHullWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "CONVEX HULL");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "CONVEX HULL");
         } else if (has("average") && (has("image") || hasWord("picture"))) {
             ImageAveragerWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "IMAGE AVERAGER");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE AVERAGER");
         } else if (hasWord("conway") || hasWord("conways")) {
             GameOfLifeWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "CONWAYS");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "CONWAYS");
         } else if (hasWord("birthday") && hasWord("card") && hasWord("2021")) {
             CardWidget.Birthday2021();
         } else if (hasWord("pathfinder") || hasWord("path")) {
             PathFinderWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "PATHFINDER");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "PATHFINDER");
         } else if (hasWord("perlin")) {
             PerlinWidget.showGUI();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "PERLIN");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "PERLIN");
         }
         //ui and settings -----------------------------------------
         else if (eic("top left")) {
@@ -752,7 +754,7 @@ public class InputHandler {
         } else if (hasWord("clear") && (hasWord("operation") ||
                 hasWord("command")) && hasWord("list")) {
             ConsoleFrame.getConsoleFrame().clearOperationList();
-            SessionLogger.log(SessionLogger.Tag.ACTION, "User cleared command history");
+            SessionHandler.log(SessionHandler.Tag.ACTION, "User cleared command history");
             println("Command history reset");
         } else if (hasWord("stop") && has("script")) {
             masterYoutubeThread.killAllYoutube();
@@ -819,7 +821,7 @@ public class InputHandler {
 
                 for (File log : logs) {
                     if (StringUtil.getExtension(log).equals(".log")
-                        && !log.equals(SessionLogger.getCurrentLog())) {
+                        && !log.equals(SessionHandler.getCurrentLog())) {
                         log.delete();
                         count++;
                     }
@@ -837,7 +839,7 @@ public class InputHandler {
 
                 for (File log : logs) {
                     if (StringUtil.getExtension(log).equals(".log")
-                            && !log.equals(SessionLogger.getCurrentLog())) {
+                            && !log.equals(SessionHandler.getCurrentLog())) {
                         count++;
                     }
                 }
@@ -849,7 +851,7 @@ public class InputHandler {
             }
         } else if (hasWord("open") && hasWord("current") && hasWord("log")) {
             if (SecurityUtil.nathanLenovo()) {
-                IOUtil.openFileOutsideProgram(SessionLogger.getCurrentLog().getAbsolutePath());
+                IOUtil.openFileOutsideProgram(SessionHandler.getCurrentLog().getAbsolutePath());
             } else {
                 println("Sorry, " + UserUtil.getUserData("name") + ", but you do not have permission " +
                         "to perform that operation.");
@@ -1100,15 +1102,15 @@ public class InputHandler {
         //final attempt at unknown input --------------------------
         else {
             if (handleMath(operation)) {
-                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE MATH FUNCTION HANDLED");
+                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH FUNCTION HANDLED");
             } else if (evaluateExpression(operation)) {
-                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE MATH HANDLED");
+                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH HANDLED");
             } else if (preferenceCheck(operation)) {
-                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE PREFERENCE TOGGLE HANDLED");
+                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE PREFERENCE TOGGLE HANDLED");
             } else if (manualTestCheck(operation)) {
-                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
+                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
             } else if (unitTestCheck(operation)) {
-                SessionLogger.log(SessionLogger.Tag.ACTION, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
+                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
             } else {
                 unknownInput();
             }
@@ -1524,7 +1526,7 @@ public class InputHandler {
                     //priority simply appends to the console
                     if (consolePriorityPrintingList.size() > 0) {
                         Object line = consolePriorityPrintingList.removeFirst();
-                        SessionLogger.log(SessionLogger.Tag.CONSOLE_OUT,line);
+                        SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
 
                         if (line instanceof String) {
                             StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -1546,7 +1548,7 @@ public class InputHandler {
                     // concurrency issues
                     else if (consolePrintingList.size() > 0){
                         Object line = consolePrintingList.removeFirst();
-                        SessionLogger.log(SessionLogger.Tag.CONSOLE_OUT,line);
+                        SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
 
                         if (line instanceof String) {
                             if (UserUtil.getUserData("typinganimation").equals("1")) {

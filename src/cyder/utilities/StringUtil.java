@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.genesis.GenesisShare;
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

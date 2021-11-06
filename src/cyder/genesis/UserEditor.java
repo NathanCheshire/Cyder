@@ -4,10 +4,10 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.NotificationDirection;
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
-import cyder.handlers.AudioPlayer;
+import cyder.handlers.external.AudioPlayer;
 import cyder.widgets.ColorConverterWidget;
 
 import javax.swing.*;

@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

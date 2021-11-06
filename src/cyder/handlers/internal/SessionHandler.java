@@ -1,8 +1,8 @@
-package cyder.handlers;
+package cyder.handlers.internal;
 
-import cyder.utilities.IOUtil.SystemData;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.IOUtil;
+import cyder.utilities.IOUtil.SystemData;
 import cyder.utilities.StringUtil;
 import cyder.utilities.TimeUtil;
 
@@ -13,8 +13,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class SessionLogger {
-    private SessionLogger() {}
+public class SessionHandler {
+    private SessionHandler() {}
 
     private static File currentLog;
     private static long start;

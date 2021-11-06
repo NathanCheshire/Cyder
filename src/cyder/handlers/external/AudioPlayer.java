@@ -1,4 +1,4 @@
-package cyder.handlers;
+package cyder.handlers.external;
 
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
@@ -6,6 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
 import javazoom.jl.decoder.Bitstream;

@@ -1,6 +1,6 @@
 package cyder.threads;
 
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;

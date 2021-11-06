@@ -10,13 +10,13 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.Login;
 import cyder.genesis.UserEditor;
 import cyder.genesis.User;
-import cyder.handlers.ErrorHandler;
-import cyder.handlers.InputHandler;
-import cyder.handlers.SessionLogger;
+import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.InputHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.testing.DebugConsole;
 import cyder.utilities.*;
-import cyder.handlers.AudioPlayer;
-import cyder.handlers.GenericInformer;
+import cyder.handlers.external.AudioPlayer;
+import cyder.handlers.internal.PopupHandler;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -546,7 +546,7 @@ public final class ConsoleFrame {
                         "Submit Suggestion", CyderColors.tooltipForegroundColor);
 
                 if (suggestionText.length() > 0) {
-                    SessionLogger.log(SessionLogger.Tag.SUGGESTION,  suggestionText);
+                    SessionHandler.log(SessionHandler.Tag.SUGGESTION,  suggestionText);
                     getInputHandler().println("Suggestion Logged; make sure that you send your logs dir to Nathan");
                 }
             },"Suggestion Getter Waiter Thread").start());
@@ -1122,7 +1122,7 @@ public final class ConsoleFrame {
 
         //testing mode
         if (IOUtil.getSystemData().isTestingmode()) {
-            SessionLogger.log(SessionLogger.Tag.ENTRY, "TESTING MODE");
+            SessionHandler.log(SessionHandler.Tag.ENTRY, "TESTING MODE");
             DebugConsole.launchTests();
         }
 
@@ -1523,7 +1523,7 @@ public final class ConsoleFrame {
 
                 //inform the user we are changing the size of the image.
                 if (backgroundWidth > SystemUtil.getScreenWidth() || backgroundHeight > SystemUtil.getScreenHeight())
-                    GenericInformer.inform("Resizing the background image \"" + currentFile.getName() +
+                    PopupHandler.inform("Resizing the background image \"" + currentFile.getName() +
                                     "\" since it's too big.", "System Action");
 
                 //while the image dimensions are greater than the screen dimensions,
@@ -1536,7 +1536,7 @@ public final class ConsoleFrame {
 
                 //inform the user we are changing the size of the image
                 if (backgroundWidth < 600 || backgroundHeight < 600)
-                    GenericInformer.inform("Resizing the background image \"" + getBackgrounds().get(i).getName()
+                    PopupHandler.inform("Resizing the background image \"" + getBackgrounds().get(i).getName()
                             + "\" since it's too small.", "System Action");
 
                 //while the image dimensions are less than 800x800, multiply the image dimensions by the
@@ -2734,7 +2734,7 @@ public final class ConsoleFrame {
         inputHandler = null;
 
         //logs
-        SessionLogger.log(SessionLogger.Tag.LOGOUT, "[" + getUsername() + "]");
+        SessionHandler.log(SessionHandler.Tag.LOGOUT, "[" + getUsername() + "]");
         UserUtil.setUserData("loggedin","0");
 
         //remove closing actions

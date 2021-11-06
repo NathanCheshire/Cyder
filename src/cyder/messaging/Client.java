@@ -1,7 +1,7 @@
 package cyder.messaging;
 
-import cyder.handlers.ErrorHandler;
-import cyder.handlers.SessionLogger;
+import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.SecurityUtil;
@@ -113,7 +113,7 @@ public class Client {
                         listenToClient();
 
                         //log connection
-                        SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+                        SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
                                 "[PRIVATE MESSAGE]: [SECURED CONNECTION WITH " + clientName.toUpperCase()
                                         + "(" + clientUUID +  ")]");
 
@@ -145,7 +145,7 @@ public class Client {
                             //listen for their messages assumping their server still wants to connect
                             listenToClient();
 
-                            SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+                            SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
                                     "[PRIVATE MESSAGE]: [ATTEMPTING CLIENT CONNECTION WITH " + clientName.toUpperCase()
                                             + "(" + clientUUID +  ")]");
 
@@ -191,7 +191,7 @@ public class Client {
                     if (receivedMessage != null) {
                         //instead of printing, append to frame's outputarea
                         System.out.println("[" + connectedClientName + "]: " + receivedMessage);
-                        SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+                        SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
                                 "[PRIVATE MESSAGE]: [ RECEIVED FROM " + clientName.toUpperCase()
                                         + "(" + clientUUID +  ")] " + receivedMessage);
                     }
@@ -234,7 +234,7 @@ public class Client {
             attemptingConnectionWriter.flush();
 
             //log
-            SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+            SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
                     "[PRIVATE MESSAGE]: [ATTEMPTING SERVER CONNECTION WITH " + clientName.toUpperCase()
                             + "(" + clientUUID +  ")]");
         } catch (Exception e) {
@@ -251,7 +251,7 @@ public class Client {
             //if there's a connection
             if (connectedServerSocket != null) {
                 sendMessage(clientName + " has disconnected");
-                SessionLogger.log(SessionLogger.Tag.PRIVATE_MESSAGE,
+                SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
                         "[DISCONNECT]: " + clientName + "(" + clientUUID +  ")" + " terminated session");
                 connectedServerSocket.close();
                 connectedServerSocket = null;

@@ -3,10 +3,13 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.Login;
-import cyder.handlers.*;
+import cyder.handlers.external.PhotoViewer;
+import cyder.handlers.external.TextViewer;
+import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
-import cyder.handlers.AudioPlayer;
-import cyder.handlers.GenericInformer;
+import cyder.handlers.external.AudioPlayer;
+import cyder.handlers.internal.PopupHandler;
 import javazoom.jl.player.Player;
 
 import java.awt.*;
@@ -42,7 +45,7 @@ public class IOUtil {
         } catch (Exception e) {
             try {
                 Runtime.getRuntime().exec("explorer.exe /select," + filePath);
-                SessionLogger.log(SessionLogger.Tag.LINK, filePath);
+                SessionHandler.log(SessionHandler.Tag.LINK, filePath);
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
             }
@@ -100,7 +103,7 @@ public class IOUtil {
             tmpFileWriter.flush();
             tmpFileWriter.close();
 
-            SessionLogger.log(SessionLogger.Tag.LINK, "[TEMP FILE] " + filename + "." + extension);
+            SessionHandler.log(SessionHandler.Tag.LINK, "[TEMP FILE] " + filename + "." + extension);
             openFileOutsideProgram(tmpFile.getAbsolutePath());
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -173,7 +176,7 @@ public class IOUtil {
                 append += "; args: " + argsString;
             }
 
-            SessionLogger.log(SessionLogger.Tag.JAVA_ARGS, append);
+            SessionHandler.log(SessionHandler.Tag.JAVA_ARGS, append);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -222,7 +225,7 @@ public class IOUtil {
     public static void openFile(String FilePath) {
         //use our custom text editor
         if (FilePath.endsWith(".txt")) {
-            TextEditor te = new TextEditor(FilePath);
+            TextViewer te = new TextViewer(FilePath);
         }
         //use our custom photo viewer
         else if (FilePath.endsWith(".png")) {
@@ -240,7 +243,7 @@ public class IOUtil {
                 File FileToOpen = new File(FilePath);
                 URI FileURI = FileToOpen.toURI();
                 OpenFile.browse(FileURI);
-                SessionLogger.log(SessionLogger.Tag.LINK, FileToOpen.getAbsoluteFile());
+                SessionHandler.log(SessionHandler.Tag.LINK, FileToOpen.getAbsoluteFile());
             } catch (Exception e) {
                 try {
                     Runtime.getRuntime().exec("explorer.exe /select," + FilePath);
@@ -260,7 +263,7 @@ public class IOUtil {
             stopAudio();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
             player = new Player(FileInputStream);
-            SessionLogger.log(SessionLogger.Tag.ACTION,"[AUDIO] " + FilePath);
+            SessionHandler.log(SessionHandler.Tag.ACTION,"[AUDIO] " + FilePath);
 
             new Thread(() -> {
                 try {
@@ -293,7 +296,7 @@ public class IOUtil {
             Player systemPlayer = new Player(FileInputStream);
 
             if (!FilePath.equals("static/audio/Typing.mp3"))
-                SessionLogger.log(SessionLogger.Tag.ACTION,"[SYSTEM AUDIO] " + FilePath);
+                SessionHandler.log(SessionHandler.Tag.ACTION,"[SYSTEM AUDIO] " + FilePath);
             new Thread(() -> {
                 try {
                     systemPlayer.play();
@@ -371,7 +374,7 @@ public class IOUtil {
                 return;
 
             //confirmed that the user was corrupted so we inform the user
-            GenericInformer.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
+            PopupHandler.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
                     "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User :(");
 
             //delete the stuff we don't care about
@@ -391,7 +394,7 @@ public class IOUtil {
             zipOut.close();
             fos.close();
 
-            SessionLogger.log(SessionLogger.Tag.CORRUPTION, fileName);
+            SessionHandler.log(SessionHandler.Tag.CORRUPTION, fileName);
 
             //delete the folder we just zipped since it's a duplicate
             SystemUtil.deleteFolder(mainZipFile);
@@ -605,7 +608,7 @@ public class IOUtil {
     public static void fixLogs() {
         try {
             for (File log : new File("logs").listFiles()) {
-                if (!log.equals(SessionLogger.getCurrentLog())) {
+                if (!log.equals(SessionHandler.getCurrentLog())) {
                     BufferedReader br = new BufferedReader(new FileReader(log));
                     String line;
                     boolean containsEOL = false;

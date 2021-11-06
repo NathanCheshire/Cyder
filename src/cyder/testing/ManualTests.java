@@ -6,7 +6,7 @@ import cyder.enums.AnimationDirection;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.structobjects.CyderQueue;
 import cyder.structobjects.CyderStack;
 import cyder.ui.*;

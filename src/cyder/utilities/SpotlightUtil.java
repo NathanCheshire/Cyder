@@ -1,9 +1,7 @@
-package cyder.widgets;
+package cyder.utilities;
 
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
-import cyder.utilities.StringUtil;
-import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import java.io.File;
@@ -11,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-public class Spotlight {
+public class SpotlightUtil {
     /**
      * Gets the windows spotlight directory. I'm not sure if it could chane since according to Google
      * source it's staticly set at Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy. To be safe, however
@@ -74,7 +72,7 @@ public class Spotlight {
     public static void saveSpotlights(File saveDir) {
         if (!saveDir.isDirectory()) {
             throw new IllegalArgumentException("Destination directory is not a folder");
-         } else if (!saveDir.exists()) {
+        } else if (!saveDir.exists()) {
             throw new IllegalArgumentException("Destination directory does not exists");
         } else if (!System.getProperty("os.name").toLowerCase().contains("windows")) {
             throw new IllegalArgumentException("Host OS is not windows");

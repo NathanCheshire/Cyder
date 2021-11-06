@@ -2,11 +2,11 @@ package cyder.genesis;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.StringUtil;
-import cyder.handlers.GenericInformer;
+import cyder.handlers.internal.PopupHandler;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -101,7 +101,7 @@ public class CyderSetup {
     public static void exceptionExit(String message, String title) {
         GenesisShare.suspendFrameChecker();
 
-        CyderFrame retFrame = GenericInformer.informRet(message, title);
+        CyderFrame retFrame = PopupHandler.informRet(message, title);
         retFrame.addPostCloseAction(() -> GenesisShare.exit(278));
         retFrame.setVisible(true);
         retFrame.setLocationRelativeTo(null);

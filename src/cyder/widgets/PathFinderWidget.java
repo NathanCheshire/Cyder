@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
 

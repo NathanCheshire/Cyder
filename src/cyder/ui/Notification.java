@@ -3,7 +3,7 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 
 import javax.swing.*;
 import java.awt.*;

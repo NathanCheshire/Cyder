@@ -1,7 +1,7 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -127,11 +127,6 @@ public class DebugConsole {
         // to make that portion of code readable
 
         //todo try and make frame dancing universal so they move in a synchronous way
-
-        //todo implement context engine
-
-        //todo package for custom data showing widgets like dir, text widget, photo viewer, music, etc.
-        // handler package
 
         //todo finish and test messaging client
         // MessagingWidget.showGUI();

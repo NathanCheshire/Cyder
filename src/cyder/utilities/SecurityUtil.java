@@ -1,6 +1,6 @@
 package cyder.utilities;
 
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 
 import java.math.BigInteger;
 import java.net.InetAddress;

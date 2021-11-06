@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.genesis.User;
-import cyder.handlers.ErrorHandler;
-import cyder.handlers.SessionLogger;
+import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
 
 import javax.imageio.ImageIO;
@@ -682,7 +682,7 @@ public class UserUtil {
                 }
 
                 //log the injection
-                SessionLogger.log(SessionLogger.Tag.ACTION, "User " + f.getParentFile().getName() +
+                SessionHandler.log(SessionHandler.Tag.ACTION, "User " + f.getParentFile().getName() +
                         " was found to have an outdated userdata.json; preference injection " +
                         "performed on the following: [" + appendBuilder + "]");
             }

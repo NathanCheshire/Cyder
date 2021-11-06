@@ -1,6 +1,6 @@
 package cyder.genesis;
 
-import cyder.handlers.SessionLogger;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SecurityUtil;
 import cyder.utilities.SystemUtil;
@@ -16,8 +16,8 @@ public class Cyder {
         CyderSetup.addCommonExitHook();
 
         //start session logger
-        SessionLogger.SessionLogger();
-        SessionLogger.log(SessionLogger.Tag.ENTRY, SystemUtil.getWindowsUsername());
+        SessionHandler.SessionLogger();
+        SessionHandler.log(SessionHandler.Tag.ENTRY, SystemUtil.getWindowsUsername());
 
         //CyderSetup subroutines
         CyderSetup.initSystemProperties();
@@ -25,19 +25,19 @@ public class Cyder {
 
         //possibly fatal subroutines
         if (!CyderSetup.registerFonts()) {
-            SessionLogger.log(SessionLogger.Tag.EXCEPTION, "SYSTEM FAILURE");
+            SessionHandler.log(SessionHandler.Tag.EXCEPTION, "SYSTEM FAILURE");
             CyderSetup.exceptionExit("Font required by system could not be loaded","Font failure");
             return;
         }
 
         if (IOUtil.checkForExitCollisions()) {
-            SessionLogger.log(SessionLogger.Tag.EXCEPTION, "DUPLICATE EXIT CODES");
+            SessionHandler.log(SessionHandler.Tag.EXCEPTION, "DUPLICATE EXIT CODES");
             CyderSetup.exceptionExit("You messed up exit codes :/","Exit Codes Exception");
             return;
         }
 
         if (SystemUtil.osxSystem()) {
-            SessionLogger.log(SessionLogger.Tag.EXCEPTION, "IMPROPER OS");
+            SessionHandler.log(SessionHandler.Tag.EXCEPTION, "IMPROPER OS");
             CyderSetup.exceptionExit("System OS not intended for Cyder use. You should" +
                     " install a dual boot or a VM or something.","OS Exception");
             return;
@@ -57,7 +57,7 @@ public class Cyder {
         //figure out how to enter program
         if (SecurityUtil.nathanLenovo())  {
             if (IOUtil.getSystemData().isAutocypher()) {
-                SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
+                SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
                 Login.autoCypher();
             } else {
                 Login.showGUI();

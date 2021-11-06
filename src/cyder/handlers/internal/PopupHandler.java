@@ -1,4 +1,4 @@
-package cyder.handlers;
+package cyder.handlers.internal;
 
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
@@ -8,7 +8,7 @@ import cyder.utilities.BoundsUtil;
 
 import java.awt.*;
 
-public class GenericInformer {
+public class PopupHandler {
     //returns the CyderFrame instance to be shown elsewhere
     public static CyderFrame informRet(String text, String title) {
         try {

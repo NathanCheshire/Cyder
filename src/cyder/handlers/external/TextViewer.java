@@ -1,9 +1,10 @@
-package cyder.handlers;
+package cyder.handlers.external;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
@@ -14,13 +15,13 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.*;
 
-public class TextEditor {
+public class TextViewer {
 
     private CyderFrame textEditorFrame;
     private CyderTextField textNameEditField;
     private JTextArea textEditArea;
 
-    public TextEditor(String filePath) {
+    public TextViewer(String filePath) {
         openTextFile(new File(filePath));
     }
 

@@ -1,4 +1,4 @@
-package cyder.handlers;
+package cyder.handlers.internal;
 
 import cyder.testing.DebugConsole;
 import cyder.ui.ConsoleFrame;
@@ -32,7 +32,7 @@ public class ErrorHandler {
                             + "StackTrace:\n" + stackTrack;
 
             if (write.trim().length() > 0)
-                SessionLogger.log(SessionLogger.Tag.EXCEPTION, write);
+                SessionHandler.log(SessionHandler.Tag.EXCEPTION, write);
 
             //if the user has show errors configured, then we open the file
             if (ConsoleFrame.getConsoleFrame().getUUID() != null &&
@@ -70,7 +70,7 @@ public class ErrorHandler {
                             + "StackTrace:\n" + stackTrack;
 
             if (write.trim().length() > 0)
-                SessionLogger.log(SessionLogger.Tag.EXCEPTION, write);
+                SessionHandler.log(SessionHandler.Tag.EXCEPTION, write);
         } catch (Exception ex) {
             silentHandleWithoutLogging(ex);
         }

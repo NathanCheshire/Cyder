@@ -1,8 +1,9 @@
-package cyder.handlers;
+package cyder.handlers.external;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.genesis.GenesisShare;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;

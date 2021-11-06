@@ -2,8 +2,8 @@ package cyder.genesis;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
-import cyder.handlers.ErrorHandler;
-import cyder.handlers.SessionLogger;
+import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
@@ -201,7 +201,7 @@ public class Login {
                         }
 
                         input = newInput.clone();
-                        SessionLogger.log(SessionLogger.Tag.CLIENT_IO, "[LOGIN FRAME] " + String.valueOf(input));
+                        SessionHandler.log(SessionHandler.Tag.CLIENT_IO, "[LOGIN FRAME] " + String.valueOf(input));
                     }
 
                     switch (loginMode) {
@@ -334,10 +334,10 @@ public class Login {
 
                 //log the success login
                 if (autoCypherAttempt) {
-                    SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER PASS, " + ConsoleFrame.getConsoleFrame().getUUID());
+                    SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER PASS, " + ConsoleFrame.getConsoleFrame().getUUID());
                     autoCypherAttempt = false;
                 } else {
-                    SessionLogger.log(SessionLogger.Tag.LOGIN, "STD LOGIN, " + ConsoleFrame.getConsoleFrame().getUUID());
+                    SessionHandler.log(SessionHandler.Tag.LOGIN, "STD LOGIN, " + ConsoleFrame.getConsoleFrame().getUUID());
                 }
 
                 //reset console frame if it's already open
@@ -364,16 +364,16 @@ public class Login {
 
                 if (autoCypherAttempt) {
                     autoCypherAttempt = false;
-                    SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
+                    SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
                 } else {
-                    SessionLogger.log(SessionLogger.Tag.LOGIN, "LOGIN FAIL");
+                    SessionHandler.log(SessionHandler.Tag.LOGIN, "LOGIN FAIL");
                 }
 
                 username = "";
                 loginField.requestFocusInWindow();
             } else if (autoCypherAttempt) {
                 autoCypherAttempt = false;
-                SessionLogger.log(SessionLogger.Tag.LOGIN, "AUTOCYPHER FAIL");
+                SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
                 Login.showGUI();
             }
         } catch (Exception e) {

@@ -7,7 +7,7 @@ import com.sapher.youtubedl.YoutubeDLResponse;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.*;
 

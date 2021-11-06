@@ -4,7 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.GenericInformer;
+import cyder.handlers.internal.PopupHandler;
 import cyder.ui.*;
 import cyder.utilities.SecurityUtil;
 
@@ -50,19 +50,19 @@ public class HashingWidget {
             if (Hash.length > 0) {
                 if (algorithmIndex == 0) {
                     String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
-                    GenericInformer.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", hashFrame);
+                    PopupHandler.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", hashFrame);
                     StringSelection selection = new StringSelection(PrintHash);
                     java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                     clipboard.setContents(selection, selection);
                 } else if (algorithmIndex == 1) {
                     String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA1(hashField.getPassword()));
-                    GenericInformer.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA1","", hashFrame);
+                    PopupHandler.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA1","", hashFrame);
                     StringSelection selection = new StringSelection(PrintHash);
                     java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                     clipboard.setContents(selection, selection);
                 } else if (algorithmIndex == 2) {
                     String PrintHash = SecurityUtil.toHexString(SecurityUtil.getMD5(hashField.getPassword()));
-                    GenericInformer.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by MD5","", hashFrame);
+                    PopupHandler.informRelative("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by MD5","", hashFrame);
                     StringSelection selection = new StringSelection(PrintHash);
                     java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                     clipboard.setContents(selection, selection);

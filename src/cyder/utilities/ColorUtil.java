@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.consts.CyderColors;
-import cyder.handlers.ErrorHandler;
+import cyder.handlers.internal.ErrorHandler;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package cyder.genesis;
 
-import cyder.handlers.ErrorHandler;
-import cyder.handlers.SessionLogger;
+import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -151,8 +151,8 @@ public class GenesisShare {
     public static void exit(int code) {
         try {
             //log exit code and end of log tag
-            SessionLogger.log(SessionLogger.Tag.EXIT,null);
-            SessionLogger.log(SessionLogger.Tag.EOL, code);
+            SessionHandler.log(SessionHandler.Tag.EXIT,null);
+            SessionHandler.log(SessionHandler.Tag.EOL, code);
 
             //sign user out in logs
             UserUtil.setUserData("loggedin","0");

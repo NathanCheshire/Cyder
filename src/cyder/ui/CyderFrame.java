@@ -5,10 +5,10 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.handlers.ErrorHandler;
-import cyder.handlers.SessionLogger;
+import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.*;
-import cyder.handlers.GenericInformer;
+import cyder.handlers.internal.PopupHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -694,7 +694,7 @@ public class CyderFrame extends JFrame {
                             getContentPane().repaint();
 
                             //log the notification
-                            SessionLogger.log(SessionLogger.Tag.ACTION, "[" +
+                            SessionHandler.log(SessionHandler.Tag.ACTION, "[" +
                                     this.getTitle() + "] [NOTIFICATION] " + currentWaitingNotification.getHtmlText());
 
                             //duration is always 300ms per word unless less than 5 seconds
@@ -775,7 +775,7 @@ public class CyderFrame extends JFrame {
      * @param title The title of the CyderFrame which will be opened to display the text
      */
     public void inform(String text, String title) {
-        GenericInformer.informRelative(text, title, this);
+        PopupHandler.informRelative(text, title, this);
     }
 
     private double animationFrames = 15.0;

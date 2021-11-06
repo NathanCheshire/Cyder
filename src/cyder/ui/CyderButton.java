@@ -2,8 +2,8 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.handlers.ErrorHandler;
-import cyder.handlers.SessionLogger;
+import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -26,7 +26,7 @@ public class CyderButton extends JButton {
         super.setContentAreaFilled(false);
 
         addMouseMotionListener(new CyderDraggableComponent());
-        addActionListener(e -> SessionLogger.log(SessionLogger.Tag.ACTION,
+        addActionListener(e -> SessionHandler.log(SessionHandler.Tag.ACTION,
                 "CyderButton CLICKED, toString(): " + this));
 
         setFont(CyderFonts.weatherFontSmall);
