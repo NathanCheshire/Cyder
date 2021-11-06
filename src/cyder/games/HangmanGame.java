@@ -19,7 +19,7 @@ import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class Hangman {
+public class HangmanGame {
     private static CyderFrame HangmanFrame;
     private static String HangmanWord;
     private static CyderButton HangmanReset;
@@ -30,7 +30,7 @@ public class Hangman {
     private static int HangmanWrongGuesses = 1;
     private static String chosenLetters = "";
 
-    private Hangman() {}
+    private HangmanGame() {}
 
     public static void showGUI() {
         if (HangmanFrame != null)

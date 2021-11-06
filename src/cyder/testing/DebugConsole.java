@@ -130,10 +130,10 @@ public class DebugConsole {
 
         //todo implement context engine
 
+        //todo package for custom data showing widgets like dir, text widget, photo viewer, music, etc.
+        // handler package
+
         //todo finish and test messaging client
-
-        //todo class naming consistency
-
-        //MessagingWidget.showGUI();
+        // MessagingWidget.showGUI();
     }
 }

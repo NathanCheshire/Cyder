@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.genesis.GenesisShare;
 import cyder.ui.*;
-import cyder.algorithoms.GrahamScan;
+import cyder.algorithoms.GrahamScanAlgorithms;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -127,7 +127,7 @@ public class ConvexHull {
                  hullLabel.repaint();
                 break;
             case 1:
-                hullPoints = GrahamScan.getConvexHull(boardPoints);
+                hullPoints = GrahamScanAlgorithms.getConvexHull(boardPoints);
                 hullLabel.repaint();
                 break;
         }

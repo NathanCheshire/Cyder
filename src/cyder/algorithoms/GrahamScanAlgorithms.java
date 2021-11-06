@@ -3,7 +3,7 @@ package cyder.algorithoms;
 import java.awt.Point;
 import java.util.*;
 
-public final class GrahamScan {
+public final class GrahamScanAlgorithms {
     protected enum Turn {
         CLOCKWISE, COUNTER_CLOCKWISE, COLLINEAR
     }

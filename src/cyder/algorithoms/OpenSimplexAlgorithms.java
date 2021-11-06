@@ -1,6 +1,6 @@
 package cyder.algorithoms;
 
-public class OpenSimplexNoise {
+public class OpenSimplexAlgorithms {
 
     private static final double STRETCH_CONSTANT_2D = -0.211324865405187;    // (1/Math.sqrt(2+1)-1)/2;
     private static final double SQUISH_CONSTANT_2D = 0.366025403784439;      // (Math.sqrt(2+1)-1)/2;
@@ -19,11 +19,11 @@ public class OpenSimplexNoise {
     private Grad3[] permGrad3;
     private Grad4[] permGrad4;
 
-    public OpenSimplexNoise() {
+    public OpenSimplexAlgorithms() {
         this(DEFAULT_SEED);
     }
 
-    public OpenSimplexNoise(short[] perm) {
+    public OpenSimplexAlgorithms(short[] perm) {
         this.perm = perm;
         permGrad2 = new Grad2[PSIZE];
         permGrad3 = new Grad3[PSIZE];
@@ -36,7 +36,7 @@ public class OpenSimplexNoise {
         }
     }
 
-    public OpenSimplexNoise(long seed) {
+    public OpenSimplexAlgorithms(long seed) {
         perm = new short[PSIZE];
         permGrad2 = new Grad2[PSIZE];
         permGrad3 = new Grad3[PSIZE];

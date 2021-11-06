@@ -13,7 +13,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class TicTacToe {
+public class TTTGame {
     private static CyderFrame tttFrame;
 
     private static CyderButton ttt9;
@@ -34,7 +34,7 @@ public class TicTacToe {
 
     private static JLabel tttLabel;
 
-    private TicTacToe() {}
+    private TTTGame() {}
 
     public static void showGUI() {
         if (tttFrame != null)

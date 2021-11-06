@@ -4,18 +4,18 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.ScreenPosition;
-import cyder.games.Hangman;
-import cyder.games.TicTacToe;
+import cyder.games.HangmanGame;
+import cyder.games.TTTGame;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.genesis.Login;
 import cyder.genesis.UserCreator;
 import cyder.genesis.UserEditor;
 import cyder.testing.DebugConsole;
-import cyder.testing.ManualTestingWidgets;
+import cyder.testing.ManualTests;
 import cyder.testing.UnitTests;
 import cyder.threads.BletchyThread;
-import cyder.threads.MasterYoutube;
+import cyder.threads.MasterYoutubeThread;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
@@ -43,7 +43,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
     private JTextPane outputArea;
-    private MasterYoutube masterYoutube;
+    private MasterYoutubeThread masterYoutubeThread;
     private BletchyThread bletchyThread;
     private boolean userInputMode;
     private boolean finishPrinting;
@@ -56,7 +56,7 @@ public class InputHandler {
 
     public InputHandler(JTextPane outputArea) {
         this.outputArea = outputArea;
-        masterYoutube = new MasterYoutube(outputArea);
+        masterYoutubeThread = new MasterYoutubeThread(outputArea);
         bletchyThread = new BletchyThread(outputArea);
     }
 
@@ -254,8 +254,8 @@ public class InputHandler {
         }
         //threads -------------------------------------------------
         else if (hasWord("random") && hasWord("youtube")) {
-            masterYoutube = new MasterYoutube(outputArea);
-            masterYoutube.start(1);
+            masterYoutubeThread = new MasterYoutubeThread(outputArea);
+            masterYoutubeThread.start(1);
         } else if (hasWord("scrub")) {
             bletchyThread.bletchy("No you!", false, 50, true);
         } else if (hasWord("bletchy")) {
@@ -313,7 +313,7 @@ public class InputHandler {
             NumberUtil.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "NUMBER TO WORD");
         } else if (hasWord("hangman")) {
-            Hangman.showGUI();
+            HangmanGame.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "HANGMAN");
         } else if (hasWord("rgb") || hasWord("hex") || (hasWord("color") && hasWord("converter"))) {
             ColorConverter.showGUI();
@@ -329,7 +329,7 @@ public class InputHandler {
             FileSignatureChecker.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "FILE SIGNATURE");
         } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
-            TicTacToe.showGUI();
+            TTTGame.showGUI();
             SessionLogger.log(SessionLogger.Tag.ACTION, "TIC TAC TOE");
         } else if (hasWord("note") || hasWord("notes")) {
             Notes.showGUI();
@@ -755,7 +755,7 @@ public class InputHandler {
             SessionLogger.log(SessionLogger.Tag.ACTION, "User cleared command history");
             println("Command history reset");
         } else if (hasWord("stop") && has("script")) {
-            masterYoutube.killAllYoutube();
+            masterYoutubeThread.killAllYoutube();
             println("YouTube scripts have been killed.");
         } else if (hasWord("long") && hasWord("word")) {
             int count = 0;
@@ -1122,7 +1122,7 @@ public class InputHandler {
             boolean ret = false;
 
             operation = operation.replace("test","").trim();
-            ManualTestingWidgets mtw = new ManualTestingWidgets();
+            ManualTests mtw = new ManualTests();
 
             for (Method m : mtw.getClass().getMethods()) {
                 if (m.getName().toLowerCase().contains(operation.toLowerCase()) && m.getParameterTypes().length == 0) {
@@ -1443,8 +1443,8 @@ public class InputHandler {
         return this.outputArea;
     }
 
-    public MasterYoutube getMasterYoutube() {
-        return masterYoutube;
+    public MasterYoutubeThread getMasterYoutube() {
+        return masterYoutubeThread;
     }
 
     public BletchyThread getBletchyThread() {
@@ -1484,7 +1484,7 @@ public class InputHandler {
     }
 
     public void close() {
-        masterYoutube.killAllYoutube();
+        masterYoutubeThread.killAllYoutube();
         bletchyThread.killBletchy();
     }
 
@@ -1640,56 +1640,56 @@ public class InputHandler {
     }
     
     public void print(String usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage);
         else
             consolePrintingList.add(usage);
     }
     
     public void print(int usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Integer.toString(usage));
         else
             consolePrintingList.add(Integer.toString(usage));
     }
     
     public void print(double usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Double.toString(usage));
         else
             consolePrintingList.add(Double.toString(usage));
     }
 
     public void print(boolean usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Boolean.toString(usage));
         else
             consolePrintingList.add(Boolean.toString(usage));
     }
     
     public void print(float usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Float.toString(usage));
         else
             consolePrintingList.add(Float.toString(usage));
     }
 
     public void print(long usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Long.toString(usage));
         else
             consolePrintingList.add(Long.toString(usage));
     }
     
     public void print(char usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(String.valueOf(usage));
         else
             consolePrintingList.add(String.valueOf(usage));
     }
     
     public void print(Object usage) {
-        if (MasterYoutube.isActive() || BletchyThread.isActive())
+        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage.toString());
         else
             consolePrintingList.add(usage.toString());
@@ -1956,7 +1956,7 @@ public class InputHandler {
         //exit user input mode if in it
         setUserInputMode(false);
         //kill YouTube threads
-        masterYoutube.killAllYoutube();
+        masterYoutubeThread.killAllYoutube();
         //kill bletchy threads
         bletchyThread.killBletchy();
         //kill system threads

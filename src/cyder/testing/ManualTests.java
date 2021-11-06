@@ -15,7 +15,7 @@ import cyder.utilities.ImageUtil;
 import javax.swing.*;
 import java.awt.*;
 
-public class ManualTestingWidgets {
+public class ManualTests {
     //this was used on 7-1-21 to verify adding/removing buttons to/from drag labels
     public static void AddingAndRemovingDragLabelButtonsTest() {
         CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);

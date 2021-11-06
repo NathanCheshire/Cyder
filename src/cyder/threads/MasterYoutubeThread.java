@@ -5,7 +5,7 @@ import cyder.ui.ConsoleFrame;
 import javax.swing.*;
 import java.util.LinkedList;
 
-public class MasterYoutube {
+public class MasterYoutubeThread {
     private JTextPane outputArea;
     private static boolean active = false;
 
@@ -14,7 +14,7 @@ public class MasterYoutube {
     // processors and operating systems work D:
 
     //should be associated with an input handler
-    public MasterYoutube(JTextPane outputArea) {
+    public MasterYoutubeThread(JTextPane outputArea) {
         this.outputArea = outputArea;
     }
 

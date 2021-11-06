@@ -1,6 +1,6 @@
 package cyder.widgets;
 
-import cyder.algorithoms.OpenSimplexNoise;
+import cyder.algorithoms.OpenSimplexAlgorithms;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.enums.SliderShape;
@@ -30,7 +30,7 @@ public class PerlinNoise {
 
     //open simplex vars
     private static double FEATURE_SIZE = 24.0;
-    private static OpenSimplexNoise noise;
+    private static OpenSimplexAlgorithms noise;
     private static double timeStep = 0;
     private static JSlider featureSlider;
     private static double minFeatureSize = 24.0;
@@ -64,7 +64,7 @@ public class PerlinNoise {
         _2DNoise = new float[resolution];
         _3DNoise = new Node[resolution][resolution];
 
-        noise = new OpenSimplexNoise(0);
+        noise = new OpenSimplexAlgorithms(0);
         timeStep = 0;
 
         for (int x = 0 ; x < resolution ; x++) {
@@ -334,7 +334,7 @@ public class PerlinNoise {
                 //reset timeStep
                 timeStep = 0;
 
-                noise = new OpenSimplexNoise(NumberUtil.randInt(0,1000));
+                noise = new OpenSimplexAlgorithms(NumberUtil.randInt(0,1000));
                 for (int y = 0; y < resolution; y++) {
                     for (int x = 0; x < resolution; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
