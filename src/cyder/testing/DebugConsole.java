@@ -7,6 +7,7 @@ import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
+import cyder.widgets.MessagingWidget;
 
 import javax.swing.*;
 import java.awt.*;
@@ -123,7 +124,6 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //todo finish and test messaging client
-        // MessagingWidget.showGUI();
+        MessagingWidget.showGUI();
     }
 }

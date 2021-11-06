@@ -19,6 +19,10 @@ public class Client {
     //default TOR port
     public static final int TOR_PORT = 8118;
 
+    //consts
+    public static final int NACK = 0;
+    public static final int ACK = 1;
+
     //SERVER TO ESTABLISH CONNECTION AFTER HANDSHAKES
 
     //our server socket that receives connection requests
@@ -56,6 +60,8 @@ public class Client {
             this.clientUUID = clientUUID;
             this.messagingWidgetFrame = messagingWidgetFrame;
 
+            //todo this should start on login and end stuff on logout, static server to handle multiple connections
+
             //start our server to listen for connections
             startServer();
         } catch (Exception e) {
@@ -74,7 +80,6 @@ public class Client {
                 ourServerSocket = new ServerSocket(TOR_PORT);
 
                 //we exit this while loop when Cyder exits,
-                // TODO on logout end this since on startup we try to start it again which throws
                 while (!ourServerSocket.isClosed()) {
                     //accept a connection to check if it's who we want to connect to
                     Socket potentiallyConnectedSocket = ourServerSocket.accept(); //blocking method
@@ -117,10 +122,17 @@ public class Client {
                                 "[PRIVATE MESSAGE]: [SECURED CONNECTION WITH " + clientName.toUpperCase()
                                         + "(" + clientUUID +  ")]");
 
+
+                        //todo we're going to use the above reader and writer now
                         //we requested, they accepted and returned, now both of us may start the chat window
                         //we already started the chat window so we need to return that a connection was successful and print
                         // that to our user's window. The other client should have popped into a chat window already
                         // since they had to accept our invite
+                    }
+                    //if it's a NACK, the other party denied the request
+                    else if (receivedHashedHandshake.equals(NACK)) {
+                        //todo this isn't working, does returning even work in this method?
+                        messagingWidgetFrame.notify("User did not want to connect at this time.");
                     }
                     //if the hash is not set or does not match, then it's someone new trying to connect
                     else {
@@ -149,8 +161,17 @@ public class Client {
                                     "[PRIVATE MESSAGE]: [ATTEMPTING CLIENT CONNECTION WITH " + clientName.toUpperCase()
                                             + "(" + clientUUID +  ")]");
 
-                            //pop into our own chat window, if they still want to ocnnect we'll listen for a special message that we're about
+                            //close socket since we'll launch an offial one with the provided socket
+                            potentiallyConnectedSocketWriter.close();
+
+                            //todo
+                            //pop into our own chat window, if they still want to connect we'll listen for a special message that we're about
                             // to send. If they send it back then the connection is secure and ready for our clients to communicate now
+                        } else {
+                            //send a NACK so that the user doesn't hang around waiting for us
+                            potentiallyConnectedSocketWriter.write(NACK);
+                            potentiallyConnectedSocketWriter.write(clientUUID);
+                            potentiallyConnectedSocketWriter.write(clientName);
                         }
                     }
                 }
@@ -230,13 +251,14 @@ public class Client {
             attemptingConnectionWriter.write(this.clientName);
             attemptingConnectionWriter.newLine();
 
-            //flush stream
-            attemptingConnectionWriter.flush();
+            //flush and close stream
+            attemptingConnectionWriter.close();
 
             //log
             SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
                     "[PRIVATE MESSAGE]: [ATTEMPTING SERVER CONNECTION WITH " + clientName.toUpperCase()
                             + "(" + clientUUID +  ")]");
+            listenToClient();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -259,5 +281,9 @@ public class Client {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    public static void terminateServer() {
+
     }
 }
