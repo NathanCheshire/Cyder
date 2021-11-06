@@ -760,11 +760,7 @@ public final class ConsoleFrame {
                         switchBackground();
                     }  else if (getBackgrounds().size() == 1) {
                         consoleCyderFrame.notify("You only have one background image. " +
-                                "Would you like to add more? (Enter yes/no)");
-                        inputField.requestFocus();
-                        inputHandler.setUserInputMode(true);
-                        inputHandler.setUserInputDesc("addbackgrounds");
-                        inputField.requestFocus();
+                                "Try adding more via the user editor");
                     }
                 } catch (Exception ex) {
                     consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
@@ -2176,6 +2172,10 @@ public final class ConsoleFrame {
                     h - (62 + outputScroll.getHeight() + 20 + 20));
 
             consoleCyderFrame.setMaximumSize(new Dimension(w, h));
+
+            if (!menuLabel.isVisible()) {
+                consoleMenuGenerated = false;
+            }
 
             revalidateConsoleMenu();
 
