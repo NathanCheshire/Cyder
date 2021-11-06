@@ -28,6 +28,42 @@ public class YoutubeUtil {
     private static ExecutorService executor = Executors.newSingleThreadExecutor(
             new CyderThreadFactory("Youtube Audio Extractor"));
 
+    public static void downloadPlaylist(String playlistID, String outputDir) {
+        executor.submit(() -> {
+            if (ffmpegInstalled() && youtubedlInstalled()) {
+                String ydlPath = UserUtil.extractUser().getYoutubedlpath();
+                if (ydlPath != null && ydlPath.trim().length() > 0) {
+                    YoutubeDL.setExecutablePath(ydlPath);
+                }
+
+                try {
+                    //req build
+                    YoutubeDLRequest request =
+                            new YoutubeDLRequest( "https://www.youtube.com/playlist?list=" + playlistID, outputDir);
+                    request.setOption("ignore-errors");
+                    request.setOption("extract-audio");
+                    request.setOption("audio-format", "mp3");
+                    request.setOption("output", "%(title)s.%(ext)s");
+                    request.setOption("yes-playlist", "https://www.youtube.com/playlist?list=" + playlistID);
+
+                    //req and response ret
+                    YoutubeDLResponse response = YoutubeDL.execute(request);
+                    response.getOut();
+
+                    String[] outLines = response.getOut().split("\n");
+                    for (String line : outLines) {
+                        System.out.println(line);
+                    }
+                } catch (Exception e) {
+                    ErrorHandler.silentHandle(e);
+                    ConsoleFrame.getConsoleFrame().getInputHandler().println("Could not download video's audio at this time");
+                }
+            } else {
+                error();
+            }
+        });
+    }
+
     public static Future<File> download(String videoURL, String outputDir) {
         return executor.submit(() -> {
             File ret = null;

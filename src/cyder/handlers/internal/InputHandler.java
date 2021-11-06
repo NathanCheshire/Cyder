@@ -922,6 +922,8 @@ public class InputHandler {
             if (isURL) {
                 new Thread(() -> {
                     try {
+                        //todo now figure out if it's a single video or a playlist
+
                         String videoURL = input;
                         Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "dynamic/users/"
                                 + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");

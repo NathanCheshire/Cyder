@@ -196,4 +196,20 @@ public class NetworkUtil {
             return ret;
         }
     }
+
+    public static boolean isURL(String URL) {
+        boolean ret = false;
+
+        try {
+            URL url = new URL(URL);
+            URLConnection conn = url.openConnection();
+            conn.connect();
+            ret = true;
+        } catch (Exception e) {
+            ErrorHandler.silentHandle(e);
+            ret = false;
+        }
+
+        return ret;
+    }
 }
