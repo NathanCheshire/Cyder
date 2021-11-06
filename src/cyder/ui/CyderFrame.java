@@ -1621,7 +1621,7 @@ public class CyderFrame extends JFrame {
 
         g.setColor(CyderColors.vanila);
 
-        Font labelFont = new Font("Arial Black",Font.BOLD, 22);
+        Font labelFont = new Font("Agency FB",Font.BOLD, 28);
         g.setFont(labelFont);
         g.setColor(CyderColors.vanila);
 
@@ -1678,23 +1678,7 @@ public class CyderFrame extends JFrame {
     }
 
     public static JLabel generateDefaultTaskbarComponent(String title, ClickAction clickAction) {
-        Color ourBorderColor = null;
-
-        switch (colorIndex) {
-            case 0:
-                ourBorderColor = blueBorderColor;
-                break;
-            case 1:
-                ourBorderColor = redBorderColor;
-                break;
-            case 2:
-                ourBorderColor = orangeBorderColor;
-                break;
-        }
-
-        incrementColorIndex();
-
-        return generateDefaultTaskbarComponent(title, clickAction, ourBorderColor);
+        return generateDefaultTaskbarComponent(title, clickAction, new Color(141,83,168));
     }
 
     //used for icon frame actions in ConsoleFrame

@@ -123,7 +123,7 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //todo menu scrolling is broken when it goes off scren
+        //todo menu is broken on logout and log backin again if it was open when logged out
 
         //todo be able to stop frame's inner pane from repainting on dragging if desired
 

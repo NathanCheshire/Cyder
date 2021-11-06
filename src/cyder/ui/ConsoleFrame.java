@@ -540,18 +540,15 @@ public final class ConsoleFrame {
             im.put(KeyStroke.getKeyStroke("ENTER"), "pressed");
             im.put(KeyStroke.getKeyStroke("released ENTER"), "released");
 
-            suggestionButton.addActionListener(e -> {
-                //todo get input with custom button
-                new Thread(() -> {
-                    String suggestionText = new GetterUtil().getString("Enter your suggestion","Enter your suggestion, be as descriptive as possible",
-                            "Submit Suggestion", CyderColors.tooltipForegroundColor);
+            suggestionButton.addActionListener(e -> new Thread(() -> {
+                String suggestionText = new GetterUtil().getString("Enter your suggestion","Enter your suggestion, be as descriptive as possible",
+                        "Submit Suggestion", CyderColors.tooltipForegroundColor);
 
-                    if (suggestionText.length() > 0) {
-                        SessionLogger.log(SessionLogger.Tag.SUGGESTION,  suggestionText);
-                        getInputHandler().println("Suggestion Logged; make sure that you send your logs dir to Nathan");
-                    }
-                },"Suggestion Getter Waiter Thread").start();
-            });
+                if (suggestionText.length() > 0) {
+                    SessionLogger.log(SessionLogger.Tag.SUGGESTION,  suggestionText);
+                    getInputHandler().println("Suggestion Logged; make sure that you send your logs dir to Nathan");
+                }
+            },"Suggestion Getter Waiter Thread").start());
             suggestionButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
@@ -1205,7 +1202,6 @@ public final class ConsoleFrame {
     private void generateConsoleMenu() {
         Font menuFont = CyderFonts.defaultFontSmall;
         int menuHeight = consoleCyderFrame.getHeight() - DragLabel.getDefaultHeight() - 5;
-        int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
 
         menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
 
@@ -1213,9 +1209,11 @@ public final class ConsoleFrame {
             menuLabel.setVisible(false);
         }
 
+        int MENUWIDTH = 110;
+
         menuLabel = new JLabel("");
-        menuLabel.setBounds(-150, DragLabel.getDefaultHeight() - 2,
-                CyderFrame.getMinWidth("TEMP CONV", menuFont) + 10, menuHeight);
+        menuLabel.setBounds(-MENUWIDTH, DragLabel.getDefaultHeight() - 2,
+                MENUWIDTH, menuHeight);
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.guiThemeColor);
         menuLabel.setVisible(true);
@@ -1227,7 +1225,6 @@ public final class ConsoleFrame {
         JTextPane menuPane = new JTextPane();
         menuPane.setEditable(false);
         menuPane.setAutoscrolls(false);
-        menuPane.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight);
         menuPane.setFocusable(true);
         menuPane.setOpaque(false);
         menuPane.setBackground(CyderColors.guiThemeColor);
@@ -1283,9 +1280,6 @@ public final class ConsoleFrame {
                 CyderFrame.generateDefaultTaskbarComponent("Logout", this::logout));
         printingUtil.println("");
 
-        printingUtil.printlnComponent(CyderFrame.generateDefaultTaskbarComponent("Quit", () -> closeConsoleFrame(true)));
-        printingUtil.println("");
-
         CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
         menuScroll.setThumbSize(5);
         menuScroll.getViewport().setOpaque(false);
@@ -1295,7 +1289,7 @@ public final class ConsoleFrame {
         menuScroll.setBackground(CyderColors.guiThemeColor);
         menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        menuScroll.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight);
+        menuScroll.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight - 20);
         menuLabel.add(menuScroll);
 
         //set menu location to top
