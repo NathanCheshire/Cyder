@@ -53,8 +53,13 @@ public class PerlinNoise {
     private static int octaves = 1;
     private static int maxOctaves = 10;
 
+    private static boolean closed = true;
+
     @Widget("perlin")
     public static void showGUI() {
+        //set closed
+        closed = false;
+
         //init with random
         _2DNoise = new float[resolution];
         _3DNoise = new Node[resolution][resolution];
@@ -96,12 +101,24 @@ public class PerlinNoise {
                new Color(249, 233, 241))));
         perlinFrame.setTitle("Perlin Noise");
 
+        perlinFrame.addPreCloseAction(() -> {
+            _2DNoise = null;
+            _3DNoise = null;
+            closed = true;
+
+            if (timer != null && timer.isRunning())
+                timer.stop();
+        });
+
         //stop the animation when we are trying to close the frame if it's running
         perlinFrame.addPreCloseAction(() -> timer.stop());
 
         noiseLabel = new JLabel() {
             @Override
             public void paint(Graphics g) {
+                if (closed)
+                    return;
+
                 super.paint(g);
 
                 //setup
@@ -280,6 +297,9 @@ public class PerlinNoise {
 
     //generates new noise based on a new random seed
     private static void generate() {
+        if (closed)
+            return;
+
         if (animateCheckBox.isSelected()) {
            if (timer.isRunning()) {
                timer.stop();
@@ -332,6 +352,9 @@ public class PerlinNoise {
 
     //generates new noise based on the current value
     private static void nextIteration() {
+        if (closed)
+            return;
+
         if (dimensionField.getText().equals("2D")) {
             //serves no purpose during an animation
             if (timer != null && timer.isRunning())
@@ -393,6 +416,9 @@ public class PerlinNoise {
     }
 
     private static ActionListener animationAction = evt -> {
+        if (closed)
+            return;
+
         octaves++;
 
         if (octaves == maxOctaves) {
