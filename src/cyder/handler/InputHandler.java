@@ -1226,11 +1226,6 @@ public class InputHandler {
                 char[] Sorted = input.toCharArray();
                 Arrays.sort(Sorted);
                 println("\"" + input + "\" alphabetically organized is \"" + new String(Sorted) + "\".");
-            } else if (desc.equalsIgnoreCase("suggestion")) {
-                logSuggestion(input);
-                ConsoleFrame.getConsoleFrame().notify("Suggestion logged; " +
-                        "please remember to send your logs directory to Nathan so that" +
-                        " he can make Cyder better for us all");
             } else if (desc.equalsIgnoreCase("addbackgrounds")) {
                 if (StringUtil.isConfirmation(input)) {
                     UserEditor.showGUI(0);
@@ -1410,10 +1405,6 @@ public class InputHandler {
         for (int i : NumberUtil.randInt(0,helps.size() - 1,10,false)) {
             println("•\t" + helps.get(i));
         }
-    }
-
-    public void logSuggestion(String suggestion) {
-        SessionLogger.log(SessionLogger.Tag.SUGGESTION,  suggestion);
     }
 
     public void setOutputArea(JTextPane outputArea) {

@@ -100,6 +100,57 @@ public class GetterUtil {
         }
     }
 
+    public String getString(String title, String tooltip, String buttonText, Color buttonColor) {
+        AtomicReference<String> returnString = new AtomicReference<>();
+
+        new Thread(() -> {
+            try {
+                CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
+                inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+                inputFrame.setTitle(title);
+
+                CyderTextField inputField = new CyderTextField(0);
+                inputField.setBackground(Color.white);
+                inputField.setToolTipText(tooltip);
+                inputField.setBounds(40,40,320,40);
+                inputFrame.getContentPane().add(inputField);
+
+                CyderButton submit = new CyderButton(buttonText);
+                submit.setBackground(CyderColors.regularRed);
+                inputField.addActionListener(e1 -> submit.doClick());
+                submit.setBorder(new LineBorder(CyderColors.navy,5,false));
+                submit.setFont(CyderFonts.weatherFontSmall);
+                submit.setColors(buttonColor);
+                submit.setForeground(CyderColors.navy);
+                submit.addActionListener(e12 -> {
+                    returnString.set((inputField.getText() == null || inputField.getText().length() == 0 ?
+                            "NULL" : inputField.getText()));
+                    inputFrame.dispose();
+                });
+                submit.setBounds(40,100,320,40);
+                inputFrame.getContentPane().add(submit);
+
+                inputFrame.addPreCloseAction(submit::doClick);
+
+                inputFrame.setVisible(true);
+                inputFrame.setAlwaysOnTop(true);
+                inputFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, this + "getString thread").start();
+
+        try {
+            while (returnString.get() == null) {
+                Thread.onSpinWait();
+            }
+        } catch (Exception ex) {
+            ErrorHandler.handle(ex);
+        } finally {
+            return returnString.get();
+        }
+    }
+
     /** Custom getInput method, see usage below for how to setup so that the program doesn't
      * spin wait on the main GUI thread forever. Ignoring the below setup
      * instructions is fine only for the getString method, the getFile method must be surrounded by

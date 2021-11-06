@@ -1078,7 +1078,7 @@ public class UserEditor {
 
         printingUtil.print("\n\n");
 
-        CyderLabel addMap = new CyderLabel("Add Mapped Execuatable");
+        CyderLabel addMap = new CyderLabel("Add Maps");
         printingUtil.printlnComponent(addMap);
 
         printingUtil.print("\n");
@@ -1086,7 +1086,7 @@ public class UserEditor {
         CyderButton addMapButton = new CyderButton("    Add Map    ");
         JTextField addMapField = new JTextField(0);
         addMapField.addActionListener(e -> addMapButton.doClick());
-        addMapField.setToolTipText("Add format: \"map name, PATH/TO/EXE OR FILE\"");
+        addMapField.setToolTipText("Add format: map_name, PATH/TO/EXE or FILE or URL");
         addMapField.setBackground(CyderColors.vanila);
         addMapField.setSelectionColor(CyderColors.selectionColor);
         addMapField.setFont(CyderFonts.weatherFontSmall);
@@ -1102,7 +1102,7 @@ public class UserEditor {
         addMapButton.addActionListener(e -> {
             if (addMapField.getText().trim().length() > 0) {
                 if (!addMapField.getText().trim().contains(",")) {
-                    editUserFrame.notify("Invalid exe map format");
+                    editUserFrame.notify("Invalid map format");
                 } else {
                     String[] parts = addMapField.getText().trim().split(",");
 
@@ -1151,7 +1151,7 @@ public class UserEditor {
                                     ConsoleFrame.getConsoleFrame().revaliateMenu();
                                 }
                             } else {
-                                editUserFrame.notify("Invalid exe name");
+                                editUserFrame.notify("Invalid map name");
                             }
                         }
                     }
@@ -1172,7 +1172,7 @@ public class UserEditor {
         CyderButton removeMapButton = new CyderButton("    Remove Map   ");
         JTextField removeMapField = new JTextField(0);
         removeMapField.addActionListener(e -> removeMapButton.doClick());
-        removeMapField.setToolTipText("Name of already mapped executable to remove");
+        removeMapField.setToolTipText("Name of map to remove");
         removeMapField.setBackground(CyderColors.vanila);
         removeMapField.setSelectionColor(CyderColors.selectionColor);
         removeMapField.setFont(CyderFonts.weatherFontSmall);
@@ -1204,10 +1204,10 @@ public class UserEditor {
                     User user = UserUtil.extractUser();
                     user.setExecutables(exes);
                     UserUtil.setUserData(user);
-                    editUserFrame.notify("Exe successfully removed");
+                    editUserFrame.notify("Map successfully removed");
                     ConsoleFrame.getConsoleFrame().revaliateMenu();
                 } else {
-                    editUserFrame.notify("Could not locate specified exe");
+                    editUserFrame.notify("Could not locate specified map");
                 }
 
                 removeMapField.setText("");

@@ -541,12 +541,16 @@ public final class ConsoleFrame {
             im.put(KeyStroke.getKeyStroke("released ENTER"), "released");
 
             suggestionButton.addActionListener(e -> {
-                consoleCyderFrame.notify("What feature would you like to suggest? " +
-                        "(Please include as much detail as possible such as " +
-                        "how the feature should be triggered and how the program should respond; be detailed)");
-                inputHandler.setUserInputDesc("suggestion");
-                inputHandler.setUserInputMode(true);
-                inputField.requestFocus();
+                //todo get input with custom button
+                new Thread(() -> {
+                    String suggestionText = new GetterUtil().getString("Enter your suggestion","Enter your suggestion, be as descriptive as possible",
+                            "Submit Suggestion", CyderColors.tooltipForegroundColor);
+
+                    if (suggestionText.length() > 0) {
+                        SessionLogger.log(SessionLogger.Tag.SUGGESTION,  suggestionText);
+                        getInputHandler().println("Suggestion Logged; make sure that you send your logs dir to Nathan");
+                    }
+                },"Suggestion Getter Waiter Thread").start();
             });
             suggestionButton.addMouseListener(new MouseAdapter() {
                 @Override

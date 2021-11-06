@@ -123,9 +123,9 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        //todo closing perlin is laggy if we animated at any point, perhaps threads aren't properly exited?
-        // try and fix this by adding frames to the frames list already in CyderFrame
-        // and allowing outside access to this to thinks that implement Runnable
+        //todo menu scrolling is broken when it goes off scren
+
+        //todo be able to stop frame's inner pane from repainting on dragging if desired
 
         //todo implement context engine
 
