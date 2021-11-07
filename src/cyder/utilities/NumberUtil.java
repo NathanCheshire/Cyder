@@ -27,13 +27,15 @@ public class NumberUtil {
     }
 
     public static boolean isPrime(int num) {
-        ArrayList<Integer> Numbers = new ArrayList<>();
+        boolean ret = true;
 
-        for (int i = 3; i < Math.ceil(Math.sqrt(num)); i += 2)
-            if (num % i == 0)
-                Numbers.add(i);
+        for (int i = 2; i < Math.ceil(Math.sqrt(num)); i += 1)
+            if (num % i == 0) {
+                ret = false;
+                break;
+            }
 
-        return Numbers.isEmpty();
+        return ret;
     }
 
     public static ArrayList<Integer> primeFactors(int num) {
@@ -45,7 +47,7 @@ public class NumberUtil {
         } else {
             ArrayList<Integer> numbers = new ArrayList<>();
 
-            for (int i = 3; i < Math.ceil(Math.sqrt(num)); i += 2) {
+            for (int i = 2; i < Math.ceil(Math.sqrt(num)); i += 1) {
                 if (num % i == 0) {
                     numbers.add(i);
                 }

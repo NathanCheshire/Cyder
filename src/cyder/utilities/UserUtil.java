@@ -446,7 +446,7 @@ public class UserUtil {
         //should be impossible to not exists but I'll still check it regardless
         if (userJsonFile.exists()) {
             User u = extractUser(userJsonFile);
-            ret = u.isLoggedin().equalsIgnoreCase("true");
+            ret = u.isLoggedin().equalsIgnoreCase("1");
         }
 
         return ret;

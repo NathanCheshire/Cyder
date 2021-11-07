@@ -543,9 +543,9 @@ public final class ConsoleFrame {
 
             suggestionButton.addActionListener(e -> new Thread(() -> {
                 String suggestionText = new GetterUtil().getString("Enter your suggestion","Enter your suggestion, be as descriptive as possible",
-                        "Submit Suggestion", CyderColors.tooltipForegroundColor);
+                        "Submit Suggestion", CyderColors.tooltipForegroundColor).trim();
 
-                if (suggestionText.trim().length() > 0) {
+                if (!suggestionText.equals("NULL")) {
                     SessionHandler.log(SessionHandler.Tag.SUGGESTION,  suggestionText);
                     getInputHandler().println("Suggestion Logged; make sure that you send your logs dir to Nathan");
                 }
@@ -2063,11 +2063,6 @@ public final class ConsoleFrame {
             return (int) SystemUtil.getScreenSize().getHeight();
         else
             return getCurrentBackgroundImageIcon().getIconHeight();
-    }
-
-    //this is an example of how the new method should look within here, remove all get user data from IOUtil
-    public String getUserData(String dataName) {
-        return (dataName instanceof String ? dataName : dataName.equals("1") ? "true" : "false");
     }
 
     public void setConsoleDirection(Direction conDir) {

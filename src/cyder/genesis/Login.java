@@ -323,6 +323,7 @@ public class Login {
 
                     return false;
                 } else {
+                    //this is the only time loggedin is EVER set to 1
                     UserUtil.setUserData("loggedin","1");
                 }
 

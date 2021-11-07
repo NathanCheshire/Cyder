@@ -5,6 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.genesis.GenesisShare.Preference;
+import cyder.handlers.internal.PopupHandler;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.SecurityUtil;
@@ -304,7 +305,7 @@ public class UserCreator {
                         UserUtil.setUserData(dataFile, user);
 
                         createUserFrame.dispose();
-                        createUserFrame.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "");
+                        PopupHandler.informRelative("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", GenesisShare.getDominantFrame());
                         createUserFrame.dispose();
 
                         //attempt to log in new user if it's the only user
