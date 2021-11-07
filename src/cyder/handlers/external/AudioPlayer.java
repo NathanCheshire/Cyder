@@ -953,8 +953,14 @@ public class AudioPlayer {
 
                             int secondsLeft = totalSeconds - secondsIn;
 
-                            audioProgressLabel.setText(formatSeconds(secondsIn) + " played, "
-                                    + formatSeconds(secondsLeft) + " left");
+                            if (UserUtil.getUserData("audiolength").equals("1")) {
+                                audioProgressLabel.setText(formatSeconds(secondsIn) + " played, "
+                                        + formatSeconds(totalMilis / 1000.0) + " total");
+                            } else {
+                                audioProgressLabel.setText(formatSeconds(secondsIn) + " played, "
+                                        + formatSeconds(secondsLeft) + " left");
+                            }
+
                             Thread.sleep(250);
                         } catch (Exception e) {
                             ErrorHandler.silentHandle(e);
@@ -1142,6 +1148,11 @@ public class AudioPlayer {
             return audioFiles.get(audioIndex);
     }
 
+    /**
+     * Get's the total duration of an audio file
+     * @param audioFile the provided audio file
+     * @return the time in ms that it takes to comlete the audio file
+     */
     public static float audioFileDuration(File audioFile) {
         float milisRet = 0;
 
@@ -1198,6 +1209,10 @@ public class AudioPlayer {
 
     private static LinkedList<File> queue;
 
+    /**
+     * Adds the provided audio file to the queue
+     * @param f the audio file to play when all the other songs in the queue are finished
+     */
     public static void addToQueue(File f) {
         queue.push(f);
     }

@@ -38,6 +38,7 @@ public class User {
     private String weatherkey;
     private String capsmode; //boolean
     private String loggedin; //boolean
+    private String audiolength;
     private LinkedList<MappedExecutable> executables;
 
     public String getName() {
@@ -326,6 +327,18 @@ public class User {
 
     public void setLoggedin(String loggedin) {
         this.loggedin = loggedin;
+    }
+
+    public String getLoggedin() {
+        return loggedin;
+    }
+
+    public String getAudiolength() {
+        return audiolength;
+    }
+
+    public void setAudiolength(String audiolength) {
+        this.audiolength = audiolength;
     }
 
     //inner classes

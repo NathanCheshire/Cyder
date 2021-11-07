@@ -132,6 +132,8 @@ public class GenesisShare {
         ret.add(new Preference("weatherkey","IGNORE","",""));
         ret.add(new Preference("capsmode","Capital Letters Mode","Capitalize all console output","0"));
         ret.add(new Preference("loggedin","IGNORE","","0"));
+        ret.add(new Preference("audiolength","Show Audio Total Length",
+                "For the audio player, show the total audio time instead of the time remaining","1"));
 
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set
