@@ -2,14 +2,16 @@ package cyder.utilities;
 
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
-import org.jsoup.Jsoup;
 
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.*;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Scanner;
 
 public class NetworkUtil {
 
@@ -188,8 +190,23 @@ public class NetworkUtil {
         String ret = null;
 
         try {
-            org.jsoup.nodes.Document document = Jsoup.connect(URL).get();
-            ret = document.title();
+            InputStream response = null;
+            try {
+
+                response = new URL(URL).openStream();
+                Scanner scanner = new Scanner(response);
+                String responseBody = scanner.useDelimiter("\\A").next();
+                ret = responseBody.substring(responseBody.indexOf("<title>") + 7, responseBody.indexOf("</title>"));
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    response.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {

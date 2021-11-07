@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -28,8 +29,10 @@ public class YoutubeUtil {
     private static ExecutorService executor = Executors.newSingleThreadExecutor(
             new CyderThreadFactory("Youtube Audio Extractor"));
 
-    public static void downloadPlaylist(String playlistID, String outputDir) {
-        executor.submit(() -> {
+    public static Future<LinkedList<File>> downloadPlaylist(String playlistID, String outputDir) {
+        return executor.submit(() -> {
+            LinkedList<File> ret = null;
+
             if (ffmpegInstalled() && youtubedlInstalled()) {
                 String ydlPath = UserUtil.extractUser().getYoutubedlpath();
                 if (ydlPath != null && ydlPath.trim().length() > 0) {
@@ -51,8 +54,20 @@ public class YoutubeUtil {
                     response.getOut();
 
                     String[] outLines = response.getOut().split("\n");
-                    for (String line : outLines) {
-                        System.out.println(line);
+                    LinkedList<String> fileNames = new LinkedList<>();
+
+                    for (String line: outLines) {
+                        if (line.contains("[ffmpeg] Destination:")) {
+                            String currentTitle = line.replace("[ffmpeg] Destination:","").trim();
+
+                            if (!fileNames.contains(currentTitle))
+                                fileNames.add(currentTitle);
+                        }
+                    }
+
+                    //build file objects to return
+                    for (String fileName : fileNames) {
+                        ret.add(new File(response.getDirectory() + fileName));
                     }
                 } catch (Exception e) {
                     ErrorHandler.silentHandle(e);
@@ -61,6 +76,8 @@ public class YoutubeUtil {
             } else {
                 error();
             }
+
+            return ret;
         });
     }
 
@@ -97,7 +114,6 @@ public class YoutubeUtil {
                     }
 
                     ret = new File(response.getDirectory() + outName);
-
                 } catch (YoutubeDLException e) {
                     ErrorHandler.silentHandle(e);
                     ConsoleFrame.getConsoleFrame().getInputHandler().println("Could not download video's audio at this time");
@@ -108,6 +124,10 @@ public class YoutubeUtil {
 
             return ret;
         });
+    }
+
+    public static boolean isPlaylist(String youtubeURL) {
+        return youtubeURL.startsWith("https://www.youtube.com/playlist?list=");
     }
 
     public static boolean ffmpegInstalled() {

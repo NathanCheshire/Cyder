@@ -545,7 +545,7 @@ public final class ConsoleFrame {
                 String suggestionText = new GetterUtil().getString("Enter your suggestion","Enter your suggestion, be as descriptive as possible",
                         "Submit Suggestion", CyderColors.tooltipForegroundColor);
 
-                if (suggestionText.length() > 0) {
+                if (suggestionText.trim().length() > 0) {
                     SessionHandler.log(SessionHandler.Tag.SUGGESTION,  suggestionText);
                     getInputHandler().println("Suggestion Logged; make sure that you send your logs dir to Nathan");
                 }

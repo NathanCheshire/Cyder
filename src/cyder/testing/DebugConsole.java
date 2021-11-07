@@ -4,7 +4,9 @@ import cyder.consts.CyderColors;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
-import cyder.utilities.*;
+import cyder.utilities.ImageUtil;
+import cyder.utilities.StringUtil;
+import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -121,7 +123,6 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        System.out.println("Downloading playlist: " + NetworkUtil.getURLTitle("https://www.youtube.com/watch?v=" + "PL0Aya996ytNavFgKSBIHOmXLtJJ_DB0mg"));
-        YoutubeUtil.downloadPlaylist("PL0Aya996ytNavFgKSBIHOmXLtJJ_DB0mg","c:/users/nathan/Downloads");
+
     }
 }

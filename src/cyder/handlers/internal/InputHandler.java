@@ -908,7 +908,7 @@ public class InputHandler {
         } else if (firstWord.equalsIgnoreCase("play")) {
             boolean isURL = true;
 
-            String input = operation.replaceAll("(?i)play","").trim();
+            String input = operation.substring(5).trim();
 
             try {
                 URL url = new URL(input);
@@ -922,25 +922,47 @@ public class InputHandler {
             if (isURL) {
                 new Thread(() -> {
                     try {
-                        //todo now figure out if it's a single video or a playlist
+                        if (YoutubeUtil.isPlaylist(input)) {
+                            String playlistID = input.replace("https://www.youtube.com/playlist?list=","");
 
-                        String videoURL = input;
-                        Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "dynamic/users/"
-                                + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
+                            println("Starting download of playlist: " +
+                                    NetworkUtil.getURLTitle("https://www.youtube.com/playlist?list=" + playlistID));
+                            Future<LinkedList<java.io.File>> downloadedFiles =
+                                    YoutubeUtil.downloadPlaylist(playlistID,"dynamic/users/"
+                                    + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
-                        String videoTitle = NetworkUtil.getURLTitle(videoURL)
-                                .replaceAll("(?i) - YouTube", "").trim();
-                        println("Starting download of: " + videoTitle);
+                            //wait for all music to be downloaded
+                            while (!downloadedFiles.isDone()) {
+                                Thread.onSpinWait();
+                            }
 
-                        while (!downloadedFile.isDone()) {
-                            Thread.onSpinWait();
-                        }
+                            if (downloadedFiles.get() != null && !downloadedFiles.get().isEmpty()) {
+                                println("Download complete; all songs added to mp3 queue");
 
-                        if (downloadedFile.get() != null && downloadedFile.get().exists()) {
-                            println("Download complete and added to mp3 queue");
+                                //play the songs
+                                for (File song : downloadedFiles.get()) {
+                                    AudioPlayer.addToMp3Queue(song);
+                                }
+                            }
+                        } else {
+                            String videoURL = input;
+                            Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "dynamic/users/"
+                                    + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
-                            //play the song
-                            AudioPlayer.addToMp3Queue(downloadedFile.get());
+                            String videoTitle = NetworkUtil.getURLTitle(videoURL)
+                                    .replaceAll("(?i) - YouTube", "").trim();
+                            println("Starting download of: " + videoTitle);
+
+                            while (!downloadedFile.isDone()) {
+                                Thread.onSpinWait();
+                            }
+
+                            if (downloadedFile.get() != null && downloadedFile.get().exists()) {
+                                println("Download complete and added to mp3 queue");
+
+                                //play the song
+                                AudioPlayer.addToMp3Queue(downloadedFile.get());
+                            }
                         }
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
