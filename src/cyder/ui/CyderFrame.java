@@ -775,7 +775,6 @@ public class CyderFrame extends JFrame {
 
     /**
      * Pops open a window relative to this with the provided text
-     *
      * @param text  the String you wish to display
      * @param title The title of the CyderFrame which will be opened to display the text
      */
@@ -783,6 +782,7 @@ public class CyderFrame extends JFrame {
         PopupHandler.informRelative(text, title, this);
     }
 
+    //frames for animations such as dispose and minimize
     private double animationFrames = 15.0;
 
     /**
@@ -791,7 +791,11 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAnimation() {
         try {
-            //figure out increment for 25 frames
+            //set restore vars here
+            setRestoreX(getX());
+            setRestoreY(getY());
+
+            //figure out increment for frame num
             int distanceToTravel = SystemUtil.getScreenHeight() - this.getY();
             //25 frames to animate
             int animationInc = (int) ((double ) distanceToTravel / animationFrames);
@@ -843,7 +847,7 @@ public class CyderFrame extends JFrame {
                       //remove from consoleframe
                       ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
 
-                      //figure out increment for 25 frames
+                      //figure out increment for frames
                       int distanceToTravel = Math.abs(this.getY()) + Math.abs(this.getHeight());
                       //25 frames to animate
                       int animationInc = (int) ((double) distanceToTravel / animationFrames);

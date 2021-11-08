@@ -184,11 +184,7 @@ public class DragLabel extends JLabel {
 
         minimize = new JButton("");
         minimize.setToolTipText("Minimize");
-        minimize.addActionListener(e -> {
-            effectFrame.setRestoreX(effectFrame.getX());
-            effectFrame.setRestoreY(effectFrame.getY());
-            effectFrame.minimizeAnimation();
-        });
+        minimize.addActionListener(e -> effectFrame.minimizeAnimation());
 
         minimize.addMouseListener(new MouseAdapter() {
             @Override
