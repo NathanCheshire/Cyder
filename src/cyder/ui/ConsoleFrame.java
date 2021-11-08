@@ -183,7 +183,7 @@ public final class ConsoleFrame {
 
                     //audio menu bounds
                     if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
-                        audioControlsLabel.setBounds(w - 155, DragLabel.getDefaultHeight() + 3,
+                        audioControlsLabel.setBounds(w - 156, DragLabel.getDefaultHeight() - 2,
                                 audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
                     }
 
@@ -2414,7 +2414,7 @@ public final class ConsoleFrame {
     public void animateOutAudioControls() {
         new Thread(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
-                audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, i);
+                audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
                 try {
                     Thread.sleep(10);
                 } catch (Exception ignored) {}
@@ -2426,7 +2426,7 @@ public final class ConsoleFrame {
     public void animateOutAndRemoveAudioControls() {
         new Thread(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
-                audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, i);
+                audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
                 try {
                     Thread.sleep(10);
                 } catch (Exception ignored) {}
@@ -2438,15 +2438,15 @@ public final class ConsoleFrame {
 
     public void animateInAudioControls() {
         new Thread(() -> {
-            audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 150 - 5, -40);
+            audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, -40);
             audioControlsLabel.setVisible(true);
-            for (int i = -40 ; i < DragLabel.getDefaultHeight() + 3 ; i += 8) {
-                audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, i);
+            for (int i = -40 ; i < DragLabel.getDefaultHeight() - 2 ; i += 8) {
+                audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
                 try {
                     Thread.sleep(10);
                 } catch (Exception ignored) {}
             }
-            audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 155, DragLabel.getDefaultHeight() + 3);
+            audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, DragLabel.getDefaultHeight() - 2);
         }, "Console Audio Menu Minimizer").start();
     }
 
@@ -2482,7 +2482,7 @@ public final class ConsoleFrame {
 
     private void generateAudioMenu() {
         audioControlsLabel = new JLabel("");
-        audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - 150 - 5,
+        audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - 156,
                 -40, //negative height
                 150,40);
         audioControlsLabel.setOpaque(true);
