@@ -1524,7 +1524,6 @@ public class CyderFrame extends JFrame {
     }
 
     //console menu taskbar logic
-
     private static Color blueBorderColor = new Color(22,124,237);
     private static Color redBorderColor = new Color(254,49,93);
     private static Color orangeBorderColor = new Color(249,122,18);

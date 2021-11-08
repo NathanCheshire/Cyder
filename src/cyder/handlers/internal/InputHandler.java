@@ -1486,7 +1486,6 @@ public class InputHandler {
         new Thread(() -> {
             try {
                 while (!ConsoleFrame.getConsoleFrame().isClosed()) {
-                    //priority simply appends to the console
                     if (consolePriorityPrintingList.size() > 0) {
                         Object line = consolePriorityPrintingList.removeFirst();
                         SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
@@ -1509,20 +1508,26 @@ public class InputHandler {
                     //regular will perform a typing animation on strings if no method
                     // is currently running, such as RY or Bletchy, that would cause
                     // concurrency issues
-                    else if (consolePrintingList.size() > 0){
+                    else if (consolePrintingList.size() > 0) {
                         Object line = consolePrintingList.removeFirst();
                         SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
 
                         if (line instanceof String) {
                             if (UserUtil.getUserData("typinganimation").equals("1")) {
-                                GenesisShare.getPrintingSem().acquire();
-                                for (char c : ((String) line).toCharArray()) {
-                                    innerConsolePrint(c);
+                                if (finishPrinting) {
+                                    StyledDocument document = (StyledDocument) outputArea.getDocument();
+                                    document.insertString(document.getLength(), (String) line, null);
+                                    outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                                } else {
+                                    GenesisShare.getPrintingSem().acquire();
+                                    for (char c : ((String) line).toCharArray()) {
+                                        innerConsolePrint(c);
 
-                                    if (!finishPrinting)
-                                        Thread.sleep(charTimeout);
+                                        if (!finishPrinting)
+                                            Thread.sleep(charTimeout);
+                                    }
+                                    GenesisShare.getPrintingSem().release();
                                 }
-                                GenesisShare.getPrintingSem().release();
                             } else {
                                 StyledDocument document = (StyledDocument) outputArea.getDocument();
                                 document.insertString(document.getLength(), (String) line, null);
@@ -1543,7 +1548,7 @@ public class InputHandler {
                         finishPrinting = false;
                     }
 
-                    if (!finishPrinting)
+                    if (!finishPrinting && UserUtil.getUserData("typinganimation").equals("1"))
                         Thread.sleep(lineTimeout);
                 }
             } catch (Exception e) {

@@ -379,28 +379,34 @@ public class UserUtil {
      * @return the resulting data
      */
     public static String getUserData(String name) {
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-            throw new IllegalArgumentException("UUID not yet set");
-        File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                + "/userdata.json");
+        String retData = "";
+        String defaultValue = "";
 
-        if (!userJsonFile.exists())
-            throw new IllegalArgumentException("userdata.json does not exist");
+        try {
+            if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+                throw new IllegalArgumentException("UUID not yet set");
+            File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                    + "/userdata.json");
 
-        User user = extractUser(userJsonFile);
-        String retData = extractUserData(user, name);
+            if (!userJsonFile.exists())
+                throw new IllegalArgumentException("userdata.json does not exist");
 
-        String defaultValue = null;
-
-        //find default value as a fail safe
-        for (Preference pref : GenesisShare.getPrefs()) {
-            if (pref.getID().equalsIgnoreCase(name)) {
-                defaultValue = pref.getDefaultValue();
-                break;
+            //find default value as a fail safe
+            for (Preference pref : GenesisShare.getPrefs()) {
+                if (pref.getID().equalsIgnoreCase(name)) {
+                    defaultValue = pref.getDefaultValue();
+                    break;
+                }
             }
-        }
 
-        return retData != null ? retData : defaultValue;
+            User user = extractUser(userJsonFile);
+            retData = extractUserData(user, name);
+
+        } catch (Exception e) {
+            ErrorHandler.silentHandle(e);
+        } finally {
+            return retData != null ? retData : defaultValue;
+        }
     }
 
     /**
@@ -414,6 +420,9 @@ public class UserUtil {
      * @return the requested data
      */
     public static String extractUserData(User u, String name) {
+        if (u == null || u.getClass() == null || u.getClass().getMethods() == null)
+            throw new IllegalArgumentException("Something is null :/");
+
         String ret = null;
 
         try {
