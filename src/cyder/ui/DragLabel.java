@@ -17,10 +17,6 @@ public class DragLabel extends JLabel {
     private int height;
     private CyderFrame effectFrame;
 
-    private JButton minimize;
-    private JButton close;
-    private JButton pinButton;
-
     private int xOffset;
     private int yOffset;
     private int xMouse;
@@ -28,28 +24,22 @@ public class DragLabel extends JLabel {
 
     private Color backgroundColor = CyderColors.guiThemeColor;
 
-    ImageIcon minimizeIcon = CyderImages.minimizeIcon;
-    ImageIcon minimizeIconHover = CyderImages.minimizeIconHover;
-
-    ImageIcon closeIcon = CyderImages.closeIcon;
-    ImageIcon closeIconHover = CyderImages.closeIconHover;
-
     private boolean draggingEnabled = true;
 
     public enum ButtonPosition {
-        LEFT,RIGHT
+        LEFT, RIGHT
     }
 
     private ButtonPosition buttonPosition = ButtonPosition.RIGHT;
 
-    public DragLabel(int w, int h, CyderFrame effectFrame) {
-        this.width = w;
-        this.height = h;
+    public DragLabel(int width, int height, CyderFrame effectFrame) {
+        this.width = width;
+        this.height = height;
 
         this.effectFrame = effectFrame;
 
         new JLabel();
-        setSize(width,height);
+        setSize(this.width, this.height);
         setOpaque(true);
         setFocusable(false);
         setBackground(backgroundColor);
@@ -126,6 +116,7 @@ public class DragLabel extends JLabel {
         revalidate();
     }
 
+    @Override
     public void setSize(int width, int height) {
         super.setSize(width,height);
         this.width = width;
@@ -134,10 +125,12 @@ public class DragLabel extends JLabel {
         revalidate();
     }
 
+    @Override
     public int getWidth() {
         return this.width;
     }
 
+    @Override
     public int getHeight() {
         return this.height;
     }
@@ -163,6 +156,7 @@ public class DragLabel extends JLabel {
         return draggingEnabled;
     }
 
+    //standard height is 30px
     public static int getDefaultHeight() {
         return 30;
     }
@@ -182,41 +176,41 @@ public class DragLabel extends JLabel {
     private LinkedList<JButton> buildDefaultButtons() {
         LinkedList<JButton> ret = new LinkedList<>();
 
-        minimize = new JButton("");
+        JButton minimize = new JButton("");
         minimize.setToolTipText("Minimize");
         minimize.addActionListener(e -> effectFrame.minimizeAnimation());
 
         minimize.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                minimize.setIcon(minimizeIconHover);
+                minimize.setIcon(CyderImages.minimizeIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                minimize.setIcon(minimizeIcon);
+                minimize.setIcon(CyderImages.minimizeIcon);
             }
         });
         minimize.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                minimize.setIcon(minimizeIconHover);
+                minimize.setIcon(CyderImages.minimizeIconHover);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                minimize.setIcon(minimizeIcon);
+                minimize.setIcon(CyderImages.minimizeIcon);
             }
         });
 
-        minimize.setIcon(minimizeIcon);
+        minimize.setIcon(CyderImages.minimizeIcon);
         minimize.setContentAreaFilled(false);
         minimize.setBorderPainted(false);
         minimize.setFocusPainted(false);
         minimize.setFocusable(false);
         ret.add(minimize);
 
-        pinButton = new JButton("");
+        JButton pinButton = new JButton("");
         pinButton.setToolTipText("Pin Window");
         pinButton.addActionListener(e -> {
             boolean pinned = !effectFrame.getPinned();
@@ -245,33 +239,33 @@ public class DragLabel extends JLabel {
         pinButton.setFocusable(false);
         ret.add(pinButton);
 
-        close = new JButton("");
+        JButton close = new JButton("");
         close.setToolTipText("Close");
         close.addActionListener(e -> effectFrame.dispose());
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                close.setIcon(closeIconHover);
+                close.setIcon(CyderImages.closeIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                close.setIcon(closeIcon);
+                close.setIcon(CyderImages.closeIcon);
             }
         });
         close.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                close.setIcon(closeIconHover);
+                close.setIcon(CyderImages.closeIconHover);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                close.setIcon(closeIcon);
+                close.setIcon(CyderImages.closeIcon);
             }
         });
 
-        close.setIcon(closeIcon);
+        close.setIcon(CyderImages.closeIcon);
         close.setContentAreaFilled(false);
         close.setBorderPainted(false);
         close.setFocusPainted(false);
@@ -281,6 +275,11 @@ public class DragLabel extends JLabel {
         return ret;
     }
 
+    /**
+     * Gets the button from the button list at the given index
+     * @param index the index of the button to be returned
+     * @return the button at the provided index
+     */
     public JButton getButton(int index) {
         if (index < 0 || index > buttonsList.size() - 1)
             throw new IllegalArgumentException("Attempting to get button from invalid index.");
@@ -345,6 +344,10 @@ public class DragLabel extends JLabel {
         refreshButtons();
     }
 
+    /**
+     * Removes the button in the button list at the given index
+     * @param removeIndex index of button to remove
+     */
     public void removeButton(int removeIndex) {
         if (removeIndex > buttonsList.size() - 1)
             throw new IllegalArgumentException("Invalid index");
@@ -365,10 +368,18 @@ public class DragLabel extends JLabel {
         }
     }
 
+    /**
+     * Standard getter for the current button list
+     * @return the current button list
+     */
     public LinkedList<JButton> getButtonsList() {
         return this.buttonsList;
     }
 
+    /**
+     * Update the button list with a custom one
+     * @param list the list of JButtons to use for the button list
+     */
     public void setButtonsList(LinkedList<JButton> list) {
         //remove all buttons from button list
         for (Component c : getComponents()) {
@@ -382,6 +393,9 @@ public class DragLabel extends JLabel {
         refreshButtons();
     }
 
+    /**
+     * Refreshes and repaints the button list
+     */
     public void refreshButtons() {
         //remove all buttons to repaint them
         for (Component c : getComponents()) {
@@ -460,9 +474,5 @@ public class DragLabel extends JLabel {
 
     public ButtonPosition getButtonPosition() {
         return this.buttonPosition;
-    }
-
-    protected void addMinimizeListener(ActionListener al) {
-        minimize.addActionListener(al);
     }
 }

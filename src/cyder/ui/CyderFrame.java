@@ -1357,7 +1357,7 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void repaint() {
-        //we need to fix the shape on repaints
+        //fix shape
         if (cr == null) {
             if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
                 if (UserUtil.extractUser().getRoundedwindows().equals("1")) {
@@ -1371,32 +1371,28 @@ public class CyderFrame extends JFrame {
             setShape(null);
         }
 
-        //possibly update the ui
+        //update the border covering the resize area
         contentLabel.setBorder(new LineBorder(
                 CyderColors.guiThemeColor, 5 - frameResizingLen, false));
 
+        //update drag labels
         topDrag.setBackground(CyderColors.guiThemeColor);
         bottomDrag.setBackground(CyderColors.guiThemeColor);
         leftDrag.setBackground(CyderColors.guiThemeColor);
         rightDrag.setBackground(CyderColors.guiThemeColor);
 
-        getContentPane().repaint();
-        getTrueContentPane().repaint();
-
+        //repaint drag labels
         topDrag.repaint();
         leftDrag.repaint();
         bottomDrag.repaint();
         rightDrag.repaint();
 
-        super.repaint();
-    }
+        //update content panes
+        getContentPane().repaint();
+        getTrueContentPane().repaint();
 
-    /**
-     * Action to perform upon a minimiztion request from the minimize button
-     * @param actionListener the action to take
-     */
-    public void addMinimizeListener(ActionListener actionListener) {
-        actionListener.actionPerformed(null);
+        //finally super call
+        super.repaint();
     }
 
     private LinkedList<PreCloseAction> preCloseActions = new LinkedList<>();
@@ -1412,17 +1408,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Performs the given action right before closing the frame. This action is invoked right before an animation
-     * and sequential dispose call. Usage:
-     *
-     *   class action implements PreCloseAction {
-     *         {@code @Override}
-     *         public void invokeAction() {
-     *             //logic here
-     *         }
-     *   }
-     *
-     *   addPreCloseAction(new action());
-     *
+     * and sequential dispose call.
      * @param action the action to perform before closing/disposing
      */
     public void addPreCloseAction(PreCloseAction action) {
@@ -1431,17 +1417,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Performs the given action right after closing the frame. This action is invoked right after an animation
-     * and sequential dispose call. Usage:
-     *
-     *   class action implements PostCloseAction {
-     *         {@code @Override}
-     *         public void invokeAction() {
-     *             //logic here
-     *         }
-     *   }
-     *
-     *   addPostCloseAction(new action());
-     *
+     * and sequential dispose call.
      * @param action the action to perform before closing/disposing
      */
     public void addPostCloseAction(PostCloseAction action) {
@@ -1546,6 +1522,8 @@ public class CyderFrame extends JFrame {
     public void setyPercent(double yPercent) {
         this.yPercent = yPercent;
     }
+
+    //console menu taskbar logic
 
     private static Color blueBorderColor = new Color(22,124,237);
     private static Color redBorderColor = new Color(254,49,93);
@@ -1681,7 +1659,7 @@ public class CyderFrame extends JFrame {
         void fire();
     }
 
-    //overridden so we can add to ConsoleFrame's menu
+    //overridden so we can add to ConsoleFrame's taskbar menu
     @Override
     public void setVisible(boolean b) {
         super.setVisible(b);
@@ -1692,6 +1670,7 @@ public class CyderFrame extends JFrame {
     }
 
     //inner classes
+
     private static class WaitingNotification {
         private String htmlText;
         private int duration;
