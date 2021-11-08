@@ -1033,20 +1033,16 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    /**
+     * Overriden setSize method to ensure the bounds are never less than 100x100
+     * @param width width of frame
+     * @param height height of frame
+     */
     @Override
     public void setSize(int width, int height) {
-        super.setSize(innerBoundsCheck(width,height)[0], innerBoundsCheck(width,height)[1]);
-    }
-
-    /*
-    This is a bodge essentially since we need to make sure the width and height passed for CyderFrame
-    is at least 100x100 but the super call must be first. Thus, this thing was spawned
-     */
-    private static int[] innerBoundsCheck(int width, int height) {
-        int[] ret = new int[2];
-        ret[0] = Math.max(100, width);
-        ret[1] = Math.max(100, height);
-        return ret;
+        width = Math.max(100, width);
+        height = Math.max(100, height);
+        super.setSize(width, height);
     }
 
     /**
@@ -1054,10 +1050,12 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
-        super.setBounds(x, y, innerBoundsCheck(width,height)[0], innerBoundsCheck(width,height)[1]);
-        int[] widthHeight = innerBoundsCheck(width,height);
-        this.width = widthHeight[0];
-        this.height = widthHeight[1];
+        width = Math.max(100, width);
+        height = Math.max(100, height);
+        super.setBounds(x, y, width, height);
+
+        this.width = width;
+        this.height = height;
 
         if (getTopDragLabel() != null) {
             topDrag.setWidth(this.width - 2 * frameResizingLen);

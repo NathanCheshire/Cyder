@@ -117,15 +117,25 @@ public final class ConsoleFrame {
         initBackgrounds();
 
         try {
-            //set variables
+            //set bashstring based on cyder username
             consoleBashString = getUsername() + "@Cyder:~$ ";
+
+            //line color depends on the current image
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
+
+            //init slide and dir directions
             lastSlideDirection = Direction.LEFT;
             consoleDir = Direction.TOP;
+
+            //new op list and scrolling index
             operationList.clear();
             scrollingIndex = 0;
+
+            //special boolean vars
             fullscreen = false;
             closed = false;
+
+            //menu items
             consoleMenuGenerated = false;
             menuLabel = null;
             menuTaskbarFrames.clear();
