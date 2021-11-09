@@ -1139,9 +1139,9 @@ public class InputHandler {
                         +  IPUtil.getIpdata().getCountry_name();
 
                 if (IPUtil.getIpdata().getTime_zone().isIs_dst()) {
-                    println("Yes, in " + location + ", DST is underway.");
+                    println("Yes, DST is underway in " + location + ".");
                 } else {
-                    println("no, in " + location + ", DST is currently not underway");
+                    println("No, DST is not underway in " + location + ".");
                 }
             }, "DST Checker").start();
         } else if (eic("test")) {
@@ -1576,7 +1576,7 @@ public class InputHandler {
                 playInc++;
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ErrorHandler.silentHandle(e);
         }
     }
 

@@ -1,20 +1,19 @@
-package cyder.widgets;
+package cyder.messaging;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderRegexPatterns;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
-import cyder.messaging.Client;
 import cyder.ui.*;
 import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MessagingWidget {
+public class ClientHandshake {
     private static CyderFrame messagingFrame;
-    private static Client ourClient;
+    private static ClientBackend ourClient;
 
     public static void showGUI() {
         if (messagingFrame != null)
@@ -63,7 +62,7 @@ public class MessagingWidget {
             if (ip.matches(CyderRegexPatterns.ipv4Pattern)) {
                 //todo instead of notifying, pop into a waiting lobby frame that will exit if the other client denies it or timesout
                 // this should be a completely separate chat window
-                messagingFrame.notify("Sending request to: " + ip + ":" + Client.TOR_PORT);
+                messagingFrame.notify("Sending request to: " + ip + ":" + ClientBackend.TOR_PORT);
                 ourClient.connect(ip);
             } else {
                 messagingFrame.notify("Sorry, but the entered ipv4 address is invalid");
@@ -74,12 +73,12 @@ public class MessagingWidget {
         messagingFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
         //startup our client so that we can receive request and send requests
-        ourClient = new Client(ConsoleFrame.getConsoleFrame().getUUID(), UserUtil.extractUser().getName(), messagingFrame);
+        ourClient = new ClientBackend(ConsoleFrame.getConsoleFrame().getUUID(), UserUtil.extractUser().getName(), messagingFrame);
     }
 
     private void connect(String ip) {
        try {
-           ourClient = new Client(ConsoleFrame.getConsoleFrame().getUUID(),
+           ourClient = new ClientBackend(ConsoleFrame.getConsoleFrame().getUUID(),
                    UserUtil.extractUser().getName(), messagingFrame);
            ourClient.connect(ip);
        } catch (Exception e) {

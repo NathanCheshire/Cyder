@@ -15,7 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 //a client instance may exist without a connection
-public class Client {
+public class ClientBackend {
     //default TOR port
     public static final int TOR_PORT = 8118;
 
@@ -53,7 +53,7 @@ public class Client {
      * @param clientName our client's name
      * @param messagingWidgetFrame the CyderFrame this Client should be associated with to be used for the confirmation window
      */
-    public Client(String clientUUID, String clientName, CyderFrame messagingWidgetFrame) {
+    public ClientBackend(String clientUUID, String clientName, CyderFrame messagingWidgetFrame) {
         try {
             //setups
             this.clientName = clientName;

@@ -75,6 +75,7 @@ public class DebugConsole {
 
                 debugFrame = new CyderFrame(1050,400, ImageUtil.imageIconFromColor(new Color(21,23,24)));
                 debugFrame.setTitle("Debug");
+                debugFrame.setFrameType(CyderFrame.FrameType.POPUP);
                 debugFrame.setBackground(new Color(21,23,24));
 
                 printArea.setBounds(20, 40, 500 - 40, 500 - 80);
