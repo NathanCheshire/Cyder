@@ -7,6 +7,7 @@ import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
 import javazoom.jl.decoder.Bitstream;
@@ -769,6 +770,7 @@ public class AudioPlayer {
 
                 lastAction = LastAction.PLAY;
 
+                SessionHandler.log(SessionHandler.Tag.ACTION,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
                 //on spam of skip button, music player hangs for about 10 seconds
                 // and throws an error then catches up eventually
                 player.play();
@@ -869,6 +871,7 @@ public class AudioPlayer {
 
                     lastAction = LastAction.PLAY;
 
+                    SessionHandler.log(SessionHandler.Tag.ACTION,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
                     player.play();
 
                     if (audioLocation != null)
