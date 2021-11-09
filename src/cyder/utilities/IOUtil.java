@@ -130,6 +130,8 @@ public class IOUtil {
         SystemData ret = null;
         Gson gson = new Gson();
 
+        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "System data pared and returned");
+
         try (Reader reader = new FileReader("static/sys.json")) {
             ret = gson.fromJson(reader, SystemData.class);
         } catch (IOException e) {

@@ -425,6 +425,14 @@ public class UserUtil {
 
         String ret = null;
 
+        //log handler calls that aren't spammed
+        //todo make an ignore data get calls array in sys.json
+        if (!name.equals("typinganimation") && !name.equals("showseconds")
+                && !name.equals("roundedwindows") && !name.equals("windowcolor")
+                && !name.equals("audiolength") && !name.equals("capsmode")
+                && !name.equals("typingsound"))
+            SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Userdata requested: " + name);
+
         try {
             for (Method m : u.getClass().getMethods()) {
                 if (m.getName().startsWith("get")
