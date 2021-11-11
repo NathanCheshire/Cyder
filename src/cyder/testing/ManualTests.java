@@ -412,6 +412,19 @@ public class ManualTests {
         cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
+    public static void switchTest() {
+        CyderFrame testFrame = new CyderFrame(500,500);
+        testFrame.setTitle("CyderSwitch test");
+
+        CyderSwitch cs = new CyderSwitch(300,100);
+        cs.setBounds(100,100,300,100);
+        cs.setState(CyderSwitch.State.OFF);
+        testFrame.getContentPane().add(cs);
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+    }
+
     public static void queueTest() {
         CyderQueue<String> queue = new CyderQueue<>();
 

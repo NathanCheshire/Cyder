@@ -36,11 +36,14 @@ public class CyderSwitch extends JLabel {
           }
         };
 
-        switchButton.setForeground(CyderColors.navy);
+        switchButton.setForeground(CyderColors.intellijPink);
+        switchButton.setColors(CyderColors.navy);
         switchButton.setFont(CyderFonts.defaultFontSmall);
         switchButton.setSize((int) (this.width * ((double) this.buttonPercent / 100)) - 10, this.height - 20);
         switchButton.setLocation(10, 10);
         add(switchButton);
+
+        setState(startingState);
     }
 
     public CyderSwitch(int width, int height) {
@@ -65,13 +68,13 @@ public class CyderSwitch extends JLabel {
 
         switch(state) {
             case ON:
-                switchButton.setText("ON");
+                switchButton.setText("1");
                 if (shouldAniamte)
                     AnimationUtil.componentRight(switchButton.getX(), this.width - switchButton.getWidth() - 10,
                             animationDelay, 8, switchButton);
                 break;
             case OFF:
-                switchButton.setText("OFF");
+                switchButton.setText("0");
                 if (shouldAniamte)
                     AnimationUtil.componentLeft(switchButton.getX(), 10, animationDelay, 8, switchButton);
                 break;

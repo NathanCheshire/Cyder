@@ -2,7 +2,6 @@ package cyder.testing;
 
 import cyder.consts.CyderColors;
 import cyder.handlers.internal.ErrorHandler;
-import cyder.messaging.ClientView;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -13,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.Socket;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
@@ -127,8 +125,10 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
-            ClientView cv = new ClientView(new Socket(),"uuid","name");
-            cv.showGUI();
+//            ClientView cv = new ClientView(new Socket(),"uuid","name");
+//            cv.showGUI();
+
+            ManualTests.switchTest();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
