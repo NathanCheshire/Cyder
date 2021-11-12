@@ -15,7 +15,6 @@
 
 # Cyder - A Programmers Swiss Army Knife
 
-## Screenshots
 <img src="https://i.imgur.com/HDcFtjG.png" data-canonical-src="https://i.imgur.com/HDcFtjG.png"/>
 
 ## Background
