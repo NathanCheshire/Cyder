@@ -70,5 +70,15 @@
       "DestroyJavaVM",
       "Console Input Caret Position Updater",
       "Console Printing Animation"
-   ]
+   ],
+   "ignorelogdata":[
+           "typinganimation",
+           "showseconds",
+           "roundedwindows",
+           "windowcolor",
+           "audiolength",
+           "capsmode",
+           "typingsound",
+           "showbusyicon"
+      ]
 }

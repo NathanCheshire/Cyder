@@ -426,11 +426,7 @@ public class UserUtil {
         String ret = null;
 
         //log handler calls that aren't spammed
-        //todo make an ignore data get calls array in sys.json
-        if (!name.equals("typinganimation") && !name.equals("showseconds")
-                && !name.equals("roundedwindows") && !name.equals("windowcolor")
-                && !name.equals("audiolength") && !name.equals("capsmode")
-                && !name.equals("typingsound"))
+        if (!ignoreLogData(name))
             SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Userdata requested: " + name);
 
         try {
@@ -448,6 +444,17 @@ public class UserUtil {
         } finally {
             return ret;
         }
+    }
+
+    //read once on compile time
+    private static LinkedList<String> ignoreDatas = IOUtil.getSystemData().getIgnoreLogData();
+
+    /**
+     * @param dataid the id of the data we wish to obtain from userdata.json
+     * @return boolean detemrining whether or not this data should be ignored by the SessionLogger
+     */
+    public static boolean ignoreLogData(String dataid) {
+       return ignoreDatas.contains(dataid);
     }
 
     /**
