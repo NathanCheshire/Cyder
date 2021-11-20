@@ -1932,7 +1932,7 @@ public class InputHandler {
         //kill system threads
         SystemUtil.killThreads();
         //stop music
-        IOUtil.stopAllAudio();
+        IOUtil.stopAudio();
         //cancel dancing threads
         ConsoleFrame.getConsoleFrame().stopDancing();
         //finish printing anything in printing queue
