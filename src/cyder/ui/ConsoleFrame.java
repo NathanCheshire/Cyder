@@ -5,6 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
+import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.Login;
@@ -770,7 +771,9 @@ public final class ConsoleFrame {
                         switchBackground();
                     }  else if (getBackgrounds().size() == 1) {
                         consoleCyderFrame.notify("You only have one background image. " +
-                                "Try adding more via the user editor");
+                                "Try adding more via the user editor", 5000, NotificationDirection.TOP, () -> {
+                            UserEditor.showGUI(0);
+                        });
                     }
                 } catch (Exception ex) {
                     consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
