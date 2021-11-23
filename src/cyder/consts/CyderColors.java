@@ -30,8 +30,10 @@ public class CyderColors {
 
     public static Color buttonColor = regularRed;
 
-    public static Color darkModeButtonColor = CyderColors.vanila;
-    public static Color darkModeButtonTextColor = CyderColors.navy;
+    public static final Color darkModeButtonColor = CyderColors.vanila;
+    public static final Color darkModeButtonTextColor = CyderColors.navy;
+
+    public static final Color taskbarDefaultColor = new Color(15, 110, 149);
 
     public static void setGuiThemeColor(Color c) {
         guiThemeColor = c;

@@ -1651,7 +1651,7 @@ public class CyderFrame extends JFrame {
     }
 
     public static JLabel generateDefaultTaskbarComponent(String title, ClickAction clickAction) {
-        return generateDefaultTaskbarComponent(title, clickAction, new Color(141,83,168));
+        return generateDefaultTaskbarComponent(title, clickAction, CyderColors.taskbarDefaultColor);
     }
 
     //used for icon frame actions in ConsoleFrame
