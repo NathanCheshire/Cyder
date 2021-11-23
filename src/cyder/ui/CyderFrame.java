@@ -656,6 +656,7 @@ public class CyderFrame extends JFrame {
                             disposeLabel.addMouseListener(new MouseAdapter() {
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
+                                    //todo execute on kill actions associated with this notification
                                     currentNotification.kill();
                                 }
                             });

@@ -4,7 +4,6 @@ import cyder.consts.CyderColors;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
-import cyder.utilities.IOUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -126,7 +125,7 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
-            System.out.println(IOUtil.getSystemData().getIgnoreLogData());
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

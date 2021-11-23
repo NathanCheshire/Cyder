@@ -658,6 +658,8 @@ public class UserEditor {
             if (prefsPanelIndex == 1) {
                 fontScrollLabel.get().setBounds(50, 100, 300, 300);
                 switchingLabel.add(fontScrollLabel.get());
+                editUserFrame.revokeCurrentNotification();
+                editUserFrame.notify("Fonts loaded", 2000, NotificationDirection.TOP_RIGHT);
             }
         },"Preference Font Loader").start();
 
