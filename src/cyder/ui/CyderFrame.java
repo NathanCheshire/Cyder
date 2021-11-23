@@ -551,17 +551,16 @@ public class CyderFrame extends JFrame {
      * @param htmlText the text you want to notify on the callilng from
      */
     public void notify(String htmlText) {
-        notify(htmlText, 5000, NotificationDirection.TOP);
+        notify(htmlText, 5000, NotificationDirection.TOP,null);
     }
 
     /**
      * This method is to be used for a more controled notify. You may choose the duration and the arrow direction
-     *
      * @param htmltext the text you want to display (may include HTML tags)
      * @param viewDuration time in ms that the notification should stay on screen
      * @param direction the enter and vanish direction for the notification
      */
-    public void notify(String htmltext, int viewDuration, NotificationDirection direction) {
+    public void notify(String htmltext, int viewDuration, NotificationDirection direction, ClickAction onKillAction) {
         Direction arrowDir;
 
         switch (direction) {
@@ -582,7 +581,7 @@ public class CyderFrame extends JFrame {
                 arrowDir = Direction.TOP;
         }
 
-        notify(htmltext, viewDuration, arrowDir, direction);
+        notify(htmltext, viewDuration, arrowDir, direction, onKillAction);
     }
 
     private Notification currentNotification;
@@ -594,7 +593,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Full control over the notification function of a {@link CyderFrame}.
-     * See {@link CyderFrame#notify(String, int, NotificationDirection)} for a simpler notify function
+     * See {@link CyderFrame#notify(String, int, NotificationDirection, ClickAction)} for a simpler notify function
      *
      * @param htmltext the text you want to display (may include HTML tags)
      * @param viewDuration the time in ms the notification should be visible for. Pass in 0
@@ -602,9 +601,9 @@ public class CyderFrame extends JFrame {
      * @param arrowDir the direction of the arrow on the notification
      * @param notificationDirection the enter/exit direction of the notification
      */
-    public void notify(String htmltext, int viewDuration, Direction arrowDir, NotificationDirection notificationDirection) {
+    public void notify(String htmltext, int viewDuration, Direction arrowDir, NotificationDirection notificationDirection, ClickAction onKillAction) {
         //make a WaitingNotification and add to queue, queue will automatically process any notifications so no further actions needed
-        notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection));
+        notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction));
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
@@ -656,7 +655,9 @@ public class CyderFrame extends JFrame {
                             disposeLabel.addMouseListener(new MouseAdapter() {
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
-                                    //todo execute on kill actions associated with this notification
+                                    //fire any on kill actions if it's not null
+                                    if (currentWaitingNotification.getOnKillAction() != null)
+                                        currentWaitingNotification.getOnKillAction().fire();
                                     currentNotification.kill();
                                 }
                             });
@@ -1676,6 +1677,7 @@ public class CyderFrame extends JFrame {
         private int duration;
         private Direction arrowDir;
         private NotificationDirection notificationDirection;
+        private ClickAction onKillAction;
 
         /**
          * A notification that hasn't been notified to the user yet and is waiting in a CyderFrame's queue.
@@ -1683,12 +1685,14 @@ public class CyderFrame extends JFrame {
          * @param dur the duration in miliseconds the notification should last for. Use 0 for auto-calculation
          * @param arrowDir the arrow direction
          * @param notificationDirection the notification direction
+         * @param onKillAction the action to perform if the notification is dismissed by the user
          */
-        public WaitingNotification(String text, int dur, Direction arrowDir, NotificationDirection notificationDirection) {
+        public WaitingNotification(String text, int dur, Direction arrowDir, NotificationDirection notificationDirection, ClickAction onKillAction) {
             this.htmlText = text;
             this.duration = dur;
             this.arrowDir = arrowDir;
             this.notificationDirection = notificationDirection;
+            this.onKillAction = onKillAction;
         }
 
         public void setHtmlText(String htmlText) {
@@ -1721,6 +1725,14 @@ public class CyderFrame extends JFrame {
 
         public NotificationDirection getNotificationDirection() {
             return notificationDirection;
+        }
+
+        public ClickAction getOnKillAction() {
+            return onKillAction;
+        }
+
+        public void setOnKillAction(ClickAction onKillAction) {
+            this.onKillAction = onKillAction;
         }
 
         @Override

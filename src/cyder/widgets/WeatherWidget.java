@@ -394,7 +394,7 @@ public class WeatherWidget {
             }
 
             if (weatherFrame != null)
-                weatherFrame.notify("Refreshed", 2000, NotificationDirection.BOTTOM_LEFT);
+                weatherFrame.notify("Refreshed", 2000, NotificationDirection.BOTTOM_LEFT, null);
         }
 
         catch (Exception e) {

@@ -635,7 +635,7 @@ public class UserEditor {
 
         AtomicReference<JLabel> fontScrollLabel = new AtomicReference<>(fontScrollList.generateScrollList());
 
-        editUserFrame.notify("Loading fonts...", 2000, NotificationDirection.TOP_RIGHT);
+        editUserFrame.notify("Loading fonts...", 2000, NotificationDirection.TOP_RIGHT, null);
         new Thread(() -> {
             String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
             Collections.addAll(fontList, Fonts);
@@ -659,7 +659,7 @@ public class UserEditor {
                 fontScrollLabel.get().setBounds(50, 100, 300, 300);
                 switchingLabel.add(fontScrollLabel.get());
                 editUserFrame.revokeCurrentNotification();
-                editUserFrame.notify("Fonts loaded", 2000, NotificationDirection.TOP_RIGHT);
+                editUserFrame.notify("Fonts loaded", 2000, NotificationDirection.TOP_RIGHT, null);
             }
         },"Preference Font Loader").start();
 
