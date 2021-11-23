@@ -714,4 +714,26 @@ public class UserUtil {
             ErrorHandler.handle(e);
         }
     }
+
+    /**
+     * Used to log out all users before logging in a new user
+     */
+    public static void logoutAllUsers() {
+        File usersDir = new File("dynamic/users");
+
+        if (!usersDir.exists())
+            throw new IllegalArgumentException("Users dir does not exist");
+
+        File[] users = usersDir.listFiles();
+
+        if (users.length == 0)
+            throw new IllegalArgumentException("No users were found");
+
+        for (File user : users) {
+            File jsonFile = new File(user.getAbsolutePath() + "/userdata.json");
+
+            if (jsonFile.exists() && !StringUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
+                setUserData(jsonFile, "loggedin","0");
+        }
+    }
 }
