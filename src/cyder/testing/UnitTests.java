@@ -102,4 +102,25 @@ public class UnitTests {
         assertEquals(StringUtil.getPlural(1, "bus"),"bus");
         assertEquals(StringUtil.getPlural(2, "bus"),"buses");
     }
+
+    @Test
+    public void testPhoneNumberPattern() {
+        LinkedList<String> phoneNumbers = new LinkedList<>();
+        phoneNumbers.add("456 0112");
+        phoneNumbers.add("456-0112");
+        phoneNumbers.add("456 - 0112");
+        phoneNumbers.add("(888) 456 0112");
+        phoneNumbers.add("888 456 0112");
+        phoneNumbers.add("888 - 456 0112");
+        phoneNumbers.add("888 - 456 - 0112");
+        phoneNumbers.add("4 (888) - 456 - 0112");
+        phoneNumbers.add("4 - (888) - 456 - 0112");
+        phoneNumbers.add("4 - 888 - 456 - 0112");
+        phoneNumbers.add("4-888-456-0112");
+        phoneNumbers.add("48884560112");
+
+        for (String phoneNumber : phoneNumbers) {
+            assert phoneNumber.matches(CyderRegexPatterns.phoneNumberPattern);
+        }
+    }
 }
