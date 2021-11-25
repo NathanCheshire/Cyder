@@ -560,6 +560,17 @@ public class CyderFrame extends JFrame {
      * @param viewDuration time in ms that the notification should stay on screen
      * @param direction the enter and vanish direction for the notification
      */
+    public void notify(String htmltext, int viewDuration, NotificationDirection direction) {
+        notify(htmltext, viewDuration, direction, null);
+    }
+
+    /**
+     * This method is to be used for a more controled notify. You may choose the duration and the arrow direction
+     * @param htmltext the text you want to display (may include HTML tags)
+     * @param viewDuration time in ms that the notification should stay on screen
+     * @param direction the enter and vanish direction for the notification
+     * @param onKillAction the action to invoke upon user disposal of the notification
+     */
     public void notify(String htmltext, int viewDuration, NotificationDirection direction, ClickAction onKillAction) {
         Direction arrowDir;
 
@@ -572,7 +583,7 @@ public class CyderFrame extends JFrame {
             case TOP_RIGHT:
             case CENTER_RIGHT:
             case BOTTOM_RIGHT:
-                arrowDir =Direction.RIGHT;
+                arrowDir = Direction.RIGHT;
                 break;
             case BOTTOM:
                 arrowDir =Direction.BOTTOM;
