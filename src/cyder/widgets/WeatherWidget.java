@@ -272,7 +272,7 @@ public class WeatherWidget {
                 }
             }
         };
-        temperatureLabel.setToolTipText("Temperature");
+        temperatureLabel.setToolTipText(temperature + "F");
         temperatureLabel.setBounds(40, 320, 400, 40);
         weatherFrame.getContentPane().add(temperatureLabel);
 
@@ -411,6 +411,7 @@ public class WeatherWidget {
             sunsetLabel.setText(correctedSunTime(sunset) + "pm");
 
             temperatureLabel.repaint();
+            temperatureLabel.setToolTipText(temperature + "F");
 
             //redraw arrow
             windDirectionLabel.repaint();
