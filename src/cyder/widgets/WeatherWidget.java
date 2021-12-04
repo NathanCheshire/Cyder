@@ -11,7 +11,10 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
-import cyder.utilities.*;
+import cyder.utilities.IPUtil;
+import cyder.utilities.ImageUtil;
+import cyder.utilities.StringUtil;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -33,7 +36,6 @@ public class WeatherWidget {
     private JLabel currentWeatherLabel;
     private JLabel changeLocationLabel;
     private JLabel temperatureLabel;
-    private JLabel feelsLikeLabel;
     private JLabel windSpeedLabel;
     private JLabel windDirectionLabel;
     private JLabel humidityLabel;
@@ -79,6 +81,9 @@ public class WeatherWidget {
 
     private boolean useCustomLoc;
     private boolean update;
+
+    private double minTemp;
+    private double maxTemp;
 
     private int timeOffset;
     private int currentLocationGMTOffset;
@@ -232,17 +237,44 @@ public class WeatherWidget {
         changeLocButton.setFocusPainted(false);
         weatherFrame.getTopDragLabel().addButton(changeLocButton, 0);
 
-        temperatureLabel = new JLabel("Temperature: " + temperature + "F", SwingConstants.CENTER);
-        temperatureLabel.setForeground(CyderColors.vanila);
-        temperatureLabel.setFont(CyderFonts.weatherFontSmall);
-        temperatureLabel.setBounds(0, 300, 480, 30);
-        weatherFrame.getContentPane().add(temperatureLabel);
+        temperatureLabel = new JLabel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                //border
+                g.setColor(Color.black);
+                g.fillRect(0,0,400,40);
 
-        feelsLikeLabel = new JLabel("Feels like: " + feelsLike + "F", SwingConstants.CENTER);
-        feelsLikeLabel.setForeground(CyderColors.vanila);
-        feelsLikeLabel.setFont(CyderFonts.weatherFontSmall);
-        feelsLikeLabel.setBounds(0, 345, 480, 30);
-        weatherFrame.getContentPane().add(feelsLikeLabel);
+                g.setColor(CyderColors.navy);
+                g.fillRect(3,3,400 - 6,40 - 6);
+
+                try {
+                    double tempVal = map(Double.parseDouble(temperature), minTemp, maxTemp, 0 , 400);
+
+                    Font f = new Font("Arial Black",Font.BOLD, 16);
+
+                    g.setFont(f);
+                    g.setColor(Color.white);
+
+                    String minText = minTemp  + "F";
+                    FontMetrics fm = g.getFontMetrics();
+                    int y = (fm.getAscent() + (40 - (fm.getAscent() + fm.getDescent())) / 2);
+                    g.drawString(minText, 5, y);
+
+                    String maxText = maxTemp  + "F";
+                    y = (fm.getAscent() + (40 - (fm.getAscent() + fm.getDescent())) / 2);
+                    g.drawString(maxText, 400 - 5 - CyderFrame.getMinWidth(maxText, f), y);
+
+                    g.setColor(CyderColors.intellijPink);
+                    int line = (int) Math.round(tempVal);
+                    g.fillRect(line - 3, 3, 6, 34);
+                } catch (Exception e) {
+                    ErrorHandler.silentHandle(e);
+                }
+            }
+        };
+        temperatureLabel.setToolTipText("Temperature");
+        temperatureLabel.setBounds(40, 320, 400, 40);
+        weatherFrame.getContentPane().add(temperatureLabel);
 
         windSpeedLabel = new JLabel("Wind Speed: " + windSpeed + "mph", SwingConstants.CENTER);
         windSpeedLabel.setForeground(CyderColors.vanila);
@@ -253,10 +285,10 @@ public class WeatherWidget {
         windDirectionLabel = new JLabel() {
             @Override
             public void paintComponent(Graphics g) {
-                g.setColor(CyderColors.navy);
+                g.setColor(Color.black);
                 g.fillRect(0,0, 50, 50);
 
-                g.setColor(CyderColors.tttblue);
+                g.setColor(CyderColors.navy);
                 g.fillRect(3, 3, this.getWidth() - 6, this.getHeight() - 6);
 
                 int radius = 20;
@@ -331,6 +363,10 @@ public class WeatherWidget {
         },"Weather Clock Updater").start();
     }
 
+    public static double map(double x, double in_min, double in_max, double out_min, double out_max) {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
     public String getWeatherTime() {
         Calendar cal = Calendar.getInstance();
         Date Time = cal.getTime();
@@ -365,17 +401,16 @@ public class WeatherWidget {
                 locationLabel.setText("");
             }
 
-
             currentWeatherIconLabel.setIcon(new ImageIcon("static/pictures/weather/" + weatherIcon + ".png"));
             currentWeatherLabel.setText(StringUtil.capsFirst(weatherCondition));
-            temperatureLabel.setText("Temperature: " + temperature + "F");
-            feelsLikeLabel.setText("Feels like: " + feelsLike + "F");
             windSpeedLabel.setText("Wind Speed: " + windSpeed + "mph");
             humidityLabel.setText("Humidity: " + humidity + "%");
             pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
             timezoneLabel.setText("Timezone: " + getTimezoneLabel());
             sunriseLabel.setText(correctedSunTime(sunrise) + "am");
             sunsetLabel.setText(correctedSunTime(sunset) + "pm");
+
+            temperatureLabel.repaint();
 
             //redraw arrow
             windDirectionLabel.repaint();
@@ -455,6 +490,9 @@ public class WeatherWidget {
                     humidity = String.valueOf(wd.getMain().getHumidity());
                     temperature = String.valueOf(wd.getMain().getTemp());
                     gmtOffset = String.valueOf(wd.getTimezone());
+
+                    minTemp = wd.getMain().getTemp_min();
+                    maxTemp = wd.getMain().getTemp_max();
 
                     SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm");
 

@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.Socket;
 
-//todo min/max/right now/feels like temperature bar graph on weather widget
 //todo consolidate lines if they're duplicates except for timestamp, override timestamp with current one and add x2,x3... etc.
 
 public class ClientView {
