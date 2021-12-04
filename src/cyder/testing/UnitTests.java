@@ -20,7 +20,7 @@ public class UnitTests {
     }
 
     @Test
-    public void windBearingDirection() {
+    public void testWindBearingDirection() {
         //cardinal directions and +/1 1, +/1 0.1
 
         //east

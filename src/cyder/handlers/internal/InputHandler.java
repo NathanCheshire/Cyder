@@ -1175,7 +1175,31 @@ public class InputHandler {
                 SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
             } else {
                 unknownInput();
+                //inform of valid tests in case they were trying to call a test
+                println("Valid tests to call:\n");
+                printUnitTests();
+                printManualTests();
             }
+        }
+    }
+
+    public void printUnitTests() {
+        println("Unit Tests:");
+        UnitTests ut = new UnitTests();
+
+        for (Method m : ut.getClass().getMethods()) {
+            if (m.getName().toLowerCase().contains("test"))
+                println(m.getName());
+        }
+    }
+
+    public void printManualTests() {
+        println("Manual tests:");
+        ManualTests mtw = new ManualTests();
+
+        for (Method m : mtw.getClass().getMethods()) {
+            if (m.getName().toLowerCase().contains("test"))
+                println(m.getName());
         }
     }
 
