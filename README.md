@@ -17,6 +17,8 @@
 
 <img src="https://i.imgur.com/HDcFtjG.png" data-canonical-src="https://i.imgur.com/HDcFtjG.png"/>
 
+https://user-images.githubusercontent.com/60986919/146469498-23f9a57e-da2d-4d84-84dc-6ac8586f93a6.mp4
+
 ## Definition
 
 Cyder is a multipurpose tool with it's own custom UI library built without modern UI utilities such as FXML. It can perform countless operations such as downloading audio from a youtube video, resizing an image, displaying the weather, calculating an expression such as `sin(e^pi - 14^(1/2))` and visualizing algorithms such as A*, convex hull, and Conways Game of Life.
