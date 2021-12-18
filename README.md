@@ -17,7 +17,13 @@
 
 <img src="https://i.imgur.com/HDcFtjG.png" data-canonical-src="https://i.imgur.com/HDcFtjG.png"/>
 
-https://user-images.githubusercontent.com/60986919/146469498-23f9a57e-da2d-4d84-84dc-6ac8586f93a6.mp4
+## Pathfinding Widget
+
+https://user-images.githubusercontent.com/60986919/146628288-08a093fe-17f8-49b9-89a9-b320751226ee.mp4
+
+## Music Widget
+
+https://user-images.githubusercontent.com/60986919/146628290-ff0f5f98-ab7a-4e5a-b525-6b36a44464e9.mp4
 
 ## Definition
 
