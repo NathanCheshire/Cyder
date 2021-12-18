@@ -2035,15 +2035,24 @@ public final class ConsoleFrame {
         }
     }
 
+    //todo revalidating when closed opens it back up?
     public void revalidateConsoleMenu() {
+        //if the frame is closed or the label simply doesn't exist then exit
         if (closed || menuLabel == null)
             return;
 
-        if (menuLabel != null && menuLabel.isVisible()) {
+        //regenerate the menu if it's null or the menu is already visible
+        if (menuLabel != null) {
             generateConsoleMenu();
-            menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
+
+            if (menuLabel.isVisible()) {
+                menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
+            } else {
+                menuLabel.setLocation(-150, menuLabel.getY());
+            }
         }
 
+        //determine menu location and set it's bounds respectively, also change input and output fields
         int addX = 0;
         int w = consoleCyderFrame.getWidth();
         int h = consoleCyderFrame.getHeight();

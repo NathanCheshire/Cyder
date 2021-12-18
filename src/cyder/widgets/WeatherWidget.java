@@ -410,6 +410,7 @@ public class WeatherWidget {
             sunriseLabel.setText(correctedSunTime(sunrise) + "am");
             sunsetLabel.setText(correctedSunTime(sunset) + "pm");
 
+            //repaint custom temperature drawing
             temperatureLabel.repaint();
             temperatureLabel.setToolTipText(temperature + "F");
 

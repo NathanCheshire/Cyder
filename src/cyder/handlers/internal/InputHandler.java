@@ -1146,6 +1146,10 @@ public class InputHandler {
             }, "DST Checker").start();
         } else if (eic("test")) {
             DebugConsole.launchTests();
+        } else if (eic("tests")) {
+            println("Valid tests to call:\n");
+            printUnitTests();
+            printManualTests();
         } else if (has("network") && has("addresses")) {
             Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
 
@@ -1176,9 +1180,6 @@ public class InputHandler {
             } else {
                 unknownInput();
                 //inform of valid tests in case they were trying to call a test
-                println("Valid tests to call:\n");
-                printUnitTests();
-                printManualTests();
             }
         }
     }
