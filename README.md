@@ -17,6 +17,18 @@
 
 <img src="https://i.imgur.com/HDcFtjG.png" data-canonical-src="https://i.imgur.com/HDcFtjG.png"/>
 
+## Pathfinding Widget
+
+https://user-images.githubusercontent.com/60986919/146628288-08a093fe-17f8-49b9-89a9-b320751226ee.mp4
+
+## Music Widget
+
+https://user-images.githubusercontent.com/60986919/146628290-ff0f5f98-ab7a-4e5a-b525-6b36a44464e9.mp4
+
+## Definition
+
+Cyder is a multipurpose tool with it's own custom UI library built without modern UI utilities such as FXML. It can perform countless operations such as downloading audio from a youtube video, resizing an image, displaying the weather, calculating an expression such as `sin(e^pi - 14^(1/2))` and visualizing algorithms such as A*, convex hull, and Conways Game of Life.
+
 ## Background
 
 Cyder started as a way to test my basic Java skills and have fun while taking AP Computer Science in 2017. As I continued to grow, work piled up and I had college and internships. Recently, however, I have begun to work on it in my free time as a hobby. I know so much more now than when I started and hope to keep adding features for quite some time. Ideally I should recreate this in electron-js but I doubt I'll ever get around it since I use Java for this project as a challenge since I've also built my own GUI library.
@@ -51,7 +63,7 @@ Currently, the program is intended for 2560x1440 resolution displays (my main di
 
 Cyder utilizes an Agile development model. For features you would like to see implmeneted, please create an issue and describe the feature in as much detail as you can. Issues are addressed by assigned priority based on issue create data, idea originality, and idea relevance. Please do NOT add todos in the code. Utilize GitHub Issues as a todo list instead.
 
-If you would like to create your own widget, see the wiki page titled "Creating Your First Widget." The period is a part of the title which is why it's in the quotes :P
+If you would like to create your own widget, see the wiki.
 
 
 ## Deveopment Model: Agile
