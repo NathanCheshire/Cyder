@@ -1309,6 +1309,7 @@ public final class ConsoleFrame {
     public void removeTaskbarIcon(CyderFrame associatedFrame) {
         if (menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.remove(associatedFrame);
+            consoleMenuGenerated = false;
             revalidateConsoleMenu();
         }
     }
@@ -1316,6 +1317,7 @@ public final class ConsoleFrame {
     public void addTaskbarIcon(CyderFrame associatedFrame) {
         if (!menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.add(associatedFrame);
+            consoleMenuGenerated = false;
             revalidateConsoleMenu();
         }
     }
@@ -2035,21 +2037,14 @@ public final class ConsoleFrame {
         }
     }
 
-    //todo revalidating when closed opens it back up?
     public void revalidateConsoleMenu() {
         //if the frame is closed or the label simply doesn't exist then exit
         if (closed || menuLabel == null)
             return;
 
-        //regenerate the menu if it's null or the menu is already visible
-        if (menuLabel != null) {
+        if (menuLabel != null && menuLabel.isVisible()) {
             generateConsoleMenu();
-
-            if (menuLabel.isVisible()) {
-                menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
-            } else {
-                menuLabel.setLocation(-150, menuLabel.getY());
-            }
+            menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
         }
 
         //determine menu location and set it's bounds respectively, also change input and output fields
