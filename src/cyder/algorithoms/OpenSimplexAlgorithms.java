@@ -1,5 +1,7 @@
 package cyder.algorithoms;
 
+//this obviously isn't my code, I have somewhat of a life
+//Credit: https://gist.github.com/KdotJPG/b1270127455a94ac5d19
 public class OpenSimplexAlgorithms {
 
     private static final double STRETCH_CONSTANT_2D = -0.211324865405187;    // (1/Math.sqrt(2+1)-1)/2;

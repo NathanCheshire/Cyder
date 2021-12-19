@@ -320,7 +320,8 @@ public class Notification extends JLabel {
     }
 
     /**
-     * This method to be used in combination with an already visible notification.
+     * This method to be used in combination with an already visible notification to immediately move it off of the
+     * parent until it is not visible. Upon completing the animation, the notification is removed from the parent.
      * @param notificationDirection the direction to exit to.
      * @param parent the component the notification is on. Used for bounds calculations.
      * @param delay the delay before vanish.

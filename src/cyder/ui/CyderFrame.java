@@ -669,6 +669,8 @@ public class CyderFrame extends JFrame {
                                     //fire any on kill actions if it's not null
                                     if (currentWaitingNotification.getOnKillAction() != null)
                                         currentWaitingNotification.getOnKillAction().fire();
+
+                                    //smoothly animate notification away
                                     currentNotification.vanish(currentWaitingNotification.getNotificationDirection(), getContentPane(), 0);
                                 }
                             });
