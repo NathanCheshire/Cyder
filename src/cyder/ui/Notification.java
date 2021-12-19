@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -297,8 +298,9 @@ public class Notification extends JLabel {
                         break;
                 }
 
-                //now that it's visible, call vanish with the proper delay
-                this.vanish(notificationDirection, parent, delay);
+                //now that it's visible, call vanish with the proper delay if enabled
+                if (UserUtil.getUserData("persistentnotifications").equals("0"))
+                    this.vanish(notificationDirection, parent, delay);
             }
 
             catch (Exception e) {
@@ -323,7 +325,7 @@ public class Notification extends JLabel {
      * @param parent the component the notification is on. Used for bounds calculations.
      * @param delay the delay before vanish.
      */
-    private void vanish(NotificationDirection notificationDirection, Component parent, int delay) {
+    protected void vanish(NotificationDirection notificationDirection, Component parent, int delay) {
         new Thread(() -> {
             try {
                 Thread.sleep(delay);

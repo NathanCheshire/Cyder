@@ -662,14 +662,14 @@ public class CyderFrame extends JFrame {
 
                             JLabel disposeLabel = new JLabel();
                             disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
-                            disposeLabel.setToolTipText("Click to dismiss");
+                            disposeLabel.setToolTipText(TimeUtil.logTime());
                             disposeLabel.addMouseListener(new MouseAdapter() {
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
                                     //fire any on kill actions if it's not null
                                     if (currentWaitingNotification.getOnKillAction() != null)
                                         currentWaitingNotification.getOnKillAction().fire();
-                                    currentNotification.kill();
+                                    currentNotification.vanish(currentWaitingNotification.getNotificationDirection(), getContentPane(), 0);
                                 }
                             });
                             currentNotification.add(disposeLabel);

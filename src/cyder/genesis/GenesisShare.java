@@ -134,6 +134,8 @@ public class GenesisShare {
         ret.add(new Preference("loggedin","IGNORE","","0"));
         ret.add(new Preference("audiolength","Show Audio Total Length",
                 "For the audio player, show the total audio time instead of the time remaining","1"));
+        ret.add(new Preference("persistentnotifications","Persistent Notifications",
+                "Notifications stay on screen until manually dismissed","0"));
 
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set
@@ -178,9 +180,7 @@ public class GenesisShare {
             return Login.getLoginFrame();
         }
         //other possibly dominant/stand-alone frame checks here
-        else {
-            return null;
-        }
+        else return null;
     }
 
     private static boolean quesitonableInternet;

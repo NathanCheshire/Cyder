@@ -81,9 +81,6 @@ public class YoutubeUtil {
         });
     }
 
-    //todo this thread doesn't end sometimes? The audio was downloaded and was playable via the player
-    // but the thread never returned and printed to console...
-
     public static Future<File> download(String videoURL, String outputDir) {
         return executor.submit(() -> {
             File ret = null;

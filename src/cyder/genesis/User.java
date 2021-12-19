@@ -39,6 +39,7 @@ public class User {
     private String capsmode; //boolean
     private String loggedin; //boolean
     private String audiolength;
+    private String persistentnotifications;
     private LinkedList<MappedExecutable> executables;
 
     public String getName() {
@@ -339,6 +340,14 @@ public class User {
 
     public void setAudiolength(String audiolength) {
         this.audiolength = audiolength;
+    }
+
+    public String getPersistentnotifications() {
+        return persistentnotifications;
+    }
+
+    public void setPersistentnotifications(String persistentnotifications) {
+        this.persistentnotifications = persistentnotifications;
     }
 
     //inner classes
