@@ -284,7 +284,27 @@ public class CyderFrame extends JFrame {
         contentLabel.setBorder(new LineBorder(Color.black, 3, false));
         setContentPane(contentLabel);
 
+        final int[] xMouse = {0};
+        final int[] yMouse = {0};
+
         //contentLabel drag listener for frame moving around
+        addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x = e.getXOnScreen();
+                int y = e.getYOnScreen();
+
+                if (this != null && isFocused()) {
+                    setLocation(x - xMouse[0], y - yMouse[0]);
+                }
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                xMouse[0] = e.getX();
+                yMouse[0] = e.getY();
+            }
+        });
 
         //default boolean values
         this.threadsKilled = false;
