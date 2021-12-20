@@ -129,7 +129,7 @@ public class CyderSplash {
 
                     Thread.sleep(500);
 
-                    for (int i = 0 ; i < 5 ; i++) {
+                    for (int i = 0 ; i < 30 ; i++) {
                         nathanLabel.setText("Loading components");
                         nathanLabel.repaint();
                         Thread.sleep(400);
@@ -145,6 +145,7 @@ public class CyderSplash {
                     }
 
                     splashFrame.dispose();
+                    //todo if you're here something clearly went wrong, log and exit
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
                 }

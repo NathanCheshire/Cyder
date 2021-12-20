@@ -943,6 +943,7 @@ public class CyderFrame extends JFrame {
                   //disable dragging
                   disableDragging();
 
+
                   //disable content pane REPAINTING not paint to speed up the animation
                   disableContentRepainting = true;
 
