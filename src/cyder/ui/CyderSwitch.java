@@ -6,7 +6,6 @@ import cyder.utilities.AnimationUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.event.ActionListener;
 
 public class CyderSwitch extends JLabel {
     public enum State {
@@ -20,6 +19,10 @@ public class CyderSwitch extends JLabel {
     private int buttonPercent = 25;
     private int animationDelay = 4;
 
+    private String onText = "1";
+    private String indeterminiteText = "?";
+    private String offText = "0";
+
     public CyderSwitch(int width, int height, State startingState) {
         this.width = width;
         this.height = height;
@@ -28,13 +31,13 @@ public class CyderSwitch extends JLabel {
         setSize(width, height);
         setBorder(new LineBorder(CyderColors.navy, 5, false));
 
-        switchButton = new CyderButton() {
-          @Override
-          public void addActionListener(ActionListener actionListner) {
-              super.addActionListener(actionListner);
-              super.addActionListener(defaultActionListener);
-          }
-        };
+        switchButton = new CyderButton();
+        switchButton.addActionListener(e -> {
+            if (this.state == State.OFF)
+                setState(State.ON);
+            else
+                setState(State.OFF);
+        });
 
         switchButton.setForeground(CyderColors.intellijPink);
         switchButton.setColors(CyderColors.navy);
@@ -54,13 +57,6 @@ public class CyderSwitch extends JLabel {
         this(400,120);
     }
 
-    public ActionListener defaultActionListener = e -> {
-        if (this.state == State.OFF)
-            setState(State.ON);
-        else
-            setState(State.OFF);
-    };
-
     public void setState(State state) {
         this.state = state;
 
@@ -68,18 +64,20 @@ public class CyderSwitch extends JLabel {
 
         switch(state) {
             case ON:
-                switchButton.setText("1");
+                switchButton.setText(onText);
+                System.out.println("Setting to onText");
                 if (shouldAniamte)
                     AnimationUtil.componentRight(switchButton.getX(), this.width - switchButton.getWidth() - 10,
                             animationDelay, 8, switchButton);
                 break;
             case OFF:
-                switchButton.setText("0");
+                switchButton.setText(offText);
+                System.out.println("setting to offText");
                 if (shouldAniamte)
                     AnimationUtil.componentLeft(switchButton.getX(), 10, animationDelay, 8, switchButton);
                 break;
             case INDETERMINITE:
-                switchButton.setText("?");
+                switchButton.setText(indeterminiteText);
                 if (switchButton.getX() > 10) {
                     if (shouldAniamte) {
                         switchButton.setLocation(this.width - switchButton.getWidth() - 10, 10);
@@ -154,5 +152,36 @@ public class CyderSwitch extends JLabel {
 
     public void setAnimationDelay(int animationDelay) {
         this.animationDelay = animationDelay;
+    }
+
+    public String getOnText() {
+        return onText;
+    }
+
+    public void setOnText(String onText) {
+        this.onText = onText;
+    }
+
+    public String getIndeterminiteText() {
+        return indeterminiteText;
+    }
+
+    public void setIndeterminiteText(String indeterminiteText) {
+        this.indeterminiteText = indeterminiteText;
+    }
+
+    public String getOffText() {
+        return offText;
+    }
+
+    public void setOffText(String offText) {
+        this.offText = offText;
+    }
+
+    //overridden to also disable the button
+    @Override
+    public void setEnabled(boolean b) {
+        switchButton.setEnabled(b);
+        super.setEnabled(b);
     }
 }

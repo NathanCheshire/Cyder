@@ -52,10 +52,10 @@ public class PathFinderWidget {
     private static String pathText = "";
     private static Color pathColor = Color.darkGray;
 
-    private static CyderButton algorithmSwitcher;
-    private static CyderTextField algorithmField;
-    private static int algorithmIndex;
-    private static String[] algorithms = {"Manhattan","Euclidean"};
+    private static CyderSwitch heuristicSwitch;
+
+    private static int heuristicIndex;
+    private static String[] heuristics = {"Manhattan","Euclidean"};
 
     public static void showGUI() {
         if (pathFindingFrame != null)
@@ -71,7 +71,7 @@ public class PathFinderWidget {
         pathText = "";
         paused = false;
 
-        pathFindingFrame = new CyderFrame(1000,1050, CyderImages.defaultBackgroundLarge);
+        pathFindingFrame = new CyderFrame(1000,1060, CyderImages.defaultBackgroundLarge);
         pathFindingFrame.setTitle("Path finding visualizer");
 
         gridLabel = new JLabel() {
@@ -442,7 +442,7 @@ public class PathFinderWidget {
 
             optimalPathCheckBox.setEnabled(true);
             diagonalBox.setEnabled(true);
-            algorithmSwitcher.setEnabled(true);
+            heuristicSwitch.setEnabled(true);
         });
         pathFindingFrame.getContentPane().add(reset);
 
@@ -454,7 +454,7 @@ public class PathFinderWidget {
             } else if (!timer.isRunning()) {
                 optimalPathCheckBox.setEnabled(false);
                 diagonalBox.setEnabled(false);
-                algorithmSwitcher.setEnabled(false);
+                heuristicSwitch.setEnabled(false);
                 diagonalBox.setEnabled(false);
                 deleteWallsCheckBox.setEnabled(false);
                 showStepsBox.setEnabled(false);
@@ -476,22 +476,18 @@ public class PathFinderWidget {
         });
         pathFindingFrame.getContentPane().add(startButton);
 
-        algorithmField = new CyderTextField(0);
-        algorithmField.setFocusable(false);
-        algorithmField.setBounds(410,990, 140, 40);
-        algorithmField.setEditable(false);
-        pathFindingFrame.getContentPane().add(algorithmField);
-        algorithmField.setText(algorithms[algorithmIndex]);
+        heuristicSwitch = new CyderSwitch(170,50);
+        heuristicSwitch.setBounds(410, 990, 170, 50);
+        heuristicSwitch.setButtonPercent(50);
+        heuristicSwitch.setState(CyderSwitch.State.OFF);
+        pathFindingFrame.getContentPane().add(heuristicSwitch);
 
-        algorithmSwitcher = new CyderButton("▼");
-        algorithmSwitcher.setBounds(410 + 130,990,40,40);
-        pathFindingFrame.getContentPane().add(algorithmSwitcher);
-        algorithmSwitcher.addActionListener(e -> {
-            algorithmIndex++;
-            if (algorithmIndex == algorithms.length)
-                algorithmIndex = 0;
-
-            algorithmField.setText(algorithms[algorithmIndex]);
+        heuristicSwitch.getSwitchButton().addActionListener(e -> {
+            if (heuristicIndex == 1) {
+                heuristicIndex = 0;
+            } else {
+                heuristicIndex = 1;
+            }
         });
 
         speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
@@ -675,7 +671,7 @@ public class PathFinderWidget {
         optimalPathCheckBox.setEnabled(true);
         showStepsBox.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
-        algorithmSwitcher.setEnabled(true);
+        heuristicSwitch.setEnabled(true);
         paused = false;
 
         pathText = "PATH FOUND";
@@ -705,7 +701,7 @@ public class PathFinderWidget {
         diagonalBox.setEnabled(true);
         optimalPathCheckBox.setEnabled(true);
         showStepsBox.setEnabled(true);
-        algorithmSwitcher.setEnabled(true);
+        heuristicSwitch.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
         paused = false;
 
@@ -733,7 +729,7 @@ public class PathFinderWidget {
 
     //distance from node to end
     private static double heuristic(Node n) {
-        if (algorithmIndex == 0) {
+        if (heuristicIndex == 0) {
             return manhattanDistance(n, end);
         } else {
             return euclideanDistance(n, end);
