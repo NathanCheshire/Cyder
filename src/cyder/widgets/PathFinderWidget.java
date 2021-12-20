@@ -71,8 +71,8 @@ public class PathFinderWidget {
         pathText = "";
         paused = false;
 
-        pathFindingFrame = new CyderFrame(1000,1060, CyderImages.defaultBackgroundLarge);
-        pathFindingFrame.setTitle("Path finding visualizer");
+        pathFindingFrame = new CyderFrame(1000,1000, CyderImages.defaultBackgroundLarge);
+        pathFindingFrame.setTitle("A* visualizer");
 
         gridLabel = new JLabel() {
             @Override
@@ -419,7 +419,7 @@ public class PathFinderWidget {
         pathFindingFrame.getContentPane().add(diagonalBox);
 
         reset = new CyderButton("Reset");
-        reset.setBounds(410,890, 170, 40);
+        reset.setBounds(400,890, 170, 40);
         reset.addActionListener(e -> {
             timer.stop();
             startButton.setText("Start");
@@ -447,7 +447,7 @@ public class PathFinderWidget {
         pathFindingFrame.getContentPane().add(reset);
 
         startButton = new CyderButton("Start");
-        startButton.setBounds(410,940, 170, 40);
+        startButton.setBounds(400,940, 170, 40);
         startButton.addActionListener(e -> {
             if (start == null || end == null) {
                 pathFindingFrame.notify("Start/end nodes not set");
@@ -476,8 +476,11 @@ public class PathFinderWidget {
         });
         pathFindingFrame.getContentPane().add(startButton);
 
-        heuristicSwitch = new CyderSwitch(170,50);
-        heuristicSwitch.setBounds(410, 990, 170, 50);
+        heuristicSwitch = new CyderSwitch(290,50);
+        heuristicSwitch.setOffText("Manhattan");
+        heuristicSwitch.setOnText("Euclidean");
+        heuristicSwitch.setToolTipText("A* Heuristic");
+        heuristicSwitch.setBounds(600, 930, 290, 50);
         heuristicSwitch.setButtonPercent(50);
         heuristicSwitch.setState(CyderSwitch.State.OFF);
         pathFindingFrame.getContentPane().add(heuristicSwitch);
@@ -490,7 +493,7 @@ public class PathFinderWidget {
             }
         });
 
-        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
         UI.setSliderShape(SliderShape.RECT);
@@ -500,11 +503,11 @@ public class PathFinderWidget {
         UI.setOldValColor(CyderColors.intellijPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         speedSlider.setUI(UI);
-        speedSlider.setBounds(600, 925, 290, 40);
+        speedSlider.setBounds(600, 880, 290, 40);
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
-        speedSlider.setValue(50);
+        speedSlider.setValue(10);
         speedSlider.addChangeListener(e -> {
             timeoutMS = (int) (maxTimeoutMs *
                     ((double) speedSlider.getValue() /  (double) speedSlider.getMaximum()));
