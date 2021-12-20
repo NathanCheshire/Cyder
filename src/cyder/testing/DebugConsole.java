@@ -128,6 +128,47 @@ public class DebugConsole {
         try {
             CyderFrame testFrame = CyderFrame.getBorderlessFrame(600,600);
             testFrame.setTitle("Cyder Splash");
+
+            new Thread(() -> {
+                try {
+                    JLabel cBlock = new JLabel() {
+                        @Override
+                        public void paintComponent(Graphics g) {
+                            g.setColor(CyderColors.vanila);
+                            g.fillRect(0,0, 150, 150);
+                            g.setColor(CyderColors.navy);
+                            g.fillRect(25,25,125,100);
+                        }
+                    };
+                    cBlock.setBounds(20,600 / 2 - 150 / 2, 150, 150);
+                    testFrame.getContentPane().add(cBlock);
+
+                    JLabel yBlock = new JLabel() {
+                        @Override
+                        public void paintComponent(Graphics g) {
+                            g.setColor(CyderColors.vanila);
+                            g.fillRect(125,0,25,150);
+                            g.fillRect(0, 150 / 2 - 25 / 2, 150, 25);
+                        }
+                    };
+                    yBlock.setBounds(600 - 150 - 20,600 / 2 - 150 / 2, 150, 150);
+                    testFrame.getContentPane().add(yBlock);
+
+                    while (cBlock.getX() < 600 / 2 - cBlock.getWidth() / 2 - 25) {
+                        cBlock.setLocation(cBlock.getX() + 5, cBlock.getY());
+                        yBlock.setLocation(yBlock.getX() - 5, yBlock.getY());
+                        Thread.sleep(15);
+                    }
+
+                    //animate in C and Y from opposite ends
+                    //then box in with a blue border
+                    // then animate in Cyder on top
+                    // and by nathan cheshire on the bottom
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
+                }
+            }).start();
+
             testFrame.setVisible(true);
             testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         } catch (Exception e) {

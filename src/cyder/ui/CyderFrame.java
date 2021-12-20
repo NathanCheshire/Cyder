@@ -218,8 +218,6 @@ public class CyderFrame extends JFrame {
         if (!borderlessID.equals("BORDERLESS"))
             throw new IllegalArgumentException("Incorrect ID");
 
-        //todo add checks for this in repaint and such
-
         this.width = width;
         this.height = height;
 
@@ -229,11 +227,6 @@ public class CyderFrame extends JFrame {
         setUndecorated(true);
         setBackground(CyderColors.navy);
         setIconImage(SystemUtil.getCyderIcon().getImage());
-
-
-        setShape(new RoundRectangle2D.Double(0, 0,
-                getWidth(), getHeight(), 20, 20));
-
 
         //listener to ensure the close button was always pressed which ensures
         // things like closeAnimation are always performed

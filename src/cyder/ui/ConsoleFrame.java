@@ -1045,7 +1045,8 @@ public final class ConsoleFrame {
                         }
                     }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                //sometimes this throws for no reason trying to get times or something so log quietly
+                ErrorHandler.silentHandle(e);
             }
         }, "Console Clock Updater");
         consoleClockUpdaterThread.start();
