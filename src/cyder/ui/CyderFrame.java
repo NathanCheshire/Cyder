@@ -38,7 +38,7 @@ public class CyderFrame extends JFrame {
     public enum FrameType {
         DEFAULT,
         INPUT_GETTER,
-        POPUP
+        POPUP,
     }
 
     private FrameType frameType = FrameType.DEFAULT;
@@ -211,6 +211,83 @@ public class CyderFrame extends JFrame {
 
         //frame type handling
         setFrameType(this.frameType);
+    }
+
+    //bordreless frame type
+    private CyderFrame(String borderlessID, int width, int height) {
+        if (!borderlessID.equals("BORDERLESS"))
+            throw new IllegalArgumentException("Incorrect ID");
+
+        //todo add checks for this in repaint and such
+
+        this.width = width;
+        this.height = height;
+
+        //this . methods
+        setSize(new Dimension(width, height));
+        setResizable(false);
+        setUndecorated(true);
+        setBackground(CyderColors.navy);
+        setIconImage(SystemUtil.getCyderIcon().getImage());
+
+
+        setShape(new RoundRectangle2D.Double(0, 0,
+                getWidth(), getHeight(), 20, 20));
+
+
+        //listener to ensure the close button was always pressed which ensures
+        // things like closeAnimation are always performed
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+
+        //master contentlabel
+        contentLabel = new JLayeredPane() {
+            @Override
+            public Component add(Component comp, int index) {
+                if (index == JLayeredPane.DRAG_LAYER) {
+                    return super.add(comp, index);
+                } else if (index == JLayeredPane.POPUP_LAYER) {
+                    return super.add(comp, index);
+                }
+
+                return super.add(comp, 0);
+            }
+        };
+        contentLabel.setFocusable(false);
+
+        //adding pane (getContentPane().add(component))
+        iconLabel = new JLabel() {
+            @Override
+            public void repaint() {
+                //as long as we should repaint, repaint it
+                if (!disableContentRepainting) {
+                    super.repaint();
+                }
+            }
+        };
+        iconLabel.setIcon(background);
+        iconLabel.setBounds(frameResizingLen,frameResizingLen,
+                width - 2 * frameResizingLen,height - 2 * frameResizingLen);
+        iconLabel.setFocusable(false);
+
+        iconPane = new JLayeredPane();
+        iconPane.setBounds(frameResizingLen,frameResizingLen,
+                width - 2 * frameResizingLen, height - 2 * frameResizingLen);
+        iconPane.add(iconLabel,JLayeredPane.DEFAULT_LAYER);
+        iconPane.setFocusable(false);
+        contentLabel.add(iconPane,JLayeredPane.DEFAULT_LAYER);
+
+        contentLabel.setBorder(new LineBorder(Color.black, 3, false));
+        setContentPane(contentLabel);
+
+        //contentLabel drag listener for frame moving around
+
+        //default boolean values
+        this.threadsKilled = false;
     }
 
     @Override
@@ -410,6 +487,8 @@ public class CyderFrame extends JFrame {
                 //remove pin
                 topDrag.removeButton(1);
                 break;
+            default:
+                throw new IllegalStateException("Unimplemented state");
         }
     }
 
@@ -1372,6 +1451,17 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void repaint() {
+        if (topDrag == null) {
+            //update content panes
+            getContentPane().repaint();
+            getTrueContentPane().repaint();
+
+            //finally super call
+            super.repaint();
+
+            return;
+        }
+
         //fix shape
         if (cr == null) {
             if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
@@ -1681,6 +1771,14 @@ public class CyderFrame extends JFrame {
         if (b && !ConsoleFrame.getConsoleFrame().isClosed() && this != ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()) {
             ConsoleFrame.getConsoleFrame().addTaskbarIcon(this);
         }
+    }
+
+    /**
+     * Makes a borderless frame with no drag labels, the content label itself can move the frame.
+     * This frame, however, can never exist as any other state,
+     */
+    public static CyderFrame getBorderlessFrame(int width, int height) {
+        return new CyderFrame("BORDERLESS", width, height);
     }
 
     //inner classes

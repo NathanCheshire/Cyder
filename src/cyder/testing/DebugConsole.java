@@ -1,6 +1,7 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
+import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
@@ -125,7 +126,10 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
-
+            CyderFrame testFrame = CyderFrame.getBorderlessFrame(600,600);
+            testFrame.setTitle("Cyder Splash");
+            testFrame.setVisible(true);
+            testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
