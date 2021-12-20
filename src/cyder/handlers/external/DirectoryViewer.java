@@ -41,7 +41,10 @@ public class DirectoryViewer {
             + SystemUtil.getWindowsUsername() + "\\Downloads");
 
     //private constructor since static
-    private DirectoryViewer() {}
+    private DirectoryViewer() {
+        //todo all private constructors should throw this, also make this a message in cyderStrings or something
+        throw new IllegalStateException("States are not available for static classes");
+    }
 
     //as per standard, method
     public static void showGUI() {

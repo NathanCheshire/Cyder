@@ -437,6 +437,7 @@ public class AudioPlayer {
         });
 
         audioFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        audioFrame.addPreCloseAction(AudioPlayer::stopAudio); //todo this did not work to allow a file to be renamed upon closing the frame
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 
