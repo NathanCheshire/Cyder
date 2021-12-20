@@ -437,7 +437,11 @@ public class AudioPlayer {
         });
 
         audioFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
-        audioFrame.addPreCloseAction(AudioPlayer::stopAudio); //todo this did not work to allow a file to be renamed upon closing the frame
+        audioFrame.addPreCloseAction(() -> {
+            stopAudio();
+            audioFiles = null;
+            audioIndex = -1;
+        });
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 
@@ -735,6 +739,7 @@ public class AudioPlayer {
     public static void startAudio() {
         new Thread(() -> {
             try {
+                refreshAudioFiles(null);
                 refreshAudio();
                 fis = new FileInputStream(audioFiles.get(audioIndex));
                 bis = new BufferedInputStream(fis);
@@ -842,6 +847,7 @@ public class AudioPlayer {
             lastAction = LastAction.RESUME;
             new Thread(() -> {
                 try {
+                    refreshAudioFiles(null);
                     refreshAudio();
                     fis = new FileInputStream(audioFiles.get(audioIndex));
                     totalLength = fis.available();
@@ -1146,10 +1152,9 @@ public class AudioPlayer {
     }
 
     public static File getCurrentAudio() {
-        if (audioFiles == null)
+        if (audioFiles == null || lastAction == LastAction.STOP)
             return null;
-        else
-            return audioFiles.get(audioIndex);
+        else return audioFiles.get(audioIndex);
     }
 
     /**

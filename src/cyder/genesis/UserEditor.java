@@ -305,8 +305,7 @@ public class UserEditor {
 
                     if ((AudioPlayer.getCurrentAudio() != null
                             && selectedFile.getAbsoluteFile().toString().equals(AudioPlayer.getCurrentAudio().getAbsoluteFile().toString())) ||
-                            selectedFile.getAbsoluteFile().toString().equals(ConsoleFrame.getConsoleFrame()
-                                    .getCurrentBackgroundFile().getAbsoluteFile().toString())) {
+                            selectedFile.getAbsoluteFile().toString().equals(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
                         String oldname = StringUtil.getFilename(selectedFile);

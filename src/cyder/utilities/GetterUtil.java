@@ -228,6 +228,10 @@ public class GetterUtil {
 
     private CyderFrame relativeFrame = null;
 
+    /**
+     * Any frames shown through this class are set relative to the {@code relativeFrame}
+     * @param relativeFrame the frame to set other frames relative to
+     */
     public void setRelativeFrame(CyderFrame relativeFrame) {
         this.relativeFrame = relativeFrame;
     }

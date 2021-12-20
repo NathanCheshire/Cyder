@@ -3,6 +3,7 @@ package cyder.handlers.external;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -42,8 +43,8 @@ public class DirectoryViewer {
 
     //private constructor since static
     private DirectoryViewer() {
-        //todo all private constructors should throw this, also make this a message in cyderStrings or something
-        throw new IllegalStateException("States are not available for static classes");
+        //todo all private constructors should throw this
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
     //as per standard, method
