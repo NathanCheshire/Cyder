@@ -910,6 +910,10 @@ public final class ConsoleFrame {
             //spin off console executors
             startExecutors();
 
+            //close all frames just before showing console
+            for (Frame f : Frame.getFrames())
+                f.dispose();
+
             //show frame
             consoleCyderFrame.setVisible(true);
 

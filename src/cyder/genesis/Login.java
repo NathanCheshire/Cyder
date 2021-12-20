@@ -348,10 +348,6 @@ public class Login {
                     ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
                 }
 
-                //close all frames
-                for (Frame f : Frame.getFrames())
-                    f.dispose();
-
                 //open the console frame
                 ConsoleFrame.getConsoleFrame().start();
 
