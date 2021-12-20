@@ -493,7 +493,7 @@ public class PathFinderWidget {
             }
         });
 
-        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
+        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 50);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
         UI.setSliderShape(SliderShape.RECT);
@@ -507,7 +507,11 @@ public class PathFinderWidget {
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
-        speedSlider.setValue(10);
+
+        speedSlider.setValue(50);
+        timeoutMS = (int) (maxTimeoutMs *
+                ((double) speedSlider.getValue() /  (double) speedSlider.getMaximum()));
+
         speedSlider.addChangeListener(e -> {
             timeoutMS = (int) (maxTimeoutMs *
                     ((double) speedSlider.getValue() /  (double) speedSlider.getMaximum()));
