@@ -798,7 +798,7 @@ public class CyderFrame extends JFrame {
     }
 
     //frames for animations such as dispose and minimize
-    private double animationFrames = 15.0;
+    private static final double animationFrames = 15.0;
 
     /**
      * Moves the window down until it is off screen before setting the state to ICONIFIED.

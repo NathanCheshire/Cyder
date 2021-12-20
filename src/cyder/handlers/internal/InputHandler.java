@@ -43,6 +43,16 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
+//todo renaming a music file after closing the audio player doesn't work, fix
+//todo use cyder slide for A* heuristic and rename path finding widget to A* specifically
+//todo work on Startup animation to be drawn on the login Frame before borders and fields are shown
+// make that an option for a frame ot not paint draw labels and such and just be a content pane
+// this should be an option along with the other 3 there such as regular, popup, etc.
+
+//todo download youtube thumbnail to Music/AlbumArt with the same name but .png instead of .mp3
+
+//todo draw class and sequence diagram for messaging service, think about Tox protocol, add a diagrams folder
+
 public class InputHandler {
     private JTextPane outputArea;
     private MasterYoutubeThread masterYoutubeThread;
