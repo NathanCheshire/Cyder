@@ -58,7 +58,12 @@ public class Cyder {
         if (SecurityUtil.nathanLenovo())  {
             if (IOUtil.getSystemData().isAutocypher()) {
                 SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
-                Login.autoCypher();
+                boolean ret = Login.autoCypher();
+
+                if (!ret) {
+                    SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
+                    Login.showGUI();
+                }
             } else {
                 Login.showGUI();
             }

@@ -389,7 +389,9 @@ public class Login {
      * Used for debugging, automatically logs the developer in if their account exists,
      * otherwise the program continues as normal
      */
-    public static void autoCypher() {
+    public static boolean autoCypher() {
+        boolean ret = false;
+
         try {
             LinkedList<SystemData.Hash> cypherHashes = IOUtil.getSystemData().getCypherhashes();
             autoCypherAttempt = true;
@@ -397,12 +399,16 @@ public class Login {
             //for all cypher hashes, attempt to log in using one
             for (SystemData.Hash hash : cypherHashes) {
                 //if the login works, stop trying hashes
-                if (recognize(hash.getName(), hash.getHashpass()))
+                if (recognize(hash.getName(), hash.getHashpass())) {
+                    ret = true;
                     break;
+                }
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
-            showGUI();
+            ret = false;
+        } finally {
+            return ret;
         }
     }
 

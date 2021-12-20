@@ -45,9 +45,7 @@ public final class ConsoleFrame {
         return consoleFrameInstance;
     }
 
-    private ConsoleFrame() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    } //no instantiation this way
+    private ConsoleFrame() {} //no instantiation this way
 
     //program driver
     private String UUID = null;
@@ -172,6 +170,7 @@ public final class ConsoleFrame {
                         getCurrentBackgroundFile().toString(),getConsoleDirection()));
             }
 
+            //anonymous class
             consoleCyderFrame = new CyderFrame(w, h, usage) {
                 @Override
                 public void setBounds(int x, int y, int w, int h) {

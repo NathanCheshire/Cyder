@@ -626,7 +626,6 @@ public class PathFinderWidget {
             Node min = open.poll();
             open.remove(min);
 
-            //todo optimal doesn't work yet
             if (min.equals(end) && optimalPath) {
                 end.setParent(min.getParent());
             } else if (min.equals(end)) {
