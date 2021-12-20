@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.PopupHandler;
 import cyder.ui.*;
@@ -20,7 +21,9 @@ public class HashingWidget {
     private ArrayList<String> algorithms = new ArrayList<>();
 
     //empty constructor
-    public HashingWidget() {}
+    public HashingWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public void showGUI() {
         algorithms.add("SHA-256");

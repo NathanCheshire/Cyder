@@ -5,6 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.testing.DebugConsole;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -17,7 +18,9 @@ import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GetterUtil {
-    public GetterUtil() {}
+    public GetterUtil() {
+        DebugConsole.println("Object instantiated: " + this);
+    }
     //instantiation does nothing but we still want to allow object creation for multiple instances
     //should we require multiple string/file getteres at the same time.
 

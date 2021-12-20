@@ -43,7 +43,6 @@ public class DirectoryViewer {
 
     //private constructor since static
     private DirectoryViewer() {
-        //todo all private constructors should throw this
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 

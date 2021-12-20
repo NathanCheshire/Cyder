@@ -2,6 +2,7 @@ package cyder.widgets;
 
 
 import cyder.annotations.Widget;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.User;
 import cyder.ui.CyderFrame;
@@ -20,7 +21,9 @@ public class MinecraftWidget {
     private static JLabel hamLabel;
     private static JLabel blockLabel;
 
-    private MinecraftWidget() {}
+    private MinecraftWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     @Widget("minecraft")
     public static void showGUI() {

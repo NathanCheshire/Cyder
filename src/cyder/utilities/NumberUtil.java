@@ -3,6 +3,7 @@ package cyder.utilities;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -18,7 +19,9 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class NumberUtil {
-    private NumberUtil() {} //private constructor to avoid object creation
+    private NumberUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     private static CyderFrame numFrame;
 

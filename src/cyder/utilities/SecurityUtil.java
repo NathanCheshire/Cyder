@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 
 import java.math.BigInteger;
@@ -13,7 +14,9 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public class SecurityUtil {
-    private SecurityUtil() {} //private constructor to avoid object creation
+    private SecurityUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    } //private constructor to avoid object creation
 
     public static String getMACAddress() {
         byte[] MAC = null;

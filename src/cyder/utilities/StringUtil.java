@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import org.jsoup.Jsoup;
@@ -27,7 +28,9 @@ public class StringUtil {
         outputArea.setParagraphAttributes(attribs, true);
     }
 
-    private StringUtil() {} //no instantiation without jtextpane object
+    private StringUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    } //no instantiation without jtextpane object
 
     //StringUtil can only be instantiated if a valid JTextPane is provided
     public StringUtil(JTextPane outputArea) {

@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderStrings;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -293,7 +294,9 @@ public class BoundsUtil {
             this.text = text;
         }
 
-        public BoundsString() {}
+        public BoundsString() {
+            throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        }
 
         public int getWidth() {
             return width;

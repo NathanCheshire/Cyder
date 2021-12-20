@@ -1,5 +1,6 @@
 package cyder.handlers.internal;
 
+import cyder.consts.CyderStrings;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.IOUtil.SystemData;
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class SessionHandler {
-    private SessionHandler() {}
+    private SessionHandler() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     private static File currentLog;
     private static long start;

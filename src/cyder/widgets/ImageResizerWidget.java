@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
@@ -36,7 +37,9 @@ public class ImageResizerWidget {
     private static boolean leftLastEdited;
     private static boolean maintainAspectRatio = true;
 
-    private ImageResizerWidget() {}
+    private ImageResizerWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     @Widget("resize pictures")
     public static void showGUI() {

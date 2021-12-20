@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -16,7 +17,9 @@ public class PhoneWidget {
     private static JLabel numberLabel;
     private static String phoneNum;
 
-    private PhoneWidget() {}
+    private PhoneWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     @Widget("phone")
     public static void showGUI() {

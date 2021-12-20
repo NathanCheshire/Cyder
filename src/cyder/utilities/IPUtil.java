@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 
@@ -12,7 +13,9 @@ import java.net.URL;
 import java.util.LinkedList;
 
 public class IPUtil {
-    private IPUtil() {}
+    private IPUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     private static IPData ipdata;
     private static boolean fetched = false;

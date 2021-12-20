@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
@@ -27,7 +28,9 @@ public class ImagePixelatorWidget {
     private static JLabel previewLabel;
     private static CyderTextField integerField;
 
-    private ImagePixelatorWidget() {}
+    private ImagePixelatorWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public static void showGUI(File startPNG) {
         CyderFrame pixelFrame = new CyderFrame(800,800, CyderImages.defaultBackground);

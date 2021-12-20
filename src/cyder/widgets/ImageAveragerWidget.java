@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
@@ -33,7 +34,9 @@ public class ImageAveragerWidget {
     private static CyderFrame cf;
     private static JLabel imageScrollLabelHolder;
 
-    private ImageAveragerWidget() {}
+    private ImageAveragerWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public static void showGUI() {
         files = new LinkedList<>();

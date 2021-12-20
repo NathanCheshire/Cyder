@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
@@ -40,7 +41,9 @@ public class NotesWidget {
 
     private static LinkedList<CyderFrame> noteFrames;
 
-    private NotesWidget() {} //no objects
+    private NotesWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    } //no objects
 
     @Widget("note")
     public static void showGUI() {

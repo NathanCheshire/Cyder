@@ -3,6 +3,7 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
@@ -57,7 +58,9 @@ public class UserEditor {
     private static JLabel switchingLabel;
     private static int prefsPanelIndex;
 
-    private UserEditor() {}
+    private UserEditor() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public static void showGUI(int startingIndex) {
         if (editUserFrame != null)

@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
@@ -21,7 +22,9 @@ public class FileSignatureWidget {
     private static CyderTextField signatureField;
     private static CyderLabel resultLabel;
 
-    private FileSignatureWidget() {}
+    private FileSignatureWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public static void showGUI() {
         signatureFrame = new CyderFrame(400,420, CyderImages.defaultBackground);

@@ -3,6 +3,7 @@ package cyder.games;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderButton;
@@ -30,7 +31,9 @@ public class HangmanGame {
     private static int HangmanWrongGuesses = 1;
     private static String chosenLetters = "";
 
-    private HangmanGame() {}
+    private HangmanGame() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public static void showGUI() {
         if (HangmanFrame != null)

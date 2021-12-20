@@ -2,13 +2,16 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderStrings;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
 
 public class CyderConstrainedLabel extends JLabel {
-    private CyderConstrainedLabel() {}
+    private CyderConstrainedLabel() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public CyderConstrainedLabel(String text) {
         super(text);

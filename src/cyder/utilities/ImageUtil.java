@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -20,7 +21,9 @@ import java.util.Map;
 
 public class ImageUtil {
 
-    private ImageUtil() {} //private constructor to avoid object creation
+    private ImageUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     private static CyderFrame pixelFrame;
 

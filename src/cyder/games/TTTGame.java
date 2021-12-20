@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderButton;
@@ -34,7 +35,9 @@ public class TTTGame {
 
     private static JLabel tttLabel;
 
-    private TTTGame() {}
+    private TTTGame() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public static void showGUI() {
         if (tttFrame != null)

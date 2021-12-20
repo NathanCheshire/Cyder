@@ -6,6 +6,7 @@ import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.threads.CyderThreadFactory;
@@ -24,7 +25,9 @@ import java.util.concurrent.Future;
 
 public class YoutubeUtil {
 
-    private YoutubeUtil() {}
+    private YoutubeUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     private static ExecutorService executor = Executors.newSingleThreadExecutor(
             new CyderThreadFactory("Youtube Audio Extractor"));

@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -17,7 +18,9 @@ import java.awt.*;
 public class CalculatorWidget {
     private static String calculatorExpression = "";
 
-    private CalculatorWidget() {}
+    private CalculatorWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
     
     public static void showGUI() {
         calculatorExpression = "";

@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
 
@@ -9,7 +10,9 @@ import java.awt.*;
 public class AnimationUtil {
 
     //private constructor to avoid object creation
-    private AnimationUtil() {}
+    private AnimationUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     /**
      * Moves the specified frame object up until it is no longer visible then invokes dispose

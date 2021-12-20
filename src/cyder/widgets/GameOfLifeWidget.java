@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderButton;
@@ -30,7 +31,9 @@ public class GameOfLifeWidget {
     private static int populationCount = 0;
     private static int maxPopulation = 0;
 
-    private GameOfLifeWidget() {}
+    private GameOfLifeWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public static void showGUI() {
         grid = new int[45][45];

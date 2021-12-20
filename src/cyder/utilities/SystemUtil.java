@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 
 import javax.swing.*;
@@ -11,7 +12,9 @@ import java.util.ArrayList;
 
 public class SystemUtil {
 
-    private SystemUtil () {}
+    private SystemUtil () {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     private static ImageIcon cyderIcon = new ImageIcon("static/pictures/CyderIcon.png");
     private static ImageIcon cyderIconBlink = new ImageIcon("static/pictures/CyderIconBlink.png");

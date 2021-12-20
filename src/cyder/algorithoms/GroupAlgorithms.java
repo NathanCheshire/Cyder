@@ -1,8 +1,12 @@
 package cyder.algorithoms;
 
+import cyder.consts.CyderStrings;
+
 public class GroupAlgorithms {
 
-    private GroupAlgorithms() {} //no instantiation
+    private GroupAlgorithms() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    } //no instantiation
 
     public static int gcd(int a, int b) {
         if (a < b)

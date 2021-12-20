@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.consts.CyderColors;
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 
 import javax.swing.*;
@@ -8,7 +9,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class ColorUtil {
-    private ColorUtil() {} //private constructor to avoid object creation
+    private ColorUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    } //private constructor to avoid object creation
 
     public static Color hextorgbColor(String hex) {
         if (hex.length() < 6) {

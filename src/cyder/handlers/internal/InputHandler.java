@@ -3,6 +3,7 @@ package cyder.handlers.internal;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderStrings;
 import cyder.enums.ScreenPosition;
 import cyder.games.HangmanGame;
 import cyder.games.TTTGame;
@@ -43,7 +44,6 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
-//todo renaming a music file after closing the audio player doesn't work, fix
 //todo use cyder slide for A* heuristic and rename path finding widget to A* specifically
 //todo work on Startup animation to be drawn on the login Frame before borders and fields are shown
 // make that an option for a frame ot not paint draw labels and such and just be a content pane
@@ -63,7 +63,9 @@ public class InputHandler {
     private String operation;
     private UserEditor userEditor;
 
-    private InputHandler() {} //no instantiation without a valid JTextPane to use
+    private InputHandler() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public InputHandler(JTextPane outputArea) {
         this.outputArea = outputArea;

@@ -1,5 +1,6 @@
 package cyder.genesis;
 
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.threads.CyderThreadFactory;
@@ -15,7 +16,9 @@ import java.util.concurrent.Semaphore;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class GenesisShare {
-    private GenesisShare() {}
+    private GenesisShare() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     private static Semaphore exitingSem = new Semaphore(1);
     private static Semaphore printingSem = new Semaphore(1);

@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
 
@@ -15,7 +16,9 @@ import java.util.Scanner;
 
 public class NetworkUtil {
 
-    private NetworkUtil() {} //private constructor to avoid object creation
+    private NetworkUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    } //private constructor to avoid object creation
 
     public static void internetConnect(String URL) {
         Desktop Internet = Desktop.getDesktop();

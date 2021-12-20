@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.*;
 
@@ -40,7 +41,9 @@ public class PizzaWidget {
     private static CyderButton placeOrder;
     private static CyderButton resetValues;
 
-    private PizzaWidget() {}
+    private PizzaWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     @Widget("pizza")
     public static void showGUI() {

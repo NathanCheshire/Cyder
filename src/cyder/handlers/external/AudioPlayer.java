@@ -3,6 +3,7 @@ package cyder.handlers.external;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
@@ -76,7 +77,9 @@ public class AudioPlayer {
     private static long pauseLocation;
     private static long totalLength;
 
-    private AudioPlayer() {} // no objects
+    private AudioPlayer() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    } // no objects
 
     /**
      * Constructor that launches the AudioPlayer

@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.gson.Gson;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.Login;
 import cyder.handlers.external.PhotoViewer;
@@ -26,7 +27,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class IOUtil {
-    private IOUtil() {} //private constructor to avoid object creation
+    private IOUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    } //private constructor to avoid object creation
 
     private static Player player;
 
