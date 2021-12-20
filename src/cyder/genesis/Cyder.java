@@ -54,6 +54,9 @@ public class Cyder {
         //start exiting failsafe
         CyderSetup.initFrameChecker();
 
+        //launch splash screen
+        CyderSplash.showSplash();
+
         //figure out how to enter program
         if (SecurityUtil.nathanLenovo())  {
             if (IOUtil.getSystemData().isAutocypher()) {

@@ -1449,6 +1449,9 @@ public class CyderFrame extends JFrame {
     }
     
     public void disableDragging() {
+        if (topDrag == null)
+            return;
+
         getTopDragLabel().disableDragging();
         getBottomDragLabel().disableDragging();
         getRightDragLabel().disableDragging();
