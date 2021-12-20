@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -91,9 +90,7 @@ public class WeatherWidget {
     private boolean GMTset;
 
     //nothing on constructor
-    public WeatherWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    }
+    public WeatherWidget() {}
 
     //show gui method as per standard
     @Widget("weather")

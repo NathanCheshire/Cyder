@@ -44,9 +44,7 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
-//todo work on Startup animation to be drawn on the login Frame before borders and fields are shown
-// make that an option for a frame ot not paint draw labels and such and just be a content pane
-// this should be an option along with the other 3 there such as regular, popup, etc.
+//todo double check all constructors you added a throw to
 
 //todo download youtube thumbnail to Music/AlbumArt with the same name but .png instead of .mp3
 

@@ -4,21 +4,20 @@ import cyder.algorithoms.GeometryAlgorithms;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.Login;
-import cyder.genesis.UserEditor;
 import cyder.genesis.User;
+import cyder.genesis.UserEditor;
+import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.InputHandler;
+import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.testing.DebugConsole;
 import cyder.utilities.*;
-import cyder.handlers.external.AudioPlayer;
-import cyder.handlers.internal.PopupHandler;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -772,6 +771,7 @@ public final class ConsoleFrame {
                     if (canSwitchBackground()) {
                         switchBackground();
                     }  else if (getBackgrounds().size() == 1) {
+                        System.out.println("here");
                         consoleCyderFrame.notify("You only have one background image. " +
                                 "Try adding more via the user editor", 5000, NotificationDirection.TOP, () -> UserEditor.showGUI(0));
                     }
@@ -916,6 +916,7 @@ public final class ConsoleFrame {
 
             //show frame
             consoleCyderFrame.setVisible(true);
+            consoleCyderFrame.enableDragging();
 
             //position window from last location if in bounds
             int x = Integer.parseInt(UserUtil.getUserData("windowlocx"));
