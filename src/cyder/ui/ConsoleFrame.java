@@ -7,10 +7,7 @@ import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
-import cyder.genesis.GenesisShare;
-import cyder.genesis.Login;
-import cyder.genesis.User;
-import cyder.genesis.UserEditor;
+import cyder.genesis.*;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.InputHandler;
@@ -911,14 +908,23 @@ public final class ConsoleFrame {
 
             //close all frames just before showing console
             for (Frame f : Frame.getFrames()) {
-                if (f != consoleCyderFrame)
-                    f.dispose();
+                if (f != consoleCyderFrame) {
+                    if (f == CyderSplash.getSplashFrame()) {
+                        ((CyderFrame) f).dispose(true);
+                    } else {
+                        f.dispose();
+                    }
+                }
             }
 
-            //show frame and inform how long it took to load
+            //show frame
             consoleCyderFrame.setVisible(true);
+
+            //inform and log how long it took to load Console from program start
             GenesisShare.setConsoleStartTime(System.currentTimeMillis());
-            notify("Console loaded in: " + (GenesisShare.getConsoleStartTime() - GenesisShare.getAbsoluteStartTime()) + "ms");
+            String logString = "Console loaded in " + (GenesisShare.getConsoleStartTime() - GenesisShare.getAbsoluteStartTime()) + "ms";
+            SessionHandler.log(SessionHandler.Tag.ACTION, logString);
+            inputHandler.println(logString);
 
             //position window from last location if in bounds
             int x = Integer.parseInt(UserUtil.getUserData("windowlocx"));

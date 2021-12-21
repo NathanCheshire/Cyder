@@ -10,6 +10,7 @@ import java.awt.*;
 
 public class CyderSplash {
     private static boolean splashShown = false;
+    private static CyderFrame splashFrame;
 
     public static void showSplash() {
         if (splashShown)
@@ -19,7 +20,7 @@ public class CyderSplash {
 
         new Thread(() -> {
             try {
-                CyderFrame splashFrame = CyderFrame.getBorderlessFrame(600,600);
+                splashFrame = CyderFrame.getBorderlessFrame(600,600);
                 splashFrame.setTitle("Cyder Splash");
                 splashFrame.setAlwaysOnTop(true);
 
@@ -146,7 +147,7 @@ public class CyderSplash {
                         }
 
                         if (splashFrame.isActive()) {
-                            splashFrame.dispose();
+                            splashFrame.dispose(true);
 
                             //this has been going on for over a minute at this point if the program reaches here
                             // clearly something is wrong so exit
@@ -163,5 +164,9 @@ public class CyderSplash {
                 ErrorHandler.handle(e);
             }
         },"Splash Loader").start();
+    }
+
+    public static CyderFrame getSplashFrame() {
+        return splashFrame;
     }
 }

@@ -1875,16 +1875,6 @@ public class CyderFrame extends JFrame {
         return new CyderFrame("BORDERLESS", width, height);
     }
 
-    //overridden methods to check for disposed being set
-
-    @Override
-    public boolean isActive() {
-        if (disposed)
-            throw new IllegalStateException("Frame has been disposed");
-
-        return super.isActive();
-    }
-
     //inner classes
 
     private static class WaitingNotification {

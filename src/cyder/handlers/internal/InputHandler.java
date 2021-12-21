@@ -47,6 +47,8 @@ import java.util.concurrent.ThreadLocalRandom;
 //todo download youtube thumbnail to Music/AlbumArt with the same name but .png instead of .mp3
 // when renaming music need to rename album art too
 
+//todo frame util for disposing all frames and such
+
 public class InputHandler {
     private JTextPane outputArea;
     private MasterYoutubeThread masterYoutubeThread;

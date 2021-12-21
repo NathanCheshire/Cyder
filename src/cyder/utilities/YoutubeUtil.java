@@ -87,9 +87,6 @@ public class YoutubeUtil {
     }
 
     public static Future<File> download(String videoURL, String outputDir) {
-        BufferedImage save = getSquareThumbnail(videoURL);
-        //now save this in a place with the same name
-
         return executor.submit(() -> {
             File ret = null;
 
@@ -129,6 +126,10 @@ public class YoutubeUtil {
             } else {
                 error();
             }
+
+            BufferedImage save = getSquareThumbnail(videoURL);
+            String name = StringUtil.getFilename(ret) + ".png";
+            //save save with name name to dynamic/users/uuid/music/albumart
 
             return ret;
         });
