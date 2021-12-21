@@ -591,4 +591,18 @@ public class ImageUtil {
             return ret;
         }
     }
+
+    /**
+     * Removes a border from the image if the algorithm finds one.
+     * A typical example is a black border around an image resulting from cropping an image.
+     * @param bi the buffered image to be cropped
+     * @return the buffered image with its border stripped away if possible
+     */
+    public static BufferedImage removeBorder(BufferedImage bi) {
+        BufferedImage ret = null;
+
+
+
+        return ret;
+    }
 }

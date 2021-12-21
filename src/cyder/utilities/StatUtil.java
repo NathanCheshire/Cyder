@@ -288,6 +288,30 @@ public class StatUtil {
         return ret;
     }
 
+    public static String getTodos(File startDir) {
+        StringBuilder ret = new StringBuilder();
+
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                ret.append(getTodos(f));
+        } else if (startDir.getName().endsWith(".java")) {
+            try {
+                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
+                String line;
+
+                while ((line = lineReader.readLine()) != null)
+                    if (line.trim().toLowerCase().startsWith("//todo"))
+                        ret.append(startDir.getName()).append(": ").append(line.trim().substring(6)).append("\n");
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
+            }
+        }
+
+        return ret.toString();
+    }
+
     public static int totalTodos(File startDir) {
         int ret = 0;
 

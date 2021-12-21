@@ -45,7 +45,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 //todo when renaming music need to rename album art too if it exists
-//todo frame util for disposing all frames and such
 //todo attempt to crop borders out of image
 
 public class InputHandler {
@@ -857,6 +856,7 @@ public class InputHandler {
             escapeThreads();
         } else if (hasWord("todo") || hasWord("todos")) {
             println("Total todos: " + StatUtil.totalTodos(new File("src")));
+            println("Todos: " + StatUtil.getTodos(new File("src")));
         } else if ((hasWord("wipe") || hasWord("clear")) && hasWord("logs")) {
             if (SecurityUtil.nathanLenovo()) {
                 File[] logs = new File("logs").listFiles();
