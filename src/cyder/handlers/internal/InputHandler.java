@@ -50,6 +50,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //todo draw class and sequence diagram for messaging service, think about Tox protocol, add a diagrams folder
 
+//todo have a boolean set when a frame is disposed, if the frame is attempted to be
+// set to visible again (set it to non visible in the dispose method), then throw an exception
+
+//todo have a fast close method that performs dispose without the animation
+
 public class InputHandler {
     private JTextPane outputArea;
     private MasterYoutubeThread masterYoutubeThread;

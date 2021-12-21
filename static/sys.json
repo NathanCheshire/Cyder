@@ -58,6 +58,10 @@
       {
          "code":-78,
          "description":"Exit Code Collision"
+      },
+      {
+        "code":-100,
+         "description":"Fatal Timeout"
       }
    ],
    "ignorethreads":[
