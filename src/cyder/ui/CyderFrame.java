@@ -917,66 +917,76 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    /**
+     * Same as the regular overridden dispose method but you have the option to not animate the frame
+     * and practically dispose it immediately
+     * @param fastClose boolean describing whether or not fast close should be invoked
+     */
+    public void dispose(boolean fastClose) {
+        new Thread(() -> {
+            try {
+                if (this == null)
+                    return;
+
+                //if closing confirmation exists and the user decides they do not want to exit the frame
+                if (closingConfirmationMessage != null) {
+                    boolean exit = new GetterUtil().getConfirmation(closingConfirmationMessage, this);
+
+                    if (!exit)
+                        return;
+                }
+
+                //run all preCloseActions if any exists, this is performed after the confirmation check
+                // since now we are sure that we wish to close the frame
+                for (PreCloseAction action : preCloseActions)
+                    action.invokeAction();
+
+                if (currentNotification != null)
+                    currentNotification.kill();
+
+                //kill all threads
+                killThreads();
+
+                if (!fastClose) {
+                    //disable dragging
+                    disableDragging();
+
+                    //disable content pane REPAINTING not paint to speed up the animation
+                    disableContentRepainting = true;
+
+                    if (this != null && isVisible()) {
+                        Point point = getLocationOnScreen();
+                        int x = (int) point.getX();
+                        int y = (int) point.getY();
+
+                        //remove from consoleframe
+                        ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
+
+                        //figure out increment for frames
+                        int distanceToTravel = Math.abs(this.getY()) + Math.abs(this.getHeight());
+                        //25 frames to animate
+                        int animationInc = (int) ((double) distanceToTravel / animationFrames);
+
+                        for (int i = this.getY(); i >= -this.getHeight() ; i -= animationInc) {
+                            Thread.sleep(1);
+                            setLocation(this.getX(), i);
+                        }
+                    }
+                }
+
+                super.dispose();
+
+                for (PostCloseAction action : postCloseActions)
+                    action.invokeAction();
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        }, "frame dispose thread").start();
+    }
+
     @Override
     public void dispose() {
-        new Thread(() -> {
-              try {
-                  if (this == null)
-                      return;
-
-                  //if closing confirmation exists and the user decides they do not want to exit the frame
-                  if (closingConfirmationMessage != null) {
-                      boolean exit = new GetterUtil().getConfirmation(closingConfirmationMessage, this);
-
-                      if (!exit)
-                          return;
-                  }
-
-                  //run all preCloseActions if any exists, this is performed after the confirmation check
-                  // since now we are sure that we wish to close the frame
-                  for (PreCloseAction action : preCloseActions)
-                      action.invokeAction();
-
-                  //kill all threads
-                  killThreads();
-
-                  //disable dragging
-                  disableDragging();
-
-
-                  //disable content pane REPAINTING not paint to speed up the animation
-                  disableContentRepainting = true;
-
-                  if (this != null && isVisible()) {
-                      Point point = getLocationOnScreen();
-                      int x = (int) point.getX();
-                      int y = (int) point.getY();
-
-                      //remove from consoleframe
-                      ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
-
-                      //figure out increment for frames
-                      int distanceToTravel = Math.abs(this.getY()) + Math.abs(this.getHeight());
-                      //25 frames to animate
-                      int animationInc = (int) ((double) distanceToTravel / animationFrames);
-
-                      for (int i = this.getY(); i >= -this.getHeight() ; i -= animationInc) {
-                          Thread.sleep(1);
-                          setLocation(this.getX(), i);
-                      }
-
-                      if (currentNotification != null)
-                          currentNotification.kill();
-
-                      super.dispose();
-
-                      for (PostCloseAction action : postCloseActions)
-                          action.invokeAction();
-                  }
-              } catch (Exception e) {
-                  ErrorHandler.handle(e);
-              }
-        }, "wait thread for GetterUtil().getConfirmation()").start();
+        dispose(false);
     }
 
     /**

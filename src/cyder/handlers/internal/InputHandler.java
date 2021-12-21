@@ -53,8 +53,6 @@ import java.util.concurrent.ThreadLocalRandom;
 //todo have a boolean set when a frame is disposed, if the frame is attempted to be
 // set to visible again (set it to non visible in the dispose method), then throw an exception
 
-//todo have a fast close method that performs dispose without the animation
-
 //todo add a preference for minimize/dispose animations
 
 public class InputHandler {
