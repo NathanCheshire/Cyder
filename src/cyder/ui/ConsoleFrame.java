@@ -915,8 +915,10 @@ public final class ConsoleFrame {
                     f.dispose();
             }
 
-            //show frame
+            //show frame and inform how long it took to load
             consoleCyderFrame.setVisible(true);
+            GenesisShare.setConsoleStartTime(System.currentTimeMillis());
+            notify("Console loaded in: " + (GenesisShare.getConsoleStartTime() - GenesisShare.getAbsoluteStartTime()) + "ms");
 
             //position window from last location if in bounds
             int x = Integer.parseInt(UserUtil.getUserData("windowlocx"));

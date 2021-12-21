@@ -199,6 +199,31 @@ public class GenesisShare {
         GenesisShare.quesitonableInternet = quesitonableInternet;
     }
 
+    private static long absoluteStartTime = 0;
+    private static long consoleStartTime = 0;
+
+    public static long getAbsoluteStartTime() {
+        return absoluteStartTime;
+    }
+
+    public static void setAbsoluteStartTime(long absoluteStartTime) {
+        if (GenesisShare.absoluteStartTime != 0)
+            throw new IllegalArgumentException("Absolute Start Time already set");
+
+        GenesisShare.absoluteStartTime = absoluteStartTime;
+    }
+
+    public static long getConsoleStartTime() {
+        return consoleStartTime;
+    }
+
+    public static void setConsoleStartTime(long consoleStartTime) {
+        if (GenesisShare.consoleStartTime != 0)
+            throw new IllegalArgumentException("Console Start Time already set");
+
+        GenesisShare.consoleStartTime = consoleStartTime;
+    }
+
     //inner classes
 
     public static class Preference {

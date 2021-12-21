@@ -12,6 +12,9 @@ public class Cyder {
      *           but we shall log them regardless (just like Big Brother would want)
      */
     public static void main(String[] CA)  {
+        //set start time
+        GenesisShare.setAbsoluteStartTime(System.currentTimeMillis());
+
         //set shutdown hook
         CyderSetup.addCommonExitHook();
 
