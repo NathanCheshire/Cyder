@@ -906,15 +906,22 @@ public final class ConsoleFrame {
             //spin off console executors
             startExecutors();
 
-            //close all frames just before showing console
-            for (Frame f : Frame.getFrames()) {
-                if (f != consoleCyderFrame) {
-                    if (f == CyderSplash.getSplashFrame()) {
-                        ((CyderFrame) f).dispose(true);
-                    } else {
-                        f.dispose();
-                    }
+            //close all non-CyderFrames
+            for (Frame f : FrameUtil.getNonCyderFrames()) {
+                if (UserUtil.getUserData("closeanimation").equals("1")) {
+                    AnimationUtil.closeAnimation(f);
+                } else {
+                    f.dispose();
                 }
+            }
+
+            //close all frames just before showing console
+            for (CyderFrame f : FrameUtil.getCyderFrames()) {
+                if (f == consoleCyderFrame) {}
+                else if (f == CyderSplash.getSplashFrame())
+                    f.dispose(true);
+                else
+                    f.dispose();
             }
 
             //show frame

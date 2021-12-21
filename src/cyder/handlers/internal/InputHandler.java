@@ -45,8 +45,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 //todo when renaming music need to rename album art too if it exists
-
 //todo frame util for disposing all frames and such
+//todo attempt to crop borders out of image
 
 public class InputHandler {
     private JTextPane outputArea;
