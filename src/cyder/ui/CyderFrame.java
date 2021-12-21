@@ -305,23 +305,14 @@ public class CyderFrame extends JFrame {
 
     @Override
     public Container getContentPane() {
-        if (disposed)
-            throw new IllegalStateException("Frame has been disposed");
-
         return iconLabel;
     }
 
     public Container getIconPane() {
-        if (disposed)
-            throw new IllegalStateException("Frame has been disposed");
-
         return iconPane;
     }
 
     public Container getTrueContentPane() {
-        if (disposed)
-            throw new IllegalStateException("Frame has been disposed");
-
         return contentLabel;
     }
 
@@ -1208,9 +1199,6 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
-        if (disposed)
-            throw new IllegalStateException("Frame has been disposed");
-
         width = Math.max(100, width);
         height = Math.max(100, height);
         super.setBounds(x, y, width, height);
@@ -1521,9 +1509,6 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void repaint() {
-        if (disposed)
-            throw new IllegalStateException("Frame has been disposed");
-
         if (topDrag == null) {
             //update content panes
             getContentPane().repaint();

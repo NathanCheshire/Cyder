@@ -129,7 +129,15 @@ public class YoutubeUtil {
 
             BufferedImage save = getSquareThumbnail(videoURL);
             String name = StringUtil.getFilename(ret) + ".png";
-            //save save with name name to dynamic/users/uuid/music/albumart
+
+            File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt");
+
+            if (!albumArtDir.exists())
+                albumArtDir.mkdir();
+
+            File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                    + "/Music/AlbumArt/" + name);
+            ImageIO.write(save, "png", saveFile);
 
             return ret;
         });
