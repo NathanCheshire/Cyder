@@ -6,7 +6,7 @@
 <img  src="https://img.shields.io/github/issues/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
 </a>
 <a>
-<img  src="https://img.shields.io/tokei/lines/Github.com/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
+<img  src="https://img.shields.io/github/issues-closed/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
 </a>
 <a>
 <img  src="https://img.shields.io/github/repo-size/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
