@@ -292,34 +292,37 @@ public class YoutubeUtil {
         String uuid = getYoutubeUUID(videoURL);
 
         String thumbnailURL = "https://img.youtube.com/vi/" + uuid + "/maxresdefault.jpg";
-        BufferedImage save = null;
+        BufferedImage ret = null;
 
         try {
-            save = ImageIO.read(new URL(thumbnailURL));
+            BufferedImage save = ImageIO.read(new URL(thumbnailURL));
             int w = save.getWidth();
             int h = save.getHeight();
 
             if (w > 720) {
                 //crop to middle of w
                 int cropWStart = (w - 720) / 2;
-                int cropWEnd = cropWStart + 720;
-                save = save.getSubimage(cropWStart, 0, cropWEnd, h);
+                BufferedImage croppedWidth = save.getSubimage(cropWStart, 0, 720, h);
+                save = croppedWidth;
             }
 
             w = save.getWidth();
+            h = save.getHeight();
 
             if (h > 720) {
                 //crop to middle of h
                 int cropHStart = (h - 720) / 2;
-                int cropHEnd = cropHStart + 720;
-                save = save.getSubimage(0, cropHStart, w, cropHEnd);
+                BufferedImage croppedHeight = save.getSubimage(0, cropHStart, w, 720);
+                save = croppedHeight;
             }
+
+            ret = save;
 
         } catch (IOException ex) {
             ErrorHandler.handle(ex);
         }
 
-        return save;
+        return ret;
     }
 
     public static String getYoutubeUUID(String youTubeUrl) {
@@ -329,8 +332,6 @@ public class YoutubeUtil {
 
         if(matcher.find()){
             return matcher.group();
-        } else {
-            return "error";
-        }
+        } else throw new RuntimeException("No UUID found in provided string: " + youTubeUrl);
     }
 }
