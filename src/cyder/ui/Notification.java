@@ -374,8 +374,10 @@ public class Notification extends JLabel {
                         break;
                 }
 
-                this.getParent().remove(this);
-                this.setVisible(false);
+                if (this.isVisible() && this != null) {
+                    this.getParent().remove(this);
+                    this.setVisible(false);
+                }
             }
 
             catch (Exception e) {

@@ -113,7 +113,7 @@ public class Login {
 
         if (loginFrame != null) {
             loginFrame.removePostCloseActions();
-            loginFrame.dispose();
+            loginFrame.dispose(true);
         }
 
         IOUtil.cleanUsers();
@@ -246,6 +246,8 @@ public class Login {
                             break;
                         case 2:
                             loginField.setEchoChar((char)0);
+                            loginField.setText("");
+                            priorityPrintingList.add("Validating...\n");
                             if (recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA256(input)))) {
                                 doLoginAnimations = false;
                             } else {
@@ -355,7 +357,7 @@ public class Login {
                 // and exiting the program when we have just logged in
                 if (loginFrame != null) {
                     loginFrame.removePostCloseActions();
-                    loginFrame.dispose();
+                    loginFrame.dispose(true);
                 }
             } else if (loginFrame != null && loginFrame.isVisible()) {
                 loginField.setText("");

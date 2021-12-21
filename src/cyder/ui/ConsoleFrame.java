@@ -918,7 +918,7 @@ public final class ConsoleFrame {
             //close all frames just before showing console
             for (CyderFrame f : FrameUtil.getCyderFrames()) {
                 if (f == consoleCyderFrame) {}
-                else if (f == CyderSplash.getSplashFrame())
+                else if (f == CyderSplash.getSplashFrame() || f == Login.getLoginFrame())
                     f.dispose(true);
                 else
                     f.dispose();
@@ -929,6 +929,7 @@ public final class ConsoleFrame {
 
             //inform and log how long it took to load Console from program start
             GenesisShare.setConsoleStartTime(System.currentTimeMillis());
+
             String logString = "Console loaded in " + (GenesisShare.getConsoleStartTime() - GenesisShare.getAbsoluteStartTime()) + "ms";
             SessionHandler.log(SessionHandler.Tag.ACTION, logString);
             inputHandler.println(logString);

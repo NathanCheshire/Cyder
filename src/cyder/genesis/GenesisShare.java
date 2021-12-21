@@ -219,7 +219,7 @@ public class GenesisShare {
 
     public static void setConsoleStartTime(long consoleStartTime) {
         if (GenesisShare.consoleStartTime != 0)
-            throw new IllegalArgumentException("Console Start Time already set");
+            return;
 
         GenesisShare.consoleStartTime = consoleStartTime;
     }
