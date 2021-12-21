@@ -898,19 +898,24 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAnimation() {
         try {
+            System.out.println(this);
+
             //set restore vars here
             setRestoreX(getX());
             setRestoreY(getY());
 
-            //figure out increment for frame num
-            int distanceToTravel = SystemUtil.getScreenHeight() - this.getY();
-            //25 frames to animate
-            int animationInc = (int) ((double ) distanceToTravel / animationFrames);
+            if (UserUtil.getUserData("minimizeanimation").equals("1")) {
+                //figure out increment for frame num
+                int distanceToTravel = SystemUtil.getScreenHeight() - this.getY();
+                //25 frames to animate
+                int animationInc = (int) ((double ) distanceToTravel / animationFrames);
 
-            for (int i = this.getY(); i <= SystemUtil.getScreenHeight(); i += animationInc) {
-                Thread.sleep(1);
-                setLocation(this.getX(), i);
+                for (int i = this.getY(); i <= SystemUtil.getScreenHeight(); i += animationInc) {
+                    Thread.sleep(1);
+                    setLocation(this.getX(), i);
+                }
             }
+
             setState(JFrame.ICONIFIED);
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -957,7 +962,7 @@ public class CyderFrame extends JFrame {
                 //kill all threads
                 killThreads();
 
-                if (!fastClose) {
+                if (!fastClose && UserUtil.getUserData("closeanimation").equals("1")) {
                     //disable dragging
                     disableDragging();
 

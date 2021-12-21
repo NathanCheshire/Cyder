@@ -405,6 +405,7 @@ public class UserUtil {
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
         } finally {
+            //be smart about returning
             return retData != null ? retData : defaultValue;
         }
     }
@@ -708,7 +709,7 @@ public class UserUtil {
                 //log the injection
                 SessionHandler.log(SessionHandler.Tag.ACTION, "User " + f.getParentFile().getName() +
                         " was found to have an outdated userdata.json; preference injection " +
-                        "performed on the following: [" + appendBuilder + "]");
+                        "was attempted on the following: [" + appendBuilder + "]");
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);

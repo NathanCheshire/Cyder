@@ -45,10 +45,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
 //todo download youtube thumbnail to Music/AlbumArt with the same name but .png instead of .mp3
-
 //todo override methods of frame and throw if CyderFrame has been disposed before
-
-//todo add a preference for minimize/dispose animations
 
 public class InputHandler {
     private JTextPane outputArea;

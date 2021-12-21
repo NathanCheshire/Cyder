@@ -40,6 +40,8 @@ public class User {
     private String loggedin; //boolean
     private String audiolength;
     private String persistentnotifications;
+    private String closeAnimation;
+    private String minimizeAnimation;
     private LinkedList<MappedExecutable> executables;
 
     public String getName() {
@@ -348,6 +350,22 @@ public class User {
 
     public void setPersistentnotifications(String persistentnotifications) {
         this.persistentnotifications = persistentnotifications;
+    }
+
+    public String getCloseAnimation() {
+        return closeAnimation;
+    }
+
+    public void setCloseAnimation(String closeAnimation) {
+        this.closeAnimation = closeAnimation;
+    }
+
+    public String getMinimizeAnimation() {
+        return minimizeAnimation;
+    }
+
+    public void setMinimizeAnimation(String minimizeAnimation) {
+        this.minimizeAnimation = minimizeAnimation;
     }
 
     //inner classes
