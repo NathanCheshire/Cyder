@@ -21,6 +21,7 @@ public class SessionHandler {
 
     private static File currentLog;
     private static long start;
+    private static boolean logTerminated;
 
     public enum Tag {
         CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION,
@@ -35,6 +36,9 @@ public class SessionHandler {
      * @param <T> the object instance of representation
      */
     public static <T> void log(Tag tag, T representation) {
+        if (logTerminated)
+            throw new IllegalStateException("Cyder session was terminated already");
+
         StringBuilder logBuilder = new StringBuilder("[" + TimeUtil.logTime() + "] ");
 
         switch (tag) {
@@ -91,6 +95,8 @@ public class SessionHandler {
                 logBuilder.append("]");
                 logBuilder.append(", exceptions thrown: ");
                 logBuilder.append(countExceptions());
+
+                logTerminated = true;
 
                 break;
             case SUGGESTION:

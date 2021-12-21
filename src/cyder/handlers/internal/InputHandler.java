@@ -48,8 +48,6 @@ import java.util.concurrent.ThreadLocalRandom;
 //todo frame util for disposing all frames and such
 //todo attempt to crop borders out of image
 
-//todo throw in logger if we do EOL tag and then try and write something else
-
 public class InputHandler {
     private JTextPane outputArea;
     private MasterYoutubeThread masterYoutubeThread;
