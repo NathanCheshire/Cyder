@@ -44,8 +44,6 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
-//todo double check all constructors you added a throw to
-
 //todo download youtube thumbnail to Music/AlbumArt with the same name but .png instead of .mp3
 
 //todo override methods of frame and throw if CyderFrame has been disposed before

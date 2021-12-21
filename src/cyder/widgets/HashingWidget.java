@@ -3,10 +3,12 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.PopupHandler;
-import cyder.ui.*;
+import cyder.ui.CyderButton;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderPasswordField;
+import cyder.ui.CyderTextField;
 import cyder.utilities.SecurityUtil;
 
 import javax.swing.*;
@@ -21,9 +23,7 @@ public class HashingWidget {
     private ArrayList<String> algorithms = new ArrayList<>();
 
     //empty constructor
-    public HashingWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    }
+    public HashingWidget() {}
 
     public void showGUI() {
         algorithms.add("SHA-256");

@@ -4,9 +4,11 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
-import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.ui.*;
+import cyder.ui.CyderButton;
+import cyder.ui.CyderCheckBox;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderTextField;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -25,9 +27,7 @@ public class TemperatureWidget {
     private CyderCheckBox oldKelvin;
     private CyderCheckBox newKelvin;
 
-    public TemperatureWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    }
+    public TemperatureWidget() {}
 
     @Widget("temperature")
     public void showGUI() {
