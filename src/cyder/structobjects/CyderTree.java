@@ -1,23 +1,34 @@
 package cyder.structobjects;
 
-public class CyderBST {
+public class CyderTree {
     private Node root;
 
     public Node getRoot() {
         return this.root;
     }
 
-    public CyderBST() {
+    public CyderTree() {
         this.root = null;
     }
 
-    public CyderBST(String data) {
+    public CyderTree(String data) {
         this.root = new Node(data, null, null);
     }
 
     public boolean contains(String data) {
-        //traverse tree via comparisons until we find it or come to null
-        return false;
+        return innerContains(root, data);
+    }
+
+    //need to check both since this isn't a BST, it's kind of like a heap
+    private boolean innerContains(Node root, String data) {
+        if (root.data.equals(data))
+            return true;
+        else {
+            boolean left = root.leftChild != null && innerContains(root.leftChild, data);
+            boolean right = root.rightChild != null && innerContains(root.rightChild, data);
+
+            return left || right;
+        }
     }
 
     public int size() {
@@ -54,7 +65,7 @@ public class CyderBST {
     }
 
     public void insert(String data) {
-        //have to find where data goes to left or right until we get to null then we can make that the child
+        //simply insert into available space
     }
 
     public Object remove(String data) {
@@ -62,8 +73,10 @@ public class CyderBST {
     }
 
     private String innerRemove(Node currentNode, String data) {
-        //we should be checking children so that we can link the node we are removing's
-        // parent to it's own children. We don't have a way to go back
+        //recurse until we find the data, if data is not found throw an exception
+        //once we find the node we need to step a level back to get the parent
+        //after getting the parent, link children of the node to the parent or other nodes on the same level
+        // look up pseudocode for this online or something
         return null;
     }
 
@@ -71,6 +84,7 @@ public class CyderBST {
         return inOrderList(root);
     }
 
+    //make pre order and post order too
     private String inOrderList(Node start) {
         if (start == null)
             throw new EmptyTreeException();
