@@ -326,6 +326,7 @@ public class UserEditor {
                         if (renameTo.exists())
                             throw new IOException("file exists");
 
+                        //rename file to new name
                         boolean success = selectedFile.renameTo(renameTo);
 
                         if (!success) {
@@ -333,6 +334,38 @@ public class UserEditor {
                         } else {
                             editUserFrame.notify(selectedFile.getName() +
                                     " was successfully renamed to " + renameTo.getName());
+
+                            //was it a music file?
+                            if (extension.equals(".mp3")) {
+                                File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt");
+
+                                if (albumArtDir.exists()) {
+                                    //try to find a file with the same name as oldname
+                                    File refFile = null;
+
+                                    for (File f : albumArtDir.listFiles()) {
+                                        if (StringUtil.getFilename(f).equals(StringUtil.getFilename(oldname))) {
+                                            refFile = f;
+                                            break;
+                                        }
+                                    }
+
+                                    //found corresponding album art so rename it as well
+                                    if (refFile != null) {
+                                        File artRename = new File("dynamic/users/" +
+                                                ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt/" + newname + ".png");
+
+                                        if (artRename.exists())
+                                            throw new IOException("album art file exists");
+
+                                        //rename file to new name
+                                        boolean albumRenSuccess = refFile.renameTo(artRename);
+
+                                        if (!albumRenSuccess)
+                                            throw new RuntimeException("Could not rename music's corresponding album art");
+                                    }
+                                }
+                            }
                         }
 
                         revalidateMusicBackgroundScroll();
