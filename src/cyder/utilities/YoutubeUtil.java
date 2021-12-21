@@ -22,6 +22,8 @@ import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class YoutubeUtil {
 
@@ -85,6 +87,9 @@ public class YoutubeUtil {
     }
 
     public static Future<File> download(String videoURL, String outputDir) {
+        BufferedImage save = getSquareThumbnail(videoURL);
+        //now save this in a place with the same name
+
         return executor.submit(() -> {
             File ret = null;
 
@@ -272,5 +277,51 @@ public class YoutubeUtil {
 
         uuidFrame.setVisible(true);
         uuidFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+    }
+
+    public static BufferedImage getSquareThumbnail(String videoURL) {
+        String uuid = getYoutubeUUID(videoURL);
+
+        String thumbnailURL = "https://img.youtube.com/vi/" + uuid + "/maxresdefault.jpg";
+        BufferedImage save = null;
+
+        try {
+            save = ImageIO.read(new URL(thumbnailURL));
+            int w = save.getWidth();
+            int h = save.getHeight();
+
+            if (w > 720) {
+                //crop to middle of w
+                int cropWStart = (w - 720) / 2;
+                int cropWEnd = cropWStart + 720;
+                save = save.getSubimage(cropWStart, 0, cropWEnd, h);
+            }
+
+            w = save.getWidth();
+
+            if (h > 720) {
+                //crop to middle of h
+                int cropHStart = (h - 720) / 2;
+                int cropHEnd = cropHStart + 720;
+                save = save.getSubimage(0, cropHStart, w, cropHEnd);
+            }
+
+        } catch (IOException ex) {
+            ErrorHandler.handle(ex);
+        }
+
+        return save;
+    }
+
+    public static String getYoutubeUUID(String youTubeUrl) {
+        String pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed/)[^#&?]*";
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(youTubeUrl);
+
+        if(matcher.find()){
+            return matcher.group();
+        } else {
+            return "error";
+        }
     }
 }

@@ -913,8 +913,6 @@ public class CyderFrame extends JFrame {
             throw new IllegalStateException("Frame has been disposed");
 
         try {
-            System.out.println(this);
-
             //set restore vars here
             setRestoreX(getX());
             setRestoreY(getY());
