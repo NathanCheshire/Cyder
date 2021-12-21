@@ -1603,6 +1603,27 @@ public class CyderFrame extends JFrame {
         return this.pinned;
     }
 
+    //pinned to console, second mode of pinning
+
+    private boolean consolePinned;
+
+    /**
+     * Determines if the frame should be pinned to the console.
+     * @return boolean describing if the frame should move with the console
+     */
+    public boolean isConsolePinned() {
+        return consolePinned;
+    }
+
+    /**
+     * Setter for the state of the provided boolean.
+     * @param consolePinned whether or not the frame should stick to the console
+     */
+    public void setConsolePinned(boolean consolePinned) {
+        this.consolePinned = consolePinned;
+        setAlwaysOnTop(this.consolePinned);
+    }
+
     //relativeX, relativeY are used for frame pinning and dragging on the consoleFrame
 
     private int relativeX = 0;

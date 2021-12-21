@@ -145,11 +145,13 @@ public class CyderSplash {
                             nathanLabel.repaint();
                         }
 
-                        splashFrame.dispose();
+                        if (splashFrame.isActive()) {
+                            splashFrame.dispose();
 
-                        //this has been going on for over a minute at this point if the program reaches here
-                        // clearly something is wrong so exit
-                        GenesisShare.exit(-600);
+                            //this has been going on for over a minute at this point if the program reaches here
+                            // clearly something is wrong so exit
+                            GenesisShare.exit(-600);
+                        }
                     } catch (Exception e) {
                         ErrorHandler.handle(e);
                     }

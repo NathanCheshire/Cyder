@@ -211,24 +211,37 @@ public class DragLabel extends JLabel {
         ret.add(minimize);
 
         JButton pinButton = new JButton("");
-        pinButton.setToolTipText("Pin Window");
+        pinButton.setToolTipText("Pin Window/Pin to Console");
         pinButton.addActionListener(e -> {
-            boolean pinned = !effectFrame.getPinned();
-            effectFrame.setPinned(pinned);
-            if (pinned)
-                pinButton.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
-            else
+            if (effectFrame.getPinned()) {
+                effectFrame.setPinned(false);
+                effectFrame.setConsolePinned(true);
+                pinButton.setIcon(new ImageIcon("static/pictures/icons/pin3.png"));
+            } else if (effectFrame.isConsolePinned()) {
+                effectFrame.setConsolePinned(false);
                 pinButton.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+            } else {
+                effectFrame.setPinned(true);
+                pinButton.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+            }
         });
         pinButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                pinButton.setIcon(new ImageIcon(effectFrame.getPinned() ? "static/pictures/icons/pin.png" : "static/pictures/icons/pin2.png"));
+                pinButton.setIcon(new ImageIcon(effectFrame.getPinned() || effectFrame.isConsolePinned() ?
+                        "static/pictures/icons/pin.png" : "static/pictures/icons/pin2.png"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                pinButton.setIcon(new ImageIcon(effectFrame.getPinned() ? "static/pictures/icons/pin2.png" : "static/pictures/icons/pin.png"));
+                if (effectFrame.getPinned()) {
+                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                } else if (effectFrame.isConsolePinned()) {
+                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin3.png"));
+                } else {
+                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+
+                }
             }
         });
 

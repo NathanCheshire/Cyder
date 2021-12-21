@@ -865,7 +865,7 @@ public final class ConsoleFrame {
                                 consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
 
                         for (Frame f : Frame.getFrames()) {
-                            if (f instanceof CyderFrame && ((CyderFrame) f).getPinned() &&
+                            if (f instanceof CyderFrame && ((CyderFrame) f).isConsolePinned() &&
                                     !f.getTitle().equals(consoleCyderFrame.getTitle()) &&
                                     ((CyderFrame) f).getRelativeX() != Integer.MIN_VALUE &&
                                     ((CyderFrame) f).getRelativeY() != Integer.MIN_VALUE) {
@@ -889,7 +889,7 @@ public final class ConsoleFrame {
                                 consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
 
                         for (Frame f : Frame.getFrames()) {
-                            if (f instanceof CyderFrame && ((CyderFrame) f).getPinned() &&
+                            if (f instanceof CyderFrame && ((CyderFrame) f).isConsolePinned() &&
                                     !f.getTitle().equals(consoleCyderFrame.getTitle())) {
                                 Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
 
@@ -2716,13 +2716,15 @@ public final class ConsoleFrame {
                 consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
 
         for (Frame f : Frame.getFrames()) {
-            if (f instanceof CyderFrame && ((CyderFrame) f).getPinned() &&
-                    !f.getTitle().equals(consoleCyderFrame.getTitle())) {
-                Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+            if (f instanceof CyderFrame) {
+                if (((CyderFrame) f).isConsolePinned() &&
+                        !f.getTitle().equals(consoleCyderFrame.getTitle())) {
+                    Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
 
-                if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
-                    frames.add(new RelativeFrame((CyderFrame) f,
-                            f.getX() - consoleCyderFrame.getX(), f.getY() - consoleCyderFrame.getY()));
+                    if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
+                        frames.add(new RelativeFrame((CyderFrame) f,
+                                f.getX() - consoleCyderFrame.getX(), f.getY() - consoleCyderFrame.getY()));
+                    }
                 }
             }
         }

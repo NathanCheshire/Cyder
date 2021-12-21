@@ -55,6 +55,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //todo have a fast close method that performs dispose without the animation
 
+//todo add a preference for minimize/dispose animations
+
 public class InputHandler {
     private JTextPane outputArea;
     private MasterYoutubeThread masterYoutubeThread;
