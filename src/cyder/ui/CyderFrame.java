@@ -917,6 +917,16 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    //dispose calls --------------------------------------------------------------------
+
+    //for whatever reason, this should help avoid bug calls in the future,
+    // there is no setter since it will be set to true upon dispose() being invoked
+    private boolean disposed;
+
+    public boolean isDispoed() {
+        return this.disposed;
+    }
+
     /**
      * Same as the regular overridden dispose method but you have the option to not animate the frame
      * and practically dispose it immediately
@@ -975,6 +985,7 @@ public class CyderFrame extends JFrame {
                 }
 
                 super.dispose();
+                disposed = true;
 
                 for (PostCloseAction action : postCloseActions)
                     action.invokeAction();
@@ -988,6 +999,8 @@ public class CyderFrame extends JFrame {
     public void dispose() {
         dispose(false);
     }
+
+    //----------------------------------------------------------------------------------
 
     /**
      * Allow or disable moving the window.

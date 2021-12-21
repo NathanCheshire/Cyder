@@ -48,10 +48,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //todo download youtube thumbnail to Music/AlbumArt with the same name but .png instead of .mp3
 
-//todo draw class and sequence diagram for messaging service, think about Tox protocol, add a diagrams folder
-
-//todo have a boolean set when a frame is disposed, if the frame is attempted to be
-// set to visible again (set it to non visible in the dispose method), then throw an exception
+//todo override methods of frame and throw if CyderFrame has been disposed before
 
 //todo add a preference for minimize/dispose animations
 
