@@ -305,14 +305,23 @@ public class CyderFrame extends JFrame {
 
     @Override
     public Container getContentPane() {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
         return iconLabel;
     }
 
     public Container getIconPane() {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
         return iconPane;
     }
 
     public Container getTrueContentPane() {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
         return contentLabel;
     }
 
@@ -705,6 +714,9 @@ public class CyderFrame extends JFrame {
      * @param notificationDirection the enter/exit direction of the notification
      */
     public void notify(String htmltext, int viewDuration, Direction arrowDir, NotificationDirection notificationDirection, ClickAction onKillAction) {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
         //make a WaitingNotification and add to queue, queue will automatically process any notifications so no further actions needed
         notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction));
 
@@ -897,6 +909,9 @@ public class CyderFrame extends JFrame {
      * The original position of the frame will be remembered and set when the window is deiconified.
      */
     public void minimizeAnimation() {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
         try {
             System.out.println(this);
 
@@ -938,6 +953,9 @@ public class CyderFrame extends JFrame {
      * @param fastClose boolean describing whether or not fast close should be invoked
      */
     public void dispose(boolean fastClose) {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
         new Thread(() -> {
             try {
                 if (this == null)
@@ -1056,6 +1074,9 @@ public class CyderFrame extends JFrame {
      * Takes a step in the right direction for the dance routine
      */
     public void danceStep() {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
         switch (dancingDirection) {
             case INITIAL_UP:
                 this.setLocation(this.getX(), this.getY() - dancingIncrement);
@@ -1107,6 +1128,9 @@ public class CyderFrame extends JFrame {
      * transforms the content pane by an incremental angle of 2 degrees emulating Google's barrel roll easter egg
      */
     public void barrelRoll() {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
         ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
         BufferedImage master = ImageUtil.getBi(masterIcon);
 
@@ -1186,6 +1210,9 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
         width = Math.max(100, width);
         height = Math.max(100, height);
         super.setBounds(x, y, width, height);
@@ -1496,6 +1523,9 @@ public class CyderFrame extends JFrame {
 
     @Override
     public void repaint() {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
         if (topDrag == null) {
             //update content panes
             getContentPane().repaint();
@@ -1845,6 +1875,16 @@ public class CyderFrame extends JFrame {
      */
     public static CyderFrame getBorderlessFrame(int width, int height) {
         return new CyderFrame("BORDERLESS", width, height);
+    }
+
+    //overridden methods to check for disposed being set
+
+    @Override
+    public boolean isActive() {
+        if (disposed)
+            throw new IllegalStateException("Frame has been disposed");
+
+        return super.isActive();
     }
 
     //inner classes
