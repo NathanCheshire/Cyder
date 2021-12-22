@@ -44,11 +44,6 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
-//todo be able to override a notification's content pane with a parent container, also be able to make a notification stay
-// until being dismissed if needed
-
-//todo make consoleframe pinnable on top
-
 public class InputHandler {
     private JTextPane outputArea;
     private MasterYoutubeThread masterYoutubeThread;

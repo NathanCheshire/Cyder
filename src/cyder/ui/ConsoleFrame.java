@@ -57,6 +57,7 @@ public final class ConsoleFrame {
     private JButton suggestionButton;
     private JButton menuButton;
     private JButton minimize;
+    private JButton pin;
     private JButton alternateBackground;
     private JButton close;
     private JButton toggleAudioControls;
@@ -772,6 +773,58 @@ public final class ConsoleFrame {
             minimize.setFocusPainted(false);
             minimize.setFocusable(true);
             consoleDragButtonList.add(minimize);
+
+            pin = new JButton("");
+            pin.setToolTipText("Pin");
+            pin.addActionListener(e -> {
+                if (consoleCyderFrame.isAlwaysOnTop()) {
+                    consoleCyderFrame.setAlwaysOnTop(false);
+                    pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                } else {
+                    consoleCyderFrame.setAlwaysOnTop(true);
+                    pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                }
+            });
+            pin.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (consoleCyderFrame.isAlwaysOnTop()) {
+                        pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                    } else {
+                        pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (consoleCyderFrame.isAlwaysOnTop()) {
+                        pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                    } else {
+                        pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                    }
+                }
+            });
+            pin.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (consoleCyderFrame.isAlwaysOnTop()) {
+                        pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                    } else {
+                        pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                    }
+                }
+            });
+            pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+            pin.setContentAreaFilled(false);
+            pin.setBorderPainted(false);
+            pin.setFocusPainted(false);
+            pin.setFocusable(true);
+            consoleDragButtonList.add(pin);
 
             alternateBackground = new JButton("");
             alternateBackground.setToolTipText("Alternate Background");
