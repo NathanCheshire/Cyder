@@ -213,7 +213,7 @@ public class CyderFrame extends JFrame {
         setFrameType(this.frameType);
     }
 
-    //bordreless frame type
+    //bordreless frame type, used for splashscreen
     private CyderFrame(String borderlessID, int width, int height) {
         if (!borderlessID.equals("BORDERLESS"))
             throw new IllegalArgumentException("Incorrect ID");
@@ -956,6 +956,8 @@ public class CyderFrame extends JFrame {
             setRestoreY(getY());
 
             if (UserUtil.getUserData("minimizeanimation").equals("1")) {
+                disableContentRepainting = false;
+
                 //figure out increment for frame num
                 int distanceToTravel = SystemUtil.getScreenHeight() - this.getY();
                 //25 frames to animate
@@ -965,6 +967,8 @@ public class CyderFrame extends JFrame {
                     Thread.sleep(1);
                     setLocation(this.getX(), i);
                 }
+
+                disableContentRepainting = true;
             }
 
             setState(JFrame.ICONIFIED);

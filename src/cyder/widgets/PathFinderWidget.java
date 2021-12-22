@@ -629,6 +629,7 @@ public class PathFinderWidget {
             Node min = open.poll();
             open.remove(min);
 
+            //this is the only place optimal should show up: in pathStep(), does it actuall show the optimal path though?
             if (min.equals(end) && optimalPath) {
                 end.setParent(min.getParent());
             } else if (min.equals(end)) {

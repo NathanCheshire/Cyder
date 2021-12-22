@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+//todo if console frame is set to always on top, start new frames in pin mode and focus them so that they don't appear behind the console
+// todo never should a frame that just appeared be invisible basically
+
 public final class ConsoleFrame {
     //the one and only console frame method
     private static ConsoleFrame consoleFrameInstance = new ConsoleFrame();
