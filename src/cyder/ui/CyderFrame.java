@@ -688,6 +688,7 @@ public class CyderFrame extends JFrame {
     }
 
     private Notification currentNotification;
+    private WaitingNotification currentWaitingNotification;
     private boolean notificationCheckerStarted = false;
 
     public Notification getCurrentNotification() {
@@ -750,6 +751,7 @@ public class CyderFrame extends JFrame {
                     while (this != null && !threadsKilled) {
                         if (notificationList.size() > 0) {
                             WaitingNotification currentWaitingNotification = notificationList.poll();
+                            this.currentWaitingNotification = currentWaitingNotification;
 
                             //init notification object
                             currentNotification = new Notification();
@@ -879,7 +881,15 @@ public class CyderFrame extends JFrame {
      * Ends the current notification on screen. If more are behind it, the queue will immediately pull and display.
      */
     public void revokeCurrentNotification() {
-        currentNotification.kill();
+        revokeCurrentNotification(false);
+    }
+
+    public void revokeCurrentNotification(boolean animate) {
+        if (animate) {
+            currentNotification.vanish(currentWaitingNotification.getNotificationDirection(), this, 0);
+        } else {
+            currentNotification.kill();
+        }
     }
 
     /**

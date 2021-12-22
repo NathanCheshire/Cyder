@@ -556,22 +556,26 @@ public final class ConsoleFrame {
                 parentLabel.setToolTipText(TimeUtil.logTime());
                 parentLabel.setSize(300,110);
 
+                CyderButton submit = new CyderButton("Submit");
                 CyderTextField ctf = new CyderTextField(0);
+                ctf.addActionListener(ev -> submit.doClick());
                 ctf.setBounds(20,20,280,40);
                 parentLabel.add(ctf);
 
-                CyderButton submit = new CyderButton("Submit");
                 submit.setColors(CyderColors.intellijPink);
                 submit.addActionListener(ev -> {
                     String suggestionText = ctf.getText().trim();
 
-                    if (suggestionText.length() == 0)
+                    if (suggestionText.length() == 0) {
+                        consoleCyderFrame.revokeCurrentNotification(true);
                         return;
+                    }
 
                     SessionHandler.log(SessionHandler.Tag.SUGGESTION,  suggestionText);
 
                     //make a feature to make a put request to a cyder backend server to accept these
                     getInputHandler().println("Suggestion Logged; make sure that you send your logs dir to Nathan");
+                    consoleCyderFrame.revokeCurrentNotification(true);
                 });
                 submit.setBounds(20,70,280,40);
                 parentLabel.add(submit);
