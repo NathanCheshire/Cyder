@@ -1205,6 +1205,32 @@ public final class ConsoleFrame {
             }
         }, "Cyder Busy Checker");
         busyCheckerThread.start();
+
+        Thread consolePosSaverThread = new Thread(() -> {
+            try {
+                //initial delay
+                Thread.sleep(5000);
+
+                OUTER:
+                    while (true) {
+                        UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
+                        UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
+
+                        //sleep 5000 ms
+                        int i = 0;
+                        while (i < 5000) {
+                            Thread.sleep(50);
+                            if (closed) {
+                                break OUTER;
+                            }
+                            i += 50;
+                        }
+                    }
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+            }
+        },"ConsoleFrame Position Saver");
+        consolePosSaverThread.start();
     }
 
     //one time run things such as notifying due to special days, debug properties,

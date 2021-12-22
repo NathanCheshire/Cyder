@@ -73,7 +73,8 @@
       "Final Frame Disposed Checker",
       "DestroyJavaVM",
       "Console Input Caret Position Updater",
-      "Console Printing Animation"
+      "Console Printing Animation",
+      "ConsoleFrame Position Saver"
    ],
    "ignorelogdata":[
            "typinganimation",
