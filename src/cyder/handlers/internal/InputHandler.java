@@ -856,15 +856,17 @@ public class InputHandler {
             println("Todos: " + StatUtil.getTodos(new File("src")));
         } else if ((hasWord("wipe") || hasWord("clear")) && hasWord("logs")) {
             if (SecurityUtil.nathanLenovo()) {
-                File[] logs = new File("logs").listFiles();
+                File[] logDirs = new File("logs").listFiles();
                 int count = 0;
 
-                for (File log : logs) {
-                    if (StringUtil.getExtension(log).equals(".log")
-                        && !log.equals(SessionHandler.getCurrentLog())) {
-                        log.delete();
-                        count++;
-                    }
+                for (File logDir : logDirs) {
+                   for (File log : logDir.listFiles()) {
+                       if (StringUtil.getExtension(log).equals(".log")
+                               && !log.equals(SessionHandler.getCurrentLog())) {
+                           log.delete();
+                           count++;
+                       }
+                   }
                 }
 
                 println("Deleted " + count + " log" + (count == 1 ? "" : "s"));
@@ -874,16 +876,21 @@ public class InputHandler {
             }
         } else if (hasWord("count") && hasWord("logs")) {
             if (SecurityUtil.nathanLenovo()) {
-                File[] logs = new File("logs").listFiles();
+                File[] logDirs = new File("logs").listFiles();
                 int count = 0;
+                int days = 0;
 
-                for (File log : logs) {
-                    if (StringUtil.getExtension(log).equals(".log")
-                            && !log.equals(SessionHandler.getCurrentLog())) {
-                        count++;
+                for (File logDir : logDirs) {
+                    days++;
+                    for (File log : logDir.listFiles()) {
+                        if (StringUtil.getExtension(log).equals(".log")
+                                && !logDir.equals(SessionHandler.getCurrentLog())) {
+                            count++;
+                        }
                     }
                 }
 
+                println("Number of log dirs: " + days);
                 println("Number of logs: " + count);
             } else {
                 println("Sorry, " + UserUtil.getUserData("name") + ", " +
@@ -898,7 +905,7 @@ public class InputHandler {
             }
         } else if (hasWord("open") && hasWord("last") && hasWord("log")) {
             if (SecurityUtil.nathanLenovo()) {
-                File[] logs = new File("logs").listFiles();
+                File[] logs = SessionHandler.getCurrentLog().getParentFile().listFiles();
 
                 if (logs.length == 1) {
                     println("No previous logs found");
@@ -1062,7 +1069,7 @@ public class InputHandler {
                     BufferedImage bufferedImage = null;
                     bufferedImage = new Robot().createScreenCapture(rectangle);
                     File file = new File("c:/users/"
-                            + SystemUtil.getWindowsUsername() + "/downloads/CyderCapture_" + TimeUtil.logFileTime() + ".png");
+                            + SystemUtil.getWindowsUsername() + "/downloads/CyderCapture_" + TimeUtil.logSubDirTime() + ".png");
                     boolean status = ImageIO.write(bufferedImage, "png", file);
                     ConsoleFrame.getConsoleFrame().notify("Screen shot " +
                             (status ? "successfully" : "unsuccessfully") + " saved to your downloads folder");

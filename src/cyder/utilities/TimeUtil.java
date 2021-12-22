@@ -9,7 +9,6 @@ import cyder.ui.CyderFrame;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -135,39 +134,40 @@ public class TimeUtil {
         }, (CloseCalendar.getTimeInMillis() - System.currentTimeMillis()), TimeUnit.MILLISECONDS);
     }
 
+    //commonly used date patterns
+
     public static String errorTime() {
-        DateFormat dateFormat = new SimpleDateFormat("MMddyy-HH-mmaa");
-        Date date = new Date();
-        return dateFormat.format(date);
+        return getTime("MMddyy-HH-mmaa");
     }
 
-    public static String logFileTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        return dateFormat.format(date);
+    public static String logSubDirTime() {
+        return getTime("yyyy-MM-dd");
     }
 
     public static String logTime() {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        Date date = new Date();
-        return dateFormat.format(date);
+        return getTime("HH-mm-ss");
     }
 
     public static String userTime() {
-        Date Time = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
-        return dateFormatter.format(Time);
+        return getTime("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
     }
 
     public static String consoleTime() {
-        Date Time = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat(UserUtil.extractUser().getConsoleclockformat());
-        return dateFormatter.format(Time);
+        return getTime(UserUtil.extractUser().getConsoleclockformat());
     }
 
     public static String consoleSecondTime() {
+        return getTime("EEEEEEEEE h:mm:ssaa");
+    }
+
+    /**
+     * Returns the time returned by running the provided string into a SimpleDatFormat object and formatting it.
+     * @param datePattern the provided date pattern
+     * @return the string representation of the current time
+     */
+    public static String getTime(String datePattern) {
         Date Time = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
         return dateFormatter.format(Time);
     }
 

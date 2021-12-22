@@ -37,7 +37,7 @@ public class SessionHandler {
      */
     public static <T> void log(Tag tag, T representation) {
         if (logTerminated)
-            throw new IllegalStateException("Cyder session was terminated already");
+            throw new IllegalStateException("Cyder session was previously terminated");
 
         StringBuilder logBuilder = new StringBuilder("[" + TimeUtil.logTime() + "] ");
 
@@ -213,9 +213,6 @@ public class SessionHandler {
      */
     public static void SessionLogger(File outputFile) {
         try {
-            if (!StringUtil.getFilename(outputFile.getParent()).equals("logs"))
-                throw new IllegalArgumentException("Attempting to place a log file outside of the logs directory");
-
             if (!outputFile.exists())
                 outputFile.createNewFile();
 
@@ -229,27 +226,8 @@ public class SessionHandler {
      * Constructor for the logger to create a file and write to for the current session.
      */
     public static void SessionLogger() {
-        try {
-            //make logs file if it DNE
-            File logsDir = new File("logs");
-            if (!logsDir.exists())
-                logsDir.mkdir();
-
-            String uniqueLogString = TimeUtil.logFileTime();
-
-            int number = 1;
-            File logFile = new File("logs/" + uniqueLogString + "-" + number + ".log");
-
-            while (logFile.exists()) {
-                number++;
-                logFile = new File("logs/" + uniqueLogString + "-" + number + ".log");
-            }
-
-            logFile.createNewFile();
-            SessionLogger(logFile);
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
+        //create the log file
+        generateAndSetLogFile();
     }
 
     /**
@@ -261,34 +239,63 @@ public class SessionHandler {
     }
 
     /**
+     * Creates the log file if it is not set/DNE
+     * @return whether or not the file was created successfully
+     */
+    private static boolean generateAndSetLogFile() {
+        try {
+            File logsDir = new File("logs");
+            logsDir.mkdir();
+
+            String logSubDirName = TimeUtil.logSubDirTime();
+
+            File logSubDir = new File("logs/" + logSubDirName);
+            logSubDir.mkdir();
+
+            String logFileName = TimeUtil.logTime();
+
+            int number = 1;
+            File logFile = new File("logs/" + logSubDirName + "/" + logFileName + "-" + number + ".log");
+
+            while (logFile.exists()) {
+                number++;
+                logFile = new File("logs/" + logSubDirName + "/" + logFileName + "-" + number + ".log");
+            }
+
+            boolean success = logFile.createNewFile();
+
+            if (success)
+                currentLog = logFile;
+            else
+                throw new RuntimeException("Log file not created");
+
+            return success;
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return false;
+    }
+
+    /**
      * Writes the line to the current log file and releases resources once done.
      * @param line the single line to write
      */
     private static void writeLine(String line) {
         try {
+            //if the current log doesn't exist, find a unique file name and make it
             if (!getCurrentLog().exists()) {
-                File logsDir = new File("logs");
-                logsDir.mkdir();
-
-                String uniqueLogString = TimeUtil.logFileTime();
-
-                int number = 1;
-                File logFile = new File("logs/" + uniqueLogString + "-" + number + ".log");
-
-                while (logFile.exists()) {
-                    number++;
-                    logFile = new File("logs/" + uniqueLogString + "-" + number + ".log");
-                }
-
-                logFile.createNewFile();
-                currentLog = logFile;
+                generateAndSetLogFile();
 
                 FileWriter fw = new FileWriter(currentLog,true);
                 BufferedWriter bw = new BufferedWriter(fw);
                 bw.write("[log file/directory was deleted during runtime, recreating and restarting log: " + TimeUtil.userTime() + "]");
+                bw.write(line.trim());
                 bw.newLine();
                 bw.close();
-            } else {
+            }
+            //otherwise just write to the current log file
+            else {
                 FileWriter fw = new FileWriter(currentLog,true);
                 BufferedWriter bw = new BufferedWriter(fw);
                 bw.write(line.trim());

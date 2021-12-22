@@ -496,41 +496,45 @@ public class UserUtil {
                         //what we'll write to this json file
                         String loggedIn = "0";
 
-                        File logsDir = new File("logs");
+                        File masterLogs = new File("logs");
 
-                        if (logsDir.exists()) {
-                            File[] logs = logsDir.listFiles();
+                        if (masterLogs.exists()) {
+                            File[] logsDirs = masterLogs.listFiles();
 
-                            //we've started a Cyder instance already so there will always be one
-                            if (logs.length > 1) {
-                                //loop through logs backwards
-                                for (int i = logs.length - 2; i >= 0 ; i--) {
-                                    BufferedReader logReader = new BufferedReader(new FileReader(logs[i]));
-                                    String line;
-                                    String lineBeforeNull = "";
-                                    boolean lastLoggedInuser = false;
-                                    boolean breakAfter = false;
+                            for (File logsDir : logsDirs) {
+                                File[] logs = logsDir.listFiles();
 
-                                    while ((line = logReader.readLine()) != null) {
-                                        if (line.contains("STD LOGIN") || line.contains("AUTOCYPHER PASS")){
-                                            //this user we're on now was the last logged in if we get to the end of the file
-                                            // and the last login tag we find has their uuid associated wit hit
-                                            lastLoggedInuser = line.contains(currentUUID);
-                                            breakAfter = true;
+                                //we've started a Cyder instance already so there will always be one
+                                if (logs.length > 1) {
+                                    //loop through logs backwards
+                                    for (int i = logs.length - 2; i >= 0 ; i--) {
+                                        BufferedReader logReader = new BufferedReader(new FileReader(logs[i]));
+                                        String line;
+                                        String lineBeforeNull = "";
+                                        boolean lastLoggedInuser = false;
+                                        boolean breakAfter = false;
+
+                                        while ((line = logReader.readLine()) != null) {
+                                            if (line.contains("STD LOGIN") || line.contains("AUTOCYPHER PASS")){
+                                                //this user we're on now was the last logged in if we get to the end of the file
+                                                // and the last login tag we find has their uuid associated wit hit
+                                                lastLoggedInuser = line.contains(currentUUID);
+                                                breakAfter = true;
+                                            }
+
+                                            lineBeforeNull = line;
                                         }
 
-                                        lineBeforeNull = line;
-                                    }
+                                        //now we have the last line as well so check if it contains the tags
+                                        if (!(lineBeforeNull.contains("[EOL]") || lineBeforeNull.contains("EXTERNAL STOP"))) {
+                                            //they're logged in then since this is the last time this user was logged in
+                                            // and that log doesn't conclude properly
+                                            loggedIn = "1";
+                                        }
 
-                                    //now we have the last line as well so check if it contains the tags
-                                    if (!(lineBeforeNull.contains("[EOL]") || lineBeforeNull.contains("EXTERNAL STOP"))) {
-                                        //they're logged in then since this is the last time this user was logged in
-                                        // and that log doesn't conclude properly
-                                        loggedIn = "1";
+                                        if (breakAfter)
+                                            break;
                                     }
-
-                                    if (breakAfter)
-                                        break;
                                 }
                             }
                         }

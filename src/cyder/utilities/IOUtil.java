@@ -4,13 +4,13 @@ import com.google.gson.Gson;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.Login;
+import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
-import cyder.handlers.external.AudioPlayer;
-import cyder.handlers.internal.PopupHandler;
 import javazoom.jl.player.Player;
 
 import java.awt.*;
@@ -608,27 +608,30 @@ public class IOUtil {
 
     /**
      * Upon entry this method attempts to fix any user logs that ended abruptly (an exit code of -1 most likely)
-     *  as a result of an IDE stop or OS Task Manager Stop.
+     * as a result of an IDE stop or OS Task Manager Stop.
      */
     public static void fixLogs() {
         try {
-            for (File log : new File("logs").listFiles()) {
-                if (!log.equals(SessionHandler.getCurrentLog())) {
-                    BufferedReader br = new BufferedReader(new FileReader(log));
-                    String line;
-                    boolean containsEOL = false;
+            for (File logDir : new File("logs").listFiles()) {
+                //for all directories of days of logs
+                for (File log : logDir.listFiles()) {
+                    if (!log.equals(SessionHandler.getCurrentLog())) {
+                        BufferedReader br = new BufferedReader(new FileReader(log));
+                        String line;
+                        boolean containsEOL = false;
 
-                    while ((line = br.readLine()) != null) {
-                        if (line.contains("[EOL]") || line.contains("[EXTERNAL STOP]")) {
-                            containsEOL = true;
-                            break;
+                        while ((line = br.readLine()) != null) {
+                            if (line.contains("[EOL]") || line.contains("[EXTERNAL STOP]")) {
+                                containsEOL = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if (!containsEOL) {
-                        Files.write(Paths.get(log.getAbsolutePath()),
-                                ("[EXTERNAL STOP] Cyder was force closed by an external entity such " +
-                                        "as an IDE stop or the OS' Task Manager\n").getBytes(), StandardOpenOption.APPEND);
+                        if (!containsEOL) {
+                            Files.write(Paths.get(log.getAbsolutePath()),
+                                    ("[EXTERNAL STOP] Cyder was force closed by an external entity such " +
+                                            "as an IDE stop or the OS' Task Manager\n").getBytes(), StandardOpenOption.APPEND);
+                        }
                     }
                 }
             }

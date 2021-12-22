@@ -291,6 +291,7 @@ public class Login {
 
         loginFrame.setVisible(true);
         loginFrame.setLocationRelativeTo(GenesisShare.getDominantFrame() == loginFrame ? null : GenesisShare.getDominantFrame());
+        CyderSplash.getSplashFrame().dispose(true);
 
         if (directories != null && directories.length == 0)
             priorityPrintingList.add("No users found; please type \"create\"\n");
