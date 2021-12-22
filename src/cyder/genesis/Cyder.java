@@ -46,13 +46,17 @@ public class Cyder {
             return;
         }
 
-        //IOUtil subroutines
-        IOUtil.cleanUsers();
-        IOUtil.deleteTempDir();
-        IOUtil.logArgs(CA);
-        IOUtil.cleanSandbox();
+        //IOUtil necessary subroutines
         IOUtil.fixLogs();
         IOUtil.fixUsers();
+
+        //IOUtil secondary subroutines
+        new Thread(() -> {
+            IOUtil.logArgs(CA);
+            IOUtil.cleanSandbox();
+            IOUtil.cleanUsers();
+            IOUtil.deleteTempDir();
+        },"Cyder Start Secondary Subroutines").start();
 
         //start exiting failsafe
         CyderSetup.initFrameChecker();
@@ -69,7 +73,7 @@ public class Cyder {
                 if (!ret) {
                     SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
                     Login.showGUI();
-                }
+                } else {} //AutoCypher spun off console frame, no further action necessary
             } else {
                 Login.showGUI();
             }
