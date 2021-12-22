@@ -39,7 +39,13 @@ public class SecurityUtil {
     }
 
     public static boolean nathanLenovo() {
-        return compMACAddress(getMACAddress());
+        try {
+            return compMACAddress(getMACAddress());
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return false;
     }
 
     public static boolean compMACAddress(String mac) {

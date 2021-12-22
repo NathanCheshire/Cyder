@@ -19,9 +19,18 @@ public class Notification extends JLabel {
     private boolean killed;
     private static int delay = 10;
     private static int increment = 8;
+    private Color backgroundColor = CyderColors.tooltipBackgroundColor;
 
     public Notification() {
         killed = false;
+    }
+
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     public static int getIncrement() {
@@ -150,7 +159,7 @@ public class Notification extends JLabel {
                 break;
         }
 
-        graphics2D.setPaint(CyderColors.tooltipBackgroundColor);
+        graphics2D.setPaint(this.backgroundColor);
 
         GeneralPath fillPath = new GeneralPath();
 
@@ -299,7 +308,7 @@ public class Notification extends JLabel {
                 }
 
                 //now that it's visible, call vanish with the proper delay if enabled
-                if (UserUtil.getUserData("persistentnotifications").equals("0"))
+                if (UserUtil.getUserData("persistentnotifications").equals("0") && delay != -1)
                     this.vanish(notificationDirection, parent, delay);
             }
 

@@ -551,13 +551,34 @@ public final class ConsoleFrame {
             im.put(KeyStroke.getKeyStroke("released ENTER"), "released");
 
             suggestionButton.addActionListener(e -> new Thread(() -> {
-                String suggestionText = new GetterUtil().getString("Enter your suggestion","Enter your suggestion, be as descriptive as possible",
-                        "Submit Suggestion", CyderColors.tooltipForegroundColor).trim();
+                JLabel parentLabel = new JLabel();
+                parentLabel.setIcon(ImageUtil.imageIconFromColor(CyderColors.vanila));
+                parentLabel.setToolTipText(TimeUtil.logTime());
+                parentLabel.setSize(300,110);
 
-                if (!suggestionText.equals("NULL")) {
+                CyderTextField ctf = new CyderTextField(0);
+                ctf.setBounds(20,20,280,40);
+                parentLabel.add(ctf);
+
+                CyderButton submit = new CyderButton("Submit");
+                submit.setColors(CyderColors.intellijPink);
+                submit.addActionListener(ev -> {
+                    String suggestionText = ctf.getText().trim();
+
+                    if (suggestionText.length() == 0)
+                        return;
+
                     SessionHandler.log(SessionHandler.Tag.SUGGESTION,  suggestionText);
+
+                    //make a feature to make a put request to a cyder backend server to accept these
                     getInputHandler().println("Suggestion Logged; make sure that you send your logs dir to Nathan");
-                }
+                });
+                submit.setBounds(20,70,280,40);
+                parentLabel.add(submit);
+
+                consoleCyderFrame.notify("",-1, Direction.LEFT, NotificationDirection.TOP_LEFT,
+                        null, parentLabel, CyderColors.vanila);
+
             },"Suggestion Getter Waiter Thread").start());
             suggestionButton.addMouseListener(new MouseAdapter() {
                 @Override
@@ -932,7 +953,6 @@ public final class ConsoleFrame {
 
             String logString = "Console loaded in " + (GenesisShare.getConsoleStartTime() - GenesisShare.getAbsoluteStartTime()) + "ms";
             SessionHandler.log(SessionHandler.Tag.ACTION, logString);
-            consoleCyderFrame.notify(logString);
 
             //position window from last location if in bounds
             int x = Integer.parseInt(UserUtil.getUserData("windowlocx"));

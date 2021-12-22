@@ -705,6 +705,40 @@ public class CyderFrame extends JFrame {
      * @param notificationDirection the enter/exit direction of the notification
      */
     public void notify(String htmltext, int viewDuration, Direction arrowDir, NotificationDirection notificationDirection, ClickAction onKillAction) {
+        notify(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction, null);
+    }
+
+    /**
+     * Full control over the notification function of a {@link CyderFrame}.
+     * See {@link CyderFrame#notify(String, int, NotificationDirection, ClickAction)} for a simpler notify function
+     *
+     * @param htmltext the text you want to display (may include HTML tags)
+     * @param viewDuration the time in ms the notification should be visible for. Pass in 0
+     *        to be auto calculated based on word count, pass in -1 to persist indefinitely until the user clicks
+     * @param arrowDir the direction of the arrow on the notification
+     * @param notificationDirection the enter/exit direction of the notification
+     * @param container container to show on the notification instead of the typical text, pass null to ignore
+     */
+    public void notify(String htmltext, int viewDuration, Direction arrowDir,
+                       NotificationDirection notificationDirection, ClickAction onKillAction, Container container) {
+        notify(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction, container, null);
+    }
+
+    /**
+     * Full control over the notification function of a {@link CyderFrame}.
+     * See {@link CyderFrame#notify(String, int, NotificationDirection, ClickAction)} for a simpler notify function
+     *
+     * @param htmltext the text you want to display (may include HTML tags)
+     * @param viewDuration the time in ms the notification should be visible for. Pass in 0
+     *        to be auto calculated based on word count, pass in -1 to persist indefinitely until the user clicks
+     * @param arrowDir the direction of the arrow on the notification
+     * @param notificationDirection the enter/exit direction of the notification
+     * @param container container to show on the notification instead of the typical text, pass null to ignore
+     * @param notificationBackground the color to set the notification background to. Pass null for default
+     */
+    public void notify(String htmltext, int viewDuration, Direction arrowDir,
+                       NotificationDirection notificationDirection, ClickAction onKillAction,
+                       Container container, Color notificationBackground) {
         //make a WaitingNotification and add to queue, queue will automatically process any notifications so no further actions needed
         notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction));
 
@@ -719,6 +753,9 @@ public class CyderFrame extends JFrame {
 
                             //init notification object
                             currentNotification = new Notification();
+
+                            if (notificationBackground != null)
+                                currentNotification.setBackgroundColor(notificationBackground);
 
                             //set the arrow direction
                             currentNotification.setArrow(currentWaitingNotification.getArrowDir());
@@ -741,32 +778,38 @@ public class CyderFrame extends JFrame {
                                 continue;
                             }
 
-                            //set the text bounds to the proper x,y and theest
-                            // calculated width and height
-                            text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+                            if (container == null) {
+                                //set the text bounds to the proper x,y and theest
+                                // calculated width and height
+                                text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
 
-                            currentNotification.setWidth(w);
-                            currentNotification.setHeight(h);
+                                currentNotification.setWidth(w);
+                                currentNotification.setHeight(h);
 
-                            text.setFont(notificationFont);
-                            text.setForeground(CyderColors.tooltipForegroundColor);
-                            currentNotification.add(text);
+                                text.setFont(notificationFont);
+                                text.setForeground(CyderColors.tooltipForegroundColor);
+                                currentNotification.add(text);
 
-                            JLabel disposeLabel = new JLabel();
-                            disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
-                            disposeLabel.setToolTipText(TimeUtil.logTime());
-                            disposeLabel.addMouseListener(new MouseAdapter() {
-                                @Override
-                                public void mouseClicked(MouseEvent e) {
-                                    //fire any on kill actions if it's not null
-                                    if (currentWaitingNotification.getOnKillAction() != null)
-                                        currentWaitingNotification.getOnKillAction().fire();
+                                JLabel disposeLabel = new JLabel();
+                                disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+                                disposeLabel.setToolTipText(TimeUtil.logTime());
+                                disposeLabel.addMouseListener(new MouseAdapter() {
+                                    @Override
+                                    public void mouseClicked(MouseEvent e) {
+                                        //fire any on kill actions if it's not null
+                                        if (currentWaitingNotification.getOnKillAction() != null)
+                                            currentWaitingNotification.getOnKillAction().fire();
 
-                                    //smoothly animate notification away
-                                    currentNotification.vanish(currentWaitingNotification.getNotificationDirection(), getContentPane(), 0);
-                                }
-                            });
-                            currentNotification.add(disposeLabel);
+                                        //smoothly animate notification away
+                                        currentNotification.vanish(currentWaitingNotification.getNotificationDirection(), getContentPane(), 0);
+                                    }
+                                });
+                                currentNotification.add(disposeLabel);
+                            } else {
+                                currentNotification.setWidth(container.getWidth());
+                                currentNotification.setHeight(container.getHeight());
+                                currentNotification.add(container);
+                            }
 
                             switch (currentWaitingNotification.getNotificationDirection()) {
                                 case TOP_LEFT:
