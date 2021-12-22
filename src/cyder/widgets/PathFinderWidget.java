@@ -610,7 +610,7 @@ public class PathFinderWidget {
             //instantly solve and paint grid and animate path if found and show words PATH or NO PATH
             // use a separate thread though to avoid lag
             new Thread(() -> {
-                while (!open.isEmpty()) {
+                while (end.getParent() == null) {
                     pathStep();
                 }
 
