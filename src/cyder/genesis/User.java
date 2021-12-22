@@ -42,6 +42,7 @@ public class User {
     private String persistentnotifications;
     private String closeAnimation;
     private String minimizeAnimation;
+    private String consolePinned;
     private LinkedList<MappedExecutable> executables;
 
     public String getName() {
@@ -366,6 +367,14 @@ public class User {
 
     public void setMinimizeAnimation(String minimizeAnimation) {
         this.minimizeAnimation = minimizeAnimation;
+    }
+
+    public String getConsolePinned() {
+        return consolePinned;
+    }
+
+    public void setConsolePinned(String consolePinned) {
+        this.consolePinned = consolePinned;
     }
 
     //inner classes

@@ -779,9 +779,11 @@ public final class ConsoleFrame {
             pin.addActionListener(e -> {
                 if (consoleCyderFrame.isAlwaysOnTop()) {
                     consoleCyderFrame.setAlwaysOnTop(false);
+                    UserUtil.setUserData("consolepinned","0");
                     pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
                 } else {
                     consoleCyderFrame.setAlwaysOnTop(true);
+                    UserUtil.setUserData("consolepinned","1");
                     pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
                 }
             });
@@ -819,7 +821,8 @@ public final class ConsoleFrame {
                     }
                 }
             });
-            pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+            pin.setIcon(UserUtil.getUserData("consolepinned").equals("1") ?
+                    new ImageIcon("static/pictures/icons/pin2.png") : new ImageIcon("static/pictures/icons/pin.png"));
             pin.setContentAreaFilled(false);
             pin.setBorderPainted(false);
             pin.setFocusPainted(false);
@@ -992,6 +995,9 @@ public final class ConsoleFrame {
                     f.dispose();
                 }
             }
+
+            //pin console if needed
+            consoleCyderFrame.setAlwaysOnTop(UserUtil.getUserData("consolepinned").equals("1"));
 
             //close all frames just before showing console
             for (CyderFrame f : FrameUtil.getCyderFrames()) {
@@ -2838,6 +2844,7 @@ public final class ConsoleFrame {
         //save window location
         UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
         UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
+        UserUtil.setUserData("consolepinned", consoleCyderFrame.isAlwaysOnTop() ? "1" : "0");
 
         //stop any audio
         IOUtil.stopAudio();
