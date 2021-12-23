@@ -428,7 +428,8 @@ public class PathFinderWidget {
             heuristicSwitch.setEnabled(true);
             dijkstraSwitch.setEnabled(true);
             heuristicSwitch.setState(CyderSwitch.State.OFF);
-            dijkstraSwitch.setState(CyderSwitch.State.OFF);
+            dijkstraSwitch.setState(CyderSwitch.State.ON);
+            performDijkstras = true;
         });
         pathFindingFrame.getContentPane().add(reset);
 
@@ -510,12 +511,12 @@ public class PathFinderWidget {
         pathFindingFrame.getContentPane().add(speedSlider);
 
         dijkstraSwitch = new CyderSwitch(400,50);
-        dijkstraSwitch.setOffText("A*");
-        dijkstraSwitch.setOnText("Dijkstras");
-        dijkstraSwitch.setToolTipText("Compute Dijkstra's");
+        dijkstraSwitch.setOffText("Dijkstras");
+        dijkstraSwitch.setOnText("A*");
+        dijkstraSwitch.setToolTipText("Algorithm Switcher");
         dijkstraSwitch.setBounds(pathFindingFrame.getWidth() / 2 - 400 / 2, 1000, 400, 50);
         dijkstraSwitch.setButtonPercent(50);
-        dijkstraSwitch.setState(CyderSwitch.State.OFF);
+        dijkstraSwitch.setState(CyderSwitch.State.ON);
         pathFindingFrame.getContentPane().add(dijkstraSwitch);
 
         dijkstraSwitch.getSwitchButton().addActionListener(e -> performDijkstras = !performDijkstras);

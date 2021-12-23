@@ -68,11 +68,13 @@ public class CyderSwitch extends JLabel {
                 if (shouldAniamte)
                     AnimationUtil.componentRight(switchButton.getX(), this.width - switchButton.getWidth() - 10,
                             animationDelay, 8, switchButton);
+                switchButton.setLocation(this.width - switchButton.getWidth() - 10, switchButton.getY());
                 break;
             case OFF:
                 switchButton.setText(offText);
                 if (shouldAniamte)
                     AnimationUtil.componentLeft(switchButton.getX(), 10, animationDelay, 8, switchButton);
+                switchButton.setLocation(10, switchButton.getY());
                 break;
             case INDETERMINITE:
                 switchButton.setText(indeterminiteText);
