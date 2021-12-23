@@ -7,6 +7,8 @@ import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
+import cyder.ui.CyderSwitch;
+import cyder.ui.CyderTextField;
 import cyder.utilities.TimeUtil;
 
 import javax.swing.*;
@@ -20,9 +22,11 @@ public class ClockWidget {
 
     private static CyderFrame clockFrame;
     private static JLabel clockLabel;
-    private static boolean showSecondHand;
+    private static boolean showSecondHand = true;
     private static JLabel digitalTimeAndDateLabel;
-    private static boolean paintHourLabels;
+    private static boolean paintHourLabels = true;
+    private static CyderSwitch paintHourLabelsSwitch;
+    private static CyderSwitch showSecondHandSwitch;
 
     private static Color clockColor = CyderColors.intellijPink;
 
@@ -33,8 +37,10 @@ public class ClockWidget {
            clockFrame.dispose();
 
        update = true;
+       showSecondHand = true;
+       paintHourLabels = true;
 
-        clockFrame = new CyderFrame(800,850) {
+        clockFrame = new CyderFrame(800,900) {
             @Override
             public void dispose() {
                 update = false;
@@ -71,9 +77,41 @@ public class ClockWidget {
         clockLabel.setBorder(new LineBorder(CyderColors.navy, 5));
         clockFrame.getContentPane().add(clockLabel);
 
-        //switchers for paint hour labels and seconds hand on right
+        paintHourLabelsSwitch = new CyderSwitch(320,50);
+        paintHourLabelsSwitch.setOnText("Paint");
+        paintHourLabelsSwitch.setOffText("Don't paint");
+        paintHourLabelsSwitch.setToolTipText("Paint Hours");
+        paintHourLabelsSwitch.setBounds(60, 760, 320, 50);
+        paintHourLabelsSwitch.setButtonPercent(50);
+        paintHourLabelsSwitch.setState(CyderSwitch.State.ON);
+        clockFrame.getContentPane().add(paintHourLabelsSwitch);
 
-        //hex color field on bottom left
+        paintHourLabelsSwitch.getSwitchButton().addActionListener(e -> {
+            //todo
+        });
+
+        showSecondHandSwitch = new CyderSwitch(320,50);
+        showSecondHandSwitch.setOnText("Seconds");
+        showSecondHandSwitch.setOffText("No Seconds");
+        showSecondHandSwitch.setToolTipText("Show Second hand");
+        showSecondHandSwitch.setBounds(60 + 40 + 320, 760, 320, 50);
+        showSecondHandSwitch.setButtonPercent(50);
+        showSecondHandSwitch.setState(CyderSwitch.State.ON);
+        clockFrame.getContentPane().add(showSecondHandSwitch);
+
+        showSecondHandSwitch.getSwitchButton().addActionListener(e -> {
+            //todo
+        });
+
+        CyderTextField hexField = new CyderTextField(6);
+        hexField.setRegexMatcher("[abcdefABCDEF0-9]*");
+        hexField.setBounds(200, 830, 400, 40);
+        clockFrame.getContentPane().add(hexField);
+
+        CyderLabel hexLabel = new CyderLabel("Hex:");
+        hexLabel.setFont(CyderFonts.defaultFont);
+        hexLabel.setBounds(145, 830, CyderFrame.getMinWidth("Hex:",hexLabel.getFont()), 40);
+        clockFrame.getContentPane().add(hexLabel);
 
         clockFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         clockFrame.setVisible(true);

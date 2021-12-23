@@ -8,6 +8,8 @@ public class CyderRegexPatterns {
     public static final String phoneNumberPattern = "\\s*[0-9]?\\s*[\\-]?\\s*[\\(]?\\s*[0-9]{0,3}\\s*[\\)]?\\s*[\\-]?\\s*[0-9]{3}\\s*[\\-]?\\s*[0-9]{4}\\s*";
     public static final String phoneNumberAreaCodeExtendedPattern = "\\s*[0-9]{0,2}\\s*[\\-]?\\s*[\\(]?\\s*[0-9]{0,3}\\s*[\\)]?\\s*[\\-]?\\s*[0-9]{3}\\s*[\\-]?\\s*[0-9]{4}\\s*";
 
+    public static final String numbersAndLettersPattern = "[a-zA-Z0-9]*";
+
     public String zeroOrMoreWhiteSpace() {
         return "\\s*";
     }
