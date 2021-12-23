@@ -130,6 +130,27 @@ public class ImageUtil {
         return new ImageIcon(im);
     }
 
+    public static BufferedImage resizeImage(int x, int y, ImageIcon icon) {
+        BufferedImage ReturnImage = null;
+
+        try {
+            Image ConsoleImage = icon.getImage();
+            Image TransferImage = ConsoleImage.getScaledInstance(x, y, Image.SCALE_SMOOTH);
+            ReturnImage = new BufferedImage(TransferImage.getWidth(null), TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D bGr = ReturnImage.createGraphics();
+
+            bGr.drawImage(TransferImage, 0, 0, null);
+            bGr.dispose();
+            return ReturnImage;
+        }
+
+        catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ReturnImage;
+    }
+
     public static BufferedImage resizeImage(int x, int y, File UneditedImage) {
         BufferedImage ReturnImage = null;
 

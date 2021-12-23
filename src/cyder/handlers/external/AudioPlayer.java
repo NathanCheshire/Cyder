@@ -640,7 +640,8 @@ public class AudioPlayer {
            playPauseAudioButton.setToolTipText("Play");
            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
-            audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+           audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+           audioFrame.setUseCustomTaskbarIcon(false);
 
            refreshAudio();
        } catch (Exception e) {
@@ -784,10 +785,14 @@ public class AudioPlayer {
                 ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
                 //album art if possible
-                if (refreshAlbumArt())
+                if (refreshAlbumArt()) {
                     audioFrame.setIconImage(currentAlbumArt.getImage());
-                else
+                    audioFrame.setCustomTaskbarIcon(currentAlbumArt);
+                    audioFrame.setUseCustomTaskbarIcon(true);
+                } else {
                     audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+                    audioFrame.setUseCustomTaskbarIcon(false);
+                }
 
                 lastAction = LastAction.PLAY;
 

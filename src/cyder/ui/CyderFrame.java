@@ -1751,12 +1751,45 @@ public class CyderFrame extends JFrame {
     }
 
     //console menu taskbar logic
+
     private static Color blueBorderColor = new Color(22,124,237);
     private static Color redBorderColor = new Color(254,49,93);
     private static Color orangeBorderColor = new Color(249,122,18);
 
     private static int colorIndex = 0;
     private Color taskbarIconBorderColor;
+
+    private boolean useCustomTaskbarIcon;
+    private ImageIcon customTaskbarIcon;
+
+    public boolean isUseCustomTaskbarIcon() {
+        return useCustomTaskbarIcon;
+    }
+
+    public void setUseCustomTaskbarIcon(boolean useCustomTaskbarIcon) {
+        this.useCustomTaskbarIcon = useCustomTaskbarIcon;
+
+        if (!useCustomTaskbarIcon)
+            customTaskbarIcon = null;
+
+        //todo optimize this so that it only calls this if it has changed and not been updated
+        ConsoleFrame.getConsoleFrame().revalidateConsoleMenu();
+    }
+
+    public JLabel getCustomTaskbarIcon() {
+        JLabel customLabel = new JLabel(new ImageIcon(
+                ImageUtil.resizeImage(CyderFrame.taskbarIconLength,
+                        CyderFrame.taskbarIconLength, customTaskbarIcon)));
+        customLabel.setSize(CyderFrame.taskbarIconLength, CyderFrame.taskbarIconLength);
+
+        //base label, needs to have a border, a click action, and a hover action
+
+        return null;
+    }
+
+    public void setCustomTaskbarIcon(ImageIcon customTaskbarIcon) {
+        this.customTaskbarIcon = customTaskbarIcon;
+    }
 
     //initializes this frame instance's border color to be used for drawing/redrawing until object is disposed
     private Color getTaskbarBorderColor() {
@@ -1884,6 +1917,8 @@ public class CyderFrame extends JFrame {
     public interface ClickAction {
         void fire();
     }
+
+    //---------------------------------------------------------------------------------------
 
     //overridden so we can add to ConsoleFrame's taskbar menu
     @Override

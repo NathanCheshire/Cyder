@@ -1380,7 +1380,14 @@ public final class ConsoleFrame {
 
         if (menuTaskbarFrames != null && menuTaskbarFrames.size() > 0) {
             for (int i = menuTaskbarFrames.size() - 1 ; i > -1 ; i--) {
-                printingUtil.printlnComponent(menuTaskbarFrames.get(i).getTaskbarButton());
+                CyderFrame currentFrame = menuTaskbarFrames.get(i);
+
+                if (currentFrame.isUseCustomTaskbarIcon()) {
+                    printingUtil.printlnComponent(currentFrame.getCustomTaskbarIcon());
+                } else {
+                    printingUtil.printlnComponent(currentFrame.getTaskbarButton());
+                }
+
                 printingUtil.println("");
             }
         }
