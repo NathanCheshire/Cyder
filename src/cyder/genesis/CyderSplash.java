@@ -144,6 +144,9 @@ public class CyderSplash {
                             nathanLabel.setText("Loading components...");
                             Thread.sleep(400);
                             nathanLabel.repaint();
+
+                            if (splashFrame.isDispoed())
+                                return;
                         }
 
                         if (splashFrame.isActive()) {

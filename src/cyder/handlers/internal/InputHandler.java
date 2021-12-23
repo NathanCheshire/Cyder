@@ -40,7 +40,10 @@ import java.net.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.LinkedList;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -272,7 +275,9 @@ public class InputHandler {
                     false, 50, true);
         }
         //widgets -------------------------------------------------
-        else if ((hasWord("youtube") && hasWord("thumbnail"))) {
+        else if (hasWord("clock")) {
+            ClockWidget.showGUI();
+        } else if ((hasWord("youtube") && hasWord("thumbnail"))) {
             YoutubeUtil.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
         } else if (hasWord("minecraft")) {
