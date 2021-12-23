@@ -796,7 +796,9 @@ public class CyderFrame extends JFrame {
 
                                 JLabel disposeLabel = new JLabel();
                                 disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
-                                disposeLabel.setToolTipText(TimeUtil.logTime());
+
+                                //todo this needs to be in waiting notification since rn this is just the time it was pulled from the queue
+                                disposeLabel.setToolTipText("Notified at: " + TimeUtil.notificationTime());
                                 disposeLabel.addMouseListener(new MouseAdapter() {
                                     @Override
                                     public void mouseClicked(MouseEvent e) {

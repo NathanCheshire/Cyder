@@ -127,17 +127,20 @@ public class YoutubeUtil {
                 error();
             }
 
-            BufferedImage save = getSquareThumbnail(videoURL);
-            String name = StringUtil.getFilename(ret) + ".png";
+            //make sure the audio was downloaded
+            if (ret.exists()) {
+                BufferedImage save = getSquareThumbnail(videoURL);
+                String name = StringUtil.getFilename(ret) + ".png";
 
-            File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt");
+                File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt");
 
-            if (!albumArtDir.exists())
-                albumArtDir.mkdir();
+                if (!albumArtDir.exists())
+                    albumArtDir.mkdir();
 
-            File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                    + "/Music/AlbumArt/" + name);
-            ImageIO.write(save, "png", saveFile);
+                File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                        + "/Music/AlbumArt/" + name);
+                ImageIO.write(save, "png", saveFile);
+            }
 
             return ret;
         });

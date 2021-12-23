@@ -148,6 +148,10 @@ public class TimeUtil {
         return getTime("HH-mm-ss");
     }
 
+    public static String notificationTime() {
+        return getTime("HH:mm:ss");
+    }
+
     public static String userTime() {
         return getTime("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
     }

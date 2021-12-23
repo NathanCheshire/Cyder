@@ -1150,6 +1150,8 @@ public final class ConsoleFrame {
                     }
             } catch (Exception e) {
                 //sometimes this throws for no reason trying to get times or something so log quietly
+                //todo this shouldn't be outside the while loop since this means the clock stops working rn
+                // if an exception is thrown
                 ErrorHandler.silentHandle(e);
             }
         }, "Console Clock Updater");

@@ -931,7 +931,6 @@ public class InputHandler {
                 URLConnection conn = url.openConnection();
                 conn.connect();
             } catch (Exception e) {
-                ErrorHandler.silentHandle(e);
                 isURL = false;
             }
 

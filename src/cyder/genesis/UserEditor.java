@@ -5,10 +5,10 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
+import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
-import cyder.handlers.external.AudioPlayer;
 import cyder.widgets.ColorConverterWidget;
 
 import javax.swing.*;
@@ -381,6 +381,7 @@ public class UserEditor {
         renameMusicBackground.setBounds(20 + 155 + 20 + 155 + 20, 440, 155, 40);
         switchingLabel.add(renameMusicBackground);
 
+        //todo if deleting a music file, remove corresponding album art if it exists
         deleteMusicBackground = new CyderButton("Delete");
         deleteMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
         deleteMusicBackground.addActionListener(e -> {
@@ -402,16 +403,31 @@ public class UserEditor {
                         selectedFile.getAbsolutePath().equalsIgnoreCase(AudioPlayer.getCurrentAudio().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the audio you are currently playing");
                 } else {
-                    selectedFile.delete();
+                    boolean deleted = selectedFile.delete();
 
-                    revalidateMusicBackgroundScroll();
+                    if (deleted) {
+                        revalidateMusicBackgroundScroll();
 
-                    if (StringUtil.getExtension(selectedFile).equals(".mp3"))
-                        ConsoleFrame.getConsoleFrame().getInputHandler()
-                                .println("Music: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
-                    else if (StringUtil.getExtension(selectedFile).equals(".png")) {
-                        ConsoleFrame.getConsoleFrame().getInputHandler()
-                                .println("Background: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
+                        if (StringUtil.getExtension(selectedFile).equals(".mp3"))
+                            ConsoleFrame.getConsoleFrame().getInputHandler()
+                                    .println("Music: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
+                        else if (StringUtil.getExtension(selectedFile).equals(".png")) {
+                            ConsoleFrame.getConsoleFrame().getInputHandler()
+                                    .println("Background: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
+                        }
+
+                        if (StringUtil.getExtension(selectedFile.getName()).equals(".mp3")) {
+                            //attempt to find album art
+                            String name = StringUtil.getFilename(selectedFile.getName());
+
+                            //find corresponding album art and delete
+                            for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt").listFiles()) {
+                                if (StringUtil.getFilename(f).equals(name)) {
+                                    f.delete();
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }
