@@ -51,6 +51,8 @@ public class PathFinderWidget {
     private static Color pathColor = Color.darkGray;
 
     private static CyderSwitch heuristicSwitch;
+    private static CyderSwitch dijkstraSwitch;
+    private static boolean performDijkstras;
 
     private static int heuristicIndex;
     private static String[] heuristics = {"Manhattan","Euclidean"};
@@ -69,8 +71,8 @@ public class PathFinderWidget {
         pathText = "";
         paused = false;
 
-        pathFindingFrame = new CyderFrame(1000,1000, CyderImages.defaultBackgroundLarge);
-        pathFindingFrame.setTitle("A* visualizer");
+        pathFindingFrame = new CyderFrame(1000,1070, CyderImages.defaultBackgroundLarge);
+        pathFindingFrame.setTitle("Pathfinding visualizer");
 
         gridLabel = new JLabel() {
             @Override
@@ -424,6 +426,9 @@ public class PathFinderWidget {
 
             diagonalBox.setEnabled(true);
             heuristicSwitch.setEnabled(true);
+            dijkstraSwitch.setEnabled(true);
+            heuristicSwitch.setState(CyderSwitch.State.OFF);
+            dijkstraSwitch.setState(CyderSwitch.State.OFF);
         });
         pathFindingFrame.getContentPane().add(reset);
 
@@ -435,6 +440,7 @@ public class PathFinderWidget {
             } else if (!timer.isRunning()) {
                 diagonalBox.setEnabled(false);
                 heuristicSwitch.setEnabled(false);
+                dijkstraSwitch.setEnabled(false);
                 diagonalBox.setEnabled(false);
                 deleteWallsCheckBox.setEnabled(false);
                 showStepsBox.setEnabled(false);
@@ -502,6 +508,17 @@ public class PathFinderWidget {
         speedSlider.setFocusable(false);
         speedSlider.repaint();
         pathFindingFrame.getContentPane().add(speedSlider);
+
+        dijkstraSwitch = new CyderSwitch(400,50);
+        dijkstraSwitch.setOffText("A*");
+        dijkstraSwitch.setOnText("Dijkstras");
+        dijkstraSwitch.setToolTipText("Compute Dijkstra's");
+        dijkstraSwitch.setBounds(pathFindingFrame.getWidth() / 2 - 400 / 2, 1000, 400, 50);
+        dijkstraSwitch.setButtonPercent(50);
+        dijkstraSwitch.setState(CyderSwitch.State.OFF);
+        pathFindingFrame.getContentPane().add(dijkstraSwitch);
+
+        dijkstraSwitch.getSwitchButton().addActionListener(e -> performDijkstras = !performDijkstras);
 
         pathFindingFrame.setVisible(true);
         pathFindingFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
@@ -657,6 +674,7 @@ public class PathFinderWidget {
         showStepsBox.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
         heuristicSwitch.setEnabled(true);
+        dijkstraSwitch.setEnabled(true);
         paused = false;
 
         pathText = "PATH FOUND";
@@ -686,6 +704,7 @@ public class PathFinderWidget {
         diagonalBox.setEnabled(true);
         showStepsBox.setEnabled(true);
         heuristicSwitch.setEnabled(true);
+        dijkstraSwitch.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
         paused = false;
 
@@ -715,9 +734,9 @@ public class PathFinderWidget {
     private static double heuristic(Node n) {
         if (heuristicIndex == 0) {
             return manhattanDistance(n, end);
-        } else {
+        } else if (heuristicIndex == 1) {
             return euclideanDistance(n, end);
-        }
+        } else return 1;
     }
 
     //distance from node to start
