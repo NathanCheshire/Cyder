@@ -1154,9 +1154,6 @@ public final class ConsoleFrame {
         }, "Console Clock Updater");
         consoleClockUpdaterThread.start();
 
-        //todo removing frames from console frame is still broken, perhaps it should be done in the dispose method
-        // and also call a repaint there? maybe it's already done there, idk, I just know that it's broken so fix it
-
         //Cyder Busy Checker
         busyCheckerThread = new Thread(() -> {
             try {
@@ -2179,8 +2176,11 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Redraws the console menu if it's open
+     */
     public void revalidateConsoleMenu() {
-        //if the frame is closed or the label simply doesn't exist then exit
+        //if the frame is closed or the label simply doesn't exis
         if (closed || menuLabel == null)
             return;
 
@@ -2189,14 +2189,16 @@ public final class ConsoleFrame {
             menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
         }
 
-        //determine menu location and set it's bounds respectively, also change input and output fields
+        //based on console menu, set bounds of fields
         int addX = 0;
         int w = consoleCyderFrame.getWidth();
         int h = consoleCyderFrame.getHeight();
 
+        //offset for setting field bounds
         if (menuLabel.isVisible())
             addX = 2 + menuLabel.getWidth();
 
+        //set bounds
         outputScroll.setBounds(addX + 15, 62, w - 40 - addX, h - 204);
         inputField.setBounds(addX + 15, 62 + outputScroll.getHeight() + 20,w - 40 - addX,
                 h - (62 + outputScroll.getHeight() + 20 + 20));
@@ -2562,10 +2564,45 @@ public final class ConsoleFrame {
         return consoleCyderFrame;
     }
 
+    //todo replace revalidateConsoleMenu calls with this method
+
+    /**
+     * Revalidates the console menu and places it where it was depending on if it was visible or not
+     */
     public void revaliateMenu() {
+        //if the frame is closed or the label simply doesn't exis
+        if (closed || menuLabel == null)
+            return;
+
+        boolean wasVis = menuLabel.isVisible();
+
         menuLabel.setVisible(false);
         consoleMenuGenerated = false;
-        menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
+        revalidateConsoleMenu();
+
+        if (wasVis) {
+            menuButton.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
+            generateConsoleMenu();
+            menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
+            menuLabel.setVisible(true);
+        } else {
+            menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
+            //no other actions needed
+        }
+
+        //based on console menu, set bounds of fields
+        int addX = 0;
+        int w = consoleCyderFrame.getWidth();
+        int h = consoleCyderFrame.getHeight();
+
+        //offset for setting field bounds
+        if (menuLabel.isVisible())
+            addX = 2 + menuLabel.getWidth();
+
+        //set bounds
+        outputScroll.setBounds(addX + 15, 62, w - 40 - addX, h - 204);
+        inputField.setBounds(addX + 15, 62 + outputScroll.getHeight() + 20,w - 40 - addX,
+                h - (62 + outputScroll.getHeight() + 20 + 20));
     }
 
     public void animateOutAudioControls() {
@@ -2904,7 +2941,6 @@ public final class ConsoleFrame {
         consoleCyderFrame.dispose();
     }
 
-    //does this work test all cases
     public void logout() {
         GenesisShare.suspendFrameChecker();
 
@@ -2913,12 +2949,13 @@ public final class ConsoleFrame {
 
         //close all residual cyderframes
         for (Frame f : Frame.getFrames()) {
-            if (f instanceof CyderFrame)
-                f.dispose();
+            f.dispose();
         }
 
         Login.showGUI();
     }
+
+    //dancing stuff -----------------------------------------------------------------------
 
     private boolean currentlyDancing = false;
 
@@ -3005,4 +3042,6 @@ public final class ConsoleFrame {
 
         return ret;
     }
+
+    //end dancing stuff -------------------------------------------------------------------
 }

@@ -1770,6 +1770,9 @@ public class CyderFrame extends JFrame {
     }
 
     //todo custom taskbar icon for Cyder task doesn't work if setting it when menu is not open
+    //todo try and fix bar for progress bar (end of buffered image is what it rly is)
+
+    //even if console menu isn't visible, if we're calling generate it needs to be regenerated
 
     public void setUseCustomTaskbarIcon(boolean useCustomTaskbarIcon) {
         if (this.useCustomTaskbarIcon == useCustomTaskbarIcon)
@@ -1780,7 +1783,7 @@ public class CyderFrame extends JFrame {
         if (!useCustomTaskbarIcon)
             customTaskbarIcon = null;
 
-        ConsoleFrame.getConsoleFrame().revalidateConsoleMenu();
+        ConsoleFrame.getConsoleFrame().revaliateMenu();
     }
 
     public JLabel getCustomTaskbarIcon() {

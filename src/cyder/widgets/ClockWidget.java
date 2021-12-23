@@ -59,9 +59,10 @@ public class ClockWidget {
         };
         clockFrame.setTitle("Clock");
 
-        //todo issue #55
-
         //todo change location label to different area, add area label below time label too
+        //todo add presets for timezones
+        //todo make multiple instances possible
+        //todo make a mini mode that simply shows the time/date like weather
 
         digitalTimeAndDateLabel = new CyderLabel(TimeUtil.weatherTime());
         digitalTimeAndDateLabel.setFont(CyderFonts.defaultFont);
