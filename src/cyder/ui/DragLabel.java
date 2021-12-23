@@ -171,12 +171,15 @@ public class DragLabel extends JLabel {
      */
 
     private LinkedList<JButton> buttonsList = buildDefaultButtons();
+    private JButton minimize;
+    private JButton pinButton;
+    private JButton close;
 
     //default order: mini, pin, close
     private LinkedList<JButton> buildDefaultButtons() {
         LinkedList<JButton> ret = new LinkedList<>();
 
-        JButton minimize = new JButton("");
+        minimize = new JButton("");
         minimize.setToolTipText("Minimize");
         minimize.addActionListener(e -> effectFrame.minimizeAnimation());
 
@@ -210,7 +213,7 @@ public class DragLabel extends JLabel {
         minimize.setFocusable(false);
         ret.add(minimize);
 
-        JButton pinButton = new JButton("");
+        pinButton = new JButton("");
         pinButton.setToolTipText("Pin Window/Pin to Console");
         pinButton.addActionListener(e -> {
             if (effectFrame.getPinned()) {
@@ -252,7 +255,7 @@ public class DragLabel extends JLabel {
         pinButton.setFocusable(false);
         ret.add(pinButton);
 
-        JButton close = new JButton("");
+        close = new JButton("");
         close.setToolTipText("Close");
         close.addActionListener(e -> effectFrame.dispose());
         close.addMouseListener(new MouseAdapter() {
@@ -487,5 +490,25 @@ public class DragLabel extends JLabel {
 
     public ButtonPosition getButtonPosition() {
         return this.buttonPosition;
+    }
+
+    public void refreshPinButton() {
+        for (JButton dragLabelButton : this.getButtonsList()) {
+            if (dragLabelButton.getToolTipText().equals(pinButton.getToolTipText())) {
+                if (this.effectFrame.isAlwaysOnTop()) {
+                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                    effectFrame.setConsolePinned(false);
+                    effectFrame.setPinned(true);
+                } else if (this.effectFrame.isConsolePinned()) {
+                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin3.png"));
+                    effectFrame.setPinned(false);
+                    effectFrame.setConsolePinned(true);
+                } else {
+                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                    effectFrame.setPinned(false);
+                    effectFrame.setConsolePinned(false);
+                }
+            }
+        }
     }
 }

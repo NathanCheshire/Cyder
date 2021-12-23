@@ -422,7 +422,7 @@ public class UserUtil {
      */
     public static String extractUserData(User u, String name) {
         if (u == null || u.getClass() == null || u.getClass().getMethods() == null)
-            throw new IllegalArgumentException("Something is null :/");
+            throw new IllegalArgumentException("Something is null :/\nUser: " + u + "\nName: " + name);
 
         String ret = null;
 

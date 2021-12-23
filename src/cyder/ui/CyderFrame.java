@@ -1671,10 +1671,10 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the value for pinning the frame on top.
-     * @param b the value determining whether or not the frame is always on top
+     * @param pinWindow the value determining whether or not the frame is always on top
      */
-    public void setPinned(boolean b) {
-        this.pinned = b;
+    public void setPinned(boolean pinWindow) {
+        this.pinned = pinWindow;
         setAlwaysOnTop(this.pinned);
     }
 
@@ -1704,7 +1704,6 @@ public class CyderFrame extends JFrame {
      */
     public void setConsolePinned(boolean consolePinned) {
         this.consolePinned = consolePinned;
-        setAlwaysOnTop(this.consolePinned);
     }
 
     //relativeX, relativeY are used for frame pinning and dragging on the consoleFrame
@@ -1889,8 +1888,16 @@ public class CyderFrame extends JFrame {
     public void setVisible(boolean b) {
         super.setVisible(b);
 
+        //add to console frame's taskbar as long as it's not an exception
         if (b && !ConsoleFrame.getConsoleFrame().isClosed() && this != ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()) {
             ConsoleFrame.getConsoleFrame().addTaskbarIcon(this);
+        }
+
+        //if the console is set to always on top, then we need this frame to be automatically set on top as well
+        // so that new frames are not behind the console
+        if (b && ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().isAlwaysOnTop()) {
+            this.setAlwaysOnTop(true);
+            this.topDrag.refreshPinButton();
         }
     }
 
