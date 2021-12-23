@@ -20,7 +20,9 @@ public class SessionHandler {
     }
 
     private static File currentLog;
-    private static long start;
+
+    //absolute start of Cyder, class loading
+    private static long start = System.currentTimeMillis();
     private static boolean logTerminated;
 
     public enum Tag {
@@ -135,7 +137,6 @@ public class SessionHandler {
                 break;
             case ENTRY:
                 //[ENTRY]: [WINUSER=NATHAN]
-                start = System.currentTimeMillis();
                 logBuilder.append("[ENTRY]: [");
                 logBuilder.append(representation);
                 logBuilder.append("]");
