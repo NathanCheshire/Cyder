@@ -21,6 +21,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 import java.util.LinkedList;
 
 public class CyderFrame extends JFrame {
@@ -1777,14 +1778,52 @@ public class CyderFrame extends JFrame {
     }
 
     public JLabel getCustomTaskbarIcon() {
-        JLabel customLabel = new JLabel(new ImageIcon(
-                ImageUtil.resizeImage(CyderFrame.taskbarIconLength,
-                        CyderFrame.taskbarIconLength, customTaskbarIcon)));
+        JLabel customLabel = new JLabel();
         customLabel.setSize(CyderFrame.taskbarIconLength, CyderFrame.taskbarIconLength);
 
-        //base label, needs to have a border, a click action, and a hover action
+        int len = CyderFrame.taskbarIconLength;
+        int borderLen = CyderFrame.taskbarBorderLength;
 
-        return null;
+        BufferedImage resizedImage = ImageUtil.resizeImage(len, len, customTaskbarIcon);
+
+        //drawing a border if you wnat to do that in the future
+//        Graphics g = resizedImage.createGraphics();
+//        g.setColor(this.getTaskbarBorderColor());
+//        g.fillRect(0,0, len, borderLen);
+//        g.fillRect(0,0, borderLen, len);
+//        g.fillRect(len - borderLen, 0, len, len);
+//        g.fillRect(0, len - borderLen, len, len);
+
+        float darkenFactor = 0.7f;
+        RescaleOp op = new RescaleOp(darkenFactor, 0, null);
+        BufferedImage resizedImageHover = op.filter(resizedImage, null);
+
+        customLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (getState() == 0) {
+                    minimizeAnimation();
+                } else {
+                    setState(Frame.NORMAL);
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                customLabel.setIcon(new ImageIcon(resizedImageHover));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                customLabel.setIcon(new ImageIcon(resizedImage));
+            }
+        });
+
+        customLabel.setIcon(new ImageIcon(resizedImage));
+
+        //click action, and a hover action
+
+        return customLabel;
     }
 
     public void setCustomTaskbarIcon(ImageIcon customTaskbarIcon) {
