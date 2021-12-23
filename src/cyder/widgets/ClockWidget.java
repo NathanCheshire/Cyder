@@ -59,6 +59,10 @@ public class ClockWidget {
         };
         clockFrame.setTitle("Clock");
 
+        //todo issue #55
+
+        //todo change location label to different area, add area label below time label too
+
         digitalTimeAndDateLabel = new CyderLabel(TimeUtil.weatherTime());
         digitalTimeAndDateLabel.setFont(CyderFonts.defaultFont);
         digitalTimeAndDateLabel.setBounds(10,60, 780, 40);
