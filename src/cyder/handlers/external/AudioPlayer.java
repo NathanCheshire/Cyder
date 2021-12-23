@@ -15,6 +15,7 @@ import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.player.Player;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
@@ -67,6 +68,9 @@ public class AudioPlayer {
     private static int audioIndex;
     private static final int pauseAudioReactionOffset = 10000;
     private static LinkedList<File> audioFiles;
+
+    //album art
+    private static ImageIcon currentAlbumArt;
 
     //JLayer objects
     private static Player player;
@@ -636,6 +640,8 @@ public class AudioPlayer {
            playPauseAudioButton.setToolTipText("Play");
            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
+            audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+
            refreshAudio();
        } catch (Exception e) {
            ErrorHandler.handle(e);
@@ -776,6 +782,12 @@ public class AudioPlayer {
                 playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
                 playPauseAudioButton.setToolTipText("Pause");
                 ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+
+                //album art if possible
+                if (refreshAlbumArt())
+                    audioFrame.setIconImage(currentAlbumArt.getImage());
+                else
+                    audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
 
                 lastAction = LastAction.PLAY;
 
@@ -1227,5 +1239,32 @@ public class AudioPlayer {
      */
     public static void addToQueue(File f) {
         queue.push(f);
+    }
+
+    /**
+     * Refreshes the currentAlbumArt ImageIcon based on the current audio at audioIndex if
+     * an album art file exists with the same name as the audio file
+     * @return boolean describing whether or not album art exists
+     */
+    public static boolean refreshAlbumArt() {
+       try {
+           if (audioFiles == null || audioFiles.size() == 0)
+               return false;
+
+           String currentName = StringUtil.getFilename(audioFiles.get(audioIndex));
+
+           //for all the album arts
+           for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt").listFiles()) {
+               if (StringUtil.getFilename(f).equals(currentName)) {
+                   currentAlbumArt = new ImageIcon(ImageIO.read(f));
+                   return true;
+               }
+           }
+       } catch (Exception e) {
+           ErrorHandler.handle(e);
+       }
+
+        currentAlbumArt = null;
+        return false;
     }
 }

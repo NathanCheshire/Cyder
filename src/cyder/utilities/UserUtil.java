@@ -254,8 +254,6 @@ public class UserUtil {
         }
     }
 
-
-    //todo this corrupted an image so make this use a sem
     /**
      * Attempts to read backgrounds that Cyder would use for a user.
      * If it fails, the image is corrupted so we delete it in the calling function.
