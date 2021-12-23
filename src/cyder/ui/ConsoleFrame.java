@@ -1114,10 +1114,9 @@ public final class ConsoleFrame {
 
         //Console Clock Updater
         consoleClockUpdaterThread = new Thread(() -> {
-            try {
-                OUTER:
-                    while (true) {
-                        //why does this throw an error occasionally?
+            OUTER:
+                while (true) {
+                    try {
                         if (UserUtil.extractUser().getClockonconsole().equalsIgnoreCase("1")) {
                             if (UserUtil.extractUser().getShowseconds().equalsIgnoreCase("1")) {
                                 String time = TimeUtil.consoleSecondTime();
@@ -1147,13 +1146,11 @@ public final class ConsoleFrame {
                             }
                             i += 50;
                         }
+                    }  catch (Exception e) {
+                        //sometimes this throws for no reason trying to get times or something so log quietly
+                        ErrorHandler.silentHandle(e);
                     }
-            } catch (Exception e) {
-                //sometimes this throws for no reason trying to get times or something so log quietly
-                //todo this shouldn't be outside the while loop since this means the clock stops working rn
-                // if an exception is thrown
-                ErrorHandler.silentHandle(e);
-            }
+                }
         }, "Console Clock Updater");
         consoleClockUpdaterThread.start();
 
