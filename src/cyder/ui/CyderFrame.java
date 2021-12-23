@@ -1033,9 +1033,6 @@ public class CyderFrame extends JFrame {
                         int x = (int) point.getX();
                         int y = (int) point.getY();
 
-                        //remove from consoleframe
-                        ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
-
                         //figure out increment for frames
                         int distanceToTravel = Math.abs(this.getY()) + Math.abs(this.getHeight());
                         //25 frames to animate
@@ -1047,6 +1044,9 @@ public class CyderFrame extends JFrame {
                         }
                     }
                 }
+
+                //remove from consoleframe
+                ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
 
                 super.dispose();
                 disposed = true;
@@ -1769,13 +1769,17 @@ public class CyderFrame extends JFrame {
         return useCustomTaskbarIcon;
     }
 
+    //todo custom taskbar icon for Cyder task doesn't work if setting it when menu is not open
+
     public void setUseCustomTaskbarIcon(boolean useCustomTaskbarIcon) {
+        if (this.useCustomTaskbarIcon == useCustomTaskbarIcon)
+            return;
+
         this.useCustomTaskbarIcon = useCustomTaskbarIcon;
 
         if (!useCustomTaskbarIcon)
             customTaskbarIcon = null;
 
-        //todo optimize this so that it only calls this if it has changed and not been updated
         ConsoleFrame.getConsoleFrame().revalidateConsoleMenu();
     }
 
