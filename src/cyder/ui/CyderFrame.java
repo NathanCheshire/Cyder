@@ -1704,6 +1704,7 @@ public class CyderFrame extends JFrame {
      */
     public void setConsolePinned(boolean consolePinned) {
         this.consolePinned = consolePinned;
+        setAlwaysOnTop(this.consolePinned);
     }
 
     //relativeX, relativeY are used for frame pinning and dragging on the consoleFrame
