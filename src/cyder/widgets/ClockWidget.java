@@ -15,6 +15,8 @@ import cyder.utilities.TimeUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ClockWidget {
     private ClockWidget() {
@@ -91,11 +93,12 @@ public class ClockWidget {
                 int centerX = labelLen / 2;
                 int centerY = centerX;
 
+                //vars used in if
+                int numPoints = 12;
+                double theta = 0.0;
+                double thetaInc = 360.0 / numPoints;
                 if (paintHourLabels) {
                     //draw numbers in the boxes
-                    int numPoints = 12;
-                    double theta = 0.0;
-                    double thetaInc = 360.0 / numPoints;
 
                     String[] numerals = {"III","IV","V","VI","VII","VIII","IX","X","XI","XII","I","II"};
 
@@ -111,7 +114,7 @@ public class ClockWidget {
                         g2d.setColor(clockColor);
                         ((Graphics2D) g).setStroke(new BasicStroke(6));
                         int radius = 20;
-                        int topLeftX = (int) (x - radius / 2 + centerX);
+                        int topLeftX = (int) (x - radius / 2 + centerX) + 10;
                         int topleftY = (int) (y - radius / 2 + centerY);
 
                         String minText = numerals[i];
@@ -123,9 +126,6 @@ public class ClockWidget {
                         theta += thetaInc;
                     }
                 } else {
-                    int numPoints = 12;
-                    double theta = 0.0;
-                    double thetaInc = 360.0 / numPoints;
 
                     //drawing center points
                     for (int i = 0 ; i < numPoints ; i++) {
@@ -139,7 +139,7 @@ public class ClockWidget {
                         g2d.setColor(clockColor);
                         ((Graphics2D) g).setStroke(new BasicStroke(6));
                         int radius = 20;
-                        int topLeftX = (int) (x - radius / 2 + centerX) - 5;
+                        int topLeftX = (int) (x - radius / 2 + centerX) + 5;
                         int topleftY = (int) (y - radius / 2 + centerY) - 10;
 
                         g.fillRect(topLeftX, topleftY, boxLen / 2, boxLen);
@@ -149,7 +149,10 @@ public class ClockWidget {
                 }
 
                 //current theta, and x,y pair to draw from the center to
-                double theta = (hourTheta[0] / 12.0) * Math.PI * 2.0 + Math.PI * 1.5;
+                theta = (hourTheta[0] / 12.0) * Math.PI * 2.0 + Math.PI * 1.5;
+
+                //decrease radius by 15%
+                r = (int) (r * 0.85);
 
                 double x = r * Math.cos(theta);
                 double y = r * Math.sin(theta);
@@ -160,7 +163,27 @@ public class ClockWidget {
                 g.setColor(clockColor);
                 ((Graphics2D) g).setStroke(new BasicStroke(6));
 
-                //tood draw hour hand
+                theta = (hourTheta[0] * 30.0) + 270.0;
+
+                if (theta > 360.0)
+                    theta -= 360.0;
+
+                theta = theta * Math.PI / 180.0;
+
+                x = r * Math.cos(theta);
+                y = - r * Math.sin(theta);
+
+                drawToX = (int) Math.round(x);
+                drawToY = - (int) Math.round(y);
+
+                g.setColor(clockColor);
+                ((Graphics2D) g).setStroke(new BasicStroke(6));
+
+                //draw hour hand
+                g.drawLine(centerX, centerY, centerX + drawToX,  centerY + drawToY);
+
+                //decrease radius by 15%
+                r = (int) (r * 0.85);
 
                 //current theta, and x,y pair to draw from the center to
                 theta = (minuteTheta[0] / 60.0) * Math.PI * 2.0 + Math.PI * 1.5;
@@ -177,6 +200,9 @@ public class ClockWidget {
                 g.drawLine(centerX, centerY, centerX + drawToX,  centerY + drawToY);
 
                 if (showSecondHand) {
+                    //decrease radius by 15%
+                    r = (int) (r * 0.85);
+
                     //current theta, and x,y pair to draw from the center to
                     theta = (secondTheta[0] / 60.0) * Math.PI * 2.0 + Math.PI * 1.5;
                     x = r * Math.cos(theta);
@@ -228,16 +254,16 @@ public class ClockWidget {
                     //increment seconds
                     secondTheta[0] += 1;
 
-                    if (secondTheta[0] > 60) {
-                        secondTheta[0] = 0;
+                    if (secondTheta[0] == 60) {
+                        secondTheta[0] -= 60;
                         minuteTheta[0] += 1;
 
-                        if (minuteTheta[0] > 60) {
-                            minuteTheta[0] = 0;
+                        if (minuteTheta[0] == 60) {
+                            minuteTheta[0] -= 60;
                             hourTheta[0] += 1;
 
-                            if (hourTheta[0] > 60) {
-                                hourTheta[0] = 0;
+                            if (hourTheta[0] == 60) {
+                                hourTheta[0] -= 60;
                             }
                         }
                     }
@@ -272,6 +298,7 @@ public class ClockWidget {
         showSecondHandSwitch.getSwitchButton().addActionListener(e -> showSecondHand = !showSecondHand);
 
         CyderTextField hexField = new CyderTextField(6);
+        hexField.setToolTipText("Clock color");
         hexField.setRegexMatcher("[abcdefABCDEF0-9]*");
         hexField.setBounds(200, 830, 400, 40);
         hexField.addActionListener(e -> {
@@ -281,6 +308,7 @@ public class ClockWidget {
                 Color newColor = ColorUtil.hextorgbColor(text);
                 clockColor = newColor;
                 hexField.setText("");
+                clockLabel.repaint();
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
             }
@@ -289,6 +317,22 @@ public class ClockWidget {
 
         CyderLabel hexLabel = new CyderLabel("Hex:");
         hexLabel.setFont(CyderFonts.defaultFont);
+        hexLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ColorConverterWidget.showGUI();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                hexLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                hexLabel.setForeground(CyderColors.navy);
+            }
+        });
         hexLabel.setBounds(145, 830, CyderFrame.getMinWidth("Hex:",hexLabel.getFont()), 40);
         clockFrame.getContentPane().add(hexLabel);
 
