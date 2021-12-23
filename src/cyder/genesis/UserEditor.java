@@ -344,7 +344,7 @@ public class UserEditor {
                                     File refFile = null;
 
                                     for (File f : albumArtDir.listFiles()) {
-                                        if (StringUtil.getFilename(f).equals(StringUtil.getFilename(oldname))) {
+                                        if (StringUtil.getFilename(f).equals(oldname)) {
                                             refFile = f;
                                             break;
                                         }
@@ -381,7 +381,6 @@ public class UserEditor {
         renameMusicBackground.setBounds(20 + 155 + 20 + 155 + 20, 440, 155, 40);
         switchingLabel.add(renameMusicBackground);
 
-        //todo if deleting a music file, remove corresponding album art if it exists
         deleteMusicBackground = new CyderButton("Delete");
         deleteMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
         deleteMusicBackground.addActionListener(e -> {

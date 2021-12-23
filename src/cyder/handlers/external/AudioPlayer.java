@@ -640,8 +640,10 @@ public class AudioPlayer {
            playPauseAudioButton.setToolTipText("Play");
            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
-           audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
-           audioFrame.setUseCustomTaskbarIcon(false);
+           if (audioFrame != null) {
+               audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+               audioFrame.setUseCustomTaskbarIcon(false);
+           }
 
            refreshAudio();
        } catch (Exception e) {

@@ -1157,6 +1157,9 @@ public final class ConsoleFrame {
         }, "Console Clock Updater");
         consoleClockUpdaterThread.start();
 
+        //todo removing frames from console frame is still broken, perhaps it should be done in the dispose method
+        // and also call a repaint there? maybe it's already done there, idk, I just know that it's broken so fix it
+
         //Cyder Busy Checker
         busyCheckerThread = new Thread(() -> {
             try {
