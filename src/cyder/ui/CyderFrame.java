@@ -5,10 +5,11 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
+import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.*;
-import cyder.handlers.internal.PopupHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -1896,9 +1897,12 @@ public class CyderFrame extends JFrame {
 
         //if the console is set to always on top, then we need this frame to be automatically set on top as well
         // so that new frames are not behind the console
-        if (b && ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().isAlwaysOnTop()) {
+        if (b && this != CyderSplash.getSplashFrame() &&
+                ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().isAlwaysOnTop()) {
             this.setAlwaysOnTop(true);
-            this.topDrag.refreshPinButton();
+
+            if (topDrag != null)
+                this.topDrag.refreshPinButton();
         }
     }
 

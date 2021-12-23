@@ -254,25 +254,35 @@ public class UserUtil {
         }
     }
 
+
+    //todo this corrupted an image so make this use a sem
     /**
      * Attempts to read backgrounds that Cyder would use for a user.
      * If it fails, the image is corrupted so we delete it in the calling function.
      */
     public static void fixBackgrounds() {
-        for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds").listFiles()) {
-           boolean valid = true;
+        try {
+            GenesisShare.getExitingSem().acquire();
 
-            try (FileInputStream fi = new FileInputStream(f)) {
-                BufferedImage sourceImg = ImageIO.read(fi);
-                int w = sourceImg.getWidth();
-            } catch (Exception e) {
-                valid = false;
-                ErrorHandler.silentHandle(e);
+            for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds").listFiles()) {
+                boolean valid = true;
+
+                try (FileInputStream fi = new FileInputStream(f)) {
+                    BufferedImage sourceImg = ImageIO.read(fi);
+                    int w = sourceImg.getWidth();
+                } catch (Exception e) {
+                    valid = false;
+                    ErrorHandler.silentHandle(e);
+                }
+
+                if (!valid) {
+                    f.delete();
+                }
             }
 
-            if (!valid) {
-                f.delete();
-            }
+            GenesisShare.getExitingSem().release();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
         }
     }
 
