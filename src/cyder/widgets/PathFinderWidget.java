@@ -25,7 +25,6 @@ public class PathFinderWidget {
     private static CyderCheckBox showStepsBox;
     private static CyderCheckBox diagonalBox;
     private static CyderCheckBox deleteWallsCheckBox;
-    private static CyderCheckBox optimalPathCheckBox;
     private static CyderFrame pathFindingFrame;
     private static CyderButton reset;
     private static CyderButton startButton;
@@ -46,7 +45,6 @@ public class PathFinderWidget {
     private static boolean eToggled;
     private static boolean sToggled;
     private static boolean deleteWallsMode;
-    private static boolean optimalPath;
     private static boolean paused;
 
     private static String pathText = "";
@@ -369,12 +367,12 @@ public class PathFinderWidget {
         pathFindingFrame.getContentPane().add(gridLabel);
 
         CyderLabel deleteWallsLabel = new CyderLabel("Delete Walls");
-        deleteWallsLabel.setBounds(70,885,100,30);
+        deleteWallsLabel.setBounds(120,885,100,30);
         pathFindingFrame.getContentPane().add(deleteWallsLabel);
 
         deleteWallsCheckBox = new CyderCheckBox();
         deleteWallsCheckBox.setNotSelected();
-        deleteWallsCheckBox.setBounds(100, 920,50,50);
+        deleteWallsCheckBox.setBounds(150, 920,50,50);
         pathFindingFrame.getContentPane().add(deleteWallsCheckBox);
         deleteWallsCheckBox.addMouseListener(new MouseAdapter() {
             @Override
@@ -383,22 +381,6 @@ public class PathFinderWidget {
                 deleteWallsMode = !deleteWallsMode;
             }
         });
-
-        CyderLabel optimalPathLabel = new CyderLabel("Optimal");
-        optimalPathLabel.setBounds(150,885,100,30);
-        pathFindingFrame.getContentPane().add(optimalPathLabel);
-
-        optimalPathCheckBox = new CyderCheckBox();
-        optimalPathCheckBox.setNotSelected();
-        optimalPathCheckBox.setBounds(175, 920,50,50);
-        optimalPathCheckBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                optimalPath = !optimalPath;
-            }
-        });
-        pathFindingFrame.getContentPane().add(optimalPathCheckBox);
 
         CyderLabel showStepsLabel = new CyderLabel("Steps");
         showStepsLabel.setBounds(75 + 70 + 67,885,100,30);
@@ -440,7 +422,6 @@ public class PathFinderWidget {
             gridLabel.repaint();
             paused = false;
 
-            optimalPathCheckBox.setEnabled(true);
             diagonalBox.setEnabled(true);
             heuristicSwitch.setEnabled(true);
         });
@@ -452,7 +433,6 @@ public class PathFinderWidget {
             if (start == null || end == null) {
                 pathFindingFrame.notify("Start/end nodes not set");
             } else if (!timer.isRunning()) {
-                optimalPathCheckBox.setEnabled(false);
                 diagonalBox.setEnabled(false);
                 heuristicSwitch.setEnabled(false);
                 diagonalBox.setEnabled(false);
@@ -629,11 +609,9 @@ public class PathFinderWidget {
             Node min = open.poll();
             open.remove(min);
 
-            //this is the only place optimal should show up: in pathStep(), does it actuall show the optimal path though?
-            if (min.equals(end) && optimalPath) {
+             if (min.equals(end)) {
                 end.setParent(min.getParent());
-            } else if (min.equals(end)) {
-                end.setParent(min.getParent());
+
                 pathFound();
                 return;
             }
@@ -676,7 +654,6 @@ public class PathFinderWidget {
         timer.stop();
         startButton.setText("Start");
         diagonalBox.setEnabled(true);
-        optimalPathCheckBox.setEnabled(true);
         showStepsBox.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
         heuristicSwitch.setEnabled(true);
@@ -707,7 +684,6 @@ public class PathFinderWidget {
         timer.stop();
         startButton.setText("Start");
         diagonalBox.setEnabled(true);
-        optimalPathCheckBox.setEnabled(true);
         showStepsBox.setEnabled(true);
         heuristicSwitch.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
