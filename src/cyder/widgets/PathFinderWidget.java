@@ -732,11 +732,13 @@ public class PathFinderWidget {
 
     //distance from node to end
     private static double heuristic(Node n) {
-        if (heuristicIndex == 0) {
+        if (performDijkstras)
+            return 1;
+
+        if (heuristicIndex == 0)
             return manhattanDistance(n, end);
-        } else if (heuristicIndex == 1) {
+        else
             return euclideanDistance(n, end);
-        } else return 1;
     }
 
     //distance from node to start
