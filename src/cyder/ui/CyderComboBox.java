@@ -105,4 +105,8 @@ public class CyderComboBox extends JLabel {
 
         comboTextField.setToolTipText(tooltipBuilder.toString());
     }
+
+    public CyderButton getComboSwitchButton() {
+        return this.comboSwitchButton;
+    }
 }
