@@ -584,7 +584,7 @@ public class WeatherWidget {
 
     //weather object used for json serialization
 
-    private  static class WeatherData {
+    static class WeatherData {
         private Coord coord;
         private LinkedList<JsonWeather> weather;
         private String base;

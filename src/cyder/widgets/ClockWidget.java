@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import com.google.gson.Gson;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
@@ -8,13 +9,18 @@ import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
+import cyder.utilities.IPUtil;
 import cyder.utilities.TimeUtil;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,9 +50,6 @@ public class ClockWidget {
     private static int[] currentMinute = {0};
     private static int[] currentHour = {0};
 
-    private static String[] timezones = {"Eastern (GMT-5)","Central (GMT-6)","Mountain (GMT-7)","Pacific (GMT-8)"};
-    private static int[] correspondingGMToffsets = {-5, -6, -7, -8};
-
     private static String currentLocation = "Greenwich, London";
     private static int currentGMTOffset = 0;
 
@@ -54,14 +57,17 @@ public class ClockWidget {
 
     @Widget("Clock") //it's ya boi, Greenwich
     public static void showGUI() {
-       if (clockFrame != null)
-           clockFrame.dispose();
+        if (clockFrame != null)
+            clockFrame.dispose();
 
-       update = true;
-       showSecondHand = true;
-       paintHourLabels = true;
+        clockColor = CyderColors.guiThemeColor;
 
-       //todo init currentGMToffset and currentLocation
+        update = true;
+        showSecondHand = true;
+        paintHourLabels = true;
+
+        currentLocation  = IPUtil.getIpdata().getCity() + "," + IPUtil.getIpdata().getRegion() + "," + IPUtil.getIpdata().getCountry_name();
+        currentGMTOffset = gmtBasedOffLocation();
 
         clockFrame = new CyderFrame(800,900) {
             @Override
@@ -368,13 +374,7 @@ public class ClockWidget {
         hexLabel.setBounds(60, 830, CyderFrame.getMinWidth("Clock Color Hex:",hexLabel.getFont()), 40);
         clockFrame.getContentPane().add(hexLabel);
 
-        timezoneCombo = new CyderComboBox(320, 40, timezones);
-        timezoneCombo.setLocation(60 + 40 + 320,830);
-        timezoneCombo.getComboSwitchButton().addActionListener(e -> {
-            //todo
-            System.out.println("Update based on: " + timezones[timezoneCombo.getIndex()]);
-        });
-        clockFrame.getContentPane().add(timezoneCombo);
+        //todo change location field
 
         clockFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         clockFrame.setVisible(true);
@@ -383,21 +383,22 @@ public class ClockWidget {
     private static void spawnMiniClock() {
         final boolean[] updateMiniClock = {true};
 
-        CyderFrame miniFrame = new CyderFrame(500,150) {
+        CyderFrame miniFrame = new CyderFrame(600,150) {
             @Override
             public void dispose() {
                 updateMiniClock[0] = false;
                 super.dispose();
             }
         };
-        miniFrame.setTitle("Time: " + (currentLocation.trim().length() == 0 ?
-                ("(GMT" + currentGMTOffset + ")") : currentLocation + " " + ("(GMT" + currentGMTOffset + ")")));
+
+
+        miniFrame.setTitle("Time: " + "(GMT" + currentGMTOffset + ")");
         miniFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
         JLabel currentTimeLabel = new JLabel(getWeatherTime(currentGMTOffset * 3600 + ""), SwingConstants.CENTER);
         currentTimeLabel.setForeground(CyderColors.navy);
         currentTimeLabel.setFont(CyderFonts.weatherFontSmall);
-        currentTimeLabel.setBounds(0, 50, 500, 30);
+        currentTimeLabel.setBounds(0, 50, 600, 30);
         miniFrame.getContentPane().add(currentTimeLabel);
 
         if (currentLocation.trim().length() > 0) {
@@ -405,7 +406,7 @@ public class ClockWidget {
                     ("(GMT" + currentGMTOffset + ")") : currentLocation + " " + ("(GMT" + currentGMTOffset + ")")), SwingConstants.CENTER);
             locationLabel.setForeground(CyderColors.navy);
             locationLabel.setFont(CyderFonts.weatherFontSmall);
-            locationLabel.setBounds(0, 80, 500, 30);
+            locationLabel.setBounds(0, 80, 600, 30);
             miniFrame.getContentPane().add(locationLabel);
         }
 
@@ -441,5 +442,36 @@ public class ClockWidget {
         } finally {
             return dateFormatter.format(cal.getTime());
         }
+    }
+
+    private static int gmtBasedOffLocation() {
+        String key = UserUtil.extractUser().getWeatherkey();
+
+        if (key.trim().length() == 0) {
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the Weather Key has not been set or is invalid" +
+                    ", as a result, many features of Cyder will not work as intended. Please see the fields panel of the" +
+                    " user editor to learn how to acquire a key and set it.","Weather Key Not Set");
+
+            currentGMTOffset = 0;
+            currentLocation = "Greenwich, London";
+            return currentGMTOffset;
+        }
+
+        String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                currentLocation + "&appid=" + key + "&units=imperial";
+
+        Gson gson = new Gson();
+        WeatherWidget.WeatherData wd = null;
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
+            wd = gson.fromJson(reader, WeatherWidget.WeatherData.class);
+            currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+            currentGMTOffset = 0;
+            currentLocation = "Greenwich, London";
+        }
+
+        return currentGMTOffset;
     }
 }
