@@ -492,4 +492,21 @@ public class ManualTests {
         cf.setVisible(true);
         cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
+
+    public static void comboBoxTest() {
+        CyderFrame testFrame = new CyderFrame(400,400);
+        testFrame.setTitle("ComboBox Test");
+
+        CyderComboBox ccb = new CyderComboBox(200,40, new String[]{"one","two","three"});
+        ccb.setBounds(40,40,200,40);
+        testFrame.getContentPane().add(ccb);
+
+        CyderButton printbutton = new CyderButton("Print choice");
+        printbutton.setBounds(40,150,200,40);
+        testFrame.getContentPane().add(printbutton);
+        printbutton.addActionListener(e -> testFrame.notify(ccb.getValue()));
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+    }
 }

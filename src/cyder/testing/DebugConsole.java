@@ -3,13 +3,10 @@ package cyder.testing;
 import cyder.consts.CyderColors;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderComboBox;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
-import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -113,9 +110,9 @@ public class DebugConsole {
                         open = false;
                     }
                 });
+
                 debugFrame.setVisible(true);
-                debugFrame.setAlwaysOnTop(true);
-                debugFrame.setLocation(0, SystemUtil.getScreenHeight() - debugFrame.getHeight());
+                debugFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
                 open = true;
             }
@@ -127,19 +124,6 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
-        CyderFrame cf = new CyderFrame(400,400);
-        cf.setTitle("Test");
 
-        CyderComboBox ccb = new CyderComboBox(200,40, new String[]{"one","two","three"});
-        ccb.setBounds(40,40,200,40);
-        cf.getContentPane().add(ccb);
-
-        CyderButton printbutton = new CyderButton("Print choice");
-        printbutton.setBounds(40,150,200,40);
-        cf.getContentPane().add(printbutton);
-        printbutton.addActionListener(e -> cf.notify(ccb.getValue()));
-
-        cf.setVisible(true);
-        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 }

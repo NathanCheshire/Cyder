@@ -634,8 +634,6 @@ public class InputHandler {
         } else if (firstWord.equalsIgnoreCase("wikisum")) {
             String summaryWord = operation.replaceAll("(?i)wikisum","").trim();
             println(StringUtil.wikiSummary(summaryWord));
-        } else if (hasWord("debug") && hasWord("menu")) {
-            StatUtil.debugMenu();
         } else if (hasWord("pixelate") && hasWord("background")) {
             if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
                 println("Silly " + ConsoleFrame.getConsoleFrame().getUsername() + "; your background " +
@@ -688,8 +686,10 @@ public class InputHandler {
             println("Total: " + (StatUtil.totalBlankLines(startDir) + StatUtil.totalJavaLines(startDir)));
         } else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
             new Robot().keyPress(KeyEvent.VK_F17);
-        }  else if (hasWord("debug") && hasWord("windows")) {
+        }  else if (hasWord("debug") && !eic("debug")) {
             StatUtil.allStats();
+        } else if (eic("debug")) {
+            DebugConsole.print("");
         } else if (hasWord("binary") && !has("dump")) {
             new Thread(() -> {
                 String input = new GetterUtil().getString("Enter an Interger","Enter any iteger to be converted to binary", "Submit");
