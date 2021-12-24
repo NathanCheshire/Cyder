@@ -103,7 +103,7 @@ public class ClockWidget {
 
         //todo update screen shots on README: pathfinder, console with mp3, analyze code output
 
-        digitalTimeAndDateLabel = new CyderLabel(getWeatherTime(currentGMTOffset * 3600 + ""));
+        digitalTimeAndDateLabel = new CyderLabel(getWeatherTime(currentGMTOffset));
         digitalTimeAndDateLabel.setFont(CyderFonts.defaultFont);
         digitalTimeAndDateLabel.setBounds(10,60, 780, 40);
         clockFrame.getContentPane().add(digitalTimeAndDateLabel);
@@ -299,7 +299,7 @@ public class ClockWidget {
                         }
                     }
 
-                    digitalTimeAndDateLabel.setText(TimeUtil.weatherTime());
+                    digitalTimeAndDateLabel.setText(getWeatherTime(currentGMTOffset));
                     clockLabel.repaint();
                 }
             } catch (Exception e) {
@@ -405,10 +405,10 @@ public class ClockWidget {
                         currentMinute[0] = getUnitForCurrentGMT("m");
                         currentSecond[0] = getUnitForCurrentGMT("s");
 
+                        String build = "[" + wd.getCoord().getLat() + "," + wd.getCoord().getLon() + "]";
 
-                        //todo update main digital clock
-
-                        clockFrame.notify("Successfully updated location to " + currentLocation + "<br/>GMT: " + currentGMTOffset);
+                        clockFrame.notify("Successfully updated location to " + wd.getName()
+                                + "<br/>GMT: " + currentGMTOffset + "<br/>" + build);
                     } catch (Exception exc) {
                         ErrorHandler.silentHandle(exc);
                         clockFrame.notify("Failed to update loation");
@@ -444,7 +444,7 @@ public class ClockWidget {
         miniFrame.setTitle("Time: " + "(GMT" + currentGMTOffset + ")");
         miniFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
-        JLabel currentTimeLabel = new JLabel(getWeatherTime(currentGMTOffset * 3600 + ""), SwingConstants.CENTER);
+        JLabel currentTimeLabel = new JLabel(getWeatherTime(currentGMTOffset), SwingConstants.CENTER);
         currentTimeLabel.setForeground(CyderColors.navy);
         currentTimeLabel.setFont(CyderFonts.weatherFontSmall);
         currentTimeLabel.setBounds(0, 50, 600, 30);
@@ -461,11 +461,12 @@ public class ClockWidget {
 
         new Thread(() -> {
             try {
+                final int effectivelyFinal = currentGMTOffset;
                 for (;;) {
                     if (!updateMiniClock[0])
                         break;
                     Thread.sleep(500);
-                    currentTimeLabel.setText(getWeatherTime(currentGMTOffset * 3600 + ""));
+                    currentTimeLabel.setText(getWeatherTime(effectivelyFinal));
                 }
             } catch (Exception e) {
                 ErrorHandler.silentHandle(e);
@@ -477,15 +478,14 @@ public class ClockWidget {
     }
 
     //gets the time with the format calculating in the current GMT offset
-    private static String getWeatherTime(String gmtOffsetInSeconds) {
+    private static String getWeatherTime(int gmtOffsetInHours) {
         Calendar cal = Calendar.getInstance();
         Date Time = cal.getTime();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ssaa EEEEEEEEEEEEE, MMMMMMMMMMMMMMMMMM dd, yyyy");
         dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         try {
-            int timeOffset = Integer.parseInt(gmtOffsetInSeconds) / 3600;
-            cal.add(Calendar.HOUR, timeOffset);
+            cal.add(Calendar.HOUR, gmtOffsetInHours);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         } finally {
