@@ -71,6 +71,10 @@ public class CyderTextField extends JTextField {
         this.setOpaque(true);
     }
 
+    public void setBlackBorder() {
+        this.setBorder(new LineBorder(CyderColors.navy, 5, false));
+    }
+
     @Override
     public void setBackground(Color newBackgroundColor) {
         super.setBackground(newBackgroundColor);

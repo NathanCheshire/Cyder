@@ -50,6 +50,8 @@ public class ClockWidget {
        showSecondHand = true;
        paintHourLabels = true;
 
+       //todo init GMT offset based off of timezone
+
         clockFrame = new CyderFrame(800,900) {
             @Override
             public void dispose() {
@@ -60,27 +62,19 @@ public class ClockWidget {
         clockFrame.setTitle("Clock");
 
         //todo change location label to different area, add area label below time label too
-        //todo add presets for timezones
-        //todo make multiple instances possible
+        // for this we'll need to store the city, state, and zip
+
+        //todo add presets for timezones - four of them for the USA
+
+        //todo make multiple instances possible by removing static modifiers
+
         //todo make a mini mode that simply shows the time/date like weather
+        // also location label below that
 
         digitalTimeAndDateLabel = new CyderLabel(TimeUtil.weatherTime());
         digitalTimeAndDateLabel.setFont(CyderFonts.defaultFont);
         digitalTimeAndDateLabel.setBounds(10,60, 780, 40);
         clockFrame.getContentPane().add(digitalTimeAndDateLabel);
-
-        new Thread(() -> {
-            try {
-                for (;;) {
-                    if (!update)
-                        break;
-                    Thread.sleep(1000);
-                    digitalTimeAndDateLabel.setText(TimeUtil.weatherTime());
-                }
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        },"Clock Label Updater").start();
 
         clockLabel = new JLabel() {
             @Override
@@ -93,6 +87,7 @@ public class ClockWidget {
 
                 //entonces our radius is as follows
                 int r = (labelLen - inset * 2 - boxLen * 2) / 2;
+                int originalR = r;
 
                 //center point to draw our hands from
                 int centerX = labelLen / 2;
@@ -131,7 +126,6 @@ public class ClockWidget {
                         theta += thetaInc;
                     }
                 } else {
-
                     //drawing center points
                     for (int i = 0 ; i < numPoints ; i++) {
                         double rads = theta * Math.PI / 180.0;
@@ -156,8 +150,8 @@ public class ClockWidget {
                 //current theta, and x,y pair to draw from the center to
                 theta = (hourTheta[0] / 12.0) * Math.PI * 2.0 + Math.PI * 1.5;
 
-                //decrease radius by 15%
-                r = (int) (r * 0.85);
+                //hour hand is decreased by 30%
+                r = (int) (r * 0.70);
 
                 double x = r * Math.cos(theta);
                 double y = r * Math.sin(theta);
@@ -187,8 +181,8 @@ public class ClockWidget {
                 //draw hour hand
                 g.drawLine(centerX, centerY, centerX + drawToX,  centerY + drawToY);
 
-                //decrease radius by 15%
-                r = (int) (r * 0.85);
+                //minute hand is 20% decrease
+                r = (int) (originalR * 0.80);
 
                 //current theta, and x,y pair to draw from the center to
                 theta = (minuteTheta[0] / 60.0) * Math.PI * 2.0 + Math.PI * 1.5;
@@ -205,8 +199,8 @@ public class ClockWidget {
                 g.drawLine(centerX, centerY, centerX + drawToX,  centerY + drawToY);
 
                 if (showSecondHand) {
-                    //decrease radius by 15%
-                    r = (int) (r * 0.85);
+                    //second hand is 85% of original r
+                    r = (int) (originalR * 0.85);
 
                     //current theta, and x,y pair to draw from the center to
                     theta = (secondTheta[0] / 60.0) * Math.PI * 2.0 + Math.PI * 1.5;
@@ -273,16 +267,17 @@ public class ClockWidget {
                         }
                     }
 
+                    digitalTimeAndDateLabel.setText(TimeUtil.weatherTime());
                     clockLabel.repaint();
                 }
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        },"Clock Updater").start();
+        },"Clock Widget Updater").start();
 
         paintHourLabelsSwitch = new CyderSwitch(320,50);
-        paintHourLabelsSwitch.setOnText("Paint");
-        paintHourLabelsSwitch.setOffText("Don't paint");
+        paintHourLabelsSwitch.setOnText("Labels");
+        paintHourLabelsSwitch.setOffText("No Labels");
         paintHourLabelsSwitch.setToolTipText("Paint Hours");
         paintHourLabelsSwitch.setBounds(60, 760, 320, 50);
         paintHourLabelsSwitch.setButtonPercent(50);
@@ -303,16 +298,17 @@ public class ClockWidget {
         showSecondHandSwitch.getSwitchButton().addActionListener(e -> showSecondHand = !showSecondHand);
 
         CyderTextField hexField = new CyderTextField(6);
+        hexField.setText(ColorUtil.rgbtohexString(clockColor));
         hexField.setToolTipText("Clock color");
         hexField.setRegexMatcher("[abcdefABCDEF0-9]*");
-        hexField.setBounds(200, 830, 400, 40);
+        hexField.setBounds(240, 830, 140, 40);
         hexField.addActionListener(e -> {
             String text = hexField.getText().trim();
 
             try {
                 Color newColor = ColorUtil.hextorgbColor(text);
                 clockColor = newColor;
-                hexField.setText("");
+                hexField.setText(ColorUtil.rgbtohexString(clockColor));
                 clockLabel.repaint();
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
@@ -320,7 +316,7 @@ public class ClockWidget {
         });
         clockFrame.getContentPane().add(hexField);
 
-        CyderLabel hexLabel = new CyderLabel("Hex:");
+        CyderLabel hexLabel = new CyderLabel("Clock Color Hex:");
         hexLabel.setFont(CyderFonts.defaultFont);
         hexLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -338,10 +334,29 @@ public class ClockWidget {
                 hexLabel.setForeground(CyderColors.navy);
             }
         });
-        hexLabel.setBounds(145, 830, CyderFrame.getMinWidth("Hex:",hexLabel.getFont()), 40);
+        hexLabel.setBounds(60, 830, CyderFrame.getMinWidth("Clock Color Hex:",hexLabel.getFont()), 40);
         clockFrame.getContentPane().add(hexLabel);
+
+        //todo cyder switcher for common timezones
 
         clockFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         clockFrame.setVisible(true);
+    }
+
+    private static void enterMini() {
+
+    }
+
+    private static void exitMini() {
+
+    }
+
+    private static int GMToffset;
+
+    /**
+     * Refreshes the clock based off of the currently set GMT offset
+     */
+    private static void refreshTimezone() {
+
     }
 }

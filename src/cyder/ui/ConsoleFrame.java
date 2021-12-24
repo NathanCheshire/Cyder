@@ -197,8 +197,7 @@ public final class ConsoleFrame {
                                 audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
                     }
 
-                    if (menuLabel != null)
-                        revalidateConsoleMenu();
+                    revaliateMenu();
                 }
 
                 @Override
@@ -262,6 +261,12 @@ public final class ConsoleFrame {
                 @Override
                 public String toString() {
                     return "JTextPane outputArea used for ConsoleFrame instance: " + consoleCyderFrame;
+                }
+
+                @Override
+                public void setBounds(int x, int y, int w, int h) {
+                    //todo need to revalidate the document too
+                    super.setBounds(x,y,w,h);
                 }
             };
             outputArea.addFocusListener(new FocusAdapter() {
@@ -553,17 +558,18 @@ public final class ConsoleFrame {
 
             suggestionButton.addActionListener(e -> new Thread(() -> {
                 JLabel parentLabel = new JLabel();
-                parentLabel.setIcon(ImageUtil.imageIconFromColor(CyderColors.vanila));
                 parentLabel.setToolTipText(TimeUtil.logTime());
                 parentLabel.setSize(300,110);
 
                 CyderButton submit = new CyderButton("Submit");
                 CyderTextField ctf = new CyderTextField(0);
+                ctf.setBlackBorder();
                 ctf.addActionListener(ev -> submit.doClick());
                 ctf.setBounds(20,20,280,40);
                 parentLabel.add(ctf);
 
-                submit.setColors(CyderColors.intellijPink);
+                submit.setBorder(new LineBorder(CyderColors.navy, 5, false));
+                submit.setColors(CyderColors.tooltipForegroundColor);
                 submit.addActionListener(ev -> {
                     String suggestionText = ctf.getText().trim();
 
@@ -582,7 +588,7 @@ public final class ConsoleFrame {
                 parentLabel.add(submit);
 
                 consoleCyderFrame.notify("",-1, Direction.LEFT, NotificationDirection.TOP_LEFT,
-                        null, parentLabel, CyderColors.vanila);
+                        null, parentLabel, CyderColors.navy.brighter());
 
             },"Suggestion Getter Waiter Thread").start());
             suggestionButton.addMouseListener(new MouseAdapter() {
@@ -1449,7 +1455,7 @@ public final class ConsoleFrame {
         if (menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.remove(associatedFrame);
             consoleMenuGenerated = false;
-            revalidateConsoleMenu();
+            revaliateMenu();
         }
     }
 
@@ -1457,7 +1463,7 @@ public final class ConsoleFrame {
         if (!menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.add(associatedFrame);
             consoleMenuGenerated = false;
-            revalidateConsoleMenu();
+            revaliateMenu();
         }
     }
 
@@ -2149,7 +2155,7 @@ public final class ConsoleFrame {
             inputField.requestFocus();
 
             //fix menu
-            revalidateConsoleMenu();
+            revaliateMenu();
 
             //fix foreground if needed
             if (ImageUtil.solidColor(getCurrentBackgroundFile())) {
@@ -2174,34 +2180,6 @@ public final class ConsoleFrame {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
-    }
-
-    /**
-     * Redraws the console menu if it's open
-     */
-    public void revalidateConsoleMenu() {
-        //if the frame is closed or the label simply doesn't exis
-        if (closed || menuLabel == null)
-            return;
-
-        if (menuLabel != null && menuLabel.isVisible()) {
-            generateConsoleMenu();
-            menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
-        }
-
-        //based on console menu, set bounds of fields
-        int addX = 0;
-        int w = consoleCyderFrame.getWidth();
-        int h = consoleCyderFrame.getHeight();
-
-        //offset for setting field bounds
-        if (menuLabel.isVisible())
-            addX = 2 + menuLabel.getWidth();
-
-        //set bounds
-        outputScroll.setBounds(addX + 15, 62, w - 40 - addX, h - 204);
-        inputField.setBounds(addX + 15, 62 + outputScroll.getHeight() + 20,w - 40 - addX,
-                h - (62 + outputScroll.getHeight() + 20 + 20));
     }
 
     /**
@@ -2331,7 +2309,7 @@ public final class ConsoleFrame {
                 consoleMenuGenerated = false;
             }
 
-            revalidateConsoleMenu();
+            revaliateMenu();
 
             if (fullscreen) {
                 consoleCyderFrame.setLocationRelativeTo(null);
@@ -2564,8 +2542,6 @@ public final class ConsoleFrame {
         return consoleCyderFrame;
     }
 
-    //todo replace revalidateConsoleMenu calls with this method
-
     /**
      * Revalidates the console menu and places it where it was depending on if it was visible or not
      */
@@ -2578,7 +2554,6 @@ public final class ConsoleFrame {
 
         menuLabel.setVisible(false);
         consoleMenuGenerated = false;
-        revalidateConsoleMenu();
 
         if (wasVis) {
             menuButton.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
