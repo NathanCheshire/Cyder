@@ -743,7 +743,7 @@ public class CyderFrame extends JFrame {
                        NotificationDirection notificationDirection, ClickAction onKillAction,
                        Container container, Color notificationBackground) {
         //make a WaitingNotification and add to queue, queue will automatically process any notifications so no further actions needed
-        notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction));
+        notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction, TimeUtil.notificationTime()));
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
@@ -797,8 +797,7 @@ public class CyderFrame extends JFrame {
                                 JLabel disposeLabel = new JLabel();
                                 disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
 
-                                //todo this needs to be in waiting notification since rn this is just the time it was pulled from the queue
-                                disposeLabel.setToolTipText("Notified at: " + TimeUtil.notificationTime());
+                                disposeLabel.setToolTipText("Notified at: " + currentWaitingNotification.getTime());
                                 disposeLabel.addMouseListener(new MouseAdapter() {
                                     @Override
                                     public void mouseClicked(MouseEvent e) {
@@ -1769,9 +1768,6 @@ public class CyderFrame extends JFrame {
         return useCustomTaskbarIcon;
     }
 
-    //todo custom taskbar icon for Cyder task doesn't work if setting it when menu is not open
-    //todo try and fix bar for progress bar (end of buffered image is what it rly is)
-
     //even if console menu isn't visible, if we're calling generate it needs to be regenerated
 
     public void setUseCustomTaskbarIcon(boolean useCustomTaskbarIcon) {
@@ -2005,6 +2001,7 @@ public class CyderFrame extends JFrame {
         private Direction arrowDir;
         private NotificationDirection notificationDirection;
         private ClickAction onKillAction;
+        private String time;
 
         /**
          * A notification that hasn't been notified to the user yet and is waiting in a CyderFrame's queue.
@@ -2014,12 +2011,14 @@ public class CyderFrame extends JFrame {
          * @param notificationDirection the notification direction
          * @param onKillAction the action to perform if the notification is dismissed by the user
          */
-        public WaitingNotification(String text, int dur, Direction arrowDir, NotificationDirection notificationDirection, ClickAction onKillAction) {
+        public WaitingNotification(String text, int dur, Direction arrowDir,
+                                   NotificationDirection notificationDirection, ClickAction onKillAction, String time) {
             this.htmlText = text;
             this.duration = dur;
             this.arrowDir = arrowDir;
             this.notificationDirection = notificationDirection;
             this.onKillAction = onKillAction;
+            this.time = time;
         }
 
         public void setHtmlText(String htmlText) {
@@ -2060,6 +2059,14 @@ public class CyderFrame extends JFrame {
 
         public void setOnKillAction(ClickAction onKillAction) {
             this.onKillAction = onKillAction;
+        }
+
+        public String getTime() {
+            return time;
+        }
+
+        public void setTime(String time) {
+            this.time = time;
         }
 
         @Override

@@ -337,7 +337,7 @@ public class ClockWidget {
         hexLabel.setBounds(60, 830, CyderFrame.getMinWidth("Clock Color Hex:",hexLabel.getFont()), 40);
         clockFrame.getContentPane().add(hexLabel);
 
-        //todo cyder switcher for common timezones
+        //todo cyder switcher for common timezones, create switcher UI first :/
 
         clockFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         clockFrame.setVisible(true);
