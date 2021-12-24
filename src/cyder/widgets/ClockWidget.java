@@ -396,9 +396,6 @@ public class ClockWidget {
                         currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
                         currentLocation = possibleLocation;
 
-                        int newMinute = 40;
-                        int newSecond = 0;
-
                         currentHour[0] = getUnitForCurrentGMT("h");
                         currentMinute[0] = getUnitForCurrentGMT("m");
                         currentSecond[0] = getUnitForCurrentGMT("s");

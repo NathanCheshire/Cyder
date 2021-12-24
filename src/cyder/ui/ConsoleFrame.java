@@ -266,6 +266,7 @@ public final class ConsoleFrame {
                 @Override
                 public void setBounds(int x, int y, int w, int h) {
                     //todo need to revalidate the document too
+                    //todo change way you spawn a borderless frame in cyder frame
                     super.setBounds(x,y,w,h);
                 }
             };

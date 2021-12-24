@@ -6,6 +6,7 @@ import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderComboBox;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 
@@ -27,9 +28,12 @@ public class GameOfLifeWidget {
     private static CyderLabel populationLabel;
     private static CyderLabel maxPopulationLabel;
 
+    private static CyderButton resetButton;
+
     private static int generationCount = 0;
     private static int populationCount = 0;
     private static int maxPopulation = 0;
+    private static int maxPopulationGeneration = 0;
 
     private GameOfLifeWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
@@ -37,7 +41,7 @@ public class GameOfLifeWidget {
 
     public static void showGUI() {
         grid = new int[45][45];
-        cf = new CyderFrame(940,1050, CyderImages.defaultBackgroundLarge);
+        cf = new CyderFrame(940,1120, CyderImages.defaultBackgroundLarge);
         cf.setTitle("Conway's Game of Life");
 
         gridLabel = new JLabel() {
@@ -73,15 +77,16 @@ public class GameOfLifeWidget {
 
                 populationLabel.setText("Population: " + populationCount);
 
-                if (populationCount > maxPopulation) {
+                if (populationCount >= maxPopulation) {
                     maxPopulation = populationCount;
-                    maxPopulationLabel.setText("Max Population: " + maxPopulation);
+                    maxPopulationGeneration = generationCount;
+                    maxPopulationLabel.setText("Max Population: " + maxPopulation + " [generation " + maxPopulationGeneration + "]");
                 }
             }
         };
         gridLabel.setOpaque(true);
         gridLabel.setBackground(Color.white);
-        gridLabel.setBounds(20,60,902,902);
+        gridLabel.setBounds(20,80,902,902);
         cf.getContentPane().add(gridLabel);
         gridLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -122,6 +127,10 @@ public class GameOfLifeWidget {
             }
         });
 
+        //todo label texts bigger and share space of grid label above it
+        //todo zooming on label, presets will need to change with that too with some more math
+        //todo speed slider like pathfinder
+
         iterationLabel = new CyderLabel("Generation: 0");
         iterationLabel.setBounds(20,32, 150, 30);
         cf.getContentPane().add(iterationLabel);
@@ -130,11 +139,11 @@ public class GameOfLifeWidget {
         populationLabel.setBounds(180,32, 150, 30);
         cf.getContentPane().add(populationLabel);
 
-        maxPopulationLabel = new CyderLabel("Max Population: 0");
-        maxPopulationLabel.setBounds(340,32, 150, 30);
+        maxPopulationLabel = new CyderLabel("Max Population: 0 [generation 0]");
+        maxPopulationLabel.setBounds(340,32, 300, 30);
         cf.getContentPane().add(maxPopulationLabel);
 
-        CyderButton resetButton = new CyderButton("Reset");
+        resetButton = new CyderButton("Reset");
         resetButton.addActionListener(e -> {
             new Thread(() -> {
                 try {
@@ -149,14 +158,14 @@ public class GameOfLifeWidget {
 
             simulationRunning = false;
             maxPopulation = 0;
+            maxPopulationGeneration = 0;
             generationCount = 0;
             iterationLabel.setText("Generation: 0");
-            maxPopulationLabel.setText("Max Population: 0");
+            maxPopulationLabel.setText("Max Population: 0 [generation 0]");
             grid = new int[45][45];
             gridLabel.repaint();
         });
-        resetButton.setBounds(20,70 + 10 + 902, (902 - 20) / 3, 40);
-        resetButton.setColors(CyderColors.intellijPink);
+        resetButton.setBounds(20,70 + 30 + 902, (902 - 20) / 3, 40);
         cf.getContentPane().add(resetButton);
 
         simulateButton = new CyderButton("Simulate");
@@ -180,12 +189,26 @@ public class GameOfLifeWidget {
 
             simulationRunning = !simulationRunning;
         });
-        simulateButton.setBounds(20 + (902 - 20) / 3 + 10,70 + 10 + 902, (902 - 20) / 3, 40);
-        simulateButton.setColors(CyderColors.intellijPink);
+        simulateButton.setBounds(20 + (902 - 20) / 3 + 10,70 + 30 + 902, (902 - 20) / 3, 40);
         cf.getContentPane().add(simulateButton);
 
-        CyderButton gliderButton = new CyderButton("Gliders");
-        gliderButton.addActionListener(e -> {
+        String[] presets = {"Gliders","Copperhead"};
+        CyderComboBox presetComboBox = new CyderComboBox((902 - 20) / 3, 40, presets);
+        presetComboBox.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902, (902 - 20) / 3, 40);
+        cf.getContentPane().add(presetComboBox);
+
+        CyderButton setPresetButton = new CyderButton("Set Preset");
+        setPresetButton.addActionListener(e-> setPreset(presetComboBox.getValue()));
+        setPresetButton.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902 + 50, (902 - 20) / 3, 40);
+        cf.getContentPane().add(setPresetButton);
+
+        cf.setVisible(true);
+        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        cf.addPreCloseAction(() -> simulationRunning = false);
+    }
+
+    private static void setPreset(String preset) {
+        if (preset.equals("Gliders")) {
             resetButton.doClick();
             grid = new int[45][45];
 
@@ -227,16 +250,56 @@ public class GameOfLifeWidget {
             grid[36][4] = 1;
 
             gridLabel.repaint();
-        });
-        gliderButton.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 10 + 902, (902 - 20) / 3, 40);
-        gliderButton.setColors(CyderColors.intellijPink);
-        cf.getContentPane().add(gliderButton);
+        } else if (preset.equals("Copperhead")) {
+            resetButton.doClick();
+            grid = new int[45][45];
 
-        cf.setVisible(true);
-        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
-        cf.addPreCloseAction(() -> {
+            //bottom square
+            grid[22][42] = 1;
+            grid[23][42] = 1;
+            grid[22][41] = 1;
+            grid[23][41] = 1;
 
-        });
+            //next row up...
+            grid[21][40] = 1;
+            grid[24][40] = 1;
+
+            grid[20][39] = 1;
+            grid[21][39] = 1;
+            grid[22][39] = 1;
+            grid[23][39] = 1;
+            grid[24][39] = 1;
+            grid[25][39] = 1;
+
+            grid[20][38] = 1;
+            grid[21][38] = 1;
+            grid[24][38] = 1;
+            grid[25][38] = 1;
+
+            grid[20][37] = 1;
+            grid[25][37] = 1;
+
+            grid[20][35] = 1;
+            grid[25][35] = 1;
+
+            grid[20][34] = 1;
+            grid[25][34] = 1;
+
+            grid[20][34] = 1;
+            grid[22][34] = 1;
+            grid[23][34] = 1;
+            grid[25][34] = 1;
+
+            grid[21][33] = 1;
+            grid[24][33] = 1;
+
+            grid[21][31] = 1;
+            grid[22][31] = 1;
+            grid[23][31] = 1;
+            grid[24][31] = 1;
+
+            gridLabel.repaint();
+        }
     }
 
     @SuppressWarnings("ForLoopReplaceableByForEach")
