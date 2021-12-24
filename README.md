@@ -43,7 +43,7 @@ Cyder comes with a path finding visualizer for Dijkstra's and A* with Euclidean 
 
 ### Self Analyzer
 
-Cyder can analyze many things about itself from its own code, comments, and files, your computer's properties, the status of certain websites, the JVM, and even its own issues on GitHub.
+Cyder can analyze many things about itself such as its own Java code, comments, and files, your computer's properties, hardware components, the status of certain websites, the JVM, and even its own issues on GitHub.
 
 <img src="https://i.imgur.com/afWk4Qf.png" data-canonical-src="https://i.imgur.com/afWk4Qf.png"/>
 
