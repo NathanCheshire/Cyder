@@ -101,14 +101,9 @@ public class ClockWidget {
         spawnMini.setFocusPainted(false);
         clockFrame.getTopDragLabel().addButton(spawnMini, 0);
 
-        //todo change location label to different area, add area label below time label too
-        // for this we'll need to store the city, state, and country
-
-        //todo make multiple instances possible by removing static modifiers
-
         //todo update screen shots on README: pathfinder, console with mp3, analyze code output
 
-        digitalTimeAndDateLabel = new CyderLabel(TimeUtil.weatherTime());
+        digitalTimeAndDateLabel = new CyderLabel(getWeatherTime(currentGMTOffset * 3600 + ""));
         digitalTimeAndDateLabel.setFont(CyderFonts.defaultFont);
         digitalTimeAndDateLabel.setBounds(10,60, 780, 40);
         clockFrame.getContentPane().add(digitalTimeAndDateLabel);
@@ -374,7 +369,62 @@ public class ClockWidget {
         hexLabel.setBounds(60, 830, CyderFrame.getMinWidth("Clock Color Hex:",hexLabel.getFont()), 40);
         clockFrame.getContentPane().add(hexLabel);
 
-        //todo change location field
+        CyderTextField locationField = new CyderTextField(0);
+        locationField.setText(currentLocation);
+        locationField.setCaretPosition(0);
+        locationField.setToolTipText("Current Location");
+        locationField.addActionListener(e -> {
+            String possibleLocation = locationField.getText().trim();
+
+            if (possibleLocation.length() > 0) {
+                try {
+                    String key = UserUtil.extractUser().getWeatherkey();
+
+                    if (key.trim().length() == 0) {
+                        ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the Weather Key has not been set or is invalid" +
+                                ", as a result, many features of Cyder will not work as intended. Please see the fields panel of the" +
+                                " user editor to learn how to acquire a key and set it.","Weather Key Not Set");
+                        return;
+                    }
+
+                    String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                            possibleLocation + "&appid=" + key + "&units=imperial";
+
+                    Gson gson = new Gson();
+                    WeatherWidget.WeatherData wd = null;
+
+                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
+                        wd = gson.fromJson(reader, WeatherWidget.WeatherData.class);
+                        currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
+                        currentLocation = possibleLocation;
+
+                        int newMinute = 40;
+                        int newSecond = 0;
+
+                        currentHour[0] = getUnitForCurrentGMT("h");
+                        currentMinute[0] = getUnitForCurrentGMT("m");
+                        currentSecond[0] = getUnitForCurrentGMT("s");
+
+
+                        //todo update main digital clock
+
+                        clockFrame.notify("Successfully updated location to " + currentLocation + "<br/>GMT: " + currentGMTOffset);
+                    } catch (Exception exc) {
+                        ErrorHandler.silentHandle(exc);
+                        clockFrame.notify("Failed to update loation");
+                        locationField.setText(currentLocation);
+                        locationField.setCaretPosition(0);
+                    }
+                } catch (Exception ex) {
+                    ErrorHandler.silentHandle(ex);
+                    clockFrame.notify("Failed to update loation");
+                    locationField.setText(currentLocation);
+                    locationField.setCaretPosition(0);
+                }
+            }
+        });
+        locationField.setBounds(60 + 40 + 320, 830, 320, 50);
+        clockFrame.getContentPane().add(locationField);
 
         clockFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         clockFrame.setVisible(true);
@@ -390,7 +440,6 @@ public class ClockWidget {
                 super.dispose();
             }
         };
-
 
         miniFrame.setTitle("Time: " + "(GMT" + currentGMTOffset + ")");
         miniFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -441,6 +490,21 @@ public class ClockWidget {
             ErrorHandler.handle(e);
         } finally {
             return dateFormatter.format(cal.getTime());
+        }
+    }
+
+    private static int getUnitForCurrentGMT(String unit) {
+        Calendar cal = Calendar.getInstance();
+        Date Time = cal.getTime();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(unit);
+        dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        try {
+            cal.add(Calendar.HOUR, currentGMTOffset);
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        } finally {
+            return Integer.parseInt(dateFormatter.format(cal.getTime()));
         }
     }
 
