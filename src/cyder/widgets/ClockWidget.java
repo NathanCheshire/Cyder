@@ -101,8 +101,6 @@ public class ClockWidget {
         spawnMini.setFocusPainted(false);
         clockFrame.getTopDragLabel().addButton(spawnMini, 0);
 
-        //todo update screen shots on README: pathfinder, console with mp3, analyze code output
-
         digitalTimeAndDateLabel = new CyderLabel(getWeatherTime(currentGMTOffset));
         digitalTimeAndDateLabel.setFont(CyderFonts.defaultFont);
         digitalTimeAndDateLabel.setBounds(10,60, 780, 40);
