@@ -15,7 +15,23 @@
 
 # Cyder - A Programmers Swiss Army Knife
 
-<img src="https://i.imgur.com/HDcFtjG.png" data-canonical-src="https://i.imgur.com/HDcFtjG.png"/>
+## Console with AudioPlayer open
+
+<img src="https://i.imgur.com/eUEL4R3.png" data-canonical-src="https://i.imgur.com/eUEL4R3.png"/>
+
+Cyder can download any youtube video. Along with the video, the thumbnail is downloaded to be used as album art for both the OS' taskbar and Cyder's taskbar.
+
+## Pathfinder
+
+<img src="https://i.imgur.com/cRlfyQR.png" data-canonical-src="https://i.imgur.com/cRlfyQR.png"/>
+
+Cyder comes with a path finding visualizer for Dijkstra's and A* with Euclidean and Manhattan distances as heuristics.
+
+## Self Analyzer
+
+<img src="https://i.imgur.com/afWk4Qf.png" data-canonical-src="https://i.imgur.com/afWk4Qf.png"/>
+
+Cyder can analyze many things about itself from its own code, comments, and files, your computer's properties, the status of certain websites, the JVM, and even its own issues on GitHub.
 
 ## Definition
 
