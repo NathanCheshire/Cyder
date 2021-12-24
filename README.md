@@ -15,24 +15,6 @@
 
 # Cyder - A Programmers Swiss Army Knife
 
-## Console with AudioPlayer open
-
-<img src="https://i.imgur.com/eUEL4R3.png" data-canonical-src="https://i.imgur.com/eUEL4R3.png"/>
-
-Cyder can download any youtube video. Along with the video, the thumbnail is downloaded to be used as album art for both the OS' taskbar and Cyder's taskbar.
-
-## Pathfinder
-
-<img src="https://i.imgur.com/cRlfyQR.png" data-canonical-src="https://i.imgur.com/cRlfyQR.png"/>
-
-Cyder comes with a path finding visualizer for Dijkstra's and A* with Euclidean and Manhattan distances as heuristics.
-
-## Self Analyzer
-
-<img src="https://i.imgur.com/afWk4Qf.png" data-canonical-src="https://i.imgur.com/afWk4Qf.png"/>
-
-Cyder can analyze many things about itself from its own code, comments, and files, your computer's properties, the status of certain websites, the JVM, and even its own issues on GitHub.
-
 ## Definition
 
 Cyder is a multipurpose tool with it's own custom UI library built without modern UI utilities such as FXML. It can perform countless operations such as downloading audio from a youtube video, resizing an image, displaying the weather, calculating an expression such as `sin(e^pi - 14^(1/2))` and visualizing algorithms such as A*, convex hull, and Conways Game of Life.
@@ -44,6 +26,26 @@ Cyder started as a way to test my basic Java skills and have fun while taking AP
 The best way I can describe Cyder is a multipurpose tool that launches all of the Java projects I have done, are currently working on, or will do. I know certain ways I do things are not great and PLEASE do not comment about me building a Java LAF from scratch essentailly and not using JavaFX. I am aware of this (I should hope I know since I'm the developer behind Cyder) and consider it a fun challenge to not work with modern UI depdencies.
 
 tl;dr Cyder is a virtual assistant and chatbot that performs tasks you might need on a PC.
+
+## Screenshots
+
+### Console with AudioPlayer open
+
+Cyder can download any youtube video. Along with the video, the thumbnail is downloaded to be used as album art for both the OS' taskbar and Cyder's taskbar.
+
+<img src="https://i.imgur.com/eUEL4R3.png" data-canonical-src="https://i.imgur.com/eUEL4R3.png"/>
+
+### Pathfinder
+
+Cyder comes with a path finding visualizer for Dijkstra's and A* with Euclidean and Manhattan distances as heuristics.
+
+<img src="https://i.imgur.com/cRlfyQR.png" data-canonical-src="https://i.imgur.com/cRlfyQR.png"/>
+
+### Self Analyzer
+
+Cyder can analyze many things about itself from its own code, comments, and files, your computer's properties, the status of certain websites, the JVM, and even its own issues on GitHub.
+
+<img src="https://i.imgur.com/afWk4Qf.png" data-canonical-src="https://i.imgur.com/afWk4Qf.png"/>
 
 ## Usage
 
