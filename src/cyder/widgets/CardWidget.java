@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Naming convention: you should name the card with the name of the holliday followed by the year without any spaces.
+ * Naming convention: you should name the card with the name of the holiday followed by the year without any spaces.
  * Example: Christmas2022() or Halloween2020() could be a method. These methods will then be automatically invoked on that particular day
  * See special day events in ConsoleFrame for an example on how these methods are invoked and why
  */

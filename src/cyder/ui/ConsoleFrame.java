@@ -1348,16 +1348,16 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Invokes the method with the name holliday + year from the CardsWidget
-     * @param holliday the holliday name such as Christmas
-     * @param year the year of the holliday such as 2021
+     * Invokes the method with the name holiday + year from the CardsWidget
+     * @param holiday the holiday name such as Christmas
+     * @param year the year of the holiday such as 2021
      */
-    private void cardReflector(String holliday, int year) {
+    private void cardReflector(String holiday, int year) {
         try {
             CardWidget cardWidget = new CardWidget();
 
             for (Method m : cardWidget.getClass().getMethods()) {
-                if (m.getName().toLowerCase().contains(holliday.toLowerCase()) && m.getName().toLowerCase().contains(year + "")) {
+                if (m.getName().toLowerCase().contains(holiday.toLowerCase()) && m.getName().toLowerCase().contains(year + "")) {
                     m.invoke(cardWidget);
                 }
             }
