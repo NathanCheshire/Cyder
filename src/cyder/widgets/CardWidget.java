@@ -151,6 +151,8 @@ public class CardWidget {
         cardLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(24f));
         cardLabel.setBounds(40, 40, christmas2021Frame.getWidth() - 80,christmas2021Frame.getHeight() - 80);
         christmas2021Frame.getContentPane().add(cardLabel);
+        cardLabel.setRippling(true);
+        cardLabel.setRippleMsTimeout(50);
 
         christmas2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         christmas2021Frame.setVisible(true);

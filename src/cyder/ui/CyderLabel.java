@@ -8,6 +8,7 @@ import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.LinkedList;
 
 public class CyderLabel extends JLabel {
     public CyderLabel() {
@@ -82,26 +83,37 @@ public class CyderLabel extends JLabel {
             beginRippleSequence();
     }
 
+    //todo more than one char rippling at a time, specify n
+
     private void beginRippleSequence() {
         new Thread(() -> {
             try {
-                int charIndex = 0;
+                //restore color so everything goes back to original foreground
                 Color restoreColor = this.getForeground();
 
+                //used to insert color properly
                 String parsedChars = Jsoup.clean(this.getText(), Safelist.none());
 
+                //init list for strings by tag
+                LinkedList<TaggedString> taggedStrings = new LinkedList<>();
+
+                //todo figure out what a substring is an add it to the ll
+
                 while (isRippling) {
-                    //todo assuming non-html right now, we'll need to fix this later for stuff not in tags
+                    //still used parsed chars here since that's all we care about rippling anyway
                     for (int i = 0 ; i < parsedChars.length() ; i++) {
+                        //init builder for this iteration where the ith char
+                        // (could be from any non-html tag), is ripple color
                         StringBuilder builder = new StringBuilder();
 
                         for (int j = 0 ; j < parsedChars.length() ; j++) {
-                            if (i == j)
+                            if (j == i)
                                 builder.append(getColoredText(String.valueOf(parsedChars.charAt(j)),rippleColor));
                             else
                                 builder.append(parsedChars.charAt(j));
                         }
 
+                        //set text, repaint, sleep
                         this.setText("<html>" + builder + "</html>");
                         this.repaint();
                         Thread.sleep(rippleMsTimeout);
@@ -117,5 +129,35 @@ public class CyderLabel extends JLabel {
 
     private String getColoredText(String text, Color c) {
         return "<font color = rgb(" + c.getRed() + "," + c.getGreen() + "," + c.getBlue() + ")>" + text + "</font>";
+    }
+
+    private enum Tag {
+        HTML,TEXT
+    }
+
+    private static class TaggedString {
+        private String text;
+        private Tag tag;
+
+        public TaggedString(String text, Tag tag) {
+            this.text = text;
+            this.tag = tag;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public Tag getTag() {
+            return tag;
+        }
+
+        public void setTag(Tag tag) {
+            this.tag = tag;
+        }
     }
 }

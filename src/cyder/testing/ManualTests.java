@@ -1,6 +1,7 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.AnimationDirection;
 import cyder.enums.NotificationDirection;
@@ -508,5 +509,20 @@ public class ManualTests {
 
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+    }
+
+    public static void rippleLabelTest() {
+        CyderFrame rippleTestFrame = new CyderFrame(400,400);
+        rippleTestFrame.setTitle("Ripple Test");
+
+        CyderLabel ripplingLabel = new CyderLabel("<html>Testing Ripple</html>");
+        ripplingLabel.setFont(CyderFonts.defaultFont);
+        ripplingLabel.setBounds(40,40,400 - 40 * 2, 400 - 40 * 2);
+        rippleTestFrame.getContentPane().add(ripplingLabel);
+
+        ripplingLabel.setRippling(true);
+
+        rippleTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        rippleTestFrame.setVisible(true);
     }
 }

@@ -1,11 +1,9 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
@@ -127,18 +125,7 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
-            CyderFrame rippleTestFrame = new CyderFrame(400,400);
-            rippleTestFrame.setTitle("Ripple Test");
 
-            CyderLabel ripplingLable = new CyderLabel("<html>Testing Ripple</html>");
-            ripplingLable.setFont(CyderFonts.defaultFont);
-            ripplingLable.setBounds(40,40,400 - 40 * 2, 400 - 40 * 2);
-            rippleTestFrame.getContentPane().add(ripplingLable);
-
-            ripplingLable.setRippling(true);
-
-            rippleTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
-            rippleTestFrame.setVisible(true);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
