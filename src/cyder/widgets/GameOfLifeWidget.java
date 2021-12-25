@@ -23,8 +23,6 @@ public class GameOfLifeWidget {
     private static int maxIterationsPerSecond = 50;
 
     private static final int defaultGridLen = 45;
-    private static final int minGridLen = 20;
-    private static final int maxGridLen = 60;
     private static int currentGridLen = defaultGridLen;
 
     private static JLabel gridLabel;
@@ -63,8 +61,6 @@ public class GameOfLifeWidget {
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setColor(CyderColors.navy);
                 g2d.setStroke(new BasicStroke(2));
-
-                System.out.println(currentGridLen);
 
                 int gridLen = 90;
                 int squareLen = 20;
@@ -140,23 +136,6 @@ public class GameOfLifeWidget {
                         gridLabel.repaint();
                     }
                 }
-            }
-        });
-
-        gridLabel.addMouseWheelListener(e -> {
-            if (simulationRunning)
-                return;
-
-            if (e.isControlDown()) {
-                if (e.getWheelRotation() == -1 && currentGridLen + 1 < maxGridLen) {
-                    currentGridLen += 1;
-                } else if (currentGridLen - 1 > minGridLen){
-                    currentGridLen -= 1;
-                }
-
-                //todo how did we update the corresponding 2D array?
-
-                gridLabel.repaint();
             }
         });
 
