@@ -317,7 +317,10 @@ public class InputHandler {
         } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
             CardWidget.Christmas2020();
             SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-        } else if (hasWord("number") && hasWord("word")) {
+        } else if (hasWord("christmas") && hasWord("card") && hasWord("2021")) {
+            CardWidget.Christmas2021();
+            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
+        }  else if (hasWord("number") && hasWord("word")) {
             NumberUtil.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "NUMBER TO WORD");
         } else if (hasWord("hangman")) {

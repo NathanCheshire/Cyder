@@ -3,15 +3,18 @@ package cyder.widgets;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.NotificationDirection;
+import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderLabel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class CardWidget {
     private static CyderFrame christmas2020Frame;
+    private static CyderFrame christmas2021Frame;
     private static CyderFrame fathersDay2021Frame;
     private static CyderFrame birthday2021Frame;
 
@@ -126,5 +129,30 @@ public class CardWidget {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    public static void Christmas2021() {
+        if (christmas2021Frame != null)
+            christmas2021Frame.dispose();
+
+        christmas2021Frame = new CyderFrame(800,800);
+        christmas2021Frame.setTitle("Merry Christmas!");
+        christmas2021Frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+
+        CyderLabel cardLabel = new CyderLabel("<html>Dear Mom and Dad,<br/><br/>" +
+                "Thank yall so much for everything this year. 2021 went by insanely quickly " +
+                "and I wish I had more time at college, time at home, and so on. " +
+                "But time waits for no one, so I too must push forward to the next stage of my life." +
+                "<br/><br/>I can't wait to start my career at Camgian and be back in Starkville with all my friends where it now truly feels like home. " +
+                "Feel free to swing by or fly up one weekend to see me or perhaps do something for Karla's spring break." +
+                " Thanks for this vacation, Destin for fall break, and putting up with me while I lived at home this past spring semester.<br/><br/>" +
+                "Love,<br/>" +
+                "Nathan</html>");
+        cardLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(24f));
+        cardLabel.setBounds(40, 40, christmas2021Frame.getWidth() - 80,christmas2021Frame.getHeight() - 80);
+        christmas2021Frame.getContentPane().add(cardLabel);
+
+        christmas2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        christmas2021Frame.setVisible(true);
     }
 }
