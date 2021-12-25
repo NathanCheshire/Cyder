@@ -4,12 +4,10 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.consts.CyderStrings;
+import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderComboBox;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
+import cyder.ui.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,10 +18,13 @@ import java.awt.event.MouseMotionAdapter;
 public class GameOfLifeWidget {
     private static int[][] grid;
     private static boolean simulationRunning;
-    private static int framesPerSecond = 10;
+
+    private static int iterationsPerSecond = 10;
+    private static int maxIterationsPerSecond = 50;
+
     private static JLabel gridLabel;
     private static CyderButton simulateButton;
-    private static CyderFrame cf;
+    private static CyderFrame conwayFrame;
 
     private static CyderLabel iterationLabel;
     private static CyderLabel populationLabel;
@@ -42,8 +43,8 @@ public class GameOfLifeWidget {
 
     public static void showGUI() {
         grid = new int[45][45];
-        cf = new CyderFrame(940,1120, CyderImages.defaultBackgroundLarge);
-        cf.setTitle("Conway's Game of Life");
+        conwayFrame = new CyderFrame(940,1120, CyderImages.defaultBackgroundLarge);
+        conwayFrame.setTitle("Conway's Game of Life");
 
         gridLabel = new JLabel() {
             @Override
@@ -88,7 +89,7 @@ public class GameOfLifeWidget {
         gridLabel.setOpaque(true);
         gridLabel.setBackground(Color.white);
         gridLabel.setBounds(20,80,902,902);
-        cf.getContentPane().add(gridLabel);
+        conwayFrame.getContentPane().add(gridLabel);
         gridLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -129,29 +130,28 @@ public class GameOfLifeWidget {
         });
 
         //todo zooming on label, presets will need to change with that too with some more math
-        //todo speed slider like pathfinder
 
         iterationLabel = new CyderLabel("Generation: 0");
         iterationLabel.setFont(CyderFonts.defaultFont);
         iterationLabel.setBounds(20,32, 287, 30);
-        cf.getContentPane().add(iterationLabel);
+        conwayFrame.getContentPane().add(iterationLabel);
 
         populationLabel = new CyderLabel("Population: 0");
         populationLabel.setFont(CyderFonts.defaultFont);
         populationLabel.setBounds(20 + 287 + 20,32, 287, 30);
-        cf.getContentPane().add(populationLabel);
+        conwayFrame.getContentPane().add(populationLabel);
 
         maxPopulationLabel = new CyderLabel("Max Population: 0 [Gen 0]");
         maxPopulationLabel.setFont(CyderFonts.defaultFont);
         maxPopulationLabel.setBounds(20 + 287 + 20 + 287 + 20,32, 287, 30);
-        cf.getContentPane().add(maxPopulationLabel);
+        conwayFrame.getContentPane().add(maxPopulationLabel);
 
         resetButton = new CyderButton("Reset");
         resetButton.addActionListener(e -> {
             new Thread(() -> {
                 try {
                     simulateButton.setEnabled(false);
-                    Thread.sleep(2L * framesPerSecond);
+                    Thread.sleep(2L * iterationsPerSecond);
                     simulateButton.setEnabled(true);
                 } catch (Exception ex) {
                     ErrorHandler.handle(ex);
@@ -169,7 +169,7 @@ public class GameOfLifeWidget {
             gridLabel.repaint();
         });
         resetButton.setBounds(20,70 + 30 + 902, (902 - 20) / 3, 40);
-        cf.getContentPane().add(resetButton);
+        conwayFrame.getContentPane().add(resetButton);
 
         simulateButton = new CyderButton("Simulate");
         simulateButton.addActionListener(e -> {
@@ -179,7 +179,7 @@ public class GameOfLifeWidget {
                 new Thread(() -> {
                     try {
                         simulateButton.setEnabled(false);
-                        Thread.sleep(2L * framesPerSecond);
+                        Thread.sleep(2L * iterationsPerSecond);
                         simulateButton.setEnabled(true);
                     } catch (Exception ex) {
                         ErrorHandler.handle(ex);
@@ -193,24 +193,52 @@ public class GameOfLifeWidget {
             simulationRunning = !simulationRunning;
         });
         simulateButton.setBounds(20 + (902 - 20) / 3 + 10,70 + 30 + 902, (902 - 20) / 3, 40);
-        cf.getContentPane().add(simulateButton);
+        conwayFrame.getContentPane().add(simulateButton);
 
         String[] presets = {"Gliders","Copperhead"};
         CyderComboBox presetComboBox = new CyderComboBox((902 - 20) / 3, 40, presets);
         presetComboBox.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902, (902 - 20) / 3, 40);
-        cf.getContentPane().add(presetComboBox);
+        conwayFrame.getContentPane().add(presetComboBox);
 
         CyderButton setPresetButton = new CyderButton("Set Preset");
         setPresetButton.addActionListener(e-> setPreset(presetComboBox.getValue()));
         setPresetButton.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902 + 50, (902 - 20) / 3, 40);
-        cf.getContentPane().add(setPresetButton);
+        conwayFrame.getContentPane().add(setPresetButton);
 
-        cf.setVisible(true);
-        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
-        cf.addPreCloseAction(() -> simulationRunning = false);
+        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 200);
+        CyderSliderUI UI = new CyderSliderUI(speedSlider);
+        UI.setThumbStroke(new BasicStroke(2.0f));
+        UI.setSliderShape(SliderShape.RECT);
+        UI.setFillColor(Color.black);
+        UI.setOutlineColor(CyderColors.navy);
+        UI.setNewValColor(CyderColors.regularBlue);
+        UI.setOldValColor(CyderColors.intellijPink);
+        UI.setTrackStroke(new BasicStroke(3.0f));
+        speedSlider.setUI(UI);
+        speedSlider.setBounds(80,70 + 30 + 902 + 55, 500, 40);
+        speedSlider.setPaintTicks(false);
+        speedSlider.setPaintLabels(false);
+        speedSlider.setVisible(true);
+
+        speedSlider.addChangeListener(e -> iterationsPerSecond = Math.max((int) (maxIterationsPerSecond *
+                ((double) speedSlider.getValue() /  (double) speedSlider.getMaximum())),1));
+        speedSlider.setOpaque(false);
+        speedSlider.setToolTipText("Generations per second");
+        speedSlider.setFocusable(false);
+        speedSlider.repaint();
+        conwayFrame.getContentPane().add(speedSlider);
+
+        conwayFrame.setVisible(true);
+        conwayFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        conwayFrame.addPreCloseAction(() -> simulationRunning = false);
     }
 
     private static void setPreset(String preset) {
+        if (grid.length < 45 || grid[0].length < 45) {
+            conwayFrame.notify("In order to use presets, please make the grid at least 45x45");
+            return;
+        }
+
         if (preset.equals("Gliders")) {
             resetButton.doClick();
             grid = new int[45][45];
@@ -328,11 +356,11 @@ public class GameOfLifeWidget {
                     }
 
                     if (empty) {
-                        cf.notify("Simulation ended with total elimination");
+                        conwayFrame.notify("Simulation ended with total elimination");
                         break;
                     }
 
-                    Thread.sleep(1000 / framesPerSecond);
+                    Thread.sleep(1000 / iterationsPerSecond);
                 } catch (Exception e) {
                     ErrorHandler.handle(e);
                 }
