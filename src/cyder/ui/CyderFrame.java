@@ -748,9 +748,8 @@ public class CyderFrame extends JFrame {
                        NotificationDirection notificationDirection, ClickAction onKillAction,
                        Container container, Color notificationBackground) {
         //make a WaitingNotification and add to queue, queue will automatically process any notifications so no further actions needed
-        notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction, TimeUtil.notificationTime()));
-
-        //todo if a custom content pane is passed and has to wait it breaks
+        notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection,
+                onKillAction, container, notificationBackground, TimeUtil.notificationTime()));
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
@@ -765,8 +764,8 @@ public class CyderFrame extends JFrame {
                             //init notification object
                             currentNotification = new Notification();
 
-                            if (notificationBackground != null)
-                                currentNotification.setBackgroundColor(notificationBackground);
+                            if (currentWaitingNotification.getNotificationBackground() != null)
+                                currentNotification.setBackgroundColor(currentWaitingNotification.getNotificationBackground());
 
                             //set the arrow direction
                             currentNotification.setArrow(currentWaitingNotification.getArrowDir());
@@ -789,7 +788,7 @@ public class CyderFrame extends JFrame {
                                 continue;
                             }
 
-                            if (container == null) {
+                            if (currentWaitingNotification.getContianer() == null) {
                                 //set the text bounds to the proper x,y and theest
                                 // calculated width and height
                                 text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
@@ -818,9 +817,9 @@ public class CyderFrame extends JFrame {
                                 });
                                 currentNotification.add(disposeLabel);
                             } else {
-                                currentNotification.setWidth(container.getWidth());
-                                currentNotification.setHeight(container.getHeight());
-                                currentNotification.add(container);
+                                currentNotification.setWidth(currentWaitingNotification.getContianer().getWidth());
+                                currentNotification.setHeight(currentWaitingNotification.getContianer().getHeight());
+                                currentNotification.add(currentWaitingNotification.getContianer());
                             }
 
                             switch (currentWaitingNotification.getNotificationDirection()) {
@@ -2001,6 +2000,8 @@ public class CyderFrame extends JFrame {
         private NotificationDirection notificationDirection;
         private ClickAction onKillAction;
         private String time;
+        private Container contianer;
+        private Color notificationBackground;
 
         /**
          * A notification that hasn't been notified to the user yet and is waiting in a CyderFrame's queue.
@@ -2011,12 +2012,15 @@ public class CyderFrame extends JFrame {
          * @param onKillAction the action to perform if the notification is dismissed by the user
          */
         public WaitingNotification(String text, int dur, Direction arrowDir,
-                                   NotificationDirection notificationDirection, ClickAction onKillAction, String time) {
+                                   NotificationDirection notificationDirection,
+                                   ClickAction onKillAction, Container container, Color notificationBackground, String time) {
             this.htmlText = text;
             this.duration = dur;
             this.arrowDir = arrowDir;
             this.notificationDirection = notificationDirection;
             this.onKillAction = onKillAction;
+            this.contianer = container;
+            this.notificationBackground = notificationBackground;
             this.time = time;
         }
 
@@ -2066,6 +2070,22 @@ public class CyderFrame extends JFrame {
 
         public void setTime(String time) {
             this.time = time;
+        }
+
+        public Container getContianer() {
+            return contianer;
+        }
+
+        public void setContianer(Container contianer) {
+            this.contianer = contianer;
+        }
+
+        public Color getNotificationBackground() {
+            return notificationBackground;
+        }
+
+        public void setNotificationBackground(Color notificaitonBackground) {
+            this.notificationBackground = notificaitonBackground;
         }
 
         @Override
