@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.utilities.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -104,32 +105,7 @@ public class CyderLabel extends JLabel {
                 String parsedChars = Jsoup.clean(this.getText(), Safelist.none());
 
                 //init list for strings by tag
-                LinkedList<TaggedString> taggedStrings = new LinkedList<>();
-
-                //figoure out tags
-                String textCopy = this.getText();
-                while ((textCopy.contains("<") && textCopy.contains(">"))) {
-                    int firstOpeningTag = textCopy.indexOf("<");
-                    int firstClosingTag = textCopy.indexOf(">");
-
-                    //failsafe
-                    if (firstClosingTag == -1 || firstOpeningTag == -1 || firstClosingTag < firstOpeningTag)
-                        break;
-
-                    String regularText = textCopy.substring(0, firstOpeningTag);
-                    String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
-
-                    if (regularText.length() > 0)
-                        taggedStrings.add(new TaggedString(regularText, Tag.TEXT));
-                    if (firstHtml.length() > 0)
-                        taggedStrings.add(new TaggedString(firstHtml, Tag.HTML));
-
-                    textCopy = textCopy.substring(firstClosingTag + 1);
-                }
-
-                //if there's remaining text, it's just non-html
-                if (textCopy.length() > 0)
-                    taggedStrings.add(new TaggedString(textCopy, Tag.TEXT));
+                LinkedList<StringUtil.TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
 
                 while (isRippling && this.getParent() != null) {
                     //still used parsed chars here since that's all we care about rippling anyway
@@ -141,8 +117,8 @@ public class CyderLabel extends JLabel {
                         int charSum = 0;
                         int rippled = 0;
 
-                        for (TaggedString ts : taggedStrings) {
-                            if (ts.getTag() == Tag.HTML) {
+                        for (StringUtil.TaggedString ts : taggedStrings) {
+                            if (ts.getTag() == StringUtil.Tag.HTML) {
                                 builder.append(ts.getText());
                             } else {
                                 for (char c : ts.getText().toCharArray()) {
@@ -179,35 +155,5 @@ public class CyderLabel extends JLabel {
 
     private String getColoredText(String text, Color c) {
         return "<font color = rgb(" + c.getRed() + "," + c.getGreen() + "," + c.getBlue() + ")>" + text + "</font>";
-    }
-
-    private enum Tag {
-        HTML,TEXT
-    }
-
-    private static class TaggedString {
-        private String text;
-        private Tag tag;
-
-        public TaggedString(String text, Tag tag) {
-            this.text = text;
-            this.tag = tag;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        public Tag getTag() {
-            return tag;
-        }
-
-        public void setTag(Tag tag) {
-            this.tag = tag;
-        }
     }
 }

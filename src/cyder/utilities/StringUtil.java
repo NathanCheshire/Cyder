@@ -925,4 +925,71 @@ public class StringUtil {
 
         return Arrays.equals(W1C, W2C);
     }
+
+    /**
+     * Finds the rawtext and html tags of a string and returns a linked list representing the parts
+     * @param htmlText the text containing html tags
+     * @return a linked list where each object represents either a complete tag or raw text
+     */
+    public static LinkedList<TaggedString> getTaggedStrings(String htmlText) {
+        //init list for strings by tag
+        LinkedList<TaggedString> taggedStrings = new LinkedList<>();
+
+        //figoure out tags
+        String textCopy = htmlText;
+        while ((textCopy.contains("<") && textCopy.contains(">"))) {
+            int firstOpeningTag = textCopy.indexOf("<");
+            int firstClosingTag = textCopy.indexOf(">");
+
+            //failsafe
+            if (firstClosingTag == -1 || firstOpeningTag == -1 || firstClosingTag < firstOpeningTag)
+                break;
+
+            String regularText = textCopy.substring(0, firstOpeningTag);
+            String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
+
+            if (regularText.length() > 0)
+                taggedStrings.add(new TaggedString(regularText, Tag.TEXT));
+            if (firstHtml.length() > 0)
+                taggedStrings.add(new TaggedString(firstHtml, Tag.HTML));
+
+            textCopy = textCopy.substring(firstClosingTag + 1);
+        }
+
+        //if there's remaining text, it's just non-html
+        if (textCopy.length() > 0)
+            taggedStrings.add(new TaggedString(textCopy, Tag.TEXT));
+
+        return taggedStrings;
+    }
+
+    public enum Tag {
+        HTML,TEXT
+    }
+
+    public static class TaggedString {
+        private String text;
+        private Tag tag;
+
+        public TaggedString(String text, Tag tag) {
+            this.text = text;
+            this.tag = tag;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public Tag getTag() {
+            return tag;
+        }
+
+        public void setTag(Tag tag) {
+            this.tag = tag;
+        }
+    }
 }
