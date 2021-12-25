@@ -750,6 +750,8 @@ public class CyderFrame extends JFrame {
         //make a WaitingNotification and add to queue, queue will automatically process any notifications so no further actions needed
         notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction, TimeUtil.notificationTime()));
 
+        //todo if a custom content pane is passed and has to wait it breaks
+
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
 

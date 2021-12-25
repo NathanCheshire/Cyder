@@ -19,12 +19,10 @@ public class ConvexHullWidget {
     private static CyderFrame hullFrame;
     private static CyderLabel titleLabel;
     private static CyderButton resetPoints;
-    private static CyderButton arrowButton;
     private static CyderButton computeButton;
-    private static CyderTextField algorithmField;
+    private static CyderComboBox algorithmCombo;
 
-    private static String[] algorithms = new String[] {"Jarvis (wrapping)","Graham Scan"};
-    private static int algorithmIndex;
+    private static String[] algorithms = new String[] {"Wrapping","Graham Scan"};
 
     public static void showGUI() {
         boardPoints = new Vector<>();
@@ -41,9 +39,9 @@ public class ConvexHullWidget {
                 g2d.setColor(CyderColors.vanila);
                 g2d.fillRect(0,0,800,800);
 
-                g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
-                int size = 5;
+                int size = 10;
 
                 if (boardPoints.size() > 0) {
                     g2d.setColor(Color.black);
@@ -93,23 +91,9 @@ public class ConvexHullWidget {
         resetPoints.setBounds(20, 90 + 640 + 10, 240, 40);
         hullFrame.getContentPane().add(resetPoints);
 
-        algorithmField = new CyderTextField(0);
-        algorithmField.setEditable(false);
-        algorithmField.setText(algorithms[algorithmIndex]);
-        algorithmField.setBounds(20 + 20 + 240, 90 + 640 + 10, 240 - 35, 40);
-        hullFrame.getContentPane().add(algorithmField);
-
-        arrowButton = new CyderButton("▼");
-        arrowButton.addActionListener(e -> {
-            algorithmIndex++;
-
-            if (algorithmIndex == 2)
-                algorithmIndex = 0;
-
-            algorithmField.setText(algorithms[algorithmIndex]);
-        });
-        arrowButton.setBounds(20 + 20 + 240 - 40 + 240, 90 + 640 + 10, 40, 40);
-        hullFrame.getContentPane().add(arrowButton);
+        algorithmCombo = new CyderComboBox(240, 40, algorithms);
+        algorithmCombo.setBounds(20 + 20 + 240, 90 + 640 + 10, 240, 40);
+        hullFrame.getContentPane().add(algorithmCombo);
 
         computeButton = new CyderButton("Solve");
         computeButton.addActionListener(e -> solveAndUpdate());
@@ -121,7 +105,10 @@ public class ConvexHullWidget {
     }
 
     private static void solveAndUpdate() {
-        switch (algorithmIndex) {
+        if (boardPoints == null || boardPoints.size() == 0)
+            return;
+
+        switch (algorithmCombo.getIndex()) {
             case 0:
                  hullPoints = convexHullJarvis(boardPoints, boardPoints.size());
                  hullLabel.repaint();
