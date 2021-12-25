@@ -190,7 +190,7 @@ public class ClockWidget {
                 int drawToY = - (int) Math.round(y);
 
                 g.setColor(clockColor);
-                ((Graphics2D) g).setStroke(new BasicStroke(6));
+                ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                 theta = (currentHour[0] * 30.0) + 270.0;
 
@@ -206,7 +206,7 @@ public class ClockWidget {
                 drawToY = - (int) Math.round(y);
 
                 g.setColor(clockColor);
-                ((Graphics2D) g).setStroke(new BasicStroke(6));
+                ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                 //draw hour hand
                 g.drawLine(centerX, centerY, centerX + drawToX,  centerY + drawToY);
@@ -223,7 +223,7 @@ public class ClockWidget {
                 drawToY = - (int) Math.round(y);
 
                 g.setColor(clockColor);
-                ((Graphics2D) g).setStroke(new BasicStroke(6));
+                ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                 //draw minute hand
                 g.drawLine(centerX, centerY, centerX + drawToX,  centerY + drawToY);
@@ -241,7 +241,7 @@ public class ClockWidget {
                     drawToY = - (int) Math.round(y);
 
                     g.setColor(clockColor);
-                    ((Graphics2D) g).setStroke(new BasicStroke(6));
+                    ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     //draw second hand
                     g.drawLine(centerX, centerY, centerX + drawToX,  centerY + drawToY);
@@ -251,7 +251,7 @@ public class ClockWidget {
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2d.setColor(CyderColors.navy);
-                ((Graphics2D) g).setStroke(new BasicStroke(6));
+                ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
                 int radius = 20;
                 g.fillOval(centerX - radius / 2, centerY - radius / 2, radius, radius);
             }

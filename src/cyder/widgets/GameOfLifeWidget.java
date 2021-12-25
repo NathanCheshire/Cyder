@@ -22,6 +22,11 @@ public class GameOfLifeWidget {
     private static int iterationsPerSecond = 10;
     private static int maxIterationsPerSecond = 50;
 
+    private static final int defaultGridLen = 45;
+    private static final int minGridLen = 20;
+    private static final int maxGridLen = 60;
+    private static int currentGridLen = defaultGridLen;
+
     private static JLabel gridLabel;
     private static CyderButton simulateButton;
     private static CyderFrame conwayFrame;
@@ -37,23 +42,29 @@ public class GameOfLifeWidget {
     private static int maxPopulation = 0;
     private static int maxPopulationGeneration = 0;
 
+    //todo this might be hard but perhaps a checkbox for an oscilator detector would be a cool feature to implement
+
     private GameOfLifeWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
     public static void showGUI() {
-        grid = new int[45][45];
+        grid = new int[defaultGridLen][defaultGridLen];
         conwayFrame = new CyderFrame(940,1120, CyderImages.defaultBackgroundLarge);
         conwayFrame.setTitle("Conway's Game of Life");
 
         gridLabel = new JLabel() {
             @Override
             public void paint(Graphics g) {
+                //drawing of grid
                 populationCount = 0;
                 super.paint(g);
+
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setColor(CyderColors.navy);
                 g2d.setStroke(new BasicStroke(2));
+
+                System.out.println(currentGridLen);
 
                 int gridLen = 90;
                 int squareLen = 20;
@@ -68,8 +79,8 @@ public class GameOfLifeWidget {
                     g2d.drawLine(1, i + 1, gridLen * squareLen + 1, i + 1);
                 }
 
-                for (int x = 0 ; x < 45 ; x++) {
-                    for (int y = 0 ; y < 45 ; y++) {
+                for (int x = 0 ; x < currentGridLen ; x++) {
+                    for (int y = 0 ; y < currentGridLen ; y++) {
                         if (grid[x][y] == 1) {
                             populationCount++;
                             g2d.fillRect(1 + squareLen * x, 1 + squareLen* y, squareLen, squareLen);
@@ -93,11 +104,12 @@ public class GameOfLifeWidget {
         gridLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                //placing blocks or taking them away based on mouse clicks
                 if (!simulationRunning) {
                     double x = Math.floor(((e.getX() + 2) / 20));
                     double y = Math.floor(((e.getY() + 2) / 20));
 
-                    if (x < 44 && y < 44 && x >= 1 && y >= 1) {
+                    if (x < currentGridLen - 1 && y < currentGridLen - 1 && x >= 1 && y >= 1) {
                         switch (grid[(int) x][(int) y]) {
                             case 0:
                                 grid[(int) x][(int) y] = 1;
@@ -114,14 +126,16 @@ public class GameOfLifeWidget {
                 }
             }
         });
+
         gridLabel.addMouseMotionListener(new MouseMotionAdapter() {
+            //drawing walls by dragging
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (!simulationRunning) {
                     double x = Math.floor(((e.getX() + 2) / 20));
                     double y = Math.floor(((e.getY() + 2) / 20));
 
-                    if (x < 44 && y < 44 && x >= 1 && y >= 1) {
+                    if (x < currentGridLen - 1 && y < currentGridLen - 1 && x >= 1 && y >= 1) {
                         grid[(int) x][(int) y] = 1;
                         gridLabel.repaint();
                     }
@@ -129,7 +143,22 @@ public class GameOfLifeWidget {
             }
         });
 
-        //todo zooming on label, presets will need to change with that too with some more math
+        gridLabel.addMouseWheelListener(e -> {
+            if (simulationRunning)
+                return;
+
+            if (e.isControlDown()) {
+                if (e.getWheelRotation() == -1 && currentGridLen + 1 < maxGridLen) {
+                    currentGridLen += 1;
+                } else if (currentGridLen - 1 > minGridLen){
+                    currentGridLen -= 1;
+                }
+
+                //todo how did we update the corresponding 2D array?
+
+                gridLabel.repaint();
+            }
+        });
 
         iterationLabel = new CyderLabel("Generation: 0");
         iterationLabel.setFont(CyderFonts.defaultFont);
@@ -165,7 +194,7 @@ public class GameOfLifeWidget {
             generationCount = 0;
             iterationLabel.setText("Generation: 0");
             maxPopulationLabel.setText("Max Population: 0 [Gen 0]");
-            grid = new int[45][45];
+            grid = new int[currentGridLen][currentGridLen];
             gridLabel.repaint();
         });
         resetButton.setBounds(20,70 + 30 + 902, (902 - 20) / 3, 40);
@@ -241,7 +270,7 @@ public class GameOfLifeWidget {
 
         if (preset.equals("Gliders")) {
             resetButton.doClick();
-            grid = new int[45][45];
+            grid = new int[currentGridLen][currentGridLen];
 
             grid[1][5] = 1;
             grid[1][6] = 1;
@@ -283,7 +312,7 @@ public class GameOfLifeWidget {
             gridLabel.repaint();
         } else if (preset.equals("Copperhead")) {
             resetButton.doClick();
-            grid = new int[45][45];
+            grid = new int[currentGridLen][currentGridLen];
 
             //bottom square
             grid[22][42] = 1;
