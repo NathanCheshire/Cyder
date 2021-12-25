@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.consts.CyderColors;
+import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
@@ -80,7 +81,7 @@ public class GameOfLifeWidget {
                 if (populationCount >= maxPopulation) {
                     maxPopulation = populationCount;
                     maxPopulationGeneration = generationCount;
-                    maxPopulationLabel.setText("Max Population: " + maxPopulation + " [generation " + maxPopulationGeneration + "]");
+                    maxPopulationLabel.setText("Max Population: " + maxPopulation + " [Gen " + maxPopulationGeneration + "]");
                 }
             }
         };
@@ -127,20 +128,22 @@ public class GameOfLifeWidget {
             }
         });
 
-        //todo label texts bigger and share space of grid label above it
         //todo zooming on label, presets will need to change with that too with some more math
         //todo speed slider like pathfinder
 
         iterationLabel = new CyderLabel("Generation: 0");
-        iterationLabel.setBounds(20,32, 150, 30);
+        iterationLabel.setFont(CyderFonts.defaultFont);
+        iterationLabel.setBounds(20,32, 287, 30);
         cf.getContentPane().add(iterationLabel);
 
         populationLabel = new CyderLabel("Population: 0");
-        populationLabel.setBounds(180,32, 150, 30);
+        populationLabel.setFont(CyderFonts.defaultFont);
+        populationLabel.setBounds(20 + 287 + 20,32, 287, 30);
         cf.getContentPane().add(populationLabel);
 
-        maxPopulationLabel = new CyderLabel("Max Population: 0 [generation 0]");
-        maxPopulationLabel.setBounds(340,32, 300, 30);
+        maxPopulationLabel = new CyderLabel("Max Population: 0 [Gen 0]");
+        maxPopulationLabel.setFont(CyderFonts.defaultFont);
+        maxPopulationLabel.setBounds(20 + 287 + 20 + 287 + 20,32, 287, 30);
         cf.getContentPane().add(maxPopulationLabel);
 
         resetButton = new CyderButton("Reset");
@@ -161,7 +164,7 @@ public class GameOfLifeWidget {
             maxPopulationGeneration = 0;
             generationCount = 0;
             iterationLabel.setText("Generation: 0");
-            maxPopulationLabel.setText("Max Population: 0 [generation 0]");
+            maxPopulationLabel.setText("Max Population: 0 [Gen 0]");
             grid = new int[45][45];
             gridLabel.repaint();
         });

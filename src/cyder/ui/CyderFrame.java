@@ -215,11 +215,16 @@ public class CyderFrame extends JFrame {
         setFrameType(this.frameType);
     }
 
-    //bordreless frame type, used for splashscreen
-    private CyderFrame(String borderlessID, int width, int height) {
-        if (!borderlessID.equals("BORDERLESS"))
-            throw new IllegalArgumentException("Incorrect ID");
+    /**
+     * Makes a borderless frame with no drag labels, the content label itself can move the frame.
+     * This frame, however, can never exist as any other state,
+     */
+    public static CyderFrame getBorderlessFrame(int width, int height) {
+        return new CyderFrame("BORDERLESS", width, height);
+    }
 
+    //bordreless frame type, used for splashscreen, can only be made using above method
+    private CyderFrame(String borderlessID, int width, int height) {
         this.width = width;
         this.height = height;
 
@@ -1983,14 +1988,6 @@ public class CyderFrame extends JFrame {
             if (topDrag != null)
                 this.topDrag.refreshPinButton();
         }
-    }
-
-    /**
-     * Makes a borderless frame with no drag labels, the content label itself can move the frame.
-     * This frame, however, can never exist as any other state,
-     */
-    public static CyderFrame getBorderlessFrame(int width, int height) {
-        return new CyderFrame("BORDERLESS", width, height);
     }
 
     //inner classes
