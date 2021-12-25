@@ -145,14 +145,19 @@ public class CardWidget {
                 "But time waits for no one, so I too must push forward to the next stage of my life." +
                 "<br/><br/>I can't wait to start my career at Camgian and be back in Starkville with all my friends where it now truly feels like home. " +
                 "Feel free to swing by or fly up one weekend to see me or perhaps do something for Karla's spring break." +
-                " Thanks for this vacation, Destin for fall break, and putting up with me while I lived at home this past spring semester.<br/><br/>" +
+                " Thanks for this vacation, Destin for fall break, and putting up with me while I lived at home this past spring semester." +
                 "Love,<br/>" +
                 "Nathan</html>");
         cardLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(24f));
         cardLabel.setBounds(40, 40, christmas2021Frame.getWidth() - 80,christmas2021Frame.getHeight() - 80);
         christmas2021Frame.getContentPane().add(cardLabel);
-        cardLabel.setRippling(true);
-        cardLabel.setRippleMsTimeout(50);
+
+        CyderLabel loveLabel = new CyderLabel("<html>" + "Love,<br/>" + "Nathan</html>");
+        loveLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(24f));
+        loveLabel.setBounds(40, christmas2021Frame.getHeight() - 120, christmas2021Frame.getWidth() - 80,80);
+        christmas2021Frame.getContentPane().add(loveLabel);
+        loveLabel.setRippling(true);
+        loveLabel.setRippleMsTimeout(150);
 
         christmas2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         christmas2021Frame.setVisible(true);

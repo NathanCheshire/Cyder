@@ -515,7 +515,7 @@ public class ManualTests {
         CyderFrame rippleTestFrame = new CyderFrame(400,400);
         rippleTestFrame.setTitle("Ripple Test");
 
-        CyderLabel ripplingLabel = new CyderLabel("<html>Testing Ripple</html>");
+        CyderLabel ripplingLabel = new CyderLabel("<html>Testing<br/>Ripple</html>");
         ripplingLabel.setFont(CyderFonts.defaultFont);
         ripplingLabel.setBounds(40,40,400 - 40 * 2, 400 - 40 * 2);
         rippleTestFrame.getContentPane().add(ripplingLabel);

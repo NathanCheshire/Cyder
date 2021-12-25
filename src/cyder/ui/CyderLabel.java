@@ -97,7 +97,33 @@ public class CyderLabel extends JLabel {
                 //init list for strings by tag
                 LinkedList<TaggedString> taggedStrings = new LinkedList<>();
 
-                //todo figure out what a substring is an add it to the ll
+                //figoure out tags
+                String textCopy = this.getText();
+                while ((textCopy.contains("<") && textCopy.contains(">"))) {
+                    int firstOpeningTag = textCopy.indexOf("<");
+                    int firstClosingTag = textCopy.indexOf(">");
+
+                    //failsafe
+                    if (firstClosingTag == -1 || firstOpeningTag == -1 || firstClosingTag < firstOpeningTag)
+                        break;
+
+                    String regularText = textCopy.substring(0, firstOpeningTag);
+                    String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
+
+                    if (regularText.length() > 0)
+                        taggedStrings.add(new TaggedString(regularText, Tag.TEXT));
+                    if (firstHtml.length() > 0)
+                        taggedStrings.add(new TaggedString(firstHtml, Tag.HTML));
+
+                    textCopy = textCopy.substring(firstClosingTag + 1);
+                }
+
+                //if there's remaining text, it's just non-html
+                if (textCopy.length() > 0)
+                    taggedStrings.add(new TaggedString(textCopy, Tag.TEXT));
+
+                //todo at this point this should be a util to return a linked list like this
+                // make it and utilze it
 
                 while (isRippling) {
                     //still used parsed chars here since that's all we care about rippling anyway
@@ -106,15 +132,28 @@ public class CyderLabel extends JLabel {
                         // (could be from any non-html tag), is ripple color
                         StringBuilder builder = new StringBuilder();
 
-                        for (int j = 0 ; j < parsedChars.length() ; j++) {
-                            if (j == i)
-                                builder.append(getColoredText(String.valueOf(parsedChars.charAt(j)),rippleColor));
-                            else
-                                builder.append(parsedChars.charAt(j));
+                        int charSum = 0;
+                        for (TaggedString ts : taggedStrings) {
+                            if (ts.getTag() == Tag.HTML) {
+                                builder.append(ts.getText());
+                            } else {
+                                for (char c : ts.getText().toCharArray()) {
+                                    if (charSum == i)
+                                        builder.append(getColoredText(String.valueOf(c),rippleColor));
+                                    else {
+                                        builder.append(c);
+                                    }
+
+                                    charSum++;
+                                }
+                            }
                         }
 
                         //set text, repaint, sleep
-                        this.setText("<html>" + builder + "</html>");
+                        if (builder.toString().startsWith("<html>"))
+                            this.setText(builder.toString());
+                        else
+                            this.setText("<html>" + builder + "</html>");
                         this.repaint();
                         Thread.sleep(rippleMsTimeout);
                     }
