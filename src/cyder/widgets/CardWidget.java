@@ -160,6 +160,10 @@ public class CardWidget {
         loveLabel.setRippling(true);
         loveLabel.setRippleMsTimeout(150);
 
+        christmas2021Frame.addPreCloseAction(() -> {
+            loveLabel.setRippling(false);
+        });
+
         christmas2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         christmas2021Frame.setVisible(true);
     }

@@ -98,6 +98,8 @@ public class CyderLabel extends JLabel {
                 //restore color so everything goes back to original foreground
                 Color restoreColor = this.getForeground();
 
+                final String originalText = this.getText();
+
                 //used to insert color properly
                 String parsedChars = Jsoup.clean(this.getText(), Safelist.none());
 
@@ -129,7 +131,7 @@ public class CyderLabel extends JLabel {
                 if (textCopy.length() > 0)
                     taggedStrings.add(new TaggedString(textCopy, Tag.TEXT));
 
-                while (isRippling) {
+                while (isRippling && this.getParent() != null) {
                     //still used parsed chars here since that's all we care about rippling anyway
                     for (int i = 0 ; i < parsedChars.length() ; i++) {
                         //init builder for this iteration where the ith char
@@ -138,6 +140,7 @@ public class CyderLabel extends JLabel {
 
                         int charSum = 0;
                         int rippled = 0;
+
                         for (TaggedString ts : taggedStrings) {
                             if (ts.getTag() == Tag.HTML) {
                                 builder.append(ts.getText());
@@ -160,8 +163,10 @@ public class CyderLabel extends JLabel {
                             this.setText(builder.toString());
                         else
                             this.setText("<html>" + builder + "</html>");
+
                         this.repaint();
                         Thread.sleep(rippleMsTimeout);
+                        this.setText(originalText);
                     }
                 }
 
