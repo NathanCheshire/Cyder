@@ -265,9 +265,11 @@ public final class ConsoleFrame {
 
                 @Override
                 public void setBounds(int x, int y, int w, int h) {
-                    //todo need to revalidate the document too
-                    //todo change way you spawn a borderless frame in cyder frame
+                    StyledDocument sd = outputArea.getStyledDocument();
+                    int pos = outputArea.getCaretPosition();
                     super.setBounds(x,y,w,h);
+                    outputArea.setStyledDocument(sd);
+                    outputArea.setCaretPosition(pos);
                 }
             };
             outputArea.addFocusListener(new FocusAdapter() {
@@ -310,7 +312,18 @@ public final class ConsoleFrame {
 
             outputScroll = new CyderScrollPane(outputArea,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
-                    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED) {
+                @Override
+                public void setBounds(int x, int y, int w, int h) {
+                    super.setBounds(x,y,w,h);
+
+                    if (outputArea != null) {
+                        int pos = outputArea.getCaretPosition();
+                        outputArea.setStyledDocument(outputArea.getStyledDocument());
+                        outputArea.setCaretPosition(pos);
+                    }
+                }
+            };
             outputScroll.setThumbColor(CyderColors.intellijPink);
             outputScroll.getViewport().setOpaque(false);
             outputScroll.setOpaque(false);
