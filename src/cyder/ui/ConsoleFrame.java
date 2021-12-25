@@ -35,8 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-//todo util for getting tag representation for a string: html, non-html
-
 public final class ConsoleFrame {
     //the one and only console frame method
     private static ConsoleFrame consoleFrameInstance = new ConsoleFrame();
@@ -1353,6 +1351,10 @@ public final class ConsoleFrame {
      * @param year the year of the holiday such as 2021
      */
     private void cardReflector(String holiday, int year) {
+        //don't reflect if in testing mode
+        if (IOUtil.getSystemData().isTestingmode())
+            return;
+
         try {
             CardWidget cardWidget = new CardWidget();
 
