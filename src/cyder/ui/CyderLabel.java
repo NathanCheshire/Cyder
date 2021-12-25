@@ -54,7 +54,16 @@ public class CyderLabel extends JLabel {
     //rippling
     private Color rippleColor = CyderColors.regularRed;
     private long rippleMsTimeout = 100;
+    private int rippleChars = 1;
     private boolean isRippling;
+
+    public int getRippleChars() {
+        return rippleChars;
+    }
+
+    public void setRippleChars(int rippleChars) {
+        this.rippleChars = rippleChars;
+    }
 
     public Color getRippleColor() {
         return rippleColor;
@@ -82,8 +91,6 @@ public class CyderLabel extends JLabel {
         if (rippling)
             beginRippleSequence();
     }
-
-    //todo more than one char rippling at a time, specify n
 
     private void beginRippleSequence() {
         new Thread(() -> {
@@ -122,9 +129,6 @@ public class CyderLabel extends JLabel {
                 if (textCopy.length() > 0)
                     taggedStrings.add(new TaggedString(textCopy, Tag.TEXT));
 
-                //todo at this point this should be a util to return a linked list like this
-                // make it and utilze it
-
                 while (isRippling) {
                     //still used parsed chars here since that's all we care about rippling anyway
                     for (int i = 0 ; i < parsedChars.length() ; i++) {
@@ -133,14 +137,16 @@ public class CyderLabel extends JLabel {
                         StringBuilder builder = new StringBuilder();
 
                         int charSum = 0;
+                        int rippled = 0;
                         for (TaggedString ts : taggedStrings) {
                             if (ts.getTag() == Tag.HTML) {
                                 builder.append(ts.getText());
                             } else {
                                 for (char c : ts.getText().toCharArray()) {
-                                    if (charSum == i)
-                                        builder.append(getColoredText(String.valueOf(c),rippleColor));
-                                    else {
+                                    if (charSum >= i && rippled < rippleChars - 1) {
+                                        builder.append(getColoredText(String.valueOf(c), rippleColor));
+                                        rippled++;
+                                    } else {
                                         builder.append(c);
                                     }
 

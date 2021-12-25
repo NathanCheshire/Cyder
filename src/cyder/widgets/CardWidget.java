@@ -156,6 +156,7 @@ public class CardWidget {
         loveLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(24f));
         loveLabel.setBounds(40, christmas2021Frame.getHeight() - 120, christmas2021Frame.getWidth() - 80,80);
         christmas2021Frame.getContentPane().add(loveLabel);
+        loveLabel.setRippleChars(3);
         loveLabel.setRippling(true);
         loveLabel.setRippleMsTimeout(150);
 

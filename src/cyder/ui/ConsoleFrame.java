@@ -33,6 +33,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+//todo util for getting tag representation for a string: html, non-html
+
+//todo click a notification on a particular day and see if something
+// follows the naming convention for the current year inside of Cards
+
 public final class ConsoleFrame {
     //the one and only console frame method
     private static ConsoleFrame consoleFrameInstance = new ConsoleFrame();
