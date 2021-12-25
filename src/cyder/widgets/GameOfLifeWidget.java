@@ -36,8 +36,8 @@ public class GameOfLifeWidget {
 
     private static CyderButton resetButton;
 
-    private static CyderCheckBox oscilationDetector;
-    private static boolean detectOscilations = false;
+    private static CyderCheckBox oscillationDetector;
+    private static boolean detectOscillations = false;
 
     private static int generationCount = 0;
     private static int populationCount = 0;
@@ -215,18 +215,18 @@ public class GameOfLifeWidget {
         setPresetButton.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902 + 50, (902 - 20) / 3, 40);
         conwayFrame.getContentPane().add(setPresetButton);
 
-        oscilationDetector = new CyderCheckBox();
-        oscilationDetector.setToolTipText("Detect oscilations");
-        oscilationDetector.setBounds(60,70 + 30 + 902 + 55,50,50);
-        oscilationDetector.setNotSelected();
-        oscilationDetector.addMouseListener(new MouseAdapter() {
+        oscillationDetector = new CyderCheckBox();
+        oscillationDetector.setToolTipText("Detect oscillations");
+        oscillationDetector.setBounds(60,70 + 30 + 902 + 55,50,50);
+        oscillationDetector.setNotSelected();
+        oscillationDetector.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                detectOscilations = !detectOscilations;
+                detectOscillations = !detectOscillations;
             }
         });
-        conwayFrame.getContentPane().add(oscilationDetector);
+        conwayFrame.getContentPane().add(oscillationDetector);
 
         JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 200);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
@@ -395,8 +395,8 @@ public class GameOfLifeWidget {
                         break;
                     }
 
-                    if (detectOscilations && secondToLastGen != null && Arrays.deepEquals(secondToLastGen, grid)) {
-                        conwayFrame.notify("Simulation will oscilate between the two last states indefinitely");
+                    if (detectOscillations && secondToLastGen != null && Arrays.deepEquals(secondToLastGen, grid)) {
+                        conwayFrame.notify("Simulation will oscillate between the two last states indefinitely");
 
                         simulateButton.setText("Simulate");
                         simulationRunning = false;
