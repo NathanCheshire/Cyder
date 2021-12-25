@@ -3,6 +3,7 @@ package cyder.testing;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
@@ -515,11 +516,15 @@ public class ManualTests {
         CyderFrame rippleTestFrame = new CyderFrame(400,400);
         rippleTestFrame.setTitle("Ripple Test");
 
-        CyderLabel ripplingLabel = new CyderLabel("<html>Testing<br/>Ripple</html>");
+        CyderLabel ripplingLabel = new CyderLabel("<html>" + CyderStrings.QUICK_BROWN_FOX +
+                "<br/>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" + CyderStrings.QUICK_BROWN_FOX + "</html>");
         ripplingLabel.setFont(CyderFonts.defaultFont);
         ripplingLabel.setBounds(40,40,400 - 40 * 2, 400 - 40 * 2);
         rippleTestFrame.getContentPane().add(ripplingLabel);
 
+        rippleTestFrame.addPreCloseAction(() -> ripplingLabel.setRippling(false));
+        ripplingLabel.setRippleChars(7);
+        ripplingLabel.setRippleMsTimeout(50);
         ripplingLabel.setRippling(true);
 
         rippleTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());

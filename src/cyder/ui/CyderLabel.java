@@ -122,7 +122,10 @@ public class CyderLabel extends JLabel {
                                 builder.append(ts.getText());
                             } else {
                                 for (char c : ts.getText().toCharArray()) {
-                                    if (charSum >= i && rippled < rippleChars - 1) {
+                                    //make sure it's i or above, and is as many chars as we want to ripple
+                                    // and it's not a space
+                                    if (charSum >= i && rippled < rippleChars && String.valueOf(c).trim().length() > 0) {
+                                        System.out.println("rippling:" + c);
                                         builder.append(getColoredText(String.valueOf(c), rippleColor));
                                         rippled++;
                                     } else {
@@ -150,7 +153,7 @@ public class CyderLabel extends JLabel {
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        }, "Rippled thread for CyderLabel: " + this).start();
+        }, "Ripple thread for: " + this).start();
     }
 
     private String getColoredText(String text, Color c) {

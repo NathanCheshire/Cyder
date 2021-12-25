@@ -1980,6 +1980,8 @@ public class CyderFrame extends JFrame {
             ConsoleFrame.getConsoleFrame().addTaskbarIcon(this);
         }
 
+        //todo what if console frame is not open
+
         //if the console is set to always on top, then we need this frame to be automatically set on top as well
         // so that new frames are not behind the console
         if (b && this != CyderSplash.getSplashFrame() &&

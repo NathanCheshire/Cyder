@@ -391,14 +391,6 @@ public class UserUtil {
         String defaultValue = "";
 
         try {
-            if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-                throw new IllegalArgumentException("UUID not yet set");
-            File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                    + "/userdata.json");
-
-            if (!userJsonFile.exists())
-                throw new IllegalArgumentException("userdata.json does not exist");
-
             //find default value as a fail safe
             for (Preference pref : GenesisShare.getPrefs()) {
                 if (pref.getID().equalsIgnoreCase(name)) {
@@ -406,6 +398,16 @@ public class UserUtil {
                     break;
                 }
             }
+
+            if (ConsoleFrame.getConsoleFrame().getUUID() == null) {
+                return defaultValue;
+            }
+
+            File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                    + "/userdata.json");
+
+            if (!userJsonFile.exists())
+                throw new IllegalArgumentException("userdata.json does not exist");
 
             User user = extractUser(userJsonFile);
             retData = extractUserData(user, name);
