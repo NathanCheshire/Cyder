@@ -15,6 +15,7 @@ import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.testing.DebugConsole;
 import cyder.utilities.*;
+import cyder.widgets.CardWidget;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,15 +29,13 @@ import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 //todo util for getting tag representation for a string: html, non-html
-
-//todo click a notification on a particular day and see if something
-// follows the naming convention for the current year inside of Cards
 
 public final class ConsoleFrame {
     //the one and only console frame method
@@ -1261,20 +1260,30 @@ public final class ConsoleFrame {
     // last start time, and auto testing
     private void onLaunch() {
         //special day events
-        if (TimeUtil.isChristmas())
+        if (TimeUtil.isChristmas()) {
             consoleCyderFrame.notify("Merry Christmas!");
+            cardReflector("Christmas", TimeUtil.getYear());
+        }
 
-        if (TimeUtil.isHalloween())
+        if (TimeUtil.isHalloween()) {
             consoleCyderFrame.notify("Happy Halloween!");
+            cardReflector("Halloween", TimeUtil.getYear());
+        }
 
-        if (TimeUtil.isIndependenceDay())
+        if (TimeUtil.isIndependenceDay()) {
             consoleCyderFrame.notify("Happy 4th of July!");
+            cardReflector("Independence", TimeUtil.getYear());
+        }
 
-        if (TimeUtil.isThanksgiving())
+        if (TimeUtil.isThanksgiving()) {
             consoleCyderFrame.notify("Happy Thanksgiving!");
+            cardReflector("Thanksgiving", TimeUtil.getYear());
+        }
 
-        if (TimeUtil.isAprilFoolsDay())
+        if (TimeUtil.isAprilFoolsDay()) {
             consoleCyderFrame.notify("Happy April Fools Day!");
+            cardReflector("AprilFools", TimeUtil.getYear());
+        }
 
         //preference handlers here
         if (UserUtil.getUserData("DebugWindows").equals("1")) {
@@ -1335,6 +1344,25 @@ public final class ConsoleFrame {
             },"Black or White Checker").start();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        }
+    }
+
+    /**
+     * Invokes the method with the name holliday + year from the CardsWidget
+     * @param holliday the holliday name such as Christmas
+     * @param year the year of the holliday such as 2021
+     */
+    private void cardReflector(String holliday, int year) {
+        try {
+            CardWidget cardWidget = new CardWidget();
+
+            for (Method m : cardWidget.getClass().getMethods()) {
+                if (m.getName().toLowerCase().contains(holliday.toLowerCase()) && m.getName().toLowerCase().contains(year + "")) {
+                    m.invoke(cardWidget);
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.silentHandle(e);
         }
     }
 

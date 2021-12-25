@@ -5,18 +5,24 @@ import cyder.consts.CyderFonts;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Naming convention: you should name the card with the name of the holliday followed by the year without any spaces.
+ * Example: Christmas2022() or Halloween2020() could be a method. These methods will then be automatically invoked on that particular day
+ * See special day events in ConsoleFrame for an example on how these methods are invoked and why
+ */
 public class CardWidget {
     private static CyderFrame christmas2020Frame;
     private static CyderFrame christmas2021Frame;
     private static CyderFrame fathersDay2021Frame;
     private static CyderFrame birthday2021Frame;
+
+    public CardWidget() {} //public for reflection for auto calls of cards
 
     public static void Christmas2020() {
         if (christmas2020Frame != null)
@@ -47,13 +53,7 @@ public class CardWidget {
         cardLabel.setBounds(498 + 40,40, christmas2020Frame.getWidth() - 40, christmas2020Frame.getHeight() - 40);
         christmas2020Frame.getContentPane().add(cardLabel);
 
-        int consoleX = ConsoleFrame.getConsoleFrame().getX();
-        int consoleY = ConsoleFrame.getConsoleFrame().getY();
-        int consoleW = ConsoleFrame.getConsoleFrame().getWidth();
-        int consoleH = ConsoleFrame.getConsoleFrame().getHeight();
-
-        christmas2020Frame.setLocation(consoleX + Math.abs((consoleW - christmas2020Frame.getWidth()) / 2),
-                consoleY + Math.abs((consoleH - christmas2020Frame.getHeight()) / 2));
+        christmas2020Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         christmas2020Frame.setVisible(true);
     }
 
@@ -76,13 +76,7 @@ public class CardWidget {
         cardLabel.setBounds(5,40, fathersDay2021Frame.getWidth() - 40, 240);
         fathersDay2021Frame.getContentPane().add(cardLabel);
 
-        int consoleX = ConsoleFrame.getConsoleFrame().getX();
-        int consoleY = ConsoleFrame.getConsoleFrame().getY();
-        int consoleW = ConsoleFrame.getConsoleFrame().getWidth();
-        int consoleH = ConsoleFrame.getConsoleFrame().getHeight();
-
-        fathersDay2021Frame.setLocation(consoleX + Math.abs((consoleW - fathersDay2021Frame.getWidth()) / 2),
-                consoleY + Math.abs((consoleH - fathersDay2021Frame.getHeight()) / 2));
+        fathersDay2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         fathersDay2021Frame.setVisible(true);
     }
     public static void Birthday2021() {
@@ -104,13 +98,7 @@ public class CardWidget {
         cardLabel.setBounds(5,40, birthday2021Frame.getWidth() - 40, 240);
         birthday2021Frame.getContentPane().add(cardLabel);
 
-        int consoleX = ConsoleFrame.getConsoleFrame().getX();
-        int consoleY = ConsoleFrame.getConsoleFrame().getY();
-        int consoleW = ConsoleFrame.getConsoleFrame().getWidth();
-        int consoleH = ConsoleFrame.getConsoleFrame().getHeight();
-
-        birthday2021Frame.setLocation(consoleX + Math.abs((consoleW - birthday2021Frame.getWidth()) / 2),
-                consoleY + Math.abs((consoleH - birthday2021Frame.getHeight()) / 2));
+        birthday2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         birthday2021Frame.setVisible(true);
 
         try {
@@ -160,9 +148,7 @@ public class CardWidget {
         loveLabel.setRippling(true);
         loveLabel.setRippleMsTimeout(150);
 
-        christmas2021Frame.addPreCloseAction(() -> {
-            loveLabel.setRippling(false);
-        });
+        christmas2021Frame.addPreCloseAction(() -> loveLabel.setRippling(false));
 
         christmas2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         christmas2021Frame.setVisible(true);

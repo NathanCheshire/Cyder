@@ -144,6 +144,10 @@ public class TimeUtil {
         return getTime("yyyy-MM-dd");
     }
 
+    public static int getYear() {
+        return Integer.parseInt(getTime("yyyy"));
+    }
+
     public static String logTime() {
         return getTime("HH-mm-ss");
     }

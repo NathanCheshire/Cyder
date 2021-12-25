@@ -126,7 +126,7 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
-            ConsoleFrame.getConsoleFrame().getInputHandler().handle("christmas card 2021", false);
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
