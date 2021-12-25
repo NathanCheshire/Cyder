@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.Arrays;
 
 public class GameOfLifeWidget {
     private static int[][] grid;
@@ -35,12 +36,13 @@ public class GameOfLifeWidget {
 
     private static CyderButton resetButton;
 
+    private static CyderCheckBox oscilationDetector;
+    private static boolean detectOscilations = false;
+
     private static int generationCount = 0;
     private static int populationCount = 0;
     private static int maxPopulation = 0;
     private static int maxPopulationGeneration = 0;
-
-    //todo this might be hard but perhaps a checkbox for an oscilator detector would be a cool feature to implement
 
     private GameOfLifeWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
@@ -213,6 +215,19 @@ public class GameOfLifeWidget {
         setPresetButton.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902 + 50, (902 - 20) / 3, 40);
         conwayFrame.getContentPane().add(setPresetButton);
 
+        oscilationDetector = new CyderCheckBox();
+        oscilationDetector.setToolTipText("Detect oscilations");
+        oscilationDetector.setBounds(60,70 + 30 + 902 + 55,50,50);
+        oscilationDetector.setNotSelected();
+        oscilationDetector.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                detectOscilations = !detectOscilations;
+            }
+        });
+        conwayFrame.getContentPane().add(oscilationDetector);
+
         JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 200);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
@@ -223,7 +238,7 @@ public class GameOfLifeWidget {
         UI.setOldValColor(CyderColors.intellijPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         speedSlider.setUI(UI);
-        speedSlider.setBounds(80,70 + 30 + 902 + 55, 500, 40);
+        speedSlider.setBounds(80 + 60,70 + 30 + 902 + 55, 440, 40);
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
@@ -341,12 +356,19 @@ public class GameOfLifeWidget {
         }
     }
 
+    private static int[][] lastGen;
+    private static int[][] secondToLastGen;
+
     @SuppressWarnings("ForLoopReplaceableByForEach")
     private static void start() {
         new Thread(() -> {
             while (simulationRunning) {
                 try {
+                    //update grids
+                    secondToLastGen = lastGen;
+                    lastGen = grid;
                     grid = nextGeneration(grid);
+
                     generationCount++;
                     gridLabel.repaint();
 
@@ -365,6 +387,21 @@ public class GameOfLifeWidget {
 
                     if (empty) {
                         conwayFrame.notify("Simulation ended with total elimination");
+
+                        simulateButton.setText("Simulate");
+                        simulationRunning = false;
+                        gridLabel.repaint();
+
+                        break;
+                    }
+
+                    if (detectOscilations && secondToLastGen != null && Arrays.deepEquals(secondToLastGen, grid)) {
+                        conwayFrame.notify("Simulation will oscilate between the two last states indefinitely");
+
+                        simulateButton.setText("Simulate");
+                        simulationRunning = false;
+                        gridLabel.repaint();
+
                         break;
                     }
 
