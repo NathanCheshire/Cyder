@@ -1976,11 +1976,15 @@ public class CyderFrame extends JFrame {
         super.setVisible(b);
 
         //add to console frame's taskbar as long as it's not an exception
-        if (b && !ConsoleFrame.getConsoleFrame().isClosed() && this != ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()) {
+        if (b && !ConsoleFrame.getConsoleFrame().isClosed() &&
+                //CyderFrame exceptions
+                this != ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()) {
             ConsoleFrame.getConsoleFrame().addTaskbarIcon(this);
         }
 
-        //todo what if console frame is not open
+        //if Console hasn't started yet, then just return
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+            return;
 
         //if the console is set to always on top, then we need this frame to be automatically set on top as well
         // so that new frames are not behind the console

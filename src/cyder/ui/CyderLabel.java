@@ -118,10 +118,16 @@ public class CyderLabel extends JLabel {
                         int rippled = 0;
 
                         for (StringUtil.TaggedString ts : taggedStrings) {
+                            if (!isRippling)
+                                return;
+
                             if (ts.getTag() == StringUtil.Tag.HTML) {
                                 builder.append(ts.getText());
                             } else {
                                 for (char c : ts.getText().toCharArray()) {
+                                    if (!isRippling)
+                                        return;
+
                                     //make sure it's i or above, and is as many chars as we want to ripple
                                     // and it's not a space
                                     if (charSum >= i && rippled < rippleChars && String.valueOf(c).trim().length() > 0) {

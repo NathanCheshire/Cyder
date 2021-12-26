@@ -677,6 +677,10 @@ public class UserUtil {
             jsonReader.close();
             jsonIOSem.release();
 
+            if (masterJson == null || masterJson.length() == 0 || masterJson.equalsIgnoreCase("null")) {
+                System.out.println("Corrupted user detected: " + StringUtil.getFilename(f.getParent()));
+            }
+
             //remove closing curly brace
             masterJson = masterJson.substring(0 ,masterJson.length() - 1);
 
