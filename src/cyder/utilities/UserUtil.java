@@ -74,7 +74,6 @@ public class UserUtil {
 
         Gson gson = new Gson();
 
-
         try  {
             FileWriter writer = new FileWriter(f);
             jsonIOSem.acquire();
@@ -83,6 +82,8 @@ public class UserUtil {
             jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            jsonIOSem.release();
         }
     }
 
@@ -113,10 +114,10 @@ public class UserUtil {
             FileWriter writer = new FileWriter(f);
             jsonIOSem.acquire();
             gson.toJson(user, writer);
-            writer.close();
-            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            jsonIOSem.release();
         }
     }
 
@@ -138,9 +139,10 @@ public class UserUtil {
             jsonIOSem.acquire();
             gson.toJson(u, writer);
             writer.close();
-            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            jsonIOSem.release();
         }
     }
 
@@ -163,9 +165,10 @@ public class UserUtil {
             jsonIOSem.acquire();
             gson.toJson(u, writer);
             writer.close();
-            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            jsonIOSem.release();
         }
     }
 
@@ -190,7 +193,7 @@ public class UserUtil {
             userMusicFile.mkdir();
 
         if (!userJsonFile.exists())
-            IOUtil.corruptedUser();
+            IOUtil.corruptUser(UUID);
 
         User user = extractUser(userJsonFile);
 
@@ -205,7 +208,7 @@ public class UserUtil {
                         //fatal data that results in the user being corrupted if it is corrupted
                         if (getterMethod.getName().toLowerCase().contains("pass") ||
                             getterMethod.getName().toLowerCase().contains("name")) {
-                            IOUtil.corruptedUser();
+                            IOUtil.corruptUser(UUID);
                             return;
                         }
                         //non-fatal data that we can restore from the default data
@@ -303,10 +306,10 @@ public class UserUtil {
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
-            jsonIOSem.release();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         } finally {
+            jsonIOSem.release();
             return ret;
         }
     }
@@ -330,10 +333,10 @@ public class UserUtil {
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
-            jsonIOSem.release();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         } finally {
+            jsonIOSem.release();
             return ret;
         }
     }
@@ -356,10 +359,10 @@ public class UserUtil {
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
-            jsonIOSem.release();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         } finally {
+            jsonIOSem.release();
             return ret;
         }
     }
@@ -643,6 +646,9 @@ public class UserUtil {
         return ret;
     }
 
+    //todo default prefs not working, if no users animations should still exist
+    //todo i don't care what is in a json, if you can't serialize it, it's corrupted so corrupt function the folder
+
     /**
      * Injects new preferences and their default values into an old json if it is found to not contain all the required user data.
      * @param f the file to check for corrections
@@ -655,6 +661,8 @@ public class UserUtil {
         }
 
         try {
+            //{"name":"Nathan","pass":"a1ed49ffc79fec196dcc25555352cba3e74ddc0e474af08736a4410e0dfd695d","font":"Agency FB","foreground":"f0f0f0","background":"101010","intromusic":"0","debugwindows":"0","randombackground":"101010","outputborder":"0","inputborder":"0","hourlychimes":"1","silenceerrors":"0","fullscreen":"0","outputfill":"0","inputfill":"0","clockonconsole":"1","showseconds":"0","filterchat":"0","laststart":"1640477182534","minimizeonclose":"0","typinganimation":"1","showbusyicon":"0","ffmpegpath":"C:\\FFmpeg\\bin\\ffmpeg.exe","youtubedlpath":"C:\\Program Files\\youtube-dl\\youtube-dl.exe","windowlocx":"1392","windowlocy":"272","roundedwindows":"0","windowColor":"1A2033","consoleclockformat":"EEEEEEEEE h:mmaa","typingsound":"0","youtubeuuid":"aaaaaaaaaVp","ipkey":"8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932","weatherkey":"2d790dd0766f1da62af488f101380c75","capsmode":"0","loggedin":"0","audiolength":"1","persistentnotifications":"0","closeAnimation":"1","minimizeAnimation":"1","consolePinned":"0","executables":[]}
+
             //read and write data so that it's all on one line
             jsonIOSem.acquire();
 
@@ -668,17 +676,17 @@ public class UserUtil {
             gson.toJson(writeBack, writer);
             writer.close();
 
-            jsonIOSem.release();
-
             //get contents of json (single line)
-            jsonIOSem.acquire();
             BufferedReader jsonReader = new BufferedReader(new FileReader(f));
             String masterJson = jsonReader.readLine();
             jsonReader.close();
             jsonIOSem.release();
 
             if (masterJson == null || masterJson.length() == 0 || masterJson.equalsIgnoreCase("null")) {
-                System.out.println("Corrupted user detected: " + StringUtil.getFilename(f.getParent()));
+                String corruptedUUID = StringUtil.getFilename(f.getParent());
+                SessionHandler.log(SessionHandler.Tag.ACTION, corruptedUUID + "'s json could not be serialized, corrupting user.");
+                IOUtil.corruptUser(corruptedUUID);
+                return;
             }
 
             //remove closing curly brace
@@ -708,7 +716,6 @@ public class UserUtil {
             masterJson += "}";
 
             //write back to file
-            jsonIOSem.acquire();
             BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(f,false));
             jsonWriter.write(masterJson);
             jsonWriter.close();
@@ -731,6 +738,8 @@ public class UserUtil {
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            jsonIOSem.release();
         }
     }
 

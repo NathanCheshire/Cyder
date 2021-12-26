@@ -9,33 +9,15 @@ import cyder.utilities.BoundsUtil;
 import java.awt.*;
 
 public class PopupHandler {
-    //returns the CyderFrame instance to be shown elsewhere
-    public static CyderFrame informRet(String text, String title) {
-        try {
-            CyderLabel textLabel = new CyderLabel(text);
-            BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(text);
-            textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
-            textLabel.setBounds(10,30, boundsString.getWidth(), boundsString.getHeight());
-
-            CyderFrame informFrame = new CyderFrame(boundsString.getWidth() + 40,
-                    boundsString.getHeight() + 40, CyderImages.defaultBackgroundLarge);
-            informFrame.setFrameType(CyderFrame.FrameType.POPUP);
-            informFrame.setTitle(title);
-            informFrame.add(textLabel);
-
-            return informFrame;
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-
-        return null;
-    }
-
     public static void inform(String text, String title) {
-        informRelative(text, title, GenesisShare.getDominantFrame());
+        inform(text, title, GenesisShare.getDominantFrame());
     }
 
-    public static void informRelative(String text, String title, Component relativeTo) {
+    public static void inform(String text, String title, Component relativeTo) {
+        inform(text, title, relativeTo, null);
+    }
+
+    public static void inform(String text, String title, Component relativeTo, CyderFrame.PostCloseAction closeAction) {
         try {
             CyderLabel textLabel = new CyderLabel(text);
             BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(text);
@@ -47,6 +29,9 @@ public class PopupHandler {
             informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(title);
             informFrame.add(textLabel);
+
+            if (closeAction != null)
+                informFrame.addPostCloseAction(closeAction);
 
             informFrame.setVisible(true);
             informFrame.setLocationRelativeTo(relativeTo);

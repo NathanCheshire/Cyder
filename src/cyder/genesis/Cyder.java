@@ -5,6 +5,11 @@ import cyder.utilities.IOUtil;
 import cyder.utilities.SecurityUtil;
 import cyder.utilities.SystemUtil;
 
+//todo bugs: corrupting a user should not exit program simply remove users that could not be parsed
+//todo login not printing and breaking bug
+//todo userdata not being parsed correctly completely fucks program bug
+//todo default preferences not working? windows should animate if the program isn't sure
+
 public class Cyder {
     /**
      * Setup and start the best program ever made :D

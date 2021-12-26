@@ -3,7 +3,6 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.genesis.Login;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
@@ -358,15 +357,12 @@ public class IOUtil {
     /**
      * If a user becomes corrupted for any reason which may be determined any way we choose,
      * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
-     * zip any user data aside from userdata.json and the Throws directory
-     * <p>
-     * This could fail if something has already been deleted which is fine since we want to
-     * go to the starting
+     * zip any user data aside from userdata.json
      */
-    public static void corruptedUser() {
+    public static void corruptUser(String UUID) {
         try {
+            //suspend the checker
             GenesisShare.suspendFrameChecker();
-            ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
 
             //close all open frames
             Frame[] frames = Frame.getFrames();
@@ -374,24 +370,26 @@ public class IOUtil {
                 f.dispose();
 
             //if it's already gone then it really wasn't a corrupted user, possibly a user deleting their account
-            File mainZipFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
-            if (mainZipFile == null || mainZipFile.listFiles() == null || mainZipFile.listFiles().length == 0)
-                return;
+            File mainZipFile = new File("dynamic/users/" + UUID);
 
-            //confirmed that the user was corrupted so we inform the user
             PopupHandler.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
-                    "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User :(");
+                    "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User :(",
+                    null, () -> GenesisShare.exit(-99));
 
             //delete the stuff we don't care about
             for (File f : mainZipFile.listFiles()) {
-                if (f.getName().equalsIgnoreCase("userdata.json"))
+                if (StringUtil.getFilename(f).equalsIgnoreCase("userdata")) {
                     f.delete();
+                }
             }
 
             //zip the remaining user data
             String sourceFile = mainZipFile.getAbsolutePath();
+
+            //save destination specific to Windows currently
             String fileName = "C:/Users/" + SystemUtil.getWindowsUsername() +
                     "/Downloads/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip";
+
             FileOutputStream fos = new FileOutputStream(fileName);
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             File fileToZip = new File(sourceFile);
@@ -399,12 +397,13 @@ public class IOUtil {
             zipOut.close();
             fos.close();
 
+            //log the curruption
             SessionHandler.log(SessionHandler.Tag.CORRUPTION, fileName);
 
             //delete the folder we just zipped since it's a duplicate
             SystemUtil.deleteFolder(mainZipFile);
 
-            Login.showGUI();
+            //disposing above frame will exit program
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
         }

@@ -948,7 +948,7 @@ public class CyderFrame extends JFrame {
      * @param title The title of the CyderFrame which will be opened to display the text
      */
     public void inform(String text, String title) {
-        PopupHandler.informRelative(text, title, this);
+        PopupHandler.inform(text, title, this);
     }
 
     //frames for animations such as dispose and minimize

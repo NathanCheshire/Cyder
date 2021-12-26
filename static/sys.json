@@ -36,7 +36,7 @@
          "description":"Scheduled Exit"
       },
       {
-         "code":78,
+         "code":-99,
          "description":"Corrupted User"
       },
       {

@@ -165,8 +165,9 @@ public class GenesisShare {
             SessionHandler.log(SessionHandler.Tag.EXIT,null);
             SessionHandler.log(SessionHandler.Tag.EOL, code);
 
-            //sign user in userdata
-            UserUtil.setUserData("loggedin","0");
+            //sign user out userdata
+            if (ConsoleFrame.getConsoleFrame().getUUID() != null)
+                UserUtil.setUserData("loggedin","0");
 
             //acquire and release sems to ensure no IO is currently underway
             GenesisShare.getExitingSem().acquire();
