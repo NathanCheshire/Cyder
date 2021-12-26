@@ -66,6 +66,7 @@ public class Login {
                         }
                     } else if (printingList.size() > 0) {
                         String line = printingList.removeFirst();
+                        System.out.println(line); //everything is here just doesn't print
 
                         for (char c : line.toCharArray()) {
                             su.print(String.valueOf(c));

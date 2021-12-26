@@ -2,12 +2,10 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ErrorHandler;
-import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
 import javazoom.jl.player.Player;
@@ -22,8 +20,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.DosFileAttributes;
 import java.util.LinkedList;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class IOUtil {
     private IOUtil() {
@@ -351,104 +347,6 @@ public class IOUtil {
             AudioPlayer.pauseAudio();
         } else if (IOUtil.generalAudioPlaying()) {
             stopAudio();
-        }
-    }
-
-    /**
-     * If a user becomes corrupted for any reason which may be determined any way we choose,
-     * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
-     * zip any user data aside from userdata.json
-     */
-    public static void corruptUser(String UUID) {
-        try {
-            //suspend the checker
-            GenesisShare.suspendFrameChecker();
-
-            //close all open frames
-            Frame[] frames = Frame.getFrames();
-            for (Frame f : frames)
-                f.dispose();
-
-            //if it's already gone then it really wasn't a corrupted user, possibly a user deleting their account
-            File mainZipFile = new File("dynamic/users/" + UUID);
-
-            PopupHandler.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
-                    "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User :(",
-                    null, () -> GenesisShare.exit(-99));
-
-            //delete the stuff we don't care about
-            for (File f : mainZipFile.listFiles()) {
-                if (StringUtil.getFilename(f).equalsIgnoreCase("userdata")) {
-                    f.delete();
-                }
-            }
-
-            //zip the remaining user data
-            String sourceFile = mainZipFile.getAbsolutePath();
-
-            //save destination specific to Windows currently
-            String fileName = "C:/Users/" + SystemUtil.getWindowsUsername() +
-                    "/Downloads/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip";
-
-            FileOutputStream fos = new FileOutputStream(fileName);
-            ZipOutputStream zipOut = new ZipOutputStream(fos);
-            File fileToZip = new File(sourceFile);
-            zipFile(fileToZip, fileToZip.getName(), zipOut);
-            zipOut.close();
-            fos.close();
-
-            //log the curruption
-            SessionHandler.log(SessionHandler.Tag.CORRUPTION, fileName);
-
-            //delete the folder we just zipped since it's a duplicate
-            SystemUtil.deleteFolder(mainZipFile);
-
-            //disposing above frame will exit program
-        } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
-        }
-    }
-
-    /**
-     * Zips the provided file with the given name using hte provided ZOS
-     * @param fileToZip the file/dir to zip
-     * @param fileName the name of the resulting file (path included)
-     * @param zipOut the Zip Output Stream
-     */
-    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
-        try {
-            if (fileToZip.isHidden())
-                return;
-
-            if (fileToZip.isDirectory()) {
-                if (fileName.endsWith("/")) {
-                    zipOut.putNextEntry(new ZipEntry(fileName));
-                } else {
-                    zipOut.putNextEntry(new ZipEntry(fileName + "/"));
-                }
-                zipOut.closeEntry();
-
-                File[] children = fileToZip.listFiles();
-                for (File childFile : children)
-                    zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
-
-                return;
-            }
-
-            FileInputStream fis = new FileInputStream(fileToZip);
-            ZipEntry zipEntry = new ZipEntry(fileName);
-
-            zipOut.putNextEntry(zipEntry);
-
-            byte[] bytes = new byte[1024];
-            int length;
-
-            while ((length = fis.read(bytes)) >= 0)
-                zipOut.write(bytes, 0, length);
-
-            fis.close();
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
         }
     }
 

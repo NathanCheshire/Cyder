@@ -3,17 +3,22 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
+import cyder.genesis.Login;
 import cyder.genesis.User;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class UserUtil {
     //the semaphore to use when reading or writing from/to a JSON file
@@ -193,7 +198,7 @@ public class UserUtil {
             userMusicFile.mkdir();
 
         if (!userJsonFile.exists())
-            IOUtil.corruptUser(UUID);
+            corruptUser(UUID);
 
         User user = extractUser(userJsonFile);
 
@@ -208,8 +213,7 @@ public class UserUtil {
                         //fatal data that results in the user being corrupted if it is corrupted
                         if (getterMethod.getName().toLowerCase().contains("pass") ||
                             getterMethod.getName().toLowerCase().contains("name")) {
-                            IOUtil.corruptUser(UUID);
-                            return;
+                            corruptUser(UUID);
                         }
                         //non-fatal data that we can restore from the default data
                         else {
@@ -646,8 +650,41 @@ public class UserUtil {
         return ret;
     }
 
-    //todo default prefs not working, if no users animations should still exist
-    //todo i don't care what is in a json, if you can't serialize it, it's corrupted so corrupt function the folder
+    /**
+     * Attempts to serialize all Jsons into user objects, if this fails the userdata.json is deleted which renders
+     * the user non-existant whilst saving the files
+     */
+    public static void parseJsons() {
+        File uuidDir = new File("dynamic/users");
+        uuidDir.mkdir();
+
+        for (File user: uuidDir.listFiles()) {
+            File json = new File("dynamic/users/" + user.getName() + "/userdata.json");
+
+            if (json.exists()) {
+                //attempt to parse
+                try {
+                    jsonIOSem.acquire();
+                    Gson gson = new Gson();
+
+                    Reader reader = new FileReader(json);
+                    User userObj = gson.fromJson(reader, User.class);
+                    reader.close();
+
+                    //call a random getter
+                    if (userObj.getConsoleclockformat() == null)
+                        json.delete();
+                } catch (Exception e) {
+                    ErrorHandler.handle(e);
+                    //exception means no good so delete this json
+                    json.delete();
+                } finally {
+                    //free resources
+                    jsonIOSem.release();
+                }
+            }
+        }
+    }
 
     /**
      * Injects new preferences and their default values into an old json if it is found to not contain all the required user data.
@@ -661,8 +698,6 @@ public class UserUtil {
         }
 
         try {
-            //{"name":"Nathan","pass":"a1ed49ffc79fec196dcc25555352cba3e74ddc0e474af08736a4410e0dfd695d","font":"Agency FB","foreground":"f0f0f0","background":"101010","intromusic":"0","debugwindows":"0","randombackground":"101010","outputborder":"0","inputborder":"0","hourlychimes":"1","silenceerrors":"0","fullscreen":"0","outputfill":"0","inputfill":"0","clockonconsole":"1","showseconds":"0","filterchat":"0","laststart":"1640477182534","minimizeonclose":"0","typinganimation":"1","showbusyicon":"0","ffmpegpath":"C:\\FFmpeg\\bin\\ffmpeg.exe","youtubedlpath":"C:\\Program Files\\youtube-dl\\youtube-dl.exe","windowlocx":"1392","windowlocy":"272","roundedwindows":"0","windowColor":"1A2033","consoleclockformat":"EEEEEEEEE h:mmaa","typingsound":"0","youtubeuuid":"aaaaaaaaaVp","ipkey":"8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932","weatherkey":"2d790dd0766f1da62af488f101380c75","capsmode":"0","loggedin":"0","audiolength":"1","persistentnotifications":"0","closeAnimation":"1","minimizeAnimation":"1","consolePinned":"0","executables":[]}
-
             //read and write data so that it's all on one line
             jsonIOSem.acquire();
 
@@ -685,7 +720,7 @@ public class UserUtil {
             if (masterJson == null || masterJson.length() == 0 || masterJson.equalsIgnoreCase("null")) {
                 String corruptedUUID = StringUtil.getFilename(f.getParent());
                 SessionHandler.log(SessionHandler.Tag.ACTION, corruptedUUID + "'s json could not be serialized, corrupting user.");
-                IOUtil.corruptUser(corruptedUUID);
+                corruptUser(corruptedUUID);
                 return;
             }
 
@@ -762,6 +797,104 @@ public class UserUtil {
 
             if (jsonFile.exists() && !StringUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
                 setUserData(jsonFile, "loggedin","0");
+        }
+    }
+
+    /**
+     * If a user becomes corrupted for any reason which may be determined any way we choose,
+     * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
+     * zip any user data aside from userdata.json
+     */
+    public static void corruptUser(String UUID) {
+        try {
+            //suspend the checker
+            GenesisShare.suspendFrameChecker();
+
+            //close all open frames
+            Frame[] frames = Frame.getFrames();
+            for (Frame f : frames)
+                f.dispose();
+
+            //if it's already gone then it really wasn't a corrupted user, possibly a user deleting their account
+            File mainZipFile = new File("dynamic/users/" + UUID);
+
+            PopupHandler.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
+                            "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User :(",
+                    null);
+
+            //delete the stuff we don't care about
+            for (File f : mainZipFile.listFiles()) {
+                if (StringUtil.getFilename(f).equalsIgnoreCase("userdata")) {
+                    f.delete();
+                }
+            }
+
+            //zip the remaining user data
+            String sourceFile = mainZipFile.getAbsolutePath();
+
+            //save destination specific to Windows currently
+            String fileName = "C:/Users/" + SystemUtil.getWindowsUsername() +
+                    "/Downloads/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip";
+
+            FileOutputStream fos = new FileOutputStream(fileName);
+            ZipOutputStream zipOut = new ZipOutputStream(fos);
+            File fileToZip = new File(sourceFile);
+            zipFile(fileToZip, fileToZip.getName(), zipOut);
+            zipOut.close();
+            fos.close();
+
+            //log the curruption
+            SessionHandler.log(SessionHandler.Tag.CORRUPTION, fileName);
+
+            //delete the folder we just zipped since it's a duplicate
+            SystemUtil.deleteFolder(mainZipFile);
+
+            Login.showGUI();
+        } catch (Exception e) {
+            ErrorHandler.silentHandle(e);
+        }
+    }
+
+    /**
+     * Zips the provided file with the given name using hte provided ZOS
+     * @param fileToZip the file/dir to zip
+     * @param fileName the name of the resulting file (path included)
+     * @param zipOut the Zip Output Stream
+     */
+    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
+        try {
+            if (fileToZip.isHidden())
+                return;
+
+            if (fileToZip.isDirectory()) {
+                if (fileName.endsWith("/")) {
+                    zipOut.putNextEntry(new ZipEntry(fileName));
+                } else {
+                    zipOut.putNextEntry(new ZipEntry(fileName + "/"));
+                }
+                zipOut.closeEntry();
+
+                File[] children = fileToZip.listFiles();
+                for (File childFile : children)
+                    zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
+
+                return;
+            }
+
+            FileInputStream fis = new FileInputStream(fileToZip);
+            ZipEntry zipEntry = new ZipEntry(fileName);
+
+            zipOut.putNextEntry(zipEntry);
+
+            byte[] bytes = new byte[1024];
+            int length;
+
+            while ((length = fis.read(bytes)) >= 0)
+                zipOut.write(bytes, 0, length);
+
+            fis.close();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
         }
     }
 }
