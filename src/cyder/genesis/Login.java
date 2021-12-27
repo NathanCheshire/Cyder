@@ -55,6 +55,10 @@ public class Login {
         //todo even with a sem some of these are skipped for some reason, this only happens if console frame isn't open too
         // (we aren't logged in)
 
+        //todo logged out closing the frame results in no animation?
+
+        //todo printing works fine if there's a user? what's that about
+
         int charTimeout = 40;
         int lineTimeout = 500;
 
@@ -66,15 +70,17 @@ public class Login {
             try {
                 while (doLoginAnimations && loginFrame != null)  {
                     if (printingList.size() > 0) {
+                        printingSem.acquire();
+
                         String line = printingList.removeFirst();
                         System.out.println(line);
 
                         for (char c : line.toCharArray()) {
-                            printingSem.acquire();
                             su.print(String.valueOf(c));
-                            printingSem.release();
                             Thread.sleep(charTimeout);
                         }
+
+                        printingSem.release();
                     }
 
                     Thread.sleep(lineTimeout);
@@ -130,7 +136,7 @@ public class Login {
             }
         };
         loginFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
-        loginFrame.setTitle(IOUtil.getSystemData().getVersion() + " Cyder login");
+        loginFrame.setTitle("Cyder Login [" + IOUtil.getSystemData().getVersion() + " Build]");
         loginFrame.setBackground(new Color(21,23,24));
 
         //close handling
@@ -244,13 +250,13 @@ public class Login {
                             loginMode = 2;
                             loginField.setEchoChar(CyderStrings.ECHO_CHAR);
                             loginField.setText("");
-                            printingList.addFirst("Awaiting Password\n");
+                            printingList.addFirst("Awaiting Password (hold shift to reveal password)\n");
 
                             break;
                         case 2:
                             loginField.setEchoChar((char)0);
                             loginField.setText("");
-                            printingList.addFirst("Validating...\n");
+                            printingList.addFirst("Attempting validation\n");
                             if (recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA256(input)))) {
                                 doLoginAnimations = false;
                             } else {
@@ -268,11 +274,12 @@ public class Login {
                             break;
                         default:
                             loginField.setText(bashString);
-                            throw new IllegalArgumentException("Error resulting from login shell");
+                            throw new IllegalArgumentException("Error resulting from login shell default case trigger");
                     }
                 }
             }
 
+            //holding shift allows the user to see their password
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
                     loginField.setEchoChar((char)0);
