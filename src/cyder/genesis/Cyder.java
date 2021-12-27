@@ -46,7 +46,7 @@ public class Cyder {
             return;
         }
 
-        //IOUtil necessary subroutines
+        //IOUtil necessary subroutines to complete with success before continueing
         IOUtil.fixLogs();
         IOUtil.fixUsers();
 

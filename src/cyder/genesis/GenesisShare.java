@@ -161,24 +161,32 @@ public class GenesisShare {
      */
     public static void exit(int code) {
         try {
-            //log exit code and end of log tag
-            SessionHandler.log(SessionHandler.Tag.EXIT,null);
-            SessionHandler.log(SessionHandler.Tag.EOL, code);
-
-            //sign user in userdata
-            UserUtil.setUserData("loggedin","0");
-
             //acquire and release sems to ensure no IO is currently underway
             GenesisShare.getExitingSem().acquire();
             GenesisShare.getExitingSem().release();
             UserUtil.getJsonIOSem().acquire();
             UserUtil.getJsonIOSem().release();
+
+            //sign user out userdata
+            UserUtil.setUserData("loggedin","0");
+
+            //log exit
+            SessionHandler.log(SessionHandler.Tag.EXIT,null);
+
+            //pass EOL tag which will call exit with the code
+            SessionHandler.log(SessionHandler.Tag.EOL, code);
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
-        } finally {
             System.exit(code);
         }
     }
+
+    //todo testing with no users, users without jsons, users with corrupted jsons, etc.
+    // handle all these cases
+
+    //todo pretty much absolute entry to console frame and exit from there too needs to be reworked,
+    // it's not well designed and thought out
 
     public static CyderFrame getDominantFrame() {
         if (!ConsoleFrame.getConsoleFrame().isClosed() && ConsoleFrame.getConsoleFrame() != null) {

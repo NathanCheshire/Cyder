@@ -3,17 +3,23 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
+import cyder.genesis.Login;
 import cyder.genesis.User;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderFrame;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class UserUtil {
     //the semaphore to use when reading or writing from/to a JSON file
@@ -80,9 +86,10 @@ public class UserUtil {
             jsonIOSem.acquire();
             gson.toJson(user, writer);
             writer.close();
-            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            jsonIOSem.release();
         }
     }
 
@@ -114,9 +121,10 @@ public class UserUtil {
             jsonIOSem.acquire();
             gson.toJson(user, writer);
             writer.close();
-            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            jsonIOSem.release();
         }
     }
 
@@ -138,9 +146,10 @@ public class UserUtil {
             jsonIOSem.acquire();
             gson.toJson(u, writer);
             writer.close();
-            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            jsonIOSem.release();
         }
     }
 
@@ -163,9 +172,10 @@ public class UserUtil {
             jsonIOSem.acquire();
             gson.toJson(u, writer);
             writer.close();
-            jsonIOSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            jsonIOSem.release();
         }
     }
 
@@ -189,8 +199,10 @@ public class UserUtil {
         if (!userMusicFile.exists())
             userMusicFile.mkdir();
 
-        if (!userJsonFile.exists())
-            IOUtil.corruptedUser();
+        if (!userJsonFile.exists()) {
+            corruptedUser();
+            return;
+        }
 
         User user = extractUser(userJsonFile);
 
@@ -205,7 +217,7 @@ public class UserUtil {
                         //fatal data that results in the user being corrupted if it is corrupted
                         if (getterMethod.getName().toLowerCase().contains("pass") ||
                             getterMethod.getName().toLowerCase().contains("name")) {
-                            IOUtil.corruptedUser();
+                            corruptedUser();
                             return;
                         }
                         //non-fatal data that we can restore from the default data
@@ -278,9 +290,10 @@ public class UserUtil {
                 }
             }
 
-            GenesisShare.getExitingSem().release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        } finally {
+            GenesisShare.getExitingSem().release();
         }
     }
 
@@ -303,10 +316,10 @@ public class UserUtil {
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
-            jsonIOSem.release();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         } finally {
+            jsonIOSem.release();
             return ret;
         }
     }
@@ -330,10 +343,10 @@ public class UserUtil {
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
-            jsonIOSem.release();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         } finally {
+            jsonIOSem.release();
             return ret;
         }
     }
@@ -356,10 +369,10 @@ public class UserUtil {
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
-            jsonIOSem.release();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         } finally {
+            jsonIOSem.release();
             return ret;
         }
     }
@@ -391,14 +404,6 @@ public class UserUtil {
         String defaultValue = "";
 
         try {
-            if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-                throw new IllegalArgumentException("UUID not yet set");
-            File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                    + "/userdata.json");
-
-            if (!userJsonFile.exists())
-                throw new IllegalArgumentException("userdata.json does not exist");
-
             //find default value as a fail safe
             for (Preference pref : GenesisShare.getPrefs()) {
                 if (pref.getID().equalsIgnoreCase(name)) {
@@ -407,15 +412,26 @@ public class UserUtil {
                 }
             }
 
+            //data not set to return default
+            if (ConsoleFrame.getConsoleFrame().getUUID() == null) {
+                return defaultValue;
+            }
+
+            File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                    + "/userdata.json");
+
+            if (!userJsonFile.exists())
+                throw new IllegalArgumentException("userdata.json does not exist");
+
             User user = extractUser(userJsonFile);
             retData = extractUserData(user, name);
+            return retData;
 
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
-        } finally {
-            //be smart about returning
-            return retData != null ? retData : defaultValue;
         }
+
+        return defaultValue;
     }
 
     /**
@@ -645,7 +661,9 @@ public class UserUtil {
      * Injects new preferences and their default values into an old json if it is found to not contain all the required user data.
      * @param f the file to check for corrections
      */
-    public static void updateOldJson(File f) {
+    public static boolean updateOldJson(File f) {
+        boolean ret = true;
+
         if (!StringUtil.getExtension(f).equals(".json")) {
             throw new IllegalArgumentException("Provided file is not a json");
         } else if (!StringUtil.getFilename(f).equals("userdata")) {
@@ -653,27 +671,52 @@ public class UserUtil {
         }
 
         try {
-            //read and write data so that it's all on one line
+            //aquire sem
             jsonIOSem.acquire();
 
+            //gson obj
             Gson gson = new Gson();
 
+            //read into the object
             Reader reader = new FileReader(f);
-            User writeBack = gson.fromJson(reader, User.class);
+            User userObj = gson.fromJson(reader, User.class);
             reader.close();
 
+            //validate all fields, if anything isn't there, delete the json so this user is ignored
+
+            //so google is literally NO help in searching "gson tell if field was ignored"
+            // so let's just find all getters and call them and see if the thing returned is null-like
+            // if so, we're fucked so delete the file
+
+            if (userObj == null) {
+                jsonIOSem.release();
+                return false;
+            }
+
+            //for all methods
+            for (Method m : userObj.getClass().getMethods()) {
+                //get the getter method
+                if (m.getName().toLowerCase().contains("get") && m.getParameterCount() == 0) {
+                    //all getters return strings for user objects so invoke the method
+                    String value = (String) m.invoke(userObj);
+
+                    if (value == null || value.trim().length() == 0 || value.equalsIgnoreCase("null")) {
+                        //this thing doesn't exist so return false where the IOUtil method will delete the file
+                        jsonIOSem.release();
+                        return false;
+                    }
+                }
+            }
+
+            //write back to ensure on one line since user was validated
             Writer writer = new FileWriter(f);
-            gson.toJson(writeBack, writer);
+            gson.toJson(userObj, writer);
             writer.close();
 
-            jsonIOSem.release();
-
-            //get contents of json (single line)
-            jsonIOSem.acquire();
+            //read into a singular line
             BufferedReader jsonReader = new BufferedReader(new FileReader(f));
             String masterJson = jsonReader.readLine();
             jsonReader.close();
-            jsonIOSem.release();
 
             //remove closing curly brace
             masterJson = masterJson.substring(0 ,masterJson.length() - 1);
@@ -702,11 +745,9 @@ public class UserUtil {
             masterJson += "}";
 
             //write back to file
-            jsonIOSem.acquire();
             BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(f,false));
             jsonWriter.write(masterJson);
             jsonWriter.close();
-            jsonIOSem.release();
 
             if (!injections.isEmpty()) {
                 StringBuilder appendBuilder = new StringBuilder();
@@ -725,7 +766,12 @@ public class UserUtil {
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
+            ret = false;
+        } finally {
+            jsonIOSem.release();
         }
+
+        return ret;
     }
 
     /**
@@ -747,6 +793,105 @@ public class UserUtil {
 
             if (jsonFile.exists() && !StringUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
                 setUserData(jsonFile, "loggedin","0");
+        }
+    }
+
+    /**
+     * If a user becomes corrupted for any reason which may be determined any way we choose,
+     * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
+     * zip any user data aside from userdata.json and the Throws directory
+     * <p>
+     * This could fail if something has already been deleted which is fine since we want to
+     * go to the starting
+     */
+    public static void corruptedUser() {
+        try {
+            GenesisShare.suspendFrameChecker();
+
+            //close all open frames
+            Frame[] frames = Frame.getFrames();
+            for (Frame f : frames) {
+                if (f instanceof CyderFrame) {
+                    ((CyderFrame) f).dispose(true);
+                } else {
+                    f.dispose();
+                }
+            }
+
+            File mainZipFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
+
+            //confirmed that the user was corrupted so we inform the user
+            PopupHandler.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
+                    "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User :(");
+
+            //delete the stuff we don't care about
+            for (File f : mainZipFile.listFiles()) {
+                if (f.getName().equalsIgnoreCase("userdata.json"))
+                    f.delete();
+            }
+
+            //zip the remaining user data
+            String sourceFile = mainZipFile.getAbsolutePath();
+            String fileName = "C:/Users/" + SystemUtil.getWindowsUsername() +
+                    "/Downloads/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip";
+            FileOutputStream fos = new FileOutputStream(fileName);
+            ZipOutputStream zipOut = new ZipOutputStream(fos);
+            File fileToZip = new File(sourceFile);
+            zipFile(fileToZip, fileToZip.getName(), zipOut);
+            zipOut.close();
+            fos.close();
+
+            SessionHandler.log(SessionHandler.Tag.CORRUPTION, fileName);
+
+            //delete the folder we just zipped since it's a duplicate
+            SystemUtil.deleteFolder(mainZipFile);
+
+            Login.showGUI();
+        } catch (Exception e) {
+            ErrorHandler.silentHandle(e);
+        }
+    }
+
+    /**
+     * Zips the provided file with the given name using hte provided ZOS
+     * @param fileToZip the file/dir to zip
+     * @param fileName the name of the resulting file (path included)
+     * @param zipOut the Zip Output Stream
+     */
+    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
+        try {
+            if (fileToZip.isHidden())
+                return;
+
+            if (fileToZip.isDirectory()) {
+                if (fileName.endsWith("/")) {
+                    zipOut.putNextEntry(new ZipEntry(fileName));
+                } else {
+                    zipOut.putNextEntry(new ZipEntry(fileName + "/"));
+                }
+                zipOut.closeEntry();
+
+                File[] children = fileToZip.listFiles();
+                for (File childFile : children)
+                    zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
+
+                return;
+            }
+
+            FileInputStream fis = new FileInputStream(fileToZip);
+            ZipEntry zipEntry = new ZipEntry(fileName);
+
+            zipOut.putNextEntry(zipEntry);
+
+            byte[] bytes = new byte[1024];
+            int length;
+
+            while ((length = fis.read(bytes)) >= 0)
+                zipOut.write(bytes, 0, length);
+
+            fis.close();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
         }
     }
 }

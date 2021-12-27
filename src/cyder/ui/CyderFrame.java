@@ -5,7 +5,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.CyderSplash;
+import cyder.genesis.Login;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
@@ -1026,6 +1026,9 @@ public class CyderFrame extends JFrame {
                 //kill all threads
                 killThreads();
 
+                if (this == Login.getLoginFrame())
+                    System.out.println("login");
+
                 if (!fastClose && UserUtil.getUserData("closeanimation").equals("1")) {
                     //disable dragging
                     disableDragging();
@@ -1982,7 +1985,7 @@ public class CyderFrame extends JFrame {
 
         //if the console is set to always on top, then we need this frame to be automatically set on top as well
         // so that new frames are not behind the console
-        if (b && this != CyderSplash.getSplashFrame() &&
+        if (b && ConsoleFrame.getConsoleFrame().getConsoleCyderFrame() != null &&
                 ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().isAlwaysOnTop()) {
             this.setAlwaysOnTop(true);
 

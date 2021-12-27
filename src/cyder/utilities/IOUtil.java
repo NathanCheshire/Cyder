@@ -2,13 +2,10 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
-import cyder.genesis.Login;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ErrorHandler;
-import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
 import javazoom.jl.player.Player;
@@ -23,8 +20,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.DosFileAttributes;
 import java.util.LinkedList;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class IOUtil {
     private IOUtil() {
@@ -208,8 +203,10 @@ public class IOUtil {
         }
     }
 
+    //{"name":"Nathan","pass":"a1ed49ffc79fec196dcc25555352cba3e74ddc0e474af08736a4410e0dfd695d","font":"Agency FB","foreground":"f0f0f0","background":"101010","intromusic":"0","debugwindows":"0","randombackground":"101010","outputborder":"0","inputborder":"0","hourlychimes":"1","silenceerrors":"0","fullscreen":"0","outputfill":"0","inputfill":"0","clockonconsole":"1","showseconds":"0","filterchat":"0","laststart":"1640492443799","minimizeonclose":"0","typinganimation":"1","showbusyicon":"0","ffmpegpath":"C:\\FFmpeg\\bin\\ffmpeg.exe","youtubedlpath":"C:\\Program Files\\youtube-dl\\youtube-dl.exe","windowlocx":"1392","windowlocy":"272","roundedwindows":"0","windowColor":"1A2033","consoleclockformat":"EEEEEEEEE h:mmaa","typingsound":"0","youtubeuuid":"aaaaaaaaaVp","ipkey":"8eac4e7ab34eb235c4a888bfdbedc8bb8093ec1490790d139cf58932","weatherkey":"2d790dd0766f1da62af488f101380c75","capsmode":"0","loggedin":"0","audiolength":"1","persistentnotifications":"0","closeAnimation":"1","minimizeAnimation":"1","consolePinned":"0","executables":[]}
+
     /**
-     * Fixes any user files that may be outdated via preference injection
+     * Attempts to fix any user files that may be outdated via preference injection
      */
     public static void fixUsers() {
         File users = new File("dynamic/users");
@@ -218,7 +215,11 @@ public class IOUtil {
             File json = new File(user + "/userdata.json");
 
             if (json.exists()) {
-                UserUtil.updateOldJson(json);
+                boolean success = UserUtil.updateOldJson(json);
+
+                if (!success) {
+                    json.delete();
+                }
             }
         }
      }
@@ -352,104 +353,6 @@ public class IOUtil {
             AudioPlayer.pauseAudio();
         } else if (IOUtil.generalAudioPlaying()) {
             stopAudio();
-        }
-    }
-
-    /**
-     * If a user becomes corrupted for any reason which may be determined any way we choose,
-     * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
-     * zip any user data aside from userdata.json and the Throws directory
-     * <p>
-     * This could fail if something has already been deleted which is fine since we want to
-     * go to the starting
-     */
-    public static void corruptedUser() {
-        try {
-            GenesisShare.suspendFrameChecker();
-            ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
-
-            //close all open frames
-            Frame[] frames = Frame.getFrames();
-            for (Frame f : frames)
-                f.dispose();
-
-            //if it's already gone then it really wasn't a corrupted user, possibly a user deleting their account
-            File mainZipFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
-            if (mainZipFile == null || mainZipFile.listFiles() == null || mainZipFile.listFiles().length == 0)
-                return;
-
-            //confirmed that the user was corrupted so we inform the user
-            PopupHandler.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
-                    "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User :(");
-
-            //delete the stuff we don't care about
-            for (File f : mainZipFile.listFiles()) {
-                if (f.getName().equalsIgnoreCase("userdata.json"))
-                    f.delete();
-            }
-
-            //zip the remaining user data
-            String sourceFile = mainZipFile.getAbsolutePath();
-            String fileName = "C:/Users/" + SystemUtil.getWindowsUsername() +
-                    "/Downloads/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip";
-            FileOutputStream fos = new FileOutputStream(fileName);
-            ZipOutputStream zipOut = new ZipOutputStream(fos);
-            File fileToZip = new File(sourceFile);
-            zipFile(fileToZip, fileToZip.getName(), zipOut);
-            zipOut.close();
-            fos.close();
-
-            SessionHandler.log(SessionHandler.Tag.CORRUPTION, fileName);
-
-            //delete the folder we just zipped since it's a duplicate
-            SystemUtil.deleteFolder(mainZipFile);
-
-            Login.showGUI();
-        } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
-        }
-    }
-
-    /**
-     * Zips the provided file with the given name using hte provided ZOS
-     * @param fileToZip the file/dir to zip
-     * @param fileName the name of the resulting file (path included)
-     * @param zipOut the Zip Output Stream
-     */
-    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
-        try {
-            if (fileToZip.isHidden())
-                return;
-
-            if (fileToZip.isDirectory()) {
-                if (fileName.endsWith("/")) {
-                    zipOut.putNextEntry(new ZipEntry(fileName));
-                } else {
-                    zipOut.putNextEntry(new ZipEntry(fileName + "/"));
-                }
-                zipOut.closeEntry();
-
-                File[] children = fileToZip.listFiles();
-                for (File childFile : children)
-                    zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
-
-                return;
-            }
-
-            FileInputStream fis = new FileInputStream(fileToZip);
-            ZipEntry zipEntry = new ZipEntry(fileName);
-
-            zipOut.putNextEntry(zipEntry);
-
-            byte[] bytes = new byte[1024];
-            int length;
-
-            while ((length = fis.read(bytes)) >= 0)
-                zipOut.write(bytes, 0, length);
-
-            fis.close();
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
         }
     }
 
