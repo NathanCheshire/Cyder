@@ -20,6 +20,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 public class Login {
     private static CyderFrame loginFrame;
@@ -36,6 +37,8 @@ public class Login {
     private static LinkedList<String> printingList = new LinkedList<>();
     private static LinkedList<String> priorityPrintingList = new LinkedList<>();
 
+    private static Semaphore printingSem = new Semaphore(1);
+
     private static void loginTypingAnimation(JTextPane refArea) {
         //apparently we need it a second time to fix a bug :/
         doLoginAnimations = true;
@@ -49,6 +52,9 @@ public class Login {
         printingList.add("Design JVM: 8+\n");
         printingList.add("Description: A programmer's swiss army knife\n");
 
+        //todo even with a sem some of these are skipped for some reason, this only happens if console frame isn't open too
+        // (we aren't logged in)
+
         int charTimeout = 40;
         int lineTimeout = 500;
 
@@ -61,14 +67,19 @@ public class Login {
                         String line = priorityPrintingList.removeFirst();
 
                         for (char c : line.toCharArray()) {
+                            printingSem.acquire();
                             su.print(String.valueOf(c));
+                            printingSem.release();
                             Thread.sleep(charTimeout);
                         }
                     } else if (printingList.size() > 0) {
                         String line = printingList.removeFirst();
+                        System.out.println(line);
 
                         for (char c : line.toCharArray()) {
+                            printingSem.acquire();
                             su.print(String.valueOf(c));
+                            printingSem.release();
                             Thread.sleep(charTimeout);
                         }
                     }
@@ -253,7 +264,7 @@ public class Login {
                             } else {
                                 loginField.setText(bashString);
                                 loginField.setCaretPosition(loginField.getPassword().length);
-                                priorityPrintingList.add("Could not recognize user\n");
+                                priorityPrintingList.add("Login failed\n");
 
                                 if (input != null)
                                     for (char c: input)

@@ -18,7 +18,10 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//Simple general String util methods along with some JTextPane appending methods
+/**
+ * Simple general String util methods along with some JTextPane appending methods
+ * Note: these methods are not thread safe and you should take that into account when using these utils
+ */
 public class StringUtil {
     private JTextPane outputArea = null;
 
