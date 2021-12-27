@@ -280,6 +280,18 @@ public class Login {
                     }
                 }
             }
+
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                    loginField.setEchoChar((char)0);
+                }
+            }
+
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_SHIFT && loginMode == 2) {
+                    loginField.setEchoChar(CyderStrings.ECHO_CHAR);
+                }
+            }
         });
 
         loginField.setCaretPosition(bashString.length());
