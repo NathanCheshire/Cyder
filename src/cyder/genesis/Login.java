@@ -59,8 +59,8 @@ public class Login {
 
         //todo printing works fine if there's a user? what's that about
 
-        int charTimeout = 40;
-        int lineTimeout = 500;
+        final int charTimeout = 40;
+        final int lineTimeout = 500;
 
         //todo use sem to add to list and remove too
 
@@ -124,8 +124,6 @@ public class Login {
             loginFrame.removePostCloseActions();
             loginFrame.dispose(true);
         }
-
-        IOUtil.cleanUsers();
 
         loginFrame = new CyderFrame(600, 400,
                 ImageUtil.imageIconFromColor(new Color(21,23,24))) {

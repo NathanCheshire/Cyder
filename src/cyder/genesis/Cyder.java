@@ -47,8 +47,8 @@ public class Cyder {
         }
 
         //IOUtil necessary subroutines to complete with success before continuing
-        IOUtil.fixLogs();
         IOUtil.fixUsers();
+        IOUtil.fixLogs();
 
         //IOUtil secondary subroutines
         new Thread(() -> {

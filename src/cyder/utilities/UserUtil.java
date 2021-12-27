@@ -583,8 +583,6 @@ public class UserUtil {
         boolean ret = false;
 
         try {
-            IOUtil.cleanUsers();
-
             hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
 
             //get all users
@@ -662,25 +660,42 @@ public class UserUtil {
      * @param f the file to check for corrections
      */
     public static boolean updateOldJson(File f) {
-        boolean ret = true;
-
         if (!StringUtil.getExtension(f).equals(".json")) {
             throw new IllegalArgumentException("Provided file is not a json");
         } else if (!StringUtil.getFilename(f).equals("userdata")) {
             throw new IllegalArgumentException("Provided file is not a userdata file");
         }
 
+        boolean ret = true;
+
         try {
             //aquire sem
             jsonIOSem.acquire();
 
+            //init IO for json
+            Reader reader = null;
+            Writer writer = null;
+            BufferedReader jsonReader = null;
+            BufferedWriter jsonWriter = null;
+
             //gson obj
             Gson gson = new Gson();
 
-            //read into the object
-            Reader reader = new FileReader(f);
-            User userObj = gson.fromJson(reader, User.class);
-            reader.close();
+            //read into the object if parsable
+            reader = new FileReader(f);
+            User userObj = null;
+
+            try {
+                userObj = gson.fromJson(reader, User.class);
+            } catch (Exception ignored) {
+                //couldn't be parsed so delete it
+                jsonIOSem.release();
+                reader.close();
+                writer.close();
+                jsonReader.close();
+                jsonWriter.close();
+                return false;
+            }
 
             //validate all fields, if anything isn't there, delete the json so this user is ignored
 
@@ -690,6 +705,10 @@ public class UserUtil {
 
             if (userObj == null) {
                 jsonIOSem.release();
+                reader.close();
+                writer.close();
+                jsonReader.close();
+                jsonWriter.close();
                 return false;
             }
 
@@ -706,21 +725,35 @@ public class UserUtil {
                         if (value == null || value.trim().length() == 0 || value.equalsIgnoreCase("null")) {
                             //this thing doesn't exist so return false where the IOUtil method will delete the file
                             jsonIOSem.release();
+                            reader.close();
+                            writer.close();
+                            jsonReader.close();
+                            jsonWriter.close();
                             return false;
                         }
                     }
                 }
             }
 
-            //write back to ensure on one line since user was validated
-            Writer writer = new FileWriter(f);
+            //write back so that it's a singular line to prepare for pref injection
+            writer = new FileWriter(f);
             gson.toJson(userObj, writer);
             writer.close();
 
-            //read into a singular line
-            BufferedReader jsonReader = new BufferedReader(new FileReader(f));
+            //read contents into master String
+            jsonReader = new BufferedReader(new FileReader(f));
             String masterJson = jsonReader.readLine();
             jsonReader.close();
+
+            //make sure contents are not null-like
+            if (masterJson == null || masterJson.trim().length() == 0 || masterJson.equalsIgnoreCase("null")) {
+                jsonIOSem.release();
+                reader.close();
+                writer.close();
+                jsonReader.close();
+                jsonWriter.close();
+                return false;
+            }
 
             //remove closing curly brace
             masterJson = masterJson.substring(0 ,masterJson.length() - 1);
@@ -749,7 +782,7 @@ public class UserUtil {
             masterJson += "}";
 
             //write back to file
-            BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(f,false));
+            jsonWriter = new BufferedWriter(new FileWriter(f,false));
             jsonWriter.write(masterJson);
             jsonWriter.close();
 
