@@ -58,21 +58,14 @@ public class Login {
         int charTimeout = 40;
         int lineTimeout = 500;
 
+        //todo use sem to add to list and remove too
+
         new Thread(() -> {
             StringUtil su = new StringUtil(refArea);
 
             try {
                 while (doLoginAnimations && loginFrame != null)  {
-                    if (priorityPrintingList.size() > 0) {
-                        String line = priorityPrintingList.removeFirst();
-
-                        for (char c : line.toCharArray()) {
-                            printingSem.acquire();
-                            su.print(String.valueOf(c));
-                            printingSem.release();
-                            Thread.sleep(charTimeout);
-                        }
-                    } else if (printingList.size() > 0) {
+                    if (printingList.size() > 0) {
                         String line = printingList.removeFirst();
                         System.out.println(line);
 
@@ -118,7 +111,6 @@ public class Login {
 
     public static void showGUI() {
         printingList.clear();
-        priorityPrintingList.clear();
         doLoginAnimations = true;
         loginMode = 0;
 
@@ -224,11 +216,11 @@ public class Login {
                                     loginMode = 0;
                                 } else if (Arrays.equals(input,"login".toCharArray())) {
                                     loginField.setText(bashString);
-                                    priorityPrintingList.add("Awaiting Username\n");
+                                    printingList.addFirst("Awaiting Username\n");
                                     loginMode = 1;
                                 } else if (Arrays.equals(input,"login admin".toCharArray())) {
                                     loginField.setText(bashString);
-                                    priorityPrintingList.add("Feature not yet implemented\n");
+                                    printingList.addFirst("Feature not yet implemented\n");
                                     loginMode = 0;
                                 } else if (Arrays.equals(input,"quit".toCharArray())) {
                                     loginFrame.dispose();
@@ -237,10 +229,10 @@ public class Login {
 
                                 } else if (Arrays.equals(input,"h".toCharArray())) {
                                     loginField.setText(bashString);
-                                    priorityPrintingList.add("Valid commands: create, login, login admin, quit, h\n");
+                                    printingList.addFirst("Valid commands: create, login, login admin, quit, h\n");
                                 } else {
                                     loginField.setText(bashString);
-                                    priorityPrintingList.add("Unknown command; See \"h\" for help\n");
+                                    printingList.addFirst("Unknown command; See \"h\" for help\n");
                                 }
                             } catch (Exception e) {
                                 ErrorHandler.handle(e);
@@ -252,19 +244,19 @@ public class Login {
                             loginMode = 2;
                             loginField.setEchoChar(CyderStrings.ECHO_CHAR);
                             loginField.setText("");
-                            priorityPrintingList.add("Awaiting Password\n");
+                            printingList.addFirst("Awaiting Password\n");
 
                             break;
                         case 2:
                             loginField.setEchoChar((char)0);
                             loginField.setText("");
-                            priorityPrintingList.add("Validating...\n");
+                            printingList.addFirst("Validating...\n");
                             if (recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA256(input)))) {
                                 doLoginAnimations = false;
                             } else {
                                 loginField.setText(bashString);
                                 loginField.setCaretPosition(loginField.getPassword().length);
-                                priorityPrintingList.add("Login failed\n");
+                                printingList.addFirst("Login failed\n");
 
                                 if (input != null)
                                     for (char c: input)
@@ -317,7 +309,7 @@ public class Login {
         CyderSplash.getSplashFrame().dispose(true);
 
         if (directories != null && directories.length == 0)
-            priorityPrintingList.add("No users found; please type \"create\"\n");
+            printingList.addFirst("No users found; please type \"create\"\n");
 
         loginTypingAnimation(loginArea);
 
