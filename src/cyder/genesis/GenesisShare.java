@@ -185,9 +185,6 @@ public class GenesisShare {
     //todo testing with no users, users without jsons, users with corrupted jsons, etc.
     // handle all these cases
 
-    //todo pretty much absolute entry to console frame and exit from there too needs to be reworked,
-    // it's not well designed and thought out
-
     public static CyderFrame getDominantFrame() {
         if (!ConsoleFrame.getConsoleFrame().isClosed() && ConsoleFrame.getConsoleFrame() != null) {
             return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();

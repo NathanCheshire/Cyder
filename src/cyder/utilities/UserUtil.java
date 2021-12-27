@@ -698,12 +698,16 @@ public class UserUtil {
                 //get the getter method
                 if (m.getName().toLowerCase().contains("get") && m.getParameterCount() == 0) {
                     //all getters return strings for user objects so invoke the method
-                    String value = (String) m.invoke(userObj);
+                    Object object = m.invoke(userObj);
 
-                    if (value == null || value.trim().length() == 0 || value.equalsIgnoreCase("null")) {
-                        //this thing doesn't exist so return false where the IOUtil method will delete the file
-                        jsonIOSem.release();
-                        return false;
+                    if (object instanceof String) {
+                        String value = (String) object;
+
+                        if (value == null || value.trim().length() == 0 || value.equalsIgnoreCase("null")) {
+                            //this thing doesn't exist so return false where the IOUtil method will delete the file
+                            jsonIOSem.release();
+                            return false;
+                        }
                     }
                 }
             }

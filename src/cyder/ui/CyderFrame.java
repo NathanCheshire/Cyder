@@ -5,7 +5,6 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.Login;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
@@ -1025,9 +1024,6 @@ public class CyderFrame extends JFrame {
 
                 //kill all threads
                 killThreads();
-
-                if (this == Login.getLoginFrame())
-                    System.out.println("login");
 
                 if (!fastClose && UserUtil.getUserData("closeanimation").equals("1")) {
                     //disable dragging

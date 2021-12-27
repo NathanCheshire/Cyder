@@ -94,6 +94,7 @@ public class SessionHandler {
                 logBuilder.append(", exceptions thrown: ");
                 logBuilder.append(countExceptions());
 
+                //exit using the exit code right after logging it
                 System.exit(Integer.parseInt(String.valueOf(representation)));
 
                 break;
