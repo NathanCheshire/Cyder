@@ -1,5 +1,6 @@
 package cyder.genesis;
 
+import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SecurityUtil;
@@ -73,17 +74,17 @@ public class Cyder {
             if (IOUtil.getSystemData().isAutocypher()) {
                 SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
                 CyderSplash.setLoadingMessage("Autocyphering");
-                boolean ret = Login.autoCypher();
+                boolean ret = LoginHandler.autoCypher();
 
                 if (!ret) {
                     SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
-                    Login.showGUI();
+                    LoginHandler.showGUI();
                 }
                 else {} //AutoCypher spun off console frame, no further action necessary
             }
-            else Login.showGUI();
+            else LoginHandler.showGUI();
         }
-        else if (IOUtil.getSystemData().isReleased()) Login.showGUI();
+        else if (IOUtil.getSystemData().isReleased()) LoginHandler.showGUI();
         else GenesisShare.exit(-600);
     }
 }

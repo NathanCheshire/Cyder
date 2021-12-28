@@ -1,7 +1,9 @@
-package cyder.genesis;
+package cyder.handlers.internal;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
+import cyder.genesis.CyderSplash;
+import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
@@ -23,7 +25,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
-public class Login {
+public class LoginHandler {
     private static CyderFrame loginFrame;
     private static JPasswordField loginField;
     private static boolean doLoginAnimations;

@@ -3,7 +3,7 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
-import cyder.genesis.Login;
+import cyder.handlers.internal.LoginHandler;
 import cyder.userobj.User;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.PopupHandler;
@@ -894,7 +894,7 @@ public class UserUtil {
             SystemUtil.deleteFolder(mainZipFile);
 
             //all frames should be gone so show login
-            Login.showGUI();
+            LoginHandler.showGUI();
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
         }

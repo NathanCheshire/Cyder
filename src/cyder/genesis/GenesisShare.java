@@ -2,6 +2,7 @@ package cyder.genesis;
 
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
@@ -182,8 +183,8 @@ public class GenesisShare {
     public static CyderFrame getDominantFrame() {
         if (!ConsoleFrame.getConsoleFrame().isClosed() && ConsoleFrame.getConsoleFrame() != null) {
             return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
-        } else if (!Login.isClosed() && Login.getLoginFrame() != null){
-            return Login.getLoginFrame();
+        } else if (!LoginHandler.isClosed() && LoginHandler.getLoginFrame() != null){
+            return LoginHandler.getLoginFrame();
         }
         //other possibly dominant/stand-alone frame checks here
         else return null;

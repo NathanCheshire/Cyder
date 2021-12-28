@@ -4,7 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
-import cyder.genesis.Login;
+import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.internal.PopupHandler;
@@ -316,8 +316,8 @@ public class UserCreator {
 
                         //attempt to log in new user if it's the only user
                         if (new File("dynamic/users/").listFiles().length == 1) {
-                            Login.getLoginFrame().dispose();
-                            Login.recognize(newUserName.getText().trim(), SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)));
+                            LoginHandler.getLoginFrame().dispose();
+                            LoginHandler.recognize(newUserName.getText().trim(), SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)));
                         }
                     }
 

@@ -9,10 +9,7 @@ import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.*;
 import cyder.handlers.external.AudioPlayer;
-import cyder.handlers.internal.ErrorHandler;
-import cyder.handlers.internal.InputHandler;
-import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.*;
 import cyder.testing.DebugConsole;
 import cyder.userobj.User;
 import cyder.userobj.UserEditor;
@@ -1026,7 +1023,7 @@ public final class ConsoleFrame {
             //close all frames just before showing console
             for (CyderFrame f : FrameUtil.getCyderFrames()) {
                 if (f == consoleCyderFrame) {}
-                else if (f == CyderSplash.getSplashFrame() || f == Login.getLoginFrame())
+                else if (f == CyderSplash.getSplashFrame() || f == LoginHandler.getLoginFrame())
                     f.dispose(true);
                 else
                     f.dispose();
@@ -2984,7 +2981,7 @@ public final class ConsoleFrame {
             f.dispose();
         }
 
-        Login.showGUI();
+        LoginHandler.showGUI();
     }
 
     //dancing stuff -----------------------------------------------------------------------

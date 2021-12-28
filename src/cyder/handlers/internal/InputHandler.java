@@ -9,7 +9,6 @@ import cyder.games.HangmanGame;
 import cyder.games.TTTGame;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
-import cyder.genesis.Login;
 import cyder.userobj.UserCreator;
 import cyder.userobj.UserEditor;
 import cyder.handlers.external.AudioPlayer;
@@ -296,7 +295,7 @@ public class InputHandler {
             new WeatherWidget().showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "WEATHER");
         } else if (eic("pin") || eic("login")) {
-            Login.showGUI();
+            LoginHandler.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "LOGIN WIDGET");
         } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
             UserCreator.showGUI();
