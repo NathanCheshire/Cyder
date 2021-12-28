@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import cyder.consts.CyderStrings;
+import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
@@ -12,6 +13,7 @@ import javazoom.jl.player.Player;
 
 import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
@@ -120,6 +122,53 @@ public class IOUtil {
         }
     }
 
+    //determines whether or not the sys.json file exists, is parsable, and contains non-null fields
+    public static void checkSystemData() {
+        try {
+            File sysFile = new File("static/sys.json");
+
+            if (!sysFile.exists())
+                GenesisShare.exit(-112);
+
+            //gson obj
+            Gson gson = new Gson();
+
+            //read into the object if parsable
+            FileReader reader = new FileReader(sysFile);
+            SystemData sysObj = null;
+
+            try {
+                sysObj = gson.fromJson(reader, SystemData.class);
+            } catch (Exception ignored) {
+                //couldn't be parsed so exit program
+                reader.close();
+                throw new Exception("Could not parse system data");
+            }
+
+            //object successfully parsed by GSON
+
+            //make sure the obj isn't null
+            if (sysObj == null) {
+                throw new Exception("System data object serialized to null");
+            }
+
+            //try all getters and make sure not null
+            for (Method m : sysObj.getClass().getMethods()) {
+                //get the getter method
+                if (m.getName().toLowerCase().contains("get") && m.getParameterCount() == 0) {
+                    //all getters return strings for user objects so invoke the method
+                    Object object = m.invoke(sysObj);
+
+                    if (object == null)
+                        throw new Exception("System data object attribute was serialized to null");
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+            GenesisShare.exit(-112);
+        }
+    }
+
     /**
      * Returns the SystemData object representing all the system data located in sys.json
      * @return the SystemData object
@@ -169,7 +218,7 @@ public class IOUtil {
             }
 
             String append = "[LOCATION] " + (SecurityUtil.nathanLenovo() ?
-                    "[400 S. Monroe St. Tallahassee, FL]" :
+                    "[La casa de Nathan]" :
                     (IPUtil.getIpdata().getCity() + ", " + IPUtil.getIpdata().getRegion()));
 
             if (argsString.trim().length() > 0) {

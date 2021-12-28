@@ -15,8 +15,6 @@ import java.util.concurrent.Semaphore;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-//todo anywhere a json is referenced make sure that it exists
-
 public class GenesisShare {
     private GenesisShare() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);

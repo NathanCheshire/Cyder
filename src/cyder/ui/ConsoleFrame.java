@@ -1648,7 +1648,12 @@ public final class ConsoleFrame {
         if (UUID == null)
             throw new RuntimeException("UUID not set");
 
-        return new File("dynamic/users/" + UUID + "/userdata.json");
+        File userJson = new File("dynamic/users/" + UUID + "/userdata.json");
+
+        if (!userJson.exists())
+            throw new RuntimeException("User json does not exist");
+
+        return userJson;
     }
 
     public void setFontBold() {

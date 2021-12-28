@@ -47,6 +47,7 @@ public class Cyder {
         }
 
         //IOUtil necessary subroutines to complete with success before continuing
+        IOUtil.checkSystemData();
         IOUtil.fixUsers();
         IOUtil.fixLogs();
         IOUtil.cleanUsers();
