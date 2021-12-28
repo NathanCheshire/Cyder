@@ -167,15 +167,12 @@ public class GenesisShare {
             UserUtil.getJsonIOSem().acquire();
             UserUtil.getJsonIOSem().release();
 
-            //sign user out userdata
-            UserUtil.setUserData("loggedin","0");
+            //sign out user if ConsoleFrame has a user associated with it
+            if (ConsoleFrame.getConsoleFrame().getUUID() != null)
+                UserUtil.setUserData("loggedin","0");
 
             //log exit
-            SessionHandler.log(SessionHandler.Tag.EXIT,null);
-
-            //pass EOL tag which will call exit with the code
-            SessionHandler.log(SessionHandler.Tag.EOL, code);
-
+            SessionHandler.log(SessionHandler.Tag.EXIT, code);
         } catch (Exception e) {
             ErrorHandler.handle(e);
             System.exit(code);

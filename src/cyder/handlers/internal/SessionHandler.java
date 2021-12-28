@@ -25,7 +25,7 @@ public class SessionHandler {
     private static long start = System.currentTimeMillis();
 
     public enum Tag {
-        CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, EOL, UNKNOWN, SUGGESTION,
+        CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, UNKNOWN, SUGGESTION,
         SYSTEM_IO, CLIENT_IO, LOGIN, LOGOUT, JAVA_ARGS, ENTRY, EXIT, CORRUPTION,
         PRIVATE_MESSAGE
     }
@@ -85,19 +85,6 @@ public class SessionHandler {
                 }
                 logBuilder.append(representation);
                 break;
-            case EOL:
-                logBuilder.append("[EOL]: Log completed, exiting program with code: ");
-                logBuilder.append(representation);
-                logBuilder.append(" [");
-                logBuilder.append(getCodeDescription((int) representation));
-                logBuilder.append("]");
-                logBuilder.append(", exceptions thrown: ");
-                logBuilder.append(countExceptions());
-
-                //exit using the exit code right after logging it
-                System.exit(Integer.parseInt(String.valueOf(representation)));
-
-                break;
             case SUGGESTION:
                 logBuilder.append("[SUGGESTION]: ").append(representation);
                 break;
@@ -142,7 +129,22 @@ public class SessionHandler {
                 //right before genesisshare.exit exits
                 //[EXIT]: [RUNTIME] 1h 24m 31s
                 logBuilder.append("[EXIT]: [RUNTIME] ");
-                logBuilder.append(getRuntime());
+                logBuilder.append(getRuntime()).append("\n");
+
+                //end log
+                logBuilder.append("[EOL]: Log completed, exiting program with code: ");
+                logBuilder.append(representation);
+                logBuilder.append(" [");
+                logBuilder.append(getCodeDescription((int) representation));
+                logBuilder.append("]");
+                logBuilder.append(", exceptions thrown: ");
+                logBuilder.append(countExceptions());
+
+                //write
+                writeLine(logBuilder.toString());
+
+                //exit using the exit code right after logging it
+                System.exit(Integer.parseInt(String.valueOf(representation)));
                 break;
             case CORRUPTION:
                 //before user corruption method is called
@@ -356,7 +358,9 @@ public class SessionHandler {
         if (seconds != 0)
             ret.append(seconds).append("s ");
 
-        return ret.toString().trim();
+        String retString = ret.toString().trim();
+
+        return retString.length() == 0 ? "s" : retString;
     }
 
     private static String getCodeDescription(int code) {

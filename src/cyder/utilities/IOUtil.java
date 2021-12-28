@@ -160,7 +160,7 @@ public class IOUtil {
                     Object object = m.invoke(sysObj);
 
                     if (object == null)
-                        throw new Exception("System data object attribute was serialized to null");
+                        throw new Exception("System data object attribute was serialized to null: " + m.getName());
                 }
             }
         } catch (Exception e) {
@@ -622,7 +622,6 @@ public class IOUtil {
         private String releasedate;
         private String mastermac;
         private boolean uiloc;
-        private String ytt;
         private double uiscale;
         private boolean consoleresizable;
         private boolean autocypher;
@@ -670,14 +669,6 @@ public class IOUtil {
 
         public void setUiloc(boolean uiloc) {
             this.uiloc = uiloc;
-        }
-
-        public String getYtt() {
-            return ytt;
-        }
-
-        public void setYtt(String ytt) {
-            this.ytt = ytt;
         }
 
         public double getUiscale() {
