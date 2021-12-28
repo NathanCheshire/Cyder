@@ -1025,27 +1025,25 @@ public class CyderFrame extends JFrame {
                 //kill all threads
                 killThreads();
 
-                if (!fastClose && UserUtil.getUserData("closeanimation").equals("1")) {
-                    //disable dragging
-                    disableDragging();
+                //disable dragging
+                disableDragging();
 
-                    //disable content pane REPAINTING not paint to speed up the animation
-                    disableContentRepainting = true;
+                //disable content pane REPAINTING not paint to speed up the animation
+                disableContentRepainting = true;
 
-                    if (this != null && isVisible()) {
-                        Point point = getLocationOnScreen();
-                        int x = (int) point.getX();
-                        int y = (int) point.getY();
+                if (this != null && isVisible() && !fastClose && UserUtil.getUserData("closeanimation").equals("1")) {
+                    Point point = getLocationOnScreen();
+                    int x = (int) point.getX();
+                    int y = (int) point.getY();
 
-                        //figure out increment for frames
-                        int distanceToTravel = Math.abs(this.getY()) + Math.abs(this.getHeight());
-                        //25 frames to animate
-                        int animationInc = (int) ((double) distanceToTravel / animationFrames);
+                    //figure out increment for frames
+                    int distanceToTravel = Math.abs(this.getY()) + Math.abs(this.getHeight());
+                    //25 frames to animate
+                    int animationInc = (int) ((double) distanceToTravel / animationFrames);
 
-                        for (int i = this.getY(); i >= -this.getHeight() ; i -= animationInc) {
-                            Thread.sleep(1);
-                            setLocation(this.getX(), i);
-                        }
+                    for (int i = this.getY(); i >= -this.getHeight() ; i -= animationInc) {
+                        Thread.sleep(1);
+                        setLocation(this.getX(), i);
                     }
                 }
 
@@ -1060,7 +1058,7 @@ public class CyderFrame extends JFrame {
             } catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        }, "frame dispose thread").start();
+        }, this + " CyderFrame dispose thread").start();
     }
 
     @Override

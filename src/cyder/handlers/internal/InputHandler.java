@@ -568,15 +568,7 @@ public class InputHandler {
 
                 ImageIO.write(saveImage, "png", saveFile);
 
-                LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
-
-                for (int i = 0; i < backgrounds.size(); i++) {
-                    if (backgrounds.get(i).getName().equals(saveName)) {
-                        ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
-                        ConsoleFrame.getConsoleFrame().repaint();
-                        break;
-                    }
-                }
+                ConsoleFrame.getConsoleFrame().revalidateBackgroundIndex();
 
                 println("Background generated, set, and saved as a separate background file.");
             } catch (Exception e) {

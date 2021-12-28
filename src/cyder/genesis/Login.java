@@ -52,8 +52,6 @@ public class Login {
         printingList.add("Design JVM: 8+\n");
         printingList.add("Description: A programmer's swiss army knife\n");
 
-        //todo logged out closing the frame results in no animation?
-
         final int charTimeout = 25;
         final int lineTimeout = 400;
 
@@ -93,7 +91,7 @@ public class Login {
             catch (Exception e) {
                 ErrorHandler.handle(e);
             }
-        },"login printing animation").start();
+        },"Login printing animation").start();
 
         new Thread(() -> {
             try {

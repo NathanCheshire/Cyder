@@ -276,7 +276,7 @@ public class IOUtil {
                 } finally {
                     ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
                 }
-            }, "ioutil audio thread").start();
+            }, "IOUtil audio thread").start();
 
             ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception e) {
