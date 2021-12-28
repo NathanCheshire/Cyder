@@ -352,17 +352,10 @@ public final class ConsoleFrame {
                 inputField.setBorder(null);
             }
 
-            //input field key listeners such as auto-capitalization, escaping, and console rotations
-            inputField.addKeyListener(new KeyListener() {
+            //input field key listeners such as escaping and console rotations
+            inputField.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(java.awt.event.KeyEvent e) {
-                    //capitalization
-                    if (inputField.getPassword().length == consoleBashString.length() + 1) {
-                        inputField.setText(consoleBashString + String.valueOf(
-                                inputField.getPassword()).substring(consoleBashString.length())
-                                .toUpperCase().replace(consoleBashString, ""));
-                    }
-
                     //escaping
                     if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                         try {
@@ -393,23 +386,7 @@ public final class ConsoleFrame {
                 }
 
                 @Override
-                public void keyReleased(java.awt.event.KeyEvent e) {
-                    //capitalization
-                    if (inputField.getPassword().length == consoleBashString.length() + 1) {
-                        inputField.setText(consoleBashString +
-                                String.valueOf(inputField.getPassword())
-                                        .substring(consoleBashString.length()).toUpperCase().replace(consoleBashString, ""));
-                    }
-                }
-
-                @Override
                 public void keyTyped(java.awt.event.KeyEvent e) {
-                    //capitalization
-                    if (inputField.getPassword().length == consoleBashString.length() + 1) {
-                        inputField.setText(consoleBashString + String.valueOf(
-                                inputField.getPassword())
-                                .substring(consoleBashString.length()).toUpperCase().replace(consoleBashString, ""));
-                    }
                     //bashstring checker
                     if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
                         if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
