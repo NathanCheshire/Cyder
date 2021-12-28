@@ -57,23 +57,29 @@ public class Login {
 
         //todo logged out closing the frame results in no animation?
 
-        //todo printing works fine if there's a user? what's that about
-
-        final int charTimeout = 40;
-        final int lineTimeout = 500;
-
-        //todo use sem to add to list and remove too
+        final int charTimeout = 25;
+        final int lineTimeout = 400;
 
         new Thread(() -> {
             StringUtil su = new StringUtil(refArea);
 
             try {
                 while (doLoginAnimations && loginFrame != null)  {
-                    if (printingList.size() > 0) {
+                    if (priorityPrintingList.size() > 0) {
+                        printingSem.acquire();
+
+                        String line = priorityPrintingList.removeFirst();
+
+                        for (char c : line.toCharArray()) {
+                            su.print(String.valueOf(c));
+                            Thread.sleep(charTimeout);
+                        }
+
+                        printingSem.release();
+                    } else if (printingList.size() > 0) {
                         printingSem.acquire();
 
                         String line = printingList.removeFirst();
-                        System.out.println(line);
 
                         for (char c : line.toCharArray()) {
                             su.print(String.valueOf(c));
@@ -220,11 +226,11 @@ public class Login {
                                     loginMode = 0;
                                 } else if (Arrays.equals(input,"login".toCharArray())) {
                                     loginField.setText(bashString);
-                                    printingList.addFirst("Awaiting Username\n");
+                                    priorityPrintingList.add("Awaiting Username\n");
                                     loginMode = 1;
                                 } else if (Arrays.equals(input,"login admin".toCharArray())) {
                                     loginField.setText(bashString);
-                                    printingList.addFirst("Feature not yet implemented\n");
+                                    priorityPrintingList.add("Feature not yet implemented\n");
                                     loginMode = 0;
                                 } else if (Arrays.equals(input,"quit".toCharArray())) {
                                     loginFrame.dispose();
@@ -233,10 +239,10 @@ public class Login {
 
                                 } else if (Arrays.equals(input,"h".toCharArray())) {
                                     loginField.setText(bashString);
-                                    printingList.addFirst("Valid commands: create, login, login admin, quit, h\n");
+                                    priorityPrintingList.add("Valid commands: create, login, login admin, quit, h\n");
                                 } else {
                                     loginField.setText(bashString);
-                                    printingList.addFirst("Unknown command; See \"h\" for help\n");
+                                    priorityPrintingList.add("Unknown command; See \"h\" for help\n");
                                 }
                             } catch (Exception e) {
                                 ErrorHandler.handle(e);
@@ -248,19 +254,19 @@ public class Login {
                             loginMode = 2;
                             loginField.setEchoChar(CyderStrings.ECHO_CHAR);
                             loginField.setText("");
-                            printingList.addFirst("Awaiting Password (hold shift to reveal password)\n");
+                            priorityPrintingList.add("Awaiting Password (hold shift to reveal password)\n");
 
                             break;
                         case 2:
                             loginField.setEchoChar((char)0);
                             loginField.setText("");
-                            printingList.addFirst("Attempting validation\n");
+                            priorityPrintingList.add("Attempting validation\n");
                             if (recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA256(input)))) {
                                 doLoginAnimations = false;
                             } else {
                                 loginField.setText(bashString);
                                 loginField.setCaretPosition(loginField.getPassword().length);
-                                printingList.addFirst("Login failed\n");
+                                priorityPrintingList.add("Login failed\n");
 
                                 if (input != null)
                                     for (char c: input)
@@ -310,7 +316,6 @@ public class Login {
         loginFrame.setLocationRelativeTo(GenesisShare.getDominantFrame() == loginFrame ? null : GenesisShare.getDominantFrame());
         CyderSplash.getSplashFrame().dispose(true);
 
-        //todo we're here twice? maybe bug is from that
         LinkedList<File> userJsons = new LinkedList<>();
 
         for (File user : new File("dynamic/users").listFiles()) {
@@ -323,7 +328,7 @@ public class Login {
         }
 
         if (userJsons.size() == 0)
-            printingList.addFirst("No users found; please type \"create\"\n");
+            priorityPrintingList.add("No users found; please type \"create\"\n");
 
         loginTypingAnimation(loginArea);
 

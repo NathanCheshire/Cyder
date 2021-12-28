@@ -1038,6 +1038,7 @@ public final class ConsoleFrame {
 
             String logString = "Console loaded in " + (GenesisShare.getConsoleStartTime() - GenesisShare.getAbsoluteStartTime()) + "ms";
             SessionHandler.log(SessionHandler.Tag.ACTION, logString);
+            inputHandler.println(logString);
 
             //position window from last location if in bounds
             int x = Integer.parseInt(UserUtil.getUserData("windowlocx"));

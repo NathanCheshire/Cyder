@@ -49,16 +49,16 @@ public class Cyder {
         //IOUtil necessary subroutines to complete with success before continuing
         IOUtil.fixUsers();
         IOUtil.fixLogs();
+        IOUtil.cleanUsers();
 
-        //IOUtil secondary subroutines
+        //IOUtil secondary subroutines that can be executed when program has started essentially
         new Thread(() -> {
             IOUtil.logArgs(CA);
             IOUtil.cleanSandbox();
-            IOUtil.cleanUsers();
             IOUtil.deleteTempDir();
         },"Cyder Start Secondary Subroutines").start();
 
-        //start exiting failsafe
+        //start GUI exiting failsafe
         CyderSetup.initFrameChecker();
 
         //launch splash screen
@@ -73,14 +73,12 @@ public class Cyder {
                 if (!ret) {
                     SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
                     Login.showGUI();
-                } else {} //AutoCypher spun off console frame, no further action necessary
-            } else {
-                Login.showGUI();
+                }
+                else {} //AutoCypher spun off console frame, no further action necessary
             }
-        } else if (IOUtil.getSystemData().isReleased()) {
-            Login.showGUI();
-        } else {
-            GenesisShare.exit(-600);
+            else Login.showGUI();
         }
+        else if (IOUtil.getSystemData().isReleased()) Login.showGUI();
+        else GenesisShare.exit(-600);
     }
 }
