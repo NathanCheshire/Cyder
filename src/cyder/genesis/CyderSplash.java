@@ -118,33 +118,35 @@ public class CyderSplash {
                         }
 
                         Font nathanFont = new Font("Agency FB", Font.BOLD, 50);
-                        CyderLabel nathanLabel = new CyderLabel("By Nathan Cheshire");
-                        nathanLabel.setFont(nathanFont);
-                        nathanLabel.setForeground(CyderColors.vanila);
-                        nathanLabel.setBounds(0, 600, 600, CyderFrame.getMinHeight("By Nathan Cheshire",nathanFont));
-                        splashFrame.getContentPane().add(nathanLabel);
+                        CyderLabel loadingLabel = new CyderLabel("By Nathan Cheshire");
+                        loadingLabel.setFont(nathanFont);
+                        loadingLabel.setForeground(CyderColors.vanila);
+                        loadingLabel.setBounds(0, 600, 600, CyderFrame.getMinHeight("By Nathan Cheshire",nathanFont));
+                        splashFrame.getContentPane().add(loadingLabel);
 
-                        while (nathanLabel.getY() > 600 / 2 + 150 / 2 + nathanLabel.getHeight() + 30) {
-                            nathanLabel.setLocation(nathanLabel.getX(), nathanLabel.getY() - 5);
+                        while (loadingLabel.getY() > 600 / 2 + 150 / 2 + loadingLabel.getHeight() + 30) {
+                            loadingLabel.setLocation(loadingLabel.getX(), loadingLabel.getY() - 5);
                             Thread.sleep(5);
                         }
 
                         Thread.sleep(500);
 
-                        //todo more logic for generic message that can be updated
+                        String message = CyderSplash.loadingMessage;
+                        int dotTimeout = 200;
+
                         for (int i = 0 ; i < 30 ; i++) {
-                            nathanLabel.setText("Loading components");
-                            nathanLabel.repaint();
-                            Thread.sleep(400);
-                            nathanLabel.setText("Loading components.");
-                            nathanLabel.repaint();
-                            Thread.sleep(400);
-                            nathanLabel.setText("Loading components..");
-                            nathanLabel.repaint();
-                            Thread.sleep(400);
-                            nathanLabel.setText("Loading components...");
-                            Thread.sleep(400);
-                            nathanLabel.repaint();
+                            loadingLabel.setText(message);
+                            loadingLabel.repaint();
+                            Thread.sleep(dotTimeout);
+                            loadingLabel.setText(message + ".");
+                            loadingLabel.repaint();
+                            Thread.sleep(dotTimeout);
+                            loadingLabel.setText(message + "..");
+                            loadingLabel.repaint();
+                            Thread.sleep(dotTimeout);
+                            loadingLabel.setText(message + "...");
+                            Thread.sleep(dotTimeout);
+                            loadingLabel.repaint();
 
                             if (splashFrame.isDispoed())
                                 return;
@@ -172,5 +174,12 @@ public class CyderSplash {
 
     public static CyderFrame getSplashFrame() {
         return splashFrame;
+    }
+
+    private static String loadingMessage = "Loading Components";
+
+    public static void setLoadingMessage(String loadingMessage) {
+        if (loadingMessage.trim().length() > 0)
+            CyderSplash.loadingMessage = loadingMessage.trim();
     }
 }
