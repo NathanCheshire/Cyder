@@ -1,0 +1,67 @@
+[21-29-14] [ENTRY]: [Nathan]
+[21-29-14] [SYSTEM_IO]: System data pared and returned
+[21-29-15] [SYSTEM_IO]: System data pared and returned
+[21-29-15] [SYSTEM_IO]: System data pared and returned
+[21-29-15] [SYSTEM_IO]: System data pared and returned
+[21-29-15] [SYSTEM_IO]: System data pared and returned
+[21-29-15] [SYSTEM_IO]: System data pared and returned
+[21-29-15] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-29-15] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-29-15] [SYSTEM_IO]: System data pared and returned
+[21-29-16] [SYSTEM_IO]: System data pared and returned
+[21-29-16] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-29-16] [SYSTEM_IO]: Userdata requested: Name
+[21-29-16] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-29-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-29-17] [SYSTEM_IO]: System data pared and returned
+[21-29-17] [SYSTEM_IO]: Userdata requested: Name
+[21-29-17] [SYSTEM_IO]: System data pared and returned
+[21-29-17] [SYSTEM_IO]: Userdata requested: Foreground
+[21-29-17] [SYSTEM_IO]: Userdata requested: Foreground
+[21-29-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-29-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-29-17] [SYSTEM_IO]: Userdata requested: Foreground
+[21-29-17] [SYSTEM_IO]: Userdata requested: Font
+[21-29-17] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-29-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-29-17] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-29-17] [SYSTEM_IO]: Userdata requested: Foreground
+[21-29-17] [SYSTEM_IO]: Userdata requested: Foreground
+[21-29-17] [SYSTEM_IO]: Userdata requested: Foreground
+[21-29-17] [SYSTEM_IO]: Userdata requested: Font
+[21-29-17] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-29-17] [SYSTEM_IO]: Userdata requested: InputFill
+[21-29-17] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-29-17] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-29-17] [ACTION]: CyderFrame disposed with fast close: true, frame: Name: Cyder Splash[LEFT],(980,378,600x600)
+[21-29-17] [ACTION]: Console loaded in 3847ms
+[21-29-17] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-29-17] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-29-17] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-29-17] [SYSTEM_IO]: System data pared and returned
+[21-29-17] [ENTRY]: [TESTING MODE]
+[21-29-17] [SYSTEM_IO]: Userdata requested: laststart
+[21-29-17] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-29-17] [SYSTEM_IO]: System data pared and returned
+[21-29-18] [CONSOLE_OUT]: [STRING] Console loaded in 3847ms
+[21-29-22] [CLIENT]: Clock
+[21-29-26] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=579544882, text=[No Seconds] parentFrame=[Clock]
+[21-29-27] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=579544882, text=[Seconds] parentFrame=[Clock]
+[21-29-29] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=388776870, text=[No Labels] parentFrame=[Clock]
+[21-29-31] [ACTION]: CyderButton CLICKED, toString(): CyderButton object, hash=388776870, text=[Labels] parentFrame=[Clock]
+[21-29-36] [ACTION]: CyderFrame disposed with fast close: false, frame: Name: Clock[LEFT],(894,275,800x900)
+[21-29-36] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-29-38] [ACTION]: CyderFrame disposed with fast close: false, frame: Name: Time: (GMT-5)[CENTER],(994,650,600x150)
+[21-29-38] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-29-39] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-29-39] [SYSTEM_IO]: Userdata requested: Name
+[21-29-39] [LOGOUT]: [Nathan]
+[21-29-39] [ACTION]: CyderFrame disposed with fast close: false, frame: Name: Stellar Cyder [Nathan][CENTER],(802,233,984x984)
+[21-29-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-29-39] [SYSTEM_IO]: Userdata requested: Background
+[21-29-40] [SYSTEM_IO]: System data pared and returned
+[21-29-40] [EXIT]: [RUNTIME] 25s
+[21-29-40] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
+[21-29-40] [SYSTEM_IO]: System data pared and returned
+[21-29-40] [EXIT]: [RUNTIME] 26s
+[21-29-40] [EOL]: Log completed, exiting program with code: 120 [Final Frame Disposed], exceptions thrown: 0

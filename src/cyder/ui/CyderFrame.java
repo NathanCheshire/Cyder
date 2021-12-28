@@ -1001,6 +1001,8 @@ public class CyderFrame extends JFrame {
      * @param fastClose boolean describing whether or not fast close should be invoked
      */
     public void dispose(boolean fastClose) {
+        SessionHandler.log(SessionHandler.Tag.ACTION, "CyderFrame disposed with fastclose: " + fastClose + ", CyderFrame: " + this);
+
         new Thread(() -> {
             try {
                 if (this == null)

@@ -132,7 +132,7 @@ public class CyderSplash {
                         Thread.sleep(500);
 
                         String message = CyderSplash.loadingMessage;
-                        int dotTimeout = 200;
+                        int dotTimeout = 400;
 
                         for (int i = 0 ; i < 30 ; i++) {
                             loadingLabel.setText(message);
