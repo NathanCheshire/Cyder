@@ -1,0 +1,50 @@
+[21-19-18] [ENTRY]: [Nathan]
+[21-19-18] [SYSTEM_IO]: System data pared and returned
+[21-19-19] [SYSTEM_IO]: System data pared and returned
+[21-19-19] [SYSTEM_IO]: System data pared and returned
+[21-19-19] [SYSTEM_IO]: System data pared and returned
+[21-19-19] [SYSTEM_IO]: System data pared and returned
+[21-19-19] [SYSTEM_IO]: System data pared and returned
+[21-19-19] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-19-19] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-19-19] [SYSTEM_IO]: System data pared and returned
+[21-19-20] [SYSTEM_IO]: System data pared and returned
+[21-19-20] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-19-20] [SYSTEM_IO]: Userdata requested: Name
+[21-19-20] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-19-20] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-19-21] [SYSTEM_IO]: System data pared and returned
+[21-19-21] [SYSTEM_IO]: Userdata requested: Name
+[21-19-21] [SYSTEM_IO]: System data pared and returned
+[21-19-21] [SYSTEM_IO]: Userdata requested: Foreground
+[21-19-21] [SYSTEM_IO]: Userdata requested: Foreground
+[21-19-21] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-19-21] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-19-21] [SYSTEM_IO]: Userdata requested: Foreground
+[21-19-21] [SYSTEM_IO]: Userdata requested: Font
+[21-19-21] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-19-21] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-19-21] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-19-21] [SYSTEM_IO]: Userdata requested: Foreground
+[21-19-21] [SYSTEM_IO]: Userdata requested: Foreground
+[21-19-21] [SYSTEM_IO]: Userdata requested: Foreground
+[21-19-21] [SYSTEM_IO]: Userdata requested: Font
+[21-19-21] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-19-21] [SYSTEM_IO]: Userdata requested: InputFill
+[21-19-21] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-19-21] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-19-21] [ACTION]: Console loaded in 3635ms
+[21-19-21] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-19-21] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-19-21] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-19-21] [SYSTEM_IO]: System data pared and returned
+[21-19-21] [ENTRY]: [TESTING MODE]
+[21-19-21] [SYSTEM_IO]: Userdata requested: laststart
+[21-19-21] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-19-21] [SYSTEM_IO]: System data pared and returned
+[21-19-21] [CONSOLE_OUT]: [STRING] Console loaded in 3635ms
+[21-19-40] [CLIENT]: Quit
+[21-19-40] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-19-40] [SYSTEM_IO]: System data pared and returned
+[21-19-40] [EXIT]: [RUNTIME] 22s
+[EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

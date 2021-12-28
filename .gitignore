@@ -4,4 +4,3 @@ out/
 *.git
 .gradle/*
 build/
-logs/

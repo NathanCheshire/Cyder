@@ -1,0 +1,74 @@
+[21-11-01] [ENTRY]: [Nathan]
+[21-11-01] [SYSTEM_IO]: System data pared and returned
+[21-11-02] [SYSTEM_IO]: System data pared and returned
+[21-11-02] [SYSTEM_IO]: System data pared and returned
+[21-11-03] [SYSTEM_IO]: System data pared and returned
+[21-11-03] [SYSTEM_IO]: System data pared and returned
+[21-11-03] [SYSTEM_IO]: System data pared and returned
+[21-11-03] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-11-03] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-11-03] [SYSTEM_IO]: System data pared and returned
+[21-11-03] [SYSTEM_IO]: System data pared and returned
+[21-11-03] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-11-04] [SYSTEM_IO]: Userdata requested: Name
+[21-11-04] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-11-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-11-04] [SYSTEM_IO]: System data pared and returned
+[21-11-04] [SYSTEM_IO]: Userdata requested: Name
+[21-11-04] [SYSTEM_IO]: System data pared and returned
+[21-11-04] [SYSTEM_IO]: Userdata requested: Foreground
+[21-11-04] [SYSTEM_IO]: Userdata requested: Foreground
+[21-11-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-11-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-11-05] [SYSTEM_IO]: Userdata requested: Foreground
+[21-11-05] [SYSTEM_IO]: Userdata requested: Font
+[21-11-05] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-11-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-11-05] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-11-05] [SYSTEM_IO]: Userdata requested: Foreground
+[21-11-05] [SYSTEM_IO]: Userdata requested: Foreground
+[21-11-05] [SYSTEM_IO]: Userdata requested: Foreground
+[21-11-05] [SYSTEM_IO]: Userdata requested: Font
+[21-11-05] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-11-05] [SYSTEM_IO]: Userdata requested: InputFill
+[21-11-05] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-11-05] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-11-05] [ACTION]: Console loaded in 3889ms
+[21-11-05] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-11-05] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-11-05] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-11-05] [SYSTEM_IO]: System data pared and returned
+[21-11-05] [ENTRY]: [TESTING MODE]
+[21-11-05] [SYSTEM_IO]: Userdata requested: laststart
+[21-11-05] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-11-05] [SYSTEM_IO]: System data pared and returned
+[21-11-05] [CONSOLE_OUT]: [STRING] Console loaded in 3889ms
+[21-11-28] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: typinganimation
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:449)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:449)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:427)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$9(InputHandler.java:1585)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21-11-51] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: typinganimation
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:449)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:449)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:427)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$9(InputHandler.java:1585)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
