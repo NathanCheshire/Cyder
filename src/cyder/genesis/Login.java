@@ -300,9 +300,6 @@ public class Login {
             }
         });
 
-        File Users = new File("dynamic/users/");
-        String[] directories = Users.list((current, name) -> new File(current, name).isDirectory());
-
         loginFrame.addPreCloseAction(() -> {
             if (ConsoleFrame.getConsoleFrame().isClosed()) {
                 UserCreator.close();
@@ -313,7 +310,19 @@ public class Login {
         loginFrame.setLocationRelativeTo(GenesisShare.getDominantFrame() == loginFrame ? null : GenesisShare.getDominantFrame());
         CyderSplash.getSplashFrame().dispose(true);
 
-        if (directories != null && directories.length == 0)
+        //todo we're here twice? maybe bug is from that
+        LinkedList<File> userJsons = new LinkedList<>();
+
+        for (File user : new File("dynamic/users").listFiles()) {
+            if (user.isDirectory()) {
+                File json = new File(user.getAbsolutePath() + "/userdata.json");
+
+                if (json.exists())
+                    userJsons.add(json);
+            }
+        }
+
+        if (userJsons.size() == 0)
             printingList.addFirst("No users found; please type \"create\"\n");
 
         loginTypingAnimation(loginArea);
@@ -395,7 +404,6 @@ public class Login {
             } else if (autoCypherAttempt) {
                 autoCypherAttempt = false;
                 SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
-                Login.showGUI();
             }
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);

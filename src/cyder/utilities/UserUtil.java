@@ -893,6 +893,7 @@ public class UserUtil {
             //delete the folder we just zipped since it's a duplicate
             SystemUtil.deleteFolder(mainZipFile);
 
+            //all frames should be gone so show login
             Login.showGUI();
         } catch (Exception e) {
             ErrorHandler.silentHandle(e);
