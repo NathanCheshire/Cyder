@@ -18,6 +18,9 @@ public class SystemUtil {
 
     private static ImageIcon cyderIcon = new ImageIcon("static/pictures/CyderIcon.png");
     private static ImageIcon cyderIconBlink = new ImageIcon("static/pictures/CyderIconBlink.png");
+
+    public static final ImageIcon xxxIcon = new ImageIcon("static/pictures/print/x.png");
+
     private ImageIcon scaledCyderIcon = new ImageIcon(new ImageIcon("static/pictures/CyderIcon.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
     private ImageIcon scaledCyderIconBlink = new ImageIcon(new ImageIcon("static/pictures/CyderIconBlink.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
 

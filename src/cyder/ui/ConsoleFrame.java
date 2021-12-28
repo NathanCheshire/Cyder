@@ -1198,12 +1198,12 @@ public final class ConsoleFrame {
                                 }
                             }
 
-                            if (busyThreads == 0) {
+                            if (busyThreads == 0 && SystemUtil.getCurrentCyderIcon() != SystemUtil.xxxIcon) {
                                 SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIcon());
-                            } else {
-                                SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIconBlink());
+                            } else if (SystemUtil.getCurrentCyderIcon() != SystemUtil.xxxIcon){
+                               SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIconBlink());
                             }
-                        } else {
+                        } else if (SystemUtil.getCurrentCyderIcon() != SystemUtil.xxxIcon) {
                             SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIcon());
                         }
 
