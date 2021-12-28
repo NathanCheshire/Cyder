@@ -515,6 +515,11 @@ public class UserUtil {
                 if (users.length > 0) {
                     for (File userFile : users) {
                         File userJsonFile = new File(userFile.getAbsolutePath() + "/userdata.json");
+
+                        if (!userJsonFile.exists()) {
+                            continue;
+                        }
+
                         String currentUUID = StringUtil.getFilename(userJsonFile.getParentFile().getName());
 
                         //what we'll write to this json file
@@ -591,7 +596,10 @@ public class UserUtil {
 
             //get all valid users
             for (File user : UUIDs) {
-                userDataFiles.add(new File(user.getAbsolutePath() + "/userdata.json"));
+                File json = new File(user.getAbsolutePath() + "/userdata.json");
+
+                if (json.exists())
+                    userDataFiles.add(json);
             }
 
             //loop through all users and extract the name and password fields
@@ -817,8 +825,10 @@ public class UserUtil {
     public static void logoutAllUsers() {
         File usersDir = new File("dynamic/users");
 
-        if (!usersDir.exists())
-            throw new IllegalArgumentException("Users dir does not exist");
+        if (!usersDir.exists()) {
+            usersDir.mkdir();
+            return;
+        }
 
         File[] users = usersDir.listFiles();
 
