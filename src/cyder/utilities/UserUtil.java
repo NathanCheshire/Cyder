@@ -849,6 +849,7 @@ public class UserUtil {
      * zip any user data aside from userdata.json
      */
 
+    //todo log frame disposals and if fast close was passed
     //todo test this
     public static void corruptedUser() {
         try {

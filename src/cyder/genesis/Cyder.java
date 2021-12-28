@@ -3,7 +3,6 @@ package cyder.genesis;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.IOUtil;
-import cyder.utilities.SecurityUtil;
 import cyder.utilities.SystemUtil;
 
 public class Cyder {
@@ -34,6 +33,10 @@ public class Cyder {
             return;
         }
 
+        //launch splash screen
+        CyderSplash.showSplash();
+
+        CyderSplash.setLoadingMessage("Checkinging for exit collisions");
         if (IOUtil.checkForExitCollisions()) {
             SessionHandler.log(SessionHandler.Tag.EXCEPTION, "DUPLICATE EXIT CODES");
             CyderSetup.exceptionExit("You messed up exit codes :/","Exit Codes Exception");
@@ -48,14 +51,20 @@ public class Cyder {
         }
 
         //IOUtil necessary subroutines to complete with success before continuing
+        CyderSplash.setLoadingMessage("Checking system data");
         IOUtil.checkSystemData();
+        CyderSplash.setLoadingMessage("Fixing users");
         IOUtil.fixUsers();
+        CyderSplash.setLoadingMessage("Fixing logs");
         IOUtil.fixLogs();
+        CyderSplash.setLoadingMessage("Cleaning users");
         IOUtil.cleanUsers();
 
         //IOUtil secondary subroutines that can be executed when program has started essentially
         new Thread(() -> {
+            CyderSplash.setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(CA);
+
             IOUtil.cleanSandbox();
             IOUtil.deleteTempDir();
         },"Cyder Start Secondary Subroutines").start();
@@ -63,28 +72,7 @@ public class Cyder {
         //start GUI exiting failsafe
         CyderSetup.initFrameChecker();
 
-        //todo can we use this sooner? CyderSplash.setLoadingMessage("message");
-        //launch splash screen
-        CyderSplash.showSplash();
-
-        //figure out how to enter program
-        if (SecurityUtil.nathanLenovo())  {
-            CyderSplash.setLoadingMessage("Checking for autocypher");
-            CyderSplash.setLoadingMessage("Checking for autocypher");
-            if (IOUtil.getSystemData().isAutocypher()) {
-                SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
-                CyderSplash.setLoadingMessage("Autocyphering");
-                boolean ret = LoginHandler.autoCypher();
-
-                if (!ret) {
-                    SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
-                    LoginHandler.showGUI();
-                }
-                else {} //AutoCypher spun off console frame, no further action necessary
-            }
-            else LoginHandler.showGUI();
-        }
-        else if (IOUtil.getSystemData().isReleased()) LoginHandler.showGUI();
-        else GenesisShare.exit(-600);
+        //offship how to login to the LoginHandler since all subroutines finished
+        LoginHandler.beginLogin();
     }
 }

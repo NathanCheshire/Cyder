@@ -4,8 +4,6 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
-import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
@@ -26,6 +24,9 @@ import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
 public class LoginHandler {
+
+    //Login widget --------------------------------------------------------------------
+
     private static CyderFrame loginFrame;
     private static JPasswordField loginField;
     private static boolean doLoginAnimations;
@@ -330,6 +331,42 @@ public class LoginHandler {
         GenesisShare.resumeFrameChecker();
     }
 
+    public static boolean isClosed() {
+        return closed;
+    }
+
+    public static CyderFrame getLoginFrame() {
+        return loginFrame;
+    }
+
+    //login handling methods ------------------------------------------------------
+
+    /**
+     * Begins the login sequence to figure out how to enter Cyder. Autocyphers all the autocyphers if enabled
+     * and autocyphers exist. Otherwise if the program is released show the login widget. Any failures will lead
+     * to the login widget showing up no matter what and the program will only exit
+     */
+    public static void beginLogin() {
+        //figure out how to enter program
+        if (SecurityUtil.nathanLenovo()) {
+            CyderSplash.setLoadingMessage("Checking for autocypher");
+
+            if (IOUtil.getSystemData().isAutocypher()) {
+                SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
+                CyderSplash.setLoadingMessage("Autocyphering");
+                boolean ret = LoginHandler.autoCypher();
+
+                if (!ret) {
+                    SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
+                    LoginHandler.showGUI();
+                }
+            } else LoginHandler.showGUI();
+        } else if (IOUtil.getSystemData().isReleased()) {
+            SessionHandler.log(SessionHandler.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
+            LoginHandler.showGUI();
+        } else GenesisShare.exit(-600);
+    }
+
     /**
      * Attempts to log in a user based on the inputed name and already hashed password
      * @param name the provided user account name
@@ -436,13 +473,5 @@ public class LoginHandler {
         } finally {
             return ret;
         }
-    }
-
-    public static boolean isClosed() {
-        return closed;
-    }
-
-    public static CyderFrame getLoginFrame() {
-        return loginFrame;
     }
 }
