@@ -37,7 +37,7 @@ public class CyderSplash {
                         while (cBlock.getX() < 600 / 2 - cBlock.getWidth() / 2) {
                             cBlock.setLocation(cBlock.getX() + 5, cBlock.getY());
                             yBlock.setLocation(yBlock.getX() - 5, yBlock.getY());
-                            Thread.sleep(15);
+                            Thread.sleep(8);
                         }
 
                         int longSide = 200;
@@ -56,7 +56,7 @@ public class CyderSplash {
 
                         while (topBorder.getY() < 600 / 2 - (longSide - sub) / 2 - 20) {
                             topBorder.setLocation(topBorder.getX(), topBorder.getY() + 5);
-                            Thread.sleep(delay);
+                            Thread.sleep(5);
                         }
 
                         JLabel rightBorder = new JLabel() {
@@ -114,7 +114,7 @@ public class CyderSplash {
 
                         while (cyderLabel.getY() < 600 / 2 - 150 / 2 - cyderLabel.getHeight() - 30) {
                             cyderLabel.setLocation(cyderLabel.getX(), cyderLabel.getY() + 5);
-                            Thread.sleep(10);
+                            Thread.sleep(5);
                         }
 
                         Font nathanFont = new Font("Agency FB", Font.BOLD, 50);
@@ -126,11 +126,12 @@ public class CyderSplash {
 
                         while (nathanLabel.getY() > 600 / 2 + 150 / 2 + nathanLabel.getHeight() + 30) {
                             nathanLabel.setLocation(nathanLabel.getX(), nathanLabel.getY() - 5);
-                            Thread.sleep(10);
+                            Thread.sleep(5);
                         }
 
                         Thread.sleep(500);
 
+                        //todo more logic for generic message that can be updated
                         for (int i = 0 ; i < 30 ; i++) {
                             nathanLabel.setText("Loading components");
                             nathanLabel.repaint();
