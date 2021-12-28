@@ -1,10 +1,11 @@
-package cyder.genesis;
+package cyder.userobj;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
+import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;

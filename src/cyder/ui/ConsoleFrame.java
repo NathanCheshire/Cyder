@@ -14,6 +14,8 @@ import cyder.handlers.internal.InputHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.testing.DebugConsole;
+import cyder.userobj.User;
+import cyder.userobj.UserEditor;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
 

@@ -1,8 +1,10 @@
-package cyder.genesis;
+package cyder.userobj;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.genesis.GenesisShare;
+import cyder.genesis.Login;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.internal.PopupHandler;

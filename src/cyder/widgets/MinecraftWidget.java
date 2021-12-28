@@ -4,7 +4,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.genesis.User;
+import cyder.userobj.User;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;

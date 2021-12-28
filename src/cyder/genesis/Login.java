@@ -8,6 +8,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
+import cyder.userobj.UserCreator;
 import cyder.utilities.*;
 import cyder.utilities.IOUtil.SystemData;
 

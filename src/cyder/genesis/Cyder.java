@@ -62,13 +62,17 @@ public class Cyder {
         //start GUI exiting failsafe
         CyderSetup.initFrameChecker();
 
+        //todo can we use this sooner? CyderSplash.setLoadingMessage("message");
         //launch splash screen
         CyderSplash.showSplash();
 
         //figure out how to enter program
         if (SecurityUtil.nathanLenovo())  {
+            CyderSplash.setLoadingMessage("Checking for autocypher");
+            CyderSplash.setLoadingMessage("Checking for autocypher");
             if (IOUtil.getSystemData().isAutocypher()) {
                 SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
+                CyderSplash.setLoadingMessage("Autocyphering");
                 boolean ret = Login.autoCypher();
 
                 if (!ret) {
