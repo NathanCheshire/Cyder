@@ -45,15 +45,12 @@ public class Login {
 
         printingList.clear();
         printingList.add("Cyder version: " + IOUtil.getSystemData().getReleasedate() + "\n");
-        printingList.add("Type \"h\" for a list of valid commands\n");
+        printingList.add("Type \"help\" for a list of valid commands\n");
         printingList.add("Build: " + IOUtil.getSystemData().getVersion() +"\n");
         printingList.add("Author: Nathan Cheshire\n");
         printingList.add("Design OS: Windows 10+\n");
         printingList.add("Design JVM: 8+\n");
         printingList.add("Description: A programmer's swiss army knife\n");
-
-        //todo even with a sem some of these are skipped for some reason, this only happens if console frame isn't open too
-        // (we aren't logged in)
 
         //todo logged out closing the frame results in no animation?
 
@@ -228,21 +225,17 @@ public class Login {
                                     loginField.setText(bashString);
                                     priorityPrintingList.add("Awaiting Username\n");
                                     loginMode = 1;
-                                } else if (Arrays.equals(input,"login admin".toCharArray())) {
-                                    loginField.setText(bashString);
-                                    priorityPrintingList.add("Feature not yet implemented\n");
-                                    loginMode = 0;
                                 } else if (Arrays.equals(input,"quit".toCharArray())) {
                                     loginFrame.dispose();
                                     if (ConsoleFrame.getConsoleFrame().isClosed())
                                         GenesisShare.exit(25);
 
-                                } else if (Arrays.equals(input,"h".toCharArray())) {
+                                } else if (Arrays.equals(input,"h".toCharArray()) || Arrays.equals(input,"help".toCharArray())) {
                                     loginField.setText(bashString);
-                                    priorityPrintingList.add("Valid commands: create, login, login admin, quit, h\n");
+                                    priorityPrintingList.add("Valid commands: create, login, quit, help\n");
                                 } else {
                                     loginField.setText(bashString);
-                                    priorityPrintingList.add("Unknown command; See \"h\" for help\n");
+                                    priorityPrintingList.add("Unknown command; See \"help\" for help\n");
                                 }
                             } catch (Exception e) {
                                 ErrorHandler.handle(e);
