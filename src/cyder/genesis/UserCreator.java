@@ -225,8 +225,12 @@ public class UserCreator {
                     boolean userNameExists = false;
 
                     for (File f : folder.getParentFile().listFiles()) {
-                        String currentName = UserUtil.extractUserData(new File(
-                                f.getAbsolutePath() + "/userdata.json"), "name");
+                        File jsonFile = new File(f.getAbsolutePath() + "/userdata.json");
+
+                        if (!jsonFile.exists())
+                            continue;
+
+                        String currentName = UserUtil.extractUserData(f, "name");
 
                         if (currentName.equalsIgnoreCase(newUserName.getText())) {
                             userNameExists = true;
@@ -298,7 +302,7 @@ public class UserCreator {
                             //as per convention, IGNORE for tooltip means ignore when creating user
                             // whilst IGNORE for default value means ignore for edit user
                             if (!pref.getTooltip().equals("IGNORE"))
-                                UserUtil.setUserData(user, pref.getID(), (String) pref.getDefaultValue());
+                                UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
                         }
 
                         user.setExecutables(null);
