@@ -1,0 +1,111 @@
+[22-53-11] [ENTRY]: [Nathan]
+[22-53-11] [SYSTEM_IO]: System data pared and returned
+[22-53-11] [SYSTEM_IO]: System data pared and returned
+[22-53-11] [SYSTEM_IO]: System data pared and returned
+[22-53-12] [SYSTEM_IO]: System data pared and returned
+[22-53-12] [SYSTEM_IO]: System data pared and returned
+[22-53-12] [SYSTEM_IO]: System data pared and returned
+[22-53-12] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-53-12] [SYSTEM_IO]: System data pared and returned
+[22-53-12] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-53-12] [SYSTEM_IO]: System data pared and returned
+[22-53-13] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-53-13] [SYSTEM_IO]: Userdata requested: Name
+[22-53-13] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-53-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-53-14] [SYSTEM_IO]: System data pared and returned
+[22-53-14] [SYSTEM_IO]: Userdata requested: Name
+[22-53-14] [SYSTEM_IO]: System data pared and returned
+[22-53-14] [SYSTEM_IO]: Userdata requested: Foreground
+[22-53-14] [SYSTEM_IO]: Userdata requested: Foreground
+[22-53-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-53-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-53-14] [SYSTEM_IO]: Userdata requested: Foreground
+[22-53-14] [SYSTEM_IO]: Userdata requested: Font
+[22-53-14] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-53-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-53-14] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-53-14] [SYSTEM_IO]: Userdata requested: Foreground
+[22-53-14] [SYSTEM_IO]: Userdata requested: Foreground
+[22-53-14] [SYSTEM_IO]: Userdata requested: Foreground
+[22-53-14] [SYSTEM_IO]: Userdata requested: Font
+[22-53-14] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-53-14] [SYSTEM_IO]: Userdata requested: InputFill
+[22-53-14] [SYSTEM_IO]: Userdata requested: consolepinned
+[22-53-14] [SYSTEM_IO]: Userdata requested: consolepinned
+[22-53-14] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash[LEFT],(980,378,600x600)
+[22-53-14] [ACTION]: Console loaded in 3729ms
+[22-53-14] [SYSTEM_IO]: Userdata requested: windowlocx
+[22-53-14] [CONSOLE_OUT]: [STRING] Console loaded in 3729ms
+[22-53-14] [SYSTEM_IO]: Userdata requested: windowlocy
+[22-53-14] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-53-14] [SYSTEM_IO]: System data pared and returned
+[22-53-14] [ENTRY]: [TESTING MODE]
+[22-53-14] [SYSTEM_IO]: Userdata requested: laststart
+[22-53-14] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-53-14] [SYSTEM_IO]: System data pared and returned
+[22-53-24] [CLIENT]: login
+[22-53-24] [SYSTEM_IO]: System data pared and returned
+[22-53-24] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash[LEFT],(980,378,600x600)
+[22-53-24] [SYSTEM_IO]: System data pared and returned
+[22-53-24] [SYSTEM_IO]: System data pared and returned
+[22-53-24] [ACTION]: LOGIN WIDGET
+[22-53-53] [CLIENT_IO]: [LOGIN FRAME] new DecimalFormat("#0.00")new DecimalFormat("#0.00")new DecimalFormat("#0.00")new DecimalFormat("#0.00")
+[22-54-12] [CLIENT_IO]: [LOGIN FRAME] new DecimalFormat("#0.00")
+[22-54-18] [CLIENT_IO]: [LOGIN FRAME] new DecimalFormat("#0.00")
+[22-54-20] [CLIENT_IO]: [LOGIN FRAME] new DecimalFormat("#0.00")
+[22-54-30] [CLIENT_IO]: [LOGIN FRAME] QUIT
+[22-54-32] [CLIENT_IO]: [LOGIN FRAME] quit
+[22-54-32] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Cyder Login [Stellar Build][LEFT],(994,525,600x400)
+[22-54-32] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-55-59] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: typinganimation
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:446)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:446)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:424)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$10(InputHandler.java:1598)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[22-57-00] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: typinganimation
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:446)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:446)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:424)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$10(InputHandler.java:1598)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-00-17] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: typinganimation
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:446)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:446)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:424)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$10(InputHandler.java:1598)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-01-17] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-01-17] [SYSTEM_IO]: Userdata requested: Name
+[23-01-17] [LOGOUT]: [Nathan]
+[23-01-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan][CENTER],(802,233,984x984)
+[23-01-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-01-17] [SYSTEM_IO]: Userdata requested: Background
+[23-01-17] [SYSTEM_IO]: System data pared and returned
+[23-01-17] [EXIT]: [RUNTIME] 8m 6s
+[23-01-17] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 3

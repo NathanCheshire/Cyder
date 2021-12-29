@@ -220,20 +220,22 @@ public class LoginHandler {
                     switch (loginMode) {
                         case 0:
                             try {
-                                if (Arrays.equals(input,"create".toCharArray())) {
+                                char[] lowerCased = String.valueOf(input).toLowerCase().toCharArray();
+
+                                if (Arrays.equals(lowerCased,"create".toCharArray())) {
                                     UserCreator.showGUI();
                                     loginField.setText(bashString);
                                     loginMode = 0;
-                                } else if (Arrays.equals(input,"login".toCharArray())) {
+                                } else if (Arrays.equals(lowerCased,"login".toCharArray())) {
                                     loginField.setText(bashString);
                                     priorityPrintingList.add("Awaiting Username\n");
                                     loginMode = 1;
-                                } else if (Arrays.equals(input,"quit".toCharArray())) {
+                                } else if (Arrays.equals(lowerCased,"quit".toCharArray())) {
                                     loginFrame.dispose();
                                     if (ConsoleFrame.getConsoleFrame().isClosed())
                                         GenesisShare.exit(25);
 
-                                } else if (Arrays.equals(input,"h".toCharArray()) || Arrays.equals(input,"help".toCharArray())) {
+                                } else if (Arrays.equals(lowerCased,"h".toCharArray()) || Arrays.equals(lowerCased,"help".toCharArray())) {
                                     loginField.setText(bashString);
                                     priorityPrintingList.add("Valid commands: create, login, quit, help\n");
                                 } else {

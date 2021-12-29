@@ -1532,7 +1532,18 @@ public class InputHandler {
 
         new Thread(() -> {
             try {
+                boolean typingAnimationLocal = UserUtil.getUserData("typinganimation").equals("1");
+                long lastPull = System.currentTimeMillis();
+                long dataPullTimeout = 3000;
+
                 while (!ConsoleFrame.getConsoleFrame().isClosed()) {
+                    //update typingAnimationLocal every 3 seconds to reduce resource usage
+                    if (System.currentTimeMillis() - lastPull > dataPullTimeout) {
+                        lastPull = System.currentTimeMillis();
+                        typingAnimationLocal = UserUtil.getUserData("typinganimation").equals("1");
+                        System.out.println("repulled");
+                    }
+
                     if (consolePriorityPrintingList.size() > 0) {
                         Object line = consolePriorityPrintingList.removeFirst();
                         SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
@@ -1553,14 +1564,14 @@ public class InputHandler {
                         }
                     }
                     //regular will perform a typing animation on strings if no method
-                    // is currently running, such as RY or Bletchy, that would cause
+                    // is currently running, such as random youtube or bletchy, that would cause
                     // concurrency issues
                     else if (consolePrintingList.size() > 0) {
                         Object line = consolePrintingList.removeFirst();
                         SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
 
                         if (line instanceof String) {
-                            if (UserUtil.getUserData("typinganimation").equals("1")) {
+                            if (typingAnimationLocal) {
                                 if (finishPrinting) {
                                     StyledDocument document = (StyledDocument) outputArea.getDocument();
                                     document.insertString(document.getLength(), (String) line, null);
@@ -1595,7 +1606,7 @@ public class InputHandler {
                         finishPrinting = false;
                     }
 
-                    if (!finishPrinting && UserUtil.getUserData("typinganimation").equals("1"))
+                    if (!finishPrinting && typingAnimationLocal)
                         Thread.sleep(lineTimeout);
                 }
             } catch (Exception e) {

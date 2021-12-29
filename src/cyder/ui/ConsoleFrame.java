@@ -468,10 +468,10 @@ public final class ConsoleFrame {
                             inputField.setCaretPosition(inputField.getPassword().length);
                         }
 
-                        //if it doesn't start with bash string, reset it to it
+                        //if it doesn't start with bash string, reset it to start with it
                         if (!String.valueOf(inputField.getPassword()).startsWith(consoleBashString)) {
-                            inputField.setText(consoleBashString + String.valueOf(inputField.getPassword())
-                                    .replace(consoleBashString, ""));
+                            inputField.setText(consoleBashString +
+                                    String.valueOf(inputField.getPassword()).replace(consoleBashString, "").trim());
                             inputField.setCaretPosition(inputField.getPassword().length);
                         }
 
