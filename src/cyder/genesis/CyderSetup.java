@@ -99,6 +99,6 @@ public class CyderSetup {
 
     public static void exceptionExit(String message, String title) {
         GenesisShare.suspendFrameChecker();
-        PopupHandler.inform(message, title, null, () -> GenesisShare.exit(278));
+        PopupHandler.inform(message, title, null, null, () -> GenesisShare.exit(278));
     }
 }

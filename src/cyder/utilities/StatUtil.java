@@ -302,8 +302,10 @@ public class StatUtil {
                 String line;
 
                 while ((line = lineReader.readLine()) != null)
-                    if (line.trim().toLowerCase().startsWith("//todo"))
-                        ret.append(startDir.getName()).append(": ").append(line.trim().substring(6)).append("\n");
+                    if (line.trim().toLowerCase().startsWith("//todo")) {
+                        ret.append(startDir.getName()).append(": ").append(line.trim().substring(6)).append("\n")
+                                .append("----------------------------------------\n");
+                    }
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
             }

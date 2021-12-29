@@ -264,8 +264,10 @@ public class IOUtil {
             if (json.exists()) {
                 boolean success = UserUtil.updateOldJson(json);
 
-                if (!success)
+                if (!success) {
                     json.delete();
+                    UserUtil.userJsonDeleted(StringUtil.getFilename(user));
+                }
             }
         }
      }

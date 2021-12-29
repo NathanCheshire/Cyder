@@ -1,0 +1,21 @@
+[22-24-35] [ENTRY]: [Nathan]
+[22-24-35] [SYSTEM_IO]: System data pared and returned
+[22-24-36] [SYSTEM_IO]: System data pared and returned
+[22-24-36] [SYSTEM_IO]: System data pared and returned
+[22-24-36] [SYSTEM_IO]: System data pared and returned
+[22-24-36] [SYSTEM_IO]: System data pared and returned
+[22-24-36] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-24-36] [SYSTEM_IO]: System data pared and returned
+[22-24-36] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-24-36] [SYSTEM_IO]: System data pared and returned
+[22-24-36] [LOGIN]: [AUTOCYPHER FAIL]
+[22-24-36] [LOGIN]: [AUTOCYPHER FAIL]
+[22-24-36] [SYSTEM_IO]: System data pared and returned
+[22-24-36] [SYSTEM_IO]: System data pared and returned
+[22-24-36] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash[LEFT],(980,378,600x600)
+[22-24-36] [SYSTEM_IO]: System data pared and returned
+[22-24-36] [SYSTEM_IO]: System data pared and returned
+[22-24-43] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Cyder Login [Stellar Build][LEFT],(980,478,600x400)
+[22-24-43] [SYSTEM_IO]: System data pared and returned
+[22-24-43] [EXIT]: [RUNTIME] 8s
+[22-24-43] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

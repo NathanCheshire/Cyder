@@ -852,7 +852,9 @@ public class InputHandler {
             escapeThreads();
         } else if (hasWord("todo") || hasWord("todos")) {
             println("Total todos: " + StatUtil.totalTodos(new File("src")));
-            println("Todos: " + StatUtil.getTodos(new File("src")));
+            println("Todos:");
+            println("----------------------------------------");
+            println(StatUtil.getTodos(new File("src")));
         } else if ((hasWord("wipe") || hasWord("clear")) && hasWord("logs")) {
             if (SecurityUtil.nathanLenovo()) {
                 File[] logDirs = new File("logs").listFiles();

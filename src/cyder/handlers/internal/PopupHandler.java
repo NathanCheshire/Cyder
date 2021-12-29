@@ -18,10 +18,19 @@ public class PopupHandler {
     }
 
     public static void inform(String text, String title, Component relativeTo) {
-       inform(text, title, relativeTo, null);
+       inform(text, title, relativeTo, null, null);
+    }
+
+    public static void inform(String text, String title, Component relativeTo, CyderFrame.PreCloseAction preCloseAction) {
+        inform(text, title, relativeTo, preCloseAction, null);
     }
 
     public static void inform(String text, String title, Component relativeTo, CyderFrame.PostCloseAction postCloseAction) {
+        inform(text, title, relativeTo, null, postCloseAction);
+    }
+
+    public static void inform(String text, String title, Component relativeTo,
+                              CyderFrame.PreCloseAction preCloseAction, CyderFrame.PostCloseAction postCloseAction) {
         try {
             CyderLabel textLabel = new CyderLabel(text);
             BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(text);
@@ -33,6 +42,9 @@ public class PopupHandler {
             informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(title);
             informFrame.add(textLabel);
+
+            if (preCloseAction != null)
+                informFrame.addPreCloseAction(preCloseAction);
 
             if (postCloseAction != null)
                 informFrame.addPostCloseAction(postCloseAction);

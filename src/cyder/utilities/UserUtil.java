@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.userobj.User;
@@ -841,11 +842,13 @@ public class UserUtil {
 
     //todo attempt to fix bug with bash strings?
 
-    //todo utilize this method in the other places it is needed
     /**
      * After a user's json file was deleted due to it being un-parsable, null, or any othe reason,
      * this method informs the user that a user was corrupted and attempts to tell the user
      * which user it was by listing the files associated with the corrupted user.
+     *
+     * This method should be utilized anywhere a userdata.json is deleted.
+     *
      * @param UUID the uuid of the corrupted user
      */
     public static void userJsonDeleted(String UUID) {
@@ -892,7 +895,7 @@ public class UserUtil {
 
                     informString += sb;
 
-                    //inform
+                    PopupHandler.inform(informString, "Userdata Corruption");
                 }
             }
         } catch (Exception e) {

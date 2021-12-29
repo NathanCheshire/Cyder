@@ -48,3 +48,4 @@
 [21-35-12] [ACTION]: CONSOLE MATH HANDLED
 [21-35-12] [CONSOLE_OUT]: [STRING] 3.4934271057485013E19
 [21-35-14] [CLIENT]: clear
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
