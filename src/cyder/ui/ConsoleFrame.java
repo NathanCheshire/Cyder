@@ -1704,8 +1704,6 @@ public final class ConsoleFrame {
 
                 int backgroundWidth = currentImage.getWidth();
                 int backgroundHeight = currentImage.getHeight();
-                int screenWidth = SystemUtil.getScreenWidth();
-                int screenHeight = SystemUtil.getScreenHeight();
 
                 int imageType = currentImage.getType();
 
@@ -1743,13 +1741,18 @@ public final class ConsoleFrame {
                     }
                 }
 
-                System.out.println("New dimensions: [" + deltaWidth + "," + deltaHeight + "]");
+                //after all this, if something's too big, crop as much as possible
+                if (deltaWidth > maxWidth) {
+                    deltaWidth = maxWidth;
+                    deltaHeight = (int) Math.min(backgroundHeight, maxWidth * (1.0 / widthToHeightRatio));
+                } else if (deltaHeight > maxHeight) {
+                    deltaHeight = maxHeight;
+                    deltaWidth = (int) Math.min(backgroundWidth, maxHeight * (1.0 / heightToWidthRatio));
+                }
 
-                //todo after all this, if something's too big, crop as much as you can from upper left
-
-//                //save the modified image
-//                BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, backgroundWidth, backgroundHeight);
-//                ImageIO.write(saveImage, "png", currentFile);
+                //save the modified image
+                BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, (int) deltaWidth, (int) deltaHeight);
+                ImageIO.write(saveImage, "png", currentFile);
             }
 
             //reinit backgrounds after resizing all backgrounds that needed fixing
