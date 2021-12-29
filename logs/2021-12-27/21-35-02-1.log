@@ -1,0 +1,50 @@
+[21-35-03] [ENTRY]: [Nathan]
+[21-35-03] [SYSTEM_IO]: System data pared and returned
+[21-35-03] [SYSTEM_IO]: System data pared and returned
+[21-35-03] [SYSTEM_IO]: System data pared and returned
+[21-35-04] [SYSTEM_IO]: System data pared and returned
+[21-35-04] [SYSTEM_IO]: System data pared and returned
+[21-35-04] [SYSTEM_IO]: System data pared and returned
+[21-35-04] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-35-04] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-35-04] [SYSTEM_IO]: System data pared and returned
+[21-35-04] [SYSTEM_IO]: System data pared and returned
+[21-35-05] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-35-05] [SYSTEM_IO]: Userdata requested: Name
+[21-35-05] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-35-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-06] [SYSTEM_IO]: System data pared and returned
+[21-35-06] [SYSTEM_IO]: Userdata requested: Name
+[21-35-06] [SYSTEM_IO]: System data pared and returned
+[21-35-06] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-06] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-06] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-06] [SYSTEM_IO]: Userdata requested: Font
+[21-35-06] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-35-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-06] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-35-06] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-06] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-06] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-06] [SYSTEM_IO]: Userdata requested: Font
+[21-35-06] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-35-06] [SYSTEM_IO]: Userdata requested: InputFill
+[21-35-06] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-35-06] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-35-06] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash[LEFT],(980,378,600x600)
+[21-35-06] [ACTION]: Console loaded in 3995ms
+[21-35-06] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-35-06] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-35-06] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-35-06] [SYSTEM_IO]: System data pared and returned
+[21-35-06] [ENTRY]: [TESTING MODE]
+[21-35-06] [SYSTEM_IO]: Userdata requested: laststart
+[21-35-06] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-35-06] [SYSTEM_IO]: System data pared and returned
+[21-35-07] [CONSOLE_OUT]: [STRING] Console loaded in 3995ms
+[21-35-12] [CLIENT]: e^45
+[21-35-12] [ACTION]: CONSOLE MATH HANDLED
+[21-35-12] [CONSOLE_OUT]: [STRING] 3.4934271057485013E19
+[21-35-14] [CLIENT]: clear

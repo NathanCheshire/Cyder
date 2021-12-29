@@ -354,16 +354,15 @@ public class LoginHandler {
             if (IOUtil.getSystemData().isAutocypher()) {
                 SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
                 CyderSplash.setLoadingMessage("Autocyphering");
-                boolean ret = LoginHandler.autoCypher();
 
-                if (!ret) {
+                if (!autoCypher()) {
                     SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
-                    LoginHandler.showGUI();
+                    showGUI();
                 }
-            } else LoginHandler.showGUI();
+            } else showGUI();
         } else if (IOUtil.getSystemData().isReleased()) {
             SessionHandler.log(SessionHandler.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
-            LoginHandler.showGUI();
+            showGUI();
         } else GenesisShare.exit(-600);
     }
 

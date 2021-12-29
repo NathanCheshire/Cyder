@@ -311,7 +311,7 @@ public class UserCreator {
                         UserUtil.setUserData(dataFile, user);
 
                         createUserFrame.dispose();
-                        PopupHandler.informRelative("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", GenesisShare.getDominantFrame());
+                        PopupHandler.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", GenesisShare.getDominantFrame());
                         createUserFrame.dispose();
 
                         //attempt to log in new user if it's the only user

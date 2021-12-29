@@ -837,7 +837,7 @@ public class InputHandler {
                     println(parts[1] + " and " + parts[2] + " are not anagrams of each other");
                 }
             }
-        }  else if (hasWord("reset") && hasWord("mouse")) {
+        } else if (hasWord("reset") && hasWord("mouse")) {
             SystemUtil.resetMouse();
         } else if (eic("clc") || eic("cls") || eic("clear") || (hasWord("clear") && hasWord("screen"))) {
             clc();

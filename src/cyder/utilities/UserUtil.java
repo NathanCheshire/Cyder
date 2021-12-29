@@ -3,16 +3,12 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
-import cyder.handlers.internal.LoginHandler;
-import cyder.userobj.User;
 import cyder.handlers.internal.ErrorHandler;
-import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderFrame;
+import cyder.userobj.User;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
@@ -200,7 +196,7 @@ public class UserUtil {
             userMusicFile.mkdir();
 
         if (!userJsonFile.exists()) {
-            corruptedUser();
+            userJsonDeleted(UUID);
             return;
         }
 
@@ -217,7 +213,7 @@ public class UserUtil {
                         //fatal data that results in the user being corrupted if it is corrupted
                         if (getterMethod.getName().toLowerCase().contains("pass") ||
                             getterMethod.getName().toLowerCase().contains("name")) {
-                            corruptedUser();
+                            userJsonDeleted(UUID);
                             return;
                         }
                         //non-fatal data that we can restore from the default data
@@ -843,60 +839,64 @@ public class UserUtil {
         }
     }
 
+    //todo attempt to fix bug with bash strings?
+
+    //todo utilize this method in the other places it is needed
     /**
-     * If a user becomes corrupted for any reason which may be determined any way we choose,
-     * this method will aquire the exiting semaphore, dispose of all frames, and attempt to
-     * zip any user data aside from userdata.json
+     * After a user's json file was deleted due to it being un-parsable, null, or any othe reason,
+     * this method informs the user that a user was corrupted and attempts to tell the user
+     * which user it was by listing the files associated with the corrupted user.
+     * @param UUID the uuid of the corrupted user
      */
-
-    //todo test this
-    public static void corruptedUser() {
+    public static void userJsonDeleted(String UUID) {
         try {
-            GenesisShare.suspendFrameChecker();
+            //create parent directory
+            File userDir = new File("dynamic/users/" + UUID);
+            File userJson = new File("dynamic/users/" + UUID + "/userdata.json");
 
-            //close all open frames
-            Frame[] frames = Frame.getFrames();
-            for (Frame f : frames) {
-                if (f instanceof CyderFrame) {
-                    ((CyderFrame) f).dispose(true);
+            //delete the json if it still exists for some reason
+            if (userJson.exists())
+                userJson.delete();
+
+            //if there's nothing left in the dir, delete the whole folder
+            if (userDir.listFiles().length == 0)
+                SystemUtil.deleteFolder(userDir);
+            else {
+                //otherwise we need to figure out all the file names in each sub-dir, not recursive, and inform the user
+                // that a json was deleted and tell them which files are remaining
+
+                String path = "Cyder/dynamic/" + UUID;
+                String informString = "Unfortunately a user's data file was corrupted and had to be deleted. " +
+                        "The following files still exists and are associated with the user at the following path:<br/>" + path + "<br/>Files:";
+
+                LinkedList<String> filenames = new LinkedList<>();
+
+                for (File f : userDir.listFiles()) {
+                    if (f.isFile()) {
+                        filenames.add(StringUtil.getFilename(f));
+                    } else if (f.isDirectory()) {
+                        for (File file : f.listFiles()) {
+                            filenames.add(StringUtil.getFilename(file));
+                        }
+                    }
+                }
+
+                if (filenames.size() == 0) {
+                    informString += "No files found associated with the corrupted user";
                 } else {
-                    f.dispose();
+                    StringBuilder sb = new StringBuilder();
+
+                    for (String filename : filenames) {
+                        sb.append("<br/>").append(filename);
+                    }
+
+                    informString += sb;
+
+                    //inform
                 }
             }
-
-            File mainZipFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
-
-            //confirmed that the user was corrupted so we inform the user
-            PopupHandler.inform("Sorry, " + SystemUtil.getWindowsUsername() + ", but your user was corrupted. " +
-                    "Your data has been saved, zipped, and placed in your Downloads folder", "Corrupted User :(");
-
-            //delete the stuff we don't care about
-            for (File f : mainZipFile.listFiles()) {
-                //currently only deleting userdata.json if it exists
-                if (f.getName().equalsIgnoreCase("userdata.json"))
-                    f.delete();
-            }
-
-            //zip the remaining user data
-            String sourceFile = mainZipFile.getAbsolutePath();
-            String fileName = "C:/Users/" + SystemUtil.getWindowsUsername() +
-                    "/Downloads/Cyder_Corrupted_Userdata_" + TimeUtil.errorTime() + ".zip";
-            FileOutputStream fos = new FileOutputStream(fileName);
-            ZipOutputStream zipOut = new ZipOutputStream(fos);
-            File fileToZip = new File(sourceFile);
-            zipFile(fileToZip, fileToZip.getName(), zipOut);
-            zipOut.close();
-            fos.close();
-
-            SessionHandler.log(SessionHandler.Tag.CORRUPTION, fileName);
-
-            //delete the folder we just zipped since it's a duplicate
-            SystemUtil.deleteFolder(mainZipFile);
-
-            //all frames should be gone so show login
-            LoginHandler.showGUI();
         } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
+            ErrorHandler.handle(e);
         }
     }
 

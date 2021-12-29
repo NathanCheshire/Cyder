@@ -79,8 +79,8 @@ public class SystemUtil {
         String name = null;
 
         try {
-            InetAddress Add = InetAddress.getLocalHost();
-            name = Add.getHostName();
+            InetAddress address = InetAddress.getLocalHost();
+            name = address.getHostName();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -99,6 +99,10 @@ public class SystemUtil {
         }
     }
 
+    /**
+     * Runs the vbs shell script
+     * @param vbsScript the lines of the script to execute
+     */
     public static void runVBS(String[] vbsScript) {
         IOUtil.createAndOpenTmpFile(SecurityUtil.generateUUID(),".vbs",vbsScript);
     }
@@ -245,6 +249,7 @@ public class SystemUtil {
 
         try {
             Runtime rt = Runtime.getRuntime();
+            //this is kind of dangerous...
             Process proc = rt.exec(command);
         } catch (Exception e) {
             ret = false;
