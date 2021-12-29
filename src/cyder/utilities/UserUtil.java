@@ -840,8 +840,6 @@ public class UserUtil {
         }
     }
 
-    //todo attempt to fix bug with bash strings?
-
     /**
      * After a user's json file was deleted due to it being un-parsable, null, or any othe reason,
      * this method informs the user that a user was corrupted and attempts to tell the user

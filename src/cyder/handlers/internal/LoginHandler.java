@@ -100,13 +100,14 @@ public class LoginHandler {
         new Thread(() -> {
             try {
                 while (doLoginAnimations && loginFrame != null) {
+                    //reset caret pos
                     if (loginField.getCaretPosition() < bashString.length()) {
                         loginField.setCaretPosition(loginField.getPassword().length);
                     }
 
-                    //if it doesn't start with bash string, reset it to it
+                    //if it doesn't start with bash string, reset it to start with bashString if it's not mode 2
                     if (loginMode != 2 && !String.valueOf(loginField.getPassword()).startsWith(bashString)) {
-                        loginField.setText(bashString);
+                        loginField.setText(bashString + String.valueOf(loginField.getPassword()).replace(bashString, "").trim());
                         loginField.setCaretPosition(loginField.getPassword().length);
                     }
 
@@ -376,21 +377,27 @@ public class LoginHandler {
         boolean ret = false;
 
         try {
+            //fix login field if the frame is still open
             if (loginFrame != null) {
                 loginField.setEchoChar((char)0);
                 loginField.setText(bashString);
             }
 
+            //check password will set the console frame uuid if it finds a userdata.json that matches the provided name and hash
             if (UserUtil.checkPassword(name, hashedPass)) {
+                //if they're already logged in
                 if (UserUtil.isLoggedIn(ConsoleFrame.getConsoleFrame().getUUID())) {
                     loginFrame.notify("Sorry, but that user is already logged in");
 
+                    //idk how this would be possible but sure
                     if (ConsoleFrame.getConsoleFrame().isClosed())
                         ConsoleFrame.getConsoleFrame().setUUID(null);
 
                     return false;
                 } else {
+                    //log out all people as a precaution
                     UserUtil.logoutAllUsers();
+
                     //this is the only time loggedin is EVER set to 1
                     UserUtil.setUserData("loggedin","1");
                 }
@@ -398,7 +405,7 @@ public class LoginHandler {
                 //set ret var
                 ret = true;
 
-                //stop animations
+                //stop login animations
                 doLoginAnimations = false;
 
                 //log the success login
@@ -428,6 +435,7 @@ public class LoginHandler {
                 loginField.setText("");
 
                 if (autoCypherAttempt) {
+                    //rest autocypher
                     autoCypherAttempt = false;
                     SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
                 } else {
@@ -435,6 +443,7 @@ public class LoginHandler {
                 }
 
                 username = "";
+                hashedPass = "";
                 loginField.requestFocusInWindow();
             } else if (autoCypherAttempt) {
                 autoCypherAttempt = false;

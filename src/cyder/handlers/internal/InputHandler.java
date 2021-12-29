@@ -9,8 +9,6 @@ import cyder.games.HangmanGame;
 import cyder.games.TTTGame;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
-import cyder.userobj.UserCreator;
-import cyder.userobj.UserEditor;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.DirectoryViewer;
 import cyder.testing.DebugConsole;
@@ -21,6 +19,8 @@ import cyder.threads.MasterYoutubeThread;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
+import cyder.userobj.UserCreator;
+import cyder.userobj.UserEditor;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
@@ -36,6 +36,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.*;
+import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -671,13 +672,23 @@ public class InputHandler {
         } else if (eic("hide")) {
             ConsoleFrame.getConsoleFrame().minimize();
         } else if (hasWord("analyze") && hasWord("code")) {
-            File startDir = new File("src");
+           new Thread(() -> {
+               File startDir = new File("src");
 
-            println("Lines of code: " + StatUtil.totalJavaLines(startDir));
-            println("Number of java files: " + StatUtil.totalJavaFiles(startDir));
-            println("Number of comments: " + StatUtil.totalComments(startDir));
-            println("Blank lines: " + StatUtil.totalBlankLines(startDir));
-            println("Total: " + (StatUtil.totalBlankLines(startDir) + StatUtil.totalJavaLines(startDir)));
+               int javaLines = StatUtil.totalJavaLines(startDir);
+               int commentLines = StatUtil.totalComments(startDir);
+
+               println("Lines of code: " + javaLines);
+               println("Number of Java files: " + StatUtil.totalJavaFiles(startDir));
+               println("Number of comments: " + commentLines);
+
+               double ratio = ((double) javaLines / (double) commentLines);
+
+               println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
+
+               println("Blank lines: " + StatUtil.totalBlankLines(startDir));
+               println("Total lines: " + (StatUtil.totalBlankLines(startDir) + StatUtil.totalJavaLines(startDir)));
+           }, "Code Analyzer").start();
         } else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
             new Robot().keyPress(KeyEvent.VK_F17);
         }  else if (hasWord("debug") && !eic("debug")) {
