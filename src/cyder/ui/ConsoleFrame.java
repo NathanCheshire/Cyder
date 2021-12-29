@@ -255,9 +255,6 @@ public final class ConsoleFrame {
                 consoleCyderFrame.setMaximumSize(new Dimension(w, h));
             }
 
-            ((JLabel) (consoleCyderFrame.getContentPane()))
-                    .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
-
             outputArea = new JTextPane() {
                 @Override
                 public String toString() {
@@ -1694,47 +1691,65 @@ public final class ConsoleFrame {
      */
     public void resizeBackgrounds() {
         try {
-            LinkedList<File> backgrounds = getBackgrounds();
+            LinkedList<File> backgrounds = new LinkedList<>();//getBackgrounds();
+            backgrounds.add(new File("Moodswings.png"));
 
-            for (int i = 0; i < backgrounds.size(); i++) {
-                File currentFile = backgrounds.get(i);
+            int minWidth = 400;
+            int minHeight = 400;
+            int maxWidth = SystemUtil.getScreenWidth();
+            int maxHeight = SystemUtil.getScreenHeight();
+
+            for (File currentFile : backgrounds) {
                 BufferedImage currentImage = ImageIO.read(currentFile);
+
                 int backgroundWidth = currentImage.getWidth();
                 int backgroundHeight = currentImage.getHeight();
                 int screenWidth = SystemUtil.getScreenWidth();
                 int screenHeight = SystemUtil.getScreenHeight();
-                double aspectRatio = ImageUtil.getAspectRatio(currentImage);
+
                 int imageType = currentImage.getType();
 
-                //inform the user we are changing the size of the image.
-                if (backgroundWidth > SystemUtil.getScreenWidth() || backgroundHeight > SystemUtil.getScreenHeight())
-                    PopupHandler.inform("Resizing the background image \"" + currentFile.getName() +
-                                    "\" since it's too big.", "System Action");
-
-                //while the image dimensions are greater than the screen dimensions,
-                // divide the image dimensions by the aspect ratio if it will result in a smaller number
-                // if it won't then we divide by 1/aspectRatio which will result in a smaller number if the first did not
-                while (backgroundWidth > screenWidth * 0.70 || backgroundHeight > screenHeight * 0.70) {
-                    backgroundWidth = (int) (backgroundWidth / ((aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio)));
-                    backgroundHeight = (int) (backgroundHeight / ((aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio)));
-                }
-
                 //inform the user we are changing the size of the image
-                if (backgroundWidth < 600 || backgroundHeight < 600)
-                    PopupHandler.inform("Resizing the background image \"" + getBackgrounds().get(i).getName()
-                            + "\" since it's too small.", "System Action");
+                boolean resizeNeeded = backgroundWidth > maxWidth || backgroundHeight > maxHeight ||
+                        backgroundWidth < minWidth || backgroundHeight < minHeight;
+                if (resizeNeeded)
+                    PopupHandler.inform("Resizing the background image \"" + currentFile.getName() +
+                            "\"", "System Action");
 
-                //while the image dimensions are less than 800x800, multiply the image dimensions by the
-                // aspect ratio if it will result in a bigger number, if it won't, multiply it by 1.0 / aspectRatio
-                // which will result in a number greater than 1.0 if the first option failed.
-                while (backgroundWidth < 600 || backgroundHeight < 600) {
-                    backgroundWidth = (int) (backgroundWidth * (aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio));
-                    backgroundHeight = (int) (backgroundHeight * (aspectRatio < 1.0 ? 1.0 / aspectRatio : aspectRatio));
+                double widthToHeightRatio = ((double) backgroundWidth / (double) backgroundHeight);
+                double heightToWidthRatio = ((double) backgroundHeight / (double) backgroundWidth);
+                double deltaWidth = 0.0;
+                double deltaHeight = 0.0;
+
+                if (widthToHeightRatio < 1.0) {
+                    if (resizeNeeded) {
+                        if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
+                            deltaHeight = maxHeight;
+                            deltaWidth = maxHeight * (1.0 / heightToWidthRatio);
+                        } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
+                            deltaWidth = minWidth;
+                            deltaHeight = minWidth * heightToWidthRatio;
+                        }
+                    }
+                } else {
+                    if (resizeNeeded) {
+                        if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
+                            deltaWidth = maxWidth;
+                            deltaHeight = maxWidth * (1.0 / widthToHeightRatio);
+                        } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
+                            deltaHeight = minHeight;
+                            deltaWidth = minHeight * widthToHeightRatio;
+                        }
+                    }
                 }
 
-                //save the modified image
-                BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, backgroundWidth, backgroundHeight);
-                ImageIO.write(saveImage, "png", currentFile);
+                System.out.println("New dimensions: [" + deltaWidth + "," + deltaHeight + "]");
+
+                //todo after all this, if something's too big, crop as much as you can from upper left
+
+//                //save the modified image
+//                BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, backgroundWidth, backgroundHeight);
+//                ImageIO.write(saveImage, "png", currentFile);
             }
 
             //reinit backgrounds after resizing all backgrounds that needed fixing

@@ -1541,7 +1541,6 @@ public class InputHandler {
                     if (System.currentTimeMillis() - lastPull > dataPullTimeout) {
                         lastPull = System.currentTimeMillis();
                         typingAnimationLocal = UserUtil.getUserData("typinganimation").equals("1");
-                        System.out.println("repulled");
                     }
 
                     if (consolePriorityPrintingList.size() > 0) {

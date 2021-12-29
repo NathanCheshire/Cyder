@@ -1,0 +1,47 @@
+[00-01-31] [ENTRY]: [Nathan]
+[00-01-31] [SYSTEM_IO]: System data pared and returned
+[00-01-32] [SYSTEM_IO]: System data pared and returned
+[00-01-32] [SYSTEM_IO]: System data pared and returned
+[00-01-32] [SYSTEM_IO]: System data pared and returned
+[00-01-32] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[00-01-32] [SYSTEM_IO]: System data pared and returned
+[00-01-32] [SYSTEM_IO]: System data pared and returned
+[00-01-32] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00-01-32] [SYSTEM_IO]: System data pared and returned
+[00-01-33] [SYSTEM_IO]: System data pared and returned
+[00-01-33] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[00-01-33] [SYSTEM_IO]: Userdata requested: Name
+[00-01-33] [SYSTEM_IO]: Userdata requested: RandomBackground
+[00-01-33] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-01-34] [SYSTEM_IO]: System data pared and returned
+[00-01-34] [SYSTEM_IO]: Userdata requested: Name
+[00-01-34] [SYSTEM_IO]: System data pared and returned
+[00-01-34] [SYSTEM_IO]: Userdata requested: Foreground
+[00-01-34] [SYSTEM_IO]: Userdata requested: Foreground
+[00-01-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-01-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-01-34] [SYSTEM_IO]: Userdata requested: Foreground
+[00-01-34] [SYSTEM_IO]: Userdata requested: Font
+[00-01-34] [SYSTEM_IO]: Userdata requested: OutputBorder
+[00-01-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-01-34] [SYSTEM_IO]: Userdata requested: InputBorder
+[00-01-34] [SYSTEM_IO]: Userdata requested: Foreground
+[00-01-34] [SYSTEM_IO]: Userdata requested: Foreground
+[00-01-34] [SYSTEM_IO]: Userdata requested: Foreground
+[00-01-34] [SYSTEM_IO]: Userdata requested: Font
+[00-01-34] [SYSTEM_IO]: Userdata requested: OutputFill
+[00-01-34] [SYSTEM_IO]: Userdata requested: InputFill
+[00-01-34] [SYSTEM_IO]: Userdata requested: consolepinned
+[00-01-34] [SYSTEM_IO]: Userdata requested: consolepinned
+[00-01-34] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash[LEFT],(980,378,600x600)
+[00-01-34] [ACTION]: Console loaded in 3588ms
+[00-01-34] [SYSTEM_IO]: Userdata requested: windowlocx
+[00-01-34] [SYSTEM_IO]: Userdata requested: windowlocy
+[00-01-34] [SYSTEM_IO]: Userdata requested: DebugWindows
+[00-01-34] [SYSTEM_IO]: System data pared and returned
+[00-01-34] [ENTRY]: [TESTING MODE]
+[00-01-34] [SYSTEM_IO]: Userdata requested: laststart
+[00-01-34] [SYSTEM_IO]: Userdata requested: IntroMusic
+[00-01-34] [SYSTEM_IO]: System data pared and returned
+[00-01-34] [CONSOLE_OUT]: [STRING] Console loaded in 3588ms
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

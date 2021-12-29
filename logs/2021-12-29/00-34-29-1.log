@@ -1,0 +1,57 @@
+[00-34-30] [ENTRY]: [Nathan]
+[00-34-30] [SYSTEM_IO]: System data pared and returned
+[00-34-30] [SYSTEM_IO]: System data pared and returned
+[00-34-30] [SYSTEM_IO]: System data pared and returned
+[00-34-31] [SYSTEM_IO]: System data pared and returned
+[00-34-31] [SYSTEM_IO]: System data pared and returned
+[00-34-31] [SYSTEM_IO]: System data pared and returned
+[00-34-31] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[00-34-31] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[00-34-31] [SYSTEM_IO]: System data pared and returned
+[00-34-31] [SYSTEM_IO]: System data pared and returned
+[00-34-31] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[00-34-32] [SYSTEM_IO]: Userdata requested: Name
+[00-34-33] [SYSTEM_IO]: Userdata requested: RandomBackground
+[00-34-33] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-34-33] [SYSTEM_IO]: System data pared and returned
+[00-34-33] [SYSTEM_IO]: Userdata requested: Name
+[00-34-33] [SYSTEM_IO]: System data pared and returned
+[00-34-33] [SYSTEM_IO]: Userdata requested: Foreground
+[00-34-33] [SYSTEM_IO]: Userdata requested: Foreground
+[00-34-33] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-34-33] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-34-33] [SYSTEM_IO]: Userdata requested: Foreground
+[00-34-33] [SYSTEM_IO]: Userdata requested: Font
+[00-34-33] [SYSTEM_IO]: Userdata requested: OutputBorder
+[00-34-33] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-34-33] [SYSTEM_IO]: Userdata requested: InputBorder
+[00-34-33] [SYSTEM_IO]: Userdata requested: Foreground
+[00-34-33] [SYSTEM_IO]: Userdata requested: Foreground
+[00-34-33] [SYSTEM_IO]: Userdata requested: Foreground
+[00-34-33] [SYSTEM_IO]: Userdata requested: Font
+[00-34-33] [SYSTEM_IO]: Userdata requested: OutputFill
+[00-34-33] [SYSTEM_IO]: Userdata requested: InputFill
+[00-34-33] [SYSTEM_IO]: Userdata requested: consolepinned
+[00-34-33] [SYSTEM_IO]: Userdata requested: consolepinned
+[00-34-33] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash[LEFT],(980,378,600x600)
+[00-34-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: System Action[LEFT],(1082,628,397x100)
+[00-34-33] [SYSTEM_IO]: Userdata requested: closeanimation
+[00-34-33] [ACTION]: Console loaded in 3925ms
+[00-34-33] [SYSTEM_IO]: Userdata requested: windowlocx
+[00-34-33] [SYSTEM_IO]: Userdata requested: windowlocy
+[00-34-33] [SYSTEM_IO]: Userdata requested: DebugWindows
+[00-34-33] [SYSTEM_IO]: System data pared and returned
+[00-34-33] [ENTRY]: [TESTING MODE]
+[00-34-33] [SYSTEM_IO]: Userdata requested: laststart
+[00-34-33] [SYSTEM_IO]: Userdata requested: IntroMusic
+[00-34-33] [SYSTEM_IO]: System data pared and returned
+[00-34-33] [CONSOLE_OUT]: [STRING] Console loaded in 3925ms
+[00-35-17] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[00-35-17] [SYSTEM_IO]: Userdata requested: Name
+[00-35-17] [LOGOUT]: [Nathan]
+[00-35-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan][CENTER],(801,233,984x984)
+[00-35-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[00-35-17] [SYSTEM_IO]: Userdata requested: Background
+[00-35-18] [SYSTEM_IO]: System data pared and returned
+[00-35-18] [EXIT]: [RUNTIME] 48s
+[00-35-18] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

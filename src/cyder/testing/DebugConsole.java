@@ -3,7 +3,6 @@ package cyder.testing;
 import cyder.consts.CyderColors;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
