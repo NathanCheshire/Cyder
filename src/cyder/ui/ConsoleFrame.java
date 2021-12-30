@@ -1687,7 +1687,8 @@ public final class ConsoleFrame {
      * Takes into account the dpi scaling value and checks all the backgrounds in the user's
      * directory against the current monitor's resolution. If any width or height of a background file
      * exceeds the monitor's width or height. We resize until it doesn't. We also check to make sure the background
-     * meets our minimum pixel dimension parameters.
+     * meets our minimum pixel dimension parameters. The old images are automatically resized and replaced with the
+     * properly resized and cropped images.
      */
     public void resizeBackgrounds() {
         try {

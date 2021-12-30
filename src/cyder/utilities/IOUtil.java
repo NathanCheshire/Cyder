@@ -122,10 +122,12 @@ public class IOUtil {
         }
     }
 
+    private static String sysFilePath = "static/sys.json";
+
     //determines whether or not the sys.json file exists, is parsable, and contains non-null fields
     public static void checkSystemData() {
         try {
-            File sysFile = new File("static/sys.json");
+            File sysFile = new File(sysFilePath);
 
             if (!sysFile.exists())
                 GenesisShare.exit(-112);
@@ -145,7 +147,7 @@ public class IOUtil {
                 throw new Exception("Could not parse system data");
             }
 
-            //object successfully parsed by GSON
+            //object successfully parsed by GSON at this point
 
             //make sure the obj isn't null
             if (sysObj == null) {
@@ -174,18 +176,24 @@ public class IOUtil {
      * @return the SystemData object
      */
     public static SystemData getSystemData() {
+        return sd;
+    }
+
+    private static SystemData sd;
+
+    //loads the system data at runtime into the object
+    static {
         SystemData ret = null;
         Gson gson = new Gson();
 
-        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "System data pared and returned");
+        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "System data pared in IOUtil's static block");
 
-        try (Reader reader = new FileReader("static/sys.json")) {
+        try (Reader reader = new FileReader(sysFilePath)) {
             ret = gson.fromJson(reader, SystemData.class);
+            sd = ret;
         } catch (IOException e) {
             ErrorHandler.handle(e);
         }
-
-        return ret;
     }
 
     /**
@@ -195,8 +203,9 @@ public class IOUtil {
     public static void setSystemData(SystemData sd) {
         Gson gson = new Gson();
 
-        try (FileWriter writer = new FileWriter("static/sys.json")) {
+        try (FileWriter writer = new FileWriter(sysFilePath)) {
             gson.toJson(sd, writer);
+            SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "System data set to sd: " + sd);
         } catch (IOException e) {
             ErrorHandler.handle(e);
         }
@@ -737,6 +746,13 @@ public class IOUtil {
             this.ignorelogdata = ignorelogdata;
         }
 
+        @Override
+        public String toString() {
+            return ""; //todo
+        }
+
+        //inner classes
+
         public static class Hash {
             private String name;
             private String hashpass;
@@ -755,6 +771,11 @@ public class IOUtil {
 
             public void setHashpass(String hashpass) {
                 this.hashpass = hashpass;
+            }
+
+            @Override
+            public String toString() {
+                return "[name: " + this.name + ", pass: " + this.hashpass + "]";
             }
         }
 
@@ -776,6 +797,11 @@ public class IOUtil {
 
             public void setDescription(String description) {
                 this.description = description;
+            }
+
+            @Override
+            public String toString() {
+                return "[code: " + this.code + ", desc: " + this.description + "]";
             }
         }
     }

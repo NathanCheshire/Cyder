@@ -1,0 +1,74 @@
+[19-30-03] [ENTRY]: [Nathan]
+[19-30-04] [SYSTEM_IO]: System data pared and returned
+[19-30-04] [SYSTEM_IO]: System data pared and returned
+[19-30-04] [SYSTEM_IO]: System data pared and returned
+[19-30-04] [ACTION]: User e5a50641-21d1-3654-b738-c0e4b2dc61b1 was found to have an outdated userdata.json; preference injection was attempted on the following: [persistentnotifications=0]
+[19-30-05] [SYSTEM_IO]: System data pared and returned
+[19-30-05] [SYSTEM_IO]: System data pared and returned
+[19-30-05] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-30-05] [SYSTEM_IO]: System data pared and returned
+[19-30-05] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-30-05] [SYSTEM_IO]: System data pared and returned
+[19-30-05] [SYSTEM_IO]: System data pared and returned
+[19-30-05] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-30-05] [EXCEPTION]: 
+Can't read input file!
+Thrown from:
+java.desktop/javax.imageio.ImageIO.read(ImageIO.java:1308)
+StackTrace:
+javax.imageio.IIOException: Can't read input file!
+	at java.desktop/javax.imageio.ImageIO.read(ImageIO.java:1308)
+	at cyder.ui.ConsoleFrame.resizeBackgrounds(ConsoleFrame.java:1704)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:116)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:428)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:475)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:361)
+	at cyder.genesis.Cyder.main(Cyder.java:76)
+[19-30-05] [SYSTEM_IO]: Userdata requested: Name
+[19-30-06] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-30-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-30-07] [SYSTEM_IO]: System data pared and returned
+[19-30-07] [SYSTEM_IO]: Userdata requested: Name
+[19-30-07] [SYSTEM_IO]: System data pared and returned
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-30-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: Font
+[19-30-07] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-30-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-30-07] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: Font
+[19-30-07] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-30-07] [SYSTEM_IO]: Userdata requested: InputFill
+[19-30-07] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-30-07] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-30-07] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash[LEFT],(980,378,600x600)
+[19-30-07] [ACTION]: Console loaded in 4069ms
+[19-30-07] [SYSTEM_IO]: Userdata requested: windowlocx
+[19-30-07] [SYSTEM_IO]: Userdata requested: windowlocy
+[19-30-07] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-30-07] [SYSTEM_IO]: System data pared and returned
+[19-30-07] [ENTRY]: [TESTING MODE]
+[19-30-07] [SYSTEM_IO]: Userdata requested: laststart
+[19-30-07] [CONSOLE_OUT]: [STRING] Console loaded in 4069ms
+[19-30-07] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-30-07] [SYSTEM_IO]: System data pared and returned
+[19-30-11] [CLIENT]: open currnet log
+[19-30-11] [SYSTEM_IO]: Userdata requested: Name
+[19-30-11] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[19-30-14] [CLIENT]: open current log
+[19-30-15] [SYSTEM_IO]: System data pared and returned
+[19-31-34] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-31-34] [SYSTEM_IO]: Userdata requested: Name
+[19-31-34] [LOGOUT]: [Nathan]
+[19-31-34] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan][CENTER],(801,233,984x984)
+[19-31-34] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-31-34] [SYSTEM_IO]: Userdata requested: Background
+[19-31-35] [SYSTEM_IO]: System data pared and returned
+[19-31-35] [EXIT]: [RUNTIME] 1m 31s
+[19-31-35] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 1
