@@ -1715,44 +1715,12 @@ public final class ConsoleFrame {
                     PopupHandler.inform("Resizing the background image \"" + currentFile.getName() +
                             "\"", "System Action");
 
-                double widthToHeightRatio = ((double) backgroundWidth / (double) backgroundHeight);
-                double heightToWidthRatio = ((double) backgroundHeight / (double) backgroundWidth);
-                double deltaWidth = 0.0;
-                double deltaHeight = 0.0;
-
-                if (widthToHeightRatio < 1.0) {
-                    if (resizeNeeded) {
-                        if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
-                            deltaHeight = maxHeight;
-                            deltaWidth = maxHeight * (1.0 / heightToWidthRatio);
-                        } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
-                            deltaWidth = minWidth;
-                            deltaHeight = minWidth * heightToWidthRatio;
-                        }
-                    }
-                } else {
-                    if (resizeNeeded) {
-                        if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
-                            deltaWidth = maxWidth;
-                            deltaHeight = maxWidth * (1.0 / widthToHeightRatio);
-                        } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
-                            deltaHeight = minHeight;
-                            deltaWidth = minHeight * widthToHeightRatio;
-                        }
-                    }
-                }
-
-                //after all this, if something's too big, crop as much as possible
-                if (deltaWidth > maxWidth) {
-                    deltaWidth = maxWidth;
-                    deltaHeight = (int) Math.min(backgroundHeight, maxWidth * (1.0 / widthToHeightRatio));
-                } else if (deltaHeight > maxHeight) {
-                    deltaHeight = maxHeight;
-                    deltaWidth = (int) Math.min(backgroundWidth, maxHeight * (1.0 / heightToWidthRatio));
-                }
+                Dimension resizeDimensions = ImageUtil.resizeImage(minWidth,minHeight,maxWidth,maxHeight,currentImage);
+                int deltaWidth = (int) resizeDimensions.getWidth();
+                int deltaHeight = (int) resizeDimensions.getHeight();
 
                 //save the modified image
-                BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, (int) deltaWidth, (int) deltaHeight);
+                BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, deltaWidth, deltaHeight);
                 ImageIO.write(saveImage, "png", currentFile);
             }
 

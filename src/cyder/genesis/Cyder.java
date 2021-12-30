@@ -5,6 +5,8 @@ import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SystemUtil;
 
+import static cyder.genesis.CyderSplash.setLoadingMessage;
+
 public class Cyder {
     /**
      * Setup and start the best program ever made :D
@@ -36,7 +38,7 @@ public class Cyder {
         //launch splash screen
         CyderSplash.showSplash();
 
-        CyderSplash.setLoadingMessage("Checkinging for exit collisions");
+        setLoadingMessage("Checkinging for exit collisions");
         if (IOUtil.checkForExitCollisions()) {
             SessionHandler.log(SessionHandler.Tag.EXCEPTION, "DUPLICATE EXIT CODES");
             CyderSetup.exceptionExit("You messed up exit codes :/","Exit Codes Exception");
@@ -51,18 +53,18 @@ public class Cyder {
         }
 
         //IOUtil necessary subroutines to complete with success before continuing
-        CyderSplash.setLoadingMessage("Checking system data");
+        setLoadingMessage("Checking system data");
         IOUtil.checkSystemData();
-        CyderSplash.setLoadingMessage("Fixing users");
+        setLoadingMessage("Fixing users");
         IOUtil.fixUsers();
-        CyderSplash.setLoadingMessage("Fixing logs");
+        setLoadingMessage("Fixing logs");
         IOUtil.fixLogs();
-        CyderSplash.setLoadingMessage("Cleaning users");
+        setLoadingMessage("Cleaning users");
         IOUtil.cleanUsers();
 
         //IOUtil secondary subroutines that can be executed when program has started essentially
         new Thread(() -> {
-            CyderSplash.setLoadingMessage("Logging JVM args");
+            setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(CA);
 
             IOUtil.cleanSandbox();

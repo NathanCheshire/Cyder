@@ -12,7 +12,10 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -130,12 +133,12 @@ public class ImageUtil {
         return new ImageIcon(im);
     }
 
-    public static BufferedImage resizeImage(int x, int y, ImageIcon icon) {
+    public static BufferedImage resizeImage(int width, int height, ImageIcon icon) {
         BufferedImage ReturnImage = null;
 
         try {
             Image ConsoleImage = icon.getImage();
-            Image TransferImage = ConsoleImage.getScaledInstance(x, y, Image.SCALE_SMOOTH);
+            Image TransferImage = ConsoleImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ReturnImage = new BufferedImage(TransferImage.getWidth(null), TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
             Graphics2D bGr = ReturnImage.createGraphics();
 
@@ -608,5 +611,59 @@ public class ImageUtil {
         } finally {
             return ret;
         }
+    }
+
+    /**
+     * Finds the optimal size provided the min/max width/height bounds. The return dimension is ensured
+     * to be within the provided bounds
+     * @return an array representing the new image dimensions that the provided image should be cropped to
+     * so that the provided min/max properties are maintained
+     */
+    public static Dimension resizeImage(int minWidth, int minHeight, int maxWidth, int maxHeight, BufferedImage image) {
+        int backgroundWidth = image.getWidth();
+        int backgroundHeight = image.getHeight();
+        int imageType = image.getType();
+
+        //inform the user we are changing the size of the image
+        boolean resizeNeeded = backgroundWidth > maxWidth || backgroundHeight > maxHeight ||
+                backgroundWidth < minWidth || backgroundHeight < minHeight;
+
+        double widthToHeightRatio = ((double) backgroundWidth / (double) backgroundHeight);
+        double heightToWidthRatio = ((double) backgroundHeight / (double) backgroundWidth);
+        double deltaWidth = 0.0;
+        double deltaHeight = 0.0;
+
+        if (widthToHeightRatio < 1.0) {
+            if (resizeNeeded) {
+                if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
+                    deltaHeight = maxHeight;
+                    deltaWidth = maxHeight * (1.0 / heightToWidthRatio);
+                } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
+                    deltaWidth = minWidth;
+                    deltaHeight = minWidth * heightToWidthRatio;
+                }
+            }
+        } else {
+            if (resizeNeeded) {
+                if (backgroundWidth > maxWidth || backgroundHeight > maxHeight) {
+                    deltaWidth = maxWidth;
+                    deltaHeight = maxWidth * (1.0 / widthToHeightRatio);
+                } else if (backgroundWidth < minWidth || backgroundHeight < minHeight) {
+                    deltaHeight = minHeight;
+                    deltaWidth = minHeight * widthToHeightRatio;
+                }
+            }
+        }
+
+        //after all this, if something's too big, crop as much as possible
+        if (deltaWidth > maxWidth) {
+            deltaWidth = maxWidth;
+            deltaHeight = (int) Math.min(backgroundHeight, maxWidth * (1.0 / widthToHeightRatio));
+        } else if (deltaHeight > maxHeight) {
+            deltaHeight = maxHeight;
+            deltaWidth = (int) Math.min(backgroundWidth, maxHeight * (1.0 / heightToWidthRatio));
+        }
+
+        return new Dimension((int) deltaWidth, (int) deltaHeight);
     }
 }

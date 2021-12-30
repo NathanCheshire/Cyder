@@ -748,6 +748,7 @@ public class IOUtil {
 
         @Override
         public String toString() {
+            //want to use reflection on all the getters? tehe
             return ""; //todo
         }
 
