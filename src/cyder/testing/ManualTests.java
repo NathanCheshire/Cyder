@@ -8,8 +8,8 @@ import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
-import cyder.structobjects.CyderQueue;
-import cyder.structobjects.CyderStack;
+import cyder.structs.CyderQueue;
+import cyder.structs.CyderStack;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 

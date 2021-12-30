@@ -1,4 +1,4 @@
-package cyder.structobjects;
+package cyder.structs;
 
 public class CyderTree {
     private Node root;

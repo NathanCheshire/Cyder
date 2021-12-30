@@ -1478,15 +1478,11 @@ public class CyderFrame extends JFrame {
         return this.backgroundColor;
     }
 
-    //todo override all object tostrings since that's good practice
-    //todo add more specific tags and add documentation above the num for what they're to be used for
-    //todo if system data doesn't change during runtime then we should only load it at runtime and then access that object?
-
     @Override
     public String toString() {
         String title = this.title == null ||
                 this.title.length() == 0 ? super.getTitle() : this.title;
-        return "Name: " + title + "[title position: " + this.getTitlePosition() + "],(" +
+        return "Name: " + title + " (title position: " + this.getTitlePosition() + "), (" +
                 this.getX() + "," + this.getY() + "," + this.getWidth() + "x" + this.getHeight() + ")";
     }
 

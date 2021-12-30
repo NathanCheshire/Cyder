@@ -1,4 +1,4 @@
-package cyder.userobj;
+package cyder.cyderuser;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;

@@ -3,6 +3,7 @@ package cyder.testing;
 import cyder.consts.CyderColors;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -30,6 +31,9 @@ public class DebugConsole {
     public static <T> void print(T objMaybe) {
         //this should be the only System.out.print call in the whole program
         out.print(objMaybe);
+
+        //log the debug print (this is why you should debug print from here)
+        SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT, "[DEBUG PRINT] " + objMaybe);
 
         if (!open) {
             initDebugWindow();

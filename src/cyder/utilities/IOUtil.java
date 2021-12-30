@@ -179,7 +179,7 @@ public class IOUtil {
         return sd;
     }
 
-    private static SystemData sd;
+    private static SystemData sd = null;
 
     //loads the system data at runtime into the object
     static {
@@ -748,8 +748,7 @@ public class IOUtil {
 
         @Override
         public String toString() {
-            //want to use reflection on all the getters? tehe
-            return ""; //todo
+            return ReflectionUtil.toStringReflection(this);
         }
 
         //inner classes

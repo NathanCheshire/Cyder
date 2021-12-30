@@ -1,0 +1,66 @@
+[20-17-47] [ENTRY]: [Nathan]
+[20-17-47] [SYSTEM_IO]: System data pared in IOUtil's static block
+[20-17-49] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-17-49] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-17-49] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-17-49] [EXCEPTION]: 
+Can't read input file!
+Thrown from:
+java.desktop/javax.imageio.ImageIO.read(ImageIO.java:1308)
+StackTrace:
+javax.imageio.IIOException: Can't read input file!
+	at java.desktop/javax.imageio.ImageIO.read(ImageIO.java:1308)
+	at cyder.ui.ConsoleFrame.resizeBackgrounds(ConsoleFrame.java:1704)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:116)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:428)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:475)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:361)
+	at cyder.genesis.Cyder.main(Cyder.java:78)
+[20-17-49] [SYSTEM_IO]: Userdata requested: Name
+[20-17-50] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-17-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-17-50] [SYSTEM_IO]: Userdata requested: Name
+[20-17-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-17-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-17-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-17-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-17-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-17-50] [SYSTEM_IO]: Userdata requested: Font
+[20-17-50] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-17-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-17-51] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-17-51] [SYSTEM_IO]: Userdata requested: Foreground
+[20-17-51] [SYSTEM_IO]: Userdata requested: Foreground
+[20-17-51] [SYSTEM_IO]: Userdata requested: Foreground
+[20-17-51] [SYSTEM_IO]: Userdata requested: Font
+[20-17-51] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-17-51] [SYSTEM_IO]: Userdata requested: InputFill
+[20-17-51] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-17-51] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-17-51] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash[title position: LEFT],(1465,372,600x600)
+[20-17-51] [ACTION]: Console loaded in 3831ms
+[20-17-51] [SYSTEM_IO]: Userdata requested: windowlocx
+[20-17-51] [SYSTEM_IO]: Userdata requested: windowlocy
+[20-17-51] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-17-51] [ENTRY]: [TESTING MODE]
+[20-17-51] [CONSOLE_OUT]: [STRING] Console loaded in 3831ms
+[20-17-51] [SYSTEM_IO]: Userdata requested: laststart
+[20-17-51] [SYSTEM_IO]: Userdata requested: IntroMusic
+[20-17-53] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Debug[title position: LEFT],(768,525,1050x400)
+[20-17-53] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-17-55] [CLIENT]: clear
+[20-17-58] [CLIENT]: analyze code
+[20-17-58] [CONSOLE_OUT]: [STRING] Lines of code: 30430
+[20-17-59] [CONSOLE_OUT]: [STRING] Number of Java files: 108
+[20-18-00] [CONSOLE_OUT]: [STRING] Number of comments: 2637
+[20-18-01] [CONSOLE_OUT]: [STRING] Code to comment ratio: 11.54
+[20-18-03] [CONSOLE_OUT]: [STRING] Blank lines: 6055
+[20-18-04] [CONSOLE_OUT]: [STRING] Total lines: 36485
+[20-18-10] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-18-10] [SYSTEM_IO]: Userdata requested: Name
+[20-18-10] [LOGOUT]: [Nathan]
+[20-18-10] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan][title position: CENTER],(801,233,984x984)
+[20-18-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-18-10] [SYSTEM_IO]: Userdata requested: Background
+[20-18-11] [EXIT]: [RUNTIME] 23s
+[20-18-11] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 1

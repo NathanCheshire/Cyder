@@ -11,8 +11,8 @@ import cyder.genesis.*;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.testing.DebugConsole;
-import cyder.userobj.User;
-import cyder.userobj.UserEditor;
+import cyder.cyderuser.User;
+import cyder.cyderuser.UserEditor;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
 

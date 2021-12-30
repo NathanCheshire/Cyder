@@ -1,4 +1,4 @@
-package cyder.userobj;
+package cyder.cyderuser;
 
 import java.util.LinkedList;
 

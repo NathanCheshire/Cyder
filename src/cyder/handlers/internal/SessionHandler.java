@@ -24,9 +24,23 @@ public class SessionHandler {
     //absolute start of Cyder, class loading
     private static long start = System.currentTimeMillis();
 
+    //todo add more and comment what they're used for
     public enum Tag {
-        CLIENT, CONSOLE_OUT, EXCEPTION, ACTION, LINK, UNKNOWN, SUGGESTION,
-        SYSTEM_IO, CLIENT_IO, LOGIN, LOGOUT, JAVA_ARGS, ENTRY, EXIT, CORRUPTION,
+        CLIENT,
+        CONSOLE_OUT,
+        EXCEPTION,
+        ACTION,
+        LINK,
+        UNKNOWN,
+        SUGGESTION,
+        SYSTEM_IO,
+        CLIENT_IO,
+        LOGIN,
+        LOGOUT,
+        JAVA_ARGS,
+        ENTRY,
+        EXIT,
+        CORRUPTION,
         PRIVATE_MESSAGE
     }
 

@@ -7,7 +7,7 @@ import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
-import cyder.userobj.User;
+import cyder.cyderuser.User;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

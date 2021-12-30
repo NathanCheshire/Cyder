@@ -27,8 +27,9 @@ dependencies {
     compile 'junit:junit:4.13.2'
     compile 'org.jetbrains:annotations:22.0.0'
     compile 'com.github.sapher:youtubedl-java:1.+'
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation group: 'javazoom', name: 'jlayer', version: '1.0.1'
     implementation group: 'com.fathzer', name: 'javaluator', version: '3.0.0'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 }

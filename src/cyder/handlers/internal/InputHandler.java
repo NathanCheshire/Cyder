@@ -19,8 +19,8 @@ import cyder.threads.MasterYoutubeThread;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
-import cyder.userobj.UserCreator;
-import cyder.userobj.UserEditor;
+import cyder.cyderuser.UserCreator;
+import cyder.cyderuser.UserEditor;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
@@ -800,7 +800,7 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().rotateBackground(5);
         } else if (hasWord("logout")) {
            ConsoleFrame.getConsoleFrame().logout();
-        } else if (hasWord("throw") && hasWord("error")) {
+        } else if (hasWord("throw") && (hasWord("error") || hasWord("exception"))) {
             ConsoleFrame.getConsoleFrame().getInputField().setText("");
             throw new Exception("Error thrown on " + TimeUtil.userTime());
         } else if (hasWord("clear") && (hasWord("operation") ||
