@@ -619,7 +619,7 @@ public class ImageUtil {
      * @return an array representing the new image dimensions that the provided image should be cropped to
      * so that the provided min/max properties are maintained
      */
-    public static Dimension resizeImage(int minWidth, int minHeight, int maxWidth, int maxHeight, BufferedImage image) {
+    public static Dimension getImageResizeDimensions(int minWidth, int minHeight, int maxWidth, int maxHeight, BufferedImage image) {
         int backgroundWidth = image.getWidth();
         int backgroundHeight = image.getHeight();
         int imageType = image.getType();

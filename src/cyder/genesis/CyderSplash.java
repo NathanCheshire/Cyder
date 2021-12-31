@@ -3,6 +3,7 @@ package cyder.genesis;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.PopupHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 
@@ -157,12 +158,13 @@ public class CyderSplash {
                                 return;
                         }
 
-                        if (splashFrame.isActive()) {
+                        if (splashFrame != null) {
                             splashFrame.dispose(true);
 
                             //this has been going on for over a minute at this point if the program reaches here
                             // clearly something is wrong so exit
-                            GenesisShare.exit(-600);
+                            PopupHandler.inform("idk what happened but you screwed something up", "Startup Exception",
+                                    null, null, () -> GenesisShare.exit(-100));
                         }
                     } catch (Exception e) {
                         ErrorHandler.handle(e);

@@ -1718,11 +1718,14 @@ public final class ConsoleFrame {
                     PopupHandler.inform("Resizing the background image \"" + currentFile.getName() +
                             "\"", "System Action");
 
-                Dimension resizeDimensions = ImageUtil.resizeImage(minWidth,minHeight,maxWidth,maxHeight,currentImage);
+                Dimension resizeDimensions = ImageUtil.getImageResizeDimensions(minWidth,minHeight,maxWidth,maxHeight,currentImage);
                 int deltaWidth = (int) resizeDimensions.getWidth();
                 int deltaHeight = (int) resizeDimensions.getHeight();
 
-                System.out.println(deltaWidth + "," + deltaHeight);
+                //if the image doesn't need a resize then continue to the next image
+                if (deltaWidth == 0 || deltaHeight == 0)
+                    continue;
+
                 //save the modified image
                 BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, deltaWidth, deltaHeight);
                 ImageIO.write(saveImage, "png", currentFile);
