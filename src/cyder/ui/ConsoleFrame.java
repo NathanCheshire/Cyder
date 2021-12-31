@@ -123,10 +123,6 @@ public final class ConsoleFrame {
             //line color depends on the current image
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
 
-            //set contentpane tooltip
-            ((JLabel) (consoleCyderFrame.getContentPane()))
-                    .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
-
             //init slide and dir directions
             lastSlideDirection = Direction.LEFT;
             consoleDir = Direction.TOP;
@@ -258,6 +254,10 @@ public final class ConsoleFrame {
                 consoleCyderFrame.setMinimumSize(new Dimension(600,600));
                 consoleCyderFrame.setMaximumSize(new Dimension(w, h));
             }
+
+            //set contentpane tooltip
+            ((JLabel) (consoleCyderFrame.getContentPane())).setToolTipText(
+                    StringUtil.getFilename(getCurrentBackgroundFile().getName()));
 
             outputArea = new JTextPane() {
                 @Override

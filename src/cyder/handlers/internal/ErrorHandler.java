@@ -15,6 +15,9 @@ public class ErrorHandler {
      * @param e the exception we are handling and possibly informing the user of
      */
     public static void handle(Exception e) {
+        //always print to the IDE console, this saves time in the long run
+        e.printStackTrace();
+
         try {
             //obtain a String object of the error and the line number
             StringWriter sw = new StringWriter();
@@ -54,6 +57,9 @@ public class ErrorHandler {
      * @param e the exception to be silently handled
      */
     public static void silentHandle(Exception e) {
+        //always print to the IDE console, this saves time in the long run
+        e.printStackTrace();
+
         try {
             //obtain a String object of the error and the line number
             StringWriter sw = new StringWriter();
@@ -76,17 +82,15 @@ public class ErrorHandler {
         }
     }
 
-    @Override
-    public String toString() {
-        return "ErrorHandler object, hash=" + this.hashCode();
-    }
-
     /**
      * Handles the exception by displaying a CyderFrame with the exception on it
      * (does not log the message. As such, this method should only be used in rare scenarios)
      * @param e the exception to be displayed
      */
     private static void silentHandleWithoutLogging(Exception e) {
+        //always print to the IDE console, this saves time in the long run
+        e.printStackTrace();
+
         String title = e.getMessage();
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);

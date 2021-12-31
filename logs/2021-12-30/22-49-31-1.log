@@ -1,0 +1,45 @@
+[22-49-32] [ENTRY]: [Nathan]
+[22-49-32] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-49-33] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-49-33] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-49-33] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-49-34] [SYSTEM_IO]: Userdata requested: Name
+[22-49-34] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-49-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-49-34] [SYSTEM_IO]: Userdata requested: Name
+[22-49-34] [SYSTEM_IO]: Userdata requested: Foreground
+[22-49-34] [SYSTEM_IO]: Userdata requested: Foreground
+[22-49-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-49-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-49-35] [SYSTEM_IO]: Userdata requested: Foreground
+[22-49-35] [SYSTEM_IO]: Userdata requested: Font
+[22-49-35] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-49-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-49-35] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-49-35] [SYSTEM_IO]: Userdata requested: Foreground
+[22-49-35] [SYSTEM_IO]: Userdata requested: Foreground
+[22-49-35] [SYSTEM_IO]: Userdata requested: Foreground
+[22-49-35] [SYSTEM_IO]: Userdata requested: Font
+[22-49-35] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-49-35] [SYSTEM_IO]: Userdata requested: InputFill
+[22-49-35] [SYSTEM_IO]: Userdata requested: consolepinned
+[22-49-35] [SYSTEM_IO]: Userdata requested: consolepinned
+[22-49-35] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
+[22-49-35] [ACTION]: Console loaded in 3766ms
+[22-49-35] [SYSTEM_IO]: Userdata requested: windowlocx
+[22-49-35] [SYSTEM_IO]: Userdata requested: windowlocy
+[22-49-35] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-49-35] [ENTRY]: [TESTING MODE]
+[22-49-35] [SYSTEM_IO]: Userdata requested: laststart
+[22-49-35] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-49-35] [CONSOLE_OUT]: [STRING] Console loaded in 3766ms
+[22-49-39] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] You only have one background image. Try adding more via the user editor
+[22-49-39] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-49-40] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-49-40] [SYSTEM_IO]: Userdata requested: Name
+[22-49-40] [LOGOUT]: [Nathan]
+[22-49-40] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan] (title position: CENTER), (910,308,984x984)
+[22-49-40] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-49-40] [SYSTEM_IO]: Userdata requested: Background
+[22-49-40] [EXIT]: [RUNTIME] 8s
+[22-49-40] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0
