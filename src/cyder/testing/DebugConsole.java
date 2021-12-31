@@ -29,13 +29,20 @@ public class DebugConsole {
     private static LinkedList<String> lines = new LinkedList<>();
 
     public static <T> void print(T objMaybe) {
+        print(objMaybe, false);
+    }
+
+    public static <T> void print(T objMaybe, boolean showDebugConsole) {
         //this should be the only System.out.print call in the whole program
         out.print(objMaybe);
 
         //log the debug print (this is why you should debug print from here)
         SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT, "[DEBUG PRINT] " + objMaybe);
 
-        if (!open) {
+        //add new line to lines
+        lines.add(objMaybe.toString());
+
+        if (showDebugConsole) {
             initDebugWindow();
 
             printArea.setText("");
@@ -44,17 +51,15 @@ public class DebugConsole {
             for (String str : lines) {
                 printingUtil.print(str);
             }
-        } else {
-            bringMenuToFront();
         }
-
-        //add new to lines and print
-        lines.add(objMaybe.toString());
-        printingUtil.print(objMaybe.toString());
     }
 
     public static <T> void println(T objMaybe) {
-       print(objMaybe + "\n");
+       print(objMaybe + "\n", false);
+    }
+
+    public static <T> void println(T objMaybe, boolean showDebugConsole) {
+        print(objMaybe + "\n", showDebugConsole);
     }
 
     private static void bringMenuToFront() {
@@ -119,6 +124,8 @@ public class DebugConsole {
                 debugFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
 
                 open = true;
+            } else {
+                bringMenuToFront();
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);

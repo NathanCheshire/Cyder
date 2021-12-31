@@ -123,6 +123,10 @@ public final class ConsoleFrame {
             //line color depends on the current image
             lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
 
+            //set contentpane tooltip
+            ((JLabel) (consoleCyderFrame.getContentPane()))
+                    .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
+
             //init slide and dir directions
             lastSlideDirection = Direction.LEFT;
             consoleDir = Direction.TOP;
