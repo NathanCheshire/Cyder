@@ -7,6 +7,7 @@ import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
+import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 
 import javax.imageio.ImageIO;
@@ -271,6 +272,6 @@ public class PhotoViewer {
 
     @Override
     public String toString() {
-        return "PhotoViewer object[" + validImages.get(currentIndex).getAbsolutePath() + "], hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

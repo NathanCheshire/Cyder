@@ -154,13 +154,13 @@ public class ImageUtil {
         return ReturnImage;
     }
 
-    public static BufferedImage resizeImage(int x, int y, File UneditedImage) {
+    public static BufferedImage resizeImage(int width, int height, File UneditedImage) {
         BufferedImage ReturnImage = null;
 
         try {
             File CurrentConsole = UneditedImage;
             Image ConsoleImage = ImageIO.read(CurrentConsole);
-            Image TransferImage = ConsoleImage.getScaledInstance(x, y, Image.SCALE_SMOOTH);
+            Image TransferImage = ConsoleImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ReturnImage = new BufferedImage(TransferImage.getWidth(null), TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
             Graphics2D bGr = ReturnImage.createGraphics();
 

@@ -83,7 +83,7 @@ public class AudioPlayer {
 
     private AudioPlayer() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    } // no objects
+    }
 
     /**
      * Constructor that launches the AudioPlayer

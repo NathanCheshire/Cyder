@@ -7,6 +7,7 @@ import cyder.handlers.internal.SessionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
+import cyder.utilities.ReflectionUtil;
 import cyder.utilities.UserUtil;
 
 import java.awt.*;
@@ -291,12 +292,7 @@ public class GenesisShare {
 
         @Override
         public String toString() {
-            return "Preference object: (" +
-                    this.getID() + "," +
-                    this.getDisplayName() + "," +
-                    this.getTooltip() + "," +
-                    this.defaultValue +
-                    "), hash=" + this.hashCode();
+            return ReflectionUtil.commonCyderToString(this);
         }
     }
 }

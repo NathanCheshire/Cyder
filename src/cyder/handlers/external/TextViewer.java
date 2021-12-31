@@ -9,6 +9,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.ui.CyderTextField;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -16,7 +17,6 @@ import java.awt.*;
 import java.io.*;
 
 public class TextViewer {
-
     private CyderFrame textEditorFrame;
     private CyderTextField textNameEditField;
     private JTextArea textEditArea;
@@ -114,6 +114,6 @@ public class TextViewer {
 
     @Override
     public String toString() {
-        return "TextEditor object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

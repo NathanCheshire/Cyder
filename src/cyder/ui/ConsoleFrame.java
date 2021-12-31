@@ -1696,8 +1696,7 @@ public final class ConsoleFrame {
      */
     public void resizeBackgrounds() {
         try {
-            LinkedList<File> backgrounds = new LinkedList<>();//getBackgrounds();
-            backgrounds.add(new File("Moodswings.png"));
+            LinkedList<File> backgrounds = getBackgrounds();
 
             int minWidth = 400;
             int minHeight = 400;
@@ -1723,6 +1722,7 @@ public final class ConsoleFrame {
                 int deltaWidth = (int) resizeDimensions.getWidth();
                 int deltaHeight = (int) resizeDimensions.getHeight();
 
+                System.out.println(deltaWidth + "," + deltaHeight);
                 //save the modified image
                 BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, deltaWidth, deltaHeight);
                 ImageIO.write(saveImage, "png", currentFile);

@@ -1,0 +1,25 @@
+[21-55-19] [ENTRY]: [Nathan]
+[21-55-19] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-55-20] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-55-20] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-55-21] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-55-21] [EXCEPTION]: 
+Width (0) and height (0) must be > 0
+Thrown from:
+java.desktop/java.awt.image.SampleModel.<init>(SampleModel.java:126)
+StackTrace:
+java.lang.IllegalArgumentException: Width (0) and height (0) must be > 0
+	at java.desktop/java.awt.image.SampleModel.<init>(SampleModel.java:126)
+	at java.desktop/java.awt.image.ComponentSampleModel.<init>(ComponentSampleModel.java:140)
+	at java.desktop/java.awt.image.PixelInterleavedSampleModel.<init>(PixelInterleavedSampleModel.java:87)
+	at java.desktop/java.awt.image.Raster.createInterleavedRaster(Raster.java:642)
+	at java.desktop/java.awt.image.Raster.createInterleavedRaster(Raster.java:278)
+	at java.desktop/java.awt.image.BufferedImage.<init>(BufferedImage.java:376)
+	at cyder.utilities.ImageUtil.resizeImage(ImageUtil.java:278)
+	at cyder.ui.ConsoleFrame.resizeBackgrounds(ConsoleFrame.java:1727)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:116)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:428)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:475)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:361)
+	at cyder.genesis.Cyder.main(Cyder.java:79)
+[21-55-21] [SYSTEM_IO]: Userdata requested: Name
