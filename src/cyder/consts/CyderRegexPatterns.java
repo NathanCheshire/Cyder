@@ -10,6 +10,10 @@ public class CyderRegexPatterns {
 
     public static final String numbersAndLettersPattern = "[a-zA-Z0-9]*";
 
+    private CyderRegexPatterns() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     public String zeroOrMoreWhiteSpace() {
         return "\\s*";
     }

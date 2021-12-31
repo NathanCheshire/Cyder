@@ -3,10 +3,9 @@ package cyder.algorithoms;
 import cyder.consts.CyderStrings;
 
 public class GroupAlgorithms {
-
     private GroupAlgorithms() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    } //no instantiation
+    }
 
     public static int gcd(int a, int b) {
         if (a < b)
@@ -37,10 +36,5 @@ public class GroupAlgorithms {
     // Lerping between same values might not produce the same value
     public static float lerp(float v0, float v1, float t) {
         return (1 - t) * v0 + t * v1;
-    }
-
-    @Override
-    public String toString() {
-        return "GroupTheory object, hash=" + this.hashCode();
     }
 }

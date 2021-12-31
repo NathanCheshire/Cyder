@@ -1,9 +1,15 @@
 package cyder.algorithoms;
 
+import cyder.consts.CyderStrings;
+
 import java.awt.Point;
 import java.util.*;
 
 public final class GrahamScanAlgorithms {
+    private GrahamScanAlgorithms() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     protected enum Turn {
         CLOCKWISE, COUNTER_CLOCKWISE, COLLINEAR
     }

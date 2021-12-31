@@ -38,4 +38,8 @@ public class CyderColors {
     public static void setGuiThemeColor(Color c) {
         guiThemeColor = c;
     }
+
+    private CyderColors() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 }

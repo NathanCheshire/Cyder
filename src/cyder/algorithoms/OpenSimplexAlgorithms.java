@@ -1,5 +1,7 @@
 package cyder.algorithoms;
 
+import cyder.utilities.ReflectionUtil;
+
 //this obviously isn't my code, I have somewhat of a life
 //Credit: https://gist.github.com/KdotJPG/b1270127455a94ac5d19
 public class OpenSimplexAlgorithms {
@@ -2416,4 +2418,8 @@ public class OpenSimplexAlgorithms {
         }
     }
 
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
+    }
 }

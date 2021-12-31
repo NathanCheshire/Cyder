@@ -3,6 +3,7 @@ package cyder.cyderuser;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.ErrorHandler;
@@ -33,6 +34,10 @@ public class UserCreator {
     private static CyderButton createNewUser;
     private static CyderButton chooseBackground;
     private static File createUserBackground;
+
+    private UserCreator() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public static void showGUI() {
         createUserBackground = null;

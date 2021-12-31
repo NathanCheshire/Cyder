@@ -17,10 +17,12 @@ import java.util.concurrent.Semaphore;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class GenesisShare {
+    //private constructor
     private GenesisShare() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    //sems
     private static Semaphore exitingSem = new Semaphore(1);
     private static Semaphore printingSem = new Semaphore(1);
 
@@ -32,7 +34,10 @@ public class GenesisShare {
         return printingSem;
     }
 
+    //frame checking as a failsafe
+
     private static boolean suspendFrameChecker = false;
+    private static boolean checkerStarted = false;
 
     public static void suspendFrameChecker() {
         suspendFrameChecker = true;
@@ -43,6 +48,12 @@ public class GenesisShare {
     }
 
     public static void startFinalFrameDisposedChecker() {
+        if (checkerStarted)
+            return;
+
+        checkerStarted = true;
+        suspendFrameChecker = true;
+
         Executors.newSingleThreadScheduledExecutor(
                 new CyderThreadFactory("Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
             Frame[] frames = Frame.getFrames();
@@ -59,6 +70,8 @@ public class GenesisShare {
             }
         }, 10, 5, SECONDS);
     }
+
+    //preferences used for user
 
     private static final LinkedList<Preference> prefs = initPreferencesList();
 
@@ -190,6 +203,8 @@ public class GenesisShare {
         else return null;
     }
 
+    //generic booleans
+
     private static boolean quesitonableInternet;
 
     public static boolean isQuesitonableInternet() {
@@ -199,6 +214,8 @@ public class GenesisShare {
     public static void setQuesitonableInternet(boolean quesitonableInternet) {
         GenesisShare.quesitonableInternet = quesitonableInternet;
     }
+
+    //start time for logging
 
     private static long absoluteStartTime = 0;
     private static long consoleStartTime = 0;

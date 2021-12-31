@@ -30,6 +30,7 @@ public class ReflectionUtil {
         }
 
         String retString = ret.toString();
+        //remove last two chars (space and ,) and add the closing parenthesis
         retString = retString.substring(0, retString.length() - 3) + ")";
         return retString;
     }

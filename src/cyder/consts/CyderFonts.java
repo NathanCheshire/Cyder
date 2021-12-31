@@ -10,4 +10,8 @@ public class CyderFonts {
     public static final Font tahoma = new Font("tahoma", Font.BOLD, 20);
     public static final Font frameTitleFont = new Font("Agency FB", Font.BOLD, 22);
     public static final Font notificationFont = weatherFontSmall;
+
+    private CyderFonts() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 }

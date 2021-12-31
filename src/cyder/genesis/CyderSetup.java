@@ -2,6 +2,7 @@ package cyder.genesis;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.utilities.IOUtil;
@@ -13,6 +14,10 @@ import java.awt.*;
 import java.io.File;
 
 public class CyderSetup {
+    private CyderSetup() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     /**
      * This is called from the shutdown hook, things imperitive to do
      * no matter what, before we close, System.exit has already been called here
@@ -29,11 +34,6 @@ public class CyderSetup {
 
     public static void addCommonExitHook() {
         addShutdownHook(CyderSetup::commonExitHook, "common-exit-hook");
-    }
-
-    public static void initFrameChecker() {
-        GenesisShare.suspendFrameChecker();
-        GenesisShare.startFinalFrameDisposedChecker();
     }
 
     /**
@@ -88,13 +88,6 @@ public class CyderSetup {
         }
 
         return ret;
-    }
-
-    public static void commonCyderSetup() {
-        addCommonExitHook();
-        initSystemProperties();
-        initUIManager();
-        initFrameChecker();
     }
 
     public static void exceptionExit(String message, String title) {

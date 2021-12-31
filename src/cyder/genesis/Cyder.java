@@ -1,5 +1,6 @@
 package cyder.genesis;
 
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.IOUtil;
@@ -72,9 +73,14 @@ public class Cyder {
         },"Cyder Start Secondary Subroutines").start();
 
         //start GUI exiting failsafe
-        CyderSetup.initFrameChecker();
+        GenesisShare.startFinalFrameDisposedChecker();
 
         //offship how to login to the LoginHandler since all subroutines finished
         LoginHandler.beginLogin();
+    }
+
+    //just to be safe
+    private Cyder() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 }

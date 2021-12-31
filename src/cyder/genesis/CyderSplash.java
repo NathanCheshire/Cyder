@@ -1,6 +1,7 @@
 package cyder.genesis;
 
 import cyder.consts.CyderColors;
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -11,6 +12,10 @@ import java.awt.*;
 public class CyderSplash {
     private static boolean splashShown = false;
     private static CyderFrame splashFrame;
+
+    private CyderSplash() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     public static void showSplash() {
         if (splashShown)

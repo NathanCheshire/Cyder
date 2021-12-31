@@ -1,5 +1,7 @@
 package cyder.cyderuser;
 
+import cyder.utilities.ReflectionUtil;
+
 import java.util.LinkedList;
 
 public class User {
@@ -44,6 +46,8 @@ public class User {
     private String minimizeAnimation;
     private String consolePinned;
     private LinkedList<MappedExecutable> executables;
+
+    public User() {} //this is mainly used by GSON and when creating a user via the user creator
 
     public String getName() {
         return name;
@@ -377,6 +381,13 @@ public class User {
         this.consolePinned = consolePinned;
     }
 
+    //toString
+
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
+    }
+
     //inner classes
 
     public static class MappedExecutable {
@@ -412,6 +423,11 @@ public class User {
             } else {
                 return false;
             }
+        }
+
+        @Override
+        public String toString() {
+            return "name = " + this.name + ", filepath = " + this.filepath;
         }
     }
 }

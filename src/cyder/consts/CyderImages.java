@@ -21,4 +21,8 @@ public class CyderImages {
             new Color(252,245,255),
             new Color(164,154,187),
             new Color(249, 233, 241)));
+
+    private CyderImages() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 }
