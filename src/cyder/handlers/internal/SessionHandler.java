@@ -24,7 +24,6 @@ public class SessionHandler {
     //absolute start of Cyder, class loading
     private static long start = System.currentTimeMillis();
 
-    //todo add more and comment what they're used for
     public enum Tag {
         CLIENT, //client typed something
         CONSOLE_OUT, //printing something to the console frame
@@ -43,7 +42,6 @@ public class SessionHandler {
         CORRUPTION, // corruption of userdata.json
         PRIVATE_MESSAGE_SENT, //sending a message through the chat view
         PRIVATE_MESSAGE_RECEIVED, //received a message through the chat view
-
     }
 
     /**

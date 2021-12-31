@@ -756,7 +756,7 @@ public class IOUtil {
 
         @Override
         public String toString() {
-            return ReflectionUtil.toStringReflection(this);
+            return ReflectionUtil.commonCyderToString(this);
         }
 
         //inner classes
