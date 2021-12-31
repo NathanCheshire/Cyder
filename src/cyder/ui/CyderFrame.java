@@ -1570,18 +1570,22 @@ public class CyderFrame extends JFrame {
             return;
         }
 
-        //fix shape
-        if (cr == null) {
-            if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
-                if (UserUtil.extractUser().getRoundedwindows().equals("1")) {
-                    setShape(new RoundRectangle2D.Double(0, 0,
-                            getWidth(), getHeight(), 20, 20));
-                } else {
-                    setShape(null);
+        try {
+            //fix shape
+            if (cr == null) {
+                if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
+                    if (UserUtil.extractUser().getRoundedwindows().equals("1")) {
+                        setShape(new RoundRectangle2D.Double(0, 0,
+                                getWidth(), getHeight(), 20, 20));
+                    } else {
+                        setShape(null);
+                    }
                 }
+            } else {
+                setShape(null);
             }
-        } else {
-            setShape(null);
+        } catch (Exception e) {
+            ErrorHandler.silentHandle(e);
         }
 
         //update the border covering the resize area

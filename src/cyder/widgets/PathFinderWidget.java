@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -57,6 +58,11 @@ public class PathFinderWidget {
     private static int heuristicIndex;
     private static String[] heuristics = {"Manhattan","Euclidean"};
 
+    private PathFinderWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
+    @Widget("path")
     public static void showGUI() {
         if (pathFindingFrame != null)
             pathFindingFrame.dispose();

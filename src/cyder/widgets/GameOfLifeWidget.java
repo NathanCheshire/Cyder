@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -48,6 +49,7 @@ public class GameOfLifeWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    @Widget("conway")
     public static void showGUI() {
         grid = new int[defaultGridLen][defaultGridLen];
         conwayFrame = new CyderFrame(940,1120, CyderImages.defaultBackgroundLarge);

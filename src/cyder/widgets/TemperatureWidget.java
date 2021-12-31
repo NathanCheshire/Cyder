@@ -27,7 +27,9 @@ public class TemperatureWidget {
     private CyderCheckBox oldKelvin;
     private CyderCheckBox newKelvin;
 
-    public TemperatureWidget() {}
+    public TemperatureWidget() {
+        //multiple instances are allowed
+    }
 
     @Widget("temperature")
     public void showGUI() {

@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -21,7 +22,8 @@ public class CalculatorWidget {
     private CalculatorWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
-    
+
+    @Widget("calculator")
     public static void showGUI() {
         calculatorExpression = "";
 

@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -23,8 +24,11 @@ public class HashingWidget {
     private ArrayList<String> algorithms = new ArrayList<>();
 
     //empty constructor
-    public HashingWidget() {}
+    public HashingWidget() {
+        //multiple widgets should be allowed
+    }
 
+    @Widget("hash")
     public void showGUI() {
         algorithms.add("SHA-256");
         algorithms.add("SHA-1");

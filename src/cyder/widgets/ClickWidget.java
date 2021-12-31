@@ -1,7 +1,9 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
 import cyder.utilities.NumberUtil;
@@ -12,6 +14,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ClickWidget {
+    private ClickWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
+    @Widget("click me")
     public static void showGUI() {
         try {
             CyderFrame clickMeFrame = new CyderFrame(220,100);

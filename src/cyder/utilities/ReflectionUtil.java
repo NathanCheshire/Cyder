@@ -59,4 +59,6 @@ public class ReflectionUtil {
 
     //todo method for ui components to log them and their parent and their name when clicked
     //todo fix and finish rippling for label
+    //todo make sure widgets are annotated properly and utilize reflection to find them and inform the user of available widgets
+    //todo add a description to the @Widget annotation
 }

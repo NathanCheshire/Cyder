@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -22,7 +23,9 @@ public class CardWidget {
     private static CyderFrame fathersDay2021Frame;
     private static CyderFrame birthday2021Frame;
 
-    public CardWidget() {} //public for reflection for auto calls of cards
+    public CardWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    } //public for reflection for auto calls of cards
 
     public static void Christmas2020() {
         if (christmas2020Frame != null)

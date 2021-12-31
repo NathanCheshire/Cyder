@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.algorithoms.OpenSimplexAlgorithms;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
+import cyder.consts.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
 import cyder.ui.*;
@@ -17,6 +18,10 @@ import java.awt.event.MouseEvent;
 import java.util.Random;
 
 public class PerlinWidget {
+    private PerlinWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     //ui
     private static CyderCheckBox animateCheckBox;
     private static CyderButton generate;

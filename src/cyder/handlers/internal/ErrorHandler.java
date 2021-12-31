@@ -61,9 +61,6 @@ public class ErrorHandler {
      * @param e the exception to be silently handled
      */
     public static void silentHandle(Exception e) {
-        //always print to the IDE console, this saves time in the long run
-        e.printStackTrace();
-
         try {
             //obtain a String object of the error and the line number
             StringWriter sw = new StringWriter();
@@ -92,9 +89,6 @@ public class ErrorHandler {
      * @param e the exception to be displayed
      */
     private static void silentHandleWithoutLogging(Exception e) {
-        //always print to the IDE console, this saves time in the long run
-        e.printStackTrace();
-
         String title = e.getMessage();
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);

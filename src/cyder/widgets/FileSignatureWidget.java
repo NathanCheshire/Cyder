@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -26,6 +27,7 @@ public class FileSignatureWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    @Widget("file signature")
     public static void showGUI() {
         signatureFrame = new CyderFrame(400,420, CyderImages.defaultBackground);
         signatureFrame.setTitle("File Signature Checker");

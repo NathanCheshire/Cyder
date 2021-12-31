@@ -1,7 +1,9 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -15,6 +17,11 @@ import java.awt.event.KeyAdapter;
 import static cyder.consts.CyderColors.navy;
 
 public class ColorConverterWidget {
+    private ColorConverterWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
+    @Widget("color converter")
     public static void showGUI() {
         CyderFrame colorFrame = new CyderFrame(400,300, CyderImages.defaultBackground);
         colorFrame.setTitle("Color Converter");

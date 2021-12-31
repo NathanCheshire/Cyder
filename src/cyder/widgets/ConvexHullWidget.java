@@ -1,6 +1,8 @@
 package cyder.widgets;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.*;
 import cyder.algorithoms.GrahamScanAlgorithms;
@@ -24,6 +26,11 @@ public class ConvexHullWidget {
 
     private static String[] algorithms = new String[] {"Wrapping","Graham Scan"};
 
+    private ConvexHullWidget() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
+    @Widget("convex hull")
     public static void showGUI() {
         boardPoints = new Vector<>();
 

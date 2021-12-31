@@ -90,7 +90,9 @@ public class WeatherWidget {
     private boolean GMTset;
 
     //nothing on constructor
-    public WeatherWidget() {}
+    public WeatherWidget() {
+        //multiple widgets are allowed
+    }
 
     //show gui method as per standard
     @Widget("weather")
