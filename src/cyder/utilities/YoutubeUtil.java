@@ -26,7 +26,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class YoutubeUtil {
-
     private YoutubeUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }

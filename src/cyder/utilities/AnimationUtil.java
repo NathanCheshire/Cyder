@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AnimationUtil {
-
     //private constructor to avoid object creation
     private AnimationUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);

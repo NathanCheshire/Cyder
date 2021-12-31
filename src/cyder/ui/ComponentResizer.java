@@ -1,10 +1,13 @@
 package cyder.ui;
 
+import cyder.utilities.ReflectionUtil;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ComponentResizer extends MouseAdapter {
     private final Dimension MINIMUM_SIZE = new Dimension(10, 10);
@@ -304,6 +307,6 @@ public class ComponentResizer extends MouseAdapter {
 
     @Override
     public String toString() {
-        return "Component Resizer object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

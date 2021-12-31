@@ -120,8 +120,8 @@ public class CyderButton extends JButton {
         if (topFrame != null)
             frameRep = topFrame.getTitle();
 
-        return "CyderButton object, hash=" + this.hashCode() +
+        return "CyderButton, hash = " + this.hashCode() +
                 (this.getText() != null && this.getText().length() > 0 ? ", text=[" + this.getText() + "]" : "") +
-                (frameRep.length() > 0 ? " parentFrame=[" + frameRep + "]" : "");
+                (frameRep.length() > 0 ? " parentFrame = [" + frameRep + "]" : "");
     }
 }

@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ImageUtil {
-
     private ImageUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }

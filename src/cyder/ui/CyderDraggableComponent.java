@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.testing.DebugConsole;
 import cyder.utilities.IOUtil;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -33,6 +34,6 @@ public class CyderDraggableComponent implements MouseMotionListener {
 
     @Override
     public String toString() {
-        return "CyderDraggableComponent object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

@@ -1,5 +1,7 @@
 package cyder.ui;
 
+import cyder.utilities.ReflectionUtil;
+
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.JTextComponent;
@@ -69,6 +71,6 @@ public class CyderCaret extends DefaultCaret {
 
     @Override
     public String toString() {
-        return "CyderCaret object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

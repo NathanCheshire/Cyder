@@ -3,13 +3,13 @@ package cyder.threads;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.NumberUtil;
+import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import java.util.LinkedList;
 
 public class BletchyThread {
-
     private bletchyThread bletchThread;
     private JTextPane outputArea;
     private StringUtil su;
@@ -147,5 +147,10 @@ public class BletchyThread {
         retList.add(s.toUpperCase());
 
         return retList.toArray(new String[0]);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

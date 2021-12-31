@@ -11,7 +11,6 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 
 public class SystemUtil {
-
     private SystemUtil () {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }

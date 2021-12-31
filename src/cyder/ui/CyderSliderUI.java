@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.enums.SliderShape;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
@@ -319,6 +320,6 @@ public class CyderSliderUI extends BasicSliderUI {
 
     @Override
     public String toString() {
-        return "CyderSliderUI object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

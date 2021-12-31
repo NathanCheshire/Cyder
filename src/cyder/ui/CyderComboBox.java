@@ -1,5 +1,7 @@
 package cyder.ui;
 
+import cyder.utilities.ReflectionUtil;
+
 import javax.swing.*;
 
 public class CyderComboBox extends JLabel {
@@ -108,5 +110,10 @@ public class CyderComboBox extends JLabel {
 
     public CyderButton getComboSwitchButton() {
         return this.comboSwitchButton;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

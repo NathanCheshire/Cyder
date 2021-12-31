@@ -24,6 +24,9 @@ import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
 public class LoginHandler {
+    private LoginHandler() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     //Login widget --------------------------------------------------------------------
 

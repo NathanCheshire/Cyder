@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -26,4 +27,9 @@ public class CyderPasswordField extends JPasswordField {
     private CyderPasswordField(String text, int col) {}
 
     private CyderPasswordField(Document doc, String text, int col) {}
+
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
+    }
 }

@@ -1,5 +1,6 @@
 package cyder.handlers.internal;
 
+import cyder.consts.CyderStrings;
 import cyder.testing.DebugConsole;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.UserUtil;
@@ -8,6 +9,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class ErrorHandler {
+    private ErrorHandler() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     /**
      * This method takes an exception, prints it to a string, and then passes the

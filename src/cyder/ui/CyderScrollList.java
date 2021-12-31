@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -274,5 +275,10 @@ public class CyderScrollList {
         for (JLabel element : elements) {
             element.setForeground(CyderColors.navy);
         }
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

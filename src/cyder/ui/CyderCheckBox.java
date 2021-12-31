@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.consts.CyderColors;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -187,7 +188,7 @@ public class CyderCheckBox extends JLabel {
 
     @Override
     public String toString() {
-        return "CyderCheckBox object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 
     @Override

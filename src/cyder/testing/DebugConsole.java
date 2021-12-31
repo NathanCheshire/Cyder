@@ -1,6 +1,7 @@
 package cyder.testing;
 
 import cyder.consts.CyderColors;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
@@ -19,6 +20,10 @@ import java.util.concurrent.Semaphore;
 import static java.lang.System.out;
 
 public class DebugConsole {
+    private DebugConsole() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     private static boolean open = false;
     private static JTextPane printArea = new JTextPane();
     private static CyderScrollPane printScroll;

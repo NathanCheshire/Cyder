@@ -17,9 +17,10 @@ import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GetterUtil {
-    public GetterUtil() {}
-    //instantiation does nothing but we still want to allow object creation for multiple instances
-    //should we require multiple string/file getteres at the same time.
+    public GetterUtil() {
+        //instantiation does nothing but we still want to allow object creation for multiple instances
+        //should we require multiple string/file getteres at the same time.
+    }
 
     /*
     STRING GETTER

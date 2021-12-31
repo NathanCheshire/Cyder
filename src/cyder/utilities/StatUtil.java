@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
@@ -19,6 +20,10 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 public class StatUtil {
+    private StatUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     public static void javaProperties() {
         ArrayList<String> PropertiesList = new ArrayList<>();
         Properties Props = System.getProperties();

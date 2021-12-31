@@ -1,6 +1,7 @@
 package cyder.threads;
 
 import cyder.ui.ConsoleFrame;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import java.util.LinkedList;
@@ -48,5 +49,10 @@ public class MasterYoutubeThread {
 
     public static boolean isActive() {
         return active;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

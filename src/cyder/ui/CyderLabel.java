@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -50,8 +51,7 @@ public class CyderLabel extends JLabel {
 
     @Override
     public String toString() {
-        return "CyderLabel object, hash=" + this.hashCode() + ", parent=" +
-                (this.getParent() == null ? this.getParent() : " no parent");
+        return ReflectionUtil.commonCyderToString(this);
     }
 
     //rippling

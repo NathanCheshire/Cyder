@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.enums.AnimationDirection;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;
@@ -296,6 +297,6 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
     @Override
     public String toString() {
-        return "CyderProgressUI object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.gson.Gson;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.internal.ErrorHandler;
@@ -19,6 +20,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class UserUtil {
+    private UserUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     //the semaphore to use when reading or writing from/to a JSON file
     private static Semaphore jsonIOSem = new Semaphore(1);
 

@@ -1,5 +1,7 @@
 package cyder.ui;
 
+import cyder.utilities.ReflectionUtil;
+
 import javax.swing.*;
 
 public class CyderProgressBar extends JProgressBar {
@@ -13,5 +15,10 @@ public class CyderProgressBar extends JProgressBar {
 
     public CyderProgressBar(int orientation, int min, int max) {
         super(orientation, min, max);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

@@ -1,14 +1,7 @@
 package cyder.utilities;
 
-import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
-import cyder.threads.CyderThreadFactory;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderFrame;
+import cyder.consts.CyderStrings;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -17,45 +10,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class TimeUtil {
-
-    private int gmtOffset;
     public TimeUtil() {
-        initGMTOffset();
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    public String formatDate(LocalDateTime now, DateTimeFormatter dtf) {
+    public static String formatDate(LocalDateTime now, DateTimeFormatter dtf) {
         return now.format(dtf);
     }
 
-    public String formatCurrentDate(DateTimeFormatter dtf) {
+    public static String formatCurrentDate(DateTimeFormatter dtf) {
         return dtf.format(LocalDate.now());
-    }
-
-    public LinkedList<String> getTimezoneIDs() {
-        TimeZone tz = TimeZone.getDefault();
-
-        int offset = gmtOffset * 1000;
-        String[] availableIDs = tz.getAvailableIDs(offset);
-
-        LinkedList<String> timezoneIDs = new LinkedList<>();
-
-        Collections.addAll(timezoneIDs, availableIDs);
-
-        return timezoneIDs;
-    }
-
-    //returns gmt offset for current loc in seconds
-    public int getGMTOffsetSeconds() {
-        return gmtOffset;
-    }
-
-    //returns gmt offset for current loc, so slidell is -6, miami is -5
-    public int getGMTOffsetHours() {
-        return gmtOffset / 60 / 60;
     }
 
     public static String weatherTime() {
@@ -63,75 +29,6 @@ public class TimeUtil {
         Date Time = cal.getTime();
         SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
         return dateFormatter.format(Time);
-    }
-
-    private void initGMTOffset() {
-        try {
-            String key = UserUtil.extractUser().getWeatherkey();
-
-            if (key.trim().length() == 0) {
-                ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the Weather Key has not been set or is invalid" +
-                        ", as a result, many features of Cyder will not work as intended. Please see the fields panel of the" +
-                        " user editor to learn how to acquire a key and set it.","Weather Key Not Set");
-                return;
-            }
-
-            String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
-                    IPUtil.getIpdata().getCity() + "," + IPUtil.getIpdata().getRegion()+ "," +
-                    IPUtil.getIpdata().getCountry_name() + "&appid=" + key + "&units=imperial";
-
-            URL URL = new URL(OpenString);
-            BufferedReader WeatherReader = new BufferedReader(new InputStreamReader(URL.openStream()));
-            String[] Fields = {"", ""};
-            String Line;
-
-            while ((Line = WeatherReader.readLine()) != null) {
-                String[] LineArray = Line.replace("{", "").replace("}", "")
-                        .replace(":", "").replace("\"", "").replace("[", "")
-                        .replace("]", "").replace(":", "").split(",");
-
-                Fields = StringUtil.combineArrays(Fields, LineArray);
-            }
-
-            WeatherReader.close();
-
-            for (String field : Fields) {
-                if (field.contains("timezone")) {
-                    gmtOffset = Integer.parseInt(field.replaceAll("[^0-9\\-]", ""));
-                }
-            }
-        }
-
-        catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
-
-    public static void closeAtHourMinute(int Hour, int Minute, CyderFrame cf) {
-        Calendar CloseCalendar = Calendar.getInstance();
-
-        CloseCalendar.add(Calendar.DAY_OF_MONTH, 0);
-        CloseCalendar.set(Calendar.HOUR_OF_DAY, Hour);
-        CloseCalendar.set(Calendar.MINUTE, Minute);
-        CloseCalendar.set(Calendar.SECOND, 0);
-        CloseCalendar.set(Calendar.MILLISECOND, 0);
-
-        Executors.newSingleThreadScheduledExecutor(
-                new CyderThreadFactory("Scheduled Close Waiter [hour=" + Hour + ", minute=" + Minute + "]")).schedule(() -> {
-            cf.dispose();
-
-            try {
-                if (UserUtil.getUserData("minimizeonclose").equals("1")) {
-                    ConsoleFrame.getConsoleFrame().minimizeAll();
-                } else {
-                    GenesisShare.getExitingSem().acquire();
-                    GenesisShare.getExitingSem().release();
-                    GenesisShare.exit(66);
-                }
-            } catch (Exception e) {
-                ErrorHandler.handle(e);
-            }
-        }, (CloseCalendar.getTimeInMillis() - System.currentTimeMillis()), TimeUnit.MILLISECONDS);
     }
 
     //commonly used date patterns

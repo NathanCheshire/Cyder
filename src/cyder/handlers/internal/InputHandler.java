@@ -1502,8 +1502,7 @@ public class InputHandler {
 
     @Override
     public String toString() {
-        return "InputHandler object, hash=" + this.hashCode() +
-                "\nLinked outputArea: " + this.outputArea + "";
+        return ReflectionUtil.commonCyderToString(this);
     }
 
     //printing queue methods and logic ----------------------------

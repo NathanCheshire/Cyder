@@ -4,10 +4,7 @@ import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
-import cyder.utilities.NetworkUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.TimeUtil;
-import cyder.utilities.UserUtil;
+import cyder.utilities.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -191,6 +188,6 @@ public class YoutubeThread {
 
     @Override
     public String toString() {
-        return "YouTube Thread object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

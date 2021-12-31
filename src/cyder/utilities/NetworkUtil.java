@@ -15,7 +15,6 @@ import java.util.Enumeration;
 import java.util.Scanner;
 
 public class NetworkUtil {
-
     private NetworkUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     } //private constructor to avoid object creation

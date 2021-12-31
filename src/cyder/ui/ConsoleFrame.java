@@ -4,6 +4,7 @@ import cyder.algorithoms.GeometryAlgorithms;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
@@ -42,7 +43,9 @@ public final class ConsoleFrame {
         return consoleFrameInstance;
     }
 
-    private ConsoleFrame() {} //no instantiation this way
+    private ConsoleFrame() {
+        //instantiation only available from within this class
+    }
 
     //program driver
     private String UUID = null;

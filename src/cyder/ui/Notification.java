@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.utilities.ReflectionUtil;
 import cyder.utilities.UserUtil;
 
 import javax.swing.*;
@@ -397,9 +398,6 @@ public class Notification extends JLabel {
 
     @Override
     public String toString() {
-        return "Notificaiton object: (" +
-                this.getX() + "," + this.getY() + "," +
-                this.getWidth() + "x" + this.getHeight()
-                + "), hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

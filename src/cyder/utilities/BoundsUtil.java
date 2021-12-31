@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderStrings;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -10,6 +11,10 @@ import java.awt.geom.AffineTransform;
 import java.util.LinkedList;
 
 public class BoundsUtil {
+    private BoundsUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     /**
      * Calculates the needed height of an inform/dialog window.
      * @param text the string to display

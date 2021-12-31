@@ -2,9 +2,9 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 
@@ -12,9 +12,7 @@ import java.awt.*;
     Credit: Philipp Danner from Stack Overflow
     https://stackoverflow.com/questions/16373459/java-jscrollbar-design/16375805
 */
-
 public class CyderScrollPane extends JScrollPane {
-
     private static int SCROLL_BAR_ALPHA_ROLLOVER = 100;
     private static int SCROLL_BAR_ALPHA = 50;
     private static int THUMB_SIZE = 8;
@@ -195,6 +193,6 @@ public class CyderScrollPane extends JScrollPane {
 
     @Override
     public String toString() {
-        return "CyderScrollPane object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

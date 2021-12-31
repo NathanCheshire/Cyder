@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.utilities.AnimationUtil;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -184,4 +185,10 @@ public class CyderSwitch extends JLabel {
         switchButton.setEnabled(b);
         super.setEnabled(b);
     }
+
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
+    }
+
 }

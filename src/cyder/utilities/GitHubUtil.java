@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 
 import java.io.BufferedReader;
@@ -10,6 +11,10 @@ import java.net.URL;
 import java.util.LinkedList;
 
 public class GitHubUtil {
+    private GitHubUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     public static Issue[] getIssues() {
         Issue[] ret = null;
 

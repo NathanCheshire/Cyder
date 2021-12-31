@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
+import cyder.utilities.ReflectionUtil;
 import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
@@ -163,7 +164,7 @@ public class DragLabel extends JLabel {
 
     @Override
     public String toString() {
-        return "DragLabel object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 
     /*

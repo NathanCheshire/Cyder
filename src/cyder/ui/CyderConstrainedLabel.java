@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
+import cyder.utilities.ReflectionUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -75,5 +76,10 @@ public class CyderConstrainedLabel extends JLabel {
         setFont(CyderFonts.weatherFontSmall);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

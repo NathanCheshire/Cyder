@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -112,7 +113,7 @@ public class CyderTextField extends JTextField {
 
     @Override
     public String toString() {
-        return "CyderTextField object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 
     public void informValidData() {

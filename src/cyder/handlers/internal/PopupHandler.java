@@ -1,6 +1,7 @@
 package cyder.handlers.internal;
 
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -9,6 +10,10 @@ import cyder.utilities.BoundsUtil;
 import java.awt.*;
 
 public class PopupHandler {
+    private PopupHandler() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     public static void inform() {
         inform("Empty text", "Empty title");
     }

@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.ConsoleFrame;
 
@@ -10,6 +11,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public class SpotlightUtil {
+    private SpotlightUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     /**
      * Gets the windows spotlight directory. I'm not sure if it could chane since according to Google
      * source it's staticly set at Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy. To be safe, however

@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.consts.CyderStrings;
 import cyder.ui.CyderFrame;
 
 import java.awt.*;
@@ -7,6 +8,10 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class FrameUtil {
+    private FrameUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
     public static LinkedList<Frame> getFrames() {
         return new LinkedList<>(Arrays.asList(Frame.getFrames()));
     }

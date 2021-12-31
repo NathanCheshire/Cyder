@@ -56,4 +56,7 @@ public class ReflectionUtil {
 
         return superName + ",hash = " + hash + ", reflection data = " + reflectedFields;
     }
+
+    //todo method for ui components to log them and their parent and their name when clicked
+    //todo fix and finish rippling for label
 }
