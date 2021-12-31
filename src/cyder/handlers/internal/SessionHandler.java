@@ -26,22 +26,24 @@ public class SessionHandler {
 
     //todo add more and comment what they're used for
     public enum Tag {
-        CLIENT,
-        CONSOLE_OUT,
-        EXCEPTION,
-        ACTION,
-        LINK,
-        UNKNOWN,
-        SUGGESTION,
-        SYSTEM_IO,
-        CLIENT_IO,
-        LOGIN,
-        LOGOUT,
-        JAVA_ARGS,
-        ENTRY,
-        EXIT,
-        CORRUPTION,
-        PRIVATE_MESSAGE
+        CLIENT, //client typed something
+        CONSOLE_OUT, //printing something to the console frame
+        EXCEPTION, //an exception
+        ACTION, // an action taken
+        LINK, // a link in anyway is printed, represented, etc.
+        UNKNOWN, // not sure
+        SUGGESTION, // logging a suggestion
+        SYSTEM_IO, // input or output to/from sys.json
+        CLIENT_IO, // input or output to/from userdata.json
+        LOGIN, // user is logged in
+        LOGOUT, // user is logged out
+        JAVA_ARGS, // java args upon JVM entry to main
+        ENTRY, // entry of program
+        EXIT, // exit of program
+        CORRUPTION, // corruption of userdata.json
+        PRIVATE_MESSAGE_SENT, //sending a message through the chat view
+        PRIVATE_MESSAGE_RECEIVED, //received a message through the chat view
+
     }
 
     /**
@@ -165,7 +167,7 @@ public class SessionHandler {
                 //[CORRUPTION]: [FILE] c:/users/nathan/downloads/CyderCorruptedUserData.zip
                 logBuilder.append("[CORRUPTION]: userdir saved to: ").append(representation);
                 break;
-            case PRIVATE_MESSAGE:
+            case PRIVATE_MESSAGE_SENT:
                 //[PRIVATE MESSAGE]: [RECEIVED FROM SAM (UUID here)] Check discord.
                 logBuilder.append("[PRIVATE MESSAGE]: ");
                 break;

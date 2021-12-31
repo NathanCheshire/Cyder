@@ -118,7 +118,7 @@ public class ClientBackend {
                         listenToClient();
 
                         //log connection
-                        SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
+                        SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE_SENT,
                                 "[PRIVATE MESSAGE]: [SECURED CONNECTION WITH " + clientName.toUpperCase()
                                         + "(" + clientUUID +  ")]");
 
@@ -157,7 +157,7 @@ public class ClientBackend {
                             //listen for their messages assumping their server still wants to connect
                             listenToClient();
 
-                            SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
+                            SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE_SENT,
                                     "[PRIVATE MESSAGE]: [ATTEMPTING CLIENT CONNECTION WITH " + clientName.toUpperCase()
                                             + "(" + clientUUID +  ")]");
 
@@ -212,7 +212,7 @@ public class ClientBackend {
                     if (receivedMessage != null) {
                         //instead of printing, append to frame's outputarea
                         System.out.println("[" + connectedClientName + "]: " + receivedMessage);
-                        SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
+                        SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE_SENT,
                                 "[PRIVATE MESSAGE]: [ RECEIVED FROM " + clientName.toUpperCase()
                                         + "(" + clientUUID +  ")] " + receivedMessage);
                     }
@@ -255,7 +255,7 @@ public class ClientBackend {
             attemptingConnectionWriter.close();
 
             //log
-            SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
+            SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE_SENT,
                     "[PRIVATE MESSAGE]: [ATTEMPTING SERVER CONNECTION WITH " + clientName.toUpperCase()
                             + "(" + clientUUID +  ")]");
             listenToClient();
@@ -273,7 +273,7 @@ public class ClientBackend {
             //if there's a connection
             if (connectedServerSocket != null) {
                 sendMessage(clientName + " has disconnected");
-                SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE,
+                SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE_SENT,
                         "[DISCONNECT]: " + clientName + "(" + clientUUID +  ")" + " terminated session");
                 connectedServerSocket.close();
                 connectedServerSocket = null;

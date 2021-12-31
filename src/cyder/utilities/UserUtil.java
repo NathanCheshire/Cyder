@@ -894,6 +894,9 @@ public class UserUtil {
                     informString += sb;
 
                     PopupHandler.inform(informString, "Userdata Corruption");
+                    //log the corruption
+                    SessionHandler.log(SessionHandler.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);
+
                 }
             }
         } catch (Exception e) {

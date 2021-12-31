@@ -181,8 +181,11 @@ public class IOUtil {
 
     private static SystemData sd = null;
 
-    //loads the system data at runtime into the object
     static {
+        loadSystemData();
+    }
+
+    private static void loadSystemData() {
         SystemData ret = null;
         Gson gson = new Gson();
 
@@ -190,6 +193,8 @@ public class IOUtil {
 
         try (Reader reader = new FileReader(sysFilePath)) {
             ret = gson.fromJson(reader, SystemData.class);
+
+            //if successful set as our sd object
             sd = ret;
         } catch (IOException e) {
             ErrorHandler.handle(e);
@@ -206,6 +211,9 @@ public class IOUtil {
         try (FileWriter writer = new FileWriter(sysFilePath)) {
             gson.toJson(sd, writer);
             SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "System data set to sd: " + sd);
+
+            //now update IOUtil's sd object
+            loadSystemData();
         } catch (IOException e) {
             ErrorHandler.handle(e);
         }

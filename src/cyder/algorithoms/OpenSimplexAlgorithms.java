@@ -2148,6 +2148,7 @@ public class OpenSimplexAlgorithms {
     private static final Grad2[] GRADIENTS_2D = new Grad2[PSIZE];
     private static final Grad3[] GRADIENTS_3D = new Grad3[PSIZE];
     private static final Grad4[] GRADIENTS_4D = new Grad4[PSIZE];
+
     static {
         Grad2[] grad2 = {
                 new Grad2( 0.130526192220052,  0.99144486137381),
