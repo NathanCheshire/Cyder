@@ -74,13 +74,12 @@ public class CyderCheckBox extends JLabel {
 
         selected = initalValue;
         repaint();
-        
 
         addMouseMotionListener(new CyderDraggableComponent());
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, this);
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
             }
         });
     }

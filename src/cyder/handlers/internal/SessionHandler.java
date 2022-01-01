@@ -42,6 +42,7 @@ public class SessionHandler {
         CORRUPTION, // corruption of userdata.json
         PRIVATE_MESSAGE_SENT, //sending a message through the chat view
         PRIVATE_MESSAGE_RECEIVED, //received a message through the chat view
+        DEBUG_PRINT, //used for debug printing and debug window stuff
     }
 
     /**
@@ -169,6 +170,10 @@ public class SessionHandler {
             case UNKNOWN:
                 //[UNKNOWN]: CyderString.instance really anything that doesn't get caught above
                 logBuilder.append("[UNKNOWN]: ");
+                logBuilder.append(representation);
+                break;
+            case DEBUG_PRINT:
+                logBuilder.append("[DEBUG]: ");
                 logBuilder.append(representation);
                 break;
         }

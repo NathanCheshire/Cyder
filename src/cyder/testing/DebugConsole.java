@@ -34,15 +34,17 @@ public class DebugConsole {
     private static LinkedList<String> lines = new LinkedList<>();
 
     public static <T> void print(T objMaybe) {
-        print(objMaybe, false);
+        print(objMaybe, false, true);
     }
 
-    public static <T> void print(T objMaybe, boolean showDebugConsole) {
+    public static <T> void print(T objMaybe, boolean showDebugConsole, boolean log) {
         //this should be the only System.out.print call in the whole program
         out.print(objMaybe);
 
         //log the debug print (this is why you should debug print from here)
-        SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT, "[DEBUG PRINT] " + objMaybe);
+        if (log) {
+            SessionHandler.log(SessionHandler.Tag.DEBUG_PRINT, objMaybe);
+        }
 
         //add new line to lines
         lines.add(objMaybe.toString());
@@ -60,11 +62,15 @@ public class DebugConsole {
     }
 
     public static <T> void println(T objMaybe) {
-       print(objMaybe + "\n", false);
+       print(objMaybe + "\n", false, true);
     }
 
     public static <T> void println(T objMaybe, boolean showDebugConsole) {
-        print(objMaybe + "\n", showDebugConsole);
+        print(objMaybe + "\n", showDebugConsole, true);
+    }
+
+    public static <T> void println(T objMaybe, boolean showDebugConsole, boolean log) {
+        print(objMaybe + "\n", showDebugConsole, log);
     }
 
     private static void bringMenuToFront() {

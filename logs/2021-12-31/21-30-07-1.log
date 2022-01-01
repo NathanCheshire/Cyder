@@ -1,0 +1,52 @@
+[21-30-07] [ENTRY]: [Nathan]
+[21-30-07] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-30-09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-30-09] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-30-10] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-30-10] [SYSTEM_IO]: Userdata requested: Name
+[21-30-10] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-30-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-30-11] [SYSTEM_IO]: Userdata requested: Name
+[21-30-11] [SYSTEM_IO]: Userdata requested: Foreground
+[21-30-11] [SYSTEM_IO]: Userdata requested: Foreground
+[21-30-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-30-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-30-11] [SYSTEM_IO]: Userdata requested: Foreground
+[21-30-11] [SYSTEM_IO]: Userdata requested: Font
+[21-30-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-30-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-30-11] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-30-11] [SYSTEM_IO]: Userdata requested: Foreground
+[21-30-11] [SYSTEM_IO]: Userdata requested: Foreground
+[21-30-11] [SYSTEM_IO]: Userdata requested: Foreground
+[21-30-11] [SYSTEM_IO]: Userdata requested: Font
+[21-30-11] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-30-11] [SYSTEM_IO]: Userdata requested: InputFill
+[21-30-11] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-30-11] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-30-11] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1505741007], parentFrame = [No associated frame], associated text = [No getText() method found]
+[21-30-11] [ACTION]: Console loaded in 4381ms
+[21-30-11] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-30-11] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-30-11] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-30-11] [ENTRY]: [TESTING MODE]
+[21-30-11] [SYSTEM_IO]: Userdata requested: laststart
+[21-30-11] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-30-14] [CONSOLE_OUT]: [STRING] Console loaded in 4381ms
+[21-30-21] [CLIENT]: temp
+[21-30-21] [ACTION]: TEMPERATURE CONVERTER
+[21-30-23] [ACTION]: cyder.ui.CyderCheckBox$2@37adb217
+[21-30-24] [ACTION]: cyder.ui.CyderCheckBox$2@37adb217
+[21-30-25] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(140, 280, 150, 40)], hash = [1778506716], parentFrame = [Temperature Converter], associated text = [Calculate]
+[21-30-26] [ACTION]: [Temperature Converter] [NOTIFICATION] Please enter a starting value.
+[21-30-26] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-30-32] [ACTION]: cyder.ui.CyderCheckBox$2@5f945c13
+[21-30-33] [ACTION]: cyder.ui.CyderCheckBox$2@5f945c13
+[21-30-46] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-30-46] [SYSTEM_IO]: Userdata requested: Name
+[21-30-46] [LOGOUT]: [Nathan]
+[21-30-46] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1395, 291, 984, 984)], hash = [1863702030], parentFrame = [No associated frame], associated text = [No getText() method found]
+[21-30-46] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-30-46] [SYSTEM_IO]: Userdata requested: Background
+[21-30-46] [EXIT]: [RUNTIME] 39s
+[21-30-46] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

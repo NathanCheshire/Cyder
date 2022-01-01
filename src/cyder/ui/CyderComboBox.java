@@ -1,8 +1,11 @@
 package cyder.ui;
 
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CyderComboBox extends JLabel {
     private int width;
@@ -39,6 +42,14 @@ public class CyderComboBox extends JLabel {
         comboSwitchButton.setBounds(width - 40,0,40,40);
         add(comboSwitchButton);
         comboSwitchButton.addActionListener(e -> incIndex());
+
+        addMouseMotionListener(new CyderDraggableComponent());
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+            }
+        });
     }
 
     public void incIndex() {

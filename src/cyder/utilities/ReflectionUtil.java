@@ -80,7 +80,6 @@ public class ReflectionUtil {
         String getTextResult = "No getText() method found";
 
        try {
-           //todo figure out if there is a getText method and if it contains something
            for (Method method : obj.getClass().getMethods()) {
                if (method.getName().startsWith("getText") && method.getParameterCount() == 0) {
                    Object locGetText = method.invoke(obj);
@@ -107,7 +106,6 @@ public class ReflectionUtil {
         return build;
     }
 
-    //todo method for ui components to log them and their parent and their name when clicked
     //todo fix and finish rippling for label
 
     //todo standards for widget such as base size, implement these, perhaps add a build base widget method and a widget util?

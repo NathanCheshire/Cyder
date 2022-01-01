@@ -2,22 +2,31 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderStrings;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CyderConstrainedLabel extends JLabel {
     private CyderConstrainedLabel() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        this("NULL");
     }
 
     public CyderConstrainedLabel(String text) {
         super(text);
         this.setText(innerLogic(text));
         installDefaults();
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+            }
+        });
     }
 
     @Override
