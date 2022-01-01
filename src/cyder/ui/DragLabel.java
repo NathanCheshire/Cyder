@@ -96,14 +96,6 @@ public class DragLabel extends JLabel {
                 }
             }
         });
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
-            }
-        });
-
     }
 
     //override so we can change the background color if needed
@@ -191,7 +183,10 @@ public class DragLabel extends JLabel {
 
         minimize = new JButton("");
         minimize.setToolTipText("Minimize");
-        minimize.addActionListener(e -> effectFrame.minimizeAnimation());
+        minimize.addActionListener(e -> {
+            SessionHandler.log(SessionHandler.Tag.ACTION, this);
+            effectFrame.minimizeAnimation();
+        });
 
         minimize.addMouseListener(new MouseAdapter() {
             @Override
@@ -226,6 +221,8 @@ public class DragLabel extends JLabel {
         pinButton = new JButton("");
         pinButton.setToolTipText("Pin Window/Pin to Console");
         pinButton.addActionListener(e -> {
+            SessionHandler.log(SessionHandler.Tag.ACTION, this);
+
             if (effectFrame.getPinned()) {
                 effectFrame.setPinned(false);
                 effectFrame.setConsolePinned(true);
@@ -267,7 +264,10 @@ public class DragLabel extends JLabel {
 
         close = new JButton("");
         close.setToolTipText("Close");
-        close.addActionListener(e -> effectFrame.dispose());
+        close.addActionListener(e -> {
+            SessionHandler.log(SessionHandler.Tag.ACTION, this);
+            effectFrame.dispose();
+        });
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {

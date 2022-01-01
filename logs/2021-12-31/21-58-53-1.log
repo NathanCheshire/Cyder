@@ -1,0 +1,51 @@
+[21-58-53] [ENTRY]: [Nathan]
+[21-58-54] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-58-55] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-58-55] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-58-55] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-58-55] [SYSTEM_IO]: Userdata requested: Name
+[21-58-56] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-58-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-56] [SYSTEM_IO]: Userdata requested: Name
+[21-58-56] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-56] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-57] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-57] [SYSTEM_IO]: Userdata requested: Font
+[21-58-57] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-58-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-57] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-58-57] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-57] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-57] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-57] [SYSTEM_IO]: Userdata requested: Font
+[21-58-57] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-58-57] [SYSTEM_IO]: Userdata requested: InputFill
+[21-58-57] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-58-57] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-58-57] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [943863900], parentFrame = [No associated frame], associated text = [No getText() method found]
+[21-58-57] [ACTION]: Console loaded in 4016ms
+[21-58-57] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-58-57] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-58-57] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-58-57] [ENTRY]: [TESTING MODE]
+[21-58-57] [SYSTEM_IO]: Userdata requested: laststart
+[21-58-57] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-59-00] [CONSOLE_OUT]: [STRING] Console loaded in 4016ms
+[21-59-05] [SYSTEM_IO]: Userdata requested: Background
+[21-59-10] [CLIENT]: calc
+[21-59-10] [ACTION]: CALCULATOR
+[21-59-12] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [480299915], parentFrame = [Calculator], associated text = [No getText() method found]
+[21-59-13] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [480299915], parentFrame = [Calculator], associated text = [No getText() method found]
+[21-59-13] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [480299915], parentFrame = [Calculator], associated text = [No getText() method found]
+[21-59-14] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1642, 504, 400, 595)], hash = [1213741572], parentFrame = [No associated frame], associated text = [No getText() method found]
+[21-59-14] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-59-16] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-59-16] [SYSTEM_IO]: Userdata requested: Name
+[21-59-16] [LOGOUT]: [Nathan]
+[21-59-16] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1350, 310, 984, 984)], hash = [1263668904], parentFrame = [No associated frame], associated text = [No getText() method found]
+[21-59-16] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-59-16] [SYSTEM_IO]: Userdata requested: Background
+[21-59-16] [EXIT]: [RUNTIME] 23s
+[21-59-16] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

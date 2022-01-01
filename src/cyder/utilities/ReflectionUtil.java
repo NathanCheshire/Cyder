@@ -78,8 +78,9 @@ public class ReflectionUtil {
         }
 
         String getTextResult = "No getText() method found";
+        String getTooltipResult = "No getTooltipText() method found";
 
-       try {
+        try {
            for (Method method : obj.getClass().getMethods()) {
                if (method.getName().startsWith("getText") && method.getParameterCount() == 0) {
                    Object locGetText = method.invoke(obj);
@@ -90,18 +91,28 @@ public class ReflectionUtil {
                        if (locGetTextString != null && locGetTextString.length() > 0
                                && !locGetTextString.equalsIgnoreCase("null")) {
                            getTextResult = locGetTextString;
-                           break;
+                       }
+                   }
+               } else if (method.getName().startsWith("getTooltipText") && method.getParameterCount() == 0) {
+                   Object locGetTooltipText = method.invoke(obj);
+
+                   if (locGetTooltipText instanceof String) {
+                       String locGetTooltipTextString = (String) locGetTooltipText;
+
+                       if (locGetTooltipTextString != null && locGetTooltipTextString.length() > 0
+                               && !locGetTooltipTextString.equalsIgnoreCase("null")) {
+                           getTooltipResult = locGetTooltipTextString;
                        }
                    }
                }
            }
-       } catch (Exception e) {
+        } catch (Exception e) {
            ErrorHandler.handle(e);
-       }
+        }
 
         String build = "Component name = [" + superName + "], bounds = [(" + obj.getX() + ", "
                 + obj.getY() + ", " + obj.getWidth() + ", " + obj.getHeight() + ")], hash = [" + hash + "], " +
-                "parentFrame = [" + frameRep + "], associated text = [" + getTextResult + "]";
+                "parentFrame = [" + frameRep + "], associated text = [" + getTextResult + "], tooltip text = [" + getTooltipResult + "]";
 
         return build;
     }

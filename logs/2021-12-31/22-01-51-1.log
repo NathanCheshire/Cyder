@@ -1,0 +1,40 @@
+[22-01-51] [ENTRY]: [Nathan]
+[22-01-52] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-01-53] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-01-53] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-01-53] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-01-53] [SYSTEM_IO]: Userdata requested: Name
+[22-01-54] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-01-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-01-54] [SYSTEM_IO]: Userdata requested: Name
+[22-01-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-01-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-01-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-01-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-01-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-01-54] [SYSTEM_IO]: Userdata requested: Font
+[22-01-54] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-01-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-01-54] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-01-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-01-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-01-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-01-54] [SYSTEM_IO]: Userdata requested: Font
+[22-01-54] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-01-54] [SYSTEM_IO]: Userdata requested: InputFill
+[22-01-54] [SYSTEM_IO]: Userdata requested: consolepinned
+[22-01-55] [SYSTEM_IO]: Userdata requested: consolepinned
+[22-01-55] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1730562129], parentFrame = [No associated frame], associated text = [No getText() method found]
+[22-01-55] [ACTION]: Console loaded in 3497ms
+[22-01-55] [SYSTEM_IO]: Userdata requested: windowlocx
+[22-01-55] [SYSTEM_IO]: Userdata requested: windowlocy
+[22-01-55] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-01-55] [ENTRY]: [TESTING MODE]
+[22-01-55] [SYSTEM_IO]: Userdata requested: laststart
+[22-01-55] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-01-57] [CONSOLE_OUT]: [STRING] Console loaded in 3497ms
+[22-02-04] [CLIENT]: calc
+[22-02-04] [ACTION]: CALCULATOR
+[22-02-27] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [1008812202], parentFrame = [Calculator], associated text = [No getText() method found]
+[22-02-27] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
