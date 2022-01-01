@@ -146,7 +146,7 @@ public class SessionHandler {
                 logBuilder.append(getRuntime()).append("\n");
 
                 //end log
-                logBuilder.append("[").append(TimeUtil.logTime()).append("] [EOL]: Log completed, exiting program with code: ");
+                logBuilder.append("[").append(TimeUtil.logTime()).append("] [EOL]: Log completed, exiting Cyder with exit code: ");
                 logBuilder.append(representation);
                 logBuilder.append(" [");
                 logBuilder.append(getCodeDescription((int) representation));

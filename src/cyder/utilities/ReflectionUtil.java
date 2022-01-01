@@ -2,7 +2,10 @@ package cyder.utilities;
 
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.ui.CyderFrame;
 
+import javax.swing.*;
+import java.awt.*;
 import java.lang.reflect.Method;
 
 public class ReflectionUtil {
@@ -57,9 +60,39 @@ public class ReflectionUtil {
         return superName + ",hash = " + hash + ", reflection data = " + reflectedFields;
     }
 
+    public static String commonCyderUIReflection(Component obj) {
+        //[ACTION] name = [CyderButton], bounds = [(x,y,w,y)], hash = [234634532], parentFrame = [Calculator]
+
+        CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
+        String frameRep = "";
+
+        if (topFrame != null)
+            frameRep = topFrame.getTitle();
+        else
+            frameRep = "No associated frame";
+
+        String superName = obj.getClass().getName();
+        int hash = obj.hashCode();
+
+        //remove anything after the $int if superName contains a $
+        if (superName.contains("$")) {
+            superName = superName.split("\\$")[0];
+        }
+
+        //todo figure out if there is a getText method and if it contains something
+
+        String build = "Component name = [" + superName + "], bounds = [(" + obj.getX() + ", "
+                + obj.getY() + ", " + obj.getWidth() + ", " + obj.getHeight() + ")], hash = [" + hash + "], " +
+                "parentFrame = [" + frameRep + "], associated text = [" + "]";
+
+        //  (obj.getText() != null && obj.getText().length() > 0 ? ", text=[" + obj.getText() + "]" : "") +
+
+        return build;
+    }
+
     //todo method for ui components to log them and their parent and their name when clicked
     //todo fix and finish rippling for label
-    //todo make sure widgets are annotated properly and utilize reflection to find them and inform the user of available widgets
-    //todo add a description to the @Widget annotation
-    //todo standards for widget such as base size
+
+    //todo standards for widget such as base size, implement these, perhaps add a build base widget method and a widget util?
+    // after this utilize it for widgets, make sure everything in widgets has a widget annotation with the showGUI method
 }
