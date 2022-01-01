@@ -1,0 +1,78 @@
+[21-15-47] [ENTRY]: [Nathan]
+[21-15-48] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-15-49] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-15-49] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-15-49] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-15-49] [SYSTEM_IO]: Userdata requested: Name
+[21-15-50] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-15-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-15-50] [SYSTEM_IO]: Userdata requested: Name
+[21-15-50] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-50] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-15-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-15-50] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-50] [SYSTEM_IO]: Userdata requested: Font
+[21-15-50] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-15-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-15-50] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-15-50] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-50] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-50] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-50] [SYSTEM_IO]: Userdata requested: Font
+[21-15-50] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-15-50] [SYSTEM_IO]: Userdata requested: InputFill
+[21-15-50] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-15-50] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-15-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
+[21-15-50] [ACTION]: Console loaded in 3437ms
+[21-15-50] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-15-50] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-15-51] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-15-51] [ENTRY]: [TESTING MODE]
+[21-15-51] [SYSTEM_IO]: Userdata requested: laststart
+[21-15-51] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-15-53] [CONSOLE_OUT]: [STRING] Console loaded in 3437ms
+[21-16-02] [CLIENT]: persistentnotifications
+[21-16-02] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-16-02] [CONSOLE_OUT]: [STRING] Persistent Notifications set to true
+[21-16-02] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-16-02] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-16-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-16-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-16-02] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-16-02] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-16-02] [SYSTEM_IO]: Userdata requested: InputFill
+[21-16-02] [ACTION]: CONSOLE PREFERENCE TOGGLE HANDLED
+[21-16-03] [CLIENT]: persistentnotifications
+[21-16-03] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-16-03] [CONSOLE_OUT]: [STRING] Persistent Notifications set to false
+[21-16-03] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-16-03] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-16-03] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-16-03] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-16-03] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-16-03] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-16-03] [SYSTEM_IO]: Userdata requested: InputFill
+[21-16-03] [ACTION]: CONSOLE PREFERENCE TOGGLE HANDLED
+[21-16-05] [CLIENT]: calc
+[21-16-05] [ACTION]: CALCULATOR
+[21-16-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(115, 215, 75, 75)], hash = [1867708423], parentFrame = [Calculator], associated text = [8]
+[21-16-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(210, 215, 75, 75)], hash = [1700857599], parentFrame = [Calculator], associated text = [9]
+[21-16-08] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(305, 215, 75, 75)], hash = [1702160789], parentFrame = [Calculator], associated text = [=]
+[21-16-08] [ACTION]: [Calculator] [NOTIFICATION] 89.0
+[21-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-16-17] [SYSTEM_IO]: Userdata requested: Background
+[21-16-21] [SYSTEM_IO]: Userdata requested: Background
+[21-16-24] [SYSTEM_IO]: Userdata requested: Background
+[21-16-26] [SYSTEM_IO]: Userdata requested: Background
+[21-16-32] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Calculator (title position: LEFT), (1255,418,400x595)
+[21-16-32] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-16-34] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-16-35] [SYSTEM_IO]: Userdata requested: Name
+[21-16-35] [LOGOUT]: [Nathan]
+[21-16-35] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan] (title position: CENTER), (605,295,984x984)
+[21-16-35] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-16-35] [SYSTEM_IO]: Userdata requested: Background
+[21-16-35] [EXIT]: [RUNTIME] 47s
+[21-16-35] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

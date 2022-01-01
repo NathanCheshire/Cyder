@@ -61,8 +61,6 @@ public class ReflectionUtil {
     }
 
     public static String commonCyderUIReflection(Component obj) {
-        //[ACTION] name = [CyderButton], bounds = [(x,y,w,y)], hash = [234634532], parentFrame = [Calculator]
-
         CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
         String frameRep = "";
 
@@ -79,13 +77,32 @@ public class ReflectionUtil {
             superName = superName.split("\\$")[0];
         }
 
-        //todo figure out if there is a getText method and if it contains something
+        String getTextResult = "No getText() method found";
+
+       try {
+           //todo figure out if there is a getText method and if it contains something
+           for (Method method : obj.getClass().getMethods()) {
+               if (method.getName().startsWith("getText") && method.getParameterCount() == 0) {
+                   Object locGetText = method.invoke(obj);
+
+                   if (locGetText instanceof String) {
+                       String locGetTextString = (String) locGetText;
+
+                       if (locGetTextString != null && locGetTextString.length() > 0
+                               && !locGetTextString.equalsIgnoreCase("null")) {
+                           getTextResult = locGetTextString;
+                           break;
+                       }
+                   }
+               }
+           }
+       } catch (Exception e) {
+           ErrorHandler.handle(e);
+       }
 
         String build = "Component name = [" + superName + "], bounds = [(" + obj.getX() + ", "
                 + obj.getY() + ", " + obj.getWidth() + ", " + obj.getHeight() + ")], hash = [" + hash + "], " +
-                "parentFrame = [" + frameRep + "], associated text = [" + "]";
-
-        //  (obj.getText() != null && obj.getText().length() > 0 ? ", text=[" + obj.getText() + "]" : "") +
+                "parentFrame = [" + frameRep + "], associated text = [" + getTextResult + "]";
 
         return build;
     }

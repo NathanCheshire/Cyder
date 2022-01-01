@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -26,8 +27,8 @@ public class CyderButton extends JButton {
         super.setContentAreaFilled(false);
 
         addMouseMotionListener(new CyderDraggableComponent());
-        addActionListener(e -> SessionHandler.log(SessionHandler.Tag.ACTION,
-                "CyderButton CLICKED, toString(): " + this));
+        //todo add this method here to all constructors in UI
+        addActionListener(e -> SessionHandler.log(SessionHandler.Tag.ACTION, this));
 
         setFont(CyderFonts.weatherFontSmall);
         setBackground(backgroundColor);
@@ -114,14 +115,6 @@ public class CyderButton extends JButton {
 
     @Override
     public String toString() {
-        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        String frameRep = "";
-
-        if (topFrame != null)
-            frameRep = topFrame.getTitle();
-
-        return "CyderButton, hash = " + this.hashCode() +
-                (this.getText() != null && this.getText().length() > 0 ? ", text=[" + this.getText() + "]" : "") +
-                (frameRep.length() > 0 ? " parentFrame = [" + frameRep + "]" : "");
+        return ReflectionUtil.commonCyderUIReflection(this);
     }
 }

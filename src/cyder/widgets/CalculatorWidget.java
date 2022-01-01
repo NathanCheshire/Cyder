@@ -143,11 +143,11 @@ public class CalculatorWidget {
                 double result = new DoubleEvaluator().evaluate(calcText);
 
                 if (result == Double.MAX_VALUE) {
-                    calculatorFrame.notify("Positive Inf",2000, NotificationDirection.TOP_RIGHT, null);
+                    calculatorFrame.notify("Positive Inf",-1, NotificationDirection.TOP_RIGHT, null);
                 } else if (result == Double.MIN_VALUE) {
-                    calculatorFrame.notify("Negative Inf",2000,NotificationDirection.TOP_RIGHT, null);
+                    calculatorFrame.notify("Negative Inf",-1,NotificationDirection.TOP_RIGHT, null);
                 } else {
-                    calculatorFrame.notify(String.valueOf(result),5000,NotificationDirection.TOP_RIGHT, null);
+                    calculatorFrame.notify(String.valueOf(result),-1,NotificationDirection.TOP_RIGHT, null);
                 }
             } catch (Exception exc) {
                 calculatorFrame.notify("Could not parse expression",2000, NotificationDirection.TOP_RIGHT, null);

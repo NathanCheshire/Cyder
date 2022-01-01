@@ -86,9 +86,6 @@ public class SessionHandler {
                 break;
             case ACTION: //catch actions for more cyder components in future like text field
                 logBuilder.append("[ACTION]: ");
-                if (representation instanceof JComponent) {
-                    logBuilder.append("[").append(((JComponent) representation).getName()).append("] ");
-                }
                 logBuilder.append(representation);
                 break;
             case LINK:
