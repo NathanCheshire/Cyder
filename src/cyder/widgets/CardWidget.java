@@ -143,21 +143,16 @@ public class CardWidget {
                 "<br/><br/>I can't wait to start my career at Camgian and be back in Starkville with all my friends where it now truly feels like home. " +
                 "Feel free to swing by or fly up one weekend to see me or perhaps do something for Karla's spring break." +
                 " Thanks for this vacation, Destin for fall break, and putting up with me while I lived at home this past spring semester." +
-                "Love,<br/>" +
+                "<br/><br/>Love,<br/>" +
                 "Nathan</html>");
         cardLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(24f));
         cardLabel.setBounds(40, 40, christmas2021Frame.getWidth() - 80,christmas2021Frame.getHeight() - 80);
         christmas2021Frame.getContentPane().add(cardLabel);
+        cardLabel.setRippleChars(25);
+        cardLabel.setRippleMsTimeout(20);
+        cardLabel.setRippling(true);
 
-        CyderLabel loveLabel = new CyderLabel("<html>" + "Love,<br/>" + "Nathan</html>");
-        loveLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(24f));
-        loveLabel.setBounds(40, christmas2021Frame.getHeight() - 120, christmas2021Frame.getWidth() - 80,80);
-        christmas2021Frame.getContentPane().add(loveLabel);
-        loveLabel.setRippleChars(3);
-        loveLabel.setRippling(true);
-        loveLabel.setRippleMsTimeout(150);
-
-        christmas2021Frame.addPreCloseAction(() -> loveLabel.setRippling(false));
+        christmas2021Frame.addPreCloseAction(() -> cardLabel.setRippling(false));
 
         christmas2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         christmas2021Frame.setVisible(true);

@@ -116,11 +116,4 @@ public class ReflectionUtil {
 
         return build;
     }
-
-    //todo fix and finish rippling for label
-
-    //todo cyder icon button to be used for cyder frames and such (at least the cyderframe/console frame buttons on the drag label)
-
-    //todo standards for widget such as base size, implement these, perhaps add a build base widget method and a widget util?
-    // after this utilize it for widgets, make sure everything in widgets has a widget annotation with the showGUI method
 }

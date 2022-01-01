@@ -1,0 +1,43 @@
+[21-25-10] [ENTRY]: [Nathan]
+[21-25-10] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-25-11] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-25-11] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-25-12] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-25-12] [SYSTEM_IO]: Userdata requested: Name
+[21-25-12] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-25-12] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-25-13] [SYSTEM_IO]: Userdata requested: Name
+[21-25-13] [SYSTEM_IO]: Userdata requested: Foreground
+[21-25-13] [SYSTEM_IO]: Userdata requested: Foreground
+[21-25-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-25-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-25-13] [SYSTEM_IO]: Userdata requested: Foreground
+[21-25-13] [SYSTEM_IO]: Userdata requested: Font
+[21-25-13] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-25-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-25-13] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-25-13] [SYSTEM_IO]: Userdata requested: Foreground
+[21-25-13] [SYSTEM_IO]: Userdata requested: Foreground
+[21-25-13] [SYSTEM_IO]: Userdata requested: Foreground
+[21-25-13] [SYSTEM_IO]: Userdata requested: Font
+[21-25-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-25-13] [SYSTEM_IO]: Userdata requested: InputFill
+[21-25-13] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-25-13] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-25-13] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [158326596], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[21-25-13] [ACTION]: Console loaded in 3595ms
+[21-25-13] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-25-13] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-25-13] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-25-13] [ENTRY]: [TESTING MODE]
+[21-25-13] [SYSTEM_IO]: Userdata requested: laststart
+[21-25-13] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-25-16] [CONSOLE_OUT]: [STRING] Console loaded in 3595ms
+[21-25-16] [CLIENT]: christmas card 2020
+[21-25-16] [ACTION]: CARD
+[21-25-29] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 494, 28)], hash = [1563125533], parentFrame = [Merry Christmas!], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[21-25-29] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1252, 454, 498, 490)], hash = [236663119], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[21-25-29] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-25-32] [CLIENT]: christmas card 2021
+[21-25-32] [ACTION]: CARD
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

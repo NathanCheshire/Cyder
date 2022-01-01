@@ -122,6 +122,8 @@ public class CyderLabel extends JLabel {
                 //init list for strings by tag
                 LinkedList<StringUtil.TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
 
+                //todo see how long it takes to generate all strings for one cycle and try storing those
+
                 while (isRippling && this.getParent() != null) {
                     //still used parsed chars here since that's all we care about rippling anyway
                     for (int i = 0 ; i < parsedChars.length() ; i++) {
