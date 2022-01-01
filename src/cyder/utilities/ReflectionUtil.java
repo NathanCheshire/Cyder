@@ -61,4 +61,5 @@ public class ReflectionUtil {
     //todo fix and finish rippling for label
     //todo make sure widgets are annotated properly and utilize reflection to find them and inform the user of available widgets
     //todo add a description to the @Widget annotation
+    //todo standards for widget such as base size
 }

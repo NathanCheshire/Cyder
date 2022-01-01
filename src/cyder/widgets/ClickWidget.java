@@ -18,7 +18,7 @@ public class ClickWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget("click me")
+    @Widget(trigger = "click me", description = "A troll widget that pops open a new window every time it is clicked")
     public static void showGUI() {
         try {
             CyderFrame clickMeFrame = new CyderFrame(220,100);

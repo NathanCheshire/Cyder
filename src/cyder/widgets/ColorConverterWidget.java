@@ -21,7 +21,7 @@ public class ColorConverterWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget("color converter")
+    @Widget(trigger = "color converter", description = "A color converter widget to convert from rgb to hex and vice versa")
     public static void showGUI() {
         CyderFrame colorFrame = new CyderFrame(400,300, CyderImages.defaultBackground);
         colorFrame.setTitle("Color Converter");

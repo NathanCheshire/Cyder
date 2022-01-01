@@ -39,7 +39,8 @@ public class ImageAveragerWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget("average images")
+    @Widget(trigger = "average images", description = "A widget that adds multiple images " +
+            "together and divides by the total to obtain an average base image")
     public static void showGUI() {
         files = new LinkedList<>();
 

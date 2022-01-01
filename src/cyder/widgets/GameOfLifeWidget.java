@@ -49,7 +49,7 @@ public class GameOfLifeWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget("conway")
+    @Widget(trigger = "conway", description = "Conway's game of life visualizer")
     public static void showGUI() {
         grid = new int[defaultGridLen][defaultGridLen];
         conwayFrame = new CyderFrame(940,1120, CyderImages.defaultBackgroundLarge);

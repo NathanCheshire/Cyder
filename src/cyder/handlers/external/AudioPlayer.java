@@ -90,7 +90,7 @@ public class AudioPlayer {
      * @param startPlaying the audio file to start playing upon successful launch of the AudioPlayer.
      *                     Pass {@code null} to avoid starting audio upon launch.
      */
-    @Widget("mp3")
+    @Widget(trigger = "mp3")
     public static void showGUI(File startPlaying) {
         queue = new LinkedList<>();
         

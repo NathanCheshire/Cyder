@@ -1,0 +1,47 @@
+[23-34-00] [ENTRY]: [Nathan]
+[23-34-00] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-34-01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-34-01] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-34-02] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-34-02] [SYSTEM_IO]: Userdata requested: Name
+[23-34-02] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-34-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-34-02] [SYSTEM_IO]: Userdata requested: Name
+[23-34-02] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-02] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-34-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-34-03] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-03] [SYSTEM_IO]: Userdata requested: Font
+[23-34-03] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-34-03] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-34-03] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-34-03] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-03] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-03] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-03] [SYSTEM_IO]: Userdata requested: Font
+[23-34-03] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-34-03] [SYSTEM_IO]: Userdata requested: InputFill
+[23-34-03] [SYSTEM_IO]: Userdata requested: consolepinned
+[23-34-03] [SYSTEM_IO]: Userdata requested: consolepinned
+[23-34-03] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
+[23-34-03] [ACTION]: Console loaded in 3482ms
+[23-34-03] [SYSTEM_IO]: Userdata requested: windowlocx
+[23-34-03] [SYSTEM_IO]: Userdata requested: windowlocy
+[23-34-03] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-34-03] [ENTRY]: [TESTING MODE]
+[23-34-03] [SYSTEM_IO]: Userdata requested: laststart
+[23-34-03] [SYSTEM_IO]: Userdata requested: IntroMusic
+[23-34-03] [CONSOLE_OUT]: [STRING] Console loaded in 3482ms
+[23-34-04] [CLIENT]: hash
+[23-34-04] [ACTION]: SHA256 HASHER
+[23-34-07] [CLIENT]: hash
+[23-34-07] [ACTION]: SHA256 HASHER
+[23-34-09] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-34-09] [SYSTEM_IO]: Userdata requested: Name
+[23-34-09] [LOGOUT]: [Nathan]
+[23-34-09] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan] (title position: CENTER), (1121,262,984x984)
+[23-34-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-34-09] [SYSTEM_IO]: Userdata requested: Background
+[23-34-10] [EXIT]: [RUNTIME] 10s
+[23-34-10] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

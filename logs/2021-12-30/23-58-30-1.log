@@ -1,0 +1,36 @@
+[23-58-30] [ENTRY]: [Nathan]
+[23-58-30] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-58-32] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-58-32] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-58-33] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-58-33] [SYSTEM_IO]: Userdata requested: Name
+[23-58-33] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-58-33] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-58-34] [SYSTEM_IO]: Userdata requested: Name
+[23-58-34] [SYSTEM_IO]: Userdata requested: Foreground
+[23-58-34] [SYSTEM_IO]: Userdata requested: Foreground
+[23-58-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-58-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-58-34] [SYSTEM_IO]: Userdata requested: Foreground
+[23-58-34] [SYSTEM_IO]: Userdata requested: Font
+[23-58-34] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-58-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-58-34] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-58-34] [SYSTEM_IO]: Userdata requested: Foreground
+[23-58-34] [SYSTEM_IO]: Userdata requested: Foreground
+[23-58-34] [SYSTEM_IO]: Userdata requested: Foreground
+[23-58-34] [SYSTEM_IO]: Userdata requested: Font
+[23-58-34] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-58-34] [SYSTEM_IO]: Userdata requested: InputFill
+[23-58-34] [SYSTEM_IO]: Userdata requested: consolepinned
+[23-58-34] [SYSTEM_IO]: Userdata requested: consolepinned
+[23-58-34] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
+[23-58-34] [ACTION]: Console loaded in 4531ms
+[23-58-34] [SYSTEM_IO]: Userdata requested: windowlocx
+[23-58-34] [SYSTEM_IO]: Userdata requested: windowlocy
+[23-58-34] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-58-34] [ENTRY]: [TESTING MODE]
+[23-58-34] [SYSTEM_IO]: Userdata requested: laststart
+[23-58-34] [SYSTEM_IO]: Userdata requested: IntroMusic
+[23-58-35] [CONSOLE_OUT]: [STRING] Console loaded in 4531ms
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

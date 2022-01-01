@@ -55,7 +55,7 @@ public class ClockWidget {
 
     private static CyderComboBox timezoneCombo;
 
-    @Widget("clock") //it's ya boi, Greenwich
+    @Widget(trigger = "clock", description = "A clock widget capable of spawning mini widgets and changing the time zone") //it's ya boi, Greenwich
     public static void showGUI() {
         if (clockFrame != null)
             clockFrame.dispose();

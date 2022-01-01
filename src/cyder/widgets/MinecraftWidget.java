@@ -25,7 +25,7 @@ public class MinecraftWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget("minecraft")
+    @Widget(trigger = "minecraft", description = "A minecraft widget that copies from the Mojang home page")
     public static void showGUI() {
         if (minecraftFrame != null)
             minecraftFrame.dispose();

@@ -21,7 +21,7 @@ public class PhoneWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget("phone")
+    @Widget(trigger = "phone", description = "A phone emulating widget")
     public static void showGUI() {
         CyderFrame phoneFrame = new CyderFrame(320,500, CyderImages.defaultBackground);
         phoneFrame.setTitle("Phone");

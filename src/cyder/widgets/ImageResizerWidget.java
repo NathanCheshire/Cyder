@@ -41,7 +41,7 @@ public class ImageResizerWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget("resize pictures")
+    @Widget(trigger = "resize pictures", description = "An image resizing widget to crop images")
     public static void showGUI() {
         CyderFrame resizeFrame = new CyderFrame(800,800, CyderImages.defaultBackground);
         resizeFrame.setTitle("Image Resizer");

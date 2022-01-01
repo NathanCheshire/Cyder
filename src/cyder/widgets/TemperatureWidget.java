@@ -31,7 +31,7 @@ public class TemperatureWidget {
         //multiple instances are allowed
     }
 
-    @Widget("temperature")
+    @Widget(trigger = "temperature", description = "A temperature conversion widget for the three standard temperature units")
     public void showGUI() {
         if (temperatureFrame != null)
             temperatureFrame.dispose();

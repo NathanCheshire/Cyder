@@ -45,7 +45,7 @@ public class NotesWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     } //no objects
 
-    @Widget("note")
+    @Widget(trigger = "note", description = "A note taking widget that can save and display multiple notes")
     public static void showGUI() {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             return;

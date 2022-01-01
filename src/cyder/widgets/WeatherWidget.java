@@ -95,7 +95,8 @@ public class WeatherWidget {
     }
 
     //show gui method as per standard
-    @Widget("weather")
+    @Widget(trigger = "weather", description = "A widget that displays weather data for the current " +
+            "city you are in. The location is also changeable")
     public void showGUI() {
         if (GenesisShare.isQuesitonableInternet()) {
             ConsoleFrame.getConsoleFrame().notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but" +

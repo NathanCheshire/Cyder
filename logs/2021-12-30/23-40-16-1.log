@@ -1,0 +1,52 @@
+[23-40-16] [ENTRY]: [Nathan]
+[23-40-16] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-40-17] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-40-17] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-40-18] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-40-18] [SYSTEM_IO]: Userdata requested: Name
+[23-40-18] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-40-18] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-40-19] [SYSTEM_IO]: Userdata requested: Name
+[23-40-19] [SYSTEM_IO]: Userdata requested: Foreground
+[23-40-19] [SYSTEM_IO]: Userdata requested: Foreground
+[23-40-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-40-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-40-19] [SYSTEM_IO]: Userdata requested: Foreground
+[23-40-19] [SYSTEM_IO]: Userdata requested: Font
+[23-40-19] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-40-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-40-19] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-40-19] [SYSTEM_IO]: Userdata requested: Foreground
+[23-40-19] [SYSTEM_IO]: Userdata requested: Foreground
+[23-40-19] [SYSTEM_IO]: Userdata requested: Foreground
+[23-40-19] [SYSTEM_IO]: Userdata requested: Font
+[23-40-19] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-40-19] [SYSTEM_IO]: Userdata requested: InputFill
+[23-40-19] [SYSTEM_IO]: Userdata requested: consolepinned
+[23-40-19] [SYSTEM_IO]: Userdata requested: consolepinned
+[23-40-19] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
+[23-40-20] [ACTION]: Console loaded in 3809ms
+[23-40-20] [SYSTEM_IO]: Userdata requested: windowlocx
+[23-40-20] [SYSTEM_IO]: Userdata requested: windowlocy
+[23-40-20] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-40-20] [ENTRY]: [TESTING MODE]
+[23-40-20] [SYSTEM_IO]: Userdata requested: laststart
+[23-40-20] [SYSTEM_IO]: Userdata requested: IntroMusic
+[23-40-20] [CONSOLE_OUT]: [STRING] Console loaded in 3809ms
+[23-40-22] [CLIENT]: convex hull
+[23-40-22] [ACTION]: CONVEX HULL
+[23-40-26] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Convex Hull (title position: LEFT), (1213,354,800x800)
+[23-40-26] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-40-30] [CLIENT]: file signature
+[23-40-30] [ACTION]: FILE SIGNATURE
+[23-40-41] [ACTION]: CyderButton CLICKED, toString(): CyderButton, hash = 1948756237, text=[Validate File Type] parentFrame = [File Signature Checker]
+[23-40-41] [ACTION]: [File Signature Checker] [NOTIFICATION] Please choose a file
+[23-40-41] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-40-44] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-40-44] [SYSTEM_IO]: Userdata requested: Name
+[23-40-44] [LOGOUT]: [Nathan]
+[23-40-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan] (title position: CENTER), (1121,262,984x984)
+[23-40-44] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-40-45] [SYSTEM_IO]: Userdata requested: Background
+[23-40-45] [EXIT]: [RUNTIME] 28s
+[23-40-45] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

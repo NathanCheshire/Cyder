@@ -27,7 +27,8 @@ public class FileSignatureWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget("file signature")
+    @Widget(trigger = "file signature", description = "A widget to read the raw file " +
+            "hex data and determine if the file signature matches the provided extension")
     public static void showGUI() {
         signatureFrame = new CyderFrame(400,420, CyderImages.defaultBackground);
         signatureFrame.setTitle("File Signature Checker");

@@ -1,5 +1,6 @@
 package cyder.annotations;
 
 public @interface Widget {
-    String value();
+    String trigger();
+    String description();
 }

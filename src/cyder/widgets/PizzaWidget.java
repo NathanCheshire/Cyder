@@ -45,7 +45,7 @@ public class PizzaWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget("pizza")
+    @Widget(trigger = "pizza", description = "A very old widget I built using Swing in 2017 for AP Comp. Sci. that I rewrote using the Cyder toolkit")
     public static void showGUI() {
         if (pizzaFrame != null)
             pizzaFrame.dispose();

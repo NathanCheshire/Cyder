@@ -60,7 +60,7 @@ public class PerlinWidget {
 
     private static boolean closed = true;
 
-    @Widget("perlin")
+    @Widget(trigger = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
     public static void showGUI() {
         //set closed
         closed = false;

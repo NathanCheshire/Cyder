@@ -23,7 +23,7 @@ public class CalculatorWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget("calculator")
+    @Widget(trigger = "calculator", description = "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")
     public static void showGUI() {
         calculatorExpression = "";
 
