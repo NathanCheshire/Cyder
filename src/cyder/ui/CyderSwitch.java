@@ -2,11 +2,14 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.AnimationUtil;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CyderSwitch extends JLabel {
     public enum State {
@@ -48,6 +51,13 @@ public class CyderSwitch extends JLabel {
         add(switchButton);
 
         setState(startingState);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+            }
+        });
     }
 
     public CyderSwitch(int width, int height) {

@@ -2,12 +2,15 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.text.Document;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CyderPasswordField extends JPasswordField {
     public CyderPasswordField() {
@@ -18,6 +21,13 @@ public class CyderPasswordField extends JPasswordField {
         setForeground(CyderColors.navy);
         setCaretColor(CyderColors.navy);
         setCaret(new CyderCaret(CyderColors.navy));
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+            }
+        });
     }
 
     private CyderPasswordField(int col) {}

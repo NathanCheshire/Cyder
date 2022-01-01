@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderImages;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.SystemUtil;
 
@@ -95,6 +96,14 @@ public class DragLabel extends JLabel {
                 }
             }
         });
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+            }
+        });
+
     }
 
     //override so we can change the background color if needed

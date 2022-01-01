@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
@@ -9,6 +10,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CyderTextField extends JTextField {
     private int limit = 10;
@@ -59,6 +62,13 @@ public class CyderTextField extends JTextField {
                         Toolkit.getDefaultToolkit().beep();
                     }
                 }
+            }
+        });
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
             }
         });
 

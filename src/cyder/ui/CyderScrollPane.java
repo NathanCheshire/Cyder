@@ -2,11 +2,14 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /*
     Credit: Philipp Danner from Stack Overflow
@@ -25,6 +28,13 @@ public class CyderScrollPane extends JScrollPane {
         setFont(CyderFonts.weatherFontSmall);
         setBackground(new Color(0,0,0,0));
         getViewport().setBackground(new Color(0,0,0,0));
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+            }
+        });
     }
 
     public CyderScrollPane(int vsbPolicy, int hsbPolicy) {
@@ -33,6 +43,13 @@ public class CyderScrollPane extends JScrollPane {
         setFont(CyderFonts.weatherFontSmall);
         setBackground(new Color(0,0,0,0));
         getViewport().setBackground(new Color(0,0,0,0));
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+            }
+        });
     }
 
     public void setScrollBarAlphaRollover(int alpha) {

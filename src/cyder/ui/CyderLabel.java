@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 import org.jsoup.Jsoup;
@@ -10,15 +11,13 @@ import org.jsoup.safety.Safelist;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
 public class CyderLabel extends JLabel {
     public CyderLabel() {
-        setText("<html>CyderLabel default text</html>");
-        setForeground(CyderColors.navy);
-        setFont(CyderFonts.weatherFontSmall);
-        setHorizontalAlignment(JLabel.CENTER);
-        setVerticalAlignment(JLabel.CENTER);
+        this("CyderLabel default text");
     }
 
     public CyderLabel(String text) {
@@ -27,6 +26,13 @@ public class CyderLabel extends JLabel {
         setFont(CyderFonts.defaultFontSmall);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+            }
+        });
     }
 
     public CyderLabel(String text, int horizontalAlignment) {
@@ -36,6 +42,13 @@ public class CyderLabel extends JLabel {
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
         setHorizontalAlignment(horizontalAlignment);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+            }
+        });
     }
 
     @Override

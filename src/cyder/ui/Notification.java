@@ -4,11 +4,14 @@ import cyder.consts.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 
 public class Notification extends JLabel {
@@ -24,6 +27,13 @@ public class Notification extends JLabel {
 
     public Notification() {
         killed = false;
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+            }
+        });
     }
 
     public Color getBackgroundColor() {
