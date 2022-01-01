@@ -1,0 +1,95 @@
+[20-43-35] [ENTRY]: [Nathan]
+[20-43-35] [SYSTEM_IO]: System data pared in IOUtil's static block
+[20-43-36] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-43-36] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-43-37] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-43-37] [SYSTEM_IO]: Userdata requested: Name
+[20-43-37] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-43-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-43-38] [SYSTEM_IO]: Userdata requested: Name
+[20-43-38] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-38] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-43-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-43-38] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-38] [SYSTEM_IO]: Userdata requested: Font
+[20-43-38] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-43-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-43-38] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-43-38] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-38] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-38] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-38] [SYSTEM_IO]: Userdata requested: Font
+[20-43-38] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-43-38] [SYSTEM_IO]: Userdata requested: InputFill
+[20-43-38] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-43-38] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-43-38] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
+[20-43-38] [ACTION]: Console loaded in 3583ms
+[20-43-38] [SYSTEM_IO]: Userdata requested: windowlocx
+[20-43-38] [SYSTEM_IO]: Userdata requested: windowlocy
+[20-43-38] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-43-38] [ENTRY]: [TESTING MODE]
+[20-43-38] [SYSTEM_IO]: Userdata requested: laststart
+[20-43-38] [SYSTEM_IO]: Userdata requested: IntroMusic
+[20-43-38] [CONSOLE_OUT]: [STRING] Console loaded in 3583ms
+[20-43-45] [CLIENT]: typinganimation
+[20-43-45] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-43-45] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-43-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-43-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-43-45] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[20-43-45] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-43-45] [SYSTEM_IO]: Userdata requested: InputFill
+[20-43-45] [ACTION]: CONSOLE PREFERENCE TOGGLE HANDLED
+[20-43-45] [CONSOLE_OUT]: [STRING] Typing Animation set to false
+[20-43-47] [CLIENT]: logout
+[20-43-47] [SYSTEM_IO]: Userdata requested: Name
+[20-43-47] [LOGOUT]: [Nathan]
+[20-43-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan] (title position: CENTER), (1102,223,984x984)
+[20-43-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
+[20-43-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan] (title position: CENTER), (1102,223,984x984)
+[20-43-47] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-43-47] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-43-48] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
+[20-43-49] [CLIENT_IO]: [LOGIN FRAME] login
+[20-43-50] [CLIENT_IO]: [LOGIN FRAME] nathan
+[20-43-52] [LOGIN]: [STD LOGIN, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-43-52] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan] (title position: CENTER), (1102,-977,984x984)
+[20-43-52] [SYSTEM_IO]: Userdata requested: Name
+[20-43-52] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-43-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-43-52] [SYSTEM_IO]: Userdata requested: Name
+[20-43-52] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-52] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-43-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-43-52] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-52] [SYSTEM_IO]: Userdata requested: Font
+[20-43-52] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-43-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-43-52] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-43-52] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-52] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-52] [SYSTEM_IO]: Userdata requested: Foreground
+[20-43-52] [SYSTEM_IO]: Userdata requested: Font
+[20-43-52] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-43-52] [SYSTEM_IO]: Userdata requested: InputFill
+[20-43-52] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-43-52] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-43-52] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
+[20-43-52] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan] (title position: CENTER), (1102,-977,984x984)
+[20-43-52] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Login [Stellar Build] (title position: LEFT), (980,478,600x400)
+[20-43-52] [ACTION]: Console loaded in 3583ms
+[20-43-52] [SYSTEM_IO]: Userdata requested: windowlocx
+[20-43-52] [SYSTEM_IO]: Userdata requested: windowlocy
+[20-43-52] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Login [Stellar Build] (title position: LEFT), (980,478,600x400)
+[20-43-52] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-43-52] [ENTRY]: [TESTING MODE]
+[20-43-52] [SYSTEM_IO]: Userdata requested: laststart
+[20-43-52] [SYSTEM_IO]: Userdata requested: IntroMusic
+[20-43-55] [CONSOLE_OUT]: [STRING] Console loaded in 3583ms
+[20-44-18] [CLIENT]: quit
+[20-44-18] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-44-18] [EXIT]: [RUNTIME] 43s
+[20-44-18] [EOL]: Log completed, exiting program with code: 25 [Genesis Controlled Exit], exceptions thrown: 0

@@ -1,5 +1,6 @@
 package cyder.handlers.external;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
@@ -47,6 +48,7 @@ public class DirectoryViewer {
     }
 
     //as per standard, method
+    @Widget(trigger = "dir", description = "A directory navigator widget")
     public static void showGUI() {
         //if a frame is already open, close it
         if (dirFrame != null)

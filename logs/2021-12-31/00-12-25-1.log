@@ -33,3 +33,4 @@
 [00-12-28] [SYSTEM_IO]: Userdata requested: laststart
 [00-12-28] [SYSTEM_IO]: Userdata requested: IntroMusic
 [00-12-28] [CONSOLE_OUT]: [STRING] Console loaded in 3405ms
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
