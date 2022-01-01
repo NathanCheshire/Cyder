@@ -188,7 +188,7 @@ public class CyderSwitch extends JLabel {
 
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return ReflectionUtil.commonCyderUIReflection(this);
     }
 
 }

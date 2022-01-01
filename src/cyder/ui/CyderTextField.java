@@ -113,7 +113,7 @@ public class CyderTextField extends JTextField {
 
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return ReflectionUtil.commonCyderUIReflection(this);
     }
 
     public void informValidData() {

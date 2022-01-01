@@ -19,7 +19,7 @@ public class CyderButton extends JButton {
     private Color backgroundColor = CyderColors.buttonColor;
 
     public CyderButton() {
-        this(null);
+        this("NULL TEXT");
     }
 
     public CyderButton(String text) {
@@ -27,7 +27,6 @@ public class CyderButton extends JButton {
         super.setContentAreaFilled(false);
 
         addMouseMotionListener(new CyderDraggableComponent());
-        //todo add this method here to all constructors in UI
         addActionListener(e -> SessionHandler.log(SessionHandler.Tag.ACTION, this));
 
         setFont(CyderFonts.weatherFontSmall);

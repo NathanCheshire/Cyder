@@ -193,6 +193,6 @@ public class CyderScrollPane extends JScrollPane {
 
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return ReflectionUtil.commonCyderUIReflection(this);
     }
 }

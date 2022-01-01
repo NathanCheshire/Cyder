@@ -84,7 +84,7 @@ public class SessionHandler {
                 logBuilder.append("[EXCEPTION]: ");
                 logBuilder.append(representation);
                 break;
-            case ACTION: //catch actions for more cyder components in future like text field
+            case ACTION:
                 logBuilder.append("[ACTION]: ");
                 logBuilder.append(representation);
                 break;

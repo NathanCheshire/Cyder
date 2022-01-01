@@ -1,0 +1,726 @@
+[21-22-51] [ENTRY]: [Nathan]
+[21-22-51] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-22-52] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-22-52] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-22-53] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-22-53] [SYSTEM_IO]: Userdata requested: Name
+[21-22-53] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-22-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-22-54] [SYSTEM_IO]: Userdata requested: Name
+[21-22-54] [SYSTEM_IO]: Userdata requested: Foreground
+[21-22-54] [SYSTEM_IO]: Userdata requested: Foreground
+[21-22-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-22-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-22-54] [SYSTEM_IO]: Userdata requested: Foreground
+[21-22-54] [SYSTEM_IO]: Userdata requested: Font
+[21-22-54] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-22-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-22-54] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-22-54] [SYSTEM_IO]: Userdata requested: Foreground
+[21-22-54] [SYSTEM_IO]: Userdata requested: Foreground
+[21-22-54] [SYSTEM_IO]: Userdata requested: Foreground
+[21-22-54] [SYSTEM_IO]: Userdata requested: Font
+[21-22-54] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-22-54] [SYSTEM_IO]: Userdata requested: InputFill
+[21-22-54] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-22-54] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-22-54] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
+[21-22-54] [ACTION]: Console loaded in 3773ms
+[21-22-54] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-22-54] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-22-54] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-22-54] [ENTRY]: [TESTING MODE]
+[21-22-54] [SYSTEM_IO]: Userdata requested: laststart
+[21-22-54] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-22-57] [CLIENT]: prefs
+[21-22-57] [ACTION]: USER EDITOR
+[21-22-57] [CONSOLE_OUT]: [STRING] Console loaded in 3773ms
+[21-22-58] [SYSTEM_IO]: Userdata requested: Foreground
+[21-22-58] [SYSTEM_IO]: Userdata requested: Foreground
+[21-22-58] [SYSTEM_IO]: Userdata requested: Background
+[21-22-58] [SYSTEM_IO]: Userdata requested: Background
+[21-22-58] [SYSTEM_IO]: Userdata requested: Font
+[21-22-58] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1755699716], parentFrame = [Edit User], associated text = [>]
+[21-22-59] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[21-22-59] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1755699716], parentFrame = [Edit User], associated text = [>]
+[21-22-59] [SYSTEM_IO]: Userdata requested: randombackground
+[21-22-59] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-22-59] [SYSTEM_IO]: Userdata requested: intromusic
+[21-22-59] [SYSTEM_IO]: Userdata requested: randombackground
+[21-22-59] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-22-59] [SYSTEM_IO]: Userdata requested: intromusic
+[21-22-59] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-22-59] [SYSTEM_IO]: Userdata requested: intromusic
+[21-22-59] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-22-59] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-00] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-00] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-00] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-23-00] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-00] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: intromusic
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: randombackground
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-01] [SYSTEM_IO]: Userdata requested: inputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: inputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: inputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: inputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: outputfill
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-02] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-02] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-02] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-03] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-03] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-03] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-23-03] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-23-03] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-23-03] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-23-03] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-23-03] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-23-03] [SYSTEM_IO]: Userdata requested: InputFill
+[21-23-03] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-03] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-03] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-03] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-03] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-04] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-04] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-23-04] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-23-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-23-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-23-04] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-23-04] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-23-04] [SYSTEM_IO]: Userdata requested: InputFill
+[21-23-04] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-23-04] [SYSTEM_IO]: Userdata requested: silenceerrors
+[21-23-04] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-04] [SYSTEM_IO]: Userdata requested: inputborder
+[21-23-04] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-05] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-05] [SYSTEM_IO]: Userdata requested: hourlychimes
+[21-23-06] [SYSTEM_IO]: Userdata requested: ffmpegpath
+[21-23-06] [SYSTEM_IO]: Userdata requested: youtubedlpath
+[21-23-06] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1755699716], parentFrame = [Edit User], associated text = [>]
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 329,237
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 330,237
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 331,237
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 333,237
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 335,237
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 336,237
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 344,237
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 350,239
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 361,239
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 377,241
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 392,241
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 403,241
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 419,240
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 431,240
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 439,238
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 448,235
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 454,233
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 460,231
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 464,231
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 468,229
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 469,229
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 471,229
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 474,228
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 476,228
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 478,226
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 481,226
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 485,226
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 491,224
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 497,224
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 503,222
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 509,222
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 515,222
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 516,222
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 520,222
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 523,222
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 525,222
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 526,222
+[21-23-08] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 530,222
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 326,465
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 327,463
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 331,463
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 332,462
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 334,458
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 336,457
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 339,455
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 341,451
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 345,449
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 346,448
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 350,446
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 354,442
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 358,440
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 359,438
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 363,435
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 367,433
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 368,431
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 370,428
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 374,428
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 374,426
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 375,425
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 377,423
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 378,421
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 380,420
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 382,418
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 383,417
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 387,411
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 391,407
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 397,401
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 399,394
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 403,390
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 405,387
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 407,385
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 407,383
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 409,383
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 409,382
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 409,380
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 410,379
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 410,377
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 412,374
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 416,370
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 420,363
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 422,357
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 427,348
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 433,342
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 437,335
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 439,329
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 443,325
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 445,321
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 447,320
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 447,318
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 447,317
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 448,317
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 448,315
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 448,314
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 448,312
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 450,310
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 452,309
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 455,305
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 459,299
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 464,290
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 471,280
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 478,271
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 488,260
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 496,251
+[21-23-09] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 503,241
+[21-23-11] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Edit User (title position: LEFT), (647,497,900x580)
+[21-23-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-23-11] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-23-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-23-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-23-11] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-23-11] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-23-11] [SYSTEM_IO]: Userdata requested: InputFill
+[21-23-11] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-23-12] [CLIENT]: calc
+[21-23-12] [ACTION]: CALCULATOR
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 213,125
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 211,125
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 210,125
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 208,125
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 206,125
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 205,127
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 205,129
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 203,130
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 202,132
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 198,137
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 193,149
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 188,162
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 183,178
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 177,194
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 172,210
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 166,230
+[21-23-13] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 164,246
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 161,261
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 156,277
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 151,290
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 151,299
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 149,307
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 147,313
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 147,317
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 147,323
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 147,326
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 147,332
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 147,334
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 147,339
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 147,341
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 149,343
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 151,348
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 151,349
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 152,351
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 154,352
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 155,354
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 157,354
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 159,356
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 162,357
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 168,357
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 174,359
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 183,359
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 191,358
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 203,356
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 213,351
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 222,347
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 231,342
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 241,332
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 251,322
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 263,305
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 274,288
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 279,272
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 284,259
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 286,251
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 286,245
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 286,239
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 285,235
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 285,233
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 284,230
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 282,228
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 280,225
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 277,223
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 273,221
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 269,219
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 265,217
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 261,215
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 257,213
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 254,213
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 252,211
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 251,211
+[21-23-14] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 251,210
+[21-23-14] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(251, 210, 75, 75)], hash = [1584150629], parentFrame = [Calculator], associated text = [*]
+[21-23-15] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Calculator (title position: LEFT), (897,489,400x595)
+[21-23-15] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-23-16] [CLIENT]: path
+[21-23-16] [ACTION]: PATHFINDER
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 316,924
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 317,923
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 319,923
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 323,921
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 329,919
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 333,915
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 339,913
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 343,909
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 347,905
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 351,899
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 355,893
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 359,883
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 361,879
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 363,873
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 365,869
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 367,865
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 369,861
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 371,858
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 371,856
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 371,854
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,853
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,851
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,850
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,848
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,846
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,843
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,841
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,840
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,838
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,837
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,835
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,834
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,832
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,830
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,829
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,827
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,826
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 372,824
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 370,824
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 369,822
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 365,821
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 363,821
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 362,821
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 359,821
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 357,821
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 355,819
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 354,819
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 350,817
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 349,817
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 347,816
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 344,816
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 342,814
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 340,814
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 339,814
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 337,814
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 336,814
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 334,814
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 333,814
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 331,814
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 328,814
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 326,814
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 325,815
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 323,815
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 320,816
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 318,818
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 315,820
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 313,821
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 309,825
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 303,827
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 299,831
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 293,833
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 287,837
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 281,839
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 274,843
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 268,847
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 262,852
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 256,854
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 249,858
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 241,862
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 228,867
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 222,872
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 213,876
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 200,881
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 191,883
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 182,888
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 169,893
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 163,895
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 152,900
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 142,904
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 134,907
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 121,912
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 112,916
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 106,918
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 97,923
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 88,925
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 82,925
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 76,925
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 70,927
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 64,927
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 60,927
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 54,927
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 48,927
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 45,927
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 41,927
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 38,927
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 36,927
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 34,926
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 33,926
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 31,925
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 30,925
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 28,925
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 26,923
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 25,923
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 23,923
+[21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 22,923
+[21-23-19] [ACTION]: cyder.ui.CyderCheckBox$2@4d2e4bec
+[21-23-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Pathfinding visualizer (title position: LEFT), (597,252,1000x1070)
+[21-23-47] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-23-51] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-23-51] [SYSTEM_IO]: Userdata requested: Name
+[21-23-51] [LOGOUT]: [Nathan]
+[21-23-51] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Stellar Cyder [Nathan] (title position: CENTER), (605,295,984x984)
+[21-23-51] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-23-51] [SYSTEM_IO]: Userdata requested: Background
+[21-23-52] [EXIT]: [RUNTIME] 60s
+[21-23-52] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

@@ -30,6 +30,6 @@ public class CyderPasswordField extends JPasswordField {
 
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return ReflectionUtil.commonCyderUIReflection(this);
     }
 }

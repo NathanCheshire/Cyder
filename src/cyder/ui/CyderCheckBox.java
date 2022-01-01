@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.consts.CyderColors;
+import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
@@ -54,6 +55,10 @@ public class CyderCheckBox extends JLabel {
     }
 
     public CyderCheckBox() {
+       this(false);
+    }
+
+    public CyderCheckBox(boolean initalValue) {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -66,11 +71,18 @@ public class CyderCheckBox extends JLabel {
 
         setBorder(null);
         repaint();
-    }
 
-    public CyderCheckBox(boolean initalValue) {
         selected = initalValue;
         repaint();
+        
+
+        addMouseMotionListener(new CyderDraggableComponent());
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SessionHandler.log(SessionHandler.Tag.ACTION, this);
+            }
+        });
     }
 
     @Override
@@ -188,7 +200,7 @@ public class CyderCheckBox extends JLabel {
 
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return ReflectionUtil.commonCyderUIReflection(this);
     }
 
     @Override

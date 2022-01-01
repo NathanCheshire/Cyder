@@ -1480,10 +1480,7 @@ public class CyderFrame extends JFrame {
 
     @Override
     public String toString() {
-        String title = this.title == null ||
-                this.title.length() == 0 ? super.getTitle() : this.title;
-        return "Name: " + title + " (title position: " + this.getTitlePosition() + "), (" +
-                this.getX() + "," + this.getY() + "," + this.getWidth() + "x" + this.getHeight() + ")";
+        return ReflectionUtil.commonCyderUIReflection(this);
     }
 
     /**
