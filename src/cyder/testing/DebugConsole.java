@@ -5,6 +5,7 @@ import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
+import cyder.structs.CyderHeap;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -146,6 +147,18 @@ public class DebugConsole {
     }
 
     public static void launchTests() {
+        try {
+            CyderHeap heap = new CyderHeap(null, 2, CyderHeap.Type.MIN);
+            heap.insert(1);
+            heap.insert(2);
+            System.out.println(heap);
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    //testing main used to bypass Cyder loading
+    public static void main(String[] args) {
         try {
 
         } catch (Exception e) {

@@ -39,6 +39,7 @@ public class CyderHeap {
         if (data == null || data.length == 0){
             this.maxSize = maxSize;
             heapStruct = new Object[maxSize];
+            this.size = data.length;
         } else {
             if (data.length > maxSize)
                 throw new IllegalStateException("Provided data exceeds provided max length");
@@ -46,10 +47,11 @@ public class CyderHeap {
                 throw new IllegalStateException("Absolute min size exceeded");
 
             System.arraycopy(data, 0, heapStruct, 0, data.length);
+
+            this.size = data.length;
         }
 
         this.type = type;
-        this.size = data.length;
     }
 
     /**
@@ -100,6 +102,22 @@ public class CyderHeap {
     public void maxHeapify() {
 
     }
+
+    /**
+     * Swaps the two elements at the provided indicies
+     * @param index1 the first index
+     * @param index2 the second index
+     */
+    private void swap(int index1, int index2) {
+        if (index1 < 0 || index2 < 0 || index1 > size || index2 > size)
+            throw new IndexOutOfBoundsException("Provided index is out of bounds");
+        if (index1 == index2)
+            return;
+
+        Object uno = heapStruct[index1];
+        heapStruct[index1] = heapStruct[index2];
+        heapStruct[index2] = uno;
+    } //todo test this with two element heap and print functions for a custom object
 
     public void insert(Object data) {
         if (this.size + 1 < maxSize)
