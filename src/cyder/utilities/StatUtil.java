@@ -162,13 +162,19 @@ public class StatUtil {
         ArrayList<File> javaFiles = SystemUtil.getFiles(startDir, ".java");
 
         for (File f : javaFiles) {
-            ret += f.getName().replace(".java","")+ ": " + totalJavaLines(f) + ","
+            ret += f.getName().replace(".java","")+ ": " + totalLines(f) + ","
                     + totalComments(f) + "," + totalBlankLines(f) + "\n";
         }
 
         return ret;
     }
 
+    /**
+     * Finds the total number of Java lines found within .java files
+     * and recursive directories within the provided starting directory
+     * @param startDir the directory to begin recursing from
+     * @return the total number of java code lines found
+     */
     public static int totalJavaLines(File startDir) {
         int ret = 0;
 
@@ -184,8 +190,41 @@ public class StatUtil {
                 int localRet = 0;
 
                 while ((line = lineReader.readLine()) != null)
-                    if (line.trim().length() > 0)
+                    //not blank and not a comment means a code line
+                    if (line.trim().length() > 0 && !isComment(line.trim()))
                         localRet++;
+
+                return localRet;
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Finds the total number of lines found within each java file provided the starting directory
+     * to begin recursing from
+     * @param startDir the directory to begin recursing from
+     * @return the total number of lines found
+     */
+    public static int totalLines(File startDir) {
+        int ret = 0;
+
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                ret += totalLines(f);
+        } else if (startDir.getName().endsWith(".java")) {
+            try {
+                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
+                String line = "";
+                int localRet = 0;
+
+                while ((line = lineReader.readLine()) != null)
+                    localRet++;
 
                 return localRet;
             } catch (Exception ex) {
@@ -211,6 +250,12 @@ public class StatUtil {
         return ret;
     }
 
+    /**
+     * Finds the number of java comments associated with all .java files
+     * within the directory and recurively located directories provided
+     * @param startDir the directory to begin recursing from
+     * @return the raw number of comments found
+     */
     public static int totalComments(File startDir) {
         int ret = 0;
 
@@ -228,19 +273,25 @@ public class StatUtil {
                 boolean blockComment = false;
 
                 while ((line = lineReader.readLine()) != null) {
+                    //rare case of this happening but needed to not trigger a long block comment
                     if (line.trim().startsWith("/*") && line.trim().endsWith("*/")) {
                         localRet++;
                         continue;
                     }
 
+                    //start of a block comment
                     if (line.trim().startsWith("/*")) {
                         blockComment = true;
-                    } else if (line.trim().endsWith("*/")) {
+                    }
+                    //end of a block comment
+                    else if (line.trim().endsWith("*/")) {
                         blockComment = false;
                     }
 
+                    //if we've activated block comment or still on, increment line count
                     if (blockComment)
                         localRet++;
+                    //otherwise if the line has text and is a comment inc
                     else if (line.trim().length() > 0 && (isComment(line)))
                         localRet++;
                 }
@@ -263,6 +314,11 @@ public class StatUtil {
         return line.matches(CyderRegexPatterns.commentPattern);
     }
 
+    /**
+     * Finds the number of blank lines associated with .java files within the provided start directory
+     * @param startDir the directory to begin recursing from to find .java files
+     * @return the number of blank lines found in the provided directory and subdirectories
+     */
     public static int totalBlankLines(File startDir) {
         int ret = 0;
 
@@ -290,6 +346,12 @@ public class StatUtil {
         return ret;
     }
 
+    /**
+     * Finds each to-do within all .java files recursing from the provided start directory
+     * @param startDir the directory to begin recursing from
+     * @return a String representation of all todos within the discovered directories.
+     *          This String may be printed directly as it includes line breaks
+     */
     public static String getTodos(File startDir) {
         StringBuilder ret = new StringBuilder();
 

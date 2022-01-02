@@ -675,19 +675,20 @@ public class InputHandler {
            new Thread(() -> {
                File startDir = new File("src");
 
-               int javaLines = StatUtil.totalJavaLines(startDir);
+               int totalLines = StatUtil.totalLines(startDir);
+               int codeLines = StatUtil.totalJavaLines(startDir);
+               int blankLines = StatUtil.totalBlankLines(startDir);
                int commentLines = StatUtil.totalComments(startDir);
+               int javaFiles = StatUtil.totalJavaFiles(startDir);
 
-               println("Lines of code: " + javaLines);
-               println("Number of Java files: " + StatUtil.totalJavaFiles(startDir));
-               println("Number of comments: " + commentLines);
+               println("Total lines: " + totalLines);
+               println("Code lines: " + codeLines);
+               println("Blank lines: " + blankLines);
+               println("Comment lines: " + commentLines);
+               println("Java Files: " + javaFiles);
 
-               double ratio = ((double) javaLines / (double) commentLines);
-
+               double ratio = ((double) codeLines / (double) commentLines);
                println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
-
-               println("Blank lines: " + StatUtil.totalBlankLines(startDir));
-               println("Total lines: " + (StatUtil.totalBlankLines(startDir) + StatUtil.totalJavaLines(startDir)));
            }, "Code Analyzer").start();
         } else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
             new Robot().keyPress(KeyEvent.VK_F17);
@@ -1511,6 +1512,9 @@ public class InputHandler {
     // handle adding them to the lists
     private LinkedList<Object> consolePrintingList = new LinkedList<>();
     private LinkedList<Object> consolePriorityPrintingList = new LinkedList<>();
+
+    //todo concurrency issues found with printing, fix this by surrounding print statements
+    // or methods that add to/remove from these lists with sem acquire/releases
 
     private boolean started = false;
 

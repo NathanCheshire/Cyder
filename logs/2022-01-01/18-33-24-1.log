@@ -1,0 +1,46 @@
+[18-33-24] [ENTRY]: [Nathan]
+[18-33-24] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-33-26] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-33-26] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-33-26] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-33-26] [SYSTEM_IO]: Userdata requested: Name
+[18-33-27] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-33-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-33-27] [SYSTEM_IO]: Userdata requested: Name
+[18-33-27] [SYSTEM_IO]: Userdata requested: Foreground
+[18-33-27] [SYSTEM_IO]: Userdata requested: Foreground
+[18-33-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-33-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-33-27] [SYSTEM_IO]: Userdata requested: Foreground
+[18-33-27] [SYSTEM_IO]: Userdata requested: Font
+[18-33-27] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-33-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-33-27] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-33-27] [SYSTEM_IO]: Userdata requested: Foreground
+[18-33-27] [SYSTEM_IO]: Userdata requested: Foreground
+[18-33-27] [SYSTEM_IO]: Userdata requested: Foreground
+[18-33-27] [SYSTEM_IO]: Userdata requested: Font
+[18-33-27] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-33-27] [SYSTEM_IO]: Userdata requested: InputFill
+[18-33-27] [SYSTEM_IO]: Userdata requested: consolepinned
+[18-33-28] [SYSTEM_IO]: Userdata requested: consolepinned
+[18-33-28] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1978736584], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[18-33-28] [ACTION]: Console loaded in 3818ms
+[18-33-28] [SYSTEM_IO]: Userdata requested: windowlocx
+[18-33-28] [SYSTEM_IO]: Userdata requested: windowlocy
+[18-33-28] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-33-28] [ENTRY]: [TESTING MODE]
+[18-33-28] [SYSTEM_IO]: Userdata requested: laststart
+[18-33-28] [SYSTEM_IO]: Userdata requested: IntroMusic
+[18-33-30] [CLIENT]: analyze code
+[18-33-30] [CONSOLE_OUT]: [STRING] Console loaded in 3818ms
+[18-33-31] [CONSOLE_OUT]: [STRING] Total lines: 37016
+[18-33-31] [CONSOLE_OUT]: [STRING] Number of comments: 2707
+[18-33-31] [CONSOLE_OUT]: [STRING] Number of Java files: 109
+[18-33-31] [CONSOLE_OUT]: [STRING] Blank lines: 6131
+[18-33-31] [CONSOLE_OUT]: [STRING] Lines of code: 37016
+[18-33-31] [CONSOLE_OUT]: [STRING] Code to comment ratio: 13.67
+[18-33-49] [CLIENT]: 30000+2707+6313
+[18-33-49] [ACTION]: CONSOLE MATH HANDLED
+[18-33-49] [CONSOLE_OUT]: [STRING] 39020.0
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
