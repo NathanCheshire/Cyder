@@ -1,0 +1,188 @@
+[20-09-05] [ENTRY]: [Nathan]
+[20-09-05] [SYSTEM_IO]: System data pared in IOUtil's static block
+[20-09-06] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-09-06] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-09-07] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-09-07] [SYSTEM_IO]: Userdata requested: Name
+[20-09-07] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-09-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-09-07] [SYSTEM_IO]: Userdata requested: Name
+[20-09-07] [SYSTEM_IO]: Userdata requested: Foreground
+[20-09-07] [SYSTEM_IO]: Userdata requested: Foreground
+[20-09-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-09-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-09-08] [SYSTEM_IO]: Userdata requested: Foreground
+[20-09-08] [SYSTEM_IO]: Userdata requested: Font
+[20-09-08] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-09-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-09-08] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-09-08] [SYSTEM_IO]: Userdata requested: Foreground
+[20-09-08] [SYSTEM_IO]: Userdata requested: Foreground
+[20-09-08] [SYSTEM_IO]: Userdata requested: Foreground
+[20-09-08] [SYSTEM_IO]: Userdata requested: Font
+[20-09-08] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-09-08] [SYSTEM_IO]: Userdata requested: InputFill
+[20-09-08] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-09-08] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-09-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1656335313], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[20-09-08] [ACTION]: Console loaded in 3579ms
+[20-09-08] [SYSTEM_IO]: Userdata requested: windowlocx
+[20-09-08] [SYSTEM_IO]: Userdata requested: windowlocy
+[20-09-08] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-09-08] [ENTRY]: [TESTING MODE]
+[20-09-08] [SYSTEM_IO]: Userdata requested: laststart
+[20-09-08] [SYSTEM_IO]: Userdata requested: IntroMusic
+[20-09-11] [CONSOLE_OUT]: [STRING] Console loaded in 3579ms
+[20-09-15] [CLIENT]: analyze code
+[20-09-16] [CONSOLE_OUT]: [STRING] Total lines: 37043
+[20-09-16] [CONSOLE_OUT]: [STRING] Code lines: 28209
+[20-09-16] [CONSOLE_OUT]: [STRING] Blank lines: 6132
+[20-09-16] [CONSOLE_OUT]: [STRING] Comment lines: 2707
+[20-09-16] [CONSOLE_OUT]: [STRING] Java Files: 109
+[20-09-16] [CONSOLE_OUT]: [STRING] Code to comment ratio: 10.42
+[20-09-18] [CLIENT]: hello
+[20-09-18] [SYSTEM_IO]: Userdata requested: Name
+[20-09-18] [CONSOLE_OUT]: [STRING] Good evening, Nathan. How can I help?
+[20-09-20] [CLIENT]: 23+23
+[20-09-20] [CONSOLE_OUT]: [STRING] 46.0
+[20-09-20] [ACTION]: CONSOLE MATH HANDLED
+[20-09-21] [CLIENT]: 23+23
+[20-09-21] [ACTION]: CONSOLE MATH HANDLED
+[20-09-21] [CONSOLE_OUT]: [STRING] 46.0
+[20-09-22] [CLIENT]: 23+23
+[20-09-22] [ACTION]: CONSOLE MATH HANDLED
+[20-09-22] [CONSOLE_OUT]: [STRING] 46.0
+[20-09-22] [CLIENT]: 23+23
+[20-09-22] [ACTION]: CONSOLE MATH HANDLED
+[20-09-22] [CONSOLE_OUT]: [STRING] 46.0
+[20-10-31] [CLIENT]: clear
+[20-10-32] [CLIENT]: analyze code
+[20-10-33] [CONSOLE_OUT]: [STRING] Total lines: 37043
+[20-10-33] [CONSOLE_OUT]: [STRING] Code lines: 28209
+[20-10-33] [CONSOLE_OUT]: [STRING] Blank lines: 6132
+[20-10-33] [CONSOLE_OUT]: [STRING] Comment lines: 2707
+[20-10-33] [CONSOLE_OUT]: [STRING] Java Files: 109
+[20-10-33] [CONSOLE_OUT]: [STRING] Code to comment ratio: 10.42
+[20-10-51] [CLIENT]: 28209+2707+6132
+[20-10-51] [ACTION]: CONSOLE MATH HANDLED
+[20-10-51] [CONSOLE_OUT]: [STRING] 37048.0
+[20-10-53] [CLIENT]: 28209+2707+6132
+[20-10-54] [CONSOLE_OUT]: [STRING] 37048.0
+[20-10-54] [ACTION]: CONSOLE MATH HANDLED
+[20-10-55] [CLIENT]: clear
+[20-10-55] [CLIENT]: hello
+[20-10-55] [SYSTEM_IO]: Userdata requested: Name
+[20-10-55] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[20-11-00] [CLIENT]: github issues
+[20-11-01] [CONSOLE_OUT]: [STRING] 16 issues found:
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #69
+[20-11-01] [CONSOLE_OUT]: [STRING] CyderLabel ripple effect
+[20-11-01] [CONSOLE_OUT]: [STRING] Finish and test the rippling effect for CyderLabel. Test with lots of html formatted text.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #68
+[20-11-01] [CONSOLE_OUT]: [STRING] Zoomable Grid
+[20-11-01] [CONSOLE_OUT]: [STRING] Make a base widget for a zoomable grid so that you can re-use it easier later and also for others to see how you did it, make a gist.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #67
+[20-11-01] [CONSOLE_OUT]: [STRING] Reset Buttons
+[20-11-01] [CONSOLE_OUT]: [STRING] Add a reset to initial state vs reset board button for Conways game of life and Pathfinding.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #66
+[20-11-01] [CONSOLE_OUT]: [STRING] Frame icon changing
+[20-11-01] [CONSOLE_OUT]: [STRING] Be able to stop a frame from changing it's icon. For example, audio player shouldn't update it's logo on a dispose if there's a custom icon there.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #65
+[20-11-01] [CONSOLE_OUT]: [STRING] SpotifyAPI
+[20-11-01] [CONSOLE_OUT]: [STRING] Use the Spotify API to stream audio and download album art. You'll also need a place to put keys for this in the user editor. Perhaps making a method to generate a label along with a field to control a preference after validation (pass in a lambda) would be beneficial at this point.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #63
+[20-11-01] [CONSOLE_OUT]: [STRING] CyderIconLabel
+[20-11-01] [CONSOLE_OUT]: [STRING] All the labels that act as buttons should be a cyder component with common methods. Also so that you can log the actions performed on them.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #61
+[20-11-01] [CONSOLE_OUT]: [STRING] Logs dir
+[20-11-01] [CONSOLE_OUT]: [STRING] Be able to change the logs dir through the preference editor
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #58
+[20-11-01] [CONSOLE_OUT]: [STRING] Lyrical Widget
+[20-11-01] [CONSOLE_OUT]: [STRING] You know that thing you imagine all the time with lyrics flying in and out? Yeah implement that if possible in a cool way. If limited by Java then use something else.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #51
+[20-11-01] [CONSOLE_OUT]: [STRING] Jenkins
+[20-11-01] [CONSOLE_OUT]: [STRING] Link up server to auto-run unit tests and determine whether or not a build is passing or failing.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #46
+[20-11-01] [CONSOLE_OUT]: [STRING] Email client
+[20-11-01] [CONSOLE_OUT]: [STRING] Make an email client using CyderComponents and using javax.mail library. Should be able to add attachments and view formatted content of the email. Use JTextPane possibly.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #44
+[20-11-01] [CONSOLE_OUT]: [STRING] Flags for showcasing
+[20-11-01] [CONSOLE_OUT]: [STRING] Figure out how to flag stuff that you should showcase in the README/Widget Showcases/YouTube videos. I tried using an annotation but this did not work.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #35
+[20-11-01] [CONSOLE_OUT]: [STRING] Spectrum Analyzer
+[20-11-01] [CONSOLE_OUT]: [STRING] Implement a simple spectrum analyzer.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #33
+[20-11-01] [CONSOLE_OUT]: [STRING] Dark Mode
+[20-11-01] [CONSOLE_OUT]: [STRING] Implement a dark/light mode preference
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #32
+[20-11-01] [CONSOLE_OUT]: [STRING] Multiple Image Support
+[20-11-01] [CONSOLE_OUT]: [STRING] Anywhere a PNG is accepted, be able to accept JPEG and JPG image types.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #31
+[20-11-01] [CONSOLE_OUT]: [STRING] Screen Sizing
+[20-11-01] [CONSOLE_OUT]: [STRING] Be able to adapt to different screen resolutions and maintain the same relative size. See ImAvg as an example.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-01] [CONSOLE_OUT]: [STRING] Issue #29
+[20-11-01] [CONSOLE_OUT]: [STRING] Device Manager
+[20-11-01] [CONSOLE_OUT]: [STRING] Be able to see devices connected to the computer through Cyder.
+[20-11-01] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-03] [CLIENT]: clear
+[20-11-03] [CLIENT]: todos
+[20-11-03] [CONSOLE_OUT]: [STRING] Total todos: 11
+[20-11-03] [CONSOLE_OUT]: [STRING] Todos:
+[20-11-03] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[20-11-03] [CONSOLE_OUT]: [STRING] ClientBackend.java:  this should start on login and end stuff on logout, static server to handle multiple connections
+----------------------------------------
+ClientBackend.java:  we're going to use the above reader and writer now
+----------------------------------------
+ClientBackend.java:  this isn't working, does returning even work in this method?
+----------------------------------------
+ClientBackend.java: 
+----------------------------------------
+ClientHandshake.java:  instead of notifying, pop into a waiting lobby frame that will exit if the other client denies it or timesout
+----------------------------------------
+ClientView.java:  consolidate lines if they're duplicates except for timestamp, override timestamp with current one and add x2,x3... etc.
+----------------------------------------
+ClientView.java:  set bounds of input and output
+----------------------------------------
+CyderLabel.java:  see how long it takes to generate all strings for one cycle and try storing those
+----------------------------------------
+[20-11-05] [CLIENT]: clear
+[20-11-09] [CLIENT]: bletchy parky park
+[20-11-13] [CLIENT]: controlc
+[20-11-13] [CONSOLE_OUT]: [STRING] Escaped
+[20-11-14] [CLIENT]: clear
+[20-11-17] [CLIENT]: bletchy jskdfjkdsf
+[20-11-18] [CLIENT]: controlc
+[20-11-18] [CONSOLE_OUT]: [STRING] Escaped
+[20-11-19] [CLIENT]: clear
+[20-11-25] [CLIENT]: random youtube
+[20-11-25] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Type "stop scripts" or press ctrl + c to stop the YouTube thread.
+[20-11-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-11-30] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Time left: years: 11861332, months: 4, days: 6, hours: 16, minutes: 36, seconds: 31.06
+[20-11-30] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-11-38] [CLIENT]: controlc
+[20-11-38] [CONSOLE_OUT]: [STRING] Escaped
+[20-11-39] [CLIENT]: clear
+[20-11-41] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-11-41] [SYSTEM_IO]: Userdata requested: Name
+[20-11-41] [LOGOUT]: [Nathan]
+[20-11-41] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(645, 217, 984, 984)], hash = [1326393666], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[20-11-41] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-11-41] [SYSTEM_IO]: Userdata requested: Background
+[20-11-41] [EXIT]: [RUNTIME] 2m 36s
+[20-11-41] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

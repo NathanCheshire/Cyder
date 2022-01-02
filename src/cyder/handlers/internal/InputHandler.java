@@ -4,6 +4,8 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
+import cyder.cyderuser.UserCreator;
+import cyder.cyderuser.UserEditor;
 import cyder.enums.ScreenPosition;
 import cyder.games.HangmanGame;
 import cyder.games.TTTGame;
@@ -19,8 +21,6 @@ import cyder.threads.MasterYoutubeThread;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
-import cyder.cyderuser.UserCreator;
-import cyder.cyderuser.UserEditor;
 import cyder.utilities.*;
 import cyder.widgets.*;
 
@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
@@ -1508,13 +1509,37 @@ public class InputHandler {
 
     //printing queue methods and logic ----------------------------
 
+    //use this for adding/removing to/from both lists
+    private Semaphore makePrintingThreadsafeAgain = new Semaphore(1);
+
     //don't ever add to these lists, call the respective print functions and let them
     // handle adding them to the lists
-    private LinkedList<Object> consolePrintingList = new LinkedList<>();
-    private LinkedList<Object> consolePriorityPrintingList = new LinkedList<>();
-
-    //todo concurrency issues found with printing, fix this by surrounding print statements
-    // or methods that add to/remove from these lists with sem acquire/releases
+    private LinkedList<Object> consolePrintingList = new LinkedList<>() {
+        @Override
+        public boolean add(Object e) {
+            try {
+                makePrintingThreadsafeAgain.acquire();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            boolean ret = super.add(e);
+            makePrintingThreadsafeAgain.release();
+            return ret;
+        }
+    };
+    private LinkedList<Object> consolePriorityPrintingList = new LinkedList<>() {
+        @Override
+        public boolean add(Object e) {
+            try {
+                makePrintingThreadsafeAgain.acquire();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            boolean ret = super.add(e);
+            makePrintingThreadsafeAgain.release();
+            return ret;
+        }
+    };
 
     private boolean started = false;
 
@@ -1639,8 +1664,6 @@ public class InputHandler {
             ErrorHandler.silentHandle(e);
         }
     }
-
-    //specifically print and println methods ----------------------
     
     public void printlnImage(ImageIcon icon) {
         consolePrintingList.add(icon);
@@ -1663,7 +1686,7 @@ public class InputHandler {
     public void printlnComponent(Component c) {
         consolePrintingList.add(c);
         consolePrintingList.add("\n");
-    }
+}
 
     public void printComponent(Component c) {
         consolePrintingList.add(c);
@@ -1709,6 +1732,7 @@ public class InputHandler {
             consolePriorityPrintingList.add(Long.toString(usage));
         else
             consolePrintingList.add(Long.toString(usage));
+
     }
     
     public void print(char usage) {
@@ -1748,7 +1772,7 @@ public class InputHandler {
     public void println(long usage) {
         print(usage + "\n");
     }
-    
+
     public void println(char usage) {
         print(usage + "\n");
     }
@@ -1810,7 +1834,7 @@ public class InputHandler {
 
     public void printPriority(float usage) {
         consolePriorityPrintingList.add(Float.toString(usage));
-    }
+      }
 
     public void printPriority(long usage) {
         consolePriorityPrintingList.add(Long.toString(usage));
