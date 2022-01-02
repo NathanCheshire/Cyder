@@ -1514,6 +1514,9 @@ public class InputHandler {
 
     //don't ever add to these lists, call the respective print functions and let them
     // handle adding them to the lists
+
+    //lists declared anonymously to allow for their add methods to be overridden
+    // allowing for semaphore usage
     private LinkedList<Object> consolePrintingList = new LinkedList<>() {
         @Override
         public boolean add(Object e) {
