@@ -2,6 +2,7 @@ package cyder.testing;
 
 import cyder.consts.CyderRegexPatterns;
 import cyder.utilities.BoundsUtil;
+import cyder.utilities.StatUtil;
 import cyder.utilities.StringUtil;
 import cyder.widgets.WeatherWidget;
 import org.junit.Test;
@@ -122,5 +123,28 @@ public class UnitTests {
         for (String phoneNumber : phoneNumbers) {
             assert phoneNumber.matches(CyderRegexPatterns.phoneNumberPattern);
         }
+    }
+
+    @Test
+    public void testIsComment() {
+         assert StatUtil.isComment("*");
+         assert StatUtil.isComment("//*");
+         assert StatUtil.isComment("*/");
+         assert StatUtil.isComment("**");
+         assert StatUtil.isComment("//todos");
+         assert StatUtil.isComment("/* is this one */");
+         assert StatUtil.isComment("//**//**//");
+         assert StatUtil.isComment("/*/");
+
+        assert !StatUtil.isComment("raw text");
+        assert !StatUtil.isComment("tehe: //haha");
+
+        //technically this line contains a comment but it iself is not a comment
+        assert !StatUtil.isComment("tehe: /*haha*/ alpha");
+
+        assert !StatUtil.isComment("tehe: //haha   /*");
+        assert !StatUtil.isComment("tehe: //haha/*");
+        assert !StatUtil.isComment("tehe: /*haha");
+        assert !StatUtil.isComment("\"//\"");
     }
 }

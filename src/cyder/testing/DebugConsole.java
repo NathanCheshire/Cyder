@@ -9,7 +9,6 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
-import cyder.widgets.CardWidget;
 
 import javax.swing.*;
 import java.awt.*;
@@ -148,7 +147,7 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
-            CardWidget.Christmas2021();
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

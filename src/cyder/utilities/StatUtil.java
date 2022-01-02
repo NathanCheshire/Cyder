@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.consts.CyderRegexPatterns;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -36,13 +37,11 @@ public class StatUtil {
             PropertiesList.add(key + ": " + value);
         }
 
-        String[] lines = new String[PropertiesList.size()];
+        System.out.println("Java Properties:\n------------------------");
 
-        for (int i =  0 ; i < PropertiesList.size() ; i++) {
-            lines[i] = PropertiesList.get(i);
+        for (String s : PropertiesList) {
+            ConsoleFrame.getConsoleFrame().getInputHandler().println(s);
         }
-
-        IOUtil.createAndOpenTmpFile("JavaProperties",".txt", lines);
     }
 
     public static void systemProperties() {
@@ -62,12 +61,8 @@ public class StatUtil {
         arrayLines.add("User Home: " + System.getProperty("user.home"));
         arrayLines.add("Computer Username: " + System.getProperty("user.name"));
 
-        String[] lines = new String[arrayLines.size()];
-
-        for (int i = 0 ; i < arrayLines.size() ; i++)
-            lines[i] = arrayLines.get(i);
-
-        IOUtil.createAndOpenTmpFile("SystemProperties",".txt",lines);
+        for (String arrayLine : arrayLines)
+            ConsoleFrame.getConsoleFrame().getInputHandler().println(arrayLine);
     }
 
     public static void computerProperties() {
@@ -90,13 +85,8 @@ public class StatUtil {
             arrayLines.add("Usable space (bytes): " + root.getUsableSpace());
         }
 
-        String[] lines = new String[arrayLines.size()];
-
-        for (int i = 0 ; i < arrayLines.size() ; i++) {
-            lines[i] = arrayLines.get(i);
-        }
-
-        IOUtil.createAndOpenTmpFile("Computer Properties",".txt", lines);
+        for (String arrayLine : arrayLines)
+            ConsoleFrame.getConsoleFrame().getInputHandler().println(arrayLine);
     }
 
     public static void allStats() {
@@ -238,6 +228,11 @@ public class StatUtil {
                 boolean blockComment = false;
 
                 while ((line = lineReader.readLine()) != null) {
+                    if (line.trim().startsWith("/*") && line.trim().endsWith("*/")) {
+                        localRet++;
+                        continue;
+                    }
+
                     if (line.trim().startsWith("/*")) {
                         blockComment = true;
                     } else if (line.trim().endsWith("*/")) {
@@ -259,11 +254,13 @@ public class StatUtil {
         return ret;
     }
 
-    private static boolean isComment(String line) {
-        return line.trim().startsWith("//") ||
-                line.trim().startsWith("/*") ||
-                line.trim().startsWith("*") ||
-                line.trim().endsWith("*/") || line.matches("//.*|(\"(?:\\\\[^\"]|\\\\\"|.)*?\")|(?s)/\\*.*?\\*/");
+    /**
+     * Determines if the provided line is a comment line
+     * @param line the string in question to possibly be a comment
+     * @return whether or not the line is a comment
+     */
+    public static boolean isComment(String line) {
+        return line.matches(CyderRegexPatterns.commentPattern);
     }
 
     public static int totalBlankLines(File startDir) {
@@ -319,6 +316,12 @@ public class StatUtil {
         return ret.toString();
     }
 
+    /**
+     * Finds the raw number of todos listed in code by counting the number
+     * of lines that are a comment with t0do inside of them.
+     * @param startDir the directory to start recursing from, typically src/
+     * @return the number of todos found in the provided directory and sub-directories
+     */
     public static int totalTodos(File startDir) {
         int ret = 0;
 
@@ -333,9 +336,10 @@ public class StatUtil {
                 String line = "";
                 int localRet = 0;
 
-                while ((line = lineReader.readLine()) != null)
-                    if (line.trim().toLowerCase().startsWith("//todo"))
+                while ((line = lineReader.readLine()) != null) {
+                    if (isComment(line.trim()) && line.trim().contains("todo"))
                         localRet++;
+                }
 
                 return localRet;
             } catch (Exception ex) {

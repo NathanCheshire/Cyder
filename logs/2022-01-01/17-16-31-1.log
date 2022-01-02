@@ -1,0 +1,57 @@
+[17-16-32] [ENTRY]: [Nathan]
+[17-16-32] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-16-33] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-16-33] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-16-34] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-16-34] [SYSTEM_IO]: Userdata requested: Name
+[17-16-34] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-16-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-16-34] [SYSTEM_IO]: Userdata requested: Name
+[17-16-34] [SYSTEM_IO]: Userdata requested: Foreground
+[17-16-34] [SYSTEM_IO]: Userdata requested: Foreground
+[17-16-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-16-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-16-35] [SYSTEM_IO]: Userdata requested: Foreground
+[17-16-35] [SYSTEM_IO]: Userdata requested: Font
+[17-16-35] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-16-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-16-35] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-16-35] [SYSTEM_IO]: Userdata requested: Foreground
+[17-16-35] [SYSTEM_IO]: Userdata requested: Foreground
+[17-16-35] [SYSTEM_IO]: Userdata requested: Foreground
+[17-16-35] [SYSTEM_IO]: Userdata requested: Font
+[17-16-35] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-16-35] [SYSTEM_IO]: Userdata requested: InputFill
+[17-16-35] [SYSTEM_IO]: Userdata requested: consolepinned
+[17-16-35] [SYSTEM_IO]: Userdata requested: consolepinned
+[17-16-35] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1582602655], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[17-16-35] [ACTION]: Console loaded in 3571ms
+[17-16-35] [SYSTEM_IO]: Userdata requested: windowlocx
+[17-16-35] [SYSTEM_IO]: Userdata requested: windowlocy
+[17-16-35] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-16-35] [ENTRY]: [TESTING MODE]
+[17-16-35] [SYSTEM_IO]: Userdata requested: laststart
+[17-16-35] [SYSTEM_IO]: Userdata requested: IntroMusic
+[17-16-38] [CONSOLE_OUT]: [STRING] Console loaded in 3571ms
+[17-16-38] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [945189357], parentFrame = [Merry Christmas!], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[17-16-38] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [945189357], parentFrame = [Merry Christmas!], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[17-16-38] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1442, 402, 800, 800)], hash = [7942344], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[17-16-38] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-16-40] [CLIENT]: analyze code
+[17-16-40] [CONSOLE_OUT]: [STRING] Lines of code: 30793
+[17-16-40] [CONSOLE_OUT]: [STRING] Number of Java files: 109
+[17-16-40] [CONSOLE_OUT]: [STRING] Number of comments: 2365
+[17-16-40] [CONSOLE_OUT]: [STRING] Code to comment ratio: 13.02
+[17-16-40] [CONSOLE_OUT]: [STRING] Blank lines: 6121
+[17-16-40] [CONSOLE_OUT]: [STRING] Total lines: 36914
+[17-16-54] [CLIENT]: 30793+2365+6121
+[17-16-54] [ACTION]: CONSOLE MATH HANDLED
+[17-16-54] [CONSOLE_OUT]: [STRING] 39279.0
+[17-17-01] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[17-17-01] [SYSTEM_IO]: Userdata requested: Name
+[17-17-01] [LOGOUT]: [Nathan]
+[17-17-01] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1350, 310, 984, 984)], hash = [2123960023], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[17-17-01] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-17-01] [SYSTEM_IO]: Userdata requested: Background
+[17-17-02] [EXIT]: [RUNTIME] 30s
+[17-17-02] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
