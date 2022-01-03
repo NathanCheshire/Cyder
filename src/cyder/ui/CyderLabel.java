@@ -129,77 +129,79 @@ public class CyderLabel extends JLabel {
                 //init list for strings by tag
                 LinkedList<StringUtil.TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
 
-                //todo see how long it takes to generate all strings for one cycle and try storing those
+                //init ripple iterations list
+                LinkedList<String> rippleTextIterations = new LinkedList<>();
 
-                //outer label to break when isRippling is toggled to false
-                RIPPLE:
-                    while (isRippling && !((((CyderFrame) SwingUtilities.getWindowAncestor(this))).isDisposed())) {
-                        long start = System.currentTimeMillis();
+                //find ripple steps: this takes < 1ms usually
 
-                        //still used parsed chars here since that's all we care about rippling anyway
-                        for (int i = 0 ; i < parsedChars.length() ; i++) {
-                            //init builder for this iteration where the ith char
-                            // (could be from any non-html tag), is ripple color
-                            StringBuilder builder = new StringBuilder();
+                //still used parsed chars here since that's all we care about rippling anyway
+                for (int i = 0 ; i < parsedChars.length() ; i++) {
+                    //init builder for this iteration where the ith char
+                    // (could be from any non-html tag), is ripple color
+                    StringBuilder builder = new StringBuilder();
 
-                            //charSum is how many chars we have passed of the Text tagged string
-                            int charSum = 0;
+                    //charSum is how many chars we have passed of the Text tagged string
+                    int charSum = 0;
 
-                            //how many characters we've set to the rippling char
-                            int rippled = 0;
+                    //how many characters we've set to the rippling char
+                    int rippled = 0;
 
-                            //loop through all our tagged string
-                            for (StringUtil.TaggedString ts : taggedStrings) {
-                                //if it's html simply add it to the builder
-                                if (ts.getTag() == StringUtil.Tag.HTML) {
-                                    builder.append(ts.getText());
+                    //loop through all our tagged string
+                    for (StringUtil.TaggedString ts : taggedStrings) {
+                        //if it's html simply add it to the builder
+                        if (ts.getTag() == StringUtil.Tag.HTML) {
+                            builder.append(ts.getText());
+                        }
+                        //otherwise we might need to ripple some  chars
+                        else {
+                            //loop through all the chars of this Text tagged string
+                            for (char c : ts.getText().toCharArray()) {
+                                //first we need to pass as many raw chars
+                                // as the iteration "i" we are on, next we need to make sure
+                                // we havne't used up all the ripple chars for this iteration
+                                if (charSum >= i && rippled < rippleChars) {
+                                    //ripple this char and inc rippled
+                                    builder.append(getColoredText(String.valueOf(c), rippleColor));
+                                    rippled++;
                                 }
-                                //otherwise we might need to ripple some  chars
+                                //otherwise append the char normal, without extra styling
                                 else {
-                                    //loop through all the chars of this Text tagged string
-                                    for (char c : ts.getText().toCharArray()) {
-                                        //first we need to pass as many raw chars
-                                        // as the iteration "i" we are on, next we need to make sure
-                                        // we havne't used up all the ripple chars for this iteration
-                                        if (charSum >= i && rippled < rippleChars) {
-                                            //ripple this char and inc rippled
-                                            builder.append(getColoredText(String.valueOf(c), rippleColor));
-                                            rippled++;
-                                        }
-                                        //otherwise append the char normal, without extra styling
-                                        else {
-                                            builder.append(c);
-                                        }
-
-                                        //increment our position in the Text tagged strings
-                                        charSum++;
-                                    }
+                                    builder.append(c);
                                 }
+
+                                //increment our position in the Text tagged strings
+                                charSum++;
                             }
+                        }
+                    }
 
-                            String setText = null;
+                    //add this text iteration to our list
+                    if (builder.toString().startsWith("<html>"))
+                        rippleTextIterations.add(builder.toString());
+                    else
+                        rippleTextIterations.add("<html>" + builder + "</html>");
+                }
 
-                            //figure out final text to set as our label text
-                            if (builder.toString().startsWith("<html>"))
-                               setText = builder.toString();
-                            else
-                               setText = "<html>" + builder + "</html>";
+                //now ripple through our ripple iterations
+                RIPPLING:
+                    while (isRippling && !((((CyderFrame) SwingUtilities.getWindowAncestor(this))).isDisposed())) {
+                        for (String rippleText : rippleTextIterations) {
+                            this.setText(rippleText);
 
-//                            this.setText(setText);
-//
-//                            this.repaint();
-//                            Thread.sleep(rippleMsTimeout);
-//
-//                            this.setText(originalText);
+                            this.repaint();
+                            Thread.sleep(rippleMsTimeout);
 
                             //check for break to free resources quickly
                             if (!isRippling)
-                                break RIPPLE;
+                                break RIPPLING;
                         }
 
-                        System.out.println("Completed iteration in: " + (System.currentTimeMillis() - start) + "ms");
+                        if (!isRippling)
+                            break;
                     }
 
+                //fix foreground and text
+                this.setText(originalText);
                 this.setForeground(restoreColor);
             } catch (Exception e) {
                 ErrorHandler.handle(e);
