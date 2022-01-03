@@ -3,6 +3,7 @@ package cyder.testing;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
@@ -512,17 +513,25 @@ public class ManualTests {
     }
 
     public static void rippleLabelTest() {
-        CyderFrame rippleTestFrame = new CyderFrame(400,400);
+        CyderFrame rippleTestFrame = new CyderFrame(600,600);
         rippleTestFrame.setTitle("Ripple Test");
 
-        CyderLabel ripplingLabel = new CyderLabel("<html>Testing Ripple<br/>Testing Ripple<br/>" +
-                "Testing Ripple<br/>Testing Ripple<br/>Testing Ripple<br/>Testing Ripple<br/>Testing Ripple</html>");
-        ripplingLabel.setFont(CyderFonts.defaultFont);
-        ripplingLabel.setBounds(40,40,400 - 40 * 2, 400 - 40 * 2);
+        CyderLabel ripplingLabel = new CyderLabel("<html>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" +
+                CyderStrings.QUICK_BROWN_FOX + "<br/><br/>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" +
+                CyderStrings.QUICK_BROWN_FOX + "<br/>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" +
+                CyderStrings.QUICK_BROWN_FOX + "<br/><br/>Love,<br/>Nathan Cheshire" + "</html>");
+        ripplingLabel.setFont(CyderFonts.weatherFontSmall);
+
+        //fill content area with label
+        ripplingLabel.setBounds(40,40,
+                rippleTestFrame.getWidth() - 40 * 2, rippleTestFrame.getHeight() - 40 * 2);
         rippleTestFrame.getContentPane().add(ripplingLabel);
 
-        ripplingLabel.setRippleMsTimeout(40);
+        //fast timeout and relatively high char count
+        ripplingLabel.setRippleMsTimeout(10);
         ripplingLabel.setRippleChars(15);
+
+        //enable rippling
         ripplingLabel.setRippling(true);
 
         rippleTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());

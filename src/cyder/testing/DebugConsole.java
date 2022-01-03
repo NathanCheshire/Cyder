@@ -147,7 +147,7 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
-            ManualTests.rippleLabelTest();
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
