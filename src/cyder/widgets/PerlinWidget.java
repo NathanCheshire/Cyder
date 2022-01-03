@@ -23,7 +23,7 @@ public class PerlinWidget {
     }
 
     //ui
-    private static CyderCheckBox animateCheckBox;
+    private static CyderCheckbox animateCheckBox;
     private static CyderButton generate;
     private static CyderButton nextIteration;
     private static CyderFrame perlinFrame;
@@ -191,7 +191,7 @@ public class PerlinWidget {
         noiseLabel.setBounds(100,100, resolution, resolution);
         perlinFrame.getContentPane().add(noiseLabel);
 
-        animateCheckBox = new CyderCheckBox();
+        animateCheckBox = new CyderCheckbox();
         animateCheckBox.setNotSelected();
         animateCheckBox.addMouseListener(new MouseAdapter() {
             @Override

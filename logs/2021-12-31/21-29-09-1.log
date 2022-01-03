@@ -36,8 +36,8 @@
 [21-29-17] [CLIENT]: path
 [21-29-17] [ACTION]: PATHFINDER
 [21-29-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 313,924
-[21-29-19] [ACTION]: cyder.ui.CyderCheckBox$2@5c1b3c96
-[21-29-19] [ACTION]: cyder.ui.CyderCheckBox$2@5c1b3c96
+[21-29-19] [ACTION]: cyder.ui.CyderCheckbox$2@5c1b3c96
+[21-29-19] [ACTION]: cyder.ui.CyderCheckbox$2@5c1b3c96
 [21-29-20] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 309,920
 [21-29-20] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 301,907
 [21-29-20] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 296,899
@@ -87,8 +87,8 @@
 [21-29-20] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 297,934
 [21-29-20] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 297,935
 [21-29-20] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 296,935
-[21-29-21] [ACTION]: cyder.ui.CyderCheckBox$2@5c1b3c96
-[21-29-21] [ACTION]: cyder.ui.CyderCheckBox$2@5c1b3c96
+[21-29-21] [ACTION]: cyder.ui.CyderCheckbox$2@5c1b3c96
+[21-29-21] [ACTION]: cyder.ui.CyderCheckbox$2@5c1b3c96
 [21-29-25] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(597, 252, 1000, 1070)], hash = [1828844494], parentFrame = [No associated frame], associated text = [No getText() method found]
 [21-29-25] [SYSTEM_IO]: Userdata requested: closeanimation
 [21-29-26] [SYSTEM_IO]: Userdata requested: minimizeonclose

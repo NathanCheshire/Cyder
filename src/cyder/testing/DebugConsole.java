@@ -147,16 +147,7 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
-
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
-    }
-
-    //testing main used to bypass Cyder loading
-    public static void main(String[] args) {
-        try {
-
+            ManualTests.checkboxGroupTest();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

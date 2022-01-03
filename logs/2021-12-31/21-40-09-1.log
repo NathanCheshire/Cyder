@@ -35,8 +35,8 @@
 [21-40-15] [CLIENT]: temp
 [21-40-15] [ACTION]: TEMPERATURE CONVERTER
 [21-40-15] [CONSOLE_OUT]: [STRING] Console loaded in 3573ms
-[21-40-17] [ACTION]: Component name = [cyder.ui.CyderCheckBox], bounds = [(80, 100, 50, 50)], hash = [481567293], parentFrame = [Temperature Converter], associated text = [No getText() method found]
-[21-40-17] [ACTION]: Component name = [cyder.ui.CyderCheckBox], bounds = [(80, 100, 50, 50)], hash = [481567293], parentFrame = [Temperature Converter], associated text = [No getText() method found]
+[21-40-17] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(80, 100, 50, 50)], hash = [481567293], parentFrame = [Temperature Converter], associated text = [No getText() method found]
+[21-40-17] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(80, 100, 50, 50)], hash = [481567293], parentFrame = [Temperature Converter], associated text = [No getText() method found]
 [21-40-19] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 85,104
 [21-40-19] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 85,105
 [21-40-19] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 86,107

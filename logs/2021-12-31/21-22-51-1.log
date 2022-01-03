@@ -713,7 +713,7 @@
 [21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 25,923
 [21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 23,923
 [21-23-18] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] 22,923
-[21-23-19] [ACTION]: cyder.ui.CyderCheckBox$2@4d2e4bec
+[21-23-19] [ACTION]: cyder.ui.CyderCheckbox$2@4d2e4bec
 [21-23-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Name: Pathfinding visualizer (title position: LEFT), (597,252,1000x1070)
 [21-23-47] [SYSTEM_IO]: Userdata requested: closeanimation
 [21-23-51] [SYSTEM_IO]: Userdata requested: minimizeonclose

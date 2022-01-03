@@ -37,7 +37,7 @@ public class GameOfLifeWidget {
 
     private static CyderButton resetButton;
 
-    private static CyderCheckBox oscillationDetector;
+    private static CyderCheckbox oscillationDetector;
     private static boolean detectOscillations = false;
 
     private static int generationCount = 0;
@@ -217,7 +217,7 @@ public class GameOfLifeWidget {
         setPresetButton.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902 + 50, (902 - 20) / 3, 40);
         conwayFrame.getContentPane().add(setPresetButton);
 
-        oscillationDetector = new CyderCheckBox();
+        oscillationDetector = new CyderCheckbox();
         oscillationDetector.setToolTipText("Detect oscillations");
         oscillationDetector.setBounds(60,70 + 30 + 902 + 55,50,50);
         oscillationDetector.setNotSelected();

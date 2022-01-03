@@ -104,11 +104,11 @@ Name: showbusyicon
 [18-53-22] [ACTION]: PIZZA
 [18-53-24] [SYSTEM_IO]: Userdata requested: Background
 [18-53-27] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1406361885], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
-[18-53-32] [ACTION]: Component name = [cyder.ui.CyderCheckBox], bounds = [(165, 505, 50, 50)], hash = [524452859], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
-[18-53-32] [ACTION]: Component name = [cyder.ui.CyderCheckBox], bounds = [(315, 505, 50, 50)], hash = [748876436], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
-[18-53-34] [ACTION]: Component name = [cyder.ui.CyderCheckBox], bounds = [(445, 505, 50, 50)], hash = [1433010383], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
-[18-53-40] [ACTION]: Component name = [cyder.ui.CyderCheckBox], bounds = [(425, 135, 50, 50)], hash = [711098443], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
-[18-53-41] [ACTION]: Component name = [cyder.ui.CyderCheckBox], bounds = [(185, 135, 50, 50)], hash = [57519423], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[18-53-32] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(165, 505, 50, 50)], hash = [524452859], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[18-53-32] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(315, 505, 50, 50)], hash = [748876436], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[18-53-34] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(445, 505, 50, 50)], hash = [1433010383], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[18-53-40] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(425, 135, 50, 50)], hash = [711098443], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[18-53-41] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(185, 135, 50, 50)], hash = [57519423], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
 [18-53-47] [SYSTEM_IO]: Userdata requested: Background
 [18-53-48] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1406361885], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
 [18-53-48] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1200, 333, 600, 800)], hash = [1804077860], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]

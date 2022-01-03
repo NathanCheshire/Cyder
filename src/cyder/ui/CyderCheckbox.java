@@ -11,17 +11,25 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
-public class CyderCheckBox extends JLabel {
+public class CyderCheckbox extends JLabel {
     private int borderWidth = 3;
-
     private boolean selected = false;
     private boolean enabled = true;
-
     public static final int sideLength = 50;
-
     private Color background = new Color(21,23,24);
-
     private boolean roundedCorners = true;
+    private CyderCheckboxGroup cyderCheckboxGroup;
+
+    protected CyderCheckboxGroup getCyderCheckboxGroup() {
+        return cyderCheckboxGroup;
+    }
+
+    protected void setCyderCheckboxGroup(CyderCheckboxGroup cyderCheckboxGroup) {
+        if (this.cyderCheckboxGroup != null && this.cyderCheckboxGroup != cyderCheckboxGroup)
+            cyderCheckboxGroup.removeCheckbox(this);
+
+        this.cyderCheckboxGroup = cyderCheckboxGroup;
+    }
 
     public void setBackground(Color c) {
         background = c;
@@ -38,11 +46,22 @@ public class CyderCheckBox extends JLabel {
     public void setSelected() {
         selected = true;
         repaint();
+        System.out.println("inside ccb");
+        if (cyderCheckboxGroup != null)
+            cyderCheckboxGroup.setSelectedCheckbox(this);
     }
 
     public void setNotSelected() {
         selected = false;
         repaint();
+    }
+
+    public void setSelected(boolean b) {
+        selected = b;
+        repaint();
+
+        if (b)
+            cyderCheckboxGroup.setSelectedCheckbox(this);
     }
 
     public boolean getRoundedCorners() {
@@ -54,18 +73,24 @@ public class CyderCheckBox extends JLabel {
         repaint();
     }
 
-    public CyderCheckBox() {
+    public CyderCheckbox() {
        this(false);
     }
 
-    public CyderCheckBox(boolean initalValue) {
+    public CyderCheckbox(boolean initalValue) {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (enabled) {
-                    selected = !selected;
+                    if (selected)
+                        setNotSelected();
+                    else
+                        setSelected();
+
                     repaint();
                 }
+
+                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
             }
         });
 
@@ -76,12 +101,6 @@ public class CyderCheckBox extends JLabel {
         repaint();
 
         addMouseMotionListener(new CyderDraggableComponent());
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
-            }
-        });
     }
 
     @Override

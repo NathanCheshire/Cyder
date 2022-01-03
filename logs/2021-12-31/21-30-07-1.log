@@ -35,13 +35,13 @@
 [21-30-14] [CONSOLE_OUT]: [STRING] Console loaded in 4381ms
 [21-30-21] [CLIENT]: temp
 [21-30-21] [ACTION]: TEMPERATURE CONVERTER
-[21-30-23] [ACTION]: cyder.ui.CyderCheckBox$2@37adb217
-[21-30-24] [ACTION]: cyder.ui.CyderCheckBox$2@37adb217
+[21-30-23] [ACTION]: cyder.ui.CyderCheckbox$2@37adb217
+[21-30-24] [ACTION]: cyder.ui.CyderCheckbox$2@37adb217
 [21-30-25] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(140, 280, 150, 40)], hash = [1778506716], parentFrame = [Temperature Converter], associated text = [Calculate]
 [21-30-26] [ACTION]: [Temperature Converter] [NOTIFICATION] Please enter a starting value.
 [21-30-26] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[21-30-32] [ACTION]: cyder.ui.CyderCheckBox$2@5f945c13
-[21-30-33] [ACTION]: cyder.ui.CyderCheckBox$2@5f945c13
+[21-30-32] [ACTION]: cyder.ui.CyderCheckbox$2@5f945c13
+[21-30-33] [ACTION]: cyder.ui.CyderCheckbox$2@5f945c13
 [21-30-46] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [21-30-46] [SYSTEM_IO]: Userdata requested: Name
 [21-30-46] [LOGOUT]: [Nathan]

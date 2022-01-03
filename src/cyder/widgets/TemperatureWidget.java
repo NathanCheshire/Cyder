@@ -6,7 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderButton;
-import cyder.ui.CyderCheckBox;
+import cyder.ui.CyderCheckbox;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
 
@@ -20,12 +20,12 @@ public class TemperatureWidget {
     private CyderFrame temperatureFrame;
     private CyderTextField startingValue;
 
-    private CyderCheckBox oldFahrenheit;
-    private CyderCheckBox newFahrenheit;
-    private CyderCheckBox oldCelsius;
-    private CyderCheckBox newCelsius;
-    private CyderCheckBox oldKelvin;
-    private CyderCheckBox newKelvin;
+    private CyderCheckbox oldFahrenheit;
+    private CyderCheckbox newFahrenheit;
+    private CyderCheckbox oldCelsius;
+    private CyderCheckbox newCelsius;
+    private CyderCheckbox oldKelvin;
+    private CyderCheckbox newKelvin;
 
     public TemperatureWidget() {
         //multiple instances are allowed
@@ -51,9 +51,9 @@ public class TemperatureWidget {
         startingValue.setBounds(240,40, 300, 35);
         temperatureFrame.getContentPane().add(startingValue);
 
-        oldFahrenheit =  new CyderCheckBox();
-        oldCelsius =  new CyderCheckBox();
-        oldKelvin = new CyderCheckBox();
+        oldFahrenheit =  new CyderCheckbox();
+        oldCelsius =  new CyderCheckbox();
+        oldKelvin = new CyderCheckbox();
 
         JLabel oldFahrenheitLabel = new JLabel("Fahrenheit");
         oldFahrenheitLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
@@ -114,9 +114,9 @@ public class TemperatureWidget {
         twoLabel.setBounds(260,150,150,60);
         temperatureFrame.getContentPane().add(twoLabel);
 
-        newFahrenheit =  new CyderCheckBox();
-        newCelsius =  new CyderCheckBox();
-        newKelvin = new CyderCheckBox();
+        newFahrenheit =  new CyderCheckbox();
+        newCelsius =  new CyderCheckbox();
+        newKelvin = new CyderCheckbox();
 
         JLabel newFahrenheitLabel = new JLabel("Fahrenheit");
         newFahrenheitLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));

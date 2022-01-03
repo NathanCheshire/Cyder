@@ -1,0 +1,39 @@
+[19-30-04] [ENTRY]: [Nathan]
+[19-30-04] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-30-05] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-30-05] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-30-06] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-30-06] [SYSTEM_IO]: Userdata requested: Name
+[19-30-06] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-30-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-30-07] [SYSTEM_IO]: Userdata requested: Name
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-30-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: Font
+[19-30-07] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-30-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-30-07] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: Foreground
+[19-30-07] [SYSTEM_IO]: Userdata requested: Font
+[19-30-07] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-30-07] [SYSTEM_IO]: Userdata requested: InputFill
+[19-30-07] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-30-07] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-30-07] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [119864654], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[19-30-08] [ACTION]: Console loaded in 3803ms
+[19-30-08] [SYSTEM_IO]: Userdata requested: windowlocx
+[19-30-08] [SYSTEM_IO]: Userdata requested: windowlocy
+[19-30-08] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-30-08] [ENTRY]: [TESTING MODE]
+[19-30-08] [SYSTEM_IO]: Userdata requested: laststart
+[19-30-08] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-30-10] [CONSOLE_OUT]: [STRING] Console loaded in 3803ms
+[19-30-14] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(50, 40, 50, 50)], hash = [738893252], parentFrame = [Checkbox group test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[19-30-15] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(110, 40, 50, 50)], hash = [1101299557], parentFrame = [Checkbox group test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[19-30-16] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(170, 40, 50, 50)], hash = [278038515], parentFrame = [Checkbox group test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

@@ -30,7 +30,7 @@ public class ImageResizerWidget {
     private static double aspectRatio;
 
     private static JLabel previewLabel;
-    private static CyderCheckBox maintainAspectRatioLab;
+    private static CyderCheckbox maintainAspectRatioLab;
 
     private static File resizeImage;
 
@@ -132,7 +132,7 @@ public class ImageResizerWidget {
         xdim.setBounds(125,100, 100, 40);
         resizeFrame.getContentPane().add(xdim);
 
-        maintainAspectRatioLab = new CyderCheckBox();
+        maintainAspectRatioLab = new CyderCheckbox();
         maintainAspectRatioLab.setToolTipText("Maintain Aspect Ratio");
         maintainAspectRatioLab.addMouseListener(new MouseAdapter() {
             @Override

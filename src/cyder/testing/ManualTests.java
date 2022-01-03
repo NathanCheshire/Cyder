@@ -251,12 +251,12 @@ public class ManualTests {
         CyderFrame testFrame = new CyderFrame(400,400, CyderImages.defaultBackground);
         testFrame.setTitle("Checkbox Test");
 
-        CyderCheckBox cb = new CyderCheckBox();
+        CyderCheckbox cb = new CyderCheckbox();
         cb.setBounds(175,150,50, 50);
         cb.setRoundedCorners(true);
         testFrame.getContentPane().add(cb);
 
-        CyderCheckBox cb1 = new CyderCheckBox();
+        CyderCheckbox cb1 = new CyderCheckbox();
         cb1.setBounds(175,225,50, 50);
         cb1.setRoundedCorners(false);
         testFrame.getContentPane().add(cb1);
@@ -524,5 +524,26 @@ public class ManualTests {
 
         rippleTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         rippleTestFrame.setVisible(true);
+    }
+
+    public static void checkboxGroupTest() {
+        CyderFrame testFrame = new CyderFrame(400,110);
+        testFrame.setTitle("Checkbox group test");
+
+        CyderCheckboxGroup cbg = new CyderCheckboxGroup();
+
+        int startX = 50;
+
+        for (int i = 0 ; i < 5 ; i++) {
+            CyderCheckbox cb = new CyderCheckbox();
+            cb.setBounds(startX + (60) * i,40,50,50);
+            testFrame.getContentPane().add(cb);
+
+            if (i != 4)
+                cbg.addCheckbox(cb);
+        }
+
+        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setVisible(true);
     }
 }

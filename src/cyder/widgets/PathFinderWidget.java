@@ -22,9 +22,9 @@ public class PathFinderWidget {
     private static int numSquares;
     private static JLabel gridLabel;
 
-    private static CyderCheckBox showStepsBox;
-    private static CyderCheckBox diagonalBox;
-    private static CyderCheckBox deleteWallsCheckBox;
+    private static CyderCheckbox showStepsBox;
+    private static CyderCheckbox diagonalBox;
+    private static CyderCheckbox deleteWallsCheckBox;
     private static CyderFrame pathFindingFrame;
     private static CyderButton reset;
     private static CyderButton startButton;
@@ -377,7 +377,7 @@ public class PathFinderWidget {
         deleteWallsLabel.setBounds(120,885,100,30);
         pathFindingFrame.getContentPane().add(deleteWallsLabel);
 
-        deleteWallsCheckBox = new CyderCheckBox();
+        deleteWallsCheckBox = new CyderCheckbox();
         deleteWallsCheckBox.setNotSelected();
         deleteWallsCheckBox.setBounds(150, 920,50,50);
         pathFindingFrame.getContentPane().add(deleteWallsCheckBox);
@@ -393,7 +393,7 @@ public class PathFinderWidget {
         showStepsLabel.setBounds(75 + 70 + 67,885,100,30);
         pathFindingFrame.getContentPane().add(showStepsLabel);
 
-        showStepsBox = new CyderCheckBox();
+        showStepsBox = new CyderCheckbox();
         showStepsBox.setNotSelected();
         showStepsBox.setBounds(240, 920,50,50);
         pathFindingFrame.getContentPane().add(showStepsBox);
@@ -402,7 +402,7 @@ public class PathFinderWidget {
         diagonalStepsLabel.setBounds(75 + 70 + 75 + 65,885,100,30);
         pathFindingFrame.getContentPane().add(diagonalStepsLabel);
 
-        diagonalBox = new CyderCheckBox();
+        diagonalBox = new CyderCheckbox();
         diagonalBox.setNotSelected();
         diagonalBox.setBounds(310, 920,50,50);
         pathFindingFrame.getContentPane().add(diagonalBox);

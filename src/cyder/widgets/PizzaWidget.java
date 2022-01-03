@@ -20,9 +20,9 @@ import java.util.LinkedList;
 public class PizzaWidget {
     private static CyderFrame pizzaFrame;
     private static CyderTextField nameField;
-    private static CyderCheckBox smallPizza;
-    private static CyderCheckBox mediumPizza;
-    private static CyderCheckBox largePizza;
+    private static CyderCheckbox smallPizza;
+    private static CyderCheckbox mediumPizza;
+    private static CyderCheckbox largePizza;
 
     private static CyderScrollList pizzaToppingsScroll;
     private static CyderScrollList crustTypeScroll;
@@ -34,9 +34,9 @@ public class PizzaWidget {
 
     private static JTextArea orderComments;
 
-    private static CyderCheckBox breadSticks;
-    private static CyderCheckBox salad;
-    private static CyderCheckBox soda;
+    private static CyderCheckbox breadSticks;
+    private static CyderCheckbox salad;
+    private static CyderCheckbox soda;
 
     private static CyderButton placeOrder;
     private static CyderButton resetValues;
@@ -110,7 +110,7 @@ public class PizzaWidget {
         largeLabel.setBounds(420,100,100,30);
         pizzaFrame.getContentPane().add(largeLabel);
 
-        smallPizza = new CyderCheckBox();
+        smallPizza = new CyderCheckbox();
         smallPizza.setHorizontalAlignment(JLabel.CENTER);
         smallPizza.setNotSelected();
         smallPizza.addMouseListener(new MouseAdapter() {
@@ -123,7 +123,7 @@ public class PizzaWidget {
         smallPizza.setBounds(185,135,50,50);
         pizzaFrame.getContentPane().add(smallPizza);
 
-        mediumPizza = new CyderCheckBox();
+        mediumPizza = new CyderCheckbox();
         mediumPizza.setHorizontalAlignment(JLabel.CENTER);
         mediumPizza.setSelected();
         mediumPizza.addMouseListener(new MouseAdapter() {
@@ -136,7 +136,7 @@ public class PizzaWidget {
         mediumPizza.setBounds(305,135,50,50);
         pizzaFrame.getContentPane().add(mediumPizza);
 
-        largePizza = new CyderCheckBox();
+        largePizza = new CyderCheckbox();
         largePizza.setHorizontalAlignment(JLabel.CENTER);
         largePizza.setNotSelected();
         largePizza.addMouseListener(new MouseAdapter() {
@@ -197,7 +197,7 @@ public class PizzaWidget {
         breadsticksLabel.setBounds(130,470,150,30);
         pizzaFrame.getContentPane().add(breadsticksLabel);
 
-        breadSticks = new CyderCheckBox();
+        breadSticks = new CyderCheckbox();
         breadSticks.setHorizontalAlignment(JLabel.CENTER);
         breadSticks.setNotSelected();
         breadSticks.setBounds(165,505,50,50);
@@ -209,7 +209,7 @@ public class PizzaWidget {
         saladLabel.setBounds(310,470,150,30);
         pizzaFrame.getContentPane().add(saladLabel);
 
-        salad = new CyderCheckBox();
+        salad = new CyderCheckbox();
         salad.setHorizontalAlignment(JLabel.CENTER);
         salad.setNotSelected();
         salad.setBounds(315,505,50,50);
@@ -221,7 +221,7 @@ public class PizzaWidget {
         sodaLabel.setBounds(445,470,150,30);
         pizzaFrame.getContentPane().add(sodaLabel);
 
-        soda = new CyderCheckBox();
+        soda = new CyderCheckbox();
         soda.setHorizontalAlignment(JLabel.CENTER);
         soda.setNotSelected();
         soda.setBounds(445,505,50,50);
