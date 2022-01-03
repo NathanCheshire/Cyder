@@ -5,7 +5,6 @@ import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
-import cyder.structs.CyderHeap;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -157,39 +156,9 @@ public class DebugConsole {
     //testing main used to bypass Cyder loading
     public static void main(String[] args) {
         try {
-            CyderHeap heap = new CyderHeap(null, 4);
-            heap.insert(new customTest(0,"string0"));
-            heap.insert(new customTest(1,"string1"));
-            heap.insert(new customTest(2,"string2"));
-            heap.insert(new customTest(3,"string3"));
-            System.out.println(heap);
-            heap.swap(0,1);
-            System.out.println(heap);
-            heap.swap(0,3);
-            System.out.println(heap);
 
-            System.out.println(heap.getSize());
-            customTest popped = (customTest) heap.remove();
-            System.out.println(heap.getSize());
-            System.out.println(popped);
-            System.out.println(heap);
         } catch (Exception e) {
             ErrorHandler.handle(e);
-        }
-    }
-
-    private static class customTest {
-        int intobj;
-        String stringObj;
-
-        public customTest(int intobj, String stringObj) {
-            this.intobj = intobj;
-            this.stringObj = stringObj;
-        }
-
-        @Override
-        public String toString() {
-            return this.intobj + "," + this.stringObj;
         }
     }
 }
