@@ -18,7 +18,7 @@ import java.awt.*;
 
 public class ManualTests {
     //this was used on 7-1-21 to verify adding/removing buttons to/from drag labels
-    public static void AddingAndRemovingDragLabelButtonsTest() {
+    public static void dragLabelButtonTest() {
         CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
         testFrame.setTitle("Test Frame");
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -50,7 +50,7 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    public static void ButtonAndTitlePositionsTest() {
+    public static void buttonAndTitlePosTest() {
         CyderFrame testFrame = new CyderFrame(600, 400, CyderImages.defaultBackground);
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         testFrame.setTitle("Testing Title");
@@ -86,7 +86,7 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    public static void NotificationsTest() {
+    public static void notificationTest() {
         CyderFrame testFrame = new CyderFrame(350,600,CyderImages.defaultBackground);
         testFrame.setTitle("Notification Test");
 
@@ -142,7 +142,7 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    public static void AskewTest() {
+    public static void askewTest() {
         CyderFrame testFrame = new CyderFrame(350,300, CyderImages.defaultBackground);
         testFrame.setTitle("Askew Test");
 
@@ -159,7 +159,7 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    public static void IconLabelSlidingTest() {
+    public static void iconLabelSlidingTest() {
         ImageIcon theImage =  new ImageIcon(ImageUtil.getImageGradient(600,1200,
                 CyderColors.intellijPink, CyderColors.regularBlue, CyderColors.regularBlue));
 
@@ -247,7 +247,7 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    public static void CheckboxTest() {
+    public static void checkboxTest() {
         CyderFrame testFrame = new CyderFrame(400,400, CyderImages.defaultBackground);
         testFrame.setTitle("Checkbox Test");
 
@@ -265,7 +265,7 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    public static void InformTest() {
+    public static void informTest() {
         CyderFrame testFrame = new CyderFrame(300,200, CyderImages.defaultBackground);
         testFrame.setTitle("Inform test");
 
@@ -282,7 +282,7 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
     }
 
-    public static void ProgressBarTest() {
+    public static void progressBarTest() {
         CyderFrame cf = new CyderFrame(400,100);
         cf.setTitle("ProgressBar Test");
 
@@ -320,7 +320,7 @@ public class ManualTests {
         }, "ProgressBar Animator").start();
     }
 
-    public static void CyderSliderTest() {
+    public static void cyderSliderTest() {
         CyderFrame testFrame = new CyderFrame(400,400);
         testFrame.setTitle("Cyder Slider Test");
 
@@ -520,6 +520,8 @@ public class ManualTests {
         ripplingLabel.setBounds(40,40,400 - 40 * 2, 400 - 40 * 2);
         rippleTestFrame.getContentPane().add(ripplingLabel);
 
+        ripplingLabel.setRippleMsTimeout(80);
+        ripplingLabel.setRippleChars(40);
         ripplingLabel.setRippling(true);
 
         rippleTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());

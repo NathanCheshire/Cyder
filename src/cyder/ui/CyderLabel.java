@@ -73,12 +73,19 @@ public class CyderLabel extends JLabel {
     private int rippleChars = 1;
     private boolean isRippling;
 
+    public int getRawTextLength() {
+        return Jsoup.clean(this.getText(), Safelist.none()).length();
+    }
+
     public int getRippleChars() {
         return rippleChars;
     }
 
     public void setRippleChars(int rippleChars) {
-        this.rippleChars = rippleChars;
+        if (this.getText() != null && rippleChars > getRawTextLength() / 2)
+            this.rippleChars = getRawTextLength() / 2;
+        else
+            this.rippleChars = rippleChars;
     }
 
     public Color getRippleColor() {
@@ -124,44 +131,70 @@ public class CyderLabel extends JLabel {
 
                 //todo see how long it takes to generate all strings for one cycle and try storing those
 
-                while (isRippling && this.getParent() != null) {
-                    //still used parsed chars here since that's all we care about rippling anyway
-                    for (int i = 0 ; i < parsedChars.length() ; i++) {
-                        //init builder for this iteration where the ith char
-                        // (could be from any non-html tag), is ripple color
-                        StringBuilder builder = new StringBuilder();
+                //outer label to break when isRippling is toggled to false
+                RIPPLE:
+                    while (isRippling && this.getParent() != null) {
+                        //still used parsed chars here since that's all we care about rippling anyway
+                        for (int i = 0 ; i < parsedChars.length() ; i++) {
+                            //init builder for this iteration where the ith char
+                            // (could be from any non-html tag), is ripple color
+                            StringBuilder builder = new StringBuilder();
 
-                        int charSum = 0;
-                        int rippled = 0;
+                            //charSum is how many chars we have passed of the Text tagged string
+                            int charSum = 0;
 
-                        for (StringUtil.TaggedString ts : taggedStrings) {
-                            if (ts.getTag() == StringUtil.Tag.HTML) {
-                                builder.append(ts.getText());
-                            } else {
-                                for (char c : ts.getText().toCharArray()) {
-                                    if (charSum >= i && rippled < rippleChars - 1) {
-                                        builder.append(getColoredText(String.valueOf(c), rippleColor));
-                                        rippled++;
-                                    } else {
-                                        builder.append(c);
+                            //how many characters we've set to the rippling char
+                            int rippled = 0;
+
+                            //loop through all our tagged string
+                            for (StringUtil.TaggedString ts : taggedStrings) {
+                                //if it's html simply add it to the builder
+                                if (ts.getTag() == StringUtil.Tag.HTML) {
+                                    builder.append(ts.getText());
+                                }
+                                //otherwise we might need to ripple some  chars
+                                else {
+                                    //loop through all the chars of this Text tagged string
+                                    for (char c : ts.getText().toCharArray()) {
+                                        //first we need to pass as many raw chars
+                                        // as the iteration "i" we are on, next we need to make sure
+                                        // we havne't used up all the ripple chars for this iteration
+                                        if (charSum >= i && rippled < rippleChars) {
+                                            //ripple this char and inc rippled
+                                            builder.append(getColoredText(String.valueOf(c), rippleColor));
+                                            rippled++;
+                                        }
+                                        //otherwise append the char normal, without extra styling
+                                        else {
+                                            builder.append(c);
+                                        }
+
+                                        //increment our position in the Text tagged strings
+                                        charSum++;
                                     }
-
-                                    charSum++;
                                 }
                             }
+
+                            String setText = null;
+
+                            //figure out final text to set as our label text
+                            if (builder.toString().startsWith("<html>"))
+                               setText = builder.toString();
+                            else
+                               setText = "<html>" + builder + "</html>";
+
+                            this.setText(setText);
+
+                            this.repaint();
+                            Thread.sleep(rippleMsTimeout);
+
+                            this.setText(originalText);
+
+                            //check for break to free resources quickly
+                            if (!isRippling)
+                                break RIPPLE;
                         }
-
-                        //set text, repaint, sleep
-                        if (builder.toString().startsWith("<html>"))
-                            this.setText(builder.toString());
-                        else
-                            this.setText("<html>" + builder + "</html>");
-
-                        this.repaint();
-                        Thread.sleep(rippleMsTimeout);
-                        this.setText(originalText);
                     }
-                }
 
                 this.setForeground(restoreColor);
             } catch (Exception e) {

@@ -5,5 +5,5 @@ public class CyderNative {
         System.loadLibrary("CyderNative");
     }
 
-    public static native void runNatives();
+    public static native void fixLogs();
 }
