@@ -5,6 +5,7 @@ import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
+import cyder.natives.CyderNative;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -147,7 +148,7 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
-            ManualTests.checkboxGroupTest();
+            CyderNative.runNatives();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
