@@ -33,19 +33,19 @@ tl;dr Cyder is a virtual assistant and chatbot that performs tasks you might nee
 
 Cyder can download any youtube video. Along with the video, the thumbnail is downloaded to be used as album art for both the OS' taskbar and Cyder's taskbar.
 
-<img src="https://i.imgur.com/eUEL4R3.png" data-canonical-src="https://i.imgur.com/eUEL4R3.png"/>
+<img src="https://i.imgur.com/UhGWurZ.png" data-canonical-src="https://i.imgur.com/UhGWurZ.png" width=75% height=75%/>
 
 ### Pathfinder
 
 Cyder comes with a path finding visualizer for Dijkstra's and A* with Euclidean and Manhattan distances as heuristics.
 
-<img src="https://i.imgur.com/cRlfyQR.png" data-canonical-src="https://i.imgur.com/cRlfyQR.png"/>
+<img src="https://i.imgur.com/cRlfyQR.png" data-canonical-src="https://i.imgur.com/cRlfyQR.png" width=75% height=75%/>
 
 ### Self Analyzer
 
 Cyder can analyze many things about itself such as its own Java code, comments, and files, your computer's properties, hardware components, the status of certain websites, the JVM, and even its own issues on GitHub.
 
-<img src="https://i.imgur.com/01DS6tk.png" data-canonical-src="https://i.imgur.com/01DS6tk.png"/>
+<img src="https://i.imgur.com/Sv1nwXD.png" data-canonical-src="https://i.imgur.com/Sv1nwXD.png"/>
 
 ## Usage
 
