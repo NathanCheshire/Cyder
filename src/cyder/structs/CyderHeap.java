@@ -1,31 +1,30 @@
 package cyder.structs;
 
+import java.util.Arrays;
+
 public class CyderHeap {
     private Object[] heapStruct;
     private int size = 0;
+
     private int maxSize;
-    private Type type;
 
     public static int ABSOLUTE_MIN_SIZE = 1;
+    public static int ABSOLUTE_MAX_SIZE = Integer.MAX_VALUE;
 
+    /**
+     * Standard getter for the current size of this heap
+     * @return the heap size
+     */
     public int getSize() {
         return this.size;
     }
 
-    public enum Type {
-        MIN,MAX
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-        fixHeap();
-    }
-
-    public CyderHeap(Object data, int maxSize, Type type) {
+    /**
+     * Initializes the heap structure with an initial data point and a maximum allowable size.
+     * @param data the initial data of the heap
+     * @param maxSize the maximum allowable size of this heap instance
+     */
+    public CyderHeap(Object data, int maxSize) {
         if (maxSize < ABSOLUTE_MIN_SIZE)
             throw new IllegalStateException("Provided length does not allow the provided data to exist within the heap");
 
@@ -37,11 +36,14 @@ public class CyderHeap {
             this.size = 0;
         else
             this.size = 1;
-
-        this.type = type;
     }
 
-    public CyderHeap(Object[] data, int maxSize, Type type) {
+    /**
+     * Initializes the heap structure with default data and the maximum allowable size of this instance of CyderHeap.
+     * @param data the data to populate the first "data.length" slots wit
+     * @param maxSize the maximu allowable size of this heap instance
+     */
+    public CyderHeap(Object[] data, int maxSize) {
         if (maxSize < 0)
             throw new IllegalArgumentException("Max size must be above 0");
 
@@ -58,22 +60,6 @@ public class CyderHeap {
             System.arraycopy(data, 0, heapStruct, 0, data.length);
 
             this.size = data.length;
-        }
-
-        this.type = type;
-    }
-
-    /**
-     * Rebuilds the heap depending on the heap type: min or max
-     */
-    public void fixHeap() {
-        switch (this.type) {
-            case MAX:
-                maxHeapify();
-                break;
-            case MIN:
-                minHeapify();
-                break;
         }
     }
 
@@ -104,12 +90,14 @@ public class CyderHeap {
         return position / 2;
     }
 
-    public void minHeapify() {
-
-    }
-
-    public void maxHeapify() {
-
+    /**
+     * Determins if the node at the given index is a leaf, leafs have no children.
+     * @param position the position of the node
+     * @return whether or not the provided index node was a leaf
+     */
+    private boolean isLeafNode(int position) {
+        //if it's greater than the size/2 and the position is still less than the size of our heap
+        return (position > (size / 2) && position <= size);
     }
 
     /**
@@ -128,14 +116,17 @@ public class CyderHeap {
         heapStruct[index2] = uno;
     }
 
+    /**
+     * Inserts the provided object into the back of the heap
+     * @param data the object to insert
+     */
     public void insert(Object data) {
         if (this.size + 1 > maxSize)
-            throw new IllegalStateException("CyderHeap cannot add any more elements");
+            throw new IllegalStateException("CyderHeap cannot accept any more elements as the maximum sized has been reached");
 
         heapStruct[size] = data;
 
         this.size++;
-        fixHeap();
     }
 
     /**
@@ -146,10 +137,10 @@ public class CyderHeap {
             throw new IllegalStateException("CyderHeap is empty");
 
         Object ret = heapStruct[0];
-        //todo this should be a copy and not a ref, then fix heap
+        heapStruct[0] = heapStruct[size - 1];
+        heapStruct[size - 1] = null;
 
         this.size--;
-        fixHeap();
 
         return ret;
     }
@@ -169,5 +160,28 @@ public class CyderHeap {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Standard getter for the current maximum allowable size of the heap structure
+     * @return the currently set max size of the heap structure
+     */
+    public int getMaxSize() {
+        return maxSize;
+    }
+
+    /**
+     * Sets a new max size for the heap. Any elements outside of the inclusive range [0, maxSize] will be lost forever.
+     * @param maxSize the new maximum size of the heap
+     */
+    public void setMaxSize(int maxSize) {
+        if (maxSize == this.maxSize)
+            return;
+
+        //set new size
+        this.maxSize = maxSize;
+
+        //propogate changes by changing the array length
+        heapStruct = Arrays.copyOf(heapStruct, maxSize);
     }
 }

@@ -157,7 +157,7 @@ public class DebugConsole {
     //testing main used to bypass Cyder loading
     public static void main(String[] args) {
         try {
-            CyderHeap heap = new CyderHeap(null, 4, CyderHeap.Type.MIN);
+            CyderHeap heap = new CyderHeap(null, 4);
             heap.insert(new customTest(0,"string0"));
             heap.insert(new customTest(1,"string1"));
             heap.insert(new customTest(2,"string2"));
@@ -166,6 +166,12 @@ public class DebugConsole {
             heap.swap(0,1);
             System.out.println(heap);
             heap.swap(0,3);
+            System.out.println(heap);
+
+            System.out.println(heap.getSize());
+            customTest popped = (customTest) heap.remove();
+            System.out.println(heap.getSize());
+            System.out.println(popped);
             System.out.println(heap);
         } catch (Exception e) {
             ErrorHandler.handle(e);
