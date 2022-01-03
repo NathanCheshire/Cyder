@@ -148,10 +148,7 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
-            CyderHeap heap = new CyderHeap(null, 2, CyderHeap.Type.MIN);
-            heap.insert(1);
-            heap.insert(2);
-            System.out.println(heap);
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -160,9 +157,33 @@ public class DebugConsole {
     //testing main used to bypass Cyder loading
     public static void main(String[] args) {
         try {
-
+            CyderHeap heap = new CyderHeap(null, 4, CyderHeap.Type.MIN);
+            heap.insert(new customTest(0,"string0"));
+            heap.insert(new customTest(1,"string1"));
+            heap.insert(new customTest(2,"string2"));
+            heap.insert(new customTest(3,"string3"));
+            System.out.println(heap);
+            heap.swap(0,1);
+            System.out.println(heap);
+            heap.swap(0,3);
+            System.out.println(heap);
         } catch (Exception e) {
             ErrorHandler.handle(e);
+        }
+    }
+
+    private static class customTest {
+        int intobj;
+        String stringObj;
+
+        public customTest(int intobj, String stringObj) {
+            this.intobj = intobj;
+            this.stringObj = stringObj;
+        }
+
+        @Override
+        public String toString() {
+            return this.intobj + "," + this.stringObj;
         }
     }
 }

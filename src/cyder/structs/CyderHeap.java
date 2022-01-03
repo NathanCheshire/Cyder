@@ -8,6 +8,10 @@ public class CyderHeap {
 
     public static int ABSOLUTE_MIN_SIZE = 1;
 
+    public int getSize() {
+        return this.size;
+    }
+
     public enum Type {
         MIN,MAX
     }
@@ -27,19 +31,24 @@ public class CyderHeap {
 
         this.maxSize = maxSize;
         heapStruct = new Object[maxSize];
+        heapStruct[0] = data;
 
         if (data != null)
-            heapStruct[0] = data;
+            this.size = 0;
+        else
+            this.size = 1;
 
         this.type = type;
-        this.size = 1;
     }
 
     public CyderHeap(Object[] data, int maxSize, Type type) {
+        if (maxSize < 0)
+            throw new IllegalArgumentException("Max size must be above 0");
+
         if (data == null || data.length == 0){
             this.maxSize = maxSize;
             heapStruct = new Object[maxSize];
-            this.size = data.length;
+            this.size = 0;
         } else {
             if (data.length > maxSize)
                 throw new IllegalStateException("Provided data exceeds provided max length");
@@ -108,7 +117,7 @@ public class CyderHeap {
      * @param index1 the first index
      * @param index2 the second index
      */
-    private void swap(int index1, int index2) {
+    public void swap(int index1, int index2) {
         if (index1 < 0 || index2 < 0 || index1 > size || index2 > size)
             throw new IndexOutOfBoundsException("Provided index is out of bounds");
         if (index1 == index2)
@@ -117,10 +126,10 @@ public class CyderHeap {
         Object uno = heapStruct[index1];
         heapStruct[index1] = heapStruct[index2];
         heapStruct[index2] = uno;
-    } //todo test this with two element heap and print functions for a custom object
+    }
 
     public void insert(Object data) {
-        if (this.size + 1 < maxSize)
+        if (this.size + 1 > maxSize)
             throw new IllegalStateException("CyderHeap cannot add any more elements");
 
         heapStruct[size] = data;
