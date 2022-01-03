@@ -133,7 +133,9 @@ public class CyderLabel extends JLabel {
 
                 //outer label to break when isRippling is toggled to false
                 RIPPLE:
-                    while (isRippling && this.getParent() != null) {
+                    while (isRippling && !((((CyderFrame) SwingUtilities.getWindowAncestor(this))).isDisposed())) {
+                        long start = System.currentTimeMillis();
+
                         //still used parsed chars here since that's all we care about rippling anyway
                         for (int i = 0 ; i < parsedChars.length() ; i++) {
                             //init builder for this iteration where the ith char
@@ -183,17 +185,19 @@ public class CyderLabel extends JLabel {
                             else
                                setText = "<html>" + builder + "</html>";
 
-                            this.setText(setText);
-
-                            this.repaint();
-                            Thread.sleep(rippleMsTimeout);
-
-                            this.setText(originalText);
+//                            this.setText(setText);
+//
+//                            this.repaint();
+//                            Thread.sleep(rippleMsTimeout);
+//
+//                            this.setText(originalText);
 
                             //check for break to free resources quickly
                             if (!isRippling)
                                 break RIPPLE;
                         }
+
+                        System.out.println("Completed iteration in: " + (System.currentTimeMillis() - start) + "ms");
                     }
 
                 this.setForeground(restoreColor);

@@ -991,7 +991,7 @@ public class CyderFrame extends JFrame {
     // there is no setter since it will be set to true upon dispose() being invoked
     private boolean disposed;
 
-    public boolean isDispoed() {
+    public boolean isDisposed() {
         return this.disposed;
     }
 

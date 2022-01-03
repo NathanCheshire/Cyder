@@ -740,7 +740,7 @@ public class AudioPlayer {
         audioProgressLabel.setText("");
 
         //exiting widget
-        if (audioFrame != null && !audioFrame.isDispoed())
+        if (audioFrame != null && !audioFrame.isDisposed())
             audioFrame.dispose();
         audioFrame = null;
     }

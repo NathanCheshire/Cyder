@@ -515,13 +515,14 @@ public class ManualTests {
         CyderFrame rippleTestFrame = new CyderFrame(400,400);
         rippleTestFrame.setTitle("Ripple Test");
 
-        CyderLabel ripplingLabel = new CyderLabel("<html>Testing<br/>Ripple</html>");
+        CyderLabel ripplingLabel = new CyderLabel("<html>Testing Ripple<br/>Testing Ripple<br/>" +
+                "Testing Ripple<br/>Testing Ripple<br/>Testing Ripple<br/>Testing Ripple<br/>Testing Ripple</html>");
         ripplingLabel.setFont(CyderFonts.defaultFont);
         ripplingLabel.setBounds(40,40,400 - 40 * 2, 400 - 40 * 2);
         rippleTestFrame.getContentPane().add(ripplingLabel);
 
-        ripplingLabel.setRippleMsTimeout(80);
-        ripplingLabel.setRippleChars(40);
+        ripplingLabel.setRippleMsTimeout(40);
+        ripplingLabel.setRippleChars(15);
         ripplingLabel.setRippling(true);
 
         rippleTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());

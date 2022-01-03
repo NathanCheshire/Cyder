@@ -154,7 +154,7 @@ public class CyderSplash {
                             Thread.sleep(dotTimeout);
                             loadingLabel.repaint();
 
-                            if (splashFrame.isDispoed())
+                            if (splashFrame.isDisposed())
                                 return;
                         }
 
