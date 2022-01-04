@@ -6,6 +6,7 @@ import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderGrid;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
@@ -147,7 +148,16 @@ public class DebugConsole {
 
     public static void launchTests() {
         try {
+            CyderFrame testFrame = new CyderFrame();
+            testFrame.setTitle("Zoomable Grid Test");
 
+            CyderGrid cg = new CyderGrid(37,620);
+            cg.setBounds(50,50,620,620);
+            cg.setBackgroundColor(CyderColors.vanila);
+            testFrame.getContentPane().add(cg);
+
+            testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+            testFrame.setVisible(true);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

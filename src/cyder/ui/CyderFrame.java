@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderImages;
+import cyder.consts.CyderInts;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ErrorHandler;
@@ -24,7 +25,6 @@ import java.awt.image.RescaleOp;
 import java.util.LinkedList;
 
 public class CyderFrame extends JFrame {
-
     public enum TitlePosition {
         LEFT,
         CENTER,
@@ -70,14 +70,20 @@ public class CyderFrame extends JFrame {
     //upon disposing this will be set to true so the inner content pane is not repainted to speed up any animations
     private boolean disableContentRepainting = false;
 
+    //the background color of our curent pane (not the icon pane image/color)
     private Color backgroundColor = CyderColors.navy;
 
+    //clearly
     private LinkedList<WaitingNotification> notificationList = new LinkedList<>();
 
-    private String title = "";
+    private String title = "CyderFrame";
 
-    //determines area of resizing trigger vs dragging
+    //determines area of resizing trigger area vs dragging area (5px total)
     private static int frameResizingLen = 2;
+
+    //used for a constructor
+    private static final int DEFAULT_WIDTH = 800;
+    private static final int DEFAULT_HEIGHT = 800;
 
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
@@ -219,11 +225,17 @@ public class CyderFrame extends JFrame {
      * This frame, however, can never exist as any other state,
      */
     public static CyderFrame getBorderlessFrame(int width, int height) {
-        return new CyderFrame("BORDERLESS", width, height);
+        return new CyderFrame(NumberUtil.randInt(0, CyderInts.INFINITY - 1), width, height);
     }
 
-    //bordreless frame type, used for splashscreen, can only be made using above method
-    private CyderFrame(String borderlessID, int width, int height) {
+    /**
+     * Constructs this CyderFrame object as a CyderFrame that exists without
+     * surrounding drag labels, the title label, and the button list.
+     * @param borderlessID the integer ID of this frame instance
+     * @param width the width of this CyderFrame
+     * @param height the height of this CyderFrame
+     */
+    private CyderFrame(int borderlessID, int width, int height) {
         this.width = width;
         this.height = height;
 
@@ -309,6 +321,34 @@ public class CyderFrame extends JFrame {
         this.threadsKilled = false;
     }
 
+    /**
+     * Default constructor for CyderFrame using the DEFAULT_WIDTH and DEFAULT_HEIGHT for dimensions
+     */
+    public CyderFrame() {
+        this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
+
+    /**
+     * Default constructor for a CyderFrame object with specified width and height.
+     * @param width the specified width of the CyderFrame
+     * @param height the specified height of the CyderFrame
+     */
+    public CyderFrame(int width, int height) {
+        this(width, height, CyderImages.defaultBackground);
+    }
+
+    /**
+     * Default CyderFrame constructor for width, height, and content label color
+     * @param width the width of the CyderFrame
+     * @param height the height of the CyderFrame
+     * @param c the color of the content pane background
+     */
+    public CyderFrame(int width, int height, Color c) {
+        this(width, height, ImageUtil.imageIconFromColor(c, width, height));
+    }
+
+    //end of constructorrs ----------------------------------------------------------
+
     @Override
     public Container getContentPane() {
         return iconLabel;
@@ -321,22 +361,6 @@ public class CyderFrame extends JFrame {
     public Container getTrueContentPane() {
         return contentLabel;
     }
-
-    /**
-     * returns an instance of a cyderframe which extends JFrame with the specified width and height
-     * and a drag label with minimize and close buttons
-     *
-     * @param width the specified width of the cyder frame
-     * @param height the specified height of the cyder frame
-     */
-    public CyderFrame(int width, int height) {
-        this(width, height, CyderImages.defaultBackground);
-    }
-
-    public CyderFrame(int width, int height, Color c) {
-        this(width, height, ImageUtil.imageIconFromColor(c, width, height));
-    }
-
 
     /**
      * This method will change the title position to the specified value. If the frame is visible to the user,

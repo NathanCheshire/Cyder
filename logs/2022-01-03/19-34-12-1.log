@@ -1,0 +1,47 @@
+[19-34-12] [ENTRY]: [Nathan]
+[19-34-13] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-34-13] [EXCEPTION]: 
+bound must be positive
+Thrown from:
+java.base/java.util.Random.nextInt(Random.java:388)
+StackTrace:
+java.lang.IllegalArgumentException: bound must be positive
+	at java.base/java.util.Random.nextInt(Random.java:388)
+	at cyder.utilities.NumberUtil.randInt(NumberUtil.java:29)
+	at cyder.ui.CyderFrame.getBorderlessFrame(CyderFrame.java:228)
+	at cyder.genesis.CyderSplash.lambda$showSplash$2(CyderSplash.java:29)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[19-34-14] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-34-14] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-34-14] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-34-14] [SYSTEM_IO]: Userdata requested: Name
+[19-34-15] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-34-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-34-15] [SYSTEM_IO]: Userdata requested: Name
+[19-34-15] [SYSTEM_IO]: Userdata requested: Foreground
+[19-34-15] [SYSTEM_IO]: Userdata requested: Foreground
+[19-34-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-34-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-34-15] [SYSTEM_IO]: Userdata requested: Foreground
+[19-34-15] [SYSTEM_IO]: Userdata requested: Font
+[19-34-16] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-34-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-34-16] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-34-16] [SYSTEM_IO]: Userdata requested: Foreground
+[19-34-16] [SYSTEM_IO]: Userdata requested: Foreground
+[19-34-16] [SYSTEM_IO]: Userdata requested: Foreground
+[19-34-16] [SYSTEM_IO]: Userdata requested: Font
+[19-34-16] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-34-16] [SYSTEM_IO]: Userdata requested: InputFill
+[19-34-16] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-34-16] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-34-16] [ACTION]: Console loaded in 3795ms
+[19-34-16] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-34-16] [ENTRY]: [TESTING MODE]
+[19-34-16] [SYSTEM_IO]: Userdata requested: windowlocx
+[19-34-16] [SYSTEM_IO]: Userdata requested: windowlocy
+[19-34-16] [SYSTEM_IO]: Userdata requested: laststart
+[19-34-16] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-34-16] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3795ms
+[19-34-16] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

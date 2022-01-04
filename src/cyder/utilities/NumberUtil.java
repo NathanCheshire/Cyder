@@ -25,8 +25,12 @@ public class NumberUtil {
 
     private static CyderFrame numFrame;
 
-    public static int randInt(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
+    public static int randInt(int min, int upperBound) {
+        return new Random().nextInt((upperBound - min) + 1) + min;
+    }
+
+    public static int randInt(int upperBound) {
+        return new Random().nextInt((upperBound) + 1);
     }
 
     public static boolean isPrime(int num) {
