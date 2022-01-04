@@ -95,6 +95,10 @@ public class PathFinderWidget {
                     numSquares = (int) (Math.floor(labelWidth / squareLen));
                     int drawTo = (int) ((Math.floor(labelWidth / squareLen)) * squareLen);
 
+                    int xOffset = (labelWidth - drawTo) / 2;
+                    int yOffset = (labelHeight - drawTo) / 2;
+                    g2d.translate(xOffset, yOffset);
+
                     for (int x = 1 ; x <= drawTo - 2 ; x += squareLen) {
                         g2d.drawLine(x, 1, x, drawTo - 2);
                     }

@@ -1,0 +1,61 @@
+[20-34-19] [ENTRY]: [Nathan]
+[20-34-19] [SYSTEM_IO]: System data pared in IOUtil's static block
+[20-34-21] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-34-21] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-34-21] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-34-21] [SYSTEM_IO]: Userdata requested: Name
+[20-34-22] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-34-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-34-22] [SYSTEM_IO]: Userdata requested: Name
+[20-34-22] [SYSTEM_IO]: Userdata requested: Foreground
+[20-34-22] [SYSTEM_IO]: Userdata requested: Foreground
+[20-34-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-34-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-34-22] [SYSTEM_IO]: Userdata requested: Foreground
+[20-34-22] [SYSTEM_IO]: Userdata requested: Font
+[20-34-22] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-34-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-34-22] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-34-22] [SYSTEM_IO]: Userdata requested: Foreground
+[20-34-22] [SYSTEM_IO]: Userdata requested: Foreground
+[20-34-22] [SYSTEM_IO]: Userdata requested: Foreground
+[20-34-22] [SYSTEM_IO]: Userdata requested: Font
+[20-34-22] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-34-22] [SYSTEM_IO]: Userdata requested: InputFill
+[20-34-22] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-34-22] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-34-22] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [2005921873], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[20-34-23] [ACTION]: Console loaded in 3652ms
+[20-34-23] [SYSTEM_IO]: Userdata requested: windowlocx
+[20-34-23] [SYSTEM_IO]: Userdata requested: windowlocy
+[20-34-23] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-34-23] [ENTRY]: [TESTING MODE]
+[20-34-23] [SYSTEM_IO]: Userdata requested: laststart
+[20-34-23] [SYSTEM_IO]: Userdata requested: IntroMusic
+[20-34-23] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3652ms
+[20-34-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-34-24] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [94291855], parentFrame = [Zoomable Grid Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[20-34-24] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1023, 244, 800, 800)], hash = [1644208799], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[20-34-24] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-34-27] [CLIENT]: minimizeanimation false
+[20-34-27] [SYSTEM_IO]: Userdata requested: Name
+[20-34-27] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[20-34-30] [CLIENT]: minimizeanimation
+[20-34-30] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-34-30] [CONSOLE_OUT]: [STRING] Minimize Animation set to false
+[20-34-30] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-34-30] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-34-30] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-34-30] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-34-30] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[20-34-30] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-34-30] [SYSTEM_IO]: Userdata requested: InputFill
+[20-34-30] [ACTION]: CONSOLE PREFERENCE TOGGLE HANDLED
+[20-34-31] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-34-31] [SYSTEM_IO]: Userdata requested: Name
+[20-34-31] [LOGOUT]: [Nathan]
+[20-34-31] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(931, 152, 984, 984)], hash = [548554586], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[20-34-31] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-34-31] [SYSTEM_IO]: Userdata requested: Background
+[20-34-31] [EXIT]: [RUNTIME] 12s
+[20-34-31] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
