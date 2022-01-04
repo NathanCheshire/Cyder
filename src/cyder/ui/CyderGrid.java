@@ -95,7 +95,6 @@ public class CyderGrid extends JLabel {
                 return;
 
             Graphics2D g2d = (Graphics2D) g;
-            g2d.setColor(Color.darkGray);
             g2d.setStroke(new BasicStroke(2));
 
             //in order to fit this many nodes, we need to figure out the length
@@ -104,6 +103,10 @@ public class CyderGrid extends JLabel {
             //bounds of drawing that we cannot draw over since it may be less if we
             // can't fit an even number of square on the grid
             int drawTo = squareLen * this.nodeCount;
+
+            // you can't split x 1's into y (y < x) places, pigeonhole principle isn't met
+            // this is why there might seem to be a lot of space left over sometimes when
+            // the number of nodes is relatively high
 
             //keep the grid centered on its parent
             int xOffset = (this.width - drawTo) / 2;
@@ -132,13 +135,13 @@ public class CyderGrid extends JLabel {
 
             for (GridNode node : grid) {
                 //never draw nodes over the current limit, NEVER
-                if (2 + node.getX() * squareLen + squareLen - 2 > this.width ||
-                        2 + node.getY() * squareLen  + squareLen - 2 > this.getHeight())
+                if ((drawGridLines ? 2 : 0) + node.getX() * squareLen + squareLen - (drawGridLines ? 2 : 0) > this.width ||
+                        (drawGridLines ? 2 : 0) + node.getY() * squareLen  + squareLen - (drawGridLines ? 2 : 0) > this.getHeight())
                     continue;
 
                 g2d.setColor(node.getColor());
-                g2d.fillRect(2 + node.getX() * squareLen, 2 + node.getY() * squareLen,
-                        squareLen - 2, squareLen - 2);
+                g2d.fillRect((drawGridLines ? 2 : 0) + node.getX() * squareLen, (drawGridLines ? 2 : 0) + node.getY() * squareLen,
+                        squareLen - (drawGridLines ? 2 : 0), squareLen - (drawGridLines ? 2 : 0));
             }
 
             g2d.setColor(CyderColors.navy);
