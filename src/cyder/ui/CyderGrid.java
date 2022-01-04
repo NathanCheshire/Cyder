@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseWheelEvent;
@@ -142,6 +143,11 @@ public class CyderGrid extends JLabel {
             g2d.drawLine(1, 1, drawTo, 1);
             g2d.drawLine(drawTo, 1, drawTo, drawTo);
             g2d.drawLine(1, drawTo, drawTo, drawTo);
+
+            //draw extended border if enabled
+            if (drawExtendedBorder) {
+                super.setBorder(new LineBorder(CyderColors.navy, 3));
+            }
         }
     }
 
@@ -186,10 +192,18 @@ public class CyderGrid extends JLabel {
         }
     };
 
-    //todo set center automatically? setCenter methods too for x,y so that on repainting we can place ourselves there based on actual drawn
-    // width and not max width
+    //todo actuall no just translocation based on the calculated drawTo bounds and use that as our translocator for x,y
 
-    //todo boolean for draw actual border, self explanitory
+    private boolean drawExtendedBorder = false;
+
+    public boolean isDrawExtendedBorder() {
+        return drawExtendedBorder;
+    }
+
+    public void setDrawExtendedBorder(boolean drawExtendedBorder) {
+        this.drawExtendedBorder = drawExtendedBorder;
+        repaint();
+    }
 
     private boolean drawGridLines = true;
 
