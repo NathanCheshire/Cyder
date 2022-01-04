@@ -46,7 +46,7 @@ public class CyderCheckbox extends JLabel {
     public void setSelected() {
         selected = true;
         repaint();
-        System.out.println("inside ccb");
+
         if (cyderCheckboxGroup != null)
             cyderCheckboxGroup.setSelectedCheckbox(this);
     }

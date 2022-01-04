@@ -1,7 +1,7 @@
 package cyder.handlers.internal;
 
 import cyder.consts.CyderStrings;
-import cyder.testing.DebugConsole;
+import cyder.testing.Debug;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.UserUtil;
 
@@ -96,7 +96,7 @@ public class ErrorHandler {
         String stackTrack = sw.toString();
 
         if (title != null && title.length() != 0 && stackTrack != null || stackTrack.length() != 0) {
-            DebugConsole.println(title + "\n" + stackTrack);
+            Debug.println(title + "\n" + stackTrack);
         }
     }
 }

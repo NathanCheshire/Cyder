@@ -19,8 +19,8 @@ import java.util.concurrent.Semaphore;
 
 import static java.lang.System.out;
 
-public class DebugConsole {
-    private DebugConsole() {
+public class Debug {
+    private Debug() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 

@@ -13,7 +13,7 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.DirectoryViewer;
-import cyder.testing.DebugConsole;
+import cyder.testing.Debug;
 import cyder.testing.ManualTests;
 import cyder.testing.UnitTests;
 import cyder.threads.BletchyThread;
@@ -696,7 +696,7 @@ public class InputHandler {
         }  else if (hasWord("debug") && !eic("debug")) {
             StatUtil.allStats();
         } else if (eic("debug")) {
-            DebugConsole.print("");
+            Debug.print("");
         } else if (hasWord("binary") && !has("dump")) {
             new Thread(() -> {
                 String input = new GetterUtil().getString("Enter an Interger","Enter any iteger to be converted to binary", "Submit");
@@ -1169,7 +1169,7 @@ public class InputHandler {
                 }
             }, "DST Checker").start();
         } else if (eic("test")) {
-            DebugConsole.launchTests();
+            Debug.launchTests();
         } else if (eic("tests")) {
             println("Valid tests to call:\n");
             printUnitTests();

@@ -35,7 +35,7 @@
 java.lang.NullPointerException
 	at cyder.ui.CyderCheckboxGroup.addCheckbox(CyderCheckboxGroup.java:28)
 	at cyder.testing.ManualTests.checkboxGroupTest(ManualTests.java:542)
-	at cyder.testing.DebugConsole.launchTests(DebugConsole.java:150)
+	at cyder.testing.Debug.launchTests(DebugConsole.java:150)
 	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1278)
 	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
 	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:241)

@@ -13,7 +13,7 @@ import cyder.genesis.CyderSplash;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
-import cyder.testing.DebugConsole;
+import cyder.testing.Debug;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
 
@@ -1275,7 +1275,7 @@ public final class ConsoleFrame {
         //testing mode
         if (IOUtil.getSystemData().isTestingmode()) {
             SessionHandler.log(SessionHandler.Tag.ENTRY, "TESTING MODE");
-            DebugConsole.launchTests();
+            Debug.launchTests();
         }
 
         //last start time operations

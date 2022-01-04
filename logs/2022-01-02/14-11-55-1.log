@@ -34,7 +34,7 @@
 [14-11-58] [DEBUG]: null
 java.lang.NullPointerException
 	at cyder.structs.CyderHeap.<init>(CyderHeap.java:42)
-	at cyder.testing.DebugConsole.launchTests(DebugConsole.java:151)
+	at cyder.testing.Debug.launchTests(DebugConsole.java:151)
 	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1278)
 	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
 	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:241)

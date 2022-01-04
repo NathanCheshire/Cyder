@@ -51,8 +51,6 @@ public class CyderCheckboxGroup {
 
         currentlySelectedBox = box;
 
-        System.out.println("here");
-
         for (CyderCheckbox cb : checkboxes)
             if (cb != currentlySelectedBox)
                 cb.setNotSelected();

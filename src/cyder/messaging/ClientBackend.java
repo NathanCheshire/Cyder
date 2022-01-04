@@ -211,7 +211,7 @@ public class ClientBackend {
 
                     if (receivedMessage != null) {
                         //instead of printing, append to frame's outputarea
-                        System.out.println("[" + connectedClientName + "]: " + receivedMessage);
+                        //("[" + connectedClientName + "]: " + receivedMessage);
                         SessionHandler.log(SessionHandler.Tag.PRIVATE_MESSAGE_SENT,
                                 "[PRIVATE MESSAGE]: [ RECEIVED FROM " + clientName.toUpperCase()
                                         + "(" + clientUUID +  ")] " + receivedMessage);

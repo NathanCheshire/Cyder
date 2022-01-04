@@ -35,7 +35,7 @@ public class StatUtil {
             PropertiesList.add(key + ": " + value);
         }
 
-        System.out.println("Java Properties:\n------------------------");
+        ConsoleFrame.getConsoleFrame().getInputHandler().println("Java Properties:\n------------------------");
 
         for (String s : PropertiesList) {
             ConsoleFrame.getConsoleFrame().getInputHandler().println(s);
