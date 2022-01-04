@@ -13,10 +13,10 @@ import java.util.LinkedList;
 
 public class CyderGrid extends JLabel {
     //how many nodes should be drawn on the grid
-    private int length = 0;
-    public static final int MIN_LENGTH = 2;
-    public static final int DEFAULT_LENGTH = 20;
-    //todo rename these to better names
+    private int nodeCount = 0;
+    public static final int MIN_NODES = 2;
+    public static final int DEFAULT_NODES = 20;
+
     //the physical bounds of this
     public static final int DEFAULT_WIDTH = 400;
     public static final int MIN_WIDTH = 50;
@@ -31,7 +31,7 @@ public class CyderGrid extends JLabel {
     private LinkedList<GridNode> grid;
 
     public CyderGrid() {
-        this(DEFAULT_LENGTH, DEFAULT_WIDTH);
+        this(DEFAULT_NODES, DEFAULT_WIDTH);
     }
 
     /**
@@ -40,7 +40,7 @@ public class CyderGrid extends JLabel {
      * @param width the physical width of this component on its parent container
      */
     public CyderGrid(int len, int width) {
-        this.length = len;
+        this.nodeCount = len;
         this.width = width;
 
         grid = new LinkedList<>() {
@@ -91,7 +91,7 @@ public class CyderGrid extends JLabel {
 
         if (this != null) {
             //failsafe
-            if (this.length < MIN_LENGTH)
+            if (this.nodeCount < MIN_NODES)
                 return;
 
             Graphics2D g2d = (Graphics2D) g;
@@ -99,11 +99,11 @@ public class CyderGrid extends JLabel {
             g2d.setStroke(new BasicStroke(2));
 
             //in order to fit this many nodes, we need to figure out the length
-            int squareLen = (int) Math.floor(this.width / this.length);
+            int squareLen = (int) Math.floor(this.width / this.nodeCount);
 
             //bounds of drawing that we cannot draw over since it may be less if we
             // can't fit an even number of square on the grid
-            int drawTo = squareLen * this.length;
+            int drawTo = squareLen * this.nodeCount;
 
             //keep the grid centered on its parent
             int xOffset = (this.width - drawTo) / 2;
@@ -186,10 +186,10 @@ public class CyderGrid extends JLabel {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
             if (e.isControlDown()) {
-                if (e.getWheelRotation() == -1 && length > MIN_LENGTH) {
-                    length -= 1;
+                if (e.getWheelRotation() == -1 && nodeCount > MIN_NODES) {
+                    nodeCount -= 1;
                 } else {
-                    length += 1;
+                    nodeCount += 1;
                 }
 
                 repaint();
