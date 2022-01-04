@@ -1,14 +1,18 @@
 package cyder.layouts;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class GridLayout {
+public class GridLayout extends JLabel {
     private int horizontalCells = DEFAULT_CELLS;
     private int vertialCells = DEFAULT_CELLS;
     public static final int DEFAULT_CELLS = 1;
 
     //default insets surrounding the CyderFrame content pane
-    Insets defaultInsets = new Insets(10,10,10,10);
+    private Insets defaultInsets = new Insets(10,10,10,10);
+    //todo getter and setter/updater
+
+    private Component[][] components;
 
     public GridLayout(int xCells, int yCells) {
         if (xCells < 1 || yCells < 1)
@@ -16,6 +20,8 @@ public class GridLayout {
 
         this.horizontalCells = xCells;
         this.vertialCells = yCells;
+
+        components = new Component[xCells][yCells];
 
         //todo somehow this needs to take over the content pane of the container
 
@@ -27,7 +33,49 @@ public class GridLayout {
     }
 
     public boolean addComponent(Component component, int x, int y) {
+        if (components == null)
+            throw new IllegalStateException("Components not yet initialized");
+        if (x < 0 || x > horizontalCells - 1 || y < 0 || y > vertialCells - 1)
+            throw new IllegalArgumentException("Provided grid location is invalid");
+
+        if (components[x][y] != null) {
+            //component already here, figure out how to handle this case
+            return false;
+        }
+
+        components[x][y] = component;
+        this.repaint();
+        return true;
+    }
+
+    public boolean removeComponent(Component c) {
+        if (components == null)
+            throw new IllegalStateException("Components not yet initialized");
+
+        for (int x = 0 ; x < horizontalCells ; x++) {
+            for (int y = 0 ; y < vertialCells ; y++) {
+                if (components[x][y] == c) {
+                    components[x][y] = null;
+                    return true;
+                }
+            }
+        }
 
         return false;
+    }
+
+    public boolean removeComponent(int x, int y) {
+        if (components == null)
+            throw new IllegalStateException("Components not yet initialized");
+        if (x < 0 || x > horizontalCells - 1 || y < 0 || y > vertialCells - 1)
+            throw new IllegalArgumentException("Provided grid location is invalid");
+
+        //no component there
+        if (components[x][y] == null)
+            return false;
+
+        //found component so remove and return true
+        components[x][y] = null;
+        return true;
     }
 }
