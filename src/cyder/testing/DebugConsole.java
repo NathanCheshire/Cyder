@@ -155,6 +155,7 @@ public class DebugConsole {
             cg.setBounds(50,50,620,620);
             cg.setBackgroundColor(CyderColors.vanila);
             testFrame.getContentPane().add(cg);
+            cg.setResizable(true);
 
             testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
             testFrame.setVisible(true);

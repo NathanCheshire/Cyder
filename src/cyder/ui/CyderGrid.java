@@ -5,6 +5,9 @@ import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.LinkedList;
 
 public class CyderGrid extends JLabel {
@@ -12,6 +15,7 @@ public class CyderGrid extends JLabel {
     private int length = 0;
     public static final int MIN_LENGTH = 2;
     public static final int DEFAULT_LENGTH = 20;
+    public static final int MAX_LENGTH = 100;
 
     //the physical bounds of this
     public static final int DEFAULT_WIDTH = 400;
@@ -19,10 +23,8 @@ public class CyderGrid extends JLabel {
     private int width;
 
     //whether or not to allow resizing of the grid via mouse zoom in/out
-    //todo implement me getters/setters/redraw/test
     private boolean resizable = false;
 
-    //todo implement me, getters/setters/repaint/test
     private Color backgroundColor = null;
 
     //the actual grid data structure
@@ -49,9 +51,31 @@ public class CyderGrid extends JLabel {
                 else return false;
             }
         };
+    }
 
-        //fixme remove this
-        grid.add(new GridNode(CyderColors.intellijPink, 10, 10));
+    /**
+     * Finds whether or not the grid contains the specified node
+     * @param node the node to search for
+     * @return whether or not the provided node was found on the grid
+     */
+    public boolean contains(GridNode node) {
+        return grid.contains(node);
+    }
+
+    /**
+     * Adds the specified node to the grid if it is not already in the grid
+     * @param node the node to add to the grid if it not already on the grid
+     */
+    public void addNode(GridNode node) {
+        grid.add(node);
+    }
+
+    /**
+     * Removes the specified node from the grid if it exists
+     * @param node the node to remove
+     */
+    public void removeNode(GridNode node) {
+        grid.remove(node);
     }
 
     @Override
@@ -120,6 +144,37 @@ public class CyderGrid extends JLabel {
         this.backgroundColor = backgroundColor;
         this.repaint();
     }
+
+    public boolean isResizable() {
+        return resizable;
+    }
+
+    public void setResizable(boolean resizable) {
+        if (this.resizable != resizable) {
+            if (resizable) {
+                this.addMouseWheelListener(zoomListener);
+            } else {
+                this.removeMouseWheelListener(zoomListener);
+            }
+        }
+
+        this.resizable = resizable;
+    }
+
+    private final MouseWheelListener zoomListener = new MouseAdapter() {
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+            if (e.isControlDown()) {
+                if (e.getWheelRotation() == -1 && length < MAX_LENGTH) {
+                    length += 1;
+                } else if (length > MIN_LENGTH) {
+                    length -= 1;
+                }
+
+                repaint();
+            }
+        }
+    };
 
     //nodes used for the Grid's 2D Array
     public static final class GridNode {
