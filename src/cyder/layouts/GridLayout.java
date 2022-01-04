@@ -25,11 +25,47 @@ public class GridLayout extends JLabel {
 
         //todo somehow this needs to take over the content pane of the container
 
-        //todo how are we going to store the components?
-
-        //todo actually I guess this should extend a JLabel so that we can add stuff to this if a layout is set
-        // and override our CyderFrame's getContentPane() method and then figure out where to pass it
+        //todo override our CyderFrame's getContentPane() method and then figure out where to pass it
         // and this class will figure out where it goes and update the view
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        if (components == null) {
+            super.paint(g);
+            return;
+        }
+
+        int xOff = defaultInsets.left;
+        int yOff = defaultInsets.top;
+        int width = this.getWidth() - xOff - defaultInsets.right;
+        int height = this.getHeight() - yOff - defaultInsets.bottom;
+
+        //partition width into how many grid spaces we have
+        int widthPartition = (int) Math.floor(width / horizontalCells);
+
+        //partition height into how many grid spaces we have
+        int heightPartition = (int) Math.floor((height / vertialCells));
+
+        //now accounting for offsets we can draw our components using the bounds provided
+        // components themselves take care of their own insets by being smaller than the
+        // partitioned area they're given or be placed on a label to be used as spacing
+        // and then passed to the GridLayout
+
+        for (int x = 0 ; x < horizontalCells ; x++) {
+            for (int y = 0 ; y < vertialCells ; y++) {
+                //base case of no component is at this position
+                if (components[x][y] == null)
+                    continue;
+
+                int startX = xOff + x * widthPartition;
+                int startY = yOff + y * heightPartition;
+
+                //todo if comonents bounds are less than allowed we need to center it
+                // otherwise we give it as much as we can
+                components[x][y].setBounds(startX, startY, widthPartition, heightPartition);
+            }
+        }
     }
 
     public boolean addComponent(Component component, int x, int y) {
