@@ -16,9 +16,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Properties;
+import java.util.*;
 
 public class StatUtil {
     private StatUtil() {
@@ -410,5 +408,87 @@ public class StatUtil {
         }
 
         return ret;
+    }
+
+    public static void fileSizes() {
+        LinkedList<FileSize> prints = innerFileSizes(new File("../Cyder"));
+
+        prints.sort(new FileComparator());
+
+        for (FileSize print : prints) {
+            ConsoleFrame.getConsoleFrame().getInputHandler().println(print.getName() + ": " + formatBytes(print.getSize()));
+        }
+    }
+
+    private static LinkedList<FileSize> innerFileSizes(File startDir) {
+        LinkedList<FileSize> ret = new LinkedList<>();
+
+        if (startDir.isDirectory()) {
+            for (File f : startDir.listFiles())
+                ret.addAll(innerFileSizes(f));
+        } else {
+            ret.add(new FileSize(startDir.getName(), startDir.length()));
+        }
+
+        return ret;
+    }
+
+    private static final class FileComparator implements Comparator<FileSize>{
+        public int compare(FileSize fs1, FileSize fs2) {
+            if (fs1.size < fs2.size)
+                return 1;
+            else if (fs1.size > fs2.size)
+                return -1;
+            return 0;
+        }
+    }
+
+    private static class FileSize {
+        private long size;
+        private String name;
+
+        public FileSize(String name, long size) {
+            this.size = size;
+            this.name = name;
+        }
+
+        public long getSize() {
+            return size;
+        }
+
+        public void setSize(long size) {
+            this.size = size;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    private static String formatBytes(float bytes) {
+        DecimalFormat formatter = new DecimalFormat("##.###");
+
+        float coalesceSpace = 1024.0f;
+
+        if (bytes >= coalesceSpace) {
+            float kilo = bytes / coalesceSpace;
+
+            if (kilo >= coalesceSpace) {
+                float mega = kilo / coalesceSpace;
+
+                if (mega >= coalesceSpace) {
+                    float giga = mega / coalesceSpace;
+
+                    if (giga >= coalesceSpace) {
+                        float tera = giga / coalesceSpace;
+                        return (formatter.format(tera) + "TB");
+                    } else return (formatter.format(giga) + "GB");
+                } else return (formatter.format(mega) + "MB");
+            } else return (formatter.format(kilo) + "KB");
+        } else return (bytes + " bytes");
     }
 }

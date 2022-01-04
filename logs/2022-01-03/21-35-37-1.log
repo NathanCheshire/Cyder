@@ -1,0 +1,69 @@
+[21-35-38] [ENTRY]: [Nathan]
+[21-35-38] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-35-39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-35-39] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-35-40] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-35-40] [SYSTEM_IO]: Userdata requested: Name
+[21-35-40] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-35-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-40] [SYSTEM_IO]: Userdata requested: Name
+[21-35-41] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-41] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-41] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-41] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-41] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-41] [SYSTEM_IO]: Userdata requested: Font
+[21-35-41] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-35-41] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-41] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-35-41] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-41] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-41] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-41] [SYSTEM_IO]: Userdata requested: Font
+[21-35-41] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-35-41] [SYSTEM_IO]: Userdata requested: InputFill
+[21-35-41] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-35-41] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-35-41] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [2035617160], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[21-35-41] [ACTION]: Console loaded in 3706ms
+[21-35-41] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-35-41] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-35-41] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-35-41] [ENTRY]: [TESTING MODE]
+[21-35-41] [SYSTEM_IO]: Userdata requested: laststart
+[21-35-41] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-35-41] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3706ms
+[21-35-41] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-35-47] [CLIENT]: file sizes
+[21-35-47] [SYSTEM_IO]: Userdata requested: Name
+[21-35-47] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[21-35-48] [CLIENT]: file size
+[21-35-48] [SYSTEM_IO]: Userdata requested: Name
+[21-35-48] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[21-35-53] [CLIENT]: file size
+[21-35-53] [SYSTEM_IO]: Userdata requested: Name
+[21-35-53] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[21-35-55] [CLIENT]: filesize
+[21-35-55] [SYSTEM_IO]: Userdata requested: Name
+[21-35-55] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[21-35-56] [CLIENT]: file sizes
+[21-35-56] [SYSTEM_IO]: Userdata requested: Name
+[21-35-56] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[21-36-02] [CLIENT]: file sizes
+[21-36-02] [SYSTEM_IO]: Userdata requested: Name
+[21-36-02] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[21-36-11] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: showbusyicon
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: showbusyicon
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:429)
+	at cyder.ui.ConsoleFrame.lambda$startExecutors$18(ConsoleFrame.java:1165)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

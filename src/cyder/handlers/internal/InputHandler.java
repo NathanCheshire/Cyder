@@ -1186,6 +1186,8 @@ public class InputHandler {
                     println("InetAddress: " + inetAddress);
                 }
             }
+        } else if (hasWord("file") && hasWord("sizes")) {
+            StatUtil.fileSizes();
         }
         //final attempt at unknown input --------------------------
         else {
