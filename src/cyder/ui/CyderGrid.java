@@ -15,7 +15,7 @@ public class CyderGrid extends JLabel {
     private int length = 0;
     public static final int MIN_LENGTH = 2;
     public static final int DEFAULT_LENGTH = 20;
-
+    //todo rename these to better names
     //the physical bounds of this
     public static final int DEFAULT_WIDTH = 400;
     public static final int MIN_WIDTH = 50;
@@ -112,17 +112,20 @@ public class CyderGrid extends JLabel {
 
             g2d.setColor(CyderColors.navy);
 
-            //draw vertical lines
-            for (int x = 1 ; x <= drawTo - 2 ; x += squareLen) {
-                g2d.drawLine(x, 1, x, drawTo - 2);
-            }
+            if (drawGridLines) {
+                //draw vertical lines
+                for (int x = 1 ; x <= drawTo - 2 ; x += squareLen) {
+                    g2d.drawLine(x, 1, x, drawTo - 2);
+                }
 
-            //draw horizontal lines
-            for (int y = 1 ; y <= drawTo - 2 ; y += squareLen) {
-                g2d.drawLine(1, y, drawTo - 2, y);
+                //draw horizontal lines
+                for (int y = 1 ; y <= drawTo - 2 ; y += squareLen) {
+                    g2d.drawLine(1, y, drawTo - 2, y);
+                }
             }
 
             for (GridNode node : grid) {
+                //never draw nodes over the current limit, NEVER
                 if (2 + node.getX() * squareLen + squareLen - 2 > this.width ||
                         2 + node.getY() * squareLen  + squareLen - 2 > this.getHeight())
                     continue;
@@ -188,7 +191,16 @@ public class CyderGrid extends JLabel {
 
     //todo boolean for draw actual border, self explanitory
 
-    //todo boolean for draw grid lines?
+    private boolean drawGridLines = true;
+
+    public boolean isDrawGridLines() {
+        return drawGridLines;
+    }
+
+    public void setDrawGridLines(boolean drawGridLines) {
+        this.drawGridLines = drawGridLines;
+        repaint();
+    }
 
     //nodes used for the Grid's 2D Array
     public static final class GridNode {
