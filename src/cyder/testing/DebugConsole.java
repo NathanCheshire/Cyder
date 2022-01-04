@@ -156,6 +156,10 @@ public class DebugConsole {
             cg.setBackgroundColor(CyderColors.vanila);
             testFrame.getContentPane().add(cg);
             cg.setResizable(true);
+            cg.addNode(new CyderGrid.GridNode(CyderColors.calculatorOrange, 20,20));
+            cg.addNode(new CyderGrid.GridNode(CyderColors.regularBlue, 20,21));
+            cg.addNode(new CyderGrid.GridNode(CyderColors.intellijPink, 21,20));
+            cg.addNode(new CyderGrid.GridNode(CyderColors.regularGreen, 22,22));
 
             testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
             testFrame.setVisible(true);

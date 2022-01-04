@@ -15,7 +15,6 @@ public class CyderGrid extends JLabel {
     private int length = 0;
     public static final int MIN_LENGTH = 2;
     public static final int DEFAULT_LENGTH = 20;
-    public static final int MAX_LENGTH = 100;
 
     //the physical bounds of this
     public static final int DEFAULT_WIDTH = 400;
@@ -78,25 +77,28 @@ public class CyderGrid extends JLabel {
         grid.remove(node);
     }
 
+    //standard
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
     }
 
+    //duh
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
         if (this != null) {
+            //failsafe
+            if (this.length < MIN_LENGTH)
+                return;
+
             Graphics2D g2d = (Graphics2D) g;
             g2d.setColor(Color.darkGray);
             g2d.setStroke(new BasicStroke(2));
 
             //in order to fit this many nodes, we need to figure out the length
             int squareLen = (int) Math.floor(this.width / this.length);
-            System.out.println(this.length);
-            System.out.println(this.width);
-            System.out.println(squareLen);
 
             //bounds of drawing that we cannot draw over since it may be less if we
             // can't fit an even number of square on the grid
@@ -121,6 +123,10 @@ public class CyderGrid extends JLabel {
             }
 
             for (GridNode node : grid) {
+                if (2 + node.getX() * squareLen + squareLen - 2 > this.width ||
+                        2 + node.getY() * squareLen  + squareLen - 2 > this.getHeight())
+                    continue;
+
                 g2d.setColor(node.getColor());
                 g2d.fillRect(2 + node.getX() * squareLen, 2 + node.getY() * squareLen,
                         squareLen - 2, squareLen - 2);
@@ -161,20 +167,28 @@ public class CyderGrid extends JLabel {
         this.resizable = resizable;
     }
 
+    //used for incrementing/decrementing the grid size
     private final MouseWheelListener zoomListener = new MouseAdapter() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
             if (e.isControlDown()) {
-                if (e.getWheelRotation() == -1 && length < MAX_LENGTH) {
-                    length += 1;
-                } else if (length > MIN_LENGTH) {
+                if (e.getWheelRotation() == -1 && length > MIN_LENGTH) {
                     length -= 1;
+                } else {
+                    length += 1;
                 }
 
                 repaint();
             }
         }
     };
+
+    //todo set center automatically? setCenter methods too for x,y so that on repainting we can place ourselves there based on actual drawn
+    // width and not max width
+
+    //todo boolean for draw actual border, self explanitory
+
+    //todo boolean for draw grid lines?
 
     //nodes used for the Grid's 2D Array
     public static final class GridNode {
@@ -212,6 +226,7 @@ public class CyderGrid extends JLabel {
             this.y = y;
         }
 
+        //a node is equal to another one if their x and y coordinates are equal
         @Override
         public boolean equals(Object node) {
             if (node instanceof GridNode) {
