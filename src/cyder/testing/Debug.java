@@ -147,7 +147,13 @@ public class Debug {
 
     public static void launchTests() {
         try {
+            CyderFrame gridTestFrame = new CyderFrame(800,800);
+            gridTestFrame.setTitle("Grid Layout Test");
 
+            GridLayout layout = new GridLayout(2,2);
+
+            gridTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+            gridTestFrame.setVisible(true);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

@@ -26,11 +26,12 @@ public class GridLayout extends JLabel {
         //todo somehow this needs to take over the content pane of the container
 
         //todo override our CyderFrame's getContentPane() method and then figure out where to pass it
-        // and this class will figure out where it goes and update the view
+        // and this class will figure out where it goes and update the view, IF a layout is set for the CyderFrame
     }
 
     @Override
     public void paint(Graphics g) {
+        //no components means no need to draw
         if (components == null) {
             super.paint(g);
             return;
@@ -61,11 +62,42 @@ public class GridLayout extends JLabel {
                 int startX = xOff + x * widthPartition;
                 int startY = yOff + y * heightPartition;
 
-                //todo if comonents bounds are less than allowed we need to center it
-                // otherwise we give it as much as we can
-                components[x][y].setBounds(startX, startY, widthPartition, heightPartition);
+                Component refComponent = components[x][y];
+
+                //does it not fit in bounds?
+                if (refComponent.getWidth() > widthPartition || refComponent.getHeight() > heightPartition) {
+                    refComponent.setBounds(startX, startY, widthPartition, heightPartition);
+                } else {
+                    //fits in bounds so center it
+                    int addX = (widthPartition - refComponent.getWidth()) / 2;
+                    int addY = (heightPartition - refComponent.getHeight()) / 2;
+                    refComponent.setBounds(startX + addX, startY + addY,
+                            refComponent.getWidth(), refComponent.getHeight());
+                }
+
+                //now add the component to ourselves
+                add(refComponent);
             }
         }
+    }
+
+    /**
+     * Adds the provided component to the grid at the first available space
+     * @param component the component to add to the grid if possible
+     * @return whether or not the component was added successfully
+     */
+    public boolean addComponent(Component component) {
+        for (int x = 0 ; x < horizontalCells ; x++) {
+            for (int y = 0 ; y < vertialCells ; y++) {
+                if (components[x][y] == null) {
+                    components[x][y] = component;
+                    repaint();
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public boolean addComponent(Component component, int x, int y) {
