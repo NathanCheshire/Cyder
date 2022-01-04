@@ -105,6 +105,11 @@ public class CyderGrid extends JLabel {
             // can't fit an even number of square on the grid
             int drawTo = squareLen * this.length;
 
+            //keep the grid centered on its parent
+            int xOffset = (this.width - drawTo) / 2;
+            int yOffset = (this.width - drawTo) / 2;
+            g2d.translate(xOffset, yOffset);
+
             //fill the background in if it is set
             if (backgroundColor != null) {
                 g2d.setColor(backgroundColor);
@@ -191,8 +196,6 @@ public class CyderGrid extends JLabel {
             }
         }
     };
-
-    //todo actuall no just translocation based on the calculated drawTo bounds and use that as our translocator for x,y
 
     private boolean drawExtendedBorder = false;
 
