@@ -167,11 +167,19 @@ public class Debug {
             testLabel3.setSize(50,50);
             layout.addComponent(testLabel3, 1, 0);
 
-            CyderLabel testLabel4 = new CyderLabel("Test");
+            CyderLabel testLabel4 = new CyderLabel("Subpanel");
             testLabel4.setSize(50,50);
-            layout.addComponent(testLabel4, 1, 1);
+            CyderLabel testLabel5 = new CyderLabel("Test");
+            testLabel5.setSize(50,50);
 
-            //todo how to center layout on parent?
+            CyderGridLayout cyderGridLayout2 = new CyderGridLayout(2,2);
+            cyderGridLayout2.addComponent(testLabel4,0,0);
+            cyderGridLayout2.addComponent(testLabel5,1,1);
+
+            CyderPanel subPanel = new CyderPanel(cyderGridLayout2);
+            layout.addComponent(subPanel, 1, 1);
+            subPanel.setSize(100,100); //todo eliminate the need for this line
+
             CyderPanel panel = new CyderPanel(layout);
             gridTestFrame.setContentPanel(panel);
 
