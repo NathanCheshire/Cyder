@@ -1,9 +1,8 @@
 package cyder.layouts;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class CyderGridLayout extends JLabel {
+public class CyderGridLayout extends CyderBaseLayout implements CyderLayout {
     private int horizontalCells = DEFAULT_CELLS;
     private int vertialCells = DEFAULT_CELLS;
     public static final int DEFAULT_CELLS = 1;
@@ -18,11 +17,6 @@ public class CyderGridLayout extends JLabel {
         this.vertialCells = yCells;
 
         components = new Component[xCells][yCells];
-
-        //todo somehow this needs to take over the content pane of the container
-
-        //todo override our CyderFrame's getContentPane() method and then figure out where to pass it
-        // and this class will figure out where it goes and update the view, IF a layout is set for the CyderFrame
     }
 
     @Override
@@ -37,9 +31,6 @@ public class CyderGridLayout extends JLabel {
 
         //partition height into how many grid spaces we have
         int heightPartition = (int) Math.floor((this.getHeight() / vertialCells));
-
-        System.out.println(this.getWidth() + "," + this.getHeight());
-        System.out.println("Width part: " + widthPartition + ", height part: " + heightPartition);
 
         //now accounting for offsets we can draw our components using the bounds provided
         // components themselves take care of their own insets by being smaller than the
@@ -69,7 +60,7 @@ public class CyderGridLayout extends JLabel {
                             refComponent.getWidth(), refComponent.getHeight());
                 }
 
-                this.add(refComponent); //todo does this add lots of components?
+                this.add(refComponent); //todo does this add lots of components? test
             }
         }
 

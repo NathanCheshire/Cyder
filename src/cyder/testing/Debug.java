@@ -8,6 +8,7 @@ import cyder.handlers.internal.SessionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
+import cyder.ui.CyderPanel;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
@@ -154,7 +155,6 @@ public class Debug {
 
             CyderGridLayout layout = new CyderGridLayout(2,2);
             layout.setSize(600,600);
-            gridTestFrame.setCyderLayout(layout);
 
             CyderLabel testLabel1 = new CyderLabel("This");
             testLabel1.setSize(50,50);
@@ -171,6 +171,9 @@ public class Debug {
             CyderLabel testLabel4 = new CyderLabel("Test");
             testLabel4.setSize(50,50);
             layout.addComponent(testLabel4, 1, 1);
+
+            CyderPanel panel = new CyderPanel(layout);
+            //todo now set the frame's panel
 
             gridTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
             gridTestFrame.setVisible(true);

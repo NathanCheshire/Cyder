@@ -352,6 +352,9 @@ public class CyderFrame extends JFrame {
     @Override
     public Container getContentPane() {
         return iconLabel;
+        //todo this should be a panel instead, make methods to get/set the panel too
+        //todo be able to set this with regular properties as above too
+        // so that we can properly implement a master label that can scale
     }
 
     public Container getIconPane() {
@@ -2119,14 +2122,5 @@ public class CyderFrame extends JFrame {
                     this.getNotificationDirection() + "," +
                     "), hash=" + this.hashCode();
         }
-    }
-
-    //layout stuff ----------------------------------------------------------------
-
-    public void setCyderLayout(JLabel layout) {
-        layout.setSize(iconLabel.getWidth(), iconLabel.getWidth());
-        iconLabel.add(layout);
-
-        this.repaint();
     }
 }
