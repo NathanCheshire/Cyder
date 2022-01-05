@@ -438,7 +438,10 @@ public class PathFinderWidget {
             dijkstraSwitch.setEnabled(true);
             heuristicSwitch.setState(CyderSwitch.State.OFF);
             dijkstraSwitch.setState(CyderSwitch.State.ON);
-            performDijkstras = true;
+            performDijkstras = false;
+            start = new Node(0,0);
+            end = new Node(25, 25);
+            squareLen = 30;
         });
         pathFindingFrame.getContentPane().add(reset);
 
