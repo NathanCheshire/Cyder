@@ -55,15 +55,24 @@ public class CyderGridLayout extends CyderBaseLayout {
 
                 Component refComponent = components[x][y];
 
-                //does it not fit in bounds?
+                //if it doesn't fit in bounds then give it as much space as possible
+                // maybe make an overflow handler for how we want to crop it since right now
+                // it'll just start at top left and go until no more space lift
                 if (refComponent.getWidth() > widthPartition || refComponent.getHeight() > heightPartition) {
-                    refComponent.setBounds(startX, startY, widthPartition, heightPartition);
+                    refComponent.setLocation(startX, startY); //todo what about overflow here?
                 } else {
                     //fits in bounds of designated space so center it
                     int addX = (widthPartition - refComponent.getWidth()) / 2;
                     int addY = (heightPartition - refComponent.getHeight()) / 2;
-                    refComponent.setBounds(startX + addX, startY + addY,
-                            refComponent.getWidth(), refComponent.getHeight());
+                    refComponent.setLocation(startX + addX, startY + addY);
+
+                    //todo switch statement based on positioning enum
+
+                    //todo how to embed this enum with a component?
+                    // do we use an entire structure when adding/removing components?
+
+                    //TODO never set component size since we don't want to override that
+                    // just set location and we can account for offsets depending on the enum
                 }
 
                 this.add(refComponent);

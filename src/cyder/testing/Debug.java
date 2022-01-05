@@ -178,7 +178,14 @@ public class Debug {
 
             CyderPanel subPanel = new CyderPanel(cyderGridLayout2);
             layout.addComponent(subPanel, 1, 1);
-            subPanel.setSize(100,100); //todo eliminate the need for this line
+            subPanel.setSize(200,200);
+            //todo eliminate the need for the above line
+            // panels should take up as much space as they can (like Flutter expanded widgets)
+
+            //todo add an enum for positioning relative to the partitioned space for a component
+            // north west, north, north east, etc. this is assuming it fits
+            // intead of just centering we will draw on these properties
+            // default should be direct center
 
             CyderPanel panel = new CyderPanel(layout);
             gridTestFrame.setContentPanel(panel);
