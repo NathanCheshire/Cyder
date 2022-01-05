@@ -171,9 +171,9 @@ public class Debug {
             testLabel4.setSize(50,50);
             layout.addComponent(testLabel4, 1, 1);
 
-            //todo how will resizing work if enabled for frame and how to center layout on parent?
+            //todo how to center layout on parent?
             CyderPanel panel = new CyderPanel(layout);
-            gridTestFrame.setContentPane(panel);
+            gridTestFrame.setContentPanel(panel);
 
             gridTestFrame.initializeResizing();
             gridTestFrame.setResizable(true);
@@ -185,5 +185,13 @@ public class Debug {
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
+    }
+
+    public static void here() {
+        here("here");
+    }
+
+    public static void here(String hereString) {
+        println(hereString);
     }
 }

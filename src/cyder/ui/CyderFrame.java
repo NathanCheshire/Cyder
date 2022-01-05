@@ -155,6 +155,14 @@ public class CyderFrame extends JFrame {
                     super.repaint();
                 }
             }
+
+            @Override
+            public void setBounds(int x, int y, int w, int h) {
+                super.setBounds(x, y, w, h);
+
+                if (cyderPanel != null && w > 0 && h > 0)
+                    cyderPanel.setBounds(iconLabel.getBounds());
+            }
         };
         iconLabel.setIcon(background);
         iconLabel.setBounds(frameResizingLen,frameResizingLen,
@@ -354,25 +362,29 @@ public class CyderFrame extends JFrame {
         return iconLabel;
     }
 
-    /**
-     * Sets the content pane to the provided CyderPanel, overriding the current content pane
-     * @param cyderPanel the cyder panel with layout
-     */
-    public void setContentPane(CyderPanel cyderPanel) {
-
-        //set size of the new panel so layout can access it too
-        cyderPanel.setBounds(frameResizingLen,frameResizingLen,
-                width - 2 * frameResizingLen,height - 2 * frameResizingLen);
-        cyderPanel.setFocusable(false);
-        iconLabel.add(cyderPanel);
-    }
-
     public Container getIconPane() {
         return iconPane;
     }
 
     public Container getTrueContentPane() {
         return contentLabel;
+    }
+
+    //CyderPanel and CyderLayout stuff ---------------------------------------
+
+    private CyderPanel cyderPanel;
+
+    /**
+     * Adds the provided CyderPanel on top of the content pane to be resized on
+     * CyderFrame resize events also.
+     * @param cyderPanel the CyderPanel with associated CyderLayout
+     */
+    public void setContentPanel(CyderPanel cyderPanel) {
+        this.cyderPanel = cyderPanel;
+        //panel literally sits on top of contentPane() (iconLabel in CyderFrame's case)
+        cyderPanel.setBounds(iconLabel.getBounds());
+        cyderPanel.setFocusable(false);
+        iconLabel.add(cyderPanel);
     }
 
     /**

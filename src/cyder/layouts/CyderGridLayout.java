@@ -22,14 +22,14 @@ public class CyderGridLayout extends CyderBaseLayout {
     }
 
     @Override
-    public void repaint() {
+    public void paint(Graphics g) {
         //no components means no need to draw
         if (components == null || this == null) {
             return;
         }
 
         if (this.getWidth() == 0 || this.getHeight() == 0) {
-            super.repaint();
+            super.paint(g);
             return;
         }
 
@@ -54,7 +54,6 @@ public class CyderGridLayout extends CyderBaseLayout {
                 int startY = y * heightPartition;
 
                 Component refComponent = components[x][y];
-                System.out.println(refComponent.getName() + "," + refComponent.getWidth() + "," + refComponent.getHeight());
 
                 //does it not fit in bounds?
                 if (refComponent.getWidth() > widthPartition || refComponent.getHeight() > heightPartition) {
@@ -68,11 +67,10 @@ public class CyderGridLayout extends CyderBaseLayout {
                 }
 
                 this.add(refComponent);
-                System.out.println(refComponent);
             }
         }
 
-       super.repaint();
+       super.paint(g);
     }
 
     /**

@@ -19,5 +19,5 @@ public interface CyderLayout {
     //to establish the bounds of the layout and the actual drawing/positioning
     // of components
     void setSize(int width, int height);
-    void repaint();
+    void paint(Graphics g);
 }
