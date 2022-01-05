@@ -2,6 +2,9 @@ package cyder.layouts;
 
 import java.awt.*;
 
+/**
+ * This method shouldn't be directly used. For custom CyderLayouts simply extend the CyderBaseLayout
+ */
 public interface CyderLayout {
     //methods essential for all CyderLayouts to have
 
@@ -16,5 +19,5 @@ public interface CyderLayout {
     //to establish the bounds of the layout and the actual drawing/positioning
     // of components
     void setSize(int width, int height);
-    void paint(Graphics g);
+    void repaint();
 }

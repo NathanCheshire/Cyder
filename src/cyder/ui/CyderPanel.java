@@ -1,12 +1,11 @@
 package cyder.ui;
 
+import cyder.layouts.CyderBaseLayout;
 import cyder.layouts.CyderLayout;
+import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.*;
-
-//CyderPanels are just JLabels that can have an associated
-// CyderLayout so that we can place layouts inside of layouts basically
 
 /**
  * CyderPanels are what hold and manage where components go on them. They basically are a wrapper for
@@ -15,17 +14,18 @@ import java.awt.*;
  * content pane or as a sub panel inside of a parent panel.
  */
 public class CyderPanel extends JLabel {
-    public CyderPanel(CyderLayout cyderLayout) {
+    public CyderPanel(CyderBaseLayout cyderLayout) {
         this.cyderLayout = cyderLayout;
+        cyderLayout.setSize(this.getWidth(), this.getHeight());
     }
 
-    private CyderLayout cyderLayout;
+    private CyderBaseLayout cyderLayout;
 
     public CyderLayout getCyderLayout() {
         return cyderLayout;
     }
 
-    public void setCyderLayout(CyderLayout cyderLayout) {
+    public void setCyderLayout(CyderBaseLayout cyderLayout) {
         this.cyderLayout = cyderLayout;
     }
 
@@ -41,5 +41,37 @@ public class CyderPanel extends JLabel {
             cyderLayout.setSize(this.getWidth(), this.getHeight());
             cyderLayout.paint(g);
         }
+    }
+
+    //disabling repainting of the content pane for optimization purposes
+
+    private boolean disableContentRepainting = false;
+
+    public boolean isDisableContentRepainting() {
+        return disableContentRepainting;
+    }
+
+    public void setDisableContentRepainting(boolean disableContentRepainting) {
+        this.disableContentRepainting = disableContentRepainting;
+    }
+
+    @Override
+    public void repaint() {
+        //as long as we should repaint, repaint it
+        if (!disableContentRepainting) {
+            //getting here
+            super.repaint();
+
+            if (cyderLayout != null) {
+                cyderLayout.setSize(this.getWidth(), this.getHeight());
+                cyderLayout.repaint();
+            }
+        }
+    }
+
+    //standard
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderUIReflection(this);
     }
 }

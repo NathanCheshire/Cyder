@@ -352,9 +352,19 @@ public class CyderFrame extends JFrame {
     @Override
     public Container getContentPane() {
         return iconLabel;
-        //todo this should be a panel instead, make methods to get/set the panel too
-        //todo be able to set this with regular properties as above too
-        // so that we can properly implement a master label that can scale
+    }
+
+    /**
+     * Sets the content pane to the provided CyderPanel, overriding the current content pane
+     * @param cyderPanel the cyder panel with layout
+     */
+    public void setContentPane(CyderPanel cyderPanel) {
+
+        //set size of the new panel so layout can access it too
+        cyderPanel.setBounds(frameResizingLen,frameResizingLen,
+                width - 2 * frameResizingLen,height - 2 * frameResizingLen);
+        cyderPanel.setFocusable(false);
+        iconLabel.add(cyderPanel);
     }
 
     public Container getIconPane() {
@@ -991,7 +1001,7 @@ public class CyderFrame extends JFrame {
             setRestoreY(getY());
 
             if (UserUtil.getUserData("minimizeanimation").equals("1")) {
-                disableContentRepainting = false;
+                setDisableContentRepainting(true);
 
                 //figure out increment for frame num
                 int distanceToTravel = SystemUtil.getScreenHeight() - this.getY();
@@ -1003,7 +1013,7 @@ public class CyderFrame extends JFrame {
                     setLocation(this.getX(), i);
                 }
 
-                disableContentRepainting = true;
+                setDisableContentRepainting(false);
             }
 
             setState(JFrame.ICONIFIED);
@@ -1020,6 +1030,15 @@ public class CyderFrame extends JFrame {
 
     public boolean isDisposed() {
         return this.disposed;
+    }
+
+    //content repainting setter for for the panel/iconLabel ----------------------
+    public void setDisableContentRepainting(boolean enabled) {
+        disableContentRepainting = enabled;
+
+        if (iconLabel instanceof CyderPanel) {
+            ((CyderPanel) iconLabel).setDisableContentRepainting(true);
+        }
     }
 
     /**
@@ -1058,7 +1077,7 @@ public class CyderFrame extends JFrame {
                 disableDragging();
 
                 //disable content pane REPAINTING not paint to speed up the animation
-                disableContentRepainting = true;
+                setDisableContentRepainting(true);
 
                 if (this != null && isVisible() && !fastClose && UserUtil.getUserData("closeanimation").equals("1")) {
                     Point point = getLocationOnScreen();

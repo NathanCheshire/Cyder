@@ -154,7 +154,6 @@ public class Debug {
             gridTestFrame.setTitle("Grid Layout Test");
 
             CyderGridLayout layout = new CyderGridLayout(2,2);
-            layout.setSize(600,600);
 
             CyderLabel testLabel1 = new CyderLabel("This");
             testLabel1.setSize(50,50);
@@ -172,8 +171,14 @@ public class Debug {
             testLabel4.setSize(50,50);
             layout.addComponent(testLabel4, 1, 1);
 
+            //todo how will resizing work if enabled for frame and how to center layout on parent?
             CyderPanel panel = new CyderPanel(layout);
-            //todo now set the frame's panel
+            gridTestFrame.setContentPane(panel);
+
+            gridTestFrame.initializeResizing();
+            gridTestFrame.setResizable(true);
+            gridTestFrame.setMaximumSize(new Dimension(1200,1200));
+            gridTestFrame.setBackgroundResizing(true);
 
             gridTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
             gridTestFrame.setVisible(true);

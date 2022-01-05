@@ -1,8 +1,10 @@
 package cyder.layouts;
 
+import cyder.utilities.ReflectionUtil;
+
 import java.awt.*;
 
-public class CyderGridLayout extends CyderBaseLayout implements CyderLayout {
+public class CyderGridLayout extends CyderBaseLayout {
     private int horizontalCells = DEFAULT_CELLS;
     private int vertialCells = DEFAULT_CELLS;
     public static final int DEFAULT_CELLS = 1;
@@ -20,9 +22,14 @@ public class CyderGridLayout extends CyderBaseLayout implements CyderLayout {
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void repaint() {
         //no components means no need to draw
         if (components == null || this == null) {
+            return;
+        }
+
+        if (this.getWidth() == 0 || this.getHeight() == 0) {
+            super.repaint();
             return;
         }
 
@@ -47,24 +54,25 @@ public class CyderGridLayout extends CyderBaseLayout implements CyderLayout {
                 int startY = y * heightPartition;
 
                 Component refComponent = components[x][y];
-                System.out.println(refComponent);
+                System.out.println(refComponent.getName() + "," + refComponent.getWidth() + "," + refComponent.getHeight());
 
                 //does it not fit in bounds?
                 if (refComponent.getWidth() > widthPartition || refComponent.getHeight() > heightPartition) {
                     refComponent.setBounds(startX, startY, widthPartition, heightPartition);
                 } else {
-                    //fits in bounds so center it
+                    //fits in bounds of designated space so center it
                     int addX = (widthPartition - refComponent.getWidth()) / 2;
                     int addY = (heightPartition - refComponent.getHeight()) / 2;
                     refComponent.setBounds(startX + addX, startY + addY,
                             refComponent.getWidth(), refComponent.getHeight());
                 }
 
-                this.add(refComponent); //todo does this add lots of components? test
+                this.add(refComponent);
+                System.out.println(refComponent);
             }
         }
 
-        super.paint(g);
+       super.repaint();
     }
 
     /**
@@ -131,5 +139,11 @@ public class CyderGridLayout extends CyderBaseLayout implements CyderLayout {
         //found component so remove and return true
         components[x][y] = null;
         return true;
+    }
+
+    //standard
+    @Override
+    public String toString() {
+        return ReflectionUtil.commonCyderUIReflection(this);
     }
 }
