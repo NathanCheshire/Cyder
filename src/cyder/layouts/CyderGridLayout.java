@@ -3,18 +3,14 @@ package cyder.layouts;
 import javax.swing.*;
 import java.awt.*;
 
-public class GridLayout extends JLabel {
+public class CyderGridLayout extends JLabel {
     private int horizontalCells = DEFAULT_CELLS;
     private int vertialCells = DEFAULT_CELLS;
     public static final int DEFAULT_CELLS = 1;
 
-    //default insets surrounding the CyderFrame content pane
-    private Insets defaultInsets = new Insets(10,10,10,10);
-    //todo getter and setter/updater
-
     private Component[][] components;
 
-    public GridLayout(int xCells, int yCells) {
+    public CyderGridLayout(int xCells, int yCells) {
         if (xCells < 1 || yCells < 1)
             throw new IllegalArgumentException("Provided cell length does not meet the minimum requirement");
 
@@ -32,21 +28,18 @@ public class GridLayout extends JLabel {
     @Override
     public void paint(Graphics g) {
         //no components means no need to draw
-        if (components == null) {
-            super.paint(g);
+        if (components == null || this == null) {
             return;
         }
 
-        int xOff = defaultInsets.left;
-        int yOff = defaultInsets.top;
-        int width = this.getWidth() - xOff - defaultInsets.right;
-        int height = this.getHeight() - yOff - defaultInsets.bottom;
-
         //partition width into how many grid spaces we have
-        int widthPartition = (int) Math.floor(width / horizontalCells);
+        int widthPartition = (int) Math.floor(this.getWidth() / horizontalCells);
 
         //partition height into how many grid spaces we have
-        int heightPartition = (int) Math.floor((height / vertialCells));
+        int heightPartition = (int) Math.floor((this.getHeight() / vertialCells));
+
+        System.out.println(this.getWidth() + "," + this.getHeight());
+        System.out.println("Width part: " + widthPartition + ", height part: " + heightPartition);
 
         //now accounting for offsets we can draw our components using the bounds provided
         // components themselves take care of their own insets by being smaller than the
@@ -59,10 +52,11 @@ public class GridLayout extends JLabel {
                 if (components[x][y] == null)
                     continue;
 
-                int startX = xOff + x * widthPartition;
-                int startY = yOff + y * heightPartition;
+                int startX = x * widthPartition;
+                int startY = y * heightPartition;
 
                 Component refComponent = components[x][y];
+                System.out.println(refComponent);
 
                 //does it not fit in bounds?
                 if (refComponent.getWidth() > widthPartition || refComponent.getHeight() > heightPartition) {
@@ -75,10 +69,11 @@ public class GridLayout extends JLabel {
                             refComponent.getWidth(), refComponent.getHeight());
                 }
 
-                //now add the component to ourselves
-                add(refComponent);
+                this.add(refComponent); //todo does this add lots of components?
             }
         }
+
+        super.paint(g);
     }
 
     /**
@@ -116,13 +111,13 @@ public class GridLayout extends JLabel {
         return true;
     }
 
-    public boolean removeComponent(Component c) {
+    public boolean removeComponent(Component component) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
 
         for (int x = 0 ; x < horizontalCells ; x++) {
             for (int y = 0 ; y < vertialCells ; y++) {
-                if (components[x][y] == c) {
+                if (components[x][y] == component) {
                     components[x][y] = null;
                     return true;
                 }

@@ -2015,8 +2015,6 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    //inner classes
-
     private static class WaitingNotification {
         private String htmlText;
         private int duration;
@@ -2121,5 +2119,14 @@ public class CyderFrame extends JFrame {
                     this.getNotificationDirection() + "," +
                     "), hash=" + this.hashCode();
         }
+    }
+
+    //layout stuff ----------------------------------------------------------------
+
+    public void setCyderLayout(JLabel layout) {
+        layout.setSize(iconLabel.getWidth(), iconLabel.getWidth());
+        iconLabel.add(layout);
+
+        this.repaint();
     }
 }

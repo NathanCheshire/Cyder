@@ -1,0 +1,75 @@
+[17-04-40] [ENTRY]: [Nathan]
+[17-04-40] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-04-41] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-04-41] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-04-42] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-04-42] [SYSTEM_IO]: Userdata requested: Name
+[17-04-42] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-04-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-04-43] [SYSTEM_IO]: Userdata requested: Name
+[17-04-43] [SYSTEM_IO]: Userdata requested: Foreground
+[17-04-43] [SYSTEM_IO]: Userdata requested: Foreground
+[17-04-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-04-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-04-44] [SYSTEM_IO]: Userdata requested: Foreground
+[17-04-44] [SYSTEM_IO]: Userdata requested: Font
+[17-04-44] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-04-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-04-44] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-04-44] [SYSTEM_IO]: Userdata requested: Foreground
+[17-04-44] [SYSTEM_IO]: Userdata requested: Foreground
+[17-04-44] [SYSTEM_IO]: Userdata requested: Foreground
+[17-04-44] [SYSTEM_IO]: Userdata requested: Font
+[17-04-44] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-04-44] [SYSTEM_IO]: Userdata requested: InputFill
+[17-04-44] [SYSTEM_IO]: Userdata requested: consolepinned
+[17-04-44] [SYSTEM_IO]: Userdata requested: consolepinned
+[17-04-44] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [998857175], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[17-04-44] [ACTION]: Console loaded in 4145ms
+[17-04-44] [SYSTEM_IO]: Userdata requested: windowlocx
+[17-04-44] [SYSTEM_IO]: Userdata requested: windowlocy
+[17-04-44] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-04-44] [ENTRY]: [TESTING MODE]
+[17-04-44] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[17-04-44] [DEBUG]: null
+java.lang.NullPointerException
+	at java.desktop/javax.swing.JComponent.getComponentGraphics(JComponent.java:758)
+	at java.desktop/javax.swing.JComponent.paint(JComponent.java:1020)
+	at cyder.layouts.CyderGridLayout.repaint(CyderGridLayout.java:34)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1634)
+	at cyder.ui.CyderFrame.setCyderLayout(CyderFrame.java:2138)
+	at cyder.testing.Debug.launchTests(Debug.java:161)
+	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1278)
+	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
+	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:241)
+	at java.desktop/java.awt.AWTEventMulticaster.windowOpened(AWTEventMulticaster.java:348)
+	at java.desktop/java.awt.Window.processWindowEvent(Window.java:2061)
+	at java.desktop/javax.swing.JFrame.processWindowEvent(JFrame.java:298)
+	at java.desktop/java.awt.Window.processEvent(Window.java:2023)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[17-04-44] [SYSTEM_IO]: Userdata requested: laststart
+[17-04-44] [SYSTEM_IO]: Userdata requested: IntroMusic
+[17-04-44] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4145ms
+[17-04-44] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

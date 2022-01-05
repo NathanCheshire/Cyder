@@ -1,0 +1,37 @@
+[17-26-10] [ENTRY]: [Nathan]
+[17-26-11] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-26-12] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-26-12] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-26-12] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-26-12] [SYSTEM_IO]: Userdata requested: Name
+[17-26-13] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-26-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-26-13] [SYSTEM_IO]: Userdata requested: Name
+[17-26-14] [SYSTEM_IO]: Userdata requested: Foreground
+[17-26-14] [SYSTEM_IO]: Userdata requested: Foreground
+[17-26-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-26-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-26-14] [SYSTEM_IO]: Userdata requested: Foreground
+[17-26-14] [SYSTEM_IO]: Userdata requested: Font
+[17-26-14] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-26-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-26-14] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-26-14] [SYSTEM_IO]: Userdata requested: Foreground
+[17-26-14] [SYSTEM_IO]: Userdata requested: Foreground
+[17-26-14] [SYSTEM_IO]: Userdata requested: Foreground
+[17-26-14] [SYSTEM_IO]: Userdata requested: Font
+[17-26-14] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-26-14] [SYSTEM_IO]: Userdata requested: InputFill
+[17-26-14] [SYSTEM_IO]: Userdata requested: consolepinned
+[17-26-14] [SYSTEM_IO]: Userdata requested: consolepinned
+[17-26-14] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1947285768], parentFrame = [No associated frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found]
+[17-26-14] [ACTION]: Console loaded in 3898ms
+[17-26-14] [SYSTEM_IO]: Userdata requested: windowlocx
+[17-26-14] [SYSTEM_IO]: Userdata requested: windowlocy
+[17-26-14] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-26-14] [ENTRY]: [TESTING MODE]
+[17-26-14] [SYSTEM_IO]: Userdata requested: laststart
+[17-26-14] [SYSTEM_IO]: Userdata requested: IntroMusic
+[17-26-14] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3898ms
+[17-26-14] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
