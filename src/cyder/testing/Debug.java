@@ -6,10 +6,7 @@ import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.layouts.CyderGridLayout;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
-import cyder.ui.CyderPanel;
-import cyder.ui.CyderScrollPane;
+import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 
@@ -197,6 +194,8 @@ public class Debug {
 
             gridTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
             gridTestFrame.setVisible(true);
+
+            System.out.println(ConsoleFrame.getConsoleFrame().getConsoleCyderFrame());
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

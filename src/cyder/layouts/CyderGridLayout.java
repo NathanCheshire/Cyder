@@ -73,13 +73,18 @@ public class CyderGridLayout extends CyderBaseLayout {
 
                     //TODO never set component size since we don't want to override that
                     // just set location and we can account for offsets depending on the enum
+
+                    //todo so many be a stucture with component, overflow property, centering property
+                    // and size? wait shouldn't the size be updated on making the frame bigger
+
+                    //i think this bug went away so many we don't need to store the size? idk im confused lol
                 }
 
                 this.add(refComponent);
             }
         }
 
-       super.paint(g);
+        super.paint(g);
     }
 
     /**

@@ -64,10 +64,15 @@ public class ReflectionUtil {
         CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
         String frameRep = "";
 
-        if (topFrame != null)
+        if (topFrame != null) {
             frameRep = topFrame.getTitle();
-        else
-            frameRep = "No associated frame";
+        } else {
+            if (obj instanceof CyderFrame) {
+                frameRep = "Object itself is the top level frame";
+            } else {
+                frameRep = "No associated frame";
+            }
+        }
 
         String superName = obj.getClass().getName();
         int hash = obj.hashCode();
@@ -77,6 +82,7 @@ public class ReflectionUtil {
             superName = superName.split("\\$")[0];
         }
 
+        String getTitleResult = "No getTitle() method found";
         String getTextResult = "No getText() method found";
         String getTooltipResult = "No getTooltipText() method found";
 
@@ -104,6 +110,17 @@ public class ReflectionUtil {
                            getTooltipResult = locGetTooltipTextString;
                        }
                    }
+               } else if (method.getName().startsWith("getTitle") && method.getParameterCount() == 0) {
+                   Object locGetTitle = method.invoke(obj);
+
+                   if (locGetTitle instanceof String) {
+                       String locGetTitleString = (String) locGetTitle;
+
+                       if (locGetTitleString != null && locGetTitleString.length() > 0
+                               && !locGetTitleString.equalsIgnoreCase("null")) {
+                           getTitleResult = locGetTitleString;
+                       }
+                   }
                }
            }
         } catch (Exception e) {
@@ -112,7 +129,8 @@ public class ReflectionUtil {
 
         String build = "Component name = [" + superName + "], bounds = [(" + obj.getX() + ", "
                 + obj.getY() + ", " + obj.getWidth() + ", " + obj.getHeight() + ")], hash = [" + hash + "], " +
-                "parentFrame = [" + frameRep + "], associated text = [" + getTextResult + "], tooltip text = [" + getTooltipResult + "]";
+                "parentFrame = [" + frameRep + "], associated text = [" + getTextResult + "], tooltip text = [" +
+                getTooltipResult + "], title = [" + getTitleResult + "]";
 
         return build;
     }
