@@ -9,7 +9,14 @@ public class CyderGridLayout extends CyderBaseLayout {
     private int vertialCells = DEFAULT_CELLS;
     public static final int DEFAULT_CELLS = 1;
 
-    private Component[][] components;
+    //used for where to position components/how to position them when overflow occurs
+    public enum Position {
+        TOP_LEFT, TOP_CENTER, TOP_RIGHT,
+        MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT,
+        BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
+    }
+
+    private GridComponent[][] components;
 
     public CyderGridLayout(int xCells, int yCells) {
         if (xCells < 1 || yCells < 1)
@@ -18,7 +25,7 @@ public class CyderGridLayout extends CyderBaseLayout {
         this.horizontalCells = xCells;
         this.vertialCells = yCells;
 
-        components = new Component[xCells][yCells];
+        components = new GridComponent[xCells][yCells];
     }
 
     @Override
@@ -53,34 +60,31 @@ public class CyderGridLayout extends CyderBaseLayout {
                 int startX = x * widthPartition;
                 int startY = y * heightPartition;
 
-                Component refComponent = components[x][y];
+                GridComponent refComponent = components[x][y];
 
                 //if it doesn't fit in bounds then give it as much space as possible
-                // maybe make an overflow handler for how we want to crop it since right now
-                // it'll just start at top left and go until no more space lift
-                if (refComponent.getWidth() > widthPartition || refComponent.getHeight() > heightPartition) {
-                    refComponent.setLocation(startX, startY); //todo what about overflow here?
+                if (refComponent.getOriginalWidth() > widthPartition || refComponent.getOriginalHeight() > heightPartition) {
+                    //todo math to figure out starting offsets and use partition for size
+                    switch (refComponent.getPosition()) {
+
+                    }
+
+                    refComponent.getComponent().setLocation(startX, startY);
                 } else {
                     //fits in bounds of designated space so center it
-                    int addX = (widthPartition - refComponent.getWidth()) / 2;
-                    int addY = (heightPartition - refComponent.getHeight()) / 2;
-                    refComponent.setLocation(startX + addX, startY + addY);
+                    int addX = (widthPartition - refComponent.getOriginalWidth()) / 2;
+                    int addY = (heightPartition - refComponent.getOriginalHeight()) / 2;
 
-                    //todo switch statement based on positioning enum
+                    //todo we know it fits so use math to figure out how to add/sub from/to addX and addY
+                    switch (refComponent.getPosition()) {
 
-                    //todo how to embed this enum with a component?
-                    // do we use an entire structure when adding/removing components?
+                    }
 
-                    //TODO never set component size since we don't want to override that
-                    // just set location and we can account for offsets depending on the enum
-
-                    //todo so many be a stucture with component, overflow property, centering property
-                    // and size? wait shouldn't the size be updated on making the frame bigger
-
-                    //i think this bug went away so many we don't need to store the size? idk im confused lol
+                    refComponent.getComponent().setBounds(startX + addX, startY + addY,
+                            refComponent.getOriginalWidth(), refComponent.getOriginalHeight());
                 }
 
-                this.add(refComponent);
+                this.add(refComponent.getComponent());
             }
         }
 
@@ -96,7 +100,30 @@ public class CyderGridLayout extends CyderBaseLayout {
         for (int x = 0 ; x < horizontalCells ; x++) {
             for (int y = 0 ; y < vertialCells ; y++) {
                 if (components[x][y] == null) {
-                    components[x][y] = component;
+                    components[x][y] = new GridComponent(component, //defaults here
+                            component.getWidth(), component.getHeight(), Position.MIDDLE_CENTER);
+                    repaint();
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Adds the provided component to the grid at the first available space
+     * @param component the component to add to the grid if possible
+     * @param sectionPosition the position to set the component to if it fits
+     * in the partitioned space or how to position the component should it overflow the partitioned space
+     * @return whether or not the component was added successfully
+     */
+    public boolean addComponent(Component component, Position sectionPosition) {
+        for (int x = 0 ; x < horizontalCells ; x++) {
+            for (int y = 0 ; y < vertialCells ; y++) {
+                if (components[x][y] == null) {
+                    components[x][y] = new GridComponent(component,
+                            component.getWidth(), component.getHeight(), sectionPosition);
                     repaint();
                     return true;
                 }
@@ -117,7 +144,25 @@ public class CyderGridLayout extends CyderBaseLayout {
             return false;
         }
 
-        components[x][y] = component;
+        components[x][y] = new GridComponent(component, component.getWidth(),
+                component.getHeight(), Position.MIDDLE_CENTER);
+        this.repaint();
+        return true;
+    }
+
+    public boolean addComponent(Component component, int x, int y, Position sectionPosition) {
+        if (components == null)
+            throw new IllegalStateException("Components not yet initialized");
+        if (x < 0 || x > horizontalCells - 1 || y < 0 || y > vertialCells - 1)
+            throw new IllegalArgumentException("Provided grid location is invalid");
+
+        if (components[x][y] != null) {
+            //component already here, figure out how to handle this case
+            return false;
+        }
+
+        components[x][y] = new GridComponent(component, component.getWidth(),
+                component.getHeight(), sectionPosition);
         this.repaint();
         return true;
     }
@@ -128,7 +173,7 @@ public class CyderGridLayout extends CyderBaseLayout {
 
         for (int x = 0 ; x < horizontalCells ; x++) {
             for (int y = 0 ; y < vertialCells ; y++) {
-                if (components[x][y] == component) {
+                if (components[x][y].getComponent() == component) {
                     components[x][y] = null;
                     return true;
                 }
@@ -157,5 +202,52 @@ public class CyderGridLayout extends CyderBaseLayout {
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
+    }
+
+    //class so we know the original size of components for resize events
+    private static class GridComponent {
+        private Component component;
+        private int originalWidth;
+        private int originalHeight;
+        private Position position;
+
+        public GridComponent(Component component, int originalWidth, int originalHeight, Position position) {
+            this.component = component;
+            this.originalWidth = originalWidth;
+            this.originalHeight = originalHeight;
+            this.position = position;
+        }
+
+        public Component getComponent() {
+            return component;
+        }
+
+        public void setComponent(Component component) {
+            this.component = component;
+        }
+
+        public int getOriginalWidth() {
+            return originalWidth;
+        }
+
+        public void setOriginalWidth(int originalWidth) {
+            this.originalWidth = originalWidth;
+        }
+
+        public int getOriginalHeight() {
+            return originalHeight;
+        }
+
+        public void setOriginalHeight(int originalHeight) {
+            this.originalHeight = originalHeight;
+        }
+
+        public Position getPosition() {
+            return position;
+        }
+
+        public void setPosition(Position position) {
+            this.position = position;
+        }
     }
 }

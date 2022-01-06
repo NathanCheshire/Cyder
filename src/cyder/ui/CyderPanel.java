@@ -28,8 +28,6 @@ public class CyderPanel extends JLabel {
     public void setCyderLayout(CyderBaseLayout cyderLayout) {
         this.cyderLayout = cyderLayout;
         this.repaint();
-        //ideally when we implement more layouts, calling this
-        // should immediately refresh with the new layout
     }
 
     @Override
@@ -49,7 +47,6 @@ public class CyderPanel extends JLabel {
     }
 
     //disabling repainting of the content pane for optimization purposes
-
     private boolean disableContentRepainting = false;
 
     public boolean isDisableContentRepainting() {

@@ -160,6 +160,7 @@ public class CyderFrame extends JFrame {
             public void setBounds(int x, int y, int w, int h) {
                 super.setBounds(x, y, w, h);
 
+                //if there's a panel we need to extend its bounds too
                 if (cyderPanel != null && w > 0 && h > 0)
                     cyderPanel.setBounds(iconLabel.getBounds());
             }
