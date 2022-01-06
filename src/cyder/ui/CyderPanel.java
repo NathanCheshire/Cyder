@@ -19,7 +19,7 @@ public class CyderPanel extends JLabel {
     public CyderPanel(CyderBaseLayout cyderLayout) {
         this.cyderLayout = cyderLayout;
         cyderLayout.setAssociatedPanel(this);
-        //now the layout can access 'this' directly when it needs to recalculate bounds
+        revalidateComponents();
     }
 
     private CyderBaseLayout cyderLayout;
@@ -29,8 +29,6 @@ public class CyderPanel extends JLabel {
         super.setLayout(null);
         //layouts are always null, we use math to determine our layout on redrawing events
     }
-
-
 
     //disabling repainting of the content pane for optimization purposes
     private boolean disableContentRepainting = false;
@@ -48,10 +46,13 @@ public class CyderPanel extends JLabel {
         //as long as we should repaint, repaint it
         if (!disableContentRepainting) {
             super.repaint();
-
-            if (cyderLayout != null)
-                cyderLayout.revalidateComponents();
+            revalidateComponents();
         }
+    }
+
+    public void revalidateComponents() {
+        if (cyderLayout != null)
+            cyderLayout.revalidateComponents();
     }
 
     //standard

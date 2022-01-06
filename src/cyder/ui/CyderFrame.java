@@ -400,6 +400,7 @@ public class CyderFrame extends JFrame {
         cyderPanel.setBounds(borderLen, DragLabel.getDefaultHeight(), getWidth() - 2 * borderLen,
                 getHeight() - DragLabel.getDefaultHeight() - borderLen);
         iconLabel.add(cyderPanel);
+        cyderPanel.repaint();
     }
 
     /**

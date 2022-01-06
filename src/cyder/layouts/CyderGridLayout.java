@@ -71,16 +71,14 @@ public class CyderGridLayout extends CyderBaseLayout {
                 //if an instance of a CyderPanel give it all the space possible
                 if (refComponent.getComponent() instanceof CyderPanel) {
                     refComponent.getComponent().setBounds(startX, startY, widthPartition, heightPartition);
+
+                    //recursive call here for revalidating all sub panels
+                    refComponent.getComponent().repaint();
                 }
                 //if it doesn't fit in bounds then give it as much space as possible
                 else if (refComponent.getOriginalWidth() > widthPartition || refComponent.getOriginalHeight() > heightPartition) {
-                    //math to figure out starting offsets and use
-                    // partition for size since the component does not fit
-                    switch (refComponent.getPosition()) {
-                        //todo same as below I think
-                    }
-
                     refComponent.getComponent().setBounds(startX, startY,
+                            //only one might be over the max len so take the min of partition and len
                             Math.min(widthPartition, refComponent.getOriginalWidth()),
                             Math.min(heightPartition, refComponent.getOriginalHeight()));
                 } else {

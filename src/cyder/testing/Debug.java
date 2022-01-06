@@ -152,32 +152,29 @@ public class Debug {
 
             CyderGridLayout layout = new CyderGridLayout(2,2);
 
-            CyderGridLayout.Position loc = CyderGridLayout.Position.MIDDLE_CENTER;
-
             CyderButton testButton = new CyderButton("This");
-            testButton.setSize(100,40);
-            layout.addComponent(testButton, 0, 0, loc);
+            testButton.setSize(100,100);
+            testButton.addActionListener(e -> {
+                gridTestFrame.notify("Notified button clicked");
+            });
+            layout.addComponent(testButton, 0, 0, CyderGridLayout.Position.MIDDLE_RIGHT);
 
             CyderLabel testLabel2 = new CyderLabel("A");
             testLabel2.setSize(50,50);
-            layout.addComponent(testLabel2, 0, 1,loc);
+            layout.addComponent(testLabel2, 0, 1);
 
             CyderLabel testLabel3 = new CyderLabel("IS");
             testLabel3.setSize(50,50);
-            layout.addComponent(testLabel3, 1, 0, loc);
+            layout.addComponent(testLabel3, 1, 0);
 
             CyderLabel testLabel4 = new CyderLabel("Test");
             testLabel4.setSize(50,50);
             CyderButton testButton1 = new CyderButton("Click");
             testButton1.setSize(150,40);
 
-            CyderTextField ctf = new CyderTextField(0);
-            ctf.setSize(150,40);
-
-            CyderGridLayout cyderGridLayout2 = new CyderGridLayout(1,3);
+            CyderGridLayout cyderGridLayout2 = new CyderGridLayout(2,1);
             cyderGridLayout2.addComponent(testLabel4,0,0);
-            cyderGridLayout2.addComponent(testButton1,0,1);
-            cyderGridLayout2.addComponent(ctf,0,2);
+            cyderGridLayout2.addComponent(testButton1,1,0);
 
             CyderPanel subPanel = new CyderPanel(cyderGridLayout2);
             layout.addComponent(subPanel, 1, 1);

@@ -1,0 +1,24 @@
+[14-40-17] [ENTRY]: [Nathan]
+[14-40-17] [SYSTEM_IO]: System data pared in IOUtil's static block
+[14-40-18] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[14-40-18] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[14-40-19] [EXCEPTION]: 
+closed
+Thrown from:
+java.desktop/javax.imageio.stream.ImageInputStreamImpl.checkClosed(ImageInputStreamImpl.java:110)
+StackTrace:
+java.io.IOException: closed
+	at java.desktop/javax.imageio.stream.ImageInputStreamImpl.checkClosed(ImageInputStreamImpl.java:110)
+	at java.desktop/javax.imageio.stream.ImageInputStreamImpl.close(ImageInputStreamImpl.java:857)
+	at java.desktop/javax.imageio.stream.FileCacheImageInputStream.close(FileCacheImageInputStream.java:253)
+	at java.desktop/javax.imageio.ImageIO.read(ImageIO.java:1471)
+	at java.desktop/javax.imageio.ImageIO.read(ImageIO.java:1363)
+	at cyder.utilities.UserUtil.fixBackgrounds(UserUtil.java:283)
+	at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1610)
+	at cyder.utilities.UserUtil.checkPassword(UserUtil.java:613)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:392)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:478)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:364)
+	at cyder.genesis.Cyder.main(Cyder.java:79)
+[14-40-19] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
