@@ -1,5 +1,7 @@
 package cyder.layouts;
 
+import cyder.ui.CyderPanel;
+
 import java.awt.*;
 
 /**
@@ -15,6 +17,10 @@ public interface CyderLayout {
     boolean addComponent(Component component);
     boolean removeComponent(Component component);
 
-    //to establish the bounds of the layout
-    void setSize(int width, int height);
+    //method to recalculate bounds of components on the panel
+    void revalidateComponents();
+
+    //so that the layout can manage components directly on the panel and not itself
+    void setAssociatedPanel(CyderPanel panel);
+    //repaint should always be overridden to revalidate the bounds of components
 }

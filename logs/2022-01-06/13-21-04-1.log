@@ -1,0 +1,38 @@
+[13-21-04] [ENTRY]: [Nathan]
+[13-21-04] [SYSTEM_IO]: System data pared in IOUtil's static block
+[13-21-05] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-21-05] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[13-21-06] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[13-21-06] [SYSTEM_IO]: Userdata requested: Name
+[13-21-06] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-21-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-21-07] [SYSTEM_IO]: Userdata requested: Name
+[13-21-07] [SYSTEM_IO]: Userdata requested: Foreground
+[13-21-07] [SYSTEM_IO]: Userdata requested: Foreground
+[13-21-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-21-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-21-07] [SYSTEM_IO]: Userdata requested: Foreground
+[13-21-07] [SYSTEM_IO]: Userdata requested: Font
+[13-21-07] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-21-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-21-07] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-21-07] [SYSTEM_IO]: Userdata requested: Foreground
+[13-21-07] [SYSTEM_IO]: Userdata requested: Foreground
+[13-21-07] [SYSTEM_IO]: Userdata requested: Foreground
+[13-21-07] [SYSTEM_IO]: Userdata requested: Font
+[13-21-07] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-21-07] [SYSTEM_IO]: Userdata requested: InputFill
+[13-21-07] [SYSTEM_IO]: Userdata requested: consolepinned
+[13-21-07] [SYSTEM_IO]: Userdata requested: consolepinned
+[13-21-07] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1494923299], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-21-07] [ACTION]: Console loaded in 3590ms
+[13-21-07] [SYSTEM_IO]: Userdata requested: windowlocx
+[13-21-07] [SYSTEM_IO]: Userdata requested: windowlocy
+[13-21-07] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-21-07] [ENTRY]: [TESTING MODE]
+[13-21-07] [SYSTEM_IO]: Userdata requested: laststart
+[13-21-07] [SYSTEM_IO]: Userdata requested: IntroMusic
+[13-21-07] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3590ms
+[13-21-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-21-09] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(122, 297, 150, 40)], hash = [2092921568], parentFrame = [Grid Layout Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

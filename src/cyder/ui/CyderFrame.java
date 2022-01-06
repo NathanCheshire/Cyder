@@ -399,7 +399,6 @@ public class CyderFrame extends JFrame {
         //panel literally sits on top of contentPane() (iconLabel in CyderFrame's case)
         cyderPanel.setBounds(borderLen, DragLabel.getDefaultHeight(), getWidth() - 2 * borderLen,
                 getHeight() - DragLabel.getDefaultHeight() - borderLen);
-        System.out.println(cyderPanel.getBounds());
         iconLabel.add(cyderPanel);
     }
 

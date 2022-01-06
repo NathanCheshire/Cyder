@@ -29,30 +29,38 @@ public class CyderGridLayout extends CyderBaseLayout {
         components = new GridComponent[xCells][yCells];
     }
 
-    @Override
-    public void setSize(int xs, int ys) {
-        super.setSize(xs,ys);
+    private CyderPanel associatedPanel;
+
+    public void setAssociatedPanel(CyderPanel associatedPanel) {
+        this.associatedPanel = associatedPanel;
+        revalidateComponents();
+    }
+
+    public void revalidateComponents() {
+        if (associatedPanel == null)
+            return;
+
         //partition width into how many grid spaces we have
-        int widthPartition = (int) Math.floor(this.getWidth() / horizontalCells);
+        int widthPartition = (int) Math.floor(associatedPanel.getWidth() / horizontalCells);
 
         //partition height into how many grid spaces we have
-        int heightPartition = (int) Math.floor((this.getHeight() / vertialCells));
+        int heightPartition = (int) Math.floor((associatedPanel.getHeight() / vertialCells));
 
         //now accounting for offsets we can draw our components using the bounds provided
         // components themselves take care of their own insets by being smaller than the
         // partitioned area they're given or be placed on a label to be used as spacing
         // and then passed to the GridLayout
 
-        for (int x = 0 ; x < horizontalCells ; x++) {
-            for (int y = 0 ; y < vertialCells ; y++) {
+        for (int xCell = 0 ; xCell < horizontalCells ; xCell++) {
+            for (int yCell = 0 ; yCell < vertialCells ; yCell++) {
                 //base case of no component is at this position
-                if (components[x][y] == null)
+                if (components[xCell][yCell] == null)
                     continue;
 
-                int startX = x * widthPartition;
-                int startY = y * heightPartition;
+                int startX = xCell * widthPartition;
+                int startY = yCell * heightPartition;
 
-                GridComponent refComponent = components[x][y];
+                GridComponent refComponent = components[xCell][yCell];
 
                 //if an instance of a CyderPanel give it all the space possible
                 if (refComponent.getComponent() instanceof CyderPanel) {
@@ -126,8 +134,8 @@ public class CyderGridLayout extends CyderBaseLayout {
                             refComponent.getOriginalHeight());
                 }
 
-                if (getParent() != null)
-                    getParent().add(refComponent.getComponent());
+                if (associatedPanel != null)
+                    associatedPanel.add(refComponent.getComponent());
 
             }
         }

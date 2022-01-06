@@ -18,7 +18,8 @@ public class CyderPanel extends JLabel {
 
     public CyderPanel(CyderBaseLayout cyderLayout) {
         this.cyderLayout = cyderLayout;
-        cyderLayout.setSize(this.getWidth(), this.getHeight());
+        cyderLayout.setAssociatedPanel(this);
+        //now the layout can access 'this' directly when it needs to recalculate bounds
     }
 
     private CyderBaseLayout cyderLayout;
@@ -30,24 +31,11 @@ public class CyderPanel extends JLabel {
     }
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        if (cyderLayout == null)
-            return;
-
-        cyderLayout.setSize(this.getWidth(), this.getHeight());
-        cyderLayout.paint(g);
-    }
-
-    @Override
     public void setSize(int w, int h) {
         super.setSize(w, h);
 
-        if (cyderLayout == null)
-            return;
-
-        cyderLayout.setSize(w, h);
+        if (cyderLayout != null)
+            cyderLayout.revalidateComponents();
     }
 
     //disabling repainting of the content pane for optimization purposes
@@ -67,11 +55,8 @@ public class CyderPanel extends JLabel {
         if (!disableContentRepainting) {
             super.repaint();
 
-            if (cyderLayout == null)
-                return;
-
-            cyderLayout.setSize(this.getWidth(), this.getHeight());
-            cyderLayout.repaint();
+            if (cyderLayout != null)
+                cyderLayout.revalidateComponents();
         }
     }
 
