@@ -30,17 +30,8 @@ public class CyderGridLayout extends CyderBaseLayout {
     }
 
     @Override
-    public void paint(Graphics g) {
-        //no components means no need to draw
-        if (components == null || this == null) {
-            return;
-        }
-
-        if (this.getWidth() == 0 || this.getHeight() == 0) {
-            super.paint(g);
-            return;
-        }
-
+    public void setSize(int xs, int ys) {
+        super.setSize(xs,ys);
         //partition width into how many grid spaces we have
         int widthPartition = (int) Math.floor(this.getWidth() / horizontalCells);
 
@@ -72,10 +63,12 @@ public class CyderGridLayout extends CyderBaseLayout {
                     //math to figure out starting offsets and use
                     // partition for size since the component does not fit
                     switch (refComponent.getPosition()) {
-
+                        //todo same as below I think
                     }
 
-                    refComponent.getComponent().setLocation(startX, startY);
+                    refComponent.getComponent().setBounds(startX, startY,
+                            Math.min(widthPartition, refComponent.getOriginalWidth()),
+                            Math.min(heightPartition, refComponent.getOriginalHeight()));
                 } else {
                     //fits in bounds of designated space so center it
                     int addX = (widthPartition - refComponent.getOriginalWidth()) / 2;
@@ -127,18 +120,17 @@ public class CyderGridLayout extends CyderBaseLayout {
                             break;
                     }
 
-                    System.out.println(adjustX + "," + adjustY + ", comp = " + refComponent.getComponent());
                     refComponent.getComponent().setBounds(startX + addX + adjustX,
                             startY + addY + adjustY,
                             refComponent.getOriginalWidth(),
                             refComponent.getOriginalHeight());
                 }
 
-                this.add(refComponent.getComponent());
+                if (getParent() != null)
+                    getParent().add(refComponent.getComponent());
+
             }
         }
-
-        super.paint(g);
     }
 
     /**

@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import cyder.layouts.CyderBaseLayout;
-import cyder.layouts.CyderLayout;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
@@ -14,21 +13,15 @@ import java.awt.*;
  * content pane or as a sub panel inside of a parent panel.
  */
 public class CyderPanel extends JLabel {
+    //CyderPanel cannot exist without a CyderLayout
+    private CyderPanel() {}
+
     public CyderPanel(CyderBaseLayout cyderLayout) {
         this.cyderLayout = cyderLayout;
         cyderLayout.setSize(this.getWidth(), this.getHeight());
     }
 
     private CyderBaseLayout cyderLayout;
-
-    public CyderLayout getCyderLayout() {
-        return cyderLayout;
-    }
-
-    public void setCyderLayout(CyderBaseLayout cyderLayout) {
-        this.cyderLayout = cyderLayout;
-        this.repaint();
-    }
 
     @Override
     public void setLayout(LayoutManager lay) {
@@ -38,12 +31,23 @@ public class CyderPanel extends JLabel {
 
     @Override
     public void paint(Graphics g) {
-        if (cyderLayout != null) {
-            cyderLayout.setSize(this.getWidth(), this.getHeight());
-            cyderLayout.paint(g);
-        }
-
         super.paint(g);
+
+        if (cyderLayout == null)
+            return;
+
+        cyderLayout.setSize(this.getWidth(), this.getHeight());
+        cyderLayout.paint(g);
+    }
+
+    @Override
+    public void setSize(int w, int h) {
+        super.setSize(w, h);
+
+        if (cyderLayout == null)
+            return;
+
+        cyderLayout.setSize(w, h);
     }
 
     //disabling repainting of the content pane for optimization purposes
@@ -61,13 +65,13 @@ public class CyderPanel extends JLabel {
     public void repaint() {
         //as long as we should repaint, repaint it
         if (!disableContentRepainting) {
-            //getting here
             super.repaint();
 
-            if (cyderLayout != null) {
-                cyderLayout.setSize(this.getWidth(), this.getHeight());
-                cyderLayout.repaint();
-            }
+            if (cyderLayout == null)
+                return;
+
+            cyderLayout.setSize(this.getWidth(), this.getHeight());
+            cyderLayout.repaint();
         }
     }
 

@@ -152,11 +152,11 @@ public class Debug {
 
             CyderGridLayout layout = new CyderGridLayout(2,2);
 
-            CyderGridLayout.Position loc = CyderGridLayout.Position.TOP_CENTER;
+            CyderGridLayout.Position loc = CyderGridLayout.Position.MIDDLE_CENTER;
 
-            CyderLabel testLabel1 = new CyderLabel("This");
-            testLabel1.setSize(50,50);
-            layout.addComponent(testLabel1, 0, 0, loc);
+            CyderButton testButton = new CyderButton("This");
+            testButton.setSize(100,40);
+            layout.addComponent(testButton, 0, 0, loc);
 
             CyderLabel testLabel2 = new CyderLabel("A");
             testLabel2.setSize(50,50);
@@ -166,16 +166,18 @@ public class Debug {
             testLabel3.setSize(50,50);
             layout.addComponent(testLabel3, 1, 0, loc);
 
-            CyderLabel testLabel4 = new CyderLabel("Subpanel");
+            CyderLabel testLabel4 = new CyderLabel("Test");
             testLabel4.setSize(50,50);
-            CyderLabel testLabel5 = new CyderLabel("Test");
-            testLabel5.setSize(50,50);
+            CyderButton testButton1 = new CyderButton("Click");
+            testButton1.setSize(150,40);
 
-            CyderGridLayout cyderGridLayout2 = new CyderGridLayout(2,2);
+            CyderTextField ctf = new CyderTextField(0);
+            ctf.setSize(150,40);
+
+            CyderGridLayout cyderGridLayout2 = new CyderGridLayout(1,3);
             cyderGridLayout2.addComponent(testLabel4,0,0);
-            cyderGridLayout2.addComponent(testLabel5,1,1);
-            //todo add a button in here to set the positions of the labels and such
-            // make that possible too to update that and repaint
+            cyderGridLayout2.addComponent(testButton1,0,1);
+            cyderGridLayout2.addComponent(ctf,0,2);
 
             CyderPanel subPanel = new CyderPanel(cyderGridLayout2);
             layout.addComponent(subPanel, 1, 1);

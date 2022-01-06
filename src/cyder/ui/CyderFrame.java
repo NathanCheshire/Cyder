@@ -385,11 +385,21 @@ public class CyderFrame extends JFrame {
      * @param cyderPanel the CyderPanel with associated CyderLayout
      */
     public void setContentPanel(CyderPanel cyderPanel) {
+        //removing a panel and setting it to null
+        if (cyderPanel == null) {
+            if (this.cyderPanel != null) {
+                iconLabel.remove(cyderPanel);
+            }
+
+            this.cyderPanel = null;
+            return;
+        }
+
         this.cyderPanel = cyderPanel;
         //panel literally sits on top of contentPane() (iconLabel in CyderFrame's case)
         cyderPanel.setBounds(borderLen, DragLabel.getDefaultHeight(), getWidth() - 2 * borderLen,
                 getHeight() - DragLabel.getDefaultHeight() - borderLen);
-        cyderPanel.setFocusable(false);
+        System.out.println(cyderPanel.getBounds());
         iconLabel.add(cyderPanel);
     }
 
