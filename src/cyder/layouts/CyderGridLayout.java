@@ -1,5 +1,6 @@
 package cyder.layouts;
 
+import cyder.ui.CyderPanel;
 import cyder.utilities.ReflectionUtil;
 
 import java.awt.*;
@@ -62,8 +63,13 @@ public class CyderGridLayout extends CyderBaseLayout {
 
                 GridComponent refComponent = components[x][y];
 
+                //if an instance of a CyderPanel give it all the space possible
+                if (refComponent.getComponent() instanceof CyderPanel) {
+                    refComponent.getComponent().setBounds(startX, startY, widthPartition, heightPartition);
+                }
+
                 //if it doesn't fit in bounds then give it as much space as possible
-                if (refComponent.getOriginalWidth() > widthPartition || refComponent.getOriginalHeight() > heightPartition) {
+                else if (refComponent.getOriginalWidth() > widthPartition || refComponent.getOriginalHeight() > heightPartition) {
                     //todo math to figure out starting offsets and use partition for size
                     switch (refComponent.getPosition()) {
 
