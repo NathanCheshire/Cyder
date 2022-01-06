@@ -51,6 +51,8 @@ public class CyderGridLayout extends CyderBaseLayout {
         // partitioned area they're given or be placed on a label to be used as spacing
         // and then passed to the GridLayout
 
+        Component focusOwner = null;
+
         for (int xCell = 0 ; xCell < horizontalCells ; xCell++) {
             for (int yCell = 0 ; yCell < vertialCells ; yCell++) {
                 //base case of no component is at this position
@@ -61,6 +63,10 @@ public class CyderGridLayout extends CyderBaseLayout {
                 int startY = yCell * heightPartition;
 
                 GridComponent refComponent = components[xCell][yCell];
+
+                //focus tracking
+                if (refComponent.getComponent().isFocusOwner() && focusOwner == null)
+                    focusOwner = refComponent.getComponent();
 
                 //if an instance of a CyderPanel give it all the space possible
                 if (refComponent.getComponent() instanceof CyderPanel) {
@@ -136,9 +142,12 @@ public class CyderGridLayout extends CyderBaseLayout {
 
                 if (associatedPanel != null)
                     associatedPanel.add(refComponent.getComponent());
-
             }
         }
+
+        //request focus to original owner
+        if (focusOwner != null)
+            focusOwner.requestFocus();
     }
 
     /**

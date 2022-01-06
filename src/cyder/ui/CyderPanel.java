@@ -30,13 +30,7 @@ public class CyderPanel extends JLabel {
         //layouts are always null, we use math to determine our layout on redrawing events
     }
 
-    @Override
-    public void setSize(int w, int h) {
-        super.setSize(w, h);
 
-        if (cyderLayout != null)
-            cyderLayout.revalidateComponents();
-    }
 
     //disabling repainting of the content pane for optimization purposes
     private boolean disableContentRepainting = false;
