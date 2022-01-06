@@ -67,10 +67,10 @@ public class CyderGridLayout extends CyderBaseLayout {
                 if (refComponent.getComponent() instanceof CyderPanel) {
                     refComponent.getComponent().setBounds(startX, startY, widthPartition, heightPartition);
                 }
-
                 //if it doesn't fit in bounds then give it as much space as possible
                 else if (refComponent.getOriginalWidth() > widthPartition || refComponent.getOriginalHeight() > heightPartition) {
-                    //todo math to figure out starting offsets and use partition for size
+                    //math to figure out starting offsets and use
+                    // partition for size since the component does not fit
                     switch (refComponent.getPosition()) {
 
                     }
@@ -81,13 +81,57 @@ public class CyderGridLayout extends CyderBaseLayout {
                     int addX = (widthPartition - refComponent.getOriginalWidth()) / 2;
                     int addY = (heightPartition - refComponent.getOriginalHeight()) / 2;
 
-                    //todo we know it fits so use math to figure out how to add/sub from/to addX and addY
-                    switch (refComponent.getPosition()) {
+                    int adjustX = 0;
+                    int adjustY = 0;
 
+                    //we know it fits so use math to figure out how to add/sub from/to addX and addY
+                    switch (refComponent.getPosition()) {
+                        case TOP_LEFT:
+                            //move up and to the left
+                            adjustX = - (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            adjustY = - (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            break;
+                        case TOP_CENTER:
+                            //move up
+                            adjustY = - (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            break;
+                        case TOP_RIGHT:
+                            //move up and right
+                            adjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            adjustY = - (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            break;
+                        case MIDDLE_LEFT:
+                            //move left
+                            adjustX = - (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            break;
+                        case MIDDLE_CENTER:
+                            //relative to origin so nothing done here
+                            break;
+                        case MIDDLE_RIGHT:
+                            // move right
+                            adjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            break;
+                        case BOTTOM_LEFT:
+                            //move down and left
+                            adjustX = - (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            adjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            break;
+                        case BOTTOM_CENTER:
+                            //move down
+                            adjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            break;
+                        case BOTTOM_RIGHT:
+                            //move down and right
+                            adjustX = (widthPartition - refComponent.getOriginalWidth()) / 2;
+                            adjustY = (heightPartition - refComponent.getOriginalHeight()) / 2;
+                            break;
                     }
 
-                    refComponent.getComponent().setBounds(startX + addX, startY + addY,
-                            refComponent.getOriginalWidth(), refComponent.getOriginalHeight());
+                    System.out.println(adjustX + "," + adjustY + ", comp = " + refComponent.getComponent());
+                    refComponent.getComponent().setBounds(startX + addX + adjustX,
+                            startY + addY + adjustY,
+                            refComponent.getOriginalWidth(),
+                            refComponent.getOriginalHeight());
                 }
 
                 this.add(refComponent.getComponent());

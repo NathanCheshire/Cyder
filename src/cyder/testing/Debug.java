@@ -152,17 +152,19 @@ public class Debug {
 
             CyderGridLayout layout = new CyderGridLayout(2,2);
 
+            CyderGridLayout.Position loc = CyderGridLayout.Position.BOTTOM_RIGHT;
+
             CyderLabel testLabel1 = new CyderLabel("This");
             testLabel1.setSize(50,50);
-            layout.addComponent(testLabel1, 0, 0);
+            layout.addComponent(testLabel1, 0, 0, loc);
 
-            CyderLabel testLabel2 = new CyderLabel("Is");
+            CyderLabel testLabel2 = new CyderLabel("A");
             testLabel2.setSize(50,50);
-            layout.addComponent(testLabel2, 0, 1);
+            layout.addComponent(testLabel2, 0, 1,loc);
 
-            CyderLabel testLabel3 = new CyderLabel("A");
+            CyderLabel testLabel3 = new CyderLabel("IS");
             testLabel3.setSize(50,50);
-            layout.addComponent(testLabel3, 1, 0);
+            layout.addComponent(testLabel3, 1, 0, loc);
 
             CyderLabel testLabel4 = new CyderLabel("Subpanel");
             testLabel4.setSize(50,50);
@@ -186,6 +188,10 @@ public class Debug {
 
             gridTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
             gridTestFrame.setVisible(true);
+
+            //todo it's time to fix the iconlabel / content pane to start from the
+            // observable area and not the whole frame even
+            // the drag label and all
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
