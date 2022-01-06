@@ -81,6 +81,8 @@ public class CyderFrame extends JFrame {
     //determines area of resizing trigger area vs dragging area (5px total)
     private static int frameResizingLen = 2;
 
+    public static final int borderLen = 5;
+
     //used for a constructor
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 800;
@@ -161,8 +163,10 @@ public class CyderFrame extends JFrame {
                 super.setBounds(x, y, w, h);
 
                 //if there's a panel we need to extend its bounds too
-                if (cyderPanel != null && w > 0 && h > 0)
-                    cyderPanel.setBounds(iconLabel.getBounds());
+                if (cyderPanel != null && w > 0 && h > 0) {
+                    cyderPanel.setBounds(borderLen, DragLabel.getDefaultHeight(), getWidth() - 2 * borderLen,
+                            getHeight() - DragLabel.getDefaultHeight() - borderLen);
+                }
             }
         };
         iconLabel.setIcon(background);
@@ -383,7 +387,8 @@ public class CyderFrame extends JFrame {
     public void setContentPanel(CyderPanel cyderPanel) {
         this.cyderPanel = cyderPanel;
         //panel literally sits on top of contentPane() (iconLabel in CyderFrame's case)
-        cyderPanel.setBounds(iconLabel.getBounds());
+        cyderPanel.setBounds(borderLen, DragLabel.getDefaultHeight(), getWidth() - 2 * borderLen,
+                getHeight() - DragLabel.getDefaultHeight() - borderLen);
         cyderPanel.setFocusable(false);
         iconLabel.add(cyderPanel);
     }
