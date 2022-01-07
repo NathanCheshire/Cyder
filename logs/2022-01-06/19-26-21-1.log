@@ -1,0 +1,83 @@
+[19-26-21] [ENTRY]: [Nathan]
+[19-26-21] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-26-22] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-26-22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-26-23] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-26-23] [SYSTEM_IO]: Userdata requested: Name
+[19-26-23] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-26-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-26-24] [SYSTEM_IO]: Userdata requested: Name
+[19-26-24] [SYSTEM_IO]: Userdata requested: Foreground
+[19-26-24] [SYSTEM_IO]: Userdata requested: Foreground
+[19-26-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-26-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-26-24] [SYSTEM_IO]: Userdata requested: Foreground
+[19-26-24] [SYSTEM_IO]: Userdata requested: Font
+[19-26-24] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-26-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-26-24] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-26-24] [SYSTEM_IO]: Userdata requested: Foreground
+[19-26-24] [SYSTEM_IO]: Userdata requested: Foreground
+[19-26-24] [SYSTEM_IO]: Userdata requested: Foreground
+[19-26-24] [SYSTEM_IO]: Userdata requested: Font
+[19-26-24] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-26-24] [SYSTEM_IO]: Userdata requested: InputFill
+[19-26-24] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-26-24] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-26-24] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1315542334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-26-24] [ACTION]: Console loaded in 3769ms
+[19-26-24] [SYSTEM_IO]: Userdata requested: windowlocx
+[19-26-24] [SYSTEM_IO]: Userdata requested: windowlocy
+[19-26-24] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-26-24] [ENTRY]: [TESTING MODE]
+[19-26-24] [SYSTEM_IO]: Userdata requested: laststart
+[19-26-24] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-26-24] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3769ms
+[19-26-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-26-26] [CLIENT]: tests
+[19-26-27] [CONSOLE_OUT]: [STRING] Valid tests to call:
+[19-26-27] [CONSOLE_OUT]: [STRING] Unit Tests:
+[19-26-27] [CONSOLE_OUT]: [STRING] testInsertBreaks
+[19-26-27] [CONSOLE_OUT]: [STRING] testIsComment
+[19-26-27] [CONSOLE_OUT]: [STRING] testWindBearingDirection
+[19-26-27] [CONSOLE_OUT]: [STRING] testIPv4RegexMatcher
+[19-26-27] [CONSOLE_OUT]: [STRING] testPluralConversion
+[19-26-27] [CONSOLE_OUT]: [STRING] testPhoneNumberPattern
+[19-26-27] [CONSOLE_OUT]: [STRING] Manual tests:
+[19-26-27] [CONSOLE_OUT]: [STRING] dragLabelButtonTest
+[19-26-27] [CONSOLE_OUT]: [STRING] buttonAndTitlePosTest
+[19-26-27] [CONSOLE_OUT]: [STRING] iconLabelSlidingTest
+[19-26-27] [CONSOLE_OUT]: [STRING] frameTitleLengthTest
+[19-26-27] [CONSOLE_OUT]: [STRING] cyderGridLayoutTest
+[19-26-27] [CONSOLE_OUT]: [STRING] askewTest
+[19-26-27] [CONSOLE_OUT]: [STRING] checkboxTest
+[19-26-27] [CONSOLE_OUT]: [STRING] informTest
+[19-26-27] [CONSOLE_OUT]: [STRING] notificationTest
+[19-26-27] [CONSOLE_OUT]: [STRING] rippleLabelTest
+[19-26-27] [CONSOLE_OUT]: [STRING] checkboxGroupTest
+[19-26-27] [CONSOLE_OUT]: [STRING] progressBarTest
+[19-26-27] [CONSOLE_OUT]: [STRING] comboBoxTest
+[19-26-27] [CONSOLE_OUT]: [STRING] switchTest
+[19-26-27] [CONSOLE_OUT]: [STRING] cyderSliderTest
+[19-26-27] [CONSOLE_OUT]: [STRING] cyderGridTest
+[19-26-27] [CONSOLE_OUT]: [STRING] stackTest
+[19-26-27] [CONSOLE_OUT]: [STRING] queueTest
+[19-26-47] [CLIENT]: cydergridtest
+[19-26-47] [ACTION]: CONSOLE MANUAL TEST REFLECTION FIRE HANDLED
+[19-26-47] [CONSOLE_OUT]: [STRING] Invoking manual test: cyderGridLayoutTest
+[19-26-50] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1989844494], parentFrame = [Grid Layout Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-26-50] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1122, 282, 800, 800)], hash = [693348516], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Grid Layout Test]
+[19-26-50] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-26-55] [CLIENT]: cydergridlayouttest
+[19-26-55] [ACTION]: CONSOLE MANUAL TEST REFLECTION FIRE HANDLED
+[19-26-55] [CONSOLE_OUT]: [STRING] Invoking manual test: cyderGridLayoutTest
+[19-26-57] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1393869391], parentFrame = [Grid Layout Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-26-57] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1122, 282, 800, 800)], hash = [347876876], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Grid Layout Test]
+[19-26-57] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-26-58] [CLIENT]: cydergridtest
+[19-26-58] [CONSOLE_OUT]: [STRING] Invoking manual test: cyderGridLayoutTest
+[19-26-58] [ACTION]: CONSOLE MANUAL TEST REFLECTION FIRE HANDLED
+[19-26-59] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1325448722], parentFrame = [Grid Layout Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-26-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1122, 282, 800, 800)], hash = [1765052135], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Grid Layout Test]
+[19-26-59] [SYSTEM_IO]: Userdata requested: closeanimation
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

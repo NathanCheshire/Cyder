@@ -1236,11 +1236,10 @@ public class InputHandler {
         if (operation.contains("test")) {
             boolean ret = false;
 
-            operation = operation.replace("test","").trim();
             ManualTests mtw = new ManualTests();
 
             for (Method m : mtw.getClass().getMethods()) {
-                if (m.getName().toLowerCase().contains(operation.toLowerCase()) && m.getParameterTypes().length == 0) {
+                if (m.getName().equalsIgnoreCase(operation) && m.getParameterTypes().length == 0) {
                     try {
                         m.invoke(mtw);
                         println("Invoking manual test: " + m.getName());
@@ -1262,11 +1261,10 @@ public class InputHandler {
         if (operation.contains("test")) {
             boolean ret = false;
 
-            operation = operation.replace("test","").trim();
             UnitTests tests = new UnitTests();
 
             for (Method m : tests.getClass().getMethods()) {
-                if (m.getName().toLowerCase().contains(operation.toLowerCase()) && m.getParameterTypes().length == 0) {
+                if (m.getName().equalsIgnoreCase(operation) && m.getParameterTypes().length == 0) {
                     try {
                         m.invoke(tests);
                         println("Invoking unit test: " + m.getName());

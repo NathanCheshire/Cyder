@@ -1,0 +1,84 @@
+[19-27-37] [ENTRY]: [Nathan]
+[19-27-37] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-27-38] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-27-38] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-27-39] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-27-39] [SYSTEM_IO]: Userdata requested: Name
+[19-27-39] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-27-39] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-27-40] [SYSTEM_IO]: Userdata requested: Name
+[19-27-40] [SYSTEM_IO]: Userdata requested: Foreground
+[19-27-40] [SYSTEM_IO]: Userdata requested: Foreground
+[19-27-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-27-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-27-40] [SYSTEM_IO]: Userdata requested: Foreground
+[19-27-40] [SYSTEM_IO]: Userdata requested: Font
+[19-27-40] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-27-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-27-40] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-27-40] [SYSTEM_IO]: Userdata requested: Foreground
+[19-27-40] [SYSTEM_IO]: Userdata requested: Foreground
+[19-27-40] [SYSTEM_IO]: Userdata requested: Foreground
+[19-27-40] [SYSTEM_IO]: Userdata requested: Font
+[19-27-40] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-27-40] [SYSTEM_IO]: Userdata requested: InputFill
+[19-27-40] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-27-40] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-27-40] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [2035617160], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-27-40] [ACTION]: Console loaded in 3812ms
+[19-27-40] [SYSTEM_IO]: Userdata requested: windowlocx
+[19-27-40] [SYSTEM_IO]: Userdata requested: windowlocy
+[19-27-40] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-27-40] [ENTRY]: [TESTING MODE]
+[19-27-40] [SYSTEM_IO]: Userdata requested: laststart
+[19-27-40] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-27-41] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3812ms
+[19-27-41] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-27-44] [CLIENT]: tests
+[19-27-44] [CONSOLE_OUT]: [STRING] Valid tests to call:
+[19-27-44] [CONSOLE_OUT]: [STRING] Unit Tests:
+[19-27-44] [CONSOLE_OUT]: [STRING] testWindBearingDirection
+[19-27-44] [CONSOLE_OUT]: [STRING] testIPv4RegexMatcher
+[19-27-44] [CONSOLE_OUT]: [STRING] testPluralConversion
+[19-27-44] [CONSOLE_OUT]: [STRING] testPhoneNumberPattern
+[19-27-44] [CONSOLE_OUT]: [STRING] testInsertBreaks
+[19-27-44] [CONSOLE_OUT]: [STRING] testIsComment
+[19-27-44] [CONSOLE_OUT]: [STRING] Manual tests:
+[19-27-44] [CONSOLE_OUT]: [STRING] buttonAndTitlePosTest
+[19-27-44] [CONSOLE_OUT]: [STRING] dragLabelButtonTest
+[19-27-44] [CONSOLE_OUT]: [STRING] frameTitleLengthTest
+[19-27-44] [CONSOLE_OUT]: [STRING] iconLabelSlidingTest
+[19-27-44] [CONSOLE_OUT]: [STRING] cyderGridLayoutTest
+[19-27-44] [CONSOLE_OUT]: [STRING] checkboxGroupTest
+[19-27-44] [CONSOLE_OUT]: [STRING] comboBoxTest
+[19-27-44] [CONSOLE_OUT]: [STRING] rippleLabelTest
+[19-27-44] [CONSOLE_OUT]: [STRING] cyderGridTest
+[19-27-44] [CONSOLE_OUT]: [STRING] informTest
+[19-27-44] [CONSOLE_OUT]: [STRING] progressBarTest
+[19-27-44] [CONSOLE_OUT]: [STRING] notificationTest
+[19-27-44] [CONSOLE_OUT]: [STRING] askewTest
+[19-27-44] [CONSOLE_OUT]: [STRING] checkboxTest
+[19-27-44] [CONSOLE_OUT]: [STRING] stackTest
+[19-27-44] [CONSOLE_OUT]: [STRING] cyderSliderTest
+[19-27-44] [CONSOLE_OUT]: [STRING] switchTest
+[19-27-44] [CONSOLE_OUT]: [STRING] queueTest
+[19-27-48] [CLIENT]: cydergridtest
+[19-27-48] [SYSTEM_IO]: Userdata requested: Name
+[19-27-48] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[19-27-51] [CLIENT]: cydergridtest
+[19-27-51] [SYSTEM_IO]: Userdata requested: Name
+[19-27-51] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[19-27-54] [CLIENT]: cydergridlayouttest
+[19-27-54] [SYSTEM_IO]: Userdata requested: Name
+[19-27-54] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[19-28-17] [CLIENT]: cydergridlayout
+[19-28-17] [SYSTEM_IO]: Userdata requested: Name
+[19-28-17] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[19-28-21] [CLIENT]: cydergrid
+[19-28-21] [SYSTEM_IO]: Userdata requested: Name
+[19-28-21] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[19-28-43] [CLIENT]: test cydergridlayout
+[19-28-43] [SYSTEM_IO]: Userdata requested: Name
+[19-28-43] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but I don't recognize that command. You can make a suggestion by clicking the "Suggestion" button.
+[19-28-44] [CLIENT]: clear
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

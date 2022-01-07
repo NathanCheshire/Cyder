@@ -9,6 +9,7 @@ import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.layouts.CyderGridLayout;
 import cyder.structs.CyderQueue;
 import cyder.structs.CyderStack;
 import cyder.ui.*;
@@ -577,5 +578,57 @@ public class ManualTests {
 
         testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         testFrame.setVisible(true);
+    }
+
+    public static void cyderGridLayoutTest() {
+        //regular frame calls
+        CyderFrame gridTestFrame = new CyderFrame(800,800);
+        gridTestFrame.setTitle("Grid Layout Test");
+
+        //init the main panel layout
+        CyderGridLayout layout = new CyderGridLayout(2,2);
+
+        //add components to the layout at specified position
+        CyderButton testButton = new CyderButton("This");
+        testButton.setSize(100,100);
+        testButton.addActionListener(e -> gridTestFrame.notify("Notified button clicked"));
+        layout.addComponent(testButton, 0, 0, CyderGridLayout.Position.MIDDLE_RIGHT);
+
+        CyderLabel testLabel2 = new CyderLabel("A");
+        testLabel2.setSize(50,50);
+        layout.addComponent(testLabel2, 0, 1);
+
+        CyderLabel testLabel3 = new CyderLabel("IS");
+        testLabel3.setSize(50,50);
+        layout.addComponent(testLabel3, 1, 0);
+
+        CyderLabel testLabel4 = new CyderLabel("Test");
+        testLabel4.setSize(50,50);
+        CyderButton testButton1 = new CyderButton("Click");
+        testButton1.setSize(150,40);
+
+        //sub grid
+        CyderGridLayout cyderGridLayout2 = new CyderGridLayout(2,1);
+        cyderGridLayout2.addComponent(testLabel4,0,0);
+        cyderGridLayout2.addComponent(testButton1,1,0);
+
+        //make sub panel and set layout as sub grid
+        CyderPanel subPanel = new CyderPanel(cyderGridLayout2);
+        layout.addComponent(subPanel, 1, 1);
+
+        //create master panel with the layout we have added components to
+        CyderPanel panel = new CyderPanel(layout);
+        //set the frame's content panel
+        gridTestFrame.setContentPanel(panel);
+
+        //resizing on
+        gridTestFrame.initializeResizing();
+        gridTestFrame.setResizable(true);
+        gridTestFrame.setMaximumSize(new Dimension(1200,1200));
+        gridTestFrame.setBackgroundResizing(true);
+
+        //regular final frame calls
+        gridTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        gridTestFrame.setVisible(true);
     }
 }
