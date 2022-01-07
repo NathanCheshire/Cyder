@@ -1,0 +1,48 @@
+[12-32-37] [ENTRY]: [Nathan]
+[12-32-37] [SYSTEM_IO]: System data pared in IOUtil's static block
+[12-32-39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-32-39] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-32-40] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[12-32-40] [SYSTEM_IO]: Userdata requested: Name
+[12-32-40] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-32-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-32-40] [SYSTEM_IO]: Userdata requested: Name
+[12-32-40] [SYSTEM_IO]: Userdata requested: Foreground
+[12-32-40] [SYSTEM_IO]: Userdata requested: Foreground
+[12-32-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-32-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-32-40] [SYSTEM_IO]: Userdata requested: Foreground
+[12-32-40] [SYSTEM_IO]: Userdata requested: Font
+[12-32-40] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-32-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-32-41] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-32-41] [SYSTEM_IO]: Userdata requested: Foreground
+[12-32-41] [SYSTEM_IO]: Userdata requested: Foreground
+[12-32-41] [SYSTEM_IO]: Userdata requested: Foreground
+[12-32-41] [SYSTEM_IO]: Userdata requested: Font
+[12-32-41] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-32-41] [SYSTEM_IO]: Userdata requested: InputFill
+[12-32-41] [SYSTEM_IO]: Userdata requested: consolepinned
+[12-32-41] [SYSTEM_IO]: Userdata requested: consolepinned
+[12-32-41] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [467168666], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-32-41] [ACTION]: Console loaded in 4237ms
+[12-32-41] [SYSTEM_IO]: Userdata requested: windowlocx
+[12-32-41] [SYSTEM_IO]: Userdata requested: windowlocy
+[12-32-41] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-32-41] [ENTRY]: [TESTING MODE]
+[12-32-56] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: typinganimation
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:429)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$10(InputHandler.java:1575)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[12-32-56] [CONSOLE_OUT]: [STRING] GeometryAlgorithms:
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

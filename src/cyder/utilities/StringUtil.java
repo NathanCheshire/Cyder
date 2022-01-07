@@ -714,6 +714,9 @@ public class StringUtil {
      * @return a boolean depicting whether or not the given string contains the test word
      */
     public static boolean hasWord(String userInput, String word) {
+        if (userInput == null || word == null)
+            throw new IllegalArgumentException("Provided input is null: userInput = " + userInput + ", word = " + word);
+
         userInput.toLowerCase();
         word.toLowerCase();
 
@@ -725,36 +728,30 @@ public class StringUtil {
 
     /**
      * Tests a given string to see if it contains any blocked words contained in the v.txt system file
-     * @param userInput the provided string to test against
+     * @param input the provided string to test against
+     * @param filterLeet whether or not to filter out possible leet from the string
      * @return a boolean describing whether or not the filter was triggered by the input
      */
-    public static boolean filterLanguage(String userInput) {
-        try {
-            BufferedReader vReader = new  BufferedReader(new FileReader("static/text/v.txt"));
-            String blockedWord = vReader.readLine();
-            userInput = filterLeet(userInput.toLowerCase());
+    public static boolean filterLanguage(String input, boolean filterLeet) {
+        boolean ret = false;
 
-            while(blockedWord != null)  {
-                String[] words = userInput.split("\\s+");
+        if (filterLeet)
+            input = filterLeet(input.toLowerCase());
 
-                for (String word : words) {
-                    if (word.equalsIgnoreCase(blockedWord)) {
-                        vReader.close();
-                        return true;
-                    }
+        try (BufferedReader vReader = new BufferedReader(new FileReader("static/text/v.txt"))) {
+            String blockedWord;
+
+            while ((blockedWord = vReader.readLine()) != null) {
+                if (hasWord(input.trim(), blockedWord.trim()) && input.length() != 0) {
+                    ret = true;
+                    break;
                 }
-
-                blockedWord = vReader.readLine();
             }
-
-            vReader.close();
-        }
-
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ErrorHandler.handle(ex);
+        } finally {
+            return ret;
         }
-
-        return false;
     }
 
     /**

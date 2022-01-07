@@ -33,6 +33,10 @@ import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 
+//todo this is just all around fucked,
+// opening when already open doesn't work
+// and moving around the audio doesn't work either
+
 public class AudioPlayer {
     private enum LastAction {
         SKIP,PAUSE,STOP,RESUME,PLAY
@@ -83,20 +87,19 @@ public class AudioPlayer {
 
     private AudioPlayer() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    }
+    } // no objects
 
     /**
      * Constructor that launches the AudioPlayer
      * @param startPlaying the audio file to start playing upon successful launch of the AudioPlayer.
      *                     Pass {@code null} to avoid starting audio upon launch.
      */
-    @Widget(trigger = "mp3", description = "A custom audio player widget capable of playing mp3 files")
+    @Widget(trigger =  "mp3", description = "An audio playing widget")
     public static void showGUI(File startPlaying) {
         queue = new LinkedList<>();
-        
-        if (audioFrame != null) {
-            audioFrame.dispose(true);
-        }
+
+        if (audioFrame != null)
+            audioFrame.dispose();
 
         if (IOUtil.generalAudioPlaying())
             IOUtil.stopAudio();
@@ -106,17 +109,27 @@ public class AudioPlayer {
         audioFrame.setBackground(new Color(8,23,52));
         audioFrame.setTitle("Flash Player");
         audioFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                kill();
-            }
+                                         @Override
+                                         public void windowClosed(WindowEvent e) {
+                                             if (player != null)
+                                                 stopAudio();
+                                             kill();
 
-            @Override
-            public void windowClosing(WindowEvent e) {
-                kill();
-            }
-        });
+                                             if (!IOUtil.generalAudioPlaying())
+                                                 ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
+                                         }
 
+                                         @Override
+                                         public void windowClosing(WindowEvent e) {
+                                             if (player != null)
+                                                 stopAudio();
+                                             kill();
+
+                                             if (!IOUtil.generalAudioPlaying())
+                                                 ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
+                                         }
+                                     }
+        );
         audioFrame.initializeResizing();
         audioFrame.setResizable(true);
         audioFrame.setMinimumSize(new Dimension(500, 155));
@@ -125,11 +138,11 @@ public class AudioPlayer {
         JButton changeSize = new JButton("");
         changeSize.setToolTipText("Toggle Miniplayer");
         changeSize.addActionListener(e -> {
-           if (!miniPlayer) {
-               enterMiniPlayer();
-           } else {
-               exitMiniPlayer();
-           }
+            if (!miniPlayer) {
+                enterMiniPlayer();
+            } else {
+                exitMiniPlayer();
+            }
             miniPlayer = !miniPlayer;
         });
         changeSize.addMouseListener(new MouseAdapter() {
@@ -435,6 +448,11 @@ public class AudioPlayer {
         });
 
         audioFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        audioFrame.addPreCloseAction(() -> {
+            stopAudio();
+            audioFiles = null;
+            audioIndex = -1;
+        });
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 
@@ -443,7 +461,7 @@ public class AudioPlayer {
             startAudio();
         } else {
             try {
-                File userAudioDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
+                File userAudioDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" );
 
                 if (!userAudioDir.exists()) {
                     userAudioDir.mkdir();
@@ -456,12 +474,9 @@ public class AudioPlayer {
                     return;
                 }
 
-                audioFiles = new LinkedList<>();
-
                 for (File f : userFiles) {
-                    if (StringUtil.getExtension(f).equals(".mp3")) {
-                        audioFiles.add(f);
-                    }
+                    if (StringUtil.getExtension(f).equals(".mp3"))
+                        refreshAudioFiles(f);
                 }
 
                 startAudio();
@@ -566,9 +581,6 @@ public class AudioPlayer {
             if (StringUtil.getExtension(file).equals(".mp3"))
                 audioFiles.add(file);
 
-        //in case no audio is found since none was playing
-        audioIndex = 0;
-
         for (int i = 0; i < audioFiles.size() ; i++) {
             if (audioFiles.get(i).equals(refreshOnFile))
                 audioIndex = i;
@@ -604,43 +616,43 @@ public class AudioPlayer {
     public static void stopAudio() {
         lastAction = LastAction.STOP;
         try {
-           if (audioScroll != null)
-               audioScroll.kill();
-           audioScroll = null;
+            if (audioScroll != null)
+                audioScroll.kill();
+            audioScroll = null;
 
-           if (audioLocation != null)
-               audioLocation.kill();
-           audioLocation = null;
+            if (audioLocation != null)
+                audioLocation.kill();
+            audioLocation = null;
 
-           if (player != null)
-               player.close();
-           player = null;
-           bis = null;
-           fis = null;
+            if (player != null)
+                player.close();
+            player = null;
+            bis = null;
+            fis = null;
 
-           pauseLocation = 0;
-           totalLength = 0;
+            pauseLocation = 0;
+            totalLength = 0;
 
-           if (audioTitleLabel != null)
+            if (audioTitleLabel != null)
                 audioTitleLabel.setText("No Audio Playing");
 
-           if (audioProgress != null)
+            if (audioProgress != null)
                 audioProgress.setValue(0);
-           audioProgressLabel.setText("");
+            audioProgressLabel.setText("");
 
-           playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Play.png"));
-           playPauseAudioButton.setToolTipText("Play");
-           ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+            playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Play.png"));
+            playPauseAudioButton.setToolTipText("Play");
+            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
-           if (audioFrame != null && !audioFrame.threadsKilled()) {
-               audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
-               audioFrame.setUseCustomTaskbarIcon(false);
-           }
+            if (audioFrame != null) {
+                audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+                audioFrame.setUseCustomTaskbarIcon(false);
+            }
 
-           refreshAudio();
-       } catch (Exception e) {
-           ErrorHandler.handle(e);
-       }
+            refreshAudio();
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
     }
 
     /**
@@ -707,9 +719,6 @@ public class AudioPlayer {
      * Kills all threads and resets all variables to their defaults before invoking dispose on the audio frame.
      */
     public static void kill() {
-        if (audioFrame != null)
-            audioFrame.killThreads();
-
         stopAudio();
 
         //player ending calls
@@ -733,12 +742,6 @@ public class AudioPlayer {
         //default stes
         audioProgress.setValue(0);
         audioProgressLabel.setText("");
-
-        if (!IOUtil.generalAudioPlaying())
-            ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
-
-        audioFiles = null;
-        audioIndex = -1;
 
         //exiting widget
         if (audioFrame != null && !audioFrame.isDisposed())
@@ -1033,41 +1036,41 @@ public class AudioPlayer {
                     new Thread(() -> {
                         try {
                             OUTER:
-                                while (scroll) {
-                                    int localLen = localTitle.length();
-                                    audioTitleLabel.setText(localTitle.substring(0,26));
+                            while (scroll) {
+                                int localLen = localTitle.length();
+                                audioTitleLabel.setText(localTitle.substring(0,26));
+
+                                if (!scroll)
+                                    break;
+
+                                Thread.sleep(2000);
+
+                                for (int i = 0 ; i <= localLen - 26; i++) {
+                                    if (!scroll)
+                                        break OUTER;
+
+                                    audioTitleLabel.setText(localTitle.substring(i, i + 26));
 
                                     if (!scroll)
-                                        break;
+                                        break OUTER;
 
-                                    Thread.sleep(2000);
-
-                                    for (int i = 0 ; i <= localLen - 26; i++) {
-                                        if (!scroll)
-                                            break OUTER;
-
-                                        audioTitleLabel.setText(localTitle.substring(i, i + 26));
-
-                                        if (!scroll)
-                                            break OUTER;
-
-                                        Thread.sleep(charScrollDelay);
-                                    }
-
-                                    Thread.sleep(2000);
-
-                                    for (int i = localLen - 26 ; i >= 0 ; i--) {
-                                        if (!scroll)
-                                            break OUTER;
-
-                                        audioTitleLabel.setText(localTitle.substring(i, i + 26));
-
-                                        if (!scroll)
-                                            break OUTER;
-
-                                        Thread.sleep(charScrollDelay);
-                                    }
+                                    Thread.sleep(charScrollDelay);
                                 }
+
+                                Thread.sleep(2000);
+
+                                for (int i = localLen - 26 ; i >= 0 ; i--) {
+                                    if (!scroll)
+                                        break OUTER;
+
+                                    audioTitleLabel.setText(localTitle.substring(i, i + 26));
+
+                                    if (!scroll)
+                                        break OUTER;
+
+                                    Thread.sleep(charScrollDelay);
+                                }
+                            }
                         }
 
                         catch (Exception e) {
@@ -1255,22 +1258,22 @@ public class AudioPlayer {
      * @return boolean describing whether or not album art exists
      */
     public static boolean refreshAlbumArt() {
-       try {
-           if (audioFiles == null || audioFiles.size() == 0)
-               return false;
+        try {
+            if (audioFiles == null || audioFiles.size() == 0)
+                return false;
 
-           String currentName = StringUtil.getFilename(audioFiles.get(audioIndex));
+            String currentName = StringUtil.getFilename(audioFiles.get(audioIndex));
 
-           //for all the album arts
-           for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt").listFiles()) {
-               if (StringUtil.getFilename(f).equals(currentName)) {
-                   currentAlbumArt = new ImageIcon(ImageIO.read(f));
-                   return true;
-               }
-           }
-       } catch (Exception e) {
-           ErrorHandler.handle(e);
-       }
+            //for all the album arts
+            for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt").listFiles()) {
+                if (StringUtil.getFilename(f).equals(currentName)) {
+                    currentAlbumArt = new ImageIcon(ImageIO.read(f));
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
 
         currentAlbumArt = null;
         return false;

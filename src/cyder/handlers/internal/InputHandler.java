@@ -86,7 +86,7 @@ public class InputHandler {
             SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + operation);
 
         //pre-process checks --------------------------------------
-        if (StringUtil.filterLanguage(operation) && UserUtil.getUserData("filterchat").equals("1")) {
+        if (StringUtil.filterLanguage(operation, true) && UserUtil.getUserData("filterchat").equals("1")) {
             println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
         }
         //printing strings ----------------------------------------
@@ -1121,6 +1121,7 @@ public class InputHandler {
             SystemUtil.setCurrentCyderIcon(SystemUtil.xxxIcon);
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
+            IOUtil.playAudio("static/audio/x.mp3");
         } else if (hasWord("issue") || hasWord("issues")) {
             new Thread(() -> {
                 GitHubUtil.Issue[] issues = GitHubUtil.getIssues();

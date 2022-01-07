@@ -491,4 +491,29 @@ public class StatUtil {
             } else return (formatter.format(kilo) + "KB");
         } else return (bytes + " bytes");
     }
+
+    public static void findBadWords() {
+        innerFindBadWords(new File("src"));
+    }
+
+    private static void innerFindBadWords(File startDir) {
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                innerFindBadWords(f);
+        } else if (startDir.getName().endsWith(".java")) {
+            try {
+                BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
+                String line = "";
+
+                while ((line = lineReader.readLine()) != null) {
+                    if (StringUtil.filterLanguage(line.trim(), false))
+                        System.out.println(StringUtil.getFilename(startDir.getName()) + ": " + line.trim());
+                }
+            } catch (Exception ex) {
+                ErrorHandler.handle(ex);
+            }
+        }
+    }
 }

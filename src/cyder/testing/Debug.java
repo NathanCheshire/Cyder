@@ -147,6 +147,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
+            //new Thread(StatUtil::findBadWords, "Bad Word Code Searcher").start();
 
         } catch (Exception e) {
             ErrorHandler.handle(e);
