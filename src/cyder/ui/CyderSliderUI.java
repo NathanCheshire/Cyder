@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import cyder.enums.SliderShape;
-import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
@@ -316,10 +315,5 @@ public class CyderSliderUI extends BasicSliderUI {
                 slider.setValue(valueForXPosition(thumbMiddle));
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
     }
 }

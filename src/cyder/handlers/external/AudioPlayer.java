@@ -94,8 +94,9 @@ public class AudioPlayer {
     public static void showGUI(File startPlaying) {
         queue = new LinkedList<>();
         
-        if (audioFrame != null)
-            audioFrame.dispose();
+        if (audioFrame != null) {
+            audioFrame.dispose(true);
+        }
 
         if (IOUtil.generalAudioPlaying())
             IOUtil.stopAudio();
@@ -108,23 +109,12 @@ public class AudioPlayer {
             @Override
             public void windowClosed(WindowEvent e) {
                 kill();
-
-                if (!IOUtil.generalAudioPlaying())
-                    ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
             }
 
             @Override
             public void windowClosing(WindowEvent e) {
                 kill();
-
-                if (!IOUtil.generalAudioPlaying())
-                    ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
             }
-        });
-
-        audioFrame.addPreCloseAction(() -> {
-            audioFiles = null;
-            audioIndex = -1;
         });
 
         audioFrame.initializeResizing();
@@ -453,7 +443,7 @@ public class AudioPlayer {
             startAudio();
         } else {
             try {
-                File userAudioDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" );
+                File userAudioDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
                 if (!userAudioDir.exists()) {
                     userAudioDir.mkdir();
@@ -466,9 +456,12 @@ public class AudioPlayer {
                     return;
                 }
 
+                audioFiles = new LinkedList<>();
+
                 for (File f : userFiles) {
-                    if (StringUtil.getExtension(f).equals(".mp3"))
-                        refreshAudioFiles(f);
+                    if (StringUtil.getExtension(f).equals(".mp3")) {
+                        audioFiles.add(f);
+                    }
                 }
 
                 startAudio();
@@ -573,6 +566,9 @@ public class AudioPlayer {
             if (StringUtil.getExtension(file).equals(".mp3"))
                 audioFiles.add(file);
 
+        //in case no audio is found since none was playing
+        audioIndex = 0;
+
         for (int i = 0; i < audioFiles.size() ; i++) {
             if (audioFiles.get(i).equals(refreshOnFile))
                 audioIndex = i;
@@ -635,8 +631,6 @@ public class AudioPlayer {
            playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Play.png"));
            playPauseAudioButton.setToolTipText("Play");
            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
-
-           //todo calling audio from here results in an error
 
            if (audioFrame != null && !audioFrame.threadsKilled()) {
                audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
@@ -739,6 +733,12 @@ public class AudioPlayer {
         //default stes
         audioProgress.setValue(0);
         audioProgressLabel.setText("");
+
+        if (!IOUtil.generalAudioPlaying())
+            ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
+
+        audioFiles = null;
+        audioIndex = -1;
 
         //exiting widget
         if (audioFrame != null && !audioFrame.isDisposed())

@@ -1,0 +1,52 @@
+[21-39-41] [ENTRY]: [Nathan]
+[21-39-41] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-39-42] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-39-42] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-39-43] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-39-44] [SYSTEM_IO]: Userdata requested: Name
+[21-39-44] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-39-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-39-46] [SYSTEM_IO]: Userdata requested: Name
+[21-39-46] [SYSTEM_IO]: Userdata requested: Foreground
+[21-39-46] [SYSTEM_IO]: Userdata requested: Foreground
+[21-39-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-39-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-39-47] [SYSTEM_IO]: Userdata requested: Foreground
+[21-39-47] [SYSTEM_IO]: Userdata requested: Font
+[21-39-47] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-39-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-39-47] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-39-47] [SYSTEM_IO]: Userdata requested: Foreground
+[21-39-47] [SYSTEM_IO]: Userdata requested: Foreground
+[21-39-47] [SYSTEM_IO]: Userdata requested: Foreground
+[21-39-47] [SYSTEM_IO]: Userdata requested: Font
+[21-39-47] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-39-47] [SYSTEM_IO]: Userdata requested: InputFill
+[21-39-47] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-39-47] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-39-47] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1913351162], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-39-47] [ACTION]: Console loaded in 6769ms
+[21-39-47] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-39-47] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-39-47] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-39-47] [ENTRY]: [TESTING MODE]
+[21-39-47] [SYSTEM_IO]: Userdata requested: laststart
+[21-39-47] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-39-48] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 6769ms
+[21-39-48] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-39-51] [CLIENT]: mp3
+[21-39-51] [ACTION]: AUDIO PLAYER
+[21-39-51] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[21-39-54] [ACTION]: [AUDIO PLAYER] Fabled - Spirit.mp3
+[21-39-56] [CLIENT]: mp3
+[21-39-56] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(307, 604, 500, 225)], hash = [1473366590], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Flash Player]
+[21-39-56] [ACTION]: AUDIO PLAYER
+[21-39-56] [ACTION]: [AUDIO PLAYER] Fabled - Spirit.mp3
+[21-39-56] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[21-39-56] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1213, 636, 500, 225)], hash = [283179563], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Flash Player]
+[21-39-56] [DEBUG]: null
+java.lang.NullPointerException
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:806)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21-39-56] [SYSTEM_IO]: Userdata requested: closeanimation
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

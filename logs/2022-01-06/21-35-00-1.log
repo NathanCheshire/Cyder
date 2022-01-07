@@ -1,0 +1,98 @@
+[21-35-00] [ENTRY]: [Nathan]
+[21-35-01] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-35-02] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-35-02] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-35-03] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-35-04] [SYSTEM_IO]: Userdata requested: Name
+[21-35-04] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-35-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-06] [SYSTEM_IO]: Userdata requested: Name
+[21-35-06] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-06] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-07] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-07] [SYSTEM_IO]: Userdata requested: Font
+[21-35-07] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-35-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-35-07] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-35-07] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-07] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-07] [SYSTEM_IO]: Userdata requested: Foreground
+[21-35-07] [SYSTEM_IO]: Userdata requested: Font
+[21-35-07] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-35-07] [SYSTEM_IO]: Userdata requested: InputFill
+[21-35-07] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-35-07] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-35-07] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [700652826], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-35-07] [ACTION]: Console loaded in 7232ms
+[21-35-07] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-35-07] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-35-07] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-35-07] [ENTRY]: [TESTING MODE]
+[21-35-07] [SYSTEM_IO]: Userdata requested: laststart
+[21-35-07] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-35-07] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 7232ms
+[21-35-07] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-35-09] [CLIENT]: mp3
+[21-35-36] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: typinganimation
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:429)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$10(InputHandler.java:1574)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21-35-36] [ACTION]: AUDIO PLAYER
+[21-35-43] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[21-35-48] [CLIENT]: mp3
+[21-35-48] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1213, 636, 500, 225)], hash = [2110756844], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Flash Player]
+[21-36-23] [EXCEPTION]: 
+Index: 0, Size: 1
+Thrown from:
+java.base/java.util.LinkedList.checkElementIndex(LinkedList.java:559)
+StackTrace:
+java.lang.IndexOutOfBoundsException: Index: 0, Size: 1
+	at java.base/java.util.LinkedList.checkElementIndex(LinkedList.java:559)
+	at java.base/java.util.LinkedList.get(LinkedList.java:480)
+	at cyder.handlers.external.AudioPlayer$AudioLocation.lambda$new$0(AudioPlayer.java:982)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21-37-12] [EXCEPTION]: 
+Index: 0, Size: 0
+Thrown from:
+java.base/java.util.LinkedList.checkElementIndex(LinkedList.java:559)
+StackTrace:
+java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+	at java.base/java.util.LinkedList.checkElementIndex(LinkedList.java:559)
+	at java.base/java.util.LinkedList.get(LinkedList.java:480)
+	at cyder.handlers.external.AudioPlayer$AudioLocation.lambda$new$0(AudioPlayer.java:982)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21-37-14] [ACTION]: AUDIO PLAYER
+[21-37-19] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[21-37-19] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1213, 636, 500, 225)], hash = [1004455744], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Flash Player]
+[21-37-19] [EXCEPTION]: 
+No music files were found to refresh on
+Thrown from:
+cyder.handlers.external.AudioPlayer.refreshAudioFiles(AudioPlayer.java:558)
+StackTrace:
+java.lang.IllegalArgumentException: No music files were found to refresh on
+	at cyder.handlers.external.AudioPlayer.refreshAudioFiles(AudioPlayer.java:558)
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:816)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21-37-19] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[21-37-19] [DEBUG]: No music files were found to refresh on
+java.lang.IllegalArgumentException: No music files were found to refresh on
+	at cyder.handlers.external.AudioPlayer.refreshAudioFiles(AudioPlayer.java:558)
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:816)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21-37-19] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-38-04] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(863, 269, 1200, 960)], hash = [2103569237], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[21-38-04] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-38-04] [EXIT]: [RUNTIME] 3m 4s
+[21-38-04] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 4
