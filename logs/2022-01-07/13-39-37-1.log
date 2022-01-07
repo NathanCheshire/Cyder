@@ -1,0 +1,153 @@
+[13-39-37] [ENTRY]: [Nathan]
+[13-39-37] [SYSTEM_IO]: System data pared in IOUtil's static block
+[13-39-38] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-39-38] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[13-39-39] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[13-39-39] [SYSTEM_IO]: Userdata requested: Name
+[13-39-40] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-39-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-39-40] [SYSTEM_IO]: Userdata requested: Name
+[13-39-40] [SYSTEM_IO]: Userdata requested: Foreground
+[13-39-40] [SYSTEM_IO]: Userdata requested: Foreground
+[13-39-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-39-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-39-40] [SYSTEM_IO]: Userdata requested: Foreground
+[13-39-40] [SYSTEM_IO]: Userdata requested: Font
+[13-39-40] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-39-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-39-40] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-39-40] [SYSTEM_IO]: Userdata requested: Foreground
+[13-39-40] [SYSTEM_IO]: Userdata requested: Foreground
+[13-39-40] [SYSTEM_IO]: Userdata requested: Foreground
+[13-39-40] [SYSTEM_IO]: Userdata requested: Font
+[13-39-40] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-39-40] [SYSTEM_IO]: Userdata requested: InputFill
+[13-39-40] [SYSTEM_IO]: Userdata requested: consolepinned
+[13-39-40] [SYSTEM_IO]: Userdata requested: consolepinned
+[13-39-41] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1141551418], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-39-41] [ACTION]: Console loaded in 4200ms
+[13-39-41] [SYSTEM_IO]: Userdata requested: windowlocx
+[13-39-41] [SYSTEM_IO]: Userdata requested: windowlocy
+[13-39-41] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-39-41] [ENTRY]: [TESTING MODE]
+[13-39-41] [SYSTEM_IO]: Userdata requested: laststart
+[13-39-41] [SYSTEM_IO]: Userdata requested: IntroMusic
+[13-39-41] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4200ms
+[13-39-41] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-39-43] [CONSOLE_OUT]: [STRING] OpenSimplexAlgorithms: //Credit: https://gist.github.com/KdotJPG/b1270127455a94ac5d19
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderStrings:     //instantiation of a static class message
+[13-39-43] [CONSOLE_OUT]: [STRING] User:     //inner classes
+[13-39-43] [CONSOLE_OUT]: [STRING] Cyder:      * @param CA possible command line args passed in. They serve no purpose yet
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderSetup:      * so you shouldn't do any reading or writing to files or anything with locks/semaphores
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderSetup:      * loading a frame if bypassing Cyder.java's main method.
+[13-39-43] [CONSOLE_OUT]: [STRING] GenesisShare:         // some rare cases might require deeper manipulation such as the case for executables
+[13-39-43] [CONSOLE_OUT]: [STRING] GenesisShare:             //sign out user if ConsoleFrame has a user associated with it
+[13-39-43] [CONSOLE_OUT]: [STRING] GenesisShare:     //inner classes
+[13-39-43] [CONSOLE_OUT]: [STRING] AudioPlayer: //todo this is just all around fucked,
+[13-39-43] [CONSOLE_OUT]: [STRING] AudioPlayer:      *                     Pass {@code null} to avoid starting audio upon launch.
+[13-39-43] [CONSOLE_OUT]: [STRING] AudioPlayer:      * Returns the associated JLayer player
+[13-39-43] [CONSOLE_OUT]: [STRING] AudioPlayer:      * When starting pass the file that the user selected using the select audio directory button.
+[13-39-43] [CONSOLE_OUT]: [STRING] AudioPlayer:      * On refresh, you may pass null and the program will infer where to look based on the current audioFile dir.
+[13-39-43] [CONSOLE_OUT]: [STRING] AudioPlayer:      * Resumes audio at the current audio file at the passed in byte value.
+[13-39-43] [CONSOLE_OUT]: [STRING] AudioPlayer:      * private inner class for the audio location slider
+[13-39-43] [CONSOLE_OUT]: [STRING] AudioPlayer:      * private inner class for the scrolling song label
+[13-39-43] [CONSOLE_OUT]: [STRING] ErrorHandler:      * This method takes an exception, prints it to a string, and then passes the
+[13-39-43] [CONSOLE_OUT]: [STRING] ErrorHandler:      * @param e the exception to be displayed
+[13-39-43] [CONSOLE_OUT]: [STRING] InputHandler:     // allowing for semaphore usage
+[13-39-43] [CONSOLE_OUT]: [STRING] InputHandler:     //direct JTextPane manipulation methods -----------------------
+[13-39-43] [CONSOLE_OUT]: [STRING] LoginHandler:             //holding shift allows the user to see their password
+[13-39-43] [CONSOLE_OUT]: [STRING] LoginHandler:      * Attempts to log in a user based on the inputed name and already hashed password
+[13-39-43] [CONSOLE_OUT]: [STRING] LoginHandler:      * @param hashedPass the password already having been hashed (we hash it again in checkPassword method)
+[13-39-43] [CONSOLE_OUT]: [STRING] LoginHandler:      * @return whether or not the name and pass combo was authenticated and logged in
+[13-39-43] [CONSOLE_OUT]: [STRING] LoginHandler:             //check password will set the console frame uuid if it finds a userdata.json that matches the provided name and hash
+[13-39-43] [CONSOLE_OUT]: [STRING] SessionHandler:     //absolute start of Cyder, class loading
+[13-39-43] [CONSOLE_OUT]: [STRING] SessionHandler:      * The main log method to log an action associated with a type tag.
+[13-39-43] [CONSOLE_OUT]: [STRING] SessionHandler:                 //any exceptions thrown are passed from errorhandler to here
+[13-39-43] [CONSOLE_OUT]: [STRING] SessionHandler:      * @return the log file associated with the current session
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderGridLayout:         // and then passed to the GridLayout
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderGridLayout:     //class so we know the original size of components for resize events
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderLayout:  * which also forces the class to implement this interface
+[13-39-43] [CONSOLE_OUT]: [STRING] ClientBackend:      * @param messagingWidgetFrame the CyderFrame this Client should be associated with to be used for the confirmation window
+[13-39-43] [CONSOLE_OUT]: [STRING] ClientBackend:                             //listen for their messages assumping their server still wants to connect
+[13-39-43] [CONSOLE_OUT]: [STRING] ClientBackend:                         //instead of printing, append to frame's outputarea
+[13-39-43] [CONSOLE_OUT]: [STRING] ClientView:     //this class is not static due to being able to DM multiple users at once in different frames
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderHeap:      * @param data the data to populate the first "data.length" slots wit
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderStack:     //node class to be used
+[13-39-43] [CONSOLE_OUT]: [STRING] BletchyThread:      * Class instantiation requires a JTextPane so that we may use a StringUtil to append to the profvided JTextPane
+[13-39-43] [CONSOLE_OUT]: [STRING] BletchyThread:      * @param outputArea the JTextPane belonging to a ConsoleFrame to print to
+[13-39-43] [CONSOLE_OUT]: [STRING] MasterYoutubeThread:     //this class still exists in the event we want to allow multithreading once again with random youtube
+[13-39-43] [CONSOLE_OUT]: [STRING] MasterYoutubeThread:     //should be associated with an input handler
+[13-39-43] [CONSOLE_OUT]: [STRING] MasterYoutubeThread:     //should be in MasterYoutube class
+[13-39-43] [CONSOLE_OUT]: [STRING] ConsoleFrame:         //instantiation only available from within this class
+[13-39-43] [CONSOLE_OUT]: [STRING] ConsoleFrame:             //anonymous class
+[13-39-43] [CONSOLE_OUT]: [STRING] ConsoleFrame:      * Sets the OutputArea and InputField font style for the current user
+[13-39-43] [CONSOLE_OUT]: [STRING] ConsoleFrame:      *                  font style. You may pass combinations of font
+[13-39-43] [CONSOLE_OUT]: [STRING] ConsoleFrame:         //anonymous inner class
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderCheckboxGroup:      * Finds how many buttons are associated with this button group
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      * @param cyderPanel the CyderPanel with associated CyderLayout
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      * @param viewDuration the time in ms the notification should be visible for. Pass in 0
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      * @param viewDuration the time in ms the notification should be visible for. Pass in 0
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      *        to be auto calculated based on word count, pass in -1 to persist indefinitely until the user clicks
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      * @param container container to show on the notification instead of the typical text, pass null to ignore
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      * @param viewDuration the time in ms the notification should be visible for. Pass in 0
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      *        to be auto calculated based on word count, pass in -1 to persist indefinitely until the user clicks
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      * @param container container to show on the notification instead of the typical text, pass null to ignore
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      * @param notificationBackground the color to set the notification background to. Pass null for default
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      * Removes all currently displayed notifications and wipes the notification queue.
+[13-39-43] [CONSOLE_OUT]: [STRING] CyderFrame:      * Getter for the top drag label associated with this CyderFrame instance. Used for frame resizing.
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderFrame:      * @return The associated DragLabel
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderFrame:      * Getter for the bottom drag label associated with this CyderFrame instance. Used for frame resizing.
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderFrame:      * @return The associated DragLabel
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderFrame:      * Getter for the left drag label associated with this CyderFrame instance. Used for frame resizing.
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderFrame:      * @return The associated DragLabel
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderFrame:      * Getter for the right drag label associated with this CyderFrame instance. Used for frame resizing.
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderFrame:      * @return The associated DragLabel
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderFrame:      * Kills all threads associated with this CyderFrame instance. An irreversible action. This
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderLabel:                     //charSum is how many chars we have passed of the Text tagged string
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderLabel:                                 //first we need to pass as many raw chars
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderProgressUI:                 //the amount the progress bar should be filled by with the proper parameters passed
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderProgressUI:                 //the amount the progress bar should be filled by with the proper parameters passed
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderScrollPane:      * Class extending the BasicScrollBarUI and overrides all necessary methods
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderScrollPane:         //invisible buttons to hide scroll bar buttons - inner class
+[13-39-44] [CONSOLE_OUT]: [STRING] CyderSliderUI:         // Call superclass method for lower thumb location.
+[13-39-44] [CONSOLE_OUT]: [STRING] DragLabel:  * Class to be used for CyderFrames, the parent is expected to be an instance of CyderFrame
+[13-39-44] [CONSOLE_OUT]: [STRING] AnimationUtil:         //assign ret[0] to delay
+[13-39-44] [CONSOLE_OUT]: [STRING] AnimationUtil:         //assign ret[1] to inc
+[13-39-44] [CONSOLE_OUT]: [STRING] BoundsUtil:     //inner classes and enums
+[13-39-44] [CONSOLE_OUT]: [STRING] GetterUtil:      * Any frames shown through this class are set relative to the {@code relativeFrame}
+[13-39-44] [CONSOLE_OUT]: [STRING] ImageUtil:      * Returns the passed background file accounting for set rotate direction. For example, if the direction
+[13-39-44] [CONSOLE_OUT]: [STRING] IOUtil:      * Logs any possible command line arguments passed in to Cyder upon starting.
+[13-39-44] [CONSOLE_OUT]: [STRING] IOUtil:      * @param cyderArgs command line arguments passed in
+[13-39-44] [CONSOLE_OUT]: [STRING] IOUtil:      * Changes the current user from console frame's password to the provided password
+[13-39-44] [CONSOLE_OUT]: [STRING] IOUtil:      * @param newPassword the raw char[] new password to hash and store
+[13-39-44] [CONSOLE_OUT]: [STRING] IOUtil:             //now fix userdata associated with the logs
+[13-39-44] [CONSOLE_OUT]: [STRING] IOUtil:     //system data class
+[13-39-44] [CONSOLE_OUT]: [STRING] IOUtil:         //inner classes
+[13-39-44] [CONSOLE_OUT]: [STRING] IPUtil:     //IPData inner class
+[13-39-44] [CONSOLE_OUT]: [STRING] ReflectionUtil:      * A common method utilized by near all top-level Cyder classes as the overridden logic for their toString() methods
+[13-39-44] [CONSOLE_OUT]: [STRING] ReflectionUtil:      * @return the String representation for the provided object detailing the classname, hashcode, and reflected data
+[13-39-44] [CONSOLE_OUT]: [STRING] StatUtil:      * Finds the number of java comments associated with all .java files
+[13-39-44] [CONSOLE_OUT]: [STRING] StatUtil:      * Finds the number of blank lines associated with .java files within the provided start directory
+[13-39-44] [CONSOLE_OUT]: [STRING] StringUtil:      * @param num the number of items associated with the word
+[13-39-44] [CONSOLE_OUT]: [STRING] SystemUtil:      * @return returns the system property for the passed requested property if it is valid
+[13-39-44] [CONSOLE_OUT]: [STRING] SystemUtil:      * Confirms whether or not the command is valid. e.g. pass "python" or "ffmpeg" and if the returned value is false,
+[13-39-44] [CONSOLE_OUT]: [STRING] UserUtil:     //the semaphore to use when reading or writing from/to a JSON file
+[13-39-44] [CONSOLE_OUT]: [STRING] UserUtil:      * Assuming the corresponding getter and setter functions exist in User.java,
+[13-39-44] [CONSOLE_OUT]: [STRING] UserUtil:      * @return boolean describing whether or not the provided uuid assocaited with a cyder user is currently logged in
+[13-39-44] [CONSOLE_OUT]: [STRING] UserUtil:                                                 // and the last login tag we find has their uuid associated wit hit
+[13-39-44] [CONSOLE_OUT]: [STRING] UserUtil:      * Checks whether or not the given name/pass combo is valid and if so, sets the
+[13-39-44] [CONSOLE_OUT]: [STRING] UserUtil:      * @param hashedPass the already once SHA256 hashed password
+[13-39-44] [CONSOLE_OUT]: [STRING] UserUtil:      * @return whether or not the name/pass combo was valid
+[13-39-44] [CONSOLE_OUT]: [STRING] UserUtil:             //loop through all users and extract the name and password fields
+[13-39-44] [CONSOLE_OUT]: [STRING] UserUtil:             // if so, we're fucked so delete the file
+[13-39-44] [CONSOLE_OUT]: [STRING] UserUtil:      * which user it was by listing the files associated with the corrupted user.
+[13-39-44] [CONSOLE_OUT]: [STRING] PathFinderWidget:     //node class
+[13-39-44] [CONSOLE_OUT]: [STRING] PerlinWidget:                         //green grass
+[13-39-58] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[13-39-58] [SYSTEM_IO]: Userdata requested: Name
+[13-39-58] [LOGOUT]: [Nathan]
+[13-39-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1174, 109, 800, 1053)], hash = [1863702030], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[13-39-58] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-39-58] [SYSTEM_IO]: Userdata requested: Background
+[13-39-58] [EXIT]: [RUNTIME] 21s
+[13-39-58] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

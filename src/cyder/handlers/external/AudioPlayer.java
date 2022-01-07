@@ -33,9 +33,7 @@ import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 
-//todo this is just all around fucked,
-// opening when already open doesn't work
-// and moving around the audio doesn't work either
+//todo opening when already open doesn't work
 
 public class AudioPlayer {
     private enum LastAction {
@@ -87,7 +85,7 @@ public class AudioPlayer {
 
     private AudioPlayer() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    } // no objects
+    }
 
     /**
      * Constructor that launches the AudioPlayer
@@ -108,27 +106,28 @@ public class AudioPlayer {
                 new ImageIcon(ImageUtil.bufferedImageFromColor(500,225,new Color(8,23,52))));
         audioFrame.setBackground(new Color(8,23,52));
         audioFrame.setTitle("Flash Player");
-        audioFrame.addWindowListener(new WindowAdapter() {
-                                         @Override
-                                         public void windowClosed(WindowEvent e) {
-                                             if (player != null)
-                                                 stopAudio();
-                                             kill();
+        audioFrame.addWindowListener(
+                new WindowAdapter() {
+                     @Override
+                     public void windowClosed(WindowEvent e) {
+                         if (player != null)
+                             stopAudio();
+                         kill();
 
-                                             if (!IOUtil.generalAudioPlaying())
-                                                 ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
-                                         }
+                         if (!IOUtil.generalAudioPlaying())
+                             ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
+                     }
 
-                                         @Override
-                                         public void windowClosing(WindowEvent e) {
-                                             if (player != null)
-                                                 stopAudio();
-                                             kill();
+                     @Override
+                     public void windowClosing(WindowEvent e) {
+                         if (player != null)
+                             stopAudio();
+                         kill();
 
-                                             if (!IOUtil.generalAudioPlaying())
-                                                 ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
-                                         }
-                                     }
+                         if (!IOUtil.generalAudioPlaying())
+                             ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
+                     }
+                 }
         );
         audioFrame.initializeResizing();
         audioFrame.setResizable(true);
@@ -417,6 +416,17 @@ public class AudioPlayer {
         audioProgressLabel.setFocusable(false);
         audioProgressLabel.setBounds(55, 190, 385, 25);
         audioFrame.getContentPane().add(audioProgressLabel);
+        audioProgressLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (fis != null && player != null) {
+                    pauseAudio();
+                    long skipLocation = (long) (((double) e.getX() / (double) audioProgressLabel.getWidth()) * totalLength);
+                    pauseLocation = skipLocation;
+                    resumeAudio(skipLocation);
+                }
+            }
+        });
 
         audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
         CyderProgressUI ui = new CyderProgressUI();
@@ -435,17 +445,6 @@ public class AudioPlayer {
         audioProgress.setFocusable(false);
         audioProgress.repaint();
         audioFrame.getContentPane().add(audioProgress);
-        audioProgress.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (fis != null && player != null) {
-                    pauseAudio();
-                    long skipLocation = (long) (((double) e.getX() / (double) audioProgress.getWidth()) * totalLength);
-                    pauseLocation = skipLocation;
-                    resumeAudio(skipLocation);
-                }
-            }
-        });
 
         audioFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         audioFrame.addPreCloseAction(() -> {

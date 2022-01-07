@@ -717,17 +717,10 @@ public class StringUtil {
         if (userInput == null || word == null)
             throw new IllegalArgumentException("Provided input is null: userInput = " + userInput + ", word = " + word);
 
-        userInput = ' ' + userInput.toLowerCase() + ' ';
+        userInput = userInput.toLowerCase();
         word.toLowerCase();
 
-        //todo whole function will work if this works
-
-        String[] words = userInput.split(" ");
-
-        for (String subWord : words) {
-            if (subWord.contains(word))
-                return true;
-        }
+        //todo logic
 
         return false;
     }
@@ -744,17 +737,11 @@ public class StringUtil {
         if (filterLeet)
             input = filterLeet(input.toLowerCase());
 
-        //remove comment stuff from input
-        input = input.replace("/","").replace("*","");
-
         try (BufferedReader vReader = new BufferedReader(new FileReader("static/text/v.txt"))) {
             String blockedWord;
 
             while ((blockedWord = vReader.readLine()) != null) {
-                if (hasWord(input.trim(), blockedWord.trim()) && input.length() != 0) {
-                    ret = true;
-                    break;
-                }
+                //todo if blockedWord somehow in input but not subword like password, ret = true; and break;
             }
         } catch (Exception ex) {
             ErrorHandler.handle(ex);

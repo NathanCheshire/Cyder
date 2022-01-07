@@ -509,9 +509,7 @@ public class StatUtil {
 
                 while ((line = lineReader.readLine()) != null) {
                     if (isComment(line)) {
-                        if (StringUtil.filterLanguage(line, false))
-                            ConsoleFrame.getConsoleFrame().getInputHandler().println(
-                                    StringUtil.getFilename(startDir.getName()) + ": " + line);
+                       //todo fix filter methods and hasWord methods
                     }
                 }
             } catch (Exception ex) {

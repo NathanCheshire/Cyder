@@ -148,6 +148,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
+            //todo after finished testing and remove bad words, work on audio player
             new Thread(StatUtil::findBadWords, "Bad Word Code Searcher").start();
         } catch (Exception e) {
             ErrorHandler.handle(e);
