@@ -1,0 +1,54 @@
+[20-37-43] [ENTRY]: [Nathan]
+[20-37-43] [SYSTEM_IO]: System data pared in IOUtil's static block
+[20-37-45] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-37-45] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-37-46] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-37-46] [SYSTEM_IO]: Userdata requested: Name
+[20-37-47] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-37-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-37-48] [SYSTEM_IO]: Userdata requested: Name
+[20-37-48] [SYSTEM_IO]: Userdata requested: Foreground
+[20-37-48] [SYSTEM_IO]: Userdata requested: Foreground
+[20-37-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-37-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-37-49] [SYSTEM_IO]: Userdata requested: Foreground
+[20-37-49] [SYSTEM_IO]: Userdata requested: Font
+[20-37-49] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-37-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-37-50] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-37-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-37-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-37-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-37-50] [SYSTEM_IO]: Userdata requested: Font
+[20-37-50] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-37-50] [SYSTEM_IO]: Userdata requested: InputFill
+[20-37-50] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-37-50] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-37-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [2035617160], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-37-50] [ACTION]: Console loaded in 6961ms
+[20-37-50] [SYSTEM_IO]: Userdata requested: windowlocx
+[20-37-50] [SYSTEM_IO]: Userdata requested: windowlocy
+[20-37-50] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-37-50] [ENTRY]: [TESTING MODE]
+[20-37-50] [SYSTEM_IO]: Userdata requested: laststart
+[20-37-50] [SYSTEM_IO]: Userdata requested: IntroMusic
+[20-37-50] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 6961ms
+[20-37-50] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-37-56] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1419220488], parentFrame = [Edit User], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-37-56] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1057, 383, 900, 580)], hash = [628313462], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[20-37-56] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-37-56] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-37-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-37-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-37-56] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[20-37-56] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-37-56] [SYSTEM_IO]: Userdata requested: InputFill
+[20-37-56] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-37-59] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-37-59] [SYSTEM_IO]: Userdata requested: Name
+[20-37-59] [LOGOUT]: [Nathan]
+[20-37-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(907, 193, 1200, 960)], hash = [1571798597], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[20-37-59] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-37-59] [SYSTEM_IO]: Userdata requested: Background
+[20-37-59] [EXIT]: [RUNTIME] 16s
+[20-37-59] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

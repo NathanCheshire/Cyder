@@ -1,0 +1,79 @@
+[20-32-14] [ENTRY]: [Nathan]
+[20-32-14] [SYSTEM_IO]: System data pared in IOUtil's static block
+[20-32-15] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-32-15] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-32-16] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-32-17] [SYSTEM_IO]: Userdata requested: Name
+[20-32-17] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-32-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-32-18] [SYSTEM_IO]: Userdata requested: Name
+[20-32-18] [SYSTEM_IO]: Userdata requested: Foreground
+[20-32-18] [SYSTEM_IO]: Userdata requested: Foreground
+[20-32-18] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-32-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-32-19] [SYSTEM_IO]: Userdata requested: Foreground
+[20-32-19] [SYSTEM_IO]: Userdata requested: Font
+[20-32-19] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-32-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-32-20] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-32-20] [SYSTEM_IO]: Userdata requested: Foreground
+[20-32-20] [SYSTEM_IO]: Userdata requested: Foreground
+[20-32-20] [SYSTEM_IO]: Userdata requested: Foreground
+[20-32-20] [SYSTEM_IO]: Userdata requested: Font
+[20-32-20] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-32-20] [SYSTEM_IO]: Userdata requested: InputFill
+[20-32-20] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-32-20] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-32-20] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [32712055], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-32-20] [ACTION]: Console loaded in 6192ms
+[20-32-20] [SYSTEM_IO]: Userdata requested: windowlocx
+[20-32-20] [SYSTEM_IO]: Userdata requested: windowlocy
+[20-32-20] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-32-20] [ENTRY]: [TESTING MODE]
+[20-32-20] [SYSTEM_IO]: Userdata requested: laststart
+[20-32-20] [SYSTEM_IO]: Userdata requested: IntroMusic
+[20-32-20] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 6192ms
+[20-32-20] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-27] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1223351849], parentFrame = [Edit User], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-32-27] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1057, 381, 900, 580)], hash = [804375107], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[20-32-27] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-32-27] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-32-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-32-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-32-27] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[20-32-27] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-32-27] [SYSTEM_IO]: Userdata requested: InputFill
+[20-32-27] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-30] [CLIENT]: path
+[20-32-30] [ACTION]: PATHFINDER
+[20-32-32] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [22045215], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-32-36] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [22045215], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-32-37] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 996, 28)], hash = [441631555], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-32-37] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1007, 136, 1000, 1070)], hash = [548708547], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pathfinding visualizer]
+[20-32-37] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-36] [CLIENT]: mp3
+[20-33-36] [ACTION]: AUDIO PLAYER
+[20-33-37] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay (Prod. CXDY).mp3
+[20-33-41] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[20-33-44] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay (Prod. CXDY).mp3
+[20-33-44] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: showbusyicon
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: showbusyicon
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:429)
+	at cyder.ui.ConsoleFrame.lambda$startExecutors$18(ConsoleFrame.java:1148)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[20-33-47] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-33-47] [SYSTEM_IO]: Userdata requested: Name
+[20-33-47] [LOGOUT]: [Nathan]
+[20-33-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(907, 191, 1200, 960)], hash = [755210740], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[20-33-47] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-47] [EXIT]: [RUNTIME] 1m 33s
+[20-33-47] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1

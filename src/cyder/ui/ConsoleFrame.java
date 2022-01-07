@@ -644,10 +644,7 @@ public final class ConsoleFrame {
             });
             menuButton.addActionListener(e -> {
                 if (!menuLabel.isVisible()) {
-                    if (!consoleMenuGenerated) {
-                        generateConsoleMenu();
-                    }
-
+                    generateConsoleMenu();
                     menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 2);
                     menuLabel.setVisible(true);
 
@@ -1358,6 +1355,69 @@ public final class ConsoleFrame {
         }
     }
 
+    private JTextPane menuPane;
+
+    private void installMenuTaskbarIcons() {
+        //adding components
+        StringUtil printingUtil = new StringUtil(menuPane);
+        menuPane.setText("");
+
+        if (menuTaskbarFrames != null && menuTaskbarFrames.size() > 0) {
+            for (int i = menuTaskbarFrames.size() - 1 ; i > -1 ; i--) {
+                CyderFrame currentFrame = menuTaskbarFrames.get(i);
+
+                if (currentFrame.isUseCustomTaskbarIcon()) {
+                    printingUtil.printlnComponent(currentFrame.getCustomTaskbarIcon());
+                } else {
+                    printingUtil.printlnComponent(currentFrame.getTaskbarButton());
+                }
+
+                printingUtil.println("");
+            }
+        }
+
+        //mapped executables
+        LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
+
+        if (exes != null && !exes.isEmpty()) {
+            if (!menuTaskbarFrames.isEmpty()) {
+                printingUtil.printlnComponent(generateMenuSep());
+                printingUtil.println("");
+            }
+
+            for (User.MappedExecutable exe : exes) {
+                printingUtil.printlnComponent(
+                        CyderFrame.generateDefaultTaskbarComponent(exe.getName(), () -> {
+                            IOUtil.openOutsideProgram(exe.getFilepath());
+                            consoleCyderFrame.notify("Opening: " + exe.getName());
+                        }, CyderColors.vanila));
+                printingUtil.println("");
+            }
+
+            printingUtil.printlnComponent(generateMenuSep());
+            printingUtil.println("");
+        }
+
+        if (exes != null && exes.isEmpty() && !menuTaskbarFrames.isEmpty()) {
+            printingUtil.printlnComponent(generateMenuSep());
+            printingUtil.println("");
+        }
+
+        //default menu items
+        printingUtil.printlnComponent(
+                CyderFrame.generateDefaultTaskbarComponent("Prefs", () -> UserEditor.showGUI(0)));
+        printingUtil.println("");
+
+        printingUtil.printlnComponent(
+                CyderFrame.generateDefaultTaskbarComponent("Logout", this::logout));
+        printingUtil.println("");
+
+        //set menu location to top
+        menuPane.setCaretPosition(0);
+
+        consoleMenuGenerated = true;
+    }
+
     private void generateConsoleMenu() {
         Font menuFont = CyderFonts.defaultFontSmall;
         int menuHeight = consoleCyderFrame.getHeight() - DragLabel.getDefaultHeight() - 5;
@@ -1381,7 +1441,7 @@ public final class ConsoleFrame {
 
         Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
 
-        JTextPane menuPane = new JTextPane();
+        menuPane = new JTextPane();
         menuPane.setEditable(false);
         menuPane.setAutoscrolls(false);
         menuPane.setFocusable(true);
@@ -2561,16 +2621,11 @@ public final class ConsoleFrame {
         if (closed || menuLabel == null)
             return;
 
-        boolean wasVis = menuLabel.isVisible();
-
-        menuLabel.setVisible(false);
         consoleMenuGenerated = false;
 
-        if (wasVis) {
+        if (menuLabel.isVisible()) {
             menuButton.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
-            generateConsoleMenu();
-            menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
-            menuLabel.setVisible(true);
+            installMenuTaskbarIcons();
         } else {
             menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
             //no other actions needed
@@ -2914,7 +2969,6 @@ public final class ConsoleFrame {
         consoleClockLabel.setText(time);
     }
 
-    //WHY THE FUCK does the menu being open affect this
     public void closeConsoleFrame(boolean exit) {
         //save window location
         UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");

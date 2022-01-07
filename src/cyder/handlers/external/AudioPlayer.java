@@ -107,8 +107,6 @@ public class AudioPlayer {
         audioFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                if (player != null)
-                    stopAudio();
                 kill();
 
                 if (!IOUtil.generalAudioPlaying())
@@ -117,15 +115,18 @@ public class AudioPlayer {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                if (player != null)
-                    stopAudio();
                 kill();
 
                 if (!IOUtil.generalAudioPlaying())
                     ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
             }
-        }
-        );
+        });
+
+        audioFrame.addPreCloseAction(() -> {
+            audioFiles = null;
+            audioIndex = -1;
+        });
+
         audioFrame.initializeResizing();
         audioFrame.setResizable(true);
         audioFrame.setMinimumSize(new Dimension(500, 155));
@@ -444,11 +445,6 @@ public class AudioPlayer {
         });
 
         audioFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
-        audioFrame.addPreCloseAction(() -> {
-            stopAudio();
-            audioFiles = null;
-            audioIndex = -1;
-        });
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 
@@ -640,7 +636,9 @@ public class AudioPlayer {
            playPauseAudioButton.setToolTipText("Play");
            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
-           if (audioFrame != null) {
+           //todo calling audio from here results in an error
+
+           if (audioFrame != null && !audioFrame.threadsKilled()) {
                audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
                audioFrame.setUseCustomTaskbarIcon(false);
            }
@@ -715,6 +713,9 @@ public class AudioPlayer {
      * Kills all threads and resets all variables to their defaults before invoking dispose on the audio frame.
      */
     public static void kill() {
+        if (audioFrame != null)
+            audioFrame.killThreads();
+
         stopAudio();
 
         //player ending calls

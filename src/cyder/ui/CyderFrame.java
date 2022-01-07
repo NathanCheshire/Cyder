@@ -410,8 +410,6 @@ public class CyderFrame extends JFrame {
      * @param titlePosition the position for the title to be: left, center
      */
     public void setTitlePosition(TitlePosition titlePosition) {
-        this.control_c_threads = false;
-
         if (titlePosition == null || this.titlePosition == null)
             return;
 
@@ -423,9 +421,6 @@ public class CyderFrame extends JFrame {
                 new Thread(() -> {
                     //left
                     for (int i = titleLabel.getX() ; i > 4; i--) {
-                        if (this.control_c_threads)
-                            break;
-
                         titleLabel.setLocation(i, 2);
 
                         try {
@@ -442,9 +437,6 @@ public class CyderFrame extends JFrame {
                     switch (oldPosition) {
                         case RIGHT:
                             for (int i = titleLabel.getX() ; i > (getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2); i--) {
-                                if (this.control_c_threads)
-                                    break;
-
                                 titleLabel.setLocation(i, 2);
 
                                 try {
@@ -456,9 +448,6 @@ public class CyderFrame extends JFrame {
                             break;
                         case LEFT:
                             for (int i = titleLabel.getX(); i < (getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2); i++) {
-                                if (this.control_c_threads)
-                                    break;
-
                                 titleLabel.setLocation(i, 2);
 
                                 try {
@@ -477,9 +466,6 @@ public class CyderFrame extends JFrame {
                 //right
                 new Thread(() -> {
                     for (int i = titleLabel.getX() ; i < this.width -getMinWidth(this.title) - 8; i++) {
-                        if (this.control_c_threads)
-                            break;
-
                         titleLabel.setLocation(i, 2);
 
                         try {
@@ -1156,17 +1142,6 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    //used for a ctrl + c even to stop dancing or anything else we might want to stop
-    private boolean control_c_threads = false;
-
-    public void setControl_c_threads(boolean b) {
-        this.control_c_threads = b;
-    }
-
-    public boolean getControl_c_threads() {
-        return this.control_c_threads;
-    }
-
     //dancing ------------------------------------------------------------------------------
 
     public enum DancingDirection {
@@ -1562,8 +1537,7 @@ public class CyderFrame extends JFrame {
      * method is actomatically called when {@link CyderFrame#dispose()} is invokekd.
      */
     public void killThreads() {
-        this.control_c_threads = true;
-        this.threadsKilled = true;
+        threadsKilled = true;
     }
 
     public boolean threadsKilled() {
@@ -1834,6 +1808,13 @@ public class CyderFrame extends JFrame {
 
     //console menu taskbar logic
 
+    //override to prevent changing on disposal calls
+    @Override
+    public void setIconImage(Image image) {
+        if (!threadsKilled)
+            super.setIconImage(image);
+    }
+
     private static Color blueBorderColor = new Color(22,124,237);
     private static Color redBorderColor = new Color(254,49,93);
     private static Color orangeBorderColor = new Color(249,122,18);
@@ -1871,13 +1852,13 @@ public class CyderFrame extends JFrame {
 
         BufferedImage resizedImage = ImageUtil.resizeImage(len, len, customTaskbarIcon);
 
-        //drawing a border if you wnat to do that in the future
-//        Graphics g = resizedImage.createGraphics();
-//        g.setColor(this.getTaskbarBorderColor());
-//        g.fillRect(0,0, len, borderLen);
-//        g.fillRect(0,0, borderLen, len);
-//        g.fillRect(len - borderLen, 0, len, len);
-//        g.fillRect(0, len - borderLen, len, len);
+        //drawing a border over the image
+        Graphics g = resizedImage.createGraphics();
+        g.setColor(Color.black);
+        g.fillRect(0,0, len, borderLen);
+        g.fillRect(0,0, borderLen, len);
+        g.fillRect(len - borderLen, 0, len, len);
+        g.fillRect(0, len - borderLen, len, len);
 
         float darkenFactor = 0.7f;
         RescaleOp op = new RescaleOp(darkenFactor, 0, null);

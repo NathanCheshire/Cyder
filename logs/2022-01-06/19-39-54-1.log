@@ -1,0 +1,63 @@
+[19-39-54] [ENTRY]: [Nathan]
+[19-39-54] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-39-56] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-39-56] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-39-57] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-39-57] [SYSTEM_IO]: Userdata requested: Name
+[19-39-58] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-39-58] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-39-59] [SYSTEM_IO]: Userdata requested: Name
+[19-39-59] [SYSTEM_IO]: Userdata requested: Foreground
+[19-39-59] [SYSTEM_IO]: Userdata requested: Foreground
+[19-39-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-39-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-40-00] [SYSTEM_IO]: Userdata requested: Foreground
+[19-40-00] [SYSTEM_IO]: Userdata requested: Font
+[19-40-00] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-40-00] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-40-00] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-40-00] [SYSTEM_IO]: Userdata requested: Foreground
+[19-40-00] [SYSTEM_IO]: Userdata requested: Foreground
+[19-40-00] [SYSTEM_IO]: Userdata requested: Foreground
+[19-40-00] [SYSTEM_IO]: Userdata requested: Font
+[19-40-00] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-40-00] [SYSTEM_IO]: Userdata requested: InputFill
+[19-40-00] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-40-00] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-40-00] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1655540078], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-40-00] [ACTION]: Console loaded in 6607ms
+[19-40-00] [SYSTEM_IO]: Userdata requested: windowlocx
+[19-40-00] [SYSTEM_IO]: Userdata requested: windowlocy
+[19-40-00] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-40-00] [ENTRY]: [TESTING MODE]
+[19-40-00] [SYSTEM_IO]: Userdata requested: laststart
+[19-40-01] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-40-01] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 6607ms
+[19-40-01] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-40-08] [CLIENT]: prefs
+[19-40-08] [ACTION]: USER EDITOR
+[19-40-12] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [575971945], parentFrame = [Mystic], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-40-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1018, 425, 800, 640)], hash = [1730482866], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Mystic]
+[19-40-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-40-14] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1201577562], parentFrame = [Roses], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-40-14] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1018, 478, 800, 533)], hash = [142685968], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Roses]
+[19-40-14] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-40-18] [CONSOLE_OUT]: [STRING] Background: Roses successfully deleted.
+[19-40-18] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1516172311], parentFrame = [Edit User], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-40-21] [ACTION]: [AUDIO PLAYER] Future - Solitaires (Audio) ft. Travis Scott.mp3
+[19-40-26] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[19-40-28] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [148195509], parentFrame = [Flash Player], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-40-28] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1168, 632, 500, 225)], hash = [827758842], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Flash Player]
+[19-40-28] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-40-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(968, 455, 900, 580)], hash = [399310970], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[19-40-47] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-40-47] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-40-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-40-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-40-47] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-40-47] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-40-47] [SYSTEM_IO]: Userdata requested: InputFill
+[19-41-10] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(818, 265, 1200, 960)], hash = [1041109062], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-41-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-41-10] [EXIT]: [RUNTIME] 1m 16s
+[19-41-10] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
