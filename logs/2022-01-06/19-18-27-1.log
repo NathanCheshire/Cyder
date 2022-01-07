@@ -1,0 +1,182 @@
+[19-18-28] [ENTRY]: [Nathan]
+[19-18-28] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-18-29] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-18-29] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-18-30] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-18-30] [SYSTEM_IO]: Userdata requested: Name
+[19-18-30] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-18-30] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-18-31] [SYSTEM_IO]: Userdata requested: Name
+[19-18-31] [SYSTEM_IO]: Userdata requested: Foreground
+[19-18-31] [SYSTEM_IO]: Userdata requested: Foreground
+[19-18-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-18-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-18-31] [SYSTEM_IO]: Userdata requested: Foreground
+[19-18-31] [SYSTEM_IO]: Userdata requested: Font
+[19-18-31] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-18-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-18-31] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-18-31] [SYSTEM_IO]: Userdata requested: Foreground
+[19-18-31] [SYSTEM_IO]: Userdata requested: Foreground
+[19-18-31] [SYSTEM_IO]: Userdata requested: Foreground
+[19-18-31] [SYSTEM_IO]: Userdata requested: Font
+[19-18-31] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-18-31] [SYSTEM_IO]: Userdata requested: InputFill
+[19-18-31] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-18-31] [SYSTEM_IO]: Userdata requested: consolepinned
+[19-18-31] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 378, 600, 600)], hash = [1947285768], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-18-31] [ACTION]: Console loaded in 3969ms
+[19-18-31] [SYSTEM_IO]: Userdata requested: windowlocx
+[19-18-31] [SYSTEM_IO]: Userdata requested: windowlocy
+[19-18-31] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-18-31] [ENTRY]: [TESTING MODE]
+[19-18-31] [SYSTEM_IO]: Userdata requested: laststart
+[19-18-31] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-18-31] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3969ms
+[19-18-32] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-18-33] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [119126074], parentFrame = [Grid Layout Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-18-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(861, 286, 800, 800)], hash = [601609812], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Grid Layout Test]
+[19-18-33] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-18-37] [CLIENT]: showseconds
+[19-18-37] [CONSOLE_OUT]: [STRING] Show Seconds set to true
+[19-18-37] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-18-37] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-18-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-18-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-18-37] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-18-37] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-18-37] [SYSTEM_IO]: Userdata requested: InputFill
+[19-18-37] [ACTION]: CONSOLE PREFERENCE TOGGLE HANDLED
+[19-18-43] [CLIENT]: showseconds
+[19-18-43] [CONSOLE_OUT]: [STRING] Show Seconds set to false
+[19-18-43] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-18-43] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-18-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-18-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-18-43] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-18-43] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-18-43] [SYSTEM_IO]: Userdata requested: InputFill
+[19-18-43] [ACTION]: CONSOLE PREFERENCE TOGGLE HANDLED
+[19-18-47] [CLIENT]: showseconds
+[19-18-47] [CONSOLE_OUT]: [STRING] Show Seconds set to true
+[19-18-47] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-18-47] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-18-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-18-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-18-47] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-18-47] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-18-47] [SYSTEM_IO]: Userdata requested: InputFill
+[19-18-47] [ACTION]: CONSOLE PREFERENCE TOGGLE HANDLED
+[19-19-44] [CLIENT]: prefs
+[19-19-44] [ACTION]: USER EDITOR
+[19-19-46] [SYSTEM_IO]: Userdata requested: Foreground
+[19-19-46] [SYSTEM_IO]: Userdata requested: Foreground
+[19-19-46] [SYSTEM_IO]: Userdata requested: Background
+[19-19-46] [SYSTEM_IO]: Userdata requested: Background
+[19-19-46] [SYSTEM_IO]: Userdata requested: Font
+[19-19-46] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1751324058], parentFrame = [Edit User], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-19-46] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[19-19-47] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1751324058], parentFrame = [Edit User], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-19-47] [SYSTEM_IO]: Userdata requested: randombackground
+[19-19-47] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-47] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-47] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-19-47] [SYSTEM_IO]: Userdata requested: randombackground
+[19-19-47] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-47] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: debugwindows
+[19-19-48] [SYSTEM_IO]: Userdata requested: intromusic
+[19-19-48] [SYSTEM_IO]: Userdata requested: ffmpegpath
+[19-19-48] [SYSTEM_IO]: Userdata requested: youtubedlpath
+[19-19-48] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1751324058], parentFrame = [Edit User], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-19-56] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 140, 38)], hash = [2014364187], parentFrame = [Edit User], associated text = [   Validate   ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-20-02] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 140, 38)], hash = [2014364187], parentFrame = [Edit User], associated text = [   Validate   ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-20-26] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 140, 38)], hash = [2014364187], parentFrame = [Edit User], associated text = [   Validate   ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-20-35] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 140, 38)], hash = [2014364187], parentFrame = [Edit User], associated text = [   Validate   ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-20-45] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 140, 38)], hash = [2014364187], parentFrame = [Edit User], associated text = [   Validate   ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-20-55] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [386669452], parentFrame = [Edit User], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-20-55] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(373, 340, 900, 580)], hash = [1293158479], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[19-20-55] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-20-55] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-20-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-20-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-20-55] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-20-55] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-20-55] [SYSTEM_IO]: Userdata requested: InputFill
+[19-20-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-20-56] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] You only have one background image. Try adding more via the user editor
+[19-20-56] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-20-57] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(373, -575, 900, 580)], hash = [1293158479], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[19-20-57] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-20-57] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-20-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-20-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-20-57] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-20-57] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-20-57] [SYSTEM_IO]: Userdata requested: InputFill
+[19-20-58] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [380953251], parentFrame = [Edit User], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-20-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1168, 404, 900, 580)], hash = [1113544533], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[19-20-58] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-20-58] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-20-58] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-20-58] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-20-58] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-20-58] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-20-58] [SYSTEM_IO]: Userdata requested: InputFill
+[19-20-58] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-21-10] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-21-10] [SYSTEM_IO]: Userdata requested: Name
+[19-21-10] [LOGOUT]: [Nathan]
+[19-21-10] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1236, 113, 764, 1163)], hash = [467796378], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-21-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-21-10] [SYSTEM_IO]: Userdata requested: Background
+[19-21-11] [EXIT]: [RUNTIME] 2m 43s
+[19-21-11] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

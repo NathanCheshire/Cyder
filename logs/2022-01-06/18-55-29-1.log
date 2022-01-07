@@ -1,0 +1,28 @@
+[18-55-29] [ENTRY]: [Nathan]
+[18-55-29] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-55-31] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-55-31] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-55-31] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-55-31] [SYSTEM_IO]: Userdata requested: Name
+[18-55-32] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-55-32] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-55-32] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[18-55-32] [DEBUG]: null
+java.lang.NullPointerException
+	at cyder.ui.ConsoleFrame.refreshClockText(ConsoleFrame.java:2903)
+	at cyder.ui.ConsoleFrame$1.setBounds(ConsoleFrame.java:205)
+	at java.desktop/java.awt.Component.resize(Component.java:2195)
+	at java.desktop/java.awt.Component.setSize(Component.java:2180)
+	at java.desktop/java.awt.Window.setSize(Window.java:911)
+	at cyder.ui.CyderFrame.setSize(CyderFrame.java:1318)
+	at java.desktop/java.awt.Component.resize(Component.java:2228)
+	at java.desktop/java.awt.Component.setSize(Component.java:2215)
+	at java.desktop/java.awt.Window.setSize(Window.java:889)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:111)
+	at cyder.ui.ConsoleFrame$1.<init>(ConsoleFrame.java:175)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:175)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:431)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:478)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:364)
+	at cyder.genesis.Cyder.main(Cyder.java:79)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

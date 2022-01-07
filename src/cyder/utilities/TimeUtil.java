@@ -65,6 +65,10 @@ public class TimeUtil {
         return getTime("EEEEEEEEE h:mm:ssaa");
     }
 
+    public static String consoleNoSecondTime() {
+        return getTime("EEEEEEEEE h:mmaa");
+    }
+
     /**
      * Returns the time returned by running the provided string into a SimpleDatFormat object and formatting it.
      * @param datePattern the provided date pattern

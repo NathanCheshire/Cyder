@@ -202,6 +202,7 @@ public final class ConsoleFrame {
                     }
 
                     revaliateMenu();
+                    refreshClockText();
                 }
 
                 @Override
@@ -1120,25 +1121,7 @@ public final class ConsoleFrame {
             OUTER:
                 while (true) {
                     try {
-                        if (UserUtil.extractUser().getClockonconsole().equalsIgnoreCase("1")) {
-                            if (UserUtil.extractUser().getShowseconds().equalsIgnoreCase("1")) {
-                                String time = TimeUtil.consoleSecondTime();
-                                int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                                int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-
-                                consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
-                                        -5, clockWidth, clockHeight);
-                                consoleClockLabel.setText(time);
-                            } else {
-                                String time = TimeUtil.consoleTime();
-                                int clockWidth = CyderFrame.getMinWidth(time, consoleClockLabel.getFont()) + 10;
-                                int clockHeight = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-
-                                consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - clockWidth / 2,
-                                        -5, clockWidth, clockHeight);
-                                consoleClockLabel.setText(time);
-                            }
-                        }
+                        refreshClockText();
 
                         //sleep 500 ms
                         int i = 0;
@@ -2907,10 +2890,27 @@ public final class ConsoleFrame {
     }
 
     public void refreshClockText() {
-        String time = TimeUtil.consoleTime();
+        if (consoleClockLabel == null)
+            return;
+
+        //the user set time
+        String pattern = UserUtil.extractUser().getConsoleclockformat();
+        String time = TimeUtil.getTime(pattern);
+
+        String regularSecondTime = TimeUtil.consoleSecondTime();
+        String regularNoSecondTime = TimeUtil.consoleNoSecondTime();
+
+        //no custom pattern so take into account showSeconds
+        if (time.equalsIgnoreCase(regularSecondTime) || time.equalsIgnoreCase(regularNoSecondTime)) {
+            if (UserUtil.extractUser().getShowseconds().equalsIgnoreCase("1")) {
+                time = regularSecondTime;
+            } else {
+                time = regularNoSecondTime;
+            }
+        }
+
         int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont());
-        int h = CyderFrame.getMinHeight(time, consoleClockLabel.getFont());
-        consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2, consoleClockLabel.getY(), w, h);
+        consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2, 0, w, DragLabel.getDefaultHeight());
         consoleClockLabel.setText(time);
     }
 
