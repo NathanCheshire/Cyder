@@ -565,8 +565,6 @@ public final class ConsoleFrame {
                 ctf.setBounds(20,20,280,40);
                 parentLabel.add(ctf);
 
-                submit.setBorder(new LineBorder(CyderColors.navy, 5, false));
-                submit.setColors(CyderColors.tooltipForegroundColor);
                 submit.addActionListener(ev -> {
                     String suggestionText = ctf.getText().trim();
 
@@ -585,7 +583,7 @@ public final class ConsoleFrame {
                 parentLabel.add(submit);
 
                 consoleCyderFrame.notify("",-1, Direction.LEFT, NotificationDirection.TOP_LEFT,
-                        null, parentLabel, CyderColors.navy.brighter());
+                        null, parentLabel, CyderColors.vanila);
 
             },"Suggestion Getter Waiter Thread").start());
             suggestionButton.addMouseListener(new MouseAdapter() {

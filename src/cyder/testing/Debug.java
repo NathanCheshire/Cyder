@@ -8,6 +8,7 @@ import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.StatUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -147,8 +148,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
-            //new Thread(StatUtil::findBadWords, "Bad Word Code Searcher").start();
-
+            new Thread(StatUtil::findBadWords, "Bad Word Code Searcher").start();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
