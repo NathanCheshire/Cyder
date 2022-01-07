@@ -717,13 +717,19 @@ public class StringUtil {
         if (userInput == null || word == null)
             throw new IllegalArgumentException("Provided input is null: userInput = " + userInput + ", word = " + word);
 
-        userInput.toLowerCase();
+        userInput = ' ' + userInput.toLowerCase() + ' ';
         word.toLowerCase();
 
-        return  word.equals(userInput) ||
-                word.contains(' ' + userInput + ' ') ||
-                word.contains(' ' + userInput) ||
-                word.contains(userInput + ' ');
+        //todo whole function will work if this works
+
+        String[] words = userInput.split(" ");
+
+        for (String subWord : words) {
+            if (subWord.contains(word))
+                return true;
+        }
+
+        return false;
     }
 
     /**
@@ -737,6 +743,9 @@ public class StringUtil {
 
         if (filterLeet)
             input = filterLeet(input.toLowerCase());
+
+        //remove comment stuff from input
+        input = input.replace("/","").replace("*","");
 
         try (BufferedReader vReader = new BufferedReader(new FileReader("static/text/v.txt"))) {
             String blockedWord;

@@ -508,8 +508,11 @@ public class StatUtil {
                 String line = "";
 
                 while ((line = lineReader.readLine()) != null) {
-                    if (StringUtil.filterLanguage(line.trim(), false))
-                        System.out.println(StringUtil.getFilename(startDir.getName()) + ": " + line.trim());
+                    if (isComment(line)) {
+                        if (StringUtil.filterLanguage(line, false))
+                            ConsoleFrame.getConsoleFrame().getInputHandler().println(
+                                    StringUtil.getFilename(startDir.getName()) + ": " + line);
+                    }
                 }
             } catch (Exception ex) {
                 ErrorHandler.handle(ex);
