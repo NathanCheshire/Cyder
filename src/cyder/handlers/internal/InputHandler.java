@@ -73,22 +73,36 @@ public class InputHandler {
     public void handle(String op, boolean userTriggered) throws Exception {
         //check for null link
         if (outputArea == null)
-            throw new IllegalArgumentException("Output area not set");
+            throw new IllegalStateException("Output area not set");
 
         //init String vars
         this.operation = op;
         String firstWord = StringUtil.firstWord(operation);
 
         //log CLIENT input
-        if (userTriggered)
+        if (userTriggered) {
             SessionHandler.log(SessionHandler.Tag.CLIENT, operation);
-        else
+        } else {
             SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + operation);
+        }
 
         //pre-process checks --------------------------------------
-        if (StringUtil.filterLanguage(operation, true) && UserUtil.getUserData("filterchat").equals("1")) {
+        if (UserUtil.getUserData("filterchat").equals("1") && StringUtil.filterLanguage(operation, true)) {
             println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
         }
+        //redirection check
+
+        boolean redirect = false;
+
+        if (operation.contains(" > ")) {
+            String[] ops = operation.split(" > ");
+
+            if (ops.length == 2 && ops[0].length() > 0 && ops[1].length() > 0) {
+                //todo is the right side a valid filename? if so, toggle redirect on
+                // this raises a question about concurency too for commands like bindump or hexdump
+            }
+        }
+
         //printing strings ----------------------------------------
         else if (hasWord("shakespeare")) {
             if (NumberUtil.randInt(1, 2) == 1) {
@@ -1585,6 +1599,8 @@ public class InputHandler {
                         Object line = consolePriorityPrintingList.removeFirst();
                         SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
 
+                        //todo if tagged as redirection then don't print
+
                         if (line instanceof String) {
                             StyledDocument document = (StyledDocument) outputArea.getDocument();
                             document.insertString(document.getLength(), (String) line, null);
@@ -1606,6 +1622,8 @@ public class InputHandler {
                     else if (consolePrintingList.size() > 0) {
                         Object line = consolePrintingList.removeFirst();
                         SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
+
+                        //todo if tagged as redirection then don't print
 
                         if (line instanceof String) {
                             if (typingAnimationLocal) {

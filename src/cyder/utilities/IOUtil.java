@@ -405,9 +405,7 @@ public class IOUtil {
             stopAudio();
         }
 
-        if (AudioPlayer.audioPlaying()) {
-            AudioPlayer.stopAudio();
-        }
+        AudioPlayer.stopAudio();
     }
 
     /**
