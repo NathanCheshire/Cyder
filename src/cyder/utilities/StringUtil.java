@@ -710,19 +710,38 @@ public class StringUtil {
     /**
      * Tests whether or not the provided string has the provided word inside of it.
      * @param userInput the master string to search through
-     * @param word the word to search the master string for
+     * @param findWord the word to search the master string for
      * @return a boolean depicting whether or not the given string contains the test word
      */
-    public static boolean hasWord(String userInput, String word) {
-        if (userInput == null || word == null)
-            throw new IllegalArgumentException("Provided input is null: userInput = " + userInput + ", word = " + word);
+    public static boolean hasWord(String userInput, String findWord) {
+        return hasWord(userInput, findWord, false);
+    }
+
+    /**
+     * Tests whether or not the provided string has the provided word inside of it.
+     * @param userInput the master string to search through
+     * @param findWord the word to search the master string for
+     * @param removeComments whether or not to remove comment tags from the input
+     * @return a boolean depicting whether or not the given string contains the test word
+     */
+    public static boolean hasWord(String userInput, String findWord, boolean removeComments) {
+        if (userInput == null || findWord == null)
+            throw new IllegalArgumentException("Provided input is null: userInput = " + userInput + ", word = " + findWord);
+
+        if (removeComments) {
+            userInput = userInput.replace("//","")
+                    .replace("/*","")
+                    .replace("*/","")
+                    .replace("*","");
+        }
 
         userInput = userInput.toLowerCase();
-        word.toLowerCase();
+        findWord.toLowerCase();
 
-        //todo logic
-
-        return false;
+        return userInput.startsWith(findWord + ' ') || //first word
+               userInput.endsWith(' ' + findWord) || //last word
+               userInput.contains(' ' + findWord + ' ') || //middle word
+               userInput.equalsIgnoreCase(findWord); //literal
     }
 
     /**
@@ -741,7 +760,10 @@ public class StringUtil {
             String blockedWord;
 
             while ((blockedWord = vReader.readLine()) != null) {
-                //todo if blockedWord somehow in input but not subword like password, ret = true; and break;
+                if (hasWord(input, blockedWord, true)) {
+                    ret = true;
+                    break;
+                }
             }
         } catch (Exception ex) {
             ErrorHandler.handle(ex);

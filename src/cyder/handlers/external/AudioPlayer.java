@@ -32,8 +32,6 @@ import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 
-//todo icon button where you pass it an icon and one for hover and a lambda for hovering
-
 public class AudioPlayer {
     //last actions needed for logic
     private enum LastAction {

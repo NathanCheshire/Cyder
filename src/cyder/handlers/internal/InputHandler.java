@@ -1189,6 +1189,12 @@ public class InputHandler {
             }
         } else if (hasWord("file") && hasWord("sizes")) {
             StatUtil.fileSizes();
+        } else if (hasWord("bad") && hasWord("words")) {
+            new Thread(() -> {
+                println("Finding bad words:");
+                StatUtil.findBadWords();
+                println("Concluded");
+            }, "Bad Word Code Searcher").start();
         }
         //final attempt at unknown input --------------------------
         else {
@@ -1895,14 +1901,7 @@ public class InputHandler {
     }
 
     private boolean hasWord(String compare) {
-        String[] words = operation.trim().split(" ");
-
-        for (String word : words) {
-            if (word.trim().equalsIgnoreCase(compare))
-                return true;
-        }
-
-        return false;
+        return StringUtil.hasWord(operation, compare, false);
     }
 
     //direct JTextPane manipulation methods -----------------------

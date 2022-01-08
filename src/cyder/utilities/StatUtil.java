@@ -508,8 +508,9 @@ public class StatUtil {
                 String line = "";
 
                 while ((line = lineReader.readLine()) != null) {
-                    if (isComment(line)) {
-                       //todo fix filter methods and hasWord methods
+                    if (isComment(line) && StringUtil.filterLanguage(line,false)) {
+                       ConsoleFrame.getConsoleFrame().getInputHandler().println(
+                               StringUtil.getFilename(startDir.getName()) + ": " + line.trim());
                     }
                 }
             } catch (Exception ex) {
