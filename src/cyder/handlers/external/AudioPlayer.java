@@ -18,7 +18,6 @@ import javazoom.jl.player.Player;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Port;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -33,16 +32,18 @@ import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 
+//todo icon button where you pass it an icon and one for hover and a lambda for hovering
+
 //todo opening when already open doesn't work
 
 public class AudioPlayer {
+    //last actions needed for logic
     private enum LastAction {
         SKIP,PAUSE,STOP,RESUME,PLAY
     }
 
+    //current last action
     private static LastAction lastAction;
-
-    private static File currentAudio;
 
     //ui components
     private static ScrollLabel audioScroll;
@@ -64,12 +65,12 @@ public class AudioPlayer {
     private static boolean shuffleAudio;
     private static boolean repeatAudio;
     private static boolean miniPlayer;
-    private static boolean pinned;
 
-    //audio list
+    //current audio
     private static int audioIndex;
-    private static final int pauseAudioReactionOffset = 10000;
     private static LinkedList<File> audioFiles;
+
+    private static final int pauseAudioReactionOffset = 10000;
 
     //album art
     private static ImageIcon currentAlbumArt;
@@ -79,10 +80,11 @@ public class AudioPlayer {
     private static BufferedInputStream bis;
     private static FileInputStream fis;
 
-    //resuming/audio stat vars
+    //audio location vars
     private static long pauseLocation;
     private static long totalLength;
 
+    //private constructor since only one player per Cyder instance
     private AudioPlayer() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
@@ -90,14 +92,14 @@ public class AudioPlayer {
     /**
      * Constructor that launches the AudioPlayer
      * @param startPlaying the audio file to start playing upon successful launch of the AudioPlayer.
-     *                     Pass {@code null} to avoid starting audio upon launch.
+     * Pass {@code null} to avoid starting audio upon launch.
      */
-    @Widget(trigger =  "mp3", description = "An audio playing widget")
+    @Widget(trigger = "mp3", description = "An audio playing widget")
     public static void showGUI(File startPlaying) {
         queue = new LinkedList<>();
 
         if (audioFrame != null)
-            audioFrame.dispose();
+            killWidget();
 
         if (IOUtil.generalAudioPlaying())
             IOUtil.stopAudio();
@@ -107,27 +109,19 @@ public class AudioPlayer {
         audioFrame.setBackground(new Color(8,23,52));
         audioFrame.setTitle("Flash Player");
         audioFrame.addWindowListener(
-                new WindowAdapter() {
-                     @Override
-                     public void windowClosed(WindowEvent e) {
-                         if (player != null)
-                             stopAudio();
-                         kill();
-
-                         if (!IOUtil.generalAudioPlaying())
-                             ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
-                     }
-
-                     @Override
-                     public void windowClosing(WindowEvent e) {
-                         if (player != null)
-                             stopAudio();
-                         kill();
-
-                         if (!IOUtil.generalAudioPlaying())
-                             ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
-                     }
+            new WindowAdapter() {
+                 //to be safe, upon the window closing and the window closed events
+                 // we kill the widget
+                 @Override
+                 public void windowClosed(WindowEvent e) {
+                     killWidget();
                  }
+
+                 @Override
+                 public void windowClosing(WindowEvent e) {
+                     killWidget();
+                 }
+             }
         );
         audioFrame.initializeResizing();
         audioFrame.setResizable(true);
@@ -489,16 +483,16 @@ public class AudioPlayer {
 
     /**
      * Adds the given file to the queue. If the player is not open, then it plays the requested audio.
-     * @param f the audio to play
+     * @param audioFile the audio to play
      */
-    public static void addToMp3Queue(File f) {
+    public static void addToMp3Queue(File audioFile) {
         if (audioPlaying()) {
-            addToQueue(f);
+            addToQueue(audioFile);
         } else if (windowOpen()){
-            refreshAudioFiles(f);
+            refreshAudioFiles(audioFile);
             startAudio();
         } else {
-            showGUI(f);
+            showGUI(audioFile);
         }
     }
 
@@ -512,7 +506,7 @@ public class AudioPlayer {
     /**
      * Determines whether or not the audio widget is currently playing audio.
      * If player is closed, then player is set to null so this will always work.
-     * @return returns whether or not any AUDIO is playing via AudioPlayer
+     * @return whether or not audio is playing via the AudioPlayer
      */
     public static boolean audioPlaying() {
         return player != null && !player.isComplete();
@@ -520,7 +514,8 @@ public class AudioPlayer {
 
     /**
      * Returns whether or not any audio has been paused. This is indicated via
-     *  a value other than 0 for pauseLocaiton.
+     * a value other than 0 for pauseLocaiton. This method is used for ConsoleFrame's
+     * audio menu currently.
      * @return whether or not any audio is paused
      */
     public static boolean isPaused() {
@@ -529,14 +524,14 @@ public class AudioPlayer {
 
     /**
      * Returns whether or not the audioplayer widget is currently open
-     * @return if AudioPlayer is open
+     * @return whether or not the AudioPlayer frame is open
      */
     public static boolean windowOpen() {
         return audioFrame != null;
     }
 
     /**
-     * Refreshes the {@code Port.Info.SPEAKER} or {@code Port.Info.HEADPHONE} volume.
+     * Refreshes the {@code Port.Info.SPEAKER} and {@code Port.Info.HEADPHONE} volume level.
      */
     public static void refreshAudio() {
         try {
@@ -553,15 +548,16 @@ public class AudioPlayer {
                 FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
                 volumeControl.setValue((float) (audioVolumeSlider.getValue() * 0.001));
             }
-        } catch (LineUnavailableException ex) {
+        } catch (Exception ex) {
             ErrorHandler.handle(ex);
         }
     }
 
     /**
-     * Refreshes the audio list and the audio index incase files were added to the directory.
+     * Refreshes the audio list and the audio index in case audio files were added to the working directory.
      * When starting pass the file that the user selected using the select audio directory button.
      * On refresh, you may pass null and the program will infer where to look based on the current audioFile dir.
+     * If null is passed without any valid audio files, an IllegalArgumentException will be thrown.
      */
     public static void refreshAudioFiles(File refreshOnFile) {
         if (audioFiles == null)
@@ -590,19 +586,27 @@ public class AudioPlayer {
     }
 
     /**
-     * Pauses the audio if anything is currently playing in preparation to resume at the current location.
+     * Pauses the audio if anything is currently playing
+     * in preparation to resume at the current location.
      */
     public static void pauseAudio() {
+        //set last action
         lastAction = LastAction.PAUSE;
+
         try {
+            //figure out where we are
             pauseLocation = totalLength - fis.available() - pauseAudioReactionOffset;
 
+            //careful here to close the player
             if (player != null)
                 player.close();
             player = null;
 
+            //set icon and tooltip
             playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Play.png"));
             playPauseAudioButton.setToolTipText("Play");
+
+            //revalidate the console audio menu
             ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -610,44 +614,57 @@ public class AudioPlayer {
     }
 
     /**
-     * Stops the audio and all threads in their tracks.
+     * Stops the audio and all visual indication threads.
      */
     public static void stopAudio() {
+        //set last action
         lastAction = LastAction.STOP;
+
         try {
+            //end audio scroll label
             if (audioScroll != null)
                 audioScroll.kill();
             audioScroll = null;
 
+            //reset audio title now that scrolling has ended
+            if (audioTitleLabel != null)
+                audioTitleLabel.setText("No Audio Playing");
+
+            //end audio location progress bar
             if (audioLocation != null)
                 audioLocation.kill();
             audioLocation = null;
 
+            //reset the progress bar text
+            if (audioProgress != null)
+                audioProgress.setValue(0);
+            audioProgressLabel.setText("");
+
+            //close the player and associated buffers/streams
             if (player != null)
                 player.close();
             player = null;
             bis = null;
             fis = null;
 
+            //reset location vars
             pauseLocation = 0;
             totalLength = 0;
 
-            if (audioTitleLabel != null)
-                audioTitleLabel.setText("No Audio Playing");
-
-            if (audioProgress != null)
-                audioProgress.setValue(0);
-            audioProgressLabel.setText("");
-
+            //reset icons/tooltips
             playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Play.png"));
             playPauseAudioButton.setToolTipText("Play");
+
+            //revalidate console frame's audio menu
             ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
+            //take away the custom icon since no audio is playing nor paused
             if (audioFrame != null) {
                 audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
                 audioFrame.setUseCustomTaskbarIcon(false);
             }
 
+            //refresh the audio volume
             refreshAudio();
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -658,18 +675,24 @@ public class AudioPlayer {
      * Skips to the current audio file's predecesor if it exists in the directory.
      */
     public static void previousAudio() {
+        //refresh files just to be safe
         refreshAudioFiles(null);
+
+        //set last action
         lastAction = LastAction.SKIP;
+
         try {
+            //stop any audio playing
             stopAudio();
 
+            //take into account shuffling to find an audio index
             if (shuffleAudio) {
                 int nextAudioIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
+
                 while (nextAudioIndex == audioIndex)
                     nextAudioIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
 
                 audioIndex = nextAudioIndex;
-
             } else {
                 if (audioIndex - 1 > -1) {
                     audioIndex--;
@@ -678,6 +701,7 @@ public class AudioPlayer {
                 }
             }
 
+            //now that an index has been chosen and set, start the audio again
             startAudio();
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
@@ -688,11 +712,17 @@ public class AudioPlayer {
      * Skips to the current audio file's successor if it exists in the directory.
      */
     public static void nextAudio() {
+        //just to be safe
         refreshAudioFiles(null);
+
+        //set last action
         lastAction = LastAction.SKIP;
+
         try {
+            //stop any audio playing
             stopAudio();
 
+            //find an audio index
             if (shuffleAudio) {
                 int nextAudioIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
                 while (nextAudioIndex == audioIndex)
@@ -708,6 +738,7 @@ public class AudioPlayer {
                 }
             }
 
+            //now that an audio index has been found, play audio
             startAudio();
         } catch (Exception ex) {
             ErrorHandler.handle(ex);
@@ -715,9 +746,10 @@ public class AudioPlayer {
     }
 
     /**
-     * Kills all threads and resets all variables to their defaults before invoking dispose on the audio frame.
+     * Kills all threads and resets all variables to their defaults
+     * before invoking dispose on the audio frame
      */
-    public static void kill() {
+    public static void killWidget() {
         stopAudio();
 
         //player ending calls
@@ -746,6 +778,9 @@ public class AudioPlayer {
         if (audioFrame != null && !audioFrame.isDisposed())
             audioFrame.dispose();
         audioFrame = null;
+
+        if (!IOUtil.generalAudioPlaying())
+            ConsoleFrame.getConsoleFrame().animateOutAndRemoveAudioControls();
     }
 
     /**
@@ -771,7 +806,7 @@ public class AudioPlayer {
                     audioLocation.kill();
                 audioLocation = null;
 
-                //these occasionally throws NullPtrExep if the user spams buttons so we'll ignore that
+                //these occasionally throw NullPtrExep if the user spams buttons so we'll ignore that
                 try {
                     player = new Player(bis);
                     totalLength = fis.available();
@@ -801,10 +836,13 @@ public class AudioPlayer {
 
                 lastAction = LastAction.PLAY;
 
-                SessionHandler.log(SessionHandler.Tag.ACTION,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
+                SessionHandler.log(SessionHandler.Tag.ACTION,
+                        "[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
                 //on spam of skip button, music player hangs for about 10 seconds
                 // and throws an error then catches up eventually
                 player.play();
+
+                //after player concludes the following lines of code are executed
 
                 if (audioLocation != null)
                     audioLocation.kill();
@@ -1103,23 +1141,6 @@ public class AudioPlayer {
      */
     public boolean getMiniPlayer() {
         return this.miniPlayer;
-    }
-
-    /**
-     * Sets the value for pinning the frame on top.
-     * @param b the value determining whether or not the frame is always on top
-     */
-    public static void setPinned(boolean b) {
-        pinned = b;
-        audioFrame.setAlwaysOnTop(pinned);
-    }
-
-    /**
-     * Standard getter for pinned boolean.
-     * @return the boolean of pinned
-     */
-    public static boolean getPinned() {
-        return pinned;
     }
 
     /**
