@@ -34,8 +34,6 @@ import java.util.LinkedList;
 
 //todo icon button where you pass it an icon and one for hover and a lambda for hovering
 
-//todo opening when already open doesn't work
-
 public class AudioPlayer {
     //last actions needed for logic
     private enum LastAction {
@@ -98,15 +96,23 @@ public class AudioPlayer {
     public static void showGUI(File startPlaying) {
         queue = new LinkedList<>();
 
-        if (audioFrame != null)
-            killWidget();
+        if (audioFrame != null) {
+            stopAudio();
+            refreshAudioFiles(startPlaying);
+
+            if (audioFiles.size() != 0)
+                startAudio();
+
+            return;
+        }
 
         if (IOUtil.generalAudioPlaying())
             IOUtil.stopAudio();
 
+        Color backgroundColor = new Color(8,23,52);
         audioFrame = new CyderFrame(500,225,
-                new ImageIcon(ImageUtil.bufferedImageFromColor(500,225,new Color(8,23,52))));
-        audioFrame.setBackground(new Color(8,23,52));
+                new ImageIcon(ImageUtil.bufferedImageFromColor(500,225, backgroundColor)));
+        audioFrame.setBackground(backgroundColor);
         audioFrame.setTitle("Flash Player");
         audioFrame.addWindowListener(
             new WindowAdapter() {
@@ -115,14 +121,12 @@ public class AudioPlayer {
                  @Override
                  public void windowClosed(WindowEvent e) {
                      killWidget();
-                 }
-
-                 @Override
-                 public void windowClosing(WindowEvent e) {
-                     killWidget();
+                     audioFiles = null;
+                     audioIndex = -1;
                  }
              }
         );
+
         audioFrame.initializeResizing();
         audioFrame.setResizable(true);
         audioFrame.setMinimumSize(new Dimension(500, 155));
@@ -441,11 +445,6 @@ public class AudioPlayer {
         audioFrame.getContentPane().add(audioProgress);
 
         audioFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
-        audioFrame.addPreCloseAction(() -> {
-            stopAudio();
-            audioFiles = null;
-            audioIndex = -1;
-        });
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 
