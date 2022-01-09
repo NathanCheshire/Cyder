@@ -1,0 +1,70 @@
+[22-03-30] [ENTRY]: [Nathan]
+[22-03-30] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-03-31] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-03-31] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-03-32] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-03-32] [SYSTEM_IO]: Userdata requested: Name
+[22-03-32] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-03-32] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-33] [SYSTEM_IO]: Userdata requested: Name
+[22-03-33] [SYSTEM_IO]: Userdata requested: Foreground
+[22-03-33] [SYSTEM_IO]: Userdata requested: Foreground
+[22-03-33] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-33] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-34] [SYSTEM_IO]: Userdata requested: Foreground
+[22-03-34] [SYSTEM_IO]: Userdata requested: Font
+[22-03-34] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-03-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-34] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-03-34] [SYSTEM_IO]: Userdata requested: Foreground
+[22-03-34] [SYSTEM_IO]: Userdata requested: Foreground
+[22-03-34] [SYSTEM_IO]: Userdata requested: Foreground
+[22-03-34] [SYSTEM_IO]: Userdata requested: Font
+[22-03-34] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-03-34] [SYSTEM_IO]: Userdata requested: InputFill
+[22-03-34] [SYSTEM_IO]: Userdata requested: consolepinned
+[22-03-34] [SYSTEM_IO]: Userdata requested: consolepinned
+[22-03-34] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [880028430], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-03-34] [ACTION]: Console loaded in 4708ms
+[22-03-34] [SYSTEM_IO]: Userdata requested: windowlocx
+[22-03-34] [SYSTEM_IO]: Userdata requested: windowlocy
+[22-03-34] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-03-34] [ENTRY]: [TESTING MODE]
+[22-03-34] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4708ms
+[22-03-34] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-03-37] [CONSOLE_OUT]: [STRING] Requirement already satisfied: wmi in c:\programdata\anaconda3\lib\site-packages (1.5.1)
+[22-03-37] [CONSOLE_OUT]: [STRING] Requirement already satisfied: pywin32 in c:\programdata\anaconda3\lib\site-packages (from wmi) (228)
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Root Hub (USB 3.0)
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Root Hub (USB 3.0)
+[22-03-39] [CONSOLE_OUT]: [STRING] Generic USB Hub
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-03-39] [CONSOLE_OUT]: [STRING] HID Keyboard Device
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-03-39] [CONSOLE_OUT]: [STRING] HID Keyboard Device
+[22-03-39] [CONSOLE_OUT]: [STRING] HID-compliant consumer control device
+[22-03-39] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-03-39] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-03-39] [CONSOLE_OUT]: [STRING] Integrated IR Camera
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-03-39] [CONSOLE_OUT]: [STRING] Integrated Camera
+[22-03-39] [CONSOLE_OUT]: [STRING] Synaptics WBDI - SGX
+[22-03-39] [SYSTEM_IO]: Userdata requested: laststart
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-03-39] [CONSOLE_OUT]: [STRING] HID-compliant mouse
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-03-39] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-03-39] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-03-39] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-03-39] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-03-39] [CONSOLE_OUT]: [STRING] Realtek USB 3.0 Card Reader
+[22-03-44] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-03-44] [SYSTEM_IO]: Userdata requested: Name
+[22-03-44] [LOGOUT]: [Nathan]
+[22-03-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(675, 300, 746, 950)], hash = [1161322357], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[22-03-44] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-03-44] [SYSTEM_IO]: Userdata requested: Background
+[22-03-44] [EXIT]: [RUNTIME] 14s
+[22-03-44] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

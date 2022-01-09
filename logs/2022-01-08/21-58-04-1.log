@@ -1,0 +1,51 @@
+[21-58-04] [ENTRY]: [Nathan]
+[21-58-04] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-58-06] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-58-06] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-58-06] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-58-06] [SYSTEM_IO]: Userdata requested: Name
+[21-58-07] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-58-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-07] [SYSTEM_IO]: Userdata requested: Name
+[21-58-07] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-07] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-08] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-08] [SYSTEM_IO]: Userdata requested: Font
+[21-58-08] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-58-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-08] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-58-08] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-08] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-08] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-08] [SYSTEM_IO]: Userdata requested: Font
+[21-58-08] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-58-08] [SYSTEM_IO]: Userdata requested: InputFill
+[21-58-08] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-58-08] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-58-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [727728235], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-58-08] [ACTION]: Console loaded in 4183ms
+[21-58-08] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-58-08] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-58-08] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-58-08] [ENTRY]: [TESTING MODE]
+[21-58-08] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4183ms
+[21-58-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-58-13] [SYSTEM_IO]: Userdata requested: laststart
+[21-58-13] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-58-57] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: showbusyicon
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: showbusyicon
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:429)
+	at cyder.ui.ConsoleFrame.lambda$startExecutors$17(ConsoleFrame.java:1135)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

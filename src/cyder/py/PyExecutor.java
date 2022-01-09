@@ -13,6 +13,10 @@ public class PyExecutor {
     }
 
     public static void executePy(String pythonScriptPath) {
+        //just to be safe, even though Runtime.getRuntime().exec() isn't safe to begin with
+        if (!pythonScriptPath.endsWith(".py"))
+            return;
+
         new Thread(() -> {
             try {
                 if (SystemUtil.getOS().toLowerCase().contains("windows")) {

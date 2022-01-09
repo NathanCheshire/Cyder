@@ -1,0 +1,79 @@
+[21-59-25] [ENTRY]: [Nathan]
+[21-59-25] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-59-26] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-59-26] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-59-27] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-59-27] [SYSTEM_IO]: Userdata requested: Name
+[21-59-28] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-59-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-59-28] [SYSTEM_IO]: Userdata requested: Name
+[21-59-28] [SYSTEM_IO]: Userdata requested: Foreground
+[21-59-28] [SYSTEM_IO]: Userdata requested: Foreground
+[21-59-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-59-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-59-29] [SYSTEM_IO]: Userdata requested: Foreground
+[21-59-29] [SYSTEM_IO]: Userdata requested: Font
+[21-59-29] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-59-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-59-29] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-59-29] [SYSTEM_IO]: Userdata requested: Foreground
+[21-59-29] [SYSTEM_IO]: Userdata requested: Foreground
+[21-59-29] [SYSTEM_IO]: Userdata requested: Foreground
+[21-59-29] [SYSTEM_IO]: Userdata requested: Font
+[21-59-29] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-59-29] [SYSTEM_IO]: Userdata requested: InputFill
+[21-59-29] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-59-29] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-59-29] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1654, 316, 600, 600)], hash = [130577952], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-59-29] [ACTION]: Console loaded in 4605ms
+[21-59-29] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-59-29] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-59-29] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-59-29] [ENTRY]: [TESTING MODE]
+[21-59-29] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4605ms
+[21-59-29] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-59-30] [DEBUG]: Requirement already satisfied: wmi in c:\programdata\anaconda3\lib\site-packages (1.5.1)
+[21-59-30] [DEBUG]: Requirement already satisfied: pywin32 in c:\programdata\anaconda3\lib\site-packages (from wmi) (228)
+[21-59-34] [DEBUG]: USB Root Hub (USB 3.0)
+[21-59-34] [DEBUG]: USB Root Hub (USB 3.0)
+[21-59-34] [DEBUG]: Generic USB Hub
+[21-59-34] [DEBUG]: USB Composite Device
+[21-59-34] [DEBUG]: USB Input Device
+[21-59-34] [DEBUG]: HID Keyboard Device
+[21-59-34] [DEBUG]: USB Input Device
+[21-59-34] [DEBUG]: HID Keyboard Device
+[21-59-34] [DEBUG]: HID-compliant consumer control device
+[21-59-34] [DEBUG]: HID-compliant vendor-defined device
+[21-59-34] [DEBUG]: HID-compliant vendor-defined device
+[21-59-34] [DEBUG]: USB Composite Device
+[21-59-34] [DEBUG]: Integrated IR Camera
+[21-59-34] [DEBUG]: USB Composite Device
+[21-59-34] [DEBUG]: Integrated Camera
+[21-59-34] [DEBUG]: Synaptics WBDI - SGX
+[21-59-34] [DEBUG]: USB Composite Device
+[21-59-34] [DEBUG]: USB Input Device
+[21-59-34] [DEBUG]: HID-compliant mouse
+[21-59-34] [DEBUG]: USB Input Device
+[21-59-34] [DEBUG]: HID-compliant vendor-defined device
+[21-59-34] [DEBUG]: USB Input Device
+[21-59-34] [DEBUG]: HID-compliant vendor-defined device
+[21-59-34] [DEBUG]: Realtek USB 3.0 Card Reader
+[21-59-34] [SYSTEM_IO]: Userdata requested: laststart
+[21-59-34] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-00-08] [SYSTEM_IO]: Userdata requested: HourlyChimes
+[22-00-08] [ACTION]: [SYSTEM AUDIO] static/audio/chime.mp3
+[22-00-18] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: showbusyicon
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: showbusyicon
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:429)
+	at cyder.ui.ConsoleFrame.lambda$startExecutors$17(ConsoleFrame.java:1135)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

@@ -1,0 +1,184 @@
+[22-14-45] [ENTRY]: [Nathan]
+[22-14-45] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-14-47] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-14-47] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-14-47] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-14-48] [SYSTEM_IO]: Userdata requested: Name
+[22-14-48] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-14-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-49] [SYSTEM_IO]: Userdata requested: Name
+[22-14-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-49] [SYSTEM_IO]: Userdata requested: Font
+[22-14-49] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-14-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-49] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-14-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-49] [SYSTEM_IO]: Userdata requested: Font
+[22-14-49] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-14-49] [SYSTEM_IO]: Userdata requested: InputFill
+[22-14-49] [SYSTEM_IO]: Userdata requested: consolepinned
+[22-14-49] [SYSTEM_IO]: Userdata requested: consolepinned
+[22-14-49] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1810420006], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-14-49] [ACTION]: Console loaded in 4306ms
+[22-14-49] [SYSTEM_IO]: Userdata requested: windowlocx
+[22-14-49] [SYSTEM_IO]: Userdata requested: windowlocy
+[22-14-49] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-14-49] [ENTRY]: [TESTING MODE]
+[22-14-49] [SYSTEM_IO]: Userdata requested: laststart
+[22-14-49] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-14-50] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4306ms
+[22-14-50] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-14-54] [CLIENT]: usb
+[22-14-54] [SYSTEM_IO]: Userdata requested: filterchat
+[22-14-55] [CONSOLE_OUT]: [STRING] Requirement already satisfied: wmi in c:\programdata\anaconda3\lib\site-packages (1.5.1)
+[22-14-55] [CONSOLE_OUT]: [STRING] Requirement already satisfied: pywin32 in c:\programdata\anaconda3\lib\site-packages (from wmi) (228)
+[22-14-58] [CONSOLE_OUT]: [STRING] Connected devices:
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Root Hub (USB 3.0)
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Root Hub (USB 3.0)
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] Generic USB Hub
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] HID Keyboard Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] HID Keyboard Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] HID-compliant consumer control device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] Integrated IR Camera
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] Integrated Camera
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] Synaptics WBDI - SGX
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] HID-compliant mouse
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-14-58] [CONSOLE_OUT]: [STRING] Realtek USB 3.0 Card Reader
+[22-14-58] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-03] [CLIENT]: usb > anaconda.lol
+[22-15-03] [SYSTEM_IO]: Userdata requested: filterchat
+[22-15-05] [CONSOLE_OUT]: [STRING] Requirement already satisfied: wmi in c:\programdata\anaconda3\lib\site-packages (1.5.1)
+[22-15-05] [CONSOLE_OUT]: [STRING] Requirement already satisfied: pywin32 in c:\programdata\anaconda3\lib\site-packages (from wmi) (228)
+[22-15-11] [CONSOLE_OUT]: [STRING] Connected devices:
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Root Hub (USB 3.0)
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Root Hub (USB 3.0)
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] Generic USB Hub
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] HID Keyboard Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] HID Keyboard Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] HID-compliant consumer control device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] Integrated IR Camera
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] Integrated Camera
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] Synaptics WBDI - SGX
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Composite Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] HID-compliant mouse
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] USB Input Device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-11] [CONSOLE_OUT]: [STRING] Realtek USB 3.0 Card Reader
+[22-15-11] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[22-15-14] [SYSTEM_IO]: Userdata requested: Background
+[22-15-20] [SYSTEM_IO]: Userdata requested: Background
+[22-15-34] [CLIENT]: filterchat > anaconda.lol
+[22-15-34] [SYSTEM_IO]: Userdata requested: filterchat
+[22-15-34] [SYSTEM_IO]: Userdata requested: filterchat
+[22-15-34] [CONSOLE_OUT]: [STRING] Filter Chat set to true
+[22-15-34] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-15-34] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-15-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-15-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-15-34] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[22-15-34] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-15-34] [SYSTEM_IO]: Userdata requested: InputFill
+[22-15-34] [ACTION]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-15-46] [CLIENT]: hello > anaconda.lol
+[22-15-46] [SYSTEM_IO]: Userdata requested: filterchat
+[22-15-46] [SYSTEM_IO]: Userdata requested: Name
+[22-15-46] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[22-15-52] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: typinganimation
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:429)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$11(InputHandler.java:1620)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[22-15-54] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-15-54] [SYSTEM_IO]: Userdata requested: Name
+[22-15-54] [LOGOUT]: [Nathan]
+[22-15-54] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(549, 229, 746, 950)], hash = [1571798597], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[22-15-54] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-15-54] [SYSTEM_IO]: Userdata requested: Background
+[22-15-54] [EXIT]: [RUNTIME] 1m 9s
+[22-15-54] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1
