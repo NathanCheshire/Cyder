@@ -13,6 +13,7 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.DirectoryViewer;
+import cyder.py.PyExecutor;
 import cyder.testing.Debug;
 import cyder.testing.ManualTests;
 import cyder.testing.UnitTests;
@@ -110,6 +111,8 @@ public class InputHandler {
 
                         //create file for current use
                         try {
+                            if (redirectionFile.exists())
+                                redirectionFile.delete();
                             redirectionFile.createNewFile();
                         } catch (Exception ignored) {
                             redirection = false;
@@ -1230,6 +1233,8 @@ public class InputHandler {
                 StatUtil.findBadWords();
                 println("Concluded");
             }, "Bad Word Code Searcher").start();
+        } else if (hasWord("usb")) {
+            PyExecutor.executeUSBq();
         }
         //final attempt at unknown input --------------------------
         else {
@@ -2051,12 +2056,16 @@ public class InputHandler {
 
     //redirection logic ---------------------------------------
 
+    Semaphore redirectionSem = new Semaphore(1);
+
     private void redirectionWrite(Object object) {
         if (!redirectionFile.exists())
             throw new IllegalStateException("Redirection file does not exist");
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(redirectionFile, false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(redirectionFile, true))) {
+            redirectionSem.acquire();
             writer.write(String.valueOf(object));
+            redirectionSem.release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

@@ -23,6 +23,8 @@ public class CyderStrings {
     //instantiation of a static class message
     public static final String attemptedClassInstantiation = "States are not available for static classes";
 
+    public static final String commentSepString = "----------------------------------------";
+
     private CyderStrings() {
         throw new IllegalStateException(attemptedClassInstantiation);
     }

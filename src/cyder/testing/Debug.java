@@ -145,19 +145,15 @@ public class Debug {
         }
     }
 
+    public static void here() {
+        println("here",false);
+    }
+
     public static void launchTests() {
         try {
 
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
-    }
-
-    public static void here() {
-        here("here");
-    }
-
-    public static void here(String hereString) {
-        println(hereString);
     }
 }

@@ -70,6 +70,9 @@ public class SystemUtil {
         return System.getProperty(property);
     }
 
+    /**
+     * @return the direct result of calling System.getProperty("os.name");
+     */
     public static String getOS() {
         return System.getProperty("os.name");
     }
