@@ -1,0 +1,137 @@
+[21-15-17] [ENTRY]: [Nathan]
+[21-15-17] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-15-19] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-15-19] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-15-19] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-15-19] [SYSTEM_IO]: Userdata requested: Name
+[21-15-19] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-15-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-15-20] [SYSTEM_IO]: Userdata requested: Name
+[21-15-20] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-20] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-20] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-15-20] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-15-20] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-20] [SYSTEM_IO]: Userdata requested: Font
+[21-15-20] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-15-20] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-15-20] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-15-20] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-20] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-20] [SYSTEM_IO]: Userdata requested: Foreground
+[21-15-20] [SYSTEM_IO]: Userdata requested: Font
+[21-15-20] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-15-20] [SYSTEM_IO]: Userdata requested: InputFill
+[21-15-20] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-15-20] [SYSTEM_IO]: Userdata requested: consolepinned
+[21-15-20] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 337, 600, 600)], hash = [1937041819], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-15-20] [ACTION]: Console loaded in 3977ms
+[21-15-20] [SYSTEM_IO]: Userdata requested: windowlocx
+[21-15-20] [SYSTEM_IO]: Userdata requested: windowlocy
+[21-15-20] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-15-20] [ENTRY]: [TESTING MODE]
+[21-15-20] [SYSTEM_IO]: Userdata requested: laststart
+[21-15-20] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-15-20] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3977ms
+[21-15-21] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-15-24] [CLIENT]: hello
+[21-15-24] [SYSTEM_IO]: Userdata requested: filterchat
+[21-15-24] [SYSTEM_IO]: Userdata requested: Name
+[21-15-24] [CONSOLE_OUT]: [STRING] Good evening, Nathan. How can I help?
+[21-15-29] [CLIENT]: hello > test.file
+[21-15-29] [EXCEPTION]: 
+The system cannot find the path specified
+Thrown from:
+java.base/java.io.WinNTFileSystem.createFileExclusively(Native Method)
+StackTrace:
+java.io.IOException: The system cannot find the path specified
+	at java.base/java.io.WinNTFileSystem.createFileExclusively(Native Method)
+	at java.base/java.io.File.createNewFile(File.java:1024)
+	at cyder.handlers.internal.InputHandler.handle(InputHandler.java:110)
+	at cyder.ui.ConsoleFrame.lambda$start$2(ConsoleFrame.java:515)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[21-15-29] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[21-15-29] [DEBUG]: The system cannot find the path specified
+java.io.IOException: The system cannot find the path specified
+	at java.base/java.io.WinNTFileSystem.createFileExclusively(Native Method)
+	at java.base/java.io.File.createNewFile(File.java:1024)
+	at cyder.handlers.internal.InputHandler.handle(InputHandler.java:110)
+	at cyder.ui.ConsoleFrame.lambda$start$2(ConsoleFrame.java:515)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

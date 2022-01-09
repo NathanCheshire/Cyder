@@ -1,0 +1,92 @@
+[20-49-47] [ENTRY]: [Nathan]
+[20-49-47] [SYSTEM_IO]: System data pared in IOUtil's static block
+[20-49-49] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-49-49] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-49-49] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-49-49] [SYSTEM_IO]: Userdata requested: Name
+[20-49-50] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-49-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-49-50] [SYSTEM_IO]: Userdata requested: Name
+[20-49-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-49-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-49-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-49-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-49-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-49-50] [SYSTEM_IO]: Userdata requested: Font
+[20-49-50] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-49-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-49-50] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-49-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-49-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-49-50] [SYSTEM_IO]: Userdata requested: Foreground
+[20-49-50] [SYSTEM_IO]: Userdata requested: Font
+[20-49-50] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-49-50] [SYSTEM_IO]: Userdata requested: InputFill
+[20-49-50] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-49-50] [SYSTEM_IO]: Userdata requested: consolepinned
+[20-49-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [938131622], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-49-50] [ACTION]: Console loaded in 3310ms
+[20-49-50] [SYSTEM_IO]: Userdata requested: windowlocx
+[20-49-50] [SYSTEM_IO]: Userdata requested: windowlocy
+[20-49-50] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-49-50] [ENTRY]: [TESTING MODE]
+[20-49-50] [SYSTEM_IO]: Userdata requested: laststart
+[20-49-50] [SYSTEM_IO]: Userdata requested: IntroMusic
+[20-49-50] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3310ms
+[20-49-50] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-49-56] [CLIENT]: hello > myfile.txt
+[20-49-56] [CONSOLE_OUT]: [STRING] Handle: hello but save to file: myfile.txt
+[20-49-56] [SYSTEM_IO]: Userdata requested: filterchat
+[20-49-56] [SYSTEM_IO]: Userdata requested: Name
+[20-49-56] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[20-50-05] [CLIENT]: bletchy park bitch
+[20-50-05] [SYSTEM_IO]: Userdata requested: filterchat
+[20-50-05] [SYSTEM_IO]: Userdata requested: Name
+[20-50-05] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but that language is prohibited.
+[20-50-09] [CLIENT]: bletchy park bitch
+[20-50-09] [SYSTEM_IO]: Userdata requested: filterchat
+[20-50-09] [SYSTEM_IO]: Userdata requested: Name
+[20-50-09] [CONSOLE_OUT]: [STRING] Sorry, Nathan, but that language is prohibited.
+[20-50-11] [CLIENT]: filterchat
+[20-50-11] [SYSTEM_IO]: Userdata requested: filterchat
+[20-50-11] [SYSTEM_IO]: Userdata requested: filterchat
+[20-50-11] [CONSOLE_OUT]: [STRING] Filter Chat set to false
+[20-50-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-50-11] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-50-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-50-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-50-11] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[20-50-11] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-50-11] [SYSTEM_IO]: Userdata requested: InputFill
+[20-50-11] [ACTION]: CONSOLE PREFERENCE TOGGLE HANDLED
+[20-50-11] [CLIENT]: bletchy park bitch
+[20-50-11] [SYSTEM_IO]: Userdata requested: filterchat
+[20-50-13] [CLIENT]: controlc
+[20-50-13] [SYSTEM_IO]: Userdata requested: filterchat
+[20-50-13] [CONSOLE_OUT]: [STRING] Escaped
+[20-50-14] [CLIENT]: clear
+[20-50-14] [SYSTEM_IO]: Userdata requested: filterchat
+[20-50-16] [CLIENT]: random youtube
+[20-50-16] [SYSTEM_IO]: Userdata requested: filterchat
+[20-50-16] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Type "stop scripts" or press ctrl + c to stop the YouTube thread.
+[20-50-16] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-50-19] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Time left: years: 11861332, months: 4, days: 6, hours: 16, minutes: 36, seconds: 31.06
+[20-50-19] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-50-26] [CLIENT]: threads
+[20-50-26] [SYSTEM_IO]: Userdata requested: filterchat
+[20-50-26] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[20-50-26] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[20-50-26] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[20-50-26] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[20-50-26] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[20-50-26] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[20-50-26] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[20-50-26] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[20-50-26] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[20-50-26] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[20-50-26] [CONSOLE_OUT]: [STRING] Random youtube thread
+[20-50-32] [CLIENT]: quit
+[20-50-32] [SYSTEM_IO]: Userdata requested: filterchat
+[20-50-32] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-50-33] [EXIT]: [RUNTIME] 45s
+[20-50-33] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

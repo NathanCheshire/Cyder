@@ -52,8 +52,13 @@ public class InputHandler {
     private JTextPane outputArea;
     private MasterYoutubeThread masterYoutubeThread;
     private BletchyThread bletchyThread;
+
     private boolean userInputMode;
     private boolean finishPrinting;
+
+    private File redirectionFile;
+    private boolean redirection;
+
     private String userInputDesc;
     private String operation;
     private UserEditor userEditor;
@@ -71,6 +76,10 @@ public class InputHandler {
     //handle methods ----------------------------------------------
 
     public void handle(String op, boolean userTriggered) throws Exception {
+        //reset redirection now since we have a new command
+        redirection = false;
+        redirectionFile = null;
+
         //check for null link
         if (outputArea == null)
             throw new IllegalStateException("Output area not set");
@@ -87,22 +96,19 @@ public class InputHandler {
         }
 
         //redirection check ------------------------------------------
-        boolean redirect = false;
-
         if (operation.contains(" > ")) {
             String[] ops = operation.split(" > ");
 
             if (ops.length == 2 && ops[0].length() > 0 && ops[1].length() > 0) {
-                //todo is the right side a valid filename? if so, toggle redirect on
-                // this raises a question about concurency too for commands like bindump or hexdump
-
-                //todo it must be a print statement so that's why we're safe to intercept it
-                // using a println command with a wrapper object
-
                 if (IOUtil.isValidFilenameWindows(ops[1])) {
-                    //todo send println the object and tagged as redirection
-                    System.out.println("valid filename: " + ops[1]);
-                } else System.out.println("invalid filename");
+                    this.operation = ops[0];
+                    redirection = true;
+                    redirectionFile = new File("dynamic/users/" +
+                            ConsoleFrame.getConsoleFrame().getUUID() + "/Files/" + ops[1]);
+
+                    //create file for current use
+                    redirectionFile.createNewFile();
+                }
             }
         }
 
@@ -1403,8 +1409,7 @@ public class InputHandler {
     }
 
     private void unknownInput() {
-        println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I don't recognize that command." +
-                " You can make a suggestion by clicking the \"Suggestion\" button.");
+        println("Unknown command");
         ConsoleFrame.getConsoleFrame().flashSuggestionButton();
     }
 
@@ -1606,21 +1611,23 @@ public class InputHandler {
                         Object line = consolePriorityPrintingList.removeFirst();
                         SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
 
-                        //todo if tagged as redirection then don't print
-
-                        if (line instanceof String) {
-                            StyledDocument document = (StyledDocument) outputArea.getDocument();
-                            document.insertString(document.getLength(), (String) line, null);
-                            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-                        } else if (line instanceof JComponent) {
-                            String componentUUID = SecurityUtil.generateUUID();
-                            Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
-                            StyleConstants.setComponent(cs, (Component) line);
-                            outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
-                        } else if (line instanceof ImageIcon) {
-                            outputArea.insertIcon((ImageIcon) line);
+                        if (redirection) {
+                            redirectionWrite(line);
                         } else {
-                            println("[UNKNOWN OBJECT]: " + line);
+                            if (line instanceof String) {
+                                StyledDocument document = (StyledDocument) outputArea.getDocument();
+                                document.insertString(document.getLength(), (String) line, null);
+                                outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                            } else if (line instanceof JComponent) {
+                                String componentUUID = SecurityUtil.generateUUID();
+                                Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
+                                StyleConstants.setComponent(cs, (Component) line);
+                                outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
+                            } else if (line instanceof ImageIcon) {
+                                outputArea.insertIcon((ImageIcon) line);
+                            } else {
+                                println("[UNKNOWN OBJECT]: " + line);
+                            }
                         }
                     }
                     //regular will perform a typing animation on strings if no method
@@ -1630,38 +1637,40 @@ public class InputHandler {
                         Object line = consolePrintingList.removeFirst();
                         SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
 
-                        //todo if tagged as redirection then don't print
+                        if (redirection) {
+                            redirectionWrite(line);
+                        } else {
+                            if (line instanceof String) {
+                                if (typingAnimationLocal) {
+                                    if (finishPrinting) {
+                                        StyledDocument document = (StyledDocument) outputArea.getDocument();
+                                        document.insertString(document.getLength(), (String) line, null);
+                                        outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                                    } else {
+                                        GenesisShare.getPrintingSem().acquire();
+                                        for (char c : ((String) line).toCharArray()) {
+                                            innerConsolePrint(c);
 
-                        if (line instanceof String) {
-                            if (typingAnimationLocal) {
-                                if (finishPrinting) {
+                                            if (!finishPrinting)
+                                                Thread.sleep(charTimeout);
+                                        }
+                                        GenesisShare.getPrintingSem().release();
+                                    }
+                                } else {
                                     StyledDocument document = (StyledDocument) outputArea.getDocument();
                                     document.insertString(document.getLength(), (String) line, null);
                                     outputArea.setCaretPosition(outputArea.getDocument().getLength());
-                                } else {
-                                    GenesisShare.getPrintingSem().acquire();
-                                    for (char c : ((String) line).toCharArray()) {
-                                        innerConsolePrint(c);
-
-                                        if (!finishPrinting)
-                                            Thread.sleep(charTimeout);
-                                    }
-                                    GenesisShare.getPrintingSem().release();
                                 }
+                            } else if (line instanceof JComponent) {
+                                String componentUUID = SecurityUtil.generateUUID();
+                                Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
+                                StyleConstants.setComponent(cs, (Component) line);
+                                outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
+                            } else if (line instanceof ImageIcon) {
+                                outputArea.insertIcon((ImageIcon) line);
                             } else {
-                                StyledDocument document = (StyledDocument) outputArea.getDocument();
-                                document.insertString(document.getLength(), (String) line, null);
-                                outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                                println("[UNKNOWN OBJECT]: " + line);
                             }
-                        } else if (line instanceof JComponent) {
-                            String componentUUID = SecurityUtil.generateUUID();
-                            Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
-                            StyleConstants.setComponent(cs, (Component) line);
-                            outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
-                        } else if (line instanceof ImageIcon) {
-                            outputArea.insertIcon((ImageIcon) line);
-                        } else {
-                            println("[UNKNOWN OBJECT]: " + line);
                         }
                     } else if (consolePrintingList.isEmpty() && consolePriorityPrintingList.isEmpty()) {
                         //fix possible escape from last command
@@ -2028,6 +2037,19 @@ public class InputHandler {
             }
         } catch (BadLocationException ignored) {}
         catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    //redirection logic ---------------------------------------
+
+    private void redirectionWrite(Object object) {
+        if (!redirectionFile.exists())
+            throw new IllegalStateException("Redirection file does not exist");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(redirectionFile, false))) {
+            writer.write(String.valueOf(object));
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }

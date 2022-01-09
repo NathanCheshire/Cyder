@@ -618,22 +618,38 @@ public final class ConsoleFrame {
             });
             menuButton.addActionListener(e -> {
                 if (!menuLabel.isVisible()) {
-                    generateConsoleMenu();
-                    menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 2);
-                    menuLabel.setVisible(true);
+                    new Thread(() -> {
+                        menuLabel.setLocation(-150, DragLabel.getDefaultHeight() - 2);
+                        int y = menuLabel.getY();
 
-                    AnimationUtil.componentRight(-150, 2, 10, 8, menuLabel);
+                        for (int i = -150 ; i < 2 ; i+= 8) {
+                            menuLabel.setLocation(i, y);
+                            try {
+                                Thread.sleep(10);
+                            } catch (InterruptedException ex) {
+                                ErrorHandler.handle(ex);
+                            }
+                        }
 
-                    int addX = 0;
-                    int width = consoleCyderFrame.getWidth();
-                    int height = consoleCyderFrame.getHeight();
+                        menuLabel.setLocation(2, y);
 
-                    if (menuLabel.isVisible())
-                        addX = 2 + menuLabel.getWidth();
-
-                    int finalAddX = addX;
+                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
+                    },"minimize menu thread").start();
 
                     new Thread(() -> {
+                        generateConsoleMenu();
+                        menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 2);
+                        menuLabel.setVisible(true);
+
+                        int addX = 0;
+                        int width = consoleCyderFrame.getWidth();
+                        int height = consoleCyderFrame.getHeight();
+
+                        if (menuLabel.isVisible())
+                            addX = 2 + menuLabel.getWidth();
+
+                        int finalAddX = addX;
+
                         for (int i = inputField.getX(); i < finalAddX + 15 ; i += 8) {
                             outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1, outputScroll.getHeight());
                             inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());

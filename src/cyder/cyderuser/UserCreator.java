@@ -285,11 +285,13 @@ public class UserCreator {
                         File backgrounds = new File("dynamic/users/" + uuid + "/Backgrounds");
                         File music = new File("dynamic/users/" + uuid + "/Music");
                         File notes = new File("dynamic/users/" + uuid + "/Notes");
+                        File files = new File("dynamic/users/" + uuid + "/Files");
 
                         NewUserFolder.mkdirs();
                         backgrounds.mkdir();
                         music.mkdir();
                         notes.mkdir();
+                        files.mkdir();
 
                         if (createUserBackground != null) {
                             ImageIO.write(ImageIO.read(createUserBackground), "png",
