@@ -86,12 +86,7 @@ public class InputHandler {
             SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + operation);
         }
 
-        //pre-process checks --------------------------------------
-        if (UserUtil.getUserData("filterchat").equals("1") && StringUtil.filterLanguage(operation, true)) {
-            println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
-        }
-        //redirection check
-
+        //redirection check ------------------------------------------
         boolean redirect = false;
 
         if (operation.contains(" > ")) {
@@ -100,9 +95,18 @@ public class InputHandler {
             if (ops.length == 2 && ops[0].length() > 0 && ops[1].length() > 0) {
                 //todo is the right side a valid filename? if so, toggle redirect on
                 // this raises a question about concurency too for commands like bindump or hexdump
+
+                if (IOUtil.isValidFilenameWindows(ops[1])) {
+                    //todo send println the object and tagged as redirection
+                    System.out.println("valid filename: " + ops[1]);
+                } else System.out.println("invalid filename");
             }
         }
 
+        //pre-process checks --------------------------------------
+        if (UserUtil.getUserData("filterchat").equals("1") && StringUtil.filterLanguage(operation, true)) {
+            println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
+        }
         //printing strings ----------------------------------------
         else if (hasWord("shakespeare")) {
             if (NumberUtil.randInt(1, 2) == 1) {

@@ -632,6 +632,33 @@ public class IOUtil {
         return ret;
     }
 
+    /**
+     * Determines whether or not the provided String is a valid filename by
+     * comparing it to a regex for valid chars
+     * @param fileName the filename to validate
+     * @return whether or not fileName was a valid filename
+     */
+    public static boolean isValidFilenameWindows(String fileName) {
+        String[] invalidFileNamesWindows = new String[]{"CON", "PRN", "AUX", "NUL",
+                "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8",
+                "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"};
+
+        boolean regexPass = !fileName.matches("[*?|/\":<>\\\\']+");
+
+        for (String invalidName : invalidFileNamesWindows) {
+            if (fileName.equalsIgnoreCase(invalidName)) {
+                regexPass = false;
+                break;
+            }
+        }
+
+        //what if ends in a space or period? wrong
+
+        //make sure invalid names also apply to stuff like con.txt
+
+        return regexPass;
+    }
+
     //system data class
     public static class SystemData {
         private boolean released;

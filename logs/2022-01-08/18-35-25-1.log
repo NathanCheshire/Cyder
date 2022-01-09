@@ -1,0 +1,69 @@
+[18-35-26] [ENTRY]: [Nathan]
+[18-35-26] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-35-27] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-35-27] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-35-27] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-35-27] [SYSTEM_IO]: Userdata requested: Name
+[18-35-28] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-35-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-35-28] [SYSTEM_IO]: Userdata requested: Name
+[18-35-28] [SYSTEM_IO]: Userdata requested: Foreground
+[18-35-28] [SYSTEM_IO]: Userdata requested: Foreground
+[18-35-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-35-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-35-28] [SYSTEM_IO]: Userdata requested: Foreground
+[18-35-28] [SYSTEM_IO]: Userdata requested: Font
+[18-35-28] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-35-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-35-28] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-35-28] [SYSTEM_IO]: Userdata requested: Foreground
+[18-35-28] [SYSTEM_IO]: Userdata requested: Foreground
+[18-35-28] [SYSTEM_IO]: Userdata requested: Foreground
+[18-35-28] [SYSTEM_IO]: Userdata requested: Font
+[18-35-28] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-35-28] [SYSTEM_IO]: Userdata requested: InputFill
+[18-35-28] [SYSTEM_IO]: Userdata requested: consolepinned
+[18-35-28] [SYSTEM_IO]: Userdata requested: consolepinned
+[18-35-28] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [578777695], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-35-28] [ACTION]: Console loaded in 3095ms
+[18-35-28] [SYSTEM_IO]: Userdata requested: windowlocx
+[18-35-28] [SYSTEM_IO]: Userdata requested: windowlocy
+[18-35-28] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-35-28] [ENTRY]: [TESTING MODE]
+[18-35-28] [SYSTEM_IO]: Userdata requested: laststart
+[18-35-28] [SYSTEM_IO]: Userdata requested: IntroMusic
+[18-35-28] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3095ms
+[18-35-29] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-35-37] [CLIENT]: hello > file.txt
+[18-35-37] [SYSTEM_IO]: Userdata requested: filterchat
+[18-35-40] [CLIENT]: hello > ?
+[18-35-40] [SYSTEM_IO]: Userdata requested: filterchat
+[18-35-47] [CLIENT]: hello > ??
+[18-35-47] [SYSTEM_IO]: Userdata requested: filterchat
+[18-35-52] [CLIENT]: hello > **
+[18-35-52] [SYSTEM_IO]: Userdata requested: filterchat
+[18-35-55] [CLIENT]: hello > asdf
+[18-35-55] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-01] [CLIENT]: hello > /
+[18-36-01] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-03] [CLIENT]: hello > |
+[18-36-03] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-05] [CLIENT]: hello > \
+[18-36-05] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-07] [CLIENT]: hello > \\\\
+[18-36-07] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-09] [CLIENT]: hello > \\\
+[18-36-09] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-13] [CLIENT]: hello > "
+[18-36-13] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-15] [CLIENT]: hello > '
+[18-36-15] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-24] [CLIENT]: hello > <
+[18-36-24] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-26] [CLIENT]: hello > >
+[18-36-26] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-34] [CLIENT]: hello > con
+[18-36-34] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-40] [CLIENT]: hello > con1
+[18-36-40] [SYSTEM_IO]: Userdata requested: filterchat
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
