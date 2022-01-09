@@ -925,4 +925,18 @@ public class StringUtil {
             this.tag = tag;
         }
     }
+
+    /**
+     * Determines if the provided String is null meaning literally null,
+     * empty (length 0), equal to NULL, or equal to NUL
+     * @param nullCheck the String to test for
+     * @return whether or not the provided String was null
+     */
+    public static boolean isNull(String nullCheck) {
+        nullCheck = nullCheck.trim();
+
+        return nullCheck == null || nullCheck.length() == 0 ||
+                nullCheck.equalsIgnoreCase("NUL") ||
+                nullCheck.equalsIgnoreCase("NULL");
+    }
 }

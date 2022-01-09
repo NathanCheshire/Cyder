@@ -557,11 +557,10 @@ public final class ConsoleFrame {
                 String suggestion = new GetterUtil().getString("Suggestion",
                         "Cyder Suggestion", "Submit", CyderColors.intellijPink);
 
-                if (suggestion.trim().length() > 0 && !suggestion.equals("NULL")) {
+                if (!StringUtil.isNull(suggestion)) {
                     SessionHandler.log(SessionHandler.Tag.SUGGESTION, suggestion.trim());
+                    inputHandler.println("Suggestion logged");
                 }
-
-                inputHandler.println("Suggestion logged");
             },"Suggestion Getter Waiter Thread").start());
             suggestionButton.addMouseListener(new MouseAdapter() {
                 @Override
