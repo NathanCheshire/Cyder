@@ -139,8 +139,6 @@ public class GenesisShare {
                 "Show when Cyder is busy by changing the tray icon","0"));
         ret.add(new Preference("ffmpegpath","IGNORE","",""));
         ret.add(new Preference("youtubedlpath","IGNORE","",""));
-        ret.add(new Preference("windowlocx","IGNORE","","-80000"));
-        ret.add(new Preference("windowlocy","IGNORE","","-80000"));
         ret.add(new Preference("roundedwindows","Rounded Windows",
                 "Make certain windows rounded","0"));
         ret.add(new Preference("windowcolor","IGNORE","","1A2033"));
@@ -157,14 +155,15 @@ public class GenesisShare {
         ret.add(new Preference("minimizeanimation","Minimize Animation",
                 "Animate the window away for minimizations","1"));
         ret.add(new Preference("closeanimation","Close Animation","Animate the window away for close requests","1"));
-        ret.add(new Preference("consolepinned","IGNORE","","0"));
 
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set
 
         //adding future prefs: you'll need to add the preference here and also the data in user.java
         // since gson parses the userdata.json into a user object.
-        // some rare cases might require deeper manipulation such as the case for executables
+
+        //some rare cases might require deeper manipulation such as the case for executables
+        // where we don't add it here but add it for the user object and for user creation
 
         return ret;
     }

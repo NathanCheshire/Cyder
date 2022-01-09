@@ -5,49 +5,56 @@ import cyder.utilities.ReflectionUtil;
 import java.util.LinkedList;
 
 public class User {
+    //primitives (stick to Strings, specific types are a headache to deal with)
     private String name;
     private String pass;
     private String font;
     private String foreground;
     private String background;
-    private String intromusic; //boolean
-    private String debugwindows; //boolean
-    private String randombackground; //boolean
-    private String outputborder; //boolean
-    private String inputborder; //boolean
-    private String hourlychimes; //boolean
-    private String silenceerrors; //boolean
-    private String fullscreen; //boolean
-    private String outputfill; //boolean
-    private String inputfill; //boolean
-    private String clockonconsole; //boolean
-    private String showseconds; //boolean
-    private String filterchat; //boolean
-    private String laststart; //long
-    private String minimizeonclose; //boolean
-    private String typinganimation; //boolean
-    private String showbusyicon; //boolean
+    private String intromusic; 
+    private String debugwindows; 
+    private String randombackground; 
+    private String outputborder; 
+    private String inputborder; 
+    private String hourlychimes; 
+    private String silenceerrors; 
+    private String fullscreen; 
+    private String outputfill; 
+    private String inputfill; 
+    private String clockonconsole; 
+    private String showseconds; 
+    private String filterchat; 
+    private String laststart;
+    private String minimizeonclose; 
+    private String typinganimation; 
+    private String showbusyicon; 
     private String ffmpegpath;
     private String youtubedlpath;
     private String windowlocx;
     private String windowlocy;
-    private String roundedwindows; //boolean
+    private String roundedwindows; 
     private String windowColor;
     private String consoleclockformat;
-    private String typingsound; //boolean
+    private String typingsound; 
     private String youtubeuuid;
     private String ipkey;
     private String weatherkey;
-    private String capsmode; //boolean
-    private String loggedin; //boolean
+    private String capsmode; 
+    private String loggedin; 
     private String audiolength;
     private String persistentnotifications;
     private String closeAnimation;
     private String minimizeAnimation;
-    private String consolePinned;
+
+    //non primitive types
+    private ScreenStat screenStat;
+
+    //lists of non primitive types
     private LinkedList<MappedExecutable> executables;
 
-    public User() {} //this is mainly used by GSON and when creating a user via the user creator
+    public User() {
+        //this is mainly used by GSON and when creating a user via the user creator
+    }
 
     public String getName() {
         return name;
@@ -373,12 +380,12 @@ public class User {
         this.minimizeAnimation = minimizeAnimation;
     }
 
-    public String getConsolePinned() {
-        return consolePinned;
+    public ScreenStat getScreenStat() {
+        return screenStat;
     }
 
-    public void setConsolePinned(String consolePinned) {
-        this.consolePinned = consolePinned;
+    public void setScreenStat(ScreenStat screenStat) {
+        this.screenStat = screenStat;
     }
 
     //toString
@@ -428,6 +435,73 @@ public class User {
         @Override
         public String toString() {
             return "name = " + this.name + ", filepath = " + this.filepath;
+        }
+    }
+
+    public static class ScreenStat {
+        private int consoleX;
+        private int consoleY;
+        private int consoleWidth;
+        private int consoleHeight;
+        private int monitor;
+        private boolean consoleOnTop;
+
+        public ScreenStat(int consoleX, int consoleY, int consoleWidth,
+                          int consoleHeight, int monitor, boolean consoleOnTop) {
+            this.consoleX = consoleX;
+            this.consoleY = consoleY;
+            this.consoleWidth = consoleWidth;
+            this.consoleHeight = consoleHeight;
+            this.monitor = monitor;
+            this.consoleOnTop = consoleOnTop;
+        }
+
+        public int getConsoleX() {
+            return consoleX;
+        }
+
+        public void setConsoleX(int consoleX) {
+            this.consoleX = consoleX;
+        }
+
+        public int getConsoleY() {
+            return consoleY;
+        }
+
+        public void setConsoleY(int consoleY) {
+            this.consoleY = consoleY;
+        }
+
+        public int getConsoleWidth() {
+            return consoleWidth;
+        }
+
+        public void setConsoleWidth(int consoleWidth) {
+            this.consoleWidth = consoleWidth;
+        }
+
+        public int getConsoleHeight() {
+            return consoleHeight;
+        }
+
+        public void setConsoleHeight(int consoleHeight) {
+            this.consoleHeight = consoleHeight;
+        }
+
+        public int getMonitor() {
+            return monitor;
+        }
+
+        public void setMonitor(int monitor) {
+            this.monitor = monitor;
+        }
+
+        public boolean isConsoleOnTop() {
+            return consoleOnTop;
+        }
+
+        public void setConsoleOnTop(boolean consoleOnTop) {
+            this.consoleOnTop = consoleOnTop;
         }
     }
 }

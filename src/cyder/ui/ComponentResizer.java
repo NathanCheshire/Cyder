@@ -88,15 +88,15 @@ public class ComponentResizer extends MouseAdapter {
 
     public void deregisterComponent(Component... components) {
         for (Component component : components) {
-            component.removeMouseListener( this );
-            component.removeMouseMotionListener( this );
+            component.removeMouseListener(this);
+            component.removeMouseMotionListener(this);
         }
     }
 
     public void registerComponent(Component... components) {
         for (Component component : components) {
-            component.addMouseListener( this );
-            component.addMouseMotionListener( this );
+            component.addMouseListener(this);
+            component.addMouseMotionListener(this);
         }
     }
 
@@ -135,9 +135,9 @@ public class ComponentResizer extends MouseAdapter {
             direction += SOUTH;
 
         if (direction == 0) {
-            source.setCursor( sourceCursor );
+            source.setCursor(sourceCursor);
         } else {
-            int cursorType = cursors.get( direction );
+            int cursorType = cursors.get(direction);
             Cursor cursor = Cursor.getPredefinedCursor( cursorType );
             source.setCursor( cursor );
         }
@@ -145,7 +145,7 @@ public class ComponentResizer extends MouseAdapter {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (! resizing) {
+        if (!resizing) {
             Component source = e.getComponent();
             sourceCursor = source.getCursor();
         }
@@ -153,9 +153,9 @@ public class ComponentResizer extends MouseAdapter {
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (! resizing) {
+        if (!resizing) {
             Component source = e.getComponent();
-            source.setCursor( sourceCursor );
+            source.setCursor(sourceCursor);
         }
     }
 
@@ -172,7 +172,7 @@ public class ComponentResizer extends MouseAdapter {
         bounds = source.getBounds();
 
         if (source instanceof JComponent) {
-            JComponent jc = (JComponent)source;
+            JComponent jc = (JComponent) source;
             autoscrolls = jc.getAutoscrolls();
             jc.setAutoscrolls(false);
         }

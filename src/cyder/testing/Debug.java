@@ -5,7 +5,6 @@ import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -152,24 +151,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
-            //FrameStats
-            //todo using this, save an object that stores the monitor and coordinates to resume at
-            // also hold frame pinned and size in this
 
-            int screen = 0;
-
-            CyderFrame cf = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
-
-            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
-
-            if (screen > -1 && screen < screenDevices.length) {
-                cf.setLocation(screenDevices[screen].getDefaultConfiguration().getBounds().x, cf.getY());
-            } else if (screenDevices.length > 0 ) {
-                cf.setLocation(screenDevices[0].getDefaultConfiguration().getBounds().x, cf.getY());
-            } else {
-                throw new RuntimeException("What are you some kind of european toy maker?");
-            }
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

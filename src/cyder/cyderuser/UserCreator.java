@@ -10,10 +10,7 @@ import cyder.handlers.internal.ErrorHandler;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.internal.PopupHandler;
 import cyder.ui.*;
-import cyder.utilities.GetterUtil;
-import cyder.utilities.SecurityUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.UserUtil;
+import cyder.utilities.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -279,6 +276,7 @@ public class UserCreator {
                             File backgroundFile = new File("dynamic/users/" + uuid + "/Backgrounds/Default.png");
                             backgroundFile.mkdirs();
                             ImageIO.write(bi, "png", backgroundFile);
+                            createUserBackground = backgroundFile;
                         }
 
                         File NewUserFolder = new File("dynamic/users/" + uuid);
@@ -313,6 +311,13 @@ public class UserCreator {
                             if (!pref.getTooltip().equals("IGNORE"))
                                 UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
                         }
+
+                        //screen stat initializing
+                        BufferedImage background = ImageIO.read(createUserBackground);
+                        int x = (SystemUtil.getScreenWidth() - background.getWidth() / 2);
+                        int y = (SystemUtil.getScreenHeight() - background.getHeight() / 2);
+                        user.setScreenStat(new User.ScreenStat(x, y, background.getWidth(),
+                                background.getHeight(), 0, false));
 
                         user.setExecutables(null);
                         UserUtil.setUserData(dataFile, user);

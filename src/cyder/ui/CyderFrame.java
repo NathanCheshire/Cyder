@@ -1556,10 +1556,7 @@ public class CyderFrame extends JFrame {
         currentOrigIcon = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon();
 
         iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
-                .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
-        iconLabel.setBounds(frameResizingLen,frameResizingLen,width - 2 * frameResizingLen,height - 2 * frameResizingLen);
-        iconPane.setBounds(frameResizingLen,frameResizingLen, width - 2 * frameResizingLen, height - 2 * frameResizingLen);
-
+                .getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT)));
     }
 
     public int getRestoreX() {

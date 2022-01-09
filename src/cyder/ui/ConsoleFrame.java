@@ -769,11 +769,23 @@ public final class ConsoleFrame {
             pin.addActionListener(e -> {
                 if (consoleCyderFrame.isAlwaysOnTop()) {
                     consoleCyderFrame.setAlwaysOnTop(false);
-                    UserUtil.setUserData("consolepinned","0");
+
+                    User user = UserUtil.extractUser();
+                    User.ScreenStat screenStat = user.getScreenStat();
+                    screenStat.setConsoleOnTop(false);
+                    user.setScreenStat(screenStat);
+                    UserUtil.setUserData(user);
+
                     pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
                 } else {
                     consoleCyderFrame.setAlwaysOnTop(true);
-                    UserUtil.setUserData("consolepinned","1");
+
+                    User user = UserUtil.extractUser();
+                    User.ScreenStat screenStat = user.getScreenStat();
+                    screenStat.setConsoleOnTop(true);
+                    user.setScreenStat(screenStat);
+                    UserUtil.setUserData(user);
+
                     pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
                 }
             });
@@ -811,7 +823,8 @@ public final class ConsoleFrame {
                     }
                 }
             });
-            pin.setIcon(UserUtil.getUserData("consolepinned").equals("1") ?
+
+            pin.setIcon(UserUtil.extractUser().getScreenStat().isConsoleOnTop() ?
                     new ImageIcon("static/pictures/icons/pin2.png") : new ImageIcon("static/pictures/icons/pin.png"));
             pin.setContentAreaFilled(false);
             pin.setBorderPainted(false);
@@ -986,8 +999,7 @@ public final class ConsoleFrame {
                 }
             }
 
-            //pin console if needed
-            consoleCyderFrame.setAlwaysOnTop(UserUtil.getUserData("consolepinned").equals("1"));
+            consoleCyderFrame.setAlwaysOnTop(UserUtil.extractUser().getScreenStat().isConsoleOnTop());
 
             //close all frames just before showing console
             for (CyderFrame f : FrameUtil.getCyderFrames()) {
@@ -998,6 +1010,50 @@ public final class ConsoleFrame {
                     f.dispose();
             }
 
+            int requestedWidth = UserUtil.extractUser().getScreenStat().getConsoleWidth();
+            int requestedHeight = UserUtil.extractUser().getScreenStat().getConsoleHeight();
+
+            //width and height for frame if the current image can work with that
+            if (requestedWidth <= consoleCyderFrame.getWidth() &&
+                    requestedHeight <= consoleCyderFrame.getHeight()) {
+                consoleCyderFrame.setSize(requestedWidth, requestedHeight);
+
+            }
+
+            //position window from last location if in bounds
+            int consoleX = UserUtil.extractUser().getScreenStat().getConsoleX();
+            int consoleY = UserUtil.extractUser().getScreenStat().getConsoleY();
+
+            if (consoleX != -80000 && consoleY != -80000) {
+                if (consoleX < 0)
+                    consoleX = 0;
+                if (consoleX + consoleCyderFrame.getWidth() > SystemUtil.getScreenWidth())
+                    consoleX = SystemUtil.getScreenWidth() - consoleCyderFrame.getWidth();
+                if (consoleY < 0)
+                    consoleY = 0;
+                if (consoleY + consoleCyderFrame.getHeight() > SystemUtil.getScreenHeight())
+                    consoleY = SystemUtil.getScreenHeight() - consoleCyderFrame.getHeight();
+
+                consoleCyderFrame.setLocation(consoleX, consoleY);
+            } else {
+                consoleCyderFrame.setLocationRelativeTo(null);
+            }
+
+            //show on correct monitor if it exists
+            System.out.println(UserUtil.extractUser().getScreenStat().getMonitor());
+            //todo inform here if monitor was not found
+
+//            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//            GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
+//
+//            if (screen > -1 && screen < screenDevices.length) {
+//                cf.setLocation(screenDevices[screen].getDefaultConfiguration().getBounds().x, cf.getY());
+//            } else if (screenDevices.length > 0) {
+//                cf.setLocation(screenDevices[0].getDefaultConfiguration().getBounds().x, cf.getY());
+//            } else {
+//                throw new RuntimeException("What are you some kind of european toy maker?");
+//            }
+
             //show frame
             consoleCyderFrame.setVisible(true);
 
@@ -1007,25 +1063,6 @@ public final class ConsoleFrame {
             String logString = "Console loaded in " + (GenesisShare.getConsoleStartTime() - GenesisShare.getAbsoluteStartTime()) + "ms";
             SessionHandler.log(SessionHandler.Tag.ACTION, logString);
             notify(logString);
-
-            //position window from last location if in bounds
-            int x = Integer.parseInt(UserUtil.getUserData("windowlocx"));
-            int y = Integer.parseInt(UserUtil.getUserData("windowlocy"));
-
-            if (x != -80000 && y != -80000) {
-                if (x < 0)
-                    x = 0;
-                if (x + consoleCyderFrame.getWidth() > SystemUtil.getScreenWidth())
-                    x = SystemUtil.getScreenWidth() - consoleCyderFrame.getWidth();
-                if (y < 0)
-                    y = 0;
-                if (y + consoleCyderFrame.getHeight() > SystemUtil.getScreenHeight())
-                    y = SystemUtil.getScreenHeight() - consoleCyderFrame.getHeight();
-
-                consoleCyderFrame.setLocation(x,y);
-            } else {
-                consoleCyderFrame.setLocationRelativeTo(null);
-            }
 
             //resume frame checker
             GenesisShare.resumeFrameChecker();
@@ -1185,8 +1222,20 @@ public final class ConsoleFrame {
 
                 OUTER:
                     while (true) {
-                        UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
-                        UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
+                        User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
+
+                        //just to be safe
+                        if (consoleCyderFrame != null) {
+                            screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
+                            screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
+                            screenStat.setConsoleX(consoleCyderFrame.getX());
+                            screenStat.setConsoleY(consoleCyderFrame.getY());
+                            screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
+                        }
+
+                        User user = UserUtil.extractUser();
+                        user.setScreenStat(screenStat);
+                        UserUtil.setUserData(user);
 
                         //sleep 5000 ms
                         int i = 0;
@@ -2461,8 +2510,13 @@ public final class ConsoleFrame {
     }
 
     public void minimizeAll() {
-        UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
-        UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
+        User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
+        screenStat.setConsoleX(consoleCyderFrame.getX());
+        screenStat.setConsoleY(consoleCyderFrame.getY());
+
+        User user = UserUtil.extractUser();
+        user.setScreenStat(screenStat);
+        UserUtil.setUserData(user);
 
         for (Frame f : Frame.getFrames()) {
             if (f instanceof CyderFrame) {
@@ -2474,8 +2528,13 @@ public final class ConsoleFrame {
     }
 
     public void minimizeAllCyderFrames() {
-        UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
-        UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
+        User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
+        screenStat.setConsoleX(consoleCyderFrame.getX());
+        screenStat.setConsoleY(consoleCyderFrame.getY());
+
+        User user = UserUtil.extractUser();
+        user.setScreenStat(screenStat);
+        UserUtil.setUserData(user);
 
         for (Frame f : Frame.getFrames()) {
             if (f instanceof CyderFrame) {
@@ -2908,9 +2967,20 @@ public final class ConsoleFrame {
 
     public void closeConsoleFrame(boolean exit) {
         //save window location
-        UserUtil.setUserData("windowlocx",consoleCyderFrame.getX() + "");
-        UserUtil.setUserData("windowlocy",consoleCyderFrame.getY() + "");
-        UserUtil.setUserData("consolepinned", consoleCyderFrame.isAlwaysOnTop() ? "1" : "0");
+        User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
+
+        //just to be safe
+        if (consoleCyderFrame != null) {
+            screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
+            screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
+            screenStat.setConsoleX(consoleCyderFrame.getX());
+            screenStat.setConsoleY(consoleCyderFrame.getY());
+            screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
+        }
+
+        User user = UserUtil.extractUser();
+        user.setScreenStat(screenStat);
+        UserUtil.setUserData(user);
 
         //stop any audio
         IOUtil.stopAudio();
