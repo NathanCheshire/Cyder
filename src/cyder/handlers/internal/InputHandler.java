@@ -96,6 +96,9 @@ public class InputHandler {
                 //todo is the right side a valid filename? if so, toggle redirect on
                 // this raises a question about concurency too for commands like bindump or hexdump
 
+                //todo it must be a print statement so that's why we're safe to intercept it
+                // using a println command with a wrapper object
+
                 if (IOUtil.isValidFilenameWindows(ops[1])) {
                     //todo send println the object and tagged as redirection
                     System.out.println("valid filename: " + ops[1]);
@@ -286,9 +289,9 @@ public class InputHandler {
         } else if (hasWord("bletchy")) {
             bletchyThread.bletchy(operation, false, 50, true);
         } else if (hasWord("threads") && !hasWord("daemon")) {
-            new StringUtil(outputArea).printThreads();
+            ThreadUtil.printThreads();
         } else if (hasWord("threads") && hasWord("daemon")) {
-            new StringUtil(outputArea).printDaemonThreads();
+            ThreadUtil.printDaemonThreads();
         } else if (has("How old are you") || (hasWord("what") && hasWord("age"))) {
             bletchyThread.bletchy("As old as my tongue and a little bit older than my teeth, wait...",
                     false, 50, true);
@@ -1583,7 +1586,7 @@ public class InputHandler {
         consolePrintingList.clear();
         consolePriorityPrintingList.clear();
 
-        int charTimeout = 20;
+        int charTimeout = 15;
         int lineTimeout = 200;
 
         new Thread(() -> {

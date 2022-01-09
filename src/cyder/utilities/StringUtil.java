@@ -23,12 +23,12 @@ import java.util.regex.Pattern;
  * Note: these methods are not thread safe and you should take that into account when using these utils
  */
 public class StringUtil {
-    private JTextPane outputArea = null;
+    private JTextPane linkedJTextPane = null;
 
     public void setItemAlignment(int styleConstantsAlignment) {
         SimpleAttributeSet attribs = new SimpleAttributeSet();
         StyleConstants.setAlignment(attribs, styleConstantsAlignment);
-        outputArea.setParagraphAttributes(attribs, true);
+        linkedJTextPane.setParagraphAttributes(attribs, true);
     }
 
     private StringUtil() {
@@ -36,33 +36,36 @@ public class StringUtil {
     } //no instantiation without jtextpane object
 
     //StringUtil can only be instantiated if a valid JTextPane is provided
-    public StringUtil(JTextPane outputArea) {
-        this.outputArea = outputArea;
+    public StringUtil(JTextPane linkedJTextPane) {
+        this.linkedJTextPane = linkedJTextPane;
     }
 
     /**
      * Standard getter for this object's possible JTextPane
      * @return The resultant output area if one is connected
      */
-    public JTextPane getOutputArea() {
-        return outputArea;
+    public JTextPane getLinkedJTextPane() {
+        return linkedJTextPane;
     }
 
     /**
      * Sets the output area for this instance of StringUtil.
      * @param jTextPane the JTextPane which we will append to when needed
      */
-    public void setOutputArea(JTextPane jTextPane) {
-        this.outputArea = jTextPane;
+    public void setLinkedJTextPane(JTextPane jTextPane) {
+        this.linkedJTextPane = jTextPane;
     }
 
+    /**
+     * Removes the first object from the linked pane, this could be anything from a Component to a String
+     */
     public void removeFirst() {
         try {
             GenesisShare.getPrintingSem().acquire();
-            Element root = outputArea.getDocument().getDefaultRootElement();
+            Element root = linkedJTextPane.getDocument().getDefaultRootElement();
             Element first = root.getElement(0);
-            outputArea.getDocument().remove(first.getStartOffset(), first.getEndOffset());
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+            linkedJTextPane.getDocument().remove(first.getStartOffset(), first.getEndOffset());
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
             GenesisShare.getPrintingSem().release();
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -72,7 +75,6 @@ public class StringUtil {
     /**
      * Removes the last "thing" addeed to the JTextPane whether it's a component,
      *  icon, or string of multi-llined text.
-     *
      *  In more detail, this method figures out what it'll be removing and then determines how many calls
      *   are needed to {@link StringUtil#removeLastLine()}
      */
@@ -81,7 +83,7 @@ public class StringUtil {
             boolean removeTwoLines = false;
 
             LinkedList<Element> elements = new LinkedList<>();
-            ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
+            ElementIterator iterator = new ElementIterator(linkedJTextPane.getStyledDocument());
             Element element;
             while ((element = iterator.next()) != null) {
                 elements.add(element);
@@ -122,8 +124,12 @@ public class StringUtil {
         }
     }
 
+    /**
+     * Finds the last line of text from the linked output area
+     * @return the last line of raw ASCII text
+     */
     public String getLastTextLine() {
-        String text = outputArea.getText();
+        String text = linkedJTextPane.getText();
         String[] lines = text.split("\n");
         return lines[lines.length - 1];
     }
@@ -135,7 +141,7 @@ public class StringUtil {
     public void removeLastLine() {
         try {
             LinkedList<Element> elements = new LinkedList<>();
-            ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
+            ElementIterator iterator = new ElementIterator(linkedJTextPane.getStyledDocument());
             Element element;
             while ((element = iterator.next()) != null) {
                 elements.add(element);
@@ -156,7 +162,7 @@ public class StringUtil {
                         continue;
                     }
 
-                    outputArea.getStyledDocument().remove(value.getStartOffset(),
+                    linkedJTextPane.getStyledDocument().remove(value.getStartOffset(),
                             value.getEndOffset() - value.getStartOffset());
                 }
             }
@@ -165,6 +171,9 @@ public class StringUtil {
             ErrorHandler.handle(e);
         }
     }
+
+    //start generic print methods for the linked JTextPane, these are not thread safe by default
+    // See ConsoleFrame's outputArea and implementation there for thread safety
 
     /**
      * Adds a {@link Component} to the linked JTextPane. Make sure all listeners, bounds,
@@ -175,9 +184,9 @@ public class StringUtil {
      */
     public void printComponent(Component c, String nm, String str) {
         try {
-            Style cs = outputArea.getStyledDocument().addStyle(nm, null);
+            Style cs = linkedJTextPane.getStyledDocument().addStyle(nm, null);
             StyleConstants.setComponent(cs, c);
-            outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), str, cs);
+            linkedJTextPane.getStyledDocument().insertString(linkedJTextPane.getStyledDocument().getLength(), str, cs);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -191,9 +200,9 @@ public class StringUtil {
     public void printComponent(Component c) {
         try {
             String componentUUID = SecurityUtil.generateUUID();
-            Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
+            Style cs = linkedJTextPane.getStyledDocument().addStyle(componentUUID, null);
             StyleConstants.setComponent(cs, c);
-            outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
+            linkedJTextPane.getStyledDocument().insertString(linkedJTextPane.getStyledDocument().getLength(), componentUUID, cs);
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -234,195 +243,165 @@ public class StringUtil {
 
     public void print(String Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Usage, null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void print(int Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Integer.toString(Usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void print(double Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Double.toString(Usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void print(boolean Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Boolean.toString(Usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void print(float Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Float.toString(Usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void print(long Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Long.toString(Usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void print(char Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), String.valueOf(Usage), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void print(Object Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Usage.toString(), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void println(String Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void println(int Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void println(double Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void println(boolean Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void println(float Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void println(long Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void println(char Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
 
     public void println(Object Usage) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
             document.insertString(document.getLength(), Usage.toString() + "\n", null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
-        }
-
-        catch (Exception e) {
+            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+        } catch (Exception e) {
             ErrorHandler.handle(e);
         }
     }
+
+    //end generic print methods
 
     /**
      * Reverses the given array
@@ -432,62 +411,6 @@ public class StringUtil {
     public static char[] reverseArray(char[] Array) {
         String reverse = new StringBuilder(new String(Array)).reverse().toString();
         return reverse.toCharArray();
-    }
-
-    /**
-     * Determines if the provided string starts with the provided prefix
-     * @param string the string to see if it starts with the given prefix
-     * @param prefix the prefix to search the array for
-     * @return the boolean result of the comparison
-     */
-    public static boolean startsWith(String string, String prefix) {
-        char[] opA = string.toLowerCase().toCharArray();
-
-        char[] compA = prefix.toLowerCase().toCharArray();
-
-        for (int i = 0 ; i < prefix.length() ; i++) {
-            if (Math.min(compA.length, opA.length) >= i) {
-                return false;
-            }
-
-            boolean min = Math.min(compA.length, opA.length) < i;
-            if (min && compA[i] != opA[i]) {
-                return false;
-            }
-
-            else if (min && compA[i] == opA[i] && i == compA.length - 1 && opA[i+1] == ' ') {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Determines if the provided string ends with the provided suffix
-     * @param string the string to to see if it ends with the given suffix
-     * @param suffix the suffix to search the array for
-     * @return the boolean result of the comparison
-     */
-    public static boolean endsWith(String string, String suffix) {
-        char[] opA = reverseArray(string.toLowerCase().toCharArray());
-        char[] compA = reverseArray(suffix.toLowerCase().toCharArray());
-
-        for (int i = 0 ; i < suffix.length() ; i++) {
-            if (Math.min(opA.length, compA.length) >= i) {
-                return false;
-            }
-
-            if (i < Math.min(opA.length, compA.length) && compA[i] != opA[i]) {
-                return false;
-            }
-
-            else if (compA[i] == opA[i] && i == compA.length - 1 && opA[i+1] == ' ') {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -852,32 +775,12 @@ public class StringUtil {
                 input.contains("go"));
     }
 
-    public void printDaemonThreads() {
-        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-        int num = threadGroup.activeCount();
-        Thread[] printThreads = new Thread[num];
-        threadGroup.enumerate(printThreads);
-        for (int i = 0; i < num; i++)
-            println(printThreads[i].getName());
-    }
-
-    public void printThreads() {
-        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-        int num = threadGroup.activeCount();
-        Thread[] printThreads = new Thread[num];
-        threadGroup.enumerate(printThreads);
-
-        for (int i = 0; i < num; i++)
-            if (!printThreads[i].isDaemon())
-                println(printThreads[i].getName());
-    }
-
     /**
      * Ensures that there is a space after every comma within the input.
      * @param input the potentially wrongly formatted string
      * @return the corrected string
      */
-    public String formatCommas(String input) {
+    public static String formatCommas(String input) {
         if (!input.contains(","))
             throw new IllegalArgumentException("Input does not contain a comma");
         else {
@@ -891,6 +794,11 @@ public class StringUtil {
         }
     }
 
+    /**
+     * Searches Dictionary.com for the provided word.
+     * @param word the word to find a definition for
+     * @return the definition of the requested word if found
+     */
     public static String define(String word) {
         String ret = null;
 
@@ -909,13 +817,18 @@ public class StringUtil {
         }
     }
 
-    public static String wikiSummary(String querry) {
+    /**
+     * Web scrapes Wikipedia for the appropriate article and returns the body of the wiki article.
+     * @param query the query to search wikipedia for
+     * @return the wiki body result
+     */
+    public static String wikiSummary(String query) {
         String ret = null;
 
         try  {
             String urlString = "https://en.wikipedia.org/w/api.php?format=json&action=query" +
                     "&prop=extracts&exintro&explaintext&redirects=1&titles=" +
-                    querry.replace(" ","%20");
+                    query.replace(" ","%20");
             String jsonString = NetworkUtil.readUrl(urlString);
 
             String[] serializedPageNumber = jsonString.split("\"extract\":\"");
@@ -943,6 +856,8 @@ public class StringUtil {
 
         return Arrays.equals(W1C, W2C);
     }
+
+    //tagged strings for HTML methods
 
     /**
      * Finds the rawtext and html tags of a string and returns a linked list representing the parts

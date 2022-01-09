@@ -554,37 +554,14 @@ public final class ConsoleFrame {
             im.put(KeyStroke.getKeyStroke("released ENTER"), "released");
 
             suggestionButton.addActionListener(e -> new Thread(() -> {
-                JLabel parentLabel = new JLabel();
-                parentLabel.setToolTipText(TimeUtil.logTime());
-                parentLabel.setSize(300,110);
+                String suggestion = new GetterUtil().getString("Suggestion",
+                        "Cyder Suggestion", "Submit", CyderColors.intellijPink);
 
-                CyderButton submit = new CyderButton("Submit");
-                CyderTextField ctf = new CyderTextField(0);
-                ctf.setBlackBorder();
-                ctf.addActionListener(ev -> submit.doClick());
-                ctf.setBounds(20,20,280,40);
-                parentLabel.add(ctf);
+                if (suggestion.trim().length() > 0 && !suggestion.equals("NULL")) {
+                    SessionHandler.log(SessionHandler.Tag.SUGGESTION, suggestion.trim());
+                }
 
-                submit.addActionListener(ev -> {
-                    String suggestionText = ctf.getText().trim();
-
-                    if (suggestionText.length() == 0) {
-                        consoleCyderFrame.revokeCurrentNotification(true);
-                        return;
-                    }
-
-                    SessionHandler.log(SessionHandler.Tag.SUGGESTION,  suggestionText);
-
-                    //make a feature to make a put request to a cyder backend server to accept these
-                    getInputHandler().println("Suggestion Logged; make sure that you send your logs dir to Nathan");
-                    consoleCyderFrame.revokeCurrentNotification(true);
-                });
-                submit.setBounds(20,70,280,40);
-                parentLabel.add(submit);
-
-                consoleCyderFrame.notify("",-1, Direction.LEFT, NotificationDirection.TOP_LEFT,
-                        null, parentLabel, CyderColors.vanila);
-
+                inputHandler.println("Suggestion logged");
             },"Suggestion Getter Waiter Thread").start());
             suggestionButton.addMouseListener(new MouseAdapter() {
                 @Override
@@ -1451,59 +1428,6 @@ public final class ConsoleFrame {
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
-        //adding components
-        StringUtil printingUtil = new StringUtil(menuPane);
-
-        if (menuTaskbarFrames != null && menuTaskbarFrames.size() > 0) {
-            for (int i = menuTaskbarFrames.size() - 1 ; i > -1 ; i--) {
-                CyderFrame currentFrame = menuTaskbarFrames.get(i);
-
-                if (currentFrame.isUseCustomTaskbarIcon()) {
-                    printingUtil.printlnComponent(currentFrame.getCustomTaskbarIcon());
-                } else {
-                    printingUtil.printlnComponent(currentFrame.getTaskbarButton());
-                }
-
-                printingUtil.println("");
-            }
-        }
-
-        //mapped executables
-        LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
-
-        if (exes != null && !exes.isEmpty()) {
-            if (!menuTaskbarFrames.isEmpty()) {
-                printingUtil.printlnComponent(generateMenuSep());
-                printingUtil.println("");
-            }
-
-            for (User.MappedExecutable exe : exes) {
-                printingUtil.printlnComponent(
-                        CyderFrame.generateDefaultTaskbarComponent(exe.getName(), () -> {
-                            IOUtil.openOutsideProgram(exe.getFilepath());
-                            consoleCyderFrame.notify("Opening: " + exe.getName());
-                }, CyderColors.vanila));
-                printingUtil.println("");
-            }
-
-            printingUtil.printlnComponent(generateMenuSep());
-            printingUtil.println("");
-        }
-
-        if (exes != null && exes.isEmpty() && !menuTaskbarFrames.isEmpty()) {
-            printingUtil.printlnComponent(generateMenuSep());
-            printingUtil.println("");
-        }
-
-        //default menu items
-        printingUtil.printlnComponent(
-                CyderFrame.generateDefaultTaskbarComponent("Prefs", () -> UserEditor.showGUI(0)));
-        printingUtil.println("");
-
-        printingUtil.printlnComponent(
-                CyderFrame.generateDefaultTaskbarComponent("Logout", this::logout));
-        printingUtil.println("");
-
         CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
         menuScroll.setThumbSize(5);
         menuScroll.getViewport().setOpaque(false);
@@ -1516,10 +1440,7 @@ public final class ConsoleFrame {
         menuScroll.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight - 20);
         menuLabel.add(menuScroll);
 
-        //set menu location to top
-        menuPane.setCaretPosition(0);
-
-        consoleMenuGenerated = true;
+        installMenuTaskbarIcons();
     }
 
     public void removeTaskbarIcon(CyderFrame associatedFrame) {
@@ -2943,28 +2864,31 @@ public final class ConsoleFrame {
     }
 
     public void refreshClockText() {
-        if (consoleClockLabel == null)
-            return;
+       try {
+           if (consoleClockLabel == null)
+               return;
 
-        //the user set time
-        String pattern = UserUtil.extractUser().getConsoleclockformat();
-        String time = TimeUtil.getTime(pattern);
+           //the user set time
+           String pattern = UserUtil.extractUser().getConsoleclockformat();
+           String time = TimeUtil.getTime(pattern);
 
-        String regularSecondTime = TimeUtil.consoleSecondTime();
-        String regularNoSecondTime = TimeUtil.consoleNoSecondTime();
+           String regularSecondTime = TimeUtil.consoleSecondTime();
+           String regularNoSecondTime = TimeUtil.consoleNoSecondTime();
 
-        //no custom pattern so take into account showSeconds
-        if (time.equalsIgnoreCase(regularSecondTime) || time.equalsIgnoreCase(regularNoSecondTime)) {
-            if (UserUtil.extractUser().getShowseconds().equalsIgnoreCase("1")) {
-                time = regularSecondTime;
-            } else {
-                time = regularNoSecondTime;
-            }
-        }
+           //no custom pattern so take into account showSeconds
+           if (time.equalsIgnoreCase(regularSecondTime) || time.equalsIgnoreCase(regularNoSecondTime)) {
+               if (UserUtil.extractUser().getShowseconds().equalsIgnoreCase("1")) {
+                   time = regularSecondTime;
+               } else {
+                   time = regularNoSecondTime;
+               }
+           }
 
-        int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont());
-        consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2, 0, w, DragLabel.getDefaultHeight());
-        consoleClockLabel.setText(time);
+           int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont());
+           consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2, 0, w, DragLabel.getDefaultHeight());
+           consoleClockLabel.setText(time);
+       } catch (Exception ignored) {}
+       //sometimes extracting user throws so we will ignore exceptions thrown from this method
     }
 
     public void closeConsoleFrame(boolean exit) {
