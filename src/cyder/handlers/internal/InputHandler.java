@@ -99,15 +99,23 @@ public class InputHandler {
         if (operation.contains(" > ")) {
             String[] ops = operation.split(" > ");
 
-            if (ops.length == 2 && ops[0].length() > 0 && ops[1].length() > 0) {
-                if (IOUtil.isValidFilenameWindows(ops[1])) {
-                    this.operation = ops[0];
-                    redirection = true;
-                    redirectionFile = new File("dynamic/users/" +
-                            ConsoleFrame.getConsoleFrame().getUUID() + "/Files/" + ops[1]);
+            //if not 2 then it's some random String
+            if (ops.length == 2) {
+                if (ops.length == 2 && ops[0].length() > 0 && ops[1].length() > 0) {
+                    if (IOUtil.isValidFilenameWindows(ops[1])) {
+                        this.operation = ops[0];
+                        redirection = true;
+                        redirectionFile = new File("dynamic/users/" +
+                                ConsoleFrame.getConsoleFrame().getUUID() + "/Files/" + ops[1]);
 
-                    //create file for current use
-                    redirectionFile.createNewFile();
+                        //create file for current use
+                        try {
+                            redirectionFile.createNewFile();
+                        } catch (Exception ignored) {
+                            redirection = false;
+                            redirectionFile = null;
+                        }
+                    }
                 }
             }
         }
