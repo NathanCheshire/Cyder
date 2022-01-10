@@ -2970,9 +2970,13 @@ public final class ConsoleFrame {
         return frames;
     }
 
+    /**
+     * Refreshes the text on the ConsoleClock based off of showSeconds and the possibly set
+     * custom date pattern. The bounds of ConsoleClock are also updated.
+     */
     public void refreshClockText() {
        try {
-           if (consoleClockLabel == null)
+           if (consoleClockLabel == null || !consoleClockLabel.isVisible())
                return;
 
            //the user set time
@@ -2992,7 +2996,9 @@ public final class ConsoleFrame {
            }
 
            int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont());
-           consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2, 0, w, DragLabel.getDefaultHeight());
+           int h = CyderFrame.getAbsoluteMinHeight(time, consoleClockLabel.getFont());
+           consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2,
+                   0, w, h);
            consoleClockLabel.setText(time);
        } catch (Exception ignored) {}
        //sometimes extracting user throws so we will ignore exceptions thrown from this method

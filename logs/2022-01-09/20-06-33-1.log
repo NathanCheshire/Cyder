@@ -1,0 +1,33 @@
+[20-06-33] [ENTRY]: [Nathan]
+[20-06-33] [SYSTEM_IO]: System data pared in IOUtil's static block
+[20-06-35] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-06-35] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-06-35] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-06-35] [SYSTEM_IO]: Userdata requested: Name
+[20-06-35] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-06-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-06-36] [SYSTEM_IO]: Userdata requested: Name
+[20-06-36] [SYSTEM_IO]: Userdata requested: Foreground
+[20-06-36] [SYSTEM_IO]: Userdata requested: Foreground
+[20-06-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-06-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-06-36] [SYSTEM_IO]: Userdata requested: Foreground
+[20-06-36] [SYSTEM_IO]: Userdata requested: Font
+[20-06-36] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-06-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-06-36] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-06-36] [SYSTEM_IO]: Userdata requested: Foreground
+[20-06-36] [SYSTEM_IO]: Userdata requested: Foreground
+[20-06-36] [SYSTEM_IO]: Userdata requested: Foreground
+[20-06-36] [SYSTEM_IO]: Userdata requested: Font
+[20-06-36] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-06-36] [SYSTEM_IO]: Userdata requested: InputFill
+[20-06-36] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [370546445], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-06-36] [ACTION]: Console loaded in 3715ms
+[20-06-36] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-06-36] [ENTRY]: [TESTING MODE]
+[20-06-36] [SYSTEM_IO]: Userdata requested: laststart
+[20-06-36] [SYSTEM_IO]: Userdata requested: IntroMusic
+[20-06-36] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3715ms
+[20-06-36] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
