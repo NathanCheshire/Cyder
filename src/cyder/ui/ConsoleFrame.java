@@ -1032,19 +1032,47 @@ public final class ConsoleFrame {
             GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
 
             if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
-                System.out.println("Make sure in master bounds still though");
-                consoleCyderFrame.setLocation(consoleX, consoleY);
+                Rectangle screenRect = screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
+
+                if (consoleX != -80000 && consoleY != -80000) {
+                    consoleCyderFrame.setLocation(consoleX, consoleY);
+                    //todo push into bounds for this monitor with the given start and stop points
+                    int minX = screenRect.x;
+                    int minY = screenRect.y;
+                    int maxX = screenRect.x + screenRect.width;
+                    int maxY = screenRect.y + screenRect.height;
+
+                    if (consoleX < minX)
+                        consoleX = minX;
+                    if (consoleX + consoleCyderFrame.getWidth() > maxX)
+                        consoleX = maxX - consoleCyderFrame.getWidth();
+                    if (consoleY < minY)
+                        consoleY = minY;
+                    if (consoleY + consoleCyderFrame.getHeight() > maxY)
+                        consoleY = maxY - consoleCyderFrame.getHeight();
+
+                    consoleCyderFrame.setLocation(consoleX, consoleY);
+                } else {
+                    consoleCyderFrame.setLocation(screenRect.x + (screenRect.width - consoleCyderFrame.getWidth()) / 2,
+                            screenRect.y + (screenRect.height - consoleCyderFrame.getHeight()) / 2);
+                }
+
             } else {
                 //otherwise show it on the display we're given but shifted into bounds if out
+                int minX = 0;
+                int minY = 0;
+                int maxX = SystemUtil.getScreenWidth();
+                int maxY = SystemUtil.getScreenHeight();
+
                 if (consoleX != -80000 && consoleY != -80000) {
-                    if (consoleX < 0)
+                    if (consoleX < minX)
                         consoleX = 0;
-                    if (consoleX + consoleCyderFrame.getWidth() > SystemUtil.getScreenWidth())
-                        consoleX = SystemUtil.getScreenWidth() - consoleCyderFrame.getWidth();
-                    if (consoleY < 0)
+                    if (consoleX + consoleCyderFrame.getWidth() > maxX)
+                        consoleX = maxX - consoleCyderFrame.getWidth();
+                    if (consoleY < minY)
                         consoleY = 0;
-                    if (consoleY + consoleCyderFrame.getHeight() > SystemUtil.getScreenHeight())
-                        consoleY = SystemUtil.getScreenHeight() - consoleCyderFrame.getHeight();
+                    if (consoleY + consoleCyderFrame.getHeight() > maxY)
+                        consoleY = maxY - consoleCyderFrame.getHeight();
 
                     consoleCyderFrame.setLocation(consoleX, consoleY);
                 } else {
