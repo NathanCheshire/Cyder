@@ -207,7 +207,8 @@ public final class ConsoleFrame {
 
                 @Override
                 public void dispose() {
-                    inputField.requestFocus();
+                    outputArea.setFocusable(false);
+                    outputScroll.setFocusable(false);
                     super.dispose();
                 }
             };
@@ -1010,16 +1011,6 @@ public final class ConsoleFrame {
                     f.dispose();
             }
 
-            int requestedWidth = UserUtil.extractUser().getScreenStat().getConsoleWidth();
-            int requestedHeight = UserUtil.extractUser().getScreenStat().getConsoleHeight();
-
-            //width and height for frame if the current image can work with that
-            if (requestedWidth <= consoleCyderFrame.getWidth() &&
-                    requestedHeight <= consoleCyderFrame.getHeight()) {
-                consoleCyderFrame.setSize(requestedWidth, requestedHeight);
-
-            }
-
             //position window from last location if in bounds
             int consoleX = UserUtil.extractUser().getScreenStat().getConsoleX();
             int consoleY = UserUtil.extractUser().getScreenStat().getConsoleY();
@@ -1039,20 +1030,29 @@ public final class ConsoleFrame {
                 consoleCyderFrame.setLocationRelativeTo(null);
             }
 
-            //show on correct monitor if it exists
-            System.out.println(UserUtil.extractUser().getScreenStat().getMonitor());
-            //todo inform here if monitor was not found
+            int requestedWidth = UserUtil.extractUser().getScreenStat().getConsoleWidth();
+            int requestedHeight = UserUtil.extractUser().getScreenStat().getConsoleHeight();
 
-//            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//            GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
-//
-//            if (screen > -1 && screen < screenDevices.length) {
-//                cf.setLocation(screenDevices[screen].getDefaultConfiguration().getBounds().x, cf.getY());
-//            } else if (screenDevices.length > 0) {
-//                cf.setLocation(screenDevices[0].getDefaultConfiguration().getBounds().x, cf.getY());
-//            } else {
-//                throw new RuntimeException("What are you some kind of european toy maker?");
-//            }
+            //width and height for frame if the current image can work with that
+            if (requestedWidth <= consoleCyderFrame.getWidth() &&
+                    requestedHeight <= consoleCyderFrame.getHeight() &&
+                        requestedWidth >= consoleCyderFrame.getMinimumSize().getWidth() &&
+                        requestedHeight >= consoleCyderFrame.getMinimumSize().getHeight()) {
+                consoleCyderFrame.setSize(requestedWidth, requestedHeight);
+                consoleCyderFrame.refreshBackground();
+            }
+
+            //show on correct monitor if it exists
+            int requestedMonitor = UserUtil.extractUser().getScreenStat().getMonitor();
+            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
+
+            if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
+                //todo f.setLocation(screenDevices[screen].getDefaultConfiguration().getBounds().x, cf.getY());
+                System.out.println(requestedMonitor);
+            } else if (requestedMonitor != 0) {
+                notify("Monitor Cyder last closed on could not be located");
+            }
 
             //show frame
             consoleCyderFrame.setVisible(true);
@@ -1060,7 +1060,8 @@ public final class ConsoleFrame {
             //inform and log how long it took to load Console from program start
             GenesisShare.setConsoleStartTime(System.currentTimeMillis());
 
-            String logString = "Console loaded in " + (GenesisShare.getConsoleStartTime() - GenesisShare.getAbsoluteStartTime()) + "ms";
+            String logString = "Console loaded in " +
+                    (GenesisShare.getConsoleStartTime() - GenesisShare.getAbsoluteStartTime()) + "ms";
             SessionHandler.log(SessionHandler.Tag.ACTION, logString);
             notify(logString);
 
@@ -1231,6 +1232,7 @@ public final class ConsoleFrame {
                             screenStat.setConsoleX(consoleCyderFrame.getX());
                             screenStat.setConsoleY(consoleCyderFrame.getY());
                             screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
+                            //todo set monitor
                         }
 
                         User user = UserUtil.extractUser();
@@ -2976,6 +2978,7 @@ public final class ConsoleFrame {
             screenStat.setConsoleX(consoleCyderFrame.getX());
             screenStat.setConsoleY(consoleCyderFrame.getY());
             screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
+            //todo set monitor
         }
 
         User user = UserUtil.extractUser();

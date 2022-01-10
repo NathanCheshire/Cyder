@@ -1,0 +1,39 @@
+[18-27-53] [ENTRY]: [Nathan]
+[18-27-53] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-27-55] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-27-55] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-27-56] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-27-56] [SYSTEM_IO]: Userdata requested: Name
+[18-27-56] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-27-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-27-56] [SYSTEM_IO]: Userdata requested: Name
+[18-27-56] [SYSTEM_IO]: Userdata requested: Foreground
+[18-27-56] [SYSTEM_IO]: Userdata requested: Foreground
+[18-27-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-27-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-27-56] [SYSTEM_IO]: Userdata requested: Foreground
+[18-27-56] [SYSTEM_IO]: Userdata requested: Font
+[18-27-56] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-27-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-27-56] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-27-56] [SYSTEM_IO]: Userdata requested: Foreground
+[18-27-56] [SYSTEM_IO]: Userdata requested: Foreground
+[18-27-56] [SYSTEM_IO]: Userdata requested: Foreground
+[18-27-56] [SYSTEM_IO]: Userdata requested: Font
+[18-27-56] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-27-56] [SYSTEM_IO]: Userdata requested: InputFill
+[18-27-56] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [130577952], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-27-57] [ACTION]: Console loaded in 3786ms
+[18-27-57] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-27-57] [ENTRY]: [TESTING MODE]
+[18-27-57] [SYSTEM_IO]: Userdata requested: laststart
+[18-27-57] [SYSTEM_IO]: Userdata requested: IntroMusic
+[18-27-57] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3786ms
+[18-27-57] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-28-02] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-28-02] [SYSTEM_IO]: Userdata requested: Name
+[18-28-02] [LOGOUT]: [Nathan]
+[18-28-02] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1360, 396, 600, 600)], hash = [76659128], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[18-28-02] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-28-02] [EXIT]: [RUNTIME] 8s
+[18-28-02] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
