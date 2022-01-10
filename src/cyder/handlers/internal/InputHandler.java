@@ -902,10 +902,16 @@ public class InputHandler {
         } else if (eic("controlc") && !outputArea.isFocusOwner()) {
             escapeThreads();
         } else if (hasWord("todo") || hasWord("todos")) {
-            println("Total todos: " + StatUtil.totalTodos(new File("src")));
-            println("Todos:");
-            println("----------------------------------------");
-            println(StatUtil.getTodos(new File("src")));
+            int total = StatUtil.totalTodos(new File("src"));
+
+            if (total > 0) {
+                println("Total todos: " + total);
+                println("Todos:");
+                println("----------------------------------------");
+                println(StatUtil.getTodos(new File("src")));
+            } else {
+                println("No todos found, good job");
+            }
         } else if ((hasWord("wipe") || hasWord("clear")) && hasWord("logs")) {
             if (SecurityUtil.nathanLenovo()) {
                 File[] logDirs = new File("logs").listFiles();

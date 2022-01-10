@@ -397,7 +397,7 @@ public class StatUtil {
                 int localRet = 0;
 
                 while ((line = lineReader.readLine()) != null) {
-                    if (isComment(line.trim()) && line.trim().contains("todo"))
+                    if (isComment(line.trim()) && line.trim().startsWith("//todo"))
                         localRet++;
                 }
 

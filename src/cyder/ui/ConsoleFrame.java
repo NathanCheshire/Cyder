@@ -1036,7 +1036,7 @@ public final class ConsoleFrame {
 
                 if (consoleX != -80000 && consoleY != -80000) {
                     consoleCyderFrame.setLocation(consoleX, consoleY);
-                    //todo push into bounds for this monitor with the given start and stop points
+
                     int minX = screenRect.x;
                     int minY = screenRect.y;
                     int maxX = screenRect.x + screenRect.width;
