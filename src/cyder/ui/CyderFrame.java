@@ -1603,12 +1603,13 @@ public class CyderFrame extends JFrame {
     public void repaint() {
         if (topDrag == null) {
             //update content panes
-            getContentPane().repaint();
-            getTrueContentPane().repaint();
+            if (getContentPane() != null)
+                getContentPane().repaint();
+            if (getTrueContentPane() != null)
+                getTrueContentPane().repaint();
 
             //finally super call
             super.repaint();
-
             return;
         }
 

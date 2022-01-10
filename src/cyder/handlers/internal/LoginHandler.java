@@ -125,6 +125,7 @@ public class LoginHandler {
     }
 
     public static void showGUI() {
+        priorityPrintingList.clear();
         printingList.clear();
         doLoginAnimations = true;
         loginMode = 0;
@@ -262,19 +263,18 @@ public class LoginHandler {
                             loginField.setEchoChar((char)0);
                             loginField.setText("");
                             priorityPrintingList.add("Attempting validation\n");
+
                             if (recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA256(input)))) {
                                 doLoginAnimations = false;
                             } else {
                                 loginField.setText(bashString);
                                 loginField.setCaretPosition(loginField.getPassword().length);
                                 priorityPrintingList.add("Login failed\n");
-
-                                if (input != null)
-                                    for (char c: input)
-                                        c = '\0';
-
                                 loginMode = 0;
                             }
+
+                            for (char c : input)
+                                c = '\0';
 
                             break;
                         default:

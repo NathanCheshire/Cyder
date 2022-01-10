@@ -1011,25 +1011,6 @@ public final class ConsoleFrame {
                     f.dispose();
             }
 
-            //position window from last location if in bounds
-            int consoleX = UserUtil.extractUser().getScreenStat().getConsoleX();
-            int consoleY = UserUtil.extractUser().getScreenStat().getConsoleY();
-
-            if (consoleX != -80000 && consoleY != -80000) {
-                if (consoleX < 0)
-                    consoleX = 0;
-                if (consoleX + consoleCyderFrame.getWidth() > SystemUtil.getScreenWidth())
-                    consoleX = SystemUtil.getScreenWidth() - consoleCyderFrame.getWidth();
-                if (consoleY < 0)
-                    consoleY = 0;
-                if (consoleY + consoleCyderFrame.getHeight() > SystemUtil.getScreenHeight())
-                    consoleY = SystemUtil.getScreenHeight() - consoleCyderFrame.getHeight();
-
-                consoleCyderFrame.setLocation(consoleX, consoleY);
-            } else {
-                consoleCyderFrame.setLocationRelativeTo(null);
-            }
-
             int requestedWidth = UserUtil.extractUser().getScreenStat().getConsoleWidth();
             int requestedHeight = UserUtil.extractUser().getScreenStat().getConsoleHeight();
 
@@ -1042,16 +1023,33 @@ public final class ConsoleFrame {
                 consoleCyderFrame.refreshBackground();
             }
 
+            int consoleX = UserUtil.extractUser().getScreenStat().getConsoleX();
+            int consoleY = UserUtil.extractUser().getScreenStat().getConsoleY();
+
             //show on correct monitor if it exists
             int requestedMonitor = UserUtil.extractUser().getScreenStat().getMonitor();
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
 
             if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
-                //todo f.setLocation(screenDevices[screen].getDefaultConfiguration().getBounds().x, cf.getY());
-                System.out.println(requestedMonitor);
-            } else if (requestedMonitor != 0) {
-                notify("Monitor Cyder last closed on could not be located");
+                System.out.println("Make sure in master bounds still though");
+                consoleCyderFrame.setLocation(consoleX, consoleY);
+            } else {
+                //otherwise show it on the display we're given but shifted into bounds if out
+                if (consoleX != -80000 && consoleY != -80000) {
+                    if (consoleX < 0)
+                        consoleX = 0;
+                    if (consoleX + consoleCyderFrame.getWidth() > SystemUtil.getScreenWidth())
+                        consoleX = SystemUtil.getScreenWidth() - consoleCyderFrame.getWidth();
+                    if (consoleY < 0)
+                        consoleY = 0;
+                    if (consoleY + consoleCyderFrame.getHeight() > SystemUtil.getScreenHeight())
+                        consoleY = SystemUtil.getScreenHeight() - consoleCyderFrame.getHeight();
+
+                    consoleCyderFrame.setLocation(consoleX, consoleY);
+                } else {
+                    consoleCyderFrame.setLocationRelativeTo(null);
+                }
             }
 
             //show frame
@@ -1229,10 +1227,15 @@ public final class ConsoleFrame {
                         if (consoleCyderFrame != null) {
                             screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
                             screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
+                            screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
+
+                            int monitor = Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration().getDevice()
+                                    .getIDstring().replaceAll("[^0-9]", ""));
+                            screenStat.setMonitor(monitor);
+
+                            //remove this errr replace with monitor specific
                             screenStat.setConsoleX(consoleCyderFrame.getX());
                             screenStat.setConsoleY(consoleCyderFrame.getY());
-                            screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
-                            //todo set monitor
                         }
 
                         User user = UserUtil.extractUser();
@@ -2978,7 +2981,9 @@ public final class ConsoleFrame {
             screenStat.setConsoleX(consoleCyderFrame.getX());
             screenStat.setConsoleY(consoleCyderFrame.getY());
             screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
-            //todo set monitor
+            int monitor = Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration().getDevice()
+                    .getIDstring().replaceAll("[^0-9]", ""));
+            screenStat.setMonitor(monitor);
         }
 
         User user = UserUtil.extractUser();
