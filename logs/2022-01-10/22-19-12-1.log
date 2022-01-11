@@ -1,32 +1,32 @@
-[22-16-39] [ENTRY]: [Nathan]
-[22-16-39] [SYSTEM_IO]: System data pared in IOUtil's static block
-[22-16-41] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[22-16-41] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
-[22-16-42] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
-[22-16-42] [SYSTEM_IO]: Userdata requested: Name
-[22-16-42] [SYSTEM_IO]: Userdata requested: RandomBackground
-[22-16-42] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-16-42] [SYSTEM_IO]: Userdata requested: Name
-[22-16-42] [SYSTEM_IO]: Userdata requested: Foreground
-[22-16-42] [SYSTEM_IO]: Userdata requested: Foreground
-[22-16-42] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-16-43] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-16-43] [SYSTEM_IO]: Userdata requested: Foreground
-[22-16-43] [SYSTEM_IO]: Userdata requested: Font
-[22-16-43] [SYSTEM_IO]: Userdata requested: OutputBorder
-[22-16-43] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-16-43] [SYSTEM_IO]: Userdata requested: InputBorder
-[22-16-43] [SYSTEM_IO]: Userdata requested: Foreground
-[22-16-43] [SYSTEM_IO]: Userdata requested: Foreground
-[22-16-43] [SYSTEM_IO]: Userdata requested: Foreground
-[22-16-43] [SYSTEM_IO]: Userdata requested: Font
-[22-16-43] [SYSTEM_IO]: Userdata requested: OutputFill
-[22-16-43] [SYSTEM_IO]: Userdata requested: InputFill
-[22-16-43] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1193, 361, 600, 600)], hash = [370546445], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
-[22-16-43] [ACTION]: Console loaded in 4310ms
-[22-16-43] [SYSTEM_IO]: Userdata requested: DebugWindows
-[22-16-43] [ENTRY]: [TESTING MODE]
-[22-16-43] [EXCEPTION]: 
+[22-19-13] [ENTRY]: [Nathan]
+[22-19-13] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-19-14] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-19-14] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-19-15] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-19-15] [SYSTEM_IO]: Userdata requested: Name
+[22-19-15] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-19-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-19-16] [SYSTEM_IO]: Userdata requested: Name
+[22-19-16] [SYSTEM_IO]: Userdata requested: Foreground
+[22-19-16] [SYSTEM_IO]: Userdata requested: Foreground
+[22-19-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-19-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-19-16] [SYSTEM_IO]: Userdata requested: Foreground
+[22-19-16] [SYSTEM_IO]: Userdata requested: Font
+[22-19-16] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-19-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-19-16] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-19-16] [SYSTEM_IO]: Userdata requested: Foreground
+[22-19-16] [SYSTEM_IO]: Userdata requested: Foreground
+[22-19-16] [SYSTEM_IO]: Userdata requested: Foreground
+[22-19-16] [SYSTEM_IO]: Userdata requested: Font
+[22-19-16] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-19-16] [SYSTEM_IO]: Userdata requested: InputFill
+[22-19-16] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(715, 344, 600, 600)], hash = [1520648002], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-19-16] [ACTION]: Console loaded in 3984ms
+[22-19-16] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-19-16] [ENTRY]: [TESTING MODE]
+[22-19-16] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -37,8 +37,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
 	at java.base/java.util.Objects.checkIndex(Objects.java:372)
 	at java.base/java.util.ArrayList.get(ArrayList.java:440)
-	at cyder.layouts.CyderFlowLayout.revalidateComponents(CyderFlowLayout.java:126)
-	at cyder.layouts.CyderFlowLayout.setAssociatedPanel(CyderFlowLayout.java:175)
+	at cyder.layouts.CyderFlowLayout.revalidateComponents(CyderFlowLayout.java:127)
+	at cyder.layouts.CyderFlowLayout.setAssociatedPanel(CyderFlowLayout.java:176)
 	at cyder.ui.CyderPanel.<init>(CyderPanel.java:21)
 	at cyder.testing.Debug.launchTests(Debug.java:171)
 	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1330)
@@ -70,16 +70,16 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-16-43] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-16-43] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-19-16] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-19-16] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
 	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
 	at java.base/java.util.Objects.checkIndex(Objects.java:372)
 	at java.base/java.util.ArrayList.get(ArrayList.java:440)
-	at cyder.layouts.CyderFlowLayout.revalidateComponents(CyderFlowLayout.java:126)
-	at cyder.layouts.CyderFlowLayout.setAssociatedPanel(CyderFlowLayout.java:175)
+	at cyder.layouts.CyderFlowLayout.revalidateComponents(CyderFlowLayout.java:127)
+	at cyder.layouts.CyderFlowLayout.setAssociatedPanel(CyderFlowLayout.java:176)
 	at cyder.ui.CyderPanel.<init>(CyderPanel.java:21)
 	at cyder.testing.Debug.launchTests(Debug.java:171)
 	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1330)
@@ -111,8 +111,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-16-43] [SYSTEM_IO]: Userdata requested: laststart
-[22-16-43] [SYSTEM_IO]: Userdata requested: IntroMusic
-[22-16-43] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4310ms
-[22-16-43] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-19-16] [SYSTEM_IO]: Userdata requested: laststart
+[22-19-16] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-19-16] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3984ms
+[22-19-17] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

@@ -53,6 +53,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
         if (!contains) {
             flowComponents.add(new FlowComponent(component, component.getWidth(), component.getHeight()));
+            revalidateComponents();
             return true;
         }
 
@@ -64,6 +65,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
         for (FlowComponent flowComponent : flowComponents) {
             if (flowComponent.getComponent() == component) {
                 flowComponents.remove(flowComponent);
+                revalidateComponents();
                 return true;
             }
         }
@@ -73,7 +75,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
     @Override
     public void revalidateComponents() {
-        if (flowComponents.size() < 1)
+        if (flowComponents.size() < 1 || associatedPanel == null || associatedPanel.getWidth() == 0)
             return;
 
         Component focusOwner = null;
@@ -92,7 +94,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
             //if we cannot fit the component on the current row
             if (currentWidthAcc + flowComponent.getOriginalWidth() + hgap > maxWidth) {
-                    //finish off the row by adding it to the rows list
+                   //finish off the row by adding it to the rows list
                    rows.add(currentRow);
                    //make new row
                    currentRow = new ArrayList<>();
@@ -124,6 +126,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
             //find max height to use for centering
             int maxHeight = currentRow.get(0).getOriginalHeight();
+            //todo index out of bounds here if frame too small?
 
             for (FlowComponent flowComponent : currentRow) {
                 if (flowComponent.getOriginalHeight() > maxHeight)
@@ -140,6 +143,8 @@ public class CyderFlowLayout extends CyderBaseLayout {
                 break;
 
             //todo how to switch on the Alignment
+            // since moving frame should space components out evenly too
+            // until we can fit another component on with necessary spacing still
 
             //okay so now center the current current row component on
             // the horizontal line y = currentHeightCenteringInc
@@ -153,6 +158,10 @@ public class CyderFlowLayout extends CyderBaseLayout {
                 // to be >= currentFlowComp.height / 2
                 flowComponent.getComponent().setLocation(currentX,
                         currentHeightCenteringInc - (flowComponent.getOriginalHeight() / 2));
+
+                //add to panel
+                if (associatedPanel != null)
+                    associatedPanel.add(flowComponent.getComponent());
 
                 //increment x by current width plus hgap
                 currentX += flowComponent.getOriginalWidth() + hgap;
