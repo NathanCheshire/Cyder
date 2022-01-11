@@ -4,6 +4,7 @@ import cyder.ui.CyderPanel;
 import cyder.utilities.ReflectionUtil;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class CyderFlowLayout extends CyderBaseLayout {
     private int hgap;
@@ -35,28 +36,71 @@ public class CyderFlowLayout extends CyderBaseLayout {
         this.vgap = vgap;
     }
 
+    private ArrayList<FlowComponent> flowComponents = new ArrayList<>();
+
     @Override
     public boolean addComponent(Component component) {
+        boolean contains = false;
 
+        for (FlowComponent flowComponent : flowComponents) {
+            if (flowComponent.getComponent() == component) {
+                contains = true;
+                break;
+            }
+        }
+
+        if (!contains) {
+            flowComponents.add(new FlowComponent(component, component.getWidth(), component.getHeight()));
+            return true;
+        }
 
         return false;
     }
 
     @Override
     public boolean removeComponent(Component component) {
-
+        for (FlowComponent flowComponent : flowComponents) {
+            if (flowComponent.getComponent() == component) {
+                flowComponents.remove(flowComponent);
+                return true;
+            }
+        }
 
         return false;
     }
 
     @Override
     public void revalidateComponents() {
+        Component focusOwner = null;
 
+        ArrayList<ArrayList<FlowComponent>> rows = new ArrayList<>();
+        ArrayList<FlowComponent> currentRow = new ArrayList<>();
+        int currentWidthAcc = 0;
+
+        for (FlowComponent flowComponent : flowComponents) {
+            if (flowComponent.getComponent().isFocusOwner() && focusOwner == null)
+                focusOwner = flowComponent.getComponent();
+
+        }
+
+        //todo add up widths of all components and figure out how many rows we will need
+
+        //todo then from that separate the rows and figure out the max height of the component from that row
+
+        //todo from there you can center components on that row based off of that
+
+        //todo do that for each row and stop when a row will be completely invisible due to frame restrictions
+
+        if (focusOwner != null)
+            focusOwner.requestFocus();
     }
+
+    private CyderPanel cyderPanel;
 
     @Override
     public void setAssociatedPanel(CyderPanel panel) {
-
+        this.cyderPanel = panel;
+        revalidateComponents();
     }
 
     @Override
